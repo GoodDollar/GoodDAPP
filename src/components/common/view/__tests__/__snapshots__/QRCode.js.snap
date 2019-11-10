@@ -140,6 +140,7 @@ exports[`QRCode matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "minHeightForDialogMessage": 334,
             },
           }
         }
@@ -290,6 +291,7 @@ exports[`QRCode matches snapshot 2`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "minHeightForDialogMessage": 334,
             },
           }
         }

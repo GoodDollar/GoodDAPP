@@ -1451,7 +1451,7 @@ export class UserStorage {
         .catch(_ => false)
       if (existingEvent) {
         logger.warn('enqueueTx skipping existing event id', event, existingEvent)
-        return
+        return false
       }
       event.status = event.status || 'pending'
       event.createdDate = event.createdDate || new Date().toString()
@@ -1462,8 +1462,10 @@ export class UserStorage {
         .putAck(event)
       this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
+      return true
     } catch (e) {
       logger.error('enqueueTX failed: ', e.message, e)
+      return false
     } finally {
       release()
     }

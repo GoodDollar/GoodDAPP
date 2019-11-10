@@ -27,7 +27,9 @@ const MarketTab = props => {
       if (newtoken !== undefined && newtoken !== token) {
         token = newtoken
         userStorage.setProfileField('marketToken', newtoken)
-        setLoginToken(newtoken)
+        if (token == null) {
+          setLoginToken(newtoken)
+        }
       }
       log.debug('got market login token', token)
       if (token == null) {
@@ -59,12 +61,11 @@ const MarketTab = props => {
   return (
     <iframe
       title="GoodMarket"
-      scrolling="yes"
       onLoad={isLoaded}
       src={src}
       seamless
       frameBorder="0"
-      style={{ flex: 1 }}
+      style={{ flex: 1, overflow: 'scroll' }}
     />
   )
 }

@@ -87,6 +87,8 @@ const styles = ({ theme }) => ({
     borderRadius: '50%',
     paddingVertical: 8,
     paddingHorizontal: 4,
+    paddingBottom: 15,
+    height: 79,
   },
 })
 

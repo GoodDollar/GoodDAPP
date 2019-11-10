@@ -144,6 +144,10 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: theme.sizes.defaultDouble,
     paddingTop: theme.sizes.defaultDouble,
+    minHeight: normalize(76),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paragraph: {
     color: theme.colors.darkGray,
@@ -154,7 +158,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    marginBottom: 40,
+    marginBottom: theme.sizes.defaultDouble,
     padding: 0,
   },
   buttonsContainer: {

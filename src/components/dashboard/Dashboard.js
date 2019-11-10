@@ -155,7 +155,7 @@ const Dashboard = props => {
       const walletAddress = await userStorage.getProfileWalletAddress()
       return String(code.address).toLowerCase() === walletAddress
     } catch (e) {
-      log.error("isTheSameUser failed:",e, e.message)
+      log.error("isTheSameUser failed:",e.message, e)
       return false
     }
   }
@@ -182,7 +182,7 @@ const Dashboard = props => {
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams
     } else {
-      checkCode(anyParams).catch(e => log.error(e, e.message))
+      checkCode(anyParams).catch(e => log.error("checkCode unexpected error:",e.message, e))
     }
   }, [])
 

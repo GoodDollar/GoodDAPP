@@ -729,6 +729,8 @@ export class UserStorage {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
 
+    this.addBackupCard()
+
     // first time user visit
     if (firstVisitAppDate == null) {
       if (Config.isEToro) {
@@ -760,11 +762,10 @@ export class UserStorage {
     this.properties = this.gunuser.get('properties')
 
     if ((await this.properties) === undefined) {
-      let putRes = await this.properties.get('properties').put(UserProperties.defaultProperties)
+      let putRes = await this.properties.putAck(UserProperties.defaultProperties)
       logger.debug('set defaultProperties ok:', { defaultProperties: UserProperties.defaultProperties, putRes })
     }
     this.userProperties = new UserProperties(this.properties)
-    await this.userProperties.updateLocalData()
   }
 
   /**

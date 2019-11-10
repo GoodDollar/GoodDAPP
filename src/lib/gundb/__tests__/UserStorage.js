@@ -79,7 +79,7 @@ describe('UserStorage', () => {
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2' }))
   })
 
-  it('get all user properties', async () => {
+  it('has default user properties', async () => {
     const res = await userStorage.userProperties.getAll()
     expect(res).toEqual(expect.objectContaining(UserPropertiesClass.defaultProperties))
   })
@@ -87,7 +87,6 @@ describe('UserStorage', () => {
   it('start system feeds', async () => {
     await userStorage.startSystemFeed()
     const res = await userStorage.userProperties.getAll()
-
     expect(res.firstVisitApp).toBeTruthy()
   })
 
@@ -100,15 +99,17 @@ describe('UserStorage', () => {
     }
   })
 
-  it('set all user properties', async () => {
-    const res = await userStorage.userProperties.set('isMadeBackup', true)
+  it('set user property', async () => {
+    const res = await userStorage.userProperties.set('test', true)
     expect(res).toBeTruthy()
   })
 
   it('get user property', async () => {
+    let isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
+    expect(isMadeBackup).toBeFalsy()
     const res = await userStorage.userProperties.set('isMadeBackup', true)
     expect(res).toBeTruthy()
-    const isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
+    isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
     expect(isMadeBackup).toBeTruthy()
   })
 

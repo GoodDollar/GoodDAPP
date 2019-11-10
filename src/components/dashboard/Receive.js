@@ -86,7 +86,7 @@ Receive.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => ({
   space: {
-    height: 16,
+    height: theme.sizes.defaultDouble,
   },
   mainText: {
     marginBottom: theme.sizes.default,

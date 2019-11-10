@@ -459,7 +459,7 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 5,
     },
     space: {
-      height: 16,
+      height: theme.sizes.defaultDouble,
     },
   }
 }

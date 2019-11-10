@@ -12,6 +12,7 @@ import orderBy from 'lodash/orderBy'
 import takeWhile from 'lodash/takeWhile'
 import toPairs from 'lodash/toPairs'
 import values from 'lodash/values'
+import get from 'lodash/get'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Config from '../../config/config'
@@ -588,11 +589,21 @@ export class UserStorage {
       const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || { data: {} }
       logger.debug('handleReceiptUpdated got enqueued event:', { id: receipt.transactionHash, initialEvent })
 
+      const receiptDate = await this.wallet.wallet.eth
+        .getBlock(receipt.blockNumber)
+        .then(_ => new Date(_.timestamp * 1000))
+        .catch(_ => new Date())
+
       //get existing or make a new event
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
-        createdDate: new Date().toString(),
+        createdDate: receiptDate.toString(),
         type: getOperationType(data, this.wallet.account),
+      }
+
+      if (get(feedEvent, 'data.receipt')) {
+        logger.debug('handleReceiptUpdated skipping event with receipt', feedEvent, receipt)
+        return feedEvent
       }
 
       //merge incoming receipt data into existing event
@@ -600,7 +611,7 @@ export class UserStorage {
         ...feedEvent,
         ...initialEvent,
         status: feedEvent.status === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
-        date: new Date().toString(),
+        date: receiptDate.toString(),
         data: {
           ...feedEvent.data,
           ...initialEvent.data,
@@ -646,6 +657,15 @@ export class UserStorage {
       }
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
 
+      if (get(feedEvent, 'data.otplReceipt')) {
+        logger.debug('handleOTPLUpdated skipping event with receipt', feedEvent, receipt)
+        return feedEvent
+      }
+      const receiptDate = await this.wallet.wallet.eth
+        .getBlock(receipt.blockNumber)
+        .then(_ => new Date(_.timestamp * 1000))
+        .catch(_ => new Date())
+
       //if we withdrawn the payment link then its canceled
       const otplStatus =
         data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
@@ -654,7 +674,7 @@ export class UserStorage {
       feedEvent.data.otplReceipt = receipt
       feedEvent.data.otplData = data
       feedEvent.status = feedEvent.data.otplStatus = otplStatus
-      feedEvent.date = new Date().toString()
+      feedEvent.date = receiptDate.toString()
       logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
@@ -732,7 +752,7 @@ export class UserStorage {
     const firstVisitAppDate = userProperties.firstVisitApp
 
     // first time user visit
-    if (!firstVisitAppDate) {
+    if (firstVisitAppDate == null) {
       if (Config.isEToro) {
         this.enqueueTX(welcomeMessageOnlyEtoro)
 
@@ -1459,16 +1479,28 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
+      const existingEvent = await this.feed
+        .get('byid')
+        .get(event.id)
+        .then()
+        .catch(_ => false)
+      if (existingEvent) {
+        logger.warn('enqueueTx skipping existing event id', event, existingEvent)
+        return false
+      }
       event.status = event.status || 'pending'
       event.createdDate = event.createdDate || new Date().toString()
+      event.date = event.date || event.createdDate
       let putRes = await this.feed
         .get('queue')
         .get(event.id)
         .putAck(event)
       this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
+      return true
     } catch (e) {
       logger.error('enqueueTX failed: ', e.message, e)
+      return false
     } finally {
       release()
     }

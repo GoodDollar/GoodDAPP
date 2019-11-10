@@ -12,6 +12,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
+import Wrapper from '../common/layout/Wrapper'
 
 const log = logger.child({ from: 'BackupWallet' })
 const TITLE = 'Backup my wallet'
@@ -68,26 +69,28 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   }
 
   return (
-    <Section grow={5} style={styles.wrapper}>
-      <Text grow fontWeight="bold" fontSize={16} style={styles.instructions}>
-        {'please save your 12-word pass phrase\n'}
-        <Text grow fontSize={16} style={styles.instructions}>
-          {'and keep it in a secure location\n' + 'so you can recover your wallet anytime'}
+    <Wrapper style={styles.mainWrapper}>
+      <Section grow={5} style={styles.wrapper}>
+        <Text grow fontWeight="bold" fontSize={16} style={styles.instructions}>
+          {'please save your 12-word pass phrase\n'}
+          <Text grow fontSize={16} style={styles.instructions}>
+            {'and keep it in a secure location\n' + 'so you can recover your wallet anytime'}
+          </Text>
         </Text>
-      </Text>
-      <Section.Stack grow justifyContent="space-between" style={styles.inputsContainer}>
-        <MnemonicInput recoveryMode={mnemonics} />
-      </Section.Stack>
-      <Section.Stack style={styles.bottomContainer} justifyContent="space-between" alignItems="stretch">
-        <CustomButton textStyle={styles.resendButton} mode="text" compact={true} onPress={setClipboard}>
-          Copy all to clipboard
-        </CustomButton>
-        <CustomButton textStyle={styles.resendButton} mode="text" compact={true} onPress={sendRecoveryEmail}>
-          Send me a backup email
-        </CustomButton>
-      </Section.Stack>
-      <CustomButton onPress={screenProps.pop}>Done</CustomButton>
-    </Section>
+        <Section.Stack grow justifyContent="space-between" style={styles.inputsContainer}>
+          <MnemonicInput recoveryMode={mnemonics} />
+        </Section.Stack>
+        <Section.Stack style={styles.bottomContainer} justifyContent="space-between" alignItems="stretch">
+          <CustomButton textStyle={styles.resendButton} mode="text" compact={true} onPress={setClipboard}>
+            Copy all to clipboard
+          </CustomButton>
+          <CustomButton textStyle={styles.resendButton} mode="text" compact={true} onPress={sendRecoveryEmail}>
+            Send me a backup email
+          </CustomButton>
+        </Section.Stack>
+        <CustomButton onPress={screenProps.pop}>Done</CustomButton>
+      </Section>
+    </Wrapper>
   )
 }
 
@@ -113,6 +116,10 @@ const backupWalletStyles = ({ theme }) => ({
     fontWeight: 'normal',
     fontSize: normalize(15),
     textDecorationLine: 'underline',
+  },
+  mainWrapper: {
+    backgroundImage: 'none',
+    backgroundColor: 'none',
   },
 })
 

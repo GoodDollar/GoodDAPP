@@ -4,7 +4,6 @@ import { Appbar } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native-web'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import userStorage from '../../lib/gundb/UserStorage'
 import RewardSvg from '../../components/common/view/RewardSvg'
 import MarketPlaceSvg from '../../components/common/view/MarketPlaceSvg'
 import config from '../../config/config'
@@ -55,9 +54,7 @@ const TabsView = (props: TabViewProps) => {
   const store = SimpleStore.useStore()
 
   const goToRewards = () => {
-    userStorage.getProfileFieldValue('loginToken').then(loginToken => {
-      navigation.navigate('Rewards', { loginToken })
-    })
+    navigation.navigate('Rewards')
   }
 
   const goToMarketplace = () => {
@@ -90,6 +87,8 @@ const styles = ({ theme }) => ({
     borderRadius: '50%',
     paddingVertical: 8,
     paddingHorizontal: 4,
+    paddingBottom: 15,
+    height: 79,
   },
 })
 

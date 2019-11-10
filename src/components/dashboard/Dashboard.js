@@ -155,7 +155,7 @@ const Dashboard = props => {
       const walletAddress = await userStorage.getProfileWalletAddress()
       return String(code.address).toLowerCase() === walletAddress
     } catch (e) {
-      log.error(e, e.message)
+      log.error("isTheSameUser failed:",e, e.message)
       return false
     }
   }

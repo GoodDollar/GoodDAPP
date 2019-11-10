@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.10.2-2",
+  "version": "0.10.2",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -24,8 +24,8 @@
     "test:web": "npm run link && node scripts/test.js --config \"./config/web.jest.config.js\"",
     "test:native": "npm run link && node scripts/test.js --config \"./config/native.jest.config.js\"",
     "test:native-watch": "npm run link && node scripts/test.js --watch --config \"./config/native.jest.config.js\"",
-    "coverage": "npm run link && node scripts/test.js --coverage --config \"./config/web.jest.config.js\"",
-    "coverage:native": "npm run link && node scripts/test.js --config \"./config/native.jest.config.js\" --coverage",
+    "coverage": "node scripts/test.js --coverage --config \"./config/web.jest.config.js\"",
+    "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "bundlesize:check": "bundlesize",
     "flow": "flow",

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import GDStore from '../../lib/undux/GDStore'
-import { generateSendShareObject } from '../../lib/share'
+import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import Config from '../../config/config'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -52,13 +52,21 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
           title: 'There was a problem triggering share action.',
           message: `You can still copy the link by tapping on "Copy link to clipboard".`,
           dismissText: 'Ok',
-          onDismiss: () =>
-            screenProps.push('SendConfirmation', {
+          onDismiss: () => {
+            const desktopShareLink = generateSendShareText(
               paymentLink,
+              amount,
+              counterPartyDisplayName,
+              profile.fullName
+            )
+
+            screenProps.push('SendConfirmation', {
+              paymentLink: desktopShareLink,
               amount,
               reason,
               counterPartyDisplayName,
-            }),
+            })
+          },
         })
       }
     }
@@ -83,9 +91,11 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
     if (isMobile && navigator.share) {
       shareAction(paymentLink)
     } else {
+      const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
+
       // Show confirmation
       screenProps.push('SendConfirmation', {
-        paymentLink,
+        paymentLink: desktopShareLink,
         amount,
         reason,
         counterPartyDisplayName,

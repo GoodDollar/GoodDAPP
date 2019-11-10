@@ -132,7 +132,7 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
                 }
               }
             >
-              DID YOU KNOW?
+              GOOD TO KNOW
             </div>
           </div>
         </div>
@@ -220,11 +220,11 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(0,195,174,1.00)",
+                    "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "22px",
-                    "fontWeight": "500",
+                    "fontWeight": "700",
                     "lineHeight": "30px",
                     "textAlign": "center",
                     "textDecoration": "none",
@@ -333,7 +333,7 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(0,195,174,1.00)",
+                    "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
@@ -371,7 +371,7 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(0,195,174,1.00)",
+                    "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "14px",

@@ -86,8 +86,8 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 15,
   },
   mainImage: {
-    height: getDesignRelativeHeight(110, false),
-    width: getDesignRelativeWidth(70, false),
+    height: getDesignRelativeHeight(110, true),
+    width: getDesignRelativeWidth(70, true),
   },
   mainPhotoContainer: {
     display: 'flex',
@@ -104,8 +104,8 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   spending: {
-    width: getDesignRelativeWidth(176, false),
-    height: getDesignRelativeHeight(76, false),
+    width: getDesignRelativeWidth(176),
+    height: getDesignRelativeHeight(76),
     margin: '10%',
   },
 })

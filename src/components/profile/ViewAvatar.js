@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import GDStore from '../../lib/undux/GDStore'
-import { Section, UserAvatar, Wrapper } from '../common'
+import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -43,6 +43,10 @@ const ViewAvatar = props => {
     props.screenProps.push('EditAvatar')
   }
 
+  const goToProfile = () => {
+    props.screenProps.push('EditProfile')
+  }
+
   return (
     <Wrapper>
       <Section style={styles.section}>
@@ -51,8 +55,8 @@ const ViewAvatar = props => {
             <UserAvatar profile={profile} size={272} />
             <CircleButtonWrapper
               style={styles.closeButton}
-              iconName={'close'}
-              iconSize={20}
+              iconName={'trash'}
+              iconSize={22}
               onPress={handleClosePress}
             />
             <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
@@ -67,6 +71,9 @@ const ViewAvatar = props => {
             </InputFile>
           </>
         )}
+        <CustomButton style={styles.doneButton} onPress={goToProfile}>
+          Done
+        </CustomButton>
       </Section>
     </Wrapper>
   )
@@ -91,6 +98,9 @@ const getStylesFromProps = ({ theme }) => ({
     left: 12,
     position: 'absolute',
     top: theme.sizes.defaultDouble,
+  },
+  doneButton: {
+    marginTop: 'auto',
   },
 })
 

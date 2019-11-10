@@ -128,7 +128,6 @@ export type TransactionEvent = FeedEvent & {
 export const welcomeMessage = {
   id: '1',
   type: 'welcome',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar',
@@ -147,7 +146,6 @@ export const welcomeMessage = {
 export const welcomeMessageOnlyEtoro = {
   id: '1',
   type: 'welcome',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar!',
@@ -166,7 +164,6 @@ export const welcomeMessageOnlyEtoro = {
 export const inviteFriendsMessage = {
   id: '0',
   type: 'invite',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Invite friends and earn G$',
@@ -184,7 +181,6 @@ export const inviteFriendsMessage = {
 export const backupMessage = {
   id: '2',
   type: 'backup',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Backup your wallet. Now.',
@@ -203,7 +199,6 @@ export const backupMessage = {
 export const startSpending = {
   id: '3',
   type: 'spending',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Go to GoodMarket',

@@ -150,22 +150,16 @@ const Dashboard = props => {
         // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })
   }
-  const isTheSameUser = async code => {
-    try {
-      const walletAddress = await userStorage.getProfileWalletAddress()
-      return String(code.address).toLowerCase() === walletAddress
-    } catch (e) {
-      log.error("isTheSameUser failed:",e.message, e)
-      return false
-    }
+  const isTheSameUser = code => {
+    return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
   }
-  const checkCode = async anyParams => {
+  const checkCode = anyParams => {
     if (anyParams && anyParams.code) {
       const { screenProps } = props
       const code = readCode(decodeURI(anyParams.code))
-      if (!(await isTheSameUser(code))) {
+      if (isTheSameUser(code) === false) {
         try {
-          const { route, params } = await routeAndPathForCode('send', code)
+          const { route, params } = routeAndPathForCode('send', code)
           screenProps.push(route, params)
         } catch (e) {
           showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
@@ -182,7 +176,11 @@ const Dashboard = props => {
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams
     } else {
-      checkCode(anyParams).catch(e => log.error("checkCode unexpected error:",e.message, e))
+      try {
+        checkCode(anyParams)
+      } catch (e) {
+        log.error('checkCode unexpected error:', e.message, e)
+      }
     }
   }, [])
 

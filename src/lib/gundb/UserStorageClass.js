@@ -567,6 +567,7 @@ export class UserStorage {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
+
     if (
       data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
       (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
@@ -598,7 +599,18 @@ export class UserStorage {
 
       if (get(feedEvent, 'data.receipt')) {
         logger.debug('handleReceiptUpdated skipping event with receipt', feedEvent, receipt)
+
         return feedEvent
+      }
+
+      const receiptLogEvents = get(receipt, 'logs[0].events') || []
+      const fromLog = receiptLogEvents.find(e => e.name === 'from') || {}
+      const fromContract = fromLog.value
+      const SignUpBonusContractAddress = this.wallet.getSignUpBonusAddress()
+      const isSignUpBonus = SignUpBonusContractAddress.toLowerCase() === fromContract.toLowerCase()
+
+      if (isSignUpBonus) {
+        feedEvent.type = EVENT_TYPE_BONUS
       }
 
       //merge incoming receipt data into existing event
@@ -615,8 +627,9 @@ export class UserStorage {
         },
       }
 
-      if (initialEvent.type === EVENT_TYPE_BONUS && receipt.status) {
+      if (isSignUpBonus && receipt.status) {
         updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
+        updatedFeedEvent.data.customName = 'GoodDollar'
       }
 
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })

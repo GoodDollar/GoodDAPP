@@ -41,9 +41,12 @@ const AppSwitch = (props: LoadingProps) => {
 
     if (destinationPath) {
       const app = router.getActionForPathAndParams(destinationPath.path)
-      const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
-      const destData = { ...destRoute(app), params: destinationPath.params }
-      return destData
+
+      const destRoute = actions => {
+        const action = actions && actions.action
+        return some(actions, 'action') ? destRoute(action) : action
+      }
+      return { ...destRoute(app), params: destinationPath.params }
     }
     return undefined
   }

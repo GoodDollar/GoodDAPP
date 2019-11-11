@@ -20,6 +20,7 @@ export default class UserProperties {
     firstVisitApp: null,
     etoroAddCardSpending: true,
     isAddedToHomeScreen: false,
+    cameFromW3Site: false,
   }
 
   fields = ['isMadeBackup', 'firstVisitApp', 'etoroAddCardSpending', 'isAddedToHomeScreen']

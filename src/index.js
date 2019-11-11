@@ -13,7 +13,7 @@ import Config from './config/config'
 let ErrorBoundary = React.Fragment
 if (Config.bugsnagKey) {
   const bugsnagClient = bugsnag({
-    apiKey: '5185647cee5387bca62f5a0f1ad1f67e',
+    apiKey: Config.bugsnagKey,
     appVersion: Config.version,
     releaseStage: Config.env + '_' + Config.network,
   })

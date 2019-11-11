@@ -22,6 +22,10 @@ const Signin = props => {
     props.navigation.navigate('Recover')
   }
 
+  const goToSupport = () => {
+    props.navigation.navigate('Support')
+  }
+
   return (
     <Section.Stack grow justifyContent="flex-start">
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
@@ -42,13 +46,13 @@ const Signin = props => {
               <Circle number={1}>Go to your email</Circle>
               <Circle number={2}>
                 Find{' '}
-                <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
+                <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
                   GoodDollar magic link
                 </Text>
               </Circle>
               <Circle number={3}>
-                Click the{' '}
-                <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
+                {'Click the '}
+                <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
                   magic link
                 </Text>
               </Circle>
@@ -65,7 +69,20 @@ const Signin = props => {
             fontSize={14}
             color="primary"
           >
-            Or, recover from pass phrase
+            {'Or, recover from pass phrase'}
+          </Section.Text>
+        </TouchableOpacity>
+      </Section.Row>
+      <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+        <TouchableOpacity onPress={goToSupport}>
+          <Section.Text
+            fontWeight="medium"
+            style={styles.textBottom}
+            textDecorationLine="underline"
+            fontSize={14}
+            color="primary"
+          >
+            {'Still having issues? contact support'}
           </Section.Text>
         </TouchableOpacity>
       </Section.Row>
@@ -85,7 +102,7 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: 30,
       marginBottom: 30,
       maxWidth: '100%',
-      maxHeight: getDesignRelativeHeight(175),
+      maxHeight: getDesignRelativeHeight(142),
       minHeight: getDesignRelativeHeight(95),
       paddingTop: theme.sizes.default,
     },

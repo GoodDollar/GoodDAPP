@@ -120,7 +120,7 @@ const AppSwitch = (props: LoadingProps) => {
       await initialize()
       setReady(true)
     } catch (e) {
-      showErrorDialog('Failed initializing wallet', e)
+      showErrorDialog('Wallet could not be loaded. Please try again later.')
     }
     store.set('loadingIndicator')({ loading: false })
   }

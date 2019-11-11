@@ -9,15 +9,19 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { initStore, default as SimpleStore } from './lib/undux/SimpleStore'
 import Config from './config/config'
-const bugsnagClient = bugsnag({
-  apiKey: '5185647cee5387bca62f5a0f1ad1f67e',
-  appVersion: Config.version,
-  releaseStage: Config.env,
-})
-global.bugsnagClient = bugsnagClient
-bugsnagClient.metaData = { network: Config.network }
-bugsnagClient.use(bugsnagReact, React)
-const ErrorBoundary = bugsnagClient.getPlugin('react')
+
+let ErrorBoundary = React.Fragment
+if (Config.bugsnagKey) {
+  const bugsnagClient = bugsnag({
+    apiKey: '5185647cee5387bca62f5a0f1ad1f67e',
+    appVersion: Config.version,
+    releaseStage: Config.env + '_' + Config.network,
+  })
+  global.bugsnagClient = bugsnagClient
+  bugsnagClient.metaData = { network: Config.network }
+  bugsnagClient.use(bugsnagReact, React)
+  ErrorBoundary = bugsnagClient.getPlugin('react')
+}
 
 const fontStylesMaterialIcons = `@font-face { src: url(${fontMaterialIcons}); font-family: MaterialIcons; }`
 const style = document.createElement('style')
@@ -32,7 +36,7 @@ if (style.styleSheet) {
  * decide if we need to clear storage
  */
 const upgradeVersion = async () => {
-  const required = 'beta.11'
+  const required = Config.isEToro ? 'etoro' : 'beta.11'
   const version = await AsyncStorage.getItem('GD_version')
   if (version === required) {
     return

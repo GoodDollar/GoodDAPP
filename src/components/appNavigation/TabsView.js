@@ -1,13 +1,17 @@
 //@flow
 import React from 'react'
 import { Appbar } from 'react-native-paper'
+import { isMobileSafari } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
+import _get from 'lodash/get'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import userStorage from '../../lib/gundb/UserStorage'
 import RewardSvg from '../../components/common/view/RewardSvg'
 import MarketPlaceSvg from '../../components/common/view/MarketPlaceSvg'
 import config from '../../config/config'
+import { withStyles } from '../../lib/styles'
+import userStorage from '../../lib/gundb/UserStorage'
+import API from '../../lib/API/api'
 
 type TabViewProps = {
   routes: { [string]: any },
@@ -50,17 +54,32 @@ type TabViewProps = {
 // )
 
 const TabsView = (props: TabViewProps) => {
-  const { navigation } = props
+  const { navigation, styles } = props
   const store = SimpleStore.useStore()
 
-  const goToRewards = () => {
-    userStorage.getProfileFieldValue('loginToken').then(loginToken => {
-      navigation.navigate('Rewards', { loginToken })
-    })
+  const goToRewards = async () => {
+    if (isMobileSafari) {
+      let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
+      const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`
+      window.open(src, '_self')
+    } else {
+      navigation.navigate('Rewards')
+    }
   }
 
-  const goToMarketplace = () => {
-    navigation.navigate('Marketplace')
+  const goToMarketplace = async () => {
+    if (isMobileSafari) {
+      let token = await userStorage.getProfileFieldValue('marketToken')
+      const src = `${config.marketUrl}?jwt=${token}&nofooter=true`
+      window.open(src, '_self')
+      const newtoken = await API.getMarketToken().then(_ => _get(_, 'data.jwt'))
+      if (newtoken !== undefined && newtoken !== token) {
+        token = newtoken
+        userStorage.setProfileField('marketToken', newtoken)
+      }
+    } else {
+      navigation.navigate('Marketplace')
+    }
   }
 
   return (
@@ -69,8 +88,8 @@ const TabsView = (props: TabViewProps) => {
         <RewardSvg />
       </TouchableOpacity>
       <Appbar.Content />
-      {(config.market || config.isEToro) && (
-        <TouchableOpacity onPress={goToMarketplace}>
+      {config.market && (
+        <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
           <MarketPlaceSvg />
         </TouchableOpacity>
       )}
@@ -80,4 +99,18 @@ const TabsView = (props: TabViewProps) => {
   )
 }
 
-export default TabsView
+const styles = ({ theme }) => ({
+  marketIconBackground: {
+    backgroundColor: theme.colors.green,
+    borderWidth: 3,
+    borderStyle: 'solid',
+    borderColor: 'white',
+    borderRadius: '50%',
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+    paddingBottom: 15,
+    height: 79,
+  },
+})
+
+export default withStyles(styles)(TabsView)

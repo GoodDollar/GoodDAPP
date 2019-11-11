@@ -18,6 +18,7 @@ import { gdToWei, weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
 import type { TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
@@ -27,16 +28,12 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import userStorage from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
-
-// import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
-import { backupMessage, startSpending } from '../../lib/gundb/UserStorageClass'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
@@ -93,6 +90,7 @@ const Dashboard = props => {
   const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const [initDash, setInitDash] = useState(true)
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
@@ -114,19 +112,11 @@ const Dashboard = props => {
     }
   }
 
-  /**
-   * if necessary, add a backup card
-   *
-   * @returns {Promise<void>}
-   */
-  const addBackupCard = async () => {
-    const userProperties = await userStorage.userProperties.getAll()
-    if (!userProperties.isMadeBackup && userProperties.needAddBackupFeed) {
-      await userStorage.enqueueTX(backupMessage)
-      await userStorage.userProperties.set('isMadeBackup', true)
-      await userStorage.userProperties.set('needAddBackupFeed', false)
+  useEffect(() => {
+    if (initDash) {
+      setInitDash(false)
     }
-  }
+  }, [])
 
   const checkBonusesToRedeem = () => {
     const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
@@ -160,22 +150,37 @@ const Dashboard = props => {
         // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })
   }
+  const isTheSameUser = code => {
+    return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
+  }
+  const checkCode = async anyParams => {
+    try {
+      if (anyParams && anyParams.code) {
+        const { screenProps } = props
+        const code = readCode(decodeURI(anyParams.code))
+        if (isTheSameUser(code) === false) {
+          try {
+            const { route, params } = await routeAndPathForCode('send', code)
+            screenProps.push(route, params)
+          } catch (e) {
+            showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+              onDismiss: screenProps.goToRoot,
+            })
+          }
+        }
+      }
+    } catch (e) {
+      log.error('checkCode unexpected error:', e.message, e)
+    }
+  }
 
   //Service redirects Send/Receive
   useEffect(() => {
     const anyParams = extractQueryParams(window.location.href)
-
-    if (anyParams && anyParams.code) {
-      const { screenProps } = props
-      const code = readCode(decodeURI(anyParams.code))
-      routeAndPathForCode('send', code)
-        .then(({ route, params }) => screenProps.push(route, params))
-        .catch(e => {
-          showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
-        })
-    }
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams
+    } else {
+      checkCode(anyParams)
     }
   }, [])
 
@@ -199,9 +204,6 @@ const Dashboard = props => {
     checkBonusesToRedeem()
 
     prepareLoginToken()
-    addBackupCard()
-    onlyForEToro()
-
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
@@ -212,25 +214,6 @@ const Dashboard = props => {
       AppState.removeEventListener('change', handleAppFocus)
     }
   }, [])
-
-  const onlyForEToro = async () => {
-    if (config.isEToro) {
-      const userProperties = await userStorage.userProperties.getAll()
-      if (
-        userProperties.firstVisitApp &&
-        Date.now() - userProperties.firstVisitApp >= 68400 &&
-        userProperties.etoroAddCardSpending
-      ) {
-        await userStorage.enqueueTX(startSpending)
-        await userStorage.userProperties.set('etoroAddCardSpending', false)
-      }
-
-      if (!userProperties.firstVisitApp) {
-        await userStorage.userProperties.set('firstVisitApp', Date.now())
-        await userStorage.userProperties.set('etoroAddCardSpending', true)
-      }
-    }
-  }
 
   useEffect(() => {
     const { entitlement } = gdstore.get('account')
@@ -304,7 +287,8 @@ const Dashboard = props => {
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
-      showErrorDialog(e)
+      log.error('withdraw failed:', e.message, e)
+      showErrorDialog('Something has gone wrong. Please try again later.')
     }
   }
 

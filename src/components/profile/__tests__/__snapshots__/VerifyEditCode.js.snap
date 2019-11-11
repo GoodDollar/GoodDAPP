@@ -353,6 +353,7 @@ was emailed to you
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }
@@ -495,6 +496,7 @@ was emailed to you
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }
@@ -637,6 +639,7 @@ was emailed to you
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }
@@ -780,6 +783,7 @@ was emailed to you
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }
@@ -922,6 +926,7 @@ was emailed to you
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }
@@ -1064,6 +1069,7 @@ was emailed to you
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }

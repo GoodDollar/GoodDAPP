@@ -69,8 +69,8 @@ export function readCode(code: string) {
  */
 export function readReceiveLink(link: string) {
   // checks that the link has the expected strings in it
-  const isValidReceiveLink = [Config.publicUrl, 'receiveLink', 'reason'].every(v => link.indexOf(v) !== -1)
-  const isUrlOptions = Config.env === 'development' ? { require_tld: false } : {}
+  const isValidReceiveLink = ['receiveLink', 'reason'].every(v => link.indexOf(v) !== -1)
+  const isUrlOptions = { require_tld: false }
 
   if (!isURL(link, isUrlOptions) || !isValidReceiveLink) {
     return null
@@ -127,6 +127,11 @@ export function generateSendShareObject(url: string, amount: number, to: string,
   )
 }
 
+export function generateSendShareText(...args): ShareObject {
+  const temp = generateSendShareObject(...args)
+  return `${temp.text} ${temp.url}`
+}
+
 /**
  * Generates URL link to share/receive GDs
  * @param {string} code - code returned by `generateCode`
@@ -145,6 +150,11 @@ export function generateReceiveShareObject(code: string, amount: number, to: str
   ].join('')
 
   return generateShareObject('Sending G$ via GoodDollar App', text, url)
+}
+
+export function generateReceiveShareText(...args): ShareObject {
+  const temp = generateReceiveShareObject(...args)
+  return `${temp.text} ${temp.url}`
 }
 
 type HrefLinkProps = {

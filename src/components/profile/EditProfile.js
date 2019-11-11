@@ -12,6 +12,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
 import { SaveButton, Section, UserAvatar, Wrapper } from '../common'
+import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
@@ -77,7 +78,8 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
           return valid
         } catch (e) {
           log.error('validate profile failed', e.message, e)
-          showErrorDialog('Unexpected error while validating profile', e)
+
+          // showErrorDialog('Unexpected error while validating profile', e)
           return false
         }
       }
@@ -95,6 +97,8 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
   const handleSaveButton = async () => {
     setSaving(true)
+
+    fireEvent(PROFILE_UPDATE)
 
     // with flush triggers immediate call for the validation
     if (!(await validate.flush())) {
@@ -122,7 +126,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       .setProfile(toupdate, true)
       .catch(e => {
         log.error('Error saving profile', { toupdate }, e.message, e)
-        showErrorDialog('Unexpected error while saving profile', e)
+        showErrorDialog('Could not save profile. Please try again.')
         return false
       })
       .finally(_ => setSaving(false))

@@ -12,6 +12,7 @@ import orderBy from 'lodash/orderBy'
 import takeWhile from 'lodash/takeWhile'
 import toPairs from 'lodash/toPairs'
 import values from 'lodash/values'
+import get from 'lodash/get'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Config from '../../config/config'
@@ -127,7 +128,6 @@ export type TransactionEvent = FeedEvent & {
 export const welcomeMessage = {
   id: '1',
   type: 'welcome',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar',
@@ -146,15 +146,15 @@ export const welcomeMessage = {
 export const welcomeMessageOnlyEtoro = {
   id: '1',
   type: 'welcome',
-  date: new Date().toString(),
   status: 'completed',
   data: {
-    customName: 'Welcome to your wallet.',
+    customName: 'Welcome to GoodDollar!',
     subtitle: 'Welcome to GoodDollar',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
-    reason: 'You can claim G$1 each day and use them to buy items in the GoodMarket.',
+    reason:
+      'Start collecting your income by claiming GoodDollars every day. Since this is a test version - all coins are “play” coins and have no value outside of this pilot, you can use them to buy goods during the trail, at the end of it, they will be returned to the system.',
     endpoint: {
       fullName: 'Welcome to GoodDollar',
     },
@@ -164,7 +164,6 @@ export const welcomeMessageOnlyEtoro = {
 export const inviteFriendsMessage = {
   id: '0',
   type: 'invite',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Invite friends and earn G$',
@@ -182,7 +181,6 @@ export const inviteFriendsMessage = {
 export const backupMessage = {
   id: '2',
   type: 'backup',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Backup your wallet. Now.',
@@ -201,7 +199,6 @@ export const backupMessage = {
 export const startSpending = {
   id: '3',
   type: 'spending',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Go to GoodMarket',
@@ -520,7 +517,7 @@ export class UserStorage {
       })
       logger.debug('init to events')
 
-      await this.initFeed()
+      this.initFeed()
       await this.initProperties()
 
       //save ref to user
@@ -587,11 +584,21 @@ export class UserStorage {
       const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || { data: {} }
       logger.debug('handleReceiptUpdated got enqueued event:', { id: receipt.transactionHash, initialEvent })
 
+      const receiptDate = await this.wallet.wallet.eth
+        .getBlock(receipt.blockNumber)
+        .then(_ => new Date(_.timestamp * 1000))
+        .catch(_ => new Date())
+
       //get existing or make a new event
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
-        createdDate: new Date().toString(),
+        createdDate: receiptDate.toString(),
         type: getOperationType(data, this.wallet.account),
+      }
+
+      if (get(feedEvent, 'data.receipt')) {
+        logger.debug('handleReceiptUpdated skipping event with receipt', feedEvent, receipt)
+        return feedEvent
       }
 
       //merge incoming receipt data into existing event
@@ -599,7 +606,7 @@ export class UserStorage {
         ...feedEvent,
         ...initialEvent,
         status: feedEvent.status === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
-        date: new Date().toString(),
+        date: receiptDate.toString(),
         data: {
           ...feedEvent.data,
           ...initialEvent.data,
@@ -645,6 +652,15 @@ export class UserStorage {
       }
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
 
+      if (get(feedEvent, 'data.otplReceipt')) {
+        logger.debug('handleOTPLUpdated skipping event with receipt', feedEvent, receipt)
+        return feedEvent
+      }
+      const receiptDate = await this.wallet.wallet.eth
+        .getBlock(receipt.blockNumber)
+        .then(_ => new Date(_.timestamp * 1000))
+        .catch(_ => new Date())
+
       //if we withdrawn the payment link then its canceled
       const otplStatus =
         data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
@@ -653,7 +669,7 @@ export class UserStorage {
       feedEvent.data.otplReceipt = receipt
       feedEvent.data.otplData = data
       feedEvent.status = feedEvent.data.otplStatus = otplStatus
-      feedEvent.date = new Date().toString()
+      feedEvent.date = receiptDate.toString()
       logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
@@ -721,24 +737,36 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  async initFeed() {
+  initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+  }
 
-    //first time user
-    if ((await this.feed) === undefined) {
-      const w3Token = await this.getProfileFieldValue('w3Token')
+  async startSystemFeed() {
+    const userProperties = await this.userProperties.getAll()
+    const firstVisitAppDate = userProperties.firstVisitApp
 
+    // first time user visit
+    if (firstVisitAppDate == null) {
       if (Config.isEToro) {
         this.enqueueTX(welcomeMessageOnlyEtoro)
+
+        setTimeout(() => {
+          this.enqueueTX(startSpending)
+        }, 60 * 1000) // 1 minute
       } else {
         this.enqueueTX(welcomeMessage)
       }
+
+      const w3Token = await this.getProfileFieldValue('w3Token')
+
       if (!w3Token) {
         setTimeout(() => {
           this.enqueueTX(inviteFriendsMessage)
-        }, 60000)
+        }, 2 * 60 * 1000) // 2 minutes
       }
+
+      await this.userProperties.set('firstVisitApp', Date.now())
     }
   }
 
@@ -754,6 +782,23 @@ export class UserStorage {
     }
     this.userProperties = new UserProperties(this.properties)
     await this.userProperties.updateLocalData()
+  }
+
+  /**
+   * if necessary, add a backup card
+   *
+   * @returns {Promise<void>}
+   */
+  async addBackupCard() {
+    const userProperties = await this.userProperties.getAll()
+    const firstVisitAppDate = userProperties.firstVisitApp
+    const displayTimeFilter = 24 * 60 * 60 * 1000 // 24 hours
+    const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
+
+    if (!userProperties.isMadeBackup && allowToShowByTimeFilter) {
+      await this.enqueueTX(backupMessage)
+      await this.userProperties.set('isMadeBackup', true)
+    }
   }
 
   /**
@@ -1429,16 +1474,28 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
+      const existingEvent = await this.feed
+        .get('byid')
+        .get(event.id)
+        .then()
+        .catch(_ => false)
+      if (existingEvent) {
+        logger.warn('enqueueTx skipping existing event id', event, existingEvent)
+        return false
+      }
       event.status = event.status || 'pending'
       event.createdDate = event.createdDate || new Date().toString()
+      event.date = event.date || event.createdDate
       let putRes = await this.feed
         .get('queue')
         .get(event.id)
         .putAck(event)
       this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
+      return true
     } catch (e) {
       logger.error('enqueueTX failed: ', e.message, e)
+      return false
     } finally {
       release()
     }

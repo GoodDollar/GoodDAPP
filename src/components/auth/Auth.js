@@ -4,6 +4,7 @@ import { AsyncStorage, Image } from 'react-native'
 import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
+import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
@@ -125,6 +126,7 @@ class Auth extends React.Component<Props> {
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   goToW3Site = () => {
+    fireEvent(CLICK_BTN_GETINVITED)
     window.location = config.web3SiteUrl
   }
 
@@ -148,7 +150,7 @@ class Auth extends React.Component<Props> {
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
         <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
-          {'Welcome to your\nfinancial future!'}
+          {'Welcome to\nGoodDollar Wallet'}
         </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <Section style={styles.bottomContainer}>

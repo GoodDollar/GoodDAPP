@@ -25,6 +25,7 @@ export type DialogProps = {
   type?: string,
   visible?: boolean,
   buttons?: DialogButtonProps[],
+  isMinHeight?: boolean,
 }
 
 /**
@@ -55,12 +56,12 @@ const CustomDialog = ({
   content,
   buttons,
   showAtBottom,
+  isMinHeight = true,
 }: DialogProps) => {
   const defaultImage = type === 'error' ? <ErrorIcon /> : <SuccessIcon />
   const modalColor = getColorFromType(type)
   const textColor = type === 'error' ? 'red' : 'darkGray'
   const color = theme.colors[textColor]
-
   return visible ? (
     <Portal>
       <ModalWrapper
@@ -69,6 +70,7 @@ const CustomDialog = ({
         showAtBottom={showAtBottom}
         showTooltipArrow={showTooltipArrow}
         itemType={'custom'}
+        isMinHeight={isMinHeight}
       >
         <React.Fragment>
           {title && (
@@ -144,6 +146,10 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: theme.sizes.defaultDouble,
     paddingTop: theme.sizes.defaultDouble,
+    minHeight: normalize(76),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paragraph: {
     color: theme.colors.darkGray,
@@ -154,7 +160,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    marginBottom: 40,
+    marginBottom: theme.sizes.defaultDouble,
     padding: 0,
   },
   buttonsContainer: {

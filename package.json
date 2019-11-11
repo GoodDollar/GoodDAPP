@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.9.6",
+  "version": "0.10.4",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -24,8 +24,8 @@
     "test:web": "npm run link && node scripts/test.js --config \"./config/web.jest.config.js\"",
     "test:native": "npm run link && node scripts/test.js --config \"./config/native.jest.config.js\"",
     "test:native-watch": "npm run link && node scripts/test.js --watch --config \"./config/native.jest.config.js\"",
-    "coverage": "npm run link && node scripts/test.js --coverage --config \"./config/web.jest.config.js\"",
-    "coverage:native": "npm run link && node scripts/test.js --config \"./config/native.jest.config.js\" --coverage",
+    "coverage": "node scripts/test.js --coverage --config \"./config/web.jest.config.js\"",
+    "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "bundlesize:check": "bundlesize",
     "flow": "flow",
@@ -61,10 +61,10 @@
     "@babel/preset-flow": "^7.0.0",
     "@bugsnag/js": "^6.4.3",
     "@bugsnag/plugin-react": "^6.4.0",
-    "@gooddollar/goodcontracts": "1.0.0-beta.14",
+    "@gooddollar/goodcontracts": "^1.0.0-beta.17",
     "@gooddollar/gun-appendonly": "^1.0.1",
     "@react-navigation/core": "^3.1.1",
-    "@react-navigation/web": "^1.0.0-alpha.7",
+    "@react-navigation/web": "^1.0.0-alpha.9",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",
     "await-mutex": "^1.0.2",

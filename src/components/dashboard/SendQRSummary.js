@@ -33,15 +33,17 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
   const goodWallet = useWrappedGoodWallet()
   const [showDialog] = useDialog()
   const [survey, setSurvey] = useState('other')
+  const [showSurvey, setShowSurvey] = useState(false)
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
   const [profile, setProfile] = useState({})
-
   const updateRecepientProfile = async () => {
     const profile = await userStorage.getUserProfile(to)
     setProfile(profile)
   }
+
+  const confirm = async () => ((await goodWallet.isCitizen()) ? sendGD() : faceRecognition())
 
   useEffect(() => {
     if (to) {
@@ -139,9 +141,7 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
           <Section.Stack grow={3}>
             <CustomButton
               mode="contained"
-              onPress={async () => {
-                ;(await goodWallet.isCitizen()) ? sendGD() : faceRecognition()
-              }}
+              onPress={() => (Config.isEToro ? setShowSurvey(true) : confirm())}
               loading={loading}
             >
               Confirm
@@ -149,7 +149,7 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
           </Section.Stack>
         </Section.Row>
       </Section>
-      <SurveySend handleCheckSurvey={setSurvey} />
+      {showSurvey && <SurveySend handleCheckSurvey={setSurvey} onDismiss={confirm} />}
     </Wrapper>
   )
 }

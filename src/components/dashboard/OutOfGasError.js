@@ -51,7 +51,7 @@ Don’t worry, we’ll take care off you.\n`
       }
       isOk = ok
     } catch (e) {
-      log.error(e)
+      log.error('verifyHasGasFailed', e.message, e)
     }
     setLoading(false)
     if (isOk) {

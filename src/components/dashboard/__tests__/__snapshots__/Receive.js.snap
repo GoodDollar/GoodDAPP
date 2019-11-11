@@ -478,6 +478,7 @@ exports[`Receive matches snapshot 1`] = `
                     "defaultHalf": 4,
                     "defaultQuadruple": 32,
                     "maxHeightForTabletAndDesktop": 844,
+                    "minHeightForDialogMessage": 334,
                   },
                 }
               }
@@ -723,6 +724,14 @@ exports[`Receive matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
+          style={
+            Object {
+              "height": "16px",
+            }
+          }
+        />
+        <div
+          className="css-view-1dbjc4n"
           data-gdtype="copybutton"
           style={
             Object {
@@ -754,7 +763,7 @@ exports[`Receive matches snapshot 1`] = `
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
-              "marginTop": "16px",
+              "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",

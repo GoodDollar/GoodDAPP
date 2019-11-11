@@ -1,7 +1,13 @@
 // @flow
 import React, { useMemo } from 'react'
+import { isMobile } from 'mobile-device-detect'
 import GDStore from '../../lib/undux/GDStore'
-import { generateReceiveShareObject, generateSendShareObject } from '../../lib/share'
+import {
+  generateReceiveShareObject,
+  generateReceiveShareText,
+  generateSendShareObject,
+  generateSendShareText,
+} from '../../lib/share'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import QRCode from '../common/view/QRCode'
 import Section from '../common/layout/Section'
@@ -25,13 +31,21 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const { amount, code, reason, counterPartyDisplayName } = screenState
   const { params } = props.navigation.state
 
-  const share = useMemo(
-    () =>
-      params.action === ACTION_RECEIVE
+  const share = useMemo(() => {
+    if (isMobile && navigator.share) {
+      return params.action === ACTION_RECEIVE
         ? generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName)
-        : generateSendShareObject(code, amount, counterPartyDisplayName, profile.fullName),
-    [code]
-  )
+        : generateSendShareObject(code, amount, counterPartyDisplayName, profile.fullName)
+    }
+
+    return params.action === ACTION_RECEIVE
+      ? {
+          url: generateReceiveShareText(code, amount, counterPartyDisplayName, profile.fullName),
+        }
+      : {
+          url: generateSendShareText(code, amount, counterPartyDisplayName, profile.fullName),
+        }
+  }, [code])
 
   return (
     <Wrapper>

@@ -8,14 +8,13 @@ import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
-
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
-
+import { useDialog } from '../../lib/undux/utils/dialog'
+import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
-import { fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import { fireEvent } from '../../lib/analytics/analytics'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -65,7 +64,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
   const [registerAllowed, setRegisterAllowed] = useState(false)
 
-  const [showErrorDialog] = useErrorDialog()
+  const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
@@ -79,9 +78,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       }, 300)
     }
   }
-  const fireSignupEvent = (event?: string) => {
+
+  const fireSignupEvent = (event?: string, data) => {
     let curRoute = navigation.state.routes[navigation.state.index]
-    fireEvent(`SIGNUP_${event || curRoute.key}`)
+
+    fireEvent(`SIGNUP_${event || curRoute.key}`, data)
   }
 
   const getCountryCode = async () => {
@@ -145,14 +146,17 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         break
 
       case 'goToPhone':
-        API.checkWeb3Email({
-          email: w3User.email,
-          token: web3Token,
-        }).catch(e => {
+        try {
+          await API.checkWeb3Email({
+            email: w3User.email,
+            token: web3Token,
+          })
+        } catch (e) {
           log.error('W3 Email verification failed', e.message, e)
+          return navigation.navigate('InvalidW3TokenError')
 
-          showErrorDialog('Email verification failed', e)
-        })
+          // showErrorDialog('Email verification failed', e)
+        }
 
         if (w3User.image) {
           userScreenData.avatar = await API.getBase64FromImageUrl(w3User.image).catch(e => {
@@ -200,17 +204,19 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       log.debug('ready: Starting initialization')
       const { init } = await import('../../init')
       const login = import('../../lib/login/GoodWalletLogin')
-      const { goodWallet, userStorage } = await init()
+      const { goodWallet, userStorage, source } = await init()
 
       //for QA
       global.wallet = goodWallet
-      fireSignupEvent('STARTED')
+      fireSignupEvent('STARTED', { source })
 
       //the login also re-initialize the api with new jwt
       await login
         .then(l => l.default.auth())
         .catch(e => {
-          showErrorDialog('Failed authenticating with server', e)
+          log.error('failed auth:', e.message, e)
+
+          // showErrorDialog('Failed authenticating with server', e)
         })
       await API.ready
 
@@ -294,7 +300,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       return true
     } catch (e) {
       log.error('New user failure', e.message, e)
-      showErrorDialog('New user creation failed, please go back and try again', e)
+      showSupportDialog(showErrorDialog, hideDialog, screenProps)
+
+      // showErrorDialog('Something went on our side. Please try again')
       setCreateError(true)
       return false
     } finally {
@@ -342,8 +350,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error(e.message, e)
-        showErrorDialog('Sending mobile verification code failed', e)
+        log.error('Send mobile code failed', e.message, e)
+        showErrorDialog('Could not send verification code. Please try again')
       } finally {
         setLoading(false)
       }
@@ -361,7 +369,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          return showErrorDialog('Failed sending verificaiton email', data.error)
+          showErrorDialog('Could not send verification email. Please try again')
         }
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
         if (Config.skipEmailVerification || data.onlyInEnv) {
@@ -378,8 +386,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error(e.message, e)
-        showErrorDialog('Email verification failed', e)
+        log.error('email verification failed unexpected:', e.message, e)
+        showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
       } finally {
         setLoading(false)
       }

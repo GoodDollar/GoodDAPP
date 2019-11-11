@@ -61,7 +61,7 @@ const TabsView = (props: TabViewProps) => {
     if (isMobileSafari) {
       let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
       const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`
-      window.open(src, '_blank')
+      window.open(src, '_self')
     } else {
       navigation.navigate('Rewards')
     }
@@ -71,7 +71,7 @@ const TabsView = (props: TabViewProps) => {
     if (isMobileSafari) {
       let token = await userStorage.getProfileFieldValue('marketToken')
       const src = `${config.marketUrl}?jwt=${token}&nofooter=true`
-      window.open(src, '_blank')
+      window.open(src, '_self')
       const newtoken = await API.getMarketToken().then(_ => _get(_, 'data.jwt'))
       if (newtoken !== undefined && newtoken !== token) {
         token = newtoken

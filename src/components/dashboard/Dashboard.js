@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, Dimensions, Easing } from 'react-native'
+import { Animated, AppState, Dimensions, Easing } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -13,10 +13,12 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { weiToMask } from '../../lib/wallet/utils'
+import { gdToWei, weiToMask } from '../../lib/wallet/utils'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
+import type { TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
@@ -26,13 +28,10 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import userStorage from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
-
-// import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -119,21 +118,69 @@ const Dashboard = props => {
     }
   }, [])
 
+  const checkBonusesToRedeem = () => {
+    const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
+
+    if (!isUserWhitelisted) {
+      return
+    }
+
+    API.redeemBonuses()
+      .then(res => {
+        const resData = res.data
+        log.debug('redeemBonuses', { resData })
+        if (resData.hash && resData.bonusAmount) {
+          const transactionEvent: TransactionEvent = {
+            id: resData.hash,
+            date: new Date().toString(),
+            type: 'bonus',
+            status: 'completed',
+            data: {
+              customName: 'GoodDollar',
+              amount: gdToWei(resData.bonusAmount),
+            },
+          }
+
+          userStorage.enqueueTX(transactionEvent)
+        }
+      })
+      .catch(err => {
+        log.error('Failed to redeem bonuses', err.message, err)
+
+        // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
+      })
+  }
+  const isTheSameUser = code => {
+    return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
+  }
+  const checkCode = async anyParams => {
+    try {
+      if (anyParams && anyParams.code) {
+        const { screenProps } = props
+        const code = readCode(decodeURI(anyParams.code))
+        if (isTheSameUser(code) === false) {
+          try {
+            const { route, params } = await routeAndPathForCode('send', code)
+            screenProps.push(route, params)
+          } catch (e) {
+            showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+              onDismiss: screenProps.goToRoot,
+            })
+          }
+        }
+      }
+    } catch (e) {
+      log.error('checkCode unexpected error:', e.message, e)
+    }
+  }
+
   //Service redirects Send/Receive
   useEffect(() => {
     const anyParams = extractQueryParams(window.location.href)
-
-    if (anyParams && anyParams.code) {
-      const { screenProps } = props
-      const code = readCode(decodeURI(anyParams.code))
-      routeAndPathForCode('send', code)
-        .then(({ route, params }) => screenProps.push(route, params))
-        .catch(e => {
-          showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
-        })
-    }
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams
+    } else {
+      checkCode(anyParams)
     }
   }, [])
 
@@ -141,10 +188,20 @@ const Dashboard = props => {
     return getNextFeed(gdstore)
   }
 
+  const handleAppFocus = state => {
+    if (state === 'active') {
+      checkBonusesToRedeem()
+    }
+  }
+
   useEffect(() => {
+    AppState.addEventListener('change', handleAppFocus)
+
     if (props.navigation.state.key === 'Delete') {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
     }
+
+    checkBonusesToRedeem()
 
     prepareLoginToken()
     log.debug('Dashboard didmount')
@@ -152,6 +209,10 @@ const Dashboard = props => {
       log.debug('gun getFeed callback', { data })
       getInitialFeed(gdstore)
     }, true)
+
+    return function() {
+      AppState.removeEventListener('change', handleAppFocus)
+    }
   }, [])
 
   useEffect(() => {
@@ -226,7 +287,8 @@ const Dashboard = props => {
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
-      showErrorDialog(e)
+      log.error('withdraw failed:', e.message, e)
+      showErrorDialog('Something has gone wrong. Please try again later.')
     }
   }
 

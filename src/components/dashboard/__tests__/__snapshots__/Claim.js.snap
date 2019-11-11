@@ -410,7 +410,6 @@ exports[`Claim matches snapshot 1`] = `
           <div
             className="css-text-901oao"
             dir="auto"
-            lineHeigh={19}
             size={16}
             style={
               Object {
@@ -419,7 +418,7 @@ exports[`Claim matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "19px",
                 "marginTop": "15px",
                 "textAlign": "center",
                 "textDecoration": "underline",

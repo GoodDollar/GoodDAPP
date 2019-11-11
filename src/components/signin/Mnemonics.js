@@ -31,7 +31,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [errorMessage, setErrorMessage] = useState()
   const [showErrorDialog, hideDialog] = useErrorDialog()
 
-  AsyncStorage.removeItem('web3Token')
+  AsyncStorage.removeItem('GD_web3Token')
 
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })

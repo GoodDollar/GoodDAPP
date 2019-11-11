@@ -10,8 +10,8 @@ import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { Icon } from '../common'
 import IconWrapper from '../common/modal/IconWrapper'
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
-import LoadingIcon from '../common/modal/LoadingIcon'
 import isWebApp from '../../lib/utils/isWebApp'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
@@ -163,7 +163,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
     ],
   }
 
-  if (!isWebApp) {
+  if (isWebApp === false) {
     result.topItems.push({
       icon: 'logout',
       name: 'Logout',

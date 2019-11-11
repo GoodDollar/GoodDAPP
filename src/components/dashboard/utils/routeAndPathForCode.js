@@ -16,7 +16,10 @@ export type CodeType = {
  * @param {object|null} code
  * @returns {Promise<object>} {route, params}
  */
-export const routeAndPathForCode = async (screen: string, code: CodeType | null): Promise<any> => {
+export const routeAndPathForCode = async (
+  screen: string,
+  code: CodeType | null
+): Promise<{ route: any, params: any }> => {
   if (code === null || !code.networkId || !code.address) {
     throw new Error('Invalid QR Code.')
   }

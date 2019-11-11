@@ -6,6 +6,7 @@ import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { initStore, default as SimpleStore } from './lib/undux/SimpleStore'
+import Config from './config/config'
 
 const fontStylesMaterialIcons = `@font-face { src: url(${fontMaterialIcons}); font-family: MaterialIcons; }`
 const style = document.createElement('style')
@@ -20,12 +21,13 @@ if (style.styleSheet) {
  * decide if we need to clear storage
  */
 const upgradeVersion = async () => {
-  const version = await AsyncStorage.getItem('GoodDollar_version')
-  if (version === 'fusenet') {
+  const required = Config.isEToro ? 'etoro' : 'beta.11'
+  const version = await AsyncStorage.getItem('GD_version')
+  if (version === required) {
     return
   }
   await AsyncStorage.clear()
-  return AsyncStorage.setItem('GoodDollar_version', 'fusenet')
+  return AsyncStorage.setItem('GD_version', required)
 }
 
 // Inject stylesheet

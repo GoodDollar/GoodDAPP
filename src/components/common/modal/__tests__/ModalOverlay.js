@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { isMobileOnly } from 'mobile-device-detect'
 import ImportedModalOverlay from '../ModalOverlay'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import { isMobileOnly } from "mobile-device-detect";
-import { theme } from "../../../theme/styles";
+import { theme } from '../../../theme/styles'
 
 const ModalOverlay = withThemeProvider(ImportedModalOverlay)
 

@@ -21,6 +21,8 @@ const log = logger.child({ from: 'GoodWallet' })
 const DAY_IN_SECONDS = window.nextTimeClaim ? Number(window.nextTimeClaim) : Number(Config.nextTimeClaim)
 const MILLISECONDS = 1000
 const ZERO = new BN('0')
+export const ERROR_PAYMENT_LINK_ALREADY = 1
+export const ERROR_PAYMENT_LINK_INCORRECT = 2
 
 type EventLog = {
   event: string,
@@ -617,17 +619,21 @@ export class GoodWallet {
     const { payments } = this.oneTimePaymentsContract.methods
 
     const hash = this.getWithdrawLink(otlCode)
-
-    // Check link availability
+    const error = new Error()
     const linkUsed = await this.isWithdrawLinkUsed(hash)
-    if (!linkUsed) {
-      throw new Error('Could not find payment or incorrect code')
+    const paymentAvailable = await this.getWithdrawAvailablePayment(hash)
+    const isPaymentAvailable = this.isWithdrawPaymentAvailable(paymentAvailable)
+
+    if (!linkUsed && isPaymentAvailable) {
+      error.message = 'Payment already withdrawn or canceled by sender'
+      error.code = ERROR_PAYMENT_LINK_ALREADY
+      throw error
     }
 
-    // Check payment availability
-    const paymentAvailable = await this.getWithdrawAvailablePayment(hash)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable) === false) {
-      throw new Error('Payment already withdrawn')
+    if (!isPaymentAvailable) {
+      error.message = 'Could not find payment or incorrect code'
+      error.code = ERROR_PAYMENT_LINK_INCORRECT
+      throw error
     }
 
     const sender = (await payments(hash).call()).paymentSender

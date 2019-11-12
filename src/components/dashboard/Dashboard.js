@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
 
 import * as web3Utils from 'web3-utils'
+import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -14,6 +15,7 @@ import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
+import { ERROR_PAYMENT_LINK_INCORRECT } from '../../lib/wallet/GoodWalletClass'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
@@ -258,7 +260,7 @@ const Dashboard = props => {
 
   showOutOfGasError(props)
 
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (attempts: number = 0) => {
     const { paymentCode, reason } = props.navigation.state.params
     const { styles }: DashboardProps = props
     try {
@@ -271,8 +273,13 @@ const Dashboard = props => {
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
-      log.error('withdraw failed:', e.message, e)
-      showErrorDialog('Something has gone wrong. Please try again later.')
+      if (e.code && e.code === ERROR_PAYMENT_LINK_INCORRECT && attempts < 3) {
+        await delay(2000)
+        await handleWithdraw(attempts + 1)
+      } else {
+        log.error('withdraw failed:', e.code, e.message, e)
+        showErrorDialog(e.message)
+      }
     }
   }
 

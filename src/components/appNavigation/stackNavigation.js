@@ -10,6 +10,7 @@ import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import Blurred from '../common/view/Blurred'
+import InternetConnection from '../common/connectionDialog/internetConnection'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
@@ -260,6 +261,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
           />
         </View>
         <Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>
+          <InternetConnection />
           {!navigationBarHidden &&
             (NavigationBar ? (
               <NavigationBar />

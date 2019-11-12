@@ -13,6 +13,7 @@ import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import userStorage from './lib/gundb/UserStorage'
 import AddWebApp from './components/common/view/AddWebApp'
+import isWebApp from './lib/utils/isWebApp'
 
 const AppNavigator = createNavigator(
   AppSwitch,
@@ -47,7 +48,7 @@ const Router = () => {
   userStorage.startSystemFeed()
   return (
     <GDStore.Container>
-      <AddWebApp />
+      {!isWebApp && <AddWebApp />}
       <SimpleStoreDialog />
       <Portal.Host>
         <WebRouter onNavigationStateChange={onRouteChange} />

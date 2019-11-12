@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
-import isWebApp from '../../../lib/utils/isWebApp'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import {
@@ -123,13 +122,11 @@ const AddWebApp = props => {
     AsyncStorage.getItem('GD_AddWebAppLastClaim').then(setLastClaim)
     AsyncStorage.getItem('GD_AddWebAppIOSAdded').then(setIOSAdded)
 
-    if (isWebApp === false) {
-      log.debug('useEffect, registering beforeinstallprompt')
+    log.debug('useEffect, registering beforeinstallprompt')
 
-      const installPrompt = store.get('installPrompt')
-      if (installPrompt) {
-        setInstallPrompt(installPrompt)
-      }
+    const installPrompt = store.get('installPrompt')
+    if (installPrompt) {
+      setInstallPrompt(installPrompt)
     }
   }, [])
 
@@ -220,10 +217,6 @@ const AddWebApp = props => {
   }, [dialogShown])
 
   useEffect(() => {
-    if (isWebApp) {
-      return
-    }
-
     log.debug({ installPrompt, show, skipCount })
 
     // Condition to show reminder

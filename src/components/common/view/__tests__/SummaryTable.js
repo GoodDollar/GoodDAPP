@@ -13,7 +13,7 @@ describe('SummaryTable', () => {
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<SummaryTable counterPartyDisplayName="name" amount={20} reason="MyReason" />)
+    const component = renderer.create(<SummaryTable counterPartyDisplayName="name" amount={20} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

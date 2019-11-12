@@ -236,7 +236,7 @@ const AddWebApp = props => {
       }
     }
 
-    if ((installPrompt && show) || (iOSAdded === false && isMobileSafari && show)) {
+    if ((installPrompt && show) || (!iOSAdded && isMobileSafari && show)) {
       setDialogShown(true)
     }
   }, [installPrompt, show, lastCheck])

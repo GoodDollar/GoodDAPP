@@ -603,11 +603,11 @@ export class UserStorage {
         return feedEvent
       }
 
-      const receiptLogEvents = get(receipt, 'logs[0].events') || []
-      const fromLog = receiptLogEvents.find(e => e.name === 'from') || {}
-      const fromContract = fromLog.value
+      const fromContract = data.from
       const SignUpBonusContractAddress = this.wallet.getSignUpBonusAddress()
-      const isSignUpBonus = SignUpBonusContractAddress.toLowerCase() === fromContract.toLowerCase()
+      const isSignUpBonus =
+        data.name === CONTRACT_EVENT_TYPE_TRANSFER &&
+        SignUpBonusContractAddress.toLowerCase() === fromContract.toLowerCase()
 
       if (isSignUpBonus) {
         feedEvent.type = EVENT_TYPE_BONUS

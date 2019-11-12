@@ -57,7 +57,7 @@ exports[`WebViewScreen Instances TermsOfUse matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://community.gooddollar.org/dappterms/"
+  src="https://community.gooddollar.org/dappterms"
   style={
     Object {
       "height": 844,

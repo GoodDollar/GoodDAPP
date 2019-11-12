@@ -745,6 +745,7 @@ export class UserStorage {
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
+    const isCameFromW3Site = userProperties.cameFromW3Site
 
     // first time user visit
     if (firstVisitAppDate == null) {
@@ -758,9 +759,7 @@ export class UserStorage {
         this.enqueueTX(welcomeMessage)
       }
 
-      const w3Token = await this.getProfileFieldValue('w3Token')
-
-      if (!w3Token) {
+      if (!isCameFromW3Site) {
         setTimeout(() => {
           this.enqueueTX(inviteFriendsMessage)
         }, 2 * 60 * 1000) // 2 minutes

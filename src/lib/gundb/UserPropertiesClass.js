@@ -20,9 +20,10 @@ export default class UserProperties {
     firstVisitApp: null,
     etoroAddCardSpending: true,
     isAddedToHomeScreen: false,
+    cameFromW3Site: false,
   }
 
-  fields = ['isMadeBackup', 'firstVisitApp', 'etoroAddCardSpending', 'isAddedToHomeScreen']
+  fields = ['isMadeBackup', 'firstVisitApp', 'etoroAddCardSpending', 'isAddedToHomeScreen', 'cameFromW3Site']
 
   /**
    * a gun node referring tto gun.user().get('properties')

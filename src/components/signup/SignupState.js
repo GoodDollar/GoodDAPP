@@ -259,6 +259,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // Stores creationBlock number into 'lastBlock' feed's node
 
       let w3Token = requestPayload.w3Token
+
+      if (w3Token) {
+        userStorage.userProperties.set('cameFromW3Site', true)
+      }
+
       const addUserAPIPromise = API.addUser(requestPayload).then(res => {
         const data = res.data
 

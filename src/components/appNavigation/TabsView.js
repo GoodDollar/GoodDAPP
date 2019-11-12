@@ -1,5 +1,6 @@
 //@flow
-import React from 'react'
+/* eslint-disable */
+import React, { useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 import { isMobileSafari } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
@@ -56,10 +57,23 @@ type TabViewProps = {
 const TabsView = (props: TabViewProps) => {
   const { navigation, styles } = props
   const store = SimpleStore.useStore()
+  const [token, setToken] = useState(isMobileSafari ? undefined : true)
+  const [marketToken, setMarketToken] = useState(isMobileSafari ? undefined : true)
 
-  const goToRewards = async () => {
+  useEffect(() => {
     if (isMobileSafari) {
-      let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
+      userStorage.getProfileFieldValue('loginToken').then(setToken)
+      serStorage.getProfileFieldValue('marketToken').then(setMarketToken)
+      API.getMarketToken()
+        .then(_ => _get(_, 'data.jwt'))
+        .then(newtoken => {
+          userStorage.setProfileField('marketToken', newtoken)
+          if (marketToken === undefined) setMarketToken(newtoken)
+        })
+    }
+  }, [])
+  const goToRewards = () => {
+    if (isMobileSafari) {
       const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`
       window.open(src, '_blank')
     } else {
@@ -67,16 +81,10 @@ const TabsView = (props: TabViewProps) => {
     }
   }
 
-  const goToMarketplace = async () => {
+  const goToMarketplace = () => {
     if (isMobileSafari) {
-      let token = await userStorage.getProfileFieldValue('marketToken')
-      const src = `${config.marketUrl}?jwt=${token}&nofooter=true`
+      const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
       window.open(src, '_blank')
-      const newtoken = await API.getMarketToken().then(_ => _get(_, 'data.jwt'))
-      if (newtoken !== undefined && newtoken !== token) {
-        token = newtoken
-        userStorage.setProfileField('marketToken', newtoken)
-      }
     } else {
       navigation.navigate('Marketplace')
     }
@@ -84,9 +92,11 @@ const TabsView = (props: TabViewProps) => {
 
   return (
     <Appbar.Header dark>
-      <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px' }}>
-        <RewardSvg />
-      </TouchableOpacity>
+      {token && (
+        <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px' }}>
+          <RewardSvg />
+        </TouchableOpacity>
+      )}
       <Appbar.Content />
       {config.market && (
         <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>

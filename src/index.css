@@ -70,3 +70,8 @@ button {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.reason-for-send {
+  font-size: 14px;
+  margin-left: 5px;
+}

@@ -260,7 +260,16 @@ export const getOperationType = (data: any, account: string) => {
     PaymentWithdraw: 'withdraw',
   }
 
-  const operationType = data.from && data.from.toLowerCase() === account ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
+  let operationType
+  if (data.from) {
+    if (data.from === this.wallet.UBIContract.address.toLowerCase()) {
+      operationType = EVENT_TYPE_CLAIM
+    } else if (data.from === this.wallet.getSignUpBonusAddress()) {
+      operationType = EVENT_TYPE_BONUS
+    } else {
+      operationType = data.from === account.toLowerCase() ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
+    }
+  }
   return EVENT_TYPES[data.name] || operationType
 }
 
@@ -567,7 +576,6 @@ export class UserStorage {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
-
     if (
       data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
       (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
@@ -599,18 +607,7 @@ export class UserStorage {
 
       if (get(feedEvent, 'data.receipt')) {
         logger.debug('handleReceiptUpdated skipping event with receipt', feedEvent, receipt)
-
         return feedEvent
-      }
-
-      const fromContract = data.from
-      const SignUpBonusContractAddress = this.wallet.getSignUpBonusAddress()
-      const isSignUpBonus =
-        data.name === CONTRACT_EVENT_TYPE_TRANSFER &&
-        SignUpBonusContractAddress.toLowerCase() === fromContract.toLowerCase()
-
-      if (isSignUpBonus) {
-        feedEvent.type = EVENT_TYPE_BONUS
       }
 
       //merge incoming receipt data into existing event
@@ -627,7 +624,7 @@ export class UserStorage {
         },
       }
 
-      if (isSignUpBonus && receipt.status) {
+      if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
         updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
         updatedFeedEvent.data.customName = 'GoodDollar'
       }
@@ -678,6 +675,7 @@ export class UserStorage {
       const otplStatus =
         data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
       const prevDate = feedEvent.date
+      feedEvent.data.from = data.from
       feedEvent.data.to = data.to
       feedEvent.data.otplReceipt = receipt
       feedEvent.data.otplData = data
@@ -1843,8 +1841,7 @@ export class UserStorage {
           .catch(r => ({
             feed: 'failed',
           })),
-        this.gunuser
-          .get('properties')
+        this.userProperties
           .putAck(null)
           .then(r => ({
             properties: 'ok',

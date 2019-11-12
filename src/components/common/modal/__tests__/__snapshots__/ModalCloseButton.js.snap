@@ -74,7 +74,7 @@ exports[`ModalCloseButton matches snapshot 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "backgroundImage": "url(\\"close.png\\")",
+            "backgroundImage": "url(\\"close.svg\\")",
             "backgroundPosition": "center",
             "backgroundRepeat": "no-repeat",
             "backgroundSize": "cover",
@@ -93,7 +93,7 @@ exports[`ModalCloseButton matches snapshot 1`] = `
         alt=""
         className="css-accessibilityImage-9pa8cd"
         draggable={false}
-        src="close.png"
+        src="close.svg"
       />
     </div>
   </div>
@@ -174,7 +174,7 @@ exports[`ModalCloseButton matches snapshot with properties 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "backgroundImage": "url(\\"close.png\\")",
+            "backgroundImage": "url(\\"close.svg\\")",
             "backgroundPosition": "center",
             "backgroundRepeat": "no-repeat",
             "backgroundSize": "cover",
@@ -193,7 +193,7 @@ exports[`ModalCloseButton matches snapshot with properties 1`] = `
         alt=""
         className="css-accessibilityImage-9pa8cd"
         draggable={false}
-        src="close.png"
+        src="close.svg"
       />
     </div>
   </div>

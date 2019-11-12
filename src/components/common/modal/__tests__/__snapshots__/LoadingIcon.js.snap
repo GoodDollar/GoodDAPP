@@ -58,7 +58,7 @@ exports[`LoadingIcon matches snapshot 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "backgroundImage": "url(\\"LoadingIcon.png\\")",
+            "backgroundImage": "url(\\"LoadingIcon.svg\\")",
             "backgroundPosition": "center",
             "backgroundRepeat": "no-repeat",
             "backgroundSize": "cover",
@@ -77,7 +77,7 @@ exports[`LoadingIcon matches snapshot 1`] = `
         alt=""
         className="css-accessibilityImage-9pa8cd"
         draggable={false}
-        src="LoadingIcon.png"
+        src="LoadingIcon.svg"
       />
     </div>
   </div>

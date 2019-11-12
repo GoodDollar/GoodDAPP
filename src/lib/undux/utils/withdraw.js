@@ -52,7 +52,7 @@ export const executeWithdraw = async (store: Store, code: string, reason: string
       })
     })
   } catch (e) {
-    log.error('code withdraw failed', code, e.message, e)
+    log.error('code withdraw failed', e.message, e, code)
     throw e
   }
 }

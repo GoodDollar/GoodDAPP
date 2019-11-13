@@ -9,7 +9,6 @@ import BackupWallet from './components/backupWallet/BackupWalletState'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
 import GDStore from './lib/undux/GDStore'
-import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import userStorage from './lib/gundb/UserStorage'
 import AddWebApp from './components/common/view/AddWebApp'
@@ -48,7 +47,6 @@ const Router = () => {
   return (
     <GDStore.Container>
       <AddWebApp />
-      <SimpleStoreDialog />
       <Portal.Host>
         <WebRouter onNavigationStateChange={onRouteChange} />
       </Portal.Host>

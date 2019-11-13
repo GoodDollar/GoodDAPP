@@ -260,9 +260,10 @@ const Dashboard = props => {
 
   showOutOfGasError(props)
 
-  const handleWithdraw = async (attempts: number = 0) => {
+  const handleWithdraw = async (attempts: number) => {
     const { paymentCode, reason } = props.navigation.state.params
     const { styles }: DashboardProps = props
+    const activeAttempts = attempts ? attempts : 0
     try {
       showDialog({
         title: 'Processing Payment Link...',
@@ -273,9 +274,9 @@ const Dashboard = props => {
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
-      if (e.code && e.code === ERROR_PAYMENT_LINK_INCORRECT && attempts < 3) {
+      if (e.code && e.code === ERROR_PAYMENT_LINK_INCORRECT && activeAttempts < 3) {
         await delay(2000)
-        await handleWithdraw(attempts + 1)
+        await handleWithdraw(activeAttempts + 1)
       } else {
         log.error('withdraw failed:', e.code, e.message, e)
         showErrorDialog(e.message)

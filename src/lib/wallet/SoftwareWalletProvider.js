@@ -111,21 +111,6 @@ class SoftwareWalletProvider {
         break
     }
 
-    // web3Provider.on('connect', (d) => {
-    //   console.log('****************************')
-    //   console.log('connect')
-    //   console.log('****************************')
-    // })
-    // web3Provider.on('end', (d) => {
-    //   console.log('****************************')
-    //   console.log('end')
-    //   console.log('****************************')
-    // })
-    // web3Provider.on('close', (d) => {
-    //   console.log('****************************')
-    //   console.log('close')
-    //   console.log('****************************')
-    // })
     return web3Provider
   }
 }

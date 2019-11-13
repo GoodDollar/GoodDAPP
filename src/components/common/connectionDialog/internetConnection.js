@@ -5,24 +5,22 @@ import { useConnection } from '../../../lib/hooks/hasConnectionChange'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 
 const internetConnection = () => {
-  const [showDialog] = useDialog()
+  const [showDialog, hideDialog] = useDialog()
   const isConnection = useConnection()
+
   useEffect(() => {
+
     if (!isConnection) {
       showDialog({
         title: 'Waiting for network',
         image: <LoadingIcon />,
         message: 'check your internet connection',
-        buttons: [
-          {
-            text: 'Reload',
-            onPress: () => {
-              window.location.reload()
-            },
-          },
-        ],
+        showButtons: false,
       })
+    } else {
+      hideDialog()
     }
+
   }, [isConnection])
 
   return null

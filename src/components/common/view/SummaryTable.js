@@ -69,6 +69,7 @@ const getStylesFromProps = ({ theme }) => {
     reasonText: {
       textAlign: 'right',
       marginLeft: 10,
+      color: theme.colors.darkGray,
     },
     tableRow: {
       // TODO: see where should we take this color from

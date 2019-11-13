@@ -91,6 +91,7 @@ describe('UserStorage', () => {
   })
 
   it('events/has the welcome event already set', async () => {
+    await delay(500)
     const events = await userStorage.getAllFeed()
     if (Config.isEToro) {
       expect(events).toContainEqual(welcomeMessageOnlyEtoro)
@@ -341,6 +342,15 @@ describe('UserStorage', () => {
     //welcome message+01-02 event =2
     const gunRes = await userStorage.getFeedPage(2)
     expect(gunRes.length).toEqual(2)
+  })
+
+  it('events/has the welcome event already set', async () => {
+    const events = await userStorage.getAllFeed()
+    if (Config.isEToro) {
+      expect(events).toContainEqual(welcomeMessageOnlyEtoro)
+    } else {
+      expect(events).toContainEqual(welcomeMessage)
+    }
   })
 
   it('events/gets events second page using cursor', async () => {

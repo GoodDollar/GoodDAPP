@@ -13,7 +13,6 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
   const simpleStore = SimpleStore.useStore()
 
   const onFocusMobileSafari = () => {
-    console.info('onFocus')
     window.scrollTo(0, 0)
     document.body.scrollTop = 0
     simpleStore.set('isMobileSafariKeyboardShown')(true)

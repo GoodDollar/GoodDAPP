@@ -5,7 +5,6 @@ import debounce from 'lodash/debounce'
 import './PhoneForm.css'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
-import { UserStorage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
@@ -66,12 +65,10 @@ class PhoneForm extends React.Component<Props, State> {
     }
   }
 
-  checkErrors = async () => {
+  checkErrors = () => {
     const modelErrorMessage = userModelValidations.mobile(this.state.mobile)
-    const isValidIndexValue =
-      Config.skipMobileVerification || (await UserStorage.isValidValue('mobile', this.state.mobile))
-    const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Mobile already registered')
-    log.debug({ modelErrorMessage, isValidIndexValue, errorMessage, Config })
+    const errorMessage = modelErrorMessage
+    log.debug({ modelErrorMessage, errorMessage, Config })
     this.setState({ errorMessage, isValid: errorMessage === '' })
     return errorMessage === ''
   }

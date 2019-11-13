@@ -1,7 +1,9 @@
 import { Dimensions } from 'react-native'
-import { isBrowser } from 'mobile-device-detect'
+import { isBrowser, isMobileOnly } from 'mobile-device-detect'
+import { theme } from '../../components/theme/styles'
 
 export const getScreenHeight = () => Dimensions.get('window').height
+export const getMaxDeviceHeight = () => (isMobileOnly ? getScreenHeight() : theme.sizes.maxHeightForTabletAndDesktop)
 
 export const getScreenWidth = () => Dimensions.get('window').width
 

@@ -4,9 +4,7 @@ import HDKey from 'hdkey'
 import bip39 from 'bip39-light'
 import type { HttpProvider, WebSocketProvider } from 'web3-providers'
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.json'
-import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.json'
 import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.json'
-import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 import moment from 'moment'
 import get from 'lodash/get'
@@ -39,8 +37,6 @@ export class Wallet {
 
   claimContract: Web3.eth.Contract
 
-  reserveContract: Web3.eth.Contract
-
   address: string
 
   networkId: number
@@ -58,7 +54,7 @@ export class Wallet {
   getWeb3TransportProvider(): HttpProvider | WebSocketProvider {
     let provider
     let web3Provider
-    let transport = conf.ethNetwork.web3Transport
+    let transport = 'HttpProvider'
     switch (transport) {
       case 'WebSocket':
         provider = conf.ethNetwork.websocketWeb3Provider
@@ -112,40 +108,24 @@ export class Wallet {
     this.gasPrice = web3Utils.toWei('2', 'gwei')
     this.identityContract = new this.web3.eth.Contract(
       IdentityABI.abi,
-      get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
+      get(ContractsAddress, `${this.network}.Identity` /*IdentityABI.networks[this.networkId].address*/),
       {
         from: this.address,
         gas: 500000,
         gasPrice: web3Utils.toWei('2', 'gwei'),
       }
     )
-    this.claimContract = new this.web3.eth.Contract(
-      RedemptionABI.abi,
-      get(ContractsAddress, `${this.network}.RedemptionFunctional`, RedemptionABI.networks[this.networkId].address),
-      {
-        from: this.address,
-        gas: 500000,
-        gasPrice: web3Utils.toWei('1', 'gwei'),
-      }
-    )
+
     this.tokenContract = new this.web3.eth.Contract(
       GoodDollarABI.abi,
-      get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+      get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
       {
         from: this.address,
         gas: 500000,
         gasPrice: web3Utils.toWei('1', 'gwei'),
       }
     )
-    this.reserveContract = new this.web3.eth.Contract(
-      ReserveABI.abi,
-      get(ContractsAddress, `${this.network}.GoodDollarReserve`, ReserveABI.networks[this.networkId].address),
-      {
-        from: this.address,
-        gas: 500000,
-        gasPrice: web3Utils.toWei('1', 'gwei'),
-      }
-    )
+
     try {
       let gdbalance = await this.tokenContract.methods.balanceOf(this.address).call()
       let nativebalance = await this.web3.eth.getBalance(this.address)
@@ -156,6 +136,7 @@ export class Wallet {
         nativebalance,
         network: this.networkId,
         nonce: this.nonce,
+        provider: this.getWeb3TransportProvider(),
       })
     } catch (e) {
       log.error('Error initializing wallet', { e }, e.message)
@@ -171,12 +152,23 @@ export class Wallet {
    */
   async whitelistUser(address: string, did: string): Promise<TransactionReceipt> {
     const tx: TransactionReceipt = await this.sendTransaction(
-      this.identityContract.methods.whiteListUser(address, did)
+      this.identityContract.methods.addWhitelistedWithDID(address, did)
     ).catch(e => {
       log.error('Error whitelistUser', { e }, e.message)
       throw e
     })
     log.info('Whitelisted user', { address, did, tx })
+    return tx
+  }
+
+  async blacklistUser(address: string): Promise<TransactionReceipt> {
+    const tx: TransactionReceipt = await this.sendTransaction(
+      this.identityContract.methods.addBlacklisted(address)
+    ).catch(e => {
+      log.error('Error blacklistUser', { e }, e.message)
+      throw e
+    })
+    log.info('Blacklisted user', { address, tx })
     return tx
   }
 
@@ -191,6 +183,17 @@ export class Wallet {
       .call()
       .catch(e => {
         log.error('Error isVerified', { e }, e.message)
+        throw e
+      })
+    return tx
+  }
+
+  async isBlacklisted(address: string): Promise<boolean> {
+    const tx: boolean = await this.identityContract.methods
+      .isBlacklisted(address)
+      .call()
+      .catch(e => {
+        log.error('Error isBlacklisted', { e }, e.message)
         throw e
       })
     return tx
@@ -216,9 +219,9 @@ export class Wallet {
       const isVerified = force || (await this.isVerified(address))
       if (isVerified) {
         let userBalance = await this.web3.eth.getBalance(address)
-        let toTop = parseInt(web3Utils.toWei('5000000', 'gwei')) - userBalance
+        let toTop = parseInt(web3Utils.toWei('10000000', 'gwei')) - userBalance
         log.debug('TopWallet:', { userBalance, toTop })
-        if (force || toTop / 5000000 >= 0.75) {
+        if (force || toTop / 10000000 >= 0.75) {
           let res = await this.sendNative({
             from: this.address,
             to: address,

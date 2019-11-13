@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, Dimensions, Easing } from 'react-native'
+import { Animated, AppState, Dimensions, Easing } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -17,6 +17,7 @@ import { weiToMask } from '../../lib/wallet/utils'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
+import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
@@ -26,13 +27,10 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import userStorage from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
-
-// import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -96,6 +94,48 @@ const Dashboard = props => {
   const { params } = props.navigation.state
   const [update, setUpdate] = useState(0)
 
+  const checkBonusesToRedeem = () => {
+    const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
+
+    if (!isUserWhitelisted) {
+      return
+    }
+
+    API.redeemBonuses()
+      .then(res => {
+        log.debug('redeemBonuses', { resData: res && res.data })
+      })
+      .catch(err => {
+        log.error('Failed to redeem bonuses', err.message, err)
+
+        // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
+      })
+  }
+  const isTheSameUser = code => {
+    return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
+  }
+
+  const checkCode = async anyParams => {
+    try {
+      if (anyParams && anyParams.code) {
+        const { screenProps } = props
+        const code = readCode(decodeURI(anyParams.code))
+        if (isTheSameUser(code) === false) {
+          try {
+            const { route, params } = await routeAndPathForCode('send', code)
+            screenProps.push(route, params)
+          } catch (e) {
+            showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+              onDismiss: screenProps.goToRoot,
+            })
+          }
+        }
+      }
+    } catch (e) {
+      log.error('checkCode unexpected error:', e.message, e)
+    }
+  }
+
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
@@ -127,18 +167,16 @@ const Dashboard = props => {
 
   const handleReceiveLink = () => {
     const anyParams = extractQueryParams(window.location.href)
-
-    if (anyParams && anyParams.code) {
-      const { screenProps } = props
-      const code = readCode(decodeURI(anyParams.code))
-      routeAndPathForCode('send', code)
-        .then(({ route, params }) => screenProps.push(route, params))
-        .catch(e => {
-          showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
-        })
-    }
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams
+    } else {
+      checkCode(anyParams)
+    }
+  }
+
+  const handleAppFocus = state => {
+    if (state === 'active') {
+      checkBonusesToRedeem()
     }
   }
 
@@ -186,12 +224,17 @@ const Dashboard = props => {
 
   useEffect(() => {
     log.debug('Dashboard didmount')
+    AppState.addEventListener('change', handleAppFocus)
+    checkBonusesToRedeem()
     handleDeleteRedirect()
     prepareLoginToken()
     subscribeToFeed()
     handleReceiveLink()
     showDelayed()
     handleResize()
+    return function() {
+      AppState.removeEventListener('change', handleAppFocus)
+    }
   }, [])
 
   useEffect(() => {
@@ -246,7 +289,8 @@ const Dashboard = props => {
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
-      showErrorDialog(e)
+      log.error('withdraw failed:', e.message, e)
+      showErrorDialog('Something has gone wrong. Please try again later.')
     }
   }
 

@@ -7,7 +7,7 @@ import Oops from '../../assets/oops.svg'
 import config from '../../config/config'
 
 const InvalidWe3TokenError = props => {
-  AsyncStorage.removeItem('web3Token')
+  AsyncStorage.removeItem('GD_web3Token')
 
   const ERROR_BOLD = 'Please get back to the web site and try again'
   const TITLE = 'Something went wrong'

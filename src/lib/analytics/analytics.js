@@ -46,7 +46,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
       captureUncaught: true,
       captureUnhandledRejections: true,
       payload: {
-        environment: Config.env,
+        environment: Config.env + Config.network,
         codeVersion: Config.version,
         person: {
           id: emailOrId,
@@ -61,7 +61,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     Amplitude.init(Config.amplitudeKey)
     Amplitude.setVersionName(Config.version)
     if (Amplitude) {
-      const created = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
+      const created = new global.amplitude.Identify().setOnce('first_open_date', new Date().toString())
       if (email) {
         Amplitude.setUserId(email)
       }

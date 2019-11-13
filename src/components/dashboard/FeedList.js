@@ -9,9 +9,12 @@ import userStorage from '../../lib/gundb/UserStorage'
 import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
+import logger from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
+
+const log = logger.child({ from: 'ShareButton' })
 
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
@@ -113,7 +116,7 @@ const FeedList = ({
     }
 
     if (actions.canDelete) {
-      userStorage.deleteEvent(id).catch(e => showErrorDialog('Deleting the event has failed', e))
+      userStorage.deleteEvent(id).catch(e => log.error('delete event failed:', e.message, e))
     }
   }
 

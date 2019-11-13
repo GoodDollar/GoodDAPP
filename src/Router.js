@@ -11,6 +11,8 @@ import AppSwitch from './components/appSwitch/AppSwitch'
 import GDStore from './lib/undux/GDStore'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
+import AddWebApp from './components/common/view/AddWebApp'
+import isWebApp from './lib/utils/isWebApp'
 
 const AppNavigator = createNavigator(
   AppSwitch,
@@ -38,6 +40,7 @@ const onRouteChange = (prevNav, nav, route) => {
 const Router = () => {
   return (
     <GDStore.Container>
+      {!isWebApp && <AddWebApp />}
       <SimpleStoreDialog />
       <Portal.Host>
         <WebRouter onNavigationStateChange={onRouteChange} />

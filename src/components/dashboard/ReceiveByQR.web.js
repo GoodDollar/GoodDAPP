@@ -62,7 +62,7 @@ const ReceiveByQR = ({ screenProps }) => {
           reason: undefined,
         })
       } catch (e) {
-        showErrorDialog(e)
+        showErrorDialog('Something has gone wrong. Please try again later.')
       }
     }
   }

@@ -63,6 +63,7 @@ export type State = {
  * @constant
  */
 const initialState: State = {
+  installPrompt: null,
   isLoggedInCitizen: false,
   isLoggedIn: false,
   currentScreen: {

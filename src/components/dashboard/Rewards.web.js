@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import IframeResizer from 'iframe-resizer-react'
-import { isIOS } from 'mobile-device-detect'
+import { isIOS, osVersion } from 'mobile-device-detect'
 import { Appbar } from 'react-native-paper'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
@@ -31,15 +31,21 @@ const RewardsTab = props => {
     getToken()
   }, [])
 
+  if (loginToken === undefined) {
+    return null
+  }
+  const src = `${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`
+  if (isIOS === false || osVersion >= 13) {
+    return <iframe title="Rewards" onLoad={isLoaded} src={src} seamless frameBorder="0" style={{ flex: 1 }} />
+  }
   return loginToken === undefined ? null : (
     <IframeResizer
       title="Rewards"
       scrolling={scrolling}
       src={`${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`}
       allowFullScreen
+      checkOrigin={false}
       frameBorder="0"
-      width="100%"
-      height="100%"
       seamless
       style={{
         maxWidth: '100%',
@@ -47,6 +53,7 @@ const RewardsTab = props => {
         minWidth: '100%',
         minHeight: '100%',
         width: 0,
+        flex: 1,
       }}
       onLoad={isLoaded}
     />

@@ -99,7 +99,13 @@ class Auth extends React.Component<Props> {
     const w3Token = await AsyncStorage.getItem('GD_web3Token')
     const redirectTo = w3Token ? 'Phone' : 'Signup'
 
-    await AsyncStorage.removeItem('gun/').catch(e => log.error('Failed to clear localStorage', e.message, e))
+    try {
+      indexedDB.deleteDatabase('radata')
+
+      log.info('indexedDb successfully cleared')
+    } catch (e) {
+      log.error('Failed to clear indexedDb', e.message, e)
+    }
 
     this.props.navigation.navigate(redirectTo, { w3User })
 

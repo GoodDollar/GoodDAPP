@@ -1,5 +1,4 @@
 import React from 'react'
-import ClampLines from 'react-clamp-lines'
 import Section from '../layout/Section'
 import { withStyles } from '../../../lib/styles'
 import BigGoodDollar from './BigGoodDollar'
@@ -35,7 +34,7 @@ const ReasonRow = ({ reason, styles, marginTop }) =>
       <Section.Text fontSize={14} color="gray80Percent">
         For:
       </Section.Text>
-      <ClampLines text={reason} id="reason-for-send" lines={2} buttons={false} className="reason-for-send" />
+      <Section.Text fontSize={14}>{reason}</Section.Text>
     </Section.Row>
   ) : null
 

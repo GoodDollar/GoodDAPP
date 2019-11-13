@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'gooddollar';
-    src: url('../font/gooddollar.svg?479352#gooddollar') format('svg');
+    src: url('../font/gooddollar.svg?25332995#gooddollar') format('svg');
   }
 }
 */
@@ -99,7 +99,7 @@
 .icon-notifications:before { content: '\e829'; } /* '' */
 .icon-phone:before { content: '\e82a'; } /* '' */
 .icon-privacy:before { content: '\e82b'; } /* '' */
-.icon-rewards:before { content: '\e82c'; } /* '' */
+.icon-rewards-1:before { content: '\e82c'; } /* '' */
 .icon-qrcode:before { content: '\e82d'; } /* '' */
 .icon-search:before { content: '\e82e'; } /* '' */
 .icon-settings:before { content: '\e82f'; } /* '' */
@@ -112,5 +112,8 @@
 .icon-send:before { content: '\e836'; } /* '' */
 .icon-claim-filled:before { content: '\e837'; } /* '' */
 .icon-info:before { content: '\e839'; } /* '' */
+.icon-wallet:before { content: '\e83b'; } /* '' */
+.icon-marketplace:before { content: '\e83c'; } /* '' */
+.icon-rewards:before { content: '\e83d'; } /* '' */
 .icon-privacy-policy:before { content: '\e89e'; } /* '' */
 .icon-terms-of-use:before { content: '\e89f'; } /* '' */

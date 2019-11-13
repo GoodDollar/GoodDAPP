@@ -6,12 +6,11 @@ import { TouchableOpacity } from 'react-native-web'
 import _get from 'lodash/get'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import RewardSvg from '../../components/common/view/RewardSvg'
-import MarketPlaceSvg from '../../components/common/view/MarketPlaceSvg'
 import config from '../../config/config'
 import { withStyles } from '../../lib/styles'
 import userStorage from '../../lib/gundb/UserStorage'
 import API from '../../lib/API/api'
+import Icon from '../../components/common/view/Icon'
 
 type TabViewProps = {
   routes: { [string]: any },
@@ -85,12 +84,12 @@ const TabsView = (props: TabViewProps) => {
   return (
     <Appbar.Header dark>
       <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px' }}>
-        <RewardSvg />
+        <Icon name="rewards" size={36} color="white" />
       </TouchableOpacity>
       <Appbar.Content />
       {config.market && (
         <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
-          <MarketPlaceSvg />
+          <Icon name="marketplace" size={51} color="white" />
         </TouchableOpacity>
       )}
       <Appbar.Content />

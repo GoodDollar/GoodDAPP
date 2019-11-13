@@ -199,7 +199,7 @@ export class GoodWallet {
   }
 
   getSignUpBonusAddress() {
-    return get(ContractsAddress, `${this.network}.SignupBonus`)
+    return get(ContractsAddress, `${this.network}.SignupBonus`).toLowerCase()
   }
 
   /**

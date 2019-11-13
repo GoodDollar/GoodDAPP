@@ -255,24 +255,6 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
   return log
 }
 
-export const getOperationType = (data: any, account: string) => {
-  const EVENT_TYPES = {
-    PaymentWithdraw: 'withdraw',
-  }
-
-  let operationType
-  if (data.from) {
-    if (data.from === this.wallet.UBIContract.address.toLowerCase()) {
-      operationType = EVENT_TYPE_CLAIM
-    } else if (data.from === this.wallet.getSignUpBonusAddress()) {
-      operationType = EVENT_TYPE_BONUS
-    } else {
-      operationType = data.from === account.toLowerCase() ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
-    }
-  }
-  return EVENT_TYPES[data.name] || operationType
-}
-
 /**
  * Users gundb to handle user storage.
  * User storage is used to keep the user Self Soverign Profile and his blockchain transcation history
@@ -572,6 +554,24 @@ export class UserStorage {
     return this.magiclink
   }
 
+  getOperationType(data: any, account: string) {
+    const EVENT_TYPES = {
+      PaymentWithdraw: 'withdraw',
+    }
+
+    let operationType
+    if (data.from) {
+      if (data.from === this.wallet.UBIContract.address.toLowerCase()) {
+        operationType = EVENT_TYPE_CLAIM
+      } else if (data.from === this.wallet.getSignUpBonusAddress()) {
+        operationType = EVENT_TYPE_BONUS
+      } else {
+        operationType = data.from === account.toLowerCase() ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
+      }
+    }
+    return EVENT_TYPES[data.name] || operationType
+  }
+
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
@@ -602,7 +602,7 @@ export class UserStorage {
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         createdDate: receiptDate.toString(),
-        type: getOperationType(data, this.wallet.account),
+        type: this.getOperationType(data, this.wallet.account),
       }
 
       if (get(feedEvent, 'data.receipt')) {

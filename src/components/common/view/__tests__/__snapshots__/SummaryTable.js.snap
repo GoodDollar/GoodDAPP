@@ -293,17 +293,19 @@ exports[`SummaryTable matches snapshot 1`] = `
         For:
       </div>
       <div
-        className="css-text-901oao"
+        className="css-text-901oao css-textMultiLine-cens5h"
         dir="auto"
         style={
           Object {
+            "WebkitLineClamp": 2,
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "14px",
             "fontWeight": "normal",
             "lineHeight": "20px",
-            "textAlign": "center",
+            "marginLeft": "10px",
+            "textAlign": "right",
             "textDecoration": "none",
             "textTransform": "none",
           }

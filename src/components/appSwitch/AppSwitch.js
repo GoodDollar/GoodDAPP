@@ -27,7 +27,7 @@ const log = logger.child({ from: 'AppSwitch' })
 const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
-  const [showErrorDialog, hideDialog] = useErrorDialog()
+  const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
   const [walletIsConnect, setWalletIsConnect] = useState(true)
@@ -36,11 +36,18 @@ const AppSwitch = (props: LoadingProps) => {
     goodWallet.ready.then(() =>
       goodWallet.wallet.currentProvider
         .on('connect', () => {
+          log.debug('web3 connect')
           setWalletIsConnect(true)
         })
-        .on('error', () => {
+        .on('close', () => {
+          log.debug('web3 close')
+
           setWalletIsConnect(false)
-          hideDialog()
+        })
+        .on('error', () => {
+          log.debug('web3 error')
+
+          setWalletIsConnect(false)
         })
     )
   }

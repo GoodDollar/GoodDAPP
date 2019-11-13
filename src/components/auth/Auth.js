@@ -102,7 +102,6 @@ class Auth extends React.Component<Props> {
     indexedDB.deleteDatabase('radata')
 
     const databases = await indexedDB.databases()
-
     if (databases.length) {
       log.error('Failed to clear indexedDb')
     } else {

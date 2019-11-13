@@ -63,7 +63,7 @@ const TabsView = (props: TabViewProps) => {
   useEffect(() => {
     if (isMobileSafari) {
       userStorage.getProfileFieldValue('loginToken').then(setToken)
-      serStorage.getProfileFieldValue('marketToken').then(setMarketToken)
+      userStorage.getProfileFieldValue('marketToken').then(setMarketToken)
       API.getMarketToken()
         .then(_ => _get(_, 'data.jwt'))
         .then(newtoken => {

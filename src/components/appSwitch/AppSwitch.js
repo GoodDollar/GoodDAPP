@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
-import some from 'lodash/some'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
@@ -62,8 +61,10 @@ const AppSwitch = (props: LoadingProps) => {
     log.debug('getParams', { destinationPath, router, state })
 
     if (destinationPath) {
-      const app = router.getActionForPathAndParams(destinationPath.path)
-      const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
+      const app = router.getActionForPathAndParams(destinationPath.path) || {}
+
+      //get nested routes
+      const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
       const destData = { ...destRoute(app), params: destinationPath.params }
       return destData
     }

@@ -19,6 +19,7 @@ const AppNavigator = createNavigator(
     {
       About,
       BackupWallet,
+      Marketplace: AppNavigation,
       AppNavigation,
     },
     {

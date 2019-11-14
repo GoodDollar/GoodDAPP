@@ -120,9 +120,9 @@ const RouterSelector = () => {
     if (params.web3) {
       AsyncStorage.setItem('GD_web3Token', params.web3)
     }
-
-    if (params && Object.keys(params).length > 0) {
-      const dest = { path: window.location.pathname.slice(1), params }
+    const path = window.location.pathname.slice(1)
+    if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
+      const dest = { path, params }
       log.debug('Saving destination url', dest)
       AsyncStorage.setItem(DESTINATION_PATH, JSON.stringify(dest))
     }

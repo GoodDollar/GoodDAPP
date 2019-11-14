@@ -263,6 +263,73 @@ exports[`AppNavigation matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
+              "MozTransitionProperty": "opacity",
+              "MozUserSelect": "none",
+              "WebkitTransitionDuration": "0.15s",
+              "WebkitTransitionProperty": "opacity",
+              "WebkitUserSelect": "none",
+              "backgroundColor": "rgba(0,195,174,1.00)",
+              "borderBottomColor": "rgba(255,255,255,1.00)",
+              "borderBottomLeftRadius": "50%",
+              "borderBottomRightRadius": "50%",
+              "borderBottomStyle": "solid",
+              "borderBottomWidth": "3px",
+              "borderLeftColor": "rgba(255,255,255,1.00)",
+              "borderLeftStyle": "solid",
+              "borderLeftWidth": "3px",
+              "borderRightColor": "rgba(255,255,255,1.00)",
+              "borderRightStyle": "solid",
+              "borderRightWidth": "3px",
+              "borderTopColor": "rgba(255,255,255,1.00)",
+              "borderTopLeftRadius": "50%",
+              "borderTopRightRadius": "50%",
+              "borderTopStyle": "solid",
+              "borderTopWidth": "3px",
+              "cursor": "pointer",
+              "height": "79px",
+              "msTouchAction": "manipulation",
+              "msUserSelect": "none",
+              "paddingBottom": "15px",
+              "paddingLeft": "4px",
+              "paddingRight": "4px",
+              "paddingTop": "8px",
+              "touchAction": "manipulation",
+              "transitionDuration": "0.15s",
+              "transitionProperty": "opacity",
+              "userSelect": "none",
+            }
+          }
+          tabIndex="0"
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(255,255,255,1.00)",
+                "fontFamily": "gooddollar",
+                "fontSize": "51px",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              }
+            }
+          >
+            
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          data-focusable={true}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
               "WebkitBoxFlex": 1,
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,

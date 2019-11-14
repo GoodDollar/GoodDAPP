@@ -296,9 +296,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
             log.error('failed updateW3UserWithWallet', e.message, e)
           ),
-        API.sendMagicLinkByEmail(userStorage.getMagicLink()).catch(e =>
-          log.error('failed sendMagicLinkByEmail', e.message, e)
-        ),
       ])
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')

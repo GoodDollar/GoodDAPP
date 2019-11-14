@@ -83,13 +83,13 @@ const TabsView = (props: TabViewProps) => {
 
   return (
     <Appbar.Header dark>
-      <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px' }}>
+      <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px', display: 'flex' }}>
         <Icon name="rewards" size={36} color="white" />
       </TouchableOpacity>
       <Appbar.Content />
       {config.market && (
         <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
-          <Icon name="marketplace" size={51} color="white" />
+          <Icon name="goodmarket" size={36} color="white" />
         </TouchableOpacity>
       )}
       <Appbar.Content />
@@ -105,10 +105,8 @@ const styles = ({ theme }) => ({
     borderStyle: 'solid',
     borderColor: 'white',
     borderRadius: '50%',
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    paddingBottom: 15,
-    height: 79,
+    paddingVertical: 20,
+    paddingHorizontal: 7,
   },
 })
 

@@ -21,8 +21,10 @@ const log = logger.child({ from: 'GoodWallet' })
 const DAY_IN_SECONDS = window.nextTimeClaim ? Number(window.nextTimeClaim) : Number(Config.nextTimeClaim)
 const MILLISECONDS = 1000
 const ZERO = new BN('0')
-export const ERROR_PAYMENT_LINK_ALREADY = 1
-export const ERROR_PAYMENT_LINK_INCORRECT = 2
+
+export const WITHDRAW_STATUS_PENDING = 'pending'
+export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
+export const WITHDRAW_STATUS_COMPLETE = 'complete'
 
 type EventLog = {
   event: string,
@@ -601,14 +603,17 @@ export class GoodWallet {
    */
   async getWithdrawStatus(otlCode: string): Promise<'Completed' | 'Cancelled' | 'Pending'> {
     const link = this.getWithdrawLink(otlCode)
+    const linkUsed = await this.isWithdrawLinkUsed(link)
 
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
-      return 'Pending'
+    if (linkUsed && this.isWithdrawPaymentAvailable(paymentAvailable)) {
+      return WITHDRAW_STATUS_PENDING
     }
-
-    return 'Completed'
+    if (!linkUsed && this.isWithdrawPaymentAvailable(paymentAvailable)) {
+      return WITHDRAW_STATUS_COMPLETE
+    }
+    return WITHDRAW_STATUS_UNKNOWN
   }
 
   /**
@@ -617,29 +622,21 @@ export class GoodWallet {
    */
   async canWithdraw(otlCode: string) {
     const { payments } = this.oneTimePaymentsContract.methods
-
+    const status = await this.getWithdrawStatus(otlCode)
     const hash = this.getWithdrawLink(otlCode)
-    const error = new Error()
-    const linkUsed = await this.isWithdrawLinkUsed(hash)
-    const paymentAvailable = await this.getWithdrawAvailablePayment(hash)
-    const isPaymentAvailable = this.isWithdrawPaymentAvailable(paymentAvailable)
 
-    if (!linkUsed && isPaymentAvailable) {
-      error.message = 'Payment already withdrawn or canceled by sender'
-      error.code = ERROR_PAYMENT_LINK_ALREADY
-      throw error
+    if (status === WITHDRAW_STATUS_PENDING) {
+      const sender = (await payments(hash).call()).paymentSender
+      const paymentAvailable = await this.getWithdrawAvailablePayment(hash)
+      return {
+        amount: paymentAvailable.toString(),
+        sender,
+        status,
+      }
     }
 
-    if (!isPaymentAvailable) {
-      error.message = 'Could not find payment or incorrect code'
-      error.code = ERROR_PAYMENT_LINK_INCORRECT
-      throw error
-    }
-
-    const sender = (await payments(hash).call()).paymentSender
     return {
-      amount: paymentAvailable.toString(),
-      sender,
+      status,
     }
   }
 

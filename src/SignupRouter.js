@@ -9,7 +9,6 @@ import SigninInfo from './components/signin/SigninInfo'
 import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
-import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import Blurred from './components/common/view/Blurred'
 import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
@@ -54,7 +53,6 @@ const Router = () => {
   return (
     <>
       <Blurred style={fullScreenContainer} blur={dialogVisible}>
-        <SimpleStoreDialog />
         <WebRouter onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
       </Blurred>
     </>

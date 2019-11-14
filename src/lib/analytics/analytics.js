@@ -39,6 +39,14 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   const identifier = goodWallet && goodWallet.getAccountForType('login')
   const email = userStorage && (await userStorage.getProfileFieldValue('email'))
   const emailOrId = email || identifier
+
+  if (global.bugsnagClient) {
+    global.bugsnagClient.user = {
+      id: identifier,
+      email: emailOrId,
+    }
+  }
+
   if (global.Rollbar && Config.rollbarKey) {
     Rollbar = global.Rollbar
     global.Rollbar.configure({
@@ -46,7 +54,8 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
       captureUncaught: true,
       captureUnhandledRejections: true,
       payload: {
-        environment: Config.env,
+        environment: Config.env + Config.network,
+        codeVersion: Config.version,
         person: {
           id: emailOrId,
           identifier,
@@ -58,8 +67,9 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   if (global.amplitude && Config.amplitudeKey) {
     Amplitude = global.amplitude.getInstance()
     Amplitude.init(Config.amplitudeKey)
+    Amplitude.setVersionName(Config.version)
     if (Amplitude) {
-      const created = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
+      const created = new global.amplitude.Identify().setOnce('first_open_date', new Date().toString())
       if (email) {
         Amplitude.setUserId(email)
       }
@@ -90,16 +100,6 @@ export const fireEvent = (event: string, data: any = {}) => {
     return
   }
 
-  switch (event) {
-    case ERROR_LOG:
-      data = { reason: data && data[1] ? data[1] : '' }
-      break
-
-    default:
-      break
-  }
-
-  data.version = Config.version
   let res = Amplitude.logEvent(event, data)
 
   if (res === undefined) {
@@ -128,11 +128,19 @@ const debounceFireEvent = _debounce(fireEvent, 500, { leading: true })
 const patchLogger = () => {
   let error = global.logger.error
   global.logger.error = function() {
-    if (arguments[1] && arguments[1].indexOf('axios') == -1) {
-      debounceFireEvent('ERROR_LOG', arguments)
+    let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
+    if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
+      debounceFireEvent(ERROR_LOG, { reason: logMessage, logContext })
+    }
+    if (global.bugsnagClient && Config.env !== 'test') {
+      global.bugsnagClient.notify(logMessage, {
+        context: logContext && logContext.from,
+        metaData: { logMessage, eMsg, errorObj, rest },
+        groupingHash: logContext && logContext.from,
+      })
     }
     if (global.Rollbar && Config.env !== 'test') {
-      global.Rollbar.error.apply(global.Rollbar, arguments)
+      global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
     }
     return error.apply(global.logger, arguments)
   }

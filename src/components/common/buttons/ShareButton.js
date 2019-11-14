@@ -21,7 +21,7 @@ const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareBu
       await navigator.share(share)
     } catch (e) {
       if (e.name !== 'AbortError') {
-        showErrorDialog(e)
+        showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
       }
     }
   }

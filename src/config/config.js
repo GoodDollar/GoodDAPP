@@ -3,6 +3,7 @@ const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
   version: process.env.VERSION || 'v0',
+  mnemonicToSeed: process.env.REACT_APP_MNEMONIC_TO_SEED || true,
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
@@ -11,9 +12,9 @@ const Config = {
   publicUrl,
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
-  market: process.env.REACT_APP_MARKET || process.env.REACT_APP_MARKET === 'etoro',
-  marketUrl: process.env.REACT_APP_MARKET_URL || 'https://goodmarket.gooddollar.org',
-  isEToro: process.env.REACT_APP_NETWORK === 'etoro',
+  market: process.env.REACT_APP_MARKET || process.env.REACT_APP_NETWORK === 'etoro',
+  marketUrl: process.env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
+  isEToro: process.env.REACT_APP_ETORO || process.env.REACT_APP_NETWORK === 'etoro',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
   rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
@@ -29,6 +30,7 @@ const Config = {
   receiveUrl: process.env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
   sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}`,
   nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
+  bugsnagKey: process.env.REACT_APP_BUGSNAG_API_KEY,
   ethereum: {
     '42': {
       network_id: 42,

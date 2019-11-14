@@ -54,7 +54,8 @@ class SoftwareWalletProvider {
 
   defaults = {
     defaultBlock: 'latest',
-    defaultGas: 140000,
+
+    // defaultGas: 140000,
     defaultGasPrice: 1000000,
     transactionBlockTimeout: 2,
     transactionConfirmationBlocks: 1,
@@ -95,7 +96,7 @@ class SoftwareWalletProvider {
     switch (transport) {
       case 'WebSocketProvider':
         provider = this.conf.websocketWeb3Provider
-        web3Provider = new Web3.providers.WebsocketProvider(provider)
+        web3Provider = new Web3.providers.WebsocketProvider(provider, { timeout: 10000 })
         break
 
       case 'HttpProvider': {

@@ -26,7 +26,12 @@ export function generateCode(
 ) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
-  return `${mnid}|${amount}|${reason}|${counterPartyDisplayName}`
+  const codeArr = [mnid, amount, reason]
+  if (counterPartyDisplayName) {
+    codeArr.push(counterPartyDisplayName)
+  }
+
+  return codeArr.join('|')
 }
 
 /**
@@ -122,6 +127,11 @@ export function generateSendShareObject(url: string, amount: number, to: string,
   )
 }
 
+export function generateSendShareText(...args): ShareObject {
+  const temp = generateSendShareObject(...args)
+  return `${temp.text} ${temp.url}`
+}
+
 /**
  * Generates URL link to share/receive GDs
  * @param {string} code - code returned by `generateCode`
@@ -140,6 +150,11 @@ export function generateReceiveShareObject(code: string, amount: number, to: str
   ].join('')
 
   return generateShareObject('Sending G$ via GoodDollar App', text, url)
+}
+
+export function generateReceiveShareText(...args): ShareObject {
+  const temp = generateReceiveShareObject(...args)
+  return `${temp.text} ${temp.url}`
 }
 
 type HrefLinkProps = {

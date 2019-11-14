@@ -34,7 +34,9 @@ const ReasonRow = ({ reason, styles, marginTop }) =>
       <Section.Text fontSize={14} color="gray80Percent">
         For:
       </Section.Text>
-      <Section.Text fontSize={14}>{reason}</Section.Text>
+      <Section.Text fontSize={14} numberOfLines={2} ellipsizeMode="tail" style={styles.reasonText}>
+        {reason}
+      </Section.Text>
     </Section.Row>
   ) : null
 
@@ -64,6 +66,11 @@ const SummaryTable = ({ styles, counterPartyDisplayName, amount, reason, actionR
 
 const getStylesFromProps = ({ theme }) => {
   return {
+    reasonText: {
+      textAlign: 'right',
+      marginLeft: 10,
+      color: theme.colors.darkGray,
+    },
     tableRow: {
       // TODO: see where should we take this color from
       borderBottomColor: theme.colors.gray50Percent,

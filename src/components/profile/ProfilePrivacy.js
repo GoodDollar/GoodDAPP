@@ -10,6 +10,7 @@ import { withStyles } from '../../lib/styles'
 import { CustomButton, Icon, Section, Text } from '../common'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { useDialog } from '../../lib/undux/utils/dialog'
+import Wrapper from '../common/layout/Wrapper'
 import OptionsRow from './OptionsRow'
 
 const TITLE = 'PROFILE PRIVACY'
@@ -108,48 +109,50 @@ const ProfilePrivacy = props => {
   }
 
   return (
-    <Section grow style={styles.wrapper}>
-      <Section.Stack grow justifyContent="flex-start">
-        <Section.Row grow justifyContent="center" style={styles.subtitleRow}>
-          <Section.Text fontWeight="bold" color="gray">
-            Manage your privacy settings
-          </Section.Text>
-          <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => handleSaveShowTips()} />
-        </Section.Row>
+    <Wrapper style={styles.mainWrapper}>
+      <Section grow style={styles.wrapper}>
+        <Section.Stack grow justifyContent="flex-start">
+          <Section.Row grow justifyContent="center" style={styles.subtitleRow}>
+            <Section.Text fontWeight="bold" color="gray">
+              Manage your privacy settings
+            </Section.Text>
+            <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => handleSaveShowTips()} />
+          </Section.Row>
 
-        <Section.Stack justifyContent="flex-start" style={styles.optionsRowContainer}>
-          <OptionsRow />
+          <Section.Stack justifyContent="flex-start" style={styles.optionsRowContainer}>
+            <OptionsRow />
 
-          {profileFields.map(field => (
-            <RadioButton.Group
-              onValueChange={value => {
-                setField(field)
-                setPrivacy(prevState => ({ ...prevState, [`${field}`]: value }))
-              }}
-              value={privacy[field]}
-              key={field}
-            >
-              <OptionsRow title={titles[field]} />
-            </RadioButton.Group>
-          ))}
+            {profileFields.map(field => (
+              <RadioButton.Group
+                onValueChange={value => {
+                  setField(field)
+                  setPrivacy(prevState => ({ ...prevState, [`${field}`]: value }))
+                }}
+                value={privacy[field]}
+                key={field}
+              >
+                <OptionsRow title={titles[field]} />
+              </RadioButton.Group>
+            ))}
+          </Section.Stack>
         </Section.Stack>
-      </Section.Stack>
 
-      <Section.Row grow alignItems="flex-end" style={styles.buttonsRow}>
-        <BackButton mode="text" screenProps={screenProps} style={styles.growOne}>
-          Cancel
-        </BackButton>
-        <CustomButton
-          onPress={handleSave}
-          mode="contained"
-          loading={loading}
-          disabled={updatableValues().length === 0}
-          style={styles.growTen}
-        >
-          Save
-        </CustomButton>
-      </Section.Row>
-    </Section>
+        <Section.Row grow alignItems="flex-end" style={styles.buttonsRow}>
+          <BackButton mode="text" screenProps={screenProps} style={styles.growOne}>
+            Cancel
+          </BackButton>
+          <CustomButton
+            onPress={handleSave}
+            mode="contained"
+            loading={loading}
+            disabled={updatableValues().length === 0}
+            style={styles.growTen}
+          >
+            Save
+          </CustomButton>
+        </Section.Row>
+      </Section>
+    </Wrapper>
   )
 }
 
@@ -198,6 +201,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     dialogTipItem: {
       marginBottom: 20,
+    },
+    mainWrapper: {
+      backgroundImage: 'none',
+      backgroundColor: 'none',
     },
   }
 }

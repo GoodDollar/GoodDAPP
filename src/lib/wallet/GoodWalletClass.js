@@ -1,11 +1,10 @@
 // @flow
 import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.min.json'
-import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.min.json'
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
-import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.min.json'
-import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json'
+import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
+import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
@@ -22,6 +21,10 @@ const log = logger.child({ from: 'GoodWallet' })
 const DAY_IN_SECONDS = window.nextTimeClaim ? Number(window.nextTimeClaim) : Number(Config.nextTimeClaim)
 const MILLISECONDS = 1000
 const ZERO = new BN('0')
+
+export const WITHDRAW_STATUS_PENDING = 'pending'
+export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
+export const WITHDRAW_STATUS_COMPLETE = 'complete'
 
 type EventLog = {
   event: string,
@@ -100,8 +103,6 @@ export class GoodWallet {
 
   ready: Promise<Web3>
 
-  wallet: Web3
-
   config: {}
 
   accountsContract: Web3.eth.Contract
@@ -110,13 +111,11 @@ export class GoodWallet {
 
   identityContract: Web3.eth.Contract
 
-  claimContract: Web3.eth.Contract
-
-  reserveContract: Web3.eth.Contract
-
-  oneTimePaymentLinksContract: Web3.eth.Contract
+  oneTimePaymentsContract: Web3.eth.Contract
 
   erc20Contract: Web3.eth.Contract
+
+  UBIContract: Web3.eth.Contract
 
   account: string
 
@@ -154,20 +153,14 @@ export class GoodWallet {
         // Identity Contract
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
-          get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
-          { from: this.account }
-        )
-        this.claimContract = new this.wallet.eth.Contract(
-          RedemptionABI.abi,
-          get(ContractsAddress, `${this.network}.RedemptionFunctional`, RedemptionABI.networks[this.networkId].address),
-
+          get(ContractsAddress, `${this.network}.Identity` /*IdentityABI.networks[this.networkId].address*/),
           { from: this.account }
         )
 
         // Token Contract
         this.tokenContract = new this.wallet.eth.Contract(
           GoodDollarABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
           { from: this.account }
         )
         abiDecoder.addABI(GoodDollarABI.abi)
@@ -175,33 +168,31 @@ export class GoodWallet {
         // ERC20 Contract
         this.erc20Contract = new this.wallet.eth.Contract(
           ERC20ABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
           { from: this.account }
         )
         abiDecoder.addABI(ERC20ABI.abi)
 
-        // Reserve Contract
-        this.reserveContract = new this.wallet.eth.Contract(
-          ReserveABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollarReserve`, ReserveABI.networks[this.networkId].address),
-          {
-            from: this.account,
-          }
+        // UBI Contract
+        this.UBIContract = new this.wallet.eth.Contract(
+          UBIABI.abi,
+          get(ContractsAddress, `${this.network}.UBI` /*UBIABI.networks[this.networkId].address*/),
+          { from: this.account }
         )
+        abiDecoder.addABI(UBIABI.abi)
 
         // OneTimePaymentLinks Contract
-        this.oneTimePaymentLinksContract = new this.wallet.eth.Contract(
-          OneTimePaymentLinksABI.abi,
+        this.oneTimePaymentsContract = new this.wallet.eth.Contract(
+          OneTimePaymentsABI.abi,
           get(
             ContractsAddress,
-            `${this.network}.OneTimePaymentLinks`,
-            OneTimePaymentLinksABI.networks[this.networkId].address
+            `${this.network}.OneTimePayments` /*OneTimePaymentsABI.networks[this.networkId].address*/
           ),
           {
             from: this.account,
           }
         )
-        abiDecoder.addABI(OneTimePaymentLinksABI.abi)
+        abiDecoder.addABI(OneTimePaymentsABI.abi)
         log.info('GoodWallet Ready.', { account: this.account })
       })
       .catch(e => {
@@ -209,6 +200,10 @@ export class GoodWallet {
         throw e
       })
     return this.ready
+  }
+
+  getSignUpBonusAddress() {
+    return get(ContractsAddress, `${this.network}.SignupBonus`).toLowerCase()
   }
 
   /**
@@ -246,8 +241,8 @@ export class GoodWallet {
         }
 
         // Send for all events. We could define here different events
-        this.getSubscribers('send').forEach(cb => cb(error, [event]))
-        this.getSubscribers('balanceChanged').forEach(cb => cb(error, [event]))
+        this.getSubscribers('send').forEach(cb => cb(event))
+        this.getSubscribers('balanceChanged').forEach(cb => cb(event))
       }
     })
 
@@ -272,8 +267,8 @@ export class GoodWallet {
         }
 
         // Send for all events. We could define here different events
-        this.getSubscribers('receive').forEach(cb => cb(error, [event]))
-        this.getSubscribers('balanceChanged').forEach(cb => cb(error, [event]))
+        this.getSubscribers('receive').forEach(cb => cb(event))
+        this.getSubscribers('balanceChanged').forEach(cb => cb(event))
       }
     })
   }
@@ -298,8 +293,8 @@ export class GoodWallet {
       }
     }
 
-    this.oneTimePaymentLinksContract.events.PaymentWithdraw({ fromBlock, filter }, handler)
-    this.oneTimePaymentLinksContract.events.PaymentCancel({ fromBlock, filter }, handler)
+    this.oneTimePaymentsContract.events.PaymentWithdraw({ fromBlock, filter }, handler)
+    this.oneTimePaymentsContract.events.PaymentCancel({ fromBlock, filter }, handler)
   }
 
   /**
@@ -337,30 +332,31 @@ export class GoodWallet {
    */
   claim(callbacks: PromiEvents): Promise<TransactionReceipt> {
     try {
-      return this.sendTransaction(this.claimContract.methods.claimTokens(), callbacks)
+      return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
     } catch (e) {
-      log.info(e)
+      log.error('claim failed', e.message, e)
       return Promise.reject(e)
     }
   }
 
   async getNextClaimTime(): Promise<any> {
-    const lastClaim = (await this.claimContract.methods.getLastClaimed().call()) || ZERO
+    const lastClaim = (await this.UBIContract.methods.lastClaimed(this.account).call()) || ZERO
     return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
   }
 
   async getAmountAndQuantityClaimedToday(): Promise<any> {
-    const people = ((await this.identityContract.methods.whiteListedCount().call()) || ZERO).toNumber()
-    const dialyUBI = 1
-    const amount = people * dialyUBI
+    const res = (await this.UBIContract.methods.getDailyStats().call()) || [ZERO, ZERO]
+
     return {
-      people: people,
-      amount,
+      people: res[0].toNumber(),
+      amount: res[1].toNumber(),
     }
   }
 
   async checkEntitlement(): Promise<number> {
-    return (await this.claimContract.methods.checkEntitlement().call()) || ZERO
+    const entitlement = await this.UBIContract.methods.checkEntitlement().call()
+
+    return entitlement
   }
 
   /**
@@ -369,7 +365,7 @@ export class GoodWallet {
    * @return {object} subscriber id and eventName
    * @dev so consumer can unsubscribe using id and event name
    */
-  subscribeToEvent(eventName: string, cb: Function) {
+  subscribeToEvent(eventName: string, cb: (EventLog | TransactionReceipt) => any) {
     if (!this.subscribers[eventName]) {
       // Get last id from subscribersList
       this.subscribers[eventName] = {}
@@ -417,7 +413,15 @@ export class GoodWallet {
   }
 
   balanceOf(): Promise<number> {
-    return this.tokenContract.methods.balanceOf(this.account).call()
+    return this.tokenContract.methods
+      .balanceOf(this.account)
+      .call()
+      .then(toBN)
+      .then(_ => _.toNumber())
+  }
+
+  balanceOfNative(): Promise<number> {
+    return this.wallet.eth.getBalance(this.account).then(parseInt)
   }
 
   signMessage() {}
@@ -441,7 +445,7 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   isVerified(address: string): Promise<boolean> {
-    return this.identityContract.methods.isVerified(address).call()
+    return this.identityContract.methods.isWhitelisted(address).call()
   }
 
   /**
@@ -457,8 +461,8 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   getTxFee(): Promise<boolean> {
-    return this.reserveContract.methods
-      .transactionFee()
+    return this.tokenContract.methods
+      .getFees(1)
       .call()
       .then(toBN)
   }
@@ -492,37 +496,29 @@ export class GoodWallet {
     }
 
     const balance = await this.balanceOf()
-    return parseInt(amountWithFee) <= parseInt(balance)
+    return parseInt(amountWithFee) <= balance
   }
 
   /**
    * perform transaction to deposit amount into the OneTimePaymentLink contract
    * @param {number} amount
    * @param {string} hashedCode
-   * @param {PromieEvents} events
+   * @param {PromieEvents} callbacks
    */
-  async depositToHash(amount: number, hashedCode: string, events: PromiEvents): any {
+  async depositToHash(amount: number, hashedCode: string, callbacks: PromiEvents): Promise<TransactionReceipt> {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
 
-    const otpAddress = get(
-      ContractsAddress,
-      `${this.network}.OneTimePaymentLinks`,
-      OneTimePaymentLinksABI.networks[this.networkId].address
-    )
-
-    const deposit = this.oneTimePaymentLinksContract.methods.deposit(this.account, hashedCode, amount)
-    const encodedABI = await deposit.encodeABI()
-
-    const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
+    const otpAddress = this.oneTimePaymentsContract.address
+    const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode)
 
     // Fixed gas amount so it can work locally with ganache
     // https://github.com/trufflesuite/ganache-core/issues/417
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
     //dont wait for transaction return immediatly with hash code and link (not using await here)
-    return this.sendTransaction(transferAndCall, events, { gas })
+    return this.sendTransaction(transferAndCall, callbacks, { gas })
   }
 
   /**
@@ -536,7 +532,7 @@ export class GoodWallet {
   generateLink(
     amount: number,
     reason: string = '',
-    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any,
+    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any = () => () => {},
     events: PromiEvents = defaultPromiEvents
   ): { code: string, hashedCode: string, paymentLink: string } {
     const code = this.wallet.utils.randomHex(10).replace('0x', '')
@@ -552,12 +548,13 @@ export class GoodWallet {
     //pass extra data
     const onTransactionHash = getOnTxHash({ paymentLink, code })
 
-    this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
+    const txPromise = this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
 
     return {
       code,
       hashedCode,
       paymentLink,
+      txPromise,
     }
   }
 
@@ -571,31 +568,8 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   isWithdrawLinkUsed(link: string): Promise<boolean> {
-    const { isLinkUsed } = this.oneTimePaymentLinksContract.methods
-    return isLinkUsed(link).call()
-  }
-
-  /**
-   * Checks if getWithdrawAvailablePayment returned a valid payment (BN handle), positive balance
-   * @param {BN} payment
-   * @returns boolean
-   */
-  isWithdrawPaymentAvailable(payment: typeof BN): boolean {
-    return payment.gt(ZERO)
-  }
-
-  /**
-   * The amount of GoodDollars resides in the oneTimeLink contract under the specified link, in BN representation.
-   * @param {string} link
-   * @returns {Promise<BN>}
-   */
-  getWithdrawAvailablePayment(link: string): Promise<BN> {
-    const { payments } = this.oneTimePaymentLinksContract.methods
-    const { toBN } = this.wallet.utils
-
-    return payments(link)
-      .call()
-      .then(toBN)
+    const { hasPayment } = this.oneTimePaymentsContract.methods
+    return hasPayment(link).call()
   }
 
   /**
@@ -603,55 +577,39 @@ export class GoodWallet {
    * @param otlCode - one time link code
    * @returns {Promise<'Completed' | 'Cancelled' | 'Pending'>}
    */
-  async getWithdrawStatus(otlCode: string): Promise<'Completed' | 'Cancelled' | 'Pending'> {
-    const link = this.getWithdrawLink(otlCode)
+  async getWithdrawDetails(otlCode: string): Promise<'Completed' | 'Cancelled' | 'Pending'> {
+    const hash = this.getWithdrawLink(otlCode)
+    const { payments } = this.oneTimePaymentsContract.methods
+
+    const { paymentAmount, paymentSender, hasPayment } = await payments(hash).call()
+    const amount = toBN(paymentAmount).toNumber()
+    let status = WITHDRAW_STATUS_UNKNOWN
 
     // Check payment availability
-    const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
-      return 'Pending'
+    if (hasPayment && amount > 0) {
+      status = WITHDRAW_STATUS_PENDING
     }
-
-    return 'Completed'
-  }
-
-  /**
-   * verifies otlCode link has not been used, and payment available. If yes for both, returns the original payment sender address and the amount of GoodDollars payment.
-   * @param {string} otlCode - the payment identifier in OneTimePaymentLink contract
-   */
-  async canWithdraw(otlCode: string) {
-    const { senders } = this.oneTimePaymentLinksContract.methods
-
-    const link = this.getWithdrawLink(otlCode)
-
-    // Check link availability
-    const linkUsed = await this.isWithdrawLinkUsed(link)
-    if (!linkUsed) {
-      throw new Error('Could not find payment or incorrect code')
+    if (hasPayment === false && toBN(paymentSender).isZero() === false) {
+      status = WITHDRAW_STATUS_COMPLETE
     }
-
-    // Check payment availability
-    const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable) === false) {
-      throw new Error('Payment already withdrawn')
-    }
-
-    const sender = await senders(link).call()
     return {
-      amount: paymentAvailable.toString(),
-      sender,
+      status,
+      amount,
+      sender: paymentSender,
     }
   }
 
   /**
    * withdraws the payment received in the link to the current wallet holder
    * @param {string} otlCode
-   * @param {PromiEvents} promiEvents
+   * @param {PromiEvents} callbacks
    */
-  withdraw(otlCode: string, promiEvents: ?PromiEvents) {
-    const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
-    log.info('withdrawCall', withdrawCall)
-    return this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
+  async withdraw(otlCode: string, callbacks: PromiEvents) {
+    const withdrawCall = this.oneTimePaymentsContract.methods.withdraw(otlCode)
+    const gasLimit = await this.oneTimePaymentsContract.methods.gasLimit.call().then(toBN)
+
+    //contract enforces max gas of 80000 to prevent front running
+    return this.sendTransaction(withdrawCall, callbacks, { gas: gasLimit.toNumber() })
   }
 
   /**
@@ -685,14 +643,8 @@ export class GoodWallet {
    * @returns {Promise<TransactionReceipt>}
    */
   cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
-    const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(hashedCode)
-    return this.sendTransaction(cancelOtlCall, {
-      ...txCallbacks,
-      onTransactionHash: hash => {
-        log.debug({ hash })
-        txCallbacks.onTransactionHash(hash)
-      },
-    })
+    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
+    return this.sendTransaction(cancelOtlCall, txCallbacks)
   }
 
   handleError(e: Error) {
@@ -704,7 +656,6 @@ export class GoodWallet {
     let gasPrice = this.gasPrice
 
     try {
-      const { toBN } = this.wallet.utils
       const networkGasPrice = await this.wallet.eth.getGasPrice().then(toBN)
 
       if (networkGasPrice.gt(toBN('0'))) {
@@ -717,7 +668,7 @@ export class GoodWallet {
     return gasPrice
   }
 
-  async sendAmount(to: string, amount: number, events: PromiEvents): Promise<TransactionReceipt> {
+  async sendAmount(to: string, amount: number, callbacks: PromiEvents): Promise<TransactionReceipt> {
     if (!this.wallet.utils.isAddress(to)) {
       throw new Error('Address is invalid')
     }
@@ -729,7 +680,7 @@ export class GoodWallet {
     log.info({ amount, to })
     const transferCall = this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
-    return this.sendTransaction(transferCall, events) // Send TX to the blockchain
+    return this.sendTransaction(transferCall, callbacks) // Send TX to the blockchain
   }
 
   /**
@@ -741,7 +692,7 @@ export class GoodWallet {
     try {
       const { topWallet = true } = options
 
-      let nativeBalance = await this.wallet.eth.getBalance(this.account)
+      let nativeBalance = await this.balanceOfNative()
       if (nativeBalance > wei) {
         return {
           ok: true,
@@ -749,6 +700,7 @@ export class GoodWallet {
       }
 
       if (topWallet) {
+        log.info('no gas, asking for top wallet')
         const toppingRes = await API.verifyTopWallet()
         const { data } = toppingRes
         if (data.ok !== 1) {
@@ -769,7 +721,7 @@ export class GoodWallet {
     } catch (e) {
       return {
         ok: false,
-        error: true,
+        error: false,
       }
     }
   }
@@ -790,43 +742,49 @@ export class GoodWallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = defaultPromiEvents,
-    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+    { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    gas = gas || (await tx.estimateGas().catch(this.handleError))
+    let gas = setgas || (await tx.estimateGas())
     gasPrice = gasPrice || this.gasPrice
-
+    if (Config.network === 'develop' && setgas === undefined) {
+      gas *= 2
+    }
+    log.debug({ gas, gasPrice })
     const { ok } = await this.verifyHasGas(gas * gasPrice)
     if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
     }
+    const res = new Promise((res, rej) => {
+      tx.send({ gas, gasPrice, chainId: this.networkId })
+        .on('transactionHash', h => {
+          log.debug('got txhash', h)
+          onTransactionHash && onTransactionHash(h)
+        })
+        .on('receipt', r => {
+          log.debug('got receipt', r)
+          res(r)
+          onReceipt && onReceipt(r)
+        })
+        .on('confirmation', c => {
+          log.debug('got confirmation', c)
+          onConfirmation && onConfirmation(c)
+        })
+        .on('error', e => {
+          log.debug('got error', e)
+          rej(e)
+          onError && onError(e)
+        })
+    })
+    return res
 
-    log.debug({ gas, gasPrice })
-    return (
-      new Promise((res, rej) => {
-        tx.send({ gas, gasPrice, chainId: this.networkId })
-          .on('transactionHash', h => {
-            onTransactionHash && onTransactionHash(h)
-          })
-          .on('receipt', r => {
-            onReceipt && onReceipt(r)
-            res(r)
-          })
-          .on('confirmation', c => onConfirmation && onConfirmation(c))
-          .on('error', e => {
-            onError && onError(e)
-            rej(e)
-          })
-      })
-
-        /** receipt handling happens already in polling events */
-        // .then(async receipt => {
-        //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
-        //   await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
-        //   return transactionReceipt
-        // })
-        .catch(this.handleError)
-    )
+    /** receipt handling happens already in polling events */
+    // .then(async receipt => {
+    //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
+    //   await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
+    //   return transactionReceipt
+    // })
+    // .catch(this.handleError)
   }
 }
 

@@ -1,13 +1,14 @@
 // @flow
 import React, { useState } from 'react'
 import { View } from 'react-native'
+import { isMobile } from 'mobile-device-detect'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
 import logger from '../../../lib/logger/pino-logger'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import { generateSendShareObject, generateShareLink } from '../../../lib/share'
+import { generateSendShareObject, generateSendShareText, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
@@ -31,7 +32,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     fireEventAnalytics('cancelPayment')
     if (item.status === 'pending') {
       // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
-      showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
+      showErrorDialog("The transaction is still pending, it can't be cancelled right now")
     } else {
       setState({ ...state, cancelPaymentLoading: true })
       try {
@@ -41,14 +42,16 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .cancelOTLByTransactionHash(item.id)
           .catch(e => {
             userStorage.recoverEvent(item.id)
-            showErrorDialog('Canceling the payment link has failed', e)
+            log.error('cancel payment failed', e.message, e)
+            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
           })
           .finally(() => {
             setState({ ...state, cancelPaymentLoading: false })
           })
       } catch (e) {
+        log.error('cancel payment failed', e.message, e)
         setState({ ...state, cancelPaymentLoading: false })
-        showErrorDialog(e)
+        showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
       }
     }
     handleModalClose()
@@ -59,8 +62,20 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       paymentCode: item.data.withdrawCode,
       reason: item.data.message,
     })
+
+    let result
+
+    if (isMobile && navigator.share) {
+      result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
+    } else {
+      result = {
+        url: generateSendShareText(url, item.data.amount, item.data.endpoint.fullName, currentUserName),
+      }
+    }
+
     fireEventAnalytics('Sharelink')
-    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
+
+    return result
   }
 
   const readMore = () => {

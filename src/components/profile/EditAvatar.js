@@ -5,9 +5,12 @@ import { withTheme } from 'react-native-paper'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 
 import ImageCropper from '../common/form/ImageCropper'
+
+const log = logger.child({ from: 'EditAvatar' })
 
 const TITLE = 'Edit Avatar'
 
@@ -20,10 +23,13 @@ const EditAvatar = ({ screenProps, theme }) => {
   const [changed, setChanged] = useState(false)
   const [saving, setSaving] = useState(false)
 
-  const saveAvatar = () => {
+  const saveAvatar = async () => {
     setSaving(true)
 
-    wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => showErrorDialog('Saving image failed', e))
+    await wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => {
+      log.error('saving image failed:', e.message, e)
+      showErrorDialog('We could not capture all your beauty. Please try again.')
+    })
 
     setSaving(false)
     screenProps.pop()

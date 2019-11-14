@@ -200,7 +200,7 @@ const Claim = props => {
           const date = new Date()
           const transactionEvent: TransactionEvent = {
             id: hash,
-            date: date.toString(),
+            createdDate: date.toString(),
             type: 'claim',
             data: {
               from: 'GoodDollar',
@@ -208,7 +208,7 @@ const Claim = props => {
             },
           }
           userStorage.enqueueTX(transactionEvent)
-          AsyncStorage.setItem('AddWebAppLastClaim', date.toISOString())
+          AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
         },
         onError: userStorage.markWithErrorEvent,
       })
@@ -235,10 +235,9 @@ const Claim = props => {
     }
   }
 
-  const faceRecognition = async () => {
-    await handleClaim()
-
-    // screenProps.push('FRIntro', { from: 'Claim' })
+  const faceRecognition = () => {
+    //await handleClaim()
+    screenProps.push('FRIntro', { from: 'Claim' })
   }
 
   const showLearnMoreDialog = () => {
@@ -304,7 +303,7 @@ const Claim = props => {
               color="white"
               fontFamily="Roboto"
               fontWeight="bold"
-              lineHeigh={19}
+              lineHeight={19}
               size={16}
               style={styles.learnMore}
               textDecorationLine="underline"
@@ -330,7 +329,7 @@ const Claim = props => {
               style={styles.countdown}
             />
           )}
-
+          <View style={styles.space} />
           <ClaimButton
             isCitizen={isCitizen}
             entitlement={state.entitlement}
@@ -455,9 +454,11 @@ const getStylesFromProps = ({ theme }) => {
       display: 'inline',
     },
     countdown: {
-      marginBottom: theme.sizes.defaultDouble,
       minHeight: getDesignRelativeHeight(72),
       borderRadius: 5,
+    },
+    space: {
+      height: theme.sizes.defaultDouble,
     },
   }
 }

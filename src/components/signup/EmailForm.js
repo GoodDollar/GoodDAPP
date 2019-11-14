@@ -3,10 +3,8 @@ import React from 'react'
 import debounce from 'lodash/debounce'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
-import { UserStorage } from '../../lib/gundb/UserStorageClass'
 
 import { withStyles } from '../../lib/styles'
-import Config from '../../config/config'
 import InputText from '../common/form/InputText'
 import Section from '../common/layout/Section'
 import CustomWrapper from './signUpWrapper'
@@ -52,11 +50,9 @@ class EmailForm extends React.Component<Props, State> {
     }
   }
 
-  checkErrors = async () => {
+  checkErrors = () => {
     const modelErrorMessage = userModelValidations.email(this.state.email)
-    const isValidIndexValue =
-      Config.skipEmailVerification || (await UserStorage.isValidValue('email', this.state.email))
-    const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable email')
+    const errorMessage = modelErrorMessage
     this.setState({ errorMessage }, () => this.setState({ isValid: this.state.errorMessage === '' }))
     return errorMessage === ''
   }

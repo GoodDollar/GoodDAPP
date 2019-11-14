@@ -18,11 +18,11 @@ cache:
 env:
   global:
     - REACT_ENV=development
-    - BABEL_ENV=development
-    - REACT_APP_LOG_LEVEL=debug
+    - REACT_APP_LOG_LEVEL=silent
     - BUNDLESIZE_GITHUB_TOKEN=63f6d1717c6652d63234cf9629977b08f4bac3fd
     #    - REACT_APP_NETWORK_ID=4447
-    - MNEMONIC="choice congress hobby buddy dutch busy army eager empty solution start grunt"
+    - MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
+    - ADMIN_MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - CI=false
 
 matrix:
@@ -36,9 +36,16 @@ matrix:
         - export CYPRESS_w3Link=$W3_LINK
         - cypress run
     - script:
-        - npm run coverage
-        - npm run coveralls
-
+        - pushd node_modules/@gooddollar/goodcontracts
+        - npm ci
+        - npm run ganache &
+        - npm run wait
+        - npm run deploy
+        - popd
+        - npm run coverage -- --silent
+        - npm run coveralls || true
+        - pkill -f ganache
+  
 after_success:
   - npm run bundlesize:check
 

@@ -22,7 +22,7 @@ const surveyOptions = ['A product', 'A service', 'Other']
  * @param {any} props.handleCheckSurvey
  * @param {any} props.styles
  */
-const SurveySend = ({ handleCheckSurvey, styles }: any) => {
+const SurveySend = ({ handleCheckSurvey, styles, onDismiss }: any) => {
   const [dialogSurvey, setDialogSurvey] = useState(true)
   const [showDialog] = useDialog()
 
@@ -30,6 +30,7 @@ const SurveySend = ({ handleCheckSurvey, styles }: any) => {
     if (Config.isEToro && dialogSurvey) {
       setDialogSurvey(false)
       showDialog({
+        onDismiss,
         content: <Content handleCheckSurvey={handleCheckSurvey} styles={styles} />,
         buttons: [
           {

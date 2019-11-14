@@ -1,15 +1,18 @@
 // @flow
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
-import some from 'lodash/some'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
+import userStorage from '../../lib/gundb/UserStorage'
+import Splash from '../splash/Splash'
 
 type LoadingProps = {
   navigation: any,
@@ -24,7 +27,30 @@ const log = logger.child({ from: 'AppSwitch' })
 const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
+  const [ready, setReady] = useState(false)
+  const [walletIsConnect, setWalletIsConnect] = useState(true)
+
+  const setConnectEvents = () => {
+    goodWallet.ready.then(() =>
+      goodWallet.wallet.currentProvider
+        .on('connect', () => {
+          log.debug('web3 connect')
+          setWalletIsConnect(true)
+        })
+        .on('close', () => {
+          log.debug('web3 close')
+
+          setWalletIsConnect(false)
+        })
+        .on('error', () => {
+          log.debug('web3 error')
+
+          setWalletIsConnect(false)
+        })
+    )
+  }
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -36,8 +62,10 @@ const AppSwitch = (props: LoadingProps) => {
     log.debug('getParams', { destinationPath, router, state })
 
     if (destinationPath) {
-      const app = router.getActionForPathAndParams(destinationPath.path)
-      const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
+      const app = router.getActionForPathAndParams(destinationPath.path) || {}
+
+      //get nested routes
+      const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
       const destData = { ...destRoute(app), params: destinationPath.params }
       return destData
     }
@@ -70,9 +98,11 @@ const AppSwitch = (props: LoadingProps) => {
     const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
       ([authResult, _]) => authResult
     )
+    log.debug({ isLoggedIn, isLoggedInCitizen })
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
     isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+    await userStorage.startSystemFeed()
 
     // if (isLoggedIn) {
     //   if (destDetails) {
@@ -108,27 +138,36 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const init = async () => {
+    log.debug('initializing')
+
     // store.set('loadingIndicator')({ loading: true })
-    await initialize()
+    try {
+      await initialize()
+      setReady(true)
+    } catch (e) {
+      showErrorDialog('Wallet could not be loaded. Please try again later.')
+    }
     store.set('loadingIndicator')({ loading: false })
   }
   useEffect(() => {
     init()
     navigateToUrlAction()
+    setConnectEvents()
   }, [])
 
   // useEffect(() => {
 
   // })
-
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]
-  return (
-    <React.Fragment>
+  const display =
+    ready && walletIsConnect ? (
       <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
-    </React.Fragment>
-  )
+    ) : (
+      <Splash />
+    )
+  return <React.Fragment>{display}</React.Fragment>
 }
 
 export default AppSwitch

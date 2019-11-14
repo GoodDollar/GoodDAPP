@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Amount matches snapshot 1`] = `
+exports[`Auth matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -221,8 +221,8 @@ exports[`Amount matches snapshot 1`] = `
               }
             }
           >
-            Welcome to your
-financial future!
+            Welcome to
+GoodDollar Wallet
           </div>
           <div
             className="css-view-1dbjc4n"

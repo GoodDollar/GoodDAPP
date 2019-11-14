@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import GDStore from '../../lib/undux/GDStore'
-import { generateSendShareObject } from '../../lib/share'
+import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import Config from '../../config/config'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -35,7 +35,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
   const [shared, setShared] = useState(false)
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
-  const { amount, reason, counterPartyDisplayName } = screenState
+  const { amount, reason = null, counterPartyDisplayName } = screenState
 
   const faceRecognition = () => {
     return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
@@ -50,17 +50,23 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
       if (e.name !== 'AbortError') {
         showDialog({
           title: 'There was a problem triggering share action.',
-          message: `You can still copy the link in tapping on "Copy link to clipboard".\n Error ${e.name}: ${
-            e.message
-          }`,
+          message: `You can still copy the link by tapping on "Copy link to clipboard".`,
           dismissText: 'Ok',
-          onDismiss: () =>
-            screenProps.push('SendConfirmation', {
+          onDismiss: () => {
+            const desktopShareLink = generateSendShareText(
               paymentLink,
+              amount,
+              counterPartyDisplayName,
+              profile.fullName
+            )
+
+            screenProps.push('SendConfirmation', {
+              paymentLink: desktopShareLink,
               amount,
               reason,
               counterPartyDisplayName,
-            }),
+            })
+          },
         })
       }
     }
@@ -85,9 +91,11 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
     if (isMobile && navigator.share) {
       shareAction(paymentLink)
     } else {
+      const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
+
       // Show confirmation
       screenProps.push('SendConfirmation', {
-        paymentLink,
+        paymentLink: desktopShareLink,
         amount,
         reason,
         counterPartyDisplayName,
@@ -140,11 +148,10 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
         const { paymentLink } = generateLinkResponse
         return paymentLink
       }
-      log.error('generating payment link failed - unknwon')
-      showErrorDialog('Generating payment failed', 'Unknown Error')
+      showErrorDialog('Could not complete transaction. Please try again.')
     } catch (e) {
-      showErrorDialog('Generating payment failed', e)
-      log.error('generating payment link failed', e.message, e)
+      showErrorDialog('Could not complete transaction. Please try again.')
+      log.error(e.message, e)
     }
   }
 

@@ -163,26 +163,6 @@ exports[`UserAvatar matches snapshot 1`] = `
           </div>
         </div>
       </div>
-      <div
-        className="css-text-901oao"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(66,69,74,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto Slab",
-            "fontSize": "22px",
-            "fontWeight": "normal",
-            "lineHeight": "30px",
-            "marginTop": "8px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
-      >
-        John Doe
-      </div>
     </div>
   </div>
 </div>

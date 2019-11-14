@@ -12,6 +12,7 @@ import orderBy from 'lodash/orderBy'
 import takeWhile from 'lodash/takeWhile'
 import toPairs from 'lodash/toPairs'
 import values from 'lodash/values'
+import get from 'lodash/get'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Config from '../../config/config'
@@ -23,6 +24,16 @@ import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
+
+const EVENT_TYPE_BONUS = 'bonus'
+const EVENT_TYPE_CLAIM = 'claim'
+const EVENT_TYPE_SEND = 'send'
+const EVENT_TYPE_RECEIVE = 'receive'
+const CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW = 'PaymentWithdraw'
+const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
+const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
+
+const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
@@ -117,7 +128,6 @@ export type TransactionEvent = FeedEvent & {
 export const welcomeMessage = {
   id: '1',
   type: 'welcome',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar',
@@ -136,7 +146,6 @@ export const welcomeMessage = {
 export const welcomeMessageOnlyEtoro = {
   id: '1',
   type: 'welcome',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar!',
@@ -155,7 +164,6 @@ export const welcomeMessageOnlyEtoro = {
 export const inviteFriendsMessage = {
   id: '0',
   type: 'invite',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Invite friends and earn G$',
@@ -173,7 +181,6 @@ export const inviteFriendsMessage = {
 export const backupMessage = {
   id: '2',
   type: 'backup',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Backup your wallet. Now.',
@@ -192,7 +199,6 @@ export const backupMessage = {
 export const startSpending = {
   id: '3',
   type: 'spending',
-  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Go to GoodMarket',
@@ -224,7 +230,10 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     .map(log =>
       log.events.reduce(
         (acc, curr) => {
-          return { ...acc, [curr.name]: curr.value }
+          if (!acc[curr.name] || (acc[curr.name] && acc[curr.name].value && acc[curr.name].value < curr.value)) {
+            return { ...acc, [curr.name]: curr.value }
+          }
+          return acc
         },
         { name: log.name }
       )
@@ -234,25 +243,16 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
   //it filters them out
   const transferLog = maxBy(
     logs.filter(log => {
-      return log && log.name === 'Transfer'
+      return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
     'value'
   )
   const withdrawLog = logs.find(log => {
-    return log && (log.name === 'PaymentWithdraw' || log.name === 'PaymentCancel')
+    return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
   })
   logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
   const log = withdrawLog || transferLog
   return log
-}
-
-export const getOperationType = (data: any, account: string) => {
-  const EVENT_TYPES = {
-    PaymentWithdraw: 'withdraw',
-  }
-
-  const operationType = data.from && data.from.toLowerCase() === account ? 'send' : 'receive'
-  return EVENT_TYPES[data.name] || operationType
 }
 
 /**
@@ -508,7 +508,7 @@ export class UserStorage {
       })
       logger.debug('init to events')
 
-      await this.initFeed()
+      this.initFeed()
       await this.initProperties()
 
       //save ref to user
@@ -519,11 +519,11 @@ export class UserStorage {
       logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
       logger.debug('subscribing')
 
-      this.wallet.subscribeToEvent('receive', (err, events) => {
-        logger.debug({ err, events }, 'receive')
+      this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
+        logger.debug({ event }, EVENT_TYPE_RECEIVE)
       })
-      this.wallet.subscribeToEvent('send', (err, events) => {
-        logger.debug({ err, events }, 'send')
+      this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
+        logger.debug({ event }, EVENT_TYPE_SEND)
       })
       this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
       this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
@@ -554,11 +554,32 @@ export class UserStorage {
     return this.magiclink
   }
 
+  getOperationType(data: any, account: string) {
+    const EVENT_TYPES = {
+      PaymentWithdraw: 'withdraw',
+    }
+
+    let operationType
+    if (data.from) {
+      if (data.from === this.wallet.UBIContract.address.toLowerCase()) {
+        operationType = EVENT_TYPE_CLAIM
+      } else if (data.from === this.wallet.getSignUpBonusAddress()) {
+        operationType = EVENT_TYPE_BONUS
+      } else {
+        operationType = data.from === account.toLowerCase() ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
+      }
+    }
+    return EVENT_TYPES[data.name] || operationType
+  }
+
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
-    if (data.name === 'PaymentCancel' || (data.name === 'PaymentWithdraw' && data.from === data.to)) {
+    if (
+      data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
+      (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
+    ) {
       logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
       return {}
     }
@@ -572,11 +593,21 @@ export class UserStorage {
       const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || { data: {} }
       logger.debug('handleReceiptUpdated got enqueued event:', { id: receipt.transactionHash, initialEvent })
 
+      const receiptDate = await this.wallet.wallet.eth
+        .getBlock(receipt.blockNumber)
+        .then(_ => new Date(_.timestamp * 1000))
+        .catch(_ => new Date())
+
       //get existing or make a new event
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
-        createdDate: new Date().toString(),
-        type: getOperationType(data, this.wallet.account),
+        createdDate: receiptDate.toString(),
+        type: this.getOperationType(data, this.wallet.account),
+      }
+
+      if (get(feedEvent, 'data.receipt')) {
+        logger.debug('handleReceiptUpdated skipping event with receipt', feedEvent, receipt)
+        return feedEvent
       }
 
       //merge incoming receipt data into existing event
@@ -584,7 +615,7 @@ export class UserStorage {
         ...feedEvent,
         ...initialEvent,
         status: feedEvent.status === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
-        date: new Date().toString(),
+        date: receiptDate.toString(),
         data: {
           ...feedEvent.data,
           ...initialEvent.data,
@@ -592,6 +623,12 @@ export class UserStorage {
           receipt,
         },
       }
+
+      if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
+        updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
+        updatedFeedEvent.data.customName = 'GoodDollar'
+      }
+
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
@@ -625,14 +662,25 @@ export class UserStorage {
       }
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
 
+      if (get(feedEvent, 'data.otplReceipt')) {
+        logger.debug('handleOTPLUpdated skipping event with receipt', feedEvent, receipt)
+        return feedEvent
+      }
+      const receiptDate = await this.wallet.wallet.eth
+        .getBlock(receipt.blockNumber)
+        .then(_ => new Date(_.timestamp * 1000))
+        .catch(_ => new Date())
+
       //if we withdrawn the payment link then its canceled
-      const otplStatus = data.name === 'PaymentCancel' || data.to === data.from ? 'cancelled' : 'completed'
+      const otplStatus =
+        data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
       const prevDate = feedEvent.date
+      feedEvent.data.from = data.from
       feedEvent.data.to = data.to
       feedEvent.data.otplReceipt = receipt
       feedEvent.data.otplData = data
       feedEvent.status = feedEvent.data.otplStatus = otplStatus
-      feedEvent.date = new Date().toString()
+      feedEvent.date = receiptDate.toString()
       logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
@@ -700,24 +748,37 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  async initFeed() {
+  initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+  }
 
-    //first time user
-    if ((await this.feed) === undefined) {
-      const w3Token = await this.getProfileFieldValue('w3Token')
+  async startSystemFeed() {
+    const userProperties = await this.userProperties.getAll()
+    const firstVisitAppDate = userProperties.firstVisitApp
+    const isCameFromW3Site = userProperties.cameFromW3Site
 
+    this.addBackupCard()
+
+    // first time user visit
+    if (firstVisitAppDate == null) {
       if (Config.isEToro) {
         this.enqueueTX(welcomeMessageOnlyEtoro)
+
+        setTimeout(() => {
+          this.enqueueTX(startSpending)
+        }, 60 * 1000) // 1 minute
       } else {
         this.enqueueTX(welcomeMessage)
       }
-      if (!w3Token) {
+
+      if (!isCameFromW3Site) {
         setTimeout(() => {
           this.enqueueTX(inviteFriendsMessage)
-        }, 60000)
+        }, 2 * 60 * 1000) // 2 minutes
       }
+
+      await this.userProperties.set('firstVisitApp', Date.now())
     }
   }
 
@@ -728,11 +789,10 @@ export class UserStorage {
     this.properties = this.gunuser.get('properties')
 
     if ((await this.properties) === undefined) {
-      let putRes = await this.properties.get('properties').put(UserProperties.defaultProperties)
+      let putRes = await this.properties.putAck(UserProperties.defaultProperties)
       logger.debug('set defaultProperties ok:', { defaultProperties: UserProperties.defaultProperties, putRes })
     }
     this.userProperties = new UserProperties(this.properties)
-    await this.userProperties.updateLocalData()
   }
 
   /**
@@ -742,28 +802,13 @@ export class UserStorage {
    */
   async addBackupCard() {
     const userProperties = await this.userProperties.getAll()
-    if (!userProperties.isMadeBackup) {
+    const firstVisitAppDate = userProperties.firstVisitApp
+    const displayTimeFilter = 24 * 60 * 60 * 1000 // 24 hours
+    const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
+
+    if (!userProperties.isMadeBackup && allowToShowByTimeFilter) {
       await this.enqueueTX(backupMessage)
       await this.userProperties.set('isMadeBackup', true)
-    }
-  }
-
-  async onlyForEToro() {
-    if (Config.isEToro) {
-      const userProperties = await this.userProperties.getAll()
-      if (
-        userProperties.firstVisitApp &&
-        Date.now() - userProperties.firstVisitApp >= 68400 &&
-        userProperties.etoroAddCardSpending
-      ) {
-        await this.enqueueTX(startSpending)
-        await this.userProperties.set('etoroAddCardSpending', false)
-      }
-
-      if (!userProperties.firstVisitApp) {
-        await this.userProperties.set('firstVisitApp', Date.now())
-        await this.userProperties.set('etoroAddCardSpending', true)
-      }
     }
   }
 
@@ -1022,7 +1067,7 @@ export class UserStorage {
     }
 
     try {
-      if (!(await UserStorage.isValidValue(field, value))) {
+      if (field === 'username' && !(await UserStorage.isValidValue(field, value))) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
       const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
@@ -1282,7 +1327,7 @@ export class UserStorage {
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
       const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
-      const displayType = this._extractDisplayType(type, withdrawStatus)
+      const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
       const [avatar, fullName] = await Promise.all([
@@ -1341,10 +1386,10 @@ export class UserStorage {
     const { isAddress } = this.wallet.wallet.utils
     const data = { address: '', initiator: '', initiatorType: '', value: '', displayName: '', message: '' }
 
-    if (type === 'send') {
+    if (type === EVENT_TYPE_SEND) {
       data.address = isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
       data.initiator = to
-    } else if (type === 'claim') {
+    } else if (type === EVENT_TYPE_CLAIM) {
       data.message = 'Your daily basic income'
     } else {
       data.address = isAddress(from) ? from : (receiptData && receiptData.from) || (receipt && receipt.from)
@@ -1365,8 +1410,18 @@ export class UserStorage {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
-  _extractDisplayType(type, withdrawStatus) {
-    return type + `${type === 'send' ? withdrawStatus : ''}`
+  _extractDisplayType(type, withdrawStatus, status) {
+    let sufix = ''
+
+    if (type === EVENT_TYPE_SEND) {
+      sufix = withdrawStatus
+    }
+
+    if (type === EVENT_TYPE_BONUS) {
+      sufix = status
+    }
+
+    return `${type}${sufix}`
   }
 
   _extractProfileToShow(initiatorType, initiator, address): Gun {
@@ -1395,9 +1450,10 @@ export class UserStorage {
         .then()
 
     return (
-      (type === 'send' && withdrawStatus === 'error' && favicon) || //errored send
+      (type === EVENT_TYPE_BONUS && favicon) ||
+      (type === EVENT_TYPE_SEND && withdrawStatus === 'error' && favicon) || //errored send
       (await profileFromGun()) || // extract avatar from profile
-      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
+      (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
     )
   }
 
@@ -1413,7 +1469,9 @@ export class UserStorage {
       customName || // if customName exist, use it
       (await profileFromGun()) || // if there's a profile, extract it's fullName
       (initiatorType && initiator) ||
-      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : displayName)
+      (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000'
+        ? 'GoodDollar'
+        : displayName)
     )
   }
 
@@ -1427,16 +1485,28 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
+      const existingEvent = await this.feed
+        .get('byid')
+        .get(event.id)
+        .then()
+        .catch(_ => false)
+      if (existingEvent) {
+        logger.warn('enqueueTx skipping existing event id', event, existingEvent)
+        return false
+      }
       event.status = event.status || 'pending'
       event.createdDate = event.createdDate || new Date().toString()
+      event.date = event.date || event.createdDate
       let putRes = await this.feed
         .get('queue')
         .get(event.id)
         .putAck(event)
       this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
+      return true
     } catch (e) {
       logger.error('enqueueTX failed: ', e.message, e)
+      return false
     } finally {
       release()
     }
@@ -1550,7 +1620,7 @@ export class UserStorage {
 
     //saving index by onetime code so we can retrieve and update it once withdrawn
     //or skip own withdraw
-    if (event.type === 'send' && event.data.code) {
+    if (event.type === EVENT_TYPE_SEND && event.data.code) {
       const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
       this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
     } else if (event.type === 'withdraw' && event.data.code) {
@@ -1772,8 +1842,7 @@ export class UserStorage {
           .catch(r => ({
             feed: 'failed',
           })),
-        this.gunuser
-          .get('properties')
+        this.userProperties
           .putAck(null)
           .then(r => ({
             properties: 'ok',

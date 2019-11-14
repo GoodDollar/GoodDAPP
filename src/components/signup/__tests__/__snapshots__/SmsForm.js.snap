@@ -352,6 +352,7 @@ sent to your phone
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }
@@ -494,6 +495,7 @@ sent to your phone
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }
@@ -636,6 +638,7 @@ sent to your phone
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }
@@ -779,6 +782,7 @@ sent to your phone
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }
@@ -921,6 +925,7 @@ sent to your phone
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }
@@ -1063,6 +1068,7 @@ sent to your phone
                           "defaultHalf": 4,
                           "defaultQuadruple": 32,
                           "maxHeightForTabletAndDesktop": 844,
+                          "minHeightForDialogMessage": 334,
                         },
                       }
                     }

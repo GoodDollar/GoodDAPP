@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
-import isWebApp from '../../../lib/utils/isWebApp'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import {
@@ -21,7 +20,6 @@ import API from '../../../lib/API/api'
 import Text from '../../common/view/Text'
 
 import logger from '../../../lib/logger/pino-logger'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 const log = logger.child({ from: 'AddWebApp' })
 
@@ -47,7 +45,6 @@ const mapStylesToProps = ({ theme }) => {
     explanationDialogContainer: {
       display: 'flex',
       alignItems: 'center',
-      height: getDesignRelativeHeight(9),
     },
     explanationDialogText: {
       width: '100%',
@@ -112,34 +109,24 @@ const AddWebApp = props => {
   const [skipCount, setSkipCount] = useState(0)
   const [lastClaim, setLastClaim] = useState()
   const [dialogShown, setDialogShown] = useState()
-  const [isStandalone, setStandalone] = useState(false)
+  const [iOSAdded, setIOSAdded] = useState(false)
+
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
 
   useEffect(() => {
-    if (
-      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-      window.navigator.standalone === true
-    ) {
-      setStandalone(true)
-    }
+    AsyncStorage.getItem('GD_AddWebAppLastCheck').then(setLastCheck)
+    AsyncStorage.getItem('GD_AddWebAppNextCheck').then(setNextCheck)
+    AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc) || 0))
+    AsyncStorage.getItem('GD_AddWebAppLastClaim').then(setLastClaim)
+    AsyncStorage.getItem('GD_AddWebAppIOSAdded').then(setIOSAdded)
 
-    AsyncStorage.getItem('AddWebAppLastCheck').then(setLastCheck)
-    AsyncStorage.getItem('AddWebAppNextCheck').then(setNextCheck)
-    AsyncStorage.getItem('AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
-    AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
+    log.debug('useEffect, registering beforeinstallprompt')
 
-    if (!isStandalone) {
-      log.debug('useEffect, registering beforeinstallprompt')
-
-      window.addEventListener('beforeinstallprompt', e => {
-        // For older browsers
-        e.preventDefault()
-        log.debug('Install Prompt fired')
-
-        setInstallPrompt(e)
-      })
+    const installPrompt = store.get('installPrompt')
+    if (installPrompt) {
+      setInstallPrompt(installPrompt)
     }
   }, [])
 
@@ -156,20 +143,21 @@ const AddWebApp = props => {
       showButtons: false,
       showAtBottom: true,
       showTooltipArrow: true,
+      isMinHeight: false,
       onDismiss: () => handleLater,
     })
   }
 
   const handleLater = () => {
-    const newSkipCount = Number(skipCount) + 1
+    const newSkipCount = Number(skipCount)
     const nextCheckInDays = Math.pow(2, skipCount)
     const nextCheckDate = moment()
       .add(nextCheckInDays, 'days')
       .toDate()
 
-    AsyncStorage.setItem('AddWebAppSkipCount', newSkipCount)
-    AsyncStorage.setItem('AddWebAppLastCheck', new Date().toISOString())
-    AsyncStorage.setItem('AddWebAppNextCheck', nextCheckDate.toISOString())
+    AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount + 1)
+    AsyncStorage.setItem('GD_AddWebAppLastCheck', new Date().toISOString())
+    AsyncStorage.setItem('GD_AddWebAppNextCheck', nextCheckDate.toISOString())
   }
 
   const installApp = async () => {
@@ -190,7 +178,8 @@ const AddWebApp = props => {
   const handleInstallApp = () => {
     if (installPrompt) {
       installApp()
-    } else {
+    } else if (isMobileSafari) {
+      AsyncStorage.setItem('GD_AddWebAppIOSAdded', true)
       showExplanationDialog()
     }
   }
@@ -222,32 +211,12 @@ const AddWebApp = props => {
   }
 
   useEffect(() => {
-    log.debug('useEffect, registering beforeinstallprompt')
-
-    window.addEventListener('beforeinstallprompt', e => {
-      // For older browsers
-      e.preventDefault()
-      log.debug('Install Prompt fired')
-
-      // See if the app is already installed, in that case, do nothing
-      if (isWebApp) {
-        return
-      }
-      setInstallPrompt(e)
-    })
-  }, [])
-
-  useEffect(() => {
     if (dialogShown) {
       showInitialDialog()
     }
   }, [dialogShown])
 
   useEffect(() => {
-    if (isStandalone) {
-      return
-    }
-
     log.debug({ installPrompt, show, skipCount })
 
     // Condition to show reminder
@@ -260,7 +229,7 @@ const AddWebApp = props => {
       }
     }
 
-    if ((installPrompt && show) || (isMobileSafari && show)) {
+    if ((installPrompt && show) || (!iOSAdded && isMobileSafari && show)) {
       setDialogShown(true)
     }
   }, [installPrompt, show, lastCheck])

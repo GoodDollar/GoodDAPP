@@ -2,12 +2,12 @@
 import React from 'react'
 import Text from '../view/Text'
 
-export const showSupportDialog = (showErrorDialog, hideDialog, screenProps, errorCode: string) => {
-  showErrorDialog(`Something went wrong on our side... Error: ${errorCode}`, undefined, {
+export const showSupportDialog = (showErrorDialog, hideDialog, screenProps) => {
+  showErrorDialog(`Something went wrong on our side. Please try again later.`, undefined, {
     boldMessage: (
       <>
         <Text fontWeight="inherit" color="inherit">
-          {'Please contact '}
+          {'Or contact '}
         </Text>
         <Text
           fontWeight="inherit"

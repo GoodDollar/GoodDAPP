@@ -58,7 +58,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     } catch (e) {
       log.error('Failed to send code', e.message, e)
 
-      showErrorDialog('Failed to send code', e.message || e, { onDismiss: goBack })
+      showErrorDialog('Could not send verification code. Please try again', null, { onDismiss: goBack })
     } finally {
       setLoading(false)
     }

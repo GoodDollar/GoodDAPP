@@ -15,6 +15,7 @@ import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
 import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
+import Wrapper from '../common/layout/Wrapper'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -30,7 +31,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [errorMessage, setErrorMessage] = useState()
   const [showErrorDialog, hideDialog] = useErrorDialog()
 
-  AsyncStorage.removeItem('web3Token')
+  AsyncStorage.removeItem('GD_web3Token')
 
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
@@ -98,7 +99,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       fireEvent(RECOVER_FAILED, { unexpected: true })
       log.error('recover mnemonics failed', e.message, e)
       saveMnemonics(prevMnemonics)
-      showSupportDialog(showErrorDialog, hideDialog, screenProps, 'men-1')
+      showSupportDialog(showErrorDialog, hideDialog, screenProps)
     } finally {
       setRecovering(false)
     }
@@ -137,43 +138,45 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const web3HasWallet = get(navigation, 'state.params.web3HasWallet')
 
   return (
-    <Section grow={5} style={styles.wrapper}>
-      <Section.Stack grow style={styles.instructions} justifyContent="space-around">
-        <Text fontWeight="medium" fontSize={22}>
-          {'Please enter your\n12-word pass phrase:'}
-        </Text>
-        {web3HasWallet && (
+    <Wrapper style={styles.mainWrapper}>
+      <Section grow={5} style={styles.wrapper}>
+        <Section.Stack grow style={styles.instructions} justifyContent="space-around">
+          <Text fontWeight="medium" fontSize={22}>
+            {'Please enter your\n12-word pass phrase:'}
+          </Text>
+          {web3HasWallet && (
+            <Text color="gray80Percent" fontSize={14}>
+              Looks like you already have a wallet. Please recover it to continue
+            </Text>
+          )}
+        </Section.Stack>
+        <Section.Stack grow={4} justifyContent="space-between">
+          <Section.Row justifyContent="center">
+            <InputText
+              value={mnemonics}
+              onChangeText={handleChange}
+              error={errorMessage}
+              onKeyPress={handleEnter}
+              onCleanUpField={handleChange}
+              autoFocus
+            />
+          </Section.Row>
+        </Section.Stack>
+        <Section.Row style={styles.instructions} justifyContent="space-around">
           <Text color="gray80Percent" fontSize={14}>
-            Looks like you already have a wallet. Please recover it to continue
+            {'You can copy-paste all of it at once\n from your '}
+            <Text color="gray80Percent" fontSize={14} fontWeight="bold">
+              {'backup email'}
+            </Text>
           </Text>
-        )}
-      </Section.Stack>
-      <Section.Stack grow={4} justifyContent="space-between">
-        <Section.Row justifyContent="center">
-          <InputText
-            value={mnemonics}
-            onChangeText={handleChange}
-            error={errorMessage}
-            onKeyPress={handleEnter}
-            onCleanUpField={handleChange}
-            autoFocus
-          />
         </Section.Row>
-      </Section.Stack>
-      <Section.Row style={styles.instructions} justifyContent="space-around">
-        <Text color="gray80Percent" fontSize={14}>
-          {'You can copy-paste all of it at once\n from your '}
-          <Text color="gray80Percent" fontSize={14} fontWeight="bold">
-            {'backup email'}
-          </Text>
-        </Text>
-      </Section.Row>
-      <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
-        <CustomButton style={styles.buttonLayout} onPress={recover} disabled={isSubmitBlocked || isRecovering}>
-          Recover my wallet
-        </CustomButton>
-      </Section.Stack>
-    </Section>
+        <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
+          <CustomButton style={styles.buttonLayout} onPress={recover} disabled={isSubmitBlocked || isRecovering}>
+            Recover my wallet
+          </CustomButton>
+        </Section.Stack>
+      </Section>
+    </Wrapper>
   )
 }
 
@@ -194,6 +197,10 @@ const mnemonicsStyles = ({ theme }) => ({
   bottomContainer: {
     maxHeight: 80,
     minHeight: 80,
+  },
+  mainWrapper: {
+    backgroundImage: 'none',
+    backgroundColor: 'none',
   },
 })
 

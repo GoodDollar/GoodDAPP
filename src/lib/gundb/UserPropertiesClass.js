@@ -1,9 +1,4 @@
 //@flow
-import Gun from '@gooddollar/gun-appendonly'
-import _ from 'lodash'
-import pino from '../logger/pino-logger'
-
-const logger = pino.child({ from: 'UserStorage' })
 
 /**
  * Users gundb to handle user storage.
@@ -20,9 +15,10 @@ export default class UserProperties {
     firstVisitApp: null,
     etoroAddCardSpending: true,
     isAddedToHomeScreen: false,
+    cameFromW3Site: false,
   }
 
-  fields = ['isMadeBackup', 'firstVisitApp', 'etoroAddCardSpending', 'isAddedToHomeScreen']
+  fields = ['isMadeBackup', 'firstVisitApp', 'etoroAddCardSpending', 'isAddedToHomeScreen', 'cameFromW3Site']
 
   /**
    * a gun node referring tto gun.user().get('properties')
@@ -37,17 +33,6 @@ export default class UserProperties {
   }
 
   /**
-   * Load user properties from gun to this.data
-   * @returns {Promise<void>}
-   */
-  async updateLocalData() {
-    const tempData = await this.getPropertiesFromGun()
-
-    this.data = _.pick(tempData, this.fields)
-    logger.debug('set data properties ok:', { data: this.data })
-  }
-
-  /**
    * Set value to property
    *
    * @param {string} field
@@ -55,11 +40,7 @@ export default class UserProperties {
    * @returns {Promise<void>}
    */
   async set(field: string, value: any) {
-    await this.gun
-      .get('properties')
-      .get(field)
-      .putAck(value)
-    await this.updateLocalData()
+    await this.gun.get(field).putAck(value)
 
     return true
   }
@@ -69,20 +50,16 @@ export default class UserProperties {
    * @returns {*}
    */
   getPropertiesFromGun() {
-    return this.gun.get('properties')
+    return this.gun
   }
 
   /**
    * Return property values
    * @param field
-   * @returns {Promise<undefined>}
+   * @returns {Promise<any>}
    */
-  async get(field: string) {
-    if (!this.data.hasOwnProperty(field)) {
-      await this.updateLocalData()
-    }
-
-    return this.data.hasOwnProperty(field) ? this.data[field] : undefined
+  get(field: string) {
+    return this.gun.get(field)
   }
 
   /**
@@ -90,6 +67,6 @@ export default class UserProperties {
    * @returns {{}}
    */
   getAll() {
-    return this.data
+    return this.getPropertiesFromGun()
   }
 }

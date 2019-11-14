@@ -140,6 +140,10 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed }) => {
       result = <ReadMoreText text="here >>>" buttonText="Read more..." />
       break
 
+    case 'bonus':
+      result = <ReadMoreText buttonText={feed.data && feed.data.message} />
+      break
+
     default:
       result = (
         <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>

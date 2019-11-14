@@ -41,8 +41,8 @@ class Auth extends React.Component<Props> {
 
   checkWeb3TokenAndPaymentCode = async () => {
     const { navigation } = this.props
-    const web3Token = await AsyncStorage.getItem('web3Token')
-    const _destinationPath = await AsyncStorage.getItem('destinationPath')
+    const web3Token = await AsyncStorage.getItem('GD_web3Token')
+    const _destinationPath = await AsyncStorage.getItem('GD_destinationPath')
     const destinationPath = JSON.parse(_destinationPath)
     const paymentCode = _get(destinationPath, 'params.paymentCode')
 
@@ -96,10 +96,16 @@ class Auth extends React.Component<Props> {
 
   handleSignUp = async () => {
     const { w3User } = this.state
-    const w3Token = await AsyncStorage.getItem('web3Token')
+    const w3Token = await AsyncStorage.getItem('GD_web3Token')
     const redirectTo = w3Token ? 'Phone' : 'Signup'
 
-    await AsyncStorage.removeItem('gun/').catch(e => log.error('Failed to clear localStorage', e.message, e))
+    try {
+      indexedDB.deleteDatabase('radata')
+
+      log.info('indexedDb successfully cleared')
+    } catch (e) {
+      log.error('Failed to clear indexedDb', e.message, e)
+    }
 
     this.props.navigation.navigate(redirectTo, { w3User })
 
@@ -150,7 +156,7 @@ class Auth extends React.Component<Props> {
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
         <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
-          {'Welcome to your\nfinancial future!'}
+          {'Welcome to\nGoodDollar Wallet'}
         </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <Section style={styles.bottomContainer}>

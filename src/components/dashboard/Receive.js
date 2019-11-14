@@ -1,7 +1,8 @@
 // @flow
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import { View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
-import { generateCode, generateReceiveShareObject } from '../../lib/share'
+import { generateCode, generateReceiveShareObject, generateShareLink } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -18,7 +19,7 @@ export type ReceiveProps = {
 
 const RECEIVE_TITLE = 'Receive G$'
 const SHARE_TEXT = 'Share your wallet link'
-
+let shareLink
 const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')
   const { account, networkId } = goodWallet
@@ -26,10 +27,11 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
   const [showErrorDialog] = useErrorDialog()
   const amount = 0
   const reason = ''
-
   const code = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
   const share = useMemo(() => generateReceiveShareObject(code, amount, '', profile.fullName), [code])
-
+  useEffect(() => {
+    shareLink = generateShareLink('receive', { code })
+  }, [])
   const shareAction = async () => {
     try {
       await navigator.share(share)
@@ -65,12 +67,11 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
           >
             Request specific amount
           </PushButton>
+          <View style={styles.space} />
           {isMobile && navigator.share ? (
-            <CustomButton style={styles.shareButton} onPress={shareAction}>
-              {SHARE_TEXT}
-            </CustomButton>
+            <CustomButton onPress={shareAction}>{SHARE_TEXT}</CustomButton>
           ) : (
-            <CopyButton style={styles.shareButton} toCopy={account} onPressDone={screenProps.goToRoot}>
+            <CopyButton style={styles.shareButton} toCopy={shareLink} onPressDone={screenProps.goToRoot}>
               {SHARE_TEXT}
             </CopyButton>
           )}
@@ -85,8 +86,8 @@ Receive.navigationOptions = {
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  shareButton: {
-    marginTop: theme.sizes.defaultDouble,
+  space: {
+    height: theme.sizes.defaultDouble,
   },
   mainText: {
     marginBottom: theme.sizes.default,

@@ -59,7 +59,7 @@ class API {
         },
         e => {
           // Do something with response error
-          log.error('axios req error', e.message, e)
+          log.warn('axios req error', e.message, e)
           return Promise.reject(e)
         }
       )
@@ -69,7 +69,7 @@ class API {
         },
         e => {
           // Do something with response error
-          log.error('axios response error', e.message, e)
+          log.warn('axios response error', e.message, e)
           if (e.response && e.response.data) {
             return Promise.reject(e.response.data)
           }
@@ -254,6 +254,13 @@ class API {
   }
 
   /**
+   * `/user/market` get api call
+   */
+  getMarketToken() {
+    return this.client.get('/user/market')
+  }
+
+  /**
    * `/storage/login/token` get api call
    */
   getLoginToken() {
@@ -301,6 +308,13 @@ class API {
 
       return `data:${response.headers['content-type'].toLowerCase()};base64,${image}`
     })
+  }
+
+  /**
+   * `/verify/w3/bonuses` get api call
+   */
+  redeemBonuses() {
+    return this.client.get('/verify/w3/bonuses')
   }
 }
 

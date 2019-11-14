@@ -1,15 +1,17 @@
 // @flow
 import React from 'react'
 import GDStore from '../../lib/undux/GDStore'
-import { Section, UserAvatar, Wrapper } from '../common'
+import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
+import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
 
+const log = logger.child({ from: 'ViewAvatar' })
 const TITLE = 'Your Profile'
 
 const ViewAvatar = props => {
@@ -26,13 +28,23 @@ const ViewAvatar = props => {
 
   const handleClosePress = event => {
     event.preventDefault()
-    wrappedUserStorage.setProfileField('avatar', null, 'public').catch(e => showErrorDialog('Saving image failed', e))
+    wrappedUserStorage.setProfileField('avatar', null, 'public').catch(e => {
+      showErrorDialog('Could not delete image. Please try again.')
+      log.error('delete image failed:', e.message, e)
+    })
   }
 
   const handleAddAvatar = avatar => {
     fireEvent(PROFILE_IMAGE)
-    wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => showErrorDialog('Saving image failed', e))
+    wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => {
+      showErrorDialog('Could not save image. Please try again.')
+      log.error('save image failed:', e.message, e)
+    })
     props.screenProps.push('EditAvatar')
+  }
+
+  const goToProfile = () => {
+    props.screenProps.push('EditProfile')
   }
 
   return (
@@ -43,8 +55,8 @@ const ViewAvatar = props => {
             <UserAvatar profile={profile} size={272} />
             <CircleButtonWrapper
               style={styles.closeButton}
-              iconName={'close'}
-              iconSize={20}
+              iconName={'trash'}
+              iconSize={22}
               onPress={handleClosePress}
             />
             <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
@@ -59,6 +71,9 @@ const ViewAvatar = props => {
             </InputFile>
           </>
         )}
+        <CustomButton style={styles.doneButton} onPress={goToProfile}>
+          Done
+        </CustomButton>
       </Section>
     </Wrapper>
   )
@@ -83,6 +98,9 @@ const getStylesFromProps = ({ theme }) => ({
     left: 12,
     position: 'absolute',
     top: theme.sizes.defaultDouble,
+  },
+  doneButton: {
+    marginTop: 'auto',
   },
 })
 

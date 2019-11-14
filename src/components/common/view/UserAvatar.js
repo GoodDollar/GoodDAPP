@@ -5,7 +5,6 @@ import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 import { withStyles } from '../../../lib/styles'
 
-import Section from '../layout/Section'
 import Avatar from './Avatar'
 
 const AVATAR_DESIGN_WIDTH = 136
@@ -45,9 +44,6 @@ const UserAvatar = (props: AvatarProps) => {
         <Avatar size={avatarSize} {...props} source={profile.avatar}>
           {children}
         </Avatar>
-        <Section.Title fontSize={22} textTransform="none" fontFamily="slab" style={styles.fullNameContainer}>
-          {profile.fullName}
-        </Section.Title>
       </View>
     </View>
   )

@@ -8,11 +8,10 @@ import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
-
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
-
+import { useDialog } from '../../lib/undux/utils/dialog'
+import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -65,7 +64,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
   const [registerAllowed, setRegisterAllowed] = useState(false)
 
-  const [showErrorDialog] = useErrorDialog()
+  const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
@@ -97,7 +96,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const checkWeb3Token = async () => {
     setLoading(true)
-    const web3Token = await AsyncStorage.getItem('web3Token')
+
+    const web3Token = await AsyncStorage.getItem('GD_web3Token')
 
     if (!web3Token) {
       setLoading(false)
@@ -146,14 +146,17 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         break
 
       case 'goToPhone':
-        API.checkWeb3Email({
-          email: w3User.email,
-          token: web3Token,
-        }).catch(e => {
+        try {
+          await API.checkWeb3Email({
+            email: w3User.email,
+            token: web3Token,
+          })
+        } catch (e) {
           log.error('W3 Email verification failed', e.message, e)
+          return navigation.navigate('InvalidW3TokenError')
 
-          showErrorDialog('Email verification failed', e)
-        })
+          // showErrorDialog('Email verification failed', e)
+        }
 
         if (w3User.image) {
           userScreenData.avatar = await API.getBase64FromImageUrl(w3User.image).catch(e => {
@@ -177,8 +180,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const isRegisterAllowed = async () => {
-    const w3Token = await AsyncStorage.getItem('web3Token')
-    const destinationPath = await AsyncStorage.getItem('destinationPath')
+    const w3Token = await AsyncStorage.getItem('GD_web3Token')
+    const destinationPath = await AsyncStorage.getItem('GD_destinationPath')
       .then(JSON.parse)
       .catch(e => ({}))
     const paymentCode = _get(destinationPath, 'params.paymentCode')
@@ -208,8 +211,16 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       fireSignupEvent('STARTED', { source })
 
       //the login also re-initialize the api with new jwt
-      await login.then(l => l.default.auth())
+      await login
+        .then(l => l.default.auth())
+        .catch(e => {
+          log.error('failed auth:', e.message, e)
+
+          // showErrorDialog('Failed authenticating with server', e)
+        })
       await API.ready
+
+      checkWeb3Token()
 
       //now that we are loggedin, reload api with JWT
       // await API.init()
@@ -219,15 +230,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     setReady(ready)
 
     // don't allow to start sign up flow not from begining except when w3Token provided
-    AsyncStorage.getItem('web3Token').then(token => {
+    AsyncStorage.getItem('GD_web3Token').then(token => {
       if (!token && navigation.state.index > 0) {
         log.debug('redirecting to start, got index:', navigation.state.index)
         setLoading(true)
         return navigateWithFocus(navigation.state.routes[0].key)
       }
     })
-
-    checkWeb3Token()
   }, [])
 
   const finishRegistration = async () => {
@@ -249,38 +258,61 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
 
+      let w3Token = requestPayload.w3Token
+
+      if (w3Token) {
+        userStorage.userProperties.set('cameFromW3Site', true)
+      }
+
+      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+      await Promise.all([
+        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }).catch(_ => _),
+        userStorage.setProfileField('registered', true, 'public').catch(_ => _),
+      ])
+
       const addUserAPIPromise = API.addUser(requestPayload).then(res => {
         const data = res.data
 
         if (data && data.loginToken) {
-          userStorage.setProfileField('loginToken', data.loginToken, 'private')
+          userStorage.setProfileField('loginToken', data.loginToken, 'private').catch()
         }
+
+        if (data && data.w3Token) {
+          userStorage.setProfileField('w3Token', data.w3Token, 'private').catch()
+          w3Token = data.w3Token
+        }
+
         if (data && data.marketToken) {
-          userStorage.setProfileField('marketToken', data.marketToken, 'private')
+          userStorage.setProfileField('marketToken', data.marketToken, 'private').catch()
         }
       })
 
-      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
       await addUserAPIPromise
-      await Promise.all([
-        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }),
-        userStorage.setProfileField('registered', true, 'public'),
-        goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
-      ])
+
+      goodWallet
+        .getBlockNumber()
+        .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
+        .catch(e => log.error('save blocknumber failed:', e.message, e))
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       Promise.all([
-        AsyncStorage.removeItem('web3Token'),
-        API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account),
-        API.sendRecoveryInstructionByEmail(mnemonic),
-        API.sendMagicLinkByEmail(userStorage.getMagicLink()),
-      ]).catch(e => log.error('failed signup email/w3 promises', e.message, e))
+        AsyncStorage.removeItem('GD_web3Token'),
+        w3Token &&
+          API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
+            log.error('failed updateW3UserWithWallet', e.message, e)
+          ),
+        API.sendMagicLinkByEmail(userStorage.getMagicLink()).catch(e =>
+          log.error('failed sendMagicLinkByEmail', e.message, e)
+        ),
+      ])
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
       return true
     } catch (e) {
       log.error('New user failure', e.message, e)
-      showErrorDialog('New user creation failed, please go back and try again', e)
+      showSupportDialog(showErrorDialog, hideDialog, screenProps)
+
+      // showErrorDialog('Something went on our side. Please try again')
       setCreateError(true)
       return false
     } finally {
@@ -329,7 +361,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error('Send mobile code failed', e.message, e)
-        showErrorDialog('Sending mobile verification code failed', e)
+        showErrorDialog('Could not send verification code. Please try again')
       } finally {
         setLoading(false)
       }
@@ -347,7 +379,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          return showErrorDialog('Failed sending verificaiton email', data.error)
+          showErrorDialog('Could not send verification email. Please try again')
         }
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
         if (Config.skipEmailVerification || data.onlyInEnv) {
@@ -364,8 +396,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error('Email verification failed', e.message, e)
-        showErrorDialog('Email verification failed', e)
+        log.error('email verification failed unexpected:', e.message, e)
+        showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
       } finally {
         setLoading(false)
       }

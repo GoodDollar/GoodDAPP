@@ -55,8 +55,6 @@ export type State = {
   currentFeed: any,
   addWebApp: {
     show: boolean,
-    lastCheck: Date,
-    skipCount: Number,
   },
 }
 
@@ -65,6 +63,7 @@ export type State = {
  * @constant
  */
 const initialState: State = {
+  installPrompt: null,
   isLoggedInCitizen: false,
   isLoggedIn: false,
   currentScreen: {

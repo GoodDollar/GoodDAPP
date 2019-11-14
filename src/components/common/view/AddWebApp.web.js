@@ -118,7 +118,7 @@ const AddWebApp = props => {
   useEffect(() => {
     AsyncStorage.getItem('GD_AddWebAppLastCheck').then(setLastCheck)
     AsyncStorage.getItem('GD_AddWebAppNextCheck').then(setNextCheck)
-    AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
+    AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc) || 0))
     AsyncStorage.getItem('GD_AddWebAppLastClaim').then(setLastClaim)
     AsyncStorage.getItem('GD_AddWebAppIOSAdded').then(setIOSAdded)
 
@@ -149,13 +149,13 @@ const AddWebApp = props => {
   }
 
   const handleLater = () => {
-    const newSkipCount = Number(skipCount) + 1
+    const newSkipCount = Number(skipCount)
     const nextCheckInDays = Math.pow(2, skipCount)
     const nextCheckDate = moment()
       .add(nextCheckInDays, 'days')
       .toDate()
 
-    AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount)
+    AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount + 1)
     AsyncStorage.setItem('GD_AddWebAppLastCheck', new Date().toISOString())
     AsyncStorage.setItem('GD_AddWebAppNextCheck', nextCheckDate.toISOString())
   }

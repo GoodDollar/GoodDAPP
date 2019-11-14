@@ -288,13 +288,13 @@ const Dashboard = props => {
             // eslint-disable-next-line no-await-in-loop
             await delay(2000)
             // eslint-disable-next-line no-await-in-loop
-            const status = await goodWallet.getWithdrawStatus(decodeURI(paymentCode))
+            const { status } = await goodWallet.getWithdrawDetails(decodeURI(paymentCode))
             if (status === WITHDRAW_STATUS_PENDING) {
               // eslint-disable-next-line no-await-in-loop
               return await handleWithdraw()
             }
           }
-          showErrorDialog('Could not find payment or incorrect code')
+          showErrorDialog('Could not find payment details. Check your link or try again later.')
         }
       }
     } catch (e) {

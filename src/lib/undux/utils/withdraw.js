@@ -28,7 +28,7 @@ type ReceiptType = {
 export const executeWithdraw = async (store: Store, code: string, reason: string): Promise<ReceiptType> => {
   log.info('executeWithdraw', code, reason)
   try {
-    const { amount, sender, status } = await goodWallet.canWithdraw(code)
+    const { amount, sender, status } = await goodWallet.getWithdrawDetails(code)
     if (status === WITHDRAW_STATUS_PENDING) {
       return new Promise((res, rej) => {
         goodWallet.withdraw(code, {

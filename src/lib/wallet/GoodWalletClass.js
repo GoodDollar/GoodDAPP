@@ -573,70 +573,29 @@ export class GoodWallet {
   }
 
   /**
-   * Checks if getWithdrawAvailablePayment returned a valid payment (BN handle), positive balance
-   * @param {BN} payment
-   * @returns boolean
-   */
-  isWithdrawPaymentAvailable(payment: typeof BN): boolean {
-    return payment.gt(ZERO)
-  }
-
-  /**
-   * The amount of GoodDollars resides in the oneTimeLink contract under the specified link, in BN representation.
-   * @param {string} link
-   * @returns {Promise<BN>}
-   */
-  getWithdrawAvailablePayment(link: string): Promise<BN> {
-    const { payments } = this.oneTimePaymentsContract.methods
-
-    const amount = payments(link)
-      .call()
-      .then(_ => _.paymentAmount)
-
-    return amount.then(toBN)
-  }
-
-  /**
    * Depending on what's queried off the blockchain for the OTL code, will return an status to display
    * @param otlCode - one time link code
    * @returns {Promise<'Completed' | 'Cancelled' | 'Pending'>}
    */
-  async getWithdrawStatus(otlCode: string): Promise<'Completed' | 'Cancelled' | 'Pending'> {
-    const link = this.getWithdrawLink(otlCode)
-    const linkUsed = await this.isWithdrawLinkUsed(link)
+  async getWithdrawDetails(otlCode: string): Promise<'Completed' | 'Cancelled' | 'Pending'> {
+    const hash = this.getWithdrawLink(otlCode)
+    const { payments } = this.oneTimePaymentsContract.methods
+
+    const { paymentAmount, paymentSender, hasPayment } = await payments(hash).call()
+    const amount = toBN(paymentAmount).toNumber()
+    let status = WITHDRAW_STATUS_UNKNOWN
 
     // Check payment availability
-    const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (linkUsed && this.isWithdrawPaymentAvailable(paymentAvailable)) {
-      return WITHDRAW_STATUS_PENDING
+    if (hasPayment && amount > 0) {
+      status = WITHDRAW_STATUS_PENDING
     }
-    if (!linkUsed && this.isWithdrawPaymentAvailable(paymentAvailable)) {
-      return WITHDRAW_STATUS_COMPLETE
+    if (hasPayment === false && toBN(paymentSender).isZero() === false) {
+      status = WITHDRAW_STATUS_COMPLETE
     }
-    return WITHDRAW_STATUS_UNKNOWN
-  }
-
-  /**
-   * verifies otlCode link has not been used, and payment available. If yes for both, returns the original payment sender address and the amount of GoodDollars payment.
-   * @param {string} otlCode - the payment identifier in OneTimePaymentLink contract
-   */
-  async canWithdraw(otlCode: string) {
-    const { payments } = this.oneTimePaymentsContract.methods
-    const status = await this.getWithdrawStatus(otlCode)
-    const hash = this.getWithdrawLink(otlCode)
-
-    if (status === WITHDRAW_STATUS_PENDING) {
-      const sender = (await payments(hash).call()).paymentSender
-      const paymentAvailable = await this.getWithdrawAvailablePayment(hash)
-      return {
-        amount: paymentAvailable.toString(),
-        sender,
-        status,
-      }
-    }
-
     return {
       status,
+      amount,
+      sender: paymentSender,
     }
   }
 

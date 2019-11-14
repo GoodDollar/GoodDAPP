@@ -20,6 +20,7 @@ const TITLE = 'Backup my wallet'
 type BackupWalletProps = {
   styles: {},
   theme: {},
+  screenProps: any,
 }
 
 const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {

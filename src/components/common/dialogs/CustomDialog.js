@@ -21,6 +21,7 @@ export type DialogProps = {
   onCancel?: () => void,
   onDismiss?: () => void,
   showButtons?: boolean,
+  showCloseButtons?: boolean,
   title?: string,
   type?: string,
   visible?: boolean,
@@ -49,6 +50,7 @@ const CustomDialog = ({
   boldMessage = null,
   onDismiss,
   showButtons = true,
+  showCloseButtons = true,
   showTooltipArrow,
   title,
   type = 'common',
@@ -67,6 +69,7 @@ const CustomDialog = ({
       <ModalWrapper
         onClose={onDismiss}
         leftBorderColor={modalColor}
+        showCloseButtons={showCloseButtons}
         showAtBottom={showAtBottom}
         showTooltipArrow={showTooltipArrow}
         itemType={'custom'}

@@ -16,6 +16,7 @@ const ModalWrapper = (props: any) => {
     styles,
     children,
     onClose,
+    showCloseButtons,
     leftBorderColor,
     showJaggedEdge = false,
     fullHeight = false,
@@ -42,7 +43,7 @@ const ModalWrapper = (props: any) => {
             style={[showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}
           />
           <ModalContents style={showTooltipArrow && styles.shadow}>
-            {onClose ? <ModalCloseButton onClose={onClose} /> : null}
+            {showCloseButtons && onClose ? <ModalCloseButton onClose={onClose} /> : null}
             <ModalInnerContents
               style={[
                 showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '',

@@ -16,6 +16,7 @@ const internetConnection = () => {
         image: <LoadingIcon />,
         message: 'check your internet connection',
         showButtons: false,
+        showCloseButtons: false,
       })
     } else {
       hideDialog()

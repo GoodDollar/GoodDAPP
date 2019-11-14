@@ -1,7 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Animated, AppState, Dimensions, Easing } from 'react-native'
-import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
 
@@ -96,22 +95,6 @@ const Dashboard = props => {
   const { params } = props.navigation.state
   const [update, setUpdate] = useState(0)
 
-  const prepareLoginToken = async () => {
-    const loginToken = await userStorage.getProfileFieldValue('loginToken')
-
-    if (!loginToken) {
-      try {
-        const response = await API.getLoginToken()
-
-        const _loginToken = _get(response, 'data.loginToken')
-
-        await userStorage.setProfileField('loginToken', _loginToken, 'private')
-      } catch (e) {
-        log.error('prepareLoginToken failed', e.message, e)
-      }
-    }
-  }
-
   useEffect(() => {
     if (initDash) {
       setInitDash(false)
@@ -203,7 +186,6 @@ const Dashboard = props => {
 
     checkBonusesToRedeem()
 
-    prepareLoginToken()
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })

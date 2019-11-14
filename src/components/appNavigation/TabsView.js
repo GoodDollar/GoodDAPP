@@ -57,21 +57,43 @@ type TabViewProps = {
 const TabsView = (props: TabViewProps) => {
   const { navigation, styles } = props
   const store = SimpleStore.useStore()
-  const [token, setToken] = useState(isMobileSafari ? undefined : true)
+  const [token, setToken] = useState(undefined)
   const [marketToken, setMarketToken] = useState(isMobileSafari ? undefined : true)
 
-  useEffect(() => {
+  const fetchTokens = async () => {
     if (isMobileSafari) {
-      userStorage.getProfileFieldValue('loginToken').then(setToken)
-      userStorage.getProfileFieldValue('marketToken').then(setMarketToken)
-      API.getMarketToken()
-        .then(_ => _get(_, 'data.jwt'))
-        .then(newtoken => {
-          userStorage.setProfileField('marketToken', newtoken)
-          if (marketToken === undefined) setMarketToken(newtoken)
-        })
+      let _token = await userStorage.getProfileFieldValue('loginToken')
+      let _marketToken = await userStorage.getProfileFieldValue('marketToken')
+
+      if (!_token) {
+        await API.getLoginToken()
+          .then(r => _get(r, 'data.loginToken'))
+          .then(newToken => {
+            userStorage.setProfileField('loginToken', newToken, 'private')
+
+            _token = newToken
+          })
+      }
+
+      if (!_marketToken) {
+        await API.getMarketToken()
+          .then(_ => _get(_, 'data.jwt'))
+          .then(newtoken => {
+            userStorage.setProfileField('marketToken', newtoken)
+
+            _marketToken = newtoken
+          })
+      }
+
+      setMarketToken(_marketToken)
+      setToken(_token)
     }
+  }
+
+  useEffect(() => {
+    fetchTokens()
   }, [])
+
   const goToRewards = () => {
     if (isMobileSafari) {
       const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`

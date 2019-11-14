@@ -30,6 +30,7 @@ const Config = {
   receiveUrl: process.env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
   sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}`,
   nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
+  bugsnagKey: process.env.REACT_APP_BUGSNAG_API_KEY,
   ethereum: {
     '42': {
       network_id: 42,

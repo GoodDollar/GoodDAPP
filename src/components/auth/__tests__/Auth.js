@@ -4,7 +4,7 @@ import { getWebRouterComponentWithMocks } from './__util__'
 
 // Note: test renderer must be required after react-native.
 
-describe('Amount', () => {
+describe('Auth', () => {
   it('renders without errors', () => {
     const Auth = getWebRouterComponentWithMocks('../Auth')
     const tree = renderer.create(<Auth />)

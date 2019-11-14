@@ -57,23 +57,26 @@ type TabViewProps = {
 const TabsView = (props: TabViewProps) => {
   const { navigation, styles } = props
   const store = SimpleStore.useStore()
-  const [token, setToken] = useState(undefined)
+  const [token, setToken] = useState(isMobileSafari ? undefined : true)
   const [marketToken, setMarketToken] = useState(isMobileSafari ? undefined : true)
 
   const fetchTokens = async () => {
+    let _token = await userStorage.getProfileFieldValue('loginToken')
+
+    if (!_token) {
+      await API.getLoginToken()
+        .then(r => _get(r, 'data.loginToken'))
+        .then(newToken => {
+          userStorage.setProfileField('loginToken', newToken, 'private')
+
+          _token = newToken
+        })
+    }
+
+    setToken(_token)
+
     if (isMobileSafari) {
-      let _token = await userStorage.getProfileFieldValue('loginToken')
       let _marketToken = await userStorage.getProfileFieldValue('marketToken')
-
-      if (!_token) {
-        await API.getLoginToken()
-          .then(r => _get(r, 'data.loginToken'))
-          .then(newToken => {
-            userStorage.setProfileField('loginToken', newToken, 'private')
-
-            _token = newToken
-          })
-      }
 
       if (!_marketToken) {
         await API.getMarketToken()
@@ -86,7 +89,6 @@ const TabsView = (props: TabViewProps) => {
       }
 
       setMarketToken(_marketToken)
-      setToken(_token)
     }
   }
 

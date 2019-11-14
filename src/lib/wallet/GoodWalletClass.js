@@ -721,7 +721,7 @@ export class GoodWallet {
     } catch (e) {
       return {
         ok: false,
-        error: true,
+        error: false,
       }
     }
   }

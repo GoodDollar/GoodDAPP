@@ -665,6 +665,7 @@ export class UserStorage {
       const otplStatus =
         data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
       const prevDate = feedEvent.date
+      feedEvent.data.from = data.from
       feedEvent.data.to = data.to
       feedEvent.data.otplReceipt = receipt
       feedEvent.data.otplData = data
@@ -1831,8 +1832,7 @@ export class UserStorage {
           .catch(r => ({
             feed: 'failed',
           })),
-        this.gunuser
-          .get('properties')
+        this.userProperties
           .putAck(null)
           .then(r => ({
             properties: 'ok',

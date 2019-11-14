@@ -6,14 +6,14 @@ import { getWebRouterComponentWithMocks } from './__util__'
 
 describe('BackupWallet', () => {
   it('renders without errors', () => {
-    const BacupWallet = getWebRouterComponentWithMocks('../BackupWallet')
-    const tree = renderer.create(<BacupWallet />)
+    const BackupWallet = getWebRouterComponentWithMocks('../BackupWallet')
+    const tree = renderer.create(<BackupWallet />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const BacupWallet = getWebRouterComponentWithMocks('../BackupWallet')
-    const component = renderer.create(<BacupWallet />)
+    const BackupWallet = getWebRouterComponentWithMocks('../BackupWallet')
+    const component = renderer.create(<BackupWallet />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

@@ -13,7 +13,9 @@ import config from '../../config/config'
 import { withStyles } from '../../lib/styles'
 import userStorage from '../../lib/gundb/UserStorage'
 import API from '../../lib/API/api'
+import logger from '../../lib/logger/pino-logger'
 
+const log = logger.child({ from: 'TabsView' })
 type TabViewProps = {
   routes: { [string]: any },
   goTo: (routeKey: string) => void,
@@ -54,7 +56,7 @@ type TabViewProps = {
 //   </View>
 // )
 
-const TabsView = (props: TabViewProps) => {
+const TabsView = React.memo((props: TabViewProps) => {
   const { navigation, styles } = props
   const store = SimpleStore.useStore()
   const [token, setToken] = useState(isMobileSafari ? undefined : true)
@@ -64,12 +66,14 @@ const TabsView = (props: TabViewProps) => {
     if (isMobileSafari) {
       userStorage.getProfileFieldValue('loginToken').then(setToken)
       userStorage.getProfileFieldValue('marketToken').then(setMarketToken)
-      API.getMarketToken()
-        .then(_ => _get(_, 'data.jwt'))
-        .then(newtoken => {
-          userStorage.setProfileField('marketToken', newtoken)
-          if (marketToken === undefined) setMarketToken(newtoken)
-        })
+      log.debug('tokens:', { marketToken, w3: token })
+      if (marketToken == null)
+        API.getMarketToken()
+          .then(_ => _get(_, 'data.jwt'))
+          .then(newtoken => {
+            log.debug('new market token:', newtoken)
+            setMarketToken(newtoken)
+          })
     }
   }, [])
   const goToRewards = () => {
@@ -107,7 +111,7 @@ const TabsView = (props: TabViewProps) => {
       <Appbar.Action icon="menu" onPress={toggleSidemenu.bind(null, store)} color="white" />
     </Appbar.Header>
   )
-}
+})
 
 const styles = ({ theme }) => ({
   marketIconBackground: {

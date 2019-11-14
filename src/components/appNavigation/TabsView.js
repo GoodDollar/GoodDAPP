@@ -62,20 +62,41 @@ const TabsView = React.memo((props: TabViewProps) => {
   const [token, setToken] = useState(isMobileSafari ? undefined : true)
   const [marketToken, setMarketToken] = useState(isMobileSafari ? undefined : true)
 
-  useEffect(() => {
-    if (isMobileSafari) {
-      userStorage.getProfileFieldValue('loginToken').then(setToken)
-      userStorage.getProfileFieldValue('marketToken').then(setMarketToken)
-      log.debug('tokens:', { marketToken, w3: token })
-      if (marketToken == null)
-        API.getMarketToken()
-          .then(_ => _get(_, 'data.jwt'))
-          .then(newtoken => {
-            log.debug('new market token:', newtoken)
-            setMarketToken(newtoken)
-          })
+  const fetchTokens = async () => {
+    let _token = await userStorage.getProfileFieldValue('loginToken')
+
+    if (!_token) {
+      _token = await API.getLoginToken()
+        .then(r => _get(r, 'data.loginToken'))
+        .then(newToken => {
+          userStorage.setProfileField('loginToken', newToken, 'private')
+
+          return newToken
+        })
     }
+
+    let _marketToken = await userStorage.getProfileFieldValue('marketToken')
+
+    if (!_marketToken) {
+      _marketToken = await API.getMarketToken()
+        .then(_ => _get(_, 'data.jwt'))
+        .then(newtoken => {
+          userStorage.setProfileField('marketToken', newtoken)
+
+          return newtoken
+        })
+    }
+    log.debug('tokens:', { _marketToken, _token })
+    if (isMobileSafari) {
+      setToken(_token)
+      setMarketToken(_marketToken)
+    }
+  }
+
+  useEffect(() => {
+    fetchTokens()
   }, [])
+
   const goToRewards = () => {
     if (isMobileSafari) {
       const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`

@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
 
 import * as web3Utils from 'web3-utils'
+import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -14,6 +15,11 @@ import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
+import {
+  WITHDRAW_STATUS_COMPLETE,
+  WITHDRAW_STATUS_PENDING,
+  WITHDRAW_STATUS_UNKNOWN,
+} from '../../lib/wallet/GoodWalletClass'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
@@ -286,11 +292,32 @@ const Dashboard = props => {
         message: 'please wait while processing...',
         buttons: [{ text: 'YAY!', style: styles.disabledButton }],
       })
-      await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
-      hideDialog()
+      const { status, transactionHash } = await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
+      if (transactionHash) {
+        hideDialog()
+        return
+      }
+      switch (status) {
+        case WITHDRAW_STATUS_COMPLETE:
+          showErrorDialog('Payment already withdrawn or canceled by sender')
+          break
+        case WITHDRAW_STATUS_UNKNOWN: {
+          for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
+            // eslint-disable-next-line no-await-in-loop
+            await delay(2000)
+            // eslint-disable-next-line no-await-in-loop
+            const { status } = await goodWallet.getWithdrawDetails(decodeURI(paymentCode))
+            if (status === WITHDRAW_STATUS_PENDING) {
+              // eslint-disable-next-line no-await-in-loop
+              return await handleWithdraw()
+            }
+          }
+          showErrorDialog('Could not find payment details. Check your link or try again later.')
+        }
+      }
     } catch (e) {
-      log.error('withdraw failed:', e.message, e)
-      showErrorDialog('Something has gone wrong. Please try again later.')
+      log.error('withdraw failed:', e.code, e.message, e)
+      showErrorDialog(e.message)
     }
   }
 

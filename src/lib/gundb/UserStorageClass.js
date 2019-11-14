@@ -758,6 +758,8 @@ export class UserStorage {
     const firstVisitAppDate = userProperties.firstVisitApp
     const isCameFromW3Site = userProperties.cameFromW3Site
 
+    this.addBackupCard()
+
     // first time user visit
     if (firstVisitAppDate == null) {
       if (Config.isEToro) {
@@ -787,11 +789,10 @@ export class UserStorage {
     this.properties = this.gunuser.get('properties')
 
     if ((await this.properties) === undefined) {
-      let putRes = await this.properties.get('properties').put(UserProperties.defaultProperties)
+      let putRes = await this.properties.putAck(UserProperties.defaultProperties)
       logger.debug('set defaultProperties ok:', { defaultProperties: UserProperties.defaultProperties, putRes })
     }
     this.userProperties = new UserProperties(this.properties)
-    await this.userProperties.updateLocalData()
   }
 
   /**

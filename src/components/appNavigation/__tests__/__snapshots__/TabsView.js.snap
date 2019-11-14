@@ -54,6 +54,7 @@ exports[`TabsView matches snapshot 1`] = `
           "WebkitTransitionProperty": "opacity",
           "WebkitUserSelect": "none",
           "cursor": "pointer",
+          "display": "flex",
           "marginLeft": "10px",
           "msTouchAction": "manipulation",
           "msUserSelect": "none",
@@ -78,7 +79,7 @@ exports[`TabsView matches snapshot 1`] = `
           }
         }
       >
-        
+        
       </div>
     </div>
     <div

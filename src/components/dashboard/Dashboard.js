@@ -13,11 +13,10 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { gdToWei, weiToMask } from '../../lib/wallet/utils'
+import { weiToMask } from '../../lib/wallet/utils'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
-import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
@@ -127,22 +126,7 @@ const Dashboard = props => {
 
     API.redeemBonuses()
       .then(res => {
-        const resData = res.data
-        log.debug('redeemBonuses', { resData })
-        if (resData.hash && resData.bonusAmount) {
-          const transactionEvent: TransactionEvent = {
-            id: resData.hash,
-            date: new Date().toString(),
-            type: 'bonus',
-            status: 'completed',
-            data: {
-              customName: 'GoodDollar',
-              amount: gdToWei(resData.bonusAmount),
-            },
-          }
-
-          userStorage.enqueueTX(transactionEvent)
-        }
+        log.debug('redeemBonuses', { resData: res && res.data })
       })
       .catch(err => {
         log.error('Failed to redeem bonuses', err.message, err)

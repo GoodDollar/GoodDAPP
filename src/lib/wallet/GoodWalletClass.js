@@ -198,6 +198,10 @@ export class GoodWallet {
     return this.ready
   }
 
+  getSignUpBonusAddress() {
+    return get(ContractsAddress, `${this.network}.SignupBonus`)
+  }
+
   /**
    * Subscribes to Transfer events (from and to) the current account
    * This is used to verify account balance changes

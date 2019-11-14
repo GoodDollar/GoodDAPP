@@ -91,15 +91,6 @@ describe('UserStorage', () => {
     expect(res.firstVisitApp).toBeTruthy()
   })
 
-  it('events/has the welcome event already set', async () => {
-    const events = await userStorage.getAllFeed()
-    if (Config.isEToro) {
-      expect(events).toContainEqual(welcomeMessageOnlyEtoro)
-    } else {
-      expect(events).toContainEqual(welcomeMessage)
-    }
-  })
-
   it('set all user properties', async () => {
     const res = await userStorage.userProperties.set('isMadeBackup', true)
     expect(res).toBeTruthy()
@@ -340,6 +331,15 @@ describe('UserStorage', () => {
     //welcome message+01-02 event =2
     const gunRes = await userStorage.getFeedPage(2)
     expect(gunRes.length).toEqual(2)
+  })
+
+  it('events/has the welcome event already set', async () => {
+    const events = await userStorage.getAllFeed()
+    if (Config.isEToro) {
+      expect(events).toContainEqual(welcomeMessageOnlyEtoro)
+    } else {
+      expect(events).toContainEqual(welcomeMessage)
+    }
   })
 
   it('events/gets events second page using cursor', async () => {

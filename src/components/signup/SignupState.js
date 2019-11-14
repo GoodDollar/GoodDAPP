@@ -13,6 +13,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
+import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
 import { fireEvent } from '../../lib/analytics/analytics'
 import type { SMSRecord } from './SmsForm'
@@ -424,6 +425,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
 
     if (curRoute && curRoute.key === 'MagicLinkInfo') {
+      API.sendMagicLinkByEmail(userStorage.getMagicLink(), state.fullName).catch(e =>
+        log.error('failed sendMagicLinkByEmail', e.message, e)
+      )
       setShowNavBarGoBackButton(false)
     }
 

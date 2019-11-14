@@ -10,7 +10,6 @@ import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Icon from '../common/view/Icon'
-import userStorage from '../../lib/gundb/UserStorage'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -94,10 +93,6 @@ class EmailConfirmation extends React.Component<Props, State> {
 
   handleSubmit = async () => {
     await this.props.screenProps.doneCallback({ isEmailConfirmed: true })
-
-    API.sendMagicLinkByEmail(userStorage.getMagicLink()).catch(e =>
-      log.error('failed sendMagicLinkByEmail', e.message, e)
-    )
     this.setState({ loading: false })
   }
 

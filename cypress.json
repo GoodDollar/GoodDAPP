@@ -3,54 +3,26 @@
     "defaultCommandTimeout": 120000,
     "env": {   
         "baseUrl": "https://gooddev.netlify.com/",
-        "wordsForSuccessfullLogin": [
-            "script", "idle", "civil", 
-            "river", "random", "memory", 
-            "fork", "mechanic", "cabbage", 
-            "inflict", "potato", "scrub"
-        ],
+        "":"",
+        "mainAccountEmail": "gooddollar.test123@gmail.com",
+        "mainAccountUsername": "Andrew Lebowski",
+        "mainAccountPhone": "+380983611320",
+        "mainAccountMnemonics": 
+            "plunge craft urban short color rule time art recipe monster black essay",
         "wordsForUnsuccessfullLogin": {
-            "withChangedWord": [
-                "hello", "idle", "civil", 
-                "river", "random", "memory", 
-                "fork", "mechanic", "cabbage", 
-                "inflict", "potato", "scrub"
-            ],
-            "withNumbers": [
-                "1script", "idle", "civil", 
-                "river", "random", "memory", 
-                "fork", "mechanic", "cabbage", 
-                "inflict", "potato", "scrub"
-            ],
-            "withSymbols": [
-                "@script", "idle", "civil", 
-                "river", "random", "memory", 
-                "fork", "mechanic", "cabbage", 
-                "inflict", "potato", "scrub"
-            ],
-            "withChangedLetter": [
-                "acript", "idle", "civil", 
-                "river", "random", "memory", 
-                "fork", "mechanic", "cabbage", 
-                "inflict", "potato", "scrub"
-            ],
-            "withChangedOrder": [
-                "idle", "script", "civil", 
-                "river", "random", "memory", 
-                "fork", "mechanic", "cabbage", 
-                "inflict", "potato", "scrub"
-            ],
-            "withCapitalize": [
-                "Script", "idle", "civil", 
-                "river", "random", "memory", 
-                "fork", "mechanic", "cabbage", 
-                "inflict", "potato", "scrub"]
+            "withChangedWord": "hello craft urban short color rule time art recipe monster black essay",
+            "withNumbers": "1plunge craft urban short color rule time art recipe monster black essay",
+            "withSymbols": "@plunge craft urban short color rule time art recipe monster black essay",
+            "withChangedLetter": "flunge craft urban short color rule time art recipe monster black essay",
+            "withChangedOrder": "plunge craft urban short color rule time art recipe monster black essay",
+            "withCapitalize": "craft plunge urban short color rule time art recipe monster black essay"
         },
-        "anotherAccountWords": [
-            "lesson", "vacuum", "region",
-            "ring","vintage","exhibit",
-            "truly","adult","detect",
-            "long","family","tooth"
-        ]
+        "additionalAccountEmail": "gooddollar.2test123@gmail.com",
+        "additionalAccountUsername": "Andrew Second",
+        "additionalAccountPhone": "+529881238235",
+        "additionalAccountMnemonics": "vapor fresh tennis eagle author sponsor during gun cushion train cup dwarf",
+        "emailForCheckingRegistration": "main.test.acc.gooddollar@gmail.com",
+        "usernameForRegistration": "Name Surname",
+        "numberForCheckingRegistration": "+380673001751" 
     }
 }

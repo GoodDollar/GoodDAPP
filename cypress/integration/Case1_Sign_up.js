@@ -19,7 +19,7 @@ describe('Test case 1: Ability to Sign Up', () => {
     SignUpPage.nameInput.type('Name1 Name')
     SignUpPage.invalidValueErrorMessage2.should('exist')
     SignUpPage.nameInput.clear()
-    SignUpPage.nameInput.type('Name Name')
+    SignUpPage.nameInput.type(Cypress.env("usernameForRegistration"))
     cy.wait(5000)
     SignUpPage.nextButton.click()
     SignUpPage.phoneInput.type('+11111')
@@ -34,10 +34,10 @@ describe('Test case 1: Ability to Sign Up', () => {
     StartPage.continueOnWebButton.click()
     StartPage.createWalletButton.click()
     cy.wait(3000)
-    SignUpPage.nameInput.type('Name Name')
+    SignUpPage.nameInput.type(Cypress.env("usernameForRegistration"))
     cy.wait(3000)
     SignUpPage.nextButton.click()
-    SignUpPage.phoneInput.type('+380673001757')
+    SignUpPage.phoneInput.type(Cypress.env("numberForCheckingRegistration"))
     SignUpPage.nextButton.click()
 
     // SignUpPage.errorOkayButton.click();
@@ -45,15 +45,15 @@ describe('Test case 1: Ability to Sign Up', () => {
     cy.wait(5000)
 
     // ** it works more reliably then cycle ** //
-    SignUpPage.codeInputs.eq(0).type(0, { force: true })
-    SignUpPage.codeInputs.eq(1).type(1, { force: true })
-    SignUpPage.codeInputs.eq(2).type(2, { force: true })
-    SignUpPage.codeInputs.eq(3).type(3, { force: true })
-    SignUpPage.codeInputs.eq(4).type(4, { force: true })
-    SignUpPage.codeInputs.eq(5).type(5, { force: true })
+    SignUpPage.codeInputs.eq(0).type(0, { force: true });
+    SignUpPage.codeInputs.eq(1).type(1, { force: true });
+    SignUpPage.codeInputs.eq(2).type(2, { force: true });
+    SignUpPage.codeInputs.eq(3).type(3, { force: true });
+    SignUpPage.codeInputs.eq(4).type(4, { force: true });
+    SignUpPage.codeInputs.eq(5).type(5, { force: true });
 
     cy.wait(5000)
-    SignUpPage.emailInput.type('main.test.acc.gooddollar@gmail.com')
+    SignUpPage.emailInput.type(Cypress.env("emailForCheckingRegistration"))
     cy.wait(5000)
     SignUpPage.nextButton.click()
     SignUpPage.gotItButton.click()

@@ -12,11 +12,10 @@ describe('Test case 5: Ability to change profile privacy level', () => {
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
     LoginPage.pageHeader.should('contain', 'Recover')
-    const string = Cypress.env('wordsForSuccessfullLogin').join(' ')
-    LoginPage.mnemonicsInput.type(string)
+    LoginPage.mnemonicsInput.type(Cypress.env('mainAccountMnemonics'))
     LoginPage.recoverWalletButton.click()
     LoginPage.yayButton.click()
-    cy.wait(15000)
+    cy.wait(7000)
   })
 
   it('User should be able to change privacy lvl', () => {

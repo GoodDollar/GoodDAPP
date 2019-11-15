@@ -35,7 +35,9 @@
     "docs": "node scripts/docs.js",
     "web:serveo": "export REACT_APP_WEB3_RPC=https://gdchain.serveo.net;export REACT_APP_SERVER_URL=https://gdserver.serveo.net;export REACT_APP_GUN_PUBLIC_URL=https://gdserver.serveo.net/gun;npm run web:local",
     "rename:scrypt": "sed -i -e 's|./build/Release/scrypt|scrypt|g' node_modules/scrypt/index.js",
-    "version": "auto-changelog -p && git add CHANGELOG.md"
+    "version": "auto-changelog -p && git add CHANGELOG.md",
+    "cypress:lin": "export NODE_ENV=development && npx cypress open",
+    "cypress:win": "set \"NODE_ENV=development\" && npx cypress open"
   },
   "repository": {
     "type": "git",

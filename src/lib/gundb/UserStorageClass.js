@@ -202,7 +202,7 @@ export const startSpending = {
   status: 'completed',
   data: {
     customName: 'Go to GoodMarket',
-    subtitle: 'Start spending your GoodDollars',
+    subtitle: "Start spending your G$'s",
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },

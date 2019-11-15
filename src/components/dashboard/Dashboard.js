@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, AppState, Dimensions, Easing } from 'react-native'
 import _get from 'lodash/get'
+import _forEach from 'lodash/forEach'
 import debounce from 'lodash/debounce'
+import moment from 'moment'
 import type { Store } from 'undux'
 
 import * as web3Utils from 'web3-utils'
@@ -101,6 +103,8 @@ const Dashboard = props => {
   const [update, setUpdate] = useState(0)
 
   const checkBonusesToRedeem = () => {
+    log.info('Check bonuses process started')
+
     const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
 
     if (!isUserWhitelisted) {
@@ -117,6 +121,49 @@ const Dashboard = props => {
         // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })
   }
+
+  const prepareLoginToken = async () => {
+    log.info('Prepare login token process started')
+    const loginToken = await userStorage.getProfileFieldValue('loginToken')
+
+    if (!loginToken) {
+      try {
+        const response = await API.getLoginToken()
+
+        const _loginToken = _get(response, 'data.loginToken')
+
+        await userStorage.setProfileField('loginToken', _loginToken, 'private')
+      } catch (e) {
+        log.error('prepareLoginToken failed', e.message, e)
+      }
+    }
+  }
+
+  const intervalRequests = {
+    checkBonusesToRedeem,
+    prepareLoginToken,
+  }
+
+  const intervalRequestsWrap = async perform => {
+    const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
+
+    if (
+      moment()
+        .subtract(Number(config.backgroundReqsInterval), 'minutes')
+        .isBefore(moment(lastTimeBonusCheck))
+    ) {
+      return
+    }
+
+    if (perform && perform.length) {
+      perform.forEach(i => intervalRequests[i]())
+    } else {
+      _forEach(intervalRequests, f => f())
+    }
+
+    userStorage.userProperties.set('lastBonusCheckDate', new Date().toISOString())
+  }
+
   const isTheSameUser = code => {
     return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
   }
@@ -139,22 +186,6 @@ const Dashboard = props => {
       }
     } catch (e) {
       log.error('checkCode unexpected error:', e.message, e)
-    }
-  }
-
-  const prepareLoginToken = async () => {
-    const loginToken = await userStorage.getProfileFieldValue('loginToken')
-
-    if (!loginToken) {
-      try {
-        const response = await API.getLoginToken()
-
-        const _loginToken = _get(response, 'data.loginToken')
-
-        await userStorage.setProfileField('loginToken', _loginToken, 'private')
-      } catch (e) {
-        log.error('prepareLoginToken failed', e.message, e)
-      }
     }
   }
 
@@ -182,7 +213,7 @@ const Dashboard = props => {
 
   const handleAppFocus = state => {
     if (state === 'active') {
-      checkBonusesToRedeem()
+      intervalRequestsWrap(['checkBonusesToRedeem'])
     }
   }
 
@@ -231,13 +262,14 @@ const Dashboard = props => {
   useEffect(() => {
     log.debug('Dashboard didmount')
     AppState.addEventListener('change', handleAppFocus)
-    checkBonusesToRedeem()
+
+    intervalRequestsWrap()
     handleDeleteRedirect()
-    prepareLoginToken()
     subscribeToFeed()
     handleReceiveLink()
     showDelayed()
     handleResize()
+
     return function() {
       AppState.removeEventListener('change', handleAppFocus)
     }

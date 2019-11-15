@@ -20,7 +20,6 @@ export type ButtonProps = {
   mode?: string,
   onPress: any,
   style?: any,
-  id?: any,
   iconStyle?: any,
   styles: any,
   textStyle?: any,

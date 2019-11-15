@@ -3,7 +3,6 @@
     "defaultCommandTimeout": 120000,
     "env": {   
         "baseUrl": "https://gooddev.netlify.com/",
-        "":"",
         "mainAccountEmail": "gooddollar.test123@gmail.com",
         "mainAccountUsername": "Andrew Lebowski",
         "mainAccountPhone": "+380983611320",

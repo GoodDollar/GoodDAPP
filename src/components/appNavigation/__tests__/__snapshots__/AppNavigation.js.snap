@@ -175,7 +175,6 @@ exports[`AppNavigation matches snapshot 1`] = `
               "WebkitTransitionProperty": "opacity",
               "WebkitUserSelect": "none",
               "cursor": "pointer",
-              "display": "flex",
               "marginLeft": "10px",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",

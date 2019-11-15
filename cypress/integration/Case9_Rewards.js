@@ -48,7 +48,7 @@ describe('Test case 9: Ability to see rewards and create wallet with token', () 
             cy.wait(3000)
             for (let i = 0; i < 6; i++) {
               cy.wait(2000)
-              SignUpPage.codeInputs.eq(i).type(i, { force: true });
+              SignUpPage.codeInputs.eq(i).type(i, { force: true })
             }
             SignUpPage.gotItButton.click()
             SignUpPage.letStartButton.click()

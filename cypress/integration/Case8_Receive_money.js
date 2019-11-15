@@ -55,13 +55,13 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
       cy.wait(20000)
-      HomePage.claimButton.should('be.visible');
+      HomePage.claimButton.should('be.visible')
       HomePage.moneyAmountDiv.invoke('text').then(moneyBeforeSending => {
         cy.visit(reseiveMoneyUrl)
         ReceiveMoneyPage.confirmWindowButton.should('be.visible')
         ReceiveMoneyPage.confirmWindowButton.click()
         cy.wait(8000)
-        cy.visit(Cypress.env('baseUrl') + '/AppNavigation/Dashboard/Home');
+        cy.visit(Cypress.env('baseUrl') + '/AppNavigation/Dashboard/Home')
         cy.wait(25000)
         HomePage.claimButton.should('be.visible')
         HomePage.moneyAmountDiv.invoke('text').then(moneyAfterSending => {

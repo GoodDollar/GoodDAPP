@@ -83,7 +83,7 @@ const TabsView = (props: TabViewProps) => {
 
   return (
     <Appbar.Header dark>
-      <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px', display: 'flex' }}>
+      <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px' }}>
         <Icon name="rewards" size={36} color="white" />
       </TouchableOpacity>
       <Appbar.Content />

@@ -4,7 +4,7 @@ import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 
 const ClaimButton = ({ screenProps, styles }) => (
-  <PushButton routeName="Claim" screenProps={screenProps} style={styles.claimButton}>
+  <PushButton routeName="Claim" screenProps={screenProps} style={styles.claimButton} id="claim_button">
     Claim
   </PushButton>
 )

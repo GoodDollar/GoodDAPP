@@ -63,7 +63,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
 const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles }) => {
   if (isCitizen) {
     return entitlement ? (
-      <ButtonAmountToClaim styles={styles} entitlement={entitlement} isCitizen={isCitizen} id="button_content" />
+      <ButtonAmountToClaim styles={styles} entitlement={entitlement} isCitizen={isCitizen} />
     ) : (
       <ButtonCountdown styles={styles} nextClaim={nextClaim} />
     )

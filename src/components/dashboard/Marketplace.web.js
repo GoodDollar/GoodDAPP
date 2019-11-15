@@ -1,58 +1,41 @@
 import React, { useEffect, useState } from 'react'
-import _get from 'lodash/get'
 import { TouchableOpacity } from 'react-native'
 import { Appbar } from 'react-native-paper'
-import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
-import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import API from '../../lib/API/api'
 import Icon from '../common/view/Icon'
 import Section from '../common/layout/Section'
+import { useDialog } from '../../lib/undux/utils/dialog'
+import getMarketToken from './utils/getMarketToken'
 
-const log = logger.child({ from: 'MarketTab' })
-
+const isMarketDialog = true
 const MarketTab = props => {
   const [loginToken, setLoginToken] = useState()
+  const [openDialog] = useState(true)
   const store = SimpleStore.useStore()
-
-  const getToken = async () => {
-    try {
-      let token = await userStorage.getProfileFieldValue('marketToken')
-      if (token) {
-        setLoginToken(token)
-      }
-
-      const newtoken = await API.getMarketToken().then(_ => _get(_, 'data.jwt'))
-      if (newtoken !== undefined && newtoken !== token) {
-        token = newtoken
-        userStorage.setProfileField('marketToken', newtoken)
-        if (token == null) {
-          setLoginToken(newtoken)
-        }
-      }
-      log.debug('got market login token', token)
-      if (token == null) {
-        //continue to market without login in
-        setLoginToken('')
-        throw new Error('empty market token')
-      }
-    } catch (e) {
-      log.error(e, e.message)
-
-      // showErrorDialog('Error login in to market, try again later or contact support', 'MARKETPLACE-1')
-    }
-  }
   const isLoaded = () => {
     store.set('loadingIndicator')({ loading: false })
   }
-
+  const [showDialog] = useDialog()
   useEffect(() => {
     store.set('loadingIndicator')({ loading: true })
-    getToken()
+    getMarketToken(setLoginToken)
+    if (isMarketDialog && openDialog) {
+      showDialog({
+        message: 'Press ok to go to market',
+        buttons: [
+          {
+            text: 'Ok',
+            onPress: () => {
+              window.open(`${Config.marketUrl}?jwt=${loginToken}&nofooter=true`, '_self')
+            },
+          },
+        ],
+      })
+    }
   }, [])
 
-  if (loginToken === undefined) {
+  if ((isMarketDialog && openDialog) || loginToken === undefined) {
     return null
   }
   const src = `${Config.marketUrl}?jwt=${loginToken}&nofooter=true`

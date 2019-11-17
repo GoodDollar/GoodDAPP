@@ -361,7 +361,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error('Send mobile code failed', e.message, e)
-        showErrorDialog('Could not send verification code. Please try again')
+        return showErrorDialog('Could not send verification code. Please try again')
       } finally {
         setLoading(false)
       }
@@ -397,7 +397,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error('email verification failed unexpected:', e.message, e)
-        showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
+        return showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
       } finally {
         setLoading(false)
       }

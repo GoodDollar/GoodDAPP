@@ -202,7 +202,7 @@ export const startSpending = {
   status: 'completed',
   data: {
     customName: 'Go to GoodMarket',
-    subtitle: 'Start spending your GoodDollars',
+    subtitle: "Start spending your G$'s",
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -253,15 +253,6 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
   logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
   const log = withdrawLog || transferLog
   return log
-}
-
-export const getOperationType = (data: any, account: string) => {
-  const EVENT_TYPES = {
-    PaymentWithdraw: 'withdraw',
-  }
-
-  const operationType = data.from && data.from.toLowerCase() === account ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
-  return EVENT_TYPES[data.name] || operationType
 }
 
 /**
@@ -434,7 +425,7 @@ export class UserStorage {
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
-        logger.error('Error initializing UserStorage', { account: this.wallet.account }, e.message, e)
+        logger.error('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
         return false
       })
   }
@@ -563,6 +554,24 @@ export class UserStorage {
     return this.magiclink
   }
 
+  getOperationType(data: any, account: string) {
+    const EVENT_TYPES = {
+      PaymentWithdraw: 'withdraw',
+    }
+
+    let operationType
+    if (data.from) {
+      if (data.from === this.wallet.UBIContract.address.toLowerCase()) {
+        operationType = EVENT_TYPE_CLAIM
+      } else if (data.from === this.wallet.getSignUpBonusAddress()) {
+        operationType = EVENT_TYPE_BONUS
+      } else {
+        operationType = data.from === account.toLowerCase() ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
+      }
+    }
+    return EVENT_TYPES[data.name] || operationType
+  }
+
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
@@ -593,7 +602,7 @@ export class UserStorage {
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         createdDate: receiptDate.toString(),
-        type: getOperationType(data, this.wallet.account),
+        type: this.getOperationType(data, this.wallet.account),
       }
 
       if (get(feedEvent, 'data.receipt')) {
@@ -615,8 +624,9 @@ export class UserStorage {
         },
       }
 
-      if (initialEvent.type === EVENT_TYPE_BONUS && receipt.status) {
+      if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
         updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
+        updatedFeedEvent.data.customName = 'GoodDollar'
       }
 
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
@@ -647,7 +657,12 @@ export class UserStorage {
       //get our tx that created the payment link
       const originalTXHash = await this.getTransactionHashByCode(data.hash)
       if (originalTXHash === undefined) {
-        logger.error('handleOTPLUpdated: Original payment link TX not found', { data })
+        logger.error(
+          'handleOTPLUpdated: Original payment link TX not found',
+          '',
+          new Error('handleOTPLUpdated failed'),
+          data
+        )
         return
       }
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
@@ -746,6 +761,9 @@ export class UserStorage {
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
+    const isCameFromW3Site = userProperties.cameFromW3Site
+
+    this.addBackupCard()
 
     // first time user visit
     if (firstVisitAppDate == null) {
@@ -759,9 +777,7 @@ export class UserStorage {
         this.enqueueTX(welcomeMessage)
       }
 
-      const w3Token = await this.getProfileFieldValue('w3Token')
-
-      if (!w3Token) {
+      if (!isCameFromW3Site) {
         setTimeout(() => {
           this.enqueueTX(inviteFriendsMessage)
         }, 2 * 60 * 1000) // 2 minutes
@@ -778,11 +794,10 @@ export class UserStorage {
     this.properties = this.gunuser.get('properties')
 
     if ((await this.properties) === undefined) {
-      let putRes = await this.properties.get('properties').put(UserProperties.defaultProperties)
+      let putRes = await this.properties.putAck(UserProperties.defaultProperties)
       logger.debug('set defaultProperties ok:', { defaultProperties: UserProperties.defaultProperties, putRes })
     }
     this.userProperties = new UserProperties(this.properties)
-    await this.userProperties.updateLocalData()
   }
 
   /**
@@ -899,7 +914,7 @@ export class UserStorage {
     }
     const { errors, isValid } = profile.validate(update)
     if (!isValid) {
-      logger.error('setProfile failed:', { errors })
+      logger.error('setProfile failed:', '', new Error('setProfile failed'), errors)
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
       }
@@ -910,7 +925,7 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', { field }, e.message, e)
+            logger.error('setProfile field failed:', e.message, e, field)
             return { err: `failed saving field ${field}` }
           })
         })
@@ -937,7 +952,11 @@ export class UserStorage {
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
 
     if (!cleanValue) {
-      logger.error(`indexProfileField - field ${field} value is empty (value: ${value})`, cleanValue)
+      logger.error(
+        `indexProfileField - field ${field} value is empty (value: ${value})`,
+        cleanValue,
+        new Error('isValidValue failed')
+      )
       return false
     }
 
@@ -1165,7 +1184,7 @@ export class UserStorage {
         )
         .map(feedItem =>
           this.formatEvent(feedItem).catch(e => {
-            logger.error('getFormattedEvents Failed formatting event:', feedItem, e.message, e)
+            logger.error('getFormattedEvents Failed formatting event:', e.message, e, feedItem)
             return {}
           })
         )
@@ -1175,7 +1194,7 @@ export class UserStorage {
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, id)
       return undefined
     })
     if (!prevFeedEvent) {
@@ -1189,7 +1208,7 @@ export class UserStorage {
 
     //if for some reason we dont have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-      logger.warn('no receipt found for id:', id, e.message, e)
+      logger.warn('no receipt found for id:', e.message, e, id)
       return undefined
     })
     if (!receipt) {
@@ -1230,7 +1249,7 @@ export class UserStorage {
         .put(details)
       return true
     } catch (e) {
-      logger.error('saveSurveyDetails :', details, e.message, e)
+      logger.error('saveSurveyDetails :', e.message, e, details)
       return false
     }
   }
@@ -1367,7 +1386,7 @@ export class UserStorage {
         },
       }
     } catch (e) {
-      logger.error('formatEvent: failed formatting event:', event, e.message, e)
+      logger.error('formatEvent: failed formatting event:', e.message, e, event)
       return {}
     }
   }
@@ -1475,11 +1494,7 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
-      const existingEvent = await this.feed
-        .get('byid')
-        .get(event.id)
-        .then()
-        .catch(_ => false)
+      const existingEvent = await this.feed.get('byid').then(feedIds => feedIds[event.id] != null)
       if (existingEvent) {
         logger.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false
@@ -1676,7 +1691,7 @@ export class UserStorage {
       .secretAck(event)
       .then()
       .catch(e => {
-        logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, e)
+        logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
         return { err: e.message }
       })
     const saveDayIndexPtr = this.feed.get(day).putAck(JSON.stringify(dayEventsArr))
@@ -1805,45 +1820,45 @@ export class UserStorage {
 
     try {
       deleteAccountResult = await API.deleteAccount(zoomId, zoomSignature)
+
+      if (deleteAccountResult.data.ok) {
+        deleteResults = await Promise.all([
+          this.wallet
+            .deleteAccount()
+            .then(r => ({ wallet: 'ok' }))
+            .catch(e => ({ wallet: 'failed' })),
+          this.deleteProfile()
+            .then(r => ({
+              profile: 'ok',
+            }))
+            .catch(r => ({
+              profile: 'failed',
+            })),
+          this.gunuser
+            .get('feed')
+            .putAck(null)
+            .then(r => ({
+              feed: 'ok',
+            }))
+            .catch(r => ({
+              feed: 'failed',
+            })),
+          this.properties
+            .putAck(null)
+            .then(r => ({
+              properties: 'ok',
+            }))
+            .catch(r => ({
+              properties: 'failed',
+            })),
+        ])
+      }
     } catch (e) {
-      logger.error('deleteAccount', { e })
+      logger.error('deleteAccount unexpected error', e.message, e)
       return false
     }
 
-    if (deleteAccountResult.data.ok) {
-      deleteResults = await Promise.all([
-        this.wallet
-          .deleteAccount()
-          .then(r => ({ wallet: 'ok' }))
-          .catch(e => ({ wallet: 'failed' })),
-        this.deleteProfile()
-          .then(r => ({
-            profile: 'ok',
-          }))
-          .catch(r => ({
-            profile: 'failed',
-          })),
-        this.gunuser
-          .get('feed')
-          .putAck(null)
-          .then(r => ({
-            feed: 'ok',
-          }))
-          .catch(r => ({
-            feed: 'failed',
-          })),
-        this.userProperties
-          .putAck(null)
-          .then(r => ({
-            properties: 'ok',
-          }))
-          .catch(r => ({
-            properties: 'failed',
-          })),
-      ])
-    }
-
     logger.debug('deleteAccount', { deleteResults })
-    return deleteResults
+    return true
   }
 }

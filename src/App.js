@@ -3,6 +3,7 @@ import { isMobile } from 'mobile-device-detect'
 import React, { useEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
+import InternetConnection from './components/common/connectionDialog/internetConnection'
 import { theme } from './components/theme/styles'
 import SimpleStore from './lib/undux/SimpleStore'
 import RouterSelector from './RouterSelector.web'
@@ -10,6 +11,7 @@ import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/pino-logger'
+import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 
 const log = logger.child({ from: 'App' })
 
@@ -48,7 +50,9 @@ const App = () => {
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.safeAreaView}>
         <React.Fragment>
+          <SimpleStoreDialog />
           <LoadingIndicator />
+          <InternetConnection />
           {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
           {Splash}
         </React.Fragment>

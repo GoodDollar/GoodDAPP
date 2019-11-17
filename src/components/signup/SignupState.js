@@ -259,30 +259,40 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // Stores creationBlock number into 'lastBlock' feed's node
 
       let w3Token = requestPayload.w3Token
+
+      if (w3Token) {
+        userStorage.userProperties.set('cameFromW3Site', true)
+      }
+
+      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+      await Promise.all([
+        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }).catch(_ => _),
+        userStorage.setProfileField('registered', true, 'public').catch(_ => _),
+      ])
+
       const addUserAPIPromise = API.addUser(requestPayload).then(res => {
         const data = res.data
 
         if (data && data.loginToken) {
-          userStorage.setProfileField('loginToken', data.loginToken, 'private')
+          userStorage.setProfileField('loginToken', data.loginToken, 'private').catch()
         }
 
         if (data && data.w3Token) {
-          userStorage.setProfileField('w3Token', data.w3Token, 'private')
+          userStorage.setProfileField('w3Token', data.w3Token, 'private').catch()
           w3Token = data.w3Token
         }
 
         if (data && data.marketToken) {
-          userStorage.setProfileField('marketToken', data.marketToken, 'private')
+          userStorage.setProfileField('marketToken', data.marketToken, 'private').catch()
         }
       })
 
       await addUserAPIPromise
-      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-      await Promise.all([
-        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }),
-        userStorage.setProfileField('registered', true, 'public'),
-        goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
-      ])
+
+      goodWallet
+        .getBlockNumber()
+        .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
+        .catch(e => log.error('save blocknumber failed:', e.message, e))
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       Promise.all([
@@ -351,7 +361,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error('Send mobile code failed', e.message, e)
-        showErrorDialog('Could not send verification code. Please try again')
+        return showErrorDialog('Could not send verification code. Please try again')
       } finally {
         setLoading(false)
       }
@@ -369,7 +379,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          showErrorDialog('Could not send verification email. Please try again')
+          return showErrorDialog('Could not send verification email. Please try again')
         }
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
         if (Config.skipEmailVerification || data.onlyInEnv) {
@@ -387,7 +397,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error('email verification failed unexpected:', e.message, e)
-        showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
+        return showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
       } finally {
         setLoading(false)
       }

@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, AppState, Dimensions, Easing } from 'react-native'
 import debounce from 'lodash/debounce'
+import _get from 'lodash/get'
 import type { Store } from 'undux'
-
 import * as web3Utils from 'web3-utils'
+import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -12,11 +13,15 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { gdToWei, weiToMask } from '../../lib/wallet/utils'
+import { weiToMask } from '../../lib/wallet/utils'
+import {
+  WITHDRAW_STATUS_COMPLETE,
+  WITHDRAW_STATUS_PENDING,
+  WITHDRAW_STATUS_UNKNOWN,
+} from '../../lib/wallet/GoodWalletClass'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
-import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
@@ -89,17 +94,10 @@ const Dashboard = props => {
   const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
-  const [initDash, setInitDash] = useState(true)
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
   const [update, setUpdate] = useState(0)
-
-  useEffect(() => {
-    if (initDash) {
-      setInitDash(false)
-    }
-  }, [])
 
   const checkBonusesToRedeem = () => {
     const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
@@ -110,22 +108,7 @@ const Dashboard = props => {
 
     API.redeemBonuses()
       .then(res => {
-        const resData = res.data
-        log.debug('redeemBonuses', { resData })
-        if (resData.hash && resData.bonusAmount) {
-          const transactionEvent: TransactionEvent = {
-            id: resData.hash,
-            date: new Date().toString(),
-            type: 'bonus',
-            status: 'completed',
-            data: {
-              customName: 'GoodDollar',
-              amount: gdToWei(resData.bonusAmount),
-            },
-          }
-
-          userStorage.enqueueTX(transactionEvent)
-        }
+        log.debug('redeemBonuses', { resData: res && res.data })
       })
       .catch(err => {
         log.error('Failed to redeem bonuses', err.message, err)
@@ -136,6 +119,7 @@ const Dashboard = props => {
   const isTheSameUser = code => {
     return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
   }
+
   const checkCode = async anyParams => {
     try {
       if (anyParams && anyParams.code) {
@@ -157,18 +141,42 @@ const Dashboard = props => {
     }
   }
 
-  //Service redirects Send/Receive
-  useEffect(() => {
+  const prepareLoginToken = async () => {
+    const loginToken = await userStorage.getProfileFieldValue('loginToken')
+
+    if (!loginToken) {
+      try {
+        const response = await API.getLoginToken()
+
+        const _loginToken = _get(response, 'data.loginToken')
+
+        await userStorage.setProfileField('loginToken', _loginToken, 'private')
+      } catch (e) {
+        log.error('prepareLoginToken failed', e.message, e)
+      }
+    }
+  }
+
+  const handleDeleteRedirect = () => {
+    if (props.navigation.state.key === 'Delete') {
+      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
+    }
+  }
+
+  const subscribeToFeed = () => {
+    userStorage.feed.get('byid').on(data => {
+      log.debug('gun getFeed callback', { data })
+      getInitialFeed(gdstore)
+    }, true)
+  }
+
+  const handleReceiveLink = () => {
     const anyParams = extractQueryParams(window.location.href)
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams
     } else {
       checkCode(anyParams)
     }
-  }, [])
-
-  const nextFeed = () => {
-    return getNextFeed(gdstore)
   }
 
   const handleAppFocus = state => {
@@ -177,27 +185,7 @@ const Dashboard = props => {
     }
   }
 
-  useEffect(() => {
-    AppState.addEventListener('change', handleAppFocus)
-
-    if (props.navigation.state.key === 'Delete') {
-      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
-    }
-
-    checkBonusesToRedeem()
-
-    log.debug('Dashboard didmount')
-    userStorage.feed.get('byid').on(data => {
-      log.debug('gun getFeed callback', { data })
-      getInitialFeed(gdstore)
-    }, true)
-
-    return function() {
-      AppState.removeEventListener('change', handleAppFocus)
-    }
-  }, [])
-
-  useEffect(() => {
+  const animateClaim = () => {
     const { entitlement } = gdstore.get('account')
 
     if (Number(entitlement)) {
@@ -214,6 +202,44 @@ const Dashboard = props => {
           easing: Easing.ease,
         }),
       ]).start()
+    }
+  }
+  const showDelayed = () => {
+    setTimeout(() => {
+      store.set('addWebApp')({ show: true })
+      animateClaim()
+    }, 2000)
+  }
+
+  /**
+   * rerender on screen size change
+   */
+  const handleResize = () => {
+    const debouncedHandleResize = debounce(() => {
+      log.info('update component after resize', update)
+      setUpdate(Date.now())
+    }, 100)
+
+    Dimensions.addEventListener('change', () => debouncedHandleResize())
+  }
+
+  const nextFeed = () => {
+    log.debug('getNextFeed called')
+    return getNextFeed(gdstore)
+  }
+
+  useEffect(() => {
+    log.debug('Dashboard didmount')
+    AppState.addEventListener('change', handleAppFocus)
+    checkBonusesToRedeem()
+    handleDeleteRedirect()
+    prepareLoginToken()
+    subscribeToFeed()
+    handleReceiveLink()
+    showDelayed()
+    handleResize()
+    return function() {
+      AppState.removeEventListener('change', handleAppFocus)
     }
   }, [])
 
@@ -266,11 +292,32 @@ const Dashboard = props => {
         message: 'please wait while processing...',
         buttons: [{ text: 'YAY!', style: styles.disabledButton }],
       })
-      await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
-      hideDialog()
+      const { status, transactionHash } = await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
+      if (transactionHash) {
+        hideDialog()
+        return
+      }
+      switch (status) {
+        case WITHDRAW_STATUS_COMPLETE:
+          showErrorDialog('Payment already withdrawn or canceled by sender')
+          break
+        case WITHDRAW_STATUS_UNKNOWN: {
+          for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
+            // eslint-disable-next-line no-await-in-loop
+            await delay(2000)
+            // eslint-disable-next-line no-await-in-loop
+            const { status } = await goodWallet.getWithdrawDetails(decodeURI(paymentCode))
+            if (status === WITHDRAW_STATUS_PENDING) {
+              // eslint-disable-next-line no-await-in-loop
+              return await handleWithdraw()
+            }
+          }
+          showErrorDialog('Could not find payment details. Check your link or try again later.')
+        }
+      }
     } catch (e) {
-      log.error('withdraw failed:', e.message, e)
-      showErrorDialog('Something has gone wrong. Please try again later.')
+      log.error('withdraw failed:', e.code, e.message, e)
+      showErrorDialog(e.message)
     }
   }
 
@@ -287,15 +334,6 @@ const Dashboard = props => {
       },
     ],
   }
-
-  useEffect(() => {
-    const debouncedHandleResize = debounce(() => {
-      log.info('update component after resize', update)
-      setUpdate(Date.now())
-    }, 100)
-
-    Dimensions.addEventListener('change', () => debouncedHandleResize())
-  }, [])
 
   return (
     <Wrapper style={styles.dashboardWrapper}>

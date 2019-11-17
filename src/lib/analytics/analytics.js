@@ -129,8 +129,15 @@ const patchLogger = () => {
   let error = global.logger.error
   global.logger.error = function() {
     let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
-    if (logMessage && typeof s === 'string' && logMessage.indexOf('axios') == -1) {
-      debounceFireEvent(ERROR_LOG, { reason: logMessage || eMsg, logContext })
+    if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
+      debounceFireEvent(ERROR_LOG, { reason: logMessage, logContext })
+    }
+    if (global.bugsnagClient && Config.env !== 'test') {
+      global.bugsnagClient.notify(logMessage, {
+        context: logContext && logContext.from,
+        metaData: { logMessage, eMsg, errorObj, rest },
+        groupingHash: logContext && logContext.from,
+      })
     }
     if (global.bugsnagClient && Config.env !== 'test') {
       global.bugsnagClient.notify(logMessage, {

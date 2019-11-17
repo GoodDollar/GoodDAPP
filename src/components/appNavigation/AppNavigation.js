@@ -47,10 +47,6 @@ const AppNavigation = ({ navigation }: AppNavigationProps) => {
       store.set('loadingIndicator')({ loading: true })
     } else {
       store.set('loadingIndicator')({ loading: false })
-
-      setTimeout(() => {
-        store.set('addWebApp')({ ...store.get('addWebApp'), show: true })
-      }, 2000)
     }
   }, [ready])
 

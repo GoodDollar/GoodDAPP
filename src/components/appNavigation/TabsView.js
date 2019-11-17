@@ -7,13 +7,12 @@ import { TouchableOpacity } from 'react-native-web'
 import _get from 'lodash/get'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import RewardSvg from '../../components/common/view/RewardSvg'
-import MarketPlaceSvg from '../../components/common/view/MarketPlaceSvg'
 import config from '../../config/config'
 import { withStyles } from '../../lib/styles'
 import userStorage from '../../lib/gundb/UserStorage'
 import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
+import Icon from '../../components/common/view/Icon'
 
 const log = logger.child({ from: 'TabsView' })
 type TabViewProps = {
@@ -117,15 +116,13 @@ const TabsView = React.memo((props: TabViewProps) => {
 
   return (
     <Appbar.Header dark>
-      {token && (
-        <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px' }}>
-          <RewardSvg />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px' }}>
+        <Icon name="rewards" size={36} color="white" />
+      </TouchableOpacity>
       <Appbar.Content />
       {config.market && (
         <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
-          <MarketPlaceSvg />
+          <Icon name="goodmarket" size={36} color="white" />
         </TouchableOpacity>
       )}
       <Appbar.Content />
@@ -141,10 +138,8 @@ const styles = ({ theme }) => ({
     borderStyle: 'solid',
     borderColor: 'white',
     borderRadius: '50%',
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    paddingBottom: 15,
-    height: 79,
+    paddingVertical: 20,
+    paddingHorizontal: 7,
   },
 })
 

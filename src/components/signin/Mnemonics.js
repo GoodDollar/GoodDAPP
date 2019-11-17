@@ -30,6 +30,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [showDialog] = useDialog()
   const [errorMessage, setErrorMessage] = useState()
   const [showErrorDialog, hideDialog] = useErrorDialog()
+  const input = React.createRef()
 
   AsyncStorage.removeItem('GD_web3Token')
 
@@ -50,6 +51,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   }
 
   const recover = async () => {
+    input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)
     const showError = () =>
@@ -99,7 +101,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       fireEvent(RECOVER_FAILED, { unexpected: true })
       log.error('recover mnemonics failed', e.message, e)
       saveMnemonics(prevMnemonics)
-      showSupportDialog(showErrorDialog, hideDialog, screenProps, 'men-1')
+      showSupportDialog(showErrorDialog, hideDialog, screenProps)
     } finally {
       setRecovering(false)
     }
@@ -158,6 +160,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               error={errorMessage}
               onKeyPress={handleEnter}
               onCleanUpField={handleChange}
+              getRef={input}
               autoFocus
             />
           </Section.Row>

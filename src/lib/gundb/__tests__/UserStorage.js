@@ -1,12 +1,12 @@
 // @flow
 import _ from 'lodash'
 import moment from 'moment'
+import Contracts from '@gooddollar/goodcontracts/releases/deployment.json'
 import gun from '../gundb'
 import Config from '../../../config/config'
 import userStorage from '../UserStorage'
 import {
   backupMessage,
-  getOperationType,
   getReceiveDataFromReceipt,
   inviteFriendsMessage,
   startSpending,
@@ -15,7 +15,6 @@ import {
   welcomeMessageOnlyEtoro,
 } from '../UserStorageClass'
 import UserPropertiesClass from '../UserPropertiesClass'
-
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
 
@@ -79,7 +78,7 @@ describe('UserStorage', () => {
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2' }))
   })
 
-  it('get all user properties', async () => {
+  it('has default user properties', async () => {
     const res = await userStorage.userProperties.getAll()
     expect(res).toEqual(expect.objectContaining(UserPropertiesClass.defaultProperties))
   })
@@ -87,11 +86,11 @@ describe('UserStorage', () => {
   it('start system feeds', async () => {
     await userStorage.startSystemFeed()
     const res = await userStorage.userProperties.getAll()
-
     expect(res.firstVisitApp).toBeTruthy()
   })
 
   it('events/has the welcome event already set', async () => {
+    await delay(500)
     const events = await userStorage.getAllFeed()
     if (Config.isEToro) {
       expect(events).toContainEqual(welcomeMessageOnlyEtoro)
@@ -100,15 +99,17 @@ describe('UserStorage', () => {
     }
   })
 
-  it('set all user properties', async () => {
-    const res = await userStorage.userProperties.set('isMadeBackup', true)
+  it('set user property', async () => {
+    const res = await userStorage.userProperties.set('test', true)
     expect(res).toBeTruthy()
   })
 
   it('get user property', async () => {
+    let isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
+    expect(isMadeBackup).toBeFalsy()
     const res = await userStorage.userProperties.set('isMadeBackup', true)
     expect(res).toBeTruthy()
-    const isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
+    isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
     expect(isMadeBackup).toBeTruthy()
   })
 
@@ -340,6 +341,15 @@ describe('UserStorage', () => {
     //welcome message+01-02 event =2
     const gunRes = await userStorage.getFeedPage(2)
     expect(gunRes.length).toEqual(2)
+  })
+
+  it('events/has the welcome event already set', async () => {
+    const events = await userStorage.getAllFeed()
+    if (Config.isEToro) {
+      expect(events).toContainEqual(welcomeMessageOnlyEtoro)
+    } else {
+      expect(events).toContainEqual(welcomeMessage)
+    }
   })
 
   it('events/gets events second page using cursor', async () => {
@@ -776,7 +786,7 @@ describe('getOperationType', () => {
     const event = {
       name: 'PaymentWithdraw',
     }
-    expect(getOperationType(event, 'account1')).toBe('withdraw')
+    expect(userStorage.getOperationType(event, 'account1')).toBe('withdraw')
   })
 
   it('PaymentWithdraw with any from should be withdraw', () => {
@@ -784,7 +794,7 @@ describe('getOperationType', () => {
       name: 'PaymentWithdraw',
       from: 'account1',
     }
-    expect(getOperationType(event, 'account1')).toBe('withdraw')
+    expect(userStorage.getOperationType(event, 'account1')).toBe('withdraw')
   })
 
   it('from equal to account should be send', () => {
@@ -792,7 +802,7 @@ describe('getOperationType', () => {
       name: 'Transfer',
       from: 'account1',
     }
-    expect(getOperationType(event, 'account1')).toBe('send')
+    expect(userStorage.getOperationType(event, 'account1')).toBe('send')
   })
 
   it('from different to account should be receive', () => {
@@ -800,40 +810,23 @@ describe('getOperationType', () => {
       name: 'Transfer',
       from: 'account2',
     }
-    expect(getOperationType(event, 'account1')).toBe('receive')
-  })
-})
-
-describe('getOperationType', () => {
-  it('PaymentWithdraw should be withdraw', () => {
-    const event = {
-      name: 'PaymentWithdraw',
-    }
-    expect(getOperationType(event, 'account1')).toBe('withdraw')
+    expect(userStorage.getOperationType(event, 'account1')).toBe('receive')
   })
 
-  it('PaymentWithdraw with any from should be withdraw', () => {
-    const event = {
-      name: 'PaymentWithdraw',
-      from: 'account1',
-    }
-    expect(getOperationType(event, 'account1')).toBe('withdraw')
-  })
-
-  it('from equal to account should be send', () => {
+  it('from ubicontract should be claim', () => {
     const event = {
       name: 'Transfer',
-      from: 'account1',
+      from: Contracts[Config.network].UBI.toLowerCase(),
     }
-    expect(getOperationType(event, 'account1')).toBe('send')
+    expect(userStorage.getOperationType(event, 'account1')).toBe('claim')
   })
 
-  it('from different to account should be receive', () => {
+  it('from bonuscontract should be bonus', () => {
     const event = {
       name: 'Transfer',
-      from: 'account2',
+      from: Contracts[Config.network].SignupBonus.toLowerCase(),
     }
-    expect(getOperationType(event, 'account1')).toBe('receive')
+    expect(userStorage.getOperationType(event, 'account1')).toBe('bonus')
   })
 })
 

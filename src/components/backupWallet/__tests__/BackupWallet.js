@@ -4,16 +4,16 @@ import { getWebRouterComponentWithMocks } from './__util__'
 
 // Note: test renderer must be required after react-native.
 
-describe('Auth', () => {
+describe('BackupWallet', () => {
   it('renders without errors', () => {
-    const Auth = getWebRouterComponentWithMocks('../Auth')
-    const tree = renderer.create(<Auth />)
+    const BackupWallet = getWebRouterComponentWithMocks('../BackupWallet')
+    const tree = renderer.create(<BackupWallet />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const Auth = getWebRouterComponentWithMocks('../Auth')
-    const component = renderer.create(<Auth />)
+    const BackupWallet = getWebRouterComponentWithMocks('../BackupWallet')
+    const component = renderer.create(<BackupWallet />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

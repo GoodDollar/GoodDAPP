@@ -1,11 +1,13 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, Easing, View } from 'react-native'
+import { Animated, Easing, Image, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
+import LoadingIconSVG from './img/LoadingIcon.svg'
+
+Image.prefetch(LoadingIconSVG)
 
 const LoadingIcon = ({ styles, style }) => {
   const [rotateValue] = useState(new Animated.Value(0))
-  const image = require('./img/LoadingIcon.png')
 
   useEffect(() => {
     Animated.loop(
@@ -34,7 +36,7 @@ const LoadingIcon = ({ styles, style }) => {
           },
           styles.loadingIcon,
         ]}
-        source={image}
+        source={LoadingIconSVG}
       />
     </View>
   )

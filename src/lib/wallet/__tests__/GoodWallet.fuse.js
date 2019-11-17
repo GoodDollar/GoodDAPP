@@ -94,10 +94,10 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
     const isused = await testWallet.isWithdrawLinkUsed(DEPOSIT_CODE_HASH)
     expect(isused).toBeTruthy()
-    const res = await testWallet.canWithdraw(DEPOSIT_CODE)
+    const res = await testWallet.getWithdrawDetails(DEPOSIT_CODE)
 
     expect(parseInt(res.amount)).toEqual(balance - fee)
-
+    expect(res.sender).toEqual(testWallet.account)
     await testWallet2.withdraw(DEPOSIT_CODE)
 
     const res2 = await testWallet2.isWithdrawLinkUsed(DEPOSIT_CODE_HASH)

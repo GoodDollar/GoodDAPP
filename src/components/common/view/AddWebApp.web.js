@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
-import isWebApp from '../../../lib/utils/isWebApp'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import {
@@ -119,17 +118,15 @@ const AddWebApp = props => {
   useEffect(() => {
     AsyncStorage.getItem('GD_AddWebAppLastCheck').then(setLastCheck)
     AsyncStorage.getItem('GD_AddWebAppNextCheck').then(setNextCheck)
-    AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
+    AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc) || 0))
     AsyncStorage.getItem('GD_AddWebAppLastClaim').then(setLastClaim)
     AsyncStorage.getItem('GD_AddWebAppIOSAdded').then(setIOSAdded)
 
-    if (isWebApp === false) {
-      log.debug('useEffect, registering beforeinstallprompt')
+    log.debug('useEffect, registering beforeinstallprompt')
 
-      const installPrompt = store.get('installPrompt')
-      if (installPrompt) {
-        setInstallPrompt(installPrompt)
-      }
+    const installPrompt = store.get('installPrompt')
+    if (installPrompt) {
+      setInstallPrompt(installPrompt)
     }
   }, [])
 
@@ -152,13 +149,13 @@ const AddWebApp = props => {
   }
 
   const handleLater = () => {
-    const newSkipCount = Number(skipCount) + 1
+    const newSkipCount = Number(skipCount)
     const nextCheckInDays = Math.pow(2, skipCount)
     const nextCheckDate = moment()
       .add(nextCheckInDays, 'days')
       .toDate()
 
-    AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount)
+    AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount + 1)
     AsyncStorage.setItem('GD_AddWebAppLastCheck', new Date().toISOString())
     AsyncStorage.setItem('GD_AddWebAppNextCheck', nextCheckDate.toISOString())
   }
@@ -220,10 +217,6 @@ const AddWebApp = props => {
   }, [dialogShown])
 
   useEffect(() => {
-    if (isWebApp) {
-      return
-    }
-
     log.debug({ installPrompt, show, skipCount })
 
     // Condition to show reminder

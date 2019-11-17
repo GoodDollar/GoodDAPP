@@ -425,7 +425,7 @@ export class UserStorage {
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
-        logger.error('Error initializing UserStorage', { account: this.wallet.account }, e.message, e)
+        logger.error('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
         return false
       })
   }
@@ -657,7 +657,12 @@ export class UserStorage {
       //get our tx that created the payment link
       const originalTXHash = await this.getTransactionHashByCode(data.hash)
       if (originalTXHash === undefined) {
-        logger.error('handleOTPLUpdated: Original payment link TX not found', { data })
+        logger.error(
+          'handleOTPLUpdated: Original payment link TX not found',
+          '',
+          new Error('handleOTPLUpdated failed'),
+          data
+        )
         return
       }
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
@@ -909,7 +914,7 @@ export class UserStorage {
     }
     const { errors, isValid } = profile.validate(update)
     if (!isValid) {
-      logger.error('setProfile failed:', { errors })
+      logger.error('setProfile failed:', '', new Error('setProfile failed'), errors)
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
       }
@@ -920,7 +925,7 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', { field }, e.message, e)
+            logger.error('setProfile field failed:', e.message, e, field)
             return { err: `failed saving field ${field}` }
           })
         })
@@ -947,7 +952,11 @@ export class UserStorage {
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
 
     if (!cleanValue) {
-      logger.error(`indexProfileField - field ${field} value is empty (value: ${value})`, cleanValue)
+      logger.error(
+        `indexProfileField - field ${field} value is empty (value: ${value})`,
+        cleanValue,
+        new Error('isValidValue failed')
+      )
       return false
     }
 
@@ -1175,7 +1184,7 @@ export class UserStorage {
         )
         .map(feedItem =>
           this.formatEvent(feedItem).catch(e => {
-            logger.error('getFormattedEvents Failed formatting event:', feedItem, e.message, e)
+            logger.error('getFormattedEvents Failed formatting event:', e.message, e, feedItem)
             return {}
           })
         )
@@ -1185,7 +1194,7 @@ export class UserStorage {
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, id)
       return undefined
     })
     if (!prevFeedEvent) {
@@ -1199,7 +1208,7 @@ export class UserStorage {
 
     //if for some reason we dont have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-      logger.warn('no receipt found for id:', id, e.message, e)
+      logger.warn('no receipt found for id:', e.message, e, id)
       return undefined
     })
     if (!receipt) {
@@ -1240,7 +1249,7 @@ export class UserStorage {
         .put(details)
       return true
     } catch (e) {
-      logger.error('saveSurveyDetails :', details, e.message, e)
+      logger.error('saveSurveyDetails :', e.message, e, details)
       return false
     }
   }
@@ -1377,7 +1386,7 @@ export class UserStorage {
         },
       }
     } catch (e) {
-      logger.error('formatEvent: failed formatting event:', event, e.message, e)
+      logger.error('formatEvent: failed formatting event:', e.message, e, event)
       return {}
     }
   }
@@ -1485,11 +1494,7 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
-      const existingEvent = await this.feed
-        .get('byid')
-        .get(event.id)
-        .then()
-        .catch(_ => false)
+      const existingEvent = await this.feed.get('byid').then(feedIds => feedIds[event.id] != null)
       if (existingEvent) {
         logger.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false
@@ -1686,7 +1691,7 @@ export class UserStorage {
       .secretAck(event)
       .then()
       .catch(e => {
-        logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, e)
+        logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
         return { err: e.message }
       })
     const saveDayIndexPtr = this.feed.get(day).putAck(JSON.stringify(dayEventsArr))

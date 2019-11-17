@@ -1494,7 +1494,11 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
-      const existingEvent = await this.feed.get('byid').then(feedIds => feedIds[event.id] != null)
+      const existingEvent = await this.feed
+        .get('byid')
+        .get(event.id)
+        .then()
+        .catch(_ => false)
       if (existingEvent) {
         logger.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false

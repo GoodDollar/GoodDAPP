@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    marginBottom: theme.sizes.defaultDouble,
     padding: 0,
   },
   buttonsContainer: {
@@ -172,6 +171,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingLeft: 0,
     paddingRight: 0,
+    paddingTop: theme.sizes.defaultDouble,
   },
   buttonCancel: {
     minWidth: 80,

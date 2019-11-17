@@ -1,5 +1,6 @@
 //@flow
-import React from 'react'
+/* eslint-disable */
+import React, { useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 import { isMobileSafari } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
@@ -10,8 +11,10 @@ import config from '../../config/config'
 import { withStyles } from '../../lib/styles'
 import userStorage from '../../lib/gundb/UserStorage'
 import API from '../../lib/API/api'
+import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 
+const log = logger.child({ from: 'TabsView' })
 type TabViewProps = {
   routes: { [string]: any },
   goTo: (routeKey: string) => void,
@@ -52,30 +55,60 @@ type TabViewProps = {
 //   </View>
 // )
 
-const TabsView = (props: TabViewProps) => {
+const TabsView = React.memo((props: TabViewProps) => {
   const { navigation, styles } = props
   const store = SimpleStore.useStore()
+  const [token, setToken] = useState(isMobileSafari ? undefined : true)
+  const [marketToken, setMarketToken] = useState(isMobileSafari ? undefined : true)
 
-  const goToRewards = async () => {
+  const fetchTokens = async () => {
+    let _token = await userStorage.getProfileFieldValue('loginToken')
+
+    if (!_token) {
+      _token = await API.getLoginToken()
+        .then(r => _get(r, 'data.loginToken'))
+        .then(newToken => {
+          userStorage.setProfileField('loginToken', newToken, 'private')
+
+          return newToken
+        })
+    }
+
+    let _marketToken = await userStorage.getProfileFieldValue('marketToken')
+
+    if (!_marketToken) {
+      _marketToken = await API.getMarketToken()
+        .then(_ => _get(_, 'data.jwt'))
+        .then(newtoken => {
+          userStorage.setProfileField('marketToken', newtoken)
+
+          return newtoken
+        })
+    }
+    log.debug('tokens:', { _marketToken, _token })
     if (isMobileSafari) {
-      let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
+      setToken(_token)
+      setMarketToken(_marketToken)
+    }
+  }
+
+  useEffect(() => {
+    fetchTokens()
+  }, [])
+
+  const goToRewards = () => {
+    if (isMobileSafari) {
       const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`
-      window.open(src, '_self')
+      window.open(src, '_blank')
     } else {
       navigation.navigate('Rewards')
     }
   }
 
-  const goToMarketplace = async () => {
+  const goToMarketplace = () => {
     if (isMobileSafari) {
-      let token = await userStorage.getProfileFieldValue('marketToken')
-      const src = `${config.marketUrl}?jwt=${token}&nofooter=true`
-      window.open(src, '_self')
-      const newtoken = await API.getMarketToken().then(_ => _get(_, 'data.jwt'))
-      if (newtoken !== undefined && newtoken !== token) {
-        token = newtoken
-        userStorage.setProfileField('marketToken', newtoken)
-      }
+      const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
+      window.open(src, '_blank')
     } else {
       navigation.navigate('Marketplace')
     }
@@ -96,7 +129,7 @@ const TabsView = (props: TabViewProps) => {
       <Appbar.Action icon="menu" onPress={toggleSidemenu.bind(null, store)} color="white" />
     </Appbar.Header>
   )
-}
+})
 
 const styles = ({ theme }) => ({
   marketIconBackground: {

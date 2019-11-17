@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Appbar } from 'react-native-paper'
+import { isMobileSafari } from 'mobile-device-detect'
 import Config from '../../config/config'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import Icon from '../common/view/Icon'
@@ -8,34 +9,36 @@ import Section from '../common/layout/Section'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import getMarketToken from './utils/getMarketToken'
 
-const isMarketDialog = true
 const MarketTab = props => {
   const [loginToken, setLoginToken] = useState()
-  const [openDialog] = useState(true)
   const store = SimpleStore.useStore()
+  store.set('loadingIndicator')({ loading: true })
   const isLoaded = () => {
     store.set('loadingIndicator')({ loading: false })
   }
   const [showDialog] = useDialog()
   useEffect(() => {
-    store.set('loadingIndicator')({ loading: true })
     getMarketToken(setLoginToken)
-    if (isMarketDialog && openDialog) {
+  }, [])
+
+  useEffect(() => {
+    if (isMobileSafari && loginToken) {
+      store.set('loadingIndicator')({ loading: false })
       showDialog({
         message: 'Press ok to go to market',
         buttons: [
           {
             text: 'Ok',
             onPress: () => {
-              window.open(`${Config.marketUrl}?jwt=${loginToken}&nofooter=true`, '_self')
+              window.open(`${Config.marketUrl}?jwt=${loginToken}&nofooter=true`, '_blank')
             },
           },
         ],
       })
     }
-  }, [])
+  }, [loginToken])
 
-  if ((isMarketDialog && openDialog) || loginToken === undefined) {
+  if (isMobileSafari || loginToken === undefined) {
     return null
   }
   const src = `${Config.marketUrl}?jwt=${loginToken}&nofooter=true`

@@ -1820,45 +1820,45 @@ export class UserStorage {
 
     try {
       deleteAccountResult = await API.deleteAccount(zoomId, zoomSignature)
+
+      if (deleteAccountResult.data.ok) {
+        deleteResults = await Promise.all([
+          this.wallet
+            .deleteAccount()
+            .then(r => ({ wallet: 'ok' }))
+            .catch(e => ({ wallet: 'failed' })),
+          this.deleteProfile()
+            .then(r => ({
+              profile: 'ok',
+            }))
+            .catch(r => ({
+              profile: 'failed',
+            })),
+          this.gunuser
+            .get('feed')
+            .putAck(null)
+            .then(r => ({
+              feed: 'ok',
+            }))
+            .catch(r => ({
+              feed: 'failed',
+            })),
+          this.properties
+            .putAck(null)
+            .then(r => ({
+              properties: 'ok',
+            }))
+            .catch(r => ({
+              properties: 'failed',
+            })),
+        ])
+      }
     } catch (e) {
-      logger.error('deleteAccount', { e })
+      logger.error('deleteAccount unexpected error', e.message, e)
       return false
     }
 
-    if (deleteAccountResult.data.ok) {
-      deleteResults = await Promise.all([
-        this.wallet
-          .deleteAccount()
-          .then(r => ({ wallet: 'ok' }))
-          .catch(e => ({ wallet: 'failed' })),
-        this.deleteProfile()
-          .then(r => ({
-            profile: 'ok',
-          }))
-          .catch(r => ({
-            profile: 'failed',
-          })),
-        this.gunuser
-          .get('feed')
-          .putAck(null)
-          .then(r => ({
-            feed: 'ok',
-          }))
-          .catch(r => ({
-            feed: 'failed',
-          })),
-        this.userProperties
-          .putAck(null)
-          .then(r => ({
-            properties: 'ok',
-          }))
-          .catch(r => ({
-            properties: 'failed',
-          })),
-      ])
-    }
-
     logger.debug('deleteAccount', { deleteResults })
-    return deleteResults
+    return true
   }
 }

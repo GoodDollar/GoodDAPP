@@ -312,7 +312,7 @@ const Dashboard = props => {
               return await handleWithdraw()
             }
           }
-          showErrorDialog('Could not find payment details. Check your link or try again later.')
+          showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
         }
       }
     } catch (e) {

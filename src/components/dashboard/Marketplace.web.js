@@ -1,47 +1,62 @@
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Appbar } from 'react-native-paper'
-import { isMobileSafari } from 'mobile-device-detect'
+import { isIOS } from 'mobile-device-detect'
+import _get from 'lodash/get'
+import _toPairs from 'lodash/toPairs'
 import Config from '../../config/config'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import Icon from '../common/view/Icon'
 import Section from '../common/layout/Section'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import getMarketToken from './utils/getMarketToken'
+import userStorage from '../../lib/gundb/UserStorage'
 
 const MarketTab = props => {
-  const [loginToken, setLoginToken] = useState()
+  const [token, setToken] = useState()
   const store = SimpleStore.useStore()
-  store.set('loadingIndicator')({ loading: true })
+  const [showDialog] = useDialog()
+
+  const getMarketPath = () => {
+    const params = _get(props, 'navigation.state.params', {})
+    if (isIOS == false) {
+      params.nofooter = true
+    }
+    params.jwt = token
+    let path = decodeURIComponent(_get(params, 'marketPath', ''))
+    delete params.marketPath
+    const query = _toPairs(params)
+      .map(param => param.join('='))
+      .join('&')
+
+    return `${Config.marketUrl}/${path}?${query}`
+  }
+
   const isLoaded = () => {
     store.set('loadingIndicator')({ loading: false })
   }
-  const [showDialog] = useDialog()
+
   useEffect(() => {
-    getMarketToken(setLoginToken)
+    store.set('loadingIndicator')({ loading: true })
+    userStorage.getProfileFieldValue('loginToken').then(setToken)
   }, [])
 
   useEffect(() => {
-    if (isMobileSafari && loginToken) {
+    if (isIOS && token) {
       store.set('loadingIndicator')({ loading: false })
       showDialog({
-        message: 'Press ok to go to market',
-        buttons: [
-          {
-            text: 'Ok',
-            onPress: () => {
-              window.open(`${Config.marketUrl}?jwt=${loginToken}&nofooter=true`, '_blank')
-            },
-          },
-        ],
+        title: 'Press ok to go to market',
+        onDismiss: () => {
+          window.open(getMarketPath(), '_blank')
+          props.navigation.navigate('Home')
+        },
       })
     }
-  }, [loginToken])
+  }, [token])
 
-  if (isMobileSafari || loginToken === undefined) {
+  if (isIOS || token === undefined) {
     return null
   }
-  const src = `${Config.marketUrl}?jwt=${loginToken}&nofooter=true`
+  const src = getMarketPath()
 
   //this is for paperclip external market, doesnt seem like it requires iframeresizer to work in ios
   return (

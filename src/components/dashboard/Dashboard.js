@@ -240,7 +240,6 @@ const Dashboard = props => {
       //mark as displayed
       setShowDelayedTimer(true)
       store.set('addWebApp')({ show: true })
-      animateClaim()
     }, 1000)
     setShowDelayedTimer(id)
   }
@@ -269,6 +268,7 @@ const Dashboard = props => {
     handleReceiveLink()
     handleResize()
   }
+  useEffect(animateClaim)
   useEffect(() => {
     log.debug('Dashboard didmount')
     initDashboard()
@@ -290,15 +290,14 @@ const Dashboard = props => {
 
   useEffect(() => {
     const showingSomething =
-      _get('dialogData.visible', currentScreen) || _get('loading', loadingIndicator) || currentFeed
+      _get(currentScreen, 'dialogData.visible') || _get(loadingIndicator, 'loading') || currentFeed
 
-    log.debug({ showingSomething, showDelayedTimer })
     if (showDelayedTimer !== true && showDelayedTimer && showingSomething) {
       setShowDelayedTimer(clearTimeout(showDelayedTimer))
     } else if (!showDelayedTimer) {
       showDelayed()
     }
-  }, [_get('dialogData.visible', currentScreen), _get('loading', loadingIndicator), currentFeed])
+  }, [_get(currentScreen, 'dialogData.visible'), _get(loadingIndicator, 'loading'), currentFeed])
 
   const showEventModal = currentFeed => {
     store.set('currentFeed')(currentFeed)

@@ -100,6 +100,10 @@ const Dashboard = props => {
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
   const [update, setUpdate] = useState(0)
+  const [showDelayedTimer, setShowDelayedTimer] = useState()
+  const currentFeed = store.get('currentFeed')
+  const currentScreen = store.get('currentScreen')
+  const loadingIndicator = store.get('loadingIndicator')
 
   const checkBonusesToRedeem = () => {
     log.info('Check bonuses process started')
@@ -186,10 +190,13 @@ const Dashboard = props => {
   }
 
   const subscribeToFeed = () => {
-    userStorage.feed.get('byid').on(data => {
-      log.debug('gun getFeed callback', { data })
-      getInitialFeed(gdstore)
-    }, true)
+    return new Promise((res, rej) => {
+      userStorage.feed.get('byid').on(async data => {
+        log.debug('gun getFeed callback', { data })
+        await getInitialFeed(gdstore).catch(e => rej(false))
+        res(true)
+      }, true)
+    })
   }
 
   const handleReceiveLink = () => {
@@ -226,11 +233,16 @@ const Dashboard = props => {
       ]).start()
     }
   }
+
   const showDelayed = () => {
-    setTimeout(() => {
+    const id = setTimeout(() => {
+      //wait until not loading and not showing other modal (see use effect)
+      //mark as displayed
+      setShowDelayedTimer(true)
       store.set('addWebApp')({ show: true })
       animateClaim()
-    }, 2000)
+    }, 1000)
+    setShowDelayedTimer(id)
   }
 
   /**
@@ -255,7 +267,6 @@ const Dashboard = props => {
     prepareLoginToken()
     handleDeleteRedirect()
     handleReceiveLink()
-    showDelayed()
     handleResize()
   }
   useEffect(() => {
@@ -276,6 +287,18 @@ const Dashboard = props => {
       showNewFeedEvent(params.event)
     }
   }, [params])
+
+  useEffect(() => {
+    const showingSomething =
+      _get('dialogData.visible', currentScreen) || _get('loading', loadingIndicator) || currentFeed
+
+    log.debug({ showingSomething, showDelayedTimer })
+    if (showDelayedTimer !== true && showDelayedTimer && showingSomething) {
+      setShowDelayedTimer(clearTimeout(showDelayedTimer))
+    } else if (!showDelayedTimer) {
+      showDelayed()
+    }
+  }, [_get('dialogData.visible', currentScreen), _get('loading', loadingIndicator), currentFeed])
 
   const showEventModal = currentFeed => {
     store.set('currentFeed')(currentFeed)
@@ -346,7 +369,6 @@ const Dashboard = props => {
     }
   }
 
-  const currentFeed = store.get('currentFeed')
   const { screenProps, styles }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')

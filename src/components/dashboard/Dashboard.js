@@ -225,6 +225,7 @@ const Dashboard = props => {
   }
 
   const nextFeed = () => {
+    log.debug('getNextFeed called')
     return getNextFeed(gdstore)
   }
 

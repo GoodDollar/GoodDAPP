@@ -199,7 +199,7 @@ exports[`Dashboard matches snapshot 1`] = `
               }
             }
           >
-            
+            
           </div>
         </div>
         <div
@@ -286,13 +286,12 @@ exports[`Dashboard matches snapshot 1`] = `
               "borderTopStyle": "solid",
               "borderTopWidth": "3px",
               "cursor": "pointer",
-              "height": "79px",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "15px",
-              "paddingLeft": "4px",
-              "paddingRight": "4px",
-              "paddingTop": "8px",
+              "paddingBottom": "20px",
+              "paddingLeft": "7px",
+              "paddingRight": "7px",
+              "paddingTop": "20px",
               "touchAction": "manipulation",
               "transitionDuration": "0.15s",
               "transitionProperty": "opacity",
@@ -308,13 +307,13 @@ exports[`Dashboard matches snapshot 1`] = `
               Object {
                 "color": "rgba(255,255,255,1.00)",
                 "fontFamily": "gooddollar",
-                "fontSize": "51px",
+                "fontSize": "36px",
                 "fontStyle": "normal",
                 "fontWeight": "normal",
               }
             }
           >
-            
+            
           </div>
         </div>
         <div

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, AppState, Dimensions, Easing } from 'react-native'
 import _get from 'lodash/get'
-import _forEach from 'lodash/forEach'
 import debounce from 'lodash/debounce'
 import moment from 'moment'
 import type { Store } from 'undux'
@@ -111,7 +110,7 @@ const Dashboard = props => {
       return
     }
 
-    API.redeemBonuses()
+    return API.redeemBonuses()
       .then(res => {
         log.debug('redeemBonuses', { resData: res && res.data })
       })
@@ -139,27 +138,18 @@ const Dashboard = props => {
     }
   }
 
-  const intervalRequests = {
-    checkBonusesToRedeem,
-    prepareLoginToken,
-  }
-
-  const intervalRequestsWrap = async perform => {
+  const checkBonusInterval = async perform => {
     const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
-
+    log.debug({ lastTimeBonusCheck })
     if (
+      lastTimeBonusCheck &&
       moment()
         .subtract(Number(config.backgroundReqsInterval), 'minutes')
         .isBefore(moment(lastTimeBonusCheck))
     ) {
       return
     }
-
-    if (perform && perform.length) {
-      perform.forEach(i => intervalRequests[i]())
-    } else {
-      _forEach(intervalRequests, f => f())
-    }
+    await checkBonusesToRedeem()
 
     userStorage.userProperties.set('lastBonusCheckDate', new Date().toISOString())
   }
@@ -213,7 +203,7 @@ const Dashboard = props => {
 
   const handleAppFocus = state => {
     if (state === 'active') {
-      intervalRequestsWrap(['checkBonusesToRedeem'])
+      checkBonusInterval()
     }
   }
 
@@ -259,16 +249,19 @@ const Dashboard = props => {
     return getNextFeed(gdstore)
   }
 
-  useEffect(() => {
-    log.debug('Dashboard didmount')
-    AppState.addEventListener('change', handleAppFocus)
-
-    intervalRequestsWrap()
+  const initDashboard = async () => {
+    await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+    log.debug('initDashboard subscribed to feed')
+    prepareLoginToken()
     handleDeleteRedirect()
-    subscribeToFeed()
     handleReceiveLink()
     showDelayed()
     handleResize()
+  }
+  useEffect(() => {
+    log.debug('Dashboard didmount')
+    initDashboard()
+    AppState.addEventListener('change', handleAppFocus)
 
     return function() {
       AppState.removeEventListener('change', handleAppFocus)

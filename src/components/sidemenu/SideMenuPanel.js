@@ -37,28 +37,23 @@ export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
             image: <LoadingIcon />,
             showButtons: false,
           })
-          try {
-            const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
+          const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
+          let token = await userStorage.getProfileFieldValue('w3Token')
 
-            // let token = await userStorage.getProfileFieldValue('w3Token')
+          if (!token) {
+            token = await userStorage.getProfileFieldValue('loginToken')
+          }
 
-            // if (!token) {
-            //   token = await userStorage.getProfileFieldValue('loginToken')
-            // }
+          const isDeleted = await userStorage.deleteAccount()
+          log.debug('deleted account', isDeleted)
 
-            const isDeleted = await userStorage.deleteAccount()
-            log.debug('deleted account', isDeleted)
-
-            if (isDeleted) {
-              // API.deleteWalletFromW3Site(token)
-              await Promise.all([AsyncStorage.clear()])
-              window.location = '/'
-            } else {
-              showDialog('There was a problem deleting your account. Try again later.')
-            }
-          } catch (e) {
-            log.error('Error deleting account', e.message, e)
-            showDialog('There was a problem deleting your account. Try again later.')
+          if (isDeleted) {
+            await Promise.all([AsyncStorage.clear(), API.deleteWalletFromW3Site(token)]).catch(e =>
+              log.error('Error deleting account', e.message, e)
+            )
+            window.location = '/'
+          } else {
+            showDialog('Error deleting account')
           }
         },
       },

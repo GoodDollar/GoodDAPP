@@ -11,7 +11,7 @@ export type SideMenuItemProps = {
 }
 
 const SideMenuItem = ({ icon, name, color, action, styles, theme }: SideMenuItemProps) => (
-  <TouchableOpacity style={styles.clickableRow} onPress={action}>
+  <TouchableOpacity testID="burger_button" style={styles.clickableRow} onPress={action}>
     <View style={styles.menuIcon}>
       <Icon
         name={icon}

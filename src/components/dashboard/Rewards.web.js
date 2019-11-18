@@ -3,24 +3,44 @@ import { TouchableOpacity, View } from 'react-native'
 import IframeResizer from 'iframe-resizer-react'
 import { isIOS, osVersion } from 'mobile-device-detect'
 import { Appbar } from 'react-native-paper'
+import _get from 'lodash/get'
+import _toPairs from 'lodash/toPairs'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import Section from '../common/layout/Section'
 import Icon from '../common/view/Icon'
+import { useDialog } from '../../lib/undux/utils/dialog'
 
 const log = logger.child({ from: 'RewardsTab' })
 
 const RewardsTab = props => {
-  const [loginToken, setLoginToken] = useState()
+  const [token, setToken] = useState()
   const store = SimpleStore.useStore()
+  const [showDialog] = useDialog()
+
   const scrolling = isIOS ? 'no' : 'yes'
+
+  const getRewardsPath = () => {
+    const params = _get(props, 'navigation.state.params', {})
+    if (isIOS === false) {
+      params.purpose = 'iframe'
+    }
+    params.token = token
+    let path = decodeURIComponent(_get(params, 'rewardsPath', ''))
+    delete params.rewardsPath
+    const query = _toPairs(params)
+      .map(param => param.join('='))
+      .join('&')
+
+    return `${Config.web3SiteUrl}/${path}?${query}`
+  }
 
   const getToken = async () => {
     let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
     log.debug('got rewards login token', token)
-    setLoginToken(token)
+    setToken(token)
   }
   const isLoaded = () => {
     store.set('loadingIndicator')({ loading: false })
@@ -31,18 +51,32 @@ const RewardsTab = props => {
     getToken()
   }, [])
 
-  if (loginToken === undefined) {
+  useEffect(() => {
+    if (isIOS && token) {
+      store.set('loadingIndicator')({ loading: false })
+      showDialog({
+        title: 'Press ok to go to Rewards dashboard',
+        onDismiss: () => {
+          window.open(getRewardsPath(), '_blank')
+          props.navigation.navigate('Home')
+        },
+      })
+    }
+  }, [token])
+
+  if (isIOS || token === undefined) {
     return null
   }
-  const src = `${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`
+
+  const src = getRewardsPath()
   if (isIOS === false || osVersion >= 13) {
     return <iframe title="Rewards" onLoad={isLoaded} src={src} seamless frameBorder="0" style={{ flex: 1 }} />
   }
-  return loginToken === undefined ? null : (
+  return token === undefined ? null : (
     <IframeResizer
       title="Rewards"
       scrolling={scrolling}
-      src={`${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`}
+      src={src}
       allowFullScreen
       checkOrigin={false}
       frameBorder="0"
@@ -71,8 +105,7 @@ const navBarStyles = {
   },
   walletIcon: {
     position: 'absolute',
-    right: 5,
-    bottom: -5,
+    right: 15,
   },
 }
 
@@ -85,7 +118,7 @@ const NavigationBar = navigate => (
     </Section.Text>
     <Appbar.Content />
     <TouchableOpacity onPress={() => navigate('Home')} style={navBarStyles.walletIcon}>
-      <Icon name="wallet" size={55} color="white" />
+      <Icon name="wallet" size={36} color="white" />
     </TouchableOpacity>
   </Appbar.Header>
 )

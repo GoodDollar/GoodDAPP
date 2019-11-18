@@ -59,14 +59,15 @@ const AppSwitch = (props: LoadingProps) => {
     // const navInfo = router.getPathAndParamsForState(state)
     const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
     AsyncStorage.removeItem(DESTINATION_PATH)
-    log.debug('getParams', { destinationPath, router, state })
 
     if (destinationPath) {
       const app = router.getActionForPathAndParams(destinationPath.path) || {}
+      log.debug('destinationPath getParams', { destinationPath, router, state, app })
 
       //get nested routes
       const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
-      const destData = { ...destRoute(app), params: destinationPath.params }
+      const destData = destRoute(app)
+      destData.params = { ...destData.params, ...destinationPath.params }
       return destData
     }
     return undefined

@@ -1,11 +1,10 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Animated, AppState, Dimensions, Easing } from 'react-native'
-import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
+import _get from 'lodash/get'
 import moment from 'moment'
 import type { Store } from 'undux'
-
 import * as web3Utils from 'web3-utils'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
@@ -257,6 +256,7 @@ const Dashboard = props => {
   }
 
   const nextFeed = () => {
+    log.debug('getNextFeed called')
     return getNextFeed(gdstore)
   }
 
@@ -268,7 +268,9 @@ const Dashboard = props => {
     handleReceiveLink()
     handleResize()
   }
+
   useEffect(animateClaim)
+
   useEffect(() => {
     log.debug('Dashboard didmount')
     initDashboard()
@@ -359,7 +361,7 @@ const Dashboard = props => {
               return await handleWithdraw()
             }
           }
-          showErrorDialog('Could not find payment details. Check your link or try again later.')
+          showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
         }
       }
     } catch (e) {
@@ -635,6 +637,12 @@ export default createStackNavigator({
   FAQ,
   Recover: Mnemonics,
   OutOfGasError,
-  Rewards: RewardsTab,
-  Marketplace: config.market ? MarketTab : WrappedDashboard,
+  Rewards: {
+    screen: RewardsTab,
+    path: 'Rewards/:rewardsPath*',
+  },
+  Marketplace: {
+    screen: config.market ? MarketTab : WrappedDashboard,
+    path: 'Marketplace/:marketPath*',
+  },
 })

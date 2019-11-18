@@ -589,6 +589,12 @@ export default createStackNavigator({
   FAQ,
   Recover: Mnemonics,
   OutOfGasError,
-  Rewards: RewardsTab,
-  Marketplace: config.market ? MarketTab : WrappedDashboard,
+  Rewards: {
+    screen: RewardsTab,
+    path: 'Rewards/:rewardsPath*',
+  },
+  Marketplace: {
+    screen: config.market ? MarketTab : WrappedDashboard,
+    path: 'Marketplace/:marketPath*',
+  },
 })

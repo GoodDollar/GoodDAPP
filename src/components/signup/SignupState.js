@@ -94,28 +94,54 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
 
+  const getW3UserFromProps = async () => {
+    const web3Token = await AsyncStorage.getItem('GD_web3Token')
+
+    // Getting the second element from routes array (starts from 0) as the second route is Phone
+    // We are redirecting directly to Phone from Auth component if w3Token provided
+    const _w3User = _get(navigation, 'state.routes[1].params.w3User')
+    let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
+
+    if (web3Token && Object.keys(w3User).length) {
+      const userScreenData = {
+        email: w3User.email,
+        fullName: w3User.full_name,
+        w3Token: web3Token,
+        skipEmail: true,
+        skipEmailConfirmation: true,
+      }
+
+      setState({
+        ...state,
+        ...userScreenData,
+      })
+    }
+  }
+
   const checkWeb3Token = async () => {
     setLoading(true)
 
     const web3Token = await AsyncStorage.getItem('GD_web3Token')
 
-    if (!web3Token) {
+    // Getting the second element from routes array (starts from 0) as the second route is Phone
+    // We are redirecting directly to Phone from Auth component if w3Token provided
+    const _w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User')
+    let w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
+
+    if (!web3Token || Object.keys(w3UserFromProps).length) {
       setLoading(false)
       return
     }
 
     let behaviour = ''
-    const _w3User = _get(navigation, 'state.params.w3User')
-    let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
+    let w3User
 
-    if (!Object.keys(w3User).length) {
-      try {
-        const w3userData = await API.getUserFromW3ByToken(web3Token)
+    try {
+      const w3userData = await API.getUserFromW3ByToken(web3Token)
 
-        w3User = w3userData.data
-      } catch (e) {
-        behaviour = 'showTokenError'
-      }
+      w3User = w3userData.data
+    } catch (e) {
+      behaviour = 'showTokenError'
     }
 
     if (!behaviour) {
@@ -195,6 +221,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   useEffect(() => {
     isRegisterAllowed()
+
+    getW3UserFromProps()
 
     //get user country code for phone
     getCountryCode()

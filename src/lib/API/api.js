@@ -99,13 +99,6 @@ class API {
   }
 
   /**
-   * `/auth/ping` get api call
-   */
-  ping(): AxiosPromise<any> {
-    return this.client.get('/auth/ping')
-  }
-
-  /**
    * `/auth/eth` post api call
    * @param {Credentials} creds
    */

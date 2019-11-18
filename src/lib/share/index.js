@@ -1,6 +1,5 @@
 // @flow
 import fromPairs from 'lodash/fromPairs'
-import toPairs from 'lodash/toPairs'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from 'validator/lib/isEmail'
@@ -40,7 +39,9 @@ export function generateCode(
  * @returns {null|{amount: *, address, networkId: number, reason: string}}
  */
 export function readCode(code: string) {
-  let [mnid, value, reason, counterPartyDisplayName] = code.split('|')
+  let codeParams = Buffer.from(decodeURI(code), 'base64').toString()
+  codeParams = JSON.parse(codeParams)
+  let [mnid, value, reason, counterPartyDisplayName] = codeParams.split('|')
 
   if (!isMNID(mnid)) {
     return null
@@ -196,30 +197,14 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     receive: Config.receiveUrl,
     send: Config.sendUrl,
   }[action]
+
+  let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
   let queryParams = ''
 
-  switch (Config.network) {
-    case 'production':
-      if (params.code) {
-        queryParams = `/${params.code}`
-        delete params.code
-      } else if (params.paymentCode) {
-        queryParams = `/${params.paymentCode}`
-        delete params.paymentCode
-      }
-      break
-
-    default:
-      break
-  }
-
-  // creates query params from params object
-  const additionalParams = toPairs(params)
-    .map(param => param.join('='))
-    .join('&')
-
-  if (additionalParams.length) {
-    queryParams += `?${additionalParams}`
+  if (Config.network === 'production') {
+    queryParams = `/${paramsBase64}`
+  } else {
+    queryParams = action === 'send' ? `?paymentCode=${paramsBase64}` : `?code=${paramsBase64}`
   }
 
   if (!queryParams || !destination) {

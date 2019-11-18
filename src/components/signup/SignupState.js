@@ -231,7 +231,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     // don't allow to start sign up flow not from begining except when w3Token provided
     AsyncStorage.getItem('GD_web3Token').then(token => {
-      if (!token && navigation.state.index > 0) {
+      if ((token && navigation.state.index > 1) || (!token && navigation.state.index > 0)) {
         log.debug('redirecting to start, got index:', navigation.state.index)
         setLoading(true)
         return navigateWithFocus(navigation.state.routes[0].key)
@@ -296,7 +296,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       Promise.all([
-        AsyncStorage.removeItem('GD_web3Token'),
         w3Token &&
           API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
             log.error('failed updateW3UserWithWallet', e.message, e)
@@ -305,7 +304,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           log.error('failed sendMagicLinkByEmail', e.message, e)
         ),
       ])
+
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
+
+      AsyncStorage.removeItem('GD_web3Token')
+
       log.debug('New user created')
       return true
     } catch (e) {

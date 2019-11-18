@@ -45,6 +45,14 @@ const MarketTab = props => {
       store.set('loadingIndicator')({ loading: false })
       showDialog({
         title: 'Press ok to go to market',
+        buttons: [
+          {
+            text: 'OK',
+            onPress: () => {
+              window.open(getMarketPath(), '_blank')
+            },
+          },
+        ],
         onDismiss: () => {
           props.navigation.navigate('Home')
         },

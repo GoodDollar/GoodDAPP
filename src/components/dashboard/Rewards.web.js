@@ -36,7 +36,17 @@ const RewardsTab = props => {
   }
   const src = `${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`
   if (isIOS === false || osVersion >= 13) {
-    return <iframe title="Rewards" onLoad={isLoaded} src={src} seamless frameBorder="0" style={{ flex: 1 }} />
+    return (
+      <iframe
+        testID="rewards_tab"
+        title="Rewards"
+        onLoad={isLoaded}
+        src={src}
+        seamless
+        frameBorder="0"
+        style={{ flex: 1 }}
+      />
+    )
   }
   return loginToken === undefined ? null : (
     <IframeResizer

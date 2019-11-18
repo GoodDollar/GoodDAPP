@@ -46,7 +46,6 @@ const MarketTab = props => {
       showDialog({
         title: 'Press ok to go to market',
         onDismiss: () => {
-          window.open(getMarketPath(), '_blank')
           props.navigation.navigate('Home')
         },
       })

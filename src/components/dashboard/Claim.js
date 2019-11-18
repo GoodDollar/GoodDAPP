@@ -227,7 +227,7 @@ const Claim = props => {
         showErrorDialog('Claim request failed', 'CLAIM-1', { boldMessage: 'Try again later.' })
       }
     } catch (e) {
-      fireEvent(CLAIM_SUCCESS, { txError: true })
+      fireEvent(CLAIM_FAILED, { txError: true })
       log.error('claiming failed', e.message, e)
       showErrorDialog('Claim request failed', 'CLAIM-2', { boldMessage: 'Try again later.' })
     } finally {

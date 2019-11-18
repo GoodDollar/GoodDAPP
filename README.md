@@ -3,8 +3,8 @@
 
 [![Build Status](https://travis-ci.com/GoodDollar/GoodDAPP.svg?branch=master)](https://travis-ci.com/GoodDollar/GoodDAPP) [![Coverage Status](https://coveralls.io/repos/github/GoodDollar/GoodDAPP/badge.svg?branch=master)](https://coveralls.io/github/GoodDollar/GoodDAPP?branch=master)
 
-Use [GoodBootstrap](https://github.com/GoodDollar/GoodBootstrap) to start a dev env
-See [docs](https://docs.gooddollar.org)
+- Use [GoodBootstrap](https://github.com/GoodDollar/GoodBootstrap) to start a dev env
+- See [docs](https://docs.gooddollar.org)
 
 ## Installation Web
 

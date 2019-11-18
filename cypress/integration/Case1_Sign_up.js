@@ -20,7 +20,7 @@ describe('Test case 1: Ability to Sign Up', () => {
     SignUpPage.invalidValueErrorMessage2.should('exist')
     SignUpPage.nameInput.clear()
     SignUpPage.nameInput.type(Cypress.env('usernameForRegistration'))
-    cy.wait(5000)
+    SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
     SignUpPage.phoneInput.type('+11111')
     SignUpPage.invalidValueErrorMessage3.should('exist')
@@ -33,38 +33,28 @@ describe('Test case 1: Ability to Sign Up', () => {
     StartPage.open()
     StartPage.continueOnWebButton.click()
     StartPage.createWalletButton.click()
-    cy.wait(3000)
+    SignUpPage.nameInput.should('be.visible')
     SignUpPage.nameInput.type(Cypress.env('usernameForRegistration'))
-    cy.wait(3000)
+    SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
     SignUpPage.phoneInput.type(Cypress.env('numberForCheckingRegistration'))
+    cy.wait(4000) // delay is necessary
+    SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
-
-    // SignUpPage.errorOkayButton.click();
-    // SignUpPage.nextButton.click();
-    cy.wait(5000)
-
-    // ** it works more reliably then cycle ** //
-    SignUpPage.codeInputs.eq(0).type(0, { force: true })
-    SignUpPage.codeInputs.eq(1).type(1, { force: true })
-    SignUpPage.codeInputs.eq(2).type(2, { force: true })
-    SignUpPage.codeInputs.eq(3).type(3, { force: true })
-    SignUpPage.codeInputs.eq(4).type(4, { force: true })
-    SignUpPage.codeInputs.eq(5).type(5, { force: true })
-
-    cy.wait(5000)
+    cy.wait(4000) // delay is necessary
+    for (let i = 0; i < 6; i++) {
+      SignUpPage.codeInputs.eq(i).type(i, { force: true })
+    }
+    SignUpPage.emailInput.should('be.visible')
     SignUpPage.emailInput.type(Cypress.env('emailForCheckingRegistration'))
-    cy.wait(5000)
+    SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
     SignUpPage.gotItButton.click()
     SignUpPage.letStartButton.click()
-    cy.wait(10000)
-
-    // ** Check wallet gas ** //
-
     HomePage.welcomeFeed.should('be.visible')
 
-    // // ** Part for checking Rewards window **//
+    // ** Check wallet gas ** //
+    // ** Part for checking Rewards window **//
     // HomePage.rewardsButton.click()
     // RewardsPage.pageHeader.should('contain', 'Rewards')
     // RewardsPage.iframe.should('be.visible')
@@ -89,13 +79,9 @@ describe('Test case 1: Ability to Sign Up', () => {
     //   })
     // })
 
-    // ** test ** //
     HomePage.optionsButton.click()
-    cy.wait(5000)
     HomePage.deleteAccountButton.click()
-    cy.wait(8000)
     HomePage.confirmDeletionButton.click()
-    cy.wait(15000)
-    cy.log('Done!')
+    StartPage.continueOnWebButton.should('be.visible')
   })
 })

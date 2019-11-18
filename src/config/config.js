@@ -31,6 +31,7 @@ const Config = {
   sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}`,
   nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
   bugsnagKey: process.env.REACT_APP_BUGSNAG_API_KEY,
+  backgroundReqsInterval: process.env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, //minutes
   ethereum: {
     '42': {
       network_id: 42,

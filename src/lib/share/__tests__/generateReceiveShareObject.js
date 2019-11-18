@@ -1,6 +1,6 @@
 import { generateReceiveShareObject } from '../'
 
-const isReceiveLink = /\?code=123$/
+const isReceiveLink = Buffer.from('123').toString('base64')
 describe('generateReceiveShareObject', () => {
   it(`should return an object for receipt with code, amount, to and from`, () => {
     // Given

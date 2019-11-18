@@ -1,12 +1,16 @@
 // @flow
 import fromPairs from 'lodash/fromPairs'
+import isEmpty from 'lodash/isEmpty'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from 'validator/lib/isEmail'
 
 import Config from '../../config/config'
+import logger from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import { weiToGd } from '../wallet/utils'
+
+const log = logger.child({ from: 'share.index' })
 
 /**
  * Generates a code contaning an MNID with an amount if specified
@@ -39,25 +43,29 @@ export function generateCode(
  * @returns {null|{amount: *, address, networkId: number, reason: string}}
  */
 export function readCode(code: string) {
-  let codeParams = Buffer.from(decodeURI(code), 'base64').toString()
-  codeParams = JSON.parse(codeParams)
-  let [mnid, value, reason, counterPartyDisplayName] = codeParams.split('|')
+  try {
+    let codeParams = Buffer.from(decodeURI(code), 'base64').toString()
+    let [mnid, value, reason, counterPartyDisplayName] = codeParams.split('|')
 
-  if (!isMNID(mnid)) {
+    if (!isMNID(mnid)) {
+      return null
+    }
+
+    const { network, address } = decode(mnid)
+    const amount = value && parseInt(value)
+    reason = reason === 'undefined' ? undefined : reason
+    counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
+
+    return {
+      networkId: parseInt(network),
+      address,
+      amount: amount ? amount : undefined,
+      reason,
+      counterPartyDisplayName,
+    }
+  } catch (e) {
+    log.error('readCode failed', e.message, e)
     return null
-  }
-
-  const { network, address } = decode(mnid)
-  const amount = value && parseInt(value)
-  reason = reason === 'undefined' ? undefined : reason
-  counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
-
-  return {
-    networkId: parseInt(network),
-    address,
-    amount: amount ? amount : undefined,
-    reason,
-    counterPartyDisplayName,
   }
 }
 
@@ -198,6 +206,10 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     send: Config.sendUrl,
   }[action]
 
+  if (!destination || isEmpty(params)) {
+    throw new Error(`Link couldn't be generated`)
+  }
+
   let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
   let queryParams = ''
 
@@ -205,10 +217,6 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     queryParams = `/${paramsBase64}`
   } else {
     queryParams = action === 'send' ? `?paymentCode=${paramsBase64}` : `?code=${paramsBase64}`
-  }
-
-  if (!queryParams || !destination) {
-    throw new Error(`Link couldn't be generated`)
   }
 
   return encodeURI(`${destination}${queryParams}`)

@@ -103,11 +103,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     if (web3Token && Object.keys(w3User).length) {
       const userScreenData = {
-        email: w3User.email,
-        fullName: w3User.full_name,
+        email: w3User.email || '',
+        fullName: w3User.full_name || '',
         w3Token: web3Token,
-        skipEmail: true,
-        skipEmailConfirmation: true,
+        skipEmail: !!w3User.email,
+        skipEmailConfirmation: !!w3User.email,
       }
 
       setState({
@@ -153,11 +153,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     log.info('behaviour', behaviour)
 
     const userScreenData = {
-      email: w3User.email,
-      fullName: w3User.full_name,
+      email: w3User.email || '',
+      fullName: w3User.full_name || '',
       w3Token: web3Token,
-      skipEmail: true,
-      skipEmailConfirmation: true,
+      skipEmail: !!w3User.email,
+      skipEmailConfirmation: !!w3User.email,
     }
 
     switch (behaviour) {

@@ -1,10 +1,9 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Animated, AppState, Dimensions, Easing } from 'react-native'
-import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
+import _get from 'lodash/get'
 import type { Store } from 'undux'
-
 import * as web3Utils from 'web3-utils'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
@@ -225,6 +224,7 @@ const Dashboard = props => {
   }
 
   const nextFeed = () => {
+    log.debug('getNextFeed called')
     return getNextFeed(gdstore)
   }
 

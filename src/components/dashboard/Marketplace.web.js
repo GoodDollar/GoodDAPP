@@ -81,8 +81,7 @@ const navBarStyles = {
   },
   walletIcon: {
     position: 'absolute',
-    right: 5,
-    bottom: -5,
+    right: 15,
   },
 }
 
@@ -92,7 +91,7 @@ const NavigationBar = navigate => (
       {'GOODMARKET'}
     </Section.Text>
     <TouchableOpacity onPress={() => navigate('Home')} style={navBarStyles.walletIcon}>
-      <Icon name="wallet" size={55} color="white" />
+      <Icon name="wallet" size={36} color="white" />
     </TouchableOpacity>
   </Appbar.Header>
 )

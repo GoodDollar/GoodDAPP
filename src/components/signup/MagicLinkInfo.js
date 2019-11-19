@@ -30,21 +30,25 @@ const MagicLinkInfoComponent = props => {
           </Text>
         </View>
       </Section.Row>
+      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-            {'You can sign in'}
+            <Text fontWeight="bold" fontSize={22} fontFamily="Roboto">
+              {'Next time '}
+            </Text>
+            {'you can sign in '}
           </Text>
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-            {`from any device or platform`}
+            {`from any device `}
           </Text>
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-            {`using the `}
+            {`using your `}
             <Text fontWeight="bold" fontSize={22}>{`Magic Link`}</Text>
           </Text>
         </View>
       </Section.Row>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>
           <Text fontSize={14} fontFamily="Roboto" lineHeight={20}>
@@ -52,8 +56,7 @@ const MagicLinkInfoComponent = props => {
             <Text fontSize={14} fontFamily="Roboto" lineHeight={20} fontWeight="bold">{`GoodDollar Magic Mail`}</Text>
           </Text>
           <Text fontSize={14} fontFamily="Roboto" lineHeight={20}>
-            {'that we just send you and click on the '}
-            <Text fontSize={14} fontFamily="Roboto" lineHeight={20} fontWeight="bold">{`Magic Link`}</Text>
+            {'that we’ll soon send you '}
           </Text>
         </View>
       </Section.Row>

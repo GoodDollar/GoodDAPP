@@ -35,8 +35,8 @@ const SignupWizardNavigator = createSwitchNavigator(
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,
-    MagicLinkInfo,
     SignupCompleted,
+    MagicLinkInfo,
   },
   navigationConfig
 )

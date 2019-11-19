@@ -24,7 +24,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const [code, setCode] = useState()
   const [isRecovering, setRecovering] = useState(false)
-  const [isValid, setValid] = useState(true)
+  const [isValid, setValid] = useState(false)
   const [showErrorDialog] = useErrorDialog()
 
   const handleChange = (newCode: string) => {

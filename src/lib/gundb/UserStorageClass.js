@@ -1560,7 +1560,16 @@ export class UserStorage {
   async updateEventStatus(eventId: string, status: string): Promise<FeedEvent> {
     const feedEvent = await this.getFeedItemByTransactionHash(eventId)
     feedEvent.status = status
-    return this.updateFeedEvent(feedEvent)
+    return this.feed
+      .get('byid')
+      .get(eventId)
+      .secretAck(feedEvent)
+      .then()
+      .then(_ => feedEvent)
+      .catch(e => {
+        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        return {}
+      })
   }
 
   /**

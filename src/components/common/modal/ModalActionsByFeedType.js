@@ -36,8 +36,6 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     } else {
       setState({ ...state, cancelPaymentLoading: true })
       try {
-        await userStorage.deleteEvent(item.id)
-
         goodWallet
           .cancelOTLByTransactionHash(item.id)
           .catch(e => {
@@ -48,6 +46,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .finally(() => {
             setState({ ...state, cancelPaymentLoading: false })
           })
+        await userStorage.deleteEvent(item.id)
       } catch (e) {
         log.error('cancel payment failed', e.message, e)
         setState({ ...state, cancelPaymentLoading: false })

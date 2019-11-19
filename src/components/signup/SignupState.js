@@ -504,6 +504,7 @@ Signup.navigationOptions = SignupWizardNavigator.navigationOptions
 const styles = StyleSheet.create({
   loadingMargin: {
     margin: 'auto',
+    marginBottom: 'auto',
   },
   contentContainer: {
     flexGrow: 1,

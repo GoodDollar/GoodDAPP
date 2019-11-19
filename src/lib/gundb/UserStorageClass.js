@@ -19,6 +19,7 @@ import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
+import resizeBase64Image from '../utils/resizeBase64Image'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -468,6 +469,7 @@ export class UserStorage {
       mobile: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
       mnemonic: { defaultPrivacy: 'private' },
       avatar: { defaultPrivacy: 'public' },
+      smallAvatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },
       w3Token: { defaultPrivacy: 'private' },
@@ -908,7 +910,7 @@ export class UserStorage {
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
-  setProfile(profile: UserModel, update: boolean = false): Promise<> {
+  async setProfile(profile: UserModel, update: boolean = false): Promise<> {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
@@ -918,6 +920,10 @@ export class UserStorage {
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
       }
+    }
+
+    if (profile.avatar) {
+      profile.smallAvatar = await resizeBase64Image(profile.avatar, 50)
     }
 
     return Promise.all(
@@ -1454,7 +1460,7 @@ export class UserStorage {
     const profileFromGun = () =>
       profileToShow &&
       profileToShow
-        .get('avatar')
+        .get('smallAvatar')
         .get('display')
         .then()
 

@@ -65,9 +65,31 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [finishedPromise, setFinishedPromise] = useState(undefined)
   const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
   const [registerAllowed, setRegisterAllowed] = useState(false)
-
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
+
+  AsyncStorage.getItem('GD_web3Token').then(web3Token => {
+    // Getting the second element from routes array (starts from 0) as the second route is Phone
+    // We are redirecting directly to Phone from Auth component if w3Token provided
+    const _w3User = _get(navigation, 'state.routes[1].params.w3User')
+    let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
+
+    if (web3Token && Object.keys(w3User).length) {
+      const userScreenData = {
+        email: w3User.email || '',
+        fullName: w3User.full_name || '',
+        w3Token: web3Token,
+        skipEmail: !!w3User.email,
+        skipEmailConfirmation: !!w3User.email,
+      }
+
+      setState({
+        ...state,
+        ...userScreenData,
+      })
+    }
+  })
+
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
     setLoading(false)
@@ -93,30 +115,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       data && setCountryCode(data.country)
     } catch (e) {
       log.error('Could not get user location', e.message, e)
-    }
-  }
-
-  const getW3UserFromProps = async () => {
-    const web3Token = await AsyncStorage.getItem('GD_web3Token')
-
-    // Getting the second element from routes array (starts from 0) as the second route is Phone
-    // We are redirecting directly to Phone from Auth component if w3Token provided
-    const _w3User = _get(navigation, 'state.routes[1].params.w3User')
-    let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
-
-    if (web3Token && Object.keys(w3User).length) {
-      const userScreenData = {
-        email: w3User.email || '',
-        fullName: w3User.full_name || '',
-        w3Token: web3Token,
-        skipEmail: !!w3User.email,
-        skipEmailConfirmation: !!w3User.email,
-      }
-
-      setState({
-        ...state,
-        ...userScreenData,
-      })
     }
   }
 
@@ -226,7 +224,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   useEffect(() => {
     isRegisterAllowed()
 
-    getW3UserFromProps()
     checkWeb3Token()
 
     //get user country code for phone

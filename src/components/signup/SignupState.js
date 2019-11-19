@@ -15,7 +15,6 @@ import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent } from '../../lib/analytics/analytics'
-import LoadingIcon from '../common/modal/LoadingIcon'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -45,21 +44,26 @@ const SignupWizardNavigator = createSwitchNavigator(
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
 
-  // const API = useWrappedApi()
+  // Getting the second element from routes array (starts from 0) as the second route is Phone
+  // We are redirecting directly to Phone from Auth component if w3Token provided
+  const _w3User = _get(navigation, 'state.routes[1].params.w3User')
+  let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
+
   const initialState: SignupState = {
     ...getUserModel({
-      fullName: '',
-      email: '',
+      email: w3User.email || '',
+      fullName: w3User.full_name || '',
       mobile: '',
     }),
     smsValidated: false,
     isEmailConfirmed: false,
     jwt: '',
+    skipEmail: !!w3User.email,
+    skipEmailConfirmation: !!w3User.email,
   }
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
-  const [loadingMandatoryData, setLoadingMAndatoryData] = useState(false)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
@@ -67,28 +71,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [registerAllowed, setRegisterAllowed] = useState(false)
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
-
-  AsyncStorage.getItem('GD_web3Token').then(web3Token => {
-    // Getting the second element from routes array (starts from 0) as the second route is Phone
-    // We are redirecting directly to Phone from Auth component if w3Token provided
-    const _w3User = _get(navigation, 'state.routes[1].params.w3User')
-    let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
-
-    if (web3Token && Object.keys(w3User).length) {
-      const userScreenData = {
-        email: w3User.email || '',
-        fullName: w3User.full_name || '',
-        w3Token: web3Token,
-        skipEmail: !!w3User.email,
-        skipEmailConfirmation: !!w3User.email,
-      }
-
-      setState({
-        ...state,
-        ...userScreenData,
-      })
-    }
-  })
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
@@ -119,9 +101,16 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const checkWeb3Token = async () => {
-    setLoadingMAndatoryData(true)
+    store.set('loadingIndicator')({ loading: true })
 
     const web3Token = await AsyncStorage.getItem('GD_web3Token')
+
+    if (web3Token) {
+      setState({
+        ...state,
+        w3Token: web3Token,
+      })
+    }
 
     // Getting the second element from routes array (starts from 0) as the second route is Phone
     // We are redirecting directly to Phone from Auth component if w3Token provided
@@ -129,7 +118,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     let w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
 
     if (!web3Token || Object.keys(w3UserFromProps).length) {
-      setLoadingMAndatoryData(false)
+      store.set('loadingIndicator')({ loading: false })
       return
     }
 
@@ -204,7 +193,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         break
     }
 
-    setLoadingMAndatoryData(false)
+    store.set('loadingIndicator')({ loading: false })
   }
 
   const isRegisterAllowed = async () => {
@@ -476,19 +465,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={'Sign Up'} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
-          {loadingMandatoryData ? (
-            <LoadingIcon style={styles.loadingMargin} />
-          ) : (
-            <SignupWizardNavigator
-              navigation={navigation}
-              screenProps={{
-                ...screenProps,
-                data: { ...state, loading, createError, countryCode },
-                doneCallback: done,
-                back,
-              }}
-            />
-          )}
+          <SignupWizardNavigator
+            navigation={navigation}
+            screenProps={{
+              ...screenProps,
+              data: { ...state, loading, createError, countryCode },
+              doneCallback: done,
+              back,
+            }}
+          />
         </View>
       </ScrollView>
     </View>

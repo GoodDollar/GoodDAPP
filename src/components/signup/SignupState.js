@@ -46,20 +46,20 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
-  const _w3User = _get(navigation, 'state.routes[1].params.w3User')
-  let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
+  const _w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User')
+  const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
 
   const initialState: SignupState = {
     ...getUserModel({
-      email: w3User.email || '',
-      fullName: w3User.full_name || '',
+      email: w3UserFromProps.email || '',
+      fullName: w3UserFromProps.full_name || '',
       mobile: '',
     }),
     smsValidated: false,
     isEmailConfirmed: false,
     jwt: '',
-    skipEmail: !!w3User.email,
-    skipEmailConfirmation: !!w3User.email,
+    skipEmail: !!w3UserFromProps.email,
+    skipEmailConfirmation: !!w3UserFromProps.email,
   }
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
@@ -97,6 +97,20 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       data && setCountryCode(data.country)
     } catch (e) {
       log.error('Could not get user location', e.message, e)
+    }
+  }
+
+  const verifyW3Email = async (email, web3Token) => {
+    try {
+      await API.checkWeb3Email({
+        email,
+        token: web3Token,
+      })
+    } catch (e) {
+      log.error('W3 Email verification failed', e.message, e)
+      return navigation.navigate('InvalidW3TokenError')
+
+      // showErrorDialog('Email verification failed', e)
     }
   }
 
@@ -163,17 +177,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         break
 
       case 'goToPhone':
-        try {
-          await API.checkWeb3Email({
-            email: w3User.email,
-            token: web3Token,
-          })
-        } catch (e) {
-          log.error('W3 Email verification failed', e.message, e)
-          return navigation.navigate('InvalidW3TokenError')
-
-          // showErrorDialog('Email verification failed', e)
-        }
+        await verifyW3Email(w3User.email, web3Token)
 
         if (w3User.image) {
           userScreenData.avatar = await API.getBase64FromImageUrl(w3User.image).catch(e => {

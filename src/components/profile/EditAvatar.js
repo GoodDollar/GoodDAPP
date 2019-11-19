@@ -9,6 +9,7 @@ import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 
 import ImageCropper from '../common/form/ImageCropper'
+import resizeBase64Image from '../../lib/utils/resizeBase64Image'
 
 const log = logger.child({ from: 'EditAvatar' })
 
@@ -26,10 +27,17 @@ const EditAvatar = ({ screenProps, theme }) => {
   const saveAvatar = async () => {
     setSaving(true)
 
-    await wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => {
-      log.error('saving image failed:', e.message, e)
-      showErrorDialog('We could not capture all your beauty. Please try again.')
-    })
+    await wrappedUserStorage
+      .setProfileField('avatar', avatar, 'public')
+      .then(async () => {
+        const smallAvatar = await resizeBase64Image(avatar, 50)
+
+        await wrappedUserStorage.setProfileField('smallAvatar', smallAvatar, 'public')
+      })
+      .catch(e => {
+        log.error('saving image failed:', e.message, e)
+        showErrorDialog('We could not capture all your beauty. Please try again.')
+      })
 
     setSaving(false)
     screenProps.pop()

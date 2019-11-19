@@ -26,12 +26,17 @@ const ViewAvatar = props => {
     props.screenProps.push('EditAvatar')
   }
 
-  const handleClosePress = event => {
+  const handleClosePress = async event => {
     event.preventDefault()
-    wrappedUserStorage.setProfileField('avatar', null, 'public').catch(e => {
-      showErrorDialog('Could not delete image. Please try again.')
-      log.error('delete image failed:', e.message, e)
-    })
+    await wrappedUserStorage
+      .setProfileField('avatar', null, 'public')
+      .then(async () => {
+        await wrappedUserStorage.setProfileField('smallAvatar', null, 'public')
+      })
+      .catch(e => {
+        showErrorDialog('Could not delete image. Please try again.')
+        log.error('delete image failed:', e.message, e)
+      })
   }
 
   const handleAddAvatar = avatar => {

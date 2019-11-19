@@ -71,11 +71,11 @@ const MIN_BALANCE_VALUE = '100000'
 const GAS_CHECK_DEBOUNCE_TIME = 1000
 const showOutOfGasError = debounce(
   async props => {
-    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+    const gasResult = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
       topWallet: false,
     })
-
-    if (!ok) {
+    log.debug('outofgaserror:', { gasResult })
+    if (gasResult.ok === false && gasResult.error !== false) {
       props.screenProps.navigateTo('OutOfGasError')
     }
   },

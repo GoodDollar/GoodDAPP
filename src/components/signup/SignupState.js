@@ -99,8 +99,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     // Getting the second element from routes array (starts from 0) as the second route is Phone
     // We are redirecting directly to Phone from Auth component if w3Token provided
-    const _w3User = _get(navigation, 'state.routes[1].params.w3User')
-    let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
+    const w3User = _get(navigation, 'state.routes[1].params.w3User', {})
 
     if (web3Token && Object.keys(w3User).length) {
       const userScreenData = {
@@ -125,8 +124,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     // Getting the second element from routes array (starts from 0) as the second route is Phone
     // We are redirecting directly to Phone from Auth component if w3Token provided
-    const _w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User')
-    let w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
+    const w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User', {})
 
     if (!web3Token || Object.keys(w3UserFromProps).length) {
       setLoading(false)

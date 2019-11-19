@@ -121,7 +121,6 @@ export type TransactionEvent = FeedEvent & {
     amount: number,
     paymentLink?: string,
     code?: string,
-    receipt?: any,
   },
 }
 
@@ -605,8 +604,8 @@ export class UserStorage {
         type: this.getOperationType(data, this.wallet.account),
       }
 
-      if (get(feedEvent, 'data.receipt')) {
-        logger.debug('handleReceiptUpdated skipping event with receipt', feedEvent, receipt)
+      if (get(feedEvent, 'data.receiptData')) {
+        logger.debug('handleReceiptUpdated skipping event with existed receipt data', feedEvent, receipt)
         return feedEvent
       }
 
@@ -620,7 +619,6 @@ export class UserStorage {
           ...feedEvent.data,
           ...initialEvent.data,
           receiptData: data,
-          receipt,
         },
       }
 
@@ -630,12 +628,14 @@ export class UserStorage {
       }
 
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
+
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
       }
+
       return updatedFeedEvent
     } catch (e) {
-      logger.error('handleReceiptUpdated', e.message, e)
+      logger.error('handleReceiptUpdated failed', e.message, e)
     } finally {
       release()
     }
@@ -667,10 +667,11 @@ export class UserStorage {
       }
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
 
-      if (get(feedEvent, 'data.otplReceipt')) {
-        logger.debug('handleOTPLUpdated skipping event with receipt', feedEvent, receipt)
+      if (get(feedEvent, 'data.otplData')) {
+        logger.debug('handleOTPLUpdated skipping event with existed receipt data', feedEvent, receipt)
         return feedEvent
       }
+
       const receiptDate = await this.wallet.wallet.eth
         .getBlock(receipt.blockNumber)
         .then(_ => new Date(_.timestamp * 1000))
@@ -682,7 +683,6 @@ export class UserStorage {
       const prevDate = feedEvent.date
       feedEvent.data.from = data.from
       feedEvent.data.to = data.to
-      feedEvent.data.otplReceipt = receipt
       feedEvent.data.otplData = data
       feedEvent.status = feedEvent.data.otplStatus = otplStatus
       feedEvent.date = receiptDate.toString()
@@ -1200,11 +1200,11 @@ export class UserStorage {
     if (!prevFeedEvent) {
       return standardPrevFeedEvent
     }
-    if (prevFeedEvent.data && prevFeedEvent.data.receipt) {
+    if (prevFeedEvent.data && prevFeedEvent.data.receiptData) {
       return standardPrevFeedEvent
     }
 
-    logger.warn('getFormatedEventById: receipt missing for:', { id, standardPrevFeedEvent })
+    logger.warn('getFormatedEventById: receipt data missing for:', { id, standardPrevFeedEvent })
 
     //if for some reason we dont have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
@@ -1391,17 +1391,17 @@ export class UserStorage {
     }
   }
 
-  _extractData({ type, id, data: { receiptData, receipt, from = '', to = '', counterPartyDisplayName = '', amount } }) {
+  _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
     const { isAddress } = this.wallet.wallet.utils
     const data = { address: '', initiator: '', initiatorType: '', value: '', displayName: '', message: '' }
 
     if (type === EVENT_TYPE_SEND) {
-      data.address = isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
+      data.address = isAddress(to) ? to : receiptData && receiptData.to
       data.initiator = to
     } else if (type === EVENT_TYPE_CLAIM) {
       data.message = 'Your daily basic income'
     } else {
-      data.address = isAddress(from) ? from : (receiptData && receiptData.from) || (receipt && receipt.from)
+      data.address = isAddress(from) ? from : receiptData && receiptData.from
       data.initiator = from
     }
 

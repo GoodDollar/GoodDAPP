@@ -15,6 +15,7 @@ import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent } from '../../lib/analytics/analytics'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -58,6 +59,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
+  const [loadingMandatoryData, setLoadingMAndatoryData] = useState(false)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
@@ -99,7 +101,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     // Getting the second element from routes array (starts from 0) as the second route is Phone
     // We are redirecting directly to Phone from Auth component if w3Token provided
-    const w3User = _get(navigation, 'state.routes[1].params.w3User', {})
+    const _w3User = _get(navigation, 'state.routes[1].params.w3User')
+    let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
 
     if (web3Token && Object.keys(w3User).length) {
       const userScreenData = {
@@ -118,21 +121,24 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const checkWeb3Token = async () => {
-    setLoading(true)
+    setLoadingMAndatoryData(true)
 
     const web3Token = await AsyncStorage.getItem('GD_web3Token')
 
     // Getting the second element from routes array (starts from 0) as the second route is Phone
     // We are redirecting directly to Phone from Auth component if w3Token provided
-    const w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User', {})
+    const _w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User')
+    let w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
 
     if (!web3Token || Object.keys(w3UserFromProps).length) {
-      setLoading(false)
+      setLoadingMAndatoryData(false)
       return
     }
 
     let behaviour = ''
     let w3User
+
+    await API.ready
 
     try {
       const w3userData = await API.getUserFromW3ByToken(web3Token)
@@ -200,7 +206,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         break
     }
 
-    setLoading(false)
+    setLoadingMAndatoryData(false)
   }
 
   const isRegisterAllowed = async () => {
@@ -221,6 +227,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     isRegisterAllowed()
 
     getW3UserFromProps()
+    checkWeb3Token()
 
     //get user country code for phone
     getCountryCode()
@@ -245,8 +252,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // showErrorDialog('Failed authenticating with server', e)
         })
       await API.ready
-
-      checkWeb3Token()
 
       //now that we are loggedin, reload api with JWT
       // await API.init()
@@ -474,15 +479,19 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={'Sign Up'} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
-          <SignupWizardNavigator
-            navigation={navigation}
-            screenProps={{
-              ...screenProps,
-              data: { ...state, loading, createError, countryCode },
-              doneCallback: done,
-              back,
-            }}
-          />
+          {loadingMandatoryData ? (
+            <LoadingIcon style={styles.loadingMargin} />
+          ) : (
+            <SignupWizardNavigator
+              navigation={navigation}
+              screenProps={{
+                ...screenProps,
+                data: { ...state, loading, createError, countryCode },
+                doneCallback: done,
+                back,
+              }}
+            />
+          )}
         </View>
       </ScrollView>
     </View>
@@ -493,6 +502,9 @@ Signup.router = SignupWizardNavigator.router
 Signup.navigationOptions = SignupWizardNavigator.navigationOptions
 
 const styles = StyleSheet.create({
+  loadingMargin: {
+    margin: 'auto',
+  },
   contentContainer: {
     flexGrow: 1,
     flexDirection: 'row',

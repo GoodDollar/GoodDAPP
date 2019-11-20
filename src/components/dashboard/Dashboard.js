@@ -12,7 +12,7 @@ import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
-import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
+import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import {
@@ -81,7 +81,7 @@ const showOutOfGasError = debounce(
   },
   GAS_CHECK_DEBOUNCE_TIME,
   {
-    maxWait: GAS_CHECK_DEBOUNCE_TIME,
+    leading: true,
   }
 )
 
@@ -106,7 +106,7 @@ const Dashboard = props => {
   const { screenProps, styles }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
-  const feeds = gdstore.get('feeds')
+  const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const scale = {
     transform: [
@@ -200,11 +200,25 @@ const Dashboard = props => {
     }
   }
 
+  const getFeedPage = async (reset = false) => {
+    const res =
+      (await userStorage
+        .getFormattedEvents(PAGE_SIZE, reset)
+        .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
+    if (res.length == 0) {
+      return
+    }
+    if (reset) {
+      setFeeds(res)
+    } else {
+      setFeeds(feeds.concat(res))
+    }
+  }
   const subscribeToFeed = () => {
     return new Promise((res, rej) => {
       userStorage.feed.get('byid').on(async data => {
         log.debug('gun getFeed callback', { data })
-        await getInitialFeed(gdstore).catch(e => rej(false))
+        await getFeedPage(true).catch(e => rej(false))
         res(true)
       }, true)
     })
@@ -222,6 +236,8 @@ const Dashboard = props => {
   const handleAppFocus = state => {
     if (state === 'active') {
       checkBonusInterval()
+      showOutOfGasError(props)
+      animateClaim()
     }
   }
 
@@ -270,7 +286,7 @@ const Dashboard = props => {
   const nextFeed = () => {
     if (feeds && feeds.length > 0) {
       log.debug('getNextFeed called')
-      return getNextFeed(gdstore)
+      return getFeedPage()
     }
   }
 
@@ -281,9 +297,10 @@ const Dashboard = props => {
     handleDeleteRedirect()
     handleReceiveLink()
     handleResize()
+    checkBonusInterval()
+    showOutOfGasError(props)
+    animateClaim()
   }
-
-  useEffect(animateClaim)
 
   useEffect(() => {
     log.debug('Dashboard didmount')
@@ -345,8 +362,6 @@ const Dashboard = props => {
       })
     }
   }
-
-  showOutOfGasError(props)
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params

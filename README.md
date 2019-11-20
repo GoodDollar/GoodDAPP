@@ -1,6 +1,6 @@
 
 # GoodDollar DApp
-We use [![Bugsnag](/bugsnag_logo.svg?raw=true&sanitize=1){:width="100px"}](https://bugsnag.com)
+We use [![Bugsnag](/bugsnag_logo.svg?raw=true&sanitize=1){:height="auto" width="100px"}](https://bugsnag.com)
 
 [![Build Status](https://travis-ci.com/GoodDollar/GoodDAPP.svg?branch=master)](https://travis-ci.com/GoodDollar/GoodDAPP) [![Coverage Status](https://coveralls.io/repos/github/GoodDollar/GoodDAPP/badge.svg?branch=master)](https://coveralls.io/github/GoodDollar/GoodDAPP?branch=master)
 

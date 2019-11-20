@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { NetInfo } from 'react-native'
+import { AppState, NetInfo } from 'react-native'
+import Config from '../../config/config'
 import API from '../API/api'
 import { delay } from '../utils/async'
 import logger from '../logger/pino-logger'
@@ -14,6 +15,55 @@ export const useConnection = () => {
   useEffect(() => {
     NetInfo.isConnected.addEventListener('connectionChange', connection => {
       setIsConnection(connection)
+    })
+  }, [])
+
+  return isConnection
+}
+
+export const useConnectionWeb3 = () => {
+  const [isConnection, setIsConnection] = useState(true)
+
+  const isWeb3Connection = () => {
+    if (global.wallet.wallet.currentProvider.connected) {
+      setIsConnection(true)
+    } else {
+      setIsConnection(false)
+      global.wallet.wallet.currentProvider.reconnect()
+      setTimeout(isWeb3Connection, 500)
+    }
+  }
+
+  useEffect(() => {
+    AppState.addEventListener('change', () => {
+      if (global.wallet) {
+        isWeb3Connection()
+      }
+    })
+  }, [])
+
+  return isConnection
+}
+
+export const useConnectionGun = () => {
+  const [isConnection, setIsConnection] = useState(true)
+
+  const isGun3Connection = () => {
+    const instanceGun = global.userStorage.gun._
+    const wire = instanceGun.opt.peers[Config.gunPublicUrl].wire
+    if (wire.readyState === wire.OPEN) {
+      setIsConnection(true)
+    } else {
+      setIsConnection(false)
+      setTimeout(isGun3Connection, 500)
+    }
+  }
+
+  useEffect(() => {
+    AppState.addEventListener('change', () => {
+      if (global.userStorage) {
+        isGun3Connection()
+      }
     })
   }, [])
 

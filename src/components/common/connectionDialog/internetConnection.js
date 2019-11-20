@@ -1,16 +1,28 @@
 // @flow
 import React, { useEffect } from 'react'
 import LoadingIcon from '../modal/LoadingIcon'
-import { useAPIConnection, useConnection } from '../../../lib/hooks/hasConnectionChange'
+import {
+  useAPIConnection,
+  useConnection,
+  useConnectionWeb3,
+  useConnectionGun
+} from '../../../lib/hooks/hasConnectionChange'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 
 const InternetConnection = () => {
   const [showDialog, hideDialog] = useDialog()
   const isConnection = useConnection()
   const isAPIConnection = useAPIConnection()
+  const isConnectionWeb3 = useConnectionWeb3()
+  const isConnectionGun = useConnectionGun()
 
   useEffect(() => {
-    if (isConnection === false || isAPIConnection === false) {
+    if (
+      isConnection === false ||
+      isAPIConnection === false ||
+      isConnectionWeb3 === false ||
+      isConnectionGun === false
+    ) {
       showDialog({
         title: 'Waiting for network',
         image: <LoadingIcon />,
@@ -21,7 +33,7 @@ const InternetConnection = () => {
     } else {
       hideDialog()
     }
-  }, [isConnection, isAPIConnection])
+  }, [isConnection, isAPIConnection, isConnectionWeb3, isConnectionGun])
 
   return null
 }

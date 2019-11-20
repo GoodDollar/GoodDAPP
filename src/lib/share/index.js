@@ -45,8 +45,11 @@ export function generateCode(
 export function readCode(code: string) {
   try {
     let codeParams = Buffer.from(decodeURI(code), 'base64').toString()
-    let [mnid, value, reason, counterPartyDisplayName] = codeParams.split('|')
-
+    const codeObject = JSON.parse(codeParams)
+    if (!(codeObject && codeObject.code)) {
+      return null
+    }
+    let [mnid, value, reason, counterPartyDisplayName] = codeObject.code.split('|')
     if (!isMNID(mnid)) {
       return null
     }
@@ -55,7 +58,6 @@ export function readCode(code: string) {
     const amount = value && parseInt(value)
     reason = reason === 'undefined' ? undefined : reason
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
-
     return {
       networkId: parseInt(network),
       address,

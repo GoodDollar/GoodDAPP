@@ -68,7 +68,7 @@ const TabsView = React.memo((props: TabViewProps) => {
       _token = await API.getLoginToken()
         .then(r => _get(r, 'data.loginToken'))
         .then(newToken => {
-          userStorage.setProfileField('loginToken', newToken, 'private')
+          if (newToken) userStorage.setProfileField('loginToken', newToken, 'private')
 
           return newToken
         })
@@ -80,7 +80,7 @@ const TabsView = React.memo((props: TabViewProps) => {
       _marketToken = await API.getMarketToken()
         .then(_ => _get(_, 'data.jwt'))
         .then(newtoken => {
-          userStorage.setProfileField('marketToken', newtoken)
+          if (newtoken) userStorage.setProfileField('marketToken', newtoken)
 
           return newtoken
         })

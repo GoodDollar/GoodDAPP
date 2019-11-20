@@ -44,16 +44,22 @@ const SignupWizardNavigator = createSwitchNavigator(
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
 
-  // const API = useWrappedApi()
+  // Getting the second element from routes array (starts from 0) as the second route is Phone
+  // We are redirecting directly to Phone from Auth component if w3Token provided
+  const _w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User', {})
+  const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
+
   const initialState: SignupState = {
     ...getUserModel({
-      fullName: '',
-      email: '',
+      email: w3UserFromProps.email || '',
+      fullName: w3UserFromProps.full_name || '',
       mobile: '',
     }),
     smsValidated: false,
     isEmailConfirmed: false,
     jwt: '',
+    skipEmail: !!w3UserFromProps.email,
+    skipEmailConfirmation: !!w3UserFromProps.email,
   }
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
@@ -62,10 +68,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [createError, setCreateError] = useState(false)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
   const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
-  const [registerAllowed, setRegisterAllowed] = useState(false)
-
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
+
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
     setLoading(false)
@@ -94,110 +99,86 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
 
-  const checkWeb3Token = async () => {
-    setLoading(true)
+  const verifyW3Email = async (email, web3Token) => {
+    try {
+      const res = await API.checkWeb3Email({
+        email,
+        token: web3Token,
+      })
+      log.debug('verified w3 email', res)
+    } catch (e) {
+      log.error('W3 Email verification failed', e.message, e)
+      return navigation.navigate('InvalidW3TokenError')
 
-    const web3Token = await AsyncStorage.getItem('GD_web3Token')
-
-    if (!web3Token) {
-      setLoading(false)
-      return
+      // showErrorDialog('Email verification failed', e)
     }
-
-    let behaviour = ''
-    const _w3User = _get(navigation, 'state.params.w3User')
-    let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
-
-    if (!Object.keys(w3User).length) {
-      try {
-        const w3userData = await API.getUserFromW3ByToken(web3Token)
-
-        w3User = w3userData.data
-      } catch (e) {
-        behaviour = 'showTokenError'
-      }
-    }
-
-    if (!behaviour) {
-      if (w3User.has_wallet) {
-        behaviour = 'goToSignInScreen'
-      } else {
-        behaviour = 'goToPhone'
-      }
-    }
-
-    log.info('behaviour', behaviour)
-
-    const userScreenData = {
-      email: w3User.email,
-      fullName: w3User.full_name,
-      w3Token: web3Token,
-      skipEmail: true,
-      skipEmailConfirmation: true,
-    }
-
-    switch (behaviour) {
-      case 'showTokenError':
-        navigation.navigate('InvalidW3TokenError')
-        break
-
-      case 'goToSignInScreen':
-        navigation.navigate('SigninInfo')
-        break
-
-      case 'goToPhone':
-        try {
-          await API.checkWeb3Email({
-            email: w3User.email,
-            token: web3Token,
-          })
-        } catch (e) {
-          log.error('W3 Email verification failed', e.message, e)
-          return navigation.navigate('InvalidW3TokenError')
-
-          // showErrorDialog('Email verification failed', e)
-        }
-
-        if (w3User.image) {
-          userScreenData.avatar = await API.getBase64FromImageUrl(w3User.image).catch(e => {
-            log.error('Fetch base 64 from image uri failed', e.message, e)
-          })
-        }
-
-        setState({
-          ...state,
-          ...userScreenData,
-        })
-
-        navigation.navigate('Phone')
-        break
-
-      default:
-        break
-    }
-
-    setLoading(false)
   }
 
-  const isRegisterAllowed = async () => {
-    const w3Token = await AsyncStorage.getItem('GD_web3Token')
-    const destinationPath = await AsyncStorage.getItem('GD_destinationPath')
-      .then(JSON.parse)
-      .catch(e => ({}))
-    const paymentCode = _get(destinationPath, 'params.paymentCode')
+  const checkWeb3Token = async () => {
+    let w3Token
+    try {
+      w3Token = await AsyncStorage.getItem('GD_web3Token')
+      if (!w3Token) {
+        return
+      }
+      store.set('loadingIndicator')({ loading: true })
 
-    if (paymentCode || w3Token) {
-      return setRegisterAllowed(true)
+      let w3User = w3UserFromProps
+      log.info('from props:', { w3User })
+      if (w3UserFromProps.email === undefined) {
+        await API.ready
+
+        try {
+          const w3userData = await API.getUserFromW3ByToken(w3Token)
+
+          w3User = w3userData.data
+        } catch (e) {
+          log.warn('could not get user data from w3', w3Token)
+          return
+        }
+      }
+
+      log.info({ w3User })
+
+      const userScreenData = {
+        email: w3User.email || '',
+        fullName: w3User.full_name || '',
+        w3Token,
+        skipEmail: !!w3User.email,
+        skipEmailConfirmation: !!w3User.email,
+      }
+      setState({
+        ...state,
+        ...userScreenData,
+      })
+    } catch (e) {
+      log.error('unexpected error in checkWeb3Token', e.message, e, { w3Token })
+    } finally {
+      store.set('loadingIndicator')({ loading: false })
     }
-
-    navigation.navigate('Login')
   }
 
   useEffect(() => {
-    isRegisterAllowed()
+    // don't allow to start sign up flow not from begining except when w3Token provided
+    AsyncStorage.getItem('GD_web3Token').then(token => {
+      log.debug('redirecting to start, got index:', navigation.state.index)
+
+      if (token && navigation.state.index > 1) {
+        setLoading(true)
+        return navigateWithFocus(navigation.state.routes[1].key)
+      }
+
+      if (!token && navigation.state.index > 0) {
+        setLoading(true)
+        return navigateWithFocus(navigation.state.routes[0].key)
+      }
+    })
 
     //get user country code for phone
     getCountryCode()
+
+    //read user data from w3 if needed
+    checkWeb3Token()
 
     //lazy login in background
     const ready = (async () => {
@@ -220,23 +201,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         })
       await API.ready
 
-      checkWeb3Token()
-
       //now that we are loggedin, reload api with JWT
       // await API.init()
       return { goodWallet, userStorage }
     })()
 
     setReady(ready)
-
-    // don't allow to start sign up flow not from begining except when w3Token provided
-    AsyncStorage.getItem('GD_web3Token').then(token => {
-      if ((token && navigation.state.index > 1) || (!token && navigation.state.index > 0)) {
-        log.debug('redirecting to start, got index:', navigation.state.index)
-        setLoading(true)
-        return navigateWithFocus(navigation.state.routes[0].key)
-      }
-    })
   }, [])
 
   const finishRegistration = async () => {
@@ -369,10 +339,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     const newState = { ...state, ...data }
     setState(newState)
-    log.info('signup data:', { data, nextRoute })
+    log.info('signup data:', { data, nextRoute, newState })
 
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
+        //verify web3 email here
+        if (state.w3Token && state.email) {
+          await verifyW3Email(state.email, state.w3Token)
+        }
+
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
           return showErrorDialog('Sending mobile verification code failed', data.error)
@@ -462,7 +437,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const { scrollableContainer, contentContainer } = styles
 
-  return registerAllowed ? (
+  return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={'Sign Up'} />
       <ScrollView contentContainerStyle={scrollableContainer}>
@@ -479,7 +454,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         </View>
       </ScrollView>
     </View>
-  ) : null
+  )
 }
 
 Signup.router = SignupWizardNavigator.router

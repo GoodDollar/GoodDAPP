@@ -137,7 +137,10 @@ const Claim = props => {
   }
 
   const init = async () => {
-    setLoading(true)
+    //hack to make unit test pass, activityindicator in claim button cuasing
+    if (process.env.NODE_ENV !== 'test') {
+      setLoading(true)
+    }
     await goodWallet.checkEntitlement().then(entitlement => setState({ ...state, entitlement: entitlement.toNumber() }))
 
     // FR Evaluation

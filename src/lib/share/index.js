@@ -18,6 +18,7 @@ const log = logger.child({ from: 'share.index' })
  * @param networkId - network identifier required to generate MNID
  * @param amount - amount to be attached to the generated MNID code
  * @param reason - reason to be attached to the generated MNID code
+ * @param counterPartyDisplayName
  * @returns {string} - 'MNID|amount'|'MNID'
  */
 export function generateCode(
@@ -29,12 +30,16 @@ export function generateCode(
 ) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
-  const codeArr = [mnid, amount, reason]
+  const codeObj = {
+    mnid,
+    amount,
+    reason,
+  }
   if (counterPartyDisplayName) {
-    codeArr.push(counterPartyDisplayName)
+    codeObj.counterPartyDisplayName = counterPartyDisplayName
   }
 
-  return codeArr.join('|')
+  return codeObj
 }
 
 /**
@@ -46,16 +51,13 @@ export function readCode(code: string) {
   try {
     let codeParams = Buffer.from(decodeURI(code), 'base64').toString()
     const codeObject = JSON.parse(codeParams)
-    if (!(codeObject && codeObject.code)) {
-      return null
-    }
-    let [mnid, value, reason, counterPartyDisplayName] = codeObject.code.split('|')
+    let { mnid, amount, reason, counterPartyDisplayName } = codeObject
     if (!isMNID(mnid)) {
       return null
     }
 
     const { network, address } = decode(mnid)
-    const amount = value && parseInt(value)
+    amount = amount && parseInt(amount)
     reason = reason === 'undefined' ? undefined : reason
     counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
     return {
@@ -145,14 +147,14 @@ export function generateSendShareText(...args): ShareObject {
 
 /**
  * Generates URL link to share/receive GDs
- * @param {string} code - code returned by `generateCode`
+ * @param {any} codeObj - code returned by `generateCode`
  * @param {number } amount - amount expressed in Wei
  * @param {string} to - recipient name
  * @param {string} from - current user's fullName
  * @returns {string} - URL to use to share/receive GDs
  */
-export function generateReceiveShareObject(code: string, amount: number, to: string, from: string): ShareObject {
-  const url = generateShareLink('receive', { code })
+export function generateReceiveShareObject(codeObj: any, amount: number, to: string, from: string): ShareObject {
+  const url = generateShareLink('receive', codeObj)
   const text = [
     to ? `${to}, ` : '',
     `You've got a request from ${from}`,

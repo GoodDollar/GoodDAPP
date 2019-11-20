@@ -161,8 +161,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   useEffect(() => {
     // don't allow to start sign up flow not from begining except when w3Token provided
     AsyncStorage.getItem('GD_web3Token').then(token => {
+      log.debug('redirecting to start, got index:', navigation.state.index)
+
+      if (token && navigation.state.index > 1) {
+        setLoading(true)
+        return navigateWithFocus(navigation.state.routes[1].key)
+      }
+
       if (!token && navigation.state.index > 0) {
-        log.debug('redirecting to start, got index:', navigation.state.index)
         setLoading(true)
         return navigateWithFocus(navigation.state.routes[0].key)
       }

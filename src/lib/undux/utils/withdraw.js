@@ -23,6 +23,7 @@ type ReceiptType = {
  *
  * @param {Store} store - Undux store
  * @param {string} code - code that unlocks the escrowed payment
+ * @param {string} reason - the reason of payment
  * @returns {Promise} Returns the receipt of the transaction
  */
 export const executeWithdraw = async (store: Store, code: string, reason: string): Promise<ReceiptType> => {

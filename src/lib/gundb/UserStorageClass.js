@@ -19,12 +19,14 @@ import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
+import { delay } from '../utils/async'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
 
+const EVENT_TYPE_WITHDRAW = 'withdraw'
 const EVENT_TYPE_BONUS = 'bonus'
 const EVENT_TYPE_CLAIM = 'claim'
 const EVENT_TYPE_SEND = 'send'
@@ -749,6 +751,30 @@ export class UserStorage {
     logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
   }
 
+  async syncFeedWithBlockchain() {
+    const feeds = await this.getAllFeed()
+    const withoutReceipt = feeds.filter(f => !(f && f.data && f.data.receiptData))
+
+    if (!withoutReceipt.length) {
+      return
+    }
+
+    logger.debug('feeds to be updated', withoutReceipt)
+
+    const promises = withoutReceipt.map(async feed => {
+      const receipt = await this.wallet.getReceiptWithLogs(feed.id).catch(e => {
+        logger.warn('syncFeedWithBlockchain - no receipt found for id:', feed.id, e.message, e)
+        return undefined
+      })
+
+      if (!receipt) {
+        this.handleReceiptUpdated(receipt)
+      }
+    })
+
+    Promise.all(promises)
+  }
+
   /**
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
@@ -1422,6 +1448,10 @@ export class UserStorage {
   _extractDisplayType(type, withdrawStatus, status) {
     let sufix = ''
 
+    if (type === EVENT_TYPE_WITHDRAW) {
+      sufix = withdrawStatus
+    }
+
     if (type === EVENT_TYPE_SEND) {
       sufix = withdrawStatus
     }
@@ -1570,7 +1600,13 @@ export class UserStorage {
    * @returns {Promise<FeedEvent>}
    */
   async updateEventOtplStatus(eventId: string, status: string): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    let feedEvent = await this.getFeedItemByTransactionHash(eventId)
+
+    if (!feedEvent) {
+      await delay(3000)
+      feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    }
+
     feedEvent.status = status
 
     if (feedEvent.data) {

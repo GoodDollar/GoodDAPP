@@ -204,6 +204,7 @@ const Dashboard = props => {
       ]).start()
     }
   }
+
   const showDelayed = () => {
     setTimeout(() => {
       store.set('addWebApp')({ show: true })
@@ -231,6 +232,7 @@ const Dashboard = props => {
   useEffect(() => {
     log.debug('Dashboard didmount')
     AppState.addEventListener('change', handleAppFocus)
+    userStorage.syncFeedWithBlockchain()
     checkBonusesToRedeem()
     handleDeleteRedirect()
     prepareLoginToken()

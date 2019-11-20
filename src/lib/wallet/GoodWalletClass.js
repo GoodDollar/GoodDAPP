@@ -709,7 +709,7 @@ export class GoodWallet {
             error: (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
           }
         }
-        nativeBalance = await this.wallet.eth.getBalance(this.account)
+        nativeBalance = await this.balanceOfNative()
         return {
           ok: data.ok && nativeBalance > wei,
         }
@@ -719,9 +719,10 @@ export class GoodWallet {
         ok: false,
       }
     } catch (e) {
+      log.error('verifyHasGas:', e.message, e, { wei })
       return {
         ok: false,
-        error: true,
+        error: false,
       }
     }
   }

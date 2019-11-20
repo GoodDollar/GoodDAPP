@@ -136,23 +136,24 @@ const Claim = props => {
     }
   }
 
-  useEffect(() => {
+  const init = async () => {
+    setLoading(true)
+    await goodWallet.checkEntitlement().then(entitlement => setState({ ...state, entitlement: entitlement.toNumber() }))
+
     // FR Evaluation
-    evaluateFRValidity()
+    await evaluateFRValidity()
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    init()
   }, [])
 
   const getNextClaim = async date => {
     let nextClaimTime = date - new Date().getTime()
     if (nextClaimTime < 0 && state.entitlement <= 0) {
-      const entitlement = await goodWallet.checkEntitlement()
-      setState({
-        nextClaim: '--:--:--',
-        entitlement: entitlement.toNumber() > 0 ? entitlement.toNumber() : 100,
-        claimedToday: {
-          people: '--',
-          amount: '--',
-        },
-      })
+      const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
+      setState({ ...state, entitlement })
     }
     return new Date(nextClaimTime).toISOString().substr(11, 8)
   }
@@ -162,9 +163,9 @@ const Claim = props => {
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
     ])
+
     const nextClaim = await getNextClaim(nextClaimDate)
     setState(prevState => ({ ...prevState, claimedToday, nextClaim }))
-
     setClaimInterval(
       setInterval(async () => {
         const nextClaim = await getNextClaim(nextClaimDate)
@@ -178,6 +179,7 @@ const Claim = props => {
     if (entitlement === undefined) {
       return
     }
+
     gatherStats()
     return () => claimInterval && clearInterval(claimInterval)
   }, [entitlement])
@@ -195,6 +197,9 @@ const Claim = props => {
     try {
       //when we come back from FR entitelment might not be set yet
       const curEntitlement = state.entitlement || (await goodWallet.checkEntitlement().toNumber())
+      if (curEntitlement == 0) {
+        return
+      }
       const receipt = await goodWallet.claim({
         onTransactionHash: hash => {
           const date = new Date()
@@ -227,7 +232,7 @@ const Claim = props => {
         showErrorDialog('Claim request failed', 'CLAIM-1', { boldMessage: 'Try again later.' })
       }
     } catch (e) {
-      fireEvent(CLAIM_SUCCESS, { txError: true })
+      fireEvent(CLAIM_FAILED, { txError: true })
       log.error('claiming failed', e.message, e)
       showErrorDialog('Claim request failed', 'CLAIM-2', { boldMessage: 'Try again later.' })
     } finally {
@@ -335,7 +340,7 @@ const Claim = props => {
             entitlement={state.entitlement}
             nextClaim={state.nextClaim}
             loading={loading}
-            onPress={() => (isCitizen && entitlement ? handleClaim() : !isCitizen && faceRecognition())}
+            onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
           />
         </Section.Stack>
       </Section>

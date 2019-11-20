@@ -71,11 +71,11 @@ const MIN_BALANCE_VALUE = '100000'
 const GAS_CHECK_DEBOUNCE_TIME = 1000
 const showOutOfGasError = debounce(
   async props => {
-    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+    const gasResult = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
       topWallet: false,
     })
-
-    if (!ok) {
+    log.debug('outofgaserror:', { gasResult })
+    if (gasResult.ok === false && gasResult.error !== false) {
       props.screenProps.navigateTo('OutOfGasError')
     }
   },
@@ -103,6 +103,18 @@ const Dashboard = props => {
   const currentFeed = store.get('currentFeed')
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
+  const { screenProps, styles }: DashboardProps = props
+  const { balance, entitlement } = gdstore.get('account')
+  const { avatar, fullName } = gdstore.get('profile')
+  const feeds = gdstore.get('feeds')
+  const [headerLarge, setHeaderLarge] = useState(true)
+  const scale = {
+    transform: [
+      {
+        scale: animValue,
+      },
+    ],
+  }
 
   const checkBonusesToRedeem = () => {
     log.info('Check bonuses process started')
@@ -256,8 +268,10 @@ const Dashboard = props => {
   }
 
   const nextFeed = () => {
-    log.debug('getNextFeed called')
-    return getNextFeed(gdstore)
+    if (feeds && feeds.length > 0) {
+      log.debug('getNextFeed called')
+      return getNextFeed(gdstore)
+    }
   }
 
   const initDashboard = async () => {
@@ -290,6 +304,9 @@ const Dashboard = props => {
     }
   }, [params])
 
+  /**
+   * dont show delayed items such as add to home popup if some other dialog is showing
+   */
   useEffect(() => {
     const showingSomething =
       _get(currentScreen, 'dialogData.visible') || _get(loadingIndicator, 'loading') || currentFeed
@@ -368,19 +385,6 @@ const Dashboard = props => {
       log.error('withdraw failed:', e.code, e.message, e)
       showErrorDialog(e.message)
     }
-  }
-
-  const { screenProps, styles }: DashboardProps = props
-  const { balance, entitlement } = gdstore.get('account')
-  const { avatar, fullName } = gdstore.get('profile')
-  const feeds = gdstore.get('feeds')
-  const [headerLarge, setHeaderLarge] = useState(true)
-  const scale = {
-    transform: [
-      {
-        scale: animValue,
-      },
-    ],
   }
 
   return (

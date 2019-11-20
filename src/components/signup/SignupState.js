@@ -242,10 +242,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const finishRegistration = async () => {
     setCreateError(false)
     setLoading(true)
-
+    let goodWallet
     log.info('Sending new user data', state)
     try {
-      const { goodWallet, userStorage } = await ready
+      const { goodWallet: _goodWallet, userStorage } = await ready
+      goodWallet = _goodWallet
 
       // TODO: this comment is incorrect until we restore email verificaiton requirement
       // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
@@ -312,6 +313,21 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       log.debug('New user created')
       return true
     } catch (e) {
+      // check registration status
+      const isCitizen = (goodWallet && goodWallet.isCitizen && (await goodWallet.isCitizen())) || true
+      const isMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+      console.log('TTTTTTT', { isCitizen, isMnemonic })
+      if (isCitizen && isMnemonic) {
+        try {
+          const status = await API.getRegistrationStatus()
+          if (status) {
+            return await AsyncStorage.setItem(IS_LOGGED_IN, true)
+          }
+        } catch (e) {
+          log.error('getRegistrationStatus error', e, e.message)
+        }
+      }
+
       log.error('New user failure', e.message, e)
       showSupportDialog(showErrorDialog, hideDialog, screenProps)
 

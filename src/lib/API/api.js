@@ -118,7 +118,9 @@ class API {
    * @param {UserRecord} user
    */
   addUser(user: UserRecord): AxiosPromise<any> {
-    return this.client.post('/user/add', { user })
+    throw new Error('aaaa')
+
+    // return this.client.post('/user/add', { user })
   }
 
   /**
@@ -272,6 +274,13 @@ class API {
    */
   getLoginToken() {
     return this.client.get('/verify/w3/logintoken')
+  }
+
+  /**
+   * `/storage/login/token` get api call
+   */
+  getRegistrationStatus() {
+    return this.client.get('/verify/user/registration')
   }
 
   /**

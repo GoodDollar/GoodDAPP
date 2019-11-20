@@ -304,6 +304,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       ])
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
+      setLoading(false)
       return true
     } catch (e) {
       log.error('New user failure', e.message, e)
@@ -312,8 +313,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // showErrorDialog('Something went on our side. Please try again')
       setCreateError(true)
       return false
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -399,21 +398,20 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         setLoading(false)
       }
     } else if (nextRoute && nextRoute.key === 'MagicLinkInfo') {
-      const { userStorage } = await ready
-      API.sendMagicLinkByEmail(userStorage.getMagicLink(), newState.fullName)
-        .then(r => log.info('magiclink sent'))
-        .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
-      return navigateWithFocus(nextRoute.key)
+      setLoading(true)
+      const ok = await finishedPromise
+      log.debug('user registration synced and completed', { ok })
+
+      //tell App.js we are done here so RouterSelector switches router
+      if (ok) {
+        const { userStorage } = await ready
+        API.sendMagicLinkByEmail(userStorage.getMagicLink())
+          .then(r => log.info('magiclink sent'))
+          .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
+        return navigateWithFocus(nextRoute.key)
+      }
     } else if (nextRoute) {
       return navigateWithFocus(nextRoute.key)
-    }
-
-    const ok = await finishedPromise
-    log.debug('user registration synced and completed', { ok })
-
-    //tell App.js we are done here so RouterSelector switches router
-    if (ok) {
-      store.set('isLoggedIn')(true)
     }
   }
 

@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { Image, View } from 'react-native'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
@@ -11,11 +12,15 @@ import CustomWrapper from './signUpWrapper'
 Image.prefetch(illustration)
 
 const MagicLinkInfoComponent = props => {
-  const { styles, screenProps = {} } = props
-  const { doneCallback } = screenProps
+  const { styles } = props
+  const store = SimpleStore.useStore()
+
+  const handleSubmit = () => {
+    store.set('isLoggedIn')(true)
+  }
 
   return (
-    <CustomWrapper valid={true} handleSubmit={() => doneCallback()} submitText="Cool, got it!">
+    <CustomWrapper valid={true} handleSubmit={handleSubmit} submitText="Cool, got it!">
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>
           <Text

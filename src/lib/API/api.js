@@ -211,8 +211,8 @@ class API {
    * `/send/magiclink` post api call
    * @param {string} magiclink
    */
-  sendMagicLinkByEmail(magiclink: string, fullName: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/magiclink', { magiclink, fullName })
+  sendMagicLinkByEmail(magiclink: string): Promise<$AxiosXHR<any>> {
+    return this.client.post('/send/magiclink', { magiclink })
   }
 
   /**

@@ -1,6 +1,6 @@
 
 # GoodDollar DApp
-[![Bugsnag](/bugsnag_logo.svg?raw=true)](https://bugsnag.com)
+[![Bugsnag](/bugsnag_logo.svg?raw=true&sanitize=1)](https://bugsnag.com)
 [![Build Status](https://travis-ci.com/GoodDollar/GoodDAPP.svg?branch=master)](https://travis-ci.com/GoodDollar/GoodDAPP) [![Coverage Status](https://coveralls.io/repos/github/GoodDollar/GoodDAPP/badge.svg?branch=master)](https://coveralls.io/github/GoodDollar/GoodDAPP?branch=master)
 
 - Use [GoodBootstrap](https://github.com/GoodDollar/GoodBootstrap) to start a dev env

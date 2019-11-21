@@ -232,7 +232,7 @@ const Dashboard = props => {
   useEffect(() => {
     log.debug('Dashboard didmount')
     AppState.addEventListener('change', handleAppFocus)
-    userStorage.syncFeedWithBlockchain()
+    userStorage.syncFeedsWithBlockchain()
     checkBonusesToRedeem()
     handleDeleteRedirect()
     prepareLoginToken()

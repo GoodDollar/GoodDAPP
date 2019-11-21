@@ -19,7 +19,6 @@ import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
-import { delay } from '../utils/async'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -751,7 +750,7 @@ export class UserStorage {
     logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
   }
 
-  async syncFeedWithBlockchain() {
+  async syncFeedsWithBlockchain() {
     const feeds = await this.getAllFeed()
     const withoutReceipt = feeds.filter(f => !(f && f.data && f.data.receiptData))
 
@@ -767,7 +766,7 @@ export class UserStorage {
         return undefined
       })
 
-      if (!receipt) {
+      if (receipt) {
         this.handleReceiptUpdated(receipt)
       }
     })
@@ -1601,11 +1600,6 @@ export class UserStorage {
    */
   async updateEventOtplStatus(eventId: string, status: string): Promise<FeedEvent> {
     let feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
-    if (!feedEvent) {
-      await delay(3000)
-      feedEvent = await this.getFeedItemByTransactionHash(eventId)
-    }
 
     feedEvent.status = status
 

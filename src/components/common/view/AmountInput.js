@@ -67,12 +67,14 @@ const mapPropsToStyles = ({ theme }) => {
     },
     section: {
       marginTop: 'auto',
+      opacity: 1,
     },
     container: {
       minHeight: getDesignRelativeHeight(180),
       height: getDesignRelativeHeight(180),
     },
     errorInput: {
+      opacity: 1,
       color: theme.colors.error,
       borderBottomColor: theme.colors.error,
       marginTop: 'auto',

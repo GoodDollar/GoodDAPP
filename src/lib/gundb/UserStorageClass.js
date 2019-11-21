@@ -1539,7 +1539,7 @@ export class UserStorage {
         .get('queue')
         .get(event.id)
         .putAck(event)
-      this.updateFeedEvent(event)
+      await this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
@@ -1616,8 +1616,16 @@ export class UserStorage {
    * @returns {Promise<FeedEvent>}
    */
   async markWithErrorEvent(err: any): Promise<FeedEvent> {
-    const error = JSON.parse(`{${err.message.split('{')[1]}`)
-    await this.updateEventOtplStatus(error.transactionHash, 'error')
+    const release = await this.feedMutex.lock()
+
+    try {
+      const error = JSON.parse(`{${err.message.split('{')[1]}`)
+      await this.updateEventOtplStatus(error.transactionHash, 'error')
+    } catch (e) {
+      logger.error('Failed to set error status for feed event', e.message, e)
+    } finally {
+      release()
+    }
   }
 
   /**

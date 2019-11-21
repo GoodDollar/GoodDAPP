@@ -259,7 +259,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       })
 
       await addUserAPIPromise
-
       goodWallet
         .getBlockNumber()
         .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
@@ -284,14 +283,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       return true
     } catch (e) {
       // check registration status
-      const isCitizen = (goodWallet && goodWallet.isCitizen && (await goodWallet.isCitizen())) || true
+      const isCitizen = goodWallet && goodWallet.isCitizen && (await goodWallet.isCitizen())
       const isMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-      console.log('TTTTTTT', { isCitizen, isMnemonic })
       if (isCitizen && isMnemonic) {
         try {
-          const status = await API.getRegistrationStatus()
-          if (status) {
-            return await AsyncStorage.setItem(IS_LOGGED_IN, true)
+          const { data } = await API.getRegistrationStatus()
+          if (data && data.ok) {
+            await AsyncStorage.setItem(IS_LOGGED_IN, true)
+            return true
           }
         } catch (e) {
           log.error('getRegistrationStatus error', e, e.message)

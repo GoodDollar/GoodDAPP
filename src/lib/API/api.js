@@ -118,9 +118,7 @@ class API {
    * @param {UserRecord} user
    */
   addUser(user: UserRecord): AxiosPromise<any> {
-    throw new Error('aaaa')
-
-    // return this.client.post('/user/add', { user })
+    return this.client.post('/user/add', { user })
   }
 
   /**
@@ -280,7 +278,7 @@ class API {
    * `/storage/login/token` get api call
    */
   getRegistrationStatus() {
-    return this.client.get('/verify/user/registration')
+    return this.client.post('/verify/registration')
   }
 
   /**

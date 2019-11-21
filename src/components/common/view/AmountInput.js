@@ -38,7 +38,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title }: Amoun
         >
           <InputGoodDollar
             style={error ? styles.errorInput : styles.section}
-            disabled={isMobile}
+            editable={!isMobile}
             autoFocus
             amount={amount}
             onChangeAmount={handleAmountChange}
@@ -67,14 +67,12 @@ const mapPropsToStyles = ({ theme }) => {
     },
     section: {
       marginTop: 'auto',
-      opacity: 1,
     },
     container: {
       minHeight: getDesignRelativeHeight(180),
       height: getDesignRelativeHeight(180),
     },
     errorInput: {
-      opacity: 1,
       color: theme.colors.error,
       borderBottomColor: theme.colors.error,
       marginTop: 'auto',

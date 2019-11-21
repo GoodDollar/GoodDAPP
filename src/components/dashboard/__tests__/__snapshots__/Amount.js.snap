@@ -451,6 +451,7 @@ exports[`Amount matches snapshot 1`] = `
                       "letterSpacing": "1.2px",
                       "marginTop": "auto",
                       "msTouchAction": "manipulation",
+                      "opacity": 1,
                       "paddingBottom": "4px",
                       "paddingLeft": "32px",
                       "paddingRight": "32px",

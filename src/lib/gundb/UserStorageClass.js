@@ -1588,7 +1588,16 @@ export class UserStorage {
 
     feedEvent.status = status
 
-    return this.updateFeedEvent(feedEvent)
+    return this.feed
+      .get('byid')
+      .get(eventId)
+      .secretAck(feedEvent)
+      .then()
+      .then(_ => feedEvent)
+      .catch(e => {
+        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        return {}
+      })
   }
 
   /**

@@ -68,7 +68,7 @@ const TabsView = React.memo((props: TabViewProps) => {
       _token = await API.getLoginToken()
         .then(r => _get(r, 'data.loginToken'))
         .then(newToken => {
-          userStorage.setProfileField('loginToken', newToken, 'private')
+          if (newToken) userStorage.setProfileField('loginToken', newToken, 'private')
 
           return newToken
         })
@@ -80,7 +80,7 @@ const TabsView = React.memo((props: TabViewProps) => {
       _marketToken = await API.getMarketToken()
         .then(_ => _get(_, 'data.jwt'))
         .then(newtoken => {
-          userStorage.setProfileField('marketToken', newtoken)
+          if (newtoken) userStorage.setProfileField('marketToken', newtoken)
 
           return newtoken
         })
@@ -116,7 +116,7 @@ const TabsView = React.memo((props: TabViewProps) => {
 
   return (
     <Appbar.Header dark>
-      <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px' }}>
+      <TouchableOpacity onPress={goToRewards} style={{ marginLeft: 10 }}>
         <Icon name="rewards" size={36} color="white" />
       </TouchableOpacity>
       <Appbar.Content />
@@ -126,7 +126,9 @@ const TabsView = React.memo((props: TabViewProps) => {
         </TouchableOpacity>
       )}
       <Appbar.Content />
-      <Appbar.Action icon="menu" onPress={toggleSidemenu.bind(null, store)} color="white" />
+      <TouchableOpacity onPress={toggleSidemenu.bind(null, store)}>
+        <Icon name="settings" size={20} color="white" style={{ marginRight: 10 }} />
+      </TouchableOpacity>
     </Appbar.Header>
   )
 })

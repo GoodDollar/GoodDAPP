@@ -5,7 +5,6 @@ import { SceneView } from '@react-navigation/core'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
-import SimpleStore from '../../lib/undux/SimpleStore'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -25,7 +24,6 @@ const log = logger.child({ from: 'AppSwitch' })
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
 const AppSwitch = (props: LoadingProps) => {
-  const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
@@ -141,14 +139,12 @@ const AppSwitch = (props: LoadingProps) => {
   const init = async () => {
     log.debug('initializing')
 
-    // store.set('loadingIndicator')({ loading: true })
     try {
       await initialize()
       setReady(true)
     } catch (e) {
       showErrorDialog('Wallet could not be loaded. Please try again later.')
     }
-    store.set('loadingIndicator')({ loading: false })
   }
   useEffect(() => {
     init()

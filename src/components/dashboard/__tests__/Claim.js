@@ -5,13 +5,16 @@ import { getWebRouterComponentWithMocks } from './__util__'
 describe('Claim', () => {
   it('renders without errors', () => {
     const Claim = getWebRouterComponentWithMocks('../Claim')
-    const tree = renderer.create(<Claim />)
-    expect(tree.toJSON()).toBeTruthy()
+    let component
+    renderer.act(() => (component = renderer.create(<Claim />)))
+    const tree = component.toJSON()
+    expect(tree).toBeTruthy()
   })
 
   it('matches snapshot', () => {
     const Claim = getWebRouterComponentWithMocks('../Claim')
-    const component = renderer.create(<Claim />)
+    let component
+    renderer.act(() => (component = renderer.create(<Claim />)))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

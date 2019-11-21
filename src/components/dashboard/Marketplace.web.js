@@ -37,7 +37,7 @@ const MarketTab = props => {
 
   useEffect(() => {
     store.set('loadingIndicator')({ loading: true })
-    userStorage.getProfileFieldValue('loginToken').then(setToken)
+    userStorage.getProfileFieldValue('marketToken').then(setToken)
   }, [])
 
   useEffect(() => {
@@ -45,8 +45,15 @@ const MarketTab = props => {
       store.set('loadingIndicator')({ loading: false })
       showDialog({
         title: 'Press ok to go to market',
+        buttons: [
+          {
+            text: 'OK',
+            onPress: () => {
+              window.open(getMarketPath(), '_blank')
+            },
+          },
+        ],
         onDismiss: () => {
-          window.open(getMarketPath(), '_blank')
           props.navigation.navigate('Home')
         },
       })

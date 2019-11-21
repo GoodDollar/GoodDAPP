@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Animated, AppState, Dimensions, Easing } from 'react-native'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
+import moment from 'moment'
 import type { Store } from 'undux'
 import * as web3Utils from 'web3-utils'
 import { delay } from '../../lib/utils/async'
@@ -11,7 +12,7 @@ import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
-import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
+import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import {
@@ -70,17 +71,17 @@ const MIN_BALANCE_VALUE = '100000'
 const GAS_CHECK_DEBOUNCE_TIME = 1000
 const showOutOfGasError = debounce(
   async props => {
-    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+    const gasResult = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
       topWallet: false,
     })
-
-    if (!ok) {
+    log.debug('outofgaserror:', { gasResult })
+    if (gasResult.ok === false && gasResult.error !== false) {
       props.screenProps.navigateTo('OutOfGasError')
     }
   },
   GAS_CHECK_DEBOUNCE_TIME,
   {
-    maxWait: GAS_CHECK_DEBOUNCE_TIME,
+    leading: true,
   }
 )
 
@@ -98,15 +99,33 @@ const Dashboard = props => {
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
   const [update, setUpdate] = useState(0)
+  const [showDelayedTimer, setShowDelayedTimer] = useState()
+  const currentFeed = store.get('currentFeed')
+  const currentScreen = store.get('currentScreen')
+  const loadingIndicator = store.get('loadingIndicator')
+  const { screenProps, styles }: DashboardProps = props
+  const { balance, entitlement } = gdstore.get('account')
+  const { avatar, fullName } = gdstore.get('profile')
+  const [feeds, setFeeds] = useState([])
+  const [headerLarge, setHeaderLarge] = useState(true)
+  const scale = {
+    transform: [
+      {
+        scale: animValue,
+      },
+    ],
+  }
 
   const checkBonusesToRedeem = () => {
+    log.info('Check bonuses process started')
+
     const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
 
     if (!isUserWhitelisted) {
       return
     }
 
-    API.redeemBonuses()
+    return API.redeemBonuses()
       .then(res => {
         log.debug('redeemBonuses', { resData: res && res.data })
       })
@@ -116,6 +135,40 @@ const Dashboard = props => {
         // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })
   }
+
+  const prepareLoginToken = async () => {
+    log.info('Prepare login token process started')
+    const loginToken = await userStorage.getProfileFieldValue('loginToken')
+
+    if (!loginToken) {
+      try {
+        const response = await API.getLoginToken()
+
+        const _loginToken = _get(response, 'data.loginToken')
+
+        await userStorage.setProfileField('loginToken', _loginToken, 'private')
+      } catch (e) {
+        log.error('prepareLoginToken failed', e.message, e)
+      }
+    }
+  }
+
+  const checkBonusInterval = async perform => {
+    const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
+    log.debug({ lastTimeBonusCheck })
+    if (
+      lastTimeBonusCheck &&
+      moment()
+        .subtract(Number(config.backgroundReqsInterval), 'minutes')
+        .isBefore(moment(lastTimeBonusCheck))
+    ) {
+      return
+    }
+    await checkBonusesToRedeem()
+
+    userStorage.userProperties.set('lastBonusCheckDate', new Date().toISOString())
+  }
+
   const isTheSameUser = code => {
     return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
   }
@@ -141,33 +194,34 @@ const Dashboard = props => {
     }
   }
 
-  const prepareLoginToken = async () => {
-    const loginToken = await userStorage.getProfileFieldValue('loginToken')
-
-    if (!loginToken) {
-      try {
-        const response = await API.getLoginToken()
-
-        const _loginToken = _get(response, 'data.loginToken')
-
-        await userStorage.setProfileField('loginToken', _loginToken, 'private')
-      } catch (e) {
-        log.error('prepareLoginToken failed', e.message, e)
-      }
-    }
-  }
-
   const handleDeleteRedirect = () => {
     if (props.navigation.state.key === 'Delete') {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
     }
   }
 
+  const getFeedPage = async (reset = false) => {
+    const res =
+      (await userStorage
+        .getFormattedEvents(PAGE_SIZE, reset)
+        .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
+    if (res.length == 0) {
+      return
+    }
+    if (reset) {
+      setFeeds(res)
+    } else {
+      setFeeds(feeds.concat(res))
+    }
+  }
   const subscribeToFeed = () => {
-    userStorage.feed.get('byid').on(data => {
-      log.debug('gun getFeed callback', { data })
-      getInitialFeed(gdstore)
-    }, true)
+    return new Promise((res, rej) => {
+      userStorage.feed.get('byid').on(async data => {
+        log.debug('gun getFeed callback', { data })
+        await getFeedPage(true).catch(e => rej(false))
+        res(true)
+      }, true)
+    })
   }
 
   const handleReceiveLink = () => {
@@ -181,7 +235,9 @@ const Dashboard = props => {
 
   const handleAppFocus = state => {
     if (state === 'active') {
-      checkBonusesToRedeem()
+      checkBonusInterval()
+      showOutOfGasError(props)
+      animateClaim()
     }
   }
 
@@ -206,10 +262,13 @@ const Dashboard = props => {
   }
 
   const showDelayed = () => {
-    setTimeout(() => {
+    const id = setTimeout(() => {
+      //wait until not loading and not showing other modal (see use effect)
+      //mark as displayed
+      setShowDelayedTimer(true)
       store.set('addWebApp')({ show: true })
-      animateClaim()
-    }, 2000)
+    }, 1000)
+    setShowDelayedTimer(id)
   }
 
   /**
@@ -225,21 +284,30 @@ const Dashboard = props => {
   }
 
   const nextFeed = () => {
-    log.debug('getNextFeed called')
-    return getNextFeed(gdstore)
+    if (feeds && feeds.length > 0) {
+      log.debug('getNextFeed called')
+      return getFeedPage()
+    }
+  }
+
+  const initDashboard = async () => {
+    await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+    log.debug('initDashboard subscribed to feed')
+    userStorage.syncFeedsWithBlockchain()
+    prepareLoginToken()
+    handleDeleteRedirect()
+    handleReceiveLink()
+    handleResize()
+    checkBonusInterval()
+    showOutOfGasError(props)
+    animateClaim()
   }
 
   useEffect(() => {
     log.debug('Dashboard didmount')
+    initDashboard()
     AppState.addEventListener('change', handleAppFocus)
-    userStorage.syncFeedsWithBlockchain()
-    checkBonusesToRedeem()
-    handleDeleteRedirect()
-    prepareLoginToken()
-    subscribeToFeed()
-    handleReceiveLink()
-    showDelayed()
-    handleResize()
+
     return function() {
       AppState.removeEventListener('change', handleAppFocus)
     }
@@ -253,6 +321,20 @@ const Dashboard = props => {
       showNewFeedEvent(params.event)
     }
   }, [params])
+
+  /**
+   * dont show delayed items such as add to home popup if some other dialog is showing
+   */
+  useEffect(() => {
+    const showingSomething =
+      _get(currentScreen, 'dialogData.visible') || _get(loadingIndicator, 'loading') || currentFeed
+
+    if (showDelayedTimer !== true && showDelayedTimer && showingSomething) {
+      setShowDelayedTimer(clearTimeout(showDelayedTimer))
+    } else if (!showDelayedTimer) {
+      showDelayed()
+    }
+  }, [_get(currentScreen, 'dialogData.visible'), _get(loadingIndicator, 'loading'), currentFeed])
 
   const showEventModal = currentFeed => {
     store.set('currentFeed')(currentFeed)
@@ -281,8 +363,6 @@ const Dashboard = props => {
       })
     }
   }
-
-  showOutOfGasError(props)
 
   const handleWithdraw = async () => {
     const { paymentCode } = props.navigation.state.params
@@ -323,20 +403,6 @@ const Dashboard = props => {
       log.error('withdraw failed:', e.code, e.message, e)
       showErrorDialog(e.message)
     }
-  }
-
-  const currentFeed = store.get('currentFeed')
-  const { screenProps, styles }: DashboardProps = props
-  const { balance, entitlement } = gdstore.get('account')
-  const { avatar, fullName } = gdstore.get('profile')
-  const feeds = gdstore.get('feeds')
-  const [headerLarge, setHeaderLarge] = useState(true)
-  const scale = {
-    transform: [
-      {
-        scale: animValue,
-      },
-    ],
   }
 
   return (

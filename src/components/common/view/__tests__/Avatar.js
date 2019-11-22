@@ -6,12 +6,12 @@ import Avatar from '../Avatar'
 
 describe('Avatar', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<Avatar />)
+    const tree = renderer.create(<Avatar profile={{}} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<Avatar />)
+    const component = renderer.create(<Avatar profile={{}} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

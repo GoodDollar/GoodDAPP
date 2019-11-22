@@ -502,6 +502,7 @@ describe('UserStorage', () => {
       userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
       userStorage.setProfileField('name', 'hadar2', 'public'),
       userStorage.setProfileField('id', 'z123', 'private'),
+      userStorage.setProfileField('letterAvatarBackground', '#ffffff', 'public'),
     ]
 
     await Promise.all(updates)
@@ -514,6 +515,7 @@ describe('UserStorage', () => {
         phone: '+22222222222',
         mobile: '+22222222222',
         x: '',
+        letterAvatarBackground: '#ffffff',
       })
       done()
     })
@@ -527,6 +529,7 @@ describe('UserStorage', () => {
       userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
       userStorage.setProfileField('name', 'hadar2', 'public'),
       userStorage.setProfileField('id', 'z123', 'private'),
+      userStorage.setProfileField('letterAvatarBackground', '#ffffff', 'public'),
     ]
     await Promise.all(updates)
     await userStorage.subscribeProfileUpdates(profile => {
@@ -540,6 +543,7 @@ describe('UserStorage', () => {
           phone: '+22222222222',
           mobile: '+22222222222',
           x: '',
+          letterAvatarBackground: '#ffffff',
         })
         done()
       })
@@ -560,6 +564,7 @@ describe('UserStorage', () => {
       email: 'new@email.com',
       mobile: '+22222222222',
       username: 'hadar2',
+      letterAvatarBackground: '#ffffff',
     }
     const profile = getUserModel(profileData)
     const result = await userStorage.setProfile(profile)

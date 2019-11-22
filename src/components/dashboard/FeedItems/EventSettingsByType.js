@@ -20,6 +20,12 @@ const getEventSettingsByType = (theme, type) => {
       color: theme.colors.lightGreen,
       name: 'bonus-reward',
     },
+    claiming: {
+      color: theme.colors.primary,
+      name: 'info',
+      withoutAmount: true,
+      withoutAvatar: true,
+    },
     send: {
       actionSymbol: '-',
       color: theme.colors.red,

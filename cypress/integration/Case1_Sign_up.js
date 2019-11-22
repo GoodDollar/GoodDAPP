@@ -38,10 +38,10 @@ describe('Test case 1: Ability to Sign Up', () => {
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
     SignUpPage.phoneInput.type(Cypress.env('numberForCheckingRegistration'))
-    cy.wait(4000) // delay is necessary
+    cy.wait(7000) // delay is necessary
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
-    cy.wait(4000) // delay is necessary
+    cy.wait(7000) // delay is necessary
     for (let i = 0; i < 6; i++) {
       SignUpPage.codeInputs.eq(i).type(i, { force: true })
     }

@@ -51,6 +51,31 @@ class EditProfilePage {
       timeout: 10000,
     })
   }
+
+  waitForEditProfilePageDisplayed() {
+    cy.waitForResourceToLoad('vendors~router~signuprouter.01f24a54.chunk.css')
+  }
+
+  fillUserPhone(phoneNumber) {
+    const phoneInput = cy.get('#signup_phone', { timeout: 10000 })
+    phoneInput.focus().clear(), { timeout: 1000 }
+    phoneInput.clear().type(phoneNumber), { delay: 100 }
+    phoneInput.focus().blur()
+  }
+
+  fillUserEmail(userEmail) {
+    const emailInput = cy.get('input[placeholder="Add your Email"]', { timeout: 10000 })
+    emailInput.focus().clear(), { timeout: 1000 }
+    emailInput.clear().type(userEmail), { delay: 100 }
+    emailInput.focus().blur()
+  }
+
+  fillUserName(userName) {
+    const nameInput = cy.get('input[placeholder="Choose a Username"]', { timeout: 10000 })
+    nameInput.focus().clear(), { timeout: 1000 }
+    nameInput.clear().type(userName), { delay: 100 }
+    nameInput.focus().blur()
+  }
 }
 
 export default new EditProfilePage()

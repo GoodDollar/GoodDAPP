@@ -115,7 +115,7 @@ const getStylesFromProps = ({ theme }) => ({
     margin: '10%',
   },
   claiming: {
-    width: getDesignRelativeWidth(92),
+    width: getDesignRelativeHeight(92),
     height: getDesignRelativeHeight(92),
     margin: 20,
   },

@@ -31,7 +31,7 @@ describe('Test case 3: Ability to change user data', () => {
     cy.wait(7000)
   })
 
-  it.skip('Elements are present at user profile', () => {
+  it('Elements are present at user profile', () => {
     HomePage.profileAvatar.should('be.visible')
     HomePage.sendButton.should('be.visible')
     HomePage.claimButton.should('be.visible')
@@ -50,7 +50,7 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.saveButton.should('be.visible')
   })
 
-  it.skip('User is able to upload avatar', () => {
+  it('User is able to upload avatar', () => {
     HomePage.profileAvatar.click()
     ProfilePage.avatarDiv.click({ multiple: true })
     ProfilePage.uploadUserAvatar()
@@ -98,7 +98,7 @@ describe('Test case 3: Ability to change user data', () => {
     ProfilePage.pageHeader.should('contain', 'Profile')
   })
 
-  it.skip('User is unable to type invalid data', () => {
+  it('User is unable to type invalid data', () => {
     HomePage.optionsButton.click({ force: true })
     HomePage.options.eq(0).click({ force: true })
     ProfilePage.openEditProfileButton()

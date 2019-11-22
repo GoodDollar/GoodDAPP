@@ -215,7 +215,7 @@ export const startSpending = {
 }
 
 export const startClaiming = {
-  id: '5',
+  id: '4',
   type: 'claiming',
   status: 'completed',
   data: {

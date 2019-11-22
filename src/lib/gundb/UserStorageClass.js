@@ -214,6 +214,24 @@ export const startSpending = {
   },
 }
 
+export const startClaiming = {
+  id: '5',
+  type: 'claiming',
+  status: 'completed',
+  data: {
+    customName: 'Start claiming your free daily G$',
+    subtitle: 'Start claiming your free daily G$',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'GoodDollar gives every active member a small daily income.\nSign in every day, collect free GoodDollars and use them to pay for goods and services.',
+    endpoint: {
+      fullName: 'Start claiming your free daily G$',
+    },
+  },
+}
+
 /**
  * Extracts transfer events sent to the current account
  * @param {object} receipt - Receipt event
@@ -625,7 +643,7 @@ export class UserStorage {
       }
 
       if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
-        updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
+        updatedFeedEvent.data.message = COMPLETED_BONUS_REASON_TEXT
         updatedFeedEvent.data.customName = 'GoodDollar'
       }
 
@@ -764,6 +782,7 @@ export class UserStorage {
     const isCameFromW3Site = userProperties.cameFromW3Site
 
     this.addBackupCard()
+    this.addStartClaimingCard()
 
     // first time user visit
     if (firstVisitAppDate == null) {
@@ -814,6 +833,22 @@ export class UserStorage {
     if (!userProperties.isMadeBackup && allowToShowByTimeFilter) {
       await this.enqueueTX(backupMessage)
       await this.userProperties.set('isMadeBackup', true)
+    }
+  }
+
+  /**
+   * add a start claiming card after 3 days
+   *
+   * @returns {Promise<void>}
+   */
+  async addStartClaimingCard() {
+    const userProperties = await this.userProperties.getAll()
+    const firstVisitAppDate = userProperties.firstVisitApp
+    const displayTimeFilter = 3 * 24 * 60 * 60 * 1000 // 3 days
+    const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
+
+    if (allowToShowByTimeFilter) {
+      await this.enqueueTX(startClaiming)
     }
   }
 

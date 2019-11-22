@@ -1,18 +1,11 @@
 importScripts("/precache-manifest.96cddced790e27bad6dbb684d9a454d9.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
-let LATEST_VERSION = 'v1.5'
 self.addEventListener('fetch', function(event) {
-  if(~event.request.url.indexOf('manifest.json')){
-    event.respondWith(() => {
-      return fetch(event.request).then(function(response) {
-        console.log('SERVICE_WORKER response.clone()',response.clone())
-        return response;
-      })
-    }
-  )}
+  console.log('SERVICE_WORKER event',event)
 })
+
 workbox.core.setCacheNameDetails({ prefix: 'd4' })
 //Change this value every time before you build
-
+const LATEST_VERSION = 'v1.5'
 self.addEventListener('activate', (event) => {
   console.log(`%c ${LATEST_VERSION} `, 'background: #ddd; color: #0000ff')
   if (caches) {
@@ -36,9 +29,10 @@ self.addEventListener('activate', (event) => {
   }
 })
 
-workbox.core.skipWaiting()
-workbox.core.clientsClaim()
+workbox.skipWaiting()
+workbox.clientsClaim()
 
 self.__precacheManifest = [].concat(self.__precacheManifest || [])
+workbox.precaching.suppressWarnings()
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 

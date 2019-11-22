@@ -11,13 +11,14 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read http://bit.ly/CRA-PWA
 
-const isLocalhost = Boolean(
-  window.location.hostname === 'localhost' ||
-    // [::1] is the IPv6 localhost address.
-    window.location.hostname === '[::1]' ||
-    // 127.0.0.1/8 is considered localhost for IPv4.
-    window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
-)
+const isLocalhost = false
+//   Boolean(
+//   window.location.hostname === 'localhost' ||
+//     // [::1] is the IPv6 localhost address.
+//     window.location.hostname === '[::1]' ||
+//     // 127.0.0.1/8 is considered localhost for IPv4.
+//     window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
+// )
 
 export function register(config) {
   if ('serviceWorker' in navigator) {
@@ -31,18 +32,21 @@ export function register(config) {
     }
 
     window.addEventListener('load', () => {
+      console.log('SERVICE_WORKER: LOAD START')
       const swUrl =
         process.env.NODE_ENV === 'production'
           ? `${process.env.PUBLIC_URL}/service-worker.js`
           : `${process.env.PUBLIC_URL}/sw-dev.js`
 
       if (isLocalhost) {
+        console.log('SERVICE_WORKER: isLocalhost')
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config)
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
+          console.log('SERVICE_WORKER: This web app is being served cache-first by a service.To learn more, visit http://bit.ly/CRA-PWA')
           console.log(
             'serviceWorker',
             'This web app is being served cache-first by a service ' +
@@ -59,16 +63,22 @@ export function register(config) {
 }
 
 function registerValidSW(swUrl, config) {
+  console.log('SERVICE_WORKER: registerValidSW')
+  console.log('SERVICE_WORKER: config',config )
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      console.log('SERVICE_WORKER: registration')
+
       registration.onupdatefound = () => {
         const installingWorker = registration.installing
         if (installingWorker == null) {
           return
         }
         installingWorker.onstatechange = () => {
+          console.log('SERVICE_WORKER: onstatechange',installingWorker.state )
           if (installingWorker.state === 'installed') {
+            console.log('SERVICE_WORKER: onstatechange installed' )
             if (navigator.serviceWorker.controller) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older

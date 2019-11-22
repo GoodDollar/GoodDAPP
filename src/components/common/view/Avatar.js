@@ -1,9 +1,11 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { Avatar } from 'react-native-paper'
 import unknownProfile from '../../../assets/unknownProfile.svg'
 import { withStyles } from '../../../lib/styles'
+import { theme } from '../../theme/styles'
+import Text from './Text'
 
 export type AvatarProps = {
   onPress?: () => {},
@@ -23,7 +25,10 @@ export type AvatarProps = {
  * @returns {React.Node}
  */
 const CustomAvatar = (props: AvatarProps) => {
-  const { styles, style, source, onPress, size, ...restProps } = props
+  const { styles, style, onPress, size, profile, cameFromW3Site, smallLetter, ...restProps } = props
+  const { avatar, fullName, letterAvatarBackground } = profile
+  const firstLetter = fullName && fullName[0]
+  const showLetterAvatar = !avatar && firstLetter
 
   return (
     <TouchableOpacity
@@ -33,12 +38,20 @@ const CustomAvatar = (props: AvatarProps) => {
       style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
       underlayColor="#fff"
     >
-      <Avatar.Image
-        size={size - 2}
-        source={{ uri: source || unknownProfile }}
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
-        {...restProps}
-      />
+      {showLetterAvatar ? (
+        <View style={[styles.letterAvatar, { backgroundColor: letterAvatarBackground || theme.colors.gray50Percent }]}>
+          <Text style={styles.letterAvatarText} color="white" fontSize={smallLetter ? 14 : 30}>
+            {firstLetter.toUpperCase()}
+          </Text>
+        </View>
+      ) : (
+        <Avatar.Image
+          size={size - 2}
+          source={{ uri: avatar || unknownProfile }}
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
+          {...restProps}
+        />
+      )}
       {props.children}
     </TouchableOpacity>
   )
@@ -53,6 +66,14 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: theme.colors.gray50Percent,
     borderWidth: 1,
     borderColor: theme.colors.gray80Percent,
+  },
+  letterAvatar: {
+    height: '100%',
+    width: '100%',
+    borderRadius: '50%',
+  },
+  letterAvatarText: {
+    margin: 'auto',
   },
 })
 

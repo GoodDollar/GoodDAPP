@@ -31,6 +31,11 @@ const FeedModalItem = (props: FeedEventProps) => {
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
   const showJaggedEdge = ['claim', 'sendcompleted', 'withdraw', 'receive'].includes(itemType)
+  const profile = {}
+
+  profile.avatar = item.data && item.data.endpoint && item.data.endpoint.avatar
+  profile.letterAvatarBackground = item.data && item.data.endpoint && item.data.endpoint.letterAvatarBackground
+  profile.fullName = item.data && item.data.endpoint && item.data.endpoint.fullName
 
   return (
     <ModalWrapper
@@ -70,13 +75,7 @@ const FeedModalItem = (props: FeedEventProps) => {
             </React.Fragment>
           </View>
           <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
-            {!eventSettings.withoutAvatar && (
-              <Avatar
-                source={item.data && item.data.endpoint && item.data.endpoint.avatar}
-                size={34}
-                style={styles.avatar}
-              />
-            )}
+            {!eventSettings.withoutAvatar && <Avatar profile={profile} size={34} style={styles.avatar} smallLetter />}
             {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
             {!eventSettings.withoutAvatar && <EventIcon type={itemType} style={styles.icon} />}
           </View>

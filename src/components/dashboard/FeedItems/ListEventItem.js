@@ -22,6 +22,11 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
+  let profile = {}
+
+  profile.avatar = feed.data && feed.data.endpoint && feed.data.endpoint.avatar
+  profile.letterAvatarBackground = feed.data && feed.data.endpoint && feed.data.endpoint.letterAvatarBackground
+  profile.fullName = feed.data && feed.data.endpoint && feed.data.endpoint.fullName
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -54,11 +59,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           )}
         </View>
         <View style={styles.transferInfo} alignItems="flex-start">
-          <Avatar
-            size={normalize(34)}
-            style={styles.avatarBottom}
-            source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
-          />
+          <Avatar size={normalize(34)} style={styles.avatarBottom} profile={profile} smallLetter />
           <View style={styles.mainInfo}>
             {itemType === 'senderror' ? (
               <>

@@ -2,6 +2,7 @@
 import Gun from '@gooddollar/gun-appendonly'
 import Mutex from 'await-mutex'
 import SEA from 'gun/sea'
+import randomColor from 'randomcolor'
 import find from 'lodash/find'
 import flatten from 'lodash/flatten'
 import isEqual from 'lodash/isEqual'
@@ -468,6 +469,7 @@ export class UserStorage {
       email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
       mobile: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
       mnemonic: { defaultPrivacy: 'private' },
+      letterAvatarBackground: { defaultPrivacy: 'public' },
       avatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },
@@ -517,6 +519,9 @@ export class UserStorage {
         .get(this.gunuser.is.pub)
         .put(this.gunuser)
       logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
+
+      await this.saveLetterAvatarBackground()
+
       logger.debug('subscribing')
 
       this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
@@ -530,6 +535,18 @@ export class UserStorage {
       this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
       res(true)
     })
+  }
+
+  async saveLetterAvatarBackground() {
+    const color = await this.getProfileFieldValue('letterAvatarBackground')
+
+    if (!color) {
+      const color = randomColor({
+        luminosity: 'dark',
+      })
+
+      await this.setProfileField('letterAvatarBackground', color)
+    }
   }
 
   /**
@@ -1339,7 +1356,14 @@ export class UserStorage {
       const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
-      const [avatar, fullName] = await Promise.all([
+      const [letterAvatarBackground, avatar, fullName] = await Promise.all([
+        this._extractLetterAvatarBackground(type, profileNode).catch(e => {
+          logger.warn('formatEvent: failed extract letterAvatarBackground', e.message, e, {
+            type,
+            profileNode,
+          })
+          return undefined
+        }),
         this._extractAvatar(type, withdrawStatus, profileNode, address).catch(e => {
           logger.warn('formatEvent: failed extractAvatar', e.message, e, {
             type,
@@ -1377,6 +1401,7 @@ export class UserStorage {
             address: sender,
             fullName,
             avatar,
+            letterAvatarBackground,
             withdrawStatus,
           },
           amount: value,
@@ -1447,6 +1472,20 @@ export class UserStorage {
     // const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
 
     return byIndex || byAddress
+  }
+
+  _extractLetterAvatarBackground(type, profileToShow) {
+    if (['send', 'receive', 'withdraw'].includes(type)) {
+      return (
+        profileToShow &&
+        profileToShow
+          .get('letterAvatarBackground')
+          .get('display')
+          .then()
+      )
+    }
+
+    return Promise.resolve()
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {

@@ -41,7 +41,7 @@ const UserAvatar = (props: AvatarProps) => {
   return (
     <View style={styles.avatar}>
       <View style={[styles.innerAvatar, containerStyle]}>
-        <Avatar size={avatarSize} {...props} source={profile.avatar}>
+        <Avatar size={avatarSize} {...props} profile={profile}>
           {children}
         </Avatar>
       </View>

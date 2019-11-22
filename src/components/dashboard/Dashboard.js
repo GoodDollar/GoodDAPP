@@ -105,7 +105,7 @@ const Dashboard = props => {
   const loadingIndicator = store.get('loadingIndicator')
   const { screenProps, styles }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
-  const { avatar, fullName } = gdstore.get('profile')
+  const profile = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const scale = {
@@ -407,9 +407,14 @@ const Dashboard = props => {
       <Section style={[styles.topInfo]}>
         {headerLarge ? (
           <Section.Stack alignItems="center">
-            <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
+            <Avatar
+              onPress={() => screenProps.push('Profile')}
+              size={68}
+              profile={profile}
+              style={[styles.avatarBig]}
+            />
             <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
-              {fullName || ' '}
+              {profile.fullName || ' '}
             </Section.Text>
             <Section.Row style={styles.bigNumberWrapper}>
               <BigGoodDollar
@@ -424,7 +429,7 @@ const Dashboard = props => {
             <Avatar
               onPress={() => screenProps.push('Profile')}
               size={42}
-              source={avatar}
+              profile={profile}
               style={[styles.avatarSmall]}
             />
             <BigGoodDollar number={balance} />

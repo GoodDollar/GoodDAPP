@@ -16,12 +16,12 @@ import BigGoodDollar from './BigGoodDollar'
 const TopBar = ({ hideBalance, push, children }) => {
   const store = GDStore.useStore()
   const { balance } = store.get('account')
-  const { avatar } = store.get('profile')
+  const profile = store.get('profile')
 
   return (
     <Section style={styles.topBar}>
       <Section.Row alignItems="center">
-        <Avatar source={avatar} onPress={push && (() => push('Profile'))} />
+        <Avatar profile={profile} onPress={push && (() => push('Profile'))} />
         {/*
          if children exist, it will be rendered
          if children=undefined and hideBalance=false, BigGoodDollar will be rendered

@@ -69,9 +69,14 @@ upgradeVersion()
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.register({
+  // fetch version from manifest.json by request
+  version: '2.45.50',
   onUpdate: () => {
     console.log('SERVICE_WORKER: onUpdate')
-    setTimeout(() => location.reload(true), 1000)
+    setTimeout(() => {
+      console.log('SERVICE_WORKER: RELOAD!!!!!')
+      location.reload(true)
+    }, 1000)
   },
   onSuccess: () => {
     console.log('SERVICE_WORKER: onSuccess')

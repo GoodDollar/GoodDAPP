@@ -66,7 +66,7 @@ function registerValidSW(swUrl, config) {
   console.log('SERVICE_WORKER: registerValidSW')
   console.log('SERVICE_WORKER: config',config )
   navigator.serviceWorker
-    .register(swUrl)
+    .register(`${swUrl}?version=${config.version||'1'}`)
     .then(registration => {
       console.log('SERVICE_WORKER: registration')
 

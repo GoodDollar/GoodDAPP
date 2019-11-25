@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../__tests__/__util__'
-import ViewAvatar from '../ViewAvatar'
+import ViewAvatar from '../ViewOrUploadAvatar'
 
 describe('ViewAvatar', () => {
   const WrappedViewAvatar = withThemeProvider(ViewAvatar)

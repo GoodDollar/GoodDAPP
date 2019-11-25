@@ -1,10 +1,11 @@
 // @flow
 import React from 'react'
 import { isMobile } from 'mobile-device-detect'
-import { Dimensions, View } from 'react-native'
+import { View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
+import { getScreenWidth } from '../../../lib/utils/Orientation'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -23,7 +24,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
-  const isSmallDevice = isMobile && Dimensions.get('window').width < 353
+  const isSmallDevice = isMobile && getScreenWidth().get('window').width < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
 
   if (itemType === 'empty') {

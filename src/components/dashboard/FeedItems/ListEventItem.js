@@ -218,7 +218,7 @@ const getStylesFromProps = ({ theme }) => ({
     width: normalize(34),
   },
   claimingCardFeedText: {
-    flex: 1,
+    height: '100%',
     justifyContent: 'center',
   },
   mainInfo: {

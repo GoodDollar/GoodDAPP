@@ -62,7 +62,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [createError, setCreateError] = useState(false)
   const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
   const [registerAllowed, setRegisterAllowed] = useState(false)
-
+  const [finishedPromise, setFinishedPromise] = useState(undefined)
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
   const navigateWithFocus = (routeKey: string) => {
@@ -407,7 +407,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       }
     } else if (nextRoute && nextRoute.key === 'MagicLinkInfo') {
       setLoading(true)
-      const ok = await finishRegistration()
+      let ok
+      if (createError) {
+        ok = await finishRegistration()
+      } else {
+        ok = await finishedPromise
+      }
+
       log.debug('user registration synced and completed', { ok })
 
       //tell App.js we are done here so RouterSelector switches router
@@ -442,6 +448,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     if (curRoute && curRoute.key === 'MagicLinkInfo') {
       setShowNavBarGoBackButton(false)
+    }
+    if (curRoute && curRoute.key === 'SignupCompleted') {
+      const finishedPromise = finishRegistration()
+      setFinishedPromise(finishedPromise)
     }
   }, [navigation.state.index])
 

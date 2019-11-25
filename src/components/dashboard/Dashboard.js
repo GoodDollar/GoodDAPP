@@ -293,7 +293,6 @@ const Dashboard = props => {
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
     log.debug('initDashboard subscribed to feed')
-    userStorage.syncFeedsWithBlockchain()
     prepareLoginToken()
     handleDeleteRedirect()
     handleReceiveLink()

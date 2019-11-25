@@ -750,30 +750,6 @@ export class UserStorage {
     logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
   }
 
-  async syncFeedsWithBlockchain() {
-    const feeds = await this.getAllFeed()
-    const withoutReceipt = feeds.filter(f => !(f && f.data && f.data.receiptData))
-
-    if (!withoutReceipt.length) {
-      return
-    }
-
-    logger.debug('feeds to be updated', withoutReceipt)
-
-    const promises = withoutReceipt.map(async feed => {
-      const receipt = await this.wallet.getReceiptWithLogs(feed.id).catch(e => {
-        logger.warn('syncFeedWithBlockchain - no receipt found for id:', feed.id, e.message, e)
-        return undefined
-      })
-
-      if (receipt) {
-        this.handleReceiptUpdated(receipt)
-      }
-    })
-
-    Promise.all(promises)
-  }
-
   /**
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
@@ -1204,12 +1180,16 @@ export class UserStorage {
     return Promise.all(
       feed
         .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
-        .map(feedItem =>
-          this.formatEvent(feedItem).catch(e => {
+        .map(feedItem => {
+          if (!(feedItem.data && feedItem.data.receiptData)) {
+            return this.getFormatedEventById(feedItem.id)
+          }
+
+          return this.formatEvent(feedItem).catch(e => {
             logger.error('getFormattedEvents Failed formatting event:', e.message, e, feedItem)
             return {}
           })
-        )
+        })
     )
   }
 

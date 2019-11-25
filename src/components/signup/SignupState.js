@@ -312,6 +312,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // showErrorDialog('Something went on our side. Please try again')
       setCreateError(true)
       return false
+    } finally {
+      setLoading(false)
     }
   }
 

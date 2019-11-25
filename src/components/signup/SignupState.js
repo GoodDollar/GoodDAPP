@@ -60,7 +60,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [loading, setLoading] = useState(false)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
-  const [finishedPromise, setFinishedPromise] = useState(undefined)
   const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
   const [registerAllowed, setRegisterAllowed] = useState(false)
 
@@ -399,7 +398,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       }
     } else if (nextRoute && nextRoute.key === 'MagicLinkInfo') {
       setLoading(true)
-      const ok = await finishedPromise
+      const ok = await finishRegistration()
       log.debug('user registration synced and completed', { ok })
 
       //tell App.js we are done here so RouterSelector switches router
@@ -434,11 +433,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     if (curRoute && curRoute.key === 'MagicLinkInfo') {
       setShowNavBarGoBackButton(false)
-    }
-
-    if (curRoute && curRoute.key === 'SignupCompleted') {
-      const finishedPromise = finishRegistration()
-      setFinishedPromise(finishedPromise)
     }
   }, [navigation.state.index])
 

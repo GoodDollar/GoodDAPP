@@ -325,6 +325,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     return nextRoute
   }
 
+  function getCurrentRoute(routes, routeIndex) {
+    return routes[routeIndex]
+  }
+
   function getPrevRoute(routes, routeIndex, state) {
     let prevRoute = routes[routeIndex - 1]
 
@@ -342,12 +346,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     log.info('signup data:', { data })
 
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
+    let currentRoute = getCurrentRoute(navigation.state.routes, navigation.state.index)
 
     const newState = { ...state, ...data }
     setState(newState)
     log.info('signup data:', { data, nextRoute })
 
-    if (nextRoute && nextRoute.key === 'SMS') {
+    if (currentRoute.key === 'MagicLinkInfo') {
+      store.set('isLoggedIn')(true)
+    } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {

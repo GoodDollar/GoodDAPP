@@ -225,7 +225,7 @@ export const startClaiming = {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'GoodDollar gives every active member a small daily income.\nSign in every day, collect free GoodDollars and use them to pay for goods and services.',
+      'GoodDollar gives every active member a small daily income. Sign in every day, collect free GoodDollars and use them to pay for goods and services.',
     endpoint: {
       fullName: 'Start claiming your free daily G$',
     },

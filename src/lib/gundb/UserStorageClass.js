@@ -844,7 +844,7 @@ export class UserStorage {
   async addStartClaimingCard() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
-    const displayTimeFilter = 3 * 24 * 60 * 60 * 1000 // 3 days
+    const displayTimeFilter = Config.displayStartClaimingCardTime
     const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
 
     if (allowToShowByTimeFilter) {

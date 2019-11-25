@@ -183,7 +183,6 @@ const getStylesFromProps = ({ theme }) => ({
   mainContents: {
     flexGrow: 1,
     flexShrink: 1,
-    height: '100%',
     marginLeft: theme.sizes.default,
   },
   dateAndValue: {
@@ -218,7 +217,7 @@ const getStylesFromProps = ({ theme }) => ({
     width: normalize(34),
   },
   claimingCardFeedText: {
-    height: '100%',
+    flex: 1,
     justifyContent: 'center',
   },
   mainInfo: {

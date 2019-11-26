@@ -12,12 +12,20 @@ import SplashDesktop from './components/splash/SplashDesktop'
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
+import * as serviceWorker from './serviceWorker'
 
 const log = logger.child({ from: 'App' })
-
+let serviceWorkerRegistred = false
 const App = () => {
   const store = SimpleStore.useStore()
+
   useEffect(() => {
+    const onUpdate = reg => store.set('serviceWorkerUpdated')(reg)
+    if (serviceWorkerRegistred === false) {
+      log.debug('registering service worker')
+      serviceWorker.register({ onUpdate })
+      serviceWorkerRegistred = true
+    }
     if (isWebApp === false) {
       log.debug('useEffect, registering beforeinstallprompt')
 

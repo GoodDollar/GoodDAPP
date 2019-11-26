@@ -93,6 +93,7 @@ class EmailConfirmation extends React.Component<Props, State> {
 
   handleSubmit = async () => {
     await this.props.screenProps.doneCallback({ isEmailConfirmed: true })
+
     this.setState({ loading: false })
   }
 

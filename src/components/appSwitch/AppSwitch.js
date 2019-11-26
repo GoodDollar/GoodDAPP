@@ -5,7 +5,6 @@ import { SceneView } from '@react-navigation/core'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
-import SimpleStore from '../../lib/undux/SimpleStore'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -25,7 +24,6 @@ const log = logger.child({ from: 'AppSwitch' })
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
 const AppSwitch = (props: LoadingProps) => {
-  const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
@@ -59,14 +57,15 @@ const AppSwitch = (props: LoadingProps) => {
     // const navInfo = router.getPathAndParamsForState(state)
     const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
     AsyncStorage.removeItem(DESTINATION_PATH)
-    log.debug('getParams', { destinationPath, router, state })
 
     if (destinationPath) {
       const app = router.getActionForPathAndParams(destinationPath.path) || {}
+      log.debug('destinationPath getParams', { destinationPath, router, state, app })
 
       //get nested routes
       const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
-      const destData = { ...destRoute(app), params: destinationPath.params }
+      const destData = destRoute(app)
+      destData.params = { ...destData.params, ...destinationPath.params }
       return destData
     }
     return undefined
@@ -140,14 +139,12 @@ const AppSwitch = (props: LoadingProps) => {
   const init = async () => {
     log.debug('initializing')
 
-    // store.set('loadingIndicator')({ loading: true })
     try {
       await initialize()
       setReady(true)
     } catch (e) {
       showErrorDialog('Wallet could not be loaded. Please try again later.')
     }
-    store.set('loadingIndicator')({ loading: false })
   }
   useEffect(() => {
     init()

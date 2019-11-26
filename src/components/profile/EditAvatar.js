@@ -26,7 +26,7 @@ const EditAvatar = ({ screenProps, theme }) => {
   const saveAvatar = async () => {
     setSaving(true)
 
-    wrappedUserStorage.setAvatar(avatar).catch(e => {
+    await wrappedUserStorage.setAvatar(avatar).catch(e => {
       log.error('saving image failed:', e.message, e)
       showErrorDialog('We could not capture all your beauty. Please try again.')
     })

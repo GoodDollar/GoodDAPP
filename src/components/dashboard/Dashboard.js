@@ -399,6 +399,8 @@ const Dashboard = props => {
     } catch (e) {
       log.error('withdraw failed:', e.code, e.message, e)
       showErrorDialog(e.message)
+    } finally {
+      props.navigation.setParams({ paymentCode: undefined, reason: undefined })
     }
   }
 

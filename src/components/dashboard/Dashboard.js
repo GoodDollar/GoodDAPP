@@ -54,7 +54,6 @@ import ReceiveSummary from './ReceiveSummary'
 import Confirmation from './Confirmation'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
-import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
@@ -640,7 +639,6 @@ export default createStackNavigator({
     screen: Confirmation,
     path: ':action/Confirmation',
   },
-  Send,
   SendLinkSummary,
   SendConfirmation,
   SendByQR,

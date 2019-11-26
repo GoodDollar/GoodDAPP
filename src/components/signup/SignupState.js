@@ -67,7 +67,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
   const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
-  const [registerAllowed, setRegisterAllowed] = useState(false)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')

@@ -47,6 +47,11 @@ class SignUpPage {
   get letStartButton() {
     return cy.contains("Let's start!")
   }
+
+  waitForSignUpPageDisplayed() {
+    cy.waitForResourceToLoad('main.f5bfd779.chunk.css')
+    cy.get('.r-1r5su4o > .css-901oao').should('be.visible')
+  }
 }
 
 export default new SignUpPage()

@@ -37,13 +37,15 @@ describe('Test case 1: Ability to Sign Up', () => {
     SignUpPage.nameInput.type(Cypress.env('usernameForRegistration'))
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
-    SignUpPage.phoneInput.type(Cypress.env('numberForCheckingRegistration'))
-    cy.wait(7000) // delay is necessary
+    SignUpPage.phoneInput.type(Cypress.env('numberForCheckingRegistration'), { delay: 300 })
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
-    cy.wait(7000) // delay is necessary
     for (let i = 0; i < 6; i++) {
-      SignUpPage.codeInputs.eq(i).type(i, { force: true })
+      SignUpPage.waitForSignUpPageDisplayed()
+      SignUpPage.codeInputs
+        .eq(i)
+        .type(i, { force: true }, { delay: 300 })
+        .should('be.visible')
     }
     SignUpPage.emailInput.should('be.visible')
     SignUpPage.emailInput.type(Cypress.env('emailForCheckingRegistration'))

@@ -5,7 +5,7 @@ class HomePage {
   }
 
   get optionsButton() {
-    return cy.get('div[role=button]').eq(0)
+    return cy.get(':nth-child(4) > .css-901oao')
   }
 
   get sendButton() {

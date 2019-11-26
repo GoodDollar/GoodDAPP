@@ -4,7 +4,7 @@ import Config from '../../config/config'
 import API from '../API/api'
 import { delay } from '../utils/async'
 import logger from '../logger/pino-logger'
-
+import SimpleStore from '../undux/SimpleStore'
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
@@ -23,20 +23,21 @@ export const useConnection = () => {
 
 export const useConnectionWeb3 = () => {
   const [isConnection, setIsConnection] = useState(true)
-
+  const store = SimpleStore.useStore()
+  const wallet = store.get('wallet')
   const isWeb3Connection = () => {
-    if (global.wallet.wallet.currentProvider.connected) {
+    if (wallet.wallet.currentProvider.connected) {
       setIsConnection(true)
     } else {
       setIsConnection(false)
-      global.wallet.wallet.currentProvider.reconnect()
+      wallet.wallet.currentProvider.reconnect()
       setTimeout(isWeb3Connection, 500)
     }
   }
 
   useEffect(() => {
     AppState.addEventListener('change', () => {
-      if (global.wallet) {
+      if (wallet) {
         isWeb3Connection()
       }
     })
@@ -47,9 +48,10 @@ export const useConnectionWeb3 = () => {
 
 export const useConnectionGun = () => {
   const [isConnection, setIsConnection] = useState(true)
-
+  const store = SimpleStore.useStore()
+  const userStorage = store.get('userStorage')
   const isGun3Connection = () => {
-    const instanceGun = global.userStorage.gun._
+    const instanceGun = userStorage.gun._
     const wire = instanceGun.opt.peers[Config.gunPublicUrl].wire
     if (wire.readyState === wire.OPEN) {
       setIsConnection(true)
@@ -61,7 +63,7 @@ export const useConnectionGun = () => {
 
   useEffect(() => {
     AppState.addEventListener('change', () => {
-      if (global.userStorage) {
+      if (userStorage) {
         isGun3Connection()
       }
     })

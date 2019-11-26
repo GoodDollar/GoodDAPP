@@ -48,6 +48,8 @@ export type State = {
   loadingIndicator: LoadingIndicator,
   isLoggedInCitizen: boolean,
   isLoggedIn: boolean,
+  wallet: any,
+  userStorage: any,
   sidemenu: {
     visible: boolean,
   },
@@ -84,6 +86,8 @@ const initialState: State = {
   addWebApp: {
     show: false,
   },
+  wallet: null,
+  userStorage: null,
 }
 
 /**
@@ -97,4 +101,8 @@ const initStore = async () => {
   SimpleStore = createConnectedStore(initialState, withPinoLogger)
   return SimpleStore
 }
-export { initStore, SimpleStore as default }
+let storeLink
+const readyStore = store => {
+  storeLink = store
+}
+export { initStore, SimpleStore as default, readyStore, storeLink }

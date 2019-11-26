@@ -49,8 +49,7 @@ class SignUpPage {
   }
 
   waitForSignUpPageDisplayed() {
-    cy.waitForResourceToLoad('main.f5bfd779.chunk.css')
-    cy.get('.r-1r5su4o > .css-901oao').should('be.visible')
+    cy.contains('Enter the verification code').should('be.visible')
   }
 }
 

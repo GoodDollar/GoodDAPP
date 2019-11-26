@@ -15,7 +15,6 @@ describe('Test case 5: Ability to change profile privacy level', () => {
     LoginPage.mnemonicsInput.type(Cypress.env('mainAccountMnemonics'))
     LoginPage.recoverWalletButton.click()
     LoginPage.yayButton.click()
-    cy.wait(7000)
   })
 
   it('User should be able to change privacy lvl', () => {

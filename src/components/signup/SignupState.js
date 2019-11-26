@@ -329,6 +329,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     log.info('signup data:', { data, nextRoute, newState })
 
     if (currentRoute.key === 'MagicLinkInfo') {
+//this will cause a re-render and move user to the dashboard route
       store.set('isLoggedIn')(true)
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
@@ -395,7 +396,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       log.debug('user registration synced and completed', { ok })
 
-      //tell App.js we are done here so RouterSelector switches router
       if (ok) {
         const { userStorage } = await ready
         API.sendMagicLinkByEmail(userStorage.getMagicLink())

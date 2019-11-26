@@ -26,9 +26,9 @@ const ViewOrUploadAvatar = props => {
     props.screenProps.push('EditAvatar')
   }
 
-  const handleClosePress = async event => {
+  const handleClosePress = event => {
     event.preventDefault()
-    await wrappedUserStorage.removeAvatar().catch(e => {
+    wrappedUserStorage.removeAvatar().catch(e => {
       showErrorDialog('Could not delete image. Please try again.')
       log.error('delete image failed:', e.message, e)
     })

@@ -534,17 +534,20 @@ export class UserStorage {
   }
 
   setAvatar(avatar) {
-    return this.setProfileField('avatar', avatar, 'public').then(async () => {
-      const smallAvatar = await resizeBase64Image(avatar, 50)
-
-      this.setProfileField('smallAvatar', smallAvatar, 'public')
-    })
+    return Promise.all([
+      this.setProfileField('avatar', avatar, 'public'),
+      async () => {
+        const smallAvatar = await resizeBase64Image(avatar, 50)
+        return this.setProfileField('smallAvatar', smallAvatar, 'public')
+      },
+    ])
   }
 
   removeAvatar() {
-    return this.setProfileField('avatar', null, 'public').then(() => {
-      this.setProfileField('smallAvatar', null, 'public')
-    })
+    return Promise.all([
+      this.setProfileField('avatar', null, 'public'),
+      this.setProfileField('smallAvatar', null, 'public'),
+    ])
   }
 
   /**

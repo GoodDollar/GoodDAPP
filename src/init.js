@@ -6,13 +6,13 @@ import userStorage from './lib/gundb/UserStorage'
 import isWebApp from './lib/utils/isWebApp'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import { extractQueryParams } from './lib/share'
-import { storeLink } from './lib/undux/SimpleStore'
+import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 
 export const init = () => {
   return Promise.all([goodWallet.ready, userStorage.ready]).then(async () => {
     global.wallet = goodWallet
-    storeLink.set('wallet')(goodWallet)
-    storeLink.set('userStorage')(userStorage)
+    setWallet(goodWallet)
+    setUserStorage(userStorage)
     await initAnalytics(goodWallet, userStorage)
 
     const params = extractQueryParams(window.location.href)

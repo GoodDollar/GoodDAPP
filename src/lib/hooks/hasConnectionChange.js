@@ -41,7 +41,7 @@ export const useConnectionWeb3 = () => {
         isWeb3Connection()
       }
     })
-  }, [])
+  }, [wallet])
 
   return isConnection
 }
@@ -67,7 +67,7 @@ export const useConnectionGun = () => {
         isGun3Connection()
       }
     })
-  }, [])
+  }, [userStorage])
 
   return isConnection
 }

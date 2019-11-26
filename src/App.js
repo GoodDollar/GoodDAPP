@@ -5,7 +5,7 @@ import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import { theme } from './components/theme/styles'
-import SimpleStore, { readyStore } from './lib/undux/SimpleStore'
+import SimpleStore, { setInitFunctions } from './lib/undux/SimpleStore'
 import RouterSelector from './RouterSelector.web'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
@@ -28,7 +28,7 @@ const App = () => {
         store.set('installPrompt')(e)
       })
     }
-    readyStore(store)
+    setInitFunctions(store.set('wallet'), store.set('userStorage'))
   }, [])
 
   // onRecaptcha = (token: string) => {

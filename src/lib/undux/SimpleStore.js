@@ -101,8 +101,10 @@ const initStore = async () => {
   SimpleStore = createConnectedStore(initialState, withPinoLogger)
   return SimpleStore
 }
-let storeLink
-const readyStore = store => {
-  storeLink = store
+
+let setWallet, setUserStorage
+const setInitFunctions = (_setWallet, _setUserStorage) => {
+  setWallet = _setWallet
+  setUserStorage = _setUserStorage
 }
-export { initStore, SimpleStore as default, readyStore, storeLink }
+export { initStore, SimpleStore as default, setInitFunctions, setWallet, setUserStorage }

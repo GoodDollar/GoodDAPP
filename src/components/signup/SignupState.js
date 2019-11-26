@@ -396,7 +396,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       log.debug('user registration synced and completed', { ok })
 
-      //tell App.js we are done here so RouterSelector switches router
       if (ok) {
         const { userStorage } = await ready
         API.sendMagicLinkByEmail(userStorage.getMagicLink())

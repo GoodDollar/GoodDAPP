@@ -56,6 +56,7 @@ export type State = {
   addWebApp: {
     show: boolean,
   },
+  serviceWorkerUpdated: any,
 }
 
 /**
@@ -84,6 +85,7 @@ const initialState: State = {
   addWebApp: {
     show: false,
   },
+  serviceWorkerUpdated: null,
 }
 
 /**

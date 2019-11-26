@@ -103,6 +103,7 @@ const Dashboard = props => {
   const currentFeed = store.get('currentFeed')
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
+  const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
   const { screenProps, styles }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
@@ -334,6 +335,18 @@ const Dashboard = props => {
       showDelayed()
     }
   }, [_get(currentScreen, 'dialogData.visible'), _get(loadingIndicator, 'loading'), currentFeed])
+
+  useEffect(() => {
+    if (serviceWorkerUpdated) {
+      log.info('service worker updated', serviceWorkerUpdated)
+      showDialog({
+        title: 'A new shiny version is available!',
+        image: <LoadingIcon />,
+        message: 'Please wait while upgrading to newer version...',
+        buttons: [{ text: 'OK', onPress: () => window.location.reload() }],
+      })
+    }
+  }, [serviceWorkerUpdated])
 
   const showEventModal = currentFeed => {
     store.set('currentFeed')(currentFeed)

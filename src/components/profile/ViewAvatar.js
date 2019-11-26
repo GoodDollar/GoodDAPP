@@ -23,7 +23,7 @@ const ViewAvatar = props => {
 
   const handleCameraPress = event => {
     event.preventDefault()
-    props.screenProps.push('EditAvatar')
+    props.navigation.navigate('EditAvatar')
   }
 
   const handleClosePress = event => {
@@ -40,11 +40,11 @@ const ViewAvatar = props => {
       showErrorDialog('Could not save image. Please try again.')
       log.error('save image failed:', e.message, e)
     })
-    props.screenProps.push('EditAvatar')
+    props.navigation.navigate('EditAvatar')
   }
 
   const goToProfile = () => {
-    props.screenProps.push('EditProfile')
+    props.navigation.navigate('EditProfile')
   }
 
   return (

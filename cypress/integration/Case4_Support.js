@@ -30,28 +30,37 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
         cy.wrap(body.find(SupportPage.helpFormEmail)).should('be.visible')
         cy.wrap(body.find(SupportPage.helpFormTextArea)).should('be.visible')
 
-        // cy.wrap(body.find(SupportPage.helpFormFirstName)).should('be.visible');
-        // cy.wrap(body.find(SupportPage.helpFormLastName)).should('be.visible');
+        cy.wrap(body.find(SupportPage.helpFormFirstName)).should('be.visible')
+        cy.wrap(body.find(SupportPage.helpFormLastName)).should('be.visible')
         cy.wrap(body.find(SupportPage.submitHelpFormButton)).should('be.visible')
-
-        // cy.wrap(body.find(SupportPage.helpFormFirstName)).type('Andrew');
-        // cy.wrap(body.find(SupportPage.helpFormLastName)).type('Lebowski');
+        cy.wrap(body.find(SupportPage.helpFormFirstName))
+          .focus()
+          .type('Andrew', { delay: 200 })
+        cy.wrap(body.find(SupportPage.helpFormLastName))
+          .focus()
+          .type('Lebowski', { delay: 200 })
         cy.wrap(body.find(SupportPage.helpFormEmail))
+          .focus()
           .clear()
           .type('andrey.holenkov@qatestlab.eu')
-        cy.wrap(body.find(SupportPage.helpFormTextArea)).type('Test message')
+        cy.wrap(body.find(SupportPage.helpFormTextArea))
+          .focus()
+          .type('Test message')
         cy.wrap(body.find(SupportPage.submitHelpFormButton)).click()
-        cy.wait(5000)
 
-        // cy.wrap(body.find(SupportPage.helpFormSuccessMessage)).should('contain', 'Thank you, your support request has been received.');
-        cy.wrap(body.find(SupportPage.subscribeFormName)).should('be.visible')
-        cy.wrap(body.find(SupportPage.subscribeFormSurname)).should('be.visible')
-        cy.wrap(body.find(SupportPage.subscribeFormEmail)).should('be.visible')
-        cy.wrap(body.find(SupportPage.subscribeFormName)).type('Andrew')
-        cy.wrap(body.find(SupportPage.subscribeFormSurname)).type('Golenkov')
-        cy.wrap(body.find(SupportPage.subscribeFormEmail)).type('andrey.holenkov@qatestlab.eu')
-        cy.wrap(body.find(SupportPage.submitSubscribeFormButton)).click()
-        cy.wait(5000)
+        cy.wrap(body.find(SupportPage.helpFormSuccessMessage)).should(
+          'contain',
+          'Thank you, your support request has been received.'
+        )
+
+        // cy.wrap(body.find(SupportPage.subscribeFormName)).should('be.visible')
+        // cy.wrap(body.find(SupportPage.subscribeFormSurname)).should('be.visible')
+        // cy.wrap(body.find(SupportPage.subscribeFormEmail)).should('be.visible')
+        // cy.wrap(body.find(SupportPage.subscribeFormName)).type('Andrew')
+        // cy.wrap(body.find(SupportPage.subscribeFormSurname)).type('Golenkov')
+        // cy.wrap(body.find(SupportPage.subscribeFormEmail)).type('andrey.holenkov@qatestlab.eu')
+        // cy.wrap(body.find(SupportPage.submitSubscribeFormButton)).click()
+        // cy.wait(5000)
 
         //cy.wrap(body.find(SupportPage.subscribeFormSuccessMessage)).should('contain', 'Thank you for subscribing.');
         // for( let i = 0; i < 11; i++ ) {

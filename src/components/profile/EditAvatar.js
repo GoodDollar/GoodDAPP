@@ -23,7 +23,7 @@ const EditAvatar = ({ screenProps, theme }) => {
   const [changed, setChanged] = useState(false)
   const [saving, setSaving] = useState(false)
 
-  const saveAvatar = () => {
+  const saveAvatar = async () => {
     setSaving(true)
 
     wrappedUserStorage.setAvatar(avatar).catch(e => {

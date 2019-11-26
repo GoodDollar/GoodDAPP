@@ -294,6 +294,7 @@ const Dashboard = props => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
     log.debug('initDashboard subscribed to feed')
     prepareLoginToken()
+    checkBonusInterval()
     handleDeleteRedirect()
     handleReceiveLink()
     handleResize()

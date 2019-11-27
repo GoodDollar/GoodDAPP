@@ -48,7 +48,7 @@ const getEventSettingsByType = (theme, type) => {
     receive: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
-      name: 'claim-filled',
+      name: 'receive-filled',
     },
     withdraw: {
       actionSymbol: '+',

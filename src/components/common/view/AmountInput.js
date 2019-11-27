@@ -38,7 +38,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title }: Amoun
         >
           <InputGoodDollar
             style={error ? styles.errorInput : styles.section}
-            disabled={isMobile}
+            editable={!isMobile}
             autoFocus
             amount={amount}
             onChangeAmount={handleAmountChange}

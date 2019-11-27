@@ -46,12 +46,12 @@ const Config = {
     '121': {
       network_id: 121,
       httpWeb3provider: 'https://rpc.fuse.io/',
-      websocketWeb3Provider: 'wss://explorer-node.fuse.io/ws',
+      websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
     },
     '122': {
       network_id: 122,
-      httpWeb3provider: 'https://rpc.fusenet.io/',
-      websocketWeb3Provider: 'wss://explorer-node.fusenet.io/ws',
+      httpWeb3provider: 'https://rpc.fuse.io/',
+      websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
     },
     '4447': {
       network_id: 4447,

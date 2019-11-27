@@ -47,6 +47,10 @@ class HomePage {
   get confirmDeletionButton() {
     return cy.get('.r-16y2uox.r-nsbfu8.r-bnwqim.r-184en5c').contains('Delete')
   }
+
+  waitForHomePageDisplayed() {
+    cy.contains('Claim').should('be.visible')
+  }
 }
 
 export default new HomePage()

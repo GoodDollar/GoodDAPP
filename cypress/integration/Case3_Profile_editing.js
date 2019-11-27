@@ -28,7 +28,7 @@ describe('Test case 3: Ability to change user data', () => {
     LoginPage.mnemonicsInput.type(Cypress.env('mainAccountMnemonics'))
     LoginPage.recoverWalletButton.click()
     LoginPage.yayButton.click()
-    cy.wait(7000)
+    HomePage.waitForHomePageDisplayed()
   })
 
   it('Elements are present at user profile', () => {
@@ -72,9 +72,7 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.fillUserName('AndrewGolenkov123')
     cy.wait(5000)
     EditProfilePage.saveButton.click()
-    cy.wait(5000)
     ProfilePage.openProfilePage()
-    cy.wait(5000)
 
     //EditProfilePage.backButton.click();
     ProfilePage.nameInput.should('have.value', 'AndrewGolenkov123')
@@ -83,7 +81,6 @@ describe('Test case 3: Ability to change user data', () => {
 
     // ** back to the default values ** //
     ProfilePage.openEditProfileButton()
-    cy.wait(3000)
     EditProfilePage.waitForEditProfilePageDisplayed()
     EditProfilePage.fillUserPhone('+380983611327')
     makeVerification()

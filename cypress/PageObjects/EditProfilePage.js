@@ -57,23 +57,23 @@ class EditProfilePage {
   }
 
   fillUserPhone(phoneNumber) {
-    const phoneInput = cy.get('#signup_phone', { timeout: 10000 })
+    const phoneInput = cy.get('#signup_phone', { timeout: 10000 }).should('contains.value', '+38')
     phoneInput.focus().clear(), { timeout: 1000 }
-    phoneInput.clear().type(phoneNumber), { delay: 100 }
+    phoneInput.clear().type(phoneNumber), { delay: 400 }
     phoneInput.focus().blur()
   }
 
   fillUserEmail(userEmail) {
-    const emailInput = cy.get('input[placeholder="Add your Email"]', { timeout: 10000 })
+    const emailInput = cy.get('input[placeholder="Add your Email"]', { timeout: 10000 }).should('contains.value', 'com')
     emailInput.focus().clear(), { timeout: 1000 }
-    emailInput.clear().type(userEmail), { delay: 100 }
+    emailInput.clear().type(userEmail), { delay: 400 }
     emailInput.focus().blur()
   }
 
   fillUserName(userName) {
     const nameInput = cy.get('input[placeholder="Choose a Username"]', { timeout: 10000 })
     nameInput.focus().clear(), { timeout: 1000 }
-    nameInput.clear().type(userName), { delay: 100 }
+    nameInput.clear().type(userName), { delay: 400 }
     nameInput.focus().blur()
   }
 }

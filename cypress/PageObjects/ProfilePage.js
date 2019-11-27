@@ -31,12 +31,11 @@ class ProfilePage {
 
   openEditProfileButton() {
     cy.visit(Cypress.env('baseUrl') + 'AppNavigation/Profile/EditProfile')
-    cy.wait(5000)
+    cy.contains('Profile').should('be.visible')
   }
 
   openProfilePage() {
     cy.visit(Cypress.env('baseUrl') + 'AppNavigation/Profile/Profile')
-    cy.wait(5000)
   }
 
   uploadUserAvatar() {

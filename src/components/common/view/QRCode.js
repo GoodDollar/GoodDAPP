@@ -8,7 +8,7 @@ const QRCode = ({ qrStyles = {}, styles, ...props }: any) => {
   return (
     <View style={styles.qrWrapper}>
       <View style={[styles.qrCode, qrStyles]}>
-        <QRCodeReact {...props} />
+        <QRCodeReact {...props} value={typeof props.value === 'string' ? props.value : JSON.stringify(props.value)} />
       </View>
     </View>
   )

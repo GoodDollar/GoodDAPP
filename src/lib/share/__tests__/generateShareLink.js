@@ -42,12 +42,13 @@ describe('generateShareLink', () => {
     const params = {
       key: 'value',
     }
+    let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
 
     // When
     const link = generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual(`${Config.sendUrl}?key=value`)
+    expect(link).toEqual(`${Config.sendUrl}?paymentCode=${paramsBase64}`)
   })
 
   it(`should return link generated from receive action`, () => {
@@ -56,12 +57,13 @@ describe('generateShareLink', () => {
     const params = {
       key: 'value',
     }
+    let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
 
     // When
     const link = generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual(`${Config.receiveUrl}?key=value`)
+    expect(link).toEqual(`${Config.receiveUrl}?code=${paramsBase64}`)
   })
 
   it(`should return link generated from send action, with several query params`, () => {
@@ -73,12 +75,13 @@ describe('generateShareLink', () => {
       key3: 'value3',
       key4: 'value4',
     }
+    let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
 
     // When
     const link = generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual(`${Config.sendUrl}?key=value&key2=value2&key3=value3&key4=value4`)
+    expect(link).toEqual(`${Config.sendUrl}?paymentCode=${paramsBase64}`)
   })
 
   it(`should return link generated from send action, with several query params`, () => {
@@ -90,23 +93,25 @@ describe('generateShareLink', () => {
       key3: 'value3',
       key4: 'value4',
     }
+    let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
 
     // When
     const link = generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual(`${Config.receiveUrl}?key=value&key2=value2&key3=value3&key4=value4`)
+    expect(link).toEqual(`${Config.receiveUrl}?code=${paramsBase64}`)
   })
 
   it(`should return link generated from send action, with encoded query param`, () => {
     // Given
     const action = 'send'
     const params = { key: 'value with spaces' }
+    let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
 
     // When
     const link = generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual(`${Config.sendUrl}?key=value%20with%20spaces`)
+    expect(link).toEqual(`${Config.sendUrl}?paymentCode=${paramsBase64}`)
   })
 })

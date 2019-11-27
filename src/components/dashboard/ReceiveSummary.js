@@ -24,7 +24,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
   const { amount, reason, counterPartyDisplayName } = screenState
 
   const { account, networkId } = goodWallet
-  const code = useMemo(() => generateCode(account, networkId, amount, reason, counterPartyDisplayName), [
+  const codeObj = useMemo(() => generateCode(account, networkId, amount, reason, counterPartyDisplayName), [
     account,
     networkId,
     amount,
@@ -53,7 +53,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
             <PushButton
               routeName="Confirmation"
               screenProps={screenProps}
-              params={{ reason, amount, code, counterPartyDisplayName, params }}
+              params={{ reason, amount, code: codeObj, counterPartyDisplayName, params }}
             >
               Confirm
             </PushButton>

@@ -213,9 +213,10 @@ export class GoodWallet {
    * @param {function} blockIntervalCallback
    * @returns {Promise<R>|Promise<R|*>|Promise<*>}
    */
-  listenTxUpdates(fromBlock: string = '0', blockIntervalCallback: Function) {
+  async listenTxUpdates(fromBlock: int = 0, blockIntervalCallback: Function) {
     log.debug('listenTxUpdates listening from block:', fromBlock)
-    fromBlock = new BN(fromBlock)
+    const curBlock = await this.wallet.eth.getBlockNumber()
+    fromBlock = new BN(fromBlock <= curBlock ? fromBlock : curBlock)
 
     this.subscribeToOTPLEvents(fromBlock, blockIntervalCallback)
     const contract = this.erc20Contract
@@ -236,7 +237,7 @@ export class GoodWallet {
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
           .catch(err => log.error('send event get/send receipt failed:', err))
 
-        if (event && blockIntervalCallback) {
+        if (event && event.blockNumber && blockIntervalCallback) {
           blockIntervalCallback({ toBlock: event.blockNumber, event })
         }
 

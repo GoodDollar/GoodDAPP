@@ -19,6 +19,7 @@ import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
+import resizeBase64Image from '../utils/resizeBase64Image'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -121,7 +122,6 @@ export type TransactionEvent = FeedEvent & {
     amount: number,
     paymentLink?: string,
     code?: string,
-    receipt?: any,
   },
 }
 
@@ -210,6 +210,24 @@ export const startSpending = {
       'Visit GoodMarket, eToro’s exclusive marketplace, where you can buy or sell items in exchange for GoodDollars.',
     endpoint: {
       fullName: 'Go to GoodMarket',
+    },
+  },
+}
+
+export const startClaiming = {
+  id: '4',
+  type: 'claiming',
+  status: 'completed',
+  data: {
+    customName: 'Start claiming your free daily G$',
+    subtitle: 'Start claiming your free daily G$',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'GoodDollar gives every active member a small daily income. Sign in every day, collect free GoodDollars and use them to pay for goods and services.',
+    endpoint: {
+      fullName: 'Start claiming your free daily G$',
     },
   },
 }
@@ -469,6 +487,7 @@ export class UserStorage {
       mobile: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
       mnemonic: { defaultPrivacy: 'private' },
       avatar: { defaultPrivacy: 'public' },
+      smallAvatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },
       w3Token: { defaultPrivacy: 'private' },
@@ -530,6 +549,23 @@ export class UserStorage {
       this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
       res(true)
     })
+  }
+
+  setAvatar(avatar) {
+    return Promise.all([
+      this.setProfileField('avatar', avatar, 'public'),
+      async () => {
+        const smallAvatar = await resizeBase64Image(avatar, 50)
+        return this.setProfileField('smallAvatar', smallAvatar, 'public')
+      },
+    ])
+  }
+
+  removeAvatar() {
+    return Promise.all([
+      this.setProfileField('avatar', null, 'public'),
+      this.setProfileField('smallAvatar', null, 'public'),
+    ])
   }
 
   /**
@@ -605,8 +641,8 @@ export class UserStorage {
         type: this.getOperationType(data, this.wallet.account),
       }
 
-      if (get(feedEvent, 'data.receipt')) {
-        logger.debug('handleReceiptUpdated skipping event with receipt', feedEvent, receipt)
+      if (get(feedEvent, 'data.receiptData')) {
+        logger.debug('handleReceiptUpdated skipping event with existed receipt data', feedEvent, receipt)
         return feedEvent
       }
 
@@ -620,22 +656,23 @@ export class UserStorage {
           ...feedEvent.data,
           ...initialEvent.data,
           receiptData: data,
-          receipt,
         },
       }
 
       if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
-        updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
+        updatedFeedEvent.data.message = COMPLETED_BONUS_REASON_TEXT
         updatedFeedEvent.data.customName = 'GoodDollar'
       }
 
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
+
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
       }
+
       return updatedFeedEvent
     } catch (e) {
-      logger.error('handleReceiptUpdated', e.message, e)
+      logger.error('handleReceiptUpdated failed', e.message, e)
     } finally {
       release()
     }
@@ -667,10 +704,11 @@ export class UserStorage {
       }
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
 
-      if (get(feedEvent, 'data.otplReceipt')) {
-        logger.debug('handleOTPLUpdated skipping event with receipt', feedEvent, receipt)
+      if (get(feedEvent, 'data.otplData')) {
+        logger.debug('handleOTPLUpdated skipping event with existed receipt data', feedEvent, receipt)
         return feedEvent
       }
+
       const receiptDate = await this.wallet.wallet.eth
         .getBlock(receipt.blockNumber)
         .then(_ => new Date(_.timestamp * 1000))
@@ -682,7 +720,6 @@ export class UserStorage {
       const prevDate = feedEvent.date
       feedEvent.data.from = data.from
       feedEvent.data.to = data.to
-      feedEvent.data.otplReceipt = receipt
       feedEvent.data.otplData = data
       feedEvent.status = feedEvent.data.otplStatus = otplStatus
       feedEvent.date = receiptDate.toString()
@@ -764,6 +801,7 @@ export class UserStorage {
     const isCameFromW3Site = userProperties.cameFromW3Site
 
     this.addBackupCard()
+    this.addStartClaimingCard()
 
     // first time user visit
     if (firstVisitAppDate == null) {
@@ -814,6 +852,22 @@ export class UserStorage {
     if (!userProperties.isMadeBackup && allowToShowByTimeFilter) {
       await this.enqueueTX(backupMessage)
       await this.userProperties.set('isMadeBackup', true)
+    }
+  }
+
+  /**
+   * add a start claiming card after 3 days
+   *
+   * @returns {Promise<void>}
+   */
+  async addStartClaimingCard() {
+    const userProperties = await this.userProperties.getAll()
+    const firstVisitAppDate = userProperties.firstVisitApp
+    const displayTimeFilter = Config.displayStartClaimingCardTime
+    const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
+
+    if (allowToShowByTimeFilter) {
+      await this.enqueueTX(startClaiming)
     }
   }
 
@@ -908,7 +962,7 @@ export class UserStorage {
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
-  setProfile(profile: UserModel, update: boolean = false): Promise<> {
+  async setProfile(profile: UserModel, update: boolean = false): Promise<> {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
@@ -918,6 +972,10 @@ export class UserStorage {
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
       }
+    }
+
+    if (profile.avatar) {
+      profile.smallAvatar = await resizeBase64Image(profile.avatar, 50)
     }
 
     return Promise.all(
@@ -1200,11 +1258,11 @@ export class UserStorage {
     if (!prevFeedEvent) {
       return standardPrevFeedEvent
     }
-    if (prevFeedEvent.data && prevFeedEvent.data.receipt) {
+    if (prevFeedEvent.data && prevFeedEvent.data.receiptData) {
       return standardPrevFeedEvent
     }
 
-    logger.warn('getFormatedEventById: receipt missing for:', { id, standardPrevFeedEvent })
+    logger.warn('getFormatedEventById: receipt data missing for:', { id, standardPrevFeedEvent })
 
     //if for some reason we dont have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
@@ -1391,17 +1449,17 @@ export class UserStorage {
     }
   }
 
-  _extractData({ type, id, data: { receiptData, receipt, from = '', to = '', counterPartyDisplayName = '', amount } }) {
+  _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
     const { isAddress } = this.wallet.wallet.utils
     const data = { address: '', initiator: '', initiatorType: '', value: '', displayName: '', message: '' }
 
     if (type === EVENT_TYPE_SEND) {
-      data.address = isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
+      data.address = isAddress(to) ? to : receiptData && receiptData.to
       data.initiator = to
     } else if (type === EVENT_TYPE_CLAIM) {
       data.message = 'Your daily basic income'
     } else {
-      data.address = isAddress(from) ? from : (receiptData && receiptData.from) || (receipt && receipt.from)
+      data.address = isAddress(from) ? from : receiptData && receiptData.from
       data.initiator = from
     }
 
@@ -1454,7 +1512,7 @@ export class UserStorage {
     const profileFromGun = () =>
       profileToShow &&
       profileToShow
-        .get('avatar')
+        .get('smallAvatar')
         .get('display')
         .then()
 

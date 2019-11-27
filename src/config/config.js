@@ -30,6 +30,7 @@ const Config = {
   receiveUrl: process.env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
   sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}`,
   nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
+  displayStartClaimingCardTime: process.env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 3 * 24 * 60 * 60 * 1000, // 3 days
   bugsnagKey: process.env.REACT_APP_BUGSNAG_API_KEY,
   backgroundReqsInterval: process.env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, //minutes
   ethereum: {
@@ -46,12 +47,12 @@ const Config = {
     '121': {
       network_id: 121,
       httpWeb3provider: 'https://rpc.fuse.io/',
-      websocketWeb3Provider: 'wss://explorer-node.fuse.io/ws',
+      websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
     },
     '122': {
       network_id: 122,
-      httpWeb3provider: 'https://rpc.fusenet.io/',
-      websocketWeb3Provider: 'wss://explorer-node.fusenet.io/ws',
+      httpWeb3provider: 'https://rpc.fuse.io/',
+      websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
     },
     '4447': {
       network_id: 4447,

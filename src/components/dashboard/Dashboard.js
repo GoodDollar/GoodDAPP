@@ -293,6 +293,7 @@ const Dashboard = props => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
     log.debug('initDashboard subscribed to feed')
     prepareLoginToken()
+    checkBonusInterval()
     handleDeleteRedirect()
     handleReceiveLink()
     handleResize()
@@ -363,16 +364,18 @@ const Dashboard = props => {
   }
 
   const handleWithdraw = async () => {
-    const { paymentCode, reason } = props.navigation.state.params
+    const { paymentCode } = props.navigation.state.params
     const { styles }: DashboardProps = props
     try {
+      let paymentParams = Buffer.from(decodeURI(paymentCode), 'base64').toString()
+      paymentParams = JSON.parse(paymentParams)
       showDialog({
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,
         message: 'please wait while processing...',
         buttons: [{ text: 'YAY!', style: styles.disabledButton }],
       })
-      const { status, transactionHash } = await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
+      const { status, transactionHash } = await executeWithdraw(store, paymentParams.paymentCode, paymentParams.reason)
       if (transactionHash) {
         hideDialog()
         return
@@ -386,7 +389,7 @@ const Dashboard = props => {
             // eslint-disable-next-line no-await-in-loop
             await delay(2000)
             // eslint-disable-next-line no-await-in-loop
-            const { status } = await goodWallet.getWithdrawDetails(decodeURI(paymentCode))
+            const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
             if (status === WITHDRAW_STATUS_PENDING) {
               // eslint-disable-next-line no-await-in-loop
               return await handleWithdraw()

@@ -100,7 +100,12 @@ class Auth extends React.Component<Props> {
     const redirectTo = w3Token ? 'Phone' : 'Signup'
 
     try {
-      indexedDB.deleteDatabase('radata')
+      const req = new Promise((res, rej) => {
+        const del = indexedDB.deleteDatabase('radata')
+        del.onsuccess = res
+        del.onerror = rej
+      })
+      await Promise.all([req, AsyncStorage.clear()])
 
       log.info('indexedDb successfully cleared')
     } catch (e) {

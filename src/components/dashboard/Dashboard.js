@@ -12,7 +12,7 @@ import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
-import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
+import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import {
@@ -81,7 +81,7 @@ const showOutOfGasError = debounce(
   },
   GAS_CHECK_DEBOUNCE_TIME,
   {
-    maxWait: GAS_CHECK_DEBOUNCE_TIME,
+    leading: true,
   }
 )
 
@@ -103,6 +103,18 @@ const Dashboard = props => {
   const currentFeed = store.get('currentFeed')
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
+  const { screenProps, styles }: DashboardProps = props
+  const { balance, entitlement } = gdstore.get('account')
+  const { avatar, fullName } = gdstore.get('profile')
+  const [feeds, setFeeds] = useState([])
+  const [headerLarge, setHeaderLarge] = useState(true)
+  const scale = {
+    transform: [
+      {
+        scale: animValue,
+      },
+    ],
+  }
 
   const checkBonusesToRedeem = () => {
     log.info('Check bonuses process started')
@@ -188,11 +200,25 @@ const Dashboard = props => {
     }
   }
 
+  const getFeedPage = async (reset = false) => {
+    const res =
+      (await userStorage
+        .getFormattedEvents(PAGE_SIZE, reset)
+        .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
+    if (res.length == 0) {
+      return
+    }
+    if (reset) {
+      setFeeds(res)
+    } else {
+      setFeeds(feeds.concat(res))
+    }
+  }
   const subscribeToFeed = () => {
     return new Promise((res, rej) => {
       userStorage.feed.get('byid').on(async data => {
         log.debug('gun getFeed callback', { data })
-        await getInitialFeed(gdstore).catch(e => rej(false))
+        await getFeedPage(true).catch(e => rej(false))
         res(true)
       }, true)
     })
@@ -210,6 +236,8 @@ const Dashboard = props => {
   const handleAppFocus = state => {
     if (state === 'active') {
       checkBonusInterval()
+      showOutOfGasError(props)
+      animateClaim()
     }
   }
 
@@ -256,20 +284,24 @@ const Dashboard = props => {
   }
 
   const nextFeed = () => {
-    log.debug('getNextFeed called')
-    return getNextFeed(gdstore)
+    if (feeds && feeds.length > 0) {
+      log.debug('getNextFeed called')
+      return getFeedPage()
+    }
   }
 
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
     log.debug('initDashboard subscribed to feed')
     prepareLoginToken()
+    checkBonusInterval()
     handleDeleteRedirect()
     handleReceiveLink()
     handleResize()
+    checkBonusInterval()
+    showOutOfGasError(props)
+    animateClaim()
   }
-
-  useEffect(animateClaim)
 
   useEffect(() => {
     log.debug('Dashboard didmount')
@@ -290,6 +322,9 @@ const Dashboard = props => {
     }
   }, [params])
 
+  /**
+   * dont show delayed items such as add to home popup if some other dialog is showing
+   */
   useEffect(() => {
     const showingSomething =
       _get(currentScreen, 'dialogData.visible') || _get(loadingIndicator, 'loading') || currentFeed
@@ -329,19 +364,19 @@ const Dashboard = props => {
     }
   }
 
-  showOutOfGasError(props)
-
   const handleWithdraw = async () => {
-    const { paymentCode, reason } = props.navigation.state.params
+    const { paymentCode } = props.navigation.state.params
     const { styles }: DashboardProps = props
     try {
+      let paymentParams = Buffer.from(decodeURI(paymentCode), 'base64').toString()
+      paymentParams = JSON.parse(paymentParams)
       showDialog({
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,
         message: 'please wait while processing...',
         buttons: [{ text: 'YAY!', style: styles.disabledButton }],
       })
-      const { status, transactionHash } = await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
+      const { status, transactionHash } = await executeWithdraw(store, paymentParams.paymentCode, paymentParams.reason)
       if (transactionHash) {
         hideDialog()
         return
@@ -355,7 +390,7 @@ const Dashboard = props => {
             // eslint-disable-next-line no-await-in-loop
             await delay(2000)
             // eslint-disable-next-line no-await-in-loop
-            const { status } = await goodWallet.getWithdrawDetails(decodeURI(paymentCode))
+            const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
             if (status === WITHDRAW_STATUS_PENDING) {
               // eslint-disable-next-line no-await-in-loop
               return await handleWithdraw()
@@ -368,19 +403,6 @@ const Dashboard = props => {
       log.error('withdraw failed:', e.code, e.message, e)
       showErrorDialog(e.message)
     }
-  }
-
-  const { screenProps, styles }: DashboardProps = props
-  const { balance, entitlement } = gdstore.get('account')
-  const { avatar, fullName } = gdstore.get('profile')
-  const feeds = gdstore.get('feeds')
-  const [headerLarge, setHeaderLarge] = useState(true)
-  const scale = {
-    transform: [
-      {
-        scale: animValue,
-      },
-    ],
   }
 
   return (

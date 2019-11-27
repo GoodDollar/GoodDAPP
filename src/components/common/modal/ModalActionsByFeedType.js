@@ -36,8 +36,6 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     } else {
       setState({ ...state, cancelPaymentLoading: true })
       try {
-        await userStorage.deleteEvent(item.id)
-
         goodWallet
           .cancelOTLByTransactionHash(item.id)
           .catch(e => {
@@ -48,6 +46,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .finally(() => {
             setState({ ...state, cancelPaymentLoading: false })
           })
+        await userStorage.deleteEvent(item.id)
       } catch (e) {
         log.error('cancel payment failed', e.message, e)
         setState({ ...state, cancelPaymentLoading: false })
@@ -95,6 +94,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   }
 
   const Marketplace = () => {
+    fireEventAnalytics('Marketplace')
     navigation.navigate('Marketplace')
     handleModalClose()
   }
@@ -103,6 +103,13 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     navigation.navigate('BackupWallet')
     handleModalClose()
   }
+
+  const goToClaimPage = () => {
+    fireEventAnalytics('Claim')
+    navigation.navigate('Claim')
+    handleModalClose()
+  }
+
   switch (item.displayType) {
     case 'sendpending':
       return (
@@ -209,6 +216,20 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
         </View>
       )
+
+    case 'claiming':
+      return (
+        <View style={styles.buttonsView}>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.button} onPress={goToClaimPage}>
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                {'CLAIM G$'}
+              </Text>
+            </CustomButton>
+          </View>
+        </View>
+      )
+
     case 'feedback':
       return (
         <View style={styles.buttonsView}>

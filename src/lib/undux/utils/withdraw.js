@@ -49,8 +49,7 @@ export const executeWithdraw = async (store: Store, code: string, reason: string
             res({ status, transactionHash })
           },
           onError: e => {
-            const receipt = JSON.parse(`{${e.message.split('{')[1]}`)
-            userStorage.handleReceiptUpdated(receipt)
+            userStorage.markWithErrorEvent(e)
             rej(e)
           },
         })

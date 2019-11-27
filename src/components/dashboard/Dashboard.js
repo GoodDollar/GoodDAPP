@@ -96,7 +96,6 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const { params } = props.navigation.state
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const currentFeed = store.get('currentFeed')
@@ -225,8 +224,13 @@ const Dashboard = props => {
 
   const handleReceiveLink = () => {
     const anyParams = extractQueryParams(window.location.href)
+
+    log.debug('handle links effect dashboard', { anyParams })
+
     if (anyParams && anyParams.paymentCode) {
-      props.navigation.state.params = anyParams
+      handleWithdraw(anyParams.paymentCode)
+    } else if (anyParams && anyParams.event) {
+      showNewFeedEvent(anyParams.event)
     } else {
       checkCode(anyParams)
     }
@@ -312,15 +316,6 @@ const Dashboard = props => {
     }
   }, [])
 
-  useEffect(() => {
-    log.debug('handle links effect dashboard', { params })
-    if (params && params.paymentCode) {
-      handleWithdraw()
-    } else if (params && params.event) {
-      showNewFeedEvent(params.event)
-    }
-  }, [params])
-
   /**
    * dont show delayed items such as add to home popup if some other dialog is showing
    */
@@ -363,8 +358,7 @@ const Dashboard = props => {
     }
   }
 
-  const handleWithdraw = async () => {
-    const { paymentCode } = props.navigation.state.params
+  const handleWithdraw = async paymentCode => {
     const { styles }: DashboardProps = props
     try {
       let paymentParams = Buffer.from(decodeURI(paymentCode), 'base64').toString()

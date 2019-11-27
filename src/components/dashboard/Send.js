@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import isEmail from 'validator/lib/isEmail'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import { readCode } from '../../lib/share'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputRecipient from '../common/form/InputRecipient'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { CustomButton, IconButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const SEND_TITLE = 'Send G$'
 
@@ -77,24 +74,6 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
 const Send = props => {
   const [screenState, setScreenState] = useScreenState(props.screenProps)
   const [error, setError] = useState()
-  const [showErrorDialog] = useErrorDialog()
-
-  useEffect(() => {
-    const { screenProps } = props
-    const { state } = props.navigation
-
-    if (state.params && state.params.code) {
-      const code = readCode(decodeURI(state.params.code))
-      routeAndPathForCode('send', code)
-        .then(({ route, params }) => screenProps.push(route, params))
-        .catch(e => {
-          showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
-            onDismiss: screenProps.goToRoot,
-          })
-        })
-    }
-  }, [])
-
   const { to } = screenState
 
   const checkError = async () => {

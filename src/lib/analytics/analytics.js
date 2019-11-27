@@ -84,7 +84,9 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   if (global.FS) {
     FS = global.FS
     if (emailOrId) {
-      FS.identify(emailOrId, {})
+      FS.identify(emailOrId, {
+        appVersion: Config.version,
+      })
     }
   }
 

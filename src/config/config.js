@@ -2,7 +2,7 @@ const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location
 
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
-  version: process.env.VERSION || 'v0',
+  version: '2' || process.env.VERSION || 'v0',
   mnemonicToSeed: process.env.REACT_APP_MNEMONIC_TO_SEED || true,
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',

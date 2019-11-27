@@ -121,36 +121,35 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       if (!w3Token) {
         return
       }
-      store.set('loadingIndicator')({ loading: true })
 
       let w3User = w3UserFromProps
       log.info('from props:', { w3User })
-      if (w3UserFromProps.email === undefined) {
+      if (w3User.email == undefined) {
+        store.set('loadingIndicator')({ loading: true })
         await API.ready
 
         try {
           const w3userData = await API.getUserFromW3ByToken(w3Token)
 
           w3User = w3userData.data
+          log.info({ w3User })
+
+          const userScreenData = {
+            email: w3User.email || '',
+            fullName: w3User.full_name || '',
+            w3Token,
+            skipEmail: !!w3User.email,
+            skipEmailConfirmation: !!w3User.email,
+          }
+          setState({
+            ...state,
+            ...userScreenData,
+          })
         } catch (e) {
           log.warn('could not get user data from w3', w3Token)
           return
         }
       }
-
-      log.info({ w3User })
-
-      const userScreenData = {
-        email: w3User.email || '',
-        fullName: w3User.full_name || '',
-        w3Token,
-        skipEmail: !!w3User.email,
-        skipEmailConfirmation: !!w3User.email,
-      }
-      setState({
-        ...state,
-        ...userScreenData,
-      })
     } catch (e) {
       log.error('unexpected error in checkWeb3Token', e.message, e, { w3Token })
     } finally {

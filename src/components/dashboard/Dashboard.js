@@ -343,7 +343,16 @@ const Dashboard = props => {
         title: 'A new shiny version is available!',
         image: <LoadingIcon />,
         message: 'Please wait while upgrading to newer version...',
-        buttons: [{ text: 'OK', onPress: () => window.location.reload() }],
+        buttons: [
+          {
+            text: 'OK',
+            onPress: () => {
+              if (serviceWorkerUpdated && serviceWorkerUpdated.waiting && serviceWorkerUpdated.waiting.postMessage) {
+                serviceWorkerUpdated.waiting.postMessage('skipWaiting')
+              }
+            },
+          },
+        ],
       })
     }
   }, [serviceWorkerUpdated])

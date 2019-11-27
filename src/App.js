@@ -18,9 +18,13 @@ const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
 const App = () => {
   const store = SimpleStore.useStore()
-
   useEffect(() => {
-    const onUpdate = reg => store.set('serviceWorkerUpdated')(reg)
+    const onUpdate = reg => {
+      store.set('serviceWorkerUpdated')(reg)
+      navigator.serviceWorker.addEventListener('controllerchange', function() {
+        window.location.reload()
+      })
+    }
     if (serviceWorkerRegistred === false) {
       log.debug('registering service worker')
       serviceWorker.register({ onUpdate })

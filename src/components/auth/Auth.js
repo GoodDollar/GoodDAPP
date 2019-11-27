@@ -33,6 +33,8 @@ const log = logger.child({ from: 'Auth' })
 class Auth extends React.Component<Props> {
   state = {
     asGuest: false,
+    withW3Token: false,
+    w3User: null,
   }
 
   async componentWillMount() {
@@ -57,6 +59,7 @@ class Auth extends React.Component<Props> {
     if (web3Token) {
       this.setState({
         asGuest: true,
+        withW3Token: true,
       })
 
       let behaviour
@@ -138,7 +141,7 @@ class Auth extends React.Component<Props> {
 
   render() {
     const { styles } = this.props
-    const { asGuest } = this.state
+    const { asGuest, withW3Token } = this.state
     const firstButtonHandler = asGuest ? this.handleSignUp : this.goToW3Site
     const firstButtonText = asGuest ? (
       'Create a wallet'
@@ -193,14 +196,16 @@ class Auth extends React.Component<Props> {
           >
             {firstButtonText}
           </CustomButton>
-          <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
-            <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
-              ALREADY REGISTERED?
-              <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
-                {' SIGN IN'}
+          {!withW3Token && (
+            <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
+              <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
+                ALREADY REGISTERED?
+                <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
+                  {' SIGN IN'}
+                </Text>
               </Text>
-            </Text>
-          </PushButton>
+            </PushButton>
+          )}
         </Section>
       </Wrapper>
     )

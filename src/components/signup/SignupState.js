@@ -392,12 +392,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
 
-  const back = () => {
+  const back = async () => {
     const prevRoute = getPrevRoute(navigation.state.routes, navigation.state.index, state)
 
     if (prevRoute) {
       navigateWithFocus(prevRoute.key)
     } else {
+      await AsyncStorage.removeItem('GD_web3Token')
+      await AsyncStorage.removeItem('GD_destinationPath')
+
       navigation.navigate('Auth')
     }
   }

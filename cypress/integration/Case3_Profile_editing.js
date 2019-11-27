@@ -14,7 +14,7 @@ function makeVerification() {
   for (let i = 0; i < 6; i++) {
     SignUpPage.codeInputs.eq(i).type(i, { force: true }, { delay: 500 })
   }
-  cy.wait(5000)
+  cy.contains('Enter the verification code').should('be.visible')
   ProfilePage.openEditProfileButton()
 }
 
@@ -91,7 +91,7 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.fillUserEmail('gooddollar.test123@gmail.com')
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
-    EditProfilePage.fillUserName('AndrewLebowski123')
+    EditProfilePage.fillUserName('AndrewLebowski1234')
     EditProfilePage.saveButton.click()
 
     //EditProfilePage.backButton.click();

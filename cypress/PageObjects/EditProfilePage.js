@@ -53,7 +53,7 @@ class EditProfilePage {
   }
 
   waitForEditProfilePageDisplayed() {
-    cy.waitForResourceToLoad('vendors~router~signuprouter.01f24a54.chunk.css')
+    cy.contains('Edit Profile').should('be.visible')
   }
 
   fillUserPhone(phoneNumber) {

@@ -58,6 +58,7 @@ export type State = {
   addWebApp: {
     show: boolean,
   },
+  web3ConnectionStatus: any,
 }
 
 /**
@@ -88,6 +89,7 @@ const initialState: State = {
   },
   wallet: null,
   userStorage: null,
+  web3ConnectionStatus: null,
 }
 
 /**
@@ -102,6 +104,7 @@ const initStore = async () => {
   return SimpleStore
 }
 
+// functions which set userStorage and wallet to simple storage in init.js
 let setWallet, setUserStorage
 const setInitFunctions = (_setWallet, _setUserStorage) => {
   setWallet = _setWallet

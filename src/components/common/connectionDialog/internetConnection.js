@@ -4,8 +4,8 @@ import LoadingIcon from '../modal/LoadingIcon'
 import {
   useAPIConnection,
   useConnection,
+  useConnectionGun,
   useConnectionWeb3,
-  useConnectionGun
 } from '../../../lib/hooks/hasConnectionChange'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 
@@ -15,7 +15,6 @@ const InternetConnection = () => {
   const isAPIConnection = useAPIConnection()
   const isConnectionWeb3 = useConnectionWeb3()
   const isConnectionGun = useConnectionGun()
-
   useEffect(() => {
     if (
       isConnection === false ||

@@ -11,7 +11,11 @@ import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 export const init = () => {
   return Promise.all([goodWallet.ready, userStorage.ready]).then(async () => {
     global.wallet = goodWallet
+
+    // set wallet to simple storage
     setWallet(goodWallet)
+
+    // set userStorage to simple storage
     setUserStorage(userStorage)
     await initAnalytics(goodWallet, userStorage)
 

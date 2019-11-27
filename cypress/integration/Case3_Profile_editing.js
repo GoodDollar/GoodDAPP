@@ -14,7 +14,7 @@ function makeVerification() {
   for (let i = 0; i < 6; i++) {
     SignUpPage.codeInputs.eq(i).type(i, { force: true }, { delay: 500 })
   }
-  cy.contains('Enter the verification code').should('be.visible')
+  cy.contains('verification code').should('not.be.visible')
   ProfilePage.openEditProfileButton()
 }
 
@@ -31,7 +31,7 @@ describe('Test case 3: Ability to change user data', () => {
     HomePage.waitForHomePageDisplayed()
   })
 
-  it('Elements are present at user profile', () => {
+  it.skip('Elements are present at user profile', () => {
     HomePage.profileAvatar.should('be.visible')
     HomePage.sendButton.should('be.visible')
     HomePage.claimButton.should('be.visible')
@@ -50,7 +50,7 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.saveButton.should('be.visible')
   })
 
-  it('User is able to upload avatar', () => {
+  it.skip('User is able to upload avatar', () => {
     HomePage.profileAvatar.click()
     ProfilePage.avatarDiv.click({ multiple: true })
     ProfilePage.uploadUserAvatar()
@@ -69,13 +69,13 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.fillUserEmail('test123456@test.com')
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
-    EditProfilePage.fillUserName('AndrewGolenkov123')
-    cy.wait(5000)
+    EditProfilePage.fillUserName('AndrewGolenkov1234')
     EditProfilePage.saveButton.click()
+    cy.contains('Save').should('not.be.visible')
     ProfilePage.openProfilePage()
 
     //EditProfilePage.backButton.click();
-    ProfilePage.nameInput.should('have.value', 'AndrewGolenkov123')
+    ProfilePage.nameInput.should('have.value', 'AndrewGolenkov1234')
     ProfilePage.phoneInput.should('have.value', '+380983611329')
     ProfilePage.emailInput.should('have.value', 'test123456@test.com')
 
@@ -95,7 +95,7 @@ describe('Test case 3: Ability to change user data', () => {
     ProfilePage.pageHeader.should('contain', 'Profile')
   })
 
-  it('User is unable to type invalid data', () => {
+  it.skip('User is unable to type invalid data', () => {
     HomePage.optionsButton.click({ force: true })
     HomePage.options.eq(0).click({ force: true })
     ProfilePage.openEditProfileButton()

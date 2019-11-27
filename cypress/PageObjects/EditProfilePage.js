@@ -21,7 +21,7 @@ class EditProfilePage {
   }
 
   get saveButton() {
-    return cy.contains('Save')
+    return cy.get('.css-18t94o4 > .r-1777fci')
   }
 
   get pageHeader() {
@@ -71,7 +71,9 @@ class EditProfilePage {
   }
 
   fillUserName(userName) {
-    const nameInput = cy.get('input[placeholder="Choose a Username"]', { timeout: 10000 })
+    const nameInput = cy
+      .get('input[placeholder="Choose a Username"]', { timeout: 10000 })
+      .should('contains.value', 'And')
     nameInput.focus().clear(), { timeout: 1000 }
     nameInput.clear().type(userName), { delay: 400 }
     nameInput.focus().blur()

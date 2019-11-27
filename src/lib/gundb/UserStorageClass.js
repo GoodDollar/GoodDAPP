@@ -1160,12 +1160,25 @@ export class UserStorage {
     return Promise.all(
       eventsIndex
         .filter(_ => _.id)
-        .map(eventIndex =>
-          this.feed
+        .map(async eventIndex => {
+          const item = this.feed
             .get('byid')
             .get(eventIndex.id)
             .decrypt()
-        )
+
+          if (item === undefined) {
+            const receipt = await this.wallet.getReceiptWithLogs(eventIndex.id).catch(e => {
+              logger.warn('no receipt found for id:', eventIndex.id, e.message, e)
+              return undefined
+            })
+
+            if (receipt) {
+              this.handleReceiptUpdated(receipt)
+            }
+          }
+
+          return item
+        })
     )
   }
 

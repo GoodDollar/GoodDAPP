@@ -104,6 +104,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   }
 
   const goToClaimPage = () => {
+    fireEventAnalytics('Claim')
     navigation.navigate('Claim')
     handleModalClose()
   }

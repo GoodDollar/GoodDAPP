@@ -26,7 +26,6 @@ const publicPath = '/'
 const publicUrl = ''
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl)
-console.log({ env })
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig)
 
@@ -340,7 +339,7 @@ module.exports = {
     ],
   },
   plugins: [
-    env.raw.SERVICE_WORKER &&
+    env.raw.REACT_APP_SERVICE_WORKER === 'true' &&
       new WorkboxWebpackPlugin.GenerateSW({
         clientsClaim: true,
         skipWaiting: false,

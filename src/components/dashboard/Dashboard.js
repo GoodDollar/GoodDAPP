@@ -348,7 +348,8 @@ const Dashboard = props => {
             text: 'OK',
             onPress: () => {
               if (serviceWorkerUpdated && serviceWorkerUpdated.waiting && serviceWorkerUpdated.waiting.postMessage) {
-                serviceWorkerUpdated.waiting.postMessage('skipWaiting')
+                log.debug('service worker:', 'sending skip waiting', serviceWorkerUpdated.active.clients)
+                serviceWorkerUpdated.waiting.postMessage({ type: 'SKIP_WAITING' })
               }
             },
           },

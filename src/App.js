@@ -22,6 +22,7 @@ const App = () => {
     const onUpdate = reg => {
       store.set('serviceWorkerUpdated')(reg)
       navigator.serviceWorker.addEventListener('controllerchange', function() {
+        log.debug('service worker: controllerchange')
         window.location.reload()
       })
     }

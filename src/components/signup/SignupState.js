@@ -121,36 +121,35 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       if (!w3Token) {
         return
       }
-      store.set('loadingIndicator')({ loading: true })
 
       let w3User = w3UserFromProps
       log.info('from props:', { w3User })
-      if (w3UserFromProps.email === undefined) {
+      if (w3User.email == undefined) {
+        store.set('loadingIndicator')({ loading: true })
         await API.ready
 
         try {
           const w3userData = await API.getUserFromW3ByToken(w3Token)
 
           w3User = w3userData.data
+          log.info({ w3User })
+
+          const userScreenData = {
+            email: w3User.email || '',
+            fullName: w3User.full_name || '',
+            w3Token,
+            skipEmail: !!w3User.email,
+            skipEmailConfirmation: !!w3User.email,
+          }
+          setState({
+            ...state,
+            ...userScreenData,
+          })
         } catch (e) {
           log.warn('could not get user data from w3', w3Token)
           return
         }
       }
-
-      log.info({ w3User })
-
-      const userScreenData = {
-        email: w3User.email || '',
-        fullName: w3User.full_name || '',
-        w3Token,
-        skipEmail: !!w3User.email,
-        skipEmailConfirmation: !!w3User.email,
-      }
-      setState({
-        ...state,
-        ...userScreenData,
-      })
     } catch (e) {
       log.error('unexpected error in checkWeb3Token', e.message, e, { w3Token })
     } finally {
@@ -158,27 +157,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
 
-  useEffect(() => {
-    // don't allow to start sign up flow not from begining except when w3Token provided
-    AsyncStorage.getItem('GD_web3Token').then(token => {
-      log.debug('redirecting to start, got index:', navigation.state.index)
-
-      if (token && navigation.state.index > 1) {
-        setLoading(true)
-        return navigateWithFocus(navigation.state.routes[1].key)
-      }
-
-      if (!token && navigation.state.index > 0) {
-        setLoading(true)
-        return navigateWithFocus(navigation.state.routes[0].key)
-      }
-    })
-
+  const onMount = async () => {
     //get user country code for phone
-    getCountryCode()
-
     //read user data from w3 if needed
-    checkWeb3Token()
+    await Promise.all([getCountryCode(), checkWeb3Token()])
 
     //lazy login in background
     const ready = (async () => {
@@ -207,6 +189,24 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     })()
 
     setReady(ready)
+  }
+  useEffect(() => {
+    // don't allow to start sign up flow not from begining except when w3Token provided
+    AsyncStorage.getItem('GD_web3Token').then(token => {
+      log.debug('redirecting to start, got index:', navigation.state.index)
+
+      if (token && navigation.state.index > 1) {
+        setLoading(true)
+        return navigateWithFocus(navigation.state.routes[1].key)
+      }
+
+      if (!token && navigation.state.index > 0) {
+        setLoading(true)
+        return navigateWithFocus(navigation.state.routes[0].key)
+      }
+    })
+
+    onMount()
   }, [])
 
   const finishRegistration = async () => {

@@ -94,6 +94,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   }
 
   const Marketplace = () => {
+    fireEventAnalytics('Marketplace')
     navigation.navigate('Marketplace')
     handleModalClose()
   }

@@ -1219,7 +1219,7 @@ export class UserStorage {
       eventsIndex
         .filter(_ => _.id)
         .map(async eventIndex => {
-          const item = this.feed
+          let item = this.feed
             .get('byid')
             .get(eventIndex.id)
             .decrypt()
@@ -1231,7 +1231,7 @@ export class UserStorage {
             })
 
             if (receipt) {
-              this.handleReceiptUpdated(receipt)
+              item = await this.handleReceiptUpdated(receipt)
             }
           }
 

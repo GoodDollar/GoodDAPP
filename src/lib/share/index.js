@@ -1,16 +1,13 @@
 // @flow
 import fromPairs from 'lodash/fromPairs'
-import isEmpty from 'lodash/isEmpty'
+import toPairs from 'lodash/toPairs'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from 'validator/lib/isEmail'
 
 import Config from '../../config/config'
-import logger from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import { weiToGd } from '../wallet/utils'
-
-const log = logger.child({ from: 'share.index' })
 
 /**
  * Generates a code contaning an MNID with an amount if specified
@@ -18,7 +15,6 @@ const log = logger.child({ from: 'share.index' })
  * @param networkId - network identifier required to generate MNID
  * @param amount - amount to be attached to the generated MNID code
  * @param reason - reason to be attached to the generated MNID code
- * @param counterPartyDisplayName
  * @returns {string} - 'MNID|amount'|'MNID'
  */
 export function generateCode(
@@ -30,16 +26,12 @@ export function generateCode(
 ) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
-  const codeObj = {
-    mnid,
-    amount,
-    reason,
-  }
+  const codeArr = [mnid, amount, reason]
   if (counterPartyDisplayName) {
-    codeObj.counterPartyDisplayName = counterPartyDisplayName
+    codeArr.push(counterPartyDisplayName)
   }
 
-  return codeObj
+  return codeArr.join('|')
 }
 
 /**
@@ -48,28 +40,23 @@ export function generateCode(
  * @returns {null|{amount: *, address, networkId: number, reason: string}}
  */
 export function readCode(code: string) {
-  try {
-    let codeParams = Buffer.from(decodeURI(code), 'base64').toString()
-    const codeObject = JSON.parse(codeParams)
-    let { mnid, amount, reason, counterPartyDisplayName } = codeObject
-    if (!isMNID(mnid)) {
-      return null
-    }
+  let [mnid, value, reason, counterPartyDisplayName] = code.split('|')
 
-    const { network, address } = decode(mnid)
-    amount = amount && parseInt(amount)
-    reason = reason === 'undefined' ? undefined : reason
-    counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
-    return {
-      networkId: parseInt(network),
-      address,
-      amount: amount ? amount : undefined,
-      reason,
-      counterPartyDisplayName,
-    }
-  } catch (e) {
-    log.error('readCode failed', e.message, e)
+  if (!isMNID(mnid)) {
     return null
+  }
+
+  const { network, address } = decode(mnid)
+  const amount = value && parseInt(value)
+  reason = reason === 'undefined' ? undefined : reason
+  counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
+
+  return {
+    networkId: parseInt(network),
+    address,
+    amount: amount ? amount : undefined,
+    reason,
+    counterPartyDisplayName,
   }
 }
 
@@ -147,14 +134,14 @@ export function generateSendShareText(...args): ShareObject {
 
 /**
  * Generates URL link to share/receive GDs
- * @param {any} codeObj - code returned by `generateCode`
+ * @param {string} code - code returned by `generateCode`
  * @param {number } amount - amount expressed in Wei
  * @param {string} to - recipient name
  * @param {string} from - current user's fullName
  * @returns {string} - URL to use to share/receive GDs
  */
-export function generateReceiveShareObject(codeObj: any, amount: number, to: string, from: string): ShareObject {
-  const url = generateShareLink('receive', codeObj)
+export function generateReceiveShareObject(code: string, amount: number, to: string, from: string): ShareObject {
+  const url = generateShareLink('receive', { code })
   const text = [
     to ? `${to}, ` : '',
     `You've got a request from ${from}`,
@@ -209,18 +196,34 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     receive: Config.receiveUrl,
     send: Config.sendUrl,
   }[action]
-
-  if (!destination || isEmpty(params)) {
-    throw new Error(`Link couldn't be generated`)
-  }
-
-  let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
   let queryParams = ''
 
-  if (Config.network === 'production') {
-    queryParams = `/${paramsBase64}`
-  } else {
-    queryParams = action === 'send' ? `?paymentCode=${paramsBase64}` : `?code=${paramsBase64}`
+  switch (Config.network) {
+    case 'production':
+      if (params.code) {
+        queryParams = `/${params.code}`
+        delete params.code
+      } else if (params.paymentCode) {
+        queryParams = `/${params.paymentCode}`
+        delete params.paymentCode
+      }
+      break
+
+    default:
+      break
+  }
+
+  // creates query params from params object
+  const additionalParams = toPairs(params)
+    .map(param => param.join('='))
+    .join('&')
+
+  if (additionalParams.length) {
+    queryParams += `?${additionalParams}`
+  }
+
+  if (!queryParams || !destination) {
+    throw new Error(`Link couldn't be generated`)
   }
 
   return encodeURI(`${destination}${queryParams}`)

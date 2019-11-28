@@ -140,107 +140,6 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "center",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "center",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-          >
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "22px",
-                  "fontWeight": "500",
-                  "lineHeight": "30px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              You can sign in
-            </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "22px",
-                  "fontWeight": "500",
-                  "lineHeight": "30px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              from any device or platform
-            </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "22px",
-                  "fontWeight": "500",
-                  "lineHeight": "30px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              using the 
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "22px",
-                    "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                Magic Link
-              </span>
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
               "WebkitBoxFlex": 1,
               "WebkitFlexBasis": "auto",
               "WebkitFlexGrow": 1,
@@ -286,6 +185,126 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
             draggable={false}
             src="maginLinkIllustration.svg"
           />
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "center",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "center",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
+          >
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(66,69,74,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "22px",
+                  "fontWeight": "500",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(66,69,74,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "22px",
+                    "fontWeight": "700",
+                    "lineHeight": "30px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                Next time 
+              </span>
+              you can sign in 
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(66,69,74,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "22px",
+                  "fontWeight": "500",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              from any device 
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(66,69,74,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "22px",
+                  "fontWeight": "500",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              using your 
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(66,69,74,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "22px",
+                    "fontWeight": "700",
+                    "lineHeight": "30px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                Magic Link
+              </span>
+            </div>
+          </div>
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -365,26 +384,7 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
                 }
               }
             >
-              that we just send you and click on the 
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "700",
-                    "lineHeight": "20px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                Magic Link
-              </span>
+              that we’ll soon send you 
             </div>
           </div>
         </div>
@@ -464,15 +464,13 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            data-focusable={true}
-            disabled={false}
+            aria-disabled={true}
+            className="css-view-1dbjc4n"
+            disabled={true}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
-            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -483,15 +481,11 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
-                "touchAction": "manipulation",
               }
             }
-            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"

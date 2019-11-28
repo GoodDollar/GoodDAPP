@@ -1656,9 +1656,12 @@ export class UserStorage {
   /**
    * Sets the event's status as error
    * @param {string} txHash
-   * @returns {Promise<FeedEvent>}
+   * @returns {Promise<void>}
    */
-  async markWithErrorEvent(txHash: string): Promise<FeedEvent> {
+  async markWithErrorEvent(txHash: string): Promise<void> {
+    if (txHash === undefined) {
+      return
+    }
     const release = await this.feedMutex.lock()
 
     try {

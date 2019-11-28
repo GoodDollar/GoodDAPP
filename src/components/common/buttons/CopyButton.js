@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { fireEvent } from '../../../lib/analytics/analytics'
 import Icon from '../view/Icon'
 
 import Clipboard from '../../../lib/utils/Clipboard'
@@ -22,10 +23,22 @@ const CopyButton = ({ toCopy, children, onPressDone, iconColor, withoutDone, ...
     }
   }, [state])
 
+  const handleOnPress = () => {
+    fireEvent('CLICK_BTN_' + state)
+  }
   switch (state) {
     case DONE: {
       return (
-        <CustomButton data-gdtype={'copybutton-done'} data-url={toCopy} mode={mode} onPress={onPressDone} {...props}>
+        <CustomButton
+          data-gdtype={'copybutton-done'}
+          data-url={toCopy}
+          mode={mode}
+          onPress={() => {
+            handleOnPress()
+            onPressDone()
+          }}
+          {...props}
+        >
           Done
         </CustomButton>
       )
@@ -45,6 +58,7 @@ const CopyButton = ({ toCopy, children, onPressDone, iconColor, withoutDone, ...
           data-gdtype={'copybutton'}
           mode={mode}
           onPress={() => {
+            handleOnPress()
             Clipboard.setString(toCopy)
             setState(COPIED)
           }}

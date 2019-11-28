@@ -101,6 +101,9 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
 }
 
 export const fireEvent = (event: string, data: any = {}) => {
+  console.log('---------------------------------------------------------------------')
+  console.log('__a__ ', event, data)
+  console.log('---------------------------------------------------------------------')
   if (Amplitude === undefined) {
     return
   }

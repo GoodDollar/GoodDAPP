@@ -3,6 +3,7 @@
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
 import React, { useEffect, useState } from 'react'
+import { fireEvent } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -57,6 +58,7 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
   const sendGD = () => {
     try {
       setLoading(true)
+      fireEvent('SENDQRSUMMARY_CLICK_CONFIRM', { to, amount, reason })
       goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
@@ -80,7 +82,7 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
               survey,
             })
           }
-
+          fireEvent('SENDQRSUMMARY_TX_SUCCESS', { to, amount, reason })
           showDialog({
             visible: true,
             title: 'SUCCESS!',
@@ -92,6 +94,7 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
         },
         onError: e => {
           log.error('Send TX failed:', e.message, e)
+          fireEvent('SENDQRSUMMARY_TX_FAILED', { to, amount, reason, error: e.message })
           showDialog({
             visible: true,
             title: 'Transaction Failed!',
@@ -102,6 +105,7 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
       })
     } catch (e) {
       log.error('Send TX failed:', e.message, e)
+      fireEvent('SENDQRSUMMARY_TX_FAILED', { to, amount, reason, error: e.message })
       showDialog({
         visible: true,
         title: 'Transaction Failed!',

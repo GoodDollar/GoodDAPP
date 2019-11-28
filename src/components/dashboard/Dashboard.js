@@ -6,6 +6,7 @@ import _get from 'lodash/get'
 import moment from 'moment'
 import type { Store } from 'undux'
 import * as web3Utils from 'web3-utils'
+import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -178,7 +179,7 @@ const Dashboard = props => {
       if (anyParams && anyParams.code) {
         const { screenProps } = props
         const code = readCode(decodeURI(anyParams.code))
-        if (isTheSameUser(code) === false) {
+        if (isTheSameUser(code) !== false) {
           try {
             const { route, params } = await routeAndPathForCode('send', code)
             screenProps.push(route, params)
@@ -370,6 +371,7 @@ const Dashboard = props => {
     try {
       let paymentParams = Buffer.from(decodeURI(paymentCode), 'base64').toString()
       paymentParams = JSON.parse(paymentParams)
+      fireEvent('WITHDRAW_START', { paymentCode })
       showDialog({
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,
@@ -379,10 +381,15 @@ const Dashboard = props => {
       const { status, transactionHash } = await executeWithdraw(store, paymentParams.paymentCode, paymentParams.reason)
       if (transactionHash) {
         hideDialog()
+        fireEvent('WITHDRAW_COMPLETE', { paymentCode })
         return
       }
       switch (status) {
         case WITHDRAW_STATUS_COMPLETE:
+          fireEvent('WITHDRAW_STATUS_COMPLETE', {
+            paymentCode,
+            message: 'Payment already withdrawn or canceled by sender',
+          })
           showErrorDialog('Payment already withdrawn or canceled by sender')
           break
         case WITHDRAW_STATUS_UNKNOWN: {
@@ -396,10 +403,18 @@ const Dashboard = props => {
               return await handleWithdraw()
             }
           }
+          fireEvent('WITHDRAW_STATUS_UNKNOWN', {
+            paymentCode,
+            message: 'Could not find payment details.\nCheck your link or try again later.',
+          })
           showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
         }
       }
     } catch (e) {
+      fireEvent('WITHDRAW_FAILDE', {
+        paymentCode,
+        message: e.message,
+      })
       log.error('withdraw failed:', e.code, e.message, e)
       showErrorDialog(e.message)
     }

@@ -1,6 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'mobile-device-detect'
+import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import Config from '../../config/config'
@@ -109,6 +110,8 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
    */
   const generateLink = () => {
     try {
+      fireEvent('SENDLINKSUMMARY_GENERATE_LINK_DEPOSIT', { amount, reason })
+
       // Generate link deposit
       const generateLinkResponse = goodWallet.generateLink(
         amount,
@@ -146,10 +149,12 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
       log.debug('generateLinkAndSend:', { generateLinkResponse })
       if (generateLinkResponse) {
         const { paymentLink } = generateLinkResponse
+        fireEvent('SENDLINKSUMMARY_GENERATE_LINK_DEPOSIT_FINISH', { paymentLink })
         return paymentLink
       }
       showErrorDialog('Could not complete transaction. Please try again.')
     } catch (e) {
+      fireEvent('SENDLINKSUMMARY_GENERATE_LINK_DEPOSIT_ERROR', { message: e.message, reason, amount, survey })
       showErrorDialog('Could not complete transaction. Please try again.')
       log.error(e.message, e)
     }

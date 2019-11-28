@@ -139,13 +139,6 @@ const patchLogger = () => {
         groupingHash: logContext && logContext.from,
       })
     }
-    if (global.bugsnagClient && Config.env !== 'test') {
-      global.bugsnagClient.notify(logMessage, {
-        context: logContext && logContext.from,
-        metaData: { logMessage, eMsg, errorObj, rest },
-        groupingHash: logContext && logContext.from,
-      })
-    }
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
     }

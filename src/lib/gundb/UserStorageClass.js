@@ -1238,12 +1238,16 @@ export class UserStorage {
     return Promise.all(
       feed
         .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
-        .map(feedItem =>
-          this.formatEvent(feedItem).catch(e => {
+        .map(feedItem => {
+          if (!(feedItem.data && feedItem.data.receiptData)) {
+            return this.getFormatedEventById(feedItem.id)
+          }
+
+          return this.formatEvent(feedItem).catch(e => {
             logger.error('getFormattedEvents Failed formatting event:', e.message, e, feedItem)
             return {}
           })
-        )
+        })
     )
   }
 

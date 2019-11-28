@@ -26,7 +26,11 @@ type ReceiptType = {
  * @param {string} reason - the reason of payment
  * @returns {Promise} Returns the receipt of the transaction
  */
-export const executeWithdraw = async (store: Store, code: string, reason: string): Promise<ReceiptType> => {
+export const executeWithdraw = async (
+  store: Store,
+  code: string,
+  reason: string
+): Promise<ReceiptType | { status: boolean }> => {
   log.info('executeWithdraw', code, reason)
   try {
     const { amount, sender, status } = await goodWallet.getWithdrawDetails(code)

@@ -716,15 +716,15 @@ export class UserStorage {
         .catch(_ => new Date())
 
       //if we withdrawn the payment link then its canceled
-      const otplStatus =
+      const status =
         data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
       const prevDate = feedEvent.date
       feedEvent.data.from = data.from
       feedEvent.data.to = data.to
       feedEvent.data.otplData = data
-      feedEvent.status = feedEvent.data.otplStatus = otplStatus
+      feedEvent.status = status
       feedEvent.date = receiptDate.toString()
-      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
+      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, status, receipt, data })
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
     } catch (e) {
@@ -1237,10 +1237,7 @@ export class UserStorage {
 
     return Promise.all(
       feed
-        .filter(
-          feedItem =>
-            feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
-        )
+        .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
         .map(feedItem =>
           this.formatEvent(feedItem).catch(e => {
             logger.error('getFormattedEvents Failed formatting event:', e.message, e, feedItem)
@@ -1391,10 +1388,10 @@ export class UserStorage {
 
     try {
       const { data, type, date, id, status, createdDate } = event
-      const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
+      const { sender, reason, code: withdrawCode, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
+      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, status)
       const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
@@ -1474,8 +1471,8 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
-    return status === 'error' ? status : withdrawCode ? otplStatus : ''
+  _extractWithdrawStatus(withdrawCode, status) {
+    return status === 'error' ? status : withdrawCode ? status : ''
   }
 
   _extractDisplayType(type, withdrawStatus, status) {
@@ -1573,7 +1570,7 @@ export class UserStorage {
         .get('queue')
         .get(event.id)
         .putAck(event)
-      this.updateFeedEvent(event)
+      await this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
@@ -1659,7 +1656,7 @@ export class UserStorage {
    */
   async markWithErrorEvent(err: any): Promise<FeedEvent> {
     const error = JSON.parse(`{${err.message.split('{')[1]}`)
-    await this.updateEventOtplStatus(error.transactionHash, 'error')
+    await this.updateEventStatus(error.transactionHash, 'error')
   }
 
   /**
@@ -1686,7 +1683,7 @@ export class UserStorage {
    * @returns {Promise<FeedEvent>}
    */
   async cancelOTPLEvent(eventId: string): Promise<FeedEvent> {
-    await this.updateEventOtplStatus(eventId, 'cancelled')
+    await this.updateEventStatus(eventId, 'cancelled')
   }
 
   /**

@@ -1638,7 +1638,9 @@ export class UserStorage {
    */
   async updateEventStatus(eventId: string, status: string): Promise<FeedEvent> {
     const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+
     feedEvent.status = status
+
     return this.feed
       .get('byid')
       .get(eventId)
@@ -1652,30 +1654,20 @@ export class UserStorage {
   }
 
   /**
-   * Sets the event's otpl status
-   * @param {string} eventId
-   * @param {string} status
-   * @returns {Promise<FeedEvent>}
-   */
-  async updateEventOtplStatus(eventId: string, status: string): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-    feedEvent.status = status
-
-    if (feedEvent.data) {
-      feedEvent.data.otplStatus = status
-    }
-
-    return this.updateFeedEvent(feedEvent)
-  }
-
-  /**
    * Sets the event's status as error
-   * @param {*} err
+   * @param {string} txHash
    * @returns {Promise<FeedEvent>}
    */
-  async markWithErrorEvent(err: any): Promise<FeedEvent> {
-    const error = JSON.parse(`{${err.message.split('{')[1]}`)
-    await this.updateEventStatus(error.transactionHash, 'error')
+  async markWithErrorEvent(txHash: string): Promise<FeedEvent> {
+    const release = await this.feedMutex.lock()
+
+    try {
+      await this.updateEventStatus(txHash, 'error')
+    } catch (e) {
+      logger.error('Failed to set error status for feed event', e.message, e)
+    } finally {
+      release()
+    }
   }
 
   /**

@@ -23,7 +23,7 @@ type ReceiptType = {
  *
  * @param {Store} store - Undux store
  * @param {string} code - code that unlocks the escrowed payment
- *  * @param {string} reason - the reason of payment
+ * @param {string} reason - the reason of payment
  * @returns {Promise} Returns the receipt of the transaction
  */
 export const executeWithdraw = async (store: Store, code: string, reason: string): Promise<ReceiptType> => {
@@ -31,9 +31,13 @@ export const executeWithdraw = async (store: Store, code: string, reason: string
   try {
     const { amount, sender, status } = await goodWallet.getWithdrawDetails(code)
     if (status === WITHDRAW_STATUS_PENDING) {
+      let txHash
+
       return new Promise((res, rej) => {
         goodWallet.withdraw(code, {
           onTransactionHash: transactionHash => {
+            txHash = transactionHash
+
             const transactionEvent: TransactionEvent = {
               id: transactionHash,
               date: new Date().toString(),
@@ -49,7 +53,7 @@ export const executeWithdraw = async (store: Store, code: string, reason: string
             res({ status, transactionHash })
           },
           onError: e => {
-            userStorage.markWithErrorEvent(e)
+            userStorage.markWithErrorEvent(txHash)
             rej(e)
           },
         })

@@ -203,8 +203,13 @@ const Claim = props => {
       if (curEntitlement == 0) {
         return
       }
+
+      let txHash
+
       const receipt = await goodWallet.claim({
         onTransactionHash: hash => {
+          txHash = hash
+
           const date = new Date()
           const transactionEvent: TransactionEvent = {
             id: hash,
@@ -218,7 +223,9 @@ const Claim = props => {
           userStorage.enqueueTX(transactionEvent)
           AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
         },
-        onError: userStorage.markWithErrorEvent,
+        onError: () => {
+          userStorage.markWithErrorEvent(txHash)
+        },
       })
 
       if (receipt.status) {

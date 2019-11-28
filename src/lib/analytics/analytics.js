@@ -1,6 +1,5 @@
 //@flow
 import _debounce from 'lodash/debounce'
-import LogRocket from 'logrocket'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
 
@@ -87,10 +86,6 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
       FS.identify(emailOrId, {})
     }
   }
-
-  LogRocket.init('qhqdzk/gooddapp')
-  LogRocket.identify(emailOrId, { email, identifier })
-
   log.debug('Initialized analytics:', {
     Amplitude: Amplitude !== undefined,
     FS: FS !== undefined,
@@ -136,13 +131,6 @@ const patchLogger = () => {
     let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
     if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
       debounceFireEvent(ERROR_LOG, { reason: logMessage, logContext })
-    }
-    if (global.bugsnagClient && Config.env !== 'test') {
-      global.bugsnagClient.notify(logMessage, {
-        context: logContext && logContext.from,
-        metaData: { logMessage, eMsg, errorObj, rest },
-        groupingHash: logContext && logContext.from,
-      })
     }
     if (global.bugsnagClient && Config.env !== 'test') {
       global.bugsnagClient.notify(logMessage, {

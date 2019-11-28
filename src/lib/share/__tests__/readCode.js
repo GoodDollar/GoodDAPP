@@ -3,7 +3,7 @@ import { readCode } from '../'
 describe('readCode', () => {
   it(`should generate an string with an MNID valid code`, () => {
     // Given
-    const code = Buffer.from(JSON.stringify({ mnid: '3cvdwVrcFXaMDBpkeJdrFKnfCyxQ1PDx6TG' })).toString('base64')
+    const code = '3cvdwVrcFXaMDBpkeJdrFKnfCyxQ1PDx6TG'
 
     // When
     const decoded = readCode(code)
@@ -14,9 +14,7 @@ describe('readCode', () => {
 
   it(`should return an string with the structure MNID|amount`, () => {
     // Given
-    const code = Buffer.from(JSON.stringify({ mnid: '3cvdwVrcFXaMDBpkeJdrFKnfCyxQ1PDx6TG', amount: '1000' })).toString(
-      'base64'
-    )
+    const code = '3cvdwVrcFXaMDBpkeJdrFKnfCyxQ1PDx6TG|1000'
 
     // When
     const decoded = readCode(code)

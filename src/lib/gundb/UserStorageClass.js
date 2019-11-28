@@ -1655,15 +1655,14 @@ export class UserStorage {
 
   /**
    * Sets the event's status as error
-   * @param {*} err
+   * @param {string} txHash
    * @returns {Promise<FeedEvent>}
    */
-  async markWithErrorEvent(err: any): Promise<FeedEvent> {
+  async markWithErrorEvent(txHash: string): Promise<FeedEvent> {
     const release = await this.feedMutex.lock()
 
     try {
-      const error = JSON.parse(`{${err.message.split('{')[1]}`)
-      await this.updateEventStatus(error.transactionHash, 'error')
+      await this.updateEventStatus(txHash, 'error')
     } catch (e) {
       logger.error('Failed to set error status for feed event', e.message, e)
     } finally {

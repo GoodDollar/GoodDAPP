@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from 'validator/lib/isEmail'
-
+import { isBase64 } from '../utils/string'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -49,9 +49,19 @@ export function generateCode(
  */
 export function readCode(code: string) {
   try {
-    let codeParams = Buffer.from(decodeURI(code), 'base64').toString()
-    const codeObject = JSON.parse(codeParams)
-    let { mnid, amount, reason, counterPartyDisplayName } = codeObject
+    let mnid, amount, reason, counterPartyDisplayName
+
+    if (isBase64(code)) {
+      let codeParams = Buffer.from(code, 'base64').toString()
+      let codeObject = JSON.parse(codeParams)
+      mnid = codeObject.mnid
+      amount = codeObject.amount
+      reason = codeObject.reason
+      counterPartyDisplayName = codeObject.counterPartyDisplayName
+    } else {
+      ;[mnid, amount, reason, counterPartyDisplayName] = code.split('|')
+    }
+
     if (!isMNID(mnid)) {
       return null
     }

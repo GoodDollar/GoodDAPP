@@ -6,6 +6,7 @@ import _get from 'lodash/get'
 import type { Store } from 'undux'
 import * as web3Utils from 'web3-utils'
 import { delay } from '../../lib/utils/async'
+import { isBase64 } from '../../lib/utils/string'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -283,11 +284,18 @@ const Dashboard = props => {
   showOutOfGasError(props)
 
   const handleWithdraw = async () => {
-    const { paymentCode } = props.navigation.state.params
+    let { paymentCode, reason } = props.navigation.state.params
     const { styles }: DashboardProps = props
+    let paymentParams = {
+      paymentCode: paymentCode ? decodeURI(paymentCode) : null,
+      reason: reason ? decodeURI(reason) : null,
+    }
     try {
-      let paymentParams = Buffer.from(decodeURI(paymentCode), 'base64').toString()
-      paymentParams = JSON.parse(paymentParams)
+      if (isBase64(paymentParams.paymentCode)) {
+        paymentParams = Buffer.from(paymentParams.paymentCode, 'base64').toString()
+        paymentParams = JSON.parse(paymentParams)
+      }
+
       showDialog({
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,

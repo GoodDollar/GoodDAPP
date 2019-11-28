@@ -1537,7 +1537,9 @@ export class UserStorage {
 
     return (
       (type === EVENT_TYPE_BONUS && favicon) ||
-      (type === EVENT_TYPE_SEND && withdrawStatus === 'error' && favicon) || //errored send
+      (((type === EVENT_TYPE_SEND && withdrawStatus === 'error') ||
+        (type === EVENT_TYPE_WITHDRAW && withdrawStatus === 'error')) &&
+        favicon) || // errored send/withdraw
       (await profileFromGun()) || // extract avatar from profile
       (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
     )

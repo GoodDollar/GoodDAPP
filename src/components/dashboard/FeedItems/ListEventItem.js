@@ -26,6 +26,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const mainColor = eventSettings.color
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
+  const showErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -64,7 +65,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
             source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
           />
           <View style={[styles.mainInfo, isFeedTypeClaiming && styles.claimingCardFeedText]}>
-            {itemType === 'senderror' ? (
+            {showErrorCard ? (
               <>
                 <Text fontWeight="medium" lineHeight={19} style={styles.mainText} color="primary">
                   {`We're sorry.`}
@@ -231,6 +232,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 0,
     marginRight: theme.sizes.default,
     marginTop: 0,
+    height: '100%',
   },
   feedItem: {
     flexShrink: 0,

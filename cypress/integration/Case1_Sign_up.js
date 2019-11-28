@@ -51,8 +51,8 @@ describe('Test case 1: Ability to Sign Up', () => {
     SignUpPage.emailInput.type(Cypress.env('emailForCheckingRegistration'))
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
-    SignUpPage.gotItButton.click()
     SignUpPage.letStartButton.click()
+    SignUpPage.gotItButton.click()
     HomePage.welcomeFeed.should('be.visible')
 
     // ** Check wallet gas ** //

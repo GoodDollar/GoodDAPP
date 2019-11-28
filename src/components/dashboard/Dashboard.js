@@ -1,5 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import isBase64 from 'is-base64'
 import { Animated, AppState, Dimensions, Easing } from 'react-native'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
@@ -7,7 +8,6 @@ import moment from 'moment'
 import type { Store } from 'undux'
 import * as web3Utils from 'web3-utils'
 import { delay } from '../../lib/utils/async'
-import { isBase64 } from '../../lib/utils/string'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -364,16 +364,18 @@ const Dashboard = props => {
   const handleWithdraw = async params => {
     const { paymentCode, reason } = params
     const { styles }: DashboardProps = props
-    let paymentParams = {
-      paymentCode: paymentCode ? decodeURI(paymentCode) : null,
-      reason: reason ? decodeURI(reason) : null,
-    }
-    try {
-      if (isBase64(paymentParams.paymentCode)) {
-        paymentParams = Buffer.from(paymentParams.paymentCode, 'base64').toString()
-        paymentParams = JSON.parse(paymentParams)
-      }
+    let paymentParams
 
+    try {
+      if (isBase64(decodeURI(paymentCode), { allowEmpty: false, paddingRequired: false })) {
+        paymentParams = Buffer.from(paymentCode, 'base64').toString()
+        paymentParams = JSON.parse(paymentParams)
+      } else {
+        paymentParams = {
+          paymentCode: paymentCode ? decodeURI(paymentCode) : null,
+          reason: reason ? decodeURI(reason) : null,
+        }
+      }
       showDialog({
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,

@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from 'validator/lib/isEmail'
-import { isBase64 } from '../utils/string'
+import isBase64 from 'is-base64'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -51,14 +51,20 @@ export function readCode(code: string) {
   try {
     let mnid, amount, reason, counterPartyDisplayName
 
-    if (isBase64(code)) {
-      let codeParams = Buffer.from(code, 'base64').toString()
-      let codeObject = JSON.parse(codeParams)
-      mnid = codeObject.mnid
-      amount = codeObject.amount
-      reason = codeObject.reason
-      counterPartyDisplayName = codeObject.counterPartyDisplayName
-    } else {
+    try {
+      if (isBase64(decodeURI(code), { allowEmpty: false, paddingRequired: false })) {
+        let codeParams = Buffer.from(code, 'base64').toString()
+        let codeObject = JSON.parse(codeParams)
+        mnid = codeObject.mnid
+        amount = codeObject.amount
+        reason = codeObject.reason
+        counterPartyDisplayName = codeObject.counterPartyDisplayName
+      }
+    } catch (e) {
+      log.error('readCode Base64 failed', e.message, e)
+    }
+
+    if (!mnid) {
       ;[mnid, amount, reason, counterPartyDisplayName] = code.split('|')
     }
 

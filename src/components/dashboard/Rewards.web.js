@@ -56,8 +56,15 @@ const RewardsTab = props => {
       store.set('loadingIndicator')({ loading: false })
       showDialog({
         title: 'Press ok to go to Rewards dashboard',
+        buttons: [
+          {
+            text: 'OK',
+            onPress: () => {
+              window.open(getRewardsPath(), '_blank')
+            },
+          },
+        ],
         onDismiss: () => {
-          window.open(getRewardsPath(), '_blank')
           props.navigation.navigate('Home')
         },
       })

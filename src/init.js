@@ -12,7 +12,7 @@ export const init = () => {
   return Promise.all([goodWallet.ready, userStorage.ready]).then(async () => {
     global.wallet = goodWallet
 
-    // set wallet to simple storage
+    // set wallet to simple storage so we can use it in InternetConnection
     setWallet(goodWallet)
 
     // set userStorage to simple storage

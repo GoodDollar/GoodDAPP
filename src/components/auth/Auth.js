@@ -101,14 +101,14 @@ class Auth extends React.Component<Props> {
     const { w3User } = this.state
     const w3Token = await AsyncStorage.getItem('GD_web3Token')
     const redirectTo = w3Token ? 'Phone' : 'Signup'
-
+    log.debug({ w3User })
     try {
       const req = new Promise((res, rej) => {
         const del = indexedDB.deleteDatabase('radata')
         del.onsuccess = res
         del.onerror = rej
       })
-      await Promise.all([req, AsyncStorage.clear()])
+      await req
 
       log.info('indexedDb successfully cleared')
     } catch (e) {

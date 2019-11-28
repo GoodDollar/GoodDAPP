@@ -1,6 +1,5 @@
 //@flow
 import _debounce from 'lodash/debounce'
-import LogRocket from 'logrocket'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
 
@@ -87,10 +86,6 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
       FS.identify(emailOrId, {})
     }
   }
-
-  LogRocket.init('qhqdzk/gooddapp')
-  LogRocket.identify(emailOrId, { email, identifier })
-
   log.debug('Initialized analytics:', {
     Amplitude: Amplitude !== undefined,
     FS: FS !== undefined,

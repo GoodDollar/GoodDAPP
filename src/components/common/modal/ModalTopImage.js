@@ -8,6 +8,7 @@ import inviteIllustration from '../../../assets/Feed/invite.png'
 import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
 import backupIllustration from '../../../assets/Feed/backup.png'
 import spendingIllustration from '../../../assets/Feed/spending.svg'
+import claimingIllustration from '../../../assets/Feed/claiming.svg'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
@@ -22,6 +23,11 @@ const TopImage = ({ type, styles }) => {
       claim: {
         src: receiveIllustation,
         style: styles.mainImage,
+        containerStyle: styles.mainImageContainer,
+      },
+      claiming: {
+        src: claimingIllustration,
+        style: styles.claiming,
         containerStyle: styles.mainImageContainer,
       },
       bonuscompleted: {
@@ -107,6 +113,11 @@ const getStylesFromProps = ({ theme }) => ({
     width: getDesignRelativeWidth(176),
     height: getDesignRelativeHeight(76),
     margin: '10%',
+  },
+  claiming: {
+    width: getDesignRelativeHeight(92),
+    height: getDesignRelativeHeight(92),
+    margin: 20,
   },
 })
 

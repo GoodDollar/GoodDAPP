@@ -54,7 +54,6 @@ import ReceiveSummary from './ReceiveSummary'
 import Confirmation from './Confirmation'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
-import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
@@ -97,7 +96,6 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const { params } = props.navigation.state
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const currentFeed = store.get('currentFeed')
@@ -227,8 +225,13 @@ const Dashboard = props => {
 
   const handleReceiveLink = () => {
     const anyParams = extractQueryParams(window.location.href)
+
+    log.debug('handle links effect dashboard', { anyParams })
+
     if (anyParams && anyParams.paymentCode) {
-      props.navigation.state.params = anyParams
+      handleWithdraw(anyParams)
+    } else if (anyParams && anyParams.event) {
+      showNewFeedEvent(anyParams.event)
     } else {
       checkCode(anyParams)
     }
@@ -295,6 +298,7 @@ const Dashboard = props => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
     log.debug('initDashboard subscribed to feed')
     prepareLoginToken()
+    checkBonusInterval()
     handleDeleteRedirect()
     handleReceiveLink()
     handleResize()
@@ -312,15 +316,6 @@ const Dashboard = props => {
       AppState.removeEventListener('change', handleAppFocus)
     }
   }, [])
-
-  useEffect(() => {
-    log.debug('handle links effect dashboard', { params })
-    if (params && params.paymentCode) {
-      handleWithdraw()
-    } else if (params && params.event) {
-      showNewFeedEvent(params.event)
-    }
-  }, [params])
 
   /**
    * dont show delayed items such as add to home popup if some other dialog is showing
@@ -386,8 +381,8 @@ const Dashboard = props => {
     }
   }
 
-  const handleWithdraw = async () => {
-    const { paymentCode, reason } = props.navigation.state.params
+  const handleWithdraw = async params => {
+    const { paymentCode, reason } = params
     const { styles }: DashboardProps = props
     try {
       showDialog({
@@ -422,6 +417,8 @@ const Dashboard = props => {
     } catch (e) {
       log.error('withdraw failed:', e.code, e.message, e)
       showErrorDialog(e.message)
+    } finally {
+      props.navigation.setParams({ paymentCode: undefined })
     }
   }
 
@@ -661,7 +658,6 @@ export default createStackNavigator({
     screen: Confirmation,
     path: ':action/Confirmation',
   },
-  Send,
   SendLinkSummary,
   SendConfirmation,
   SendByQR,

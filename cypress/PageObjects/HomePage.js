@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 class HomePage {
   get rewardsButton() {
-    return cy.get('svg[version]')
+    return cy.get('[dir="auto"]').eq(0)
   }
 
   get optionsButton() {

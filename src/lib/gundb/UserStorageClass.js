@@ -26,6 +26,7 @@ import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
 
+const EVENT_TYPE_WITHDRAW = 'withdraw'
 const EVENT_TYPE_BONUS = 'bonus'
 const EVENT_TYPE_CLAIM = 'claim'
 const EVENT_TYPE_SEND = 'send'
@@ -1479,6 +1480,10 @@ export class UserStorage {
 
   _extractDisplayType(type, withdrawStatus, status) {
     let sufix = ''
+
+    if (type === EVENT_TYPE_WITHDRAW) {
+      sufix = withdrawStatus
+    }
 
     if (type === EVENT_TYPE_SEND) {
       sufix = withdrawStatus

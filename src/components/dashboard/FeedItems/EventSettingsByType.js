@@ -62,9 +62,9 @@ const getEventSettingsByType = (theme, type) => {
       name: 'receive-filled',
     },
     withdrawerror: {
-      actionSymbol: '+',
-      color: theme.colors.red,
-      name: 'receive-filled',
+      color: theme.colors.primary,
+      name: 'info',
+      withoutAmount: true,
     },
     withdrawcompleted: {
       actionSymbol: '+',

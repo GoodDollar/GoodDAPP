@@ -1,9 +1,11 @@
 // @flow
 import React from 'react'
+import { isMobile } from 'mobile-device-detect'
 import { View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
+import { getScreenWidth } from '../../../lib/utils/Orientation'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -22,6 +24,9 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
+  const isSmallDevice = isMobile && getScreenWidth() < 353
+  const isFeedTypeClaiming = feed.type === 'claiming'
+  const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -59,8 +64,8 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
             style={styles.avatarBottom}
             source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
           />
-          <View style={styles.mainInfo}>
-            {itemType === 'senderror' ? (
+          <View style={[styles.mainInfo, isFeedTypeClaiming && styles.claimingCardFeedText]}>
+            {isErrorCard ? (
               <>
                 <Text fontWeight="medium" lineHeight={19} style={styles.mainText} color="primary">
                   {`We're sorry.`}
@@ -74,8 +79,13 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               </>
             ) : (
               <>
-                <EventCounterParty style={styles.feedItem} feedItem={feed} subtitle={true} />
-                <FeedText feed={feed} />
+                <EventCounterParty
+                  style={styles.feedItem}
+                  feedItem={feed}
+                  subtitle={true}
+                  isSmallDevice={isSmallDevice}
+                />
+                <FeedText feed={feed} isSmallDevice={isSmallDevice} />
               </>
             )}
           </View>
@@ -98,7 +108,7 @@ const getWelcomeStyles = ({ theme }) => ({
     display: 'inline',
   },
   welcomeText: {
-    flexShrink: 0,
+    textAlign: 'left',
   },
 })
 
@@ -120,7 +130,7 @@ const getFeedTextStyles = ({ theme }) => ({
   },
 })
 
-const FeedText = withStyles(getFeedTextStyles)(({ styles, feed }) => {
+const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice }) => {
   let result = ''
 
   switch (feed.type) {
@@ -140,8 +150,8 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed }) => {
       result = <ReadMoreText text="here >>>" buttonText="Read more..." />
       break
 
-    case 'bonus':
-      result = <ReadMoreText buttonText={feed.data && feed.data.message} />
+    case 'claiming':
+      result = isSmallDevice ? <ReadMoreText text="daily G$" /> : ''
       break
 
     default:
@@ -175,7 +185,6 @@ const getStylesFromProps = ({ theme }) => ({
   mainContents: {
     flexGrow: 1,
     flexShrink: 1,
-    height: '100%',
     marginLeft: theme.sizes.default,
   },
   dateAndValue: {
@@ -209,6 +218,10 @@ const getStylesFromProps = ({ theme }) => ({
   emptySpace: {
     width: normalize(34),
   },
+  claimingCardFeedText: {
+    height: '100%',
+    justifyContent: 'center',
+  },
   mainInfo: {
     alignItems: 'flex-start',
     display: 'flex',
@@ -236,6 +249,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainText: {
     textAlignVertical: 'middle',
+    paddingTop: 5,
   },
 })
 

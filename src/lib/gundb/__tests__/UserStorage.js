@@ -9,6 +9,7 @@ import {
   backupMessage,
   getReceiveDataFromReceipt,
   inviteFriendsMessage,
+  startClaiming,
   startSpending,
   type TransactionEvent,
   welcomeMessage,
@@ -397,6 +398,12 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(startSpending)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(startSpending)
+  })
+
+  it('events/add start claiming event', async () => {
+    await userStorage.updateFeedEvent(startClaiming)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(startClaiming)
   })
 
   it('events/doesnt have the welcome event already set', async () => {

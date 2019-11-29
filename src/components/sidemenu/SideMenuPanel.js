@@ -37,23 +37,28 @@ export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
             image: <LoadingIcon />,
             showButtons: false,
           })
-          const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
-          let token = await userStorage.getProfileFieldValue('w3Token')
+          try {
+            const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
 
-          if (!token) {
-            token = await userStorage.getProfileFieldValue('loginToken')
-          }
+            let token = await userStorage.getProfileFieldValue('w3Token')
 
-          const isDeleted = await userStorage.deleteAccount()
-          log.debug('deleted account', isDeleted)
+            if (!token) {
+              token = await userStorage.getProfileFieldValue('loginToken')
+            }
 
-          if (isDeleted) {
-            await Promise.all([AsyncStorage.clear(), API.deleteWalletFromW3Site(token)]).catch(e =>
-              log.error('Error deleting account', e.message, e)
-            )
-            window.location = '/'
-          } else {
-            showDialog('Error deleting account')
+            const isDeleted = await userStorage.deleteAccount()
+            log.debug('deleted account', isDeleted)
+
+            if (isDeleted) {
+              API.deleteWalletFromW3Site(token)
+              await Promise.all([AsyncStorage.clear()])
+              window.location = '/'
+            } else {
+              showDialog('There was a problem deleting your account. Try again later.')
+            }
+          } catch (e) {
+            log.error('Error deleting account', e.message, e)
+            showDialog('There was a problem deleting your account. Try again later.')
           }
         },
       },

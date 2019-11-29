@@ -19,12 +19,14 @@ import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
+import resizeBase64Image from '../utils/resizeBase64Image'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
 
+const EVENT_TYPE_WITHDRAW = 'withdraw'
 const EVENT_TYPE_BONUS = 'bonus'
 const EVENT_TYPE_CLAIM = 'claim'
 const EVENT_TYPE_SEND = 'send'
@@ -121,7 +123,6 @@ export type TransactionEvent = FeedEvent & {
     amount: number,
     paymentLink?: string,
     code?: string,
-    receipt?: any,
   },
 }
 
@@ -202,7 +203,7 @@ export const startSpending = {
   status: 'completed',
   data: {
     customName: 'Go to GoodMarket',
-    subtitle: 'Start spending your GoodDollars',
+    subtitle: "Start spending your G$'s",
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -210,6 +211,24 @@ export const startSpending = {
       'Visit GoodMarket, eToro’s exclusive marketplace, where you can buy or sell items in exchange for GoodDollars.',
     endpoint: {
       fullName: 'Go to GoodMarket',
+    },
+  },
+}
+
+export const startClaiming = {
+  id: '4',
+  type: 'claiming',
+  status: 'completed',
+  data: {
+    customName: 'Start claiming your free daily G$',
+    subtitle: 'Start claiming your free daily G$',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'GoodDollar gives every active member a small daily income. Sign in every day, collect free GoodDollars and use them to pay for goods and services.',
+    endpoint: {
+      fullName: 'Start claiming your free daily G$',
     },
   },
 }
@@ -425,7 +444,7 @@ export class UserStorage {
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
-        logger.error('Error initializing UserStorage', { account: this.wallet.account }, e.message, e)
+        logger.error('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
         return false
       })
   }
@@ -469,6 +488,7 @@ export class UserStorage {
       mobile: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
       mnemonic: { defaultPrivacy: 'private' },
       avatar: { defaultPrivacy: 'public' },
+      smallAvatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },
       w3Token: { defaultPrivacy: 'private' },
@@ -530,6 +550,23 @@ export class UserStorage {
       this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
       res(true)
     })
+  }
+
+  setAvatar(avatar) {
+    return Promise.all([
+      this.setProfileField('avatar', avatar, 'public'),
+      async () => {
+        const smallAvatar = await resizeBase64Image(avatar, 50)
+        return this.setProfileField('smallAvatar', smallAvatar, 'public')
+      },
+    ])
+  }
+
+  removeAvatar() {
+    return Promise.all([
+      this.setProfileField('avatar', null, 'public'),
+      this.setProfileField('smallAvatar', null, 'public'),
+    ])
   }
 
   /**
@@ -605,8 +642,8 @@ export class UserStorage {
         type: this.getOperationType(data, this.wallet.account),
       }
 
-      if (get(feedEvent, 'data.receipt')) {
-        logger.debug('handleReceiptUpdated skipping event with receipt', feedEvent, receipt)
+      if (get(feedEvent, 'data.receiptData')) {
+        logger.debug('handleReceiptUpdated skipping event with existed receipt data', feedEvent, receipt)
         return feedEvent
       }
 
@@ -620,22 +657,23 @@ export class UserStorage {
           ...feedEvent.data,
           ...initialEvent.data,
           receiptData: data,
-          receipt,
         },
       }
 
       if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
-        updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
+        updatedFeedEvent.data.message = COMPLETED_BONUS_REASON_TEXT
         updatedFeedEvent.data.customName = 'GoodDollar'
       }
 
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
+
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
       }
+
       return updatedFeedEvent
     } catch (e) {
-      logger.error('handleReceiptUpdated', e.message, e)
+      logger.error('handleReceiptUpdated failed', e.message, e)
     } finally {
       release()
     }
@@ -657,31 +695,36 @@ export class UserStorage {
       //get our tx that created the payment link
       const originalTXHash = await this.getTransactionHashByCode(data.hash)
       if (originalTXHash === undefined) {
-        logger.error('handleOTPLUpdated: Original payment link TX not found', { data })
+        logger.error(
+          'handleOTPLUpdated: Original payment link TX not found',
+          '',
+          new Error('handleOTPLUpdated failed'),
+          data
+        )
         return
       }
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
 
-      if (get(feedEvent, 'data.otplReceipt')) {
-        logger.debug('handleOTPLUpdated skipping event with receipt', feedEvent, receipt)
+      if (get(feedEvent, 'data.otplData')) {
+        logger.debug('handleOTPLUpdated skipping event with existed receipt data', feedEvent, receipt)
         return feedEvent
       }
+
       const receiptDate = await this.wallet.wallet.eth
         .getBlock(receipt.blockNumber)
         .then(_ => new Date(_.timestamp * 1000))
         .catch(_ => new Date())
 
       //if we withdrawn the payment link then its canceled
-      const otplStatus =
+      const status =
         data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
       const prevDate = feedEvent.date
       feedEvent.data.from = data.from
       feedEvent.data.to = data.to
-      feedEvent.data.otplReceipt = receipt
       feedEvent.data.otplData = data
-      feedEvent.status = feedEvent.data.otplStatus = otplStatus
+      feedEvent.status = status
       feedEvent.date = receiptDate.toString()
-      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
+      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, status, receipt, data })
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
     } catch (e) {
@@ -759,6 +802,7 @@ export class UserStorage {
     const isCameFromW3Site = userProperties.cameFromW3Site
 
     this.addBackupCard()
+    this.addStartClaimingCard()
 
     // first time user visit
     if (firstVisitAppDate == null) {
@@ -809,6 +853,22 @@ export class UserStorage {
     if (!userProperties.isMadeBackup && allowToShowByTimeFilter) {
       await this.enqueueTX(backupMessage)
       await this.userProperties.set('isMadeBackup', true)
+    }
+  }
+
+  /**
+   * add a start claiming card after 3 days
+   *
+   * @returns {Promise<void>}
+   */
+  async addStartClaimingCard() {
+    const userProperties = await this.userProperties.getAll()
+    const firstVisitAppDate = userProperties.firstVisitApp
+    const displayTimeFilter = Config.displayStartClaimingCardTime
+    const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
+
+    if (allowToShowByTimeFilter) {
+      await this.enqueueTX(startClaiming)
     }
   }
 
@@ -903,16 +963,20 @@ export class UserStorage {
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
-  setProfile(profile: UserModel, update: boolean = false): Promise<> {
+  async setProfile(profile: UserModel, update: boolean = false): Promise<> {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
     const { errors, isValid } = profile.validate(update)
     if (!isValid) {
-      logger.error('setProfile failed:', { errors })
+      logger.error('setProfile failed:', '', new Error('setProfile failed'), errors)
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
       }
+    }
+
+    if (profile.avatar) {
+      profile.smallAvatar = await resizeBase64Image(profile.avatar, 50)
     }
 
     return Promise.all(
@@ -920,7 +984,7 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', { field }, e.message, e)
+            logger.error('setProfile field failed:', e.message, e, field)
             return { err: `failed saving field ${field}` }
           })
         })
@@ -947,7 +1011,11 @@ export class UserStorage {
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
 
     if (!cleanValue) {
-      logger.error(`indexProfileField - field ${field} value is empty (value: ${value})`, cleanValue)
+      logger.error(
+        `indexProfileField - field ${field} value is empty (value: ${value})`,
+        cleanValue,
+        new Error('isValidValue failed')
+      )
       return false
     }
 
@@ -1150,12 +1218,25 @@ export class UserStorage {
     return Promise.all(
       eventsIndex
         .filter(_ => _.id)
-        .map(eventIndex =>
-          this.feed
+        .map(async eventIndex => {
+          let item = this.feed
             .get('byid')
             .get(eventIndex.id)
             .decrypt()
-        )
+
+          if (item === undefined) {
+            const receipt = await this.wallet.getReceiptWithLogs(eventIndex.id).catch(e => {
+              logger.warn('no receipt found for id:', eventIndex.id, e.message, e)
+              return undefined
+            })
+
+            if (receipt) {
+              item = await this.handleReceiptUpdated(receipt)
+            }
+          }
+
+          return item
+        })
     )
   }
 
@@ -1169,37 +1250,38 @@ export class UserStorage {
 
     return Promise.all(
       feed
-        .filter(
-          feedItem =>
-            feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
-        )
-        .map(feedItem =>
-          this.formatEvent(feedItem).catch(e => {
-            logger.error('getFormattedEvents Failed formatting event:', feedItem, e.message, e)
+        .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
+        .map(feedItem => {
+          if (!(feedItem.data && feedItem.data.receiptData)) {
+            return this.getFormatedEventById(feedItem.id)
+          }
+
+          return this.formatEvent(feedItem).catch(e => {
+            logger.error('getFormattedEvents Failed formatting event:', e.message, e, feedItem)
             return {}
           })
-        )
+        })
     )
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, id)
       return undefined
     })
     if (!prevFeedEvent) {
       return standardPrevFeedEvent
     }
-    if (prevFeedEvent.data && prevFeedEvent.data.receipt) {
+    if (prevFeedEvent.data && prevFeedEvent.data.receiptData) {
       return standardPrevFeedEvent
     }
 
-    logger.warn('getFormatedEventById: receipt missing for:', { id, standardPrevFeedEvent })
+    logger.warn('getFormatedEventById: receipt data missing for:', { id, standardPrevFeedEvent })
 
     //if for some reason we dont have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
-      logger.warn('no receipt found for id:', id, e.message, e)
+      logger.warn('no receipt found for id:', e.message, e, id)
       return undefined
     })
     if (!receipt) {
@@ -1240,7 +1322,7 @@ export class UserStorage {
         .put(details)
       return true
     } catch (e) {
-      logger.error('saveSurveyDetails :', details, e.message, e)
+      logger.error('saveSurveyDetails :', e.message, e, details)
       return false
     }
   }
@@ -1323,10 +1405,10 @@ export class UserStorage {
 
     try {
       const { data, type, date, id, status, createdDate } = event
-      const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
+      const { sender, reason, code: withdrawCode, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
+      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, status)
       const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
@@ -1377,22 +1459,22 @@ export class UserStorage {
         },
       }
     } catch (e) {
-      logger.error('formatEvent: failed formatting event:', event, e.message, e)
+      logger.error('formatEvent: failed formatting event:', e.message, e, event)
       return {}
     }
   }
 
-  _extractData({ type, id, data: { receiptData, receipt, from = '', to = '', counterPartyDisplayName = '', amount } }) {
+  _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
     const { isAddress } = this.wallet.wallet.utils
     const data = { address: '', initiator: '', initiatorType: '', value: '', displayName: '', message: '' }
 
     if (type === EVENT_TYPE_SEND) {
-      data.address = isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
+      data.address = isAddress(to) ? to : receiptData && receiptData.to
       data.initiator = to
     } else if (type === EVENT_TYPE_CLAIM) {
       data.message = 'Your daily basic income'
     } else {
-      data.address = isAddress(from) ? from : (receiptData && receiptData.from) || (receipt && receipt.from)
+      data.address = isAddress(from) ? from : receiptData && receiptData.from
       data.initiator = from
     }
 
@@ -1406,12 +1488,16 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
-    return status === 'error' ? status : withdrawCode ? otplStatus : ''
+  _extractWithdrawStatus(withdrawCode, status) {
+    return status === 'error' ? status : withdrawCode ? status : ''
   }
 
   _extractDisplayType(type, withdrawStatus, status) {
     let sufix = ''
+
+    if (type === EVENT_TYPE_WITHDRAW) {
+      sufix = withdrawStatus
+    }
 
     if (type === EVENT_TYPE_SEND) {
       sufix = withdrawStatus
@@ -1445,13 +1531,15 @@ export class UserStorage {
     const profileFromGun = () =>
       profileToShow &&
       profileToShow
-        .get('avatar')
+        .get('smallAvatar')
         .get('display')
         .then()
 
     return (
       (type === EVENT_TYPE_BONUS && favicon) ||
-      (type === EVENT_TYPE_SEND && withdrawStatus === 'error' && favicon) || //errored send
+      (((type === EVENT_TYPE_SEND && withdrawStatus === 'error') ||
+        (type === EVENT_TYPE_WITHDRAW && withdrawStatus === 'error')) &&
+        favicon) || // errored send/withdraw
       (await profileFromGun()) || // extract avatar from profile
       (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
     )
@@ -1501,7 +1589,7 @@ export class UserStorage {
         .get('queue')
         .get(event.id)
         .putAck(event)
-      this.updateFeedEvent(event)
+      await this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
@@ -1550,35 +1638,39 @@ export class UserStorage {
    */
   async updateEventStatus(eventId: string, status: string): Promise<FeedEvent> {
     const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-    feedEvent.status = status
-    return this.updateFeedEvent(feedEvent)
-  }
 
-  /**
-   * Sets the event's otpl status
-   * @param {string} eventId
-   * @param {string} status
-   * @returns {Promise<FeedEvent>}
-   */
-  async updateEventOtplStatus(eventId: string, status: string): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
     feedEvent.status = status
 
-    if (feedEvent.data) {
-      feedEvent.data.otplStatus = status
-    }
-
-    return this.updateFeedEvent(feedEvent)
+    return this.feed
+      .get('byid')
+      .get(eventId)
+      .secretAck(feedEvent)
+      .then()
+      .then(_ => feedEvent)
+      .catch(e => {
+        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        return {}
+      })
   }
 
   /**
    * Sets the event's status as error
-   * @param {*} err
-   * @returns {Promise<FeedEvent>}
+   * @param {string} txHash
+   * @returns {Promise<void>}
    */
-  async markWithErrorEvent(err: any): Promise<FeedEvent> {
-    const error = JSON.parse(`{${err.message.split('{')[1]}`)
-    await this.updateEventOtplStatus(error.transactionHash, 'error')
+  async markWithErrorEvent(txHash: string): Promise<void> {
+    if (txHash === undefined) {
+      return
+    }
+    const release = await this.feedMutex.lock()
+
+    try {
+      await this.updateEventStatus(txHash, 'error')
+    } catch (e) {
+      logger.error('Failed to set error status for feed event', e.message, e)
+    } finally {
+      release()
+    }
   }
 
   /**
@@ -1605,7 +1697,7 @@ export class UserStorage {
    * @returns {Promise<FeedEvent>}
    */
   async cancelOTPLEvent(eventId: string): Promise<FeedEvent> {
-    await this.updateEventOtplStatus(eventId, 'cancelled')
+    await this.updateEventStatus(eventId, 'cancelled')
   }
 
   /**
@@ -1686,7 +1778,7 @@ export class UserStorage {
       .secretAck(event)
       .then()
       .catch(e => {
-        logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, e)
+        logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
         return { err: e.message }
       })
     const saveDayIndexPtr = this.feed.get(day).putAck(JSON.stringify(dayEventsArr))
@@ -1815,45 +1907,45 @@ export class UserStorage {
 
     try {
       deleteAccountResult = await API.deleteAccount(zoomId, zoomSignature)
+
+      if (deleteAccountResult.data.ok) {
+        deleteResults = await Promise.all([
+          this.wallet
+            .deleteAccount()
+            .then(r => ({ wallet: 'ok' }))
+            .catch(e => ({ wallet: 'failed' })),
+          this.deleteProfile()
+            .then(r => ({
+              profile: 'ok',
+            }))
+            .catch(r => ({
+              profile: 'failed',
+            })),
+          this.gunuser
+            .get('feed')
+            .putAck(null)
+            .then(r => ({
+              feed: 'ok',
+            }))
+            .catch(r => ({
+              feed: 'failed',
+            })),
+          this.properties
+            .putAck(null)
+            .then(r => ({
+              properties: 'ok',
+            }))
+            .catch(r => ({
+              properties: 'failed',
+            })),
+        ])
+      }
     } catch (e) {
-      logger.error('deleteAccount', { e })
+      logger.error('deleteAccount unexpected error', e.message, e)
       return false
     }
 
-    if (deleteAccountResult.data.ok) {
-      deleteResults = await Promise.all([
-        this.wallet
-          .deleteAccount()
-          .then(r => ({ wallet: 'ok' }))
-          .catch(e => ({ wallet: 'failed' })),
-        this.deleteProfile()
-          .then(r => ({
-            profile: 'ok',
-          }))
-          .catch(r => ({
-            profile: 'failed',
-          })),
-        this.gunuser
-          .get('feed')
-          .putAck(null)
-          .then(r => ({
-            feed: 'ok',
-          }))
-          .catch(r => ({
-            feed: 'failed',
-          })),
-        this.userProperties
-          .putAck(null)
-          .then(r => ({
-            properties: 'ok',
-          }))
-          .catch(r => ({
-            properties: 'failed',
-          })),
-      ])
-    }
-
     logger.debug('deleteAccount', { deleteResults })
-    return deleteResults
+    return true
   }
 }

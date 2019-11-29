@@ -213,9 +213,10 @@ export class GoodWallet {
    * @param {function} blockIntervalCallback
    * @returns {Promise<R>|Promise<R|*>|Promise<*>}
    */
-  listenTxUpdates(fromBlock: string = '0', blockIntervalCallback: Function) {
+  async listenTxUpdates(fromBlock: int = 0, blockIntervalCallback: Function) {
     log.debug('listenTxUpdates listening from block:', fromBlock)
-    fromBlock = new BN(fromBlock)
+    const curBlock = await this.wallet.eth.getBlockNumber()
+    fromBlock = new BN(fromBlock <= curBlock ? fromBlock : curBlock)
 
     this.subscribeToOTPLEvents(fromBlock, blockIntervalCallback)
     const contract = this.erc20Contract
@@ -236,7 +237,7 @@ export class GoodWallet {
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
           .catch(err => log.error('send event get/send receipt failed:', err))
 
-        if (event && blockIntervalCallback) {
+        if (event && event.blockNumber && blockIntervalCallback) {
           blockIntervalCallback({ toBlock: event.blockNumber, event })
         }
 
@@ -709,7 +710,7 @@ export class GoodWallet {
             error: (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
           }
         }
-        nativeBalance = await this.wallet.eth.getBalance(this.account)
+        nativeBalance = await this.balanceOfNative()
         return {
           ok: data.ok && nativeBalance > wei,
         }
@@ -719,6 +720,7 @@ export class GoodWallet {
         ok: false,
       }
     } catch (e) {
+      log.error('verifyHasGas:', e.message, e, { wei })
       return {
         ok: false,
         error: false,
@@ -771,7 +773,7 @@ export class GoodWallet {
           onConfirmation && onConfirmation(c)
         })
         .on('error', e => {
-          log.debug('got error', e)
+          log.error('sendTransaction error:', e.message, e, tx)
           rej(e)
           onError && onError(e)
         })

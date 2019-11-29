@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'gooddollar';
-    src: url('../font/gooddollar.svg?25332995#gooddollar') format('svg');
+    src: url('../font/gooddollar.svg?81011124#gooddollar') format('svg');
   }
 }
 */
@@ -112,8 +112,8 @@
 .icon-send:before { content: '\e836'; } /* '' */
 .icon-claim-filled:before { content: '\e837'; } /* '' */
 .icon-info:before { content: '\e839'; } /* '' */
-.icon-wallet:before { content: '\e83b'; } /* '' */
-.icon-marketplace:before { content: '\e83c'; } /* '' */
-.icon-rewards:before { content: '\e83d'; } /* '' */
+.icon-rewards:before { content: '\e83b'; } /* '' */
+.icon-wallet:before { content: '\e83c'; } /* '' */
+.icon-goodmarket:before { content: '\e83d'; } /* '' */
 .icon-privacy-policy:before { content: '\e89e'; } /* '' */
 .icon-terms-of-use:before { content: '\e89f'; } /* '' */

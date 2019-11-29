@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 class RewardsPage {
   get pageHeader() {
-    return cy.get('h1[role=heading]', { timeout: 10000 })
+    return cy.get('[dir="auto"]').eq(1)
   }
 
   get iframe() {

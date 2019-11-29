@@ -59,6 +59,9 @@ describe('Test case 3: Ability to change user data', () => {
   })
 
   it('User is able to edit input fields', () => {
+    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~//
+    // before running make sure current fields values correspond to defaults   //
+    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~//
     HomePage.optionsButton.click({ force: true })
     HomePage.options.eq(0).click({ force: true })
     ProfilePage.openEditProfileButton()
@@ -70,6 +73,7 @@ describe('Test case 3: Ability to change user data', () => {
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
     EditProfilePage.fillUserName('AndrewGolenkov1234')
+    EditProfilePage.saveButton.should('have.attr', 'data-focusable')
     EditProfilePage.saveButton.click()
     cy.contains('Save').should('not.be.visible')
     ProfilePage.openProfilePage()
@@ -89,7 +93,9 @@ describe('Test case 3: Ability to change user data', () => {
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
     EditProfilePage.fillUserName('AndrewLebowski1234')
+    EditProfilePage.saveButton.should('have.attr', 'data-focusable')
     EditProfilePage.saveButton.click()
+    cy.contains('Save').should('not.be.visible')
 
     //EditProfilePage.backButton.click();
     ProfilePage.pageHeader.should('contain', 'Profile')

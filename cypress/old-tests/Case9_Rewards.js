@@ -6,7 +6,7 @@ import RewardsPage from '../PageObjects/RewardsPage'
 import SignUpPage from '../PageObjects/SignUpPage'
 
 describe('Test case 9: Ability to see rewards and create wallet with token', () => {
-  it.skip('User is able to see create a wallet with w3 token and check hass_wallet status', () => {
+  it('User is able to see create a wallet with w3 token and check hass_wallet status', () => {
     StartPage.open()
     StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()
@@ -15,7 +15,7 @@ describe('Test case 9: Ability to see rewards and create wallet with token', () 
     LoginPage.mnemonicsInput.type(Cypress.env('mainAccountMnemonics'))
     LoginPage.recoverWalletButton.click()
     LoginPage.yayButton.click()
-    cy.wait(7000)
+    HomePage.waitForHomePageDisplayed()
 
     // ** Check rewards page ** //
     HomePage.rewardsButton.click()

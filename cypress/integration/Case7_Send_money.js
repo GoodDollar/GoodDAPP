@@ -29,8 +29,11 @@ describe('Test case 7: Ability to send money', () => {
     cy.wait(3000)
     SendMoneyPage.doneButton.should('be.visible')
     SendMoneyPage.doneButton.invoke('attr', 'data-url').then(sendMoneyUrl => {
+      var moneyLink = sendMoneyUrl
+      var pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
+      var validMoneyLnk = moneyLink.match(pattern)
+      cy.log(moneyLink.match(pattern))
       cy.wait(3000)
-
       //  SendMoneyPage.doneButton.click();
       cy.wait(4000)
       cy.clearLocalStorage()
@@ -43,12 +46,11 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.mnemonicsInput.type(Cypress.env('additionalAccountMnemonics'))
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
-      cy.wait(12000)
       HomePage.claimButton.should('be.visible')
       HomePage.moneyAmountDiv.invoke('text').then(moneyBefore => {
-        cy.wait(7000)
+        cy.contains('Claim').should('be.visible')
         cy.log('Money before sending: ' + moneyBefore)
-        cy.visit(sendMoneyUrl)
+        cy.visit(validMoneyLnk.toString())
         cy.wait(20000)
         cy.visit(Cypress.env('baseUrl') + '/AppNavigation/Dashboard/Home')
         cy.wait(7000)

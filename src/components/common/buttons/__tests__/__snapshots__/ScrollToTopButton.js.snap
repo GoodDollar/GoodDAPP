@@ -40,7 +40,7 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
         "msTouchAction": "manipulation",
         "overflowX": "hidden",
         "overflowY": "hidden",
-        "position": "fixed",
+        "position": "absolute",
         "right": "0px",
         "touchAction": "manipulation",
         "width": "74px",

@@ -112,6 +112,8 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
     try {
       fireEvent('SENDLINKSUMMARY_GENERATE_LINK_DEPOSIT', { amount, reason })
 
+      let txHash
+
       // Generate link deposit
       const generateLinkResponse = goodWallet.generateLink(
         amount,
@@ -144,7 +146,14 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
             })
           }
         },
-        { onError: userStorage.markWithErrorEvent }
+        {
+          onTransactionHash: _h => {
+            txHash = _h
+          },
+          onError: () => {
+            userStorage.markWithErrorEvent(txHash)
+          },
+        }
       )
       log.debug('generateLinkAndSend:', { generateLinkResponse })
       if (generateLinkResponse) {

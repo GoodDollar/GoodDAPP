@@ -58,10 +58,12 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
   const sendGD = () => {
     try {
       setLoading(true)
+      let txhash
       fireEvent('SENDQRSUMMARY_CLICK_CONFIRM', { to, amount, reason })
       goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
+          txhash = hash
 
           // Save transaction
           const transactionEvent: TransactionEvent = {
@@ -94,13 +96,8 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
         },
         onError: e => {
           log.error('Send TX failed:', e.message, e)
+          userStorage.markWithErrorEvent(txhash)
           fireEvent('SENDQRSUMMARY_TX_FAILED', { to, amount, reason, error: e.message })
-          showDialog({
-            visible: true,
-            title: 'Transaction Failed!',
-            message: `There was a problem sending G$. Try again`,
-            dismissText: 'OK',
-          })
         },
       })
     } catch (e) {

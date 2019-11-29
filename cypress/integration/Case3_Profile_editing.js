@@ -75,6 +75,7 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.fillUserName('AndrewGolenkov1234')
     EditProfilePage.saveButton.should('have.attr', 'data-focusable')
     EditProfilePage.saveButton.click()
+    cy.contains('Save').should('not.be.visible')
     ProfilePage.openProfilePage()
 
     //EditProfilePage.backButton.click();
@@ -94,6 +95,7 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.fillUserName('AndrewLebowski1234')
     EditProfilePage.saveButton.should('have.attr', 'data-focusable')
     EditProfilePage.saveButton.click()
+    cy.contains('Save').should('not.be.visible')
 
     //EditProfilePage.backButton.click();
     ProfilePage.pageHeader.should('contain', 'Profile')

@@ -159,7 +159,7 @@ exports[`Claim matches snapshot 1`] = `
               }
             }
           >
-            GET NOW
+            YOU CAN GET
           </div>
           <div
             className="css-text-901oao"
@@ -354,7 +354,7 @@ exports[`Claim matches snapshot 1`] = `
                 }
               }
             >
-              Claim now & spend it
+              Claim now & spend it on
             </div>
             <div
               className="css-text-901oao"
@@ -374,59 +374,8 @@ exports[`Claim matches snapshot 1`] = `
                 }
               }
             >
-              on things you care about
+              things you care about
             </div>
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          data-focusable={true}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
-              "cursor": "pointer",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
-              "touchAction": "manipulation",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
-            }
-          }
-          tabIndex="0"
-        >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            size={16}
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "700",
-                "lineHeight": "19px",
-                "marginTop": "15px",
-                "textAlign": "center",
-                "textDecoration": "underline",
-                "textTransform": "none",
-              }
-            }
-          >
-            Learn more
           </div>
         </div>
       </div>
@@ -517,99 +466,6 @@ exports[`Claim matches snapshot 1`] = `
             draggable={false}
             src="illustration.svg"
           />
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxFlex": 1,
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "center",
-              "WebkitFlexDirection": "row",
-              "WebkitFlexGrow": 1,
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "flexDirection": "row",
-              "flexGrow": 1,
-              "justifyContent": "center",
-              "marginBottom": "8px",
-              "marginLeft": "0px",
-              "marginRight": "0px",
-              "marginTop": "0px",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "center",
-              "msFlexPositive": 1,
-              "paddingBottom": "8px",
-            }
-          }
-        >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "display": "inline",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-                "width": "340px",
-              }
-            }
-          >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "700",
-                  "lineHeight": "22px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              0
-               
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "normal",
-                  "lineHeight": "22px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              good people have claimed today!
-            </span>
-          </div>
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -769,7 +625,7 @@ exports[`Claim matches snapshot 1`] = `
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "16px",
-                          "fontWeight": "normal",
+                          "fontWeight": "700",
                           "lineHeight": "22px",
                           "marginBottom": "8px",
                           "textAlign": "center",
@@ -778,7 +634,7 @@ exports[`Claim matches snapshot 1`] = `
                         }
                       }
                     >
-                      Your Next Daily Income:
+                      Your next daily claim:
                     </span>
                     <div
                       className="css-view-1dbjc4n"
@@ -1238,6 +1094,99 @@ exports[`Claim matches snapshot 1`] = `
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxFlex": 1,
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "center",
+              "WebkitFlexDirection": "row",
+              "WebkitFlexGrow": 1,
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
+              "borderBottomLeftRadius": "5px",
+              "borderBottomRightRadius": "5px",
+              "borderTopLeftRadius": "5px",
+              "borderTopRightRadius": "5px",
+              "flexDirection": "row",
+              "flexGrow": 1,
+              "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "8px",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "center",
+              "msFlexPositive": 1,
+              "paddingTop": "8px",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(66,69,74,1.00)",
+                "direction": "ltr",
+                "display": "inline",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "normal",
+                "lineHeight": "22px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "none",
+                "width": "340px",
+              }
+            }
+          >
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(66,69,74,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "700",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              0
+               
+            </span>
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(66,69,74,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              good people have claimed today!
+            </span>
           </div>
         </div>
       </div>

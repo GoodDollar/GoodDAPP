@@ -16,12 +16,12 @@ const DOLLAR_SIGN_SIZE = GOOD_SIGN_SIZE - DIFF_FACTOR
  * @param {Number} params.number
  * @returns {React.Node}
  */
-const BigGoodDollar = ({ number, formatter, ...props }: Props) => {
+const BigGoodDollar = ({ number, formatter, testID, ...props }: Props) => {
   const numberFormatter = formatter || weiToMask
   number = number === undefined ? '-.--' : numberFormatter(number)
 
   return (
-    <BigNumber number={number} {...props}>
+    <BigNumber number={number} {...props} testID={testID}>
       {props.unit ? null : <GDUnits {...props} />}
     </BigNumber>
   )

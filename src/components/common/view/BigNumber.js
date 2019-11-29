@@ -26,9 +26,10 @@ class BigNumber extends React.Component {
       style,
       color,
       styles,
+      testID,
     } = this.props
     return (
-      <View style={[styles.bigNumberWrapper, style]} testID="ammountValue_testValue">
+      <View style={[styles.bigNumberWrapper, style]} testID={testID}>
         <Text
           fontFamily="slab"
           fontSize={36}

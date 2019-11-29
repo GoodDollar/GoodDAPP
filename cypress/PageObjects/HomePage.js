@@ -33,8 +33,12 @@ class HomePage {
   }
 
   get moneyAmountDiv() {
-    return cy.get('[dir="auto"]', { timeout: 10000 }).eq(4)
+    return cy.get('[dir="auto"]', { timeout: 10000 }).eq(5)
   }
+
+  // get moneyAmountDiv() {
+  //   return cy.get('[data-testid=amount_value]', { timeout: 10000 })
+  // }
 
   get welcomeFeed() {
     return cy.contains('Start claiming free G$')

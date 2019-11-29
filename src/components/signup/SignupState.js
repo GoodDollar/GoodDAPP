@@ -35,8 +35,8 @@ const SignupWizardNavigator = createSwitchNavigator(
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,
-    MagicLinkInfo,
     SignupCompleted,
+    MagicLinkInfo,
   },
   navigationConfig
 )
@@ -47,6 +47,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
   const _w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User', {})
+  const w3Token = _get(navigation, 'state.routes[1].params.w3Token')
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
 
   const initialState: SignupState = {
@@ -60,14 +61,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     jwt: '',
     skipEmail: !!w3UserFromProps.email,
     skipEmailConfirmation: !!w3UserFromProps.email,
+    w3Token,
   }
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
-  const [finishedPromise, setFinishedPromise] = useState(undefined)
   const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
+  const [finishedPromise, setFinishedPromise] = useState(undefined)
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
 
@@ -121,36 +123,35 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       if (!w3Token) {
         return
       }
-      store.set('loadingIndicator')({ loading: true })
 
       let w3User = w3UserFromProps
       log.info('from props:', { w3User })
-      if (w3UserFromProps.email === undefined) {
+      if (w3User.email == undefined) {
+        store.set('loadingIndicator')({ loading: true })
         await API.ready
 
         try {
           const w3userData = await API.getUserFromW3ByToken(w3Token)
 
           w3User = w3userData.data
+          log.info({ w3User })
+
+          const userScreenData = {
+            email: w3User.email || '',
+            fullName: w3User.full_name || '',
+            w3Token,
+            skipEmail: !!w3User.email,
+            skipEmailConfirmation: !!w3User.email,
+          }
+          setState({
+            ...state,
+            ...userScreenData,
+          })
         } catch (e) {
           log.warn('could not get user data from w3', w3Token)
           return
         }
       }
-
-      log.info({ w3User })
-
-      const userScreenData = {
-        email: w3User.email || '',
-        fullName: w3User.full_name || '',
-        w3Token,
-        skipEmail: !!w3User.email,
-        skipEmailConfirmation: !!w3User.email,
-      }
-      setState({
-        ...state,
-        ...userScreenData,
-      })
     } catch (e) {
       log.error('unexpected error in checkWeb3Token', e.message, e, { w3Token })
     } finally {
@@ -158,27 +159,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
 
-  useEffect(() => {
-    // don't allow to start sign up flow not from begining except when w3Token provided
-    AsyncStorage.getItem('GD_web3Token').then(token => {
-      log.debug('redirecting to start, got index:', navigation.state.index)
-
-      if (token && navigation.state.index > 1) {
-        setLoading(true)
-        return navigateWithFocus(navigation.state.routes[1].key)
-      }
-
-      if (!token && navigation.state.index > 0) {
-        setLoading(true)
-        return navigateWithFocus(navigation.state.routes[0].key)
-      }
-    })
-
+  const onMount = async () => {
     //get user country code for phone
-    getCountryCode()
-
     //read user data from w3 if needed
-    checkWeb3Token()
+    await Promise.all([getCountryCode(), checkWeb3Token()])
 
     //lazy login in background
     const ready = (async () => {
@@ -207,6 +191,24 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     })()
 
     setReady(ready)
+  }
+  useEffect(() => {
+    // don't allow to start sign up flow not from begining except when w3Token provided
+    AsyncStorage.getItem('GD_web3Token').then(token => {
+      log.debug('redirecting to start, got index:', navigation.state.index)
+
+      if (token && navigation.state.index > 1) {
+        setLoading(true)
+        return navigateWithFocus(navigation.state.routes[1].key)
+      }
+
+      if (!token && navigation.state.index > 0) {
+        setLoading(true)
+        return navigateWithFocus(navigation.state.routes[0].key)
+      }
+    })
+
+    onMount()
   }, [])
 
   const finishRegistration = async () => {
@@ -270,9 +272,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
             log.error('failed updateW3UserWithWallet', e.message, e)
           ),
-        API.sendMagicLinkByEmail(userStorage.getMagicLink()).catch(e =>
-          log.error('failed sendMagicLinkByEmail', e.message, e)
-        ),
       ])
 
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
@@ -280,6 +279,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       AsyncStorage.removeItem('GD_web3Token')
 
       log.debug('New user created')
+      setLoading(false)
       return true
     } catch (e) {
       log.error('New user failure', e.message, e)
@@ -303,6 +303,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     return nextRoute
   }
 
+  function getCurrentRoute(routes, routeIndex) {
+    return routes[routeIndex]
+  }
+
   function getPrevRoute(routes, routeIndex, state) {
     let prevRoute = routes[routeIndex - 1]
 
@@ -320,16 +324,20 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     log.info('signup data:', { data })
 
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
+    let currentRoute = getCurrentRoute(navigation.state.routes, navigation.state.index)
 
     const newState = { ...state, ...data }
     setState(newState)
     log.info('signup data:', { data, nextRoute, newState })
 
-    if (nextRoute && nextRoute.key === 'SMS') {
+    if (currentRoute.key === 'MagicLinkInfo') {
+      //this will cause a re-render and move user to the dashboard route
+      store.set('isLoggedIn')(true)
+    } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
         //verify web3 email here
-        if (state.w3Token && state.email) {
-          await verifyW3Email(state.email, state.w3Token)
+        if (newState.w3Token && newState.email) {
+          await verifyW3Email(newState.email, newState.w3Token)
         }
 
         let { data } = await API.sendOTP(newState)
@@ -345,7 +353,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
-        if (state.w3Token) {
+        if (newState.w3Token) {
           // Skip EmailConfirmation screen
           nextRoute = navigation.state.routes[navigation.state.index + 2]
 
@@ -379,16 +387,26 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       } finally {
         setLoading(false)
       }
+    } else if (nextRoute && nextRoute.key === 'MagicLinkInfo') {
+      setLoading(true)
+      let ok
+      if (createError) {
+        ok = await finishRegistration()
+      } else {
+        ok = await finishedPromise
+      }
+
+      log.debug('user registration synced and completed', { ok })
+
+      if (ok) {
+        const { userStorage } = await ready
+        API.sendMagicLinkByEmail(userStorage.getMagicLink())
+          .then(r => log.info('magiclink sent'))
+          .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
+        return navigateWithFocus(nextRoute.key)
+      }
     } else if (nextRoute) {
       return navigateWithFocus(nextRoute.key)
-    }
-
-    const ok = await finishedPromise
-    log.debug('user registration synced and completed', { ok })
-
-    //tell App.js we are done here so RouterSelector switches router
-    if (ok) {
-      store.set('isLoggedIn')(true)
     }
   }
 
@@ -412,7 +430,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     if (curRoute && curRoute.key === 'MagicLinkInfo') {
       setShowNavBarGoBackButton(false)
     }
-
     if (curRoute && curRoute.key === 'SignupCompleted') {
       const finishedPromise = finishRegistration()
       setFinishedPromise(finishedPromise)

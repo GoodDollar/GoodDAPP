@@ -24,7 +24,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
-  const isSmallDevice = isMobile && getScreenWidth().get('window').width < 353
+  const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
 
   if (itemType === 'empty') {

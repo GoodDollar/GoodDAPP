@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
@@ -17,19 +17,21 @@ log.debug({ Config })
 let SignupRouter = React.lazy(() =>
   initAnalytics()
     .then(_ =>
-      Promise.all([import(/* webpackChunkName: "signuprouter" */ './SignupRouter'), recoverByMagicLink(), delay(2000)])
+      Promise.all([import(/* webpackChunkName: "signuprouter" */ './SignupRouter'), handleLinks(), delay(2000)])
     )
     .then(r => r[0])
 )
 
 /**
- * Recover user by MagicLink
+ * handle in-app links for unsigned users such as magiclink and paymentlinks
+ * magiclink proceed to signin other links we keep and pop once user is logged in
  *
  * @returns {Promise<boolean>}
  */
-const recoverByMagicLink = async () => {
+const handleLinks = async () => {
+  const params = extractQueryParams(window.location.href)
   try {
-    const { magiclink } = extractQueryParams(window.location.href)
+    const { magiclink } = params
     if (magiclink) {
       let userNameAndPWD = Buffer.from(magiclink, 'base64').toString('ascii')
       let userNameAndPWDArray = userNameAndPWD.split('+')
@@ -50,10 +52,25 @@ const recoverByMagicLink = async () => {
           window.location = '/'
         }
       }
+    } else {
+      if (params.web3) {
+        await AsyncStorage.setItem('GD_web3Token', params.web3)
+        delete params.web3
+      }
+      const path = window.location.pathname.slice(1)
+      if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
+        const dest = { path, params }
+        log.debug('Saving destination url', dest)
+        await AsyncStorage.setItem(DESTINATION_PATH, JSON.stringify(dest))
+      }
     }
   } catch (e) {
-    log.error('Magiclink signin failed', e.message, e)
-    fireEvent(SIGNIN_FAILED)
+    if (params.magiclink) {
+      log.error('Magiclink signin failed', e.message, e)
+      fireEvent(SIGNIN_FAILED)
+    } else {
+      log.error('parsing in-app link failed', e.message, e, params)
+    }
   }
 }
 
@@ -78,23 +95,6 @@ const RouterSelector = () => {
   log.debug('RouterSelector Rendered', { isLoggedIn })
   const Router = isLoggedIn ? AppRouter : SignupRouter
 
-  //save "in-app" links for non logged in to be poped later once logged in
-  useEffect(() => {
-    if (isLoggedIn === true) {
-      return
-    }
-    const params = extractQueryParams(window.location.href)
-
-    if (params.web3) {
-      AsyncStorage.setItem('GD_web3Token', params.web3)
-    }
-    const path = window.location.pathname.slice(1)
-    if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
-      const dest = { path, params }
-      log.debug('Saving destination url', dest)
-      AsyncStorage.setItem(DESTINATION_PATH, JSON.stringify(dest))
-    }
-  }, [])
   return (
     <React.Suspense fallback={<Splash />}>
       <Router />

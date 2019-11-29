@@ -21,7 +21,7 @@ class EditProfilePage {
   }
 
   get saveButton() {
-    return cy.get('.css-18t94o4 > .r-1777fci')
+    return cy.get('[role="button"]').eq(2)
   }
 
   get pageHeader() {

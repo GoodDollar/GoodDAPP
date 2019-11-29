@@ -16,7 +16,7 @@ const ModalWrapper = (props: any) => {
     styles,
     children,
     onClose,
-    showCloseButtons,
+    showCloseButtons = true,
     leftBorderColor,
     showJaggedEdge = false,
     fullHeight = false,

@@ -14,7 +14,7 @@ import CameraButton from './CameraButton'
 const log = logger.child({ from: 'ViewAvatar' })
 const TITLE = 'Your Profile'
 
-const ViewAvatar = props => {
+const ViewOrUploadAvatar = props => {
   const { styles } = props
   const store = GDStore.useStore()
   const profile = store.get('profile')
@@ -23,12 +23,12 @@ const ViewAvatar = props => {
 
   const handleCameraPress = event => {
     event.preventDefault()
-    props.screenProps.push('EditAvatar')
+    props.navigation.navigate('EditAvatar')
   }
 
   const handleClosePress = event => {
     event.preventDefault()
-    wrappedUserStorage.setProfileField('avatar', null, 'public').catch(e => {
+    wrappedUserStorage.removeAvatar().catch(e => {
       showErrorDialog('Could not delete image. Please try again.')
       log.error('delete image failed:', e.message, e)
     })
@@ -36,15 +36,15 @@ const ViewAvatar = props => {
 
   const handleAddAvatar = avatar => {
     fireEvent(PROFILE_IMAGE)
-    wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => {
+    wrappedUserStorage.setAvatar(avatar).catch(e => {
       showErrorDialog('Could not save image. Please try again.')
       log.error('save image failed:', e.message, e)
     })
-    props.screenProps.push('EditAvatar')
+    props.navigation.navigate('EditAvatar')
   }
 
   const goToProfile = () => {
-    props.screenProps.push('EditProfile')
+    props.navigation.navigate('EditProfile')
   }
 
   return (
@@ -79,7 +79,7 @@ const ViewAvatar = props => {
   )
 }
 
-ViewAvatar.navigationOptions = {
+ViewOrUploadAvatar.navigationOptions = {
   title: TITLE,
 }
 
@@ -104,4 +104,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(ViewAvatar)
+export default withStyles(getStylesFromProps)(ViewOrUploadAvatar)

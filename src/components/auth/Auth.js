@@ -33,6 +33,8 @@ const log = logger.child({ from: 'Auth' })
 class Auth extends React.Component<Props> {
   state = {
     asGuest: false,
+    withW3Token: false,
+    w3User: null,
   }
 
   async componentWillMount() {
@@ -57,6 +59,7 @@ class Auth extends React.Component<Props> {
     if (web3Token) {
       this.setState({
         asGuest: true,
+        withW3Token: true,
       })
 
       let behaviour
@@ -71,6 +74,7 @@ class Auth extends React.Component<Props> {
         } else {
           this.setState({
             w3User,
+            w3Token: web3Token,
           })
         }
       } catch (e) {
@@ -95,19 +99,23 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignUp = async () => {
-    const { w3User } = this.state
-    const w3Token = await AsyncStorage.getItem('GD_web3Token')
+    const { w3User, w3Token } = this.state
     const redirectTo = w3Token ? 'Phone' : 'Signup'
-
+    log.debug({ w3User, w3Token })
     try {
-      indexedDB.deleteDatabase('radata')
+      const req = new Promise((res, rej) => {
+        const del = indexedDB.deleteDatabase('radata')
+        del.onsuccess = res
+        del.onerror = rej
+      })
+      await req
 
       log.info('indexedDb successfully cleared')
     } catch (e) {
       log.error('Failed to clear indexedDb', e.message, e)
     }
 
-    this.props.navigation.navigate(redirectTo, { w3User })
+    this.props.navigation.navigate(redirectTo, { w3User, w3Token })
 
     //Hack to get keyboard up on mobile need focus from user event such as click
     setTimeout(() => {
@@ -138,7 +146,7 @@ class Auth extends React.Component<Props> {
 
   render() {
     const { styles } = this.props
-    const { asGuest } = this.state
+    const { asGuest, withW3Token } = this.state
     const firstButtonHandler = asGuest ? this.handleSignUp : this.goToW3Site
     const firstButtonText = asGuest ? (
       'Create a wallet'
@@ -193,14 +201,16 @@ class Auth extends React.Component<Props> {
           >
             {firstButtonText}
           </CustomButton>
-          <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
-            <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
-              ALREADY REGISTERED?
-              <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
-                {' SIGN IN'}
+          {!withW3Token && (
+            <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
+              <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
+                ALREADY REGISTERED?
+                <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
+                  {' SIGN IN'}
+                </Text>
               </Text>
-            </Text>
-          </PushButton>
+            </PushButton>
+          )}
         </Section>
       </Wrapper>
     )

@@ -20,6 +20,12 @@ const getEventSettingsByType = (theme, type) => {
       color: theme.colors.lightGreen,
       name: 'bonus-reward',
     },
+    claiming: {
+      color: theme.colors.primary,
+      name: 'info',
+      withoutAmount: true,
+      withoutAvatar: true,
+    },
     send: {
       actionSymbol: '-',
       color: theme.colors.red,
@@ -48,11 +54,26 @@ const getEventSettingsByType = (theme, type) => {
     receive: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
-      name: 'claim-filled',
+      name: 'receive-filled',
     },
     withdraw: {
       actionSymbol: '+',
       color: theme.colors.green,
+      name: 'receive-filled',
+    },
+    withdrawerror: {
+      color: theme.colors.primary,
+      name: 'info',
+      withoutAmount: true,
+    },
+    withdrawcompleted: {
+      actionSymbol: '+',
+      color: theme.colors.green,
+      name: 'receive-filled',
+    },
+    withdrawpending: {
+      actionSymbol: '+',
+      color: theme.colors.orange,
       name: 'receive-filled',
     },
     message: {

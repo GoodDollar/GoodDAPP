@@ -101,7 +101,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       fireEvent(RECOVER_FAILED, { unexpected: true })
       log.error('recover mnemonics failed', e.message, e)
       saveMnemonics(prevMnemonics)
-      showSupportDialog(showErrorDialog, hideDialog, screenProps)
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate)
     } finally {
       setRecovering(false)
     }

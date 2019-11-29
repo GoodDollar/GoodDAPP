@@ -15,6 +15,7 @@ import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent } from '../../lib/analytics/analytics'
+import ErrorMessages from '../../lib/constants/errorMessages'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -283,7 +284,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       return true
     } catch (e) {
       log.error('New user failure', e.message, e)
-      showSupportDialog(showErrorDialog, hideDialog, screenProps)
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate)
 
       // showErrorDialog('Something went on our side. Please try again')
       setCreateError(true)
@@ -342,7 +343,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
-          return showErrorDialog('Sending mobile verification code failed', data.error)
+          return showSupportDialog(
+            showErrorDialog,
+            hideDialog,
+            navigation.navigate,
+            ErrorMessages[data.error] || data.error
+          )
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {

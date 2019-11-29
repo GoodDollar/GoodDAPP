@@ -40,7 +40,10 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
     ReceiveMoneyPage.shareLinkButton.click()
     cy.wait(5000)
     ReceiveMoneyPage.shareLinkButton.invoke('attr', 'data-url').then(reseiveMoneyUrl => {
-      cy.log(reseiveMoneyUrl)
+      var moneyLink = reseiveMoneyUrl
+      var pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
+      var validMoneyLnk = moneyLink.match(pattern)
+      cy.log(validMoneyLnk)
       cy.wait(3000)
       ReceiveMoneyPage.doneButton.click()
       HomePage.claimButton.should('be.visible')
@@ -57,7 +60,7 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
       cy.wait(20000)
       HomePage.claimButton.should('be.visible')
       HomePage.moneyAmountDiv.invoke('text').then(moneyBeforeSending => {
-        cy.visit(reseiveMoneyUrl)
+        cy.visit(validMoneyLnk.toString())
         ReceiveMoneyPage.confirmWindowButton.should('be.visible')
         ReceiveMoneyPage.confirmWindowButton.click()
         cy.wait(8000)

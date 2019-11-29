@@ -32,7 +32,6 @@ describe('Test case 7: Ability to send money', () => {
       var moneyLink = sendMoneyUrl
       var pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
       var validMoneyLnk = moneyLink.match(pattern)
-      cy.log(moneyLink.match(pattern))
       cy.wait(3000)
       //  SendMoneyPage.doneButton.click();
       cy.wait(4000)

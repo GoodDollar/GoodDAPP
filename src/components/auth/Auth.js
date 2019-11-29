@@ -74,6 +74,7 @@ class Auth extends React.Component<Props> {
         } else {
           this.setState({
             w3User,
+            w3Token: web3Token,
           })
         }
       } catch (e) {
@@ -98,24 +99,23 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignUp = async () => {
-    const { w3User } = this.state
-    const w3Token = await AsyncStorage.getItem('GD_web3Token')
+    const { w3User, w3Token } = this.state
     const redirectTo = w3Token ? 'Phone' : 'Signup'
-
+    log.debug({ w3User, w3Token })
     try {
       const req = new Promise((res, rej) => {
         const del = indexedDB.deleteDatabase('radata')
         del.onsuccess = res
         del.onerror = rej
       })
-      await Promise.all([req, AsyncStorage.clear()])
+      await req
 
       log.info('indexedDb successfully cleared')
     } catch (e) {
       log.error('Failed to clear indexedDb', e.message, e)
     }
 
-    this.props.navigation.navigate(redirectTo, { w3User })
+    this.props.navigation.navigate(redirectTo, { w3User, w3Token })
 
     //Hack to get keyboard up on mobile need focus from user event such as click
     setTimeout(() => {

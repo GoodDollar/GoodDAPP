@@ -47,6 +47,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
   const _w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User', {})
+  const w3Token = _get(navigation, 'state.routes[1].params.w3Token')
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
 
   const initialState: SignupState = {
@@ -60,6 +61,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     jwt: '',
     skipEmail: !!w3UserFromProps.email,
     skipEmailConfirmation: !!w3UserFromProps.email,
+    w3Token,
   }
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
@@ -334,8 +336,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
         //verify web3 email here
-        if (state.w3Token && state.email) {
-          await verifyW3Email(state.email, state.w3Token)
+        if (newState.w3Token && newState.email) {
+          await verifyW3Email(newState.email, newState.w3Token)
         }
 
         let { data } = await API.sendOTP(newState)
@@ -351,7 +353,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
-        if (state.w3Token) {
+        if (newState.w3Token) {
           // Skip EmailConfirmation screen
           nextRoute = navigation.state.routes[navigation.state.index + 2]
 

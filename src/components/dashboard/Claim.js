@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, TouchableOpacity, View } from 'react-native'
+import { AsyncStorage, Image, View } from 'react-native'
 import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -15,12 +15,9 @@ import { Wrapper } from '../common'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
 import LoadingIcon from '../common/modal/LoadingIcon'
-import Icon from '../common/view/Icon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
-import { theme } from '../theme/styles'
-import Config from '../../config/config'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
@@ -40,62 +37,6 @@ type ClaimState = {
 const log = logger.child({ from: 'Claim' })
 
 Image.prefetch(illustration)
-
-const learnMoreStyles = ({ theme }) => ({
-  titleContainer: {
-    borderTopWidth: 2,
-    borderTopStyle: 'solid',
-    borderTopColor: theme.colors.primary,
-    borderBottomWidth: 2,
-    borderBottomStyle: 'solid',
-    borderBottomColor: theme.colors.primary,
-    paddingVertical: getDesignRelativeHeight(20),
-    marginVertical: theme.sizes.default,
-    marginBottom: getDesignRelativeHeight(18),
-  },
-  image: {
-    textAlign: 'center',
-    marginBottom: getDesignRelativeHeight(8),
-  },
-  imageContainer: {
-    paddingHorizontal: getDesignRelativeWidth(5),
-    paddingVertical: getDesignRelativeHeight(20),
-  },
-  mainText: {
-    letterSpacing: 0.28,
-  },
-})
-
-const LearnMoreDialog = withStyles(learnMoreStyles)(({ styles }) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Icon name="info" size={80} style={styles.image} />
-        <Text
-          fontSize={28}
-          lineHeight={37}
-          fontFamily="Roboto"
-          fontWeight="bold"
-          color="primary"
-          style={styles.mainText}
-        >
-          {'DID YOU KNOW?'}
-        </Text>
-      </View>
-      <View style={styles.titleContainer}>
-        <Text textAlign="left" fontSize={22} fontWeight="medium" fontFamily="Roboto" lineHeight={25} color="darkGrey">
-          {'Claiming Daily GoodDollars'}
-        </Text>
-      </View>
-      <Text textAlign="left" fontFamily="Roboto" color="darkGrey" fontSize={14} lineHeight={20}>
-        {'GoodDollar gives every active member a small daily income.'}
-      </Text>
-      <Text textAlign="left" fontFamily="Roboto" color="darkGrey" fontSize={14} lineHeight={20}>
-        {'Sign in every day, collect GoodDollars and use them to pay for goods and services.'}
-      </Text>
-    </View>
-  )
-})
 
 const Claim = props => {
   const { screenProps, styles }: ClaimProps = props
@@ -255,29 +196,6 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  const showLearnMoreDialog = () => {
-    showDialog({
-      content: <LearnMoreDialog />,
-      buttons: [
-        {
-          text: 'READ MORE',
-          mode: 'text',
-          color: theme.colors.primary,
-          style: styles.learnMoreDialogReadMoreButton,
-          onPress: dismiss => {
-            window.location = Config.web3SiteUrlEconomyPage
-            dismiss()
-          },
-        },
-        {
-          text: 'OK',
-          style: styles.learnMoreDialogOkButton,
-          onPress: dismiss => dismiss(),
-        },
-      ],
-    })
-  }
-
   const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
   return (
     <Wrapper>
@@ -285,7 +203,7 @@ const Claim = props => {
         <Section.Stack style={styles.mainText}>
           <View style={styles.mainTextBorder}>
             <Section.Text color="primary" size={16} fontFamily="Roboto" lineHeight={19} style={styles.mainTextToast}>
-              {'GET NOW'}
+              {'YOU CAN GET'}
             </Section.Text>
             <Section.Text style={styles.mainTextBigMarginBottom}>
               <BigGoodDollar
@@ -306,35 +224,16 @@ const Claim = props => {
           <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.subMainText]}>
             <View style={styles.bottomContainer}>
               <Text color="white" fontSize={16} fontFamily="Roboto">
-                {'Claim now & spend it'}
+                {'Claim now & spend it on'}
               </Text>
               <Text color="white" fontFamily="Roboto" size={16}>
-                {`on things you care about`}
+                {`things you care about`}
               </Text>
             </View>
           </Section.Row>
-          <TouchableOpacity onPress={showLearnMoreDialog}>
-            <Section.Text
-              color="white"
-              fontFamily="Roboto"
-              fontWeight="bold"
-              lineHeight={19}
-              size={16}
-              style={styles.learnMore}
-              textDecorationLine="underline"
-            >
-              {'Learn more'}
-            </Section.Text>
-          </TouchableOpacity>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
           <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
-          <Section.Row style={styles.extraInfoStats}>
-            <Text style={styles.extraInfoWrapper}>
-              <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
-              <Section.Text>good people have claimed today!</Section.Text>
-            </Text>
-          </Section.Row>
           {!isCitizen && (
             <ClaimButton
               isCitizen={true}
@@ -352,6 +251,12 @@ const Claim = props => {
             loading={loading}
             onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
           />
+          <Section.Row style={styles.extraInfoStats}>
+            <Text style={styles.extraInfoWrapper}>
+              <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
+              <Section.Text>good people have claimed today!</Section.Text>
+            </Text>
+          </Section.Row>
         </Section.Stack>
       </Section>
     </Wrapper>
@@ -359,18 +264,6 @@ const Claim = props => {
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const defaultMargins = {
-    marginHorizontal: 0,
-    marginTop: 0,
-    marginBottom: theme.sizes.default,
-  }
-
-  const defaultStatsBlock = {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: theme.sizes.borderRadius,
-  }
-
   return {
     mainContainer: {
       backgroundColor: 'transparent',
@@ -455,9 +348,13 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: getDesignRelativeHeight(85),
     },
     extraInfoStats: {
-      ...defaultStatsBlock,
-      ...defaultMargins,
-      paddingBottom: 8,
+      marginHorizontal: 0,
+      marginBottom: 0,
+      marginTop: theme.sizes.default,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: theme.sizes.borderRadius,
+      paddingTop: 8,
       flexGrow: 1,
     },
     extraInfoWrapper: {

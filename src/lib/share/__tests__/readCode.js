@@ -57,4 +57,15 @@ describe('readCode', () => {
     // Then
     expect(decoded).toBeNull()
   })
+
+  it(`should return null if MNID broken format`, () => {
+    // Given
+    const code = '0x90f8bf6a479f|122'
+
+    // When
+    const decoded = readCode(code)
+
+    // Then
+    expect(decoded).toBeNull()
+  })
 })

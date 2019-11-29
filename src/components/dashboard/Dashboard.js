@@ -1,6 +1,5 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import isBase64 from 'is-base64'
 import { Animated, AppState, Dimensions, Easing } from 'react-native'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
@@ -367,15 +366,17 @@ const Dashboard = props => {
     let paymentParams
 
     try {
-      if (isBase64(decodeURI(paymentCode), { allowEmpty: false, paddingRequired: false })) {
-        paymentParams = Buffer.from(paymentCode, 'base64').toString()
+      try {
+        paymentParams = Buffer.from(decodeURI(paymentCode), 'base64').toString()
         paymentParams = JSON.parse(paymentParams)
-      } else {
+      } catch (e) {
+        log.info('uses old format', { paymentCode, reason })
         paymentParams = {
           paymentCode: paymentCode ? decodeURI(paymentCode) : null,
           reason: reason ? decodeURI(reason) : null,
         }
       }
+
       showDialog({
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,

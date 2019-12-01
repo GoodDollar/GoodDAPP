@@ -29,28 +29,47 @@ export const useConnectionWeb3 = () => {
   const wallet = store.get('wallet')
   const isWeb3Connection = () => {
     if (wallet) {
+      log.debug('isWeb3Connection', isConnection)
       if (!isFirstCheckWeb3) {
         isFirstCheckWeb3 = true
       }
       if (wallet.wallet.currentProvider.connected) {
+        bindEvents()
         setIsConnection(true)
-        store.set('web3ConnectionStatus')(true)
       } else {
+        //if not connected and not reconnecting than try to force reconnect
+        if (wallet.wallet.currentProvider.reconnecting === false) {
+          wallet.wallet.currentProvider.reconnect()
+        }
         setIsConnection(false)
-        store.set('web3ConnectionStatus')(false)
-        wallet.wallet.currentProvider.reconnect()
         setTimeout(isWeb3Connection, 500)
       }
     }
   }
+
+  const bindEvents = () => {
+    log.debug('web3 binding listeners')
+    wallet.wallet.currentProvider
+      .on('close', () => {
+        log.debug('web3 close')
+        isWeb3Connection()
+      })
+      .on('error', () => {
+        log.debug('web3 error')
+        isWeb3Connection()
+      })
+  }
+
   useEffect(() => {
-    AppState.addEventListener('change', nextAppState => {
-      if (nextAppState === 'active') {
+    if (wallet) {
+      AppState.addEventListener('change', nextAppState => {
+        if (nextAppState === 'active') {
+          isWeb3Connection()
+        }
+      })
+      if (!isFirstCheckWeb3) {
         isWeb3Connection()
       }
-    })
-    if (!isFirstCheckWeb3) {
-      isWeb3Connection()
     }
   }, [wallet])
 
@@ -61,7 +80,7 @@ export const useConnectionGun = () => {
   const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const userStorage = store.get('userStorage')
-  const isGun3Connection = () => {
+  const isGunConnection = () => {
     if (userStorage) {
       if (!isFirstCheckGun) {
         isFirstCheckGun = true
@@ -69,23 +88,43 @@ export const useConnectionGun = () => {
 
       const instanceGun = userStorage.gun._
       const wire = instanceGun.opt.peers[Config.gunPublicUrl].wire
+      log.debug('gun wirestate:', wire)
       if (wire.readyState === wire.OPEN) {
         setIsConnection(true)
+        bindEvents()
       } else {
         setIsConnection(false)
-        setTimeout(isGun3Connection, 500)
+        setTimeout(isGunConnection, 500)
       }
     }
   }
 
-  useEffect(() => {
-    AppState.addEventListener('change', nextAppState => {
-      if (nextAppState === 'active') {
-        isGun3Connection()
-      }
+  const bindEvents = () => {
+    log.debug('gun binding listeners')
+    const instanceGun = userStorage.gun._
+    const wire = instanceGun.opt.peers[Config.gunPublicUrl].wire
+
+    //guns reconnect automatically so no action required on our side
+    wire.addEventListener('close', () => {
+      log.debug('gun close')
+      isGunConnection()
     })
-    if (!isFirstCheckGun) {
-      isGun3Connection()
+    wire.addEventListener('error', () => {
+      log.debug('gun error')
+      isGunConnection()
+    })
+  }
+
+  useEffect(() => {
+    if (userStorage) {
+      AppState.addEventListener('change', nextAppState => {
+        if (nextAppState === 'active') {
+          isGunConnection()
+        }
+      })
+      if (!isFirstCheckGun) {
+        isGunConnection()
+      }
     }
   }, [userStorage])
 

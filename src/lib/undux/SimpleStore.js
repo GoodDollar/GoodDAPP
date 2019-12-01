@@ -58,7 +58,6 @@ export type State = {
   addWebApp: {
     show: boolean,
   },
-  web3ConnectionStatus: any,
 }
 
 /**
@@ -89,7 +88,6 @@ const initialState: State = {
   },
   wallet: null,
   userStorage: null,
-  web3ConnectionStatus: null,
 }
 
 /**

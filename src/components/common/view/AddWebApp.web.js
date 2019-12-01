@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
@@ -103,32 +103,10 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
 })
 
 const AddWebApp = props => {
-  const [installPrompt, setInstallPrompt] = useState()
-  const [lastCheck, setLastCheck] = useState()
-  const [nextCheck, setNextCheck] = useState()
-  const [skipCount, setSkipCount] = useState(0)
-  const [lastClaim, setLastClaim] = useState()
-  const [dialogShown, setDialogShown] = useState()
-  const [iOSAdded, setIOSAdded] = useState(false)
-
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
-
-  useEffect(() => {
-    AsyncStorage.getItem('GD_AddWebAppLastCheck').then(setLastCheck)
-    AsyncStorage.getItem('GD_AddWebAppNextCheck').then(setNextCheck)
-    AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc) || 0))
-    AsyncStorage.getItem('GD_AddWebAppLastClaim').then(setLastClaim)
-    AsyncStorage.getItem('GD_AddWebAppIOSAdded').then(setIOSAdded)
-
-    log.debug('useEffect, registering beforeinstallprompt')
-
-    const installPrompt = store.get('installPrompt')
-    if (installPrompt) {
-      setInstallPrompt(installPrompt)
-    }
-  }, [])
+  const installPrompt = store.get('installPrompt')
 
   const showExplanationDialog = async () => {
     const magicLinkCode = userStorage.getMagicLink()
@@ -148,16 +126,19 @@ const AddWebApp = props => {
     })
   }
 
-  const handleLater = () => {
-    const newSkipCount = Number(skipCount)
-    const nextCheckInDays = Math.pow(2, skipCount)
+  const handleLater = async () => {
+    const skipCount = await AsyncStorage.getItem('GD_AddWebAppSkipCount')
+    const newSkipCount = Number(skipCount) || 0
+    const nextCheckInDays = Math.pow(2, newSkipCount)
     const nextCheckDate = moment()
       .add(nextCheckInDays, 'days')
       .toDate()
 
-    AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount + 1)
-    AsyncStorage.setItem('GD_AddWebAppLastCheck', new Date().toISOString())
-    AsyncStorage.setItem('GD_AddWebAppNextCheck', nextCheckDate.toISOString())
+    await Promise.all([
+      AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount + 1),
+      AsyncStorage.setItem('GD_AddWebAppLastCheck', new Date().toISOString()),
+      AsyncStorage.setItem('GD_AddWebAppNextCheck', nextCheckDate.toISOString()),
+    ])
   }
 
   const installApp = async () => {
@@ -172,7 +153,7 @@ const AddWebApp = props => {
     }
 
     // Remove the event reference
-    setInstallPrompt(null)
+    store.set('installPrompt')(null)
   }
 
   const handleInstallApp = () => {
@@ -184,7 +165,9 @@ const AddWebApp = props => {
     }
   }
 
-  const showInitialDialog = isReminder => {
+  const showInitialDialog = async isReminder => {
+    const skipCount = await AsyncStorage.getItem('GD_AddWebAppSkipCount')
+
     showDialog({
       content: <InitialDialog showDesc={!isReminder} />,
       buttons: [
@@ -210,14 +193,18 @@ const AddWebApp = props => {
     })
   }
 
-  useEffect(() => {
-    if (dialogShown) {
-      showInitialDialog()
-    }
-  }, [dialogShown])
-
-  useEffect(() => {
+  const checkShowDialog = async () => {
+    const [lastCheck, nextCheck, skipCount, lastClaim, iOSAdded] = await Promise.all([
+      AsyncStorage.getItem('GD_AddWebAppLastCheck'),
+      AsyncStorage.getItem('GD_AddWebAppNextCheck'),
+      AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => Number(sc) || 0),
+      AsyncStorage.getItem('GD_AddWebAppLastClaim'),
+      AsyncStorage.getItem('GD_AddWebAppIOSAdded'),
+    ])
     log.debug({ installPrompt, show, skipCount })
+    if (lastCheck === undefined) {
+      return
+    }
 
     // Condition to show reminder
     if (lastCheck) {
@@ -230,9 +217,12 @@ const AddWebApp = props => {
     }
 
     if ((installPrompt && show) || (!iOSAdded && isMobileSafari && show)) {
-      setDialogShown(true)
+      showInitialDialog()
     }
-  }, [installPrompt, show, lastCheck])
+  }
+  useEffect(() => {
+    checkShowDialog()
+  }, [installPrompt, show])
 
   return null
 }

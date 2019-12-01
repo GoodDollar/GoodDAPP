@@ -88,7 +88,6 @@ let AppRouter = React.lazy(() => {
 
 const RouterSelector = () => {
   const store = SimpleStore.useStore()
-  const web3ConnectionStatus = store.get('web3ConnectionStatus')
 
   //we use global state for signup process to signal user has registered
   const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem(IS_LOGGED_IN))
@@ -97,7 +96,9 @@ const RouterSelector = () => {
   const Router = isLoggedIn ? AppRouter : SignupRouter
 
   return (
-    <React.Suspense fallback={<Splash />}>{web3ConnectionStatus === false ? <Splash /> : <Router />}</React.Suspense>
+    <React.Suspense fallback={<Splash />}>
+      <Router />
+    </React.Suspense>
   )
 }
 

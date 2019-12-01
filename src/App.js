@@ -9,6 +9,7 @@ import SimpleStore, { setInitFunctions } from './lib/undux/SimpleStore'
 import RouterSelector from './RouterSelector.web'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
+import Splash from './components/splash/Splash'
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
@@ -40,7 +41,7 @@ const App = () => {
     setUseDesktop(true)
   }
 
-  const Splash =
+  const SplashOrRouter =
     !isMobile && !useDesktop ? (
       <SplashDesktop onContinue={continueWithDesktop} urlForQR={window.location.href} />
     ) : (
@@ -53,9 +54,10 @@ const App = () => {
         <React.Fragment>
           <SimpleStoreDialog />
           <LoadingIndicator />
-          <InternetConnection />
-          {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
-          {Splash}
+          <InternetConnection onDisconnect={<Splash />}>
+            {SplashOrRouter}
+            {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
+          </InternetConnection>
         </React.Fragment>
       </SafeAreaView>
     </PaperProvider>

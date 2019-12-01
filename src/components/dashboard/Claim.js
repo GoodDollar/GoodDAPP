@@ -141,7 +141,9 @@ const Claim = props => {
     if (process.env.NODE_ENV !== 'test') {
       setLoading(true)
     }
-    await goodWallet.checkEntitlement().then(entitlement => setState({ ...state, entitlement: entitlement.toNumber() }))
+    await goodWallet
+      .checkEntitlement()
+      .then(entitlement => setState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
 
     // FR Evaluation
     await evaluateFRValidity()
@@ -156,7 +158,7 @@ const Claim = props => {
     let nextClaimTime = date - new Date().getTime()
     if (nextClaimTime < 0 && state.entitlement <= 0) {
       const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
-      setState({ ...state, entitlement })
+      setState(prev => ({ ...prev, entitlement }))
     }
     return new Date(nextClaimTime).toISOString().substr(11, 8)
   }

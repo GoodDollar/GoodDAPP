@@ -44,10 +44,8 @@ matrix:
         - popd
         - npm run coverage -- --silent
         - npm run coveralls || true
+        - npm run bundlesize:check
         - pkill -f ganache
-  
-after_success:
-  - npm run bundlesize:check
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

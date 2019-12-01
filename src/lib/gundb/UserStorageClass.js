@@ -651,7 +651,7 @@ export class UserStorage {
       const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
-        status: feedEvent.status === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
+        status: feedEvent.otplStatus === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
         date: receiptDate.toString(),
         data: {
           ...feedEvent.data,

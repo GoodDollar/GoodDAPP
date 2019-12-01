@@ -773,7 +773,7 @@ export class GoodWallet {
           onConfirmation && onConfirmation(c)
         })
         .on('error', e => {
-          log.debug('got error', e)
+          log.error('sendTransaction error:', e.message, e, tx)
           rej(e)
           onError && onError(e)
         })

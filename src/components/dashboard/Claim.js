@@ -141,7 +141,9 @@ const Claim = props => {
     if (process.env.NODE_ENV !== 'test') {
       setLoading(true)
     }
-    await goodWallet.checkEntitlement().then(entitlement => setState({ ...state, entitlement: entitlement.toNumber() }))
+    await goodWallet
+      .checkEntitlement()
+      .then(entitlement => setState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
 
     // FR Evaluation
     await evaluateFRValidity()
@@ -156,7 +158,7 @@ const Claim = props => {
     let nextClaimTime = date - new Date().getTime()
     if (nextClaimTime < 0 && state.entitlement <= 0) {
       const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
-      setState({ ...state, entitlement })
+      setState(prev => ({ ...prev, entitlement }))
     }
     return new Date(nextClaimTime).toISOString().substr(11, 8)
   }
@@ -203,8 +205,13 @@ const Claim = props => {
       if (curEntitlement == 0) {
         return
       }
+
+      let txHash
+
       const receipt = await goodWallet.claim({
         onTransactionHash: hash => {
+          txHash = hash
+
           const date = new Date()
           const transactionEvent: TransactionEvent = {
             id: hash,
@@ -218,7 +225,9 @@ const Claim = props => {
           userStorage.enqueueTX(transactionEvent)
           AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
         },
-        onError: userStorage.markWithErrorEvent,
+        onError: () => {
+          userStorage.markWithErrorEvent(txHash)
+        },
       })
 
       if (receipt.status) {

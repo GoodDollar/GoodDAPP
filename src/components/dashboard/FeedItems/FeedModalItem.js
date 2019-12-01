@@ -42,7 +42,7 @@ const FeedModalItem = (props: FeedEventProps) => {
     >
       {item.type === 'feedback' ? (
         <FeedbackModalItem {...props} />
-      ) : itemType === 'senderror' ? (
+      ) : ['senderror', 'withdrawerror'].includes(itemType) ? (
         <SendModalItemWithError {...props} />
       ) : (
         <React.Fragment>

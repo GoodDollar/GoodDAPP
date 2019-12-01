@@ -26,7 +26,6 @@ import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
 
-const EVENT_TYPE_WITHDRAW = 'withdraw'
 const EVENT_TYPE_BONUS = 'bonus'
 const EVENT_TYPE_CLAIM = 'claim'
 const EVENT_TYPE_SEND = 'send'
@@ -716,15 +715,15 @@ export class UserStorage {
         .catch(_ => new Date())
 
       //if we withdrawn the payment link then its canceled
-      const status =
+      const otplStatus =
         data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
       const prevDate = feedEvent.date
       feedEvent.data.from = data.from
       feedEvent.data.to = data.to
       feedEvent.data.otplData = data
-      feedEvent.status = status
+      feedEvent.status = feedEvent.data.otplStatus = otplStatus
       feedEvent.date = receiptDate.toString()
-      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, status, receipt, data })
+      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
     } catch (e) {
@@ -1218,25 +1217,12 @@ export class UserStorage {
     return Promise.all(
       eventsIndex
         .filter(_ => _.id)
-        .map(async eventIndex => {
-          let item = this.feed
+        .map(eventIndex =>
+          this.feed
             .get('byid')
             .get(eventIndex.id)
             .decrypt()
-
-          if (item === undefined) {
-            const receipt = await this.wallet.getReceiptWithLogs(eventIndex.id).catch(e => {
-              logger.warn('no receipt found for id:', eventIndex.id, e.message, e)
-              return undefined
-            })
-
-            if (receipt) {
-              item = await this.handleReceiptUpdated(receipt)
-            }
-          }
-
-          return item
-        })
+        )
     )
   }
 
@@ -1250,17 +1236,16 @@ export class UserStorage {
 
     return Promise.all(
       feed
-        .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
-        .map(feedItem => {
-          if (!(feedItem.data && feedItem.data.receiptData)) {
-            return this.getFormatedEventById(feedItem.id)
-          }
-
-          return this.formatEvent(feedItem).catch(e => {
+        .filter(
+          feedItem =>
+            feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
+        )
+        .map(feedItem =>
+          this.formatEvent(feedItem).catch(e => {
             logger.error('getFormattedEvents Failed formatting event:', e.message, e, feedItem)
             return {}
           })
-        })
+        )
     )
   }
 
@@ -1405,10 +1390,10 @@ export class UserStorage {
 
     try {
       const { data, type, date, id, status, createdDate } = event
-      const { sender, reason, code: withdrawCode, customName, subtitle } = data
+      const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, status)
+      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
       const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
@@ -1488,16 +1473,12 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, status) {
-    return status === 'error' ? status : withdrawCode ? status : ''
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
+    return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
   _extractDisplayType(type, withdrawStatus, status) {
     let sufix = ''
-
-    if (type === EVENT_TYPE_WITHDRAW) {
-      sufix = withdrawStatus
-    }
 
     if (type === EVENT_TYPE_SEND) {
       sufix = withdrawStatus
@@ -1537,9 +1518,7 @@ export class UserStorage {
 
     return (
       (type === EVENT_TYPE_BONUS && favicon) ||
-      (((type === EVENT_TYPE_SEND && withdrawStatus === 'error') ||
-        (type === EVENT_TYPE_WITHDRAW && withdrawStatus === 'error')) &&
-        favicon) || // errored send/withdraw
+      (type === EVENT_TYPE_SEND && withdrawStatus === 'error' && favicon) || //errored send
       (await profileFromGun()) || // extract avatar from profile
       (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
     )
@@ -1589,7 +1568,7 @@ export class UserStorage {
         .get('queue')
         .get(event.id)
         .putAck(event)
-      await this.updateFeedEvent(event)
+      this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
@@ -1638,9 +1617,7 @@ export class UserStorage {
    */
   async updateEventStatus(eventId: string, status: string): Promise<FeedEvent> {
     const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
     feedEvent.status = status
-
     return this.feed
       .get('byid')
       .get(eventId)
@@ -1654,23 +1631,30 @@ export class UserStorage {
   }
 
   /**
-   * Sets the event's status as error
-   * @param {string} txHash
-   * @returns {Promise<void>}
+   * Sets the event's otpl status
+   * @param {string} eventId
+   * @param {string} status
+   * @returns {Promise<FeedEvent>}
    */
-  async markWithErrorEvent(txHash: string): Promise<void> {
-    if (txHash === undefined) {
-      return
-    }
-    const release = await this.feedMutex.lock()
+  async updateEventOtplStatus(eventId: string, status: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = status
 
-    try {
-      await this.updateEventStatus(txHash, 'error')
-    } catch (e) {
-      logger.error('Failed to set error status for feed event', e.message, e)
-    } finally {
-      release()
+    if (feedEvent.data) {
+      feedEvent.data.otplStatus = status
     }
+
+    return this.updateFeedEvent(feedEvent)
+  }
+
+  /**
+   * Sets the event's status as error
+   * @param {*} err
+   * @returns {Promise<FeedEvent>}
+   */
+  async markWithErrorEvent(err: any): Promise<FeedEvent> {
+    const error = JSON.parse(`{${err.message.split('{')[1]}`)
+    await this.updateEventOtplStatus(error.transactionHash, 'error')
   }
 
   /**
@@ -1697,7 +1681,7 @@ export class UserStorage {
    * @returns {Promise<FeedEvent>}
    */
   async cancelOTPLEvent(eventId: string): Promise<FeedEvent> {
-    await this.updateEventStatus(eventId, 'cancelled')
+    await this.updateEventOtplStatus(eventId, 'cancelled')
   }
 
   /**

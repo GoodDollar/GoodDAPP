@@ -1,12 +1,10 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, AppState, Dimensions, Easing } from 'react-native'
+import { Animated, AppState, Dimensions, Easing, InteractionManager } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
-import moment from 'moment'
 import type { Store } from 'undux'
-import * as web3Utils from 'web3-utils'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -67,23 +65,6 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 // import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 
 const log = logger.child({ from: 'Dashboard' })
-const MIN_BALANCE_VALUE = '100000'
-const GAS_CHECK_DEBOUNCE_TIME = 1000
-const showOutOfGasError = debounce(
-  async props => {
-    const gasResult = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
-      topWallet: false,
-    })
-    log.debug('outofgaserror:', { gasResult })
-    if (gasResult.ok === false && gasResult.error !== false) {
-      props.screenProps.navigateTo('OutOfGasError')
-    }
-  },
-  GAS_CHECK_DEBOUNCE_TIME,
-  {
-    leading: true,
-  }
-)
 
 export type DashboardProps = {
   navigation: any,
@@ -113,59 +94,6 @@ const Dashboard = props => {
         scale: animValue,
       },
     ],
-  }
-
-  const checkBonusesToRedeem = () => {
-    log.info('Check bonuses process started')
-
-    const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
-
-    if (!isUserWhitelisted) {
-      return
-    }
-
-    return API.redeemBonuses()
-      .then(res => {
-        log.debug('redeemBonuses', { resData: res && res.data })
-      })
-      .catch(err => {
-        log.error('Failed to redeem bonuses', err.message, err)
-
-        // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
-      })
-  }
-
-  const prepareLoginToken = async () => {
-    log.info('Prepare login token process started')
-    const loginToken = await userStorage.getProfileFieldValue('loginToken')
-
-    if (!loginToken) {
-      try {
-        const response = await API.getLoginToken()
-
-        const _loginToken = _get(response, 'data.loginToken')
-
-        await userStorage.setProfileField('loginToken', _loginToken, 'private')
-      } catch (e) {
-        log.error('prepareLoginToken failed', e.message, e)
-      }
-    }
-  }
-
-  const checkBonusInterval = async perform => {
-    const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
-    log.debug({ lastTimeBonusCheck })
-    if (
-      lastTimeBonusCheck &&
-      moment()
-        .subtract(Number(config.backgroundReqsInterval), 'minutes')
-        .isBefore(moment(lastTimeBonusCheck))
-    ) {
-      return
-    }
-    await checkBonusesToRedeem()
-
-    userStorage.userProperties.set('lastBonusCheckDate', new Date().toISOString())
   }
 
   const isTheSameUser = code => {
@@ -223,7 +151,7 @@ const Dashboard = props => {
     })
   }
 
-  const handleReceiveLink = () => {
+  const handleAppLinks = () => {
     const anyParams = extractQueryParams(window.location.href)
 
     log.debug('handle links effect dashboard', { anyParams })
@@ -239,8 +167,6 @@ const Dashboard = props => {
 
   const handleAppFocus = state => {
     if (state === 'active') {
-      checkBonusInterval()
-      showOutOfGasError(props)
       animateClaim()
     }
   }
@@ -297,18 +223,14 @@ const Dashboard = props => {
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
     log.debug('initDashboard subscribed to feed')
-    prepareLoginToken()
-    checkBonusInterval()
     handleDeleteRedirect()
-    handleReceiveLink()
     handleResize()
-    checkBonusInterval()
-    showOutOfGasError(props)
     animateClaim()
+    InteractionManager.runAfterInteractions(handleAppLinks)
   }
 
   useEffect(() => {
-    log.debug('Dashboard didmount')
+    log.debug('Dashboard didmount', props.navigation)
     initDashboard()
     AppState.addEventListener('change', handleAppFocus)
 

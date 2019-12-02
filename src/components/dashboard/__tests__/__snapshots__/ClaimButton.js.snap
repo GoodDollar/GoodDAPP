@@ -456,7 +456,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
-                    "fontWeight": "normal",
+                    "fontWeight": "700",
                     "lineHeight": "22px",
                     "marginBottom": "8px",
                     "textAlign": "center",
@@ -465,7 +465,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                   }
                 }
               >
-                Your Next Daily Income:
+                Your next daily claim:
               </span>
               <div
                 className="css-view-1dbjc4n"

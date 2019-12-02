@@ -39,7 +39,9 @@ const ButtonAmountToClaim = ({ entitlement, isCitizen, styles }) => (
 
 export const ButtonCountdown = ({ styles, nextClaim }) => (
   <View style={styles.countdownContainer}>
-    <Text style={styles.extraInfoCountdownTitle}>Your Next Daily Income:</Text>
+    <Text style={styles.extraInfoCountdownTitle} fontWeight="bold">
+      Your next daily claim:
+    </Text>
     <Section.Row grow style={styles.justifyCenter}>
       {nextClaim &&
         nextClaim.split('').map((value, index) => {

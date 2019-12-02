@@ -6,7 +6,7 @@ import ProfilePage from '../PageObjects/ProfilePage'
 import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 
 describe('Test case 5: Ability to change profile privacy level', () => {
-  it.only('User should be able to change privacy lvl', () => {
+  it('User should be able to change privacy lvl', () => {
     StartPage.open()
     StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()

@@ -13,7 +13,7 @@ import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { executeWithdraw, prepareDataWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import {
   WITHDRAW_STATUS_COMPLETE,
@@ -361,22 +361,10 @@ const Dashboard = props => {
   showOutOfGasError(props)
 
   const handleWithdraw = async params => {
-    const { paymentCode, reason } = params
     const { styles }: DashboardProps = props
-    let paymentParams
+    const paymentParams = prepareDataWithdraw(params)
 
     try {
-      try {
-        paymentParams = Buffer.from(decodeURI(paymentCode), 'base64').toString()
-        paymentParams = JSON.parse(paymentParams)
-      } catch (e) {
-        log.info('uses old format', { paymentCode, reason })
-        paymentParams = {
-          paymentCode: paymentCode ? decodeURI(paymentCode) : null,
-          reason: reason ? decodeURI(reason) : null,
-        }
-      }
-
       showDialog({
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,

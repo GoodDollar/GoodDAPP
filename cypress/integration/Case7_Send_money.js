@@ -25,9 +25,9 @@ describe('Test case 7: Ability to send money', () => {
     SendMoneyPage.copyLinkButton.click()
     SendMoneyPage.doneButton.should('be.visible')
     SendMoneyPage.doneButton.invoke('attr', 'data-url').then(sendMoneyUrl => {
-      var moneyLink = sendMoneyUrl
-      var pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
-      var validMoneyLnk = moneyLink.match(pattern)
+      const moneyLink = sendMoneyUrl
+      const pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
+      const validMoneyLnk = moneyLink.match(pattern)
 
       //  SendMoneyPage.doneButton.click();
       cy.clearLocalStorage()
@@ -44,9 +44,10 @@ describe('Test case 7: Ability to send money', () => {
       HomePage.moneyAmountDiv.invoke('text').then(moneyBefore => {
         cy.log('Money before sending: ' + moneyBefore)
         cy.visit(validMoneyLnk.toString())
+
         //wait for blockchain payment
         cy.contains('Claim').should('be.visible')
-        HomePage.moneyAmountDiv.invoke('text').should('eq', (+moneyBefore + 0.01).toFixed(2))
+        HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.01).toFixed(2))
       })
     })
   })

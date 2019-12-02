@@ -37,7 +37,7 @@ class ReceiveMoneyPage {
   }
 
   get doneButton() {
-    return cy.contains('Done', { timeout: 10000 })
+    return cy.get('[data-gdtype="copybutton-done"]', { timeout: 10000 })
   }
 }
 

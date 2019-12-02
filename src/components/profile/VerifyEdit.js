@@ -52,7 +52,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     try {
       setLoading(true)
 
-      await API[sendCodeRequestFn](content)
+      await API[sendCodeRequestFn]({ [field]: content })
 
       navigation.navigate('VerifyEditCode', { field, content })
     } catch (e) {

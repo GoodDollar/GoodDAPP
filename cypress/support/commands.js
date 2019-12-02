@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -28,7 +29,7 @@
 //         $iframe.on('load', () => {
 //             resolve(
 //                 $iframe.contents().find('body')
-                
+
 //             );
 //         });
 //     });
@@ -39,8 +40,6 @@
 //         .then((iframe) => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
 //         .then(function (iframe) {
 //             const body = iframe.contents().find('body');
-
-
 
 //             // cy.wrap(body.find(ordersPage.nameOnCardValue)).type(creditCard.name);
 //             // cy.wrap(body.find(ordersPage.cardNumberValue)).type(creditCard.cardNumber);
@@ -54,7 +53,6 @@
 //             // cy.wrap(body.find(ordersPage.addCard)).click();
 //         })
 // });
-
 
 // Cypress.Commands.add('iframe', {prevSubject: 'element'}, (iframe) => {
 //     const iframeDoc = iframe[0].contentDocument;
@@ -73,7 +71,6 @@
 //         })
 //     })
 // });
-
 
 // Cypress.Commands.add('iframe', { prevSubject: 'element' }, ($iframe, selector) => {
 //     Cypress.log({

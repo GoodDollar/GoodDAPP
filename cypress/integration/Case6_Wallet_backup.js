@@ -14,11 +14,10 @@ describe('Test case 6: Ability to send recovering email', () => {
     LoginPage.mnemonicsInput.type(Cypress.env('mainAccountMnemonics'))
     LoginPage.recoverWalletButton.click()
     LoginPage.yayButton.click()
-    cy.wait(7000)
+    HomePage.claimButton.should('be.visible')
   })
 
   it('User is able to recover mnemonics by email', () => {
-    cy.wait(3000)
     HomePage.optionsButton.click()
     HomePage.options.eq(1).click()
     for (let i = 0; i < 12; i++) {

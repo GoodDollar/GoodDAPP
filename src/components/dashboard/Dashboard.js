@@ -1,6 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Animated, AppState, Dimensions, Easing } from 'react-native'
+import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
 import moment from 'moment'
@@ -496,7 +497,7 @@ const Dashboard = props => {
       />
       {currentFeed && (
         <FeedModalList
-          data={feeds}
+          data={isBrowser ? [currentFeed] : feeds}
           handleFeedSelection={handleFeedSelection}
           initialNumToRender={PAGE_SIZE}
           onEndReached={nextFeed}

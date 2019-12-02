@@ -26,7 +26,9 @@ class ProfilePage {
 
   // ** this button causes react decoder error sometimes ** //
   // get editProfileButton() {
-  //     return cy.get('body').find('[style="font-family: gooddollar; font-size: 25px; font-style: normal;"]', { timeout: 10000 });
+  //   return cy
+  //     .get('body')
+  //     .find('[style="font-family: gooddollar; font-size: 25px; font-style: normal;"]', { timeout: 10000 })
   // }
 
   openEditProfileButton() {

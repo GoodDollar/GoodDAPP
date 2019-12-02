@@ -104,7 +104,11 @@ describe('Test case 3: Ability to change user data', () => {
   it('User is unable to type invalid data', () => {
     HomePage.optionsButton.click({ force: true })
     HomePage.options.eq(0).click({ force: true })
+    ProfilePage.pageHeader.should('contain', 'Profile')
+
+    // ProfilePage.editProfileButton.click()
     ProfilePage.openEditProfileButton()
+    EditProfilePage.nameInput.invoke('attr', 'value').should('eq', 'AndrewLebowski1234')
 
     // ProfilePage.editProfileButton.should('be.visible');
     // ProfilePage.editProfileButton.click();
@@ -114,8 +118,8 @@ describe('Test case 3: Ability to change user data', () => {
     // EditProfilePage.emailInput.clear({timeout:10000});
     EditProfilePage.nameInput.type('Random Username')
 
-    // EditProfilePage.phoneInput.type('+999999999999');
-    // EditProfilePage.emailInput.type('incorrect@email');
+    // EditProfilePage.phoneInput.type('+999999999999')
+    // EditProfilePage.emailInput.type('incorrect@email')
     EditProfilePage.wrongNameErrorDiv.should('contain', 'Only letters, numbers and underscore')
 
     // EditProfilePage.phoneInput.should('have.class', 'react-phone-number-input__input--invalid')

@@ -330,12 +330,12 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: theme.sizes.default,
     },
     illustrationForCitizen: {
-      height: getDesignRelativeHeight(184),
-      marginTop: getDesignRelativeHeight(-94),
+      height: getDesignRelativeHeight(184, false),
+      marginTop: getDesignRelativeHeight(-94, false),
     },
     illustrationForNonCitizen: {
-      height: getDesignRelativeHeight(159),
-      marginTop: getDesignRelativeHeight(-70),
+      height: getDesignRelativeHeight(159, false),
+      marginTop: getDesignRelativeHeight(-70, false),
     },
     extraInfo: {
       backgroundColor: theme.colors.surface,

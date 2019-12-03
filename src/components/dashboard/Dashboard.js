@@ -411,6 +411,7 @@ const Dashboard = props => {
             </Section.Text>
             <Section.Row style={styles.bigNumberWrapper}>
               <BigGoodDollar
+                testID="amount_value"
                 number={balance}
                 bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}

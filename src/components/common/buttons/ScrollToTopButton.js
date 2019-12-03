@@ -16,7 +16,7 @@ const getStylesFromProps = () => ({
   scrollToTopImage: {
     width: 74,
     height: 74,
-    position: 'fixed',
+    position: 'absolute',
     bottom: 0,
     right: 0,
     zIndex: 1000,

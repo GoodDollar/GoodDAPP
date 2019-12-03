@@ -651,7 +651,7 @@ export class UserStorage {
       const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
-        status: feedEvent.status === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
+        status: feedEvent.otplStatus === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
         date: receiptDate.toString(),
         data: {
           ...feedEvent.data,
@@ -716,15 +716,15 @@ export class UserStorage {
         .catch(_ => new Date())
 
       //if we withdrawn the payment link then its canceled
-      const status =
+      const otplStatus =
         data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
       const prevDate = feedEvent.date
       feedEvent.data.from = data.from
       feedEvent.data.to = data.to
       feedEvent.data.otplData = data
-      feedEvent.status = status
+      feedEvent.status = feedEvent.data.otplStatus = otplStatus
       feedEvent.date = receiptDate.toString()
-      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, status, receipt, data })
+      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
     } catch (e) {
@@ -1250,7 +1250,10 @@ export class UserStorage {
 
     return Promise.all(
       feed
-        .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
+        .filter(
+          feedItem =>
+            feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
+        )
         .map(feedItem => {
           if (!(feedItem.data && feedItem.data.receiptData)) {
             return this.getFormatedEventById(feedItem.id)
@@ -1405,10 +1408,10 @@ export class UserStorage {
 
     try {
       const { data, type, date, id, status, createdDate } = event
-      const { sender, reason, code: withdrawCode, customName, subtitle } = data
+      const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, status)
+      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
       const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
@@ -1488,8 +1491,8 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, status) {
-    return status === 'error' ? status : withdrawCode ? status : ''
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
+    return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
   _extractDisplayType(type, withdrawStatus, status) {
@@ -1654,6 +1657,29 @@ export class UserStorage {
   }
 
   /**
+   * Sets the event's status
+   * @param {string} eventId
+   * @param {string} status
+   * @returns {Promise<FeedEvent>}
+   */
+  async updateOTPLEventStatus(eventId: string, status: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+
+    feedEvent.otplStatus = status
+
+    return this.feed
+      .get('byid')
+      .get(eventId)
+      .secretAck(feedEvent)
+      .then()
+      .then(_ => feedEvent)
+      .catch(e => {
+        logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        return {}
+      })
+  }
+
+  /**
    * Sets the event's status as error
    * @param {string} txHash
    * @returns {Promise<void>}
@@ -1697,7 +1723,7 @@ export class UserStorage {
    * @returns {Promise<FeedEvent>}
    */
   async cancelOTPLEvent(eventId: string): Promise<FeedEvent> {
-    await this.updateEventStatus(eventId, 'cancelled')
+    await this.updateOTPLEventStatus(eventId, 'cancelled')
   }
 
   /**

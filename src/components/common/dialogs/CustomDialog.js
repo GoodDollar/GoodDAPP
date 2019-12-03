@@ -58,6 +58,7 @@ const CustomDialog = ({
   content,
   buttons,
   showAtBottom,
+  buttonsContainerStyle,
   isMinHeight = true,
 }: DialogProps) => {
   const defaultImage = type === 'error' ? <ErrorIcon /> : <SuccessIcon />
@@ -94,7 +95,7 @@ const CustomDialog = ({
             )}
           </View>
           {showButtons ? (
-            <View style={styles.buttonsContainer}>
+            <View style={buttonsContainerStyle || styles.buttonsContainer}>
               {buttons ? (
                 buttons.map(({ onPress = dismiss => dismiss(), style, ...buttonProps }, index) => (
                   <CustomButton

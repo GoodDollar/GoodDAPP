@@ -72,7 +72,7 @@ export const prepareDataWithdraw = params => {
     } catch (e) {
       log.info('uses old format', { paymentCode, reason })
       paymentParams = {
-        paymentCode: paymentCode ? decodeURI(paymentCode) : null,
+        paymentCode: decodeURI(paymentCode),
         reason: reason ? decodeURI(reason) : null,
       }
     }

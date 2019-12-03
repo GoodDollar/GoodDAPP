@@ -1,7 +1,10 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage } from 'react-native'
+import { AppState, AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
+import _get from 'lodash/get'
+import _debounce from 'lodash/debounce'
+import moment from 'moment'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
@@ -11,6 +14,7 @@ import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/gundb/UserStorage'
 import Splash from '../splash/Splash'
+import config from '../../config/config'
 
 type LoadingProps = {
   navigation: any,
@@ -18,6 +22,24 @@ type LoadingProps = {
 }
 
 const log = logger.child({ from: 'AppSwitch' })
+
+const MIN_BALANCE_VALUE = '100000'
+const GAS_CHECK_DEBOUNCE_TIME = 1000
+const showOutOfGasError = _debounce(
+  async props => {
+    const gasResult = await goodWallet.verifyHasGas(goodWallet.wallet.utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+      topWallet: false,
+    })
+    log.debug('outofgaserror:', { gasResult })
+    if (gasResult.ok === false && gasResult.error !== false) {
+      props.navigation.navigate('OutOfGasError')
+    }
+  },
+  GAS_CHECK_DEBOUNCE_TIME,
+  {
+    leading: true,
+  }
+)
 
 /**
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
@@ -119,14 +141,83 @@ const AppSwitch = (props: LoadingProps) => {
 
     try {
       await initialize()
+      await Promise.all([prepareLoginToken(), checkBonusInterval(), showOutOfGasError(props)])
+
       setReady(true)
     } catch (e) {
+      log.error('failed initializing app', e.message, e)
       showErrorDialog('Wallet could not be loaded. Please try again later.')
     }
   }
+
+  const prepareLoginToken = async () => {
+    const loginToken = await userStorage.getProfileFieldValue('loginToken')
+    log.info('Prepare login token process started', loginToken)
+
+    if (!loginToken) {
+      try {
+        const response = await API.getLoginToken()
+
+        const _loginToken = _get(response, 'data.loginToken')
+
+        await userStorage.setProfileField('loginToken', _loginToken, 'private')
+      } catch (e) {
+        log.error('prepareLoginToken failed', e.message, e)
+      }
+    }
+  }
+
+  const checkBonusInterval = async perform => {
+    const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
+    log.debug({ lastTimeBonusCheck })
+    if (
+      lastTimeBonusCheck &&
+      moment()
+        .subtract(Number(config.backgroundReqsInterval), 'minutes')
+        .isBefore(moment(lastTimeBonusCheck))
+    ) {
+      return
+    }
+    userStorage.userProperties.set('lastBonusCheckDate', new Date().toISOString())
+    await checkBonusesToRedeem()
+  }
+
+  const checkBonusesToRedeem = () => {
+    log.info('Check bonuses process started')
+
+    const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
+
+    if (!isUserWhitelisted) {
+      return
+    }
+
+    return API.redeemBonuses()
+      .then(res => {
+        log.debug('redeemBonuses', { resData: res && res.data })
+      })
+      .catch(err => {
+        log.error('Failed to redeem bonuses', err.message, err)
+
+        // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
+      })
+  }
+
+  const handleAppFocus = state => {
+    if (state === 'active') {
+      checkBonusInterval()
+      showOutOfGasError(props)
+    }
+  }
+
   useEffect(() => {
     init()
     navigateToUrlAction()
+    setConnectEvents()
+    AppState.addEventListener('change', handleAppFocus)
+
+    return function() {
+      AppState.removeEventListener('change', handleAppFocus)
+    }
   }, [])
 
   // useEffect(() => {

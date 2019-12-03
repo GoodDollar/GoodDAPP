@@ -478,7 +478,7 @@ module.exports = {
     // the HTML & assets that are part of the Webpack build.
     new WorkboxWebpackPlugin.GenerateSW({
       clientsClaim: true,
-      skipWaiting: true,
+      skipWaiting: false,
       exclude: [/\.map$/, /asset-manifest\.json$/],
       importWorkboxFrom: 'cdn',
       navigateFallback: publicUrl + '/index.html',
@@ -489,13 +489,29 @@ module.exports = {
         // public/ and not a SPA route
         new RegExp('/[^/]+\\.[^/]+$'),
       ],
+      //fonts caching from https://developers.google.com/web/tools/workbox/guides/common-recipes
       runtimeCaching: [
         {
-          urlPattern: /static/,
+          urlPattern: /^https:\/\/fonts\.googleapis\.com/,
           handler: 'StaleWhileRevalidate',
           options: {
+            cacheName: 'google-fonts-stylesheets',
             cacheableResponse: {
               statuses: [200],
+            },
+          },
+        },
+        {
+          urlPattern: /^https:\/\/fonts\.gstatic\.com/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'google-fonts-webfonts',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxAgeSeconds: 60 * 60 * 24 * 365,
+              maxEntries: 30,
             },
           },
         },

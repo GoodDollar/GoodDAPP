@@ -14,6 +14,7 @@ const SideMenuItem = ({ icon, name, color, action, styles, theme }: SideMenuItem
   <TouchableOpacity style={styles.clickableRow} onPress={action}>
     <View style={styles.menuIcon}>
       <Icon
+        testID="burger_button"
         name={icon}
         size={icon === 'gooddollar' ? 16 : 22}
         color={color === undefined ? theme.colors.primary : theme.colors[color]}

@@ -75,6 +75,7 @@ const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles }) => {
 
 const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styles, style }) => (
   <CustomButton
+    testId="claim_button"
     compact={true}
     disabled={entitlement <= 0}
     loading={loading}

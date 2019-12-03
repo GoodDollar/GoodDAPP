@@ -18,6 +18,7 @@ import { theme as mainTheme } from '../theme/styles'
 import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import SimpleStore from '../../lib/undux/SimpleStore'
 
 type Props = {
   navigation: any,
@@ -34,7 +35,7 @@ class Auth extends React.Component<Props> {
   state = {
     asGuest: false,
     withW3Token: false,
-    w3User: null,
+    w3User: undefined,
   }
 
   async componentWillMount() {
@@ -99,6 +100,8 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignUp = async () => {
+    const { store } = this.props
+    store.set('loadingIndicator')({ loading: true })
     const { w3User, w3Token } = this.state
     const redirectTo = w3Token ? 'Phone' : 'Signup'
     log.debug({ w3User, w3Token })
@@ -113,6 +116,8 @@ class Auth extends React.Component<Props> {
       log.info('indexedDb successfully cleared')
     } catch (e) {
       log.error('Failed to clear indexedDb', e.message, e)
+    } finally {
+      store.set('loadingIndicator')({ loading: false })
     }
 
     this.props.navigation.navigate(redirectTo, { w3User, w3Token })
@@ -259,7 +264,7 @@ const getStylesFromProps = ({ theme }) => {
     },
   }
 }
-const auth = withStyles(getStylesFromProps)(Auth)
+const auth = withStyles(getStylesFromProps)(SimpleStore.withStore(Auth))
 auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,

@@ -200,7 +200,7 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
   })
   return (
     <ScrollView contentContainerStyle={styles.scrollableContainer}>
-      <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu}>
+      <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu} testID="close_burger_button">
         <Icon name="close" size={20} color={theme.colors.lighterGray} />
       </TouchableOpacity>
       <View style={styles.listContainer}>

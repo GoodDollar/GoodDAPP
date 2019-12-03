@@ -96,7 +96,7 @@ class SoftwareWalletProvider {
     switch (transport) {
       case 'WebSocketProvider':
         provider = this.conf.websocketWeb3Provider
-        web3Provider = new Web3.providers.WebsocketProvider(provider, { timeout: 10000 })
+        web3Provider = new Web3.providers.WebsocketProvider(provider, { timeout: 10000, reconnectDelay: 2000 })
         break
 
       case 'HttpProvider': {

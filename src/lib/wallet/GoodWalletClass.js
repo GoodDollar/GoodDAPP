@@ -105,7 +105,7 @@ export class GoodWallet {
 
   config: {}
 
-  accountsContract: Web3.eth.Contract
+  simulateWithdrawReverted: boolean
 
   tokenContract: Web3.eth.Contract
 
@@ -141,6 +141,7 @@ export class GoodWallet {
     this.ready = ready
       .then(wallet => {
         this.wallet = wallet
+        this.simulateWithdrawReverted = false
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = this.getAccountForType('gd')
         this.wallet.eth.defaultAccount = this.account
@@ -606,7 +607,15 @@ export class GoodWallet {
    * @param {PromiEvents} callbacks
    */
   async withdraw(otlCode: string, callbacks: PromiEvents) {
-    const withdrawCall = this.oneTimePaymentsContract.methods.withdraw(otlCode)
+    let method = 'withdraw'
+    let args = [otlCode]
+
+    if (this.simulateWithdrawReverted) {
+      method = 'setIdentity'
+      args = [this.account, this.account]
+    }
+
+    const withdrawCall = this.oneTimePaymentsContract.methods[method](...args)
     const gasLimit = await this.oneTimePaymentsContract.methods.gasLimit.call().then(toBN)
 
     //contract enforces max gas of 80000 to prevent front running

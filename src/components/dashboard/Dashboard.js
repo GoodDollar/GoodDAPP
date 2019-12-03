@@ -345,7 +345,9 @@ const Dashboard = props => {
             mode: 'text',
             color: theme.colors.gray80Percent,
             style: styles.serviceWorkerDialogWhatsNew,
-            onPress: () => {},
+            onPress: () => {
+              window.open(config.newVersionUrl, '_blank')
+            },
           },
           {
             text: 'UPDATE',

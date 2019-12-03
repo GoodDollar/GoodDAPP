@@ -26,9 +26,14 @@ const App = () => {
         window.location.reload()
       })
     }
+    const onRegister = reg => {
+      if (reg.waiting) {
+        onUpdate(reg)
+      }
+    }
     if (serviceWorkerRegistred === false) {
       log.debug('registering service worker')
-      serviceWorker.register({ onUpdate })
+      serviceWorker.register({ onRegister, onUpdate })
       serviceWorkerRegistred = true
     }
     if (isWebApp === false) {

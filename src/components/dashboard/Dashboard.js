@@ -14,7 +14,7 @@ import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { executeWithdraw, prepareDataWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import {
   WITHDRAW_STATUS_COMPLETE,
@@ -392,9 +392,12 @@ const Dashboard = props => {
     }
   }
 
+  showOutOfGasError(props)
+
   const handleWithdraw = async params => {
-    const { paymentCode, reason } = params
     const { styles }: DashboardProps = props
+    const paymentParams = prepareDataWithdraw(params)
+
     try {
       showDialog({
         title: 'Processing Payment Link...',
@@ -402,7 +405,7 @@ const Dashboard = props => {
         message: 'please wait while processing...',
         buttons: [{ text: 'YAY!', style: styles.disabledButton }],
       })
-      const { status, transactionHash } = await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
+      const { status, transactionHash } = await executeWithdraw(store, paymentParams.paymentCode, paymentParams.reason)
       if (transactionHash) {
         hideDialog()
         return
@@ -416,7 +419,7 @@ const Dashboard = props => {
             // eslint-disable-next-line no-await-in-loop
             await delay(2000)
             // eslint-disable-next-line no-await-in-loop
-            const { status } = await goodWallet.getWithdrawDetails(decodeURI(paymentCode))
+            const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
             if (status === WITHDRAW_STATUS_PENDING) {
               // eslint-disable-next-line no-await-in-loop
               return await handleWithdraw()

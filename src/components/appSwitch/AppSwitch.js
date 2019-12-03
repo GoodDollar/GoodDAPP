@@ -8,7 +8,6 @@ import moment from 'moment'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
-import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
@@ -50,27 +49,6 @@ const AppSwitch = (props: LoadingProps) => {
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
-  const [walletIsConnect, setWalletIsConnect] = useState(true)
-
-  const setConnectEvents = () => {
-    goodWallet.ready.then(() =>
-      goodWallet.wallet.currentProvider
-        .on('connect', () => {
-          log.debug('web3 connect')
-          setWalletIsConnect(true)
-        })
-        .on('close', () => {
-          log.debug('web3 close')
-
-          setWalletIsConnect(false)
-        })
-        .on('error', () => {
-          log.debug('web3 error')
-
-          setWalletIsConnect(false)
-        })
-    )
-  }
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -248,12 +226,11 @@ const AppSwitch = (props: LoadingProps) => {
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]
-  const display =
-    ready && walletIsConnect ? (
-      <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
-    ) : (
-      <Splash />
-    )
+  const display = ready ? (
+    <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
+  ) : (
+    <Splash />
+  )
   return <React.Fragment>{display}</React.Fragment>
 }
 

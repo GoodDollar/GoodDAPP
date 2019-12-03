@@ -2,7 +2,8 @@ const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location
 
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
-  version: process.env.VERSION || 'v0',
+  version: '2' || process.env.VERSION || 'v0',
+  newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://gdlr.info/newversion',
   mnemonicToSeed: process.env.REACT_APP_MNEMONIC_TO_SEED || true,
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
@@ -47,12 +48,12 @@ const Config = {
     '121': {
       network_id: 121,
       httpWeb3provider: 'https://rpc.fuse.io/',
-      websocketWeb3Provider: 'wss://explorer-node.fuse.io/ws',
+      websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
     },
     '122': {
       network_id: 122,
-      httpWeb3provider: 'https://rpc.fusenet.io/',
-      websocketWeb3Provider: 'wss://explorer-node.fusenet.io/ws',
+      httpWeb3provider: 'https://rpc.fuse.io/',
+      websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
     },
     '4447': {
       network_id: 4447,

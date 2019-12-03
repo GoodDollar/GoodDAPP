@@ -1,0 +1,27 @@
+{
+    "chromeWebSecurity": false,
+    "defaultCommandTimeout": 120000,
+    "env": {   
+        "baseUrl": "https://gooddev.netlify.com/",
+        "mainAccountEmail": "gooddollar.test123@gmail.com",
+        "mainAccountUsername": "Andrew Lebowski",
+        "mainAccountPhone": "+380983611320",
+        "mainAccountMnemonics": 
+            "plunge craft urban short color rule time art recipe monster black essay",
+        "wordsForUnsuccessfullLogin": {
+            "withChangedWord": "hello craft urban short color rule time art recipe monster black essay",
+            "withNumbers": "1plunge craft urban short color rule time art recipe monster black essay",
+            "withSymbols": "@plunge craft urban short color rule time art recipe monster black essay",
+            "withChangedLetter": "flunge craft urban short color rule time art recipe monster black essay",
+            "withChangedOrder": "craft plunge urban short color rule time art recipe monster black essay",
+            "withCapitalize": "Craft plunge urban short color rule time art recipe monster black essay"
+        },
+        "additionalAccountEmail": "gooddollar.2test123@gmail.com",
+        "additionalAccountUsername": "Andrew Second",
+        "additionalAccountPhone": "+529881238235",
+        "additionalAccountMnemonics": "vapor fresh tennis eagle author sponsor during gun cushion train cup dwarf",
+        "emailForCheckingRegistration": "main.test.acc.gooddollar@gmail.com",
+        "usernameForRegistration": "Name Surname",
+        "numberForCheckingRegistration": "+380673001751"
+    }
+}

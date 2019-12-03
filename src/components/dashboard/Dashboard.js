@@ -12,7 +12,7 @@ import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { executeWithdraw, prepareDataWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import {
   WITHDRAW_STATUS_COMPLETE,
@@ -58,6 +58,7 @@ import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
+import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
 // import FaceRecognition from './FaceRecognition/FaceRecognition'
 // import FRIntro from './FaceRecognition/FRIntro'
@@ -83,7 +84,8 @@ const Dashboard = props => {
   const currentFeed = store.get('currentFeed')
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
-  const { screenProps, styles }: DashboardProps = props
+  const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
+  const { screenProps, styles, theme }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
@@ -123,7 +125,7 @@ const Dashboard = props => {
 
   const handleDeleteRedirect = () => {
     if (props.navigation.state.key === 'Delete') {
-      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
+      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
     }
   }
 
@@ -253,6 +255,37 @@ const Dashboard = props => {
     }
   }, [_get(currentScreen, 'dialogData.visible'), _get(loadingIndicator, 'loading'), currentFeed])
 
+  useEffect(() => {
+    if (serviceWorkerUpdated) {
+      log.info('service worker updated', serviceWorkerUpdated)
+      showDialog({
+        showCloseButtons: false,
+        content: <ServiceWorkerUpdatedDialog />,
+        buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
+        buttons: [
+          {
+            text: 'WHAT’S NEW?',
+            mode: 'text',
+            color: theme.colors.gray80Percent,
+            style: styles.serviceWorkerDialogWhatsNew,
+            onPress: () => {
+              window.open(config.newVersionUrl, '_blank')
+            },
+          },
+          {
+            text: 'UPDATE',
+            onPress: () => {
+              if (serviceWorkerUpdated && serviceWorkerUpdated.waiting && serviceWorkerUpdated.waiting.postMessage) {
+                log.debug('service worker:', 'sending skip waiting', serviceWorkerUpdated.active.clients)
+                serviceWorkerUpdated.waiting.postMessage({ type: 'SKIP_WAITING' })
+              }
+            },
+          },
+        ],
+      })
+    }
+  }, [serviceWorkerUpdated])
+
   const showEventModal = currentFeed => {
     store.set('currentFeed')(currentFeed)
   }
@@ -281,9 +314,12 @@ const Dashboard = props => {
     }
   }
 
+  showOutOfGasError(props)
+
   const handleWithdraw = async params => {
-    const { paymentCode, reason } = params
     const { styles }: DashboardProps = props
+    const paymentParams = prepareDataWithdraw(params)
+
     try {
       showDialog({
         title: 'Processing Payment Link...',
@@ -291,7 +327,7 @@ const Dashboard = props => {
         message: 'please wait while processing...',
         buttons: [{ text: 'YAY!', style: styles.disabledButton }],
       })
-      const { status, transactionHash } = await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
+      const { status, transactionHash } = await executeWithdraw(store, paymentParams.paymentCode, paymentParams.reason)
       if (transactionHash) {
         hideDialog()
         return
@@ -305,7 +341,7 @@ const Dashboard = props => {
             // eslint-disable-next-line no-await-in-loop
             await delay(2000)
             // eslint-disable-next-line no-await-in-loop
-            const { status } = await goodWallet.getWithdrawDetails(decodeURI(paymentCode))
+            const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
             if (status === WITHDRAW_STATUS_PENDING) {
               // eslint-disable-next-line no-await-in-loop
               return await handleWithdraw()
@@ -333,6 +369,7 @@ const Dashboard = props => {
             </Section.Text>
             <Section.Row style={styles.bigNumberWrapper}>
               <BigGoodDollar
+                testID="amount_value"
                 number={balance}
                 bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
@@ -396,14 +433,14 @@ const Dashboard = props => {
           // Replicating Header Height.
           // TODO: Improve this when doing animation
           const HEIGHT_FULL =
-            props.theme.sizes.defaultDouble +
+            theme.sizes.defaultDouble +
             68 +
-            props.theme.sizes.default +
+            theme.sizes.default +
             normalize(18) +
-            props.theme.sizes.defaultDouble * 2 +
+            theme.sizes.defaultDouble * 2 +
             normalize(42) +
             normalize(70)
-          const HEIGHT_BASE = props.theme.sizes.defaultDouble + 68 + props.theme.sizes.default + normalize(70)
+          const HEIGHT_BASE = theme.sizes.defaultDouble + 68 + theme.sizes.default + normalize(70)
 
           const HEIGHT_DIFF = HEIGHT_FULL - HEIGHT_BASE
           const scrollPos = nativeEvent.contentOffset.y
@@ -520,6 +557,18 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
+  },
+  serviceWorkerDialogWhatsNew: {
+    textAlign: 'left',
+    fontSize: normalize(14),
+  },
+  serviceWorkerDialogButtonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: theme.sizes.defaultDouble,
+    justifyContent: 'space-between',
   },
 })
 

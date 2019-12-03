@@ -1,8 +1,19 @@
 language: node_js
 node_js:
-  - '10.15'
+  - "10.15"
+
+addons:
+  apt:
+    packages:
+      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
+      - libgconf-2-4
+      - jq
+
 cache:
   npm: true
+  directories:
+    # we also need to cache folder with Cypress binary
+    - ~/.cache
 
 env:
   global:
@@ -14,22 +25,27 @@ env:
     - ADMIN_MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - CI=false
 
-before_script:
-  - pushd node_modules/@gooddollar/goodcontracts
-  - npm ci
-  - npm run ganache &
-  - npm run wait
-  - npm run deploy
-  - popd
-
-script:
-  - npm run coverage -- --silent
-  - npm run coveralls || true
-  - pkill -f ganache
-  - npm run build
-
-after_success:
-  - npm run bundlesize:check
+matrix:
+  include:
+    - script:
+        whitelist: master, staging, production, beta
+        - npm run build
+        - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
+        - URL=`grep -i 'deploy_url' test.json | cut -c18-70`
+        - export CYPRESS_baseUrl=$URL
+        - export CYPRESS_w3Link=$W3_LINK
+        - cypress run
+    - script:
+        - pushd node_modules/@gooddollar/goodcontracts
+        - npm ci
+        - npm run ganache &
+        - npm run wait
+        - npm run deploy
+        - popd
+        - npm run coverage -- --silent
+        - npm run coveralls || true
+        - npm run bundlesize:check
+        - pkill -f ganache
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

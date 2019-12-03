@@ -31,31 +31,28 @@ const updateAll = store => {
  */
 const onBalanceChange = async (event: EventLog, store: Store) => {
   if (event) {
-    log.debug('new Transfer events:', { event })
+    log.debug('new Transfer events:', { event, store })
     await updateAll(store)
   }
-}
-
-const status = {
-  started: false,
 }
 
 /**
  * Starts listening to Transfer events to (and from) the current account
  */
+let balanceChangedSub
 const initTransferEvents = async (store: Store) => {
-  if (!status.started) {
-    const lastBlock = await userStorage.getLastBlockNode().then()
-    log.debug('starting events listener', { lastBlock })
+  const lastBlock = await userStorage.getLastBlockNode().then()
+  log.debug('starting events listener', { lastBlock })
 
-    status.started = true
+  goodWallet.listenTxUpdates(parseInt(lastBlock), ({ fromBlock, toBlock }) =>
+    userStorage.saveLastBlockNumber(parseInt(toBlock) + 1)
+  )
 
-    goodWallet.listenTxUpdates(parseInt(lastBlock), ({ fromBlock, toBlock }) =>
-      userStorage.saveLastBlockNumber(parseInt(toBlock) + 1)
-    )
-
-    goodWallet.balanceChanged(event => onBalanceChange(event, store))
+  if (balanceChangedSub) {
+    log.debug('removing old subscription', balanceChangedSub)
+    goodWallet.unsubscribeFromEvent(balanceChangedSub)
   }
+  balanceChangedSub = goodWallet.balanceChanged(event => onBalanceChange(event, store))
 }
 
 export { initTransferEvents, updateAll }

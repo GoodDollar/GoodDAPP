@@ -6,14 +6,6 @@ import type { StandardFeed } from '../gundb/UserStorageClass'
 import withPinoLogger from './plugins/logger'
 
 /**
- * Wheather the balance update is running or not
- * @type {{running: boolean}}
- */
-type BalanceUpdate = {
-  running: boolean,
-}
-
-/**
  * Account data
  * @type {{balance: ?string}, {entitlement: ?string}, {ready: false}}
  */
@@ -34,11 +26,11 @@ type Account = {
   }
  */
 export type State = {
-  balanceUpdate: BalanceUpdate,
+  balanceUpdate: boolean,
   account: Account,
   destinationPath: string,
   feeds: StandardFeed[],
-  feedLoading: Boolean,
+  feedLoading: boolean,
   currentFeed: any,
 }
 
@@ -47,9 +39,7 @@ export type State = {
  * @constant
  */
 const initialState: State = {
-  balanceUpdate: {
-    running: false,
-  },
+  balanceUpdate: false,
   account: {
     balance: undefined,
     entitlement: undefined,

@@ -48,6 +48,8 @@ export type State = {
   loadingIndicator: LoadingIndicator,
   isLoggedInCitizen: boolean,
   isLoggedIn: boolean,
+  wallet: any,
+  userStorage: any,
   sidemenu: {
     visible: boolean,
   },
@@ -85,6 +87,8 @@ const initialState: State = {
   addWebApp: {
     show: false,
   },
+  wallet: null,
+  userStorage: null,
   serviceWorkerUpdated: null,
 }
 
@@ -99,4 +103,11 @@ const initStore = async () => {
   SimpleStore = createConnectedStore(initialState, withPinoLogger)
   return SimpleStore
 }
-export { initStore, SimpleStore as default }
+
+// functions which set userStorage and wallet to simple storage in init.js
+let setWallet, setUserStorage
+const setInitFunctions = (_setWallet, _setUserStorage) => {
+  setWallet = _setWallet
+  setUserStorage = _setUserStorage
+}
+export { initStore, SimpleStore as default, setInitFunctions, setWallet, setUserStorage }

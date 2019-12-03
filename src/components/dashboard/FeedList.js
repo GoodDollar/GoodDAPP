@@ -110,7 +110,7 @@ const FeedList = ({
           })
           .catch(e => {
             showErrorDialog('Canceling the payment link has failed', e)
-            userStorage.recoverEvent(id)
+            userStorage.updateOTPLEventStatus(id, 'pending')
           })
       }
     }

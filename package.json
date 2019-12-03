@@ -35,7 +35,9 @@
     "docs": "node scripts/docs.js",
     "web:serveo": "export REACT_APP_WEB3_RPC=https://gdchain.serveo.net;export REACT_APP_SERVER_URL=https://gdserver.serveo.net;export REACT_APP_GUN_PUBLIC_URL=https://gdserver.serveo.net/gun;npm run web:local",
     "rename:scrypt": "sed -i -e 's|./build/Release/scrypt|scrypt|g' node_modules/scrypt/index.js",
-    "version": "auto-changelog -p && git add CHANGELOG.md"
+    "version": "auto-changelog -p && git add CHANGELOG.md",
+    "cypress:lin": "export NODE_ENV=development && npx cypress open",
+    "cypress:win": "set \"NODE_ENV=development\" && npx cypress open"
   },
   "repository": {
     "type": "git",
@@ -133,8 +135,11 @@
     "bundlesize": "^0.17.2",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
+    "clipboardy": "^2.1.0",
     "coveralls": "^3.0.3",
     "css-loader": "1.0.0",
+    "cypress": "^3.4.1",
+    "cypress-xpath": "^1.4.0",
     "documentation": "9.3.1",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
@@ -165,6 +170,7 @@
     "lint-staged": "^8.1.6",
     "metro-react-native-babel-preset": "^0.51.0",
     "mini-css-extract-plugin": "0.4.3",
+    "netlify-cli": "^2.13.1",
     "node-webcrypto-ossl": "^1.0.42",
     "nodemon": "^1.19.1",
     "optimize-css-assets-webpack-plugin": "5.0.1",
@@ -179,6 +185,7 @@
     "react-test-renderer": "^16.8.1",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
+    "scoop": "0.0.2",
     "serve": "^11.0.0",
     "source-map-explorer": "^1.8.0",
     "style-loader": "0.23.0",
@@ -189,6 +196,7 @@
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-server": "^3.1.14",
     "webpack-manifest-plugin": "2.0.4",
+    "winston": "^2.0.0",
     "workbox-webpack-plugin": "^4.3.1"
   },
   "eslintConfig": {

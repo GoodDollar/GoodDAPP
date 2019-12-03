@@ -58,6 +58,7 @@ export type State = {
   addWebApp: {
     show: boolean,
   },
+  serviceWorkerUpdated: any,
 }
 
 /**
@@ -88,6 +89,7 @@ const initialState: State = {
   },
   wallet: null,
   userStorage: null,
+  serviceWorkerUpdated: null,
 }
 
 /**

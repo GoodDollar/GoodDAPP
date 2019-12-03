@@ -59,6 +59,7 @@ import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
+import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
 // import FaceRecognition from './FaceRecognition/FaceRecognition'
 // import FRIntro from './FaceRecognition/FRIntro'
@@ -102,7 +103,7 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
-  const { screenProps, styles }: DashboardProps = props
+  const { screenProps, styles, theme }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
@@ -335,12 +336,19 @@ const Dashboard = props => {
     if (serviceWorkerUpdated) {
       log.info('service worker updated', serviceWorkerUpdated)
       showDialog({
-        title: 'A new shiny version is available!',
-        image: <LoadingIcon />,
-        message: 'Please wait while upgrading to newer version...',
+        showCloseButtons: false,
+        content: <ServiceWorkerUpdatedDialog />,
+        buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
         buttons: [
           {
-            text: 'OK',
+            text: 'WHAT’S NEW?',
+            mode: 'text',
+            color: theme.colors.gray80Percent,
+            style: styles.serviceWorkerDialogWhatsNew,
+            onPress: () => {},
+          },
+          {
+            text: 'UPDATE',
             onPress: () => {
               if (serviceWorkerUpdated && serviceWorkerUpdated.waiting && serviceWorkerUpdated.waiting.postMessage) {
                 log.debug('service worker:', 'sending skip waiting', serviceWorkerUpdated.active.clients)
@@ -620,6 +628,18 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
+  },
+  serviceWorkerDialogWhatsNew: {
+    textAlign: 'left',
+    fontSize: normalize(14),
+  },
+  serviceWorkerDialogButtonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: theme.sizes.defaultDouble,
+    justifyContent: 'space-between',
   },
 })
 

@@ -40,7 +40,7 @@ const InternetConnection = props => {
 
   const disconnected =
     isConnection === false || isAPIConnection === false || isConnectionWeb3 === false || isConnectionGun === false
-  return disconnected ? props.onDisconnect : props.children
+  return disconnected ? props.onDisconnect() : props.children
 }
 
 export default InternetConnection

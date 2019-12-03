@@ -196,7 +196,7 @@ const Dashboard = props => {
 
   const handleDeleteRedirect = () => {
     if (props.navigation.state.key === 'Delete') {
-      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
+      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
     }
   }
 
@@ -504,14 +504,14 @@ const Dashboard = props => {
           // Replicating Header Height.
           // TODO: Improve this when doing animation
           const HEIGHT_FULL =
-            props.theme.sizes.defaultDouble +
+            theme.sizes.defaultDouble +
             68 +
-            props.theme.sizes.default +
+            theme.sizes.default +
             normalize(18) +
-            props.theme.sizes.defaultDouble * 2 +
+            theme.sizes.defaultDouble * 2 +
             normalize(42) +
             normalize(70)
-          const HEIGHT_BASE = props.theme.sizes.defaultDouble + 68 + props.theme.sizes.default + normalize(70)
+          const HEIGHT_BASE = theme.sizes.defaultDouble + 68 + theme.sizes.default + normalize(70)
 
           const HEIGHT_DIFF = HEIGHT_FULL - HEIGHT_BASE
           const scrollPos = nativeEvent.contentOffset.y

@@ -9,8 +9,8 @@ Image.prefetch(UpdateVersion)
 const dialogStyles = ({ theme }) => ({
   image: {
     textAlign: 'center',
-    height: getDesignRelativeHeight(133),
-    width: getDesignRelativeWidth(191),
+    height: getDesignRelativeHeight(134),
+    width: getDesignRelativeHeight(191),
     marginBottom: getDesignRelativeHeight(25),
   },
   imageContainer: {

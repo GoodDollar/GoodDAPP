@@ -13,8 +13,8 @@ describe('generateCode', () => {
     const code = generateCode(address, networkId)
 
     // Then
-    expect(isMNID(code.split('|')[0])).toBeTruthy()
-    expect(mnid).toEqual(code.split('|')[0])
+    expect(isMNID(code.mnid)).toBeTruthy()
+    expect(mnid).toEqual(code.mnid)
   })
 
   it(`should return an string with the structure MNID|amount`, () => {
@@ -30,6 +30,8 @@ describe('generateCode', () => {
     const code = generateCode(address, networkId, amount, reason, counterPartyDisplayName)
 
     // Then
-    expect(`${mnid}|${amount}|${reason}|${counterPartyDisplayName}`).toEqual(code)
+    expect(`${mnid}|${amount}|${reason}|${counterPartyDisplayName}`).toEqual(
+      `${code.mnid}|${code.amount}|${code.reason}|${code.counterPartyDisplayName}`
+    )
   })
 })

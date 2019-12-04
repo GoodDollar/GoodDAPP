@@ -363,7 +363,6 @@ const Dashboard = props => {
     const { paymentCode, reason } = params
     const { styles }: DashboardProps = props
     try {
-      fireEvent('WITHDRAW_START', { paymentCode })
       showDialog({
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,
@@ -372,16 +371,12 @@ const Dashboard = props => {
       })
       const { status, transactionHash } = await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       if (transactionHash) {
+        fireEvent('WITHDRAW', { paymentCode })
         hideDialog()
-        fireEvent('WITHDRAW_COMPLETE', { paymentCode })
         return
       }
       switch (status) {
         case WITHDRAW_STATUS_COMPLETE:
-          fireEvent('WITHDRAW_STATUS_COMPLETE', {
-            paymentCode,
-            message: 'Payment already withdrawn or canceled by sender',
-          })
           showErrorDialog('Payment already withdrawn or canceled by sender')
           break
         case WITHDRAW_STATUS_UNKNOWN: {
@@ -395,18 +390,10 @@ const Dashboard = props => {
               return await handleWithdraw()
             }
           }
-          fireEvent('WITHDRAW_STATUS_UNKNOWN', {
-            paymentCode,
-            message: 'Could not find payment details.\nCheck your link or try again later.',
-          })
           showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
         }
       }
     } catch (e) {
-      fireEvent('WITHDRAW_FAILDE', {
-        paymentCode,
-        message: e.message,
-      })
       log.error('withdraw failed:', e.code, e.message, e)
       showErrorDialog(e.message)
     } finally {

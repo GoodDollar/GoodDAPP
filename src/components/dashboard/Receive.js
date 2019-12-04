@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo } from 'react'
 import { View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
+import { fireEvent } from '../../lib/analytics/analytics'
 import { generateCode, generateReceiveShareObject, generateShareLink } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -69,9 +70,23 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
           </PushButton>
           <View style={styles.space} />
           {isMobile && navigator.share ? (
-            <CustomButton onPress={shareAction}>{SHARE_TEXT}</CustomButton>
+            <CustomButton
+              onPress={() => {
+                fireEvent('RECEIVE', { type: 'wallet' })
+                shareAction
+              }}
+            >
+              {SHARE_TEXT}
+            </CustomButton>
           ) : (
-            <CopyButton style={styles.shareButton} toCopy={shareLink} onPressDone={screenProps.goToRoot}>
+            <CopyButton
+              style={styles.shareButton}
+              toCopy={shareLink}
+              onPress={() => {
+                fireEvent('RECEIVE', { type: 'wallet' })
+              }}
+              onPressDone={screenProps.goToRoot}
+            >
               {SHARE_TEXT}
             </CopyButton>
           )}

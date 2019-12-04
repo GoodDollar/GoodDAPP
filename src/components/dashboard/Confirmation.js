@@ -1,6 +1,7 @@
 // @flow
 import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
+import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import {
   generateReceiveShareObject,
@@ -73,7 +74,14 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           <Section.Text style={styles.textRow}>{reason}</Section.Text>
         </Section.Stack>
         <Section.Stack>
-          <ShareButton share={share} onPressDone={screenProps.goToRoot} actionText="Share as link" />
+          <ShareButton
+            share={share}
+            onPressDone={() => {
+              fireEvent('RECEIVE', { type: 'link' })
+              screenProps.goToRoot
+            }}
+            actionText="Share as link"
+          />
         </Section.Stack>
       </Section>
     </Wrapper>

@@ -10,7 +10,7 @@ const COPIED = 'COPIED'
 const DONE = 'DONE'
 const TRANSITION_TIME = 1000
 
-const CopyButton = ({ toCopy, children, onPressDone, iconColor, withoutDone, ...props }) => {
+const CopyButton = ({ toCopy, children, onPress, onPressDone, iconColor, withoutDone, ...props }) => {
   const mode = props.mode || 'contained'
   const [state, setState] = useState(NOT_COPIED)
 
@@ -45,6 +45,7 @@ const CopyButton = ({ toCopy, children, onPressDone, iconColor, withoutDone, ...
           data-gdtype={'copybutton'}
           mode={mode}
           onPress={() => {
+            onPress && onPress()
             Clipboard.setString(toCopy)
             setState(COPIED)
           }}

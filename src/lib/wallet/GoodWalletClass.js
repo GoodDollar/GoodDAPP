@@ -402,7 +402,7 @@ export class GoodWallet {
    * @returns {Promise<void>}
    */
   balanceChanged(cb: Function) {
-    this.subscribeToEvent('balanceChanged', cb)
+    return this.subscribeToEvent('balanceChanged', cb)
   }
 
   /**

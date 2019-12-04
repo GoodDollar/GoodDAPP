@@ -28,10 +28,10 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
   const [showErrorDialog] = useErrorDialog()
   const amount = 0
   const reason = ''
-  const code = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
-  const share = useMemo(() => generateReceiveShareObject(code, amount, '', profile.fullName), [code])
+  const codeObj = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
+  const share = useMemo(() => generateReceiveShareObject(codeObj, amount, '', profile.fullName), [codeObj])
   useEffect(() => {
-    shareLink = generateShareLink('receive', { code })
+    shareLink = generateShareLink('receive', codeObj)
   }, [])
   const shareAction = async () => {
     try {
@@ -53,7 +53,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
           <Section.Text fontSize={14} style={styles.mainText}>
             Let someone scan your wallet address
           </Section.Text>
-          <QRCode value={code} />
+          <QRCode value={codeObj} />
         </Section.Stack>
         <Section.Stack grow={1} justifyContent="center" alignItems="center">
           <Section.Text fontSize={14}>- OR -</Section.Text>

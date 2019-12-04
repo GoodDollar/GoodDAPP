@@ -3,15 +3,17 @@ import type { Effects, Store } from 'undux'
 
 import { initTransferEvents } from '../../undux/utils/account'
 import type { State } from '../GDStore'
+import logger from '../../logger/pino-logger'
+
+const log = logger.child({ from: 'undux/utils/balance' })
 
 const withBalanceChange: Effects<State> = (store: Store) => {
   store.on('isLoggedIn').subscribe(isLoggedIn => {
     const balanceUpdate = store.get('balanceUpdate')
-
-    if (!balanceUpdate.running && isLoggedIn) {
+    log.debug('subscribing to balance changes', isLoggedIn, store, balanceUpdate)
+    if (!balanceUpdate && isLoggedIn) {
       initTransferEvents(store)
-      balanceUpdate.running = true
-      store.set('balanceUpdate')(balanceUpdate)
+      store.set('balanceUpdate')(true)
     }
   })
 

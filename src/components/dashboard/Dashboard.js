@@ -1,11 +1,10 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, AppState, Dimensions, Easing } from 'react-native'
+import { Animated, AppState, Dimensions, Easing, InteractionManager } from 'react-native'
+import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
-import moment from 'moment'
 import type { Store } from 'undux'
-import * as web3Utils from 'web3-utils'
 import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
@@ -14,7 +13,7 @@ import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { executeWithdraw, prepareDataWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import {
   WITHDRAW_STATUS_COMPLETE,
@@ -60,6 +59,7 @@ import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
+import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
 // import FaceRecognition from './FaceRecognition/FaceRecognition'
 // import FRIntro from './FaceRecognition/FRIntro'
@@ -67,23 +67,6 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 // import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 
 const log = logger.child({ from: 'Dashboard' })
-const MIN_BALANCE_VALUE = '100000'
-const GAS_CHECK_DEBOUNCE_TIME = 1000
-const showOutOfGasError = debounce(
-  async props => {
-    const gasResult = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
-      topWallet: false,
-    })
-    log.debug('outofgaserror:', { gasResult })
-    if (gasResult.ok === false && gasResult.error !== false) {
-      props.screenProps.navigateTo('OutOfGasError')
-    }
-  },
-  GAS_CHECK_DEBOUNCE_TIME,
-  {
-    leading: true,
-  }
-)
 
 export type DashboardProps = {
   navigation: any,
@@ -102,7 +85,8 @@ const Dashboard = props => {
   const currentFeed = store.get('currentFeed')
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
-  const { screenProps, styles }: DashboardProps = props
+  const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
+  const { screenProps, styles, theme }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
@@ -113,59 +97,6 @@ const Dashboard = props => {
         scale: animValue,
       },
     ],
-  }
-
-  const checkBonusesToRedeem = () => {
-    log.info('Check bonuses process started')
-
-    const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
-
-    if (!isUserWhitelisted) {
-      return
-    }
-
-    return API.redeemBonuses()
-      .then(res => {
-        log.debug('redeemBonuses', { resData: res && res.data })
-      })
-      .catch(err => {
-        log.error('Failed to redeem bonuses', err.message, err)
-
-        // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
-      })
-  }
-
-  const prepareLoginToken = async () => {
-    log.info('Prepare login token process started')
-    const loginToken = await userStorage.getProfileFieldValue('loginToken')
-
-    if (!loginToken) {
-      try {
-        const response = await API.getLoginToken()
-
-        const _loginToken = _get(response, 'data.loginToken')
-
-        await userStorage.setProfileField('loginToken', _loginToken, 'private')
-      } catch (e) {
-        log.error('prepareLoginToken failed', e.message, e)
-      }
-    }
-  }
-
-  const checkBonusInterval = async perform => {
-    const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
-    log.debug({ lastTimeBonusCheck })
-    if (
-      lastTimeBonusCheck &&
-      moment()
-        .subtract(Number(config.backgroundReqsInterval), 'minutes')
-        .isBefore(moment(lastTimeBonusCheck))
-    ) {
-      return
-    }
-    await checkBonusesToRedeem()
-
-    userStorage.userProperties.set('lastBonusCheckDate', new Date().toISOString())
   }
 
   const isTheSameUser = code => {
@@ -195,7 +126,7 @@ const Dashboard = props => {
 
   const handleDeleteRedirect = () => {
     if (props.navigation.state.key === 'Delete') {
-      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
+      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
     }
   }
 
@@ -223,7 +154,7 @@ const Dashboard = props => {
     })
   }
 
-  const handleReceiveLink = () => {
+  const handleAppLinks = () => {
     const anyParams = extractQueryParams(window.location.href)
 
     log.debug('handle links effect dashboard', { anyParams })
@@ -239,8 +170,6 @@ const Dashboard = props => {
 
   const handleAppFocus = state => {
     if (state === 'active') {
-      checkBonusInterval()
-      showOutOfGasError(props)
       animateClaim()
     }
   }
@@ -297,18 +226,14 @@ const Dashboard = props => {
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
     log.debug('initDashboard subscribed to feed')
-    prepareLoginToken()
-    checkBonusInterval()
     handleDeleteRedirect()
-    handleReceiveLink()
     handleResize()
-    checkBonusInterval()
-    showOutOfGasError(props)
     animateClaim()
+    InteractionManager.runAfterInteractions(handleAppLinks)
   }
 
   useEffect(() => {
-    log.debug('Dashboard didmount')
+    log.debug('Dashboard didmount', props.navigation)
     initDashboard()
     AppState.addEventListener('change', handleAppFocus)
 
@@ -330,6 +255,37 @@ const Dashboard = props => {
       showDelayed()
     }
   }, [_get(currentScreen, 'dialogData.visible'), _get(loadingIndicator, 'loading'), currentFeed])
+
+  useEffect(() => {
+    if (serviceWorkerUpdated) {
+      log.info('service worker updated', serviceWorkerUpdated)
+      showDialog({
+        showCloseButtons: false,
+        content: <ServiceWorkerUpdatedDialog />,
+        buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
+        buttons: [
+          {
+            text: 'WHAT’S NEW?',
+            mode: 'text',
+            color: theme.colors.gray80Percent,
+            style: styles.serviceWorkerDialogWhatsNew,
+            onPress: () => {
+              window.open(config.newVersionUrl, '_blank')
+            },
+          },
+          {
+            text: 'UPDATE',
+            onPress: () => {
+              if (serviceWorkerUpdated && serviceWorkerUpdated.waiting && serviceWorkerUpdated.waiting.postMessage) {
+                log.debug('service worker:', 'sending skip waiting', serviceWorkerUpdated.active.clients)
+                serviceWorkerUpdated.waiting.postMessage({ type: 'SKIP_WAITING' })
+              }
+            },
+          },
+        ],
+      })
+    }
+  }, [serviceWorkerUpdated])
 
   const showEventModal = currentFeed => {
     store.set('currentFeed')(currentFeed)
@@ -360,8 +316,9 @@ const Dashboard = props => {
   }
 
   const handleWithdraw = async params => {
-    const { paymentCode, reason } = params
     const { styles }: DashboardProps = props
+    const paymentParams = prepareDataWithdraw(params)
+
     try {
       showDialog({
         title: 'Processing Payment Link...',
@@ -369,9 +326,9 @@ const Dashboard = props => {
         message: 'please wait while processing...',
         buttons: [{ text: 'YAY!', style: styles.disabledButton }],
       })
-      const { status, transactionHash } = await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
+      const { status, transactionHash } = await executeWithdraw(store, paymentParams.paymentCode, paymentParams.reason)
       if (transactionHash) {
-        fireEvent('WITHDRAW', { paymentCode })
+        fireEvent('WITHDRAW')
         hideDialog()
         return
       }
@@ -384,7 +341,7 @@ const Dashboard = props => {
             // eslint-disable-next-line no-await-in-loop
             await delay(2000)
             // eslint-disable-next-line no-await-in-loop
-            const { status } = await goodWallet.getWithdrawDetails(decodeURI(paymentCode))
+            const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
             if (status === WITHDRAW_STATUS_PENDING) {
               // eslint-disable-next-line no-await-in-loop
               return await handleWithdraw()
@@ -412,6 +369,7 @@ const Dashboard = props => {
             </Section.Text>
             <Section.Row style={styles.bigNumberWrapper}>
               <BigGoodDollar
+                testID="amount_value"
                 number={balance}
                 bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
@@ -475,14 +433,14 @@ const Dashboard = props => {
           // Replicating Header Height.
           // TODO: Improve this when doing animation
           const HEIGHT_FULL =
-            props.theme.sizes.defaultDouble +
+            theme.sizes.defaultDouble +
             68 +
-            props.theme.sizes.default +
+            theme.sizes.default +
             normalize(18) +
-            props.theme.sizes.defaultDouble * 2 +
+            theme.sizes.defaultDouble * 2 +
             normalize(42) +
             normalize(70)
-          const HEIGHT_BASE = props.theme.sizes.defaultDouble + 68 + props.theme.sizes.default + normalize(70)
+          const HEIGHT_BASE = theme.sizes.defaultDouble + 68 + theme.sizes.default + normalize(70)
 
           const HEIGHT_DIFF = HEIGHT_FULL - HEIGHT_BASE
           const scrollPos = nativeEvent.contentOffset.y
@@ -498,7 +456,7 @@ const Dashboard = props => {
       />
       {currentFeed && (
         <FeedModalList
-          data={feeds}
+          data={isBrowser ? [currentFeed] : feeds}
           handleFeedSelection={handleFeedSelection}
           initialNumToRender={PAGE_SIZE}
           onEndReached={nextFeed}
@@ -599,6 +557,18 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
+  },
+  serviceWorkerDialogWhatsNew: {
+    textAlign: 'left',
+    fontSize: normalize(14),
+  },
+  serviceWorkerDialogButtonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: theme.sizes.defaultDouble,
+    justifyContent: 'space-between',
   },
 })
 

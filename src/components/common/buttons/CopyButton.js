@@ -45,9 +45,9 @@ const CopyButton = ({ toCopy, children, onPress, onPressDone, iconColor, without
           data-gdtype={'copybutton'}
           mode={mode}
           onPress={() => {
-            onPress && onPress()
             Clipboard.setString(toCopy)
             setState(COPIED)
+            onPress && onPress()
           }}
           {...props}
         >

@@ -8,6 +8,7 @@ import moment from 'moment'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
@@ -212,7 +213,6 @@ const AppSwitch = (props: LoadingProps) => {
   useEffect(() => {
     init()
     navigateToUrlAction()
-    setConnectEvents()
     AppState.addEventListener('change', handleAppFocus)
 
     return function() {

@@ -29,7 +29,7 @@ const log = logger.child({ from: 'SendQRSummary' })
  * @param {any} props.screenProps
  * @param {any} props.styles
  */
-const SendQRSummary = ({ screenProps }: AmountProps) => {
+const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const [showDialog] = useDialog()
@@ -59,7 +59,6 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
     try {
       setLoading(true)
       let txhash
-      fireEvent('SENDQRSUMMARY_CLICK_CONFIRM', { to, amount, reason })
       goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
@@ -84,7 +83,7 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
               survey,
             })
           }
-          fireEvent('SENDQRSUMMARY_TX_SUCCESS', { to, amount, reason })
+          fireEvent('SEND_DONE', { type: screenState.params.screen })
           showDialog({
             visible: true,
             title: 'SUCCESS!',
@@ -97,12 +96,10 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
         onError: e => {
           log.error('Send TX failed:', e.message, e)
           userStorage.markWithErrorEvent(txhash)
-          fireEvent('SENDQRSUMMARY_TX_FAILED', { to, amount, reason, error: e.message })
         },
       })
     } catch (e) {
       log.error('Send TX failed:', e.message, e)
-      fireEvent('SENDQRSUMMARY_TX_FAILED', { to, amount, reason, error: e.message })
       showDialog({
         visible: true,
         title: 'Transaction Failed!',

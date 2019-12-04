@@ -73,7 +73,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
             <CustomButton
               onPress={() => {
                 fireEvent('RECEIVE', { type: 'wallet' })
-                shareAction
+                shareAction()
               }}
             >
               {SHARE_TEXT}

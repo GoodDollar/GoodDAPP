@@ -78,7 +78,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
             share={share}
             onPressDone={() => {
               fireEvent('RECEIVE', { type: 'link' })
-              screenProps.goToRoot
+              screenProps.goToRoot()
             }}
             actionText="Share as link"
           />

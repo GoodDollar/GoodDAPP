@@ -314,8 +314,6 @@ const Dashboard = props => {
     }
   }
 
-  showOutOfGasError(props)
-
   const handleWithdraw = async params => {
     const { styles }: DashboardProps = props
     const paymentParams = prepareDataWithdraw(params)

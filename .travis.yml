@@ -28,7 +28,7 @@ env:
 matrix:
   include:
     - script:
-        whitelist: master, staging, production, beta
+        if: branch IN (master, staging, production, beta)
         - npm run build
         - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
         - URL=`grep -i 'deploy_url' test.json | cut -c18-70`

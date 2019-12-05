@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "10.15"
+  - '10.15'
 
 addons:
   apt:
@@ -35,6 +35,7 @@ matrix:
         - export CYPRESS_baseUrl=$URL
         - export CYPRESS_w3Link=$W3_LINK
         - cypress run
+        - npm run bundlesize:check
     - script:
         - pushd node_modules/@gooddollar/goodcontracts
         - npm ci
@@ -44,7 +45,6 @@ matrix:
         - popd
         - npm run coverage -- --silent
         - npm run coveralls || true
-        - npm run bundlesize:check
         - pkill -f ganache
 
 after_failure:

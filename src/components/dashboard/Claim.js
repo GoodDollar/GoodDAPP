@@ -226,7 +226,7 @@ const Claim = props => {
           <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.subMainText]}>
             <View style={styles.bottomContainer}>
               <Text color="white" fontSize={16} fontFamily="Roboto">
-                {'Claim now & spend it on'}
+                {'Claim & spend it on'}
               </Text>
               <Text color="white" fontFamily="Roboto" size={16}>
                 {`things you care about`}

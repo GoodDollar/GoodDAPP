@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "10.15"
+  - '10.15'
 
 addons:
   apt:
@@ -27,14 +27,15 @@ env:
 
 matrix:
   include:
-    - script:
-        whitelist: master, staging, production, beta
+    - if: branch IN (master, staging, production, beta)
+      script:
         - npm run build
         - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
         - URL=`grep -i 'deploy_url' test.json | cut -c18-70`
         - export CYPRESS_baseUrl=$URL
         - export CYPRESS_w3Link=$W3_LINK
         - cypress run
+        - npm run bundlesize:check
     - script:
         - pushd node_modules/@gooddollar/goodcontracts
         - npm ci
@@ -44,7 +45,6 @@ matrix:
         - popd
         - npm run coverage -- --silent
         - npm run coveralls || true
-        - npm run bundlesize:check
         - pkill -f ganache
 
 after_failure:

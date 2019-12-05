@@ -65,6 +65,8 @@ const Config = {
 
 Config.web3SiteUrlEconomyPage = `${Config.web3SiteUrl}${Config.web3SiteUrlEconomyEndpoint}`
 
+global.config = Config
+
 // Forcing value as number, if not MNID encoder/decoder may fail
 // Config.networkId = Config.ethereum[Config.networkId].network_id
 export default Config

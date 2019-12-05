@@ -563,6 +563,7 @@ exports[`AppNavigation matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n"
+              data-testid="amount_value"
               style={
                 Object {
                   "WebkitAlignItems": "baseline",
@@ -892,6 +893,7 @@ exports[`AppNavigation matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n"
+              data-testid="claim_button"
               style={
                 Object {
                   "WebkitAlignItems": "center",

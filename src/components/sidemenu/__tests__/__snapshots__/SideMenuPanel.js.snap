@@ -68,6 +68,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
       <div
         className="css-view-1dbjc4n"
         data-focusable={true}
+        data-testid="close_burger_button"
         onKeyDown={[Function]}
         onKeyUp={[Function]}
         onResponderGrant={[Function]}
@@ -224,6 +225,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-testid="burger_button"
               dir="auto"
               style={
                 Object {
@@ -328,6 +330,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-testid="burger_button"
               dir="auto"
               style={
                 Object {
@@ -432,6 +435,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-testid="burger_button"
               dir="auto"
               style={
                 Object {
@@ -536,6 +540,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-testid="burger_button"
               dir="auto"
               style={
                 Object {
@@ -640,6 +645,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-testid="burger_button"
               dir="auto"
               style={
                 Object {
@@ -744,6 +750,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-testid="burger_button"
               dir="auto"
               style={
                 Object {
@@ -848,6 +855,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-testid="burger_button"
               dir="auto"
               style={
                 Object {
@@ -952,6 +960,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-testid="burger_button"
               dir="auto"
               style={
                 Object {
@@ -1064,6 +1073,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             >
               <div
                 className="css-text-901oao"
+                data-testid="burger_button"
                 dir="auto"
                 style={
                   Object {

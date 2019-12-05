@@ -42,7 +42,7 @@ const SignupWizardNavigator = createSwitchNavigator(
   navigationConfig
 )
 
-const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
+const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
@@ -452,7 +452,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           <SignupWizardNavigator
             navigation={navigation}
             screenProps={{
-              ...screenProps,
               data: { ...state, loading, createError, countryCode },
               doneCallback: done,
               back,

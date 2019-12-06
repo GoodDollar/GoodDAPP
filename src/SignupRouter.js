@@ -35,6 +35,8 @@ if (Platform.OS === 'web') {
   WebRouter = createBrowserApp(router)
 }
 
+const MIN_HEIGHT_TO_ERROR_MESSAGE = 407
+const MIN_HEIGHT_TO_HIDE_BTN = 500
 const fullScreenContainer = {
   top: 0,
   left: 0,
@@ -44,7 +46,7 @@ const fullScreenContainer = {
   display: 'flex',
   flexGrow: 1,
   flexDirection: 'column',
-  minHeight: 480,
+  minHeight: window.innerHeight > 480 ? MIN_HEIGHT_TO_ERROR_MESSAGE : MIN_HEIGHT_TO_HIDE_BTN,
 }
 
 const Router = () => {

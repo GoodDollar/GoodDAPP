@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { generateCode, generateReceiveShareObject, generateShareLink } from '../../lib/share'
@@ -19,19 +19,19 @@ export type ReceiveProps = {
 
 const RECEIVE_TITLE = 'Receive G$'
 const SHARE_TEXT = 'Share your wallet link'
-let shareLink
 const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')
   const { account, networkId } = goodWallet
-
+  const [shareLink, setShareLink] = useState(null)
   const [showErrorDialog] = useErrorDialog()
   const amount = 0
   const reason = ''
   const codeObj = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
   const share = useMemo(() => generateReceiveShareObject(codeObj, amount, '', profile.fullName), [codeObj])
   useEffect(() => {
-    shareLink = generateShareLink('receive', codeObj)
-  }, [])
+    const link = generateShareLink('receive', codeObj)
+    setShareLink(link)
+  }, [codeObj])
   const shareAction = async () => {
     try {
       await navigator.share(share)

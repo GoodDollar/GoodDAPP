@@ -74,7 +74,7 @@
     "bip39-light": "^1.0.7",
     "ethereumjs-util": "^6.1.0",
     "ethereumjs-wallet": "^0.6.3",
-    "gun": "0.2019.915",
+    "gun": "git+https://github.com/GoodDollar/gun.git",
     "hdkey": "^1.1.1",
     "iframe-resizer-react": "^1.0.0",
     "loadjs": "^3.6.1",

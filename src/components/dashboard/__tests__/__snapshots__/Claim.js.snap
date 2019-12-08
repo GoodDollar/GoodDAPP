@@ -354,7 +354,7 @@ exports[`Claim matches snapshot 1`] = `
                 }
               }
             >
-              Claim now & spend it on
+              Claim & spend it on
             </div>
             <div
               className="css-text-901oao"

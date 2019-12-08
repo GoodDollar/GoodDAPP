@@ -1,4 +1,4 @@
-import Gun from '@gooddollar/gun-appendonly'
+import Gun from 'gun'
 import 'gun/lib/rindexed'
 // eslint-disable-next-line no-unused-vars
 import SEA from 'gun/sea'

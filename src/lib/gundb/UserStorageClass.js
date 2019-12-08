@@ -1,5 +1,5 @@
 //@flow
-import Gun from '@gooddollar/gun-appendonly'
+import Gun from 'gun'
 import Mutex from 'await-mutex'
 import SEA from 'gun/sea'
 import find from 'lodash/find'

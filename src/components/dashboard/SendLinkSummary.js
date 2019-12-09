@@ -1,6 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'mobile-device-detect'
+import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import Config from '../../config/config'
@@ -133,6 +134,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
               code,
             },
           }
+          fireEvent('SEND_DONE', { type: 'Link' })
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
           if (Config.isEToro) {

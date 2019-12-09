@@ -84,7 +84,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
             })
           }
 
-          fireEvent('SEND_DONE', { type: screenState.params.type ? screenState.params.type : 'link' })
+          fireEvent('SEND_DONE', { type: screenState.params.type })
           showDialog({
             visible: true,
             title: 'SUCCESS!',

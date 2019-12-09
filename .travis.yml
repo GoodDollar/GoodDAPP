@@ -28,8 +28,7 @@ env:
     - DEPLOY_TO=automated-tests
     - DEPLOY_TYPE=type
 
-if: |
-    env(DEPLOY_FROM) IS blank OR \
+if: env(DEPLOY_FROM) IS blank OR \
     env(DEPLOY_TO) IS blank OR \
     env(DEPLOY_TYPE) IS blank
   matrix:

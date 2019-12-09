@@ -15,7 +15,6 @@ import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent } from '../../lib/analytics/analytics'
-import ErrorMessages from '../../lib/constants/errorMessages'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -343,12 +342,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
-          return showSupportDialog(
-            showErrorDialog,
-            hideDialog,
-            navigation.navigate,
-            ErrorMessages[data.error] || data.error
-          )
+          const errorMessage =
+            data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
+
+          return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {

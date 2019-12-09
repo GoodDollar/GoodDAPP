@@ -201,26 +201,6 @@ exports[`Claim matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto Slab",
-                    "fontSize": "36px",
-                    "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "marginRight": "2px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                1
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
@@ -271,6 +251,45 @@ exports[`Claim matches snapshot 1`] = `
                 >
                   $
                 </span>
+              </span>
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(66,69,74,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "normal",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                 
+              </span>
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto Slab",
+                    "fontSize": "36px",
+                    "fontWeight": "700",
+                    "lineHeight": "30px",
+                    "marginRight": "2px",
+                    "textAlign": "right",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                1
               </span>
             </div>
             <span

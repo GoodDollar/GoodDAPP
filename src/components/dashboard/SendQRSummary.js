@@ -83,7 +83,8 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
               survey,
             })
           }
-          fireEvent('SEND_DONE', { type: screenState.params.screen })
+
+          fireEvent('SEND_DONE', { type: screenState.params.type ? screenState.params.type : 'wallet' })
           showDialog({
             visible: true,
             title: 'SUCCESS!',

@@ -24,28 +24,40 @@ env:
     - MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - ADMIN_MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - CI=false
+    - DEPLOY_FROM=update-snapshots
+    - DEPLOY_TO=automated-tests
+    - DEPLOY_TYPE=prerelease
 
 matrix:
   include:
-    - if: branch IN (master, staging, production, beta)
-      script:
-        - npm run build
-        - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
-        - URL=`grep -i 'deploy_url' test.json | cut -c18-70`
-        - export CYPRESS_baseUrl=$URL
-        - export CYPRESS_w3Link=$W3_LINK
-        - cypress run
-        - npm run bundlesize:check
-    - script:
-        - pushd node_modules/@gooddollar/goodcontracts
-        - npm ci
-        - npm run ganache &
-        - npm run wait
-        - npm run deploy
-        - popd
-        - npm run coverage -- --silent
-        - npm run coveralls || true
-        - pkill -f ganache
+    - if: env(DEPLOY_FROM || DEPLOY_TYPE || DEPLOY_TO) IS blank
+      - if: branch IN (master, staging, production, beta)
+        script:
+          - npm run build
+          - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
+          - URL=`grep -i 'deploy_url' test.json | cut -c18-70`
+          - export CYPRESS_baseUrl=$URL
+          - export CYPRESS_w3Link=$W3_LINK
+          - cypress run
+          - npm run bundlesize:check
+      - script:
+          - pushd node_modules/@gooddollar/goodcontracts
+          - npm ci
+          - npm run ganache &
+          - npm run wait
+          - npm run deploy
+          - popd
+          - npm run coverage -- --silent
+          - npm run coveralls || true
+          - pkill -f ganache
+    - if: env(DEPLOY_FROM && DEPLOY_TYPE && DEPLOY_TO) IS present
+      - script:
+          - git checkout $DEPLOY_FROM
+          - npm version $DEPLOY_TYPE
+          - git push --follow-tags
+          - git push origin $DEPLOY_FROM:$DEPLOY_TO
+          - git checkout master
+          - git merge $DEPLOY_FROM
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

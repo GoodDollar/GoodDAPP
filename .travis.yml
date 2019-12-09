@@ -26,7 +26,7 @@ env:
     - CI=false
     - DEPLOY_FROM=update-snapshots
     - DEPLOY_TO=automated-tests
-    - DEPLOY_TYPE=type
+    - DEPLOY_TYPE=
 
 if: |
     env(DEPLOY_FROM) IS blank OR \
@@ -53,18 +53,17 @@ matrix:
         - npm run coverage -- --silent
         - npm run coveralls || true
         - pkill -f ganache
-
-if: |
-    env(DEPLOY_FROM) IS present AND \
-    env(DEPLOY_TO) IS present AND \
-    env(DEPLOY_TYPE) IS present 
-script:
-  - git checkout $DEPLOY_FROM
-  - npm version $DEPLOY_TYPE (for example prerelease,patch,minor)
-  - git push --follow-tags
-  - git push origin $DEPLOY_FROM:$DEPLOY_TO
-  - git checkout master
-  - git merge $DEPLOY_FROM
+    - if: |
+          env(DEPLOY_FROM) IS present AND \
+          env(DEPLOY_TO) IS present AND \
+          env(DEPLOY_TYPE) IS present 
+      script:
+        - git checkout $DEPLOY_FROM
+        - npm version $DEPLOY_TYPE
+        - git push --follow-tags
+        - git push origin $DEPLOY_FROM:$DEPLOY_TO
+        - git checkout master
+        - git merge $DEPLOY_FROM
 
 
 

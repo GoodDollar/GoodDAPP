@@ -427,7 +427,7 @@ const Dashboard = props => {
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed}
         updateData={() => {}}
-        onScroll={({ nativeEvent }) => {
+        onScroll={debounce(({ nativeEvent }) => {
           // ISH - including small header calculations
           const minScrollRequired = 150
           const scrollPosition = nativeEvent.contentOffset.y
@@ -441,7 +441,7 @@ const Dashboard = props => {
           }
 
           // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
-        }}
+        }, 100)}
         headerLarge={headerLarge}
       />
       {currentFeed && (

@@ -134,7 +134,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
               code,
             },
           }
-          fireEvent('SEND_DONE', { type: 'Link' })
+          fireEvent('SEND_DONE', { type: 'link' })
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
           if (Config.isEToro) {

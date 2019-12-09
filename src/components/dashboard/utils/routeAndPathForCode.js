@@ -38,7 +38,7 @@ export const routeAndPathForCode = async (
   switch (screen) {
     case 'sendByQR':
     case 'send': {
-      const params = { action: ACTION_SEND, screen }
+      const params = { action: ACTION_SEND, type: screen === 'sendByQR' ? 'QR' : 'Receive' }
       if (!amount) {
         return {
           route: 'Amount',

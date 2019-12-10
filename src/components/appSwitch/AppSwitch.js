@@ -14,7 +14,6 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/gundb/UserStorage'
-import goodWallet from '../../lib/wallet/GoodWallet'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 

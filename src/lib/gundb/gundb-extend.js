@@ -1,4 +1,4 @@
-import Gun from '@gooddollar/gun-appendonly'
+import Gun from 'gun'
 import SEA from 'gun/sea'
 import 'gun/lib/load'
 

@@ -51,7 +51,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
           </Section.Row>
           <Section.Stack grow={3}>
             <PushButton
-              routeName="Confirmation"
+              routeName="ReceiveConfirmation"
               screenProps={screenProps}
               params={{ reason, amount, code: codeObj, counterPartyDisplayName, params }}
             >

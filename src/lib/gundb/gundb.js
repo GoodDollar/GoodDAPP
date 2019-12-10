@@ -1,24 +1,30 @@
 import Gun from 'gun'
+import 'gun/lib/radix'
+import 'gun/lib/radisk'
+import 'gun/lib/store'
 import 'gun/lib/rindexed'
 // eslint-disable-next-line no-unused-vars
-import SEA from 'gun/sea'
+import 'gun/sea'
+import './gundb-extend'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 // eslint-disable-next-line no-unused-vars
-import gundbextend from './gundb-extend'
 
 const initGunDB = () => {
+  let gun
   if (!global.gun) {
     if (process.env.NODE_ENV === 'test') {
-      global.gun = Gun()
+      gun = Gun()
     } else {
-      global.gun = Gun({
-        localStorage: false,
+      gun = Gun({
+        store: window && window.RindexedDB({}),
+        localStorage: (window && window.RindexedDB) !== undefined,
         peers: [Config.gunPublicUrl],
       })
     }
     logger.debug('Initialized gundb', Config.gunPublicUrl)
   }
-  return global.gun
+  global.gun = gun
+  return gun
 }
 export default initGunDB()

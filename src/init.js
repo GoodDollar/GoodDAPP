@@ -1,6 +1,5 @@
 //@flow
 import _pick from 'lodash/pick'
-import './lib/gundb/gundb'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import isWebApp from './lib/utils/isWebApp'

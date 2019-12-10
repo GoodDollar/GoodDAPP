@@ -626,6 +626,7 @@ exports[`Claim matches snapshot 1`] = `
                           "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "700",
+                          "letterSpacing": "0.08px",
                           "lineHeight": "22px",
                           "marginBottom": "8px",
                           "textAlign": "center",

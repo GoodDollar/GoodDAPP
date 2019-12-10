@@ -1,7 +1,5 @@
 //@flow
-import Gun from 'gun'
 import Mutex from 'await-mutex'
-import SEA from 'gun/sea'
 import find from 'lodash/find'
 import flatten from 'lodash/flatten'
 import isEqual from 'lodash/isEqual'
@@ -15,12 +13,14 @@ import values from 'lodash/values'
 import get from 'lodash/get'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
+import SEA from 'gun/sea'
 import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import defaultGun from './gundb'
+
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 

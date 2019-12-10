@@ -25,12 +25,14 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const firstName = fullName && fullName.split(' ')[0]
   const field = _get(navigation, 'state.params.field')
   const content = _get(navigation, 'state.params.content')
+  let fieldToSend
   let fieldToShow
   let sendToText
   let sendCodeRequestFn
 
   switch (field) {
     case 'phone':
+      fieldToSend = 'mobile'
       fieldToShow = 'phone number'
       sendToText = 'number'
       sendCodeRequestFn = 'sendOTP'
@@ -38,6 +40,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
     case 'email':
     default:
+      fieldToSend = 'email'
       fieldToShow = 'email'
       sendToText = 'email'
       sendCodeRequestFn = 'sendVerificationEmail'
@@ -52,7 +55,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     try {
       setLoading(true)
 
-      await API[sendCodeRequestFn](content)
+      await API[sendCodeRequestFn]({ [fieldToSend]: content })
 
       navigation.navigate('VerifyEditCode', { field, content })
     } catch (e) {

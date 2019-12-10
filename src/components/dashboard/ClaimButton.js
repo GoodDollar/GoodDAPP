@@ -110,6 +110,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   extraInfoCountdownTitle: {
     marginBottom: theme.sizes.default,
+    letterSpacing: 0.08,
   },
   amountInButton: {
     display: 'inline',

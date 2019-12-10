@@ -24,6 +24,7 @@ env:
     - MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - ADMIN_MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - CI=false
+    - DEPLOY_TYPE=prerelease
 
 matrix:
   include:

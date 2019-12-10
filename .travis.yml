@@ -27,14 +27,11 @@ env:
     - DEPLOY_FROM=update-snapshots
     - DEPLOY_TO=automated-tests
     - DEPLOY_TYPE=type
+    
 
-if: |
-    env(DEPLOY_FROM) IS blank OR \
-    env(DEPLOY_TO) IS blank OR \
-    env(DEPLOY_TYPE) IS blank
 matrix:
   include:
-    - if: branch IN (master, staging, production, beta)
+    - if: branch IN (master, staging, production, beta) AND env(DEPLOY_FROM) IS blank OR env(DEPLOY_TO) IS blank OR env(DEPLOY_TYPE) IS blank
       script:
         - npm run build
         - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
@@ -43,7 +40,8 @@ matrix:
         - export CYPRESS_w3Link=$W3_LINK
         - cypress run
         - npm run bundlesize:check
-    - script:
+    - if: env(DEPLOY_FROM) IS blank OR env(DEPLOY_TO) IS blank OR env(DEPLOY_TYPE) IS blank    
+      script:
         - pushd node_modules/@gooddollar/goodcontracts
         - npm ci
         - npm run ganache &
@@ -53,20 +51,14 @@ matrix:
         - npm run coverage -- --silent
         - npm run coveralls || true
         - pkill -f ganache
-
-if: |
-    env(DEPLOY_FROM) IS present AND \
-    env(DEPLOY_TO) IS present AND \
-    env(DEPLOY_TYPE) IS present 
-script:
-  - git checkout $DEPLOY_FROM
-  - npm version $DEPLOY_TYPE (for example prerelease,patch,minor)
-  - git push --follow-tags
-  - git push origin $DEPLOY_FROM:$DEPLOY_TO
-  - git checkout master
-  - git merge $DEPLOY_FROM
-
-
+    - if: env(DEPLOY_FROM) IS present AND env(DEPLOY_TO) IS present AND env(DEPLOY_TYPE) IS present
+      script:
+        - git checkout $DEPLOY_FROM
+        - npm version $DEPLOY_TYPE
+        - git push --follow-tags
+        - git push origin $DEPLOY_FROM:$DEPLOY_TO
+        - git checkout master
+        - git merge $DEPLOY_FROM
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

@@ -24,12 +24,10 @@ env:
     - MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - ADMIN_MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - CI=false
-    - IS_DEPLOY=DEPLOY_FROM && DEPLOY_TO && DEPLOY_TYPE
-
 
 matrix:
   include:
-    - if: branch IN (master, staging, production) AND env(IS_DEPLOY) = false
+    - if: branch IN (master, staging, production) AND env(DEPLOY_TYPE) IS NOT present
       script:
         - npm run build
         - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
@@ -38,7 +36,7 @@ matrix:
         - export CYPRESS_w3Link=$W3_LINK
         - cypress run
         - npm run bundlesize:check
-    - if: env(IS_DEPLOY) = false
+    - if: env(DEPLOY_TYPE) IS NOT present
       script:
         - pushd node_modules/@gooddollar/goodcontracts
         - npm ci
@@ -49,7 +47,7 @@ matrix:
         - npm run coverage -- --silent
         - npm run coveralls || true
         - pkill -f ganache
-    - if: env(IS_DEPLOY) = true
+    - if: env(DEPLOY_TYPE) IS NOT present
       script:
         - git checkout $DEPLOY_FROM
         - npm version $DEPLOY_TYPE
@@ -60,4 +58,3 @@ matrix:
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log
-

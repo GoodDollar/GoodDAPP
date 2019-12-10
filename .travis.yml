@@ -24,8 +24,8 @@ env:
     - MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - ADMIN_MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - CI=false
-    - DEPLOY_FROM=origin/add-deploy-condition-to-travis
-    - DEPLOY_TO=origin/automated-tests
+    - DEPLOY_FROM=add-deploy-condition-to-travis
+    - DEPLOY_TO=automated-tests
     - DEPLOY_TYPE=prerelease
 
 matrix:
@@ -52,7 +52,7 @@ matrix:
         - pkill -f ganache
     - if: env(DEPLOY_TYPE) IS present
       script:
-        - git checkout $DEPLOY_FROM
+        - git checkout origin/$DEPLOY_FROM
         - npm version $DEPLOY_TYPE
         - git push --follow-tags
         - git push origin $DEPLOY_FROM:$DEPLOY_TO

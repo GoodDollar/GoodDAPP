@@ -429,29 +429,21 @@ const Dashboard = props => {
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed}
         updateData={() => {}}
-        onScroll={({ nativeEvent }) => {
-          // Replicating Header Height.
-          // TODO: Improve this when doing animation
-          const HEIGHT_FULL =
-            theme.sizes.defaultDouble +
-            68 +
-            theme.sizes.default +
-            normalize(18) +
-            theme.sizes.defaultDouble * 2 +
-            normalize(42) +
-            normalize(70)
-          const HEIGHT_BASE = theme.sizes.defaultDouble + 68 + theme.sizes.default + normalize(70)
+        onScroll={debounce(({ nativeEvent }) => {
+          // ISH - including small header calculations
+          const minScrollRequired = 150
+          const scrollPosition = nativeEvent.contentOffset.y
+          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
 
-          const HEIGHT_DIFF = HEIGHT_FULL - HEIGHT_BASE
-          const scrollPos = nativeEvent.contentOffset.y
-          const scrollPosAlt = headerLarge ? scrollPos - HEIGHT_DIFF : scrollPos + HEIGHT_DIFF
-          const newHeaderLarge = scrollPos <= HEIGHT_BASE || scrollPosAlt <= HEIGHT_BASE
-
-          // log.info('scrollPos', { newHeaderLarge, scrollPos, scrollPosAlt, HEIGHT_DIFF, HEIGHT_BASE, HEIGHT_FULL })
-          if (newHeaderLarge !== headerLarge) {
-            setHeaderLarge(newHeaderLarge)
+          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+            headerLarge && setHeaderLarge(false)
+          } else {
+            !headerLarge && setHeaderLarge(true)
           }
-        }}
+
+          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
+        }, 100)}
         headerLarge={headerLarge}
       />
       {currentFeed && (

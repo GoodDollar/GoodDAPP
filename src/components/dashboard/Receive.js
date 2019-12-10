@@ -72,7 +72,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
           {isMobile && navigator.share ? (
             <CustomButton
               onPress={() => {
-                fireEvent('RECEIVE', { type: 'wallet' })
+                fireEvent('RECEIVE_DONE', { type: 'wallet' })
                 shareAction()
               }}
             >
@@ -83,7 +83,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
               style={styles.shareButton}
               toCopy={shareLink}
               onPress={() => {
-                fireEvent('RECEIVE', { type: 'wallet' })
+                fireEvent('RECEIVE_DONE', { type: 'wallet' })
               }}
               onPressDone={screenProps.goToRoot}
             >

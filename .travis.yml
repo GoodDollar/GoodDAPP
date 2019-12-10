@@ -47,7 +47,7 @@ matrix:
         - npm run coverage -- --silent
         - npm run coveralls || true
         - pkill -f ganache
-    - if: env(DEPLOY_TYPE) IS NOT present
+    - if: env(DEPLOY_TYPE) IS present
       script:
         - git checkout $DEPLOY_FROM
         - npm version $DEPLOY_TYPE

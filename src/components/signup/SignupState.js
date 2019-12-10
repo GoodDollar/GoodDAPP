@@ -41,7 +41,7 @@ const SignupWizardNavigator = createSwitchNavigator(
   navigationConfig
 )
 
-const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
+const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
@@ -283,7 +283,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       return true
     } catch (e) {
       log.error('New user failure', e.message, e)
-      showSupportDialog(showErrorDialog, hideDialog, screenProps)
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate)
 
       // showErrorDialog('Something went on our side. Please try again')
       setCreateError(true)
@@ -342,7 +342,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
-          return showErrorDialog('Sending mobile verification code failed', data.error)
+          const errorMessage =
+            data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
+
+          return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
@@ -446,7 +449,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           <SignupWizardNavigator
             navigation={navigation}
             screenProps={{
-              ...screenProps,
               data: { ...state, loading, createError, countryCode },
               doneCallback: done,
               back,

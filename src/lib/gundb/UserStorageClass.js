@@ -13,6 +13,7 @@ import values from 'lodash/values'
 import get from 'lodash/get'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
+import Gun from 'gun'
 import SEA from 'gun/sea'
 import Config from '../../config/config'
 import API from '../API/api'
@@ -503,7 +504,10 @@ export class UserStorage {
       logger.debug('init:', 'logging out first')
       this.gunuser.leave()
     }
-    const existingUsername = await this.gun.get('~@' + username)
+
+    // this causes gun create user only on non-incognito to hang if user doesnt exists i have no freaking idea why
+    //const existingUsername = await this.gun.get('~@' + username)
+    const existingUsername = false
     logger.debug('init existing username:', { existingUsername })
     let loggedInPromise
     if (existingUsername) {

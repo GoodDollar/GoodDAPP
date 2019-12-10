@@ -17,8 +17,7 @@ const initGunDB = () => {
       gun = Gun()
     } else {
       gun = Gun({
-        store: window && window.RindexedDB({}),
-        localStorage: (window && window.RindexedDB) !== undefined,
+        localStorage: (window && window.RindexedDB) === undefined,
         peers: [Config.gunPublicUrl],
       })
     }

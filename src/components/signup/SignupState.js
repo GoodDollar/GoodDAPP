@@ -173,6 +173,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       //for QA
       global.wallet = goodWallet
+      await userStorage.ready
       fireSignupEvent('STARTED', { source })
 
       //the login also re-initialize the api with new jwt
@@ -320,6 +321,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
+    await ready
 
     log.info('signup data:', { data })
 

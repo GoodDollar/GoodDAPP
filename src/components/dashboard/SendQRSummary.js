@@ -55,11 +55,12 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const faceRecognition = () => {
     return screenProps.push('FRIntro', { from: 'SendQRSummary' })
   }
-  const sendGD = () => {
+
+  const sendGD = async () => {
     try {
       setLoading(true)
       let txhash
-      goodWallet.sendAmount(to, amount, {
+      await goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
           txhash = hash

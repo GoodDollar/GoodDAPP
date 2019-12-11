@@ -21,7 +21,6 @@ describe('Test case 2: Ability to do authorization', () => {
   beforeEach(() => {
     StartPage.open()
     StartPage.continueOnWebButton.click()
-    StartPage.createWalletButton.should('be.visible')
     StartPage.signInButton.should('be.visible')
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()

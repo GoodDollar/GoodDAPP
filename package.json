@@ -137,7 +137,7 @@
     "clipboardy": "^2.1.0",
     "coveralls": "^3.0.3",
     "css-loader": "1.0.0",
-    "cypress": "^3.4.1",
+    "cypress": "^3.7.0",
     "cypress-xpath": "^1.4.0",
     "documentation": "9.3.1",
     "dotenv": "6.0.0",

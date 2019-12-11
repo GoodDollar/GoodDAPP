@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 import QrReader from 'react-qr-reader'
 
 import logger from '../../lib/logger/pino-logger'
-import { readCode } from '../../lib/share'
+import { extractQueryParams, readCode } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Section, Wrapper } from '../common'
@@ -29,8 +29,8 @@ const SendByQR = ({ screenProps }: Props) => {
   const handleScan = async data => {
     if (data) {
       try {
-        const code = readCode(data)
-
+        let paramsUrl = extractQueryParams(data)
+        const code = readCode(paramsUrl.code)
         log.info({ code })
 
         const { route, params } = await routeAndPathForCode('sendByQR', code)

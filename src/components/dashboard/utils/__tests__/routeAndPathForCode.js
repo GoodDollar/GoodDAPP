@@ -37,7 +37,7 @@ describe('routeAndPathForCode', () => {
       expect(params).toEqual({
         to: code.address,
         nextRoutes: ['Reason', 'SendQRSummary'],
-        params: { action: ACTION_SEND },
+        params: { action: ACTION_SEND, type: 'receive' },
       })
     })
   })

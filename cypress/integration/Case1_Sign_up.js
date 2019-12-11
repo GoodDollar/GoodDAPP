@@ -7,7 +7,7 @@ import HomePage from '../PageObjects/HomePage'
 
 describe('Test case 1: Ability to Sign Up', () => {
   it('User is not able to sign up the wallet with wrong values', () => {
-    StartPage.open()
+    cy.visit(Cypress.env('baseUrl') + '?paymentCode=123')
     StartPage.continueOnWebButton.click()
     StartPage.createWalletButton.click()
     SignUpPage.pageHeader.should('contain', 'Sign Up')
@@ -30,7 +30,7 @@ describe('Test case 1: Ability to Sign Up', () => {
   })
 
   it('User is able to sign up the wallet with correct values', () => {
-    StartPage.open()
+    cy.visit(Cypress.env('baseUrl') + '?paymentCode=123')
     StartPage.continueOnWebButton.click()
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')

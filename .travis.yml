@@ -53,6 +53,7 @@ matrix:
     - if: env(DEPLOY_TYPE) IS present
       script:
         - $TEST_VAR=/[^/]+$/g.match(TRAVIS_REPO_SLUG)
+        - echo $TEST_VAR
         - git clone https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG
         - cd GoodDAPP
         - git checkout $DEPLOY_FROM 

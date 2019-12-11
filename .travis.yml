@@ -56,8 +56,6 @@ matrix:
         - cd GoodDAPP
         - git checkout $DEPLOY_FROM 
         - git push https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG $DEPLOY_FROM:$DEPLOY_TO
-        - git checkout master
-        - git merge $DEPLOY_FROM
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

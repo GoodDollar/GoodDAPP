@@ -52,12 +52,13 @@ matrix:
         - pkill -f ganache
     - if: env(DEPLOY_TYPE) IS present
       script:
-        - git checkout $DEPLOY_FROM
-        - npm version $DEPLOY_TYPE
-        - git push --follow-tags
-        - git push origin $DEPLOY_FROM:$DEPLOY_TO
+        - git clone https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG
+        - cd GoodDAPP
+        - git checkout $DEPLOY_FROM 
+        - git push https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG $DEPLOY_FROM:$DEPLOY_TO
         - git checkout master
         - git merge $DEPLOY_FROM
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log
+

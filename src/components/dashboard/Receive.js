@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -20,19 +20,16 @@ export type ReceiveProps = {
 
 const RECEIVE_TITLE = 'Receive G$'
 const SHARE_TEXT = 'Share your wallet link'
-let shareLink
 const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')
   const { account, networkId } = goodWallet
-
   const [showErrorDialog] = useErrorDialog()
   const amount = 0
   const reason = ''
   const codeObj = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
   const share = useMemo(() => generateReceiveShareObject(codeObj, amount, '', profile.fullName), [codeObj])
-  useEffect(() => {
-    shareLink = generateShareLink('receive', codeObj)
-  }, [])
+  const shareLink = useMemo(() => generateShareLink('receive', codeObj), [codeObj])
+
   const shareAction = async () => {
     try {
       await navigator.share(share)
@@ -53,7 +50,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
           <Section.Text fontSize={14} style={styles.mainText}>
             Let someone scan your wallet address
           </Section.Text>
-          <QRCode value={codeObj} />
+          <QRCode value={shareLink} />
         </Section.Stack>
         <Section.Stack grow={1} justifyContent="center" alignItems="center">
           <Section.Text fontSize={14}>- OR -</Section.Text>

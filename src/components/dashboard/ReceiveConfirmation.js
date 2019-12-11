@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
-import { generateReceiveShareObject, generateReceiveShareText } from '../../lib/share'
+import { generateReceiveShareObject, generateReceiveShareText, generateShareLink } from '../../lib/share'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import QRCode from '../common/view/QRCode'
 import Section from '../common/layout/Section'
@@ -34,12 +34,16 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
     }
   }, [code])
 
+  const urlForQR = useMemo(() => {
+    return generateShareLink('receive', code)
+  }, [code])
+
   return (
     <Wrapper>
       <TopBar push={screenProps.push} hideBalance />
       <Section justifyContent="space-between" grow>
         <Section.Stack style={styles.qrCode}>
-          <QRCode value={code} />
+          <QRCode value={urlForQR} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center">
           <Section.Text style={styles.textRow}>{'Request exactly'}</Section.Text>

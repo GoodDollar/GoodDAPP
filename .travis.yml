@@ -24,9 +24,6 @@ env:
     - MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - ADMIN_MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - CI=false
-    - DEPLOY_FROM=test-branch-12345
-    - DEPLOY_TO=test-branch-123
-    - DEPLOY_TYPE=prerelease
 
 matrix:
   include:
@@ -53,7 +50,7 @@ matrix:
     - if: env(DEPLOY_TYPE) IS present
       script:
         - git clone https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG
-        - cd GoodDAPP
+        - cd $DEPLOY_FOLDER
         - git checkout $DEPLOY_FROM 
         - git push https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG $DEPLOY_FROM:$DEPLOY_TO
 

@@ -24,8 +24,8 @@ env:
     - MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - ADMIN_MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
     - CI=false
-    - DEPLOY_FROM=add-deploy-condition-to-travis
-    - DEPLOY_TO=automated-tests
+    - DEPLOY_FROM=add-deploy-condition-to-travis-testing-branch
+    - DEPLOY_TO=add-deploy-condition-to-travis
     - DEPLOY_TYPE=prerelease
 
 matrix:

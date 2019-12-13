@@ -142,6 +142,7 @@ const styles = ({ theme }) => ({
     borderRadius: '50%',
     paddingVertical: 20,
     paddingHorizontal: 7,
+    marginRight: 14,
   },
   rewardsStyle: {
     marginLeft: 10,

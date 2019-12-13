@@ -56,11 +56,11 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
     return screenProps.push('FRIntro', { from: 'SendQRSummary' })
   }
 
-  const sendGD = async () => {
+  const sendGD = () => {
     try {
       setLoading(true)
       let txhash
-      await goodWallet.sendAmount(to, amount, {
+      goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
           txhash = hash
@@ -93,10 +93,15 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
             buttons: [{ text: 'Yay!' }],
             onDismiss: screenProps.goToRoot,
           })
+
+          setLoading(false)
+
           return hash
         },
         onError: e => {
           log.error('Send TX failed:', e.message, e)
+
+          setLoading(false)
           userStorage.markWithErrorEvent(txhash)
         },
       })
@@ -108,8 +113,6 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
         message: `There was a problem sending G$. Try again`,
         dismissText: 'OK',
       })
-    } finally {
-      setLoading(false)
     }
   }
 

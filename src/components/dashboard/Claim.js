@@ -21,6 +21,7 @@ import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
+import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -134,8 +135,8 @@ const Claim = props => {
 
   const checkHanukaBonusDates = () => {
     const now = moment()
-    const startHanuka = moment('23/12', 'DD/MM')
-    const endHanuka = moment('30/12', 'DD/MM').endOf('day')
+    const startHanuka = moment(`${Config.hanukaStartDay}/12`, 'DD/MM')
+    const endHanuka = moment(`${Config.hanukaEndDay}/12`, 'DD/MM').endOf('day')
 
     if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
       API.checkHanukaBonus()

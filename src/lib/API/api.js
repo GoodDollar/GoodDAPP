@@ -323,6 +323,13 @@ class API {
   redeemBonuses() {
     return this.client.get('/verify/w3/bonuses')
   }
+
+  /**
+   * `/verify/hanuka-bonus` get api call
+   */
+  checkHanukaBonus() {
+    return this.client.get('/verify/hanuka-bonus')
+  }
 }
 
 const api = new API()

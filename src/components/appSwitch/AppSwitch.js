@@ -152,6 +152,9 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const prepareLoginToken = async () => {
+    if (config.isEToro !== true) {
+      return
+    }
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
     log.info('Prepare login token process started', loginToken)
 
@@ -169,6 +172,9 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const checkBonusInterval = async perform => {
+    if (config.isEToro !== true) {
+      return
+    }
     const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
     log.debug({ lastTimeBonusCheck })
     if (

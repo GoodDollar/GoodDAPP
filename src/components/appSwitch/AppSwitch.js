@@ -138,7 +138,7 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const init = async () => {
-    log.debug('initializing')
+    log.debug('initializing', gdstore)
 
     try {
       await initialize()
@@ -170,12 +170,15 @@ const AppSwitch = (props: LoadingProps) => {
 
   const checkBonusInterval = async perform => {
     const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
-    log.debug({ lastTimeBonusCheck })
+    const isUserWhitelisted = gdstore.get('isLoggedInCitizen') || (await goodWallet.isCitizen())
+
+    log.debug({ lastTimeBonusCheck, isUserWhitelisted, gdstore })
     if (
-      lastTimeBonusCheck &&
-      moment()
-        .subtract(Number(config.backgroundReqsInterval), 'minutes')
-        .isBefore(moment(lastTimeBonusCheck))
+      isUserWhitelisted !== true ||
+      (lastTimeBonusCheck &&
+        moment()
+          .subtract(Number(config.backgroundReqsInterval), 'minutes')
+          .isBefore(moment(lastTimeBonusCheck)))
     ) {
       return
     }
@@ -184,17 +187,10 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const checkBonusesToRedeem = () => {
-    log.info('Check bonuses process started')
-
-    const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
-
-    if (!isUserWhitelisted) {
-      return
-    }
-
+    log.debug('Check bonuses process started')
     return API.redeemBonuses()
       .then(res => {
-        log.debug('redeemBonuses', { resData: res && res.data })
+        log.info('redeemBonuses', { resData: res && res.data })
       })
       .catch(err => {
         log.error('Failed to redeem bonuses', err.message, err)
@@ -213,16 +209,16 @@ const AppSwitch = (props: LoadingProps) => {
   useEffect(() => {
     init()
     navigateToUrlAction()
+  }, [])
+
+  useEffect(() => {
     AppState.addEventListener('change', handleAppFocus)
 
     return function() {
       AppState.removeEventListener('change', handleAppFocus)
     }
-  }, [])
+  }, [gdstore])
 
-  // useEffect(() => {
-
-  // })
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]

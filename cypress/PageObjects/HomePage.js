@@ -33,7 +33,7 @@ class HomePage {
   }
 
   get moneyAmountDiv() {
-    return cy.get('[data-testid="amount_value"] .r-111xbm8 ', { timeout: 10000 })
+    return cy.get('[data-testid="amount_value"] div:nth-child(1)', { timeout: 10000 })
   }
 
   // get moneyAmountDiv() {

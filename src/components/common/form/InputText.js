@@ -12,16 +12,27 @@ import ErrorText from './ErrorText'
 const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...props }: any) => {
   const simpleStore = SimpleStore.useStore()
 
-  const onFocusMobileSafari = () => {
-    window.scrollTo(0, 0)
-    document.body.scrollTop = 0
-    simpleStore.set('isMobileSafariKeyboardShown')(true)
+  const shouldChangeSizeOnKeyboardShown = isMobileSafari && simpleStore.set && Config.safariMobileKeyboardGuidedSize
+
+  const onFocus = () => {
+    if (shouldChangeSizeOnKeyboardShown) {
+      window.scrollTo(0, 0)
+      document.body.scrollTop = 0
+      simpleStore.set('isMobileSafariKeyboardShown')(true)
+    }
+    simpleStore.set('isMobileKeyboardShown')(true)
   }
 
-  const onBlurMobileSafari = () => simpleStore.set('isMobileSafariKeyboardShown')(false)
+  const onBlur = () => {
+    if (shouldChangeSizeOnKeyboardShown) {
+      simpleStore.set('isMobileSafariKeyboardShown')(false)
+    }
+    simpleStore.set('isMobileKeyboardShown')(false)
+  }
 
   useEffect(() => {
-    return () => simpleStore.set('isMobileSafariKeyboardShown')(false)
+    simpleStore.set('isMobileSafariKeyboardShown')(false)
+    simpleStore.set('isMobileKeyboardShown')(false)
   }, [])
 
   const inputColor = error ? theme.colors.red : theme.colors.darkGray
@@ -30,7 +41,6 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
     color: inputColor,
   }
 
-  const shouldChangeSizeOnKeyboardShown = isMobileSafari && simpleStore.set && Config.safariMobileKeyboardGuidedSize
   return (
     <View style={styles.view}>
       <View style={styles.view}>
@@ -40,17 +50,13 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
           style={[styles.input, inputStyle, style]}
           placeholderTextColor={theme.colors.gray50Percent}
           onFocus={() => {
-            if (shouldChangeSizeOnKeyboardShown) {
-              onFocusMobileSafari()
-            }
+            onFocus()
             if (props.onFocus) {
               props.onFocus()
             }
           }}
           onBlur={() => {
-            if (shouldChangeSizeOnKeyboardShown) {
-              onBlurMobileSafari()
-            }
+            onBlur()
             if (props.onBlur) {
               props.onBlur()
             }

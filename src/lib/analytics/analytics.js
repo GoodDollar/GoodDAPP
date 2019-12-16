@@ -91,20 +91,22 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     }
   }
 
-  Sentry.init({
-    dsn: Config.sentryDSN,
-  })
+  if (Config.sentryDSN) {
+    Sentry.init({
+      dsn: Config.sentryDSN,
+    })
 
-  Sentry.configureScope(scope => {
-    if (email || identifier) {
-      scope.setUser({
-        id: identifier,
-        email: email,
-      })
-    }
+    Sentry.configureScope(scope => {
+      if (email || identifier) {
+        scope.setUser({
+          id: identifier,
+          email: email,
+        })
+      }
 
-    scope.setTag('appVersion', Config.version)
-  })
+      scope.setTag('appVersion', Config.version)
+    })
+  }
 
   log.debug('Initialized analytics:', {
     Amplitude: Amplitude !== undefined,
@@ -177,12 +179,14 @@ const patchLogger = () => {
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
     }
-    reportToSentry(logMessage, {
-      errorObj,
-      logContext,
-      eMsg,
-      rest,
-    })
+    if (Config.sentryDSN && Config.env !== 'test') {
+      reportToSentry(logMessage, {
+        errorObj,
+        logContext,
+        eMsg,
+        rest,
+      })
+    }
     return error.apply(global.logger, arguments)
   }
 }

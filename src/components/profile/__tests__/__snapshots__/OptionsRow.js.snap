@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ViewAvatar matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitFlexDirection": "row",
+        "alignItems": "center",
+        "borderBottomColor": "rgba(238,238,238,1.00)",
+        "borderBottomStyle": "solid",
+        "borderBottomWidth": "1px",
+        "display": "flex",
+        "flexDirection": "row",
+        "msFlexAlign": "center",
+        "msFlexDirection": "row",
+        "paddingBottom": "8px",
+        "paddingLeft": "32px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "WebkitBoxFlex": 2,
+          "WebkitFlexGrow": 2,
+          "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "flexGrow": 2,
+          "fontFamily": "Roboto",
+          "fontSize": "16px",
+          "fontWeight": "500",
+          "lineHeight": "22px",
+          "msFlexPositive": 2,
+          "textAlign": "left",
+          "textDecoration": "none",
+          "textTransform": "none",
+        }
+      }
+    >
+      
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "alignItems": "center",
+          "minWidth": "60px",
+          "msFlexAlign": "center",
+          "width": "15%",
+        }
+      }
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(85,85,85,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
+            "fontSize": "14px",
+            "fontWeight": "normal",
+            "lineHeight": "20px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+          }
+        }
+      >
+        Private
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "alignItems": "center",
+          "minWidth": "60px",
+          "msFlexAlign": "center",
+          "width": "15%",
+        }
+      }
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(85,85,85,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
+            "fontSize": "14px",
+            "fontWeight": "normal",
+            "lineHeight": "20px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+          }
+        }
+      >
+        Masked
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "alignItems": "center",
+          "minWidth": "60px",
+          "msFlexAlign": "center",
+          "width": "15%",
+        }
+      }
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(85,85,85,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
+            "fontSize": "14px",
+            "fontWeight": "normal",
+            "lineHeight": "20px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+          }
+        }
+      >
+        Public
+      </div>
+    </div>
+  </div>
+</div>
+`;

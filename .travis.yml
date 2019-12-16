@@ -27,7 +27,7 @@ env:
 
 matrix:
   include:
-    - if: branch IN (master, staging, production, beta)
+    - if: branch IN (master, staging, production, beta, fix-cypress-tests)
       script:
         - npm run build
         - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json

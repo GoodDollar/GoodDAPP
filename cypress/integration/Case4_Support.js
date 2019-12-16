@@ -14,6 +14,7 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
     LoginPage.mnemonicsInput.type(Cypress.env('mainAccountMnemonics'))
     LoginPage.recoverWalletButton.click()
     LoginPage.yayButton.click()
+    HomePage.waitForHomePageDisplayed()
   })
 
   it('User is able to send forms and follow the links', () => {

@@ -5,7 +5,7 @@ class HomePage {
   }
 
   get optionsButton() {
-    return cy.get(':nth-child(4) > .css-901oao')
+    return cy.get('div[data-focusable="true"]:nth-child(3)')
   }
 
   get sendButton() {
@@ -33,7 +33,7 @@ class HomePage {
   }
 
   get moneyAmountDiv() {
-    return cy.get('[dir="auto"]', { timeout: 10000 }).eq(5)
+    return cy.get('[data-testid="amount_value"] .r-111xbm8 ', { timeout: 10000 })
   }
 
   // get moneyAmountDiv() {

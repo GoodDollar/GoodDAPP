@@ -177,6 +177,12 @@ const patchLogger = () => {
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
     }
+    reportToSentry(logMessage, {
+      errorObj,
+      logContext,
+      eMsg,
+      rest,
+    })
     return error.apply(global.logger, arguments)
   }
 }

@@ -35,7 +35,7 @@ if (style.styleSheet) {
  * decide if we need to clear storage
  */
 const upgradeVersion = async () => {
-  const required = Config.isEToro ? 'etoro' : 'beta.11'
+  const required = Config.isEToro ? 'etoro' : 'alphav3'
   const version = await AsyncStorage.getItem('GD_version')
   AsyncStorage.removeItem('gun/')
   if (version === required) {

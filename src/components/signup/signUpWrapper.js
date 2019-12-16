@@ -15,7 +15,6 @@ type FooterProps = {
 const Footer = ({ valid, submitText, handleSubmit, loading }: FooterProps) => {
   const simpleStore = SimpleStore.useStore()
   const isShowKeyboard = simpleStore.get && simpleStore.get('isMobileKeyboardShown')
-
   return isShowKeyboard ? null : (
     <CustomButton disabled={!valid || loading} loading={loading} onPress={handleSubmit} style={{ flex: 1 }}>
       {submitText}

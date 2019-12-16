@@ -34,8 +34,8 @@ const Config = {
   displayStartClaimingCardTime: process.env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 3 * 24 * 60 * 60 * 1000, // 3 days
   bugsnagKey: process.env.REACT_APP_BUGSNAG_API_KEY,
   backgroundReqsInterval: process.env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, // minutes
-  hanukaStartDay: process.env.REACT_APP_HANUKA_START_DAY || 23, // day of month
-  hanukaEndDay: process.env.REACT_APP_HANUKA_END_DAY || 30, // day of month
+  hanukaStartDate: process.env.REACT_APP_HANUKA_START_DATE, // date
+  hanukaEndDate: process.env.REACT_APP_HANUKA_END_DATE, // date
   ethereum: {
     '42': {
       network_id: 42,

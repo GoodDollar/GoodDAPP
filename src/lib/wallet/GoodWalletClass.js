@@ -227,8 +227,11 @@ export class GoodWallet {
 
     contract.events.Transfer(fromEventsFilter, (error, event) => {
       if (error) {
+        // eslint-disable-next-line no-negated-condition
         if (error.currentTarget.readyState !== error.currentTarget.CLOSED) {
           log.error('listenTxUpdates fromEventsPromise failed:', error.message, error)
+        } else {
+          log.warn('listenTxUpdates fromEventsPromise failed:', error.message, error)
         }
       } else {
         log.info('listenTxUpdates subscribed from', event)
@@ -255,7 +258,10 @@ export class GoodWallet {
 
     contract.events.Transfer(toEventsFilter, (error, event) => {
       if (error) {
+        // eslint-disable-next-line no-negated-condition
         if (error.currentTarget.readyState !== error.currentTarget.CLOSED) {
+          log.error('listenTxUpdates toEventsPromise failed:', error.message, error)
+        } else {
           log.warn('listenTxUpdates toEventsPromise failed:', error.message, error)
         }
       } else {
@@ -280,8 +286,11 @@ export class GoodWallet {
     const filter = { from: this.wallet.utils.toChecksumAddress(this.account) }
     const handler = (error, event) => {
       if (error) {
+        // eslint-disable-next-line no-negated-condition
         if (error.currentTarget.readyState !== error.currentTarget.CLOSED) {
           log.error('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
+        } else {
+          log.warn('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
         }
       } else {
         log.info('subscribeOTPL got event', { event })

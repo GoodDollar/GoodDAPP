@@ -210,6 +210,7 @@ const Claim = props => {
             <Section.Text style={styles.mainTextBigMarginBottom}>
               <BigGoodDollar
                 number={1}
+                reverse
                 formatter={number => number}
                 bigNumberProps={{ color: 'surface' }}
                 bigNumberUnitProps={{ color: 'surface', fontSize: 20 }}

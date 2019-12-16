@@ -3,6 +3,7 @@
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
 import React, { useEffect, useState } from 'react'
+import { fireEvent } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -28,7 +29,7 @@ const log = logger.child({ from: 'SendQRSummary' })
  * @param {any} props.screenProps
  * @param {any} props.styles
  */
-const SendQRSummary = ({ screenProps }: AmountProps) => {
+const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const [showDialog] = useDialog()
@@ -83,6 +84,7 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
             })
           }
 
+          fireEvent('SEND_DONE', { type: screenState.params.type })
           showDialog({
             visible: true,
             title: 'SUCCESS!',

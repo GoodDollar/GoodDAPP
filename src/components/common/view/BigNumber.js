@@ -27,22 +27,16 @@ class BigNumber extends React.Component {
       color,
       styles,
       testID,
+      reverse,
     } = this.props
-    return (
-      <View style={[styles.bigNumberWrapper, style]} testID={testID}>
-        <Text
-          fontFamily="slab"
-          fontSize={36}
-          fontWeight="bold"
-          textAlign="right"
-          color={color || 'gray'}
-          {...bigNumberProps}
-          style={[styles.bigNumber, bigNumberStyles]}
-        >
-          {number}
-        </Text>
-        {unit ? (
+
+    const components = []
+
+    if (reverse) {
+      components.push(
+        unit ? (
           <Text
+            key="big_number_unit"
             fontFamily="slab"
             fontSize={18}
             fontWeight="bold"
@@ -55,7 +49,57 @@ class BigNumber extends React.Component {
           </Text>
         ) : (
           children
-        )}
+        ),
+        <Text key="big_number_space"> </Text>,
+        <Text
+          key="big_number_amount"
+          fontFamily="slab"
+          fontSize={36}
+          fontWeight="bold"
+          textAlign="right"
+          color={color || 'gray'}
+          {...bigNumberProps}
+          style={[styles.bigNumber, bigNumberStyles]}
+        >
+          {number}
+        </Text>
+      )
+    } else {
+      components.push(
+        <Text
+          key="big_number_amount"
+          fontFamily="slab"
+          fontSize={36}
+          fontWeight="bold"
+          textAlign="right"
+          color={color || 'gray'}
+          {...bigNumberProps}
+          style={[styles.bigNumber, bigNumberStyles]}
+        >
+          {number}
+        </Text>,
+        unit ? (
+          <Text
+            key="big_number_unit"
+            fontFamily="slab"
+            fontSize={18}
+            fontWeight="bold"
+            textAlign="right"
+            color={color || 'gray'}
+            {...bigNumberUnitProps}
+            style={bigNumberUnitStyles}
+          >
+            {unit}
+          </Text>
+        ) : (
+          children
+        )
+      )
+    }
+
+    return (
+      <View style={[styles.bigNumberWrapper, style]} testID={testID}>
+        {components}
       </View>
     )
   }

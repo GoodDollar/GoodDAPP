@@ -94,6 +94,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   if (Config.sentryDSN) {
     Sentry.init({
       dsn: Config.sentryDSN,
+      environment: Config.env,
     })
 
     Sentry.configureScope(scope => {
@@ -105,6 +106,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
       }
 
       scope.setTag('appVersion', Config.version)
+      scope.setTag('networkUsed', Config.network)
     })
   }
 

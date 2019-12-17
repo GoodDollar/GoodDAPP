@@ -113,11 +113,9 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
       let txHash
 
       // Generate link deposit
-      const generateLinkResponse = goodWallet.generateLink(
-        amount,
-        reason,
-        ({ paymentLink, code }) => (hash: string) => {
-          log.debug({ hash })
+      const generateLinkResponse = goodWallet.generateLink(amount, reason, {
+        onTransactionHash: ({ hash, paymentLink, code }) => {
+          txHash = hash
 
           // Save transaction
           const transactionEvent: TransactionEvent = {
@@ -134,9 +132,13 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
               code,
             },
           }
+
           fireEvent('SEND_DONE', { type: 'link' })
+
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
+
           userStorage.enqueueTX(transactionEvent)
+
           if (Config.isEToro) {
             userStorage.saveSurveyDetails(hash, {
               reason,
@@ -145,20 +147,18 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
             })
           }
         },
-        {
-          onTransactionHash: _h => {
-            txHash = _h
-          },
-          onError: () => {
-            userStorage.markWithErrorEvent(txHash)
-          },
-        }
-      )
+        onError: () => {
+          userStorage.markWithErrorEvent(txHash)
+        },
+      })
+
       log.debug('generateLinkAndSend:', { generateLinkResponse })
+
       if (generateLinkResponse) {
         const { paymentLink } = generateLinkResponse
         return paymentLink
       }
+
       showErrorDialog('Could not complete transaction. Please try again.')
     } catch (e) {
       showErrorDialog('Could not complete transaction. Please try again.')

@@ -531,7 +531,6 @@ export class GoodWallet {
   generateLink(
     amount: number,
     reason: string = '',
-    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any = () => () => {},
     events: PromiEvents = defaultPromiEvents
   ): { code: string, hashedCode: string, paymentLink: string } {
     const code = this.wallet.utils.randomHex(10).replace('0x', '')
@@ -545,7 +544,7 @@ export class GoodWallet {
     })
 
     //pass extra data
-    const onTransactionHash = getOnTxHash({ paymentLink, code })
+    const onTransactionHash = hash => events.onTransactionHash({ hash, paymentLink, code })
 
     const txPromise = this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
 

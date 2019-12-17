@@ -9,7 +9,7 @@ import Icon from '../view/Icon'
 import Config from '../../../config/config'
 import ErrorText from './ErrorText'
 
-const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...props }: any) => {
+const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, autoFocus, ...props }: any) => {
   const simpleStore = SimpleStore.useStore()
 
   const shouldChangeSizeOnKeyboardShown = isMobileSafari && simpleStore.set && Config.safariMobileKeyboardGuidedSize
@@ -37,6 +37,10 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
   useEffect(() => {
     simpleStore.set('isMobileSafariKeyboardShown')(false)
     simpleStore.set('isMobileKeyboardShown')(false)
+
+    if (autoFocus) {
+      onFocus()
+    }
   }, [])
 
   const inputColor = error ? theme.colors.red : theme.colors.darkGray

@@ -8,12 +8,12 @@ import moment from 'moment'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/gundb/UserStorage'
-import goodWallet from '../../lib/wallet/GoodWallet'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 
@@ -138,7 +138,7 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const init = async () => {
-    log.debug('initializing')
+    log.debug('initializing', gdstore)
 
     try {
       await initialize()
@@ -152,6 +152,9 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const prepareLoginToken = async () => {
+    if (config.isEToro !== true) {
+      return
+    }
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
     log.info('Prepare login token process started', loginToken)
 
@@ -169,13 +172,19 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const checkBonusInterval = async perform => {
+    if (config.isEToro !== true) {
+      return
+    }
     const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
-    log.debug({ lastTimeBonusCheck })
+    const isUserWhitelisted = gdstore.get('isLoggedInCitizen') || (await goodWallet.isCitizen())
+
+    log.debug({ lastTimeBonusCheck, isUserWhitelisted, gdstore })
     if (
-      lastTimeBonusCheck &&
-      moment()
-        .subtract(Number(config.backgroundReqsInterval), 'minutes')
-        .isBefore(moment(lastTimeBonusCheck))
+      isUserWhitelisted !== true ||
+      (lastTimeBonusCheck &&
+        moment()
+          .subtract(Number(config.backgroundReqsInterval), 'minutes')
+          .isBefore(moment(lastTimeBonusCheck)))
     ) {
       return
     }
@@ -184,17 +193,10 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const checkBonusesToRedeem = () => {
-    log.info('Check bonuses process started')
-
-    const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
-
-    if (!isUserWhitelisted) {
-      return
-    }
-
+    log.debug('Check bonuses process started')
     return API.redeemBonuses()
       .then(res => {
-        log.debug('redeemBonuses', { resData: res && res.data })
+        log.info('redeemBonuses', { resData: res && res.data })
       })
       .catch(err => {
         log.error('Failed to redeem bonuses', err.message, err)
@@ -213,16 +215,16 @@ const AppSwitch = (props: LoadingProps) => {
   useEffect(() => {
     init()
     navigateToUrlAction()
+  }, [])
+
+  useEffect(() => {
     AppState.addEventListener('change', handleAppFocus)
 
     return function() {
       AppState.removeEventListener('change', handleAppFocus)
     }
-  }, [])
+  }, [gdstore])
 
-  // useEffect(() => {
-
-  // })
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]

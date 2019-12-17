@@ -13,7 +13,7 @@ class StartPage {
   }
 
   open() {
-    cy.visit(Cypress.env('baseUrl') + '?paymentCode=123')
+    cy.visit(Cypress.env('baseUrl'))
   }
 }
 

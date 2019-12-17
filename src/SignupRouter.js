@@ -14,7 +14,6 @@ import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import isWebApp from './lib/utils/isWebApp'
-import { Support } from './components/webView/webViewInstances'
 
 const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 const router = createSwitchNavigator(
@@ -23,7 +22,6 @@ const router = createSwitchNavigator(
     Signup,
     InvalidW3TokenError,
     SigninInfo,
-    Support,
     IOSWebAppSignIn,
   },
   {

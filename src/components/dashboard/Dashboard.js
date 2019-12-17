@@ -5,6 +5,7 @@ import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
+import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -50,7 +51,7 @@ import Reason from './Reason'
 import Receive from './Receive'
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
-import Confirmation from './Confirmation'
+import ReceiveConfirmation from './ReceiveConfirmation'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
 import SendConfirmation from './SendConfirmation'
@@ -327,6 +328,7 @@ const Dashboard = props => {
       })
       const { status, transactionHash } = await executeWithdraw(store, paymentParams.paymentCode, paymentParams.reason)
       if (transactionHash) {
+        fireEvent('WITHDRAW')
         hideDialog()
         return
       }
@@ -427,29 +429,21 @@ const Dashboard = props => {
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed}
         updateData={() => {}}
-        onScroll={({ nativeEvent }) => {
-          // Replicating Header Height.
-          // TODO: Improve this when doing animation
-          const HEIGHT_FULL =
-            theme.sizes.defaultDouble +
-            68 +
-            theme.sizes.default +
-            normalize(18) +
-            theme.sizes.defaultDouble * 2 +
-            normalize(42) +
-            normalize(70)
-          const HEIGHT_BASE = theme.sizes.defaultDouble + 68 + theme.sizes.default + normalize(70)
+        onScroll={debounce(({ nativeEvent }) => {
+          // ISH - including small header calculations
+          const minScrollRequired = 150
+          const scrollPosition = nativeEvent.contentOffset.y
+          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
 
-          const HEIGHT_DIFF = HEIGHT_FULL - HEIGHT_BASE
-          const scrollPos = nativeEvent.contentOffset.y
-          const scrollPosAlt = headerLarge ? scrollPos - HEIGHT_DIFF : scrollPos + HEIGHT_DIFF
-          const newHeaderLarge = scrollPos <= HEIGHT_BASE || scrollPosAlt <= HEIGHT_BASE
-
-          // log.info('scrollPos', { newHeaderLarge, scrollPos, scrollPosAlt, HEIGHT_DIFF, HEIGHT_BASE, HEIGHT_FULL })
-          if (newHeaderLarge !== headerLarge) {
-            setHeaderLarge(newHeaderLarge)
+          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+            headerLarge && setHeaderLarge(false)
+          } else {
+            !headerLarge && setHeaderLarge(true)
           }
-        }}
+
+          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
+        }, 100)}
         headerLarge={headerLarge}
       />
       {currentFeed && (
@@ -601,9 +595,9 @@ export default createStackNavigator({
     params: { action: ACTION_SEND },
   },
   ReceiveSummary,
-  Confirmation: {
-    screen: Confirmation,
-    path: ':action/Confirmation',
+  ReceiveConfirmation: {
+    screen: ReceiveConfirmation,
+    path: ':action/ReceiveConfirmation',
   },
   SendLinkSummary,
   SendConfirmation,

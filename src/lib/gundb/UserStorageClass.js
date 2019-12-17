@@ -1236,6 +1236,8 @@ export class UserStorage {
 
             if (receipt) {
               item = await this.handleReceiptUpdated(receipt)
+            } else {
+              logger.warn('no receipt found for undefined item id:', eventIndex.id)
             }
           }
 
@@ -1256,7 +1258,9 @@ export class UserStorage {
       feed
         .filter(
           feedItem =>
-            feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
+            feedItem &&
+            feedItem.data &&
+            ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
         )
         .map(feedItem => {
           if (!(feedItem.data && feedItem.data.receiptData)) {

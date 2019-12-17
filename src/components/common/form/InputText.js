@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect } from 'react'
-import { isMobileOnly, isMobileSafari } from 'mobile-device-detect'
+import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
@@ -20,7 +20,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
       document.body.scrollTop = 0
       simpleStore.set('isMobileSafariKeyboardShown')(true)
     }
-    if (isMobileOnly) {
+    if (isMobile) {
       simpleStore.set('isMobileKeyboardShown')(true)
     }
   }
@@ -29,7 +29,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
     if (shouldChangeSizeOnKeyboardShown) {
       simpleStore.set('isMobileSafariKeyboardShown')(false)
     }
-    if (isMobileOnly) {
+    if (isMobile) {
       simpleStore.set('isMobileKeyboardShown')(false)
     }
   }

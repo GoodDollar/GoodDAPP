@@ -55,6 +55,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, autoFo
         <TextInput
           {...props}
           ref={getRef}
+          autoFocus={!!(autoFocus && !isMobile)}
           style={[styles.input, inputStyle, style]}
           placeholderTextColor={theme.colors.gray50Percent}
           onFocus={() => {

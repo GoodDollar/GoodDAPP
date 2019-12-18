@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import numeral from 'numeral'
+import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -9,6 +10,7 @@ import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
+import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import { Wrapper } from '../common'
@@ -19,6 +21,7 @@ import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
+import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -130,6 +133,16 @@ const Claim = props => {
     return () => claimInterval && clearInterval(claimInterval)
   }, [entitlement])
 
+  const checkHanukaBonusDates = () => {
+    const now = moment()
+    const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY')
+    const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY').endOf('day')
+
+    if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
+      API.checkHanukaBonus()
+    }
+  }
+
   const handleClaim = async () => {
     setLoading(true)
 
@@ -173,6 +186,7 @@ const Claim = props => {
 
       if (receipt.status) {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash })
+        checkHanukaBonusDates()
         showDialog({
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,

@@ -230,6 +230,19 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         </View>
       )
 
+    case 'hanukaStarts':
+      return (
+        <View style={styles.buttonsView}>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.button} onPress={goToClaimPage}>
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                {'CLAIM NOW'}
+              </Text>
+            </CustomButton>
+          </View>
+        </View>
+      )
+
     case 'feedback':
       return (
         <View style={styles.buttonsView}>

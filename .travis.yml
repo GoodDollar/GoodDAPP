@@ -49,9 +49,6 @@ matrix:
         - pkill -f ganache
     - if: env(DEPLOY_TYPE) IS present
       script:
-        - git clone https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG
-        - cd $DEPLOY_FOLDER
-        - git checkout $DEPLOY_FROM 
         - git push https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG $DEPLOY_FROM:$DEPLOY_TO
 
 after_failure:

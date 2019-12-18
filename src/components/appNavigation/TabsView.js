@@ -131,7 +131,7 @@ const TabsView = React.memo((props: TabViewProps) => {
       )}
       <Appbar.Content />
       <TouchableOpacity onPress={toggleSidemenu.bind(null, store)}>
-        <Icon name="settings" size={20} color="white" style={styles.menuStyle} />
+        <Icon name="settings" size={20} color="white" style={styles.menuStyle} testID="burger_button"/>
       </TouchableOpacity>
     </Appbar.Header>
   )
@@ -155,5 +155,5 @@ const styles = ({ theme }) => ({
     marginRight: 10,
   },
 })
-
+ 
 export default withStyles(styles)(TabsView)

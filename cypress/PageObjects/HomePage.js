@@ -5,7 +5,7 @@ class HomePage {
   }
 
   get optionsButton() {
-    return cy.get('div[data-focusable="true"]:nth-child(5)')
+    return cy.get('[data-testid="burger_button"]')
   }
 
   get sendButton() {

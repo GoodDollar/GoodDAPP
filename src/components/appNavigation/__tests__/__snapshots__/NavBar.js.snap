@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavBar matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitAlignItems": "center",
+      "WebkitBoxAlign": "center",
+      "WebkitBoxDirection": "normal",
+      "WebkitBoxFlex": 0,
+      "WebkitBoxOrient": "horizontal",
+      "WebkitFlexDirection": "row",
+      "WebkitFlexGrow": 0,
+      "WebkitFlexShrink": 0,
+      "alignItems": "center",
+      "backgroundColor": "rgba(98,0,238,1.00)",
+      "boxShadow": "none, 0px 3px 4px rgba(0,0,0,0.24)",
+      "flexDirection": "row",
+      "flexGrow": 0,
+      "flexShrink": 0,
+      "height": "56px",
+      "msFlexAlign": "center",
+      "msFlexDirection": "row",
+      "msFlexNegative": 0,
+      "msFlexPositive": 0,
+      "paddingLeft": "4px",
+      "paddingRight": "4px",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    data-focusable={true}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "WebkitBoxFlex": 1,
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "cursor": "pointer",
+        "flexBasis": "0%",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "msFlexNegative": 1,
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
+        "msTouchAction": "manipulation",
+        "paddingLeft": "12px",
+        "paddingRight": "12px",
+        "touchAction": "manipulation",
+      }
+    }
+    tabIndex="0"
+  >
+    <h1
+      className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz"
+      dir="auto"
+      role="heading"
+      style={
+        Object {
+          "color": "rgba(255,255,255,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "500",
+          "textAlign": "center",
+          "textTransform": "uppercase",
+        }
+      }
+    />
+  </div>
+</div>
+`;

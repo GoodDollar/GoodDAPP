@@ -155,5 +155,5 @@ const styles = ({ theme }) => ({
     marginRight: 10,
   },
 })
-
+ 
 export default withStyles(styles)(TabsView)

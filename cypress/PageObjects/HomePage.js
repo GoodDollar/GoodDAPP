@@ -5,7 +5,7 @@ class HomePage {
   }
 
   get optionsButton() {
-    return cy.get('div[data-focusable="true"]:nth-child(3)')
+    return cy.get('[data-testid="burger_button"]')
   }
 
   get sendButton() {
@@ -21,7 +21,7 @@ class HomePage {
   }
 
   get options() {
-    return cy.get('.r-1efd50x.r-5kkj8d.r-1ydw1k6 [data-focusable="true"]', { timeout: 10000 })
+    return cy.get('[data-testid="close_burger_button"] + div > div', { timeout: 10000 })
   }
 
   get profileAvatar() {

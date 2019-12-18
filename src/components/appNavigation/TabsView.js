@@ -93,7 +93,9 @@ const TabsView = React.memo((props: TabViewProps) => {
   }
 
   useEffect(() => {
-    fetchTokens()
+    if (config.isEToro) {
+      fetchTokens()
+    }
   }, [])
 
   const goToRewards = () => {
@@ -116,9 +118,11 @@ const TabsView = React.memo((props: TabViewProps) => {
 
   return (
     <Appbar.Header dark>
-      <TouchableOpacity onPress={goToRewards} style={styles.rewardsStyle}>
-        <Icon name="rewards" size={36} color="white" />
-      </TouchableOpacity>
+      {config.isEToro && (
+        <TouchableOpacity onPress={goToRewards} style={styles.rewardsStyle}>
+          <Icon name="rewards" size={36} color="white" />
+        </TouchableOpacity>
+      )}
       <Appbar.Content />
       {config.market && (
         <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
@@ -142,6 +146,7 @@ const styles = ({ theme }) => ({
     borderRadius: '50%',
     paddingVertical: 20,
     paddingHorizontal: 7,
+    marginRight: 14,
   },
   rewardsStyle: {
     marginLeft: 10,

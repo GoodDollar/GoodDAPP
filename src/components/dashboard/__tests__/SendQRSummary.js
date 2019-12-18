@@ -2,7 +2,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import { getWebRouterComponentWithMocks } from './__util__'
 
-describe('OutOfGasError', () => {
+describe('SendQRSummary', () => {
   it('renders without errors', () => {
     const SendQRSummary = getWebRouterComponentWithMocks('../SendQRSummary')
     let component

@@ -227,7 +227,12 @@ export class GoodWallet {
 
     contract.events.Transfer(fromEventsFilter, (error, event) => {
       if (error) {
-        log.error('listenTxUpdates fromEventsPromise failed:', error.message, error)
+        // eslint-disable-next-line no-negated-condition
+        if (error.currentTarget.readyState !== error.currentTarget.CLOSED) {
+          log.error('listenTxUpdates fromEventsPromise failed:', error.message, error)
+        } else {
+          log.warn('listenTxUpdates fromEventsPromise failed:', error.message, error)
+        }
       } else {
         log.info('listenTxUpdates subscribed from', event)
 
@@ -253,7 +258,12 @@ export class GoodWallet {
 
     contract.events.Transfer(toEventsFilter, (error, event) => {
       if (error) {
-        log.warn('listenTxUpdates toEventsPromise failed:', error.message, error)
+        // eslint-disable-next-line no-negated-condition
+        if (error.currentTarget.readyState !== error.currentTarget.CLOSED) {
+          log.error('listenTxUpdates toEventsPromise failed:', error.message, error)
+        } else {
+          log.warn('listenTxUpdates toEventsPromise failed:', error.message, error)
+        }
       } else {
         logger.info('listenTxUpdates subscribed to', event)
 
@@ -276,7 +286,12 @@ export class GoodWallet {
     const filter = { from: this.wallet.utils.toChecksumAddress(this.account) }
     const handler = (error, event) => {
       if (error) {
-        log.error('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
+        // eslint-disable-next-line no-negated-condition
+        if (error.currentTarget.readyState !== error.currentTarget.CLOSED) {
+          log.error('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
+        } else {
+          log.warn('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
+        }
       } else {
         log.info('subscribeOTPL got event', { event })
 
@@ -531,7 +546,6 @@ export class GoodWallet {
   generateLink(
     amount: number,
     reason: string = '',
-    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any = () => () => {},
     events: PromiEvents = defaultPromiEvents
   ): { code: string, hashedCode: string, paymentLink: string } {
     const code = this.wallet.utils.randomHex(10).replace('0x', '')
@@ -544,10 +558,7 @@ export class GoodWallet {
       reason,
     })
 
-    //pass extra data
-    const onTransactionHash = getOnTxHash({ paymentLink, code })
-
-    const txPromise = this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
+    const txPromise = this.depositToHash(amount, hashedCode, events)
 
     return {
       code,

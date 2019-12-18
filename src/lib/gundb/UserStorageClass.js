@@ -138,7 +138,8 @@ export const welcomeMessage = {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'GoodDollar is a digital coin with built-in\nbasic income. Start collecting your income by claiming GoodDollars every day.',
+      'GoodDollar is a digital coin with built-in\nbasic income. Start collecting your income by claiming GoodDollars every day.\
+      \nAlpha tokens have no real value and will be deleted at the end of this trial.',
     endpoint: {
       fullName: 'Welcome to GoodDollar',
     },
@@ -1236,6 +1237,8 @@ export class UserStorage {
 
             if (receipt) {
               item = await this.handleReceiptUpdated(receipt)
+            } else {
+              logger.warn('no receipt found for undefined item id:', eventIndex.id)
             }
           }
 
@@ -1256,7 +1259,9 @@ export class UserStorage {
       feed
         .filter(
           feedItem =>
-            feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
+            feedItem &&
+            feedItem.data &&
+            ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
         )
         .map(feedItem => {
           if (!(feedItem.data && feedItem.data.receiptData)) {

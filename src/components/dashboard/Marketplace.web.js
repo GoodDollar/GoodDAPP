@@ -24,8 +24,9 @@ const MarketTab = props => {
     }
     params.jwt = token
     let path = decodeURIComponent(_get(params, 'marketPath', ''))
-    delete params.marketPath
+
     const query = _toPairs(params)
+      .filter(param => param.indexOf('marketPath') < 0)
       .map(param => param.join('='))
       .join('&')
 

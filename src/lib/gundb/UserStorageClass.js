@@ -825,7 +825,6 @@ export class UserStorage {
 
     this.addBackupCard()
     this.addStartClaimingCard()
-    this.addHanukaBonusStartsCard()
 
     // first time user visit
     if (firstVisitAppDate == null) {
@@ -847,6 +846,8 @@ export class UserStorage {
 
       await this.userProperties.set('firstVisitApp', Date.now())
     }
+
+    this.addHanukaBonusStartsCard()
   }
 
   /**

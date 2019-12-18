@@ -131,6 +131,7 @@ exports[`PhoneForm matches snapshot 1`] = `
                 "msFlexAlign": "stretch",
                 "msFlexDirection": "column",
                 "msFlexPack": "start",
+                "width": "100%",
               }
             }
           >

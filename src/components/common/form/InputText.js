@@ -38,7 +38,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, autoFo
     simpleStore.set('isMobileSafariKeyboardShown')(false)
     simpleStore.set('isMobileKeyboardShown')(false)
 
-    if (autoFocus) {
+    if (autoFocus && !isMobile) {
       onFocus()
     }
   }, [])

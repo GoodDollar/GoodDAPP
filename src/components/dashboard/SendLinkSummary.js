@@ -114,7 +114,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
 
       // Generate link deposit
       const generateLinkResponse = goodWallet.generateLink(amount, reason, {
-        onTransactionHash: ({ hash, paymentLink, code }) => {
+        onTransactionHash: hash => {
           txHash = hash
 
           // Save transaction
@@ -128,8 +128,8 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
               counterPartyDisplayName,
               reason,
               amount,
-              paymentLink,
-              code,
+              paymentLink: generateLinkResponse.paymentLink,
+              code: generateLinkResponse.code,
             },
           }
 

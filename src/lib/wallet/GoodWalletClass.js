@@ -558,10 +558,7 @@ export class GoodWallet {
       reason,
     })
 
-    //pass extra data
-    const onTransactionHash = hash => events.onTransactionHash({ hash, paymentLink, code })
-
-    const txPromise = this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
+    const txPromise = this.depositToHash(amount, hashedCode, events)
 
     return {
       code,

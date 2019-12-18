@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../__tests__/__util__'
 import OptionsRow from '../OptionsRow'
 
-describe('ViewAvatar', () => {
+describe('OptionsRow', () => {
   const WrappedOptionsRow = withThemeProvider(OptionsRow)
 
   it('renders without errors', () => {

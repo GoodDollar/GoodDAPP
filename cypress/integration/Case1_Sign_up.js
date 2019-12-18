@@ -80,7 +80,7 @@ describe('Test case 1: Ability to Sign Up', () => {
     //     cy.log(res)
     //   })
     // })
-
+    cy.contains('Ok').click()
     HomePage.optionsButton.click()
     HomePage.deleteAccountButton.click()
     HomePage.confirmDeletionButton.click()

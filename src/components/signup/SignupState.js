@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { isMobile, isMobileSafari } from 'mobile-device-detect'
+import { isMobileSafari } from 'mobile-device-detect'
 import _get from 'lodash/get'
 import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import NavBar from '../appNavigation/NavBar'
@@ -444,22 +444,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }, [navigation.state.index])
 
   const { scrollableContainer, contentContainer } = styles
-  const rootBlock = document.getElementById('root')
-
-  if (isMobile) {
-    // eslint-disable-next-line no-negated-condition
-    if (isShowKeyboard) {
-      rootBlock.style.height = '110%'
-    } else {
-      rootBlock.style.height = '100%'
-    }
-  }
   return (
     <View
       style={{
         flexGrow: shouldGrow ? 1 : 0,
-        minHeight: isShowKeyboard ? getScreenHeight() + 70 : 480,
-        transition: 'minHeight 500ms ease',
+        minHeight: isShowKeyboard && getScreenHeight() <= 480 ? getScreenHeight() + 30 : getScreenHeight(),
       }}
     >
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={'Sign Up'} />

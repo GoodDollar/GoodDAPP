@@ -46,7 +46,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .finally(() => {
             setState({ ...state, cancelPaymentLoading: false })
           })
-        await userStorage.deleteEvent(item.id)
+        await userStorage.cancelOTPLEvent(item.id)
       } catch (e) {
         log.error('cancel payment failed', e.message, e)
         setState({ ...state, cancelPaymentLoading: false })

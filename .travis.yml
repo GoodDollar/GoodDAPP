@@ -52,6 +52,5 @@ matrix:
         - npm version $DEPLOY_VERSION
         - git push https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG $DEPLOY_FROM:$DEPLOY_TO
 
-        
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

@@ -36,6 +36,17 @@ matrix:
         - export CYPRESS_w3Link=$W3_LINK
         - cypress run
         - npm run bundlesize:check
+    - if: env(DEPLOY_TYPE) IS NOT present
+      script:
+        - pushd node_modules/@gooddollar/goodcontracts
+        - npm ci
+        - npm run ganache &
+        - npm run wait
+        - npm run deploy
+        - popd
+        - npm run coverage -- --silent
+        - npm run coveralls || true
+        - pkill -f ganache
     - if: env(DEPLOY_TYPE) IS present
       script:
         - git clone https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG

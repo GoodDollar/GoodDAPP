@@ -27,7 +27,7 @@ env:
 
 matrix:
   include:
-    - if: branch IN (master, staging, production, beta)
+    - if: branch IN (master, staging, production) AND env(DEPLOY_TYPE) IS NOT present
       script:
         - npm run build
         - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
@@ -36,7 +36,8 @@ matrix:
         - export CYPRESS_w3Link=$W3_LINK
         - cypress run
         - npm run bundlesize:check
-    - script:
+    - if: env(DEPLOY_TYPE) IS NOT present
+      script:
         - pushd node_modules/@gooddollar/goodcontracts
         - npm ci
         - npm run ganache &

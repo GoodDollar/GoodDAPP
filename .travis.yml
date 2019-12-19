@@ -27,7 +27,7 @@ env:
 
 matrix:
   include:
-    - if: branch IN (master, staging, production, beta) AND env(DEPLOY_TYPE) IS NOT present
+    - if: branch IN (master, staging, production, beta) AND env(DEPLOY_VERSION) IS NOT present
       script:
         - npm run build
         - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
@@ -36,7 +36,7 @@ matrix:
         - export CYPRESS_w3Link=$W3_LINK
         - cypress run
         - npm run bundlesize:check
-    - if: env(DEPLOY_TYPE) IS NOT present
+    - if: env(DEPLOY_VERSION) IS NOT present
       script:
         - pushd node_modules/@gooddollar/goodcontracts
         - npm ci
@@ -47,11 +47,9 @@ matrix:
         - npm run coverage -- --silent
         - npm run coveralls || true
         - pkill -f ganache
-    - if: env(DEPLOY_TYPE) IS present
+    - if: env(DEPLOY_VERSION) IS present
       script:
-        - git clone https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG
-        - cd $DEPLOY_FOLDER
-        - git checkout $DEPLOY_FROM 
+        - npm version $DEPLOY_VERSION
         - git push https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG $DEPLOY_FROM:$DEPLOY_TO
 
 after_failure:

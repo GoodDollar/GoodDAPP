@@ -38,15 +38,10 @@ matrix:
         - npm run bundlesize:check
     - if: env(DEPLOY_TYPE) IS present
       script:
-        - pushd node_modules/@gooddollar/goodcontracts
-        - npm ci
-        - npm run ganache &
-        - npm run wait
-        - npm run deploy
-        - popd
-        - npm run coverage -- --silent
-        - npm run coveralls || true
-        - pkill -f ganache
+        - git clone https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG
+        - cd $DEPLOY_FOLDER
+        - git checkout $DEPLOY_FROM 
+        - git push https://$DEPLOY_TOKEN@github.com/$TRAVIS_REPO_SLUG $DEPLOY_FROM:$DEPLOY_TO
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

@@ -30,7 +30,11 @@ describe('Test case 1: Ability to Sign Up', () => {
   })
 
   it('User is able to sign up the wallet with correct values', () => {
-    cy.visit(Cypress.env('baseUrl') + '?paymentCode=123')
+    cy.visit(Cypress.env('baseUrl') + '?paymentCode=123', {
+      onBeforeLoad(win) {
+        delete win.navigator.__proto__.serviceWorker
+      },
+    })
     StartPage.continueOnWebButton.click()
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')

@@ -49,7 +49,7 @@ class HomePage {
   }
 
   get confirmDeletionButton() {
-    return cy.get('.r-16y2uox.r-nsbfu8.r-bnwqim.r-184en5c').contains('Delete')
+    return cy.get('span').contains('Delete')
   }
 
   waitForHomePageDisplayed() {

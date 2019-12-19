@@ -239,13 +239,13 @@ export const hanukaBonusStartsMessage = {
   type: 'hanukaStarts',
   status: 'completed',
   data: {
-    customName: 'Collect extra GoodDollars on every day of Hannukah',
+    customName: 'Collect extra GoodDollars\non every day of Hannukah',
     subtitle: 'Hannukah Miracle Bonus',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'Get an extra GoodDollar, on top of your daily collection, for every candle lit on the menorah today. Claim every day of Hannukah for a total bonus of G$45!\n\nHag Sameach!',
+      'Get an extra GoodDollar, on top of your daily collection, for every candle lit on the menorah today. Claim every day of Hannukah for a total bonus of G$44!\n\nHag Sameach!',
     endpoint: {
       fullName: 'Hannukah Miracle Bonus',
     },

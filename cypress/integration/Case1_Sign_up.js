@@ -53,6 +53,13 @@ describe('Test case 1: Ability to Sign Up', () => {
     SignUpPage.nextButton.click()
     SignUpPage.letStartButton.click()
     SignUpPage.gotItButton.click()
+
+    cy.contains('UPDATE').then($btn => {
+      if ($btn.is(':visible')) {
+        cy.contains('UPDATE').click()
+      }
+    })
+
     HomePage.welcomeFeed.should('be.visible')
 
     // ** Check wallet gas ** //

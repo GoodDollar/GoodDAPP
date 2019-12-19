@@ -54,11 +54,11 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
           </Section.Title>
         </Section.Stack>
         {reason && (
-          <Section.Row style={[styles.forTextWrapper, styles.sendForTextWrapper]}>
-            <Section.Text color="gray80Percent" fontSize={14} style={styles.toForLabel}>
+          <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
+            <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
               For
             </Section.Text>
-            <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail" style={styles.reasonText}>
+            <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail">
               {reason}
             </Section.Text>
           </Section.Row>
@@ -100,7 +100,7 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
     marginTop: getDesignRelativeHeight(10),
   },
-  forTextWrapper: {
+  credsWrapper: {
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: theme.colors.gray50Percent,
@@ -113,16 +113,16 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'relative',
     marginVertical: getDesignRelativeHeight(25),
   },
-  sendForTextWrapper: {
-    alignItems: 'center',
-    paddingBottom: 0,
-  },
-  toForLabel: {
+  credsLabel: {
     position: 'absolute',
     top: -getDesignRelativeHeight(10),
     backgroundColor: theme.colors.white,
     paddingHorizontal: getDesignRelativeHeight(10),
     lineHeight: normalize(14),
+  },
+  reasonWrapper: {
+    alignItems: 'center',
+    paddingBottom: 0,
   },
 })
 

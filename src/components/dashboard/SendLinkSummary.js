@@ -202,20 +202,20 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           </Section.Title>
         </Section.Stack>
         <Section.Stack>
-          <Section.Row style={[styles.toForTextWrapper, reason ? styles.sendToTextWrapper : undefined]}>
-            <Section.Text color="gray80Percent" fontSize={14} style={styles.toForLabel}>
+          <Section.Row style={[styles.credsWrapper, reason ? styles.toTextWrapper : undefined]}>
+            <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
               To
             </Section.Text>
-            <Section.Text fontSize={24} fontWeight="medium" lineHeight={24} style={styles.sendToText}>
+            <Section.Text fontSize={24} fontWeight="medium" lineHeight={24} style={styles.toText}>
               {counterPartyDisplayName}
             </Section.Text>
           </Section.Row>
           {reason && (
-            <Section.Row style={[styles.toForTextWrapper, styles.sendForTextWrapper]}>
-              <Section.Text color="gray80Percent" fontSize={14} style={styles.toForLabel}>
+            <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
+              <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
                 For
               </Section.Text>
-              <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail" style={styles.reasonText}>
+              <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail">
                 {reason}
               </Section.Text>
             </Section.Row>
@@ -275,7 +275,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: getDesignRelativeHeight(10),
     marginBottom: getDesignRelativeHeight(27),
   },
-  toForTextWrapper: {
+  credsWrapper: {
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: theme.colors.gray50Percent,
@@ -287,20 +287,20 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: getDesignRelativeHeight(4),
     position: 'relative',
   },
-  sendToText: {
-    margin: 0,
-  },
-  toForLabel: {
+  credsLabel: {
     position: 'absolute',
     top: -getDesignRelativeHeight(10),
     backgroundColor: theme.colors.white,
     paddingHorizontal: getDesignRelativeHeight(10),
     lineHeight: normalize(14),
   },
-  sendToTextWrapper: {
+  toTextWrapper: {
     marginBottom: 24,
   },
-  sendForTextWrapper: {
+  toText: {
+    margin: 0,
+  },
+  reasonWrapper: {
     alignItems: 'center',
     paddingBottom: 0,
   },

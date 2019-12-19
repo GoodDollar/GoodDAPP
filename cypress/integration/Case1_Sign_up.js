@@ -30,7 +30,11 @@ describe('Test case 1: Ability to Sign Up', () => {
   })
 
   it('User is able to sign up the wallet with correct values', () => {
-    cy.visit(Cypress.env('baseUrl') + '?paymentCode=123')
+    cy.visit(Cypress.env('baseUrl') + '?paymentCode=123', {
+      onBeforeLoad(win) {
+        delete win.navigator.__proto__.serviceWorker
+      },
+    })
     StartPage.continueOnWebButton.click()
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')
@@ -53,13 +57,6 @@ describe('Test case 1: Ability to Sign Up', () => {
     SignUpPage.nextButton.click()
     SignUpPage.letStartButton.click()
     SignUpPage.gotItButton.click()
-
-    cy.contains('UPDATE').then($btn => {
-      if ($btn.is(':visible')) {
-        cy.contains('UPDATE').click()
-      }
-    })
-
     HomePage.welcomeFeed.should('be.visible')
 
     // ** Check wallet gas ** //

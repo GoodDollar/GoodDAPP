@@ -39,16 +39,12 @@ class PhoneForm extends React.Component<Props, State> {
     errorMessage: '',
     countryCode: this.props.screenProps.data.countryCode,
     isValid: true,
-    downDescription: false,
   }
 
   onFocus = () => {
     const { store } = this.props
     if (isMobile) {
       store.set('isMobileKeyboardShown')(true)
-      this.setState({
-        downDescription: true,
-      })
     }
   }
 
@@ -56,9 +52,6 @@ class PhoneForm extends React.Component<Props, State> {
     const { store } = this.props
     if (isMobile) {
       store.set('isMobileKeyboardShown')(false)
-      this.setState({
-        downDescription: false,
-      })
     }
   }
 
@@ -105,7 +98,6 @@ class PhoneForm extends React.Component<Props, State> {
 
     const { key } = this.props.navigation.state
     const { styles } = this.props
-    const { downDescription } = this.state
     const { fullName, loading } = this.props.screenProps.data
 
     return (
@@ -131,7 +123,7 @@ class PhoneForm extends React.Component<Props, State> {
               <ErrorText error={errorMessage} style={styles.customError} />
             </Section.Stack>
           </Section.Stack>
-          <Section.Row justifyContent="center" style={[styles.bottomRow, { top: downDescription ? 50 : 0 }]}>
+          <Section.Row justifyContent="center" style={styles.bottomRow}>
             <Section.Text fontSize={14} color="gray80Percent">
               A verification code will be sent to this number
             </Section.Text>

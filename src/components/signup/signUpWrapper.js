@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import SimpleStore from '../../lib/undux/SimpleStore'
+
 import CustomButton from '../common/buttons/CustomButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
@@ -13,15 +13,8 @@ type FooterProps = {
 }
 
 const Footer = ({ valid, submitText, handleSubmit, loading }: FooterProps) => {
-  const simpleStore = SimpleStore.useStore()
-  const isShowKeyboard = simpleStore.get && simpleStore.get('isMobileKeyboardShown')
   return (
-    <CustomButton
-      disabled={!valid || loading}
-      loading={loading}
-      onPress={handleSubmit}
-      style={{ flex: 1, top: isShowKeyboard ? 50 : 0 }}
-    >
+    <CustomButton disabled={!valid || loading} loading={loading} onPress={handleSubmit} style={{ flex: 1 }}>
       {submitText}
     </CustomButton>
   )

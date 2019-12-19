@@ -1,5 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import { View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
@@ -10,11 +11,13 @@ import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { CustomButton, Section, Wrapper } from '../common'
+import { BigGoodDollar, CustomButton, Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import SummaryTable from '../common/view/SummaryTable'
+import { withStyles } from '../../lib/styles'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 import SurveySend from './SurveySend'
+
 const log = logger.child({ from: 'SendLinkSummary' })
 
 export type AmountProps = {
@@ -27,7 +30,7 @@ export type AmountProps = {
  * @param {AmountProps} props
  * @param {any} props.screenProps
  */
-const SendLinkSummary = ({ screenProps }: AmountProps) => {
+const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const profile = GDStore.useStore().get('profile')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
@@ -175,12 +178,51 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section grow>
-        <Section.Title fontWeight="medium">SUMMARY</Section.Title>
+      <Section grow style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <Section.Stack>
+          <Section.Row justifyContent="center">
+            <View style={styles.sendIconWrapper}>
+              <Icon name="send" size={45} color="white" />
+            </View>
+          </Section.Row>
+          <Section.Title fontWeight="medium">YOU ARE SENDING</Section.Title>
+          <Section.Title fontWeight="medium" style={styles.amountWrapper}>
+            <BigGoodDollar
+              number={amount}
+              color="red"
+              bigNumberProps={{
+                fontSize: 36,
+                lineHeight: 24,
+                fontFamily: 'Roboto Slab',
+                fontWeight: 'bold',
+              }}
+              bigNumberUnitProps={{ fontSize: 14 }}
+            />
+          </Section.Title>
+        </Section.Stack>
+        <Section.Stack>
+          <Section.Row style={[styles.toForTextWrapper, reason ? styles.sendToTextWrapper : undefined]}>
+            <Section.Text color="gray80Percent" fontSize={14} style={styles.sendToLabel}>
+              To
+            </Section.Text>
+            <Section.Title fontWeight="medium" lineHeight={24} style={styles.sendToText}>
+              {counterPartyDisplayName}
+            </Section.Title>
+          </Section.Row>
+          {reason && (
+            <Section.Row style={styles.toForTextWrapper}>
+              <Section.Text color="gray80Percent" fontSize={14} style={styles.sendToLabel}>
+                For
+              </Section.Text>
+              <Section.Text fontSize={14} numberOfLines={2} ellipsizeMode="tail" style={styles.reasonText}>
+                {reason}
+              </Section.Text>
+            </Section.Row>
+          )}
+        </Section.Stack>
         <Section.Row justifyContent="center">
           <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
         </Section.Row>
-        <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
@@ -208,4 +250,49 @@ SendLinkSummary.shouldNavigateToComponent = props => {
   return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink || screenState.from
 }
 
-export default SendLinkSummary
+const getStylesFromProps = ({ theme }) => ({
+  sendIconWrapper: {
+    height: getDesignRelativeHeight(75),
+    width: getDesignRelativeHeight(75),
+    backgroundColor: theme.colors.red,
+    position: 'relative',
+    borderRadius: '50%',
+    marginTop: getDesignRelativeHeight(15),
+    marginBottom: getDesignRelativeHeight(24),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  amountWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: getDesignRelativeHeight(10),
+    marginBottom: getDesignRelativeHeight(27),
+  },
+  toForTextWrapper: {
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: theme.colors.gray50Percent,
+    borderRadius: 25,
+    height: getDesignRelativeHeight(42),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingBottom: getDesignRelativeHeight(3),
+    position: 'relative',
+  },
+  sendToText: {
+    margin: 0,
+  },
+  sendToLabel: {
+    position: 'absolute',
+    top: -getDesignRelativeHeight(12),
+    backgroundColor: theme.colors.white,
+    paddingHorizontal: getDesignRelativeHeight(10),
+  },
+  sendToTextWrapper: {
+    marginBottom: 30,
+  },
+})
+
+export default withStyles(getStylesFromProps)(SendLinkSummary)

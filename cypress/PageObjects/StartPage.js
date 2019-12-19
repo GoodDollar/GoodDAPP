@@ -13,7 +13,11 @@ class StartPage {
   }
 
   open() {
-    cy.visit(Cypress.env('baseUrl'))
+    cy.visit(Cypress.env('baseUrl'), {
+      onBeforeLoad(win) {
+        delete win.navigator.__proto__.serviceWorker
+      },
+    })
   }
 }
 

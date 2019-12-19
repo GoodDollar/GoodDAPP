@@ -36,7 +36,7 @@ matrix:
         - export CYPRESS_w3Link=$W3_LINK
         - cypress run
         - npm run bundlesize:check
-    - if: env(DEPLOY_TYPE) IS NOT present
+    - if: env(DEPLOY_TYPE) IS present
       script:
         - pushd node_modules/@gooddollar/goodcontracts
         - npm ci

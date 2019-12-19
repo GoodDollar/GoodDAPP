@@ -235,6 +235,23 @@ export const startClaiming = {
   },
 }
 
+export const hanukaBonusStartsMessage = {
+  type: 'hanukaStarts',
+  status: 'completed',
+  data: {
+    customName: 'Collect extra GoodDollars\non every day of Hannukah',
+    subtitle: 'Hannukah Miracle Bonus',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'Get an extra GoodDollar, on top of your daily collection, for every candle lit on the menorah today. Claim every day of Hannukah for a total bonus of G$44!\n\nHag Sameach!',
+    endpoint: {
+      fullName: 'Hannukah Miracle Bonus',
+    },
+  },
+}
+
 /**
  * Extracts transfer events sent to the current account
  * @param {object} receipt - Receipt event
@@ -829,6 +846,8 @@ export class UserStorage {
 
       await this.userProperties.set('firstVisitApp', Date.now())
     }
+
+    this.addHanukaBonusStartsCard()
   }
 
   /**
@@ -874,6 +893,25 @@ export class UserStorage {
 
     if (allowToShowByTimeFilter) {
       await this.enqueueTX(startClaiming)
+    }
+  }
+
+  /**
+   * add a hanuka bonus card to notify user that bonus period starts
+   *
+   * @returns {Promise<void>}
+   */
+  async addHanukaBonusStartsCard() {
+    const now = moment().utcOffset('+0200')
+    const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY').utcOffset('+0200')
+    const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY')
+      .endOf('day')
+      .utcOffset('+0200')
+
+    if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
+      hanukaBonusStartsMessage.id = `hanuka-${now.format('YYYY')}`
+
+      await this.enqueueTX(hanukaBonusStartsMessage)
     }
   }
 

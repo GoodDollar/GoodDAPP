@@ -8,6 +8,7 @@ import userStorage from '../UserStorage'
 import {
   backupMessage,
   getReceiveDataFromReceipt,
+  hanukaBonusStartsMessage,
   inviteFriendsMessage,
   startClaiming,
   startSpending,
@@ -406,6 +407,14 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(startClaiming)
   })
 
+  it('events/add hanuka bonus starts event', async () => {
+    hanukaBonusStartsMessage.id = 'hanuka-test'
+
+    await userStorage.updateFeedEvent(hanukaBonusStartsMessage)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(hanukaBonusStartsMessage)
+  })
+
   it('events/doesnt have the welcome event already set', async () => {
     const events = await userStorage.getAllFeed()
     if (Config.isEToro) {
@@ -603,7 +612,7 @@ describe('UserStorage', () => {
     await Promise.all([userStorage.wallet.ready, userStorage.ready])
     const result = await userStorage.setProfileField('username', 'user1', 'public')
     await userStorage.setProfileField('email', 'user1', 'public')
-    expect(result).toMatchObject({ err: undefined, ok: 0 })
+    expect(result).toMatchObject({ ok: 0 })
 
     const updatedUsername = await userStorage.getProfileFieldValue('username')
     expect(updatedUsername).toBe('user1')

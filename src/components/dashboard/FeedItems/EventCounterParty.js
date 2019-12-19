@@ -6,18 +6,18 @@ import cutLastWords from '../../../lib/utils/cutLastWords'
 const EventCounterParty = ({ feedItem, styles, style, subtitle, isSmallDevice }) => {
   let direction = ''
   let displayText =
-    feedItem.data.subtitle && subtitle ? ` ${feedItem.data.subtitle}` : ` ${feedItem.data.endpoint.fullName}`
+    feedItem.data.subtitle && subtitle ? `${feedItem.data.subtitle}` : `${feedItem.data.endpoint.fullName}`
 
   switch (feedItem.type) {
     case 'send':
-      direction = 'To:'
+      direction = 'To: '
       break
 
     case 'claim':
     case 'receive':
     case 'withdraw':
     case 'bonus':
-      direction = 'From:'
+      direction = 'From: '
       break
 
     case 'claiming':
@@ -29,7 +29,7 @@ const EventCounterParty = ({ feedItem, styles, style, subtitle, isSmallDevice })
   }
 
   return (
-    <Text textTransform="capitalize" textAlign="left" style={style} numberOfLines={1} ellipsizeMode="tail">
+    <Text textTransform="capitalize" textAlign="left" style={style} numberOfLines={2} ellipsizeMode="tail">
       {direction && (
         <Text fontSize={10} style={styles.direction}>
           {direction}

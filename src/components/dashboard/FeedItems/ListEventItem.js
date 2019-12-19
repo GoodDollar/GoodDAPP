@@ -154,6 +154,10 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
       result = isSmallDevice ? <ReadMoreText text="daily G$" /> : ''
       break
 
+    case 'hanukaStarts':
+      result = <ReadMoreText text="Claim today for extra G$$$" />
+      break
+
     default:
       result = (
         <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>

@@ -179,7 +179,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section grow style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+      <Section grow style={styles.section}>
         <Section.Stack>
           <Section.Row justifyContent="center">
             <View style={styles.sendIconWrapper}>
@@ -203,7 +203,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         </Section.Stack>
         <Section.Stack>
           <Section.Row style={[styles.toForTextWrapper, reason ? styles.sendToTextWrapper : undefined]}>
-            <Section.Text color="gray80Percent" fontSize={14} style={styles.sendToLabel}>
+            <Section.Text color="gray80Percent" fontSize={14} style={styles.toForLabel}>
               To
             </Section.Text>
             <Section.Text fontSize={24} fontWeight="medium" lineHeight={24} style={styles.sendToText}>
@@ -212,7 +212,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           </Section.Row>
           {reason && (
             <Section.Row style={[styles.toForTextWrapper, styles.sendForTextWrapper]}>
-              <Section.Text color="gray80Percent" fontSize={14} style={styles.sendToLabel}>
+              <Section.Text color="gray80Percent" fontSize={14} style={styles.toForLabel}>
                 For
               </Section.Text>
               <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail" style={styles.reasonText}>
@@ -252,6 +252,11 @@ SendLinkSummary.shouldNavigateToComponent = props => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  section: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
   sendIconWrapper: {
     height: getDesignRelativeHeight(75),
     width: getDesignRelativeHeight(75),
@@ -285,7 +290,7 @@ const getStylesFromProps = ({ theme }) => ({
   sendToText: {
     margin: 0,
   },
-  sendToLabel: {
+  toForLabel: {
     position: 'absolute',
     top: -getDesignRelativeHeight(10),
     backgroundColor: theme.colors.white,

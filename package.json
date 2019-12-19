@@ -75,7 +75,6 @@
     "ethereumjs-wallet": "^0.6.3",
     "gun": "^0.2019.1120",
     "hdkey": "^1.1.1",
-    "iframe-resizer-react": "^1.0.0",
     "loadjs": "^3.6.1",
     "lodash": "^4.17.15",
     "mnid": "^0.1.3",

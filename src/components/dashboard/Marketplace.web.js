@@ -80,7 +80,6 @@ const MarketTab = props => {
     return null
   }
 
-  //this is for paperclip external market, doesnt seem like it requires iframeresizer to work in ios
   return marketIframe
 }
 

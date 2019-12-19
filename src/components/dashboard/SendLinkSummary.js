@@ -15,6 +15,7 @@ import { BigGoodDollar, CustomButton, Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import normalize from '../../lib/utils/normalizeText'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 import SurveySend from './SurveySend'
 
@@ -182,7 +183,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         <Section.Stack>
           <Section.Row justifyContent="center">
             <View style={styles.sendIconWrapper}>
-              <Icon name="send" size={45} color="white" />
+              <Icon name="send" size={getDesignRelativeHeight(45)} color="white" />
             </View>
           </Section.Row>
           <Section.Title fontWeight="medium">YOU ARE SENDING</Section.Title>
@@ -205,22 +206,22 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             <Section.Text color="gray80Percent" fontSize={14} style={styles.sendToLabel}>
               To
             </Section.Text>
-            <Section.Title fontWeight="medium" lineHeight={24} style={styles.sendToText}>
+            <Section.Text fontSize={24} fontWeight="medium" lineHeight={24} style={styles.sendToText}>
               {counterPartyDisplayName}
-            </Section.Title>
+            </Section.Text>
           </Section.Row>
           {reason && (
-            <Section.Row style={styles.toForTextWrapper}>
+            <Section.Row style={[styles.toForTextWrapper, styles.sendForTextWrapper]}>
               <Section.Text color="gray80Percent" fontSize={14} style={styles.sendToLabel}>
                 For
               </Section.Text>
-              <Section.Text fontSize={14} numberOfLines={2} ellipsizeMode="tail" style={styles.reasonText}>
+              <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail" style={styles.reasonText}>
                 {reason}
               </Section.Text>
             </Section.Row>
           )}
         </Section.Stack>
-        <Section.Row justifyContent="center">
+        <Section.Row justifyContent="center" style={styles.warnText}>
           <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
         </Section.Row>
         <Section.Row>
@@ -274,11 +275,11 @@ const getStylesFromProps = ({ theme }) => ({
     borderStyle: 'solid',
     borderColor: theme.colors.gray50Percent,
     borderRadius: 25,
-    height: getDesignRelativeHeight(42),
+    height: 42,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    paddingBottom: getDesignRelativeHeight(3),
+    paddingBottom: getDesignRelativeHeight(4),
     position: 'relative',
   },
   sendToText: {
@@ -286,12 +287,20 @@ const getStylesFromProps = ({ theme }) => ({
   },
   sendToLabel: {
     position: 'absolute',
-    top: -getDesignRelativeHeight(12),
+    top: -getDesignRelativeHeight(10),
     backgroundColor: theme.colors.white,
     paddingHorizontal: getDesignRelativeHeight(10),
+    lineHeight: normalize(14),
   },
   sendToTextWrapper: {
-    marginBottom: 30,
+    marginBottom: 24,
+  },
+  sendForTextWrapper: {
+    alignItems: 'center',
+    paddingBottom: 0,
+  },
+  warnText: {
+    marginVertical: getDesignRelativeHeight(24),
   },
 })
 

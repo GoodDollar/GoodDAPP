@@ -1,10 +1,10 @@
 // @flow
 import React from 'react'
-
 import CustomButton from '../common/buttons/CustomButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import { withStyles } from '../../lib/styles'
+
 type FooterProps = {
   valid?: boolean,
   submitText?: string,

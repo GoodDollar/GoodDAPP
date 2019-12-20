@@ -282,6 +282,7 @@ exports[`AppNavigation matches snapshot 1`] = `
         >
           <div
             className="css-text-901oao"
+            data-testid="burger_button"
             dir="auto"
             style={
               Object {

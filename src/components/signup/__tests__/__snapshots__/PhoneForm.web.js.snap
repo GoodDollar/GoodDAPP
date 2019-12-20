@@ -131,7 +131,6 @@ exports[`PhoneForm matches snapshot 1`] = `
                 "msFlexAlign": "stretch",
                 "msFlexDirection": "column",
                 "msFlexPack": "start",
-                "width": "100%",
               }
             }
           >
@@ -1814,11 +1813,11 @@ so we could verify you
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
+                "marginBottom": "8px",
                 "marginTop": "auto",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "center",
-                "top": "0px",
               }
             }
           >
@@ -1915,7 +1914,6 @@ so we could verify you
               "paddingLeft": "0px",
               "paddingRight": "0px",
               "paddingTop": "0px",
-              "top": "0px",
             }
           }
         >

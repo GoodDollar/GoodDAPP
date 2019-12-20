@@ -460,7 +460,6 @@ exports[`Sign Up Magic Link Info Screen matches snapshot 1`] = `
               "paddingLeft": "0px",
               "paddingRight": "0px",
               "paddingTop": "0px",
-              "top": "0px",
             }
           }
         >

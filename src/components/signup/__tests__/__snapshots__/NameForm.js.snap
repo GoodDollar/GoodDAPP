@@ -373,7 +373,6 @@ exports[`NameForm matches snapshot 1`] = `
               "paddingLeft": "0px",
               "paddingRight": "0px",
               "paddingTop": "0px",
-              "top": "0px",
             }
           }
         >
@@ -883,7 +882,6 @@ exports[`NameForm matches snapshot with empty value 1`] = `
               "paddingLeft": "0px",
               "paddingRight": "0px",
               "paddingTop": "0px",
-              "top": "0px",
             }
           }
         >

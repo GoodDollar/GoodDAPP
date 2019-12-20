@@ -61,6 +61,9 @@ class PhoneForm extends React.Component<Props, State> {
         countryCode: this.props.screenProps.data.countryCode,
       })
     }
+    if (isMobile) {
+      this.onFocus()
+    }
   }
 
   handleChange = (mobile: string) => {

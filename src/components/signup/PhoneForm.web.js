@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce'
 import './PhoneForm.css'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
+import { getScreenHeight } from '../../lib/utils/Orientation'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { withStyles } from '../../lib/styles'
@@ -96,9 +97,9 @@ class PhoneForm extends React.Component<Props, State> {
     this.props.screenProps.error = undefined
 
     const { key } = this.props.navigation.state
-    const { styles } = this.props
+    const { styles, store, theme } = this.props
     const { fullName, loading } = this.props.screenProps.data
-
+    const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
     return (
       <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
         <Section grow justifyContent="flex-start">
@@ -122,8 +123,17 @@ class PhoneForm extends React.Component<Props, State> {
               <ErrorText error={errorMessage} style={styles.customError} />
             </Section.Stack>
           </Section.Stack>
-          <Section.Row justifyContent="center" style={styles.bottomRow}>
-            <Section.Text fontSize={14} color="gray80Percent">
+          <Section.Row
+            justifyContent="center"
+            style={{
+              marginTop: 'auto',
+
+              /*only for small screen (iPhone5 , etc.)*/
+              marginBottom: isShowKeyboard && getScreenHeight() <= 480 ? -15 : theme.sizes.default,
+            }}
+          >
+            {/*change fontSize only for small screen (iPhone5 , etc.)*/}
+            <Section.Text fontSize={isShowKeyboard && getScreenHeight() <= 480 ? 13 : 14} color="gray80Percent">
               A verification code will be sent to this number
             </Section.Text>
           </Section.Row>

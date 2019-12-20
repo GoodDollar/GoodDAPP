@@ -103,10 +103,13 @@ class EmailForm extends React.Component<Props, State> {
             justifyContent="flex-end"
             style={{
               marginTop: 'auto',
+
+              /*only for small screen (iPhone5 , etc.)*/
               marginBottom: isShowKeyboard && getScreenHeight() <= 480 ? -30 : theme.sizes.default,
             }}
           >
-            <Section.Text fontSize={14} color="gray80Percent">
+            {/*change fontSize only for small screen (iPhone5 , etc.)*/}
+            <Section.Text fontSize={isShowKeyboard && getScreenHeight() <= 480 ? 13 : 14} color="gray80Percent">
               We respect your privacy and will never sell or give away your info to any third party.
             </Section.Text>
           </Section.Row>

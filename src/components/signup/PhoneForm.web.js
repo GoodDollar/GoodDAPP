@@ -117,7 +117,7 @@ class PhoneForm extends React.Component<Props, State> {
                 error={errorMessage}
                 onKeyDown={this.handleEnter}
                 country={this.state.countryCode}
-                onFocus={this.onFocus}
+                onTouchStart={this.onFocus}
                 onBlur={this.onBlur}
               />
               <ErrorText error={errorMessage} style={styles.customError} />

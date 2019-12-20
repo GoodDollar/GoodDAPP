@@ -9,6 +9,7 @@ import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
 import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 import Config from './config/config'
+import resizeBase64Image from './lib/utils/resizeBase64Image'
 
 const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
@@ -21,6 +22,24 @@ let SignupRouter = React.lazy(() =>
     )
     .then(r => r[0])
 )
+
+/**
+ * Set small avatar for user in case he doesn't have it
+ *
+ * @returns {Promise}
+ */
+const checkSmallAvatar = async userStorage => {
+  const avatar = await userStorage.getProfileFieldValue('avatar')
+  const smallAvatar = await userStorage.getProfileFieldValue('smallAvatar')
+
+  if (avatar && !smallAvatar) {
+    log.debug('Updating small avatar')
+
+    const smallAvatar = await resizeBase64Image(avatar, 50)
+
+    await userStorage.setProfileField('smallAvatar', smallAvatar, 'public')
+  }
+}
 
 /**
  * handle in-app links for unsigned users such as magiclink and paymentlinks
@@ -78,7 +97,11 @@ const handleLinks = async () => {
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
   let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
-  let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
+  let p2 = walletAndStorageReady
+    .then(({ init, _ }) => init())
+    .then(d => checkSmallAvatar(d.userStorage))
+    .then(_ => log.debug('storage and wallet ready'))
+
   return Promise.all([import(/* webpackChunkName: "router" */ './Router'), p2])
     .then(r => {
       log.debug('router ready')

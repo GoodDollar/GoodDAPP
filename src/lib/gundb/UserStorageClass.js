@@ -1538,7 +1538,7 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = '', status) {
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 

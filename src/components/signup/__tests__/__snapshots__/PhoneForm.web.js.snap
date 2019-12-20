@@ -1770,6 +1770,7 @@ so we could verify you
                     onChange={[Function]}
                     onFocus={[Function]}
                     onKeyDown={[Function]}
+                    onTouchStart={[Function]}
                     type="tel"
                     value=""
                   />

@@ -2,14 +2,13 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { isIOS, isMobileSafari } from 'mobile-device-detect'
+import { isMobileSafari } from 'mobile-device-detect'
 import _get from 'lodash/get'
 import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
-import { getScreenHeight } from '../../lib/utils/Orientation'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -44,7 +43,6 @@ const SignupWizardNavigator = createSwitchNavigator(
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
-  const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
@@ -448,7 +446,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     <View
       style={{
         flexGrow: shouldGrow ? 1 : 0,
-        minHeight: isIOS && isShowKeyboard && getScreenHeight() <= 480 ? getScreenHeight() + 30 : 'inherit',
       }}
     >
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={'Sign Up'} />

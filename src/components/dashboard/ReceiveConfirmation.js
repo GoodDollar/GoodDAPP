@@ -42,20 +42,22 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section justifyContent="space-between" grow>
-        <Section.Stack style={styles.qrCode}>
-          <QRCode value={urlForQR} />
-        </Section.Stack>
-        <Section.Stack grow justifyContent="center" alignItems="center">
-          <Section.Text style={styles.textRow}>{'Request exactly'}</Section.Text>
-          {amount && (
-            <BigGoodDollar
-              number={amount}
-              color="green"
-              bigNumberProps={{ fontSize: 36, lineHeight: 24, fontWeight: 'bold', fontFamily: 'Roboto Slab' }}
-              bigNumberUnitProps={{ fontSize: 14 }}
-            />
-          )}
-          {!!reason && <Section.Text style={styles.textRow}>For {reason}</Section.Text>}
+        <Section.Stack justifyContent="space-evenly" grow>
+          <Section.Stack style={styles.qrCode}>
+            <QRCode value={urlForQR} />
+          </Section.Stack>
+          <Section.Stack justifyContent="center" alignItems="center">
+            <Section.Text style={styles.textRow}>{'Request exactly'}</Section.Text>
+            {amount && (
+              <BigGoodDollar
+                number={amount}
+                color="green"
+                bigNumberProps={{ fontSize: 36, lineHeight: 24, fontWeight: 'bold', fontFamily: 'Roboto Slab' }}
+                bigNumberUnitProps={{ fontSize: 14 }}
+              />
+            )}
+            {!!reason && <Section.Text style={styles.textRow}>For {reason}</Section.Text>}
+          </Section.Stack>
         </Section.Stack>
         <Section.Stack>
           <ShareButton

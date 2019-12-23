@@ -30,39 +30,41 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     <Wrapper>
       <TopBar hideBalance push={screenProps.push} />
       <Section grow style={styles.section}>
-        <Section.Text style={styles.confirmationDescription} fontSize={22} fontWeight="medium">
-          {'To complete the transaction\ncopy the link and share it\nwith your recipient.'}
-        </Section.Text>
-        <Section.Stack>
-          <Section.Row justifyContent="center">
-            <View style={styles.sendIconWrapper}>
-              <Icon name="send" size={getDesignRelativeHeight(45)} color="white" />
-            </View>
-          </Section.Row>
-          <Section.Title fontWeight="medium" style={styles.amountWrapper}>
-            <BigGoodDollar
-              number={amount}
-              color="red"
-              bigNumberProps={{
-                fontSize: 36,
-                lineHeight: 24,
-                fontFamily: 'Roboto Slab',
-                fontWeight: 'bold',
-              }}
-              bigNumberUnitProps={{ fontSize: 14 }}
-            />
-          </Section.Title>
+        <Section.Stack grow justifyContent="center">
+          <Section.Text style={styles.confirmationDescription} fontSize={22} fontWeight="medium">
+            {'To complete the transaction\ncopy the link and share it\nwith your recipient.'}
+          </Section.Text>
+          <Section.Stack style={styles.iconAmountBlock}>
+            <Section.Row justifyContent="center">
+              <View style={styles.sendIconWrapper}>
+                <Icon name="send" size={getDesignRelativeHeight(45)} color="white" />
+              </View>
+            </Section.Row>
+            <Section.Title fontWeight="medium" style={styles.amountWrapper}>
+              <BigGoodDollar
+                number={amount}
+                color="red"
+                bigNumberProps={{
+                  fontSize: 36,
+                  lineHeight: 24,
+                  fontFamily: 'Roboto Slab',
+                  fontWeight: 'bold',
+                }}
+                bigNumberUnitProps={{ fontSize: 14 }}
+              />
+            </Section.Title>
+          </Section.Stack>
+          {reason && (
+            <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
+              <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
+                For
+              </Section.Text>
+              <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail">
+                {reason}
+              </Section.Text>
+            </Section.Row>
+          )}
         </Section.Stack>
-        {reason && (
-          <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
-            <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
-              For
-            </Section.Text>
-            <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail">
-              {reason}
-            </Section.Text>
-          </Section.Row>
-        )}
         <CopyButton toCopy={paymentLink} onPressDone={() => screenProps.goToRoot()}>
           Copy link to clipboard
         </CopyButton>
@@ -81,7 +83,9 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: getDesignRelativeHeight(15),
+  },
+  iconAmountBlock: {
+    marginVertical: getDesignRelativeHeight(50),
   },
   sendIconWrapper: {
     height: getDesignRelativeHeight(75),

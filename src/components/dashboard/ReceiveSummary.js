@@ -1,6 +1,7 @@
 // @flow
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
+import { isMobile } from 'mobile-device-detect'
 import { Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -36,19 +37,45 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
   ])
 
   const noCreds = !(counterPartyDisplayName || reason)
+  const iconMarginWithoutReason = isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds
+  const amountMargin = isMobile ? styles.amountBlockMarginMobile : styles.amountBlockMargin
 
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow style={styles.section}>
-        {noCreds ? (
-          <>
-            <Section.Row justifyContent="center">
-              <View style={[styles.sendIconWrapper]}>
-                <Icon name="receive" size={getDesignRelativeHeight(45)} color="white" />
-              </View>
-            </Section.Row>
-            <Section.Stack>
+        <Section.Stack grow justifyContent="center">
+          {noCreds ? (
+            <>
+              <Section.Row justifyContent="center">
+                <View style={[styles.sendIconWrapper, iconMarginWithoutReason]}>
+                  <Icon name="receive" size={getDesignRelativeHeight(45)} color="white" />
+                </View>
+              </Section.Row>
+              <Section.Stack style={amountMargin}>
+                <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
+                <Section.Title fontWeight="medium" style={styles.amountWrapper}>
+                  <BigGoodDollar
+                    number={amount}
+                    color="green"
+                    bigNumberProps={{
+                      fontSize: 36,
+                      lineHeight: 24,
+                      fontFamily: 'Roboto Slab',
+                      fontWeight: 'bold',
+                    }}
+                    bigNumberUnitProps={{ fontSize: 14 }}
+                  />
+                </Section.Title>
+              </Section.Stack>
+            </>
+          ) : (
+            <Section.Stack style={amountMargin}>
+              <Section.Row justifyContent="center">
+                <View style={styles.sendIconWrapper}>
+                  <Icon name="receive" size={getDesignRelativeHeight(45)} color="white" />
+                </View>
+              </Section.Row>
               <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
               <Section.Title fontWeight="medium" style={styles.amountWrapper}>
                 <BigGoodDollar
@@ -64,51 +91,29 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
                 />
               </Section.Title>
             </Section.Stack>
-          </>
-        ) : (
+          )}
           <Section.Stack>
-            <Section.Row justifyContent="center">
-              <View style={styles.sendIconWrapper}>
-                <Icon name="receive" size={getDesignRelativeHeight(45)} color="white" />
-              </View>
-            </Section.Row>
-            <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
-            <Section.Title fontWeight="medium" style={styles.amountWrapper}>
-              <BigGoodDollar
-                number={amount}
-                color="green"
-                bigNumberProps={{
-                  fontSize: 36,
-                  lineHeight: 24,
-                  fontFamily: 'Roboto Slab',
-                  fontWeight: 'bold',
-                }}
-                bigNumberUnitProps={{ fontSize: 14 }}
-              />
-            </Section.Title>
+            {!!counterPartyDisplayName && (
+              <Section.Row style={[styles.credsWrapper, styles.fromTextWrapper]}>
+                <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
+                  From
+                </Section.Text>
+                <Section.Text fontSize={24} fontWeight="medium" lineHeight={24}>
+                  {counterPartyDisplayName}
+                </Section.Text>
+              </Section.Row>
+            )}
+            {!!reason && (
+              <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
+                <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
+                  For
+                </Section.Text>
+                <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail">
+                  {reason}
+                </Section.Text>
+              </Section.Row>
+            )}
           </Section.Stack>
-        )}
-        <Section.Stack>
-          {!!counterPartyDisplayName && (
-            <Section.Row style={[styles.credsWrapper, styles.fromTextWrapper]}>
-              <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
-                From
-              </Section.Text>
-              <Section.Text fontSize={24} fontWeight="medium" lineHeight={24}>
-                {counterPartyDisplayName}
-              </Section.Text>
-            </Section.Row>
-          )}
-          {!!reason && (
-            <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
-              <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
-                For
-              </Section.Text>
-              <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail">
-                {reason}
-              </Section.Text>
-            </Section.Row>
-          )}
         </Section.Stack>
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
@@ -144,6 +149,18 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
+  amountBlockMarginMobile: {
+    marginBottom: getDesignRelativeHeight(35),
+  },
+  amountBlockMargin: {
+    marginBottom: getDesignRelativeHeight(80),
+  },
+  marginForNoCredsMobile: {
+    marginBottom: getDesignRelativeHeight(60),
+  },
+  marginForNoCreds: {
+    marginBottom: getDesignRelativeHeight(100),
+  },
   sendIconWrapper: {
     height: getDesignRelativeHeight(75),
     width: getDesignRelativeHeight(75),
@@ -160,7 +177,6 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: getDesignRelativeHeight(10),
-    marginBottom: getDesignRelativeHeight(27),
   },
   credsWrapper: {
     borderWidth: 1,

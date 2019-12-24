@@ -683,7 +683,7 @@ export class UserStorage {
       }
 
       if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
-        updatedFeedEvent.data.message = COMPLETED_BONUS_REASON_TEXT
+        updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
         updatedFeedEvent.data.customName = 'GoodDollar'
       }
 

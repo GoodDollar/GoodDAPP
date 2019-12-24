@@ -12,6 +12,8 @@ export default class UserProperties {
    */
   static defaultProperties = {
     isMadeBackup: false,
+    startClaimingFeedCardAdded: false,
+    hanukaBonusFeedCardAdded: false,
     firstVisitApp: null,
     etoroAddCardSpending: true,
     isAddedToHomeScreen: false,
@@ -21,6 +23,8 @@ export default class UserProperties {
 
   fields = [
     'isMadeBackup',
+    'startClaimingFeedCardAdded',
+    'hanukaBonusFeedCardAdded',
     'firstVisitApp',
     'etoroAddCardSpending',
     'isAddedToHomeScreen',

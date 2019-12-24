@@ -823,8 +823,8 @@ export class UserStorage {
     const firstVisitAppDate = userProperties.firstVisitApp
     const isCameFromW3Site = userProperties.cameFromW3Site
 
-    this.addBackupCard()
-    this.addStartClaimingCard()
+    await this.addBackupCard()
+    await this.addStartClaimingCard()
 
     // first time user visit
     if (firstVisitAppDate == null) {
@@ -847,7 +847,7 @@ export class UserStorage {
       await this.userProperties.set('firstVisitApp', Date.now())
     }
 
-    this.addHanukaBonusStartsCard()
+    await this.addHanukaBonusStartsCard()
   }
 
   /**
@@ -891,8 +891,9 @@ export class UserStorage {
     const displayTimeFilter = Config.displayStartClaimingCardTime
     const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
 
-    if (allowToShowByTimeFilter) {
+    if (!userProperties.startClaimingFeedCardAdded && allowToShowByTimeFilter) {
       await this.enqueueTX(startClaiming)
+      await this.userProperties.set('startClaimingFeedCardAdded', true)
     }
   }
 
@@ -902,16 +903,18 @@ export class UserStorage {
    * @returns {Promise<void>}
    */
   async addHanukaBonusStartsCard() {
+    const userProperties = await this.userProperties.getAll()
     const now = moment().utcOffset('+0200')
     const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY').utcOffset('+0200')
     const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY')
       .endOf('day')
       .utcOffset('+0200')
 
-    if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
+    if (!userProperties.hanukaBonusFeedCardAdded && startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
       hanukaBonusStartsMessage.id = `hanuka-${now.format('YYYY')}`
 
       await this.enqueueTX(hanukaBonusStartsMessage)
+      await this.userProperties.set('hanukaBonusFeedCardAdded', true)
     }
   }
 

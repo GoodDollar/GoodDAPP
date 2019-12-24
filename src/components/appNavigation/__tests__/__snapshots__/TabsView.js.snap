@@ -48,6 +48,52 @@ exports[`TabsView matches snapshot 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         Object {
+          "MozTransitionProperty": "opacity",
+          "MozUserSelect": "none",
+          "WebkitTransitionDuration": "0.15s",
+          "WebkitTransitionProperty": "opacity",
+          "WebkitUserSelect": "none",
+          "cursor": "pointer",
+          "marginLeft": "10px",
+          "msTouchAction": "manipulation",
+          "msUserSelect": "none",
+          "touchAction": "manipulation",
+          "transitionDuration": "0.15s",
+          "transitionProperty": "opacity",
+          "userSelect": "none",
+        }
+      }
+      tabIndex="0"
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "fontFamily": "gooddollar",
+            "fontSize": "36px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      data-focusable={true}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
           "WebkitBoxFlex": 1,
           "WebkitFlexBasis": "0%",
           "WebkitFlexGrow": 1,
@@ -56,6 +102,7 @@ exports[`TabsView matches snapshot 1`] = `
           "flexBasis": "0%",
           "flexGrow": 1,
           "flexShrink": 1,
+          "marginLeft": "8px",
           "msFlexNegative": 1,
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",

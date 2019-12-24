@@ -212,9 +212,10 @@ export class GoodWallet {
    * @returns {Promise<R>|Promise<R|*>|Promise<*>}
    */
   async listenTxUpdates(fromBlock: int = 0, blockIntervalCallback: Function) {
-    log.debug('listenTxUpdates listening from block:', fromBlock)
     const curBlock = await this.wallet.eth.getBlockNumber()
-    fromBlock = new BN(fromBlock <= curBlock ? fromBlock : curBlock)
+    const dayAgoBlock = Math.max(0, fromBlock - 17280)
+    log.debug('listenTxUpdates listening from block:', { fromBlock, dayAgoBlock })
+    fromBlock = new BN(dayAgoBlock <= curBlock ? dayAgoBlock : curBlock)
 
     this.subscribeToOTPLEvents(fromBlock, blockIntervalCallback)
     const contract = this.erc20Contract

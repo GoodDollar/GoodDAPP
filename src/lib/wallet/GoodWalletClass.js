@@ -307,8 +307,8 @@ export class GoodWallet {
       }
     }
 
-    this.oneTimePaymentsContract.events.PaymentWithdraw({ fromBlock, filter: filter }, handler)
-    this.oneTimePaymentsContract.events.PaymentCancel({ fromBlock, filter: filter }, handler)
+    this.oneTimePaymentsContract.events.PaymentWithdraw({ fromBlock, filter }, handler)
+    this.oneTimePaymentsContract.events.PaymentCancel({ fromBlock, filter }, handler)
   }
 
   /**

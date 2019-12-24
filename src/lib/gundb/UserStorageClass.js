@@ -892,7 +892,7 @@ export class UserStorage {
     const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
 
     if (!userProperties.startClaimingFeedCardAdded && allowToShowByTimeFilter) {
-      await this.enqueueTX(startClaiming)
+      await this.enqueueTX(startClaiming, true)
       await this.userProperties.set('startClaimingFeedCardAdded', true)
     }
   }
@@ -913,7 +913,7 @@ export class UserStorage {
     if (!userProperties.hanukaBonusFeedCardAdded && startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
       hanukaBonusStartsMessage.id = `hanuka-${now.format('YYYY')}`
 
-      await this.enqueueTX(hanukaBonusStartsMessage)
+      await this.enqueueTX(hanukaBonusStartsMessage, true)
       await this.userProperties.set('hanukaBonusFeedCardAdded', true)
     }
   }
@@ -1620,9 +1620,10 @@ export class UserStorage {
    * enqueue a new pending TX done on DAPP, to be later merged with the blockchain tx
    * the DAPP event can contain more details than the blockchain tx event
    * @param {FeedEvent} event
+   * @param {Boolean} stopOnError
    * @returns {Promise<>}
    */
-  async enqueueTX(event: FeedEvent): Promise<> {
+  async enqueueTX(event: FeedEvent, stopOnError = false): Promise<> {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
@@ -1630,9 +1631,9 @@ export class UserStorage {
         .get('byid')
         .get(event.id)
         .then()
-        .catch(_ => false)
+        .catch(_ => stopOnError)
       if (existingEvent) {
-        logger.warn('enqueueTx skipping existing event id', event, existingEvent)
+        logger.warn('enqueueTx - failed to check existing event id or skipping existing event id', event, existingEvent)
         return false
       }
       event.status = event.status || 'pending'

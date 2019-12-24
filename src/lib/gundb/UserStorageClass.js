@@ -715,7 +715,7 @@ export class UserStorage {
       logger.debug('handleOTPLUpdated', { data, receipt })
 
       //get our tx that created the payment link
-      const originalTXHash = await this.getTransactionHashByCode(data.hash)
+      const originalTXHash = (await this.getTransactionHashByCode(data.hash)) || receipt.transactionHash
       if (originalTXHash === undefined) {
         logger.error(
           'handleOTPLUpdated: Original payment link TX not found',
@@ -1538,7 +1538,7 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = '', status) {
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 

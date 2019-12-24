@@ -283,7 +283,8 @@ export class GoodWallet {
   }
 
   subscribeToOTPLEvents(fromBlock: BN, blockIntervalCallback) {
-    const filter = { from: this.wallet.utils.toChecksumAddress(this.account) }
+    const filterFrom = { from: this.wallet.utils.toChecksumAddress(this.account) }
+    const filterTo = { to: this.wallet.utils.toChecksumAddress(this.account) }
     const handler = (error, event) => {
       if (error) {
         // eslint-disable-next-line no-negated-condition
@@ -307,8 +308,9 @@ export class GoodWallet {
       }
     }
 
-    this.oneTimePaymentsContract.events.PaymentWithdraw({ fromBlock, filter }, handler)
-    this.oneTimePaymentsContract.events.PaymentCancel({ fromBlock, filter }, handler)
+    this.oneTimePaymentsContract.events.PaymentWithdraw({ fromBlock, filter: filterFrom }, handler)
+    this.oneTimePaymentsContract.events.PaymentWithdraw({ fromBlock, filter: filterTo }, handler)
+    this.oneTimePaymentsContract.events.PaymentCancel({ fromBlock, filter: filterFrom }, handler)
   }
 
   /**

@@ -21,7 +21,6 @@ import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import defaultGun from './gundb'
-
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 
@@ -426,7 +425,7 @@ export class UserStorage {
    * @param {string} password
    * @returns {Promise<*>}
    */
-  static async getMnemonic(username: String, password: String): String {
+  static async getMnemonic(username: String, password: String): Promise<String> {
     let gun = defaultGun
     let gunuser = gun.user()
     let mnemonic = ''
@@ -434,9 +433,9 @@ export class UserStorage {
     const authUserInGun = (username, password) => {
       return new Promise((res, rej) => {
         gunuser.auth(username, password, user => {
-          logger.debug('gundb auth', user.err)
+          logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnimonic UserStorage', user.err)
+            logger.error('Error getMnemonic UserStorage', user.err)
             return rej(false)
           }
           res(true)
@@ -450,6 +449,7 @@ export class UserStorage {
         .get('mnemonic')
         .get('value')
         .decrypt()
+      logger.debug('getMnemonic', { mnemonic })
     }
     await gunuser.leave()
 
@@ -822,7 +822,7 @@ export class UserStorage {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
     const isCameFromW3Site = userProperties.cameFromW3Site
-
+    logger.debug('startSystemFeed', { userProperties, firstVisitAppDate })
     this.addBackupCard()
     this.addStartClaimingCard()
 

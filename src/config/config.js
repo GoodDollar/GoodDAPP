@@ -37,6 +37,7 @@ const Config = {
   sentryDSN: process.env.REACT_APP_SENTRY_DSN,
   hanukaStartDate: process.env.REACT_APP_HANUKA_START_DATE, // date
   hanukaEndDate: process.env.REACT_APP_HANUKA_END_DATE, // date
+  delayMessageNetworkDisconnection: process.env.REACT_APP_DELAY_MSG_NETWORK_DESCONNECTION || 3000,
   ethereum: {
     '42': {
       network_id: 42,

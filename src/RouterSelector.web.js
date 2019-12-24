@@ -33,7 +33,7 @@ const handleLinks = async () => {
   try {
     const { magiclink } = params
     if (magiclink) {
-      let userNameAndPWD = Buffer.from(magiclink, 'base64').toString('ascii')
+      let userNameAndPWD = Buffer.from(decodeURIComponent(magiclink), 'base64').toString()
       let userNameAndPWDArray = userNameAndPWD.split('+')
       log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
       if (userNameAndPWDArray.length === 2) {

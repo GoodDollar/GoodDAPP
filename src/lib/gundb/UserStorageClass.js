@@ -715,7 +715,7 @@ export class UserStorage {
       logger.debug('handleOTPLUpdated', { data, receipt })
 
       //get our tx that created the payment link
-      const originalTXHash = (await this.getTransactionHashByCode(data.hash)) || receipt.transactionHash
+      const originalTXHash = await this.getTransactionHashByCode(data.hash)
       if (originalTXHash === undefined) {
         logger.error(
           'handleOTPLUpdated: Original payment link TX not found',

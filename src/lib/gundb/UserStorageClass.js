@@ -550,8 +550,9 @@ export class UserStorage {
       })
       logger.debug('init to events')
 
-      this.initFeed()
+      await this.initFeed()
       await this.initProperties()
+      await this.startSystemFeed()
 
       //save ref to user
       this.gun
@@ -813,9 +814,11 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  initFeed() {
+  async initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+    await this.feed
+    await this.feed.get('byid')
   }
 
   async startSystemFeed() {

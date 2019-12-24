@@ -213,6 +213,7 @@ export class GoodWallet {
    */
   async listenTxUpdates(fromBlock: int = 0, blockIntervalCallback: Function) {
     const curBlock = await this.wallet.eth.getBlockNumber()
+    //17280 = 24hours seconds divided by 5 seconds blocktime
     const dayAgoBlock = Math.max(0, fromBlock - 17280)
     log.debug('listenTxUpdates listening from block:', { fromBlock, dayAgoBlock })
     fromBlock = new BN(dayAgoBlock <= curBlock ? dayAgoBlock : curBlock)

@@ -228,7 +228,7 @@ export class GoodWallet {
     contract.events.Transfer(fromEventsFilter, (error, event) => {
       if (error) {
         // eslint-disable-next-line no-negated-condition
-        if (error.currentTarget.readyState !== error.currentTarget.CLOSED) {
+        if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
           log.error('listenTxUpdates fromEventsPromise failed:', error.message, error)
         } else {
           log.warn('listenTxUpdates fromEventsPromise failed:', error.message, error)

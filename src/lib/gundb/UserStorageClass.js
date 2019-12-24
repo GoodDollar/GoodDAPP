@@ -1630,7 +1630,6 @@ export class UserStorage {
         .get('byid')
         .get(event.id)
         .then()
-        .catch(_ => false)
       if (existingEvent) {
         logger.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false
@@ -1646,7 +1645,7 @@ export class UserStorage {
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
-      logger.error('enqueueTX failed: ', e.message, e)
+      logger.error('enqueueTX failed: ', e.message, e, event)
       return false
     } finally {
       release()

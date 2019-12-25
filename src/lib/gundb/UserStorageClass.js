@@ -496,6 +496,41 @@ export class UserStorage {
   }
 
   /**
+   * set status to broken send feed
+   * @returns {Promise<void>}
+   */
+  async fixSendFeedStatus() {
+    if (Config.version !== '0.12.0') {
+      return
+    }
+    try {
+      const isFixSendFeedStatus = await this.getProfileFieldValue('isFixSendFeedStatus')
+      if (isFixSendFeedStatus) {
+        return
+      }
+      const feeds = await this.getAllFeed()
+      const promises = []
+      for (const feedItem of feeds) {
+        if (
+          get(feedItem, 'type') === 'send' &&
+          get(feedItem, 'status') === 'completed' &&
+          !get(feedItem, 'data.otplData')
+        ) {
+          logger.info('Change feed status to pending', feedItem)
+          set(feedItem, 'status', 'pending')
+          promises.push(this.updateFeedEvent(feedItem, feedItem.date))
+        }
+      }
+      if (promises.length > 0) {
+        await Promise.all(promises)
+      }
+      this.setProfileField('isFixSendFeedStatus', true)
+    } catch (e) {
+      logger.error('fixSendFeedStatus error', e.message, e)
+    }
+  }
+
+  /**
    * Initialize wallet, gundb user, feed and subscribe to events
    */
   async init() {
@@ -549,8 +584,8 @@ export class UserStorage {
         this.subscribersProfileUpdates.forEach(callback => callback(doc))
       })
       logger.debug('init to events')
-
       this.initFeed()
+      await this.fixSendFeedStatus()
       await this.initProperties()
 
       //save ref to user
@@ -1325,16 +1360,6 @@ export class UserStorage {
         .map(feedItem => {
           if (!(feedItem.data && feedItem.data.receiptData)) {
             return this.getFormatedEventById(feedItem.id)
-          }
-
-          if (
-            get(feedItem, 'type') === 'send' &&
-            get(feedItem, 'status') === 'completed' &&
-            !get(feedItem, 'data.otplData')
-          ) {
-            logger.info('Change feed status to pending', feedItem)
-            set(feedItem, 'status', 'pending')
-            this.updateFeedEvent(feedItem, feedItem.date)
           }
 
           return this.formatEvent(feedItem).catch(e => {

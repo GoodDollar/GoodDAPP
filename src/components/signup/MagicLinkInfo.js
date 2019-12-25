@@ -90,7 +90,7 @@ const getStylesFromProps = ({ theme }) => {
 const MagicLinkInfo = withStyles(getStylesFromProps)(MagicLinkInfoComponent)
 
 MagicLinkInfo.navigationOptions = {
-  title: 'Sign up',
+  title: 'Magic Link',
 }
 
 export default withStyles(getStylesFromProps)(MagicLinkInfo)

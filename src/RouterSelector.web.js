@@ -35,7 +35,7 @@ const handleLinks = async () => {
   try {
     const { magiclink } = params
     if (magiclink) {
-      let userNameAndPWD = Buffer.from(magiclink, 'base64').toString('ascii')
+      let userNameAndPWD = Buffer.from(decodeURIComponent(magiclink), 'base64').toString()
       let userNameAndPWDArray = userNameAndPWD.split('+')
       log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
       if (userNameAndPWDArray.length === 2) {
@@ -81,6 +81,7 @@ let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
   let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
+
   return Promise.all([import(/* webpackChunkName: "router" */ './Router'), p2])
     .then(r => {
       log.debug('router ready')

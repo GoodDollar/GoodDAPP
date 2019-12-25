@@ -119,7 +119,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   patchLogger()
 }
 
-export const reportToSentry = (error, extra = {}, tags = {}) =>
+export const reportToSentry = (errorMsg, extra = {}, tags = {}) =>
   Sentry.configureScope(scope => {
     // set extra
     _forEach(extra, (value, key) => {
@@ -131,7 +131,7 @@ export const reportToSentry = (error, extra = {}, tags = {}) =>
       scope.setTags(key, value)
     })
 
-    Sentry.captureException(error)
+    Sentry.captureException(new Error(errorMsg))
   })
 
 export const fireEvent = (event: string, data: any = {}) => {

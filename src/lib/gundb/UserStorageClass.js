@@ -1383,14 +1383,14 @@ export class UserStorage {
    * @param {object} details
    * @returns {Promise<void>}
    */
-  saveSurveyDetails(hash, details: SurveyDetails) {
+  async saveSurveyDetails(hash, details: SurveyDetails) {
     try {
       const date = moment(new Date()).format('DDMMYY')
-      this.gun
+      await this.gun.get('survey').get(date)
+      await this.gun
         .get('survey')
         .get(date)
-        .get(hash)
-        .put(details)
+        .putAck({ [hash]: details })
       return true
     } catch (e) {
       logger.error('saveSurveyDetails :', e.message, e, details)

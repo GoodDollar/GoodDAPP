@@ -21,6 +21,8 @@ const log = logger.child({ from: 'GoodWallet' })
 const DAY_IN_SECONDS = window.nextTimeClaim ? Number(window.nextTimeClaim) : Number(Config.nextTimeClaim)
 const MILLISECONDS = 1000
 const ZERO = new BN('0')
+
+//17280 = 24hours seconds divided by 5 seconds blocktime
 const DAY_TOTAL_BLOCKS = (60 * 60 * 24) / 5
 
 export const WITHDRAW_STATUS_PENDING = 'pending'

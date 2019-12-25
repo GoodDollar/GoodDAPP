@@ -559,8 +559,11 @@ export class UserStorage {
         .get('users')
         .get(this.gunuser.is.pub)
         .put(this.gunuser)
+
       logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
       logger.debug('subscribing')
+
+      this.checkSmallAvatar()
 
       this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
         logger.debug({ event }, EVENT_TYPE_RECEIVE)
@@ -573,6 +576,24 @@ export class UserStorage {
       this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
       res(true)
     })
+  }
+
+  /**
+   * Set small avatar for user in case he doesn't have it
+   *
+   * @returns {Promise}
+   */
+  async checkSmallAvatar() {
+    const avatar = await this.getProfileFieldValue('avatar')
+    const smallAvatar = await this.getProfileFieldValue('smallAvatar')
+
+    if (avatar && !smallAvatar) {
+      logger.debug('Updating small avatar')
+
+      const smallAvatar = await resizeBase64Image(avatar, 50)
+
+      await this.setProfileField('smallAvatar', smallAvatar, 'public')
+    }
   }
 
   setAvatar(avatar) {
@@ -1541,7 +1562,7 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = '', status) {
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 

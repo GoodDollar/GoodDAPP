@@ -11,6 +11,7 @@ import takeWhile from 'lodash/takeWhile'
 import toPairs from 'lodash/toPairs'
 import values from 'lodash/values'
 import get from 'lodash/get'
+import set from 'lodash/set'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun'
@@ -21,7 +22,6 @@ import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import defaultGun from './gundb'
-
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 
@@ -1325,6 +1325,16 @@ export class UserStorage {
         .map(feedItem => {
           if (!(feedItem.data && feedItem.data.receiptData)) {
             return this.getFormatedEventById(feedItem.id)
+          }
+
+          if (
+            get(feedItem, 'type') === 'send' &&
+            get(feedItem, 'status') === 'completed' &&
+            !get(feedItem, 'data.otplData')
+          ) {
+            logger.info('Change feed status to pending', feedItem)
+            set(feedItem, 'status', 'pending')
+            this.updateFeedEvent(feedItem, feedItem.date)
           }
 
           return this.formatEvent(feedItem).catch(e => {

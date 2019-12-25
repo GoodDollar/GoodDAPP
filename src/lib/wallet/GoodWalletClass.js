@@ -21,6 +21,7 @@ const log = logger.child({ from: 'GoodWallet' })
 const DAY_IN_SECONDS = window.nextTimeClaim ? Number(window.nextTimeClaim) : Number(Config.nextTimeClaim)
 const MILLISECONDS = 1000
 const ZERO = new BN('0')
+const DAY_TOTAL_BLOCKS = (60 * 60 * 24) / 5
 
 export const WITHDRAW_STATUS_PENDING = 'pending'
 export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
@@ -213,7 +214,7 @@ export class GoodWallet {
    */
   async listenTxUpdates(fromBlock: int = 0, blockIntervalCallback: Function) {
     const curBlock = await this.wallet.eth.getBlockNumber()
-    const dayAgoBlock = Math.max(0, fromBlock - 17280)
+    const dayAgoBlock = Math.max(0, fromBlock - DAY_TOTAL_BLOCKS)
     log.debug('listenTxUpdates listening from block:', { fromBlock, dayAgoBlock })
     fromBlock = new BN(dayAgoBlock <= curBlock ? dayAgoBlock : curBlock)
 

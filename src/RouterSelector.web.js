@@ -79,6 +79,7 @@ let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
   let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
+
   return Promise.all([import(/* webpackChunkName: "router" */ './Router'), p2])
     .then(r => {
       log.debug('router ready')

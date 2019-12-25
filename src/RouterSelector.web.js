@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react'
 import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'

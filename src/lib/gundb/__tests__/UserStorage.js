@@ -18,7 +18,7 @@ import {
 } from '../UserStorageClass'
 import UserPropertiesClass from '../UserPropertiesClass'
 import { getUserModel } from '../UserModel'
-import { addUser } from './__util__/index'
+import { addUser } from './__util__'
 
 const delay = duration => {
   return new Promise((resolve, reject) => {

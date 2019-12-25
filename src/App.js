@@ -1,58 +1,29 @@
 // @flow
 import { isMobile } from 'mobile-device-detect'
-import React, { useEffect, useState } from 'react'
-import { Platform, SafeAreaView, StyleSheet } from 'react-native'
-import PaperProvider from 'react-native-paper/src/core/Provider'
+import React, { useEffect, useState, Fragment } from 'react'
+import { AsyncStorage, SafeAreaView, StyleSheet, Text } from 'react-native'
+import { Provider as PaperProvider } from 'react-native-paper'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import { theme } from './components/theme/styles'
-import SimpleStore, { setInitFunctions } from './lib/undux/SimpleStore'
+import SimpleStore, { initStore, setInitFunctions } from './lib/undux/SimpleStore'
 import RouterSelector from './RouterSelector.web'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
 import Splash from './components/splash/Splash'
-import isWebApp from './lib/utils/isWebApp'
-import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
-import * as serviceWorker from './serviceWorker'
+import useServiceWorker from './lib/utils/useServiceWorker'
+import Config from './config/config'
+import bugsnag from '@bugsnag/js'
+import bugsnagReact from '@bugsnag/plugin-react'
 
-const log = logger.child({ from: 'App' })
-let serviceWorkerRegistred = false
 const App = () => {
+  useServiceWorker() // Only runs on Web
   const store = SimpleStore.useStore()
+
   useEffect(() => {
-    const onUpdate = reg => {
-      store.set('serviceWorkerUpdated')(reg)
-      navigator.serviceWorker.addEventListener('controllerchange', function() {
-        log.debug('service worker: controllerchange')
-        window.location.reload()
-      })
-    }
-    const onRegister = reg => {
-      if (reg.waiting) {
-        onUpdate(reg)
-      }
-    }
-    if (serviceWorkerRegistred === false) {
-      log.debug('registering service worker')
-      serviceWorker.register({ onRegister, onUpdate })
-      serviceWorkerRegistred = true
-    }
-    if (isWebApp === false) {
-      log.debug('useEffect, registering beforeinstallprompt')
-
-      window.addEventListener('beforeinstallprompt', e => {
-        // For older browsers
-        e.preventDefault()
-        log.debug('Install Prompt fired')
-        store.set('installPrompt')(e)
-      })
-    }
     setInitFunctions(store.set('wallet'), store.set('userStorage'))
-  }, [])
+  }, [store])
 
-  // onRecaptcha = (token: string) => {
-  //   userStorage.setProfileField('recaptcha', token, 'private')
-  // }
   const [useDesktop, setUseDesktop] = useState(store.get('isLoggedIn') === true)
 
   const continueWithDesktop = () => {
@@ -88,11 +59,56 @@ const styles = StyleSheet.create({
   },
 })
 
-let hotWrapper = () => () => App
-if (Platform.OS === 'web') {
-  const { hot } = require('react-hot-loader')
-  hotWrapper = hot
+let ErrorBoundary = React.Fragment
+
+const AppHolder = () => {
+  const [ready, setReady] = useState(false)
+
+  useEffect( () => {
+    if (Config.bugsnagKey) {
+      const bugsnagClient = bugsnag({
+        apiKey: Config.bugsnagKey,
+        appVersion: Config.version,
+        releaseStage: Config.env + '_' + Config.network,
+      })
+      global.bugsnagClient = bugsnagClient
+      bugsnagClient.metaData = { network: Config.network }
+      bugsnagClient.use(bugsnagReact, React)
+      ErrorBoundary = bugsnagClient.getPlugin('react')
+    }
+
+    /**
+     * decide if we need to clear storage
+     */
+    const upgradeVersion = async () => {
+      const valid = ['etoro', 'beta.11']
+      const required = Config.isEToro ? 'etoro' : 'beta.11'
+      const version = await AsyncStorage.getItem('GD_version')
+      if (valid.includes(version)) {
+        return
+      }
+      await AsyncStorage.clear()
+      return AsyncStorage.setItem('GD_version', required)
+    }
+
+    (async () => {
+      await upgradeVersion()
+      await initStore()
+      setReady(true)
+    })()
+  }, [])
+
+  if (!ready) {
+    return null
+  }
+
+  return (
+    <ErrorBoundary>
+      <SimpleStore.Container>
+        <App />
+      </SimpleStore.Container>
+    </ErrorBoundary>
+  )
 }
 
-//$FlowFixMe
-export default hotWrapper(module)(App)
+export default AppHolder

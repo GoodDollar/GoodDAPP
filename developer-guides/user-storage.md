@@ -10,7 +10,7 @@ description: 'Describes how GoodDAPP uses Gun p2p database, to store user owned 
 
 ## GunDB
 
-We chose Gun since it's a javascript based, decentralized \(p2p\) with built in encryption database.  
+We chose Gun since it's a javascript based, decentralized \(p2p\) with built in encryption database.
 Check out their [website](https://gun.eco) for more info
 
 ## Usage
@@ -18,14 +18,14 @@ Check out their [website](https://gun.eco) for more info
 You can import the UserStorage instance anywhere in the code by doing
 
 ```javascript
-import userStorage from '/lib/gundb/UserStorage'
+import userStorage from '/src/lib/gundb/UserStorage'
 //you can make sure its initialized by waiting on 'ready'
 await userStorage.ready
 ```
 
 ## Initialization
 
-The constructor calls init\(\), which logs in the user into Gun.  
+The constructor calls init\(\), which logs in the user into Gun.
 The user's password+pass are generated deterministically by signing a message with one of his HD wallet private keys.
 
 [source](https://github.com/GoodDollar/GoodDAPP/blob/759529c05ab04085c75c76df1bb2eeaaaf6470f1/src/lib/gundb/UserStorage.js#L204-L211)
@@ -44,7 +44,7 @@ The profile holds information of the user \(signed with Gun SEA, so only he can 
 
 ### Structure
 
-Each profile field is an object of type:  
+Each profile field is an object of type:
 
 
 ```text
@@ -113,7 +113,7 @@ The feed holds all the blockchain transactions the user did but also other syste
 
 ### Feed Indexes
 
-We keep 3 indexes for easy access and display purposes:  
+We keep 3 indexes for easy access and display purposes:
 
 
 <table>
@@ -161,12 +161,12 @@ We keep 3 indexes for easy access and display purposes:
     </tr>
   </tbody>
 </table>{% hint style="info" %}
-Indexes are updated once an event arrives in the method updateFeedEvent:  
+Indexes are updated once an event arrives in the method updateFeedEvent:
 [https://github.com/GoodDollar/GoodDAPP/blob/472b22a24dafac154409c2579dbbfcf4cf4e9922/src/lib/gundb/UserStorage.js\#L770](https://github.com/GoodDollar/GoodDAPP/blob/472b22a24dafac154409c2579dbbfcf4cf4e9922/src/lib/gundb/UserStorage.js#L770)
 {% endhint %}
 
 {% hint style="info" %}
-The in memory index is updated on every change to 'index' by add a gundb listener in the method initFeed:  
+The in memory index is updated on every change to 'index' by add a gundb listener in the method initFeed:
 [https://github.com/GoodDollar/GoodDAPP/blob/472b22a24dafac154409c2579dbbfcf4cf4e9922/src/lib/gundb/UserStorage.js\#L339](https://github.com/GoodDollar/GoodDAPP/blob/472b22a24dafac154409c2579dbbfcf4cf4e9922/src/lib/gundb/UserStorage.js#L339)
 {% endhint %}
 

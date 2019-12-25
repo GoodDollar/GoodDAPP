@@ -11,7 +11,7 @@ function isFunction(functionToCheck) {
  * @param {*} mapThemeToStyles receives props and retuns an object with calculated styles
  * @param {*} withStyleSheet wheather should or shouldn't be the result wrapped with `StyleSheet.create`
  */
-export const withStyles = (mapThemeToStyles, withStyleSheet = true) => Component => {
+export const withStyles = (mapThemeToStyles, withStyleSheet = false) => Component => {
   const getUpdatedStyles = props => {
     let styles = {}
     if (isFunction(mapThemeToStyles)) {

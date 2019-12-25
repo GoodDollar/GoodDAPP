@@ -10,7 +10,7 @@ import moment from 'moment'
 import get from 'lodash/get'
 import Mutex from 'await-mutex'
 import * as web3Utils from 'web3-utils'
-import logger from '../../../../lib/logger/pino-logger'
+import logger from '../../../logger/pino-logger'
 import conf from '../../../../config/config'
 import { type TransactionReceipt } from './blockchain-types'
 

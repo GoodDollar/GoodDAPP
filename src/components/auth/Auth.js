@@ -28,7 +28,7 @@ type Props = {
   styles: any,
 }
 
-Image.prefetch(illustration)
+// Image.prefetch(illustration)
 const log = logger.child({ from: 'Auth' })
 
 class Auth extends React.Component<Props> {

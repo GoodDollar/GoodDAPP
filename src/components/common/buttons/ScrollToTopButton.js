@@ -4,7 +4,7 @@ import { Image, TouchableWithoutFeedback } from 'react-native'
 import scrollToTop from '../../../assets/scrollToTop.svg'
 import { withStyles } from '../../../lib/styles'
 
-Image.prefetch(scrollToTop)
+// Image.prefetch(scrollToTop)
 
 const ScrollToTopButton = ({ onPress, styles, style }) => (
   <TouchableWithoutFeedback onPress={onPress}>

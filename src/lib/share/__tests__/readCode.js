@@ -1,4 +1,4 @@
-import { readCode } from '../'
+import { readCode } from '../index'
 
 describe('readCode', () => {
   it(`should generate an string with an MNID valid code`, () => {

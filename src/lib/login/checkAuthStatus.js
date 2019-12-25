@@ -1,6 +1,6 @@
 //@flow
 import goodWallet from '../wallet/GoodWallet'
-import goodWalletLogin from '../login/GoodWalletLogin'
+import goodWalletLogin from './GoodWalletLogin'
 
 export const checkAuthStatus = async () => {
   // when wallet is ready perform login to server (sign message with wallet and send to server)

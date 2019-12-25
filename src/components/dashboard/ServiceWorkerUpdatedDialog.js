@@ -4,7 +4,7 @@ import { withStyles } from '../../lib/styles'
 import Text from '../common/view/Text'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import UpdateVersion from '../../assets/updateversion.svg'
-Image.prefetch(UpdateVersion)
+// Image.prefetch(UpdateVersion)
 
 const dialogStyles = ({ theme }) => ({
   image: {

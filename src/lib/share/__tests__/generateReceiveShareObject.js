@@ -1,4 +1,4 @@
-import { generateReceiveShareObject } from '../'
+import { generateReceiveShareObject } from '../index'
 
 const isReceiveLink = Buffer.from(JSON.stringify({ amount: '123' })).toString('base64')
 describe('generateReceiveShareObject', () => {

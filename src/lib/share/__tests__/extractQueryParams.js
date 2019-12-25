@@ -1,4 +1,4 @@
-import { extractQueryParams } from '../'
+import { extractQueryParams } from '../index'
 
 describe('extractQueryParams', () => {
   it(`should return an object with key-value pairs from URL`, () => {

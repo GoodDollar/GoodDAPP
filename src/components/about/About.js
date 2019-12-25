@@ -9,9 +9,9 @@ import Config from '../../config/config'
 import normalize from '../../lib/utils/normalizeText'
 
 //minimize delay <Image> has over web <img>
-Image.prefetch(splashImage)
-Image.prefetch(goodDollarImage)
-Image.prefetch(wavePattern)
+// Image.prefetch(splashImage)
+// Image.prefetch(goodDollarImage)
+// Image.prefetch(wavePattern)
 
 const About = () => (
   <Wrapper style={styles.wrapper}>

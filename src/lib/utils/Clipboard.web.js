@@ -1,6 +1,6 @@
 // @flow
 import { Clipboard as NativeClipboard } from 'react-native'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../logger/pino-logger'
 
 const log = logger.child({ from: 'Clipboard' })
 

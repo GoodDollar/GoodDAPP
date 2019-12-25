@@ -110,4 +110,5 @@ const setInitFunctions = (_setWallet, _setUserStorage) => {
   setWallet = _setWallet
   setUserStorage = _setUserStorage
 }
+
 export { initStore, SimpleStore as default, setInitFunctions, setWallet, setUserStorage }

@@ -2,7 +2,7 @@
 import _debounce from 'lodash/debounce'
 import _forEach from 'lodash/forEach'
 import * as Sentry from '@sentry/browser'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../logger/pino-logger'
 import Config from '../../config/config'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'

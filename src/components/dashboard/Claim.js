@@ -25,7 +25,7 @@ import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
-Image.prefetch(illustration)
+// Image.prefetch(illustration)
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -39,7 +39,7 @@ type ClaimState = {
 
 const log = logger.child({ from: 'Claim' })
 
-Image.prefetch(illustration)
+// Image.prefetch(illustration)
 
 const Claim = props => {
   const { screenProps, styles }: ClaimProps = props

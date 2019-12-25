@@ -13,7 +13,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/ut
 
 const log = logger.child({ from: 'FRError' })
 
-Image.prefetch(Oops)
+// Image.prefetch(Oops)
 const FRError = props => {
   const { styles } = props
   const store = GDStore.useStore()

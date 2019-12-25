@@ -5,7 +5,7 @@ import { withStyles } from '../../../lib/styles'
 import { mediumZIndex } from './styles'
 import CloseSVG from './img/close.svg'
 
-Image.prefetch(CloseSVG)
+// Image.prefetch(CloseSVG)
 
 const ModalCloseButton = (props: any) => {
   const { styles, onClose } = props

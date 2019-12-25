@@ -1,25 +1,52 @@
 import { useEffect, useState } from 'react'
-import { AppState, NetInfo } from 'react-native'
+import { AppState } from 'react-native'
 import Config from '../../config/config'
 import API from '../API/api'
 import { delay } from '../utils/async'
 import logger from '../logger/pino-logger'
 import SimpleStore from '../undux/SimpleStore'
+import { Platform } from 'react-native-web';
 const log = logger.child({ from: 'hasConnectionChange' })
 
-export const useConnection = () => {
+const useWebConnection = () => {
   const [isConnection, setIsConnection] = useState(true)
 
-  NetInfo.isConnected.fetch().then(isConnectionNow => setIsConnection(isConnectionNow))
+  const updateOnlineStatus = () => {
+    setIsConnection(navigator.onLine)
+  }
 
   useEffect(() => {
-    NetInfo.isConnected.addEventListener('connectionChange', connection => {
-      setIsConnection(connection)
+    window.addEventListener('online', updateOnlineStatus)
+    window.addEventListener('offline', updateOnlineStatus)
+
+    return () => {
+      window.removeEventListener('online', updateOnlineStatus)
+      window.removeEventListener('offline', updateOnlineStatus)
+    }
+  }, [])
+
+  return isConnection
+}
+
+const useNativeConnection = () => {
+  const NetInfo = require('@react-native-community/netinfo')
+
+  const [isConnection, setIsConnection] = useState(true)
+
+  NetInfo.fetch().then(({ isConnected }) => {
+    setIsConnection(isConnected)
+  })
+
+  useEffect(() => {
+    return NetInfo.addEventListener(({ isConnected }) => {
+      setIsConnection(isConnected)
     })
   }, [])
 
   return isConnection
 }
+
+export const useConnection = Platform.OS === 'web' ? useWebConnection : useNativeConnection
 
 let isFirstCheckWeb3 = false
 let isFirstCheckGun = false

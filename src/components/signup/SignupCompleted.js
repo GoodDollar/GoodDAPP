@@ -6,7 +6,7 @@ import illustration from '../../assets/Signup/illustration.svg'
 import Text from '../common/view/Text'
 import CustomWrapper from './signUpWrapper'
 
-Image.prefetch(illustration)
+// Image.prefetch(illustration)
 type Props = {
   screenProps: any,
 }

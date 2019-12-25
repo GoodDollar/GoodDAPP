@@ -11,7 +11,7 @@ import illustration from '../../assets/Signin/illustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
-Image.prefetch(illustration)
+// Image.prefetch(illustration)
 
 const Signin = props => {
   const { styles } = props

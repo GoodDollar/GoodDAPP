@@ -1,4 +1,4 @@
-import { generateShareObject } from '../'
+import { generateShareObject } from '../index'
 
 describe('generateShareObject', () => {
   it(`should return an object with structure: { title, text, url }`, () => {

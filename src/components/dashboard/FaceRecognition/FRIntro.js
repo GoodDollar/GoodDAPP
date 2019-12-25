@@ -12,7 +12,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/ut
 import { withStyles } from '../../../lib/styles'
 import illustration from '../../../assets/FaceRecognition/illustration.svg'
 
-Image.prefetch(illustration)
+// Image.prefetch(illustration)
 
 const log = logger.child({ from: 'FRIntro' })
 const FRIntro = props => {

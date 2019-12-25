@@ -21,7 +21,7 @@ import normalize from '../../../lib/utils/normalizeText'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import FRStep from './FRStep'
 
-Image.prefetch(LookingGood)
+// Image.prefetch(LookingGood)
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 

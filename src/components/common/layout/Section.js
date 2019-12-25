@@ -21,9 +21,9 @@ const SectionComponent = props => {
 const mapPropsToStyles = ({ theme }) => ({
   section: {
     backgroundColor: theme.colors.surface,
-    borderRadius: theme.sizes.borderRadius,
+    //borderRadius: theme.sizes.borderRadius,
     paddingHorizontal: 12,
-    paddingVertical: theme.sizes.defaultDouble,
+    //paddingVertical: theme.sizes.defaultDouble,
   },
 })
 

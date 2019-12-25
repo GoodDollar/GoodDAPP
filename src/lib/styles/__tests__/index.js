@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { withStyles } from '../'
+import { withStyles } from '../index'
 
 // Creating a undux mock store. It behaves as a basic undux store
 

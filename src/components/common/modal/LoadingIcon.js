@@ -4,7 +4,7 @@ import { Animated, Easing, Image, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import LoadingIconSVG from './img/LoadingIcon.svg'
 
-Image.prefetch(LoadingIconSVG)
+// Image.prefetch(LoadingIconSVG)
 
 const LoadingIcon = ({ styles, style }) => {
   const [rotateValue] = useState(new Animated.Value(0))

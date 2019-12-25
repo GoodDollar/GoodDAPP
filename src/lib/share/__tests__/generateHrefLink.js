@@ -1,4 +1,4 @@
-import { generateHrefLink } from '..'
+import { generateHrefLink } from '../index'
 
 describe('generateHrefLink', () => {
   it(`should return an element for Email`, () => {

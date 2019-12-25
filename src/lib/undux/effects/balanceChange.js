@@ -1,7 +1,7 @@
 // @flow
 import type { Effects, Store } from 'undux'
 
-import { initTransferEvents } from '../../undux/utils/account'
+import { initTransferEvents } from '../utils/account'
 import type { State } from '../GDStore'
 import logger from '../../logger/pino-logger'
 

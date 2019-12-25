@@ -8,7 +8,7 @@ import illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomWrapper from './signUpWrapper'
 
-Image.prefetch(illustration)
+// Image.prefetch(illustration)
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps = {} } = props

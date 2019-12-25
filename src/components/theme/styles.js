@@ -1,4 +1,4 @@
-import DefaultTheme from 'react-native-paper/src/styles/DefaultTheme'
+import { DefaultTheme } from 'react-native-paper'
 import normalize from '../../lib/utils/normalizeText'
 
 export const theme = {

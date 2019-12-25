@@ -15,7 +15,7 @@ import NavBar from '../appNavigation/NavBar'
 import IOSWebAppSignInSVG from '../../assets/IOSWebAppSignIn.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
-Image.prefetch(IOSWebAppSignInSVG)
+// Image.prefetch(IOSWebAppSignInSVG)
 
 const TITLE = 'EASY ACCESS'
 const log = logger.child({ from: TITLE })

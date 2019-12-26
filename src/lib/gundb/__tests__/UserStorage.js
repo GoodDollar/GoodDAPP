@@ -87,7 +87,10 @@ describe('UserStorage', () => {
 
   it('has default user properties', async () => {
     const res = await userStorage.userProperties.getAll()
-    expect(res).toEqual(expect.objectContaining(UserPropertiesClass.defaultProperties))
+
+    //firstvisitapp is initialied in userstorage init
+    const expected = { ...UserPropertiesClass.defaultProperties, firstVisitApp: expect.any(Number) }
+    expect(res).toEqual(expect.objectContaining(expected))
   })
 
   it('start system feeds', async () => {

@@ -8,6 +8,17 @@ import 'gun/lib/load'
  */
 const gunExtend = (() => {
   /**
+   * fix gun issue https://github.com/amark/gun/issues/855
+   */
+  Gun.chain.then = function(cb) {
+    var gun = this,
+      p = new Promise(function(res, rej) {
+        gun.once(res, { wait: 200 })
+      })
+    return cb ? p.then(cb) : p
+  }
+
+  /**
    * it returns a promise with the first result from a peer
    * @returns {Promise<ack>}
    */

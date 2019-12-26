@@ -14,6 +14,8 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/gundb/UserStorage'
+import runUpdates from '../../lib/updates'
+
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 
@@ -137,12 +139,12 @@ const AppSwitch = (props: LoadingProps) => {
     // }
   }
 
-  const init = async () => {
+  const init = async (retries = 3) => {
     log.debug('initializing', gdstore)
 
     try {
       await initialize()
-      await Promise.all([prepareLoginToken(), checkBonusInterval(), showOutOfGasError(props)])
+      await Promise.all([runUpdates(), prepareLoginToken(), checkBonusInterval(), showOutOfGasError(props)])
 
       setReady(true)
     } catch (e) {

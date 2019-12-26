@@ -21,6 +21,7 @@ describe('Test case 7: Ability to send money', () => {
     SendMoneyPage.nextButton.click()
     SendMoneyPage.messageInput.type('test message')
     SendMoneyPage.nextButton.click()
+    cy.contains('Ok').click()
     SendMoneyPage.confirmButton.click()
     SendMoneyPage.copyLinkButton.click()
     SendMoneyPage.doneButton.should('be.visible')

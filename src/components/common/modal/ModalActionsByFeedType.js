@@ -46,7 +46,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .finally(() => {
             setState({ ...state, cancelPaymentLoading: false })
           })
-        await userStorage.deleteEvent(item.id)
+        await userStorage.cancelOTPLEvent(item.id)
       } catch (e) {
         log.error('cancel payment failed', e.message, e)
         setState({ ...state, cancelPaymentLoading: false })
@@ -224,6 +224,19 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
             <CustomButton mode="contained" style={styles.button} onPress={goToClaimPage}>
               <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
                 {'CLAIM G$'}
+              </Text>
+            </CustomButton>
+          </View>
+        </View>
+      )
+
+    case 'hanukaStarts':
+      return (
+        <View style={styles.buttonsView}>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.button} onPress={goToClaimPage}>
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                {'CLAIM NOW'}
               </Text>
             </CustomButton>
           </View>

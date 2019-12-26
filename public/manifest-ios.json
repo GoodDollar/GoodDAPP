@@ -1,7 +1,7 @@
 {
   "name": "GoodDollar",
   "short_name": "GoodDollar",
-  "display": "standalone",
+  "display": "minimal-ui",
   "orientation": "portrait",
   "start_url": "/?standalone",
   "icons": [

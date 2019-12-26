@@ -55,6 +55,7 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
         cy.visit(validMoneyLnk.toString())
         ReceiveMoneyPage.confirmWindowButton.should('be.visible')
         ReceiveMoneyPage.confirmWindowButton.click()
+        cy.contains('Ok').click()
         LoginPage.yayButton.click()
         HomePage.claimButton.should('be.visible')
         HomePage.moneyAmountDiv.should('not.contain', moneyBeforeSending, { timeout: 20000 })

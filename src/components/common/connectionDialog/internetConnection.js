@@ -24,11 +24,27 @@ const InternetConnection = props => {
       isConnectionWeb3 === false ||
       isConnectionGun === false
     ) {
-      log.debug('connection issue showing dialog')
+      log.error('connection failed:', '', {}, { isAPIConnection, isConnection, isConnectionWeb3, isConnectionGun })
+      let message
+      if (isConnection === false) {
+        message = 'Check your internet connection'
+      } else {
+        const servers = []
+        if (isAPIConnection === false) {
+          servers.push('API')
+        }
+        if (isConnectionWeb3 === false) {
+          servers.push('Blockchain')
+        }
+        if (isConnectionGun === false) {
+          servers.push('GunDB')
+        }
+        message = `Waiting for GoodDollar's server (${servers.join(', ')})`
+      }
       showDialog({
         title: 'Waiting for network',
         image: <LoadingIcon />,
-        message: isAPIConnection === false ? "Waiting for GoodDollar's server" : 'Check your internet connection',
+        message,
         showButtons: false,
         showCloseButtons: false,
       })

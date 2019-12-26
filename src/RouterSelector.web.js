@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
@@ -79,6 +79,7 @@ let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
   let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
+
   return Promise.all([import(/* webpackChunkName: "router" */ './Router'), p2])
     .then(r => {
       log.debug('router ready')
@@ -93,8 +94,10 @@ const RouterSelector = () => {
   //we use global state for signup process to signal user has registered
   const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem(IS_LOGGED_IN))
 
-  log.debug('RouterSelector Rendered', { isLoggedIn })
-  const Router = isLoggedIn ? AppRouter : SignupRouter
+  const Router = useMemo(() => {
+    log.debug('RouterSelector Rendered', { isLoggedIn })
+    return isLoggedIn ? AppRouter : SignupRouter
+  }, [isLoggedIn])
 
   return (
     <React.Suspense fallback={<Splash />}>

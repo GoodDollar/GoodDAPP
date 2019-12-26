@@ -15,7 +15,7 @@ const Config = {
   network: process.env.REACT_APP_NETWORK || 'fuse',
   market: process.env.REACT_APP_MARKET || process.env.REACT_APP_ETORO || process.env.REACT_APP_NETWORK === 'etoro',
   marketUrl: process.env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
-  isEToro: process.env.REACT_APP_ETORO || process.env.REACT_APP_NETWORK === 'etoro',
+  isEToro: process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
   rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,

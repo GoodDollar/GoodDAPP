@@ -50,6 +50,11 @@ describe('UserStorage', () => {
     userStorage.unSubscribeProfileUpdates()
   })
 
+  it('before fixSendFeedStatus isFixSendFeedStatus should be undefined', async () => {
+    const isFixSendFeedStatus = await userStorage.getProfileFieldValue('isFixSendFeedStatus')
+    expect(isFixSendFeedStatus).toBeUndefined()
+  })
+
   it('logins to gundb', () => {
     expect(userStorage.user).not.toBeUndefined()
   })

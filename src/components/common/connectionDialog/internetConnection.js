@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import debounce from 'lodash/debounce'
 import Config from '../../../config/config'
 import LoadingIcon from '../modal/LoadingIcon'
@@ -13,7 +13,16 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'InternetConnection' })
-let showDialogWindow
+const showDialogWindow = debounce((showDialog, message, setShowContent) => {
+  setShowContent(true)
+  showDialog({
+    title: 'Waiting for network',
+    image: <LoadingIcon />,
+    message,
+    showButtons: false,
+    showCloseButtons: false,
+  })
+}, Config.delayMessageNetworkDisconnection)
 
 const InternetConnection = props => {
   const [showDialog, hideDialog] = useDialog()
@@ -21,6 +30,7 @@ const InternetConnection = props => {
   const isAPIConnection = useAPIConnection()
   const isConnectionWeb3 = useConnectionWeb3()
   const isConnectionGun = useConnectionGun()
+  const [showContent, setShowContent] = useState(false)
   useEffect(() => {
     if (
       isConnection === false ||
@@ -45,26 +55,16 @@ const InternetConnection = props => {
         }
         message = `Waiting for GoodDollar's server (${servers.join(', ')})`
       }
-      showDialogWindow = debounce(() => {
-        showDialog({
-          title: 'Waiting for network',
-          image: <LoadingIcon />,
-          message,
-          showButtons: false,
-          showCloseButtons: false,
-        })
-      }, Config.delayMessageNetworkDisconnection)
-      showDialogWindow()
+      showDialogWindow(showDialog, message, setShowContent)
     } else {
       log.debug('connection back hiding dialog')
       showDialogWindow && showDialogWindow.cancel()
       hideDialog()
+      setShowContent(false)
     }
   }, [isConnection, isAPIConnection, isConnectionWeb3, isConnectionGun])
 
-  const disconnected =
-    isConnection === false || isAPIConnection === false || isConnectionWeb3 === false || isConnectionGun === false
-  return disconnected && props.isLoggedIn ? props.onDisconnect() : props.children
+  return showContent && props.isLoggedIn ? props.onDisconnect() : props.children
 }
 
 export default InternetConnection

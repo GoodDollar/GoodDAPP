@@ -85,7 +85,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
   },
   iconAmountBlock: {
-    marginVertical: getDesignRelativeHeight(50),
+    marginVertical: getDesignRelativeHeight(50, false),
   },
   sendIconWrapper: {
     height: getDesignRelativeHeight(75),
@@ -94,7 +94,7 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'relative',
     borderRadius: '50%',
     marginTop: getDesignRelativeHeight(15),
-    marginBottom: getDesignRelativeHeight(24),
+    marginBottom: getDesignRelativeHeight(24, false),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -115,7 +115,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'flex-end',
     paddingBottom: getDesignRelativeHeight(4),
     position: 'relative',
-    marginVertical: getDesignRelativeHeight(25),
+    marginVertical: getDesignRelativeHeight(25, false),
   },
   credsLabel: {
     position: 'absolute',

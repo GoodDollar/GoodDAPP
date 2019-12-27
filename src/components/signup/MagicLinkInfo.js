@@ -21,7 +21,8 @@ const MagicLinkInfoComponent = props => {
           <Text
             fontWeight="bold"
             fontSize={28}
-            fontFamily="Roboto Slab"
+            //fontFamily="RobotoSlab"
+            fontFamily="Roboto"
             color="primary"
             style={styles.headerText}
             lineHeight={25}

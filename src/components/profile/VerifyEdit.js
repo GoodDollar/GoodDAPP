@@ -82,7 +82,13 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
             <Text fontSize={14} lineHeight={16} fontFamily="Roboto" color="gray80Percent">
               {`A verification code will be sent to this ${sendToText}:`}
             </Text>
-            <Text fontSize={24} lineHeight={32} fontFamily="Roboto Slab" style={styles.content}>
+            <Text
+              fontSize={24}
+              lineHeight={32}
+              //fontFamily="RobotoSlab"
+              fontFamily="Roboto"
+              style={styles.content}
+            >
               {content}
             </Text>
           </View>

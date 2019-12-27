@@ -61,10 +61,8 @@ const mapPropsToStyles = ({ theme, compact }) => ({
     letterSpacing: 0,
   },
   contentWrapper: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    flex: 1,
+    width: 100,
+    height: 100,
   },
   activityIndicator: {
     marginRight: compact ? theme.sizes.defaultHalf : theme.sizes.default,
@@ -160,7 +158,7 @@ const CustomButton = (props: ButtonProps) => {
       color={color}
       style={[styles.buttonStyle, style]}
     >
-      <View style={styles.contentWrapper}>
+      {/*<View style={styles.contentWrapper}>*/}
         {icon && (!iconAlignment || iconAlignment === 'left') && (
           <IconButton
             icon={icon}
@@ -190,7 +188,7 @@ const CustomButton = (props: ButtonProps) => {
             style={iconStyle || styles.rightIcon}
           />
         )}
-      </View>
+      {/*</View>*/}
     </BaseButton>
   )
 }

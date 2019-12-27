@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import { AsyncStorage, Image, SafeAreaView } from 'react-native'
 import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
@@ -124,10 +124,10 @@ class Auth extends React.Component<Props> {
 
     //Hack to get keyboard up on mobile need focus from user event such as click
     setTimeout(() => {
-      const el = document.getElementById('Name_input')
-      if (el) {
-        el.focus()
-      }
+      // const el = document.getElementById('Name_input')
+      // if (el) {
+      //   el.focus()
+      // }
     }, 500)
   }
 
@@ -163,61 +163,64 @@ class Auth extends React.Component<Props> {
         </Text>
       </Text>
     )
+
     const firstButtonColor = asGuest ? undefined : mainTheme.colors.orange
     const firstButtonTextStyle = asGuest ? undefined : styles.textBlack
 
     return (
-      <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-        <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
-          {'Welcome to\nGoodDollar Wallet'}
-        </Text>
-        <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-        <Section style={styles.bottomContainer}>
-          {asGuest && (
-            <Text fontSize={12} color="gray80Percent">
-              {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
-              <Text
-                fontSize={12}
-                color="gray80Percent"
-                fontWeight="bold"
-                textDecorationLine="underline"
-                onPress={this.handleNavigateTermsOfUse}
-              >
-                Terms of Use
-              </Text>
-              {' and '}
-              <Text
-                fontSize={12}
-                color="gray80Percent"
-                fontWeight="bold"
-                r
-                textDecorationLine="underline"
-                onPress={this.handleNavigatePrivacyPolicy}
-              >
-                Privacy Policy
-              </Text>
-            </Text>
-          )}
-          <CustomButton
-            color={firstButtonColor}
-            style={styles.buttonLayout}
-            textStyle={firstButtonTextStyle}
-            onPress={firstButtonHandler}
-          >
-            {firstButtonText}
-          </CustomButton>
-          {!withW3Token && (
-            <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
-              <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
-                ALREADY REGISTERED?
-                <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
-                  {' SIGN IN'}
+      <SafeAreaView>
+        <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
+          <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
+            {'Welcome to\nGoodDollar Wallet'}
+          </Text>
+          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+          <Section style={styles.bottomContainer}>
+            {asGuest && (
+              <Text fontSize={12} color="gray80Percent">
+                {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+                <Text
+                  fontSize={12}
+                  color="gray80Percent"
+                  fontWeight="bold"
+                  textDecorationLine="underline"
+                  onPress={this.handleNavigateTermsOfUse}
+                >
+                  Terms of Use
+                </Text>
+                {' and '}
+                <Text
+                  fontSize={12}
+                  color="gray80Percent"
+                  fontWeight="bold"
+                  r
+                  textDecorationLine="underline"
+                  onPress={this.handleNavigatePrivacyPolicy}
+                >
+                  Privacy Policy
                 </Text>
               </Text>
-            </PushButton>
-          )}
-        </Section>
-      </Wrapper>
+            )}
+            <CustomButton
+              color={firstButtonColor}
+              style={styles.buttonLayout}
+              textStyle={firstButtonTextStyle}
+              onPress={firstButtonHandler}
+            >
+              {firstButtonText}
+            </CustomButton>
+            {!withW3Token && (
+              <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
+                <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
+                  ALREADY REGISTERED?
+                  <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
+                    {' SIGN IN'}
+                  </Text>
+                </Text>
+              </PushButton>
+            )}
+          </Section>
+        </Wrapper>
+      </SafeAreaView>
     )
   }
 }
@@ -229,6 +232,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: 0,
       justifyContent: 'space-between',
       flexGrow: 1,
+      alignItems: 'center',
     },
     textBlack: {
       color: theme.fontStyle.color,
@@ -238,6 +242,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingBottom: theme.sizes.defaultDouble,
     },
     buttonLayout: {
+      height: 10,
       marginVertical: 20,
     },
     buttonText: {

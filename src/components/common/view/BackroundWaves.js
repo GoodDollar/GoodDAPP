@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
 import { StyleSheet, Image } from 'react-native'
+import waves from '../../../assets/wave50.svg'
 
 export default ({ children }) => {
   return (
     <Fragment>
       <Image
-        source={require('../../../assets/wave50.svg')}
+        source={waves}
         style={styles.backgroundWaves}
         resizeMode="repeat"
       />
@@ -20,6 +21,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     opacity: 0.2,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
 })

@@ -19,7 +19,7 @@ import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
-import PhoneForm from './PhoneForm'
+// import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
 import MagicLinkInfo from './MagicLinkInfo'
@@ -31,7 +31,7 @@ type Ready = Promise<{ goodWallet: any, userStorage: any }>
 const SignupWizardNavigator = createSwitchNavigator(
   {
     Name: NameForm,
-    Phone: PhoneForm,
+    //Phone: PhoneForm,
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,
@@ -79,10 +79,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     setLoading(false)
     if (isMobileSafari || routeKey === 'Phone') {
       setTimeout(() => {
-        const el = document.getElementById(routeKey + '_input')
-        if (el) {
-          el.focus()
-        }
+        // const el = document.getElementById(routeKey + '_input')
+        // if (el) {
+        //   el.focus()
+        // }
       }, 300)
     }
   }
@@ -449,7 +449,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={title} />
       <ScrollView contentContainerStyle={scrollableContainer}>
-        <View style={contentContainer}>
+        <View style={[contentContainer]}>
           <SignupWizardNavigator
             navigation={navigation}
             screenProps={{

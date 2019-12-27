@@ -14,7 +14,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
 
   const onFocusMobileSafari = () => {
     window.scrollTo(0, 0)
-    document.body.scrollTop = 0
+    //document.body.scrollTop = 0
     simpleStore.set('isMobileSafariKeyboardShown')(true)
   }
 
@@ -30,14 +30,16 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
     color: inputColor,
   }
 
-  const shouldChangeSizeOnKeyboardShown = isMobileSafari && simpleStore.set && Config.safariMobileKeyboardGuidedSize
+  const shouldChangeSizeOnKeyboardShown = isMobileSafari &&
+    simpleStore.set && Config.safariMobileKeyboardGuidedSize
+
   return (
     <View style={styles.view}>
       <View style={styles.view}>
         <TextInput
           {...props}
           ref={getRef}
-          style={[styles.input, inputStyle, style]}
+          style={[styles.input, inputStyle]}
           placeholderTextColor={theme.colors.gray50Percent}
           onFocus={() => {
             if (shouldChangeSizeOnKeyboardShown) {
@@ -78,10 +80,12 @@ const getStylesFromProps = ({ theme }) => ({
     fontFamily: theme.fonts.slab,
     paddingHorizontal: theme.sizes.defaultQuadruple,
     paddingVertical: theme.sizes.defaultHalf,
+    width: '100%',
   },
   view: {
-    flex: 1,
+    // flex: 1,
     marginBottom: theme.sizes.default,
+    width: '100%',
   },
   suffixIcon: {
     paddingTop: theme.paddings.mainContainerPadding,

@@ -49,7 +49,8 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
             <Text
               key={index}
               fontSize={36}
-              fontFamily="Roboto Slab"
+              //fontFamily="RobotoSlab"
+              fontFamily="Roboto"
               fontWeight="bold"
               color="white"
               style={[styles.countdown, ~[2, 5].indexOf(index) && styles.tallCountDown]}

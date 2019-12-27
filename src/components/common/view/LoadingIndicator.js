@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { ActivityIndicator, Colors, Portal } from 'react-native-paper'
-import { View } from 'react-native-web'
+import { View } from 'react-native'
 import type { Store } from 'undux'
 import { withStyles } from '../../../lib/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'

@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, Platform } from 'react-native'
 import bip39 from 'bip39-light'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
@@ -15,7 +15,6 @@ import Config from './config/config'
 const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
 
-// import Router from './SignupRouter'
 let SignupRouter = React.lazy(() =>
   initAnalytics()
     .then(_ =>
@@ -31,6 +30,10 @@ let SignupRouter = React.lazy(() =>
  * @returns {Promise<boolean>}
  */
 const handleLinks = async () => {
+  if (Platform.OS !== 'web') {
+    return true
+  }
+
   const params = extractQueryParams(window.location.href)
   try {
     const { magiclink } = params

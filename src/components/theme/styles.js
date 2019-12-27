@@ -30,7 +30,8 @@ export const theme = {
   fonts: {
     ...DefaultTheme.fonts,
     default: 'Roboto',
-    slab: 'Roboto Slab',
+    //slab: 'Roboto Slab',
+    slab: 'Roboto',
   },
   paddings: {
     defaultMargin: 8,

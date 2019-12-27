@@ -22,10 +22,10 @@ const ModalLeftBorder = (props: any) => {
 
 const getStylesFromProps = ({ theme }) => ({
   modalLeftBorder: {
-    backgroundImage: `url(${wavePattern})`,
-    backgroundRepeat: 'repeat-y',
-    borderBottomLeftRadius: theme.modals.borderRadius,
-    borderTopLeftRadius: theme.modals.borderRadius,
+    //backgroundImage: `url(${wavePattern})`,
+    //backgroundRepeat: 'repeat-y',
+    //borderBottomLeftRadius: theme.modals.borderRadius,
+    //borderTopLeftRadius: theme.modals.borderRadius,
     flexGrow: 1,
     flexShrink: 0,
     maxWidth: theme.modals.borderLeftWidth,

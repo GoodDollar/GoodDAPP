@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import Wrapper from '../common/layout/Wrapper'
@@ -20,9 +20,7 @@ const Splash = () => (
         <Section.Stack style={styles.content} grow justifyContent="center">
           <Image source={splashImage} style={styles.logo} resizeMode="contain" />
           <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
-          <Section.Text fontSize={22}>
-            {`V${Config.version}`}
-          </Section.Text>
+          <Section.Text fontSize={22}>{`V${Config.version}`}</Section.Text>
         </Section.Stack>
       </WavesBackground>
     </Section>
@@ -36,20 +34,18 @@ Splash.navigationOptions = {
 const styles = StyleSheet.create({
   wrapper: {
     padding: 0,
-    width: '100%',
-    height: '100%',
   },
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    transform: [{ rotateY: '180deg' }],
     position: 'relative',
     backgroundColor: 'transparent',
     flex: 1,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
   },
   content: {
-    transform: [{ rotateY: '180deg' }],
     marginVertical: '10%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   logo: {
     maxWidth: '100%',

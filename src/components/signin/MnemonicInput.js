@@ -138,7 +138,7 @@ const mnemonicInputStyles = ({ theme }) => ({
     borderColor: theme.colors.primary,
     borderWidth: StyleSheet.hairlineWidth,
     borderTopLeftRadius: 22,
-    borderBottomLeftRadius: 22,
+    // borderBottomLeftRadius: 22,
     display: 'flex',
     width: 32,
     height: height >= 640 ? 44 : 36,

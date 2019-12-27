@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import { isMobileOnly } from 'mobile-device-detect'
+// import { isMobileOnly } from 'mobile-device-detect'
 import { withStyles } from '../../../lib/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import LinearGradient from 'react-native-linear-gradient'
@@ -56,13 +56,14 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       padding: theme.paddings.mainContainerPadding,
       width: '100%',
+      height: '100%',
       position: 'relative',
     },
   }
 
-  if (!isMobileOnly) {
-    styles.container = { ...styles.container, maxHeight: theme.sizes.maxHeightForTabletAndDesktop }
-  }
+  // if (!isMobileOnly) {
+  //   styles.container = { ...styles.container, maxHeight: theme.sizes.maxHeightForTabletAndDesktop }
+  // }
 
   return styles
 }

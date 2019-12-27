@@ -1,5 +1,5 @@
 import React from 'react'
-import HelperText from 'react-native-paper/src/components/HelperText'
+import { HelperText } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 
 const ErrorText = ({ error, styles, style }) => (

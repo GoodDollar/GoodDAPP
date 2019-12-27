@@ -9,11 +9,13 @@ import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
-import Blurred from '../common/view/Blurred'
+// import Blurred from '../common/view/Blurred'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
-import './blurFx.css'
+//  import './blurFx.css'
+import GDStore from '../../lib/undux/GDStore'
+
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -211,7 +213,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   sideMenuSwap = visible => {
     const { store } = this.props
-    const sidemenu = store.get('sidemenu')
+    const sidemenu = store.get('sidemenu') || {}
 
     sidemenu.visible = visible
 
@@ -243,23 +245,23 @@ class AppView extends Component<AppViewProps, AppViewState> {
     log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
-    const open = store.get('sidemenu').visible
-    const { visible: dialogVisible } = store.get('currentScreen').dialogData
+    const open = (store.get('sidemenu') || {}).visible
+    const { visible: dialogVisible } = ((store.get('currentScreen') || {}).dialogData || {})
     const currentFeed = store.get('currentFeed')
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
 
     return (
       <React.Fragment>
-        <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : {}]}>
-          <SideMenu
-            menu={menu}
-            menuPosition="right"
-            isOpen={open}
-            disableGestures={true}
-            onChange={this.sideMenuSwap}
-          />
-        </View>
-        <Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>
+        {/*<View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : {}]}>*/}
+        {/*  <SideMenu*/}
+        {/*    menu={menu}*/}
+        {/*    menuPosition="right"*/}
+        {/*    isOpen={open}*/}
+        {/*    disableGestures={true}*/}
+        {/*    onChange={this.sideMenuSwap}*/}
+        {/*  />*/}
+        {/*</View>*/}
+        {/*<Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>*/}
           {!navigationBarHidden &&
             (NavigationBar ? (
               <NavigationBar />
@@ -273,7 +275,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
               <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
             </ScrollView>
           )}
-        </Blurred>
+        {/*</Blurred>*/}
       </React.Fragment>
     )
   }

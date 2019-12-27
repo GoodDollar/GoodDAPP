@@ -52,14 +52,14 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
-    paddingHorizontal: '0.4rem',
+    //paddingHorizontal: '0.4rem',
   },
   input: {
     textAlign: 'center',
     width: '100%',
-    height: '3rem',
+    // height: '3rem',
     marginVertical: 0,
-    fontSize: '1.5rem',
+    // fontSize: '1.5rem',
     borderTopWidth: 0,
     borderRightWidth: 0,
     borderLeftWidth: 0,
@@ -95,7 +95,7 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, foc
 
   const handleSelection = ({ nativeEvent: { selection: nativeSelection } }) => {
     if (nativeSelection.start === nativeSelection.end && nativeSelection.start === 1) {
-      focusNextInput()
+      // focusNextInput()
     }
     setSelection({ start: 0, end: value && value.length ? 1 : 0 })
   }
@@ -227,7 +227,7 @@ const OtpInput = (props: Props) => {
 
   // Focus on next input
   const focusNextInput = () => {
-    focusInput(activeInput + 1)
+    //focusInput(activeInput + 1)
   }
 
   // Focus on previous input
@@ -263,7 +263,7 @@ const OtpInput = (props: Props) => {
 
   const handleOnChange = (inputValue: string) => {
     changeCodeAtFocus(inputValue)
-    focusNextInput()
+    //focusNextInput()
   }
 
   // Handle cases of backspace, delete, left arrow, right arrow
@@ -283,18 +283,18 @@ const OtpInput = (props: Props) => {
       focusPrevInput()
     } else if (e.keyCode === RIGHT_ARROW || e.key === 'ArrowRight') {
       e.preventDefault()
-      focusNextInput()
+      //focusNextInput()
     }
   }
 
   const checkLength = (e: Object) => {
     if (e.target.value.length > 1) {
       e.preventDefault()
-      focusNextInput()
+      //focusNextInput()
     }
     const otp = getOtpValue()
     if (e.target.value === otp[activeInput]) {
-      focusNextInput()
+      //focusNextInput()
     }
   }
 
@@ -315,7 +315,7 @@ const OtpInput = (props: Props) => {
           onPaste={handleOnPaste}
           onFocus={e => {
             setActiveInput(i)
-            e.target.select()
+            // e.target.select()
           }}
           onBlur={() => setActiveInput(-1)}
           separator={separator}

@@ -7,6 +7,7 @@ import { withStyles } from '../../lib/styles'
 import InputText from '../common/form/InputText'
 import Section from '../common/layout/Section'
 import CustomWrapper from './signUpWrapper'
+import { Text } from 'react-native'
 
 type Props = {
   doneCallback: ({ name: string }) => null,
@@ -71,15 +72,15 @@ class NameForm extends React.Component<Props, State> {
     const { fullName, errorMessage } = this.state
     const { key } = this.props.navigation.state
     return (
-      <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit}>
-        <Section grow justifyContent="flex-start">
+      <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} style={{backgroundColor: 'transparent'}}>
+        <Section grow justifyContent="flex-start" style={{backgroundColor: 'transparent'}}>
           <Section.Stack justifyContent="flex-start" style={this.props.styles.container}>
             <Section.Row justifyContent="center" style={this.props.styles.row}>
               <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
                 {'Hi, nice to meet you.\n Please enter your full name'}
               </Section.Title>
             </Section.Row>
-            <Section.Row justifyContent="center" style={this.props.styles.bottomRow}>
+            <Section.Row justifyContent="center" style={[this.props.styles.bottomRow]}>
               <InputText
                 id={key + '_input'}
                 value={fullName}

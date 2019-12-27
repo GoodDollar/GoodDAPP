@@ -1,6 +1,4 @@
-// @flow
-
-import React from 'react'
+import React, { useMemo } from 'react'
 import { AsyncStorage, Platform } from 'react-native'
 import bip39 from 'bip39-light'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
@@ -15,6 +13,7 @@ import Config from './config/config'
 const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
 
+// import Router from './SignupRouter'
 let SignupRouter = React.lazy(() =>
   initAnalytics()
     .then(_ =>
@@ -99,8 +98,10 @@ const RouterSelector = () => {
   //we use global state for signup process to signal user has registered
   const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem(IS_LOGGED_IN))
 
-  log.debug('RouterSelector Rendered', { isLoggedIn })
-  const Router = isLoggedIn ? AppRouter : SignupRouter
+  const Router = useMemo(() => {
+    log.debug('RouterSelector Rendered', { isLoggedIn })
+    return isLoggedIn ? AppRouter : SignupRouter
+  }, [isLoggedIn])
 
   return (
     <React.Suspense fallback={<Splash />}>

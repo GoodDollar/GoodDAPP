@@ -20,7 +20,6 @@ import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import defaultGun from './gundb'
-
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 
@@ -425,7 +424,7 @@ export class UserStorage {
    * @param {string} password
    * @returns {Promise<*>}
    */
-  static async getMnemonic(username: String, password: String): String {
+  static async getMnemonic(username: String, password: String): Promise<String> {
     let gun = defaultGun
     let gunuser = gun.user()
     let mnemonic = ''
@@ -433,9 +432,9 @@ export class UserStorage {
     const authUserInGun = (username, password) => {
       return new Promise((res, rej) => {
         gunuser.auth(username, password, user => {
-          logger.debug('gundb auth', user.err)
+          logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnimonic UserStorage', user.err)
+            logger.error('Error getMnemonic UserStorage', user.err)
             return rej(false)
           }
           res(true)
@@ -449,6 +448,7 @@ export class UserStorage {
         .get('mnemonic')
         .get('value')
         .decrypt()
+      logger.debug('getMnemonic', { mnemonic })
     }
     await gunuser.leave()
 
@@ -549,8 +549,9 @@ export class UserStorage {
       })
       logger.debug('init to events')
 
-      this.initFeed()
+      await this.initFeed()
       await this.initProperties()
+      await this.startSystemFeed()
 
       //save ref to user
       this.gun
@@ -833,16 +834,18 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  initFeed() {
+  async initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+    await this.feed
+    await this.feed.get('byid')
   }
 
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
     const isCameFromW3Site = userProperties.cameFromW3Site
-
+    logger.debug('startSystemFeed', { userProperties, firstVisitAppDate })
     this.addBackupCard()
     this.addStartClaimingCard()
 
@@ -1382,14 +1385,14 @@ export class UserStorage {
    * @param {object} details
    * @returns {Promise<void>}
    */
-  saveSurveyDetails(hash, details: SurveyDetails) {
+  async saveSurveyDetails(hash, details: SurveyDetails) {
     try {
       const date = moment(new Date()).format('DDMMYY')
-      this.gun
+      await this.gun.get('survey').get(date)
+      await this.gun
         .get('survey')
         .get(date)
-        .get(hash)
-        .put(details)
+        .putAck({ [hash]: details })
       return true
     } catch (e) {
       logger.error('saveSurveyDetails :', e.message, e, details)
@@ -1647,7 +1650,6 @@ export class UserStorage {
         .get('byid')
         .get(event.id)
         .then()
-        .catch(_ => false)
       if (existingEvent) {
         logger.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false
@@ -1663,7 +1665,7 @@ export class UserStorage {
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
-      logger.error('enqueueTX failed: ', e.message, e)
+      logger.error('enqueueTX failed: ', e.message, e, event)
       return false
     } finally {
       release()

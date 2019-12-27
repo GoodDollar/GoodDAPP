@@ -1,7 +1,7 @@
 // @flow
 // import { isMobile } from 'mobile-device-detect'
-import React, { useEffect, useState } from 'react'
-import { AsyncStorage } from 'react-native'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import { theme } from './components/theme/styles'
@@ -10,6 +10,8 @@ import SimpleStore, { initStore, setInitFunctions } from './lib/undux/SimpleStor
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 // import SplashDesktop from './components/splash/SplashDesktop'
 import Splash from './components/splash/Splash'
+// import isWebApp from './lib/utils/isWebApp'
+import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import useServiceWorker from './lib/utils/useServiceWorker'
 import Config from './config/config'
@@ -20,7 +22,6 @@ import RouterSelector from './RouterSelector'
 const App = () => {
   useServiceWorker() // Only runs on Web
   const store = SimpleStore.useStore()
-
   useEffect(() => {
     setInitFunctions(store.set('wallet'), store.set('userStorage'))
   }, [store])
@@ -30,7 +31,6 @@ const App = () => {
   // const continueWithDesktop = () => {
   //   setUseDesktop(true)
   // }
-
   // const SplashOrRouter =
   //   !isMobile && !useDesktop ? (
   //     <SplashDesktop onContinue={continueWithDesktop} urlForQR={window.location.href} />
@@ -38,15 +38,19 @@ const App = () => {
   //     <RouterSelector />
   //   )
 
-  return (
-    <PaperProvider theme={theme}>
-      <SimpleStoreDialog />
-      <LoadingIndicator />
-      <InternetConnection onDisconnect={() => <Splash />}>
-        <RouterSelector />
-        {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
-      </InternetConnection>
-    </PaperProvider>
+  return useMemo(
+    () => (
+      <PaperProvider theme={theme}>
+        <SimpleStoreDialog />
+        <LoadingIndicator />
+        <InternetConnection onDisconnect={() => <Splash />}>
+          <RouterSelector />
+          {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
+        </InternetConnection>
+      </PaperProvider>
+    ),
+    // [isMobile, useDesktop]
+    []
   )
 }
 

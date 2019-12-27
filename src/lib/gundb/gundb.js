@@ -3,7 +3,6 @@ import 'gun/lib/radix'
 import 'gun/lib/radisk'
 import 'gun/lib/store'
 import 'gun/lib/rindexed'
-// eslint-disable-next-line no-unused-vars
 import 'gun/sea'
 import './gundb-extend'
 import Config from '../../config/config'

@@ -10,6 +10,7 @@ import ModalContents from './ModalContents'
 import ModalOverlay from './ModalOverlay'
 import ModalInnerContents from './ModalInnerContents'
 import ModalContainer from './ModalContainer'
+import { Platform } from 'react-native'
 
 const ModalWrapper = (props: any) => {
   const {
@@ -86,7 +87,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   triangle: {
     position: 'absolute',
-    display: 'block',
+    display: Platform.OS === 'web' ? 'block' : 'flex',
     width: '2rem',
     height: '2rem',
     backgroundColor: 'white',

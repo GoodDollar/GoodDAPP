@@ -95,6 +95,7 @@ const getStylesFromProps = ({ theme }) => {
     mainWrapper: {
       paddingHorizontal: 0,
       justifyContent: 'space-evenly',
+      flexDirection: 'column',
     },
     illustration: {
       flexGrow: 1,
@@ -122,6 +123,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     scrollableContainer: {
       flexGrow: 1,
+    },
+    bottomContainer: {
+      // backgroundColor: 'red',
+      flexDirection: 'column',
     },
   }
 }

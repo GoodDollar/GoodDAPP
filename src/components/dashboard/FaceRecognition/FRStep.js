@@ -73,13 +73,13 @@ const getStylesFromProps = ({ theme }) => ({
   success: {
     width: getDesignRelativeWidth(28),
     height: getDesignRelativeHeight(28),
-    borderRadius: '50%',
+    // borderRadius: '50%',
     backgroundColor: theme.colors.green,
   },
   failure: {
     width: getDesignRelativeWidth(28),
     height: getDesignRelativeHeight(28),
-    borderRadius: '50%',
+    // borderRadius: '50%',
     backgroundColor: theme.colors.red,
     flexGrow: 0,
   },

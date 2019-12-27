@@ -43,7 +43,7 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      borderBottomStyle: 'solid',
+      // borderBottomStyle: 'solid',
       borderBottomColor: theme.colors.lightGray,
       borderBottomWidth: 1,
       padding: theme.paddings.mainContainerPadding,

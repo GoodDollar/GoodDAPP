@@ -37,7 +37,7 @@ const mapPropsToStyle = ({ theme }) => ({
   },
   iconWrapper: {
     backgroundColor: theme.colors.darkBlue,
-    borderRadius: '50%',
+    // borderRadius: '50%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

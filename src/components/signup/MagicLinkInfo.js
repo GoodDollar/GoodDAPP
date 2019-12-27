@@ -21,7 +21,7 @@ const MagicLinkInfoComponent = props => {
           <Text
             fontWeight="bold"
             fontSize={28}
-            //fontFamily="RobotoSlab"
+            //fontFamily="Roboto Slab"
             fontFamily="Roboto"
             color="primary"
             style={styles.headerText}
@@ -68,10 +68,10 @@ const MagicLinkInfoComponent = props => {
 const getStylesFromProps = ({ theme }) => {
   return {
     headerText: {
-      borderBottomWidth: 2,
-      borderBottomStyle: 'solid',
-      borderBottomColor: theme.colors.primary,
-      paddingBottom: getDesignRelativeHeight(5),
+      // borderBottomWidth: 2,
+      // borderBottomStyle: 'solid',
+      // borderBottomColor: theme.colors.primary,
+      // paddingBottom: getDesignRelativeHeight(5),
     },
     mainWrapper: {
       display: 'flex',

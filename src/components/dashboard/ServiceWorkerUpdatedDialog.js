@@ -21,7 +21,7 @@ const dialogStyles = ({ theme }) => ({
   },
   title: {
     width: '100%',
-    borderBottomStyle: 'solid',
+    // borderBottomStyle: 'solid',
     borderBottomWidth: 2,
     borderBottomColor: theme.colors.primary,
     paddingBottom: getDesignRelativeWidth(9),

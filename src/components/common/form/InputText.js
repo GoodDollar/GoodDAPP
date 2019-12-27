@@ -74,7 +74,7 @@ const getStylesFromProps = ({ theme }) => ({
     ...theme.fontStyle,
     backgroundColor: theme.colors.surface,
     borderBottomColor: theme.colors.darkGray,
-    borderBottomStyle: 'solid',
+    // borderBottomStyle: 'solid',
     borderBottomWidth: StyleSheet.hairlineWidth,
     color: theme.colors.darkGray,
     fontFamily: theme.fonts.slab,

@@ -60,7 +60,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         const { saveMnemonics } = await mnemonicsHelpers
 
         await saveMnemonics(mnemonic)
-        await AsyncStorage.setItem(IS_LOGGED_IN, true)
+        await AsyncStorage.setItem(IS_LOGGED_IN, 'true')
 
         window.location = '/'
       } else {

@@ -71,7 +71,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   emptyBlockBorderRow: {
     borderBottomColor: theme.colors.lightGray,
-    borderBottomStyle: 'solid',
+    // borderBottomStyle: 'solid',
     borderBottomWidth: 2,
     paddingBottom: theme.sizes.defaultHalf,
     marginBottom: theme.sizes.defaultHalf,

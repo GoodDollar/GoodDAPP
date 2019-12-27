@@ -75,7 +75,7 @@ const getStylesFromProps = ({ theme }) => {
       // TODO: see where should we take this color from
       borderBottomColor: theme.colors.gray50Percent,
       borderBottomWidth: 1,
-      borderBottomStyle: 'solid',
+      // borderBottomStyle: 'solid',
       alignItems: 'flex-end',
       paddingBottom: theme.sizes.defaultHalf,
       height: 40,

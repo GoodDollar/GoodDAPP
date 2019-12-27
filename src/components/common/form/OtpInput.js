@@ -94,28 +94,28 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, foc
   }, [focus])
 
   const handleSelection = ({ nativeEvent: { selection: nativeSelection } }) => {
-    if (nativeSelection.start === nativeSelection.end && nativeSelection.start === 1) {
-      // focusNextInput()
-    }
+    // if (nativeSelection.start === nativeSelection.end && nativeSelection.start === 1) {
+    //   focusNextInput()
+    // }
     setSelection({ start: 0, end: value && value.length ? 1 : 0 })
   }
 
   const handleValidation = (inputValue: number | string): boolean =>
     (!min || inputValue >= min) && (!max || inputValue <= max) && (!pattern || pattern.test(inputValue))
 
-  const handleOnChange = (e: Object) => {
-    e.preventDefault()
-    const value = e.target.value
+  const handleOnChange = (value: string) => {
     const isValid = handleValidation(value)
+
     if (isValid && onChange) {
       onChange(value)
     }
   }
+
   return (
     <TextInput
       {...props}
       value={value}
-      onChange={handleOnChange}
+      onChangeText={handleOnChange}
       ref={inputRef => (input = inputRef)}
       onSelectionChange={handleSelection}
       selection={selection}
@@ -227,7 +227,7 @@ const OtpInput = (props: Props) => {
 
   // Focus on next input
   const focusNextInput = () => {
-    //focusInput(activeInput + 1)
+    focusInput(activeInput + 1)
   }
 
   // Focus on previous input
@@ -263,7 +263,7 @@ const OtpInput = (props: Props) => {
 
   const handleOnChange = (inputValue: string) => {
     changeCodeAtFocus(inputValue)
-    //focusNextInput()
+    focusNextInput()
   }
 
   // Handle cases of backspace, delete, left arrow, right arrow
@@ -283,18 +283,18 @@ const OtpInput = (props: Props) => {
       focusPrevInput()
     } else if (e.keyCode === RIGHT_ARROW || e.key === 'ArrowRight') {
       e.preventDefault()
-      //focusNextInput()
+      focusNextInput()
     }
   }
 
   const checkLength = (e: Object) => {
     if (e.target.value.length > 1) {
       e.preventDefault()
-      //focusNextInput()
+      focusNextInput()
     }
     const otp = getOtpValue()
     if (e.target.value === otp[activeInput]) {
-      //focusNextInput()
+      focusNextInput()
     }
   }
 

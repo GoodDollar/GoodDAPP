@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
-import { AppState } from 'react-native'
+import { AppState, Platform } from 'react-native'
 import Config from '../../config/config'
 import API from '../API/api'
 import { delay } from '../utils/async'
 import logger from '../logger/pino-logger'
 import SimpleStore from '../undux/SimpleStore'
-import { Platform } from 'react-native-web';
 const log = logger.child({ from: 'hasConnectionChange' })
 
 const useWebConnection = () => {

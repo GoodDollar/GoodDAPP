@@ -193,7 +193,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   dateAndValue: {
     alignItems: 'center',
-    borderBottomStyle: 'solid',
+    // borderBottomStyle: 'solid',
     borderBottomWidth: 2,
     display: 'flex',
     flexDirection: 'row',

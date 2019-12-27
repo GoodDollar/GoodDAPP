@@ -12,7 +12,7 @@ const CustomIcon = ({ styles, theme, name, color, size, reverse, reverseColor })
 
 const getStylesFromProps = ({ theme }) => ({
   imageIcon: {
-    borderRadius: '50%',
+    // borderRadius: '50%',
     padding: 16,
   },
 })

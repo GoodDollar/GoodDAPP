@@ -25,7 +25,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   customModalInnerWrapper: {
     alignSelf: 'center',
-    maxWidth: '475px',
+    // maxWidth: '475px',
     width: '100%',
     flexGrow: 1,
     flexShrink: 0,
@@ -39,7 +39,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   feedModalInnerWrapper: {
     alignSelf: 'center',
-    maxWidth: '475px',
+    // maxWidth: '475px',
     width: '100%',
     flexGrow: 1,
     flexShrink: 0,

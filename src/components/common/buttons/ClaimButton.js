@@ -14,7 +14,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
     backgroundColor: theme.colors.green,
     borderColor: theme.colors.surface,
-    borderRadius: '50%',
+    // // borderRadius: '50%',
     borderWidth: 3,
     height: 72,
     left: '50%',

@@ -83,7 +83,7 @@ const FeedModalItem = (props: FeedEventProps) => {
 const getStylesFromProps = ({ theme }) => {
   return {
     numberButton: {
-      borderRadius: '50%',
+      // borderRadius: '50%',
       borderWidth: 2,
       width: 32,
       height: 32,

@@ -213,7 +213,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   successIconStyle: {
     borderWidth: 1,
-    borderRadius: '50%',
+    // // borderRadius: '50%',
     borderColor: theme.colors.primary,
     position: 'relative',
     height: 48,

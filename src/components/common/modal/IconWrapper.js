@@ -20,7 +20,7 @@ const getStylesFromProps = ({ theme, color }) => ({
   errorIconFrame: {
     alignItems: 'center',
     borderColor: color,
-    borderRadius: '50%',
+    // borderRadius: '50%',
     borderWidth: 3,
     display: 'flex',
     flexDirection: 'row',

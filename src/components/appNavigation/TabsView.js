@@ -143,7 +143,7 @@ const styles = ({ theme }) => ({
     borderWidth: 3,
     borderStyle: 'solid',
     borderColor: 'white',
-    borderRadius: '50%',
+    // // borderRadius: '50%',
     paddingVertical: 20,
     paddingHorizontal: 7,
     marginRight: 14,
@@ -155,5 +155,5 @@ const styles = ({ theme }) => ({
     marginRight: 10,
   },
 })
- 
+
 export default withStyles(styles)(TabsView)

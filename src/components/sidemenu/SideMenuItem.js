@@ -29,7 +29,7 @@ const sideMenuItemStyles = ({ theme }) => ({
   clickableRow: {
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.lightGray,
-    borderBottomStyle: 'solid',
+    // borderBottomStyle: 'solid',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',

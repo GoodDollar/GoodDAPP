@@ -54,7 +54,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 0,
     justifyContent: 'center',
     flexDirection: 'row',
-    borderRadius: '50%',
+    // borderRadius: '50%',
     borderColor: theme.colors.red,
     borderWidth: 3,
     padding: theme.sizes.defaultQuadruple,

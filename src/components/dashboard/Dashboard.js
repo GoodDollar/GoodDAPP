@@ -498,7 +498,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: theme.sizes.default,
   },
   avatarSmall: {
-    borderRadius: '50%',
+    // borderRadius: '50%',
     height: 42,
     margin: 0,
     width: 42,

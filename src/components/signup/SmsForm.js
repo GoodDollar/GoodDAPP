@@ -130,7 +130,7 @@ class SmsForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage, renderButton, loading, otp, resentCode } = this.state
+    const { errorMessage, renderButton, loading, otp, resentCode, sendingCode } = this.state
     const { styles } = this.props
 
     return (
@@ -165,7 +165,7 @@ class SmsForm extends React.Component<Props, State> {
             />
           </Section.Row>
         </Section>
-        <LoadingIndicator force={loading} />
+        <LoadingIndicator force={loading || sendingCode} />
       </CustomWrapper>
     )
   }

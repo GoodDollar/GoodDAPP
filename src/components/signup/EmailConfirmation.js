@@ -125,7 +125,7 @@ class EmailConfirmation extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage, loading, code, resentCode, renderButton } = this.state
+    const { errorMessage, loading, code, resentCode, renderButton, sendingCode } = this.state
     const { styles } = this.props
 
     return (
@@ -160,7 +160,7 @@ class EmailConfirmation extends React.Component<Props, State> {
             />
           </Section.Row>
         </Section>
-        <LoadingIndicator force={loading} />
+        <LoadingIndicator force={loading || sendingCode} />
       </CustomWrapper>
     )
   }

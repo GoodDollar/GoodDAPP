@@ -105,20 +105,22 @@ class Auth extends React.Component<Props> {
     const { w3User, w3Token } = this.state
     const redirectTo = w3Token ? 'Phone' : 'Signup'
     log.debug({ w3User, w3Token })
-    try {
-      const req = new Promise((res, rej) => {
-        const del = indexedDB.deleteDatabase('radata')
-        del.onsuccess = res
-        del.onerror = rej
-      })
-      await req
+    // try {
+    //   const req = new Promise((res, rej) => {
+    //     const del = indexedDB.deleteDatabase('radata')
+    //     del.onsuccess = res
+    //     del.onerror = rej
+    //   })
+    //   await req
+    //
+    //   log.info('indexedDb successfully cleared')
+    // } catch (e) {
+    //   log.error('Failed to clear indexedDb', e.message, e)
+    // } finally {
+    //   store.set('loadingIndicator')({ loading: false })
+    // }
 
-      log.info('indexedDb successfully cleared')
-    } catch (e) {
-      log.error('Failed to clear indexedDb', e.message, e)
-    } finally {
-      store.set('loadingIndicator')({ loading: false })
-    }
+    store.set('loadingIndicator')({ loading: false })
 
     this.props.navigation.navigate(redirectTo, { w3User, w3Token })
 

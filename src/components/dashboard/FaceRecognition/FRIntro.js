@@ -11,6 +11,7 @@ import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
 import illustration from '../../../assets/FaceRecognition/illustration.svg'
+import { Platform } from 'react-native'
 
 // Image.prefetch(illustration)
 
@@ -109,7 +110,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingVertical: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   description: {
-    display: 'block',
+    display: Platform.OS === 'web' ? 'block' : 'flex',
     paddingTop: 0,
   },
   descriptionUnderline: {

@@ -59,7 +59,7 @@ let ErrorBoundary = React.Fragment
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
 
-  useEffect( () => {
+  useEffect(() => {
     // if (Config.bugsnagKey) {
     //   const bugsnagClient = bugsnag({
     //     apiKey: Config.bugsnagKey,
@@ -86,7 +86,7 @@ const AppHolder = () => {
       return AsyncStorage.setItem('GD_version', required)
     }
 
-    (async () => {
+    ;(async () => {
       await upgradeVersion()
       await initStore()
       setReady(true)

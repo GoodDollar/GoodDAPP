@@ -4,6 +4,7 @@ import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { theme } from '../../theme/styles'
 import Text from './Text'
+import { Platform } from 'react-native'
 
 /**
  * Receives a number and a unit to display
@@ -20,7 +21,7 @@ class Circle extends React.Component {
     return (
       <View style={styles.mainBlock}>
         <View style={styles.circle}>
-          <Text fontFamily="slab" style={styles.circleNumber} fontWeight="bold" fontSize={24} color="#ffffff">
+          <Text fontFamily="slab" style={styles.circleNumber} fontWeight="bold" fontSize={24}>
             {number}
           </Text>
         </View>
@@ -39,16 +40,21 @@ const getStylesFromProps = ({ theme }) => {
     mainBlock: {
       alignItems: 'baseline',
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: 'column',
+      justifyContent: 'space-around',
+      width: '100%',
     },
     circleNumber: {
-      display: 'block',
+      display: Platform.OS === 'web' ? 'block' : 'flex',
+      flex: 1,
+      zIndex: 9999999,
+      color: '#ffffff',
     },
     circle: {
       justifyContent: 'center',
       display: 'flex',
       backgroundColor: theme.colors.darkGray,
-      // // borderRadius: '50%',
+      borderRadius: 50,
       height: 43,
       boxShadow: '6px 1px 0 rgba(12, 38, 61, 0.15)',
       marginTop: theme.sizes.default,

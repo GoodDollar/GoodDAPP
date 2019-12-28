@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import Wrapper from '../common/layout/Wrapper'
@@ -7,7 +7,6 @@ import Section from '../common/layout/Section'
 import Config from '../../config/config'
 import normalize from '../../lib/utils/normalizeText'
 import WavesBackground from '../common/view/BackroundWaves'
-
 
 //minimize delay <Image> has over web <img>
 // Image.prefetch(splashImage)

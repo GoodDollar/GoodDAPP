@@ -42,7 +42,7 @@ const Signin = props => {
         </Section.Row>
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
-            <Section.Text style={styles.blockCircle}>
+            <View style={styles.blockCircle}>
               <Circle number={1}>Go to your email</Circle>
               <Circle number={2}>
                 Find{' '}
@@ -56,11 +56,11 @@ const Signin = props => {
                   magic link
                 </Text>
               </Circle>
-            </Section.Text>
+            </View>
           </View>
         </Section.Row>
       </Wrapper>
-      <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+      <Section.Row alignItems="center" justifyContent="center">
         <TouchableOpacity onPress={handleRecover}>
           <Section.Text
             fontWeight="medium"
@@ -73,7 +73,7 @@ const Signin = props => {
           </Section.Text>
         </TouchableOpacity>
       </Section.Row>
-      <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+      <Section.Row alignItems="center" justifyContent="center">
         <TouchableOpacity onPress={goToSupport}>
           <Section.Text
             fontWeight="medium"
@@ -94,27 +94,36 @@ const getStylesFromProps = ({ theme }) => {
   return {
     mainWrapper: {
       paddingHorizontal: 0,
-      justifyContent: 'space-evenly',
+      justifyContent: 'space-around',
       flexDirection: 'column',
+      maxHeight: '75%',
+      marginBottom: 15,
+    },
+    row: {
+      flex: 1,
+      flexDirection: 'row',
     },
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
       marginTop: 30,
-      marginBottom: 30,
+      // marginBottom: 30,
       maxWidth: '100%',
       maxHeight: getDesignRelativeHeight(142),
       minHeight: getDesignRelativeHeight(95),
       paddingTop: theme.sizes.default,
+      width: '100%',
+      justifyContent: 'center',
     },
     text: {
       color: theme.colors.green,
     },
     blockCircle: {
-      marginTop: 24,
+      flex: 1,
+      flexDirection: 'column',
     },
     textBottom: {
-      marginBottom: 24,
+      marginBottom: 10,
     },
     contentContainer: {
       flexGrow: 1,
@@ -125,7 +134,6 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
     },
     bottomContainer: {
-      // backgroundColor: 'red',
       flexDirection: 'column',
     },
   }

@@ -18,6 +18,7 @@ import {
 } from '../UserStorageClass'
 import UserPropertiesClass from '../UserPropertiesClass'
 import { getUserModel } from '../UserModel'
+import update from '../../updates'
 import { addUser } from './__util__/index'
 
 const delay = duration => {
@@ -50,9 +51,18 @@ describe('UserStorage', () => {
     userStorage.unSubscribeProfileUpdates()
   })
 
-  it('before fixSendFeedStatus isFixSendFeedStatus should be undefined', async () => {
-    const isFixSendFeedStatus = await userStorage.getProfileFieldValue('isFixSendFeedStatus')
-    expect(isFixSendFeedStatus).toBeUndefined()
+  it('check updates', async () => {
+    const updatesDataBefore = (await userStorage.userProperties.get('updates')) || {}
+    expect(updatesDataBefore.lastUpdate).toBeUndefined()
+    expect(updatesDataBefore.lastVersionUpdate).toBeUndefined()
+    expect(updatesDataBefore.status).toBeUndefined()
+
+    await update()
+
+    const updatesDataAfter = (await userStorage.userProperties.get('updates')) || {}
+    expect(typeof updatesDataAfter.lastUpdate === 'string').toBeTruthy()
+    expect(updatesDataAfter.lastVersionUpdate).toEqual(Config.version)
+    expect(typeof updatesDataAfter.status === 'object').toBeTruthy()
   })
 
   it('logins to gundb', () => {

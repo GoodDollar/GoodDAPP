@@ -4,6 +4,7 @@ import { View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
@@ -154,19 +155,24 @@ class EmailConfirmation extends React.Component<Props, State> {
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <CodeAction
+              sendingCode={sendingCode}
               status={resentCode ? DONE : renderButton ? PENDING : WAIT}
               handleRetry={this.handleRetry}
               successIconStyle={styles.successIconStyle}
+              loadIconStyle={styles.loadIconStyle}
             />
           </Section.Row>
         </Section>
-        <LoadingIndicator force={loading || sendingCode} />
+        <LoadingIndicator force={loading} />
       </CustomWrapper>
     )
   }
 }
 
-const CodeAction = ({ status, handleRetry, successIconStyle }) => {
+const CodeAction = ({ status, handleRetry, successIconStyle, loadIconStyle, sendingCode }) => {
+  if (sendingCode) {
+    return <LoadingIcon loadingIconStyle={loadIconStyle} />
+  }
   if (status === DONE) {
     return (
       <View style={successIconStyle}>
@@ -215,6 +221,14 @@ const getStylesFromProps = ({ theme }) => ({
     borderWidth: 1,
     borderRadius: '50%',
     borderColor: theme.colors.primary,
+    position: 'relative',
+    height: 48,
+    width: 48,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadIconStyle: {
     position: 'relative',
     height: 48,
     width: 48,

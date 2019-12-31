@@ -56,55 +56,62 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
     return screenProps.push('FRIntro', { from: 'SendQRSummary' })
   }
 
-  const sendGD = () => {
+  const sendGD = async () => {
     try {
+      const send = am =>
+        new Promise(resolve => {
+          goodWallet.sendAmount(to, am, {
+            onTransactionHash: hash => {
+              log.debug({ hash })
+              txhash = hash
+
+              // Save transaction
+              const transactionEvent: TransactionEvent = {
+                id: hash,
+                date: new Date().toString(),
+                type: 'send',
+                data: {
+                  to,
+                  reason,
+                  amount: am,
+                },
+              }
+              userStorage.enqueueTX(transactionEvent)
+              if (Config.isEToro) {
+                userStorage.saveSurveyDetails(hash, {
+                  reason,
+                  amount: am,
+                  survey,
+                })
+              }
+              fireEvent('SEND_DONE', { type: screenState.params.type })
+              showDialog({
+                visible: true,
+                title: 'SUCCESS!',
+                message: 'The G$ was sent successfully',
+                buttons: [{ text: 'Yay!' }],
+                onDismiss: screenProps.goToRoot,
+              })
+              setLoading(false)
+              resolve(hash)
+              return hash
+            },
+            onError: e => {
+              log.error('Send TX failed:', e.message, e)
+              setLoading(false)
+              userStorage.markWithErrorEvent(txhash)
+              resolve()
+            },
+          })
+        })
       setLoading(true)
       let txhash
-      goodWallet.sendAmount(to, amount, {
-        onTransactionHash: hash => {
-          log.debug({ hash })
-          txhash = hash
-
-          // Save transaction
-          const transactionEvent: TransactionEvent = {
-            id: hash,
-            date: new Date().toString(),
-            type: 'send',
-            data: {
-              to,
-              reason,
-              amount,
-            },
-          }
-          userStorage.enqueueTX(transactionEvent)
-          if (Config.isEToro) {
-            userStorage.saveSurveyDetails(hash, {
-              reason,
-              amount,
-              survey,
-            })
-          }
-
-          fireEvent('SEND_DONE', { type: screenState.params.type })
-          showDialog({
-            visible: true,
-            title: 'SUCCESS!',
-            message: 'The G$ was sent successfully',
-            buttons: [{ text: 'Yay!' }],
-            onDismiss: screenProps.goToRoot,
-          })
-
-          setLoading(false)
-
-          return hash
-        },
-        onError: e => {
-          log.error('Send TX failed:', e.message, e)
-
-          setLoading(false)
-          userStorage.markWithErrorEvent(txhash)
-        },
-      })
+      for (let i = 0; i < 20; i++) {
+        let am = amount + i
+        logger.info('___SEND ', am)
+        // eslint-disable-next-line
+        await send(am)
+      }
     } catch (e) {
       log.error('Send TX failed:', e.message, e)
       showDialog({

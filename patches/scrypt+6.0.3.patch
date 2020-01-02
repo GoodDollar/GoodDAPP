@@ -9,3 +9,4 @@ index 7b13a79..348c657 100644
 +var scryptNative = require("scrypt")
    , Crypto = require("crypto")
    , Os = require("os");
+ 

@@ -377,7 +377,7 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
     },
     extraInfoWrapper: {
-      display: 'inline',
+      // display: 'inline',
       textAlign: 'center',
       width: getDesignRelativeWidth(340),
     },

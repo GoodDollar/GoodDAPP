@@ -1,12 +1,10 @@
 //@flow
-/* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
-import { TouchableOpacity } from 'react-native-web'
+import { TouchableOpacity } from 'react-native'
 import _get from 'lodash/get'
-import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
-import SimpleStore from '../../lib/undux/SimpleStore'
+import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import config from '../../config/config'
 import { withStyles } from '../../lib/styles'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -57,7 +55,7 @@ type TabViewProps = {
 
 const TabsView = React.memo((props: TabViewProps) => {
   const { navigation, styles } = props
-  const store = SimpleStore.useStore()
+  const [toggleMenu] = useSidemenu()
   const [token, setToken] = useState(isIOS ? undefined : true)
   const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
 
@@ -68,7 +66,9 @@ const TabsView = React.memo((props: TabViewProps) => {
       _token = await API.getLoginToken()
         .then(r => _get(r, 'data.loginToken'))
         .then(newToken => {
-          if (newToken) userStorage.setProfileField('loginToken', newToken, 'private')
+          if (newToken) {
+            userStorage.setProfileField('loginToken', newToken, 'private')
+          }
 
           return newToken
         })
@@ -80,7 +80,9 @@ const TabsView = React.memo((props: TabViewProps) => {
       _marketToken = await API.getMarketToken()
         .then(_ => _get(_, 'data.jwt'))
         .then(newtoken => {
-          if (newtoken) userStorage.setProfileField('marketToken', newtoken)
+          if (newtoken) {
+            userStorage.setProfileField('marketToken', newtoken)
+          }
 
           return newtoken
         })
@@ -130,8 +132,8 @@ const TabsView = React.memo((props: TabViewProps) => {
         </TouchableOpacity>
       )}
       <Appbar.Content />
-      <TouchableOpacity onPress={toggleSidemenu.bind(null, store)}>
-        <Icon name="settings" size={20} color="white" style={styles.menuStyle} testID="burger_button"/>
+      <TouchableOpacity onPress={toggleMenu}>
+        <Icon name="settings" size={20} color="white" style={styles.menuStyle} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>
   )

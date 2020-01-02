@@ -114,7 +114,7 @@ const getStylesFromProps = ({ theme }) => ({
     letterSpacing: 0.08,
   },
   amountInButton: {
-    display: 'inline',
+    // display: 'inline',
     marginLeft: theme.sizes.defaultHalf,
   },
   amountInButtonCenter: {

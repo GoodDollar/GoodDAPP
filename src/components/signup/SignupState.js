@@ -396,14 +396,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     } else if (nextRoute && nextRoute.key === 'MagicLinkInfo') {
       setLoading(true)
       let ok
-      debugger
       if (createError) {
         ok = await finishRegistration()
       } else {
         ok = await finishedPromise
       }
-
-      debugger
 
       log.debug('user registration synced and completed', { ok })
 

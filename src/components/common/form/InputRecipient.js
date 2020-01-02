@@ -48,7 +48,7 @@ const InputRecipient = props => {
 
 const styles = StyleSheet.create({
   iconInputContainer: {
-    display: 'inline-flex',
+    // display: 'inline-flex',
     position: 'relative',
   },
   input: {

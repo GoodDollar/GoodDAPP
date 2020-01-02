@@ -82,7 +82,7 @@ const TopImage = ({ type, styles }) => {
   return (
     image && (
       <View style={image.containerStyle}>
-        <Image style={image.style} source={image.src} />
+        {/*<Image style={image.style} source={image.src} />*/}
       </View>
     )
   )

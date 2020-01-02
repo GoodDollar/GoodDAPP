@@ -63,12 +63,12 @@ const ViewOrUploadAvatar = props => {
           </>
         ) : (
           <>
-            {/* <InputFile onChange={handleAddAvatar}>
-              <UserAvatar profile={profile} size={272} />{' '}
-            </InputFile> */}
-            {/* <InputFile onChange={handleAddAvatar}>
-              <CameraButton style={styles.cameraButton} />
-            </InputFile> */}
+            {/*<InputFile onChange={handleAddAvatar}>*/}
+            {/*  <UserAvatar profile={profile} size={272} />{' '}*/}
+            {/*</InputFile>*/}
+            {/*<InputFile onChange={handleAddAvatar}>*/}
+            {/*  <CameraButton style={styles.cameraButton} />*/}
+            {/*</InputFile>*/}
           </>
         )}
         <CustomButton style={styles.doneButton} onPress={goToProfile}>

@@ -363,7 +363,7 @@ const Dashboard = props => {
       <Section style={[styles.topInfo]}>
         {headerLarge ? (
           <Section.Stack alignItems="center">
-            <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
+            {/*<Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />*/}
             <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
               {fullName || ' '}
             </Section.Text>
@@ -378,12 +378,12 @@ const Dashboard = props => {
           </Section.Stack>
         ) : (
           <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
-            <Avatar
-              onPress={() => screenProps.push('Profile')}
-              size={42}
-              source={avatar}
-              style={[styles.avatarSmall]}
-            />
+            {/*<Avatar*/}
+            {/*  onPress={() => screenProps.push('Profile')}*/}
+            {/*  size={42}*/}
+            {/*  source={avatar}*/}
+            {/*  style={[styles.avatarSmall]}*/}
+            {/*/>*/}
             <BigGoodDollar number={balance} />
           </Section>
         )}
@@ -430,19 +430,19 @@ const Dashboard = props => {
         onEndReached={nextFeed}
         updateData={() => {}}
         onScroll={debounce(({ nativeEvent }) => {
-          // ISH - including small header calculations
-          const minScrollRequired = 150
-          const scrollPosition = nativeEvent.contentOffset.y
-          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
-          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-
-          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-            headerLarge && setHeaderLarge(false)
-          } else {
-            !headerLarge && setHeaderLarge(true)
-          }
-
-          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
+          // // ISH - including small header calculations
+          // const minScrollRequired = 150
+          // const scrollPosition = nativeEvent.contentOffset.y
+          // const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+          // const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
+          //
+          // if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+          //   headerLarge && setHeaderLarge(false)
+          // } else {
+          //   !headerLarge && setHeaderLarge(true)
+          // }
+          //
+          // // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
         }, 100)}
         headerLarge={headerLarge}
       />
@@ -617,11 +617,11 @@ export default createStackNavigator({
   Recover: Mnemonics,
   OutOfGasError,
   // Rewards: {
-  //   // screen: RewardsTab,
+  //   screen: RewardsTab,
   //   path: 'Rewards/:rewardsPath*',
   // },
   // Marketplace: {
-  //   // screen: config.market ? MarketTab : WrappedDashboard,
+  //   screen: config.market ? MarketTab : WrappedDashboard,
   //   path: 'Marketplace/:marketPath*',
   // },
 })

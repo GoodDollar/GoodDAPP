@@ -64,7 +64,7 @@ const getStylesFromProps = ({ theme }) => {
 
   return {
     inputContainer: {
-      display: 'inline-flex',
+      // display: 'inline-flex',
       flex: 1,
     },
     errorInputContainer: {

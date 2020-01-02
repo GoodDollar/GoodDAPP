@@ -22,6 +22,9 @@ const DAY_IN_SECONDS = window.nextTimeClaim ? Number(window.nextTimeClaim) : Num
 const MILLISECONDS = 1000
 const ZERO = new BN('0')
 
+//17280 = 24hours seconds divided by 5 seconds blocktime
+const DAY_TOTAL_BLOCKS = (60 * 60 * 24) / 5
+
 export const WITHDRAW_STATUS_PENDING = 'pending'
 export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
 export const WITHDRAW_STATUS_COMPLETE = 'complete'
@@ -212,9 +215,10 @@ export class GoodWallet {
    * @returns {Promise<R>|Promise<R|*>|Promise<*>}
    */
   async listenTxUpdates(fromBlock: int = 0, blockIntervalCallback: Function) {
-    log.debug('listenTxUpdates listening from block:', fromBlock)
     const curBlock = await this.wallet.eth.getBlockNumber()
-    fromBlock = new BN(fromBlock <= curBlock ? fromBlock : curBlock)
+    const dayAgoBlock = Math.max(0, fromBlock - DAY_TOTAL_BLOCKS)
+    log.debug('listenTxUpdates listening from block:', { fromBlock, dayAgoBlock })
+    fromBlock = new BN(dayAgoBlock <= curBlock ? dayAgoBlock : curBlock)
 
     this.subscribeToOTPLEvents(fromBlock, blockIntervalCallback)
     const contract = this.erc20Contract
@@ -228,7 +232,7 @@ export class GoodWallet {
     contract.events.Transfer(fromEventsFilter, (error, event) => {
       if (error) {
         // eslint-disable-next-line no-negated-condition
-        if (error.currentTarget.readyState !== error.currentTarget.CLOSED) {
+        if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
           log.error('listenTxUpdates fromEventsPromise failed:', error.message, error)
         } else {
           log.warn('listenTxUpdates fromEventsPromise failed:', error.message, error)

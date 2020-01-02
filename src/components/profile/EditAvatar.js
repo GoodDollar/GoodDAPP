@@ -43,7 +43,7 @@ const EditAvatar = ({ screenProps, theme }) => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <Section.Row>{/* <ImageCropper image={profile.avatar} onChange={handleAvatarChange} /> */}</Section.Row>
+        <Section.Row>{/*<ImageCropper image={profile.avatar} onChange={handleAvatarChange} />*/}</Section.Row>
         <Section.Stack justifyContent="flex-end" grow>
           <CustomButton
             disabled={!changed || saving}

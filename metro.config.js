@@ -5,11 +5,13 @@
  * @format
  */
 
-const extraNodeModules = require('node-libs-browser')
+const nodeLibs = require('node-libs-browser')
+nodeLibs.vm = require.resolve('vm-browserify')
+
 
 module.exports = {
   resolver: {
-    extraNodeModules,
+    extraNodeModules: nodeLibs,
   },
   transformer: {
     getTransformOptions: async () => ({

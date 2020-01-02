@@ -62,7 +62,7 @@ const UnsupportedDevice = props => {
       <React.Fragment>
         <Text style={styles.qrText}>Scan via your mobile</Text>
         <View style={styles.qrView}>
-          <QRCode value={code} size={111} />
+          {/*<QRCode value={code} size={111} />*/}
         </View>
       </React.Fragment>
     )

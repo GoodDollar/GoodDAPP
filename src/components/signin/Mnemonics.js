@@ -78,7 +78,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       const [profile, fullName] = await profileExist()
 
       if (profile) {
-        await AsyncStorage.setItem(IS_LOGGED_IN, true)
+        await AsyncStorage.setItem(IS_LOGGED_IN, 'true')
         const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
         const firstName = getFirstWord(fullName)
         showDialog({

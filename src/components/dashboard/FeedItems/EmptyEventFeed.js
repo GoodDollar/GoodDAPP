@@ -8,7 +8,7 @@ import { withStyles } from '../../../lib/styles'
 const EmptyBlock = ({ width, height, borderRadius, style, theme }) => {
   const customStyle = {
     backgroundColor: theme.colors.lightGray,
-    borderRadius,
+    // borderRadius,
     height: height,
     width: width,
   }

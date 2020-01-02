@@ -1,23 +1,17 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
-import Icon from '../common/view/Icon'
-import LoadingIndicator from '../common/view/LoadingIndicator'
+import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
-import LoadingIcon from '../common/modal/LoadingIcon'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
-const log = logger.child({ from: 'SmsForm' })
 
-const DONE = 'DONE'
-const WAIT = 'WAIT'
-const PENDING = 'PENDING'
+const log = logger.child({ from: 'SmsForm' })
 
 type Props = {
   phone: string,
@@ -130,7 +124,7 @@ class SmsForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage, renderButton, loading, otp, resentCode, sendingCode } = this.state
+    const { errorMessage, otp, sendingCode, resentCode } = this.state
     const { styles } = this.props
 
     return (
@@ -160,38 +154,19 @@ class SmsForm extends React.Component<Props, State> {
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <SMSAction
               sendingCode={sendingCode}
-              status={resentCode ? DONE : renderButton ? PENDING : WAIT}
+              resentCode={resentCode}
               handleRetry={this.handleRetry}
               successIconStyle={styles.successIconStyle}
-              loadIconStyle={styles.loadIconStyle}
             />
           </Section.Row>
         </Section>
-        <LoadingIndicator force={loading} />
       </CustomWrapper>
     )
   }
 }
 
-const SMSAction = ({ status, handleRetry, successIconStyle, loadIconStyle, sendingCode }) => {
-  if (sendingCode) {
-    return <LoadingIcon loadingIconStyle={loadIconStyle} />
-  }
-  if (status === DONE) {
-    return (
-      <View style={successIconStyle}>
-        <Icon size={16} name="success" color="primary" />
-      </View>
-    )
-  } else if (status === WAIT) {
-    return (
-      <Section.Text fontSize={14} color="gray80Percent">
-        Please wait a few seconds until the SMS arrives
-      </Section.Text>
-    )
-  }
-
-  return (
+const SMSAction = ({ handleRetry, resentCode, sendingCode }) => (
+  <SpinnerCheckMark loading={sendingCode} success={resentCode}>
     <Section.Text
       textDecorationLine="underline"
       fontWeight="medium"
@@ -201,8 +176,8 @@ const SMSAction = ({ status, handleRetry, successIconStyle, loadIconStyle, sendi
     >
       Send me the code again
     </Section.Text>
-  )
-}
+  </SpinnerCheckMark>
+)
 
 const getStylesFromProps = ({ theme }) => ({
   informativeParagraph: {
@@ -239,14 +214,6 @@ const getStylesFromProps = ({ theme }) => ({
     borderWidth: 1,
     borderRadius: '50%',
     borderColor: theme.colors.primary,
-    position: 'relative',
-    height: 48,
-    width: 48,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  loadIconStyle: {
     position: 'relative',
     height: 48,
     width: 48,

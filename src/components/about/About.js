@@ -21,11 +21,13 @@ const About = () => (
           <Section.Text fontSize={22} color="darkBlue">
             Welcome to
           </Section.Text>
-          <Image source={splashImage} style={styles.logo} resizeMode="contain" />
-          <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
-          <Section.Text fontSize={22} color="darkBlue">
-            {`V${Config.version}`}
-          </Section.Text>
+          <Section.Row style={styles.imageContainer}>
+            <Image source={splashImage} style={styles.logo} resizeMode="contain" />
+            <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
+            <Section.Text fontSize={22} color="darkBlue">
+              {`V${Config.version}`}
+            </Section.Text>
+          </Section.Row>
           <Section.Text fontSize={18} color="surface" style={styles.aboutDescription}>
             GoodDollar is a payment system with a built-in small basic income based on blockchain technology.
             <Section.Text fontSize={18} fontWeight="bold" color="surface">
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     minHeight: 135,
     minWidth: 135,
+    flex: 1,
   },
   goodDollar: {
     maxWidth: '100%',
@@ -69,6 +72,11 @@ const styles = StyleSheet.create({
   },
   aboutDescription: {
     maxWidth: normalize(270),
+  },
+  imageContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    maxHeight: '50%',
   },
 })
 

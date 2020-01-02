@@ -19,7 +19,7 @@ import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
-// import PhoneForm from './PhoneForm'
+// import PhoneForm from './PhoneForm.web'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
 import MagicLinkInfo from './MagicLinkInfo'
@@ -31,7 +31,7 @@ type Ready = Promise<{ goodWallet: any, userStorage: any }>
 const SignupWizardNavigator = createSwitchNavigator(
   {
     Name: NameForm,
-    //Phone: PhoneForm,
+    // Phone: PhoneForm,
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,

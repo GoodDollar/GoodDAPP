@@ -99,8 +99,8 @@ const AppSwitch = (props: LoadingProps) => {
       ([authResult, _]) => authResult
     )
     log.debug({ isLoggedIn, isLoggedInCitizen })
-    gdstore.set('isLoggedIn')(isLoggedIn)
-    gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
+    // gdstore.set('isLoggedIn')(isLoggedIn)
+    // gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
     isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
     await userStorage.startSystemFeed()
 

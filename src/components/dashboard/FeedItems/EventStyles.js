@@ -45,12 +45,12 @@ export const modalStyles = StyleSheet.create({
   label: {
     fontSize: normalize(10),
     color: 'black',
-    display: 'inlineBlock',
+    //display: 'inlineBlock',
   },
   name: {
     fontSize: normalize(14),
     color: 'black',
-    display: 'inlineBlock',
+    //display: 'inlineBlock',
   },
   currency: {
     fontSize: normalize(16),

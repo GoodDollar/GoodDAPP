@@ -51,7 +51,7 @@ const handleLinks = async () => {
           const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
           const { saveMnemonics } = await mnemonicsHelpers
           await saveMnemonics(mnemonic)
-          await AsyncStorage.setItem('GD_isLoggedIn', true)
+          await AsyncStorage.setItem('GD_isLoggedIn', 'true')
           fireEvent(SIGNIN_SUCCESS)
           window.location = '/'
         }

@@ -5,7 +5,7 @@ import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import InputFile from '../common/form/InputFile'
+// import InputFile from '../common/form/InputFile'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
 import CircleButtonWrapper from './CircleButtonWrapper'
@@ -63,12 +63,12 @@ const ViewOrUploadAvatar = props => {
           </>
         ) : (
           <>
-            <InputFile onChange={handleAddAvatar}>
-              <UserAvatar profile={profile} size={272} />{' '}
-            </InputFile>
-            <InputFile onChange={handleAddAvatar}>
-              <CameraButton style={styles.cameraButton} />
-            </InputFile>
+            {/*<InputFile onChange={handleAddAvatar}>*/}
+            {/*  <UserAvatar profile={profile} size={272} />{' '}*/}
+            {/*</InputFile>*/}
+            {/*<InputFile onChange={handleAddAvatar}>*/}
+            {/*  <CameraButton style={styles.cameraButton} />*/}
+            {/*</InputFile>*/}
           </>
         )}
         <CustomButton style={styles.doneButton} onPress={goToProfile}>

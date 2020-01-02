@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native-web'
+import { TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
 import type { FeedEventProps } from './FeedItems/EventProps'

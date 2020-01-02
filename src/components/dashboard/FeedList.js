@@ -1,6 +1,6 @@
 // @flow
 import React, { createRef } from 'react'
-import { Animated, SwipeableFlatList } from 'react-native'
+import { Animated } from 'react-native'
 import get from 'lodash/get'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
@@ -13,6 +13,7 @@ import logger from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
+import { SwipeableFlatList } from 'deprecated-react-native-swipeableflatlist'
 
 const log = logger.child({ from: 'ShareButton' })
 

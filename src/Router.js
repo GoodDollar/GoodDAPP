@@ -3,13 +3,13 @@ import React from 'react'
 import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import { Platform } from 'react-native'
-// import { Portal } from 'react-native-paper'
+import { Portal } from 'react-native-paper'
 import { navigationConfig } from './components/appNavigation/navigationConfig'
 import About from './components/about/AboutState'
-// import BackupWallet from './components/backupWallet/BackupWalletState'
-// import AppNavigation from './components/appNavigation/AppNavigation'
+import BackupWallet from './components/backupWallet/BackupWalletState'
+import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
-// import GDStore from './lib/undux/GDStore'
+import GDStore from './lib/undux/GDStore'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import { createAppContainer } from 'react-navigation'
 
@@ -18,11 +18,11 @@ const AppNavigator = createNavigator(
   SwitchRouter(
     {
       About,
-      // BackupWallet,
-      // AppNavigation,
+      BackupWallet,
+      AppNavigation,
     },
     {
-      initialRouteName: 'About',
+      initialRouteName: 'AppNavigation',
     },
     navigationConfig
   ),
@@ -34,6 +34,12 @@ const onRouteChange = (prevNav, nav, route) => {
   fireEventFromNavigation(route)
 }
 const Router = () => {
-  return <RouterWrapper onNavigationStateChange={onRouteChange} />
+  return (
+    <GDStore.Container>
+      <Portal.Host>
+        <RouterWrapper onNavigationStateChange={onRouteChange} />
+      </Portal.Host>
+    </GDStore.Container>
+  )
 }
 export default Router

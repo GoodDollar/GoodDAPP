@@ -62,7 +62,7 @@ const ReceiveByQR = ({ screenProps }) => {
         <TopBar hideBalance={true} push={screenProps.push} />
         <Section style={styles.bottomSection}>
           <Section.Row>
-            <QRCodeScanner onRead={wrapFunction(handleScan, store)} />
+            {/*<QRCodeScanner onRead={wrapFunction(handleScan, store)} />*/}
           </Section.Row>
         </Section>
       </Wrapper>

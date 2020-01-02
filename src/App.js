@@ -1,12 +1,11 @@
 // @flow
 // import { isMobile } from 'mobile-device-detect'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Platform, SafeAreaView, StyleSheet } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, AsyncStorage } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import { theme } from './components/theme/styles'
 import SimpleStore, { initStore, setInitFunctions } from './lib/undux/SimpleStore'
-// import RouterSelector from './RouterSelector.web'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 // import SplashDesktop from './components/splash/SplashDesktop'
 import Splash from './components/splash/Splash'
@@ -15,8 +14,6 @@ import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import useServiceWorker from './lib/utils/useServiceWorker'
 import Config from './config/config'
-// import bugsnag from '@bugsnag/js'
-// import bugsnagReact from '@bugsnag/plugin-react'
 import RouterSelector from './RouterSelector'
 
 const App = () => {
@@ -54,24 +51,10 @@ const App = () => {
   )
 }
 
-let ErrorBoundary = React.Fragment
-
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    // if (Config.bugsnagKey) {
-    //   const bugsnagClient = bugsnag({
-    //     apiKey: Config.bugsnagKey,
-    //     appVersion: Config.version,
-    //     releaseStage: Config.env + '_' + Config.network,
-    //   })
-    //   global.bugsnagClient = bugsnagClient
-    //   bugsnagClient.metaData = { network: Config.network }
-    //   bugsnagClient.use(bugsnagReact, React)
-    //   ErrorBoundary = bugsnagClient.getPlugin('react')
-    // }
-
     /**
      * decide if we need to clear storage
      */
@@ -87,7 +70,10 @@ const AppHolder = () => {
     }
 
     ;(async () => {
-      await upgradeVersion()
+      if (Platform.OS === 'web') {
+        await upgradeVersion()
+      }
+
       await initStore()
       setReady(true)
     })()
@@ -98,11 +84,9 @@ const AppHolder = () => {
   }
 
   return (
-    <ErrorBoundary>
-      <SimpleStore.Container>
-        <App />
-      </SimpleStore.Container>
-    </ErrorBoundary>
+    <SimpleStore.Container>
+      <App />
+    </SimpleStore.Container>
   )
 }
 

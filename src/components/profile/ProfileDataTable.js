@@ -1,13 +1,13 @@
 import React from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PhoneInput from 'react-phone-number-input'
-import './ProfileDataTablePhoneInput.css'
+// import './ProfileDataTablePhoneInput.css'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
-import './PhoneInput.css'
+// import './PhoneInput.css'
 
 const ProfileDataTable = ({
   profile,

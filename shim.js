@@ -19,7 +19,6 @@ const isDev = typeof __DEV__ === 'boolean' && __DEV__
 process.env['NODE_ENV'] = isDev ? 'development' : 'production'
 if (typeof localStorage !== 'undefined') {
   localStorage.debug = isDev ? '*' : ''
-
 }
 
 global.Buffer = require('buffer').Buffer;
@@ -40,3 +39,7 @@ if (typeof atob === 'undefined') {
 // If using the crypto shim, uncomment the following line to ensure
 // crypto is loaded first, so it can populate global.crypto
 require('crypto')
+
+global.crypto = require('crypto');
+
+global.location = {protocol: 'file:'};

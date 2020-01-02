@@ -59,11 +59,11 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           )}
         </View>
         <View style={styles.transferInfo} alignItems="flex-start">
-          <Avatar
-            size={normalize(34)}
-            style={styles.avatarBottom}
-            source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
-          />
+          {/*<Avatar*/}
+          {/*  size={normalize(34)}*/}
+          {/*  style={styles.avatarBottom}*/}
+          {/*  source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}*/}
+          {/*/>*/}
           <View style={[styles.mainInfo, isFeedTypeClaiming && styles.claimingCardFeedText]}>
             {isErrorCard ? (
               <>
@@ -105,7 +105,7 @@ const getWelcomeStyles = ({ theme }) => ({
     minHeight: normalize(16),
     maxHeight: normalize(16),
     marginHorizontal: -theme.sizes.default,
-    display: 'inline',
+    // display: 'inline',
   },
   welcomeText: {
     textAlign: 'left',

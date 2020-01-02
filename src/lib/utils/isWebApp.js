@@ -1,4 +1,6 @@
 const isWebApp = () => {
+  return false
+
   if (window === undefined) {
     return false
   }

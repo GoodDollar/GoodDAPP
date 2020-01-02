@@ -63,14 +63,14 @@ const MagicLinkInfoComponent = props => {
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         </Section.Stack>
       </Section>
-      <Section justifyContent="flex-end">
+      <Section.Stack alignItems="stretch">
         <CustomButton mode="outlined" dark={false} onPress={sendMagicEmail}>
           EMAIL ME THE MAGIC LINK
         </CustomButton>
-      </Section>
-      <Section justifyContent="flex-end">
-        <CustomButton onPress={screenProps.pop}>OK</CustomButton>
-      </Section>
+        <CustomButton style={styles.downBtn} onPress={screenProps.pop}>
+          OK
+        </CustomButton>
+      </Section.Stack>
     </Wrapper>
   )
 }
@@ -97,6 +97,9 @@ const getStylesFromProps = ({ theme }) => {
     },
     wrapper: {
       padding: theme.sizes.defaultDouble,
+    },
+    downBtn: {
+      marginTop: theme.sizes.defaultDouble,
     },
     section: {
       padding: 0,

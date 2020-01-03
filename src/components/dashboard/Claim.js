@@ -361,7 +361,7 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: theme.sizes.borderRadius,
       flexGrow: 1,
       flexShrink: 1,
-      maxHeight: 'fit-content',
+      // maxHeight: 'fit-content',
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
       marginTop: getDesignRelativeHeight(85),
@@ -382,7 +382,7 @@ const getStylesFromProps = ({ theme }) => {
       width: getDesignRelativeWidth(340),
     },
     inline: {
-      display: 'inline',
+      // display: 'inline',
     },
     countdown: {
       minHeight: getDesignRelativeHeight(72),

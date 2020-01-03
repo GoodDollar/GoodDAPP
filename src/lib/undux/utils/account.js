@@ -1,10 +1,10 @@
 // @flow
-// import type { Store } from 'undux'
-// import logger from '../../logger/pino-logger'
+import type { Store } from 'undux'
+import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
 
-// const log = logger.child({ from: 'undux/utils/balance' })
+const log = logger.child({ from: 'undux/utils/balance' })
 
 const updateAll = store => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
@@ -18,7 +18,7 @@ const updateAll = store => {
       }
     })
     .catch(e => {
-      // log.error('updateAll failed', e.message, e)
+      log.error('updateAll failed', e.message, e)
     })
 }
 
@@ -31,7 +31,7 @@ const updateAll = store => {
  */
 const onBalanceChange = async (event: EventLog, store: Store) => {
   if (event) {
-    // log.debug('new Transfer events:', { event, store })
+    log.debug('new Transfer events:', { event, store })
     await updateAll(store)
   }
 }
@@ -42,14 +42,14 @@ const onBalanceChange = async (event: EventLog, store: Store) => {
 let balanceChangedSub
 const initTransferEvents = async (store: Store) => {
   const lastBlock = await userStorage.getLastBlockNode().then()
-  // log.debug('starting events listener', { lastBlock })
+  log.debug('starting events listener', { lastBlock })
 
   goodWallet.listenTxUpdates(parseInt(lastBlock), ({ fromBlock, toBlock }) =>
     userStorage.saveLastBlockNumber(parseInt(toBlock) + 1)
   )
 
   if (balanceChangedSub) {
-    // log.debug('removing old subscription', balanceChangedSub)
+    log.debug('removing old subscription', balanceChangedSub)
     goodWallet.unsubscribeFromEvent(balanceChangedSub)
   }
   balanceChangedSub = goodWallet.balanceChanged(event => onBalanceChange(event, store))

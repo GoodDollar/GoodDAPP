@@ -109,10 +109,10 @@ class SmsForm extends React.Component<Props, State> {
 
     try {
       await API[retryFunctionName]({ ...this.props.screenProps.data })
-      this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.displayDelayedRenderButton)
+      this.setState({ sendingCode: false, resentCode: true })
 
       //turn checkmark back into regular resend text
-      setTimeout(() => this.setState({ ...this.state, resentCode: false }), 2000)
+      setTimeout(() => this.setState({ ...this.state, resentCode: false }, this.displayDelayedRenderButton), 2000)
     } catch (e) {
       log.error('Resend sms code failed', e.message, e)
       this.setState({
@@ -124,7 +124,7 @@ class SmsForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage, otp, sendingCode, resentCode } = this.state
+    const { errorMessage, otp, renderButton, sendingCode, resentCode } = this.state
     const { styles } = this.props
 
     return (
@@ -155,8 +155,9 @@ class SmsForm extends React.Component<Props, State> {
             <SMSAction
               sendingCode={sendingCode}
               resentCode={resentCode}
+              renderButton={renderButton}
               handleRetry={this.handleRetry}
-              successIconStyle={styles.successIconStyle}
+              onFinish={() => this.setState({ renderButton: false })}
             />
           </Section.Row>
         </Section>
@@ -165,19 +166,29 @@ class SmsForm extends React.Component<Props, State> {
   }
 }
 
-const SMSAction = ({ handleRetry, resentCode, sendingCode }) => (
-  <SpinnerCheckMark loading={sendingCode} success={resentCode}>
-    <Section.Text
-      textDecorationLine="underline"
-      fontWeight="medium"
-      fontSize={14}
-      color="primary"
-      onPress={handleRetry}
-    >
-      Send me the code again
+const SMSAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFinish }) => {
+  if (renderButton) {
+    return (
+      <SpinnerCheckMark loading={sendingCode} success={resentCode} onFinish={onFinish}>
+        <Section.Text
+          textDecorationLine="underline"
+          fontWeight="medium"
+          fontSize={14}
+          color="primary"
+          onPress={handleRetry}
+        >
+          Send me the code again
+        </Section.Text>
+      </SpinnerCheckMark>
+    )
+  }
+
+  return (
+    <Section.Text fontSize={14} color="gray80Percent">
+      Please wait a few seconds until the SMS arrives
     </Section.Text>
-  </SpinnerCheckMark>
-)
+  )
+}
 
 const getStylesFromProps = ({ theme }) => ({
   informativeParagraph: {
@@ -209,17 +220,6 @@ const getStylesFromProps = ({ theme }) => ({
   bottomContent: {
     marginTop: 'auto',
     marginBottom: theme.sizes.defaultDouble,
-  },
-  successIconStyle: {
-    borderWidth: 1,
-    borderRadius: '50%',
-    borderColor: theme.colors.primary,
-    position: 'relative',
-    height: 48,
-    width: 48,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 })
 

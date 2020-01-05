@@ -587,20 +587,17 @@ export class UserStorage {
     if (avatar && !smallAvatar) {
       logger.debug('Updating small avatar')
 
-      const smallAvatar = await resizeBase64Image(avatar, 50)
-
-      await this.setProfileField('smallAvatar', smallAvatar, 'public')
+      await this.setSmallAvatar(avatar)
     }
   }
 
   setAvatar(avatar) {
-    return Promise.all([
-      this.setProfileField('avatar', avatar, 'public'),
-      async () => {
-        const smallAvatar = await resizeBase64Image(avatar, 50)
-        return this.setProfileField('smallAvatar', smallAvatar, 'public')
-      },
-    ])
+    return Promise.all([this.setProfileField('avatar', avatar, 'public'), this.setSmallAvatar(avatar)])
+  }
+
+  async setSmallAvatar(avatar) {
+    const smallAvatar = await resizeBase64Image(avatar, 50)
+    return this.setProfileField('smallAvatar', smallAvatar, 'public')
   }
 
   removeAvatar() {

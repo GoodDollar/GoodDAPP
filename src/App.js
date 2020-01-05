@@ -73,7 +73,7 @@ const App = () => {
           <React.Fragment>
             <SimpleStoreDialog />
             <LoadingIndicator />
-            <InternetConnection onDisconnect={() => <Splash />}>
+            <InternetConnection onDisconnect={() => <Splash />} isLoggedIn={store.get('isLoggedIn')}>
               {SplashOrRouter}
               {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
             </InternetConnection>

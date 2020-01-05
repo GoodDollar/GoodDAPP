@@ -27,13 +27,21 @@ export const useConnectionWeb3 = () => {
   const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const wallet = store.get('wallet')
-  const isWeb3Connection = () => {
+  const isWeb3Connection = async () => {
     if (wallet) {
       log.debug('isWeb3Connection', isConnection)
       if (!isFirstCheckWeb3) {
         isFirstCheckWeb3 = true
       }
-      if (wallet.wallet.currentProvider.connected) {
+
+      //verify a blockchain method works ok (balanceOf)
+      if (
+        wallet.wallet.currentProvider.connected &&
+        (await wallet
+          .balanceOf()
+          .then(_ => true)
+          .catch(_ => false))
+      ) {
         bindEvents()
         setIsConnection(true)
       } else {
@@ -42,7 +50,7 @@ export const useConnectionWeb3 = () => {
           wallet.wallet.currentProvider.reconnect()
         }
         setIsConnection(false)
-        setTimeout(isWeb3Connection, 500)
+        setTimeout(isWeb3Connection, 1000)
       }
     }
   }
@@ -94,7 +102,7 @@ export const useConnectionGun = () => {
         bindEvents()
       } else {
         setIsConnection(false)
-        setTimeout(isGunConnection, 500)
+        setTimeout(isGunConnection, 1000)
       }
     }
   }

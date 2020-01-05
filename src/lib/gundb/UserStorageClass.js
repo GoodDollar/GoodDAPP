@@ -549,7 +549,6 @@ export class UserStorage {
         this.subscribersProfileUpdates.forEach(callback => callback(doc))
       })
       logger.debug('init to events')
-
       await this.initFeed()
       await this.initProperties()
       await this.startSystemFeed()
@@ -562,8 +561,6 @@ export class UserStorage {
 
       logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
       logger.debug('subscribing')
-
-      this.checkSmallAvatar()
 
       this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
         logger.debug({ event }, EVENT_TYPE_RECEIVE)

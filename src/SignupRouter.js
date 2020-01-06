@@ -45,6 +45,12 @@ const fullScreenContainer = {
   flexDirection: 'column',
 }
 
+let heightAndroidDevice = 0
+
+if (!heightAndroidDevice && isAndroid) {
+  heightAndroidDevice = getScreenHeight()
+}
+
 const Router = () => {
   const store = SimpleStore.useStore()
   const { visible: dialogVisible } = store.get('currentScreen').dialogData
@@ -55,7 +61,7 @@ const Router = () => {
     minHeight = getScreenHeight() + 30
   }
   if (isAndroid && isShowKeyboard) {
-    minHeight = getScreenHeight() * 1.5
+    minHeight = heightAndroidDevice
   }
 
   return (

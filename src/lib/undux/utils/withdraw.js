@@ -51,6 +51,7 @@ export const executeWithdraw = async (
                 amount,
                 code,
                 reason,
+                otplStatus: 'completed',
               },
             }
             userStorage.enqueueTX(transactionEvent)

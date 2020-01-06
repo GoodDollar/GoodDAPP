@@ -1,6 +1,6 @@
 // @flow
 import { isMobile } from 'mobile-device-detect'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
@@ -66,19 +66,22 @@ const App = () => {
       <RouterSelector />
     )
 
-  return (
-    <PaperProvider theme={theme}>
-      <SafeAreaView style={styles.safeAreaView}>
-        <React.Fragment>
-          <SimpleStoreDialog />
-          <LoadingIndicator />
-          <InternetConnection onDisconnect={() => <Splash />}>
-            {SplashOrRouter}
-            {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
-          </InternetConnection>
-        </React.Fragment>
-      </SafeAreaView>
-    </PaperProvider>
+  return useMemo(
+    () => (
+      <PaperProvider theme={theme}>
+        <SafeAreaView style={styles.safeAreaView}>
+          <React.Fragment>
+            <SimpleStoreDialog />
+            <LoadingIndicator />
+            <InternetConnection onDisconnect={() => <Splash />}>
+              {SplashOrRouter}
+              {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
+            </InternetConnection>
+          </React.Fragment>
+        </SafeAreaView>
+      </PaperProvider>
+    ),
+    [isMobile, useDesktop]
   )
 }
 

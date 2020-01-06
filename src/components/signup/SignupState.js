@@ -70,6 +70,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [createError, setCreateError] = useState(false)
   const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
+  const [title, setTitle] = useState('Sign Up')
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
 
@@ -433,6 +434,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
 
     if (curRoute && curRoute.key === 'MagicLinkInfo') {
+      setTitle('Magic Link')
       setShowNavBarGoBackButton(false)
     }
     if (curRoute && curRoute.key === 'SignupCompleted') {
@@ -443,12 +445,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const { scrollableContainer, contentContainer } = styles
   return (
-    <View
-      style={{
-        flexGrow: shouldGrow ? 1 : 0,
-      }}
-    >
-      <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={'Sign Up'} />
+    <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
+      <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={title} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
           <SignupWizardNavigator

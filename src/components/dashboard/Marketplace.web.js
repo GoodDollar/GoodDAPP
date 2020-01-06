@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
@@ -24,8 +24,9 @@ const MarketTab = props => {
     }
     params.jwt = token
     let path = decodeURIComponent(_get(params, 'marketPath', ''))
-    delete params.marketPath
+
     const query = _toPairs(params)
+      .filter(param => param.indexOf('marketPath') < 0)
       .map(param => param.join('='))
       .join('&')
 
@@ -61,22 +62,26 @@ const MarketTab = props => {
     }
   }, [token])
 
+  const src = getMarketPath()
+
+  const marketIframe = useMemo(() => {
+    return (
+      <iframe
+        title="GoodMarket"
+        onLoad={isLoaded}
+        src={src}
+        seamless
+        frameBorder="0"
+        style={{ flex: 1, overflow: 'scroll' }}
+      />
+    )
+  }, [src])
+
   if (isIOS || token === undefined) {
     return null
   }
-  const src = getMarketPath()
 
-  //this is for paperclip external market, doesnt seem like it requires iframeresizer to work in ios
-  return (
-    <iframe
-      title="GoodMarket"
-      onLoad={isLoaded}
-      src={src}
-      seamless
-      frameBorder="0"
-      style={{ flex: 1, overflow: 'scroll' }}
-    />
-  )
+  return marketIframe
 }
 
 const navBarStyles = {

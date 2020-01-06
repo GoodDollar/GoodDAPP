@@ -23,7 +23,7 @@ import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 
-const logger = pino.child({ from: 'userStorage' })
+const logger = pino.child({ from: 'UserStorage' })
 
 const EVENT_TYPE_WITHDRAW = 'withdraw'
 const EVENT_TYPE_BONUS = 'bonus'

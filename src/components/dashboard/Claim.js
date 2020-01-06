@@ -74,9 +74,9 @@ const Claim = props => {
     } else if (isValid === false) {
       screenProps.goToRoot()
     } else {
-      // if (isCitizen === false) {
-      //   goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
-      // }
+      if (isCitizen === false) {
+        goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+      }
     }
   }
 

@@ -20,7 +20,7 @@ const MagicLinkInfoComponent = props => {
         <View style={styles.bottomContainer}>
           <Text
             fontWeight="bold"
-            fontSize={26}
+            fontSize={28}
             //fontFamily="Roboto Slab"
             fontFamily="Roboto"
             color="primary"

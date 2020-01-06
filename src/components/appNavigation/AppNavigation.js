@@ -38,17 +38,17 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
  * @param {AppNavigationProps} props
  */
 const AppNavigation = ({ navigation }: AppNavigationProps) => {
-  // const store = SimpleStore.useStore()
-  // const gdstore = GDStore.useStore()
-  // const account = gdstore.get('account')
-  // let ready = account.ready
-  // useEffect(() => {
-  //   if (account.ready === false) {
-  //     store.set('loadingIndicator')({ loading: true })
-  //   } else {
-  //     store.set('loadingIndicator')({ loading: false })
-  //   }
-  // }, [ready])
+  const store = SimpleStore.useStore()
+  const gdstore = GDStore.useStore()
+  const account = gdstore.get('account')
+  let ready = account.ready
+  useEffect(() => {
+    if (account.ready === false) {
+      store.set('loadingIndicator')({ loading: true })
+    } else {
+      store.set('loadingIndicator')({ loading: false })
+    }
+  }, [ready])
 
   // `account.ready` will be set to `true` after retrieving the required user information in `updateAll`,
   // if not ready will display the app loading indicator

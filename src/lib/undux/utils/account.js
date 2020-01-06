@@ -10,7 +10,7 @@ const updateAll = store => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
       const account = store.get('account')
-      const balanceChanged = !account.balance || account.balance !== balance
+      const balanceChanged = !account.balance || account.balance != balance
       const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
 
       if (balanceChanged || entitlementChanged || account.ready === false) {

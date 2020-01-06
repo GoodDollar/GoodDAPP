@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-// import SideMenu from 'react-native-side-menu-gooddapp'
+import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -15,7 +15,6 @@ import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
 //  import './blurFx.css'
 import GDStore from '../../lib/undux/GDStore'
-
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -246,35 +245,35 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
     const open = (store.get('sidemenu') || {}).visible
-    const { visible: dialogVisible } = ((store.get('currentScreen') || {}).dialogData || {})
+    const { visible: dialogVisible } = (store.get('currentScreen') || {}).dialogData || {}
     const currentFeed = store.get('currentFeed')
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
 
     return (
       <React.Fragment>
-        {/*<View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : {}]}>*/}
-        {/*  <SideMenu*/}
-        {/*    menu={menu}*/}
-        {/*    menuPosition="right"*/}
-        {/*    isOpen={open}*/}
-        {/*    disableGestures={true}*/}
-        {/*    onChange={this.sideMenuSwap}*/}
-        {/*  />*/}
-        {/*</View>*/}
+        <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>
+          <SideMenu
+            menu={menu}
+            menuPosition="right"
+            isOpen={open}
+            disableGestures={true}
+            onChange={this.sideMenuSwap}
+          />
+        </View>
         {/*<Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>*/}
-          {!navigationBarHidden &&
-            (NavigationBar ? (
-              <NavigationBar />
-            ) : (
-              <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
-            ))}
-          {disableScroll ? (
-            <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+        {!navigationBarHidden &&
+          (NavigationBar ? (
+            <NavigationBar />
           ) : (
-            <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
-              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-            </ScrollView>
-          )}
+            <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
+          ))}
+        {disableScroll ? (
+          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+        ) : (
+          <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+            <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+          </ScrollView>
+        )}
         {/*</Blurred>*/}
       </React.Fragment>
     )
@@ -312,6 +311,9 @@ const styles = StyleSheet.create({
   },
   menuOpenStyle: {
     transform: [{ translateX: '0vh' }],
+  },
+  hideMenu: {
+    display: 'none',
   },
 })
 

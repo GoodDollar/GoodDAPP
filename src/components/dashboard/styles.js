@@ -30,7 +30,7 @@ export const receiveStyles = StyleSheet.create({
     marginBottom: isMobileHeight ? 0 : '1rem',
   },
   address: {
-    margin: '0.5rem',
+    // margin: '0.5rem',
   },
   secondaryText: {
     margin: isMobileHeight ? '0.2rem' : '1rem',

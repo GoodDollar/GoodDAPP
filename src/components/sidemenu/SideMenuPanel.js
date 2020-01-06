@@ -68,7 +68,7 @@ export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
 }
 
 const addAppIcon = ({ store }) => {
-  store.set('addWebApp')({ showPopupFromMenu: true })
+  store.set('addWebApp')({ showMenuItem: true })
 }
 const TrashIcon = withStyles()(({ theme }) => <IconWrapper iconName="trash" color={theme.colors.error} size={50} />)
 
@@ -90,7 +90,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
       },
       {
         icon: 'add',
-        name: 'Add app Icon',
+        name: 'Add App Icon',
         hidden: !installPrompt && !isMobileSafari,
         size: 18,
         action: () => {

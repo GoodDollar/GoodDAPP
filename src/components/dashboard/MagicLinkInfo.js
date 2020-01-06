@@ -15,7 +15,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
 
 Image.prefetch(illustration)
-const log = logger.child({ from: 'SignupState' })
+const log = logger.child({ from: 'MagicLinkInfo' })
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps } = props
@@ -81,7 +81,7 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomWidth: 2,
       borderBottomStyle: 'solid',
       borderBottomColor: theme.colors.primary,
-      paddingBottom: getDesignRelativeHeight(5),
+      paddingBottom: getDesignRelativeHeight(5, false),
     },
     mainWrapper: {
       display: 'flex',
@@ -91,7 +91,6 @@ const getStylesFromProps = ({ theme }) => {
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
-      maxWidth: '100%',
       maxHeight: getDesignRelativeHeight(230),
       minHeight: getDesignRelativeHeight(140),
     },

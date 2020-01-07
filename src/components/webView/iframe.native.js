@@ -17,7 +17,6 @@ export const createIframe = (src, title) => {
       store.set('loadingIndicator')({ loading: true })
     }, [])
 
-    //this is for our external pages like privacy policy, etc.. they dont require iframeresizer to work ok on ios <13
     return <WebView title={title} onLoad={isLoaded} src={{ uri: src }} style={{ height: wHeight }} />
   }
   IframeTab.navigationOptions = {

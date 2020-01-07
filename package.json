@@ -230,5 +230,8 @@
     "assets": [
       "./src/assets/fonts/"
     ]
+  },
+  "auto-changelog": {
+    "tagPattern": "^v[\\.0-9]+$"
   }
 }

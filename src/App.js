@@ -15,6 +15,7 @@ import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import useServiceWorker from './lib/utils/useServiceWorker'
 import Config from './config/config'
 import RouterSelector from './RouterSelector'
+import crypto from 'isomorphic-webcrypto'
 
 const App = () => {
   useServiceWorker() // Only runs on Web
@@ -72,6 +73,12 @@ const AppHolder = () => {
     ;(async () => {
       if (Platform.OS === 'web') {
         await upgradeVersion()
+      }
+
+      try {
+        await crypto.ensureSecure()
+      } catch (e) {
+        console.error(e)
       }
 
       await initStore()

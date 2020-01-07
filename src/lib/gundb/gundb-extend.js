@@ -1,4 +1,4 @@
-import Gun from 'gun'
+import Gun from 'gun/gun'
 import SEA from 'gun/sea'
 import 'gun/lib/load'
 

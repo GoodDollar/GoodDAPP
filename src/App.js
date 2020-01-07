@@ -41,14 +41,14 @@ const App = () => {
       <PaperProvider theme={theme}>
         <SimpleStoreDialog />
         <LoadingIndicator />
-        <InternetConnection onDisconnect={() => <Splash />}>
+        <InternetConnection onDisconnect={() => <Splash />} isLoggedIn={store.get('isLoggedIn')}>
           <RouterSelector />
           {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
         </InternetConnection>
       </PaperProvider>
     ),
     // [isMobile, useDesktop]
-    []
+    [store]
   )
 }
 

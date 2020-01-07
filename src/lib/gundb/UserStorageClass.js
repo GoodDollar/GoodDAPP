@@ -550,7 +550,6 @@ export class UserStorage {
         this.subscribersProfileUpdates.forEach(callback => callback(doc))
       })
       logger.debug('init to events')
-
       await this.initFeed()
       await this.initProperties()
       await this.startSystemFeed()
@@ -563,8 +562,6 @@ export class UserStorage {
 
       logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
       logger.debug('subscribing')
-
-      this.checkSmallAvatar()
 
       this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
         logger.debug({ event }, EVENT_TYPE_RECEIVE)
@@ -591,20 +588,17 @@ export class UserStorage {
     if (avatar && !smallAvatar) {
       logger.debug('Updating small avatar')
 
-      const smallAvatar = await resizeBase64Image(avatar, 50)
-
-      await this.setProfileField('smallAvatar', smallAvatar, 'public')
+      await this.setSmallAvatar(avatar)
     }
   }
 
   setAvatar(avatar) {
-    return Promise.all([
-      this.setProfileField('avatar', avatar, 'public'),
-      async () => {
-        const smallAvatar = await resizeBase64Image(avatar, 50)
-        return this.setProfileField('smallAvatar', smallAvatar, 'public')
-      },
-    ])
+    return Promise.all([this.setProfileField('avatar', avatar, 'public'), this.setSmallAvatar(avatar)])
+  }
+
+  async setSmallAvatar(avatar) {
+    const smallAvatar = await resizeBase64Image(avatar, 50)
+    return this.setProfileField('smallAvatar', smallAvatar, 'public')
   }
 
   removeAvatar() {
@@ -1483,7 +1477,7 @@ export class UserStorage {
       const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
+      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
       const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
@@ -1563,7 +1557,10 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status, type) {
+    if (type === 'withdraw') {
+      return ''
+    }
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
@@ -1594,7 +1591,7 @@ export class UserStorage {
 
     const searchField = initiatorType && `by${initiatorType}`
     const byIndex = searchField && getProfile(`users/${searchField}`, initiator)
-    const byAddress = address && getProfile(`users/bywalletAddress`, address)
+    const byAddress = address && getProfile('users/bywalletAddress', address)
 
     // const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
 

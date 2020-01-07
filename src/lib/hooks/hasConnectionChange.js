@@ -40,7 +40,7 @@ const useNativeConnection = () => {
     return NetInfo.addEventListener(({ isConnected }) => {
       setIsConnection(isConnected)
     })
-  }, [])
+  }, [NetInfo])
 
   return isConnection
 }
@@ -53,13 +53,21 @@ export const useConnectionWeb3 = () => {
   const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const wallet = store.get('wallet')
-  const isWeb3Connection = () => {
+  const isWeb3Connection = useCallback(async () => {
     if (wallet) {
       log.debug('isWeb3Connection', isConnection)
       if (!isFirstCheckWeb3) {
         isFirstCheckWeb3 = true
       }
-      if (wallet.wallet.currentProvider.connected) {
+
+      //verify a blockchain method works ok (balanceOf)
+      if (
+        wallet.wallet.currentProvider.connected &&
+        (await wallet
+          .balanceOf()
+          .then(_ => true)
+          .catch(_ => false))
+      ) {
         bindEvents()
         setIsConnection(true)
       } else {
@@ -68,10 +76,10 @@ export const useConnectionWeb3 = () => {
           wallet.wallet.currentProvider.reconnect()
         }
         setIsConnection(false)
-        setTimeout(isWeb3Connection, 500)
+        setTimeout(isWeb3Connection, 1000)
       }
     }
-  }
+  })
 
   const bindEvents = () => {
     log.debug('web3 binding listeners')
@@ -97,7 +105,7 @@ export const useConnectionWeb3 = () => {
         isWeb3Connection()
       }
     }
-  }, [wallet])
+  }, [isWeb3Connection, wallet])
 
   return isConnection
 }
@@ -106,7 +114,7 @@ export const useConnectionGun = () => {
   const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const userStorage = store.get('userStorage')
-  const isGunConnection = () => {
+  const isGunConnection = useCallback(() => {
     if (userStorage) {
       if (!isFirstCheckGun) {
         isFirstCheckGun = true
@@ -120,10 +128,10 @@ export const useConnectionGun = () => {
         bindEvents()
       } else {
         setIsConnection(false)
-        setTimeout(isGunConnection, 500)
+        setTimeout(isGunConnection, 1000)
       }
     }
-  }
+  })
 
   const bindEvents = () => {
     log.debug('gun binding listeners')
@@ -152,7 +160,7 @@ export const useConnectionGun = () => {
         isGunConnection()
       }
     }
-  }, [userStorage])
+  }, [isGunConnection, userStorage])
 
   return isConnection
 }
@@ -163,7 +171,7 @@ export const useAPIConnection = () => {
   /**
    * Don't start app if server isn't responding
    */
-  const apiReady = async () => {
+  const apiReady = useCallback(async () => {
     try {
       await API.ready
       const res = await Promise.race([
@@ -187,11 +195,11 @@ export const useAPIConnection = () => {
 
       // return apiReady()
     }
-  }
+  })
 
   useEffect(() => {
     apiReady()
-  }, [])
+  }, [apiReady])
 
   return isConnection
 }

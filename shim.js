@@ -22,3 +22,9 @@ global.Buffer = require('buffer').Buffer;
 if (typeof navigator === 'undefined') global.navigator = {}
 
 global.navigator.product = 'ReactNative'
+global.navigator.userAgent = ''
+
+const navigatorCopy = { ...global.navigator }
+
+Object.defineProperty(global, 'navigator', { set: function(x) { console.log(x) }, get: () => navigatorCopy });
+

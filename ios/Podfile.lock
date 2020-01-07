@@ -184,19 +184,19 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-camera (3.15.0):
+  - react-native-camera (3.15.1):
     - React
-    - react-native-camera/RCT (= 3.15.0)
-    - react-native-camera/RN (= 3.15.0)
-  - react-native-camera/RCT (3.15.0):
+    - react-native-camera/RCT (= 3.15.1)
+    - react-native-camera/RN (= 3.15.1)
+  - react-native-camera/RCT (3.15.1):
     - React
-  - react-native-camera/RN (3.15.0):
+  - react-native-camera/RN (3.15.1):
     - React
   - react-native-netinfo (5.0.1):
     - React
   - react-native-randombytes (3.5.3):
     - React
-  - react-native-safe-area-context (0.6.1):
+  - react-native-safe-area-context (0.6.2):
     - React
   - react-native-udp (2.6.1):
     - React
@@ -235,6 +235,8 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
+  - RNFS (2.16.2):
+    - React
   - RNGestureHandler (1.5.2):
     - React
   - RNOS (1.2.6):
@@ -287,6 +289,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNOS (from `../node_modules/react-native-os`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -362,6 +365,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNOS:
@@ -398,11 +403,11 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-camera: 52114c432860b89986c9ee4919d00a48a6ba7abb
-  react-native-netinfo: f85616b5f5819085624f2c26dcb98ff3ab013a41
-  react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
-  react-native-safe-area-context: 1f8a52fb0ab1321eef9a7099bd2c360d4e38264b
-  react-native-udp: 54a1aa9bf5c0824f930b1ba6dbfb3fd3e733bba9
+  react-native-camera: d5b131588a2d1f0ad377a321793f58794dbdc768
+  react-native-netinfo: 266dbdb4ad07121427e7a7d280faba1535d1f22f
+  react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
+  react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203
+  react-native-udp: 4a750f0802d4597252f2cae4a2b3302ee5cfa4fc
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -413,14 +418,15 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
+  RNFS: 0d4191b1052bef9ce70deff00a5b4169c62bbd9b
   RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
-  RNPermissions: 923c1506d0bde387fbcfc18a8f87945806d03c19
+  RNPermissions: 409e55ed060f7e35d4a3dfc3a336f94a5811dec1
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNScreens: 6adf01eb4080f44af6cca551207c6b0505066857
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
-  TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
+  TcpSockets: 8d839b9b14f6f344d98e4642ded13ab3112b462d
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
 PODFILE CHECKSUM: f4d8c6550487faaa5caafb151960bc7230923872

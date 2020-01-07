@@ -33,7 +33,7 @@ const handleLinks = async () => {
     return true
   }
 
-  const params = extractQueryParams(window.location.href)
+  const params = extractQueryParams('')
   try {
     const { magiclink } = params
     if (magiclink) {

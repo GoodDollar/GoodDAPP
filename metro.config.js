@@ -6,8 +6,6 @@
  */
 
 const nodeLibs = require('node-libs-browser')
-const path = require('path')
-const cwd = path.resolve(__dirname)
 
 module.exports = {
   resolver: {
@@ -16,7 +14,6 @@ module.exports = {
       fs: require.resolve('react-native-fs'),
       net: require.resolve('react-native-tcp'),
       vm: require.resolve('vm-browserify'),
-      'crypto-js': path.resolve(cwd, 'node_modules/crypto-js'),
     },
   },
   transformer: {

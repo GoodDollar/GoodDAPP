@@ -6,12 +6,13 @@
  */
 
 const nodeLibs = require('node-libs-browser')
-nodeLibs.vm = require.resolve('vm-browserify')
-
 
 module.exports = {
   resolver: {
-    extraNodeModules: nodeLibs,
+    extraNodeModules: {
+      ...nodeLibs,
+      vm: require.resolve('vm-browserify'),
+    },
   },
   transformer: {
     getTransformOptions: async () => ({

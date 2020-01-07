@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
-import QRCodeScanner from 'react-native-qrcode-scanner'
+// import QRCodeScanner from 'react-native-qrcode-scanner'
 
 import logger from '../../lib/logger/pino-logger'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
@@ -61,9 +61,7 @@ const ReceiveByQR = ({ screenProps }) => {
       <Wrapper>
         <TopBar hideBalance={true} push={screenProps.push} />
         <Section style={styles.bottomSection}>
-          <Section.Row>
-            {/*<QRCodeScanner onRead={wrapFunction(handleScan, store)} />*/}
-          </Section.Row>
+          {/* <Section.Row><QRCodeScanner onRead={wrapFunction(handleScan, store)} /></Section.Row> */}
         </Section>
       </Wrapper>
     </React.Fragment>

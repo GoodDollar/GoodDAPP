@@ -1,0 +1,13 @@
+diff --git a/node_modules/gun/sea.js b/node_modules/gun/sea.js
+index 3030cd6..de10c0a 100644
+--- a/node_modules/gun/sea.js
++++ b/node_modules/gun/sea.js
+@@ -170,7 +170,7 @@
+     var o = {};
+ 
+     if(SEA.window){
+-      api.crypto = window.crypto || window.msCrypto || require('isomorphic-webcrypto');
++      api.crypto = navigator.product === 'ReactNative' ? require('isomorphic-webcrypto') : window.crypto || window.msCrypto || require('isomorphic-webcrypto');
+       api.subtle = (api.crypto||o).subtle || (api.crypto||o).webkitSubtle;
+       api.TextEncoder = window.TextEncoder;
+       api.TextDecoder = window.TextDecoder;

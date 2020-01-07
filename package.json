@@ -87,7 +87,6 @@
     "react-native": "0.61.5",
     "react-native-camera": "^3.15.1",
     "react-native-crypto": "^2.2.0",
-    "react-native-fs": "^2.16.2",
     "react-native-gesture-handler": "^1.5.2",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-level-fs": "^3.0.1",

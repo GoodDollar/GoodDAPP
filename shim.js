@@ -17,6 +17,7 @@ if (typeof localStorage !== 'undefined') {
 }
 
 global.btoa = require('Base64').btoa;
+global.atob = require('Base64').atob;
 global.Buffer = require('buffer').Buffer;
 
 // isomorphic-webcrypto overwrites the navigator object to { userAgent = '' }

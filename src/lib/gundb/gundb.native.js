@@ -1,8 +1,4 @@
 import Gun from 'gun/gun'
-// import 'gun/lib/radix'
-// import 'gun/lib/radisk'
-// import 'gun/lib/store'
-// import 'gun/lib/rindexed'
 import 'gun/sea'
 import './gundb-extend'
 import Config from '../../config/config'
@@ -16,7 +12,6 @@ const initGunDB = () => {
       gun = Gun()
     } else {
       gun = Gun({
-        //localStorage: (window && window.RindexedDB) === undefined,
         peers: [Config.gunPublicUrl],
       })
     }
@@ -25,4 +20,5 @@ const initGunDB = () => {
   global.gun = gun
   return gun
 }
+
 export default initGunDB()

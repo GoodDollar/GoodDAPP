@@ -11,8 +11,6 @@ module.exports = {
   resolver: {
     extraNodeModules: {
       ...nodeLibs,
-      fs: require.resolve('react-native-fs'),
-      net: require.resolve('react-native-tcp'),
       vm: require.resolve('vm-browserify'),
     },
   },

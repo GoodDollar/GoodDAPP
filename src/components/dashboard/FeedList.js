@@ -61,6 +61,7 @@ const FeedList = ({
   const flRef = createRef()
 
   const scrollToTop = () => {
+//FIXME: RN
     // if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
     //   flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
     // }

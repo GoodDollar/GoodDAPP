@@ -155,6 +155,7 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
+//FIXME: RN
     const anyParams = extractQueryParams('')
 
     log.debug('handle links effect dashboard', { anyParams })

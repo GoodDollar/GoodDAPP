@@ -33,6 +33,7 @@ const handleLinks = async () => {
     return true
   }
 
+//FIXME: RN
   const params = extractQueryParams('')
   try {
     const { magiclink } = params

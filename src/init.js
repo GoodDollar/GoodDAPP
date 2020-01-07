@@ -18,6 +18,7 @@ export const init = () => {
     setUserStorage(userStorage)
     await initAnalytics(goodWallet, userStorage)
 
+//FIXME: RN
     const params = extractQueryParams('')
     const source = Object.keys(_pick(params, ['web3', 'paymentCode', 'code'])).pop() || 'none'
 

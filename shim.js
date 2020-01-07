@@ -19,12 +19,12 @@ if (typeof localStorage !== 'undefined') {
 global.btoa = require('Base64').btoa;
 global.Buffer = require('buffer').Buffer;
 
-if (typeof navigator === 'undefined') global.navigator = {}
-
-global.navigator.product = 'ReactNative'
+// isomorphic-webcrypto overwrites the navigator object to { userAgent = '' }
+// Making the setter to do nothing in order to fix it
 global.navigator.userAgent = ''
-
 const navigatorCopy = { ...global.navigator }
-
-Object.defineProperty(global, 'navigator', { set: function(x) { console.log(x) }, get: () => navigatorCopy });
+Object.defineProperty(global, 'navigator', {
+  set: () => {},
+  get: () => navigatorCopy
+});
 

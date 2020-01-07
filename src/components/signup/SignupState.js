@@ -31,7 +31,7 @@ type Ready = Promise<{ goodWallet: any, userStorage: any }>
 const SignupWizardNavigator = createSwitchNavigator(
   {
     Name: NameForm,
-    //Phone: PhoneForm,
+    // Phone: PhoneForm,
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,

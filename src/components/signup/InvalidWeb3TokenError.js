@@ -81,10 +81,12 @@ const styles = StyleSheet.create({
     color: '#00AFFF',
     paddingTop: normalize(25),
     paddingBottom: normalize(25),
+
     //verticalAlign: 'text-top',
   },
   mainTitle: {
-    fontFamily: 'Roboto-Medium',
+    fontFamily: 'Roboto',
+    fontWeight: '500',
     fontSize: normalize(24),
     color: '#42454A',
     textTransform: 'none',

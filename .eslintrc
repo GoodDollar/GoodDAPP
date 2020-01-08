@@ -132,6 +132,7 @@
         "allowClassEnd": false
       }
     ],
-    "no-negated-condition": "warn"
+    "no-negated-condition": "warn",
+    "no-multi-str": "off"
   }
 }

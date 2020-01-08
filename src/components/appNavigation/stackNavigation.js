@@ -3,7 +3,7 @@
 /* eslint-disable*/
 import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-// TODO SideMenu needs to be fixed first
+//FIXME: RN SideMenu needs to be fixed first
 // import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
@@ -253,7 +253,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     return (
       <React.Fragment>
-        {/* TODO SideMenu needs to be fixed first */}
+        {/* FIXME: RN SideMenu needs to be fixed first */}
         {/*<View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>*/}
         {/*  <SideMenu*/}
         {/*    menu={menu}*/}

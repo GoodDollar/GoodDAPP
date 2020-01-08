@@ -62,7 +62,7 @@ const InternetConnection = props => {
       hideDialog()
       setShowContent(false)
     }
-  }, [isConnection, isAPIConnection, isConnectionWeb3, isConnectionGun, showDialog, hideDialog])
+  }, [isConnection, isAPIConnection, isConnectionWeb3, isConnectionGun])
 
   return showContent && props.isLoggedIn ? props.onDisconnect() : props.children
 }

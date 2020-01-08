@@ -463,7 +463,6 @@ export class UserStorage {
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
-        debugger
         logger.error('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
         return false
       })
@@ -472,7 +471,7 @@ export class UserStorage {
   gunAuth(username: string, password: string): Promise<any> {
     return new Promise((res, rej) => {
       this.gunuser.auth(username, password, user => {
-        logger.debug('gundb auth', user.err)
+        logger.debug('gundb auth', { err: user.err })
         if (user.err) {
           return rej(user.err)
         }
@@ -538,42 +537,40 @@ export class UserStorage {
     }
     this.magiclink = this.createMagicLink(username, password)
 
-    return new Promise(async (res, rej) => {
-      let user = await loggedInPromise.catch(e => rej(e))
-      if (user === undefined) {
-        return
-      }
-      this.user = this.gunuser.is
-      this.profile = this.gunuser.get('profile')
-      this.profile.open(doc => {
-        this._lastProfileUpdate = doc
-        this.subscribersProfileUpdates.forEach(callback => callback(doc))
-      })
-      logger.debug('init to events')
-      await this.initFeed()
-      await this.initProperties()
-      await this.startSystemFeed()
-
-      //save ref to user
-      this.gun
-        .get('users')
-        .get(this.gunuser.is.pub)
-        .put(this.gunuser)
-
-      logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
-      logger.debug('subscribing')
-
-      this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
-        logger.debug({ event }, EVENT_TYPE_RECEIVE)
-      })
-      this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
-        logger.debug({ event }, EVENT_TYPE_SEND)
-      })
-      this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
-      this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
-      this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
-      res(true)
+    let user = await loggedInPromise
+    if (user === undefined) {
+      return
+    }
+    this.user = this.gunuser.is
+    this.profile = this.gunuser.get('profile')
+    this.profile.open(doc => {
+      this._lastProfileUpdate = doc
+      this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
+    logger.debug('init to events')
+    await this.initFeed()
+    await this.initProperties()
+    await this.startSystemFeed()
+
+    //save ref to user
+    this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .put(this.gunuser)
+
+    logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
+    logger.debug('subscribing')
+
+    this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
+      logger.debug({ event }, EVENT_TYPE_RECEIVE)
+    })
+    this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
+      logger.debug({ event }, EVENT_TYPE_SEND)
+    })
+    this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
+    this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
+    this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
+    return true
   }
 
   /**
@@ -1936,13 +1933,13 @@ export class UserStorage {
     return fullProfile
   }
 
-  loadGunField(gunNode): Promise<any> {
-    return new Promise(async res => {
+  async loadGunField(gunNode): Promise<any> {
+    let isNode = await gunNode
+    if (isNode === undefined) {
+      return undefined
+    }
+    return new Promise(res => {
       gunNode.load(p => res(p))
-      let isNode = await gunNode
-      if (isNode === undefined) {
-        res(undefined)
-      }
     })
   }
 

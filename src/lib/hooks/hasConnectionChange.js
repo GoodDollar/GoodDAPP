@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { AppState, Platform } from 'react-native'
 import Config from '../../config/config'
 import API from '../API/api'
@@ -71,8 +71,11 @@ export const useConnectionWeb3 = () => {
         bindEvents()
         setIsConnection(true)
       } else {
+        log.debug('isWeb3Connection not connected')
+
         //if not connected and not reconnecting than try to force reconnect
         if (wallet.wallet.currentProvider.reconnecting === false) {
+          log.debug('isWeb3Connection forcing reconnect')
           wallet.wallet.currentProvider.reconnect()
         }
         setIsConnection(false)
@@ -88,8 +91,8 @@ export const useConnectionWeb3 = () => {
         log.debug('web3 close')
         isWeb3Connection()
       })
-      .on('error', () => {
-        log.debug('web3 error')
+      .on('error', e => {
+        log.debug('web3 error', { e })
         isWeb3Connection()
       })
   }
@@ -98,10 +101,12 @@ export const useConnectionWeb3 = () => {
     if (wallet) {
       AppState.addEventListener('change', nextAppState => {
         if (nextAppState === 'active') {
+          log.debug('web3 appstate')
           isWeb3Connection()
         }
       })
       if (!isFirstCheckWeb3) {
+        log.debug('web3 first')
         isWeb3Connection()
       }
     }

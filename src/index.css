@@ -22,7 +22,7 @@ html {
 #root {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /*overflow: hidden;*/
   width: 100%;
 }
 

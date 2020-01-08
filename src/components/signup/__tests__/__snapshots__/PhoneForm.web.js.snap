@@ -1770,6 +1770,7 @@ so we could verify you
                     onChange={[Function]}
                     onFocus={[Function]}
                     onKeyDown={[Function]}
+                    onTouchStart={[Function]}
                     type="tel"
                     value=""
                   />
@@ -1813,6 +1814,7 @@ so we could verify you
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
+                "marginBottom": "8px",
                 "marginTop": "auto",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",

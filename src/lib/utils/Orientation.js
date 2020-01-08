@@ -2,6 +2,14 @@ import { Dimensions } from 'react-native'
 import { isBrowser, isMobileOnly } from 'mobile-device-detect'
 import { theme } from '../../components/theme/styles'
 
+let originalScreenHeight = 0
+
+if (!originalScreenHeight) {
+  originalScreenHeight = Dimensions.get('window').height
+}
+
+export const getOriginalScreenHeight = () => originalScreenHeight
+
 export const getScreenHeight = () => Dimensions.get('window').height
 export const getMaxDeviceHeight = () => (isMobileOnly ? getScreenHeight() : theme.sizes.maxHeightForTabletAndDesktop)
 

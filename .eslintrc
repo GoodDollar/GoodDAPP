@@ -12,7 +12,8 @@
     "prettier/react"
   ],
   "plugins": [
-    "dependencies",
+    // FIXME "Error: Failed to load plugin 'dependencies' declared in '.eslintrc': Cannot find module './util/traverser'"
+    // "dependencies",
     "flowtype",
     "import",
     "prettier",

@@ -7,7 +7,7 @@ const Config = {
   mnemonicToSeed: process.env.REACT_APP_MNEMONIC_TO_SEED || true,
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'https://good-server.herokuapp.com/',
-  gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://goodgun-dev.herokuapp.com/gun',
+  gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'https://goodgun-dev.herokuapp.com/gun',
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
   web3SiteUrlEconomyEndpoint: process.env.REACT_APP_WEB3_SITE_URL_ECONOMY_ENDPOINT || '/learn/economy',
   publicUrl,
@@ -37,6 +37,7 @@ const Config = {
   sentryDSN: process.env.REACT_APP_SENTRY_DSN,
   hanukaStartDate: process.env.REACT_APP_HANUKA_START_DATE, // date
   hanukaEndDate: process.env.REACT_APP_HANUKA_END_DATE, // date
+  delayMessageNetworkDisconnection: process.env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 3000,
   ethereum: {
     '42': {
       network_id: 42,

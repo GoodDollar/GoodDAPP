@@ -1,0 +1,16 @@
+config:
+  target: "{{ $processEnvironment.TARGET }}"
+  phases:
+    - duration: "{{ $processEnvironment.DURATION }}"
+      arrivalRate: "{{ $processEnvironment.ARRIVALRATE }}"
+  processor: "./beforeSend.js"
+  defaults:
+    headers:
+      load-test: '/auth/eth'
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbkFzIjoiMHg3YWMwODBmNjYwNzQwNTcwNWFlZDc5Njc1Nzg5NzAxYTQ4Yzc2ZjU1IiwiZ2RBZGRyZXNzIjoiMHg3YWMwODBmNjYwNzQwNTcwNWFlZDc5Njc1Nzg5NzAxYTQ4Yzc2ZjU1IiwicHJvZmlsZVB1YmxpY2tleSI6ImxLLWY2aS1RUEh3eXh4VU9LYzR1YXViZnBUQzFUVzhvTExDUm12OXo5dFUuQ2p0T1FTSTJYcWl0aGVRWkxkVmxIYzA5Z2ttX2QySVJ6NExSQUw2R21GVSIsImlhdCI6MTU2ODEyMTQzM30.5Bx4BJ_1s0n1YpOAcncd_yQHohag_IZ7oFz-_HPQx1I'
+scenarios:
+  - flow:
+    - post:
+        url: "/test/add/whitelistUser"
+        beforeRequest: setRandomParams
+        json:

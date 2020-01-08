@@ -1,0 +1,138 @@
+{
+  "extends": [
+    "react-app",
+    "eslint:recommended",
+    "plugin:flowtype/recommended",
+    "plugin:import/recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "prettier",
+    "prettier/babel",
+    "prettier/flowtype",
+    "prettier/react"
+  ],
+  "plugins": [
+    //FIXME: RN
+    //"dependencies",
+    "flowtype",
+    "import",
+    "prettier",
+    "react",
+    "react-hooks"
+  ],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect",
+      "flowVersion": "0.89"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".android.js", ".ios.js", ".web.js", ".native.js"]
+      }
+    }
+    //FIXME: RN
+    // "dependencies/resolver": {
+    //   "node": {
+    //     "paths": [
+    //       "src"
+    //     ]
+    //   },
+    //   "extensions": [
+    //     ".js",
+    //     ".android.js",
+    //     ".ios.js",
+    //     ".web.js",
+    //     ".native.js"
+    //   ]
+    // }
+  },
+  "rules": {
+    "prettier/prettier": "warn",
+    "react/prop-types": "off",
+    "react/display-name": "off",
+    "react-hooks/rules-of-hooks": "warn",
+    //FIXME: RN
+    // "dependencies/no-cycles": "warn",
+    "import/no-unresolved": "warn",
+    "import/first": "warn",
+    "import/no-duplicates": "warn",
+    "import/order": [
+      "warn",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"]
+      }
+    ],
+    "sort-imports": [
+      "warn",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ],
+    "no-console": [
+      "warn",
+      {
+        "allow": ["info"]
+      }
+    ],
+    "no-await-in-loop": "warn",
+    "curly": "warn",
+    "dot-notation": "warn",
+    "no-else-return": "warn",
+    "no-implicit-coercion": [
+      "warn",
+      {
+        "boolean": false
+      }
+    ],
+    "no-return-await": "warn",
+    "no-useless-catch": "warn",
+    "require-await": "warn",
+    "array-bracket-newline": [
+      "warn",
+      {
+        "multiline": true
+      }
+    ],
+    "block-spacing": "warn",
+    "brace-style": [
+      "warn",
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "camelcase": [
+      "warn",
+      {
+        "ignoreDestructuring": true,
+        "properties": "never"
+      }
+    ],
+    "comma-dangle": ["warn", "only-multiline"],
+    "comma-spacing": "warn",
+    "computed-property-spacing": "warn",
+    "lines-between-class-members": "warn",
+    "lines-around-comment": [
+      "warn",
+      {
+        "beforeBlockComment": true,
+        "beforeLineComment": true,
+        "allowBlockStart": true,
+        "allowObjectStart": true,
+        "allowArrayStart": true,
+        "allowClassStart": true,
+        "afterBlockComment": false,
+        "afterLineComment": false,
+        "allowBlockEnd": false,
+        "allowObjectEnd": false,
+        "allowArrayEnd": false,
+        "allowClassEnd": false
+      }
+    ],
+    "no-negated-condition": "warn",
+    "no-multi-str": "off"
+  }
+}

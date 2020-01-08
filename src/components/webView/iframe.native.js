@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
+import { WebView } from 'react-native-webview'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
-import { WebView } from 'react-native-webview'
 
 const wHeight = getMaxDeviceHeight()
 

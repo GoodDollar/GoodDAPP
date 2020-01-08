@@ -1,6 +1,9 @@
 // @flow
+//FIXME:RN
+/* eslint-disable*/
 import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
+//FIXME: RN SideMenu needs to be fixed first
 // import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
@@ -14,7 +17,6 @@ import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
 //  import './blurFx.css'
-import GDStore from '../../lib/undux/GDStore'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -251,15 +253,17 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     return (
       <React.Fragment>
-        {/*<View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : {}]}>*/}
-        {/*  <SideMenu*/}
-        {/*    menu={menu}*/}
-        {/*    menuPosition="right"*/}
-        {/*    isOpen={open}*/}
-        {/*    disableGestures={true}*/}
-        {/*    onChange={this.sideMenuSwap}*/}
-        {/*  />*/}
-        {/*</View>*/}
+        {/* FIXME: RN SideMenu needs to be fixed first */}
+        <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>
+          <SideMenuPanel navigation={navigation} />
+          {/*  <SideMenu*/}
+          {/*    menu={menu}*/}
+          {/*    menuPosition="right"*/}
+          {/*    isOpen={open}*/}
+          {/*    disableGestures={true}*/}
+          {/*    onChange={this.sideMenuSwap}*/}
+          {/*  />*/}
+        </View>
         {/*<Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>*/}
         {!navigationBarHidden &&
           (NavigationBar ? (
@@ -311,6 +315,9 @@ const styles = StyleSheet.create({
   },
   menuOpenStyle: {
     transform: [{ translateX: '0vh' }],
+  },
+  hideMenu: {
+    display: 'none',
   },
 })
 

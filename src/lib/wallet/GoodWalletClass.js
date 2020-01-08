@@ -138,9 +138,9 @@ export class GoodWallet {
   }
 
   init(): Promise<any> {
-    const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
-    this.ready = ready
+    this.ready = WalletFactory.create(GoodWallet.WalletType, this.config)
       .then(wallet => {
+        log.info('GoodWallet initial wallet created.')
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = this.getAccountForType('gd')
@@ -150,6 +150,8 @@ export class GoodWallet {
         log.info(`networkId: ${this.networkId}`)
         this.gasPrice = wallet.utils.toWei('1', 'gwei')
         this.wallet.eth.defaultGasPrice = this.gasPrice
+
+        log.info('GoodWallet setting up contracts:')
 
         // Identity Contract
         this.identityContract = new this.wallet.eth.Contract(

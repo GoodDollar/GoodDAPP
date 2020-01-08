@@ -1,5 +1,5 @@
 import Config from '../../../config/config'
-import { readReceiveLink } from '../index'
+import { readReceiveLink } from '../'
 
 describe('readReceiveLink', () => {
   afterEach(() => {

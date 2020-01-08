@@ -179,7 +179,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingRight: 0,
     },
     infoIcon: {
-      marginLeft: '0.5em',
+      // marginLeft: '0.5em',
     },
     optionsRowContainer: {
       padding: 0,

@@ -471,7 +471,7 @@ export class UserStorage {
   gunAuth(username: string, password: string): Promise<any> {
     return new Promise((res, rej) => {
       this.gunuser.auth(username, password, user => {
-        logger.debug('gundb auth', user.err)
+        logger.debug('gundb auth', { err: user.err })
         if (user.err) {
           return rej(user.err)
         }
@@ -537,45 +537,40 @@ export class UserStorage {
     }
     this.magiclink = this.createMagicLink(username, password)
 
-    return new Promise(async (res, rej) => {
-      let user = await loggedInPromise.catch(e => rej(e))
-      if (user === undefined) {
-        return
-      }
-      this.user = this.gunuser.is
-      this.profile = this.gunuser.get('profile')
-      this.profile.open(doc => {
-        this._lastProfileUpdate = doc
-        this.subscribersProfileUpdates.forEach(callback => callback(doc))
-      })
-      logger.debug('init to events')
-
-      await this.initFeed()
-      await this.initProperties()
-      await this.startSystemFeed()
-
-      //save ref to user
-      this.gun
-        .get('users')
-        .get(this.gunuser.is.pub)
-        .put(this.gunuser)
-
-      logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
-      logger.debug('subscribing')
-
-      this.checkSmallAvatar()
-
-      this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
-        logger.debug({ event }, EVENT_TYPE_RECEIVE)
-      })
-      this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
-        logger.debug({ event }, EVENT_TYPE_SEND)
-      })
-      this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
-      this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
-      this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
-      res(true)
+    let user = await loggedInPromise
+    if (user === undefined) {
+      return
+    }
+    this.user = this.gunuser.is
+    this.profile = this.gunuser.get('profile')
+    this.profile.open(doc => {
+      this._lastProfileUpdate = doc
+      this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
+    logger.debug('init to events')
+    await this.initFeed()
+    await this.initProperties()
+    await this.startSystemFeed()
+
+    //save ref to user
+    this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .put(this.gunuser)
+
+    logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
+    logger.debug('subscribing')
+
+    this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
+      logger.debug({ event }, EVENT_TYPE_RECEIVE)
+    })
+    this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
+      logger.debug({ event }, EVENT_TYPE_SEND)
+    })
+    this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
+    this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
+    this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
+    return true
   }
 
   /**
@@ -590,20 +585,17 @@ export class UserStorage {
     if (avatar && !smallAvatar) {
       logger.debug('Updating small avatar')
 
-      const smallAvatar = await resizeBase64Image(avatar, 50)
-
-      await this.setProfileField('smallAvatar', smallAvatar, 'public')
+      await this.setSmallAvatar(avatar)
     }
   }
 
   setAvatar(avatar) {
-    return Promise.all([
-      this.setProfileField('avatar', avatar, 'public'),
-      async () => {
-        const smallAvatar = await resizeBase64Image(avatar, 50)
-        return this.setProfileField('smallAvatar', smallAvatar, 'public')
-      },
-    ])
+    return Promise.all([this.setProfileField('avatar', avatar, 'public'), this.setSmallAvatar(avatar)])
+  }
+
+  async setSmallAvatar(avatar) {
+    const smallAvatar = await resizeBase64Image(avatar, 50)
+    return this.setProfileField('smallAvatar', smallAvatar, 'public')
   }
 
   removeAvatar() {
@@ -1482,7 +1474,7 @@ export class UserStorage {
       const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
+      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
       const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
@@ -1562,7 +1554,10 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status, type) {
+    if (type === 'withdraw') {
+      return ''
+    }
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
@@ -1593,7 +1588,7 @@ export class UserStorage {
 
     const searchField = initiatorType && `by${initiatorType}`
     const byIndex = searchField && getProfile(`users/${searchField}`, initiator)
-    const byAddress = address && getProfile(`users/bywalletAddress`, address)
+    const byAddress = address && getProfile('users/bywalletAddress', address)
 
     // const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
 
@@ -1938,13 +1933,13 @@ export class UserStorage {
     return fullProfile
   }
 
-  loadGunField(gunNode): Promise<any> {
-    return new Promise(async res => {
+  async loadGunField(gunNode): Promise<any> {
+    let isNode = await gunNode
+    if (isNode === undefined) {
+      return undefined
+    }
+    return new Promise(res => {
       gunNode.load(p => res(p))
-      let isNode = await gunNode
-      if (isNode === undefined) {
-        res(undefined)
-      }
     })
   }
 

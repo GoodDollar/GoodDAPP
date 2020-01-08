@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { AppState, Platform } from 'react-native'
 import Config from '../../config/config'
 import API from '../API/api'
@@ -40,7 +40,7 @@ const useNativeConnection = () => {
     return NetInfo.addEventListener(({ isConnected }) => {
       setIsConnection(isConnected)
     })
-  }, [])
+  }, [NetInfo])
 
   return isConnection
 }
@@ -53,25 +53,36 @@ export const useConnectionWeb3 = () => {
   const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const wallet = store.get('wallet')
-  const isWeb3Connection = () => {
+  const isWeb3Connection = useCallback(async () => {
     if (wallet) {
       log.debug('isWeb3Connection', isConnection)
       if (!isFirstCheckWeb3) {
         isFirstCheckWeb3 = true
       }
-      if (wallet.wallet.currentProvider.connected) {
+
+      //verify a blockchain method works ok (balanceOf)
+      if (
+        wallet.wallet.currentProvider.connected &&
+        (await wallet
+          .balanceOf()
+          .then(_ => true)
+          .catch(_ => false))
+      ) {
         bindEvents()
         setIsConnection(true)
       } else {
+        log.debug('isWeb3Connection not connected')
+
         //if not connected and not reconnecting than try to force reconnect
         if (wallet.wallet.currentProvider.reconnecting === false) {
+          log.debug('isWeb3Connection forcing reconnect')
           wallet.wallet.currentProvider.reconnect()
         }
         setIsConnection(false)
-        setTimeout(isWeb3Connection, 500)
+        setTimeout(isWeb3Connection, 1000)
       }
     }
-  }
+  })
 
   const bindEvents = () => {
     log.debug('web3 binding listeners')
@@ -80,8 +91,8 @@ export const useConnectionWeb3 = () => {
         log.debug('web3 close')
         isWeb3Connection()
       })
-      .on('error', () => {
-        log.debug('web3 error')
+      .on('error', e => {
+        log.debug('web3 error', { e })
         isWeb3Connection()
       })
   }
@@ -90,14 +101,16 @@ export const useConnectionWeb3 = () => {
     if (wallet) {
       AppState.addEventListener('change', nextAppState => {
         if (nextAppState === 'active') {
+          log.debug('web3 appstate')
           isWeb3Connection()
         }
       })
       if (!isFirstCheckWeb3) {
+        log.debug('web3 first')
         isWeb3Connection()
       }
     }
-  }, [wallet])
+  }, [isWeb3Connection, wallet])
 
   return isConnection
 }
@@ -106,7 +119,7 @@ export const useConnectionGun = () => {
   const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const userStorage = store.get('userStorage')
-  const isGunConnection = () => {
+  const isGunConnection = useCallback(() => {
     if (userStorage) {
       if (!isFirstCheckGun) {
         isFirstCheckGun = true
@@ -120,10 +133,10 @@ export const useConnectionGun = () => {
         bindEvents()
       } else {
         setIsConnection(false)
-        setTimeout(isGunConnection, 500)
+        setTimeout(isGunConnection, 1000)
       }
     }
-  }
+  })
 
   const bindEvents = () => {
     log.debug('gun binding listeners')
@@ -152,7 +165,7 @@ export const useConnectionGun = () => {
         isGunConnection()
       }
     }
-  }, [userStorage])
+  }, [isGunConnection, userStorage])
 
   return isConnection
 }
@@ -163,7 +176,7 @@ export const useAPIConnection = () => {
   /**
    * Don't start app if server isn't responding
    */
-  const apiReady = async () => {
+  const apiReady = useCallback(async () => {
     try {
       await API.ready
       const res = await Promise.race([
@@ -187,11 +200,11 @@ export const useAPIConnection = () => {
 
       // return apiReady()
     }
-  }
+  })
 
   useEffect(() => {
     apiReady()
-  }, [])
+  }, [apiReady])
 
   return isConnection
 }

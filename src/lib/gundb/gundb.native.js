@@ -1,7 +1,8 @@
 import Gun from 'gun/gun'
 import 'gun/sea'
-import 'gun-asyncstorage'
 import './gundb-extend'
+import 'gun-asyncstorage'
+
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 // eslint-disable-next-line no-unused-vars

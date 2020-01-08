@@ -20,6 +20,7 @@ import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
 
+//FIXME: RN
 // import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
@@ -33,6 +34,7 @@ const SignupWizardNavigator = createSwitchNavigator(
   {
     Name: NameForm,
 
+    //FIXME: RN
     // Phone: PhoneForm,
     SMS: SmsForm,
     Email: EmailForm,

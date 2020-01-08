@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback} from 'react'
 import { AppState, Platform } from 'react-native'
 import Config from '../../config/config'
 import API from '../API/api'
@@ -105,7 +105,7 @@ export const useConnectionWeb3 = () => {
         isWeb3Connection()
       }
     }
-  }, [isWeb3Connection, wallet])
+  }, [wallet])
 
   return isConnection
 }
@@ -114,7 +114,7 @@ export const useConnectionGun = () => {
   const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const userStorage = store.get('userStorage')
-  const isGunConnection = useCallback(() => {
+  const isGunConnection = () => {
     if (userStorage) {
       if (!isFirstCheckGun) {
         isFirstCheckGun = true
@@ -131,7 +131,7 @@ export const useConnectionGun = () => {
         setTimeout(isGunConnection, 1000)
       }
     }
-  })
+  }
 
   const bindEvents = () => {
     log.debug('gun binding listeners')
@@ -160,7 +160,7 @@ export const useConnectionGun = () => {
         isGunConnection()
       }
     }
-  }, [isGunConnection, userStorage])
+  }, [userStorage])
 
   return isConnection
 }
@@ -171,7 +171,7 @@ export const useAPIConnection = () => {
   /**
    * Don't start app if server isn't responding
    */
-  const apiReady = useCallback(async () => {
+  const apiReady = async () => {
     try {
       await API.ready
       const res = await Promise.race([
@@ -195,11 +195,11 @@ export const useAPIConnection = () => {
 
       // return apiReady()
     }
-  })
+  }
 
   useEffect(() => {
     apiReady()
-  }, [apiReady])
+  }, [])
 
   return isConnection
 }

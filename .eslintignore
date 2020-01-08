@@ -1,0 +1,10 @@
+.vscode
+android
+assets
+/node_modules
+/config
+flow-typed
+scripts
+public/ZoomAuthentication.js
+/*.js
+/node_modules/**

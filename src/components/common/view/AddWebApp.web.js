@@ -105,7 +105,7 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
 const AddWebApp = props => {
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
-  const { show, showMenuItem } = store.get('addWebApp')
+  const { show, showInMainMenu } = store.get('addWebApp')
   const installPrompt = store.get('installPrompt')
 
   const showExplanationDialog = async () => {
@@ -225,11 +225,11 @@ const AddWebApp = props => {
   }, [installPrompt, show])
 
   useEffect(() => {
-    if (showMenuItem) {
+    if (showInMainMenu) {
       showInitialDialog()
     }
-    store.set('addWebApp')({ showMenuItem: false })
-  }, [showMenuItem])
+    store.set('addWebApp')({ showInMainMenu: false })
+  }, [showInMainMenu])
 
   return null
 }

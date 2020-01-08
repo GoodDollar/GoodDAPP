@@ -57,7 +57,7 @@ export type State = {
   currentFeed: any,
   addWebApp: {
     show: boolean,
-    showMenuItem: boolean,
+    showInMainMenu: boolean,
   },
   serviceWorkerUpdated: any,
 }
@@ -87,7 +87,7 @@ const initialState: State = {
   currentFeed: null,
   addWebApp: {
     show: false,
-    showMenuItem: false,
+    showInMainMenu: false,
   },
   wallet: null,
   userStorage: null,

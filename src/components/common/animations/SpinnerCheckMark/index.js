@@ -21,7 +21,7 @@ export default props => {
   }, [success])
 
   if (!isStarting) {
-    return props.children
+    return props.children || null
   }
 
   return <SpinnerCheckMark {...props} success={isSuccess} onFinish={onFinishHandle} />

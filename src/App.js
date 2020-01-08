@@ -48,7 +48,7 @@ const App = () => {
       </PaperProvider>
     ),
     // [isMobile, useDesktop]
-    []
+    [store]
   )
 }
 
@@ -63,11 +63,9 @@ const AppHolder = () => {
       const valid = ['etoro', 'beta.11']
       const required = Config.isEToro ? 'etoro' : 'beta.11'
       const version = await AsyncStorage.getItem('GD_version')
-
       if (valid.includes(version)) {
         return
       }
-
       await AsyncStorage.clear()
       return AsyncStorage.setItem('GD_version', required)
     }

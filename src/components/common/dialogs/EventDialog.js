@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
   senderSection: {
     backgroundColor: '#fff',
-    marginBottom: '0',
+    // marginBottom: '0',
   },
   senderView: {
     borderBottomColor: '#333',
@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
   },
   gdSection: {
     backgroundColor: '#fff',
-    paddingTop: '1em',
-    paddingBottom: '0',
+    // paddingTop: '1em',
+    // paddingBottom: '0',
   },
   date: {
     color: '#888888',
-    fontSize: '0.7em',
+    // fontSize: '0.7em',
   },
 })
 

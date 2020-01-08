@@ -61,6 +61,8 @@ const AppSwitch = (props: LoadingProps) => {
     const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
     AsyncStorage.removeItem(DESTINATION_PATH)
 
+    return undefined
+
     if (destinationPath) {
       const app = router.getActionForPathAndParams(destinationPath.path) || {}
       log.debug('destinationPath getParams', { destinationPath, router, state, app })
@@ -216,7 +218,7 @@ const AppSwitch = (props: LoadingProps) => {
   useEffect(() => {
     init()
     navigateToUrlAction()
-  }, [init, navigateToUrlAction])
+  }, [])
 
   useEffect(() => {
     AppState.addEventListener('change', handleAppFocus)

@@ -134,17 +134,17 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     left: 0,
     padding: 0,
-    position: 'fixed',
-    height: '100vh',
+    // position: 'fixed',
+    // height: '100vh',
     width: '100%',
   },
   horizontalList: {
     width: '100%',
-    maxWidth: '100vw',
+    // maxWidth: '100vw',
     flex: 1,
   },
   flatList: {
-    transform: 'translateY(1px)', //Do not delete, this repairs horizontal feed scrolling
+    // transform: 'translateY(1px)', //Do not delete, this repairs horizontal feed scrolling
   },
 })
 

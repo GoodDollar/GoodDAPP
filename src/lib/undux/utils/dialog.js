@@ -56,12 +56,16 @@ export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
 export const hideDialog = (store: Store) => {
   log.debug('hideDialog')
 
-  store.set('currentScreen')({
-    ...store.get('currentScreen'),
-    dialogData: {
-      visible: false,
-    },
-  })
+  const currentScreen = store.get('currentScreen') || {}
+
+  if (currentScreen.dialogData && currentScreen.dialogData.visible) {
+    store.set('currentScreen')({
+      ...store.get('currentScreen'),
+      dialogData: {
+        visible: false,
+      },
+    })
+  }
 }
 
 export const useDialog = () => {

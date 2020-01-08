@@ -854,13 +854,13 @@ exports[`SideMenuPanel matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,175,255,1.00)",
                   "fontFamily": "gooddollar",
-                  "fontSize": "18px",
+                  "fontSize": "22px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
             >
-              
+              
             </div>
           </div>
           <div

@@ -92,7 +92,6 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
         icon: 'add',
         name: 'Add App Icon',
         hidden: !installPrompt && !isMobileSafari,
-        size: 18,
         action: () => {
           addAppIcon({ API, showDialog, store, theme })
           hideSidemenu()
@@ -153,7 +152,6 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
       {
         icon: 'privacy-policy',
         name: 'Privacy Policy',
-        size: 18,
         action: () => {
           navigation.navigate('PP')
           hideSidemenu()

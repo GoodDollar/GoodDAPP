@@ -1,7 +1,8 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import SideMenu from 'react-native-side-menu-gooddapp'
+// TODO SideMenu needs to be fixed first
+// import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -251,15 +252,16 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     return (
       <React.Fragment>
-        <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>
-          <SideMenu
-            menu={menu}
-            menuPosition="right"
-            isOpen={open}
-            disableGestures={true}
-            onChange={this.sideMenuSwap}
-          />
-        </View>
+        {/* TODO SideMenu needs to be fixed first */}
+        {/*<View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>*/}
+        {/*  <SideMenu*/}
+        {/*    menu={menu}*/}
+        {/*    menuPosition="right"*/}
+        {/*    isOpen={open}*/}
+        {/*    disableGestures={true}*/}
+        {/*    onChange={this.sideMenuSwap}*/}
+        {/*  />*/}
+        {/*</View>*/}
         {/*<Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>*/}
         {!navigationBarHidden &&
           (NavigationBar ? (

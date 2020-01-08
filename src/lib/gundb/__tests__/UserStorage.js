@@ -615,7 +615,7 @@ describe('UserStorage', () => {
     })
   })
 
-  it("update profile doesn't change privacy settings", async done => {
+  it(`update profile doesn't change privacy settings`, async done => {
     const email = 'johndoe@blah.com'
     await userStorage.setProfileField('email', email, 'public')
     await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }))
@@ -626,7 +626,7 @@ describe('UserStorage', () => {
     })
   })
 
-  it('update username success', async () => {
+  it(`update username success`, async () => {
     await Promise.all([userStorage.wallet.ready, userStorage.ready])
     const result = await userStorage.setProfileField('username', 'user1', 'public')
     await userStorage.setProfileField('email', 'user1', 'public')
@@ -636,7 +636,7 @@ describe('UserStorage', () => {
     expect(updatedUsername).toBe('user1')
   })
 
-  it('update username with setProfile should not update profile if username is taken', async () => {
+  it(`update username with setProfile should not update profile if username is taken`, async () => {
     const profileModel = getUserModel({
       fullName: 'New Name',
       email: 'new@email.com',
@@ -644,7 +644,7 @@ describe('UserStorage', () => {
       username: 'notTaken',
     })
     await gun
-      .get('users/byusername')
+      .get(`users/byusername`)
       .get('taken')
       .putAck('taken')
     const result = await userStorage.setProfile(profileModel)
@@ -666,10 +666,10 @@ describe('UserStorage', () => {
     expect(updated.email).toBe('diferent@email.com')
   })
 
-  it('update username with used username should fail', async () => {
+  it(`update username with used username should fail`, async () => {
     //take a username
     await gun
-      .get('users/byusername')
+      .get(`users/byusername`)
       .get('taken')
       .putAck('taken')
     const newResult = await userStorage.setProfileField('username', 'taken', 'public')

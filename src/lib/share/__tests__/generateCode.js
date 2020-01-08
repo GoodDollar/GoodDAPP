@@ -1,6 +1,6 @@
 import { encode, isMNID } from 'mnid'
 
-import { generateCode } from '../index'
+import { generateCode } from '../'
 
 describe('generateCode', () => {
   it(`should generate a string with an MNID valid code`, () => {

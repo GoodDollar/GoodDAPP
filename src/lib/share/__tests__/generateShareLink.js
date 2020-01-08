@@ -1,4 +1,4 @@
-import { generateShareLink } from '../index'
+import { generateShareLink } from '../'
 import Config from '../../../config/config'
 
 describe('generateShareLink', () => {

@@ -1,0 +1,22 @@
+config:
+  target: "{{ $processEnvironment.TARGET }}"
+  phases:
+    - duration: "{{ $processEnvironment.DURATION }}"
+      arrivalRate: "{{ $processEnvironment.ARRIVALRATE }}"
+  processor: "./beforeSend.js"
+  defaults:
+    headers:
+      load-test: '/auth/eth'
+scenarios:
+  - flow:
+    - post:
+        url: "/auth/eth"
+        beforeRequest: setRandomParams
+        json:
+
+
+# signature: "0x9fced8da49e797819782d69839cd510f91b779e7817caf56aa40a05f13c3043d45eabc1108cb2f7dc93a067b83e4ab537a6d78c1d5f4016d46c200060f51bb081b"
+# gdSignature: "0xfb50866ab7601cb4f080f9a845435d993e0110d9912bff0ec3160c2123d8b0ba77a28224d1e5a300a76dee65b59f30a2cd65b79897d53de16f99336f0d0206b41b"
+# profilePublickey: "-LPOJwJYjA_YSv0iwq5XBQTvKMKJDzLtgM8hBlvs0qw.x8FJbs8jeSFOWxzogeqXWH7gQnqPhKm9r7Arv1AHeeI"
+# profileSignature: "SEA{\"m\":\"Login to GoodDAPP9a7ffc0cad7773eeb032\",\"s\":\"XQHmdFIdhS1QNn+P0Hdzax9K4xmDk0QYE4lX6rd6WcCcHRREb8/VC8q/FI/sVMF+VsLuyaPTOtimc3Ei1Ncs/Q==\"}"
+# nonce: "9a7ffc0cad7773eeb032"

@@ -68,7 +68,7 @@ export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
 }
 
 const addAppIcon = ({ store }) => {
-  store.set('addWebApp')({ showInMainMenu: true })
+  store.set('addWebApp')({ showAddWebAppDialog: true })
 }
 const TrashIcon = withStyles()(({ theme }) => <IconWrapper iconName="trash" color={theme.colors.error} size={50} />)
 

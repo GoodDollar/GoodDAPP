@@ -12,7 +12,8 @@
     "prettier/react"
   ],
   "plugins": [
-    "dependencies",
+    //FIXME: RN
+    //"dependencies",
     "flowtype",
     "import",
     "prettier",
@@ -27,53 +28,40 @@
     },
     "import/resolver": {
       "node": {
-        "paths": [
-          "src"
-        ],
-        "extensions": [
-          ".js",
-          ".android.js",
-          ".ios.js",
-          ".web.js",
-          ".native.js"
-        ]
+        "paths": ["src"],
+        "extensions": [".js", ".android.js", ".ios.js", ".web.js", ".native.js"]
       }
-    },
-    "dependencies/resolver": {
-      "node": {
-        "paths": [
-          "src"
-        ]
-      },
-      "extensions": [
-        ".js",
-        ".android.js",
-        ".ios.js",
-        ".web.js",
-        ".native.js"
-      ]
     }
+    //FIXME: RN
+    // "dependencies/resolver": {
+    //   "node": {
+    //     "paths": [
+    //       "src"
+    //     ]
+    //   },
+    //   "extensions": [
+    //     ".js",
+    //     ".android.js",
+    //     ".ios.js",
+    //     ".web.js",
+    //     ".native.js"
+    //   ]
+    // }
   },
   "rules": {
     "prettier/prettier": "warn",
     "react/prop-types": "off",
     "react/display-name": "off",
     "react-hooks/rules-of-hooks": "warn",
-    "dependencies/no-cycles": "warn",
+    //FIXME: RN
+    // "dependencies/no-cycles": "warn",
     "import/no-unresolved": "warn",
     "import/first": "warn",
     "import/no-duplicates": "warn",
     "import/order": [
       "warn",
       {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ]
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"]
       }
     ],
     "sort-imports": [
@@ -86,9 +74,7 @@
     "no-console": [
       "warn",
       {
-        "allow": [
-          "info"
-        ]
+        "allow": ["info"]
       }
     ],
     "no-await-in-loop": "warn",
@@ -125,10 +111,7 @@
         "properties": "never"
       }
     ],
-    "comma-dangle": [
-      "warn",
-      "only-multiline"
-    ],
+    "comma-dangle": ["warn", "only-multiline"],
     "comma-spacing": "warn",
     "computed-property-spacing": "warn",
     "lines-between-class-members": "warn",

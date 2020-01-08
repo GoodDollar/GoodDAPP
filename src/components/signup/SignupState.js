@@ -19,6 +19,7 @@ import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
+
 // import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
@@ -31,6 +32,7 @@ type Ready = Promise<{ goodWallet: any, userStorage: any }>
 const SignupWizardNavigator = createSwitchNavigator(
   {
     Name: NameForm,
+
     // Phone: PhoneForm,
     SMS: SmsForm,
     Email: EmailForm,
@@ -127,7 +129,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       let w3User = w3UserFromProps
       log.info('from props:', { w3User })
-      if (w3User.email == undefined) {
+      if (w3User.email === undefined) {
         store.set('loadingIndicator')({ loading: true })
         await API.ready
 
@@ -322,7 +324,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
-    await ready
 
     log.info('signup data:', { data })
 

@@ -254,16 +254,15 @@ class AppView extends Component<AppViewProps, AppViewState> {
     return (
       <React.Fragment>
         {/* FIXME: RN SideMenu needs to be fixed first */}
-        <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>
-          <SideMenuPanel navigation={navigation} />
-          {/*  <SideMenu*/}
-          {/*    menu={menu}*/}
-          {/*    menuPosition="right"*/}
-          {/*    isOpen={open}*/}
-          {/*    disableGestures={true}*/}
-          {/*    onChange={this.sideMenuSwap}*/}
-          {/*  />*/}
-        </View>
+        {/*<View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>*/}
+        {/*  <SideMenu*/}
+        {/*    menu={menu}*/}
+        {/*    menuPosition="right"*/}
+        {/*    isOpen={open}*/}
+        {/*    disableGestures={true}*/}
+        {/*    onChange={this.sideMenuSwap}*/}
+        {/*  />*/}
+        {/*</View>*/}
         {/*<Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>*/}
         {!navigationBarHidden &&
           (NavigationBar ? (

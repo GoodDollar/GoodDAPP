@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.12.1-8",
+  "version": "0.13.0",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -231,5 +231,8 @@
     "assets": [
       "./src/assets/fonts/"
     ]
+  },
+  "auto-changelog": {
+    "tagPattern": "^v[\\.0-9]+$"
   }
 }

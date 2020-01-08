@@ -1,6 +1,8 @@
 // @flow
 import React from 'react'
 import debounce from 'lodash/debounce'
+import SimpleStore from '../../lib/undux/SimpleStore'
+import { getScreenHeight } from '../../lib/utils/Orientation'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 
@@ -63,7 +65,8 @@ class EmailForm extends React.Component<Props, State> {
     const errorMessage = this.state.errorMessage || this.props.screenProps.error
     this.props.screenProps.error = undefined
     const { key } = this.props.navigation.state
-    const { styles } = this.props
+    const { styles, theme, store } = this.props
+    const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
 
     return (
       <CustomWrapper
@@ -96,8 +99,17 @@ class EmailForm extends React.Component<Props, State> {
               />
             </Section.Row>
           </Section.Stack>
-          <Section.Row justifyContent="flex-end" style={styles.bottomContent}>
-            <Section.Text fontSize={14} color="gray80Percent">
+          <Section.Row
+            justifyContent="flex-end"
+            style={{
+              marginTop: 'auto',
+
+              /*only for small screen (iPhone5 , etc.)*/
+              marginBottom: isShowKeyboard && getScreenHeight() <= 480 ? -30 : theme.sizes.default,
+            }}
+          >
+            {/*change fontSize only for small screen (iPhone5 , etc.)*/}
+            <Section.Text fontSize={isShowKeyboard && getScreenHeight() <= 480 ? 13 : 14} color="gray80Percent">
               We respect your privacy and will never sell or give away your info to any third party.
             </Section.Text>
           </Section.Row>
@@ -116,10 +128,6 @@ const getStylesFromProps = ({ theme }) => ({
     height: getDesignRelativeHeight(200),
     paddingBottom: theme.sizes.defaultDouble,
   },
-  bottomContent: {
-    marginTop: 'auto',
-    marginBottom: theme.sizes.default,
-  },
 })
 
-export default withStyles(getStylesFromProps)(EmailForm)
+export default withStyles(getStylesFromProps)(SimpleStore.withStore(EmailForm))

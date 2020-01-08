@@ -1476,7 +1476,7 @@ export class UserStorage {
       const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
+      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
       const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
@@ -1556,7 +1556,10 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status, type) {
+    if (type === 'withdraw') {
+      return ''
+    }
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 

@@ -1,7 +1,7 @@
-import Gun from 'gun/gun'
+import Gun from 'gun'
 import 'gun/sea'
 import './gundb-extend'
-import 'gun-asyncstorage'
+import '@gooddollar/gun-asyncstorage'
 
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'

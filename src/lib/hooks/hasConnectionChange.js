@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { AppState, Platform } from 'react-native'
 import Config from '../../config/config'
 import API from '../API/api'

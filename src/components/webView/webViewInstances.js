@@ -1,5 +1,5 @@
 import Config from '../../config/config'
-import { createIframe } from './iframe.web'
+import { createIframe } from './iframe'
 
 export const TermsOfUse = createIframe(
   `https://community.gooddollar.org/${Config.isEToro ? 'pilot-terms' : 'dappterms'}/`,

@@ -14,7 +14,7 @@ import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import isWebApp from './lib/utils/isWebApp'
-import { getScreenHeight } from './lib/utils/Orientation'
+import { getOriginalScreenHeight } from './lib/utils/Orientation'
 
 const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 const router = createSwitchNavigator(
@@ -45,12 +45,6 @@ const fullScreenContainer = {
   flexDirection: 'column',
 }
 
-let heightAndroidDevice = 0
-
-if (!heightAndroidDevice && isAndroid) {
-  heightAndroidDevice = getScreenHeight()
-}
-
 const Router = () => {
   const store = SimpleStore.useStore()
   const { visible: dialogVisible } = store.get('currentScreen').dialogData
@@ -58,7 +52,7 @@ const Router = () => {
   let minHeight = 480
 
   if (isAndroid && isShowKeyboard) {
-    minHeight = heightAndroidDevice
+    minHeight = getOriginalScreenHeight()
   }
 
   return (

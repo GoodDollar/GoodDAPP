@@ -71,12 +71,11 @@ const FeedModalItem = (props: FeedEventProps) => {
           </View>
           <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
             {!eventSettings.withoutAvatar && (
-              // <Avatar
-              //   source={item.data && item.data.endpoint && item.data.endpoint.avatar}
-              //   size={34}
-              //   style={styles.avatar}
-              // />
-              null
+              <Avatar
+                source={item.data && item.data.endpoint && item.data.endpoint.avatar}
+                size={34}
+                style={styles.avatar}
+              />
             )}
             {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
             {!eventSettings.withoutAvatar && <EventIcon type={itemType} style={styles.icon} />}

@@ -24,6 +24,7 @@ export type AvatarProps = {
  */
 const CustomAvatar = (props: AvatarProps) => {
   const { styles, style, source, onPress, size, ...restProps } = props
+  const imageSource = source ? { uri: source } : unknownProfile
 
   return (
     <TouchableOpacity
@@ -35,7 +36,7 @@ const CustomAvatar = (props: AvatarProps) => {
     >
       <Avatar.Image
         size={size - 2}
-        source={{ uri: source || unknownProfile }}
+        source={imageSource}
         style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
         {...restProps}
       />

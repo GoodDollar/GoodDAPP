@@ -15,7 +15,6 @@ import Blurred from '../common/view/Blur/Blurred'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
-import { Platform } from 'react-native'
 
 export const DEFAULT_PARAMS = {
   event: undefined,

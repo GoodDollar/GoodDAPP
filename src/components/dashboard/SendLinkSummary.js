@@ -45,8 +45,8 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
   const shareAction = async paymentLink => {
     const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
     try {
-      await navigator.share(share)
       setShared(true)
+      await navigator.share(share)
     } catch (e) {
       if (e.name !== 'AbortError') {
         showDialog({
@@ -93,6 +93,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
       shareAction(paymentLink)
     } else {
       const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
+      console.log('sdfsdfsd sdfsdf')
 
       // Show confirmation
       screenProps.push('SendConfirmation', {

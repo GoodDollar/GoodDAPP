@@ -3,8 +3,7 @@
 /* eslint-disable*/
 import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-//FIXME: RN SideMenu needs to be fixed first
-// import SideMenu from 'react-native-side-menu-gooddapp'
+import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -12,11 +11,11 @@ import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
-// import Blurred from '../common/view/Blurred'
+import Blurred from '../common/view/Blur/Blurred'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
-//  import './blurFx.css'
+import { Platform } from 'react-native'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -253,31 +252,30 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     return (
       <React.Fragment>
-        {/* FIXME: RN SideMenu needs to be fixed first */}
-        {/*<View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>*/}
-        {/*  <SideMenu*/}
-        {/*    menu={menu}*/}
-        {/*    menuPosition="right"*/}
-        {/*    isOpen={open}*/}
-        {/*    disableGestures={true}*/}
-        {/*    onChange={this.sideMenuSwap}*/}
-        {/*  />*/}
-        {/*</View>*/}
-        {/*<Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>*/}
-        {!navigationBarHidden &&
-          (NavigationBar ? (
-            <NavigationBar />
-          ) : (
-            <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
-          ))}
-        {disableScroll ? (
-          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-        ) : (
-          <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+        <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>
+          <SideMenu
+            menu={menu}
+            menuPosition="right"
+            isOpen={open}
+            disableGestures={true}
+            onChange={this.sideMenuSwap}
+          />
+        </View>
+        <Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>
+          {!navigationBarHidden &&
+            (NavigationBar ? (
+              <NavigationBar />
+            ) : (
+              <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
+            ))}
+          {disableScroll ? (
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-          </ScrollView>
-        )}
-        {/*</Blurred>*/}
+          ) : (
+            <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+            </ScrollView>
+          )}
+        </Blurred>
       </React.Fragment>
     )
   }

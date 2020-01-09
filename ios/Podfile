@@ -36,6 +36,8 @@ target 'GoodDollar' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+
   target 'GoodDollarTests' do
     inherit! :search_paths
     # Pods for testing

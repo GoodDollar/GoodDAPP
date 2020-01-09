@@ -9,8 +9,7 @@ import SigninInfo from './components/signin/SigninInfo'
 import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
-// import Blurred from '../components/common/view/Blurred'
-// import '../components/appNavigation/blurFx.css'
+import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import isWebApp from './lib/utils/isWebApp'
@@ -30,8 +29,7 @@ const router = createSwitchNavigator(
   }
 )
 
-const RouterWrapper = Platform.OS === 'web' ?
-  createBrowserApp(router) : createAppContainer(router)
+const RouterWrapper = Platform.OS === 'web' ? createBrowserApp(router) : createAppContainer(router)
 
 const fullScreenContainer = {
   top: 0,
@@ -50,9 +48,9 @@ const Router = () => {
   const { visible: dialogVisible } = store.get('currentScreen').dialogData
   return (
     <>
-      {/*<Blurred style={fullScreenContainer} blur={dialogVisible}>*/}
-      <RouterWrapper onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
-      {/*</Blurred>*/}
+      <Blurred style={fullScreenContainer} blur={dialogVisible}>
+        <RouterWrapper onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
+      </Blurred>
     </>
   )
 }

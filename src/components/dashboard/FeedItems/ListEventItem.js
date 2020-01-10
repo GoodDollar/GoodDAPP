@@ -59,11 +59,11 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           )}
         </View>
         <View style={styles.transferInfo} alignItems="flex-start">
-          {/*<Avatar*/}
-          {/*  size={normalize(34)}*/}
-          {/*  style={styles.avatarBottom}*/}
-          {/*  source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}*/}
-          {/*/>*/}
+          <Avatar
+            size={normalize(34)}
+            style={styles.avatarBottom}
+            source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
+          />
           <View style={[styles.mainInfo, isFeedTypeClaiming && styles.claimingCardFeedText]}>
             {isErrorCard ? (
               <>

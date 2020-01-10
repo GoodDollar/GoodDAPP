@@ -21,7 +21,7 @@ const TopBar = ({ hideBalance, push, children }) => {
   return (
     <Section style={styles.topBar}>
       <Section.Row alignItems="center">
-        {/*<Avatar source={avatar} onPress={push && (() => push('Profile'))} />*/}
+        <Avatar source={avatar} onPress={push && (() => push('Profile'))} />
         {/*
          if children exist, it will be rendered
          if children=undefined and hideBalance=false, BigGoodDollar will be rendered

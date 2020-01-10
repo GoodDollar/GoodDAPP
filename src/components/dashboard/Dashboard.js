@@ -364,7 +364,7 @@ const Dashboard = props => {
       <Section style={[styles.topInfo]}>
         {headerLarge ? (
           <Section.Stack alignItems="center">
-            {/*<Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />*/}
+            <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
             <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
               {fullName || ' '}
             </Section.Text>
@@ -379,12 +379,12 @@ const Dashboard = props => {
           </Section.Stack>
         ) : (
           <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
-            {/*<Avatar*/}
-            {/*  onPress={() => screenProps.push('Profile')}*/}
-            {/*  size={42}*/}
-            {/*  source={avatar}*/}
-            {/*  style={[styles.avatarSmall]}*/}
-            {/*/>*/}
+            <Avatar
+              onPress={() => screenProps.push('Profile')}
+              size={42}
+              source={avatar}
+              style={[styles.avatarSmall]}
+            />
             <BigGoodDollar number={balance} />
           </Section>
         )}

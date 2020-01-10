@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, View, Platform } from 'react-native'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
 import GDStore from '../../../lib/undux/GDStore'
 import Separator from '../../common/layout/Separator'
@@ -11,9 +11,10 @@ import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
 import illustration from '../../../assets/FaceRecognition/illustration.svg'
-import { Platform } from 'react-native'
 
-// Image.prefetch(illustration)
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 const log = logger.child({ from: 'FRIntro' })
 const FRIntro = props => {

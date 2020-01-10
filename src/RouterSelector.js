@@ -29,14 +29,17 @@ let SignupRouter = React.lazy(() =>
  * @returns {Promise<boolean>}
  */
 const handleLinks = async () => {
+  //FIXME: RN
+
   if (Platform.OS !== 'web') {
     return true
   }
 
-//FIXME: RN
-  const params = extractQueryParams('')
+  const params = extractQueryParams(window.location.href)
+
   try {
     const { magiclink } = params
+
     if (magiclink) {
       let userNameAndPWD = Buffer.from(decodeURIComponent(magiclink), 'base64').toString()
       let userNameAndPWDArray = userNameAndPWD.split('+')

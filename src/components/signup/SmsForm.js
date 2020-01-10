@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -232,7 +232,10 @@ const getStylesFromProps = ({ theme }) => ({
   },
   successIconStyle: {
     borderWidth: 1,
-    // borderRadius: '50%',
+    borderRadius: Platform.select({
+      web: '50%',
+      default: 24,
+    }),
     borderColor: theme.colors.primary,
     position: 'relative',
     height: 48,

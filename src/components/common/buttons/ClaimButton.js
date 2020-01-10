@@ -2,6 +2,7 @@
 import React from 'react'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
+import { Platform } from 'react-native'
 
 const ClaimButton = ({ screenProps, styles }) => (
   <PushButton routeName="Claim" testID="claim_button" screenProps={screenProps} style={styles.claimButton}>
@@ -14,7 +15,10 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
     backgroundColor: theme.colors.green,
     borderColor: theme.colors.surface,
-    // // borderRadius: '50%',
+    borderRadius: Platform.select({
+      default: 72 / 2,
+      web: '50%',
+    }),
     borderWidth: 3,
     height: 72,
     left: '50%',

@@ -1,7 +1,7 @@
 // @flow
 import startCase from 'lodash/startCase'
 import React from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import { Text } from '../common'
@@ -43,7 +43,12 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      // borderBottomStyle: 'solid',
+      ...Platform.select({
+        // FIXME: RN
+        web: {
+          borderBottomStyle: 'solid',
+        },
+      }),
       borderBottomColor: theme.colors.lightGray,
       borderBottomWidth: 1,
       padding: theme.paddings.mainContainerPadding,

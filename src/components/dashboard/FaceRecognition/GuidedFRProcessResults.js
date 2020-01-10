@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
+import { Image, View, Platform } from 'react-native'
 import findKey from 'lodash/findKey'
 import Text from '../../common/view/Text'
 
@@ -21,7 +21,9 @@ import normalize from '../../../lib/utils/normalizeText'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import FRStep from './FRStep'
 
-// Image.prefetch(LookingGood)
+if (Platform.OS === 'web') {
+  Image.prefetch(LookingGood)
+}
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 

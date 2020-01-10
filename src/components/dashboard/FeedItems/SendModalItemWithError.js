@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import Icon from '../../common/view/Icon'
 import Text from '../../common/view/Text'
 import SummaryTable from '../../common/view/SummaryTable'
@@ -54,7 +54,10 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 0,
     justifyContent: 'center',
     flexDirection: 'row',
-    // borderRadius: '50%',
+    borderRadius: Platform.select({
+      web: '50%',
+      default: 34 / 2,
+    }),
     borderColor: theme.colors.red,
     borderWidth: 3,
     padding: theme.sizes.defaultQuadruple,

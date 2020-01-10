@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
@@ -213,7 +213,11 @@ const getStylesFromProps = ({ theme }) => ({
   },
   successIconStyle: {
     borderWidth: 1,
-    // // borderRadius: '50%',
+    borderRadius: Platform.select({
+      // FIXME: RN
+      default: 48 / 2,
+      web: '50%',
+    }),
     borderColor: theme.colors.primary,
     position: 'relative',
     height: 48,

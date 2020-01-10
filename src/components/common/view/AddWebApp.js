@@ -37,7 +37,7 @@ const mapStylesToProps = ({ theme }) => {
       borderTopStyle: 'solid',
       borderTopColor: theme.colors.primary,
       borderBottomWidth: 2,
-      // borderBottomStyle: 'solid',
+      borderBottomStyle: 'solid',
       borderBottomColor: theme.colors.primary,
       paddingVertical: theme.sizes.default,
       marginVertical: theme.sizes.default,

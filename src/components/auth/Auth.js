@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { AsyncStorage, Image, SafeAreaView } from 'react-native'
+import { AsyncStorage, Image, SafeAreaView, Platform } from 'react-native'
 import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
@@ -28,7 +28,10 @@ type Props = {
   styles: any,
 }
 
-// Image.prefetch(illustration)
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
+
 const log = logger.child({ from: 'Auth' })
 
 class Auth extends React.Component<Props> {
@@ -105,32 +108,39 @@ class Auth extends React.Component<Props> {
     const { w3User, w3Token } = this.state
     const redirectTo = w3Token ? 'Phone' : 'Signup'
     log.debug({ w3User, w3Token })
-    // try {
-    //   const req = new Promise((res, rej) => {
-    //     const del = indexedDB.deleteDatabase('radata')
-    //     del.onsuccess = res
-    //     del.onerror = rej
-    //   })
-    //   await req
-    //
-    //   log.info('indexedDb successfully cleared')
-    // } catch (e) {
-    //   log.error('Failed to clear indexedDb', e.message, e)
-    // } finally {
-    //   store.set('loadingIndicator')({ loading: false })
-    // }
 
-    store.set('loadingIndicator')({ loading: false })
+    // FIXME: RN
+    if (Platform.OS === 'web') {
+      try {
+        const req = new Promise((res, rej) => {
+          const del = indexedDB.deleteDatabase('radata')
+          del.onsuccess = res
+          del.onerror = rej
+        })
+        await req
+
+        log.info('indexedDb successfully cleared')
+      } catch (e) {
+        log.error('Failed to clear indexedDb', e.message, e)
+      } finally {
+        store.set('loadingIndicator')({ loading: false })
+      }
+    } else {
+      store.set('loadingIndicator')({ loading: false })
+    }
 
     this.props.navigation.navigate(redirectTo, { w3User, w3Token })
 
-    //Hack to get keyboard up on mobile need focus from user event such as click
-    setTimeout(() => {
-      // const el = document.getElementById('Name_input')
-      // if (el) {
-      //   el.focus()
-      // }
-    }, 500)
+    // FIXME: RN
+    if (Platform.OS === 'web') {
+      //Hack to get keyboard up on mobile need focus from user event such as click
+      setTimeout(() => {
+        const el = document.getElementById('Name_input')
+        if (el) {
+          el.focus()
+        }
+      }, 500)
+    }
   }
 
   handleSignUpThirdParty = () => {

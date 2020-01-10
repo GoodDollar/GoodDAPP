@@ -1,6 +1,6 @@
 // @flow
 import React, { createRef } from 'react'
-import { Animated } from 'react-native'
+import { Animated, Platform } from 'react-native'
 import get from 'lodash/get'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
@@ -61,10 +61,12 @@ const FeedList = ({
   const flRef = createRef()
 
   const scrollToTop = () => {
-//FIXME: RN
-    // if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
-    //   flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
-    // }
+    // FIXME: RN
+    if (Platform.OS === 'web') {
+      if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
+        flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
+      }
+    }
   }
 
   const keyExtractor = item => item.id

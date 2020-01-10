@@ -1,10 +1,13 @@
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, View, Platform } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import Text from '../common/view/Text'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import UpdateVersion from '../../assets/updateversion.svg'
-// Image.prefetch(UpdateVersion)
+
+if (Platform.OS === 'web') {
+  Image.prefetch(UpdateVersion)
+}
 
 const dialogStyles = ({ theme }) => ({
   image: {
@@ -21,7 +24,12 @@ const dialogStyles = ({ theme }) => ({
   },
   title: {
     width: '100%',
-    // borderBottomStyle: 'solid',
+    ...Platform.select({
+      // FIXME: RN
+      web: {
+        borderBottomStyle: 'solid',
+      },
+    }),
     borderBottomWidth: 2,
     borderBottomColor: theme.colors.primary,
     paddingBottom: getDesignRelativeWidth(9),

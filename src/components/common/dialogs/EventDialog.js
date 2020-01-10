@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Platform } from 'react-native'
 import { Dialog, Paragraph, Portal } from 'react-native-paper'
 import type { TransactionEvent } from '../../../lib/gundb/UserStorage'
 import { Avatar, BigGoodDollar } from '..'
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
   senderSection: {
     backgroundColor: '#fff',
-    // marginBottom: '0',
+    marginBottom: 0,
   },
   senderView: {
     borderBottomColor: '#333',
@@ -100,12 +100,20 @@ const styles = StyleSheet.create({
   },
   gdSection: {
     backgroundColor: '#fff',
-    // paddingTop: '1em',
-    // paddingBottom: '0',
+    paddingTop: Platform.select({
+      // FIXME: RN
+      default: 0,
+      web: '1em',
+    }),
+    paddingBottom: 0,
   },
   date: {
     color: '#888888',
-    // fontSize: '0.7em',
+    fontSize: Platform.select({
+      // FIXME: RN
+      default: 0,
+      web: '0.7em',
+    }),
   },
 })
 

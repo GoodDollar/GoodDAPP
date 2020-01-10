@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect } from 'react'
 import { isMobileSafari } from 'mobile-device-detect'
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TextInput, TouchableOpacity, View, Platform } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { withStyles } from '../../../lib/styles'
@@ -14,7 +14,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
 
   const onFocusMobileSafari = () => {
     window.scrollTo(0, 0)
-    //document.body.scrollTop = 0
+    document.body.scrollTop = 0
     simpleStore.set('isMobileSafariKeyboardShown')(true)
   }
 
@@ -74,7 +74,12 @@ const getStylesFromProps = ({ theme }) => ({
     ...theme.fontStyle,
     backgroundColor: theme.colors.surface,
     borderBottomColor: theme.colors.darkGray,
-    // borderBottomStyle: 'solid',
+    // FIXME: RN
+    ...Platform.select({
+      web: {
+        borderBottomStyle: 'solid',
+      }
+    }),
     borderBottomWidth: StyleSheet.hairlineWidth,
     color: theme.colors.darkGray,
     fontFamily: theme.fonts.slab,
@@ -83,7 +88,7 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   view: {
-    // flex: 1,
+    flex: 1,
     marginBottom: theme.sizes.default,
     width: '100%',
   },

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { CustomButton } from '../common'
@@ -114,7 +114,11 @@ const getStylesFromProps = ({ theme }) => ({
     letterSpacing: 0.08,
   },
   amountInButton: {
-    // display: 'inline',
+    display: Platform.select({
+      // FIXME: RN
+      web: 'inline',
+      default: 'flex',
+    }),
     marginLeft: theme.sizes.defaultHalf,
   },
   amountInButtonCenter: {

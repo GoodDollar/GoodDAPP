@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, Platform } from 'react-native'
 import _get from 'lodash/get'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import config from '../../config/config'
@@ -145,7 +145,11 @@ const styles = ({ theme }) => ({
     borderWidth: 3,
     borderStyle: 'solid',
     borderColor: 'white',
-    // // borderRadius: '50%',
+    borderRadius: Platform.select({
+      // FIXME: RN
+      default: 0,
+      web: '50%',
+    }),
     paddingVertical: 20,
     paddingHorizontal: 7,
     marginRight: 14,

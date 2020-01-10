@@ -58,6 +58,7 @@ export type State = {
   currentFeed: any,
   addWebApp: {
     show: boolean,
+    showAddWebAppDialog: boolean,
   },
   serviceWorkerUpdated: any,
 }
@@ -88,6 +89,7 @@ const initialState: State = {
   currentFeed: null,
   addWebApp: {
     show: false,
+    showAddWebAppDialog: false,
   },
   wallet: null,
   userStorage: null,

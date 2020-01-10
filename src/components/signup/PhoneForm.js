@@ -1,8 +1,6 @@
 // @flow
 import React from 'react'
-import PhoneInput from 'react-phone-number-input'
 import debounce from 'lodash/debounce'
-import './PhoneForm.css'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import logger from '../../lib/logger/pino-logger'
@@ -11,6 +9,7 @@ import Config from '../../config/config'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
+import FromNumberInput from './PhoneNumberInput/PhoneNumberInput'
 import CustomWrapper from './signUpWrapper'
 
 const log = logger.child({ from: 'PhoneForm' })
@@ -93,7 +92,7 @@ class PhoneForm extends React.Component<Props, State> {
               </Section.Title>
             </Section.Row>
             <Section.Stack justifyContent="center" style={styles.column}>
-              <PhoneInput
+              <FromNumberInput
                 id={key + '_input'}
                 value={this.state.mobile}
                 onChange={this.handleChange}

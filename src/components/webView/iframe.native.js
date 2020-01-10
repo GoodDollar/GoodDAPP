@@ -17,7 +17,7 @@ export const createIframe = (src, title) => {
       store.set('loadingIndicator')({ loading: true })
     }, [])
 
-    return <WebView title={title} onLoad={isLoaded} src={{ uri: src }} style={{ height: wHeight }} />
+    return <WebView title={title} onLoad={isLoaded} source={{ uri: src }} style={{ height: wHeight }} />
   }
   IframeTab.navigationOptions = {
     title,

@@ -73,7 +73,7 @@ const Signin = props => {
         <TouchableOpacity onPress={handleRecover}>
           <Section.Text
             fontWeight="medium"
-            style={styles.textBottom}
+            style={styles.recoverText}
             textDecorationLine="underline"
             fontSize={14}
             color="primary"
@@ -86,7 +86,7 @@ const Signin = props => {
         <TouchableOpacity onPress={goToSupport}>
           <Section.Text
             fontWeight="medium"
-            style={styles.textBottom}
+            style={styles.haveIssuesText}
             textDecorationLine="underline"
             fontSize={14}
             color="primary"
@@ -117,8 +117,11 @@ const getStylesFromProps = ({ theme }) => {
     text: {
       color: theme.colors.green,
     },
-    textBottom: {
+    recoverText: {
       marginBottom: 15,
+    },
+    haveIssuesText: {
+      marginBottom: 30,
     },
     contentContainer: {
       flexGrow: 1,

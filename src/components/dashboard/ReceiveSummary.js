@@ -150,16 +150,16 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'space-between',
   },
   amountBlockMarginMobile: {
-    marginBottom: getDesignRelativeHeight(35, false),
+    marginBottom: getDesignRelativeHeight(35),
   },
   amountBlockMargin: {
-    marginBottom: getDesignRelativeHeight(80, false),
+    marginBottom: getDesignRelativeHeight(80),
   },
   marginForNoCredsMobile: {
-    marginBottom: getDesignRelativeHeight(60, false),
+    marginBottom: getDesignRelativeHeight(60),
   },
   marginForNoCreds: {
-    marginBottom: getDesignRelativeHeight(100, false),
+    marginBottom: getDesignRelativeHeight(100),
   },
   sendIconWrapper: {
     height: getDesignRelativeHeight(75),
@@ -168,7 +168,7 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'relative',
     borderRadius: '50%',
     marginTop: getDesignRelativeHeight(15),
-    marginBottom: getDesignRelativeHeight(24, false),
+    marginBottom: getDesignRelativeHeight(24),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -198,17 +198,17 @@ const getStylesFromProps = ({ theme }) => ({
     lineHeight: normalize(14),
   },
   fromTextWrapper: {
-    marginBottom: getDesignRelativeHeight(24, false),
+    marginBottom: getDesignRelativeHeight(24),
   },
   fromText: {
     margin: 0,
   },
   reasonWrapper: {
     alignItems: 'center',
-    marginBottom: getDesignRelativeHeight(24, false),
+    marginBottom: getDesignRelativeHeight(24),
   },
   warnText: {
-    marginVertical: getDesignRelativeHeight(24, false),
+    marginVertical: getDesignRelativeHeight(24),
   },
 })
 

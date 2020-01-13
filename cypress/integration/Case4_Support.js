@@ -18,8 +18,7 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
   })
 
   it('User is able to send forms and follow the links', () => {
-    HomePage.optionsButton.click({ force: true })
-    HomePage.options.eq(4).click({ force: true })
+    HomePage.supportButton.click()
     SupportPage.pageHeader.should('contain', 'Feedback & Support')
     SupportPage.iframe.should('be.visible')
     SupportPage.iframe

@@ -4,6 +4,10 @@ class HomePage {
     return cy.get('[dir="auto"]').eq(0)
   }
 
+  get supportButton() {
+    return cy.get('[data-focusable="true"]:nth-child(7)')
+  }
+
   get optionsButton() {
     return cy.get('[data-testid="burger_button"]')
   }

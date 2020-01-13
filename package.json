@@ -40,7 +40,7 @@
     "@bugsnag/js": "^6.4.3",
     "@bugsnag/plugin-react": "^6.4.0",
     "@gooddollar/goodcontracts": "^1.0.0-beta.19",
-    "@gooddollar/gun-asyncstorage": "^1.0.2",
+    "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/v8-android-jit-nointl": "^7.8.2",
     "@react-native-community/netinfo": "^5.0.1",
     "@react-navigation/core": "^3.5.1",

@@ -49,6 +49,7 @@ import FeedModalList from './FeedModalList'
 import OutOfGasError from './OutOfGasError'
 import Reason from './Reason'
 import Receive from './Receive'
+import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
 import ReceiveConfirmation from './ReceiveConfirmation'
@@ -624,4 +625,5 @@ export default createStackNavigator({
     screen: config.market ? MarketTab : WrappedDashboard,
     path: 'Marketplace/:marketPath*',
   },
+  MagicLinkInfo,
 })

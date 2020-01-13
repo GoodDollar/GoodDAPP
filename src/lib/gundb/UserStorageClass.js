@@ -21,7 +21,6 @@ import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import defaultGun from './gundb'
-
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 
@@ -235,6 +234,23 @@ export const startClaiming = {
   },
 }
 
+export const hanukaBonusStartsMessage = {
+  type: 'hanukaStarts',
+  status: 'completed',
+  data: {
+    customName: 'Collect extra GoodDollars\non every day of Hannukah',
+    subtitle: 'Hannukah Miracle Bonus',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'Get an extra GoodDollar, on top of your daily collection, for every candle lit on the menorah today. Claim every day of Hannukah for a total bonus of G$44!\n\nHag Sameach!',
+    endpoint: {
+      fullName: 'Hannukah Miracle Bonus',
+    },
+  },
+}
+
 /**
  * Extracts transfer events sent to the current account
  * @param {object} receipt - Receipt event
@@ -409,7 +425,7 @@ export class UserStorage {
    * @param {string} password
    * @returns {Promise<*>}
    */
-  static async getMnemonic(username: String, password: String): String {
+  static async getMnemonic(username: String, password: String): Promise<String> {
     let gun = defaultGun
     let gunuser = gun.user()
     let mnemonic = ''
@@ -417,9 +433,9 @@ export class UserStorage {
     const authUserInGun = (username, password) => {
       return new Promise((res, rej) => {
         gunuser.auth(username, password, user => {
-          logger.debug('gundb auth', user.err)
+          logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnimonic UserStorage', user.err)
+            logger.error('Error getMnemonic UserStorage', user.err)
             return rej(false)
           }
           res(true)
@@ -433,6 +449,7 @@ export class UserStorage {
         .get('mnemonic')
         .get('value')
         .decrypt()
+      logger.debug('getMnemonic', { mnemonic })
     }
     await gunuser.leave()
 
@@ -532,15 +549,16 @@ export class UserStorage {
         this.subscribersProfileUpdates.forEach(callback => callback(doc))
       })
       logger.debug('init to events')
-
-      this.initFeed()
+      await this.initFeed()
       await this.initProperties()
+      await this.startSystemFeed()
 
       //save ref to user
       this.gun
         .get('users')
         .get(this.gunuser.is.pub)
         .put(this.gunuser)
+
       logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
       logger.debug('subscribing')
 
@@ -557,14 +575,29 @@ export class UserStorage {
     })
   }
 
+  /**
+   * Set small avatar for user in case he doesn't have it
+   *
+   * @returns {Promise}
+   */
+  async checkSmallAvatar() {
+    const avatar = await this.getProfileFieldValue('avatar')
+    const smallAvatar = await this.getProfileFieldValue('smallAvatar')
+
+    if (avatar && !smallAvatar) {
+      logger.debug('Updating small avatar')
+
+      await this.setSmallAvatar(avatar)
+    }
+  }
+
   setAvatar(avatar) {
-    return Promise.all([
-      this.setProfileField('avatar', avatar, 'public'),
-      async () => {
-        const smallAvatar = await resizeBase64Image(avatar, 50)
-        return this.setProfileField('smallAvatar', smallAvatar, 'public')
-      },
-    ])
+    return Promise.all([this.setProfileField('avatar', avatar, 'public'), this.setSmallAvatar(avatar)])
+  }
+
+  async setSmallAvatar(avatar) {
+    const smallAvatar = await resizeBase64Image(avatar, 50)
+    return this.setProfileField('smallAvatar', smallAvatar, 'public')
   }
 
   removeAvatar() {
@@ -666,7 +699,7 @@ export class UserStorage {
       }
 
       if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
-        updatedFeedEvent.data.message = COMPLETED_BONUS_REASON_TEXT
+        updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
         updatedFeedEvent.data.customName = 'GoodDollar'
       }
 
@@ -796,16 +829,18 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  initFeed() {
+  async initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+    await this.feed
+    await this.feed.get('byid')
   }
 
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
     const isCameFromW3Site = userProperties.cameFromW3Site
-
+    logger.debug('startSystemFeed', { userProperties, firstVisitAppDate })
     this.addBackupCard()
     this.addStartClaimingCard()
 
@@ -829,6 +864,8 @@ export class UserStorage {
 
       await this.userProperties.set('firstVisitApp', Date.now())
     }
+
+    this.addHanukaBonusStartsCard()
   }
 
   /**
@@ -874,6 +911,25 @@ export class UserStorage {
 
     if (allowToShowByTimeFilter) {
       await this.enqueueTX(startClaiming)
+    }
+  }
+
+  /**
+   * add a hanuka bonus card to notify user that bonus period starts
+   *
+   * @returns {Promise<void>}
+   */
+  async addHanukaBonusStartsCard() {
+    const now = moment().utcOffset('+0200')
+    const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY').utcOffset('+0200')
+    const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY')
+      .endOf('day')
+      .utcOffset('+0200')
+
+    if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
+      hanukaBonusStartsMessage.id = `hanuka-${now.format('YYYY')}`
+
+      await this.enqueueTX(hanukaBonusStartsMessage)
     }
   }
 
@@ -1324,14 +1380,14 @@ export class UserStorage {
    * @param {object} details
    * @returns {Promise<void>}
    */
-  saveSurveyDetails(hash, details: SurveyDetails) {
+  async saveSurveyDetails(hash, details: SurveyDetails) {
     try {
       const date = moment(new Date()).format('DDMMYY')
-      this.gun
+      await this.gun.get('survey').get(date)
+      await this.gun
         .get('survey')
         .get(date)
-        .get(hash)
-        .put(details)
+        .putAck({ [hash]: details })
       return true
     } catch (e) {
       logger.error('saveSurveyDetails :', e.message, e, details)
@@ -1420,7 +1476,7 @@ export class UserStorage {
       const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
+      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
       const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
@@ -1500,7 +1556,10 @@ export class UserStorage {
     return data
   }
 
-  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status, type) {
+    if (type === 'withdraw') {
+      return ''
+    }
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
@@ -1589,7 +1648,6 @@ export class UserStorage {
         .get('byid')
         .get(event.id)
         .then()
-        .catch(_ => false)
       if (existingEvent) {
         logger.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false
@@ -1605,7 +1663,7 @@ export class UserStorage {
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
-      logger.error('enqueueTX failed: ', e.message, e)
+      logger.error('enqueueTX failed: ', e.message, e, event)
       return false
     } finally {
       release()

@@ -98,20 +98,15 @@ const FeedList = ({
         // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
         showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
       } else {
-        goodWallet
-          .cancelOTLByTransactionHash(id, {
-            onTransactionHash: async () => {
-              try {
-                await userStorage.cancelOTPLEvent(id)
-              } catch (e) {
-                showErrorDialog('Canceling the payment link has failed', e)
-              }
-            },
-          })
-          .catch(e => {
+        try {
+          userStorage.cancelOTPLEvent(id)
+          goodWallet.cancelOTLByTransactionHash(id).catch(e => {
             showErrorDialog('Canceling the payment link has failed', e)
             userStorage.updateOTPLEventStatus(id, 'pending')
           })
+        } catch (e) {
+          showErrorDialog('Canceling the payment link has failed', e)
+        }
       }
     }
 

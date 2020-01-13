@@ -19,10 +19,11 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
   }
 >
   <div
-    className="css-text-901oao css-textOneLine-bfa6kz"
+    className="css-text-901oao css-textMultiLine-cens5h"
     dir="auto"
     style={
       Object {
+        "WebkitLineClamp": 2,
         "color": "rgba(66,69,74,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
@@ -54,7 +55,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
         }
       }
     >
-      From:
+      From: 
     </span>
     <span
       className="css-text-901oao css-textHasAncestor-16my406"
@@ -74,7 +75,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
         }
       }
     >
-       Misao Matimbo
+      Misao Matimbo
     </span>
   </div>
 </div>
@@ -99,10 +100,11 @@ exports[`EventCounterParty send matches snapshot 1`] = `
   }
 >
   <div
-    className="css-text-901oao css-textOneLine-bfa6kz"
+    className="css-text-901oao css-textMultiLine-cens5h"
     dir="auto"
     style={
       Object {
+        "WebkitLineClamp": 2,
         "color": "rgba(66,69,74,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
@@ -134,7 +136,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
         }
       }
     >
-      To:
+      To: 
     </span>
     <span
       className="css-text-901oao css-textHasAncestor-16my406"
@@ -154,7 +156,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
         }
       }
     >
-       Misao Matimbo
+      Misao Matimbo
     </span>
   </div>
 </div>
@@ -179,10 +181,11 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
   }
 >
   <div
-    className="css-text-901oao css-textOneLine-bfa6kz"
+    className="css-text-901oao css-textMultiLine-cens5h"
     dir="auto"
     style={
       Object {
+        "WebkitLineClamp": 2,
         "color": "rgba(66,69,74,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
@@ -214,7 +217,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
         }
       }
     >
-      From:
+      From: 
     </span>
     <span
       className="css-text-901oao css-textHasAncestor-16my406"
@@ -234,7 +237,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
         }
       }
     >
-       Misao Matimbo
+      Misao Matimbo
     </span>
   </div>
 </div>

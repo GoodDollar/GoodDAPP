@@ -8,6 +8,7 @@ import userStorage from '../UserStorage'
 import {
   backupMessage,
   getReceiveDataFromReceipt,
+  hanukaBonusStartsMessage,
   inviteFriendsMessage,
   startClaiming,
   startSpending,
@@ -17,6 +18,7 @@ import {
 } from '../UserStorageClass'
 import UserPropertiesClass from '../UserPropertiesClass'
 import { getUserModel } from '../UserModel'
+import update from '../../updates'
 import { addUser } from './__util__/index'
 
 const delay = duration => {
@@ -47,6 +49,20 @@ describe('UserStorage', () => {
 
   afterEach(() => {
     userStorage.unSubscribeProfileUpdates()
+  })
+
+  it('check updates', async () => {
+    const updatesDataBefore = (await userStorage.userProperties.get('updates')) || {}
+    expect(updatesDataBefore.lastUpdate).toBeUndefined()
+    expect(updatesDataBefore.lastVersionUpdate).toBeUndefined()
+    expect(updatesDataBefore.status).toBeUndefined()
+
+    await update()
+
+    const updatesDataAfter = (await userStorage.userProperties.get('updates')) || {}
+    expect(typeof updatesDataAfter.lastUpdate === 'string').toBeTruthy()
+    expect(updatesDataAfter.lastVersionUpdate).toEqual(Config.version)
+    expect(typeof updatesDataAfter.status === 'object').toBeTruthy()
   })
 
   it('logins to gundb', () => {
@@ -81,7 +97,10 @@ describe('UserStorage', () => {
 
   it('has default user properties', async () => {
     const res = await userStorage.userProperties.getAll()
-    expect(res).toEqual(expect.objectContaining(UserPropertiesClass.defaultProperties))
+
+    //firstvisitapp is initialied in userstorage init
+    const expected = { ...UserPropertiesClass.defaultProperties, firstVisitApp: expect.any(Number) }
+    expect(res).toEqual(expect.objectContaining(expected))
   })
 
   it('start system feeds', async () => {
@@ -406,6 +425,14 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(startClaiming)
   })
 
+  it('events/add hanuka bonus starts event', async () => {
+    hanukaBonusStartsMessage.id = 'hanuka-test'
+
+    await userStorage.updateFeedEvent(hanukaBonusStartsMessage)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(hanukaBonusStartsMessage)
+  })
+
   it('events/doesnt have the welcome event already set', async () => {
     const events = await userStorage.getAllFeed()
     if (Config.isEToro) {
@@ -603,7 +630,7 @@ describe('UserStorage', () => {
     await Promise.all([userStorage.wallet.ready, userStorage.ready])
     const result = await userStorage.setProfileField('username', 'user1', 'public')
     await userStorage.setProfileField('email', 'user1', 'public')
-    expect(result).toMatchObject({ err: undefined, ok: 0 })
+    expect(result).toMatchObject({ ok: 0 })
 
     const updatedUsername = await userStorage.getProfileFieldValue('username')
     expect(updatedUsername).toBe('user1')

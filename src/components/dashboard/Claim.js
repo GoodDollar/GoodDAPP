@@ -134,9 +134,11 @@ const Claim = props => {
   }, [entitlement])
 
   const checkHanukaBonusDates = () => {
-    const now = moment()
-    const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY')
-    const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY').endOf('day')
+    const now = moment().utcOffset('+0200')
+    const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY').utcOffset('+0200')
+    const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY')
+      .endOf('day')
+      .utcOffset('+0200')
 
     if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
       API.checkHanukaBonus()

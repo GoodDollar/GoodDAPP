@@ -396,10 +396,11 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   }
                 >
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
+                    className="css-text-901oao css-textMultiLine-cens5h"
                     dir="auto"
                     style={
                       Object {
+                        "WebkitLineClamp": 2,
                         "color": "rgba(66,69,74,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
@@ -432,7 +433,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         }
                       }
                     >
-                       Misao Matimbo
+                      Misao Matimbo
                     </span>
                   </div>
                 </div>
@@ -1185,10 +1186,11 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
+                    className="css-text-901oao css-textMultiLine-cens5h"
                     dir="auto"
                     style={
                       Object {
+                        "WebkitLineClamp": 2,
                         "color": "rgba(66,69,74,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
@@ -1221,7 +1223,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         }
                       }
                     >
-                       Misao Matimbo
+                      Misao Matimbo
                     </span>
                   </div>
                   <div
@@ -2102,10 +2104,11 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
+                    className="css-text-901oao css-textMultiLine-cens5h"
                     dir="auto"
                     style={
                       Object {
+                        "WebkitLineClamp": 2,
                         "color": "rgba(66,69,74,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
@@ -2138,7 +2141,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         }
                       }
                     >
-                      To:
+                      To: 
                     </span>
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406"
@@ -2158,7 +2161,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         }
                       }
                     >
-                       Misao Matimbo
+                      Misao Matimbo
                     </span>
                   </div>
                   <div
@@ -3039,10 +3042,11 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
+                    className="css-text-901oao css-textMultiLine-cens5h"
                     dir="auto"
                     style={
                       Object {
+                        "WebkitLineClamp": 2,
                         "color": "rgba(66,69,74,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
@@ -3075,7 +3079,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         }
                       }
                     >
-                      To:
+                      To: 
                     </span>
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406"
@@ -3095,7 +3099,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         }
                       }
                     >
-                       Misao Matimbo
+                      Misao Matimbo
                     </span>
                   </div>
                   <div
@@ -3977,10 +3981,11 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
+                    className="css-text-901oao css-textMultiLine-cens5h"
                     dir="auto"
                     style={
                       Object {
+                        "WebkitLineClamp": 2,
                         "color": "rgba(66,69,74,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
@@ -4013,7 +4018,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         }
                       }
                     >
-                      From:
+                      From: 
                     </span>
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406"
@@ -4033,7 +4038,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         }
                       }
                     >
-                       Misao Matimbo
+                      Misao Matimbo
                     </span>
                   </div>
                   <div

@@ -1,5 +1,7 @@
 //@flow
 import _debounce from 'lodash/debounce'
+import _forEach from 'lodash/forEach'
+import * as Sentry from '@sentry/browser'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
 
@@ -88,6 +90,26 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
       })
     }
   }
+
+  if (Config.sentryDSN) {
+    Sentry.init({
+      dsn: Config.sentryDSN,
+      environment: Config.env,
+    })
+
+    Sentry.configureScope(scope => {
+      if (email || identifier) {
+        scope.setUser({
+          id: identifier,
+          email: email,
+        })
+      }
+
+      scope.setTag('appVersion', Config.version)
+      scope.setTag('networkUsed', Config.network)
+    })
+  }
+
   log.debug('Initialized analytics:', {
     Amplitude: Amplitude !== undefined,
     FS: FS !== undefined,
@@ -96,6 +118,21 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
 
   patchLogger()
 }
+
+export const reportToSentry = (errorMsg, extra = {}, tags = {}) =>
+  Sentry.configureScope(scope => {
+    // set extra
+    _forEach(extra, (value, key) => {
+      scope.setExtra(key, value)
+    })
+
+    // set tags
+    _forEach(tags, (value, key) => {
+      scope.setTags(key, value)
+    })
+
+    Sentry.captureException(new Error(errorMsg))
+  })
 
 export const fireEvent = (event: string, data: any = {}) => {
   if (Amplitude === undefined) {
@@ -143,6 +180,14 @@ const patchLogger = () => {
     }
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
+    }
+    if (Config.sentryDSN && Config.env !== 'test') {
+      reportToSentry(logMessage, {
+        errorObj,
+        logContext,
+        eMsg,
+        rest,
+      })
     }
     return error.apply(global.logger, arguments)
   }

@@ -400,13 +400,14 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz"
+            className="css-text-901oao css-textMultiLine-cens5h"
             dir="auto"
             style={
               Object {
                 "WebkitAlignItems": "flex-end",
                 "WebkitBoxAlign": "end",
                 "WebkitFlexShrink": 0,
+                "WebkitLineClamp": 2,
                 "alignItems": "flex-end",
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
@@ -445,7 +446,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 }
               }
             >
-              From:
+              From: 
             </span>
             <span
               className="css-text-901oao css-textHasAncestor-16my406"
@@ -465,7 +466,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 }
               }
             >
-               Misao Matimbo
+              Misao Matimbo
             </span>
           </div>
           <div
@@ -918,13 +919,14 @@ exports[`ListEventItem send matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz"
+            className="css-text-901oao css-textMultiLine-cens5h"
             dir="auto"
             style={
               Object {
                 "WebkitAlignItems": "flex-end",
                 "WebkitBoxAlign": "end",
                 "WebkitFlexShrink": 0,
+                "WebkitLineClamp": 2,
                 "alignItems": "flex-end",
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
@@ -963,7 +965,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 }
               }
             >
-              To:
+              To: 
             </span>
             <span
               className="css-text-901oao css-textHasAncestor-16my406"
@@ -983,7 +985,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 }
               }
             >
-               Misao Matimbo
+              Misao Matimbo
             </span>
           </div>
           <div
@@ -1436,13 +1438,14 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz"
+            className="css-text-901oao css-textMultiLine-cens5h"
             dir="auto"
             style={
               Object {
                 "WebkitAlignItems": "flex-end",
                 "WebkitBoxAlign": "end",
                 "WebkitFlexShrink": 0,
+                "WebkitLineClamp": 2,
                 "alignItems": "flex-end",
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
@@ -1481,7 +1484,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 }
               }
             >
-              From:
+              From: 
             </span>
             <span
               className="css-text-901oao css-textHasAncestor-16my406"
@@ -1501,7 +1504,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 }
               }
             >
-               Misao Matimbo
+              Misao Matimbo
             </span>
           </div>
           <div

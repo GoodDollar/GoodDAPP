@@ -61,8 +61,6 @@ const AppSwitch = (props: LoadingProps) => {
     const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
     AsyncStorage.removeItem(DESTINATION_PATH)
 
-    return undefined
-
     if (destinationPath) {
       const app = router.getActionForPathAndParams(destinationPath.path) || {}
       log.debug('destinationPath getParams', { destinationPath, router, state, app })
@@ -145,6 +143,9 @@ const AppSwitch = (props: LoadingProps) => {
 
     try {
       await initialize()
+
+      //we only need feed once user logs in, so this is not in userstorage.init
+      userStorage.startSystemFeed()
       await Promise.all([runUpdates(), prepareLoginToken(), checkBonusInterval(), showOutOfGasError(props)])
 
       setReady(true)

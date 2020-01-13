@@ -459,9 +459,10 @@ export class UserStorage {
   constructor(wallet: GoodWallet, gun: Gun = defaultGun) {
     this.gun = gun
     this.wallet = wallet
+    const start = Date.now()
     this.ready = this.wallet.ready
       .then(() => this.init())
-      .then(() => logger.debug('userStorage initialized.'))
+      .then(() => logger.debug('userStorage initialized.', (Date.now() - start) / 1000), 'seconds')
       .catch(e => {
         logger.error('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
         return false
@@ -547,10 +548,9 @@ export class UserStorage {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
-    logger.debug('init to events')
-    await this.initFeed()
-    await this.initProperties()
-    await this.startSystemFeed()
+
+    //wait until we read initial data (prevent gundb corruption bug)
+    await Promise.all([this.initFeed(), this.initProperties()])
 
     //save ref to user
     this.gun
@@ -827,11 +827,10 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  async initFeed() {
+  initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
-    await this.feed
-    await this.feed.get('byid')
+    return Promise.all([this.feed, this.feed.get('byid')])
   }
 
   async startSystemFeed() {
@@ -1162,7 +1161,7 @@ export class UserStorage {
       })
     }
 
-    return Promise.race([
+    return Promise.all([
       this.profile
         .get(field)
         .get('value')

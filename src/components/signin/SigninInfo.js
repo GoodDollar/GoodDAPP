@@ -32,28 +32,37 @@ const Signin = props => {
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
-            <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-              {'To sign in\n please follow these steps:'}
-            </Text>
-            <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
-              {`(works from any device or platform)`}
-            </Text>
-          </View>
-        </Section.Row>
-        <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-          <View style={styles.bottomContainer}>
-            <Section.Text style={styles.blockCircle}>
-              <Circle number={1}>Go to your email</Circle>
+            <Section.Text>
+              <Circle number={1}>
+                {'Go to your '}
+                <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
+                  email
+                </Text>
+              </Circle>
               <Circle number={2}>
                 Find{' '}
                 <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                  GoodDollar magic link
+                  GoodDollar Magic Link
                 </Text>
               </Circle>
-              <Circle number={3}>
+              <Circle
+                number={3}
+                subText={
+                  <Text
+                    fontFamily="Roboto"
+                    fontSize={14}
+                    letterSpacing={0.14}
+                    color="gray80Percent"
+                    lineHeight={16}
+                    style={styles.thirdCircleSubText}
+                  >
+                    {'\n* works from any device'}
+                  </Text>
+                }
+              >
                 {'Click the '}
                 <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                  magic link
+                  Magic Link Button
                 </Text>
               </Circle>
             </Section.Text>
@@ -99,21 +108,17 @@ const getStylesFromProps = ({ theme }) => {
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
-      marginTop: 30,
-      marginBottom: 30,
+      marginTop: getDesignRelativeHeight(30),
+      marginBottom: getDesignRelativeHeight(30),
       maxWidth: '100%',
-      maxHeight: getDesignRelativeHeight(142),
-      minHeight: getDesignRelativeHeight(95),
-      paddingTop: theme.sizes.default,
+      maxHeight: getDesignRelativeHeight(142, false),
+      minHeight: getDesignRelativeHeight(95, false),
     },
     text: {
       color: theme.colors.green,
     },
-    blockCircle: {
-      marginTop: 24,
-    },
     textBottom: {
-      marginBottom: 24,
+      marginBottom: 15,
     },
     contentContainer: {
       flexGrow: 1,
@@ -122,6 +127,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     scrollableContainer: {
       flexGrow: 1,
+    },
+    thirdCircleSubText: {
+      position: 'absolute',
+      bottom: -13,
     },
   }
 }

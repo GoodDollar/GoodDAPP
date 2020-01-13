@@ -264,7 +264,7 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'relative',
     borderRadius: '50%',
     marginTop: getDesignRelativeHeight(15),
-    marginBottom: getDesignRelativeHeight(24, false),
+    marginBottom: getDesignRelativeHeight(24),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -273,7 +273,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: getDesignRelativeHeight(10),
-    marginBottom: getDesignRelativeHeight(27, false),
+    marginBottom: getDesignRelativeHeight(27),
   },
   credsWrapper: {
     borderWidth: 1,
@@ -295,7 +295,7 @@ const getStylesFromProps = ({ theme }) => ({
     lineHeight: normalize(14),
   },
   toTextWrapper: {
-    marginBottom: getDesignRelativeHeight(24, false),
+    marginBottom: 24,
   },
   toText: {
     margin: 0,
@@ -305,7 +305,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: 0,
   },
   warnText: {
-    marginVertical: getDesignRelativeHeight(24, false),
+    marginVertical: getDesignRelativeHeight(24),
   },
 })
 

@@ -1,7 +1,7 @@
 // FIXME: RN
 
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, View, Platform } from 'react-native'
+import { AsyncStorage, Image, Platform, View } from 'react-native'
 import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
@@ -68,7 +68,7 @@ const UnsupportedDevice = props => {
       <React.Fragment>
         <Text style={styles.qrText}>Scan via your mobile</Text>
         <View style={styles.qrView}>
-          {/*<QRCode value={code} size={111} />*/}
+          <QRCode value={code} size={111} />
         </View>
       </React.Fragment>
     )

@@ -149,6 +149,9 @@ const AppSwitch = (props: LoadingProps) => {
 
     try {
       await initialize()
+
+      //we only need feed once user logs in, so this is not in userstorage.init
+      userStorage.startSystemFeed()
       await Promise.all([runUpdates(), prepareLoginToken(), checkBonusInterval(), showOutOfGasError(props)])
 
       setReady(true)

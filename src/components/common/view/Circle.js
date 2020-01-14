@@ -16,9 +16,9 @@ import Text from './Text'
  */
 class Circle extends React.Component {
   render() {
-    const { children, number, styles } = this.props
+    const { children, number, subText, styles } = this.props
     return (
-      <View style={styles.mainBlock}>
+      <View style={[styles.mainBlock, !!subText && styles.alignMainBlockCenter]}>
         <View style={styles.circle}>
           <Text fontFamily="slab" style={styles.circleNumber} fontWeight="bold" fontSize={24} color="#ffffff">
             {number}
@@ -28,6 +28,7 @@ class Circle extends React.Component {
           <Text fontFamily="Roboto" fontSize={18} color={theme.colors.darkGray}>
             {children}
           </Text>
+          {subText}
         </View>
       </View>
     )
@@ -41,13 +42,16 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'row',
     },
+    alignMainBlockCenter: {
+      alignItems: 'center',
+    },
     circleNumber: {
       display: 'block',
     },
     circle: {
       justifyContent: 'center',
       display: 'flex',
-      backgroundColor: theme.colors.darkGray,
+      backgroundColor: theme.colors.primary,
       borderRadius: '50%',
       height: 43,
       boxShadow: '6px 1px 0 rgba(12, 38, 61, 0.15)',

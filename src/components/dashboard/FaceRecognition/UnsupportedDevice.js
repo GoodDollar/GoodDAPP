@@ -3,7 +3,7 @@ import { AsyncStorage, Image, View } from 'react-native'
 import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
-import QRCode from 'qrcode.react'
+import QRCode from '../../common/view/QrCode/QRCode'
 import { GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import Config from '../../../config/config'
@@ -16,6 +16,7 @@ import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import Text from '../../common/view/Text'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+
 // Image.prefetch(Oops)
 const log = logger.child({ from: 'UnsupportedDevice' })
 
@@ -62,7 +63,7 @@ const UnsupportedDevice = props => {
       <React.Fragment>
         <Text style={styles.qrText}>Scan via your mobile</Text>
         <View style={styles.qrView}>
-          {/*<QRCode value={code} size={111} />*/}
+          <QRCode value={code} size={111} />
         </View>
       </React.Fragment>
     )

@@ -4,7 +4,15 @@ class HomePage {
     return cy.get('[dir="auto"]').eq(0)
   }
 
-  get supportButton() {
+  get inviteTab() {
+    return cy.get('[data-focusable="true"]:nth-child(3)')
+  }
+
+  get goodmarketTab() {
+    return cy.get('[data-focusable="true"]:nth-child(5)')
+  }
+
+  get supportTab() {
     return cy.get('[data-focusable="true"]:nth-child(7)')
   }
 

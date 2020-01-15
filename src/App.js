@@ -21,6 +21,7 @@ const App = () => {
   const store = SimpleStore.useStore()
   useEffect(() => {
     const onUpdate = reg => {
+      console.log('----------------- Update ---------------------')
       store.set('serviceWorkerUpdated')(reg)
       navigator.serviceWorker.addEventListener('controllerchange', function() {
         log.debug('service worker: controllerchange')

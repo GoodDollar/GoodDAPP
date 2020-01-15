@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { withTheme } from 'react-native-paper'
-import { createIconSetFromFontello } from 'react-native-vector-icons'
+import createIconSetFromFontello from 'react-native-vector-icons/lib/create-icon-set-from-fontello'
 import fontelloConfig from './config.json'
 
 const Icon = createIconSetFromFontello(fontelloConfig)

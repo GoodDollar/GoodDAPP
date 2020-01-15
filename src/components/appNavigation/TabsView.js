@@ -108,7 +108,9 @@ const TabsView = React.memo((props: TabViewProps) => {
       navigation.navigate('Rewards')
     }
   }
-
+  const goToSupport = () => {
+    navigation.navigate('Support')
+  }
   const goToMarketplace = () => {
     if (isIOS) {
       const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
@@ -126,11 +128,19 @@ const TabsView = React.memo((props: TabViewProps) => {
         </TouchableOpacity>
       )}
       <Appbar.Content />
+      <TouchableOpacity onPress={goToRewards}>
+        <Icon name="invite2" size={36} color="white" />
+      </TouchableOpacity>
+      <Appbar.Content />
       {config.market && (
         <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
           <Icon name="goodmarket" size={36} color="white" />
         </TouchableOpacity>
       )}
+      <Appbar.Content />
+      <TouchableOpacity onPress={goToSupport} style={styles.feedback}>
+        <Icon name="support2" size={36} color="white" />
+      </TouchableOpacity>
       <Appbar.Content />
       <TouchableOpacity onPress={toggleMenu}>
         <Icon name="settings" size={20} color="white" style={styles.menuStyle} testID="burger_button" />
@@ -152,7 +162,9 @@ const styles = ({ theme }) => ({
     }),
     paddingVertical: 20,
     paddingHorizontal: 7,
-    marginRight: 14,
+  },
+  feedback: {
+    marginRight: 5,
   },
   rewardsStyle: {
     marginLeft: 10,

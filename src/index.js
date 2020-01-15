@@ -35,9 +35,12 @@ if (Config.bugsnagKey) {
   ErrorBoundary = bugsnagClient.getPlugin('react')
 }
 
+const { hot } = require('react-hot-loader')
+const HotApp = hot(module)(App)
+
 const WebApp = () => (
   <ErrorBoundary>
-    <App />
+    <HotApp />
   </ErrorBoundary>
 )
 

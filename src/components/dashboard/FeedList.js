@@ -13,7 +13,7 @@ import logger from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
-import { SwipeableFlatList } from 'deprecated-react-native-swipeableflatlist'
+// import { SwipeableFlatList } from 'deprecated-react-native-swipeableflatlist'
 
 const log = logger.child({ from: 'ShareButton' })
 
@@ -23,7 +23,7 @@ const VIEWABILITY_CONFIG = {
   waitForInteraction: true,
 }
 const emptyFeed = { type: 'empty', data: {} }
-const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
+// const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 export type FeedListProps = {
   data: any,
@@ -142,33 +142,35 @@ const FeedList = ({
     )
   }
 
-  return (
-    <>
-      <AnimatedSwipeableFlatList
-        bounceFirstRowOnMount={true}
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollableView}
-        data={feeds}
-        getItemLayout={getItemLayout}
-        initialNumToRender={initialNumToRender || 10}
-        key="vf"
-        keyExtractor={keyExtractor}
-        keyboardDismissMode="on-drag"
-        keyboardShouldPersistTaps="always"
-        legacyImplementation={false}
-        maxSwipeDistance={112}
-        numColumns={1}
-        onEndReached={onEndReached}
-        refreshing={false}
-        renderItem={renderItemComponent}
-        renderQuickActions={renderQuickActions}
-        viewabilityConfig={VIEWABILITY_CONFIG}
-        onScroll={onScroll}
-        ref={flRef}
-      />
-      {headerLarge ? null : <ScrollToTopButton onPress={scrollToTop} />}
-    </>
-  )
+  return null
+
+  // return (
+  //   <>
+  //     <AnimatedSwipeableFlatList
+  //       bounceFirstRowOnMount={true}
+  //       style={styles.scrollView}
+  //       contentContainerStyle={styles.scrollableView}
+  //       data={feeds}
+  //       getItemLayout={getItemLayout}
+  //       initialNumToRender={initialNumToRender || 10}
+  //       key="vf"
+  //       keyExtractor={keyExtractor}
+  //       keyboardDismissMode="on-drag"
+  //       keyboardShouldPersistTaps="always"
+  //       legacyImplementation={false}
+  //       maxSwipeDistance={112}
+  //       numColumns={1}
+  //       onEndReached={onEndReached}
+  //       refreshing={false}
+  //       renderItem={renderItemComponent}
+  //       renderQuickActions={renderQuickActions}
+  //       viewabilityConfig={VIEWABILITY_CONFIG}
+  //       onScroll={onScroll}
+  //       ref={flRef}
+  //     />
+  //     {headerLarge ? null : <ScrollToTopButton onPress={scrollToTop} />}
+  //   </>
+  // )
 }
 
 const getStylesFromProps = ({ theme }) => ({

@@ -1,5 +1,5 @@
 // @flow
-import isMobile from './lib/utils/isMobile.js'
+import { isMobile } from './lib/utils/platform'
 import React, { useEffect, useMemo, useState } from 'react'
 import { AsyncStorage, Platform } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
@@ -29,6 +29,7 @@ const App = () => {
   const continueWithDesktop = () => {
     setUseDesktop(true)
   }
+
   const SplashOrRouter =
     !isMobile && !useDesktop ? (
       <SplashDesktop onContinue={continueWithDesktop} urlForQR={window.location.href} />
@@ -75,10 +76,12 @@ const AppHolder = () => {
         await upgradeVersion()
       }
 
-      try {
-        await crypto.ensureSecure()
-      } catch (e) {
-        logger.error('crypto ensure secure failed:', e.message, e)
+      if (Platform.OS !== 'web') {
+        try {
+          await crypto.ensureSecure()
+        } catch (e) {
+          logger.error('crypto ensure secure failed:', e.message, e)
+        }
       }
 
       await initStore()

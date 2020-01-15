@@ -54,9 +54,11 @@ export type State = {
     visible: boolean,
   },
   isMobileSafariKeyboardShown: boolean,
+  isMobileKeyboardShown: boolean,
   currentFeed: any,
   addWebApp: {
     show: boolean,
+    showAddWebAppDialog: boolean,
   },
   serviceWorkerUpdated: any,
 }
@@ -83,9 +85,11 @@ const initialState: State = {
     visible: false,
   },
   isMobileSafariKeyboardShown: false,
+  isMobileKeyboardShown: false,
   currentFeed: null,
   addWebApp: {
     show: false,
+    showAddWebAppDialog: false,
   },
   wallet: null,
   userStorage: null,

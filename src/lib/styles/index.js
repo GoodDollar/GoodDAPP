@@ -49,7 +49,7 @@ export const withStyles = (mapThemeToStyles, withStyleSheet = false) => Componen
         return <Component ref={c => (this._root = c)} {...this.props} />
       }
 
-      return <Component ref={c => (this._root = c)} {...this.props} styles={this.state.styles} />
+      return <Component {...this.props} styles={this.state.styles} />
     }
   }
 

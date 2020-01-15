@@ -445,7 +445,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }, [navigation.state.index])
 
   const { scrollableContainer, contentContainer } = styles
-
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={title} />

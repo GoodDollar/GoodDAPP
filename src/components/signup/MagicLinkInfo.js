@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, View, Platform } from 'react-native'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
@@ -8,7 +8,9 @@ import illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomWrapper from './signUpWrapper'
 
-// Image.prefetch(illustration)
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps = {} } = props

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, Platform, StyleSheet, View } from 'react-native'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomButton from '../common/buttons/CustomButton'
@@ -7,9 +7,10 @@ import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import QRCode from '../common/view/QrCode/QRCode'
 
-//minimize delay <Image> has over web <img>
-// // Image.prefetch(goodDollarImage)
-// // Image.prefetch(wavePattern)
+if (Platform.OS === 'web') {
+  // minimize delay <Image> has over web <img>
+  Image.prefetch(goodDollarImage)
+}
 
 const SplashDesktop = ({ onContinue, urlForQR }) => (
   <Wrapper style={styles.wrapper}>

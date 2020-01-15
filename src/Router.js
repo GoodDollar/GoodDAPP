@@ -12,7 +12,7 @@ import AppSwitch from './components/appSwitch/AppSwitch'
 import GDStore from './lib/undux/GDStore'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import AddWebApp from './components/common/view/AddWebApp'
-import isWebApp from './lib/utils/isWebApp'
+import { isInstalledApp } from './lib/utils/platform'
 import { createAppContainer } from 'react-navigation'
 
 const AppNavigator = createNavigator(
@@ -35,10 +35,11 @@ const RouterWrapper = Platform.OS === 'web' ? createBrowserApp(AppNavigator) : c
 const onRouteChange = (prevNav, nav, route) => {
   fireEventFromNavigation(route)
 }
+
 const Router = () => {
   return (
     <GDStore.Container>
-      {!isWebApp && <AddWebApp />}
+      {!isInstalledApp && <AddWebApp />}
       <Portal.Host>
         <RouterWrapper onNavigationStateChange={onRouteChange} />
       </Portal.Host>

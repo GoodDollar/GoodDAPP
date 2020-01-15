@@ -123,8 +123,8 @@ const TabsView = React.memo((props: TabViewProps) => {
   return (
     <Appbar.Header dark>
       {config.isEToro && (
-        <TouchableOpacity onPress={goToRewards} style={styles.rewardsStyle}>
-          <Icon name="rewards" size={36} color="white" testID="rewards_tab" />
+        <TouchableOpacity testID="rewards_tab" onPress={goToRewards} style={styles.rewardsStyle}>
+          <Icon name="rewards" size={36} color="white" />
         </TouchableOpacity>
       )}
       <Appbar.Content />
@@ -133,8 +133,8 @@ const TabsView = React.memo((props: TabViewProps) => {
       </TouchableOpacity>
       <Appbar.Content />
       {config.market && (
-        <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
-          <Icon name="goodmarket" size={36} color="white" testID="goodmarket_tab" />
+        <TouchableOpacity testID="goodmarket_tab" onPress={goToMarketplace} style={styles.marketIconBackground}>
+          <Icon name="goodmarket" size={36} color="white" />
         </TouchableOpacity>
       )}
       <Appbar.Content />

@@ -33,6 +33,7 @@ const App = () => {
       }
     }
     if (serviceWorkerRegistred === false) {
+      console.log('-----------------------------------------')
       log.debug('registering service worker')
       serviceWorker.register({ onRegister, onUpdate })
       serviceWorkerRegistred = true

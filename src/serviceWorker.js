@@ -29,7 +29,7 @@ export function register(config) {
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
       return
     }
-
+    console.log('1111111111-----------------------------------------')
     window.addEventListener('load', () => {
       const swUrl =
         process.env.NODE_ENV === 'production'
@@ -52,6 +52,7 @@ export function register(config) {
         })
       } else {
         // Is not localhost. Just register service worker
+        console.log('222222222222-----------------------------------------')
         registerValidSW(swUrl, config)
       }
     })
@@ -71,6 +72,10 @@ function registerValidSW(swUrl, config) {
           return
         }
         installingWorker.onstatechange = () => {
+          console.log('**********************')
+          console.log(registration);
+          console.log(installingWorker);
+          console.log('**********************')
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               // At this point, the updated precached content has been fetched,

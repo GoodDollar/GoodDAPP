@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity, View, Platform } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
 

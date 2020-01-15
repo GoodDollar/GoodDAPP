@@ -77,6 +77,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
     setLoading(false)
+
     //FIXME rn
     if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
       setTimeout(() => {

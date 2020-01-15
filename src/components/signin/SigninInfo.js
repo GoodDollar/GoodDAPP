@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { AsyncStorage, Image, TouchableOpacity, View, Platform } from 'react-native'
+import { AsyncStorage, Image, Platform, TouchableOpacity, View } from 'react-native'
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
 import Wrapper from '../common/layout/Wrapper'

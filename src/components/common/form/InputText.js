@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect } from 'react'
 import { isMobile, isMobileSafari } from 'mobile-device-detect'
-import { StyleSheet, TextInput, TouchableOpacity, View, Platform } from 'react-native'
+import { Platform, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { withStyles } from '../../../lib/styles'
@@ -82,11 +82,12 @@ const getStylesFromProps = ({ theme }) => ({
     ...theme.fontStyle,
     backgroundColor: theme.colors.surface,
     borderBottomColor: theme.colors.darkGray,
+
     // FIXME: RN
     ...Platform.select({
       web: {
         borderBottomStyle: 'solid',
-      }
+      },
     }),
     borderBottomWidth: StyleSheet.hairlineWidth,
     color: theme.colors.darkGray,

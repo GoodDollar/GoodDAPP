@@ -4,6 +4,7 @@ import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import { Platform } from 'react-native'
 import { Portal } from 'react-native-paper'
+import { createAppContainer } from 'react-navigation'
 import { navigationConfig } from './components/appNavigation/navigationConfig'
 import About from './components/about/AboutState'
 import BackupWallet from './components/backupWallet/BackupWalletState'
@@ -13,7 +14,6 @@ import GDStore from './lib/undux/GDStore'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import AddWebApp from './components/common/view/AddWebApp'
 import { isInstalledApp } from './lib/utils/platform'
-import { createAppContainer } from 'react-navigation'
 
 const AppNavigator = createNavigator(
   AppSwitch,

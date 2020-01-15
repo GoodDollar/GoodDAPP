@@ -13,6 +13,7 @@ import logger from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
+
 // import { SwipeableFlatList } from 'deprecated-react-native-swipeableflatlist'
 
 const log = logger.child({ from: 'ShareButton' })
@@ -23,6 +24,7 @@ const VIEWABILITY_CONFIG = {
   waitForInteraction: true,
 }
 const emptyFeed = { type: 'empty', data: {} }
+
 // const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 export type FeedListProps = {

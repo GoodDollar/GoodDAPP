@@ -1,9 +1,9 @@
 // @flow
-import { isMobile } from './lib/utils/platform'
 import React, { useEffect, useMemo, useState } from 'react'
 import { AsyncStorage, Platform } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import crypto from 'isomorphic-webcrypto'
+import { isMobile } from './lib/utils/platform'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import { theme } from './components/theme/styles'
 import SimpleStore, { initStore, setInitFunctions } from './lib/undux/SimpleStore'

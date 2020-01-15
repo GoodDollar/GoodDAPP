@@ -1,6 +1,5 @@
 import { Platform } from 'react-native'
 
-
 const isWebApp = () => {
   if (Platform.OS === 'ios' || Platform.OS === 'android') {
     return false

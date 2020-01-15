@@ -3,11 +3,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './App'
-import Config from './config/config'
 import bugsnag from '@bugsnag/js'
 import bugsnagReact from '@bugsnag/plugin-react'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
+import Config from './config/config'
+import App from './App'
 import './components/common/view/Icon/index.css'
 
 const fontStylesMaterialIcons = `@font-face { src: url(${fontMaterialIcons}); font-family: MaterialIcons; }`

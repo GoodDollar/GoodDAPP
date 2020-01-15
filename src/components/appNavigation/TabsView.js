@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
-import { TouchableOpacity, Platform } from 'react-native'
+import { Platform, TouchableOpacity } from 'react-native'
 import _get from 'lodash/get'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import config from '../../config/config'

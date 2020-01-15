@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { theme } from '../../theme/styles'
 import Text from './Text'
@@ -65,7 +65,7 @@ const getStylesFromProps = ({ theme }) => {
       ...Platform.select({
         web: {
           boxShadow: '6px 1px 0 rgba(12, 38, 61, 0.15)',
-        }
+        },
       }),
       marginTop: theme.sizes.default,
       height: 43,

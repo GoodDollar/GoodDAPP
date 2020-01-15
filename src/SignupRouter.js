@@ -4,18 +4,19 @@ import { createSwitchNavigator } from '@react-navigation/core'
 
 import { Platform } from 'react-native'
 import { isAndroid, isMobileSafari } from 'mobile-device-detect'
+import { createAppContainer } from 'react-navigation'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
+
 // import Blurred from '../components/common/view/Blurred'
 // import '../components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import isWebApp from './lib/utils/isWebApp'
 import { getOriginalScreenHeight } from './lib/utils/Orientation'
-import { createAppContainer } from 'react-navigation'
 
 const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 const router = createSwitchNavigator(
@@ -31,8 +32,7 @@ const router = createSwitchNavigator(
   }
 )
 
-const RouterWrapper = Platform.OS === 'web' ?
-  createBrowserApp(router) : createAppContainer(router)
+const RouterWrapper = Platform.OS === 'web' ? createBrowserApp(router) : createAppContainer(router)
 
 const fullScreenContainer = {
   top: 0,

@@ -192,13 +192,13 @@ PODS:
     - React
   - react-native-camera/RN (3.15.1):
     - React
-  - react-native-netinfo (5.3.1):
+  - react-native-netinfo (5.3.2):
     - React
   - react-native-randombytes (3.5.3):
     - React
   - react-native-safe-area-context (0.6.2):
     - React
-  - react-native-udp (2.7.0):
+  - react-native-udp (3.0.0):
     - React
   - react-native-webview (8.0.3):
     - React
@@ -245,7 +245,7 @@ PODS:
     - React
   - RNReanimated (1.4.0):
     - React
-  - RNScreens (2.0.0-alpha.22):
+  - RNScreens (2.0.0-alpha.23):
     - React
   - RNSVG (9.13.6):
     - React
@@ -404,10 +404,10 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-camera: d5b131588a2d1f0ad377a321793f58794dbdc768
-  react-native-netinfo: 6b536ece82317b0313cbee732f2f9950fc0e9c4c
+  react-native-netinfo: 7baf6d0436122ea5d98dc3f17a60fe56c8048046
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203
-  react-native-udp: ccbd878f0f3b968217fc7e3d5eb5839fcaab8b6c
+  react-native-udp: 0c1afee1a1eb2b494b25e0c8ab39c783412e0984
   react-native-webview: de308e0b614039e483eef19a3cf6a9b6b166cff0
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
@@ -423,7 +423,7 @@ SPEC CHECKSUMS:
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: 6db7e0a4d94c9c02390d11020b1d3d187aaf77e5
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
-  RNScreens: 6adf01eb4080f44af6cca551207c6b0505066857
+  RNScreens: 55c735f525774e894be67848c250c95a9c3194c0
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   TcpSockets: 8d839b9b14f6f344d98e4642ded13ab3112b462d

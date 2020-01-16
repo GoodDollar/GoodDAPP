@@ -407,8 +407,13 @@ SPEC CHECKSUMS:
   react-native-netinfo: 7baf6d0436122ea5d98dc3f17a60fe56c8048046
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203
+<<<<<<< HEAD
   react-native-udp: 0c1afee1a1eb2b494b25e0c8ab39c783412e0984
   react-native-webview: de308e0b614039e483eef19a3cf6a9b6b166cff0
+=======
+  react-native-udp: ccbd878f0f3b968217fc7e3d5eb5839fcaab8b6c
+  react-native-webview: 88b0a0453a88cd7e3c0729ce8723a66783814dd6
+>>>>>>> d5a072970df74c0f1aa7ff41d45a1d985712de0b
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72

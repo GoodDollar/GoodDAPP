@@ -6,7 +6,6 @@ export default props => {
   const [isStarting, setIsStarting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const onFinishHandle = useCallback(() => {
-    onFinish && onFinish()
     setIsStarting(false)
     setIsSuccess(false)
     onFinish && onFinish()

@@ -1,10 +1,9 @@
 // @flow
-//FIXME:RN
-/* eslint-disable*/
+// FIXME: RN
+
 import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-//FIXME: RN SideMenu needs to be fixed first
-// import SideMenu from 'react-native-side-menu-gooddapp'
+import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -12,10 +11,12 @@ import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
+
 // import Blurred from '../common/view/Blurred'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
+
 //  import './blurFx.css'
 
 export const DEFAULT_PARAMS = {
@@ -214,7 +215,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   sideMenuSwap = visible => {
     const { store } = this.props
-    const sidemenu = store.get('sidemenu') || {}
+    const sidemenu = store.get('sidemenu')
 
     sidemenu.visible = visible
 
@@ -246,23 +247,22 @@ class AppView extends Component<AppViewProps, AppViewState> {
     log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
-    const open = (store.get('sidemenu') || {}).visible
+    const open = store.get('sidemenu').visible
     const { visible: dialogVisible } = (store.get('currentScreen') || {}).dialogData || {}
     const currentFeed = store.get('currentFeed')
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
 
     return (
       <React.Fragment>
-        {/* FIXME: RN SideMenu needs to be fixed first */}
-        {/*<View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>*/}
-        {/*  <SideMenu*/}
-        {/*    menu={menu}*/}
-        {/*    menuPosition="right"*/}
-        {/*    isOpen={open}*/}
-        {/*    disableGestures={true}*/}
-        {/*    onChange={this.sideMenuSwap}*/}
-        {/*  />*/}
-        {/*</View>*/}
+        <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : styles.hideMenu]}>
+          <SideMenu
+            menu={menu}
+            menuPosition="right"
+            isOpen={open}
+            disableGestures={true}
+            onChange={this.sideMenuSwap}
+          />
+        </View>
         {/*<Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>*/}
         {!navigationBarHidden &&
           (NavigationBar ? (

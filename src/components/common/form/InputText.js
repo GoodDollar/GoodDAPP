@@ -97,7 +97,6 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   view: {
-    flex: 1,
     marginBottom: theme.sizes.default,
     width: '100%',
   },

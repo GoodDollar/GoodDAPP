@@ -6,27 +6,25 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start:web": "react-app-rewired start",
+    "web": "react-app-rewired start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start:native": "react-native start",
-    "nodeify": "./node_modules/.bin/rn-nodeify --hack --install",
     "start": "serve -s -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
-    "analyze": "webpack-bundle-analyzer 'build/bundle-stats.json'",
+    "analyze": "webpack-bundle-analyzer 'build/stats.json'",
     "start:local": "npm link @gooddollar/goodcontracts && npm start",
     "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm start:native -- --reset-cache",
-    "web": "node scripts/start.js",
     "link": "npm link @gooddollar/goodcontracts",
     "web:local": "npm run link && npm run web",
-    "build": "node scripts/build.js --stats",
+    "build": "react-app-rewired build --analyze",
     "test": "npm run link && npm run test:web && npm run test:native",
-    "test:web-watch": "npm run link && node scripts/test.js --watch --config \"./config/web.jest.config.js\"",
-    "test:web": "npm run link && node scripts/test.js --config \"./config/web.jest.config.js\"",
-    "test:native": "npm run link && node scripts/test.js --config \"./config/native.jest.config.js\"",
-    "test:native-watch": "npm run link && node scripts/test.js --watch --config \"./config/native.jest.config.js\"",
-    "coverage": "node scripts/test.js --coverage --config \"./config/web.jest.config.js\"",
-    "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage",
+    "test:web-watch": "npm run link && react-app-rewired test --watch",
+    "test:web": "npm run link && react-app-rewired test",
+    "test:native": "npm run link && export TEST_REACT_NATIVE=1; react-app-rewired test",
+    "test:native-watch": "npm run link && TEST_REACT_NATIVE=1; react-app-rewired test --watch",
+    "coverage": "react-app-rewired test --coverage",
+    "coverage:native": "TEST_REACT_NATIVE=1; react-app-rewired test --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "bundlesize:check": "bundlesize",
     "flow": "flow",
@@ -38,7 +36,9 @@
     "version": "auto-changelog -p && git add CHANGELOG.md",
     "cypress:lin": "export NODE_ENV=development && npx cypress open",
     "cypress:win": "set \"NODE_ENV=development\" && npx cypress open",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "prepare-native": "npm run nodeify",
+    "nodeify": "./node_modules/.bin/rn-nodeify --hack --install"
   },
   "repository": {
     "type": "git",
@@ -133,7 +133,7 @@
     "react-native-safe-area-context": "^0.6.1",
     "react-native-safe-area-view": "^1.0.0",
     "react-native-screens": "^2.0.0-alpha.22",
-    "react-native-side-menu-gooddapp": "^2.0.2",
+    "react-native-side-menu-gooddapp": "git+https://github.com/GoodDollar/react-native-side-menu.git",
     "react-native-svg": "^9.13.6",
     "react-native-svg-asset-plugin": "^0.3.0",
     "react-native-tcp": "^3.3.2",
@@ -161,15 +161,18 @@
     "vm-browserify": "^1.1.2",
     "web3": "^2.0.0-alpha.1",
     "web3-providers": "^2.0.0-alpha.1",
-    "web3-utils": "^2.0.0-alpha.1"
+    "web3-utils": "^2.0.0-alpha.1",
+    "text-encoding": "^0.7.0",
+    "@peculiar/webcrypto": "^1.0.22"
   },
   "devDependencies": {
-    "@peculiar/webcrypto": "^1.0.19",
     "@react-native-community/eslint-config": "^0.0.5",
     "artillery": "^1.6.0-28",
     "auto-changelog": "^1.16.2",
     "babel-plugin-import": "^1.13.0",
+    "babel-plugin-react-native-web": "^0.12.0-rc.1",
     "babel-preset-react-native": "^5.0.2",
+    "bundlesize": "^0.18.0",
     "clipboardy": "^2.1.0",
     "coveralls": "^3.0.3",
     "cypress": "^3.7.0",
@@ -194,7 +197,7 @@
     "lint-staged": "^8.1.6",
     "metro-react-native-babel-preset": "^0.51.0",
     "netlify-cli": "^2.13.1",
-    "node-webcrypto-ossl": "^1.0.42",
+    "node-webcrypto-ossl": "^1.0.48",
     "react-app-rewire-aliases": "^0.2.0",
     "react-app-rewired": "^2.1.5",
     "react-hot-loader": "^4.6.5",
@@ -202,10 +205,8 @@
     "react-test-renderer": "16.9.0",
     "rn-nodeify": "tradle/rn-nodeify",
     "serve": "^11.0.0",
-    "text-encoding": "^0.7.0"
-  },
-  "jest": {
-    "preset": "react-native"
+    "source-map-explorer": "^2.2.2",
+    "webpack-bundle-analyzer": "^3.6.0"
   },
   "browserslist": [
     ">0.2%",
@@ -230,11 +231,6 @@
       "maxSize": "4 MB"
     }
   ],
-  "rnpm": {
-    "assets": [
-      "./src/assets/fonts/"
-    ]
-  },
   "auto-changelog": {
     "tagPattern": "^v[\\.0-9]+$"
   },

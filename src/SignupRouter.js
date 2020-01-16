@@ -2,7 +2,7 @@ import React from 'react'
 import { createBrowserApp } from '@react-navigation/web'
 import { createSwitchNavigator } from '@react-navigation/core'
 
-import { Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import { isAndroid, isMobileSafari } from 'mobile-device-detect'
 import { createAppContainer } from 'react-navigation'
 import Signup from './components/signup/SignupState'
@@ -58,7 +58,9 @@ const Router = () => {
   return (
     <>
       {/*<Blurred style={{ minHeight, ...fullScreenContainer }} blur={dialogVisible}>*/}
-      <RouterWrapper onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
+      <View style={{ minHeight, ...fullScreenContainer }}>
+        <RouterWrapper onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
+      </View>
       {/*</Blurred>*/}
     </>
   )

@@ -361,7 +361,7 @@ const Dashboard = props => {
   }
 
   return (
-    <Wrapper style={styles.dashboardWrapper}>
+    <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Section style={[styles.topInfo]}>
         {headerLarge ? (
           <Section.Stack alignItems="center">
@@ -465,12 +465,9 @@ const Dashboard = props => {
 
 const getStylesFromProps = ({ theme }) => ({
   dashboardWrapper: {
-    backgroundImage: 'none',
     backgroundColor: theme.colors.lightGray,
     flexGrow: 1,
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: 0,
+    padding: 0,
   },
   topInfo: {
     borderTopLeftRadius: 0,

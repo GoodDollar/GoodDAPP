@@ -23,8 +23,7 @@ const MagicLinkInfoComponent = props => {
           <Text
             fontWeight="bold"
             fontSize={28}
-            //fontFamily="Roboto Slab"
-            fontFamily="Roboto"
+            fontFamily="Roboto Slab"
             color="primary"
             style={styles.headerText}
             lineHeight={25}
@@ -70,10 +69,15 @@ const MagicLinkInfoComponent = props => {
 const getStylesFromProps = ({ theme }) => {
   return {
     headerText: {
-      // borderBottomWidth: 2,
-      // borderBottomStyle: 'solid',
-      // borderBottomColor: theme.colors.primary,
-      // paddingBottom: getDesignRelativeHeight(5),
+      // FIXME: RN borderBottom Properties are only allowed on Views
+      ...Platform.select({
+        web: {
+          borderBottomWidth: 2,
+          borderBottomStyle: 'solid',
+          borderBottomColor: theme.colors.primary,
+        },
+      }),
+      paddingBottom: getDesignRelativeHeight(5),
     },
     mainWrapper: {
       display: 'flex',

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { AsyncStorage, Image, SafeAreaView, Platform } from 'react-native'
+import { AsyncStorage, Image, Platform, SafeAreaView } from 'react-native'
 import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
@@ -180,7 +180,7 @@ class Auth extends React.Component<Props> {
     const firstButtonTextStyle = asGuest ? undefined : styles.textBlack
 
     return (
-      <SafeAreaView>
+      <SafeAreaView style={styles.mainWrapper}>
         <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
           <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
             {'Welcome to\nGoodDollar Wallet'}
@@ -240,11 +240,11 @@ class Auth extends React.Component<Props> {
 const getStylesFromProps = ({ theme }) => {
   return {
     mainWrapper: {
+      padding: 0,
       paddingHorizontal: 0,
       paddingVertical: 0,
       justifyContent: 'space-between',
-      flexGrow: 1,
-      alignItems: 'center',
+      flex: 1,
     },
     textBlack: {
       color: theme.fontStyle.color,
@@ -254,7 +254,6 @@ const getStylesFromProps = ({ theme }) => {
       paddingBottom: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      height: 10,
       marginVertical: 20,
     },
     buttonText: {
@@ -270,7 +269,7 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: theme.sizes.default,
-      maxWidth: '100%',
+      width: '100%',
       minHeight: 100,
       maxHeight: 192,
       paddingTop: theme.sizes.default,

@@ -1,6 +1,6 @@
 // @flow
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -166,7 +166,10 @@ const getStylesFromProps = ({ theme }) => ({
     width: getDesignRelativeHeight(75),
     backgroundColor: theme.colors.green,
     position: 'relative',
-    borderRadius: '50%',
+    borderRadius: Platform.select({
+      web: '50%',
+      default: getDesignRelativeHeight(75) / 2,
+    }),
     marginTop: getDesignRelativeHeight(15),
     marginBottom: getDesignRelativeHeight(24),
     display: 'flex',

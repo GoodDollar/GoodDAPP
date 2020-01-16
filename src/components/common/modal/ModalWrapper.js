@@ -2,6 +2,7 @@
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
+import { Platform } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import ModalCloseButton from './ModalCloseButton'
 import ModalJaggedEdge from './ModalJaggedEdge'
@@ -10,7 +11,6 @@ import ModalContents from './ModalContents'
 import ModalOverlay from './ModalOverlay'
 import ModalInnerContents from './ModalInnerContents'
 import ModalContainer from './ModalContainer'
-import { Platform } from 'react-native'
 
 const ModalWrapper = (props: any) => {
   const {
@@ -87,9 +87,18 @@ const getStylesFromProps = ({ theme }) => ({
   },
   triangle: {
     position: 'absolute',
-    display: Platform.OS === 'web' ? 'block' : 'flex',
-    width: '2rem',
-    height: '2rem',
+    display: Platform.select({
+      web: 'block',
+      default: 'flex',
+    }),
+    width: Platform.select({
+      web: '2rem',
+      default: 2,
+    }),
+    height: Platform.select({
+      web: '2rem',
+      default: 2,
+    }),
     backgroundColor: 'white',
     left: '49%',
     bottom: -10,

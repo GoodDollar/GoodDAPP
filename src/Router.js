@@ -30,7 +30,9 @@ const AppNavigator = createNavigator(
   ),
   navigationConfig
 )
-const RouterWrapper = Platform.OS === 'web' ? createBrowserApp(AppNavigator) : createAppContainer(AppNavigator)
+
+const createApp = Platform.OS === 'web' ? createBrowserApp : createAppContainer
+const RouterWrapper = createApp(AppNavigator)
 
 const onRouteChange = (prevNav, nav, route) => {
   fireEventFromNavigation(route)

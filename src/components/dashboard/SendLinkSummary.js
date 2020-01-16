@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
@@ -262,7 +262,10 @@ const getStylesFromProps = ({ theme }) => ({
     width: getDesignRelativeHeight(75),
     backgroundColor: theme.colors.red,
     position: 'relative',
-    borderRadius: '50%',
+    borderRadius: Platform.select({
+      web: '50%',
+      default: getDesignRelativeHeight(75) / 2,
+    }),
     marginTop: getDesignRelativeHeight(15),
     marginBottom: getDesignRelativeHeight(24),
     display: 'flex',

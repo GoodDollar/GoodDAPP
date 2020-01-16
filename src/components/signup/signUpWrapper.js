@@ -1,10 +1,10 @@
 // @flow
 import React from 'react'
+import { SafeAreaView } from 'react-native'
 import CustomButton from '../common/buttons/CustomButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import { withStyles } from '../../lib/styles'
-import { SafeAreaView } from 'react-native'
 
 type FooterProps = {
   valid?: boolean,
@@ -28,9 +28,9 @@ Footer.defaultProps = {
 const CustomWrapper = (props: any) => {
   const { footerComponent: FooterComponent } = props
   return (
-    <SafeAreaView>
+    <SafeAreaView style={props.styles.safeArea}>
       <Wrapper backgroundColor="transparent" style={props.styles.wrapper}>
-        <Section grow style={[props.styles.section, {backgroundColor: 'transparent'}]}>
+        <Section grow style={[props.styles.section, props.styles.transparentBackground]}>
           <Section.Stack grow justifyContent="space-evenly">
             {props.children}
           </Section.Stack>
@@ -44,11 +44,17 @@ const CustomWrapper = (props: any) => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  safeArea: {
+    flex: 1,
+  },
   wrapper: {
     padding: theme.sizes.defaultDouble,
   },
   section: {
     padding: 0,
+  },
+  transparentBackground: {
+    backgroundColor: 'transparent',
   },
 })
 

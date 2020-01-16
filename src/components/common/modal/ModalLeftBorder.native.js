@@ -1,4 +1,5 @@
 // @flow
+// FIXME: RN
 import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
@@ -6,7 +7,7 @@ import wavePattern from '../../../assets/wave.svg'
 import wavePatternForTooltipArrow from '../../../assets/feedListItemPattern.svg'
 import { mediumZIndex } from './styles'
 
-const ModalLeftBorder = (props: any) => {
+const ModalLeftBorderWeb = (props: any) => {
   const { styles, theme, borderColor = theme.colors.lightGray, style, showTooltipArrow } = props
   return (
     <View
@@ -38,4 +39,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(ModalLeftBorder)
+export default withStyles(getStylesFromProps)(ModalLeftBorderWeb)

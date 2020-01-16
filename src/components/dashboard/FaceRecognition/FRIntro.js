@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, View, Platform } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
 import GDStore from '../../../lib/undux/GDStore'
 import Separator from '../../common/layout/Separator'
@@ -111,6 +111,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingVertical: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   description: {
+    // FIXME: RN
     display: Platform.OS === 'web' ? 'block' : 'flex',
     paddingTop: 0,
   },

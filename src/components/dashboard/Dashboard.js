@@ -76,6 +76,9 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
+  const [headerOpacityAnimValue] = useState(new Animated.Value(1))
+  const [headerHeightAnimValue] = useState(new Animated.Value(165))
+  const [headerPreChanged, setHeaderPreChange] = useState(true)
   const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
@@ -98,6 +101,10 @@ const Dashboard = props => {
         scale: animValue,
       },
     ],
+  }
+  const largeHeaderAnimateStyles = {
+    opacity: headerOpacityAnimValue,
+    height: headerHeightAnimValue,
   }
 
   const isTheSameUser = code => {
@@ -234,6 +241,54 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
+    const headerChangeTiming = 250
+    const heightAnimTiming = 250
+    const opacityAnimTiming = 200
+
+    if (headerPreChanged) {
+      setTimeout(() => {
+        setHeaderLarge(true)
+
+        Animated.timing(headerOpacityAnimValue, {
+          toValue: 1,
+          duration: opacityAnimTiming,
+        }).start()
+      }, headerChangeTiming)
+
+      Animated.parallel([
+        Animated.timing(headerOpacityAnimValue, {
+          toValue: 0,
+          duration: opacityAnimTiming,
+        }),
+        Animated.timing(headerHeightAnimValue, {
+          toValue: 165,
+          duration: heightAnimTiming,
+        }),
+      ]).start()
+    } else {
+      setTimeout(() => {
+        setHeaderLarge(false)
+
+        Animated.timing(headerOpacityAnimValue, {
+          toValue: 1,
+          duration: opacityAnimTiming,
+        }).start()
+      }, headerChangeTiming)
+
+      Animated.parallel([
+        Animated.timing(headerOpacityAnimValue, {
+          toValue: 0,
+          duration: opacityAnimTiming,
+        }),
+        Animated.timing(headerHeightAnimValue, {
+          toValue: 40,
+          duration: heightAnimTiming,
+        }),
+      ]).start()
+    }
+  }, [headerPreChanged])
+
+  useEffect(() => {
     log.debug('Dashboard didmount', props.navigation)
     initDashboard()
     AppState.addEventListener('change', handleAppFocus)
@@ -362,32 +417,39 @@ const Dashboard = props => {
   return (
     <Wrapper style={styles.dashboardWrapper}>
       <Section style={[styles.topInfo]}>
-        {headerLarge ? (
-          <Section.Stack alignItems="center">
-            <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
-            <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
-              {fullName || ' '}
-            </Section.Text>
-            <Section.Row style={styles.bigNumberWrapper}>
-              <BigGoodDollar
-                testID="amount_value"
-                number={balance}
-                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
-                bigNumberUnitStyles={styles.bigNumberUnitStyles}
+        <Animated.View style={largeHeaderAnimateStyles}>
+          {headerLarge ? (
+            <Section.Stack alignItems="center">
+              <Avatar
+                onPress={() => screenProps.push('Profile')}
+                size={68}
+                source={avatar}
+                style={[styles.avatarBig]}
               />
-            </Section.Row>
-          </Section.Stack>
-        ) : (
-          <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
-            <Avatar
-              onPress={() => screenProps.push('Profile')}
-              size={42}
-              source={avatar}
-              style={[styles.avatarSmall]}
-            />
-            <BigGoodDollar number={balance} />
-          </Section>
-        )}
+              <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
+                {fullName || ' '}
+              </Section.Text>
+              <Section.Row style={styles.bigNumberWrapper}>
+                <BigGoodDollar
+                  testID="amount_value"
+                  number={balance}
+                  bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
+                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                />
+              </Section.Row>
+            </Section.Stack>
+          ) : (
+            <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
+              <Avatar
+                onPress={() => screenProps.push('Profile')}
+                size={42}
+                source={avatar}
+                style={[styles.avatarSmall]}
+              />
+              <BigGoodDollar number={balance} />
+            </Section>
+          )}
+        </Animated.View>
         <Section.Row style={styles.buttonsRow}>
           <PushButton
             icon="send"
@@ -438,9 +500,9 @@ const Dashboard = props => {
           const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
 
           if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-            headerLarge && setHeaderLarge(false)
+            headerPreChanged && setHeaderPreChange(false)
           } else {
-            !headerLarge && setHeaderLarge(true)
+            !headerPreChanged && setHeaderPreChange(true)
           }
 
           // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
@@ -509,7 +571,7 @@ const getStylesFromProps = ({ theme }) => ({
     height: 70,
     justifyContent: 'space-between',
     marginBottom: 0,
-    marginTop: 0,
+    marginTop: 1,
   },
   leftButton: {
     flex: 1,

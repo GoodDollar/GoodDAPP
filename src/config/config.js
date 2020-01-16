@@ -7,7 +7,7 @@ const Config = {
   mnemonicToSeed: process.env.REACT_APP_MNEMONIC_TO_SEED || true,
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'https://good-server.herokuapp.com/',
-  gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:8765/gun',
+  gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'https://goodgun-dev.herokuapp.com/gun',
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
   web3SiteUrlEconomyEndpoint: process.env.REACT_APP_WEB3_SITE_URL_ECONOMY_ENDPOINT || '/learn/economy',
   publicUrl,

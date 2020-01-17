@@ -433,7 +433,6 @@ exports[`Amount matches snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onSelect={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  onTouchStart={[Function]}
                   placeholder="0 G$"
                   readOnly={false}
                   spellCheck={true}

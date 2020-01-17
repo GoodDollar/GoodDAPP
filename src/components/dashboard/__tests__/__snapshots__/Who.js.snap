@@ -405,7 +405,6 @@ exports[`Who matches snapshot 1`] = `
               onKeyDown={[Function]}
               onKeyPress={[Function]}
               onSelect={[Function]}
-              onTouchStart={[Function]}
               placeholder="Enter the recipient name"
               readOnly={false}
               spellCheck={true}

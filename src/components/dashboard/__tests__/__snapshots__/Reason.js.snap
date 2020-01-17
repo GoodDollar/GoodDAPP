@@ -393,7 +393,6 @@ exports[`Reason matches snapshot 1`] = `
               onKeyDown={[Function]}
               onKeyPress={[Function]}
               onSelect={[Function]}
-              onTouchStart={[Function]}
               placeholder="Add a message"
               readOnly={false}
               spellCheck={true}

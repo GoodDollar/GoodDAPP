@@ -514,14 +514,15 @@ exports[`SigninInfo matches snapshot 1`] = `
                   "flexShrink": 0,
                   "marginBottom": "30px",
                   "marginTop": "30px",
-                  "maxHeight": "177.03896103896102px",
+                  "maxHeight": "142px",
                   "maxWidth": "100%",
-                  "minHeight": "118.44155844155844px",
+                  "minHeight": "95px",
                   "msFlexNegative": 0,
                   "msFlexPositive": 1,
                   "msFlexPreferredSize": "auto",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
+                  "paddingTop": "8px",
                   "zIndex": 0,
                 }
               }
@@ -584,9 +585,74 @@ exports[`SigninInfo matches snapshot 1`] = `
                       "color": "rgba(66,69,74,1.00)",
                       "direction": "ltr",
                       "fontFamily": "Roboto",
+                      "fontSize": "22px",
+                      "fontWeight": "500",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                    }
+                  }
+                >
+                  To sign in
+ please follow these steps:
+                </div>
+                <div
+                  className="css-text-901oao"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(163,163,163,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontSize": "14px",
+                      "fontWeight": "normal",
+                      "lineHeight": "20px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                    }
+                  }
+                >
+                  (works from any device or platform)
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "row",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
+                  "msFlexPack": "center",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+              >
+                <div
+                  className="css-text-901oao"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(66,69,74,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
                       "fontSize": "16px",
                       "fontWeight": "normal",
                       "lineHeight": "22px",
+                      "marginTop": "24px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -616,7 +682,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                         Object {
                           "WebkitBoxPack": "center",
                           "WebkitJustifyContent": "center",
-                          "backgroundColor": "rgba(0,175,255,1.00)",
+                          "backgroundColor": "rgba(66,69,74,1.00)",
                           "borderBottomLeftRadius": "50%",
                           "borderBottomRightRadius": "50%",
                           "borderTopLeftRadius": "50%",
@@ -678,26 +744,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                           }
                         }
                       >
-                        Go to your 
-                        <span
-                          className="css-text-901oao css-textHasAncestor-16my406"
-                          dir="auto"
-                          style={
-                            Object {
-                              "color": "rgba(66,69,74,1.00)",
-                              "direction": "ltr",
-                              "fontFamily": "Roboto",
-                              "fontSize": "18px",
-                              "fontWeight": "700",
-                              "lineHeight": "24px",
-                              "textAlign": "center",
-                              "textDecoration": "none",
-                              "textTransform": "none",
-                            }
-                          }
-                        >
-                          email
-                        </span>
+                        Go to your email
                       </span>
                     </div>
                   </div>
@@ -724,7 +771,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                         Object {
                           "WebkitBoxPack": "center",
                           "WebkitJustifyContent": "center",
-                          "backgroundColor": "rgba(0,175,255,1.00)",
+                          "backgroundColor": "rgba(66,69,74,1.00)",
                           "borderBottomLeftRadius": "50%",
                           "borderBottomRightRadius": "50%",
                           "borderTopLeftRadius": "50%",
@@ -805,7 +852,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                             }
                           }
                         >
-                          GoodDollar Magic Link
+                          GoodDollar magic link
                         </span>
                       </span>
                     </div>
@@ -814,15 +861,15 @@ exports[`SigninInfo matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
+                        "WebkitAlignItems": "baseline",
+                        "WebkitBoxAlign": "baseline",
                         "WebkitBoxDirection": "normal",
                         "WebkitBoxOrient": "horizontal",
                         "WebkitFlexDirection": "row",
-                        "alignItems": "center",
+                        "alignItems": "baseline",
                         "display": "flex",
                         "flexDirection": "row",
-                        "msFlexAlign": "center",
+                        "msFlexAlign": "baseline",
                         "msFlexDirection": "row",
                       }
                     }
@@ -833,7 +880,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                         Object {
                           "WebkitBoxPack": "center",
                           "WebkitJustifyContent": "center",
-                          "backgroundColor": "rgba(0,175,255,1.00)",
+                          "backgroundColor": "rgba(66,69,74,1.00)",
                           "borderBottomLeftRadius": "50%",
                           "borderBottomRightRadius": "50%",
                           "borderTopLeftRadius": "50%",
@@ -913,31 +960,8 @@ exports[`SigninInfo matches snapshot 1`] = `
                             }
                           }
                         >
-                          Magic Link Button
+                          magic link
                         </span>
-                      </span>
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
-                        dir="auto"
-                        letterSpacing={0.14}
-                        style={
-                          Object {
-                            "bottom": "-13px",
-                            "color": "rgba(163,163,163,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto",
-                            "fontSize": "14px",
-                            "fontWeight": "normal",
-                            "lineHeight": "16px",
-                            "position": "absolute",
-                            "textAlign": "center",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
-                      >
-                        
-* works from any device
                       </span>
                     </div>
                   </div>
@@ -1005,7 +1029,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                     "fontSize": "14px",
                     "fontWeight": "500",
                     "lineHeight": "20px",
-                    "marginBottom": "15px",
+                    "marginBottom": "24px",
                     "textAlign": "center",
                     "textDecoration": "underline",
                     "textTransform": "none",
@@ -1076,7 +1100,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                     "fontSize": "14px",
                     "fontWeight": "500",
                     "lineHeight": "20px",
-                    "marginBottom": "30px",
+                    "marginBottom": "24px",
                     "textAlign": "center",
                     "textDecoration": "underline",
                     "textTransform": "none",

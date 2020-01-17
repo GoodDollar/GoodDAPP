@@ -233,8 +233,8 @@ exports[`EmailForm matches snapshot 1`] = `
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
-                  "marginBottom": "16px",
-                  "marginTop": "16px",
+                  "marginBottom": "8px",
+                  "marginTop": "auto",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "center",
@@ -292,7 +292,6 @@ exports[`EmailForm matches snapshot 1`] = `
                     onKeyDown={[Function]}
                     onKeyPress={[Function]}
                     onSelect={[Function]}
-                    onTouchStart={[Function]}
                     readOnly={false}
                     spellCheck={true}
                     style={

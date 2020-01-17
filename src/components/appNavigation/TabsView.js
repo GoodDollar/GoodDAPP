@@ -157,7 +157,7 @@ const styles = ({ theme }) => ({
     borderColor: 'white',
     borderRadius: Platform.select({
       // FIXME: RN
-      default: 0,
+      default: 36 / 2,
       web: '50%',
     }),
     paddingVertical: 20,

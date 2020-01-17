@@ -140,6 +140,7 @@ const Dashboard = props => {
       return
     }
     if (reset) {
+      await delay(2500)
       setFeeds(res)
     } else {
       setFeeds(feeds.concat(res))

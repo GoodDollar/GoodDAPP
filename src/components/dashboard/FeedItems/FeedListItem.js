@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
+import * as Animatable from 'react-native-animatable'
 import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
 import wavePattern from '../../../assets/feedListItemPattern.svg'
@@ -25,25 +26,60 @@ type FeedListItemProps = {
  */
 const FeedListItem = (props: FeedListItemProps) => {
   const { theme, item, onPress, styles } = props
-  const itemStyle = getEventSettingsByType(theme, item.displayType || item.type)
+  const itemType = item.displayType || item.type
+  const isItemEmpty = itemType === 'empty'
+  const itemStyle = getEventSettingsByType(theme, itemType)
   const imageStyle = {
     backgroundColor: itemStyle.color,
     backgroundImage: `url(${wavePattern})`,
   }
 
+  if (isItemEmpty) {
+    return (
+      <>
+        <Animatable.View animation={isItemEmpty ? 'fadeInUp' : ''} duration={2000}>
+          <View style={styles.row}>
+            <View style={styles.rowContent}>
+              <View style={[styles.rowContentBorder, imageStyle]} />
+              <ListEventItem {...props} />
+            </View>
+          </View>
+        </Animatable.View>
+        <Animatable.View animation={isItemEmpty ? 'fadeInUp' : ''} duration={2000} delay={300}>
+          <View style={styles.row}>
+            <View style={styles.rowContent}>
+              <View style={[styles.rowContentBorder, imageStyle]} />
+              <ListEventItem {...props} />
+            </View>
+          </View>
+        </Animatable.View>
+        <Animatable.View animation={isItemEmpty ? 'fadeInUp' : ''} duration={2000} delay={600}>
+          <View style={styles.row}>
+            <View style={styles.rowContent}>
+              <View style={[styles.rowContentBorder, imageStyle]} />
+              <ListEventItem {...props} />
+            </View>
+          </View>
+        </Animatable.View>
+      </>
+    )
+  }
+
   return (
-    <TouchableHighlight
-      activeOpacity={0.5}
-      onPress={() => onPress(item.id)}
-      style={styles.row}
-      tvParallaxProperties={{ pressMagnification: 1.1 }}
-      underlayColor={theme.colors.lightGray}
-    >
-      <View style={styles.rowContent}>
-        <View style={[styles.rowContentBorder, imageStyle]} />
-        <ListEventItem {...props} />
-      </View>
-    </TouchableHighlight>
+    <Animatable.View animation="fadeIn">
+      <TouchableHighlight
+        activeOpacity={0.5}
+        onPress={() => onPress(item.id)}
+        style={styles.row}
+        tvParallaxProperties={{ pressMagnification: 1.1 }}
+        underlayColor={theme.colors.lightGray}
+      >
+        <View style={styles.rowContent}>
+          <View style={[styles.rowContentBorder, imageStyle]} />
+          <ListEventItem {...props} />
+        </View>
+      </TouchableHighlight>
+    </Animatable.View>
   )
 }
 

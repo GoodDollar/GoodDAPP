@@ -1,7 +1,19 @@
 /* eslint-disable no-undef */
 class HomePage {
   get rewardsButton() {
-    return cy.get('[dir="auto"]').eq(0)
+    return cy.get('[data-testid="rewards_tab"]')
+  }
+
+  get inviteTab() {
+    return cy.get('[data-testid="invite_tab"]')
+  }
+
+  get goodmarketTab() {
+    return cy.get('[data-testid="goodmarket_tab"]')
+  }
+
+  get supportTab() {
+    return cy.get('[data-testid="support_tab"]')
   }
 
   get optionsButton() {

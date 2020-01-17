@@ -123,23 +123,23 @@ const TabsView = React.memo((props: TabViewProps) => {
   return (
     <Appbar.Header dark>
       {config.isEToro && (
-        <TouchableOpacity onPress={goToRewards} style={styles.rewardsStyle}>
+        <TouchableOpacity testID="rewards_tab" onPress={goToRewards} style={styles.rewardsStyle}>
           <Icon name="rewards" size={36} color="white" />
         </TouchableOpacity>
       )}
       <Appbar.Content />
       <TouchableOpacity onPress={goToRewards}>
-        <Icon name="invite2" size={36} color="white" />
+        <Icon name="invite2" size={36} color="white" testID="invite_tab" />
       </TouchableOpacity>
       <Appbar.Content />
       {config.market && (
-        <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
+        <TouchableOpacity testID="goodmarket_tab" onPress={goToMarketplace} style={styles.marketIconBackground}>
           <Icon name="goodmarket" size={36} color="white" />
         </TouchableOpacity>
       )}
       <Appbar.Content />
       <TouchableOpacity onPress={goToSupport} style={styles.feedback}>
-        <Icon name="support2" size={36} color="white" />
+        <Icon name="support2" size={36} color="white" testID="support_tab" />
       </TouchableOpacity>
       <Appbar.Content />
       <TouchableOpacity onPress={toggleMenu}>

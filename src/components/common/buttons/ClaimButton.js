@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
+import { Dimensions, Platform } from 'react-native'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
-import { Platform } from 'react-native'
 
 const ClaimButton = ({ screenProps, styles }) => (
   <PushButton routeName="Claim" testID="claim_button" screenProps={screenProps} style={styles.claimButton}>
@@ -31,10 +31,16 @@ const getStylesFromProps = ({ theme }) => ({
     zIndex: 99,
     transform: [
       {
-        translateX: '-50%',
+        translateX: Platform.select({
+          web: '-50%',
+          default: 0,
+        }),
       },
       {
-        translateY: '-50%',
+        translateY: Platform.select({
+          web: '-50%',
+          default: 0,
+        }),
       },
     ],
   },

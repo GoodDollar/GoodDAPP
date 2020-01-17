@@ -1,8 +1,7 @@
 // @flow
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { Platform, ScrollView, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
-import { Platform } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import ModalCloseButton from './ModalCloseButton'
 import ModalJaggedEdge from './ModalJaggedEdge'
@@ -102,7 +101,16 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: 'white',
     left: '49%',
     bottom: -10,
-    transform: 'translateX(-50%) rotate(63deg) skewX(37deg)',
+    transform: [
+      {
+        translateX: Platform.select({
+          web: '-50%',
+          default: 0,
+        }),
+        rotate: '63deg',
+        skewX: '37deg',
+      },
+    ],
     boxShadow: 'rgba(0, 0, 0, 0.16) 2px 1px 4px',
   },
 })

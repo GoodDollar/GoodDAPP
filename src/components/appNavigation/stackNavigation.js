@@ -2,7 +2,7 @@
 // FIXME: RN
 
 import React, { Component, useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Dimensions, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
@@ -309,11 +309,18 @@ const styles = StyleSheet.create({
   },
   sideMenuContainer: {
     ...fullScreen,
-    transform: [{ translateX: '200vw' }],
+    transform: [
+      {
+        translateX: Platform.select({
+          web: '200vw',
+          default: Dimensions.get('window').width * 2,
+        }),
+      },
+    ],
     zIndex: 100,
   },
   menuOpenStyle: {
-    transform: [{ translateX: '0vh' }],
+    transform: [{ translateX: 0 }],
   },
   hideMenu: {
     display: 'none',

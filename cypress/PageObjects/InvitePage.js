@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 class InvitePage {
   get pageHeader() {
-    return cy.get('[dir="auto"]:nth-child(3) ')
+    return cy.get('[data-testid="rewards_header"]')
   }
 
   get iframe() {

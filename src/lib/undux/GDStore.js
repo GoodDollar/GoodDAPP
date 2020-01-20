@@ -31,6 +31,7 @@ export type State = {
   destinationPath: string,
   feeds: StandardFeed[],
   feedLoading: boolean,
+  showMessageInitAppSwitch: boolean,
   currentFeed: any,
 }
 
@@ -53,6 +54,7 @@ const initialState: State = {
   feeds: [],
   currentFeed: undefined,
   feedLoading: false,
+  showMessageInitAppSwitch: false,
 }
 
 /**

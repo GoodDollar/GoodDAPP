@@ -111,7 +111,9 @@ const Claim = props => {
     const [claimedToday, nextClaimDate] = await Promise.all([
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
-    ])
+    ]).catch(() => {
+      gdstore.set('showMessageInitAppSwitch')(true)
+    })
 
     const nextClaim = await getNextClaim(nextClaimDate)
     setState(prevState => ({ ...prevState, claimedToday, nextClaim }))

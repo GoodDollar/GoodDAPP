@@ -32,7 +32,8 @@ export type AmountProps = {
  * @param {any} props.screenProps
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
-  const profile = GDStore.useStore().get('profile')
+  const gdstore = GDStore.useStore()
+  const profile = gdstore.get('profile')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
 
@@ -154,6 +155,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         onError: () => {
           userStorage.markWithErrorEvent(txHash)
         },
+      })
+      const { txPromise } = generateLinkResponse
+
+      txPromise.catch(e => {
+        log.error(e.message, e)
+        gdstore.set('showMessageInitAppSwitch')(true)
       })
 
       log.debug('generateLinkAndSend:', { generateLinkResponse })

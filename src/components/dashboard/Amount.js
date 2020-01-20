@@ -39,8 +39,7 @@ const Amount = (props: AmountProps) => {
       setError(`Sorry, you don't have enough G$ to send ${weiToGd(amountWithFee)} (${txFeePercents}% transaction fee)`)
       return false
     } catch (e) {
-      setError(e.message)
-      return false
+      setError(`Sorry, try again later`)
     }
   }
 

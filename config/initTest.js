@@ -1,4 +1,3 @@
-import initGunDB from '../src/lib/gundb/gundb'
 let webcrypto = require ('node-webcrypto-ossl')
 let crypto = new webcrypto()
 const { TextEncoder, TextDecoder } = require('text-encoding', 1)

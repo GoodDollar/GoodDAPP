@@ -1,13 +1,72 @@
+* {
+  box-sizing: border-box;
+}
+
+body,
+html,
+#root {
+  height: 100%;
+}
+
+html {
+  background-color: #fff;
+  font-size: 16px;
+}
+
+@media (max-width: 475px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  /*overflow: hidden;*/
+  width: 100%;
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-display: swap;
+  font-family: 'Roboto', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Arial','Helvetica Neue',
+    'Helvetica', -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0 auto;
+  max-width: 475px;
+  min-width: 320px;
+  width: 100%;
+  padding: 0;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Reset */
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+
+input:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none;
+}
+
+input:-webkit-autofill,
+input:-internal-autofill-selected,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  background-color: #fff !important;
+}
+
+button {
+  outline: none;
+}
+
+.add-to-home-banner {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

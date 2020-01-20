@@ -2,7 +2,7 @@
 //FIXME:RN
 /* eslint-disable*/
 import React, { Component, useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Dimensions, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
@@ -212,7 +212,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   sideMenuSwap = visible => {
     const { store } = this.props
-    const sidemenu = store.get('sidemenu') || {}
+    const sidemenu = store.get('sidemenu')
 
     sidemenu.visible = visible
 
@@ -244,7 +244,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
-    const open = (store.get('sidemenu') || {}).visible
+    const open = store.get('sidemenu').visible
     const { visible: dialogVisible } = (store.get('currentScreen') || {}).dialogData || {}
     const currentFeed = store.get('currentFeed')
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
@@ -306,11 +306,18 @@ const styles = StyleSheet.create({
   },
   sideMenuContainer: {
     ...fullScreen,
-    transform: [{ translateX: '200vw' }],
+    transform: [
+      {
+        translateX: Platform.select({
+          web: '200vw',
+          default: Dimensions.get('window').width * 2,
+        }),
+      },
+    ],
     zIndex: 100,
   },
   menuOpenStyle: {
-    transform: [{ translateX: '0vh' }],
+    transform: [{ translateX: 0 }],
   },
   hideMenu: {
     display: 'none',

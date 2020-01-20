@@ -53,9 +53,7 @@ const gunExtend = (() => {
    * @returns {Promise<any>}
    */
   Gun.User.prototype.decrypt = function(cb) {
-    var gun = this,
-      user = gun.back(-1).user(),
-      pair = user.pair(),
+    let gun = this,
       path = ''
     gun.back(function(at) {
       if (at.is) {
@@ -63,23 +61,28 @@ const gunExtend = (() => {
       }
       path += at.get || ''
     })
-    return (async () => {
-      let sec = await user
-        .get('trust')
-        .get(pair.pub)
-        .get(path)
-        .then()
-      sec = await SEA.decrypt(sec, pair)
-      if (!sec) {
-        return gun.then(cb)
-      }
-      return gun
-        .then(async data => {
-          let decrypted = await SEA.decrypt(data, sec)
-          return decrypted
-        })
-        .then(cb)
-    })()
+    return gun
+      .then(async data => {
+        if (data == null) {
+          return
+        }
+        const user = gun.back(-1).user()
+        const pair = user.pair()
+        let sec = await user
+          .get('trust')
+          .get(pair.pub)
+          .get(path)
+        sec = await SEA.decrypt(sec, pair)
+        if (!sec) {
+          return data
+        }
+        let decrypted = await SEA.decrypt(data, sec)
+        return decrypted
+      })
+      .then(res => {
+        cb && cb(res)
+        return res
+      })
   }
 })()
 

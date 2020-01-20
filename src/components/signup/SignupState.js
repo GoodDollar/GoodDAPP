@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
+import { AsyncStorage, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
 import _get from 'lodash/get'
@@ -19,9 +19,7 @@ import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
 import SmsForm from './SmsForm'
-
-//FIXME: RN
-// import PhoneForm from './PhoneForm'
+import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
 import MagicLinkInfo from './MagicLinkInfo'
@@ -33,9 +31,7 @@ type Ready = Promise<{ goodWallet: any, userStorage: any }>
 const SignupWizardNavigator = createSwitchNavigator(
   {
     Name: NameForm,
-
-    //FIXME: RN
-    // Phone: PhoneForm,
+    Phone: PhoneForm,
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,
@@ -81,12 +77,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
     setLoading(false)
-    if (isMobileSafari || routeKey === 'Phone') {
+
+    //FIXME rn
+    if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
       setTimeout(() => {
-        // const el = document.getElementById(routeKey + '_input')
-        // if (el) {
-        //   el.focus()
-        // }
+        const el = document.getElementById(routeKey + '_input')
+        if (el) {
+          el.focus()
+        }
       }, 300)
     }
   }
@@ -327,6 +325,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     setLoading(true)
     fireSignupEvent()
 
+    //We can wait for ready later, when we need stuff, we dont need it until usage of API first in sendOTP(that needs to be logged in)
+    //and finally in finishRegistration
+    // await ready
+
     log.info('signup data:', { data })
 
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
@@ -346,6 +348,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           await verifyW3Email(newState.email, newState.w3Token)
         }
 
+        //we need API to be logged in, so we await for ready
+        await ready
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
           const errorMessage =
@@ -447,12 +451,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }, [navigation.state.index])
 
   const { scrollableContainer, contentContainer } = styles
-
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={title} />
       <ScrollView contentContainerStyle={scrollableContainer}>
-        <View style={[contentContainer]}>
+        <View style={contentContainer}>
           <SignupWizardNavigator
             navigation={navigation}
             screenProps={{

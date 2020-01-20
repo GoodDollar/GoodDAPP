@@ -52,12 +52,12 @@ const getEmailErrorMessage = (email?: string) => {
  * @returns {string} Mobile error message if invalid, or empty string
  */
 const getMobileErrorMessage = (mobile?: string) => {
-  // if (!mobile) {
-  //   return 'Mobile is required'
-  // }
-  // if (!isMobilePhone(mobile)) {
-  //   return 'Please enter a valid phone format'
-  // }
+  if (!mobile) {
+    return 'Mobile is required'
+  }
+  if (!isMobilePhone(mobile)) {
+    return 'Please enter a valid phone format'
+  }
 
   return ''
 }

@@ -3,8 +3,7 @@ import { useEffect } from 'react'
 import SimpleStore from '../undux/SimpleStore'
 import isWebApp from './isWebApp'
 import logger from '../logger/pino-logger'
-import { Platform } from 'react-native';
-
+import { Platform } from 'react-native'
 
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistered = false

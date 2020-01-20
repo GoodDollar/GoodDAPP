@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { TextInput, View } from 'react-native'
+import { Platform, TextInput, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 
 // keyCode constants
@@ -52,14 +52,26 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
-    //paddingHorizontal: '0.4rem',
+    paddingHorizontal: Platform.select({
+      // FIXME: RN
+      default: 0,
+      web: '0.4rem',
+    }),
   },
   input: {
     textAlign: 'center',
     width: '100%',
-    // height: '3rem',
+    height: Platform.select({
+      // FIXME: RN
+      default: 0,
+      web: '3rem',
+    }),
     marginVertical: 0,
-    // fontSize: '1.5rem',
+    fontSize: Platform.select({
+      // FIXME: RN
+      default: 0,
+      web: '1.5rem',
+    }),
     borderTopWidth: 0,
     borderRightWidth: 0,
     borderLeftWidth: 0,
@@ -94,9 +106,13 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, foc
   }, [focus])
 
   const handleSelection = ({ nativeEvent: { selection: nativeSelection } }) => {
-    // if (nativeSelection.start === nativeSelection.end && nativeSelection.start === 1) {
-    //   focusNextInput()
-    // }
+    // FIXME: RN
+    if (Platform.OS === 'web') {
+      if (nativeSelection.start === nativeSelection.end && nativeSelection.start === 1) {
+        focusNextInput()
+      }
+    }
+
     setSelection({ start: 0, end: value && value.length ? 1 : 0 })
   }
 
@@ -315,7 +331,11 @@ const OtpInput = (props: Props) => {
           onPaste={handleOnPaste}
           onFocus={e => {
             setActiveInput(i)
-            // e.target.select()
+
+            // FIXME: RN
+            if (Platform.OS === 'web') {
+              e.target.select()
+            }
           }}
           onBlur={() => setActiveInput(-1)}
           separator={separator}

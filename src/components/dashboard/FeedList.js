@@ -1,7 +1,8 @@
 // @flow
 import React, { createRef } from 'react'
-import { Animated } from 'react-native'
+import { Animated, Platform } from 'react-native'
 import get from 'lodash/get'
+import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -13,7 +14,6 @@ import logger from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
-import { SwipeableFlatList } from 'deprecated-react-native-swipeableflatlist'
 
 const log = logger.child({ from: 'ShareButton' })
 
@@ -23,6 +23,7 @@ const VIEWABILITY_CONFIG = {
   waitForInteraction: true,
 }
 const emptyFeed = { type: 'empty', data: {} }
+
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 export type FeedListProps = {
@@ -61,10 +62,12 @@ const FeedList = ({
   const flRef = createRef()
 
   const scrollToTop = () => {
-//FIXME: RN
-    // if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
-    //   flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
-    // }
+    // FIXME: RN
+    if (Platform.OS === 'web') {
+      if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
+        flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
+      }
+    }
   }
 
   const keyExtractor = item => item.id

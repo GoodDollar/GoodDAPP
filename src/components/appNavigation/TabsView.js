@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
-import { TouchableOpacity } from 'react-native'
+import { Platform, TouchableOpacity } from 'react-native'
 import _get from 'lodash/get'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import config from '../../config/config'
@@ -108,7 +108,9 @@ const TabsView = React.memo((props: TabViewProps) => {
       navigation.navigate('Rewards')
     }
   }
-
+  const goToSupport = () => {
+    navigation.navigate('Support')
+  }
   const goToMarketplace = () => {
     if (isIOS) {
       const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
@@ -126,11 +128,19 @@ const TabsView = React.memo((props: TabViewProps) => {
         </TouchableOpacity>
       )}
       <Appbar.Content />
+      <TouchableOpacity onPress={goToRewards}>
+        <Icon name="invite2" size={36} color="white" />
+      </TouchableOpacity>
+      <Appbar.Content />
       {config.market && (
         <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
           <Icon name="goodmarket" size={36} color="white" />
         </TouchableOpacity>
       )}
+      <Appbar.Content />
+      <TouchableOpacity onPress={goToSupport} style={styles.feedback}>
+        <Icon name="support2" size={36} color="white" />
+      </TouchableOpacity>
       <Appbar.Content />
       <TouchableOpacity onPress={toggleMenu}>
         <Icon name="settings" size={20} color="white" style={styles.menuStyle} testID="burger_button" />
@@ -145,10 +155,16 @@ const styles = ({ theme }) => ({
     borderWidth: 3,
     borderStyle: 'solid',
     borderColor: 'white',
-    // // borderRadius: '50%',
+    borderRadius: Platform.select({
+      // FIXME: RN
+      default: 36 / 2,
+      web: '50%',
+    }),
     paddingVertical: 20,
     paddingHorizontal: 7,
-    marginRight: 14,
+  },
+  feedback: {
+    marginRight: 5,
   },
   rewardsStyle: {
     marginLeft: 10,

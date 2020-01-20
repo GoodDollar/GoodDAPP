@@ -6,8 +6,8 @@ const Config = {
   newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://gdlr.info/newversion',
   mnemonicToSeed: process.env.REACT_APP_MNEMONIC_TO_SEED || true,
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
-  serverUrl: process.env.REACT_APP_SERVER_URL || 'https://good-server.herokuapp.com/',
-  gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'https://goodgun-dev.herokuapp.com/gun',
+  serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
+  gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
   web3SiteUrlEconomyEndpoint: process.env.REACT_APP_WEB3_SITE_URL_ECONOMY_ENDPOINT || '/learn/economy',
   publicUrl,
@@ -61,8 +61,8 @@ const Config = {
     },
     '4447': {
       network_id: 4447,
-      httpWeb3provider: 'https://rpc.fuse.io/',
-      websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
+      httpWeb3provider: 'http://localhost:9545/',
+      websocketWeb3Provider: 'ws://localhost:9545/ws',
     },
   },
 }

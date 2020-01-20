@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { isMobile } from 'mobile-device-detect'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
@@ -59,11 +59,11 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           )}
         </View>
         <View style={styles.transferInfo} alignItems="flex-start">
-          {/*<Avatar*/}
-          {/*  size={normalize(34)}*/}
-          {/*  style={styles.avatarBottom}*/}
-          {/*  source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}*/}
-          {/*/>*/}
+          <Avatar
+            size={normalize(34)}
+            style={styles.avatarBottom}
+            source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
+          />
           <View style={[styles.mainInfo, isFeedTypeClaiming && styles.claimingCardFeedText]}>
             {isErrorCard ? (
               <>
@@ -105,7 +105,11 @@ const getWelcomeStyles = ({ theme }) => ({
     minHeight: normalize(16),
     maxHeight: normalize(16),
     marginHorizontal: -theme.sizes.default,
-    // display: 'inline',
+    display: Platform.select({
+      // FIXME: RN
+      web: 'inline',
+      default: 'flex',
+    }),
   },
   welcomeText: {
     textAlign: 'left',
@@ -193,7 +197,12 @@ const getStylesFromProps = ({ theme }) => ({
   },
   dateAndValue: {
     alignItems: 'center',
-    // borderBottomStyle: 'solid',
+    ...Platform.select({
+      // FIXME: RN
+      web: {
+        borderBottomStyle: 'solid',
+      },
+    }),
     borderBottomWidth: 2,
     display: 'flex',
     flexDirection: 'row',
@@ -252,7 +261,8 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: 'inherit',
   },
   mainText: {
-    textAlignVertical: 'middle',
+    //FIXME: RN
+    // textAlignVertical: 'middle',
     paddingTop: 5,
   },
 })

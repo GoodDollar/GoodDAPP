@@ -44,11 +44,13 @@ const EventCounterParty = ({ feedItem, styles, style, subtitle, isSmallDevice })
 
 const getStylesFromProps = ({ theme }) => ({
   direction: {
-    textAlignVertical: 'middle',
+    //FIXME: RN not valid value 'middle'
+    //textAlignVertical: 'middle',
     marginRight: 3,
   },
   fullName: {
-    textAlignVertical: 'middle',
+    //FIXME: RN not valid value 'middle'
+    // textAlignVertical: 'middle',
   },
 })
 

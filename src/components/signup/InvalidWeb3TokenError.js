@@ -1,5 +1,5 @@
 import React from 'react'
-import { AsyncStorage, Image, StyleSheet, Text, View } from 'react-native'
+import { AsyncStorage, Image, Platform, StyleSheet, Text, View } from 'react-native';
 import normalize from '../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
@@ -81,8 +81,12 @@ const styles = StyleSheet.create({
     color: '#00AFFF',
     paddingTop: normalize(25),
     paddingBottom: normalize(25),
-
-    //verticalAlign: 'text-top',
+    ...Platform.select({
+      // FIXME: RN
+      web: {
+        verticalAlign: 'text-top',
+      },
+    }),
   },
   mainTitle: {
     fontFamily: 'Roboto',

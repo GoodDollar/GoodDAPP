@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 
@@ -20,7 +20,10 @@ const getStylesFromProps = ({ theme, color }) => ({
   errorIconFrame: {
     alignItems: 'center',
     borderColor: color,
-    // borderRadius: '50%',
+    borderRadius: Platform.select({
+      default: 90 / 2,
+      web: '50%',
+    }),
     borderWidth: 3,
     display: 'flex',
     flexDirection: 'row',

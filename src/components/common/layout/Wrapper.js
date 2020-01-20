@@ -1,10 +1,10 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-// import { isMobileOnly } from 'mobile-device-detect'
+import { isMobileOnly } from 'mobile-device-detect'
+import LinearGradient from 'react-native-linear-gradient'
 import { withStyles } from '../../../lib/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import LinearGradient from 'react-native-linear-gradient'
 
 const Wrapper = props => {
   const simpleStore = SimpleStore.useStore()
@@ -12,18 +12,21 @@ const Wrapper = props => {
 
   const growStyle = { flexGrow: shouldGrow ? 1 : 0 }
 
-  const { backgroundColor, children, style, styles, ...rest } = props
+  const { withGradient, backgroundColor, children, style, styles, ...rest } = props
+
   let Container
+
   const containerProps = {
     style: [styles.container, growStyle, style],
     'data-name': 'viewWrapper',
-    ...rest
+    ...rest,
   }
 
+  Container = View
+
   if (backgroundColor) {
-    Container = View
     containerProps.style.push({ backgroundColor })
-  } else {
+  } else if (withGradient) {
     Container = LinearGradient
     containerProps.colors = [
       '#00AFFF',
@@ -41,11 +44,11 @@ const Wrapper = props => {
     ]
   }
 
-  return (
-    <Container {...containerProps}>
-      {children}
-    </Container>
-  )
+  return <Container {...containerProps}>{children}</Container>
+}
+
+Wrapper.defaultProps = {
+  withGradient: true,
 }
 
 const getStylesFromProps = ({ theme }) => {
@@ -56,14 +59,14 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       padding: theme.paddings.mainContainerPadding,
       width: '100%',
-      height: '100%',
       position: 'relative',
     },
   }
 
-  // if (!isMobileOnly) {
-  //   styles.container = { ...styles.container, maxHeight: theme.sizes.maxHeightForTabletAndDesktop }
-  // }
+  // FIXME: RN
+  if (!isMobileOnly) {
+    styles.container = { ...styles.container, maxHeight: theme.sizes.maxHeightForTabletAndDesktop }
+  }
 
   return styles
 }

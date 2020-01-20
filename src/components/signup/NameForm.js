@@ -1,13 +1,13 @@
 // @flow
 import React from 'react'
 import debounce from 'lodash/debounce'
+import { Text } from 'react-native'
 import { validateFullName } from '../../lib/validators/validateFullName'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 import InputText from '../common/form/InputText'
 import Section from '../common/layout/Section'
 import CustomWrapper from './signUpWrapper'
-import { Text } from 'react-native'
 
 type Props = {
   doneCallback: ({ name: string }) => null,
@@ -72,8 +72,12 @@ class NameForm extends React.Component<Props, State> {
     const { fullName, errorMessage } = this.state
     const { key } = this.props.navigation.state
     return (
-      <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} style={{backgroundColor: 'transparent'}}>
-        <Section grow justifyContent="flex-start" style={{backgroundColor: 'transparent'}}>
+      <CustomWrapper
+        valid={this.state.isValid}
+        handleSubmit={this.handleSubmit}
+        style={this.props.styles.transparentBackground}
+      >
+        <Section grow justifyContent="flex-start" style={this.props.styles.transparentBackground}>
           <Section.Stack justifyContent="flex-start" style={this.props.styles.container}>
             <Section.Row justifyContent="center" style={this.props.styles.row}>
               <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
@@ -103,6 +107,9 @@ NameForm.navigationOptions = {
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  transparentBackground: {
+    backgroundColor: 'transparent',
+  },
   row: {
     marginVertical: theme.sizes.defaultDouble,
   },

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -83,7 +83,10 @@ const FeedModalItem = (props: FeedEventProps) => {
 const getStylesFromProps = ({ theme }) => {
   return {
     numberButton: {
-      // borderRadius: '50%',
+      borderRadius: Platform.select({
+        web: '50%',
+        default: 32 / 2,
+      }),
       borderWidth: 2,
       width: 32,
       height: 32,

@@ -1,5 +1,7 @@
+// FIXME: RN
+
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, View } from 'react-native'
+import { AsyncStorage, Image, Platform, View } from 'react-native'
 import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
@@ -16,7 +18,11 @@ import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import Text from '../../common/view/Text'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-// Image.prefetch(Oops)
+
+if (Platform.OS === 'web') {
+  Image.prefetch(Oops)
+}
+
 const log = logger.child({ from: 'UnsupportedDevice' })
 
 const UnsupportedDevice = props => {
@@ -62,7 +68,7 @@ const UnsupportedDevice = props => {
       <React.Fragment>
         <Text style={styles.qrText}>Scan via your mobile</Text>
         <View style={styles.qrView}>
-          {/*<QRCode value={code} size={111} />*/}
+          <QRCode value={code} size={111} />
         </View>
       </React.Fragment>
     )

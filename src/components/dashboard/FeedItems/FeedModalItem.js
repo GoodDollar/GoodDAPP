@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -71,12 +71,11 @@ const FeedModalItem = (props: FeedEventProps) => {
           </View>
           <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
             {!eventSettings.withoutAvatar && (
-              // <Avatar
-              //   source={item.data && item.data.endpoint && item.data.endpoint.avatar}
-              //   size={34}
-              //   style={styles.avatar}
-              // />
-              null
+              <Avatar
+                source={item.data && item.data.endpoint && item.data.endpoint.avatar}
+                size={34}
+                style={styles.avatar}
+              />
             )}
             {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
             {!eventSettings.withoutAvatar && <EventIcon type={itemType} style={styles.icon} />}
@@ -128,7 +127,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     avatar: {
       backgroundColor: theme.colors.lightGray,
-      // borderRadius: '50%',
+      borderRadius: Platform.select({
+        web: '50%',
+        default: 34 / 2,
+      }),
       height: 34,
       marginRight: 7,
       width: 34,

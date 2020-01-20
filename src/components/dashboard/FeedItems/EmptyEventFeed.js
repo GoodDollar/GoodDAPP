@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import { withTheme } from 'react-native-paper'
 import { Section } from '../../common/'
 import { withStyles } from '../../../lib/styles'
@@ -8,7 +8,12 @@ import { withStyles } from '../../../lib/styles'
 const EmptyBlock = ({ width, height, borderRadius, style, theme }) => {
   const customStyle = {
     backgroundColor: theme.colors.lightGray,
-    // borderRadius,
+    // FIXME: RN
+    ...Platform.select({
+      web: {
+        borderRadius,
+      },
+    }),
     height: height,
     width: width,
   }
@@ -71,7 +76,12 @@ const getStylesFromProps = ({ theme }) => ({
   },
   emptyBlockBorderRow: {
     borderBottomColor: theme.colors.lightGray,
-    // borderBottomStyle: 'solid',
+    ...Platform.select({
+      // FIXME: RN
+      web: {
+        borderBottomStyle: 'solid',
+      },
+    }),
     borderBottomWidth: 2,
     paddingBottom: theme.sizes.defaultHalf,
     marginBottom: theme.sizes.defaultHalf,

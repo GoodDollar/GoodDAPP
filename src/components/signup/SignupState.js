@@ -77,6 +77,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
     setLoading(false)
+
     //FIXME rn
     if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
       setTimeout(() => {
@@ -323,7 +324,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
-    await ready
+
+    //We can wait for ready later, when we need stuff, we dont need it until usage of API first in sendOTP(that needs to be logged in)
+    //and finally in finishRegistration
+    // await ready
 
     log.info('signup data:', { data })
 
@@ -344,6 +348,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           await verifyW3Email(newState.email, newState.w3Token)
         }
 
+        //we need API to be logged in, so we await for ready
+        await ready
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
           const errorMessage =

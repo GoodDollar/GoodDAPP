@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 
 export const modalStyles = StyleSheet.create({
@@ -45,12 +45,18 @@ export const modalStyles = StyleSheet.create({
   label: {
     fontSize: normalize(10),
     color: 'black',
-    //display: 'inlineBlock',
+    display: Platform.select({
+      web: 'inlineBlock',
+      default: 'flex',
+    }),
   },
   name: {
     fontSize: normalize(14),
     color: 'black',
-    //display: 'inlineBlock',
+    display: Platform.select({
+      web: 'inlineBlock',
+      default: 'flex',
+    }),
   },
   currency: {
     fontSize: normalize(16),

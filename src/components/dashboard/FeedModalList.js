@@ -1,12 +1,13 @@
 // @flow
 import React, { createRef, useEffect, useState } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList, View, Platform, Dimensions } from 'react-native'
 import { Portal } from 'react-native-paper'
 import _once from 'lodash/once'
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/Orientation'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
+
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
   viewAreaCoveragePercentThreshold: 100,
@@ -134,17 +135,34 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     left: 0,
     padding: 0,
-    // position: 'fixed',
-    // height: '100vh',
+    // FIXME: RN
+    position: Platform.select({
+      web: 'fixed',
+      default: 'absolute',
+    }),
+    // FIXME: RN
+    height: Platform.select({
+      web: '100vh',
+      default: Dimensions.get('window').height,
+    }),
     width: '100%',
   },
   horizontalList: {
     width: '100%',
-    // maxWidth: '100vw',
+    // FIXME: RN
+    maxWidth: Platform.select({
+      web: '100vw',
+      default: Dimensions.get('window').width,
+    }),
     flex: 1,
   },
   flatList: {
-    // transform: 'translateY(1px)', //Do not delete, this repairs horizontal feed scrolling
+    // FIXME: RN
+    ...Platform.select({
+      web: {
+        transform: 'translateY(1px)',
+      },
+    }),
   },
 })
 

@@ -37,7 +37,7 @@ const mapStylesToProps = ({ theme }) => {
       borderTopStyle: 'solid',
       borderTopColor: theme.colors.primary,
       borderBottomWidth: 2,
-      // borderBottomStyle: 'solid',
+      borderBottomStyle: 'solid',
       borderBottomColor: theme.colors.primary,
       paddingVertical: theme.sizes.default,
       marginVertical: theme.sizes.default,
@@ -105,7 +105,7 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
 const AddWebApp = props => {
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
-  const { show } = store.get('addWebApp')
+  const { show, showAddWebAppDialog } = store.get('addWebApp')
   const installPrompt = store.get('installPrompt')
 
   const showExplanationDialog = async () => {
@@ -223,6 +223,13 @@ const AddWebApp = props => {
   useEffect(() => {
     checkShowDialog()
   }, [installPrompt, show])
+
+  useEffect(() => {
+    if (showAddWebAppDialog) {
+      showInitialDialog()
+    }
+    store.set('addWebApp')({ showAddWebAppDialog: false })
+  }, [showAddWebAppDialog])
 
   return null
 }

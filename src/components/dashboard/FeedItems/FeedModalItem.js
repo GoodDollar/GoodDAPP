@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -127,7 +127,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     avatar: {
       backgroundColor: theme.colors.lightGray,
-      // borderRadius: '50%',
+      borderRadius: Platform.select({
+        web: '50%',
+        default: 34 / 2,
+      }),
       height: 34,
       marginRight: 7,
       width: 34,

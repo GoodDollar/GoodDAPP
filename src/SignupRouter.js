@@ -2,19 +2,21 @@ import React from 'react'
 import { createBrowserApp } from '@react-navigation/web'
 import { createSwitchNavigator } from '@react-navigation/core'
 
-import { Platform } from 'react-native'
-import { isMobileSafari } from 'mobile-device-detect'
+import { Platform, View } from 'react-native'
+import { isAndroid, isMobileSafari } from 'mobile-device-detect'
+import { createAppContainer } from 'react-navigation'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
+
 // import Blurred from '../components/common/view/Blurred'
 // import '../components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import isWebApp from './lib/utils/isWebApp'
-import { createAppContainer } from 'react-navigation'
+import { getOriginalScreenHeight } from './lib/utils/Orientation'
 
 const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 const router = createSwitchNavigator(
@@ -30,8 +32,7 @@ const router = createSwitchNavigator(
   }
 )
 
-const RouterWrapper = Platform.OS === 'web' ?
-  createBrowserApp(router) : createAppContainer(router)
+const RouterWrapper = Platform.OS === 'web' ? createBrowserApp(router) : createAppContainer(router)
 
 const fullScreenContainer = {
   top: 0,
@@ -42,16 +43,24 @@ const fullScreenContainer = {
   display: 'flex',
   flexGrow: 1,
   flexDirection: 'column',
-  minHeight: 480,
 }
 
 const Router = () => {
   const store = SimpleStore.useStore()
   const { visible: dialogVisible } = store.get('currentScreen').dialogData
+  const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
+  let minHeight = 480
+
+  if (isAndroid && isShowKeyboard) {
+    minHeight = getOriginalScreenHeight()
+  }
+
   return (
     <>
-      {/*<Blurred style={fullScreenContainer} blur={dialogVisible}>*/}
-      <RouterWrapper onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
+      {/*<Blurred style={{ minHeight, ...fullScreenContainer }} blur={dialogVisible}>*/}
+      <View style={{ minHeight, ...fullScreenContainer }}>
+        <RouterWrapper onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
+      </View>
       {/*</Blurred>*/}
     </>
   )

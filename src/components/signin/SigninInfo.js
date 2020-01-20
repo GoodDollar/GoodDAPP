@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { AsyncStorage, Image, TouchableOpacity, View } from 'react-native'
+import { AsyncStorage, Image, Platform, TouchableOpacity, View } from 'react-native'
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
 import Wrapper from '../common/layout/Wrapper'
@@ -11,7 +11,9 @@ import illustration from '../../assets/Signin/illustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
-// Image.prefetch(illustration)
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 const Signin = props => {
   const { styles } = props
@@ -32,31 +34,40 @@ const Signin = props => {
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
-            <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-              {'To sign in\n please follow these steps:'}
-            </Text>
-            <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
-              {`(works from any device or platform)`}
-            </Text>
-          </View>
-        </Section.Row>
-        <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-          <View style={styles.bottomContainer}>
-            <View style={styles.blockCircle}>
-              <Circle number={1}>Go to your email</Circle>
+            <Section.Text>
+              <Circle number={1}>
+                {'Go to your '}
+                <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
+                  email
+                </Text>
+              </Circle>
               <Circle number={2}>
                 Find{' '}
                 <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                  GoodDollar magic link
+                  GoodDollar Magic Link
                 </Text>
               </Circle>
-              <Circle number={3}>
+              <Circle
+                number={3}
+                subText={
+                  <Text
+                    fontFamily="Roboto"
+                    fontSize={14}
+                    letterSpacing={0.14}
+                    color="gray80Percent"
+                    lineHeight={16}
+                    style={styles.thirdCircleSubText}
+                  >
+                    {'\n* works from any device'}
+                  </Text>
+                }
+              >
                 {'Click the '}
                 <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                  magic link
+                  Magic Link Button
                 </Text>
               </Circle>
-            </View>
+            </Section.Text>
           </View>
         </Section.Row>
       </Wrapper>
@@ -64,7 +75,7 @@ const Signin = props => {
         <TouchableOpacity onPress={handleRecover}>
           <Section.Text
             fontWeight="medium"
-            style={styles.textBottom}
+            style={styles.recoverText}
             textDecorationLine="underline"
             fontSize={14}
             color="primary"
@@ -77,7 +88,7 @@ const Signin = props => {
         <TouchableOpacity onPress={goToSupport}>
           <Section.Text
             fontWeight="medium"
-            style={styles.textBottom}
+            style={styles.haveIssuesText}
             textDecorationLine="underline"
             fontSize={14}
             color="primary"
@@ -94,7 +105,10 @@ const getStylesFromProps = ({ theme }) => {
   return {
     mainWrapper: {
       paddingHorizontal: 0,
-      justifyContent: 'space-around',
+      justifyContent: Platform.select({
+        web: 'space-evenly',
+        default: 'space-around',
+      }),
       flexDirection: 'column',
       maxHeight: '75%',
       marginBottom: 15,
@@ -106,24 +120,22 @@ const getStylesFromProps = ({ theme }) => {
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
-      marginTop: 30,
-      // marginBottom: 30,
+      marginTop: getDesignRelativeHeight(30),
+      marginBottom: getDesignRelativeHeight(30),
       maxWidth: '100%',
-      maxHeight: getDesignRelativeHeight(142),
-      minHeight: getDesignRelativeHeight(95),
-      paddingTop: theme.sizes.default,
+      maxHeight: getDesignRelativeHeight(142, false),
+      minHeight: getDesignRelativeHeight(95, false),
       width: '100%',
       justifyContent: 'center',
     },
     text: {
       color: theme.colors.green,
     },
-    blockCircle: {
-      flex: 1,
-      flexDirection: 'column',
+    recoverText: {
+      marginBottom: 15,
     },
-    textBottom: {
-      marginBottom: 10,
+    haveIssuesText: {
+      marginBottom: 30,
     },
     contentContainer: {
       flexGrow: 1,
@@ -133,8 +145,9 @@ const getStylesFromProps = ({ theme }) => {
     scrollableContainer: {
       flexGrow: 1,
     },
-    bottomContainer: {
-      flexDirection: 'column',
+    thirdCircleSubText: {
+      position: 'absolute',
+      bottom: -13,
     },
   }
 }

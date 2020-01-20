@@ -89,7 +89,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
             Send me a backup email
           </CustomButton>
         </Section.Stack>
-        <CustomButton onPress={() => {}}>Done</CustomButton>
+        <CustomButton onPress={screenProps.pop}>Done</CustomButton>
       </Section>
     </Wrapper>
   )

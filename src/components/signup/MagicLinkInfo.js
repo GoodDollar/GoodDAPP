@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
@@ -8,7 +8,9 @@ import illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomWrapper from './signUpWrapper'
 
-// Image.prefetch(illustration)
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps = {} } = props
@@ -21,8 +23,7 @@ const MagicLinkInfoComponent = props => {
           <Text
             fontWeight="bold"
             fontSize={28}
-            //fontFamily="Roboto Slab"
-            fontFamily="Roboto"
+            fontFamily="Roboto Slab"
             color="primary"
             style={styles.headerText}
             lineHeight={25}
@@ -68,10 +69,15 @@ const MagicLinkInfoComponent = props => {
 const getStylesFromProps = ({ theme }) => {
   return {
     headerText: {
-      // borderBottomWidth: 2,
-      // borderBottomStyle: 'solid',
-      // borderBottomColor: theme.colors.primary,
-      // paddingBottom: getDesignRelativeHeight(5),
+      // FIXME: RN borderBottom Properties are only allowed on Views
+      ...Platform.select({
+        web: {
+          borderBottomWidth: 2,
+          borderBottomStyle: 'solid',
+          borderBottomColor: theme.colors.primary,
+        },
+      }),
+      paddingBottom: getDesignRelativeHeight(5),
     },
     mainWrapper: {
       display: 'flex',

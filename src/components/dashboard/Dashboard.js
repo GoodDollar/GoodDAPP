@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, AppState, Dimensions, Easing, InteractionManager } from 'react-native'
+import { Animated, AppState, Dimensions, Easing, InteractionManager, Platform } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
@@ -40,8 +40,8 @@ import { extractQueryParams, readCode } from '../../lib/share'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
-// import RewardsTab from './Rewards'
-// import MarketTab from './Marketplace'
+import RewardsTab from './Rewards'
+import MarketTab from './Marketplace'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -49,12 +49,13 @@ import FeedModalList from './FeedModalList'
 import OutOfGasError from './OutOfGasError'
 import Reason from './Reason'
 import Receive from './Receive'
+import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
 import ReceiveConfirmation from './ReceiveConfirmation'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
-// import SendConfirmation from './SendConfirmation'
+import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
@@ -155,8 +156,8 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-//FIXME: RN
-    const anyParams = extractQueryParams('')
+    // FIXME: RN
+    const anyParams = Platform.OS === 'web' ? extractQueryParams(window.location.href) : null
 
     log.debug('handle links effect dashboard', { anyParams })
 
@@ -360,7 +361,7 @@ const Dashboard = props => {
   }
 
   return (
-    <Wrapper style={styles.dashboardWrapper}>
+    <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Section style={[styles.topInfo]}>
         {headerLarge ? (
           <Section.Stack alignItems="center">
@@ -431,19 +432,19 @@ const Dashboard = props => {
         onEndReached={nextFeed}
         updateData={() => {}}
         onScroll={debounce(({ nativeEvent }) => {
-          // // ISH - including small header calculations
-          // const minScrollRequired = 150
-          // const scrollPosition = nativeEvent.contentOffset.y
-          // const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
-          // const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-          //
-          // if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-          //   headerLarge && setHeaderLarge(false)
-          // } else {
-          //   !headerLarge && setHeaderLarge(true)
-          // }
-          //
-          // // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
+          // ISH - including small header calculations
+          const minScrollRequired = 150
+          const scrollPosition = nativeEvent.contentOffset.y
+          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
+
+          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+            headerLarge && setHeaderLarge(false)
+          } else {
+            !headerLarge && setHeaderLarge(true)
+          }
+
+          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
         }, 100)}
         headerLarge={headerLarge}
       />
@@ -464,12 +465,9 @@ const Dashboard = props => {
 
 const getStylesFromProps = ({ theme }) => ({
   dashboardWrapper: {
-    backgroundImage: 'none',
     backgroundColor: theme.colors.lightGray,
     flexGrow: 1,
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: 0,
+    padding: 0,
   },
   topInfo: {
     borderTopLeftRadius: 0,
@@ -499,7 +497,10 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: theme.sizes.default,
   },
   avatarSmall: {
-    // borderRadius: '50%',
+    borderRadius: Platform.select({
+      web: '50%',
+      default: 21,
+    }),
     height: 42,
     margin: 0,
     width: 42,
@@ -601,7 +602,7 @@ export default createStackNavigator({
     path: ':action/ReceiveConfirmation',
   },
   SendLinkSummary,
-  // SendConfirmation,
+  SendConfirmation,
   SendByQR,
   ReceiveByQR,
 
@@ -617,12 +618,13 @@ export default createStackNavigator({
   FAQ,
   Recover: Mnemonics,
   OutOfGasError,
-  // Rewards: {
-  //   screen: RewardsTab,
-  //   path: 'Rewards/:rewardsPath*',
-  // },
-  // Marketplace: {
-  //   screen: config.market ? MarketTab : WrappedDashboard,
-  //   path: 'Marketplace/:marketPath*',
-  // },
+  Rewards: {
+    screen: RewardsTab,
+    path: 'Rewards/:rewardsPath*',
+  },
+  Marketplace: {
+    screen: config.market ? MarketTab : WrappedDashboard,
+    path: 'Marketplace/:marketPath*',
+  },
+  MagicLinkInfo,
 })

@@ -63,7 +63,7 @@ const ModalWrapper = (props: any) => {
 
 const getStylesFromProps = ({ theme }) => ({
   modalContainerStraightenBottomRightEdge: {
-    //borderBottomRightRadius: '0',
+    borderBottomRightRadius: 0,
   },
   modalLeftBorderAddMarginBottom: {
     marginBottom: theme.modals.jaggedEdgeSize,
@@ -86,15 +86,31 @@ const getStylesFromProps = ({ theme }) => ({
   },
   triangle: {
     position: 'absolute',
-    display: Platform.OS === 'web' ? 'block' : 'flex',
-    width: '2rem',
-    height: '2rem',
+    display: Platform.select({
+      web: 'block',
+      default: 'flex',
+    }),
+    width: Platform.select({
+      web: '2rem',
+      default: 2,
+    }),
+    height: Platform.select({
+      web: '2rem',
+      default: 2,
+    }),
     backgroundColor: 'white',
     left: '49%',
     bottom: -10,
-
-    //FIXME: RN
-    // transform: 'translateX(-50%) rotate(63deg) skewX(37deg)',
+    transform: [
+      {
+        translateX: Platform.select({
+          web: '-50%',
+          default: 0,
+        }),
+        rotate: '63deg',
+        skewX: '37deg',
+      },
+    ],
     boxShadow: 'rgba(0, 0, 0, 0.16) 2px 1px 4px',
   },
 })

@@ -1,12 +1,15 @@
 // @flow
 import React from 'react'
-import { Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, Platform } from 'react-native'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import illustration from '../../assets/Signup/illustration.svg'
 import Text from '../common/view/Text'
 import CustomWrapper from './signUpWrapper'
 
-// Image.prefetch(illustration)
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
+
 type Props = {
   screenProps: any,
 }

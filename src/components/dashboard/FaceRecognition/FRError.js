@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, View, Platform } from 'react-native'
 import get from 'lodash/get'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { CustomButton, Section, Wrapper } from '../../common'
@@ -13,7 +13,10 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/ut
 
 const log = logger.child({ from: 'FRError' })
 
-// Image.prefetch(Oops)
+if (Platform.OS === 'web') {
+  Image.prefetch(Oops)
+}
+
 const FRError = props => {
   const { styles } = props
   const store = GDStore.useStore()

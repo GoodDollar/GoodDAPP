@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { Platform } from 'react-native'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 
@@ -14,8 +15,10 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
     backgroundColor: theme.colors.green,
     borderColor: theme.colors.surface,
-
-    // // borderRadius: '50%',
+    borderRadius: Platform.select({
+      default: 72 / 2,
+      web: '50%',
+    }),
     borderWidth: 3,
     height: 72,
     left: '50%',
@@ -26,14 +29,20 @@ const getStylesFromProps = ({ theme }) => ({
     top: '50%',
     width: 72,
     zIndex: 99,
+
+    // FIXME: RN
     transform: [
       {
-        //FIXME: RN
-        //translateX: '-50%',
+        translateY: Platform.select({
+          web: '-50%',
+          default: 0,
+        }),
       },
       {
-        //FIXME: RN
-        // translateY: '-50%',
+        translateY: Platform.select({
+          web: '-50%',
+          default: 0,
+        }),
       },
     ],
   },

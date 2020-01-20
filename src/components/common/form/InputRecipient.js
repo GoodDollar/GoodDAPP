@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper'
 import Icon from '../view/Icon'
 import Clipboard from '../../../lib/utils/Clipboard'
@@ -48,7 +48,11 @@ const InputRecipient = props => {
 
 const styles = StyleSheet.create({
   iconInputContainer: {
-    // display: 'inline-flex',
+    display: Platform.select({
+      // FIXME: RN
+      default: 'flex',
+      web: 'inline-flex',
+    }),
     position: 'relative',
   },
   input: {

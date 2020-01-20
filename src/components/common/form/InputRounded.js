@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, View } from 'react-native'
+import { TextInput, View, Platform } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
@@ -64,7 +64,11 @@ const getStylesFromProps = ({ theme }) => {
 
   return {
     inputContainer: {
-      // display: 'inline-flex',
+      display: Platform.select({
+        // FIXME: RN
+        default: 'flex',
+        web: 'inline-flex',
+      }),
       flex: 1,
     },
     errorInputContainer: {

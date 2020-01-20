@@ -2,7 +2,7 @@
 //eslint-disable-next-line
 import bip39 from 'bip39-light'
 import React, { Fragment, useState } from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import { AsyncStorage, Image, Platform } from 'react-native'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -15,7 +15,9 @@ import NavBar from '../appNavigation/NavBar'
 import IOSWebAppSignInSVG from '../../assets/IOSWebAppSignIn.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
-// Image.prefetch(IOSWebAppSignInSVG)
+if (Platform.OS === 'web') {
+  Image.prefetch(IOSWebAppSignInSVG)
+}
 
 const TITLE = 'EASY ACCESS'
 const log = logger.child({ from: TITLE })

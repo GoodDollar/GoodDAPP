@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View, Platform } from 'react-native'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -37,7 +37,10 @@ const mapPropsToStyle = ({ theme }) => ({
   },
   iconWrapper: {
     backgroundColor: theme.colors.darkBlue,
-    // borderRadius: '50%',
+    borderRadius: Platform.select({
+      default: 42 / 2,
+      web: '50%',
+    }),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

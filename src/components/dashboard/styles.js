@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import normalize from '../../lib/utils/normalizeText'
 import { theme } from '../theme/styles'
 import { getScreenHeight } from '../../lib/utils/Orientation'
@@ -30,7 +30,12 @@ export const receiveStyles = StyleSheet.create({
     marginBottom: isMobileHeight ? 0 : '1rem',
   },
   address: {
-    // margin: '0.5rem',
+    ...Platform.select({
+      // FIXME: RN
+      web: {
+        margin: '0.5rem',
+      },
+    }),
   },
   secondaryText: {
     margin: isMobileHeight ? '0.2rem' : '1rem',

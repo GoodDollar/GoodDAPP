@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, View } from 'react-native'
+import { AsyncStorage, Image, View, Platform } from 'react-native'
 import numeral from 'numeral'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -25,7 +25,9 @@ import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
-// Image.prefetch(illustration)
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -38,8 +40,6 @@ type ClaimState = {
 }
 
 const log = logger.child({ from: 'Claim' })
-
-// Image.prefetch(illustration)
 
 const Claim = props => {
   const { screenProps, styles }: ClaimProps = props
@@ -361,7 +361,11 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: theme.sizes.borderRadius,
       flexGrow: 1,
       flexShrink: 1,
-      // maxHeight: 'fit-content',
+      maxHeight: Platform.select({
+        // FIXME: RN
+        web: 'fit-content',
+        default: 0,
+      }),
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
       marginTop: getDesignRelativeHeight(85),
@@ -377,12 +381,20 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
     },
     extraInfoWrapper: {
-      // display: 'inline',
+      display: Platform.select({
+        // FIXME: RN
+        web: 'inline',
+        default: 'flex',
+      }),
       textAlign: 'center',
       width: getDesignRelativeWidth(340),
     },
     inline: {
-      // display: 'inline',
+      display: Platform.select({
+        // FIXME: RN
+        web: 'inline',
+        default: 'flex',
+      }),
     },
     countdown: {
       minHeight: getDesignRelativeHeight(72),

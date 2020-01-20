@@ -247,9 +247,9 @@ PODS:
     - React
   - RNPermissions (2.0.9):
     - React
-  - RNReanimated (1.4.0):
+  - RNReanimated (1.5.0):
     - React
-  - RNScreens (2.0.0-alpha.23):
+  - RNScreens (2.0.0-alpha.24):
     - React
   - RNSVG (9.13.6):
     - React

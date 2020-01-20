@@ -1,5 +1,5 @@
 import React from 'react'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, View, Platform } from 'react-native'
 import Text from '../../common/view/Text'
 import Icon from '../../common/view/Icon'
 import normalize from '../../../lib/utils/normalizeText'
@@ -73,13 +73,19 @@ const getStylesFromProps = ({ theme }) => ({
   success: {
     width: getDesignRelativeWidth(28),
     height: getDesignRelativeHeight(28),
-    // borderRadius: '50%',
+    borderRadius: Platform.select({
+      default: getDesignRelativeWidth(28) / 2,
+      web: '50%',
+    }),
     backgroundColor: theme.colors.green,
   },
   failure: {
     width: getDesignRelativeWidth(28),
     height: getDesignRelativeHeight(28),
-    // borderRadius: '50%',
+    borderRadius: Platform.select({
+      default: getDesignRelativeWidth(28) / 2,
+      web: '50%',
+    }),
     backgroundColor: theme.colors.red,
     flexGrow: 0,
   },

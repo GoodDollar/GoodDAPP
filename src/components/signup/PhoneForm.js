@@ -1,9 +1,12 @@
 // @flow
+import { isMobile } from 'mobile-device-detect'
 import React from 'react'
 import debounce from 'lodash/debounce'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
+import { getScreenHeight } from '../../lib/utils/Orientation'
 import logger from '../../lib/logger/pino-logger'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
@@ -35,6 +38,20 @@ class PhoneForm extends React.Component<Props, State> {
     errorMessage: '',
     countryCode: this.props.screenProps.data.countryCode,
     isValid: true,
+  }
+
+  onFocus = () => {
+    const { store } = this.props
+    if (isMobile) {
+      store.set('isMobileKeyboardShown')(true)
+    }
+  }
+
+  onBlur = () => {
+    const { store } = this.props
+    if (isMobile) {
+      store.set('isMobileKeyboardShown')(false)
+    }
   }
 
   componentDidUpdate() {
@@ -79,9 +96,9 @@ class PhoneForm extends React.Component<Props, State> {
     this.props.screenProps.error = undefined
 
     const { key } = this.props.navigation.state
-    const { styles } = this.props
+    const { styles, store, theme } = this.props
     const { fullName, loading } = this.props.screenProps.data
-
+    const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
     return (
       <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
         <Section grow justifyContent="flex-start">
@@ -99,12 +116,23 @@ class PhoneForm extends React.Component<Props, State> {
                 error={errorMessage}
                 onKeyDown={this.handleEnter}
                 country={this.state.countryCode}
+                onTouchStart={this.onFocus}
+                onBlur={this.onBlur}
               />
               <ErrorText error={errorMessage} style={styles.customError} />
             </Section.Stack>
           </Section.Stack>
-          <Section.Row justifyContent="center" style={styles.bottomRow}>
-            <Section.Text fontSize={14} color="gray80Percent">
+          <Section.Row
+            justifyContent="center"
+            style={{
+              marginTop: 'auto',
+
+              /*only for small screen (iPhone5 , etc.)*/
+              marginBottom: isShowKeyboard && getScreenHeight() <= 480 ? -15 : theme.sizes.default,
+            }}
+          >
+            {/*change fontSize only for small screen (iPhone5 , etc.)*/}
+            <Section.Text fontSize={isShowKeyboard && getScreenHeight() <= 480 ? 13 : 14} color="gray80Percent">
               A verification code will be sent to this number
             </Section.Text>
           </Section.Row>
@@ -131,4 +159,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(PhoneForm)
+export default withStyles(getStylesFromProps)(SimpleStore.withStore(PhoneForm))

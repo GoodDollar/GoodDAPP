@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { Platform, ScrollView, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
 import { withStyles } from '../../../lib/styles'
 import ModalCloseButton from './ModalCloseButton'
@@ -10,7 +10,6 @@ import ModalContents from './ModalContents'
 import ModalOverlay from './ModalOverlay'
 import ModalInnerContents from './ModalInnerContents'
 import ModalContainer from './ModalContainer'
-import { Platform } from 'react-native'
 
 const ModalWrapper = (props: any) => {
   const {
@@ -93,7 +92,9 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: 'white',
     left: '49%',
     bottom: -10,
-    transform: 'translateX(-50%) rotate(63deg) skewX(37deg)',
+
+    //FIXME: RN
+    // transform: 'translateX(-50%) rotate(63deg) skewX(37deg)',
     boxShadow: 'rgba(0, 0, 0, 0.16) 2px 1px 4px',
   },
 })

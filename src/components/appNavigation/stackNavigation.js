@@ -309,10 +309,12 @@ const styles = StyleSheet.create({
   },
   sideMenuContainer: {
     ...fullScreen,
-    transform: [{ translateX: '200vw' }],
+    //FIXME: RN
+    // transform: [{ translateX: '200vw' }],
     zIndex: 100,
   },
   menuOpenStyle: {
+    //FIXME: RN
     transform: [{ translateX: '0vh' }],
   },
   hideMenu: {

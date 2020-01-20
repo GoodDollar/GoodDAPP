@@ -105,6 +105,7 @@ const getWelcomeStyles = ({ theme }) => ({
     minHeight: normalize(16),
     maxHeight: normalize(16),
     marginHorizontal: -theme.sizes.default,
+
     // display: 'inline',
   },
   welcomeText: {
@@ -193,6 +194,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   dateAndValue: {
     alignItems: 'center',
+
     // borderBottomStyle: 'solid',
     borderBottomWidth: 2,
     display: 'flex',
@@ -252,7 +254,8 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: 'inherit',
   },
   mainText: {
-    textAlignVertical: 'middle',
+    //FIXME: RN
+    // textAlignVertical: 'middle',
     paddingTop: 5,
   },
 })

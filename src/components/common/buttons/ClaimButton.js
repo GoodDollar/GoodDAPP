@@ -14,6 +14,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
     backgroundColor: theme.colors.green,
     borderColor: theme.colors.surface,
+
     // // borderRadius: '50%',
     borderWidth: 3,
     height: 72,
@@ -27,10 +28,12 @@ const getStylesFromProps = ({ theme }) => ({
     zIndex: 99,
     transform: [
       {
-        translateX: '-50%',
+        //FIXME: RN
+        //translateX: '-50%',
       },
       {
-        translateY: '-50%',
+        //FIXME: RN
+        // translateY: '-50%',
       },
     ],
   },

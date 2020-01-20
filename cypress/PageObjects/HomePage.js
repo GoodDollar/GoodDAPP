@@ -20,6 +20,18 @@ class HomePage {
     return cy.get('[data-testid="burger_button"]')
   }
 
+  get closePopupButton() {
+    return cy.get('[src="/static/media/close.e1a37435.svg"]')
+  }
+
+  get magicLink() {
+    return cy.get('span').contains('EMAIL ME THE MAGIC LINK')
+  }
+
+  get laterButton() {
+    return cy.get('span').contains('Later')
+  }
+
   get sendButton() {
     return cy.contains('Send')
   }

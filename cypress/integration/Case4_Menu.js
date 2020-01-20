@@ -24,7 +24,9 @@ describe('Test case 4: Check functionality', () => {
     HomePage.supportTab.should('be.visible')
   })
 
-  it('Check "Invite" tab', () => {
+  it('Check "Invite" page', () => {
+    HomePage.inviteTab.should('be.visible')
+    cy.wait(100) //whithout this "wait" cypress clicks on element when it is not attachecd to DOM yet
     HomePage.inviteTab.click()
     InvitePage.pageHeader.should('contain', 'REWARDS')
     InvitePage.iframe.should('be.visible')
@@ -41,7 +43,9 @@ describe('Test case 4: Check functionality', () => {
       })
   })
 
-  it('Check support page', () => {
+  it('Check "Support" page', () => {
+    HomePage.supportTab.should('be.visible')
+    cy.wait(100) //whithout this "wait" cypress clicks on element when it is not attachecd to DOM yet
     HomePage.supportTab.click()
     SupportPage.pageHeader.should('contain', 'Feedback & Support')
     SupportPage.iframe.should('be.visible')
@@ -93,7 +97,23 @@ describe('Test case 4: Check functionality', () => {
       })
   })
 
-  // it('Check Add App icon popup', () => {
-  //   HomePage.optionsButton.click()
-  // })
+  it('Check sending Magic Link', () => {
+    HomePage.optionsButton.should('be.visible')
+    cy.wait(100) //whithout this "wait" cypress clicks on element when it is not attachecd to DOM yet
+    HomePage.optionsButton.click()
+    HomePage.options.eq(1).click()
+    cy.get('span')
+      .contains('OK')
+      .should('be.visible')
+    HomePage.magicLink.should('be.visible')
+    HomePage.magicLink.click()
+    cy.get('div')
+      .contains('We sent you an email with your Magic Link')
+      .should('be.visible')
+    cy.get('span')
+      .contains('Ok')
+      .should('be.visible')
+      .click()
+    HomePage.claimButton.should('be.visible')
+  })
 })

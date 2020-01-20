@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { isMobile } from 'mobile-device-detect'
-import { View, Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
@@ -261,7 +261,8 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: 'inherit',
   },
   mainText: {
-    textAlignVertical: 'middle',
+    //FIXME: RN
+    // textAlignVertical: 'middle',
     paddingTop: 5,
   },
 })

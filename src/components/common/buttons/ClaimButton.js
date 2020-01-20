@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Dimensions, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 
@@ -29,9 +29,11 @@ const getStylesFromProps = ({ theme }) => ({
     top: '50%',
     width: 72,
     zIndex: 99,
+
+    // FIXME: RN
     transform: [
       {
-        translateX: Platform.select({
+        translateY: Platform.select({
           web: '-50%',
           default: 0,
         }),

@@ -7,7 +7,8 @@ import {
   useAPIConnection,
   useConnection,
   useConnectionGun,
-  useConnectionWeb3,
+
+  /*&useConnectionWeb3,*/
 } from '../../../lib/hooks/hasConnectionChange'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import logger from '../../../lib/logger/pino-logger'
@@ -28,7 +29,9 @@ const InternetConnection = props => {
   const [showDialog, hideDialog] = useDialog()
   const isConnection = useConnection()
   const isAPIConnection = useAPIConnection()
-  const isConnectionWeb3 = useConnectionWeb3()
+
+  //FIXME:RN restore connection tests, goes crazy on android emulator.
+  const isConnectionWeb3 = true //useConnectionWeb3()
   const isConnectionGun = useConnectionGun()
   const [showContent, setShowContent] = useState(false)
   useEffect(() => {

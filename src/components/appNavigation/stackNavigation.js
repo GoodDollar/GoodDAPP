@@ -1,6 +1,6 @@
 // @flow
-// FIXME: RN
-
+//FIXME:RN
+/* eslint-disable*/
 import React, { Component, useEffect, useState } from 'react'
 import { Dimensions, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
@@ -11,12 +11,10 @@ import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
-
 // import Blurred from '../common/view/Blurred'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
-
 //  import './blurFx.css'
 
 export const DEFAULT_PARAMS = {

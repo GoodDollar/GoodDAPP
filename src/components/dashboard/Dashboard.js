@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, AppState, Dimensions, Easing, InteractionManager } from 'react-native'
+import { Animated, AppState, Dimensions, Easing, Image, InteractionManager, TouchableOpacity } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
@@ -23,11 +23,11 @@ import {
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
+import { getMaxDeviceWidth } from '../../lib/utils/Orientation'
 import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
-import Avatar from '../common/view/Avatar'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
@@ -40,6 +40,9 @@ import { extractQueryParams, readCode } from '../../lib/share'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { theme as _theme } from '../theme/styles'
+import unknownProfile from '../../assets/unknownProfile.svg'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
 import Amount from './Amount'
@@ -69,6 +72,10 @@ import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
 const log = logger.child({ from: 'Dashboard' })
 
+const screenWidth = getMaxDeviceWidth()
+const headerContentWidth = screenWidth - _theme.sizes.default * 2 * 2
+const avatarCenteredPosition = headerContentWidth / 2 - 34
+
 export type DashboardProps = {
   navigation: any,
   screenProps: any,
@@ -76,9 +83,13 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
-  const [headerOpacityAnimValue] = useState(new Animated.Value(1))
+  const { screenProps, styles, theme }: DashboardProps = props
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
-  const [headerPreChanged, setHeaderPreChange] = useState(true)
+  const [headerAvatarAnimValue] = useState(new Animated.Value(68))
+  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(avatarCenteredPosition))
+  const [headerBalanceRightAnimValue] = useState(new Animated.Value(avatarCenteredPosition))
+  const [headerBalanceVerticalMarginAnimValue] = useState(new Animated.Value(theme.sizes.defaultDouble))
+  const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
@@ -90,7 +101,6 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
-  const { screenProps, styles, theme }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
@@ -102,9 +112,24 @@ const Dashboard = props => {
       },
     ],
   }
-  const largeHeaderAnimateStyles = {
-    opacity: headerOpacityAnimValue,
+  const headerAnimateStyles = {
+    position: 'relative',
     height: headerHeightAnimValue,
+  }
+  const fullNameAnimateStyles = {
+    opacity: headerFullNameOpacityAnimValue,
+  }
+  const avatarAnimStyles = {
+    position: 'absolute',
+    height: headerAvatarAnimValue,
+    width: headerAvatarAnimValue,
+    top: 0,
+    left: headerAvatarLeftAnimValue,
+  }
+  const balanceAnimStyles = {
+    position: 'absolute',
+    right: headerBalanceRightAnimValue,
+    marginVertical: headerBalanceVerticalMarginAnimValue,
   }
 
   const isTheSameUser = code => {
@@ -241,52 +266,64 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    const headerChangeTiming = 250
-    const heightAnimTiming = 250
-    const opacityAnimTiming = 200
+    const timing = 250
 
-    if (headerPreChanged) {
-      setTimeout(() => {
-        setHeaderLarge(true)
-
-        Animated.timing(headerOpacityAnimValue, {
-          toValue: 1,
-          duration: opacityAnimTiming,
-        }).start()
-      }, headerChangeTiming)
-
+    if (headerLarge) {
       Animated.parallel([
-        Animated.timing(headerOpacityAnimValue, {
-          toValue: 0,
-          duration: opacityAnimTiming,
+        Animated.timing(headerAvatarAnimValue, {
+          toValue: 68,
+          duration: timing,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 165,
-          duration: heightAnimTiming,
+          duration: timing,
+        }),
+        Animated.timing(headerAvatarLeftAnimValue, {
+          toValue: avatarCenteredPosition,
+          duration: timing,
+        }),
+        Animated.timing(headerFullNameOpacityAnimValue, {
+          toValue: 1,
+          duration: timing,
+        }),
+        Animated.timing(headerBalanceRightAnimValue, {
+          toValue: avatarCenteredPosition,
+          duration: timing,
+        }),
+        Animated.timing(headerBalanceVerticalMarginAnimValue, {
+          toValue: theme.sizes.defaultDouble,
+          duration: timing,
         }),
       ]).start()
     } else {
-      setTimeout(() => {
-        setHeaderLarge(false)
-
-        Animated.timing(headerOpacityAnimValue, {
-          toValue: 1,
-          duration: opacityAnimTiming,
-        }).start()
-      }, headerChangeTiming)
-
       Animated.parallel([
-        Animated.timing(headerOpacityAnimValue, {
-          toValue: 0,
-          duration: opacityAnimTiming,
+        Animated.timing(headerAvatarAnimValue, {
+          toValue: 42,
+          duration: timing,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 40,
-          duration: heightAnimTiming,
+          duration: timing,
+        }),
+        Animated.timing(headerAvatarLeftAnimValue, {
+          toValue: 0,
+          duration: timing,
+        }),
+        Animated.timing(headerFullNameOpacityAnimValue, {
+          toValue: 0,
+          duration: timing,
+        }),
+        Animated.timing(headerBalanceRightAnimValue, {
+          toValue: 20,
+          duration: timing,
+        }),
+        Animated.timing(headerBalanceVerticalMarginAnimValue, {
+          toValue: 0,
+          duration: timing,
         }),
       ]).start()
     }
-  }, [headerPreChanged])
+  }, [headerLarge])
 
   useEffect(() => {
     log.debug('Dashboard didmount', props.navigation)
@@ -414,41 +451,32 @@ const Dashboard = props => {
     }
   }
 
+  const avatarSource = avatar || unknownProfile
+
   return (
     <Wrapper style={styles.dashboardWrapper}>
       <Section style={[styles.topInfo]}>
-        <Animated.View style={largeHeaderAnimateStyles}>
-          {headerLarge ? (
-            <Section.Stack alignItems="center">
-              <Avatar
-                onPress={() => screenProps.push('Profile')}
-                size={68}
-                source={avatar}
-                style={[styles.avatarBig]}
-              />
+        <Animated.View style={headerAnimateStyles}>
+          <Section.Stack alignItems="center" style={styles.headerWrapper}>
+            <Animated.View style={avatarAnimStyles}>
+              <TouchableOpacity onPress={() => screenProps.push('Profile')} style={styles.avatarWrapper}>
+                <Image source={{ uri: avatarSource }} style={styles.avatar} />
+              </TouchableOpacity>
+            </Animated.View>
+            <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
               <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
                 {fullName || ' '}
               </Section.Text>
-              <Section.Row style={styles.bigNumberWrapper}>
-                <BigGoodDollar
-                  testID="amount_value"
-                  number={balance}
-                  bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
-                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                />
-              </Section.Row>
-            </Section.Stack>
-          ) : (
-            <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
-              <Avatar
-                onPress={() => screenProps.push('Profile')}
-                size={42}
-                source={avatar}
-                style={[styles.avatarSmall]}
+            </Animated.View>
+            <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}>
+              <BigGoodDollar
+                testID="amount_value"
+                number={balance}
+                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
+                bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
-              <BigGoodDollar number={balance} />
-            </Section>
-          )}
+            </Animated.View>
+          </Section.Stack>
         </Animated.View>
         <Section.Row style={styles.buttonsRow}>
           <PushButton
@@ -500,9 +528,9 @@ const Dashboard = props => {
           const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
 
           if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-            headerPreChanged && setHeaderPreChange(false)
+            headerLarge && setHeaderLarge(false)
           } else {
-            !headerPreChanged && setHeaderPreChange(true)
+            !headerLarge && setHeaderLarge(true)
           }
 
           // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
@@ -525,6 +553,17 @@ const Dashboard = props => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  headerWrapper: {
+    height: '100%',
+  },
+  headerFullName: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    marginVertical: 'auto',
+    height: 'fit-content',
+    paddingTop: getDesignRelativeHeight(10),
+  },
   dashboardWrapper: {
     backgroundImage: 'none',
     backgroundColor: theme.colors.lightGray,
@@ -557,14 +596,14 @@ const getStylesFromProps = ({ theme }) => ({
     paddingRight: 0,
     paddingTop: 0,
   },
-  avatarBig: {
-    marginBottom: theme.sizes.default,
+  avatarWrapper: {
+    height: '100%',
+    width: '100%',
   },
-  avatarSmall: {
+  avatar: {
     borderRadius: '50%',
-    height: 42,
-    margin: 0,
-    width: 42,
+    height: '100%',
+    width: '100%',
   },
   buttonsRow: {
     alignItems: 'center',
@@ -604,8 +643,9 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: 16,
   },
   bigNumberWrapper: {
-    marginVertical: theme.sizes.defaultDouble,
     alignItems: 'baseline',
+    position: 'absolute',
+    bottom: 0,
   },
   disabledButton: {
     backgroundColor: theme.colors.gray50Percent,

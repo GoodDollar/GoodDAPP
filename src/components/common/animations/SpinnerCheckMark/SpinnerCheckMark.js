@@ -1,45 +1,42 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Lottie from 'lottie-react-web'
+import React from 'react'
+import Lottie from 'lottie-react-native'
 import animationData from './data.json'
 
-const spinnerSegment = [0, 131]
-const finishSegment = [131, 290]
-const defaultOptions = {
-  animationData,
-  autoplay: false,
-  loop: true,
-}
-export default props => {
-  const { height = 196, width = 196, onFinish, success } = props
-  const [animationSuccess, setAnimationSuccess] = useState(false)
-  const animationRef = useRef()
-  useEffect(() => {
-    animationRef.current.anim.onComplete = () => {
+class SpinnerCheckMark extends React.Component {
+  componentDidMount() {
+    this.anim.onEnterFrame = e => {
+      const { success } = this.props
+      if (e.currentTime > 130.5 && !success) {
+        this.anim.goToAndPlay(0, true)
+      }
+    }
+    this.anim.onComplete = () => {
+      const { onFinish } = this.props
       if (typeof onFinish === 'function') {
         onFinish()
       }
     }
-    animationRef.current.anim.playSegments(spinnerSegment, true)
-  }, [])
+    this.anim.play()
+  }
 
-  useEffect(() => {
-    if (success && !animationSuccess) {
-      animationRef.current.anim.playSegments(finishSegment)
-      animationRef.current.anim.loop = false
-      setAnimationSuccess(true)
-    }
-  }, [success])
+  setAnim = anim => {
+    this.anim = anim
+  }
 
-  return (
-    <Lottie
-      style={{
-        marginTop: -height / 2.4,
-      }}
-      options={defaultOptions}
-      ref={animationRef}
-      animationData={animationData}
-      height={height}
-      width={width}
-    />
-  )
+  render() {
+    const { height = 196, width = 196 } = this.props
+    return (
+      <Lottie
+        ref={this.setAnim}
+        source={animationData}
+        style={{
+          marginTop: -height / 2.4,
+          width,
+          height,
+        }}
+      />
+    )
+  }
 }
+
+export default SpinnerCheckMark

@@ -52,7 +52,7 @@ const AppSwitch = (props: LoadingProps) => {
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
-  const showMessageInitAppSwitch = gdstore.get('showMessageInitAppSwitch')
+  const errorMessageTryAgainFromAppSwitch = gdstore.get('errorMessageTryAgainFromAppSwitch')
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -228,16 +228,16 @@ const AppSwitch = (props: LoadingProps) => {
   }, [gdstore])
 
   useEffect(() => {
-    if (showMessageInitAppSwitch) {
-      showErrorDialog('Problem with BlockChain ', '', {
+    if (errorMessageTryAgainFromAppSwitch) {
+      showErrorDialog(errorMessageTryAgainFromAppSwitch, '', {
         boldMessage: 'Try again.',
         onDismiss: () => {
           init()
-          gdstore.set('showMessageInitAppSwitch')(false)
+          gdstore.set('errorMessageTryAgainFromAppSwitch')('')
         },
       })
     }
-  }, [showMessageInitAppSwitch])
+  }, [errorMessageTryAgainFromAppSwitch])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

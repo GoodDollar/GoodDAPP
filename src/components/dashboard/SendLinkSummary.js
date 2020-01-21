@@ -160,7 +160,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
       txPromise.catch(e => {
         log.error(e.message, e)
-        gdstore.set('showMessageInitAppSwitch')(true)
+        gdstore.set('errorMessageTryAgainFromAppSwitch')('Something unexpected happened')
       })
 
       log.debug('generateLinkAndSend:', { generateLinkResponse })

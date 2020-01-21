@@ -111,8 +111,9 @@ const Claim = props => {
     const [claimedToday, nextClaimDate] = await Promise.all([
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
-    ]).catch(() => {
-      gdstore.set('showMessageInitAppSwitch')(true)
+    ]).catch(e => {
+      gdstore.set('errorMessageTryAgainFromAppSwitch')('Something unexpected happened')
+      log.error('gatherStats failed', e.message, e)
     })
 
     const nextClaim = await getNextClaim(nextClaimDate)

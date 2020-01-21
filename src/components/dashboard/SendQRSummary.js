@@ -32,7 +32,7 @@ const log = logger.child({ from: 'SendQRSummary' })
 const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
-  const [showDialog] = useDialog()
+  const [showDialog, showErrorDialog] = useDialog()
   const [survey, setSurvey] = useState('other')
   const [showSurvey, setShowSurvey] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -53,7 +53,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
       }
     } catch (e) {
       log.error('Send TX failed:', e.message, e)
-      showDialog({
+      showErrorDialog({
         visible: true,
         title: 'Transaction Failed!',
         message: `There was a problem sending G$. Try again`,

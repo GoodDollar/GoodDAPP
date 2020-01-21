@@ -571,7 +571,9 @@ export class GoodWallet {
       reason,
     })
 
-    const txPromise = this.depositToHash(amount, hashedCode, events).catch(e => e)
+    const txPromise = this.depositToHash(amount, hashedCode, events).catch(e => {
+      throw e
+    })
 
     return {
       code,

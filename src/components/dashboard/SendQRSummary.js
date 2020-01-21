@@ -123,7 +123,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
       })
     } catch (e) {
       log.error('Send TX failed:', e.message, e)
-      showDialog({
+      showErrorDialog({
         visible: true,
         title: 'Transaction Failed!',
         message: `There was a problem sending G$. Try again`,

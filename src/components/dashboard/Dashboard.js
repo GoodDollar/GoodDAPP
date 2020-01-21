@@ -267,32 +267,41 @@ const Dashboard = props => {
 
   useEffect(() => {
     const timing = 250
+    const fullNameOpacityTiming = 150
+    const easingIn = Easing.in(Easing.quad)
+    const easingOut = Easing.out(Easing.quad)
 
     if (headerLarge) {
       Animated.parallel([
         Animated.timing(headerAvatarAnimValue, {
           toValue: 68,
           duration: timing,
+          easing: easingOut,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 165,
           duration: timing,
+          easing: easingOut,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: avatarCenteredPosition,
           duration: timing,
+          easing: easingOut,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 1,
-          duration: timing,
+          duration: fullNameOpacityTiming,
+          easing: easingOut,
         }),
         Animated.timing(headerBalanceRightAnimValue, {
           toValue: avatarCenteredPosition,
           duration: timing,
+          easing: easingOut,
         }),
         Animated.timing(headerBalanceVerticalMarginAnimValue, {
           toValue: theme.sizes.defaultDouble,
           duration: timing,
+          easing: easingOut,
         }),
       ]).start()
     } else {
@@ -300,26 +309,32 @@ const Dashboard = props => {
         Animated.timing(headerAvatarAnimValue, {
           toValue: 42,
           duration: timing,
+          easing: easingIn,
         }),
         Animated.timing(headerHeightAnimValue, {
           toValue: 40,
           duration: timing,
+          easing: easingIn,
         }),
         Animated.timing(headerAvatarLeftAnimValue, {
           toValue: 0,
           duration: timing,
+          easing: easingIn,
         }),
         Animated.timing(headerFullNameOpacityAnimValue, {
           toValue: 0,
-          duration: timing,
+          duration: fullNameOpacityTiming,
+          easing: easingIn,
         }),
         Animated.timing(headerBalanceRightAnimValue, {
           toValue: 20,
           duration: timing,
+          easing: easingIn,
         }),
         Animated.timing(headerBalanceVerticalMarginAnimValue, {
           toValue: 0,
           duration: timing,
+          easing: easingIn,
         }),
       ]).start()
     }

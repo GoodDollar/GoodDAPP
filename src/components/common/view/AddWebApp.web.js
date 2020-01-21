@@ -170,6 +170,10 @@ const AddWebApp = props => {
 
     showDialog({
       content: <InitialDialog showDesc={!isReminder} />,
+      onDismiss: () => {
+        fireEvent(ADDTOHOME_LATER, { skipCount })
+        handleLater()
+      },
       buttons: [
         {
           text: 'Later',

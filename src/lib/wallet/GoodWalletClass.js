@@ -263,7 +263,7 @@ export class GoodWallet {
     contract.events.Transfer(toEventsFilter, (error, event) => {
       if (error) {
         // eslint-disable-next-line no-negated-condition
-        if (error.currentTarget.readyState !== error.currentTarget.CLOSED) {
+        if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
           log.error('listenTxUpdates toEventsPromise failed:', error.message, error)
         } else {
           log.warn('listenTxUpdates toEventsPromise failed:', error.message, error)
@@ -291,7 +291,7 @@ export class GoodWallet {
     const handler = (error, event) => {
       if (error) {
         // eslint-disable-next-line no-negated-condition
-        if (error.currentTarget.readyState !== error.currentTarget.CLOSED) {
+        if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
           log.error('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
         } else {
           log.warn('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { AppState, NetInfo } from 'react-native'
 import Config from '../../config/config'
 import API from '../API/api'
@@ -23,8 +23,11 @@ export const useConnection = () => {
 
 let isFirstCheckWeb3 = false
 let isFirstCheckGun = false
+let needToBindEventsWeb3 = true
+let needToBindEventsGun = true
 export const useConnectionWeb3 = () => {
   const [isConnection, setIsConnection] = useState(true)
+
   const store = SimpleStore.useStore()
   const wallet = store.get('wallet')
   const isWeb3Connection = async () => {
@@ -42,7 +45,10 @@ export const useConnectionWeb3 = () => {
           .then(_ => true)
           .catch(_ => false))
       ) {
-        bindEvents()
+        if (needToBindEventsWeb3) {
+          bindEvents('add')
+          needToBindEventsWeb3 = false
+        }
         setIsConnection(true)
       } else {
         //if not connected and not reconnecting than try to force reconnect
@@ -50,22 +56,30 @@ export const useConnectionWeb3 = () => {
           wallet.wallet.currentProvider.reconnect()
         }
         setIsConnection(false)
+        if (!needToBindEventsWeb3) {
+          needToBindEventsWeb3 = true
+          bindEvents('remove')
+        }
         setTimeout(isWeb3Connection, 1000)
       }
     }
   }
 
-  const bindEvents = () => {
+  const web3Close = useCallback(() => {
+    log.debug('web3 close')
+    isWeb3Connection()
+  }, [])
+
+  const web3Error = useCallback(() => {
+    log.debug('web3 error')
+    isWeb3Connection()
+  }, [])
+
+  const bindEvents = method => {
     log.debug('web3 binding listeners')
-    wallet.wallet.currentProvider
-      .on('close', () => {
-        log.debug('web3 close')
-        isWeb3Connection()
-      })
-      .on('error', () => {
-        log.debug('web3 error')
-        isWeb3Connection()
-      })
+    const callMethod = method === 'remove' ? 'off' : 'on'
+    wallet.wallet.currentProvider[callMethod]('close', web3Close)
+    wallet.wallet.currentProvider[callMethod]('error', web3Error)
   }
 
   useEffect(() => {
@@ -99,28 +113,47 @@ export const useConnectionGun = () => {
       log.debug('gun connection:', connection)
       if (connection && connection.wire && connection.wire.readyState === connection.wire.OPEN) {
         setIsConnection(true)
-        bindEvents()
+        if (needToBindEventsGun) {
+          needToBindEventsGun = false
+          bindEvents('add')
+        }
       } else {
         setIsConnection(false)
+        if (!needToBindEventsGun) {
+          bindEvents('remove')
+          needToBindEventsGun = true
+        }
         setTimeout(isGunConnection, 1000)
       }
     }
   }
 
-  const bindEvents = () => {
+  const gunClose = useCallback(() => {
+    log.debug('gun close')
+    isGunConnection()
+  }, [])
+
+  const gunError = useCallback(() => {
+    log.debug('gun error')
+    isGunConnection()
+  }, [])
+
+  const bindEvents = method => {
     log.debug('gun binding listeners')
     const instanceGun = userStorage.gun._
-    const wire = instanceGun.opt.peers[Config.gunPublicUrl].wire
+    if (
+      instanceGun.opt.peers &&
+      instanceGun.opt.peers[Config.gunPublicUrl] &&
+      instanceGun.opt.peers[Config.gunPublicUrl].wire
+    ) {
+      const wire = instanceGun.opt.peers[Config.gunPublicUrl].wire
+      const callMethod = method === 'remove' ? 'removeEventListener' : 'addEventListener'
+      log.debug('add gun binding listeners')
 
-    //guns reconnect automatically so no action required on our side
-    wire.addEventListener('close', () => {
-      log.debug('gun close')
-      isGunConnection()
-    })
-    wire.addEventListener('error', () => {
-      log.debug('gun error')
-      isGunConnection()
-    })
+      //guns reconnect automatically so no action required on our side
+      wire[callMethod]('close', gunClose)
+      wire[callMethod]('error', gunError)
+    }
   }
 
   useEffect(() => {

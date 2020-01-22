@@ -2,7 +2,7 @@
  * @format
  */
 
-import './shim'
+import './global'
 
 import { AppRegistry } from 'react-native'
 import React from  'react'

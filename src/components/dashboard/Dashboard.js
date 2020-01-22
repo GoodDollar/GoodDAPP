@@ -477,7 +477,7 @@ const Dashboard = props => {
     }
   }
 
-  const avatarSource = avatar || unknownProfile
+  const avatarSource = avatar ? { uri: avatar } : unknownProfile
 
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
@@ -486,7 +486,7 @@ const Dashboard = props => {
           <Section.Stack alignItems="center" style={styles.headerWrapper}>
             <Animated.View style={avatarAnimStyles}>
               <TouchableOpacity onPress={() => screenProps.push('Profile')} style={styles.avatarWrapper}>
-                <Image source={{ uri: avatarSource }} style={styles.avatar} />
+                <Image source={avatarSource} style={styles.avatar} />
               </TouchableOpacity>
             </Animated.View>
             <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
@@ -587,7 +587,9 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     bottom: 0,
     marginVertical: 'auto',
-    height: 'fit-content',
+
+    //FIXME: RN
+    //height: 'fit-content',
     paddingTop: getDesignRelativeHeight(10),
   },
   dashboardWrapper: {

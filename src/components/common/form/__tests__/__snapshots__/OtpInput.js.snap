@@ -170,6 +170,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -312,6 +313,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -454,6 +456,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -596,6 +599,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -738,6 +742,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -880,6 +885,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -1063,6 +1069,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -1206,6 +1213,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -1349,6 +1357,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -1492,6 +1501,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -1635,6 +1645,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -1778,6 +1789,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -1961,6 +1973,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -2104,6 +2117,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -2247,6 +2261,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -2390,6 +2405,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -2533,6 +2549,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }
@@ -2676,6 +2693,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultHalf": 4,
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
+              "maxWidthForTabletAndDesktop": 475,
               "minHeightForDialogMessage": 334,
             },
           }

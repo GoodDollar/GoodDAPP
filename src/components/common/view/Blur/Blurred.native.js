@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BlurView } from '@react-native-community/blur'
-import { View, findNodeHandle, StyleSheet } from 'react-native'
+import { findNodeHandle, StyleSheet, View } from 'react-native'
 
 const Blurred = props => {
   const viewRef = useRef()

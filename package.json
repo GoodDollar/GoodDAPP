@@ -89,7 +89,7 @@
     "gun": "git+https://github.com/GoodDollar/gun.git#rnsupport",
     "hdkey": "^1.1.1",
     "https-browserify": "0.0.1",
-    "isomorphic-webcrypto": "latest",
+    "isomorphic-webcrypto": "^2.3.4",
     "loadjs": "^3.6.1",
     "lodash": "^4.17.15",
     "mnid": "^0.1.3",

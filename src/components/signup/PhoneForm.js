@@ -37,7 +37,27 @@ class PhoneForm extends React.Component<Props, State> {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: '',
     countryCode: this.props.screenProps.data.countryCode,
-    isValid: true,
+    isValid: false,
+  }
+
+  onFocus = () => {
+    const { store } = this.props
+    if (isMobile) {
+      store.set('isMobileKeyboardShown')(true)
+    }
+  }
+
+  onBlur = () => {
+    const { store } = this.props
+    if (isMobile) {
+      store.set('isMobileKeyboardShown')(false)
+    }
+  }
+
+  async componentDidMount() {
+    this.setState({
+      isValid: !(await this.validateField()),
+    })
   }
 
   onFocus = () => {
@@ -81,8 +101,12 @@ class PhoneForm extends React.Component<Props, State> {
     }
   }
 
+  validateField = () => {
+    return userModelValidations.mobile(this.state.mobile)
+  }
+
   checkErrors = () => {
-    const modelErrorMessage = userModelValidations.mobile(this.state.mobile)
+    const modelErrorMessage = this.validateField()
     const errorMessage = modelErrorMessage
     log.debug({ modelErrorMessage, errorMessage, Config })
     this.setState({ errorMessage, isValid: errorMessage === '' })

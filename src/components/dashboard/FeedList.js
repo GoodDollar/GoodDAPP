@@ -107,7 +107,7 @@ const FeedList = ({
               error: e,
             })
             userStorage.updateOTPLEventStatus(id, 'pending')
-            showErrorDialog('Canceling the payment link has failed', e.message)
+            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
           })
         } catch (e) {
           log.error('cancel payment failed - quick actions', {
@@ -116,7 +116,7 @@ const FeedList = ({
             error: e,
           })
           userStorage.updateOTPLEventStatus(id, 'pending')
-          showErrorDialog('Canceling the payment link has failed', e.message)
+          showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
         }
       }
     }

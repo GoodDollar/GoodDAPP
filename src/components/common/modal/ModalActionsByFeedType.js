@@ -49,6 +49,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         await userStorage.cancelOTPLEvent(item.id)
       } catch (e) {
         log.error('cancel payment failed', e.message, e)
+        userStorage.recoverEvent(item.id)
         setState({ ...state, cancelPaymentLoading: false })
         showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
       }

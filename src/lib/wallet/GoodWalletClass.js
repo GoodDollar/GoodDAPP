@@ -381,9 +381,13 @@ export class GoodWallet {
   }
 
   async checkEntitlement(): Promise<number> {
-    const entitlement = await this.UBIContract.methods.checkEntitlement().call()
-
-    return entitlement
+    try {
+      const entitlement = await this.UBIContract.methods.checkEntitlement().call()
+      return entitlement
+    } catch (e) {
+      log.error('getNextClaimTime failed', e.message, e)
+      return Promise.reject(e)
+    }
   }
 
   /**

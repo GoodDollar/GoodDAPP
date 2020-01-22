@@ -20,6 +20,10 @@ class HomePage {
     return cy.get('[data-testid="burger_button"]')
   }
 
+  get magicLink() {
+    return cy.get('span').contains('EMAIL ME THE MAGIC LINK')
+  }
+
   get sendButton() {
     return cy.contains('Send')
   }

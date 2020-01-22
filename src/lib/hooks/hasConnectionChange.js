@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { AppState, NetInfo } from 'react-native'
 import Config from '../../config/config'
 import API from '../API/api'
@@ -27,6 +27,7 @@ let needToBindEventsWeb3 = true
 let needToBindEventsGun = true
 export const useConnectionWeb3 = () => {
   const [isConnection, setIsConnection] = useState(true)
+
   const store = SimpleStore.useStore()
   const wallet = store.get('wallet')
   const isWeb3Connection = async () => {
@@ -64,17 +65,21 @@ export const useConnectionWeb3 = () => {
     }
   }
 
+  const web3Close = useCallback(() => {
+    log.debug('web3 close')
+    isWeb3Connection()
+  }, [])
+
+  const web3Error = useCallback(() => {
+    log.debug('web3 error')
+    isWeb3Connection()
+  }, [])
+
   const bindEvents = method => {
     log.debug('web3 binding listeners')
     const callMethod = method === 'remove' ? 'off' : 'on'
-    wallet.wallet.currentProvider[callMethod]('close', () => {
-      log.debug('web3 close')
-      isWeb3Connection()
-    })
-    wallet.wallet.currentProvider[callMethod]('error', () => {
-      log.debug('web3 error')
-      isWeb3Connection()
-    })
+    wallet.wallet.currentProvider[callMethod]('close', web3Close)
+    wallet.wallet.currentProvider[callMethod]('error', web3Error)
   }
 
   useEffect(() => {
@@ -107,22 +112,31 @@ export const useConnectionGun = () => {
       const connection = instanceGun.opt.peers[Config.gunPublicUrl]
       log.debug('gun connection:', connection)
       if (connection && connection.wire && connection.wire.readyState === connection.wire.OPEN) {
+        setIsConnection(true)
         if (needToBindEventsGun) {
+          needToBindEventsGun = false
           bindEvents('add')
         }
-        setIsConnection(true)
-        needToBindEventsGun = false
       } else {
         setIsConnection(false)
         if (!needToBindEventsGun) {
           bindEvents('remove')
           needToBindEventsGun = true
         }
-
         setTimeout(isGunConnection, 1000)
       }
     }
   }
+
+  const gunClose = useCallback(() => {
+    log.debug('gun close')
+    isGunConnection()
+  }, [])
+
+  const gunError = useCallback(() => {
+    log.debug('gun error')
+    isGunConnection()
+  }, [])
 
   const bindEvents = method => {
     log.debug('gun binding listeners')
@@ -137,14 +151,8 @@ export const useConnectionGun = () => {
       log.debug('add gun binding listeners')
 
       //guns reconnect automatically so no action required on our side
-      wire[callMethod]('close', () => {
-        log.debug('gun close')
-        isGunConnection()
-      })
-      wire[callMethod]('error', () => {
-        log.debug('gun error')
-        isGunConnection()
-      })
+      wire[callMethod]('close', gunClose)
+      wire[callMethod]('error', gunError)
     }
   }
 

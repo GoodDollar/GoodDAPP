@@ -6,6 +6,7 @@ import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
 import wavePattern from '../../../assets/feedListItemPattern.svg'
 import SimpleStore from '../../../lib/undux/SimpleStore'
+import Config from '../../../config/config'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
 
@@ -34,11 +35,12 @@ const FeedListItem = (props: FeedListItemProps) => {
     backgroundColor: itemStyle.color,
     backgroundImage: `url(${wavePattern})`,
   }
+  const disableAnimForTests = Config.env === 'test'
 
   if (isItemEmpty) {
     const simpleStore = SimpleStore.useStore()
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
-    const showLoadAnim = !feedLoadAnimShown
+    const showLoadAnim = !feedLoadAnimShown && !disableAnimForTests
     const duration = 1450
 
     return (
@@ -72,7 +74,7 @@ const FeedListItem = (props: FeedListItemProps) => {
   }
 
   return (
-    <Animatable.View animation="fadeIn">
+    <Animatable.View animation={disableAnimForTests ? '' : 'fadeIn'}>
       <TouchableHighlight
         activeOpacity={0.5}
         onPress={() => onPress(item.id)}

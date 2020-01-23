@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable'
 import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
 import wavePattern from '../../../assets/feedListItemPattern.svg'
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
 
@@ -35,9 +36,14 @@ const FeedListItem = (props: FeedListItemProps) => {
   }
 
   if (isItemEmpty) {
+    const simpleStore = SimpleStore.useStore()
+    const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
+    const showLoadAnim = !feedLoadAnimShown
+    const duration = 1450
+
     return (
       <>
-        <Animatable.View animation={isItemEmpty ? 'fadeInUp' : ''} duration={2000}>
+        <Animatable.View animation={showLoadAnim ? 'fadeInUp' : ''} duration={duration}>
           <View style={styles.row}>
             <View style={styles.rowContent}>
               <View style={[styles.rowContentBorder, imageStyle]} />
@@ -45,7 +51,7 @@ const FeedListItem = (props: FeedListItemProps) => {
             </View>
           </View>
         </Animatable.View>
-        <Animatable.View animation={isItemEmpty ? 'fadeInUp' : ''} duration={2000} delay={300}>
+        <Animatable.View animation={showLoadAnim ? 'fadeInUp' : ''} duration={duration} delay={200}>
           <View style={styles.row}>
             <View style={styles.rowContent}>
               <View style={[styles.rowContentBorder, imageStyle]} />
@@ -53,7 +59,7 @@ const FeedListItem = (props: FeedListItemProps) => {
             </View>
           </View>
         </Animatable.View>
-        <Animatable.View animation={isItemEmpty ? 'fadeInUp' : ''} duration={2000} delay={600}>
+        <Animatable.View animation={showLoadAnim ? 'fadeInUp' : ''} duration={duration} delay={400}>
           <View style={styles.row}>
             <View style={styles.rowContent}>
               <View style={[styles.rowContentBorder, imageStyle]} />

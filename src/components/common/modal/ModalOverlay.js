@@ -3,7 +3,6 @@ import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
-// eslint-disable-next-line import/named
 import { getMaxDeviceHeight, getOriginalScreenWidth } from '../../../lib/utils/Orientation'
 
 const height = getMaxDeviceHeight()

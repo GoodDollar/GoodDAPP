@@ -7,7 +7,8 @@ import { Section } from '../common'
 import Text from '../common/view/Text'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import Config from '../../config/config'
+
+// import Config from '../../config/config'
 import normalize from '../../lib/utils/normalizeText'
 
 export type AmountProps = {
@@ -27,24 +28,26 @@ const SurveySend = ({ handleCheckSurvey, styles, onDismiss }: any) => {
   const [showDialog] = useDialog()
 
   useEffect(() => {
-    if (Config.isEToro && dialogSurvey) {
-      setDialogSurvey(false)
-      showDialog({
-        onDismiss,
-        content: <Content handleCheckSurvey={handleCheckSurvey} styles={styles} />,
-        buttons: [
-          {
-            style: styles.OkButton,
-            text: 'Ok',
-            onPress: dismiss => {
-              dismiss()
-            },
+    // if (Config.isEToro && dialogSurvey) {
+    setDialogSurvey(false)
+    showDialog({
+      onDismiss,
+      content: <Content handleCheckSurvey={handleCheckSurvey} styles={styles} />,
+      buttons: [
+        {
+          style: styles.OkButton,
+          text: 'Ok',
+          onPress: dismiss => {
+            dismiss()
           },
-        ],
-      })
-    }
+        },
+      ],
+    })
+
+    // }
   }, [dialogSurvey])
 
+  // eslint-disable-next-line no-constant-condition
   return null
 }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, View, Platform } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import get from 'lodash/get'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { CustomButton, Section, Wrapper } from '../../common'
@@ -25,11 +25,11 @@ const FRError = props => {
   const isValid = get(props, 'screenProps.screenState.isValid', undefined)
 
   let reason = get(props, 'screenProps.screenState.error', '')
-  if (reason instanceof Error || reason.message) {
+  if (reason instanceof Error || reason.message || reason.error) {
     if (reason.name === 'NotAllowedError') {
       reason = `Looks like GoodDollar doesn't have access to your camera. Please provide access and try again`
     } else {
-      reason = reason.message
+      reason = reason.message || reason.error
     }
   }
 

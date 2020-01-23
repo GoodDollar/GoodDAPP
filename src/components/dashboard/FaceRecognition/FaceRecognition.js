@@ -1,6 +1,7 @@
 // @flow
 import React, { createRef } from 'react'
 import get from 'lodash/get'
+import { FaceCapture } from '@gooddollar/react-native-web-facecapture'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'
@@ -9,13 +10,8 @@ import { fireEvent } from '../../../lib/analytics/analytics'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
 import GuidedFR from './GuidedFRProcessResults'
-import ZoomCapture from './ZoomCapture'
-import { type ZoomCaptureResult } from './Zoom'
-import zoomSdkLoader from './ZoomSdkLoader'
 
 const log = logger.child({ from: 'FaceRecognition' })
-
-declare var ZoomSDK: any
 
 type FaceRecognitionProps = DashboardProps & {}
 
@@ -41,7 +37,7 @@ type State = {
 class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   state = {
     showPreText: false,
-    showZoomCapture: true,
+    showCamera: true,
     showGuidedFR: false,
     sessionId: undefined,
     loadingText: '',
@@ -62,76 +58,38 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   height = 0
 
-  componentWillUnmount = () => {
-    log.debug('Unloading ZoomSDK', this.loadedZoom)
-    this.timeout && clearTimeout(this.timeout)
-  }
-
-  componentWillMount = async () => {
-    await zoomSdkLoader.ready
-    this.loadedZoom = ZoomSDK
-
-    navigator.getMedia =
-      navigator.getUserMedia || // use the proper vendor prefix
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia
-
-    navigator.getMedia(
-      { video: true },
-      () =>
-        (this.timeout = setTimeout(() => {
-          this.setState({ zoomReady: true })
-        }, 0)),
-      this.showFRError
+  uuidv4() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+      (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
     )
   }
 
-  componentDidMount = () => {}
-
-  /**
-   *  unused
-   */
-  setWidth = () => {
-    const containerWidth =
-      (this.containerRef && this.containerRef.current && this.containerRef.current.offsetWidth) || 300
-    this.width = Math.min(this.width, containerWidth)
-    this.height = window.innerHeight > window.innerWidth ? this.width * 1.77777778 : this.width * 0.5625
-    log.debug({ containerWidth, width: this.width, height: this.height })
-  }
-
-  onCaptureResult = (captureResult?: ZoomCaptureResult): void => {
-    //TODO: rami check uninitilized, return
-    log.debug('zoom capture completed', { captureResult })
+  onCaptureResult = (face, camera, images): void => {
+    log.debug('capture completed', { face, imageCount: images.length })
     fireEvent('FR_Capture')
-    if (captureResult === undefined) {
+    if (images === undefined || images.length === 0) {
       log.error('empty capture result')
       this.showFRError('empty capture result')
     } else {
-      this.startFRProcessOnServer(captureResult)
+      this.startFRProcessOnServer(images)
     }
   }
 
-  startFRProcessOnServer = async (captureResult: ZoomCaptureResult) => {
+  startFRProcessOnServer = async images => {
     try {
-      log.debug('Sending capture result to server', captureResult)
+      log.debug('Sending capture result to server')
+      const sessionId = this.uuidv4()
       this.setState({
-        showZoomCapture: false,
+        showCamera: false,
         showGuidedFR: true,
-        sessionId: captureResult.sessionId,
+        sessionId,
       })
-      let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
+      let result: FaceRecognitionResponse = await FRapi.performFaceRecognition({ images, sessionId })
       log.debug('FR API:', { result })
       if (!result || !result.ok) {
         log.warn('FR API call failed:', { result })
-        this.showFRError(result.error) // TODO: rami
+        this.showFRError(result.error)
       }
-
-      //else if (get(result, 'enrollResult.enrollmentIdentifier', undefined)) {
-      //   this.setState({ ...this.state, isAPISuccess: true })
-      // } else {
-      //   this.setState({ ...this.state, isAPISuccess: false })
-      // }
     } catch (e) {
       log.error('FR API call failed:', e.message, e)
       this.showFRError(e.message)
@@ -139,8 +97,12 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   showFRError = (error: string | Error) => {
+    log.debug('onError called', { error })
+    if (error.code === 'E_TAKE_PICTURE_FAILED') {
+      return
+    }
     fireEvent('FR_Error')
-    this.setState({ showZoomCapture: false, showGuidedFR: false, sessionId: undefined }, () => {
+    this.setState({ showCamera: false, showGuidedFR: false, sessionId: undefined }, () => {
       this.props.screenProps.navigateTo('FRError', { error })
     })
   }
@@ -150,7 +112,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.setState({
       showGuidedFR: false,
       sessionId: undefined,
-      showZoomCapture: true,
+      dhowCamera: true,
       isAPISuccess: undefined,
       showHelper: true,
     })
@@ -162,9 +124,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   render() {
-    const { showZoomCapture, showGuidedFR, sessionId, isAPISuccess } = this.state
+    const { showCamera, showGuidedFR, sessionId, isAPISuccess } = this.state
     return (
-      <Wrapper>
+      <Wrapper style={{ margin: 0, padding: 0 }}>
         {showGuidedFR && (
           <GuidedFR
             sessionId={sessionId}
@@ -176,12 +138,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
           />
         )}
 
-        {this.state.zoomReady && showZoomCapture && (
-          <ZoomCapture
-            screenProps={this.props.screenProps}
-            onCaptureResult={this.onCaptureResult}
-            showZoomCapture={this.state.zoomReady && showZoomCapture}
-            loadedZoom={this.loadedZoom}
+        {showCamera && (
+          <FaceCapture
+            debug={true}
+            onFaces={this.onCaptureResult}
             onError={this.showFRError}
             showHelper={this.state.showHelper}
           />

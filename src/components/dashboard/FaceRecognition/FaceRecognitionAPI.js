@@ -2,7 +2,6 @@
 import API from '../../../lib/API/api'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import { type ZoomCaptureResult } from './Zoom'
 
 type FaceRecognitionResponse = {
   ok: boolean,
@@ -15,6 +14,7 @@ type FaceRecognitionAPIResponse = {
   ok: boolean,
   error: string,
 }
+type CaptureResult = { sessionId: String, images: Array<any> }
 
 const log = logger.child({ from: 'FaceRecognitionAPI' })
 
@@ -27,13 +27,9 @@ const log = logger.child({ from: 'FaceRecognitionAPI' })
  * * onFaceRecognitionSuccess - sets the enrollmentIdentifier (recivied from a successful FR process) on the user private storage
  */
 export const FaceRecognitionAPI = {
-  async performFaceRecognition(captureResult: ZoomCaptureResult) {
-    log.info({ captureResult })
-    if (!captureResult) {
-      return this.onFaceRecognitionFailure({ error: 'Failed to capture user' })
-    }
-    let req = await this.createFaceRecognitionReq(captureResult)
-    log.debug({ req })
+  async performFaceRecognition(data: CaptureResult) {
+    log.info('performFaceRecognition', { sessionId: data.sessionId, imageCount: data.images.length })
+    let req = this.createFaceRecognitionReq(data)
     try {
       let res = await API.performFaceRecognition(req)
       return this.onFaceRecognitionResponse(res.data)
@@ -43,14 +39,12 @@ export const FaceRecognitionAPI = {
     }
   },
 
-  async createFaceRecognitionReq(captureResult: ZoomCaptureResult) {
+  createFaceRecognitionReq(data: CaptureResult) {
     let req = new FormData()
-    req.append('sessionId', captureResult.sessionId)
-    req.append('facemap', captureResult.facemap, { contentType: 'application/zip' })
-    req.append('auditTrailImage', captureResult.auditTrailImage, { contentType: 'image/jpeg' })
-    let account = await goodWallet.getAccountForType('zoomId')
+    req.append('sessionId', data.sessionId)
+    data.images.forEach(img => req.append('images', Buffer.from(img.base64, 'base64'), { contentType: 'image/jpeg' }))
+    let account = goodWallet.getAccountForType('zoomId')
     req.append('enrollmentIdentifier', account)
-    log.debug({ req })
     return req
   },
 

@@ -40,11 +40,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .cancelOTLByTransactionHash(item.id)
           .catch(e => {
             userStorage.updateOTPLEventStatus(item.id, 'pending')
-            log.error('cancel payment failed', {
-              itemId: item.id,
-              message: e.message,
-              error: e,
-            })
+            log.error('cancel payment failed', e.message, e)
             showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
           })
           .finally(() => {
@@ -52,11 +48,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           })
         await userStorage.cancelOTPLEvent(item.id)
       } catch (e) {
-        log.error('cancel payment failed', {
-          itemId: item.id,
-          message: e.message,
-          error: e,
-        })
+        log.error('cancel payment failed', e.message, e)
         userStorage.updateOTPLEventStatus(item.id, 'pending')
         setState({ ...state, cancelPaymentLoading: false })
         showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')

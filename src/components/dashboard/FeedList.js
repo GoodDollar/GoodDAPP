@@ -101,20 +101,12 @@ const FeedList = ({
         try {
           userStorage.cancelOTPLEvent(id)
           goodWallet.cancelOTLByTransactionHash(id).catch(e => {
-            log.error('cancel payment failed - quick actions', {
-              itemId: id,
-              message: e.message,
-              error: e,
-            })
+            log.error('cancel payment failed - quick actions', e.message, e)
             userStorage.updateOTPLEventStatus(id, 'pending')
             showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
           })
         } catch (e) {
-          log.error('cancel payment failed - quick actions', {
-            itemId: id,
-            message: e.message,
-            error: e,
-          })
+          log.error('cancel payment failed - quick actions', e.message, e)
           userStorage.updateOTPLEventStatus(id, 'pending')
           showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
         }

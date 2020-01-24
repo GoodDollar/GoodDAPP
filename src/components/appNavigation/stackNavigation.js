@@ -414,7 +414,7 @@ export const NextButton = ({
       screenProps={{ ...screenProps }}
       params={{ ...values, nextRoutes }}
       routeName={next}
-      style={{ flex: 2 }}
+      style={Platform.OS === 'web' && { flex: 2 }}
       canContinue={canContinue}
       loading={loading}
     >

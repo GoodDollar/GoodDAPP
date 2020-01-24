@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect } from 'react'
+import { Platform } from 'react-native'
 import InputText from '../common/form/InputText'
-
 import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -44,7 +44,7 @@ const Who = (props: AmountProps) => {
         {!isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
       </TopBar>
       <Section grow>
-        <Section.Stack justifyContent="flex-start" style={styles.container}>
+        <Section.Stack style={styles.container}>
           <Section.Title fontWeight="medium">{text}</Section.Title>
           <InputText
             autoFocus
@@ -91,5 +91,9 @@ export default withStyles(({ theme }) => ({
   container: {
     minHeight: getDesignRelativeHeight(180),
     height: getDesignRelativeHeight(180),
+    justifyContent: Platform.select({
+      web: 'flex-start',
+      default: 'space-between',
+    }),
   },
 }))(Who)

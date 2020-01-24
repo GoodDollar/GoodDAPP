@@ -47,7 +47,7 @@ export default (props: Props) => {
     let completeNumber = number
 
     if (isUserTypingCountryNow) {
-      const isSameCountry = new RegExp(countryCode).test(number)
+      const isSameCountry = number.startsWith(`+${countryCode}`)
 
       if (!isSameCountry) {
         const countryISO = findMatchedCountry(number)

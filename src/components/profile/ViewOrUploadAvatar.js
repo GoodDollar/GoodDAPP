@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Platform } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
 import GDStore from '../../lib/undux/GDStore'
@@ -23,14 +23,14 @@ const ViewOrUploadAvatar = props => {
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
 
-  const openNativeCropper = async () => {
+  const openNativeCropper = useCallback(async () => {
     const image = await ImagePicker.openCropper({
       path: profile.avatar,
-      width: 600,
-      height: 600,
+      width: 400,
+      height: 400,
       cropping: true,
       includeBase64: true,
-      cropperCircleOverlay: true
+      cropperCircleOverlay: true,
     })
 
     const avatar = `data:${image.mime};base64,${image.data}`
@@ -39,9 +39,9 @@ const ViewOrUploadAvatar = props => {
       showErrorDialog('Could not save image. Please try again.')
       log.error('save image failed:', e.message, e)
     })
-  }
+  }, [wrappedUserStorage, showErrorDialog])
 
-  const handleCameraPress = event => {
+  const handleCameraPress = useCallback(event => {
     event.preventDefault()
 
     if (Platform.OS === 'web') {
@@ -49,17 +49,17 @@ const ViewOrUploadAvatar = props => {
     } else {
       openNativeCropper()
     }
-  }
+  }, [openNativeCropper])
 
-  const handleClosePress = event => {
+  const handleClosePress = useCallback(event => {
     event.preventDefault()
     wrappedUserStorage.removeAvatar().catch(e => {
       showErrorDialog('Could not delete image. Please try again.')
       log.error('delete image failed:', e.message, e)
     })
-  }
+  }, [wrappedUserStorage, showErrorDialog])
 
-  const handleAddAvatar = avatar => {
+  const handleAddAvatar = useCallback(avatar => {
     fireEvent(PROFILE_IMAGE)
     wrappedUserStorage.setAvatar(avatar).catch(e => {
       showErrorDialog('Could not save image. Please try again.')
@@ -69,11 +69,11 @@ const ViewOrUploadAvatar = props => {
     if (Platform.OS === 'web') {
       props.navigation.navigate('EditAvatar')
     }
-  }
+  }, [wrappedUserStorage])
 
-  const goToProfile = () => {
+  const goToProfile = useCallback(() => {
     props.navigation.navigate('EditProfile')
-  }
+  })
 
   return (
     <Wrapper>
@@ -95,7 +95,7 @@ const ViewOrUploadAvatar = props => {
               <UserAvatar profile={profile} size={272} />
             </InputFile>
             <InputFile onChange={handleAddAvatar} style={styles.cameraButton}>
-              <CameraButton />
+              <CameraButton noStyles />
             </InputFile>
           </>
         )}

@@ -1,20 +1,22 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import { Icon } from '../common'
 
 const CircleButtonWrapper = props => {
   const { onPress, disabled, styles, style, iconName, iconColor = '#fff', iconSize = 20 } = props
 
+  const Wrapper = onPress ? TouchableOpacity : View
+
   return (
-    <TouchableOpacity
+    <Wrapper
       cursor={disabled ? 'inherit' : 'pointer'}
       onPress={disabled ? undefined : onPress}
       style={[styles.button, style]}
     >
       <Icon color={iconColor} size={iconSize} name={iconName} />
-    </TouchableOpacity>
+    </Wrapper>
   )
 }
 

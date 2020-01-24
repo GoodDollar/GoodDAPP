@@ -5,8 +5,8 @@ import ImagePicker from 'react-native-image-crop-picker'
 import { connectActionSheet, useActionSheet } from '@expo/react-native-action-sheet'
 
 const pickerOptions = {
-  width: 600,
-  height: 600,
+  width: 400,
+  height: 400,
   cropping: true,
   includeBase64: true,
   cropperCircleOverlay: true,
@@ -22,14 +22,16 @@ type Props = {
 const InputFile = ({ onChange, style, children }: Props) => {
   const { showActionSheetWithOptions } = useActionSheet()
 
-  const handleSheetClick = async (buttonIndex) => {
+  const handleSheetClick = async buttonIndex => {
     const actions = [ImagePicker.openCamera, ImagePicker.openPicker]
     const action = actions[buttonIndex]
 
+    if (!action) {
+      return
+    }
+
     const image = await action(pickerOptions)
     const imageData = `data:${image.mime};base64,${image.data}`
-
-    debugger
 
     onChange(imageData)
   }
@@ -49,6 +51,5 @@ const InputFile = ({ onChange, style, children }: Props) => {
     </TouchableOpacity>
   )
 }
-
 
 export default connectActionSheet(InputFile)

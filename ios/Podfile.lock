@@ -197,8 +197,6 @@ PODS:
     - React
   - react-native-camera/RN (3.15.1):
     - React
-  - react-native-image-picker (2.2.0):
-    - React
   - react-native-netinfo (5.3.2):
     - React
   - react-native-randombytes (3.5.3):
@@ -290,7 +288,6 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
-  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -362,8 +359,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
-  react-native-image-picker:
-    :path: "../node_modules/react-native-image-picker"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-randombytes:
@@ -436,7 +431,6 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-camera: d5b131588a2d1f0ad377a321793f58794dbdc768
-  react-native-image-picker: d7ba8117e782534adbed4581931f2f9ec1db3704
   react-native-netinfo: 7baf6d0436122ea5d98dc3f17a60fe56c8048046
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203

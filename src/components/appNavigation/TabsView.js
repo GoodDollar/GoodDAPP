@@ -112,12 +112,9 @@ const TabsView = React.memo((props: TabViewProps) => {
     navigation.navigate('Support')
   }
   const goToMarketplace = () => {
-    if (isIOS) {
-      const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
-      window.open(src, '_blank')
-    } else {
-      navigation.navigate('Marketplace')
-    }
+    const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
+    // window.open(src, '_blank')
+    navigation.navigate('Marketplace', { src })
   }
 
   return (
@@ -132,11 +129,9 @@ const TabsView = React.memo((props: TabViewProps) => {
         <Icon name="invite2" size={36} color="white" />
       </TouchableOpacity>
       <Appbar.Content />
-      {config.market && (
-        <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
-          <Icon name="goodmarket" size={36} color="white" />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
+        <Icon name="goodmarket" size={36} color="white" />
+      </TouchableOpacity>
       <Appbar.Content />
       <TouchableOpacity onPress={goToSupport} style={styles.feedback}>
         <Icon name="support2" size={36} color="white" />

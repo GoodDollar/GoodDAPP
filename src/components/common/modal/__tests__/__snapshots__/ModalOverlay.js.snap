@@ -27,7 +27,7 @@ exports[`ModalOverlay matches snapshot 1`] = `
         "backgroundColor": "rgba(0,0,0,0.00)",
         "height": "844px",
         "msFlexItemAlign": "start",
-        "width": "1024px",
+        "width": "100%",
       }
     }
   >
@@ -87,7 +87,7 @@ exports[`ModalOverlay matches snapshot with properties 1`] = `
         "backgroundColor": "rgba(0,0,0,0.00)",
         "height": "844px",
         "msFlexItemAlign": "start",
-        "width": "1024px",
+        "width": "100%",
       }
     }
   >

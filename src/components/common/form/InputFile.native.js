@@ -1,0 +1,54 @@
+// @flow
+import React from 'react'
+import { TouchableOpacity } from 'react-native'
+import ImagePicker from 'react-native-image-crop-picker'
+import { connectActionSheet, useActionSheet } from '@expo/react-native-action-sheet'
+
+const pickerOptions = {
+  width: 600,
+  height: 600,
+  cropping: true,
+  includeBase64: true,
+  cropperCircleOverlay: true,
+  mediaType: 'photo',
+}
+
+type Props = {
+  onChange: Function,
+  style?: any,
+  children?: any,
+}
+
+const InputFile = ({ onChange, style, children }: Props) => {
+  const { showActionSheetWithOptions } = useActionSheet()
+
+  const handleSheetClick = async (buttonIndex) => {
+    const actions = [ImagePicker.openCamera, ImagePicker.openPicker]
+    const action = actions[buttonIndex]
+
+    const image = await action(pickerOptions)
+    const imageData = `data:${image.mime};base64,${image.data}`
+
+    debugger
+
+    onChange(imageData)
+  }
+
+  const openSheet = () => {
+    const sheetOptions = {
+      options: ['Open Camera', 'Choose from library', 'Close'],
+      cancelButtonIndex: 2,
+    }
+
+    showActionSheetWithOptions(sheetOptions, handleSheetClick)
+  }
+
+  return (
+    <TouchableOpacity onPress={openSheet} style={style}>
+      {children}
+    </TouchableOpacity>
+  )
+}
+
+
+export default connectActionSheet(InputFile)

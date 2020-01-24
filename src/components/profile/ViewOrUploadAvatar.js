@@ -1,11 +1,13 @@
 // @flow
 import React from 'react'
+import { Platform } from 'react-native'
+import ImagePicker from 'react-native-image-crop-picker'
 import GDStore from '../../lib/undux/GDStore'
 import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-// import InputFile from '../common/form/InputFile'
+import InputFile from '../common/form/InputFile'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
 import CircleButtonWrapper from './CircleButtonWrapper'
@@ -21,9 +23,32 @@ const ViewOrUploadAvatar = props => {
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
 
+  const openNativeCropper = async () => {
+    const image = await ImagePicker.openCropper({
+      path: profile.avatar,
+      width: 600,
+      height: 600,
+      cropping: true,
+      includeBase64: true,
+      cropperCircleOverlay: true
+    })
+
+    const avatar = `data:${image.mime};base64,${image.data}`
+
+    wrappedUserStorage.setAvatar(avatar).catch(e => {
+      showErrorDialog('Could not save image. Please try again.')
+      log.error('save image failed:', e.message, e)
+    })
+  }
+
   const handleCameraPress = event => {
     event.preventDefault()
-    props.navigation.navigate('EditAvatar')
+
+    if (Platform.OS === 'web') {
+      props.navigation.navigate('EditAvatar')
+    } else {
+      openNativeCropper()
+    }
   }
 
   const handleClosePress = event => {
@@ -40,7 +65,10 @@ const ViewOrUploadAvatar = props => {
       showErrorDialog('Could not save image. Please try again.')
       log.error('save image failed:', e.message, e)
     })
-    props.navigation.navigate('EditAvatar')
+
+    if (Platform.OS === 'web') {
+      props.navigation.navigate('EditAvatar')
+    }
   }
 
   const goToProfile = () => {
@@ -63,12 +91,12 @@ const ViewOrUploadAvatar = props => {
           </>
         ) : (
           <>
-            {/*<InputFile onChange={handleAddAvatar}>*/}
-            {/*  <UserAvatar profile={profile} size={272} />{' '}*/}
-            {/*</InputFile>*/}
-            {/*<InputFile onChange={handleAddAvatar}>*/}
-            {/*  <CameraButton style={styles.cameraButton} />*/}
-            {/*</InputFile>*/}
+            <InputFile onChange={handleAddAvatar}>
+              <UserAvatar profile={profile} size={272} />
+            </InputFile>
+            <InputFile onChange={handleAddAvatar} style={styles.cameraButton}>
+              <CameraButton />
+            </InputFile>
           </>
         )}
         <CustomButton style={styles.doneButton} onPress={goToProfile}>

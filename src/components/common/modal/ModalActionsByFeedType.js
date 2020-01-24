@@ -39,7 +39,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         goodWallet
           .cancelOTLByTransactionHash(item.id)
           .catch(e => {
-            userStorage.recoverEvent(item.id)
+            userStorage.updateOTPLEventStatus(item.id, 'pending')
             log.error('cancel payment failed', {
               itemId: item.id,
               message: e.message,
@@ -57,7 +57,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           message: e.message,
           error: e,
         })
-        userStorage.recoverEvent(item.id)
+        userStorage.updateOTPLEventStatus(item.id, 'pending')
         setState({ ...state, cancelPaymentLoading: false })
         showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
       }

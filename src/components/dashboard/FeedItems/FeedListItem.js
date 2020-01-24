@@ -36,6 +36,7 @@ const FeedListItem = (props: FeedListItemProps) => {
     backgroundImage: `url(${wavePattern})`,
   }
   const disableAnimForTests = Config.env === 'test'
+  const easing = 'ease-in'
 
   if (isItemEmpty) {
     const simpleStore = SimpleStore.useStore()
@@ -45,7 +46,7 @@ const FeedListItem = (props: FeedListItemProps) => {
 
     return (
       <>
-        <Animatable.View animation={showLoadAnim ? 'fadeInUp' : ''} duration={duration}>
+        <Animatable.View animation={showLoadAnim ? 'fadeInUp' : ''} duration={duration} easing={easing} useNativeDriver>
           <View style={styles.row}>
             <View style={styles.rowContent}>
               <View style={[styles.rowContentBorder, imageStyle]} />
@@ -53,7 +54,13 @@ const FeedListItem = (props: FeedListItemProps) => {
             </View>
           </View>
         </Animatable.View>
-        <Animatable.View animation={showLoadAnim ? 'fadeInUp' : ''} duration={duration} delay={200}>
+        <Animatable.View
+          animation={showLoadAnim ? 'fadeInUp' : ''}
+          duration={duration}
+          delay={200}
+          easing={easing}
+          useNativeDriver
+        >
           <View style={styles.row}>
             <View style={styles.rowContent}>
               <View style={[styles.rowContentBorder, imageStyle]} />
@@ -61,7 +68,13 @@ const FeedListItem = (props: FeedListItemProps) => {
             </View>
           </View>
         </Animatable.View>
-        <Animatable.View animation={showLoadAnim ? 'fadeInUp' : ''} duration={duration} delay={400}>
+        <Animatable.View
+          animation={showLoadAnim ? 'fadeInUp' : ''}
+          duration={duration}
+          delay={400}
+          easing={easing}
+          useNativeDriver
+        >
           <View style={styles.row}>
             <View style={styles.rowContent}>
               <View style={[styles.rowContentBorder, imageStyle]} />
@@ -74,7 +87,7 @@ const FeedListItem = (props: FeedListItemProps) => {
   }
 
   return (
-    <Animatable.View animation={disableAnimForTests ? '' : 'fadeIn'}>
+    <Animatable.View animation={disableAnimForTests ? '' : 'fadeIn'} easing={easing} useNativeDriver>
       <TouchableHighlight
         activeOpacity={0.5}
         onPress={() => onPress(item.id)}

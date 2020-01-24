@@ -129,7 +129,7 @@ const FeedList = ({
     }
 
     return (
-      <Animatable.View animation="fadeIn" delay={500}>
+      <Animatable.View animation="fadeIn" delay={750}>
         <FeedActions
           onPress={hasAction && (() => handleFeedActionPress(item, actions))}
           actionIcon={actionIcon(actions)}

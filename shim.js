@@ -1,9 +1,9 @@
-if (typeof global.self === 'undefined') {
-  global.self = global
-}
-
 if (typeof __dirname === 'undefined') global.__dirname = '/'
 if (typeof __filename === 'undefined') global.__filename = ''
+// Needed so that 'stream-http' chooses the right default protocol.
+global.location = {
+    protocol: 'file:',
+  };
 
 global.process = require('process');
 global.process.version = 'v0.10';
@@ -19,13 +19,4 @@ if (typeof localStorage !== 'undefined') {
 global.btoa = require('Base64').btoa;
 global.atob = require('Base64').atob;
 global.Buffer = require('buffer').Buffer;
-
-// isomorphic-webcrypto overwrites the navigator object to { userAgent = '' }
-// Making the setter to do nothing in order to fix it
-global.navigator.userAgent = ''
-const navigatorCopy = { ...global.navigator }
-Object.defineProperty(global, 'navigator', {
-  set: () => {},
-  get: () => navigatorCopy
-});
-
+// global.crypto = require('crypto')

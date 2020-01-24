@@ -5,13 +5,13 @@
  * @format
  */
 
-const nodeLibs = require('node-libs-browser')
+const nodeLibs = require('node-libs-react-native')
 
 module.exports = {
   resolver: {
     extraNodeModules: {
       ...nodeLibs,
-      vm: require.resolve('vm-browserify'),
+      vm: require.resolve('vm-browserify')
     },
   },
   transformer: {

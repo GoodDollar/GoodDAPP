@@ -14,6 +14,7 @@ export const getScreenHeight = () => Dimensions.get('window').height
 export const getMaxDeviceHeight = () => (isMobileOnly ? getScreenHeight() : theme.sizes.maxHeightForTabletAndDesktop)
 
 export const getScreenWidth = () => Dimensions.get('window').width
+export const getMaxDeviceWidth = () => (isMobileOnly ? getScreenWidth() : theme.sizes.maxWidthForTabletAndDesktop)
 
 export const isPortrait = () => {
   return isBrowser ? true : getScreenHeight() >= getScreenWidth()

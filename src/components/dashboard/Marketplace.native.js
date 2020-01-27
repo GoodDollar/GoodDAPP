@@ -20,7 +20,6 @@ const MarketTab = props => {
 
   const getMarketPath = () => {
     const params = _get(props, 'navigation.state.params', {})
-    console.log('miparams', params)
     if (isIOS == false) {
       params.nofooter = true
     }
@@ -42,10 +41,7 @@ const MarketTab = props => {
   useEffect(() => {
     store.set('loadingIndicator')({ loading: true })
     userStorage.getProfileFieldValue('marketToken').then(setToken)
-    debugger
   }, [])
-
-  console.log('mi token', token)
 
   useEffect(() => {
     if (isIOS && token) {

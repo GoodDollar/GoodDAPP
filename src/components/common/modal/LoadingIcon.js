@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, Easing, Image, View, Platform } from 'react-native'
+import { Animated, Easing, Image, Platform, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import LoadingIconSVG from './img/LoadingIcon.svg'
 
@@ -8,7 +8,7 @@ if (Platform.OS === 'web') {
   Image.prefetch(LoadingIconSVG)
 }
 
-const LoadingIcon = ({ styles, style }) => {
+const LoadingIcon = ({ styles, style, loadingIconStyle }) => {
   const [rotateValue] = useState(new Animated.Value(0))
 
   useEffect(() => {
@@ -37,6 +37,7 @@ const LoadingIcon = ({ styles, style }) => {
             ],
           },
           styles.loadingIcon,
+          loadingIconStyle,
         ]}
         source={LoadingIconSVG}
       />

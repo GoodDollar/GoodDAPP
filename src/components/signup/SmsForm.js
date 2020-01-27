@@ -1,12 +1,10 @@
 // @flow
 import React from 'react'
-import { View, Platform } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
-import Icon from '../common/view/Icon'
-import LoadingIndicator from '../common/view/LoadingIndicator'
+import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
@@ -14,10 +12,6 @@ import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
 const log = logger.child({ from: 'SmsForm' })
-
-const DONE = 'DONE'
-const WAIT = 'WAIT'
-const PENDING = 'PENDING'
 
 type Props = {
   phone: string,
@@ -115,10 +109,10 @@ class SmsForm extends React.Component<Props, State> {
 
     try {
       await API[retryFunctionName]({ ...this.props.screenProps.data })
-      this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.displayDelayedRenderButton)
+      this.setState({ sendingCode: false, resentCode: true })
 
       //turn checkmark back into regular resend text
-      setTimeout(() => this.setState({ ...this.state, resentCode: false }), 2000)
+      setTimeout(() => this.setState({ ...this.state, resentCode: false }, this.displayDelayedRenderButton), 2000)
     } catch (e) {
       log.error('Resend sms code failed', e.message, e)
       this.setState({
@@ -130,7 +124,7 @@ class SmsForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage, renderButton, loading, otp, resentCode } = this.state
+    const { errorMessage, otp, renderButton, sendingCode, resentCode } = this.state
     const { styles } = this.props
 
     return (
@@ -159,42 +153,39 @@ class SmsForm extends React.Component<Props, State> {
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <SMSAction
-              status={resentCode ? DONE : renderButton ? PENDING : WAIT}
+              sendingCode={sendingCode}
+              resentCode={resentCode}
+              renderButton={renderButton}
               handleRetry={this.handleRetry}
-              successIconStyle={styles.successIconStyle}
+              onFinish={() => this.setState({ renderButton: false })}
             />
           </Section.Row>
         </Section>
-        <LoadingIndicator force={loading} />
       </CustomWrapper>
     )
   }
 }
 
-const SMSAction = ({ status, handleRetry, successIconStyle }) => {
-  if (status === DONE) {
+const SMSAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFinish }) => {
+  if (renderButton) {
     return (
-      <View style={successIconStyle}>
-        <Icon size={16} name="success" color="primary" />
-      </View>
-    )
-  } else if (status === WAIT) {
-    return (
-      <Section.Text fontSize={14} color="gray80Percent">
-        Please wait a few seconds until the SMS arrives
-      </Section.Text>
+      <SpinnerCheckMark loading={sendingCode} success={resentCode} onFinish={onFinish}>
+        <Section.Text
+          textDecorationLine="underline"
+          fontWeight="medium"
+          fontSize={14}
+          color="primary"
+          onPress={handleRetry}
+        >
+          Send me the code again
+        </Section.Text>
+      </SpinnerCheckMark>
     )
   }
 
   return (
-    <Section.Text
-      textDecorationLine="underline"
-      fontWeight="medium"
-      fontSize={14}
-      color="primary"
-      onPress={handleRetry}
-    >
-      Send me the code again
+    <Section.Text fontSize={14} color="gray80Percent">
+      Please wait a few seconds until the SMS arrives
     </Section.Text>
   )
 }
@@ -229,20 +220,6 @@ const getStylesFromProps = ({ theme }) => ({
   bottomContent: {
     marginTop: 'auto',
     marginBottom: theme.sizes.defaultDouble,
-  },
-  successIconStyle: {
-    borderWidth: 1,
-    borderRadius: Platform.select({
-      web: '50%',
-      default: 24,
-    }),
-    borderColor: theme.colors.primary,
-    position: 'relative',
-    height: 48,
-    width: 48,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 })
 

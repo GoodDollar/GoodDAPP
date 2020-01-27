@@ -187,10 +187,10 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    // Add v8-android - prebuilt libv8android.so into APK 
+    // Add v8-android - prebuilt libv8android.so into APK
     implementation 'org.chromium:v8-android:+'
     implementation "androidx.annotation:annotation:1.1.0"
-
+    compile project(':lottie-react-native')
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

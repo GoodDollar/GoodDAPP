@@ -1,7 +1,10 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
+import { View } from 'react-native'
+import logger from '../../../../lib/logger/pino-logger'
 import animationData from './data.json'
 
+const log = logger.child({ from: 'SpinnerCheckMark' })
 class SpinnerCheckMark extends React.Component {
   componentDidMount() {
     this.anim.onEnterFrame = e => {
@@ -16,6 +19,7 @@ class SpinnerCheckMark extends React.Component {
         onFinish()
       }
     }
+
     this.anim.play()
   }
 
@@ -26,15 +30,26 @@ class SpinnerCheckMark extends React.Component {
   render() {
     const { height = 196, width = 196 } = this.props
     return (
-      <Lottie
-        ref={this.setAnim}
-        source={animationData}
-        style={{
-          marginTop: -height / 2.4,
-          width,
-          height,
-        }}
-      />
+      <View>
+        <Lottie
+          onAnimationFinish={() => {
+            log.debug('onAnimationFinish')
+            const { onFinish } = this.props
+            if (typeof onFinish === 'function') {
+              onFinish()
+            }
+          }}
+          imageAssetsFolder={'assets'}
+          ref={this.setAnim}
+          source={animationData}
+          style={{
+            // marginTop: -height / 2.4,
+            width,
+            height,
+          }}
+          enableMergePathsAndroidForKitKatAndAbove
+        />
+      </View>
     )
   }
 }

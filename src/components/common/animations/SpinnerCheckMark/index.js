@@ -3,16 +3,25 @@ import SpinnerCheckMark from './SpinnerCheckMark'
 
 export default props => {
   const { loading, success, onFinish } = props
-  const shouldPlay = loading || success
-  const [isDone, setIsDone] = useState(false)
+  const [isStarting, setIsStarting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const onFinishHandle = useCallback(() => {
-    setIsDone(true)
+    setIsStarting(false)
+    setIsSuccess(false)
     onFinish && onFinish()
   })
 
-  if (shouldPlay === false || isDone === true) {
+  useEffect(() => {
+    setIsStarting(isStarting || loading)
+  }, [loading])
+
+  useEffect(() => {
+    setIsSuccess(isSuccess || success)
+  }, [success])
+
+  if (!isStarting) {
     return props.children || null
   }
 
-  return <SpinnerCheckMark {...props} success={success} onFinish={onFinishHandle} />
+  return <SpinnerCheckMark {...props} success={isSuccess} onFinish={onFinishHandle} />
 }

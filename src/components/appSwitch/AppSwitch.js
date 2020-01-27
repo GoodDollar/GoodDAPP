@@ -148,7 +148,9 @@ const AppSwitch = (props: LoadingProps) => {
       setReady(true)
     } catch (e) {
       log.error('failed initializing app', e.message, e)
-      showErrorDialog('Wallet could not be loaded. Please try again later.')
+      showErrorDialog('Wallet could not be loaded. Please try again later.', '', {
+        onDismiss: init,
+      })
     }
   }
 

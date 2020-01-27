@@ -3,9 +3,10 @@ import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
 import SupportPage from '../PageObjects/SupportPage'
+import InvitePage from '../PageObjects/InvitePage'
 
 describe('Test case 4: Ability to send support request and subscribe', () => {
-  before('authorization', () => {
+  beforeEach('authorization', () => {
     StartPage.open()
     StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()
@@ -17,9 +18,31 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
     HomePage.waitForHomePageDisplayed()
   })
 
-  it('User is able to send forms and follow the links', () => {
-    HomePage.optionsButton.click({ force: true })
-    HomePage.options.eq(4).click({ force: true })
+  it('Check is items are displayed at topbar', () => {
+    HomePage.inviteTab.should('be.visible')
+    HomePage.goodmarketTab.should('be.visible')
+    HomePage.supportTab.should('be.visible')
+  })
+
+  it('Check "Invite" tab', () => {
+    HomePage.inviteTab.click()
+    InvitePage.pageHeader.should('contain', 'REWARDS')
+    InvitePage.iframe.should('be.visible')
+    InvitePage.iframe
+      .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
+      .then(iframe => {
+        const body = iframe.contents().find('body')
+
+        cy.wrap(body.find(InvitePage.centerTextDiv)).should(
+          'contain',
+          'Rewards are given to members who help our network to grow. Invite friends or complete tasks to earn more GoodDollars'
+        )
+        cy.wrap(body.find(InvitePage.inviteFriendsDiv)).should('contain', 'Invite Friends')
+      })
+  })
+
+  it('Check support page', () => {
+    HomePage.supportTab.click()
     SupportPage.pageHeader.should('contain', 'Feedback & Support')
     SupportPage.iframe.should('be.visible')
     SupportPage.iframe

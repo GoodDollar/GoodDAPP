@@ -205,6 +205,7 @@ exports[`SignIn - Mnemonics matches snapshot 1`] = `
                 onKeyDown={[Function]}
                 onKeyPress={[Function]}
                 onSelect={[Function]}
+                onTouchStart={[Function]}
                 readOnly={false}
                 spellCheck={true}
                 style={

@@ -118,7 +118,8 @@ class API {
    * @param {UserRecord} user
    */
   addUser(user: UserRecord): AxiosPromise<any> {
-    return this.client.post('/user/add', { user })
+    //-skipRegistrationStep ONLY FOR TESTING  delete this condition aftere testing
+    return this.client.post('/user/add', { user, skipRegistrationStep: global.skipRegistrationStep })
   }
 
   /**

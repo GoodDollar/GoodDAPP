@@ -144,7 +144,7 @@ const AddWebApp = props => {
   const installApp = async () => {
     installPrompt.prompt()
     let outcome = await installPrompt.userChoice
-    if (outcome.outcome == 'accepted') {
+    if (outcome.outcome === 'accepted') {
       fireEvent(ADDTOHOME_OK)
       log.debug('App Installed')
     } else {
@@ -170,6 +170,10 @@ const AddWebApp = props => {
 
     showDialog({
       content: <InitialDialog showDesc={!isReminder} />,
+      onDismiss: () => {
+        fireEvent(ADDTOHOME_LATER, { skipCount })
+        handleLater()
+      },
       buttons: [
         {
           text: 'Later',

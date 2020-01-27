@@ -15,10 +15,7 @@ export default (props: Props) => {
 
   useEffect(() => {
     const countries = phoneInputRef.current.getAllCountries()
-    countriesMap.current = countries.reduce((acc, curr) => {
-      acc.set(curr.dialCode, curr.iso2)
-      return acc
-    }, new Map())
+    countries.forEach(({dialCode, iso2}) => countriesMap.current.set(dialCode, iso2))
   }, [])
 
   const findMatchedCountry = useCallback((number: string) => {

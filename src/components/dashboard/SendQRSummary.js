@@ -58,6 +58,9 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
         title: 'Transaction Failed!',
         message: `There was a problem sending G$. Try again`,
         dismissText: 'OK',
+        onDismiss: () => {
+          confirm()
+        },
       })
     }
   }

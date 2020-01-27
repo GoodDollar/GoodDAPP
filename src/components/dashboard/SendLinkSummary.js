@@ -160,8 +160,10 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
       txPromise.catch(e => {
         log.error(e.message, e)
-        showErrorDialog('Something unexpected happened', '', {
-          boldMessage: 'Try again.',
+        showErrorDialog('Could not complete transaction. Please try again.', '', {
+          onDismiss: () => {
+            handleConfirm()
+          },
         })
       })
 

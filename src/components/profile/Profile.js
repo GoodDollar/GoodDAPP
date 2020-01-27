@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { Platform } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, UserAvatar, Wrapper } from '../common'
@@ -60,12 +61,27 @@ const getStylesFromProps = ({ theme }) => ({
 
 const Profile = withStyles(getStylesFromProps)(ProfileWrapper)
 
-export default createStackNavigator({
+const commonRoutes = {
   Profile,
   EditProfile,
   ProfilePrivacy,
   ViewAvatar,
-  EditAvatar,
   VerifyEdit,
   VerifyEditCode,
-})
+}
+
+const nativeOnlyRoutes = {}
+
+const webOnlyRoutes = {
+  EditAvatar,
+}
+
+const routes = {
+  ...commonRoutes,
+  ...Platform.select({
+    web: webOnlyRoutes,
+    default: nativeOnlyRoutes,
+  }),
+}
+
+export default createStackNavigator(routes)

@@ -7,8 +7,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../common'
-
-// import ImageCropper from '../common/form/ImageCropper'
+import ImageCropper from '../common/form/ImageCropper'
 
 const log = logger.child({ from: 'EditAvatar' })
 

@@ -44,7 +44,7 @@ const Who = (props: AmountProps) => {
         {!isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
       </TopBar>
       <Section grow>
-        <Section.Stack style={styles.container}>
+        <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title fontWeight="medium">{text}</Section.Title>
           <InputText
             autoFocus
@@ -86,14 +86,13 @@ Who.shouldNavigateToComponent = props => {
 
 export default withStyles(({ theme }) => ({
   input: {
-    marginTop: 'auto',
+    marginTop: Platform.select({
+      web: 'auto',
+      default: 40,
+    }),
   },
   container: {
     minHeight: getDesignRelativeHeight(180),
     height: getDesignRelativeHeight(180),
-    justifyContent: Platform.select({
-      web: 'flex-start',
-      default: 'space-between',
-    }),
   },
 }))(Who)

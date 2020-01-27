@@ -26,7 +26,7 @@ const SendReason = (props: AmountProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
-        <Section.Stack style={styles.container}>
+        <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title fontWeight="medium">What For?</Section.Title>
           <InputText
             autoFocus
@@ -60,14 +60,11 @@ const styles = StyleSheet.create({
   container: {
     minHeight: getDesignRelativeHeight(180),
     height: getDesignRelativeHeight(180),
-    justifyContent: Platform.select({
-      web: 'flex-start',
-      default: 'space-between',
-    }),
   },
-  bottomContent: {
-    marginTop: 'auto',
-  },
+  bottomContent: Platform.select({
+    web: 'auto',
+    default: 40,
+  }),
 })
 
 SendReason.navigationOptions = navigationOptions

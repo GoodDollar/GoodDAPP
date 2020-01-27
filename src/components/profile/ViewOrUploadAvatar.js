@@ -2,6 +2,7 @@
 import React, { useCallback } from 'react'
 import { Platform } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
+import RNFS from 'react-native-fs'
 import GDStore from '../../lib/undux/GDStore'
 import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
@@ -23,14 +24,30 @@ const ViewOrUploadAvatar = props => {
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
 
+  const getProfileImage = useCallback(async () => {
+    // iOS supports reading from a base64 string, android does not.
+    if (Platform.OS === 'ios') {
+      return profile.avatar
+    }
+
+    const path = `${RNFS.CachesDirectoryPath}/GD_AVATAR.jpg`
+    const imageData = profile.avatar.replace('data:image/jpeg;base64,', '')
+
+    await RNFS.writeFile(path, imageData, 'base64')
+
+    return `file://${path}`
+  })
+
   const openNativeCropper = useCallback(async () => {
+    const path = await getProfileImage()
     const image = await ImagePicker.openCropper({
-      path: profile.avatar,
+      path,
       width: 400,
       height: 400,
       cropping: true,
       includeBase64: true,
       cropperCircleOverlay: true,
+      mediaType: 'photo',
     })
 
     const avatar = `data:${image.mime};base64,${image.data}`
@@ -41,35 +58,44 @@ const ViewOrUploadAvatar = props => {
     })
   }, [wrappedUserStorage, showErrorDialog])
 
-  const handleCameraPress = useCallback(event => {
-    event.preventDefault()
+  const handleCameraPress = useCallback(
+    event => {
+      event.preventDefault()
 
-    if (Platform.OS === 'web') {
-      props.navigation.navigate('EditAvatar')
-    } else {
-      openNativeCropper()
-    }
-  }, [openNativeCropper])
+      if (Platform.OS === 'web') {
+        props.navigation.navigate('EditAvatar')
+      } else {
+        openNativeCropper()
+      }
+    },
+    [openNativeCropper]
+  )
 
-  const handleClosePress = useCallback(event => {
-    event.preventDefault()
-    wrappedUserStorage.removeAvatar().catch(e => {
-      showErrorDialog('Could not delete image. Please try again.')
-      log.error('delete image failed:', e.message, e)
-    })
-  }, [wrappedUserStorage, showErrorDialog])
+  const handleClosePress = useCallback(
+    event => {
+      event.preventDefault()
+      wrappedUserStorage.removeAvatar().catch(e => {
+        showErrorDialog('Could not delete image. Please try again.')
+        log.error('delete image failed:', e.message, e)
+      })
+    },
+    [wrappedUserStorage, showErrorDialog]
+  )
 
-  const handleAddAvatar = useCallback(avatar => {
-    fireEvent(PROFILE_IMAGE)
-    wrappedUserStorage.setAvatar(avatar).catch(e => {
-      showErrorDialog('Could not save image. Please try again.')
-      log.error('save image failed:', e.message, e)
-    })
+  const handleAddAvatar = useCallback(
+    avatar => {
+      fireEvent(PROFILE_IMAGE)
+      wrappedUserStorage.setAvatar(avatar).catch(e => {
+        showErrorDialog('Could not save image. Please try again.')
+        log.error('save image failed:', e.message, e)
+      })
 
-    if (Platform.OS === 'web') {
-      props.navigation.navigate('EditAvatar')
-    }
-  }, [wrappedUserStorage])
+      if (Platform.OS === 'web') {
+        props.navigation.navigate('EditAvatar')
+      }
+    },
+    [wrappedUserStorage]
+  )
 
   const goToProfile = useCallback(() => {
     props.navigation.navigate('EditProfile')

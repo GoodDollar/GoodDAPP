@@ -15,16 +15,16 @@ const Blurred = props => {
     <View style={props.style}>
       <View ref={viewRef} style={[styles.container, styles.fullView]}>
         {props.children}
-        {props.blur && <View style={[styles.fullView, styles.opacityView]} />}
       </View>
-      {props.blur && <BlurView style={styles.fullView} viewRef={viewRefNode} blurType="light" blurAmount={32} />}
+      {props.blur && <BlurView style={styles.fullView} viewRef={viewRefNode} blurType="light" blurAmount={24} />}
+      {props.blur && <View style={[styles.fullView, styles.opacityView]} />}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   opacityView: {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(210, 210, 210, 0.5)',
   },
   container: {
     backgroundColor: '#fff',

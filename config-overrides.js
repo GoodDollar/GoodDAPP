@@ -17,6 +17,7 @@ module.exports = {
       alias: {
         '^react-native$': 'react-native-web',
         '^react-native-linear-gradient$': 'react-native-web-linear-gradient',
+        '^lottie-react-native$': 'react-native-web-lottie',
       },
     }),
 
@@ -39,6 +40,7 @@ module.exports = {
     addWebpackAlias({
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
       'react-native': 'react-native-web',
+      'lottie-react-native': 'react-native-web-lottie',
     }),
 
     ...addExternalBabelPlugins(

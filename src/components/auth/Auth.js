@@ -19,6 +19,7 @@ import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import RocketShip from '../common/animations/RocketShip'
 
 type Props = {
   navigation: any,
@@ -185,6 +186,7 @@ class Auth extends React.Component<Props> {
           <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
             {'Welcome to\nGoodDollar Wallet'}
           </Text>
+          <RocketShip loading={true} success={false} />
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
           <Section style={styles.bottomContainer}>
             {asGuest && (

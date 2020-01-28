@@ -142,6 +142,7 @@
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "^0.11.7",
     "react-native-web-linear-gradient": "^1.0.5",
+    "react-native-web-lottie": "^1.2.0",
     "react-native-webview": "^8.0.2",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3",

@@ -623,7 +623,7 @@ export default createStackNavigator({
     path: 'Rewards/:rewardsPath*',
   },
   Marketplace: {
-    screen: config.market ? MarketTab : WrappedDashboard,
+    screen: MarketTab,
     path: 'Marketplace/:marketPath*',
   },
   MagicLinkInfo,

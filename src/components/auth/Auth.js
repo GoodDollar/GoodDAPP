@@ -186,7 +186,7 @@ class Auth extends React.Component<Props> {
           <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
             {'Welcome to\nGoodDollar Wallet'}
           </Text>
-          <RocketShip loading={true} success={false} />
+          <RocketShip />
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
           <Section style={styles.bottomContainer}>
             {asGuest && (

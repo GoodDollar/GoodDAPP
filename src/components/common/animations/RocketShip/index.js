@@ -1,27 +1,40 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import RocketShip from './RocketShip'
+import React from 'react'
+import Lottie from 'lottie-react-native'
+import { Image, Platform, View } from 'react-native'
+import { getScreenHeight, getScreenWidth } from '../../../../lib/utils/Orientation'
+import animationDataNative from './data.json'
+import animationDataWeb from './data-web.json'
 
-export default props => {
-  const { loading, success, onFinish } = props
-  const [isStarting, setIsStarting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-  const onFinishHandle = useCallback(() => {
-    setIsStarting(false)
-    setIsSuccess(false)
-    onFinish && onFinish()
-  })
+const animationData = Platform.OS === 'web' ? animationDataWeb : animationDataNative
 
-  useEffect(() => {
-    setIsStarting(isStarting || loading)
-  }, [loading])
-
-  useEffect(() => {
-    setIsSuccess(isSuccess || success)
-  }, [success])
-
-  if (!isStarting) {
-    return props.children || null
+class RocketShip extends React.Component {
+  componentDidMount() {
+    this.anim.onEnterFrame = e => {
+      if (e.currentTime >= 120) {
+        this.anim.goToAndPlay(30, true)
+      }
+    }
+    this.anim.play()
   }
 
-  return <RocketShip {...props} success={isSuccess} onFinish={onFinishHandle} />
+  setAnim = anim => {
+    this.anim = anim
+  }
+
+  render() {
+    return (
+      <View style={{ height: getScreenWidth() }}>
+        <Lottie
+          loop={false}
+          imageAssetsFolder={'assets'}
+          ref={this.setAnim}
+          style={{ marginTop: -getScreenHeight() / 6 }}
+          source={animationData}
+          enableMergePathsAndroidForKitKatAndAbove
+        />
+      </View>
+    )
+  }
 }
+
+export default RocketShip

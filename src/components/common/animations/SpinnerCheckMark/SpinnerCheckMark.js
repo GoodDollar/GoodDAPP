@@ -9,6 +9,9 @@ class SpinnerCheckMark extends React.Component {
       if (e.currentTime > 130.5 && !success) {
         this.anim.goToAndPlay(0, true)
       }
+
+      //speed up when finished
+      this.anim.setSpeed(1.5)
     }
     this.anim.onComplete = () => {
       const { onFinish } = this.props

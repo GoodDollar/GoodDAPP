@@ -81,13 +81,15 @@ const FeedModalList = ({
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedModalItem
-      navigation={navigation}
-      item={item}
-      separators={separators}
-      fixedHeight
-      onPress={() => handleFeedSelection(item, false)}
-    />
+    <View style={styles.horizontalListItem}>
+      <FeedModalItem
+        navigation={navigation}
+        item={item}
+        separators={separators}
+        fixedHeight
+        onPress={() => handleFeedSelection(item, false)}
+      />
+    </View>
   )
 
   const slideEvent = _once(() => {
@@ -142,6 +144,9 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
     maxWidth: '100vw',
     flex: 1,
+  },
+  horizontalListItem: {
+    width: '100vw',
   },
   flatList: {
     transform: 'translateY(1px)', //Do not delete, this repairs horizontal feed scrolling

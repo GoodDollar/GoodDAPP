@@ -99,7 +99,7 @@ class SmsForm extends React.Component<Props, State> {
       this.setState({
         errorMessage: e.message || e,
         sendingCode: false,
-        renderButton: true,
+        resentCode: false,
       })
     }
   }
@@ -139,6 +139,7 @@ class SmsForm extends React.Component<Props, State> {
               renderButton={renderButton}
               handleRetry={this.handleRetry}
               onFinish={() => {
+                //reset smsaction state
                 this.setState({ resentCode: false })
               }}
             />

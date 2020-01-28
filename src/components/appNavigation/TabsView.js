@@ -113,7 +113,6 @@ const TabsView = React.memo((props: TabViewProps) => {
   }
   const goToMarketplace = () => {
     const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
-    // window.open(src, '_blank')
     navigation.navigate('Marketplace', { src })
   }
 
@@ -155,7 +154,10 @@ const styles = ({ theme }) => ({
       default: 36 / 2,
       web: '50%',
     }),
-    paddingVertical: 20,
+    paddingVertical: Platform.select({
+      web: 20,
+      default: 7,
+    }),
     paddingHorizontal: 7,
   },
   feedback: {

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -42,26 +42,10 @@ class SmsForm extends React.Component<Props, State> {
     sentSMS: false,
     errorMessage: '',
     sendingCode: false,
-    renderButton: false,
+    showWait: true,
     resentCode: false,
     loading: false,
     otp: Array(NumInputs).fill(null),
-  }
-
-  componentDidMount() {
-    this.displayDelayedRenderButton()
-  }
-
-  componentDidUpdate() {
-    if (!this.state.renderButton) {
-      this.displayDelayedRenderButton()
-    }
-  }
-
-  displayDelayedRenderButton = () => {
-    setTimeout(() => {
-      this.setState({ renderButton: true })
-    }, 10000)
   }
 
   handleChange = async (otp: array) => {
@@ -110,9 +94,6 @@ class SmsForm extends React.Component<Props, State> {
     try {
       await API[retryFunctionName]({ ...this.props.screenProps.data })
       this.setState({ sendingCode: false, resentCode: true })
-
-      //turn checkmark back into regular resend text
-      setTimeout(() => this.setState({ ...this.state, resentCode: false }, this.displayDelayedRenderButton), 2000)
     } catch (e) {
       log.error('Resend sms code failed', e.message, e)
       this.setState({
@@ -157,7 +138,9 @@ class SmsForm extends React.Component<Props, State> {
               resentCode={resentCode}
               renderButton={renderButton}
               handleRetry={this.handleRetry}
-              onFinish={() => this.setState({ renderButton: false })}
+              onFinish={() => {
+                this.setState({ resentCode: false })
+              }}
             />
           </Section.Row>
         </Section>
@@ -166,10 +149,27 @@ class SmsForm extends React.Component<Props, State> {
   }
 }
 
-const SMSAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFinish }) => {
-  if (renderButton) {
+const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
+  const [showWait, setWait] = useState(true)
+
+  useEffect(() => {
+    if (showWait) {
+      setTimeout(() => {
+        setWait(false)
+      }, 10000)
+    }
+  }, [showWait])
+
+  if (showWait === false) {
     return (
-      <SpinnerCheckMark loading={sendingCode} success={resentCode} onFinish={onFinish}>
+      <SpinnerCheckMark
+        loading={sendingCode}
+        success={resentCode}
+        onFinish={() => {
+          setWait(true)
+          onFinish()
+        }}
+      >
         <Section.Text
           textDecorationLine="underline"
           fontWeight="medium"

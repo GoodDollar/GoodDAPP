@@ -125,7 +125,7 @@ class PhoneForm extends React.Component<Props, State> {
     const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
     return (
       <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
-        <Section grow justifyContent="flex-start">
+        <Section grow justifyContent="flex-start" style={styles.transparentBackground}>
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
               <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
@@ -180,6 +180,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bottomRow: {
     marginTop: 'auto',
+  },
+  transparentBackground: {
+    backgroundColor: 'transparent',
   },
 })
 

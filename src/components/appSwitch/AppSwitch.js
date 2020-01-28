@@ -174,7 +174,9 @@ const AppSwitch = (props: LoadingProps) => {
 
         const _loginToken = _get(response, 'data.loginToken')
 
-        await userStorage.setProfileField('loginToken', _loginToken, 'private')
+        if (_loginToken) {
+          await userStorage.setProfileField('loginToken', _loginToken, 'private')
+        }
       } catch (e) {
         log.error('prepareLoginToken failed', e.message, e)
       }

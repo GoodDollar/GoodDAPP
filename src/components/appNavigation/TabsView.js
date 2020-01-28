@@ -128,9 +128,11 @@ const TabsView = React.memo((props: TabViewProps) => {
         <Icon name="invite2" size={36} color="white" />
       </TouchableOpacity>
       <Appbar.Content />
-      <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
-        <Icon name="goodmarket" size={36} color="white" />
-      </TouchableOpacity>
+      {config.market && (
+        <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
+          <Icon name="goodmarket" size={36} color="white" />
+        </TouchableOpacity>
+      )}
       <Appbar.Content />
       <TouchableOpacity onPress={goToSupport} style={styles.feedback}>
         <Icon name="support2" size={36} color="white" />

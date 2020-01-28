@@ -1,10 +1,10 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { View } from 'react-native'
-import logger from '../../../../lib/logger/pino-logger'
+import { isInstalledApp } from '../../../../lib/utils/platform'
 import animationData from './data.json'
+import animationDataWeb from './data-web.json'
 
-const log = logger.child({ from: 'SpinnerCheckMark' })
 class SpinnerCheckMark extends React.Component {
   componentDidMount() {
     this.anim.onEnterFrame = e => {
@@ -27,26 +27,28 @@ class SpinnerCheckMark extends React.Component {
     this.anim = anim
   }
 
+  onFinish = () => {
+    const { onFinish } = this.props
+    if (typeof onFinish === 'function') {
+      onFinish()
+    }
+  }
+
   render() {
     const { height = 196, width = 196 } = this.props
     return (
       <View>
         <Lottie
-          onAnimationFinish={() => {
-            log.debug('onAnimationFinish')
-            const { onFinish } = this.props
-            if (typeof onFinish === 'function') {
-              onFinish()
-            }
-          }}
+          onAnimationFinish={this.onFinish}
           imageAssetsFolder={'assets'}
           ref={this.setAnim}
-          source={animationData}
+          source={isInstalledApp ? animationData : animationDataWeb}
           style={{
-            // marginTop: -height / 2.4,
+            marginTop: -height / (isInstalledApp ? 5 : 3),
             width,
             height,
           }}
+          loop={false}
           enableMergePathsAndroidForKitKatAndAbove
         />
       </View>

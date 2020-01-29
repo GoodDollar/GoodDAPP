@@ -38,7 +38,7 @@ const FeedModalItem = (props: FeedEventProps) => {
       itemType={itemType}
       onClose={buttonPress}
       showJaggedEdge={showJaggedEdge}
-      fullHeight={true}
+      fullHeight
     >
       {item.type === 'feedback' ? (
         <FeedbackModalItem {...props} />

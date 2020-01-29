@@ -84,6 +84,8 @@ export type DashboardProps = {
 }
 const Dashboard = props => {
   const { screenProps, styles, theme }: DashboardProps = props
+  const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
+  const [showBalance, setShowBalance] = useState(false)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
   const [headerAvatarLeftAnimValue] = useState(new Animated.Value(avatarCenteredPosition))
@@ -128,6 +130,7 @@ const Dashboard = props => {
     left: headerAvatarLeftAnimValue,
   }
   const balanceAnimStyles = {
+    visibility: showBalance ? 'visible' : 'hidden',
     position: 'absolute',
     right: headerBalanceRightAnimValue,
     marginVertical: headerBalanceVerticalMarginAnimValue,
@@ -270,11 +273,32 @@ const Dashboard = props => {
     InteractionManager.runAfterInteractions(handleAppLinks)
   }
 
+  // The width of the balance block required to place the balance block at the center of the screen
+  // The balance always changes so the width is dynamical.
+  // Animation functionality requires positioning props to be set with numbers.
+  // So we need to calculate the center of the screen within dynamically changed balance block width.
+  const saveBalanceBlockWidth = event => {
+    const width = _get(event, 'nativeEvent.layout.width')
+
+    setBalanceBlockWidth(width)
+
+    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
+    Animated.timing(headerBalanceRightAnimValue, {
+      toValue: balanceCenteredPosition,
+      duration: 100,
+    }).start()
+
+    if (!showBalance) {
+      setShowBalance(true)
+    }
+  }
+
   useEffect(() => {
     const timing = 250
     const fullNameOpacityTiming = 150
     const easingIn = Easing.in(Easing.quad)
     const easingOut = Easing.out(Easing.quad)
+    const balanceCenteredPosition = headerContentWidth / 2 - balanceBlockWidth / 2
 
     if (headerLarge) {
       Animated.parallel([
@@ -299,7 +323,7 @@ const Dashboard = props => {
           easing: easingOut,
         }),
         Animated.timing(headerBalanceRightAnimValue, {
-          toValue: avatarCenteredPosition,
+          toValue: balanceCenteredPosition,
           duration: timing,
           easing: easingOut,
         }),
@@ -488,7 +512,7 @@ const Dashboard = props => {
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>
-            <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}>
+            <Animated.View onLayout={saveBalanceBlockWidth} style={[styles.bigNumberWrapper, balanceAnimStyles]}>
               <BigGoodDollar
                 testID="amount_value"
                 number={balance}

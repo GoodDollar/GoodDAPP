@@ -246,19 +246,20 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const open = store.get('sidemenu').visible
     const { visible: dialogVisible } = store.get('currentScreen').dialogData
     const currentFeed = store.get('currentFeed')
-    const menu = open ? <SideMenuPanel navigation={navigation} /> : null
 
     return (
       <React.Fragment>
-        <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : {}]}>
-          <SideMenu
-            menu={menu}
-            menuPosition="right"
-            isOpen={open}
-            disableGestures={true}
-            onChange={this.sideMenuSwap}
-          />
-        </View>
+        {open && (
+          <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : {}]}>
+            <SideMenu
+              menu={<SideMenuPanel navigation={navigation} />}
+              menuPosition="right"
+              isOpen={open}
+              disableGestures={true}
+              onChange={this.sideMenuSwap}
+            />
+          </View>
+        )}
         <Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>
           {!navigationBarHidden &&
             (NavigationBar ? (

@@ -11,8 +11,24 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
+import { onPressFix } from '../../lib/utils/async'
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
+
+//FIXME: RN - problem with gun/mscrypto when saving large image
+export const pickerOptions = {
+  width: 400,
+  height: 400,
+  cropping: true,
+  includeBase64: true,
+  cropperCircleOverlay: true,
+  mediaType: 'photo',
+  compressImageMaxWidth: 200,
+  useFronCamera: true,
+  showCropGuidelines: false,
+  showCropFrame: false,
+  hideBottomControls: true,
+}
 
 const log = logger.child({ from: 'ViewAvatar' })
 const TITLE = 'Your Profile'
@@ -40,15 +56,7 @@ const ViewOrUploadAvatar = props => {
 
   const openNativeCropper = useCallback(async () => {
     const path = await getProfileImage()
-    const image = await ImagePicker.openCropper({
-      path,
-      width: 400,
-      height: 400,
-      cropping: true,
-      includeBase64: true,
-      cropperCircleOverlay: true,
-      mediaType: 'photo',
-    })
+    const image = await ImagePicker.openCropper({ ...pickerOptions, path })
 
     const avatar = `data:${image.mime};base64,${image.data}`
 
@@ -106,21 +114,21 @@ const ViewOrUploadAvatar = props => {
       <Section style={styles.section}>
         {profile.avatar ? (
           <>
-            <UserAvatar profile={profile} size={272} />
+            <UserAvatar profile={profile} size={272} onPress={onPressFix(handleCameraPress)} />
             <CircleButtonWrapper
               style={styles.closeButton}
               iconName={'trash'}
               iconSize={22}
               onPress={handleClosePress}
             />
-            <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
+            <CameraButton style={styles.cameraButton} handleCameraPress={onPressFix(handleCameraPress)} />
           </>
         ) : (
           <>
-            <InputFile onChange={handleAddAvatar}>
+            <InputFile pickerOptions={pickerOptions} onChange={handleAddAvatar}>
               <UserAvatar profile={profile} size={272} />
             </InputFile>
-            <InputFile onChange={handleAddAvatar} style={styles.cameraButton}>
+            <InputFile pickerOptions={pickerOptions} onChange={handleAddAvatar} style={styles.cameraButton}>
               <CameraButton noStyles />
             </InputFile>
           </>

@@ -147,7 +147,8 @@ const CustomButton = (props: ButtonProps) => {
   const uppercase = mode !== 'text'
   const color = props.color ? props.color : theme.colors.default
 
-  const isChildrenAllowed = (Platform.OS === 'android' && typeof props.children === 'string') || Platform.OS === 'ios'
+  const isChildrenAllowed =
+    (Platform.OS === 'android' && typeof props.children === 'string') || Platform.OS === 'ios' || Platform.OS === 'web'
 
   return (
     <BaseButton

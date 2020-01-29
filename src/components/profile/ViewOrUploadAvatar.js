@@ -2,7 +2,6 @@
 import React, { useCallback } from 'react'
 import { Platform } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
-import RNFS from 'react-native-fs'
 import GDStore from '../../lib/undux/GDStore'
 import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
@@ -46,6 +45,7 @@ const ViewOrUploadAvatar = props => {
       return profile.avatar
     }
 
+    const RNFS = require('react-native-fs')
     const path = `${RNFS.CachesDirectoryPath}/GD_AVATAR.jpg`
     const imageData = profile.avatar.replace('data:image/jpeg;base64,', '')
 

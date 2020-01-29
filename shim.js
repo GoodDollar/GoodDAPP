@@ -19,4 +19,4 @@ if (typeof localStorage !== 'undefined') {
 global.btoa = require('Base64').btoa;
 global.atob = require('Base64').atob;
 global.Buffer = require('buffer').Buffer;
-global.crypto = require('crypto')
+// global.crypto = require('crypto')

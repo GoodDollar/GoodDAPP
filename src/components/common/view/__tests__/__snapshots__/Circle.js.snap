@@ -41,7 +41,7 @@ exports[`Circle matches snapshot 1`] = `
         Object {
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
-          "backgroundColor": "rgba(66,69,74,1.00)",
+          "backgroundColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50%",
           "borderBottomRightRadius": "50%",
           "borderTopLeftRadius": "50%",

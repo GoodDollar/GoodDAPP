@@ -274,6 +274,7 @@ sent to you by text message:
               onKeyDown={[Function]}
               onKeyPress={[Function]}
               onSelect={[Function]}
+              onTouchStart={[Function]}
               readOnly={false}
               spellCheck={true}
               style={

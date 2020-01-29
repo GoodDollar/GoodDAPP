@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import debounce from 'lodash/debounce'
-import { Text } from 'react-native'
 import { validateFullName } from '../../lib/validators/validateFullName'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
@@ -71,20 +70,21 @@ class NameForm extends React.Component<Props, State> {
   render() {
     const { fullName, errorMessage } = this.state
     const { key } = this.props.navigation.state
+    const { styles } = this.props
     return (
       <CustomWrapper
         valid={this.state.isValid}
         handleSubmit={this.handleSubmit}
         style={this.props.styles.transparentBackground}
       >
-        <Section grow justifyContent="flex-start" style={this.props.styles.transparentBackground}>
-          <Section.Stack justifyContent="flex-start" style={this.props.styles.container}>
-            <Section.Row justifyContent="center" style={this.props.styles.row}>
+        <Section grow justifyContent="flex-start" style={styles.transparentBackground}>
+          <Section.Stack justifyContent="flex-start" style={styles.container}>
+            <Section.Row justifyContent="center" style={styles.row}>
               <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
                 {'Hi, nice to meet you.\n Please enter your full name'}
               </Section.Title>
             </Section.Row>
-            <Section.Row justifyContent="center" style={[this.props.styles.bottomRow]}>
+            <Section.Row justifyContent="center" style={styles.bottomRow}>
               <InputText
                 id={key + '_input'}
                 value={fullName}
@@ -93,6 +93,7 @@ class NameForm extends React.Component<Props, State> {
                 onKeyPress={this.handleEnter}
                 onCleanUpField={this.handleChange}
                 autoFocus
+                style={styles.transparentBackground}
               />
             </Section.Row>
           </Section.Stack>

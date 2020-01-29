@@ -19,7 +19,7 @@ describe('Test case 6: Ability to send recovering email', () => {
 
   it('User is able to recover mnemonics by email', () => {
     HomePage.optionsButton.click()
-    HomePage.options.eq(1).click()
+    HomePage.options.eq(2).click()
     for (let i = 0; i < 12; i++) {
       RecoverWalletPage.mnemonicInputs.eq(i).should('be.visible')
     }

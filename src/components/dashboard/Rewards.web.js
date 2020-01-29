@@ -99,7 +99,7 @@ const NavigationBar = navigate => (
   <Appbar.Header dark style={navBarStyles.wrapper}>
     <View style={{ width: 48 }} />
     <Appbar.Content />
-    <Section.Text color="white" fontWeight="medium" style={navBarStyles.title}>
+    <Section.Text color="white" fontWeight="medium" style={navBarStyles.title} testID="rewards_header">
       {'REWARDS'}
     </Section.Text>
     <Appbar.Content />

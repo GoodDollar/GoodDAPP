@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import { Platform, TextInput, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import normalize from '../../../lib/utils/normalizeText'
 
 // keyCode constants
 const BACKSPACE = 8
@@ -52,26 +54,15 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
-    paddingHorizontal: Platform.select({
-      // FIXME: RN
-      default: 0,
-      web: '0.4rem',
-    }),
+    paddingHorizontal: getDesignRelativeWidth(4),
   },
   input: {
     textAlign: 'center',
     width: '100%',
-    height: Platform.select({
-      // FIXME: RN
-      default: 0,
-      web: '3rem',
-    }),
+    paddingVertical: getDesignRelativeHeight(5),
     marginVertical: 0,
-    fontSize: Platform.select({
-      // FIXME: RN
-      default: 0,
-      web: '1.5rem',
-    }),
+    fontSize: normalize(18),
+    marginBottom: 0,
     borderTopWidth: 0,
     borderRightWidth: 0,
     borderLeftWidth: 0,

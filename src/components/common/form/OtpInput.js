@@ -97,13 +97,6 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, foc
   }, [focus])
 
   const handleSelection = ({ nativeEvent: { selection: nativeSelection } }) => {
-    // FIXME: RN
-    if (Platform.OS === 'web') {
-      if (nativeSelection.start === nativeSelection.end && nativeSelection.start === 1) {
-        focusNextInput()
-      }
-    }
-
     setSelection({ start: 0, end: value && value.length ? 1 : 0 })
   }
 
@@ -275,22 +268,30 @@ const OtpInput = (props: Props) => {
 
   // Handle cases of backspace, delete, left arrow, right arrow
   const handleOnKeyPress = (e: Object) => {
-    if (e.keyCode === BACKSPACE || e.key === 'Backspace') {
+    const { keyCode } = e
+    const { key } = e.nativeEvent
+
+    const otp = getOtpValue()
+    const value = otp[activeInput]
+
+    if (keyCode === BACKSPACE || key === 'Backspace') {
       e.preventDefault()
-      if (e.target.value.length === 0 && activeInput > 0) {
+      if (value === undefined && activeInput > 0) {
         changeCodeAtFocus('', activeInput - 1)
         focusPrevInput()
       }
       changeCodeAtFocus('')
-    } else if (e.keyCode === DELETE || e.key === 'Delete') {
-      e.preventDefault()
-      changeCodeAtFocus('')
-    } else if (e.keyCode === LEFT_ARROW || e.key === 'ArrowLeft') {
-      e.preventDefault()
-      focusPrevInput()
-    } else if (e.keyCode === RIGHT_ARROW || e.key === 'ArrowRight') {
-      e.preventDefault()
-      focusNextInput()
+    } else if (Platform.OS === 'web') {
+      if (keyCode === DELETE || key === 'Delete') {
+        e.preventDefault()
+        changeCodeAtFocus('')
+      } else if (keyCode === LEFT_ARROW || key === 'ArrowLeft') {
+        e.preventDefault()
+        focusPrevInput()
+      } else if (keyCode === RIGHT_ARROW || key === 'ArrowRight') {
+        e.preventDefault()
+        focusNextInput()
+      }
     }
   }
 
@@ -320,14 +321,7 @@ const OtpInput = (props: Props) => {
           onKeyPress={handleOnKeyPress}
           onInput={checkLength}
           onPaste={handleOnPaste}
-          onFocus={e => {
-            setActiveInput(i)
-
-            // FIXME: RN
-            if (Platform.OS === 'web') {
-              e.target.select()
-            }
-          }}
+          onFocus={() => setActiveInput(i)}
           onBlur={() => setActiveInput(-1)}
           separator={separator}
           inputStyle={inputStyle}
@@ -343,6 +337,7 @@ const OtpInput = (props: Props) => {
           keyboardType={keyboardType || null}
           indexElement={i}
           aside={aside}
+          selectTextOnFocus
         />
       )
     }

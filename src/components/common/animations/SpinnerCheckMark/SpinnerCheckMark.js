@@ -44,7 +44,7 @@ class SpinnerCheckMark extends React.Component {
           ref={this.setAnim}
           source={isInstalledApp ? animationData : animationDataWeb}
           style={{
-            marginTop: -height / (isInstalledApp ? 5 : 3),
+            marginTop: -height / (isInstalledApp ? 6 : 3),
             width,
             height,
           }}

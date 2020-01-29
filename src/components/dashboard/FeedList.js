@@ -1,6 +1,7 @@
 // @flow
 import React, { createRef } from 'react'
 import { Animated, SwipeableFlatList } from 'react-native'
+import * as Animatable from 'react-native-animatable'
 import get from 'lodash/get'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
@@ -131,13 +132,15 @@ const FeedList = ({
     }
 
     return (
-      <FeedActions
-        onPress={hasAction && (() => handleFeedActionPress(item, actions))}
-        actionIcon={actionIcon(actions)}
-        {...props}
-      >
-        {actionLabel(actions)}
-      </FeedActions>
+      <Animatable.View animation="fadeIn" delay={750}>
+        <FeedActions
+          onPress={hasAction && (() => handleFeedActionPress(item, actions))}
+          actionIcon={actionIcon(actions)}
+          {...props}
+        >
+          {actionLabel(actions)}
+        </FeedActions>
+      </Animatable.View>
     )
   }
 

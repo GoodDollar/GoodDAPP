@@ -101,6 +101,7 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
+  const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
@@ -172,6 +173,10 @@ const Dashboard = props => {
       return
     }
     if (reset) {
+      if (!loadAnimShown) {
+        await delay(1900)
+        store.set('feedLoadAnimShown')(true)
+      }
       setFeeds(res)
     } else {
       setFeeds(feeds.concat(res))
@@ -233,7 +238,7 @@ const Dashboard = props => {
       //mark as displayed
       setShowDelayedTimer(true)
       store.set('addWebApp')({ show: true })
-    }, 1000)
+    }, 2000)
     setShowDelayedTimer(id)
   }
 

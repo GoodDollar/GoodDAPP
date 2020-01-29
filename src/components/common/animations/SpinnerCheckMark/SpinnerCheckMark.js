@@ -1,9 +1,18 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
+import { View } from 'react-native'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
 import animationData from './data.json'
 
+if (!isMobileReactNative) {
+  animationData.layers[1].sc = '#ffffff00'
+}
+
 class SpinnerCheckMark extends React.Component {
+  state = {
+    speed: 1,
+  }
+
   componentDidMount() {
     this.anim.onEnterFrame = e => {
       const { success } = this.props
@@ -25,27 +34,29 @@ class SpinnerCheckMark extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.success === false && this.props.success === true && !isMobileReactNative) {
+    if (prevProps.success === false && this.props.success === true) {
       //speed up when finished
-      this.anim.setSpeed(1.5)
+      this.setState({
+        speed: 1.5,
+      })
     }
   }
 
   render() {
     const { height = 196, width = 196 } = this.props
-    if (!isMobileReactNative) {
-      animationData.layers[1].sc = '#ffffff00'
-    }
     return (
-      <Lottie
-        ref={this.setAnim}
-        source={animationData}
-        style={{
-          marginTop: -height / (isMobileReactNative ? 5 : 3),
-          width,
-          height,
-        }}
-      />
+      <View>
+        <Lottie
+          ref={this.setAnim}
+          source={animationData}
+          speed={this.state.speed}
+          style={{
+            marginTop: -height / (isMobileReactNative ? 6 : 3),
+            width,
+            height,
+          }}
+        />
+      </View>
     )
   }
 }

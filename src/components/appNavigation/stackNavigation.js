@@ -11,11 +11,10 @@ import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
-// import Blurred from '../common/view/Blurred'
+import Blurred from '../common/view/Blur/Blurred'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
-//  import './blurFx.css'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -261,21 +260,21 @@ class AppView extends Component<AppViewProps, AppViewState> {
             onChange={this.sideMenuSwap}
           />
         </View>
-        {/*<Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>*/}
-        {!navigationBarHidden &&
-          (NavigationBar ? (
-            <NavigationBar />
-          ) : (
-            <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
-          ))}
-        {disableScroll ? (
-          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-        ) : (
-          <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+        <Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>
+          {!navigationBarHidden &&
+            (NavigationBar ? (
+              <NavigationBar />
+            ) : (
+              <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
+            ))}
+          {disableScroll ? (
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-          </ScrollView>
-        )}
-        {/*</Blurred>*/}
+          ) : (
+            <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+            </ScrollView>
+          )}
+        </Blurred>
       </React.Fragment>
     )
   }
@@ -414,7 +413,7 @@ export const NextButton = ({
       screenProps={{ ...screenProps }}
       params={{ ...values, nextRoutes }}
       routeName={next}
-      style={{ flex: 2 }}
+      style={Platform.OS === 'web' && { flex: 2 }}
       canContinue={canContinue}
       loading={loading}
     >

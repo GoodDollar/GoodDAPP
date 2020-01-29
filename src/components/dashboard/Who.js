@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect } from 'react'
+import { Platform } from 'react-native'
 import InputText from '../common/form/InputText'
-
 import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -86,7 +86,10 @@ Who.shouldNavigateToComponent = props => {
 
 export default withStyles(({ theme }) => ({
   input: {
-    marginTop: 'auto',
+    marginTop: Platform.select({
+      web: 'auto',
+      default: 40,
+    }),
   },
   container: {
     minHeight: getDesignRelativeHeight(180),

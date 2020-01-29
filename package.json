@@ -63,6 +63,7 @@
     "@bugsnag/plugin-react": "^6.4.0",
     "@expo/react-native-action-sheet": "^3.4.1",
     "@gooddollar/goodcontracts": "^1.0.0-beta.19",
+    "@react-native-community/blur": "^3.4.1",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/v8-android-jit-nointl": "^7.8.2",
     "@peculiar/webcrypto": "^1.0.22",

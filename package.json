@@ -92,6 +92,7 @@
     "isomorphic-webcrypto": "^2.3.4",
     "loadjs": "^3.6.1",
     "lodash": "^4.17.15",
+    "lottie-ios": "^3.1.6",
     "lottie-react-native": "^3.3.2",
     "mnid": "^0.1.3",
     "mobile-device-detect": "^0.2.3",

@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { /*ActivityIndicator,*/ Button as BaseButton, DefaultTheme } from 'react-native-paper'
-import { Platform } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
@@ -146,9 +145,6 @@ const CustomButton = (props: ButtonProps) => {
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
   const color = props.color ? props.color : theme.colors.default
-
-  const isChildrenAllowed =
-    (Platform.OS === 'android' && typeof props.children === 'string') || Platform.OS === 'ios' || Platform.OS === 'web'
 
   return (
     <BaseButton

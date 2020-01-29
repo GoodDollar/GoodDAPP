@@ -28,7 +28,6 @@ module.exports = {
       path.resolve('node_modules/react-native-safe-area-view'),
       path.resolve('node_modules/react-native-vector-icons'),
       path.resolve('node_modules/react-native-gesture-handler'),
-      path.resolve('node_modules/react-native-fs'),
     ]),
 
     babelExclude([

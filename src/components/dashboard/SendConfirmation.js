@@ -10,7 +10,6 @@ import { withStyles } from '../../lib/styles'
 import { Icon } from '../common'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
-import './AButton.css'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
@@ -92,7 +91,10 @@ const getStylesFromProps = ({ theme }) => ({
     width: getDesignRelativeHeight(75),
     backgroundColor: theme.colors.red,
     position: 'relative',
-    borderRadius: '50%',
+    borderRadius: Platform.select({
+      default: 72 / 2,
+      web: '50%',
+    }),
     marginTop: getDesignRelativeHeight(15),
     marginBottom: getDesignRelativeHeight(24),
     display: 'flex',

@@ -42,11 +42,29 @@ const FeedListItem = (props: FeedListItemProps) => {
     const simpleStore = SimpleStore.useStore()
     const feedLoadAnimShown = simpleStore.get('feedLoadAnimShown')
     const showLoadAnim = !feedLoadAnimShown && !disableAnimForTests
-    const duration = 1450
+    const duration = 1250
+    const animScheme = {
+      from: {
+        opacity: 0,
+        transform: [
+          {
+            translateY: 250,
+          },
+        ],
+      },
+      to: {
+        opacity: 1,
+        transform: [
+          {
+            translateY: 0,
+          },
+        ],
+      },
+    }
 
     return (
       <>
-        <Animatable.View animation={showLoadAnim ? 'fadeInUp' : ''} duration={duration} easing={easing} useNativeDriver>
+        <Animatable.View animation={showLoadAnim ? animScheme : ''} duration={duration} easing={easing} useNativeDriver>
           <View style={styles.row}>
             <View style={styles.rowContent}>
               <View style={[styles.rowContentBorder, imageStyle]} />
@@ -55,7 +73,7 @@ const FeedListItem = (props: FeedListItemProps) => {
           </View>
         </Animatable.View>
         <Animatable.View
-          animation={showLoadAnim ? 'fadeInUp' : ''}
+          animation={showLoadAnim ? animScheme : ''}
           duration={duration}
           delay={200}
           easing={easing}
@@ -69,7 +87,7 @@ const FeedListItem = (props: FeedListItemProps) => {
           </View>
         </Animatable.View>
         <Animatable.View
-          animation={showLoadAnim ? 'fadeInUp' : ''}
+          animation={showLoadAnim ? animScheme : ''}
           duration={duration}
           delay={400}
           easing={easing}

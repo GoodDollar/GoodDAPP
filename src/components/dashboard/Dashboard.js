@@ -174,7 +174,7 @@ const Dashboard = props => {
     }
     if (reset) {
       if (!loadAnimShown) {
-        await delay(2000)
+        await delay(1900)
         store.set('feedLoadAnimShown')(true)
       }
       setFeeds(res)

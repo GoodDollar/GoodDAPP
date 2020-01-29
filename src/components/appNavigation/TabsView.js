@@ -112,8 +112,7 @@ const TabsView = React.memo((props: TabViewProps) => {
     navigation.navigate('Support')
   }
   const goToMarketplace = () => {
-    const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
-    navigation.navigate('Marketplace', { src })
+    navigation.navigate('Marketplace')
   }
 
   return (

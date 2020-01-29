@@ -5,7 +5,7 @@ import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
 
 const wHeight = getMaxDeviceHeight()
 
-export const createIframe = (src, title) => {
+export const createIframe = (src, title, load) => {
   const IframeTab = props => {
     const store = SimpleStore.useStore()
 
@@ -17,7 +17,7 @@ export const createIframe = (src, title) => {
       store.set('loadingIndicator')({ loading: true })
     }, [])
 
-    return <WebView title={title} onLoad={isLoaded} source={{ uri: src }} style={{ height: wHeight }} />
+    return <WebView title={title} onLoad={load ? load : isLoaded} source={{ uri: src }} style={{ height: wHeight }} />
   }
   IframeTab.navigationOptions = {
     title,

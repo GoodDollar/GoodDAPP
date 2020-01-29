@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+// TODO: RN
 import React, { useEffect, useMemo, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Appbar } from 'react-native-paper'
@@ -11,6 +11,7 @@ import Icon from '../common/view/Icon'
 import Section from '../common/layout/Section'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
+import { createIframe } from '../webView/iframe'
 
 const MarketTab = props => {
   const [token, setToken] = useState()
@@ -63,18 +64,11 @@ const MarketTab = props => {
   }, [token])
 
   const src = getMarketPath()
+  const webIframesStyles = { flex: 1, overflow: 'scroll' }
+  const Iframe = createIframe(src, 'GoodMarket', isLoaded, webIframesStyles)
 
   const marketIframe = useMemo(() => {
-    return (
-      <iframe
-        title="GoodMarket"
-        onLoad={isLoaded}
-        src={src}
-        seamless
-        frameBorder="0"
-        style={{ flex: 1, overflow: 'scroll' }}
-      />
-    )
+    return <Iframe src={src} title="GoodMarket" />
   }, [src])
 
   if (isIOS || token === undefined) {

@@ -4,7 +4,7 @@ import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
 
 const wHeight = getMaxDeviceHeight()
 
-export const createIframe = (src, title) => {
+export const createIframe = (src, title, load, styles) => {
   const IframeTab = props => {
     const store = SimpleStore.useStore()
 
@@ -22,11 +22,11 @@ export const createIframe = (src, title) => {
         title={title}
         seamless
         frameBorder="0"
-        onLoad={isLoaded}
+        onLoad={load ? load : isLoaded}
         src={src}
         width="100%"
         height="100%"
-        style={{ height: wHeight }}
+        style={styles ? styles : { height: wHeight }}
       />
     )
   }

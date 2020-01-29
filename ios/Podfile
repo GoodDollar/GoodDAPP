@@ -40,6 +40,7 @@ target 'GoodDollar' do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
 
+  pod 'QBImagePickerController', :path => '../node_modules/react-native-image-crop-picker/ios/QBImagePicker/QBImagePickerController.podspec'
   pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
 
   target 'GoodDollarTests' do

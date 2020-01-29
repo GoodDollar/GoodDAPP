@@ -268,6 +268,10 @@ const Dashboard = props => {
     InteractionManager.runAfterInteractions(handleAppLinks)
   }
 
+  // The width of the balance block required to place the balance block at the center of the screen
+  // The balance always changes so the width is dynamical.
+  // Animation functionality requires positioning props to be set with numbers.
+  // So we need to calculate the center of the screen within dynamically changed balance block width.
   const saveBalanceBlockWidth = event => {
     const width = _get(event, 'nativeEvent.layout.width')
 

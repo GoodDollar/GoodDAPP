@@ -41,6 +41,8 @@ target 'GoodDollar' do
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
 
 
+  pod 'lottie-ios', :path => '../node_modules/lottie-ios'
+
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
   target 'GoodDollarTests' do

@@ -1,27 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import SpinnerCheckMark from './SpinnerCheckMark'
 
 export default props => {
   const { loading, success, onFinish } = props
-  const [isStarting, setIsStarting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
+  const shouldPlay = loading || success
+  const [isDone, setIsDone] = useState(false)
   const onFinishHandle = useCallback(() => {
-    setIsStarting(false)
-    setIsSuccess(false)
+    setIsDone(true)
     onFinish && onFinish()
   })
 
-  useEffect(() => {
-    setIsStarting(isStarting || loading)
-  }, [loading])
-
-  useEffect(() => {
-    setIsSuccess(isSuccess || success)
-  }, [success])
-
-  if (!isStarting) {
+  if (shouldPlay === false || isDone === true) {
     return props.children || null
   }
 
-  return <SpinnerCheckMark {...props} success={isSuccess} onFinish={onFinishHandle} />
+  return <SpinnerCheckMark {...props} success={success} onFinish={onFinishHandle} />
 }

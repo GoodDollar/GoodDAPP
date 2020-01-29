@@ -33,9 +33,9 @@ const CopyButton = ({ toCopy, children, onPress, onPressDone, iconColor, without
     case COPIED: {
       return (
         <CustomButton data-gdtype={'copybutton-copied'} mode={mode} {...props}>
-          <View style={styles.iconButtonWrapper}>
-            <Icon size={16} name="success" color={iconColor || 'white'} />
-          </View>
+          {/* <View style={styles.iconButtonWrapper}> */}
+          <Icon size={16} name="success" color={iconColor || 'white'} />
+          {/* </View> */}
         </CustomButton>
       )
     }
@@ -58,11 +58,11 @@ const CopyButton = ({ toCopy, children, onPress, onPressDone, iconColor, without
   }
 }
 
-const styles = StyleSheet.create({
-  iconButtonWrapper: {
-    minHeight: 28,
-    justifyContent: 'center',
-  },
-})
+// const styles = StyleSheet.create({
+//   iconButtonWrapper: {
+//     minHeight: 28,
+//     justifyContent: 'center',
+//   },
+// })
 
 export default CopyButton

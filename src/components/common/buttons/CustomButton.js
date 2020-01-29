@@ -185,7 +185,7 @@ const CustomButton = (props: ButtonProps) => {
         )} */
       }
       <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.color}>
-        {isChildrenAllowed && children}
+        {children}
       </TextContent>
       {icon && iconAlignment === 'right' && (
         <IconButton icon={icon} theme={theme} dark={dark} size={iconSize || 14} style={iconStyle || styles.rightIcon} />

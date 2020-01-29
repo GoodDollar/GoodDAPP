@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import CopyButton from '../common/buttons/CopyButton'
 import Section from '../common/layout/Section'

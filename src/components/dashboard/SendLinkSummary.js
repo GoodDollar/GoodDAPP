@@ -159,10 +159,18 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       const { txPromise } = generateLinkResponse
 
       txPromise.catch(e => {
-        log.error(e.message, e)
-        showErrorDialog('Could not complete transaction. Please try again.', '', {
+        log.error('generateLinkAndSend:', e.message, e)
+        showErrorDialog('Link generation failed. Please try again', '', {
+          buttons: [
+            {
+              text: 'Try again',
+              onPress: () => {
+                handleConfirm()
+              },
+            },
+          ],
           onDismiss: () => {
-            handleConfirm()
+            screenProps.goToRoot()
           },
         })
       })

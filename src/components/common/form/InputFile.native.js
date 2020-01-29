@@ -4,22 +4,13 @@ import { TouchableOpacity } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
 import { connectActionSheet, useActionSheet } from '@expo/react-native-action-sheet'
 
-const pickerOptions = {
-  width: 400,
-  height: 400,
-  cropping: true,
-  includeBase64: true,
-  cropperCircleOverlay: true,
-  mediaType: 'photo',
-}
-
 type Props = {
   onChange: Function,
   style?: any,
   children?: any,
 }
 
-const InputFile = ({ onChange, style, children }: Props) => {
+const InputFile = ({ onChange, style, children, pickerOptions }: Props) => {
   const { showActionSheetWithOptions } = useActionSheet()
 
   const handleSheetClick = async buttonIndex => {

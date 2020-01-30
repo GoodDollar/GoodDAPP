@@ -95,10 +95,9 @@ const TabsView = React.memo((props: TabViewProps) => {
   }
 
   useEffect(() => {
-    // if (config.isEToro) {
-    fetchTokens()
-
-    // }
+    if (config.isEToro) {
+      fetchTokens()
+    }
   }, [])
 
   const goToRewards = () => {

@@ -112,7 +112,12 @@ const TabsView = React.memo((props: TabViewProps) => {
     navigation.navigate('Support')
   }
   const goToMarketplace = () => {
-    navigation.navigate('Marketplace')
+    if (isIOS) {
+      const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
+      window.open(src, '_blank')
+    } else {
+      navigation.navigate('Marketplace')
+    }
   }
 
   return (

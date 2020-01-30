@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.13.0",
+  "version": "0.13.1-13",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -61,7 +61,9 @@
   "dependencies": {
     "@bugsnag/js": "^6.4.3",
     "@bugsnag/plugin-react": "^6.4.0",
+    "@expo/react-native-action-sheet": "^3.4.1",
     "@gooddollar/goodcontracts": "^1.0.0-beta.19",
+    "@react-native-community/blur": "^3.4.1",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/v8-android-jit-nointl": "^7.8.2",
     "@peculiar/webcrypto": "^1.0.22",
@@ -113,7 +115,9 @@
     "react-native": "0.61.5",
     "react-native-camera": "^3.15.1",
     "react-native-crypto": "^2.2.0",
+    "react-native-fs": "^2.16.2",
     "react-native-gesture-handler": "^1.5.2",
+    "react-native-image-crop-picker": "^0.27.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-level-fs": "^3.0.1",
     "react-native-linear-gradient": "^2.5.6",

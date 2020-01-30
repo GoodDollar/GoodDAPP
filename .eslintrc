@@ -55,6 +55,7 @@
     "react-hooks/rules-of-hooks": "warn",
     //FIXME: RN
     // "dependencies/no-cycles": "warn",
+    "import/named": "warn",
     "import/no-unresolved": "warn",
     "import/first": "warn",
     "import/no-duplicates": "warn",

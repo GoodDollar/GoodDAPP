@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 class RewardsPage {
   get pageHeader() {
-    return cy.get('[dir="auto"]').eq(1)
+    return cy.get('[data-testid="rewards_header"]')
   }
 
   get iframe() {

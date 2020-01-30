@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -26,11 +26,11 @@ const SendReason = (props: AmountProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
-        <Section.Stack justifyContent="flex-start" style={styles.container}>
+        <Section.Stack style={styles.container}>
           <Section.Title fontWeight="medium">What For?</Section.Title>
           <InputText
             autoFocus
-            style={[props.styles.input, styles.bottomContent]}
+            style={[props.styles.input, styles.bottomContent, styles.margin]}
             value={reason}
             onChangeText={reason => setScreenState({ reason })}
             placeholder="Add a message"
@@ -60,9 +60,17 @@ const styles = StyleSheet.create({
   container: {
     minHeight: getDesignRelativeHeight(180),
     height: getDesignRelativeHeight(180),
+    justifyContent: 'flex-start',
   },
   bottomContent: {
     marginTop: 'auto',
+    position: 'relative',
+  },
+  margin: {
+    marginTop: Platform.select({
+      web: 'auto',
+      default: 40,
+    }),
   },
 })
 

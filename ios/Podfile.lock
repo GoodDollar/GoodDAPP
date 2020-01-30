@@ -21,9 +21,9 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - lottie-ios (2.5.3)
-  - lottie-react-native (2.6.1):
-    - lottie-ios (~> 2.5.0)
+  - lottie-ios (3.1.6)
+  - lottie-react-native (3.3.2):
+    - lottie-ios (~> 3.1.3)
     - React
   - Permission-Camera (2.0.9):
     - RNPermissions
@@ -414,8 +414,8 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
-  lottie-react-native: 3d8181d43619b1fe804c828bd5a09d20fe8bdea7
+  lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
+  lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
   Permission-Camera: b0fec577b27488314a885f9c74433e02f3585b9b
   Permission-PhotoLibrary: 51718ddf8c0baf1cebf323c68cedcb2ff0cf304a
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
@@ -453,6 +453,6 @@ SPEC CHECKSUMS:
   TcpSockets: 8d839b9b14f6f344d98e4642ded13ab3112b462d
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 882102812398b252b7c3a9ee5550eb39bcd8fc19
+PODFILE CHECKSUM: ab43b5c5adfea9123abd6365753bc99fb32ebb7d
 
 COCOAPODS: 1.8.4

@@ -39,19 +39,19 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
                 <Icon name="send" size={getDesignRelativeHeight(45)} color="white" />
               </View>
             </Section.Row>
-            <Section.Title fontWeight="medium" style={styles.amountWrapper}>
+            <Section.Row fontWeight="medium" style={styles.amountWrapper}>
               <BigGoodDollar
                 number={amount}
                 color="red"
                 bigNumberProps={{
                   fontSize: 36,
-                  lineHeight: 24,
+                  lineHeight: 36,
                   fontFamily: 'Roboto Slab',
                   fontWeight: 'bold',
                 }}
                 bigNumberUnitProps={{ fontSize: 14 }}
               />
-            </Section.Title>
+            </Section.Row>
           </Section.Stack>
           {reason && (
             <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>

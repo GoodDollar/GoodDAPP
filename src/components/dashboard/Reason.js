@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -67,10 +67,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   margin: {
-    marginTop: Platform.select({
-      web: 'auto',
-      default: 40,
-    }),
+    marginTop: 40,
   },
 })
 

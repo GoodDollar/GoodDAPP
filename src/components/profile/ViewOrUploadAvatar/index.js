@@ -1,19 +1,18 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Platform } from 'react-native'
-import ImagePicker from 'react-native-image-crop-picker'
-import RNFS from 'react-native-fs'
-import GDStore from '../../lib/undux/GDStore'
-import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
-import { withStyles } from '../../lib/styles'
-import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import InputFile from '../common/form/InputFile'
-import logger from '../../lib/logger/pino-logger'
-import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
-import { onPressFix } from '../../lib/utils/async'
-import CircleButtonWrapper from './CircleButtonWrapper'
-import CameraButton from './CameraButton'
+import GDStore from '../../../lib/undux/GDStore'
+import { CustomButton, Section, UserAvatar, Wrapper } from '../../common'
+import { withStyles } from '../../../lib/styles'
+import { useWrappedUserStorage } from '../../../lib/gundb/useWrappedStorage'
+import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+import InputFile from '../../common/form/InputFile'
+import logger from '../../../lib/logger/pino-logger'
+import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
+import { onPressFix } from '../../../lib/utils/async'
+import CircleButtonWrapper from '../CircleButtonWrapper'
+import CameraButton from '../CameraButton'
+import openCropper from './openCropper'
 
 //FIXME: RN - problem with gun/mscrypto when saving large image
 export const pickerOptions = {
@@ -40,43 +39,20 @@ const ViewOrUploadAvatar = props => {
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
 
-  const getProfileImage = useCallback(async () => {
-    // iOS supports reading from a base64 string, android does not.
-    if (Platform.OS === 'ios') {
-      return profile.avatar
-    }
-
-    const path = `${RNFS.CachesDirectoryPath}/GD_AVATAR.jpg`
-    const imageData = profile.avatar.replace('data:image/jpeg;base64,', '')
-
-    await RNFS.writeFile(path, imageData, 'base64')
-
-    return `file://${path}`
-  })
-
-  const openNativeCropper = useCallback(async () => {
-    const path = await getProfileImage()
-    const image = await ImagePicker.openCropper({ ...pickerOptions, path })
-
-    const avatar = `data:${image.mime};base64,${image.data}`
-
-    wrappedUserStorage.setAvatar(avatar).catch(e => {
-      showErrorDialog('Could not save image. Please try again.')
-      log.error('save image failed:', e.message, e)
-    })
-  }, [wrappedUserStorage, showErrorDialog])
-
   const handleCameraPress = useCallback(
     event => {
       event.preventDefault()
 
-      if (Platform.OS === 'web') {
-        props.navigation.navigate('EditAvatar')
-      } else {
-        openNativeCropper()
-      }
+      openCropper({
+        pickerOptions,
+        navigation: props.navigation,
+        wrappedUserStorage,
+        showErrorDialog,
+        log,
+        avatar: profile.avatar,
+      })
     },
-    [openNativeCropper]
+    [profile, wrappedUserStorage]
   )
 
   const handleClosePress = useCallback(

@@ -1,18 +1,18 @@
 // @flow
 import React from 'react'
-import { AsyncStorage, Image, Platform, SafeAreaView } from 'react-native'
+import { AsyncStorage, Platform, SafeAreaView } from 'react-native'
 import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
+import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
 import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Auth/Illustration.svg'
 import config from '../../config/config'
 import { theme as mainTheme } from '../theme/styles'
 import API from '../../lib/API/api'
@@ -26,10 +26,6 @@ type Props = {
     push: Function,
   },
   styles: any,
-}
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
 }
 
 const log = logger.child({ from: 'Auth' })
@@ -185,7 +181,7 @@ class Auth extends React.Component<Props> {
           <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
             {'Welcome to\nGoodDollar Wallet'}
           </Text>
-          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+          <AnimationsPeopleFlying />
           <Section style={styles.bottomContainer}>
             {asGuest && (
               <Text fontSize={12} color="gray80Percent">

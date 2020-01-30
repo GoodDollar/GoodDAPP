@@ -1,11 +1,18 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { View } from 'react-native'
-import { isInstalledApp } from '../../../../lib/utils/platform'
+import { isMobileReactNative } from '../../../../lib/utils/platform'
 import animationData from './data.json'
-import animationDataWeb from './data-web.json'
+
+if (!isMobileReactNative) {
+  animationData.layers[1].sc = '#ffffff00'
+}
 
 class SpinnerCheckMark extends React.Component {
+  state = {
+    speed: 1,
+  }
+
   componentDidMount() {
     this.anim.onEnterFrame = e => {
       const { success } = this.props
@@ -19,7 +26,6 @@ class SpinnerCheckMark extends React.Component {
         onFinish()
       }
     }
-
     this.anim.play()
   }
 
@@ -27,10 +33,12 @@ class SpinnerCheckMark extends React.Component {
     this.anim = anim
   }
 
-  onFinish = () => {
-    const { onFinish } = this.props
-    if (typeof onFinish === 'function') {
-      onFinish()
+  componentDidUpdate(prevProps) {
+    if (prevProps.success === false && this.props.success === true) {
+      //speed up when finished
+      this.setState({
+        speed: 1.5,
+      })
     }
   }
 
@@ -39,17 +47,14 @@ class SpinnerCheckMark extends React.Component {
     return (
       <View>
         <Lottie
-          onAnimationFinish={this.onFinish}
-          imageAssetsFolder={'assets'}
           ref={this.setAnim}
-          source={isInstalledApp ? animationData : animationDataWeb}
+          source={animationData}
+          speed={this.state.speed}
           style={{
-            marginTop: -height / (isInstalledApp ? 6 : 3),
+            marginTop: -height / (isMobileReactNative ? 6 : 3),
             width,
             height,
           }}
-          loop={false}
-          enableMergePathsAndroidForKitKatAndAbove
         />
       </View>
     )

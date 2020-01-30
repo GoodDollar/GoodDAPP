@@ -1,9 +1,16 @@
+import FeedSendComplete from '../../common/animations/FeedSendComplete'
+import FeedSendPending from '../../common/animations/FeedSendPending'
+import FeedReceiveSuccess from '../../common/animations/FeedReceiveSuccess'
+import FeedBonusRewardSuccess from '../../common/animations/FeedBonusRewardSuccess'
+import FeedInfo from '../../common/animations/FeedInfo'
+import FeedClaim from '../../common/animations/FeedClaim'
+
 const getEventSettingsByType = (theme, type) => {
   const styles = {
     claim: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
-      name: 'claim-filled',
+      component: FeedClaim,
     },
     bonuspending: {
       actionSymbol: '+',
@@ -18,34 +25,34 @@ const getEventSettingsByType = (theme, type) => {
     bonuscompleted: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
-      name: 'bonus-reward',
+      component: FeedBonusRewardSuccess,
     },
     claiming: {
       color: theme.colors.primary,
-      name: 'info',
+      component: FeedInfo,
       withoutAmount: true,
       withoutAvatar: true,
     },
     hanukaStarts: {
       color: theme.colors.primary,
-      name: 'info',
+      component: FeedInfo,
       withoutAmount: true,
       withoutAvatar: true,
     },
     send: {
       actionSymbol: '-',
       color: theme.colors.red,
-      name: 'send-filled',
+      component: FeedSendComplete,
     },
     sendcompleted: {
       actionSymbol: '-',
       color: theme.colors.red,
-      name: 'send-filled',
+      component: FeedSendComplete,
     },
     sendcancelled: {
       actionSymbol: '-',
       color: theme.colors.orange,
-      name: 'clock-filled',
+      component: FeedSendPending,
     },
     senderror: {
       color: theme.colors.primary,
@@ -55,27 +62,27 @@ const getEventSettingsByType = (theme, type) => {
     sendpending: {
       actionSymbol: '-',
       color: theme.colors.orange,
-      name: 'clock-filled',
+      component: FeedSendPending,
     },
     receive: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
-      name: 'receive-filled',
+      component: FeedReceiveSuccess,
     },
     withdraw: {
       actionSymbol: '+',
       color: theme.colors.green,
-      name: 'receive-filled',
+      component: FeedReceiveSuccess,
     },
     withdrawerror: {
       color: theme.colors.primary,
-      name: 'info',
+      component: FeedInfo,
       withoutAmount: true,
     },
     withdrawcompleted: {
       actionSymbol: '+',
       color: theme.colors.green,
-      name: 'receive-filled',
+      component: FeedReceiveSuccess,
     },
     withdrawpending: {
       actionSymbol: '+',
@@ -89,30 +96,30 @@ const getEventSettingsByType = (theme, type) => {
     },
     invite: {
       color: theme.colors.primary,
-      name: 'info',
+      component: FeedInfo,
       withoutAmount: true,
       withoutAvatar: true,
     },
     welcome: {
       color: theme.colors.primary,
-      name: 'info',
+      component: FeedInfo,
       withoutAmount: true,
       withoutAvatar: true,
     },
     backup: {
       color: theme.colors.primary,
-      name: 'info',
+      component: FeedInfo,
       withoutAmount: true,
       withoutAvatar: true,
     },
     feedback: {
       color: theme.colors.primary,
-      name: 'info',
+      component: FeedInfo,
       withoutAmount: true,
     },
     spending: {
       color: theme.colors.primary,
-      name: 'info',
+      component: FeedInfo,
       withoutAmount: true,
       withoutAvatar: true,
     },

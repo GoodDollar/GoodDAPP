@@ -3,7 +3,7 @@ import { Icon } from '../../common'
 import { withStyles } from '../../../lib/styles'
 import getEventSettingsByType from './EventSettingsByType'
 
-const EventIcon = ({ type, theme, styles, style, size = 34 }) => {
+const EventIcon = ({ onAnimationFinish, showAnim = true, type, theme, styles, style, size = 34 }) => {
   const meta = getEventSettingsByType(theme, type)
 
   if (meta.name) {
@@ -11,7 +11,7 @@ const EventIcon = ({ type, theme, styles, style, size = 34 }) => {
   }
   const Component = meta.component
 
-  return <Component style={style} width={size} height={size} />
+  return <Component style={style} width={size} height={size} onFinish={onAnimationFinish} showAnim={showAnim} />
 }
 
 const getStylesFromProps = ({ theme }) => ({

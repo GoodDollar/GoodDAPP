@@ -34,10 +34,6 @@ const MarketTab = props => {
     return `${Config.marketUrl}/${path}?${query}`
   }
 
-  const isLoaded = () => {
-    store.set('loadingIndicator')({ loading: false })
-  }
-
   useEffect(() => {
     store.set('loadingIndicator')({ loading: true })
     userStorage.getProfileFieldValue('marketToken').then(setToken)
@@ -65,10 +61,10 @@ const MarketTab = props => {
 
   const src = getMarketPath()
   const webIframesStyles = { flex: 1, overflow: 'scroll' }
-  const Iframe = createIframe(src, 'GoodMarket', isLoaded, webIframesStyles)
+  const Iframe = createIframe(src, 'GoodMarket', webIframesStyles)
 
   const marketIframe = useMemo(() => {
-    return <Iframe src={src} title="GoodMarket" />
+    return <Iframe />
   }, [src])
 
   if (isIOS || token === undefined) {

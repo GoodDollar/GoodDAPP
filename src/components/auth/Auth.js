@@ -17,7 +17,6 @@ import config from '../../config/config'
 import { theme as mainTheme } from '../theme/styles'
 import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
-import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
 
@@ -186,11 +185,6 @@ class Auth extends React.Component<Props> {
           <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
             {'Welcome to\nGoodDollar Wallet'}
           </Text>
-          <SpinnerCheckMark success={true} loading={true}>
-            <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
-              {'Welcome to\nGoodDollar Wallet'}
-            </Text>
-          </SpinnerCheckMark>
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
           <Section style={styles.bottomContainer}>
             {asGuest && (

@@ -1,7 +1,8 @@
 import React from 'react'
-import { Image, StyleSheet, Platform } from 'react-native'
+import { Image, Platform, StyleSheet } from 'react-native'
 import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
+import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
@@ -14,16 +15,12 @@ if (Platform.OS === 'web') {
   Image.prefetch(goodDollarImage)
 }
 
-
 const Splash = () => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <WavesBackground>
-        <Section.Stack style={styles.content} grow justifyContent="center">
-          <Image source={splashImage} style={styles.logo} resizeMode="contain" />
-          <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
-          <Section.Text fontSize={22}>{`V${Config.version}`}</Section.Text>
-        </Section.Stack>
+        <AnimationsLogo />
+        <Section.Text style={styles.version} fontSize={22}>{`V${Config.version}`}</Section.Text>
       </WavesBackground>
     </Section>
   </Wrapper>
@@ -48,6 +45,9 @@ const styles = StyleSheet.create({
     marginVertical: '10%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  version: {
+    zIndex: 100,
   },
   logo: {
     maxWidth: '100%',

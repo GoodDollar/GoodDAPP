@@ -6,6 +6,8 @@ import { StyleSheet } from 'react-native'
 type Props = {
   value: string,
   onChange: Function,
+  style: Object,
+  disableBorder: Boolean,
 }
 
 export default (props: Props) => {
@@ -81,8 +83,9 @@ export default (props: Props) => {
       ref={phoneInputRef}
       value={phoneNumber}
       onChangePhoneNumber={onChange}
-      textStyle={styles.textStyle}
+      textStyle={!props.disableBorder && styles.textStyle}
       onSelectCountry={handleSelectCountry}
+      style={props.style}
     />
   )
 }

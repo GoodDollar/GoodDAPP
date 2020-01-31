@@ -75,7 +75,8 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
 // import FaceRecognition from './FaceRecognition/FaceRecognition'
-// import FRIntro from './FaceRecognition/FRIntro'
+import FRIntro from './FaceRecognition/FRIntro'
+
 // import FRError from './FaceRecognition/FRError'
 // import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 
@@ -737,7 +738,8 @@ export default createStackNavigator({
 
   // FRError,
   // FaceVerification: FaceRecognition,
-  // FRIntro,
+  FRIntro,
+
   // UnsupportedDevice,
   SendQRSummary,
   PP: PrivacyPolicy,

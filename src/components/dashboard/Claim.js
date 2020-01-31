@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, View, Platform } from 'react-native'
+import { AsyncStorage, Image, Platform, View } from 'react-native'
 import numeral from 'numeral'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -14,6 +14,7 @@ import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import { Wrapper } from '../common'
+import AnimationsJumpingPeople from '../common/animations/JumpingPeople'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -214,7 +215,6 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
   return (
     <Wrapper>
       <Section style={styles.mainContainer}>
@@ -252,7 +252,8 @@ const Claim = props => {
           </Section.Row>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
-          <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
+          <AnimationsJumpingPeople isCitizen={isCitizen} />
+          {/*<Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />*/}
           {!isCitizen && (
             <ClaimButton
               isCitizen={true}
@@ -347,14 +348,6 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 0,
       flexShrink: 0,
       marginBottom: theme.sizes.default,
-    },
-    illustrationForCitizen: {
-      height: getDesignRelativeHeight(184, false),
-      marginTop: getDesignRelativeHeight(-94, false),
-    },
-    illustrationForNonCitizen: {
-      height: getDesignRelativeHeight(159, false),
-      marginTop: getDesignRelativeHeight(-70, false),
     },
     extraInfo: {
       backgroundColor: theme.colors.surface,

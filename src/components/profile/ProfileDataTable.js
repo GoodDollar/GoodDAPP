@@ -1,14 +1,13 @@
 import React from 'react'
-// import PhoneInput from 'react-phone-number-input'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PhoneNumberInput from '../signup/PhoneNumberInput/PhoneNumberInput'
-// import './ProfileDataTablePhoneInput.css'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
-import { ScrollViewWrapper } from './ScrollViewWrapper/ScrollViewWrapper'
-// import './PhoneInput.css'
+
+// import './ProfileDataTablePhoneInput.css'
 
 const ProfileDataTable = ({
   profile,
@@ -41,7 +40,7 @@ const ProfileDataTable = ({
 
   return (
     <Section.Row alignItems="center" grow={1}>
-      <ScrollViewWrapper resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
+      <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
         <Section.Row>
           <InputRounded
             disabled={!editable}
@@ -74,6 +73,7 @@ const ProfileDataTable = ({
                     borderRadius: 24,
                     borderWidth: 1,
                     color: errors.mobile ? theme.colors.red : theme.colors.text,
+
                     // paddingBottom: 0,
                     // paddingLeft: 0,
                     // paddingRight: 0,
@@ -123,7 +123,7 @@ const ProfileDataTable = ({
             value={profile.email}
           />
         </Section.Row>
-      </ScrollViewWrapper>
+      </KeyboardAwareScrollView>
     </Section.Row>
   )
 }

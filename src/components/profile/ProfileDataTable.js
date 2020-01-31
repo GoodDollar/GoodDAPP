@@ -1,11 +1,12 @@
 import React from 'react'
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import PhoneNumberInput from '../signup/PhoneNumberInput/PhoneNumberInput'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
+import { EditPhoneInput } from './EditPhoneInput/EditPhoneInput'
 
 // import './ProfileDataTablePhoneInput.css'
 
@@ -57,7 +58,7 @@ const ProfileDataTable = ({
           {editable ? (
             <Section.Stack grow>
               <Section.Row>
-                <PhoneNumberInput
+                <EditPhoneInput
                   error={errors.mobile && errors.mobile !== ''}
                   id="signup_phone"
                   onFocus={() => setLockSubmit(true)}

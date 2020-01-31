@@ -28,8 +28,18 @@ const ProfileWrapper = props => {
 
   return (
     <Wrapper>
-      <Section style={styles.section}>
-        <Section.Row justifyContent="space-between" alignItems="flex-start">
+      <Section style={styles.section} grow>
+        <Section.Row
+          justifyContent="space-between"
+          alignItems="flex-start"
+          style={{
+            maxWidth: '100%',
+            overflow: Platform.select({
+              web: 'auto',
+              default: 'scroll',
+            }),
+          }}
+        >
           <CircleButtonWrapper iconName={'privacy'} iconSize={23} onPress={() => screenProps.push('ProfilePrivacy')} />
           <UserAvatar profile={profile} onPress={handleAvatarPress} />
           <CircleButtonWrapper

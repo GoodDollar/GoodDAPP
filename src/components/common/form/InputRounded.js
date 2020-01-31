@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, View, Platform } from 'react-native'
+import { Platform, TextInput, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
@@ -59,7 +59,7 @@ const getStylesFromProps = ({ theme }) => {
     fontFamily: theme.fonts.default,
     fontSize: normalize(14),
     fontWeight: '400',
-    lineHeight: 36,
+    padding: 10,
   }
 
   return {

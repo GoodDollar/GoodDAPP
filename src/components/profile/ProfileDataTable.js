@@ -1,12 +1,13 @@
 import React from 'react'
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import PhoneInput from 'react-phone-number-input'
+// import PhoneInput from 'react-phone-number-input'
+import PhoneNumberInput from '../signup/PhoneNumberInput/PhoneNumberInput'
 // import './ProfileDataTablePhoneInput.css'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
+import { ScrollViewWrapper } from './ScrollViewWrapper/ScrollViewWrapper'
 // import './PhoneInput.css'
 
 const ProfileDataTable = ({
@@ -40,87 +41,89 @@ const ProfileDataTable = ({
 
   return (
     <Section.Row alignItems="center" grow={1}>
-      {/* <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}> */}
-      <Section.Row>
-        <InputRounded
-          disabled={!editable}
-          error={errors.username}
-          icon="username"
-          iconColor={theme.colors.primary}
-          iconSize={22}
-          onChange={username => onChange({ ...profile, username })}
-          placeholder="Choose a Username"
-          value={profile.username}
-        />
-      </Section.Row>
-      <Section.Row>
-        {editable ? (
-          <Section.Stack grow>
-            <Section.Row>
-              <PhoneInput
-                error={errors.mobile && errors.mobile !== ''}
-                id="signup_phone"
-                onFocus={() => setLockSubmit(true)}
-                onChange={value => onChange({ ...profile, mobile: value })}
-                onBlur={() => {
-                  setLockSubmit(false)
-                  verifyPhone()
-                }}
-                placeholder="Enter phone number"
-                value={profile.mobile}
-                style={{
-                  borderColor: errors.mobile ? theme.colors.red : theme.colors.lightGray,
-                  borderRadius: 24,
-                  borderWidth: 1,
-                  color: errors.mobile ? theme.colors.red : theme.colors.text,
-                  paddingBottom: 0,
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                  paddingTop: 0,
-                  position: 'relative',
-                }}
-              />
-              <Section.Row style={styles.suffixIcon}>
-                <Icon
-                  color={errors.mobile ? theme.colors.red : theme.colors.primary}
-                  name="phone"
-                  size={28}
-                  style={styles.phoneIcon}
-                />
-              </Section.Row>
-            </Section.Row>
-            <ErrorText error={errors.mobile} style={styles.errorMargin} />
-          </Section.Stack>
-        ) : (
+      <ScrollViewWrapper resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
+        <Section.Row>
           <InputRounded
-            disabled={true}
-            error={errors.mobile}
-            icon="phone"
+            disabled={!editable}
+            error={errors.username}
+            icon="username"
             iconColor={theme.colors.primary}
-            iconSize={28}
-            placeholder="Add your Mobile"
-            value={profile.mobile}
+            iconSize={22}
+            onChange={username => onChange({ ...profile, username })}
+            placeholder="Choose a Username"
+            value={profile.username}
           />
-        )}
-      </Section.Row>
-      <Section.Row style={!editable && styles.borderedBottomStyle}>
-        <InputRounded
-          disabled={!editable}
-          error={errors.email}
-          icon="envelope"
-          iconColor={theme.colors.primary}
-          iconSize={20}
-          onFocus={() => setLockSubmit(true)}
-          onChange={email => onChange({ ...profile, email })}
-          onBlur={() => {
-            setLockSubmit(false)
-            verifyEmail()
-          }}
-          placeholder="Add your Email"
-          value={profile.email}
-        />
-      </Section.Row>
-      {/* </KeyboardAwareScrollView> */}
+        </Section.Row>
+        <Section.Row>
+          {editable ? (
+            <Section.Stack grow>
+              <Section.Row>
+                <PhoneNumberInput
+                  error={errors.mobile && errors.mobile !== ''}
+                  id="signup_phone"
+                  onFocus={() => setLockSubmit(true)}
+                  onChange={value => onChange({ ...profile, mobile: value })}
+                  onBlur={() => {
+                    setLockSubmit(false)
+                    verifyPhone()
+                  }}
+                  placeholder="Enter phone number"
+                  value={profile.mobile}
+                  style={{
+                    borderColor: errors.mobile ? theme.colors.red : theme.colors.lightGray,
+                    borderRadius: 24,
+                    borderWidth: 1,
+                    color: errors.mobile ? theme.colors.red : theme.colors.text,
+                    // paddingBottom: 0,
+                    // paddingLeft: 0,
+                    // paddingRight: 0,
+                    // paddingTop: 0,
+                    padding: 10,
+                    position: 'relative',
+                  }}
+                  disableBorder
+                />
+                <Section.Row style={styles.suffixIcon}>
+                  <Icon
+                    color={errors.mobile ? theme.colors.red : theme.colors.primary}
+                    name="phone"
+                    size={28}
+                    style={styles.phoneIcon}
+                  />
+                </Section.Row>
+              </Section.Row>
+              <ErrorText error={errors.mobile} style={styles.errorMargin} />
+            </Section.Stack>
+          ) : (
+            <InputRounded
+              disabled={true}
+              error={errors.mobile}
+              icon="phone"
+              iconColor={theme.colors.primary}
+              iconSize={28}
+              placeholder="Add your Mobile"
+              value={profile.mobile}
+            />
+          )}
+        </Section.Row>
+        <Section.Row style={!editable && styles.borderedBottomStyle}>
+          <InputRounded
+            disabled={!editable}
+            error={errors.email}
+            icon="envelope"
+            iconColor={theme.colors.primary}
+            iconSize={20}
+            onFocus={() => setLockSubmit(true)}
+            onChange={email => onChange({ ...profile, email })}
+            onBlur={() => {
+              setLockSubmit(false)
+              verifyEmail()
+            }}
+            placeholder="Add your Email"
+            value={profile.email}
+          />
+        </Section.Row>
+      </ScrollViewWrapper>
     </Section.Row>
   )
 }

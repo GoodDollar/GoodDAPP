@@ -54,7 +54,7 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
-    paddingHorizontal: getDesignRelativeWidth(4),
+    paddingHorizontal: getDesignRelativeWidth(4, false),
   },
   input: {
     textAlign: 'center',

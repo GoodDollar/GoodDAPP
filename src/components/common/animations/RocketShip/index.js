@@ -1,11 +1,14 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 import { getScreenHeight, getScreenWidth } from '../../../../lib/utils/Orientation'
-import animationDataNative from './data.json'
-import animationDataWeb from './data-web.json'
+import { getAnimationData } from '../../../../lib/utils/lottie'
+import { isMobileReactNative } from '../../../../lib/utils/platform'
+const { animationData, imageAssetsFolder } = getAnimationData('RocketShip', require('./data'))
 
-const animationData = Platform.OS === 'web' ? animationDataWeb : animationDataNative
+if (!isMobileReactNative) {
+  animationData.layers[19].sc = '#ffffff00'
+}
 
 class RocketShip extends React.Component {
   componentDidMount() {
@@ -26,9 +29,9 @@ class RocketShip extends React.Component {
       <View style={{ height: getScreenWidth() }}>
         <Lottie
           loop={false}
-          imageAssetsFolder={'assets'}
+          imageAssetsFolder={imageAssetsFolder}
           ref={this.setAnim}
-          style={{ marginTop: -getScreenHeight() / 6 }}
+          style={{ marginTop: -getScreenHeight() / 4 }}
           source={animationData}
           enableMergePathsAndroidForKitKatAndAbove
         />

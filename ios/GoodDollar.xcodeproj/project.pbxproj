@@ -38,6 +38,8 @@
 		DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */ = {isa = PBXBuildFile; fileRef = 93E02E113E3842B8892E0408 /* gooddollar.woff */; };
 		E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */; };
 		E64D55D723E2D36B009B86B2 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D55D623E2D36B009B86B2 /* File.swift */; };
+		E69F995723E47222006D11D2 /* RocketShip_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E69F995523E47221006D11D2 /* RocketShip_0.png */; };
+		E69F995823E47222006D11D2 /* RocketShip_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E69F995623E47222006D11D2 /* RocketShip_1.png */; };
 		EF61EC78C5A945409D510E28 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */; };
 		FE7F9276E81C4092953052B5 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9717AB5AC1648A29F31922C /* Roboto-BlackItalic.ttf */; };
 /* End PBXBuildFile section */
@@ -163,6 +165,8 @@
 		E64D55D823E2D479009B86B2 /* GoodDollar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GoodDollar-Bridging-Header.h"; sourceTree = "<group>"; };
 		E64D561923E32385009B86B2 /* LottieReactNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LottieReactNative.xcodeproj; path = "../node_modules/lottie-react-native/src/ios/LottieReactNative.xcodeproj"; sourceTree = "<group>"; };
 		E64D561F23E32399009B86B2 /* Lottie.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
+		E69F995523E47221006D11D2 /* RocketShip_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketShip_0.png; path = assets/animations/RocketShip_0.png; sourceTree = "<group>"; };
+		E69F995623E47222006D11D2 /* RocketShip_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketShip_1.png; path = assets/animations/RocketShip_1.png; sourceTree = "<group>"; };
 		E6A2D6BE23E1CEB6001B7C95 /* liblottie-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "liblottie-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6A2D6C023E1CEBC001B7C95 /* liblottie-react-native.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "liblottie-react-native.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9C15CBD2AB9813A7EA6F9A9 /* Pods-GoodDollar-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodDollar-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-GoodDollar-tvOSTests/Pods-GoodDollar-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -244,6 +248,7 @@
 		2C4C1FF0C9A44611A84FAD12 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E69F994523E46507006D11D2 /* animations */,
 				9CCAFF4478E640FABF678756 /* AntDesign.ttf */,
 				669EF8BFFEBF4BA48B02FA6E /* Entypo.ttf */,
 				F7F00E88304443CE80D1CEE9 /* EvilIcons.ttf */,
@@ -361,12 +366,21 @@
 			isa = PBXGroup;
 			children = (
 				E64D562823E32399009B86B2 /* Lottie.framework */,
-				E64D562A23E32399009B86B2 /* Lottie.framework */,
 				E64D562C23E32399009B86B2 /* Lottie.framework */,
+				E64D562A23E32399009B86B2 /* Lottie.framework */,
 				E64D562E23E32399009B86B2 /* libLottie.a */,
 				E64D563023E32399009B86B2 /* libLottie.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E69F994523E46507006D11D2 /* animations */ = {
+			isa = PBXGroup;
+			children = (
+				E69F995523E47221006D11D2 /* RocketShip_0.png */,
+				E69F995623E47222006D11D2 /* RocketShip_1.png */,
+			);
+			name = animations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -571,8 +585,10 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				E69F995823E47222006D11D2 /* RocketShip_1.png in Resources */,
 				AB8B506C5EA54364B15ED529 /* gooddollar.svg in Resources */,
 				5EC81648CD3A42F0B75FB628 /* gooddollar.ttf in Resources */,
+				E69F995723E47222006D11D2 /* RocketShip_0.png in Resources */,
 				DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */,
 				A1EA9A99772440ABA619D4F9 /* gooddollar.woff2 in Resources */,
 				AB13C56C918E4FA9A349F99E /* Roboto-Black.ttf in Resources */,

@@ -5,19 +5,7 @@ import animationData from './data.json'
 
 class SpinnerCheckMark extends React.Component {
   componentDidMount() {
-    const { showAnim, onFinish } = this.props
-
-    if (showAnim) {
-      this.anim.play()
-    } else {
-      this.anim.goToAndStop(this.anim.totalFrames - 1, true)
-    }
-
-    this.anim.onComplete = () => {
-      if (onFinish && typeof onFinish === 'function') {
-        onFinish()
-      }
-    }
+    this.anim.play()
   }
 
   setAnim = anim => {

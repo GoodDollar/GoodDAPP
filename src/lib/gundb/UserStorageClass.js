@@ -1469,7 +1469,7 @@ export class UserStorage {
     logger.debug('formatEvent: incoming event', event.id, { event })
 
     try {
-      const { data, type, date, id, status, createdDate, animationExecuted } = event
+      const { data, type, date, id, status, createdDate } = event
       const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
@@ -1510,7 +1510,6 @@ export class UserStorage {
         displayType,
         status,
         createdDate,
-        animationExecuted,
         data: {
           endpoint: {
             address: sender,
@@ -1717,29 +1716,6 @@ export class UserStorage {
       .then(_ => feedEvent)
       .catch(e => {
         logger.error('updateEventStatus failedEncrypt byId:', e.message, e, feedEvent)
-        return {}
-      })
-  }
-
-  /**
-   * Sets the feed animation status
-   * @param {string} eventId
-   * @param {boolean} status
-   * @returns {Promise<FeedEvent>}
-   */
-  async updateFeedAnimationStatus(eventId: string, status = true): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-
-    feedEvent.animationExecuted = status
-
-    return this.feed
-      .get('byid')
-      .get(eventId)
-      .secretAck(feedEvent)
-      .then()
-      .then(_ => feedEvent)
-      .catch(e => {
-        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, feedEvent)
         return {}
       })
   }

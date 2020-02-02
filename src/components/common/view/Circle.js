@@ -50,7 +50,6 @@ const getStylesFromProps = ({ theme }) => {
         web: 'block',
         default: 'flex',
       }),
-      flex: 1,
       zIndex: 9999999,
       color: '#ffffff',
     },

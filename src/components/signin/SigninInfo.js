@@ -34,40 +34,38 @@ const Signin = props => {
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
-            <Section.Text>
-              <Circle number={1}>
-                {'Go to your '}
-                <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                  email
+            <Circle number={1}>
+              {'Go to your '}
+              <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
+                email
+              </Text>
+            </Circle>
+            <Circle number={2}>
+              Find{' '}
+              <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
+                GoodDollar Magic Link
+              </Text>
+            </Circle>
+            <Circle
+              number={3}
+              subText={
+                <Text
+                  fontFamily="Roboto"
+                  fontSize={14}
+                  letterSpacing={0.14}
+                  color="gray80Percent"
+                  lineHeight={16}
+                  style={styles.thirdCircleSubText}
+                >
+                  {'\n* works from any device'}
                 </Text>
-              </Circle>
-              <Circle number={2}>
-                Find{' '}
-                <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                  GoodDollar Magic Link
-                </Text>
-              </Circle>
-              <Circle
-                number={3}
-                subText={
-                  <Text
-                    fontFamily="Roboto"
-                    fontSize={14}
-                    letterSpacing={0.14}
-                    color="gray80Percent"
-                    lineHeight={16}
-                    style={styles.thirdCircleSubText}
-                  >
-                    {'\n* works from any device'}
-                  </Text>
-                }
-              >
-                {'Click the '}
-                <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                  Magic Link Button
-                </Text>
-              </Circle>
-            </Section.Text>
+              }
+            >
+              {'Click the '}
+              <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
+                Magic Link Button
+              </Text>
+            </Circle>
           </View>
         </Section.Row>
       </Wrapper>

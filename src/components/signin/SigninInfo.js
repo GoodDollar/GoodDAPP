@@ -34,38 +34,40 @@ const Signin = props => {
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
-            <Circle number={1}>
-              {'Go to your '}
-              <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                email
-              </Text>
-            </Circle>
-            <Circle number={2}>
-              Find{' '}
-              <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                GoodDollar Magic Link
-              </Text>
-            </Circle>
-            <Circle
-              number={3}
-              subText={
-                <Text
-                  fontFamily="Roboto"
-                  fontSize={14}
-                  letterSpacing={0.14}
-                  color="gray80Percent"
-                  lineHeight={16}
-                  style={styles.thirdCircleSubText}
-                >
-                  {'\n* works from any device'}
+            <Section.Stack>
+              <Circle number={1}>
+                {'Go to your '}
+                <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
+                  email
                 </Text>
-              }
-            >
-              {'Click the '}
-              <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
-                Magic Link Button
-              </Text>
-            </Circle>
+              </Circle>
+              <Circle number={2}>
+                Find{' '}
+                <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
+                  GoodDollar Magic Link
+                </Text>
+              </Circle>
+              <Circle
+                number={3}
+                subText={
+                  <Text
+                    fontFamily="Roboto"
+                    fontSize={14}
+                    letterSpacing={0.14}
+                    color="gray80Percent"
+                    lineHeight={16}
+                    style={styles.thirdCircleSubText}
+                  >
+                    {'\n* works from any device'}
+                  </Text>
+                }
+              >
+                {'Click the '}
+                <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
+                  Magic Link Button
+                </Text>
+              </Circle>
+            </Section.Stack>
           </View>
         </Section.Row>
       </Wrapper>
@@ -103,13 +105,18 @@ const getStylesFromProps = ({ theme }) => {
   return {
     mainWrapper: {
       paddingHorizontal: 0,
+      paddingTop: 35,
       justifyContent: Platform.select({
         web: 'space-evenly',
         default: 'space-around',
       }),
       flexDirection: 'column',
-      maxHeight: '75%',
       marginBottom: 15,
+      ...Platform.select({
+        web: {
+          maxHeight: '75%',
+        },
+      }),
     },
     row: {
       flex: 1,

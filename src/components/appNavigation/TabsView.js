@@ -156,7 +156,6 @@ const styles = ({ theme }) => ({
     borderStyle: 'solid',
     borderColor: 'white',
     borderRadius: Platform.select({
-      // FIXME: RN
       default: 150 / 2,
       web: '50%',
     }),

@@ -8,8 +8,6 @@ import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
 import { EditPhoneInput } from '../common/form/EditPhoneInput/EditPhoneInput'
 
-// import './ProfileDataTablePhoneInput.css'
-
 const ProfileDataTable = ({
   profile,
   storedProfile,

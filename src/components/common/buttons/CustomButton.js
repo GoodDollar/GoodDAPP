@@ -145,6 +145,7 @@ const CustomButton = (props: ButtonProps) => {
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
   const color = props.color ? props.color : theme.colors.default
+
   return (
     <BaseButton
       dark={dark}

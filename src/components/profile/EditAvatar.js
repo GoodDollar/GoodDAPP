@@ -7,8 +7,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../common'
-
-// import ImageCropper from '../common/form/ImageCropper'
+import ImageCropper from '../common/form/ImageCropper'
 
 const log = logger.child({ from: 'EditAvatar' })
 
@@ -43,7 +42,9 @@ const EditAvatar = ({ screenProps, theme }) => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        {/* <Section.Row><ImageCropper image={profile.avatar} onChange={handleAvatarChange} /></Section.Row> */}
+        <Section.Row>
+          <ImageCropper image={profile.avatar} onChange={handleAvatarChange} />
+        </Section.Row>
         <Section.Stack justifyContent="flex-end" grow>
           <CustomButton
             disabled={!changed || saving}

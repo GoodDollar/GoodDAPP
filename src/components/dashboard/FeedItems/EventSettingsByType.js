@@ -1,9 +1,9 @@
-import FeedSendComplete from '../../common/animations/FeedSendComplete/FeedSendComplete'
-import FeedSendPending from '../../common/animations/FeedSendPending/FeedSendPending'
-import FeedReceiveSuccess from '../../common/animations/FeedReceiveSuccess/FeedReceiveSuccess'
-import FeedBonusRewardSuccess from '../../common/animations/FeedBonusRewardSuccess/FeedBonusRewardSuccess'
-import FeedInfo from '../../common/animations/FeedInfo/FeedInfo'
-import FeedClaim from '../../common/animations/FeedClaim/FeedClaim'
+import FeedSendComplete from '../../common/animations/Feed/SendComplete/SendComplete'
+import FeedSendPending from '../../common/animations/Feed/SendPending/SendPending'
+import FeedReceiveSuccess from '../../common/animations/Feed/ReceiveSuccess/ReceiveSuccess'
+import FeedBonusRewardSuccess from '../../common/animations/Feed/BonusRewardSuccess/BonusRewardSuccess'
+import FeedInfo from '../../common/animations/Feed/Info/Info'
+import FeedClaim from '../../common/animations/Feed/Claim/Claim'
 
 const getEventSettingsByType = (theme, type) => {
   const styles = {
@@ -11,6 +11,7 @@ const getEventSettingsByType = (theme, type) => {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
       component: FeedClaim,
+      name: 'claim-filled',
     },
     bonuspending: {
       actionSymbol: '+',
@@ -26,16 +27,19 @@ const getEventSettingsByType = (theme, type) => {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
       component: FeedBonusRewardSuccess,
+      name: 'bonus-reward',
     },
     claiming: {
       color: theme.colors.primary,
       component: FeedInfo,
+      name: 'info',
       withoutAmount: true,
       withoutAvatar: true,
     },
     hanukaStarts: {
       color: theme.colors.primary,
       component: FeedInfo,
+      name: 'info',
       withoutAmount: true,
       withoutAvatar: true,
     },
@@ -43,16 +47,19 @@ const getEventSettingsByType = (theme, type) => {
       actionSymbol: '-',
       color: theme.colors.red,
       component: FeedSendComplete,
+      name: 'send-filled',
     },
     sendcompleted: {
       actionSymbol: '-',
       color: theme.colors.red,
       component: FeedSendComplete,
+      name: 'send-filled',
     },
     sendcancelled: {
       actionSymbol: '-',
       color: theme.colors.orange,
       component: FeedSendPending,
+      name: 'clock-filled',
     },
     senderror: {
       color: theme.colors.primary,
@@ -63,26 +70,31 @@ const getEventSettingsByType = (theme, type) => {
       actionSymbol: '-',
       color: theme.colors.orange,
       component: FeedSendPending,
+      name: 'clock-filled',
     },
     receive: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
       component: FeedReceiveSuccess,
+      name: 'receive-filled',
     },
     withdraw: {
       actionSymbol: '+',
       color: theme.colors.green,
       component: FeedReceiveSuccess,
+      name: 'receive-filled',
     },
     withdrawerror: {
       color: theme.colors.primary,
       component: FeedInfo,
+      name: 'info',
       withoutAmount: true,
     },
     withdrawcompleted: {
       actionSymbol: '+',
       color: theme.colors.green,
       component: FeedReceiveSuccess,
+      name: 'receive-filled',
     },
     withdrawpending: {
       actionSymbol: '+',
@@ -97,29 +109,34 @@ const getEventSettingsByType = (theme, type) => {
     invite: {
       color: theme.colors.primary,
       component: FeedInfo,
+      name: 'info',
       withoutAmount: true,
       withoutAvatar: true,
     },
     welcome: {
       color: theme.colors.primary,
       component: FeedInfo,
+      name: 'info',
       withoutAmount: true,
       withoutAvatar: true,
     },
     backup: {
       color: theme.colors.primary,
       component: FeedInfo,
+      name: 'info',
       withoutAmount: true,
       withoutAvatar: true,
     },
     feedback: {
       color: theme.colors.primary,
       component: FeedInfo,
+      name: 'info',
       withoutAmount: true,
     },
     spending: {
       color: theme.colors.primary,
       component: FeedInfo,
+      name: 'info',
       withoutAmount: true,
       withoutAvatar: true,
     },

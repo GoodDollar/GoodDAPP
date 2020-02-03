@@ -24,6 +24,7 @@ class Circle extends React.Component {
             {number}
           </Text>
         </View>
+        {Platform.OS !== 'web' && <View style={styles.circleShadow} />}
         <View style={styles.text}>
           <Text fontFamily="Roboto" fontSize={18} color={theme.colors.darkGray}>
             {children}
@@ -50,20 +51,19 @@ const getStylesFromProps = ({ theme }) => {
         web: 'block',
         default: 'flex',
       }),
-      flex: 1,
       zIndex: 9999999,
       color: '#ffffff',
     },
     circle: {
-      justifyContent: 'center',
+      zIndex: 10,
       display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
       backgroundColor: theme.colors.primary,
       borderRadius: Platform.select({
         web: '50%',
         default: 43 / 2,
       }),
-
-      //FIXME: RN
       ...Platform.select({
         web: {
           boxShadow: '6px 1px 0 rgba(12, 38, 61, 0.15)',
@@ -72,6 +72,16 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: theme.sizes.default,
       height: 43,
       width: 43,
+    },
+    circleShadow: {
+      zIndex: 5,
+      position: 'absolute',
+      top: theme.sizes.default + 1,
+      left: 4,
+      width: 43,
+      height: 43,
+      borderRadius: 43 / 2,
+      backgroundColor: 'rgba(12, 38, 61, 0.15)',
     },
     text: {
       alignItems: 'center',

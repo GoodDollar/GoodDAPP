@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
 import Icon from '../view/Icon'
 
 import Clipboard from '../../../lib/utils/Clipboard'
@@ -33,9 +32,7 @@ const CopyButton = ({ toCopy, children, onPress, onPressDone, iconColor, without
     case COPIED: {
       return (
         <CustomButton data-gdtype={'copybutton-copied'} mode={mode} {...props}>
-          <View style={styles.iconButtonWrapper}>
-            <Icon size={16} name="success" color={iconColor || 'white'} />
-          </View>
+          <Icon size={16} name="success" color={iconColor || 'white'} />
         </CustomButton>
       )
     }
@@ -57,12 +54,5 @@ const CopyButton = ({ toCopy, children, onPress, onPressDone, iconColor, without
     }
   }
 }
-
-const styles = StyleSheet.create({
-  iconButtonWrapper: {
-    minHeight: 28,
-    justifyContent: 'center',
-  },
-})
 
 export default CopyButton

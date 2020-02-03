@@ -8,6 +8,7 @@ import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
+import RocketShip from '../common/animations/RocketShip'
 import Text from '../common/view/Text'
 import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -185,6 +186,7 @@ class Auth extends React.Component<Props> {
           <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
             {'Welcome to\nGoodDollar Wallet'}
           </Text>
+          <RocketShip />
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
           <Section style={styles.bottomContainer}>
             {asGuest && (

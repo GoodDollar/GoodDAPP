@@ -7,8 +7,8 @@
   },
   "scripts": {
     "web": "react-app-rewired start",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android": "npm run animation:assets && react-native run-android",
+    "ios": "npm run animation:assets && react-native run-ios",
     "start:native": "react-native start",
     "start": "serve -s -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
@@ -18,6 +18,7 @@
     "link": "npm link @gooddollar/goodcontracts",
     "web:local": "npm run link && npm run web",
     "build": "react-app-rewired build --analyze",
+    "animation:assets": "node ./animationAssets.js",
     "test": "npm run link && npm run test:web && npm run test:native",
     "test:web-watch": "npm run link && react-app-rewired test --watch",
     "test:web": "npm run link && react-app-rewired test",
@@ -217,6 +218,7 @@
     "react-test-renderer": "16.9.0",
     "serve": "^11.0.0",
     "source-map-explorer": "^2.2.2",
+    "svg-to-png": "^4.0.0",
     "webpack-bundle-analyzer": "^3.6.0"
   },
   "browserslist": [

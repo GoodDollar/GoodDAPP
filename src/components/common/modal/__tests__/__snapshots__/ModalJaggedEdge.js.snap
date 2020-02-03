@@ -2,21 +2,7 @@
 
 exports[`ModalJaggedEdge matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"

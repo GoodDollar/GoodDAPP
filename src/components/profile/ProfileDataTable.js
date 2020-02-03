@@ -6,7 +6,7 @@ import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
-import { EditPhoneInput } from './EditPhoneInput/EditPhoneInput'
+import { EditPhoneInput } from '../common/form/EditPhoneInput/EditPhoneInput'
 
 // import './ProfileDataTablePhoneInput.css'
 
@@ -74,11 +74,6 @@ const ProfileDataTable = ({
                     borderRadius: 24,
                     borderWidth: 1,
                     color: errors.mobile ? theme.colors.red : theme.colors.text,
-
-                    // paddingBottom: 0,
-                    // paddingLeft: 0,
-                    // paddingRight: 0,
-                    // paddingTop: 0,
                     padding: 10,
                     position: 'relative',
                   }}

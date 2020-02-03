@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import GDStore from '../../../lib/undux/GDStore'
 import Section from '../layout/Section'
 import Avatar from './Avatar'
@@ -20,7 +20,12 @@ const TopBar = ({ hideBalance, push, children }) => {
 
   return (
     <Section style={styles.topBar}>
-      <Section.Row alignItems="center">
+      <Section.Row
+        alignItems={Platform.select({
+          web: 'center',
+          default: 'flex-end',
+        })}
+      >
         <Avatar source={avatar} onPress={push && (() => push('Profile'))} />
         {/*
          if children exist, it will be rendered

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import Text from './Text'
 
@@ -39,6 +39,7 @@ class BigNumber extends React.Component {
             key="big_number_unit"
             fontFamily="slab"
             fontSize={18}
+            lineHeight={18}
             fontWeight="bold"
             textAlign="right"
             color={color || 'gray'}
@@ -55,6 +56,7 @@ class BigNumber extends React.Component {
           key="big_number_amount"
           fontFamily="slab"
           fontSize={36}
+          lineHeight={36}
           fontWeight="bold"
           textAlign="right"
           color={color || 'gray'}
@@ -73,6 +75,7 @@ class BigNumber extends React.Component {
           fontWeight="bold"
           textAlign="right"
           color={color || 'gray'}
+          lineHeight={36}
           {...bigNumberProps}
           style={[styles.bigNumber, bigNumberStyles]}
         >
@@ -83,6 +86,7 @@ class BigNumber extends React.Component {
             key="big_number_unit"
             fontFamily="slab"
             fontSize={18}
+            lineHeight={18}
             fontWeight="bold"
             textAlign="right"
             color={color || 'gray'}
@@ -108,7 +112,7 @@ class BigNumber extends React.Component {
 const getStylesFromProps = ({ theme }) => {
   return {
     bigNumberWrapper: {
-      alignItems: 'baseline',
+      alignItems: Platform.select({ web: 'baseline', default: 'center' }),
       display: 'flex',
       flexDirection: 'row',
     },

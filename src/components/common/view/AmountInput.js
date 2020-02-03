@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
+import { Keyboard, Platform, TouchableWithoutFeedback, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import SectionTitle from '../layout/SectionTitle'
 import InputGoodDollar from '../form/InputGoodDollar'
@@ -66,7 +66,10 @@ const mapPropsToStyles = ({ theme }) => {
       flex: 1,
     },
     section: {
-      marginTop: 'auto',
+      marginTop: Platform.select({
+        web: 'auto',
+        default: 40,
+      }),
     },
     container: {
       minHeight: getDesignRelativeHeight(180),

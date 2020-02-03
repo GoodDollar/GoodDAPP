@@ -1,7 +1,6 @@
 import React from 'react'
 import { createBrowserApp } from '@react-navigation/web'
 import { createSwitchNavigator } from '@react-navigation/core'
-
 import { Platform, View } from 'react-native'
 import { isAndroid, isMobileSafari } from 'mobile-device-detect'
 import { createAppContainer } from 'react-navigation'
@@ -10,9 +9,7 @@ import SigninInfo from './components/signin/SigninInfo'
 import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
-
-// import Blurred from '../components/common/view/Blurred'
-// import '../components/appNavigation/blurFx.css'
+import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import isWebApp from './lib/utils/isWebApp'
@@ -57,11 +54,11 @@ const Router = () => {
 
   return (
     <>
-      {/*<Blurred style={{ minHeight, ...fullScreenContainer }} blur={dialogVisible}>*/}
-      <View style={{ minHeight, ...fullScreenContainer }}>
-        <RouterWrapper onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
-      </View>
-      {/*</Blurred>*/}
+      <Blurred style={{ minHeight, ...fullScreenContainer }} blur={dialogVisible}>
+        <View style={{ minHeight, ...fullScreenContainer }}>
+          <RouterWrapper onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
+        </View>
+      </Blurred>
     </>
   )
 }

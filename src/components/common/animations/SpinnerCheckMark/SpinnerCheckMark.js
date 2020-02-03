@@ -4,29 +4,31 @@ import { View } from 'react-native'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
 import animationData from './data.json'
 
-if (!isMobileReactNative) {
-  animationData.layers[1].sc = '#ffffff00'
-}
-
 class SpinnerCheckMark extends React.Component {
   state = {
     speed: 1,
   }
 
   componentDidMount() {
-    this.anim.onEnterFrame = e => {
-      const { success } = this.props
-      if (e.currentTime > 130.5 && !success) {
-        this.anim.goToAndPlay(0, true)
+    if (!isMobileReactNative) {
+      this.anim.onEnterFrame = e => {
+        const { success } = this.props
+        if (e.currentTime > 130.5 && !success) {
+          this.anim.goToAndPlay(0, true)
+        }
       }
-    }
-    this.anim.onComplete = () => {
-      const { onFinish } = this.props
-      if (typeof onFinish === 'function') {
-        onFinish()
+      this.anim.onComplete = () => {
+        this.onFinish()
       }
     }
     this.anim.play()
+  }
+
+  onFinish = () => {
+    const { onFinish } = this.props
+    if (typeof onFinish === 'function') {
+      onFinish()
+    }
   }
 
   setAnim = anim => {
@@ -48,6 +50,8 @@ class SpinnerCheckMark extends React.Component {
       <View>
         <Lottie
           ref={this.setAnim}
+          loop={false}
+          onAnimationFinish={isMobileReactNative && this.onFinish}
           source={animationData}
           speed={this.state.speed}
           style={{

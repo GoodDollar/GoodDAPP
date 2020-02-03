@@ -92,7 +92,7 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: theme.colors.red,
     position: 'relative',
     borderRadius: Platform.select({
-      default: 72 / 2,
+      default: getDesignRelativeHeight(75) / 2,
       web: '50%',
     }),
     marginTop: getDesignRelativeHeight(15),

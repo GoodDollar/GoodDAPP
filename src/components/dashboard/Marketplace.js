@@ -35,7 +35,6 @@ const MarketTab = props => {
   }
 
   useEffect(() => {
-    store.set('loadingIndicator')({ loading: true })
     userStorage.getProfileFieldValue('marketToken').then(setToken)
   }, [])
 

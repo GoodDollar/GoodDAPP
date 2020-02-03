@@ -3,7 +3,7 @@ import Lottie from 'lottie-react-native'
 import { View } from 'react-native'
 import animationData from './data.json'
 
-class SpinnerCheckMark extends React.Component {
+class FeedBonusRewardSuccess extends React.Component {
   componentDidMount() {
     const { showAnim, onFinish } = this.props
 
@@ -43,4 +43,4 @@ class SpinnerCheckMark extends React.Component {
   }
 }
 
-export default SpinnerCheckMark
+export default FeedBonusRewardSuccess

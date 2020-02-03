@@ -1,9 +1,9 @@
-import FeedSendComplete from '../../common/animations/FeedSendComplete'
-import FeedSendPending from '../../common/animations/FeedSendPending'
-import FeedReceiveSuccess from '../../common/animations/FeedReceiveSuccess'
-import FeedBonusRewardSuccess from '../../common/animations/FeedBonusRewardSuccess'
-import FeedInfo from '../../common/animations/FeedInfo'
-import FeedClaim from '../../common/animations/FeedClaim'
+import FeedSendComplete from '../../common/animations/FeedSendComplete/FeedSendComplete'
+import FeedSendPending from '../../common/animations/FeedSendPending/FeedSendPending'
+import FeedReceiveSuccess from '../../common/animations/FeedReceiveSuccess/FeedReceiveSuccess'
+import FeedBonusRewardSuccess from '../../common/animations/FeedBonusRewardSuccess/FeedBonusRewardSuccess'
+import FeedInfo from '../../common/animations/FeedInfo/FeedInfo'
+import FeedClaim from '../../common/animations/FeedClaim/FeedClaim'
 
 const getEventSettingsByType = (theme, type) => {
   const styles = {

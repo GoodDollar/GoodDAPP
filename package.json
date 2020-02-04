@@ -83,6 +83,7 @@
     "bip39-light": "^1.0.7",
     "browserify-zlib": "^0.1.4",
     "buffer": "^5.4.3",
+    "bugsnag-react-native": "^2.23.5",
     "canvas-prebuilt": "^2.0.0-alpha.14",
     "customize-cra": "^0.9.1",
     "dns.js": "^1.0.1",

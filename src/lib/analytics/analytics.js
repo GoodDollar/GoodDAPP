@@ -1,9 +1,10 @@
-src/components/dashboard/ReceiveConfirmation.js//@flow
+//@flow
 import _debounce from 'lodash/debounce'
 import _forEach from 'lodash/forEach'
 import * as Sentry from '@sentry/browser'
 import logger from '../logger/pino-logger'
 import Config from '../../config/config'
+src / components / dashboard / ReceiveConfirmation.js
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'

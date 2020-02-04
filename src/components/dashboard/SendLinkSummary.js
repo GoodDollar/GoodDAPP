@@ -212,7 +212,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               color="red"
               bigNumberProps={{
                 fontSize: 36,
-                lineHeight: 24,
+                lineHeight: 36,
                 fontFamily: 'Roboto Slab',
                 fontWeight: 'bold',
               }}

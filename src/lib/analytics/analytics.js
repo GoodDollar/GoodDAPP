@@ -1,4 +1,4 @@
-//@flow
+src/components/dashboard/ReceiveConfirmation.js//@flow
 import _debounce from 'lodash/debounce'
 import _forEach from 'lodash/forEach'
 import * as Sentry from '@sentry/browser'

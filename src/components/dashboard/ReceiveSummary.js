@@ -77,7 +77,7 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
                 </View>
               </Section.Row>
               <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
-              <Section.Title fontWeight="medium" style={styles.amountWrapper}>
+              <Section.Row fontWeight="medium" style={styles.amountWrapper}>
                 <BigGoodDollar
                   number={amount}
                   color="green"
@@ -89,7 +89,7 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
                   }}
                   bigNumberUnitProps={{ fontSize: 14 }}
                 />
-              </Section.Title>
+              </Section.Row>
             </Section.Stack>
           )}
           <Section.Stack>

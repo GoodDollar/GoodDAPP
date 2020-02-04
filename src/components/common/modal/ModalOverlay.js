@@ -3,7 +3,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
-import { getMaxDeviceHeight } from '../../../lib/utils/Orientation'
+import { getMaxDeviceHeight, getScreenWidth } from '../../../lib/utils/Orientation'
 
 const height = getMaxDeviceHeight()
 
@@ -21,7 +21,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignSelf: 'flex-start',
     backgroundColor: theme.modals.overlayBackgroundColor,
     height: height,
-    width: '100%',
+    width: getScreenWidth(),
   },
   customModalInnerWrapper: {
     alignSelf: 'center',

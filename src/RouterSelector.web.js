@@ -76,7 +76,7 @@ const handleLinks = async () => {
   }
 }
 
-let AppRouter = React.lazy(() => {
+let AppRouter = lazy(() => {
   log.debug('initializing storage and wallet...')
   let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))

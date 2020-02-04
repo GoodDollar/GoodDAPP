@@ -2,10 +2,11 @@
 //FIXME:RN
 /* eslint-disable*/
 import React, { Component, useEffect, useState } from 'react'
-import { Dimensions, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
+import { getScreenWidth } from '../../lib/utils/Orientation'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
@@ -311,7 +312,7 @@ const styles = StyleSheet.create({
       {
         translateX: Platform.select({
           web: '200vw',
-          default: Dimensions.get('window').width * 2,
+          default: getScreenWidth() * 2,
         }),
       },
     ],

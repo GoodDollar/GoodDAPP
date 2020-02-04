@@ -5,6 +5,7 @@ import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
+import lazy from './lib/utils/lazy'
 import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
 import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
@@ -14,7 +15,7 @@ const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
 
 // import Router from './SignupRouter'
-let SignupRouter = React.lazy(() =>
+let SignupRouter = lazy(() =>
   initAnalytics()
     .then(_ =>
       Promise.all([import(/* webpackChunkName: "signuprouter" */ './SignupRouter'), handleLinks(), delay(2000)])

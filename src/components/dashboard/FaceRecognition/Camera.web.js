@@ -1,10 +1,12 @@
 // @flow
-import { Dimensions } from 'react-native'
 import React, { createRef, useEffect } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import logger from '../../../lib/logger/pino-logger'
+import { getScreenHeight, getScreenWidth } from '../../../lib/utils/Orientation'
 
 const log = logger.child({ from: 'Camera' })
+const height = getScreenHeight()
+const width = getScreenWidth()
 
 type CameraProps = {
   width: number,
@@ -36,7 +38,6 @@ const CameraComp = (props: CameraProps) => {
     if (videoPlayerRef === null) {
       return
     }
-    const { width, height } = Dimensions.get('window')
     log.debug({ width, height })
 
     //prevent landscape
@@ -123,8 +124,6 @@ const CameraComp = (props: CameraProps) => {
 
 export const Camera = React.memo(CameraComp)
 export const getResponsiveVideoDimensions = () => {
-  const { width, height } = Dimensions.get('window')
-
   const defaultHeight = height - 124 > 360 && width < 690
   if (isMobile) {
     return {
@@ -140,8 +139,6 @@ export const getResponsiveVideoDimensions = () => {
 }
 
 export const getResponsiveVideoDimensionsNew = () => {
-  const { width, height } = Dimensions.get('window')
-
   //our max width is 475 and we have (10+5)*2 padding
   const containerWidth = Math.min(475, width) - 30
   const containerHeight = (containerWidth / 2) * 1.77777778

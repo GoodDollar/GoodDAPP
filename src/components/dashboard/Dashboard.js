@@ -498,7 +498,7 @@ const Dashboard = props => {
               <BigGoodDollar
                 testID="amount_value"
                 number={balance}
-                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
+                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold', lineHeight: 42 }}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
             </Animated.View>
@@ -752,7 +752,7 @@ export default createStackNavigator({
     path: 'Rewards/:rewardsPath*',
   },
   Marketplace: {
-    screen: config.market ? MarketTab : WrappedDashboard,
+    screen: MarketTab,
     path: 'Marketplace/:marketPath*',
   },
   MagicLinkInfo,

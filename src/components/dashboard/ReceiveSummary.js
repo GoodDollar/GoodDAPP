@@ -83,7 +83,7 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
                   color="green"
                   bigNumberProps={{
                     fontSize: 36,
-                    lineHeight: 24,
+                    lineHeight: 36,
                     fontFamily: 'Roboto Slab',
                     fontWeight: 'bold',
                   }}

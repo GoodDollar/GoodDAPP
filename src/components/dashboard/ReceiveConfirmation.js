@@ -52,7 +52,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
               <BigGoodDollar
                 number={amount}
                 color="green"
-                bigNumberProps={{ fontSize: 36, lineHeight: 36, fontWeight: 'bold', fontFamily: 'Roboto Slab' }}
+                bigNumberProps={{ fontSize: 36, lineHeight: 24, fontWeight: 'bold', fontFamily: 'Roboto Slab' }}
                 bigNumberUnitProps={{ fontSize: 14 }}
               />
             )}

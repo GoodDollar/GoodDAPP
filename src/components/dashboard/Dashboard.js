@@ -93,6 +93,8 @@ export type DashboardProps = {
 }
 const Dashboard = props => {
   const { screenProps, styles, theme }: DashboardProps = props
+  const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
+  const [showBalance, setShowBalance] = useState(false)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
   const [headerAvatarLeftAnimValue] = useState(new Animated.Value(avatarCenteredPosition))
@@ -110,6 +112,7 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
+  const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
@@ -136,6 +139,7 @@ const Dashboard = props => {
     left: headerAvatarLeftAnimValue,
   }
   const balanceAnimStyles = {
+    visibility: showBalance ? 'visible' : 'hidden',
     position: 'absolute',
     right: headerBalanceRightAnimValue,
     marginVertical: headerBalanceVerticalMarginAnimValue,
@@ -181,6 +185,10 @@ const Dashboard = props => {
       return
     }
     if (reset) {
+      if (!loadAnimShown) {
+        await delay(1900)
+        store.set('feedLoadAnimShown')(true)
+      }
       setFeeds(res)
     } else {
       setFeeds(feeds.concat(res))
@@ -243,7 +251,7 @@ const Dashboard = props => {
       //mark as displayed
       setShowDelayedTimer(true)
       store.set('addWebApp')({ show: true })
-    }, 1000)
+    }, 2000)
     setShowDelayedTimer(id)
   }
 
@@ -275,11 +283,32 @@ const Dashboard = props => {
     InteractionManager.runAfterInteractions(handleAppLinks)
   }
 
+  // The width of the balance block required to place the balance block at the center of the screen
+  // The balance always changes so the width is dynamical.
+  // Animation functionality requires positioning props to be set with numbers.
+  // So we need to calculate the center of the screen within dynamically changed balance block width.
+  const saveBalanceBlockWidth = event => {
+    const width = _get(event, 'nativeEvent.layout.width')
+
+    setBalanceBlockWidth(width)
+
+    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
+    Animated.timing(headerBalanceRightAnimValue, {
+      toValue: balanceCenteredPosition,
+      duration: 100,
+    }).start()
+
+    if (!showBalance) {
+      setShowBalance(true)
+    }
+  }
+
   useEffect(() => {
     const timing = 250
     const fullNameOpacityTiming = 150
     const easingIn = Easing.in(Easing.quad)
     const easingOut = Easing.out(Easing.quad)
+    const balanceCenteredPosition = headerContentWidth / 2 - balanceBlockWidth / 2
 
     if (headerLarge) {
       Animated.parallel([
@@ -304,7 +333,7 @@ const Dashboard = props => {
           easing: easingOut,
         }),
         Animated.timing(headerBalanceRightAnimValue, {
-          toValue: avatarCenteredPosition,
+          toValue: balanceCenteredPosition,
           duration: timing,
           easing: easingOut,
         }),
@@ -454,7 +483,7 @@ const Dashboard = props => {
         case WITHDRAW_STATUS_COMPLETE:
           showErrorDialog('Payment already withdrawn or canceled by sender')
           break
-        case WITHDRAW_STATUS_UNKNOWN:
+        case WITHDRAW_STATUS_UNKNOWN: {
           for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
             // eslint-disable-next-line no-await-in-loop
             await delay(2000)
@@ -466,8 +495,7 @@ const Dashboard = props => {
             }
           }
           showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
-          break
-        default:
+        }
       }
     } catch (e) {
       log.error('withdraw failed:', e.code, e.message, e)
@@ -494,7 +522,7 @@ const Dashboard = props => {
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>
-            <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}>
+            <Animated.View onLayout={saveBalanceBlockWidth} style={[styles.bigNumberWrapper, balanceAnimStyles]}>
               <BigGoodDollar
                 testID="amount_value"
                 number={balance}
@@ -587,10 +615,10 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     bottom: 0,
     marginVertical: 'auto',
+    paddingTop: getDesignRelativeHeight(10),
 
     //FIXME: RN
     //height: 'fit-content',
-    paddingTop: getDesignRelativeHeight(10),
   },
   dashboardWrapper: {
     backgroundColor: theme.colors.lightGray,
@@ -671,6 +699,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: 16,
   },
   bigNumberWrapper: {
+    marginVertical: theme.sizes.defaultDouble,
     alignItems: 'baseline',
     position: 'absolute',
     bottom: 0,
@@ -752,7 +781,7 @@ export default createStackNavigator({
     path: 'Rewards/:rewardsPath*',
   },
   Marketplace: {
-    screen: MarketTab,
+    screen: config.market ? MarketTab : WrappedDashboard,
     path: 'Marketplace/:marketPath*',
   },
   MagicLinkInfo,

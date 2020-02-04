@@ -68,15 +68,23 @@ const Claim = props => {
     const isValid = screenProps.screenState && screenProps.screenState.isValid
 
     log.debug('from FR:', { isValid })
-
-    if (isValid && (await goodWallet.isCitizen())) {
-      handleClaim()
-    } else if (isValid === false) {
-      screenProps.goToRoot()
-    } else {
-      if (isCitizen === false) {
-        goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+    try {
+      if (isValid && (await goodWallet.isCitizen())) {
+        handleClaim()
+      } else if (isValid === false) {
+        screenProps.goToRoot()
+      } else {
+        if (isCitizen === false) {
+          goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+        }
       }
+    } catch (e) {
+      log.error('evaluateFRValidity failed', e.message, e)
+      showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
+        onDismiss: () => {
+          screenProps.goToRoot()
+        },
+      })
     }
   }
 
@@ -88,6 +96,14 @@ const Claim = props => {
     await goodWallet
       .checkEntitlement()
       .then(entitlement => setState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
+      .catch(e => {
+        log.error('gatherStats failed', e.message, e)
+        showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
+          onDismiss: () => {
+            screenProps.goToRoot()
+          },
+        })
+      })
 
     // FR Evaluation
     await evaluateFRValidity()
@@ -111,7 +127,14 @@ const Claim = props => {
     const [claimedToday, nextClaimDate] = await Promise.all([
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
-    ])
+    ]).catch(e => {
+      log.error('gatherStats failed', e.message, e)
+      showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
+        onDismiss: () => {
+          screenProps.goToRoot()
+        },
+      })
+    })
 
     const nextClaim = await getNextClaim(nextClaimDate)
     setState(prevState => ({ ...prevState, claimedToday, nextClaim }))

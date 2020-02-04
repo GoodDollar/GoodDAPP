@@ -32,7 +32,8 @@ export type AmountProps = {
  * @param {any} props.screenProps
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
-  const profile = GDStore.useStore().get('profile')
+  const gdstore = GDStore.useStore()
+  const profile = gdstore.get('profile')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
 
@@ -155,6 +156,24 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           userStorage.markWithErrorEvent(txHash)
         },
       })
+      const { txPromise } = generateLinkResponse
+
+      txPromise.catch(e => {
+        log.error('generateLinkAndSend:', e.message, e)
+        showErrorDialog('Link generation failed. Please try again', '', {
+          buttons: [
+            {
+              text: 'Try again',
+              onPress: () => {
+                handleConfirm()
+              },
+            },
+          ],
+          onDismiss: () => {
+            screenProps.goToRoot()
+          },
+        })
+      })
 
       log.debug('generateLinkAndSend:', { generateLinkResponse })
 
@@ -193,7 +212,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               color="red"
               bigNumberProps={{
                 fontSize: 36,
-                lineHeight: 36,
+                lineHeight: 24,
                 fontFamily: 'Roboto Slab',
                 fontWeight: 'bold',
               }}

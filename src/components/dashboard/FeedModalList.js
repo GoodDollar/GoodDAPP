@@ -138,24 +138,27 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     left: 0,
     padding: 0,
+
     // FIXME: RN
     position: Platform.select({
       web: 'fixed',
       default: 'absolute',
     }),
+
     // FIXME: RN
     height: Platform.select({
       web: '100vh',
-      default: Dimensions.get('window').height,
+      default: getScreenHeight(),
     }),
     width: '100%',
   },
   horizontalList: {
     width: '100%',
+
     // FIXME: RN
     maxWidth: Platform.select({
       web: '100vw',
-      default: Dimensions.get('window').width,
+      default: getScreenWidth(),
     }),
     flex: 1,
   },

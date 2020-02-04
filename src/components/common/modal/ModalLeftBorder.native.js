@@ -3,7 +3,6 @@
 import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import wavePattern from '../../../assets/wave.svg'
 import wavePatternForTooltipArrow from '../../../assets/feedListItemPattern.svg'
 import { mediumZIndex } from './styles'
 

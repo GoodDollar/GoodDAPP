@@ -16,6 +16,7 @@ module.exports = {
     fixBabelImports('module-resolver', {
       alias: {
         '^react-native$': 'react-native-web',
+        '^lottie-react-native$': 'react-native-web-lottie',
         '^react-native-linear-gradient$': 'react-native-web-linear-gradient',
       },
     }),
@@ -39,6 +40,7 @@ module.exports = {
     addWebpackAlias({
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
       'react-native': 'react-native-web',
+      'lottie-react-native': 'react-native-web-lottie',
     }),
 
     ...addExternalBabelPlugins(

@@ -2,21 +2,7 @@
 
 exports[`WrappedSaveButton matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -36,13 +22,11 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-justifyContent-1777fci"
       style={
         Object {
           "WebkitAlignItems": "stretch",
           "WebkitBoxAlign": "stretch",
-          "WebkitBoxPack": "center",
-          "WebkitJustifyContent": "center",
           "alignItems": "stretch",
           "backgroundColor": "rgba(12,38,61,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -63,7 +47,6 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
           "display": "flex",
-          "justifyContent": "center",
           "marginBottom": "0px",
           "marginLeft": "0px",
           "marginRight": "0px",
@@ -71,7 +54,6 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
           "minHeight": "44px",
           "minWidth": "86px",
           "msFlexAlign": "stretch",
-          "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
@@ -80,7 +62,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n"
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -99,101 +81,41 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
             "borderBottomRightRadius": "50px",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
-            "cursor": "pointer",
-            "msTouchAction": "manipulation",
-            "overflowX": "hidden",
-            "overflowY": "hidden",
-            "position": "relative",
-            "touchAction": "manipulation",
           }
         }
         tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "center",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "center",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz"
+            className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
             dir="auto"
             style={
               Object {
                 "color": "rgba(255,255,255,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "letterSpacing": "1px",
-                "marginBottom": "9px",
-                "marginLeft": "8px",
-                "marginRight": "8px",
-                "marginTop": "9px",
-                "textAlign": "center",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "500",
               }
             }
           >
-            <div
-              className="css-view-1dbjc4n"
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j r-textTransform-tsynxw"
+              dir="auto"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxFlex": 1,
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitFlexBasis": "0%",
-                  "WebkitFlexDirection": "row",
-                  "WebkitFlexGrow": 1,
-                  "WebkitFlexShrink": 1,
-                  "alignItems": "center",
-                  "display": "flex",
-                  "flexBasis": "0%",
-                  "flexDirection": "row",
-                  "flexGrow": 1,
-                  "flexShrink": 1,
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexNegative": 1,
-                  "msFlexPositive": 1,
-                  "msFlexPreferredSize": "0%",
+                  "color": "rgba(255,255,255,1.00)",
+                  "fontFamily": "Roboto",
+                  "fontSize": "14px",
+                  "fontWeight": "500",
+                  "lineHeight": "20px",
+                  "paddingTop": "1px",
+                  "textDecoration": "none",
                 }
               }
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "500",
-                    "lineHeight": "20px",
-                    "paddingTop": "1px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "uppercase",
-                  }
-                }
-              >
-                Save
-              </span>
-            </div>
+              Save
+            </span>
           </div>
         </div>
       </div>
@@ -204,21 +126,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
 
 exports[`WrappedSaveButton matches snapshot 2`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -238,13 +146,11 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-justifyContent-1777fci"
       style={
         Object {
           "WebkitAlignItems": "stretch",
           "WebkitBoxAlign": "stretch",
-          "WebkitBoxPack": "center",
-          "WebkitJustifyContent": "center",
           "alignItems": "stretch",
           "backgroundColor": "rgba(0,0,0,0.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -264,7 +170,6 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
           "borderTopStyle": "solid",
           "borderTopWidth": "1px",
           "display": "flex",
-          "justifyContent": "center",
           "marginBottom": "0px",
           "marginLeft": "0px",
           "marginRight": "0px",
@@ -272,7 +177,6 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
           "minHeight": "44px",
           "minWidth": "86px",
           "msFlexAlign": "stretch",
-          "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
@@ -281,7 +185,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n"
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -300,101 +204,41 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
             "borderBottomRightRadius": "50px",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
-            "cursor": "pointer",
-            "msTouchAction": "manipulation",
-            "overflowX": "hidden",
-            "overflowY": "hidden",
-            "position": "relative",
-            "touchAction": "manipulation",
           }
         }
         tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "center",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "center",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz"
+            className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
             dir="auto"
             style={
               Object {
                 "color": "rgba(12,38,61,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "letterSpacing": "1px",
-                "marginBottom": "9px",
-                "marginLeft": "8px",
-                "marginRight": "8px",
-                "marginTop": "9px",
-                "textAlign": "center",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "500",
               }
             }
           >
-            <div
-              className="css-view-1dbjc4n"
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j r-textTransform-tsynxw"
+              dir="auto"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxFlex": 1,
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitFlexBasis": "0%",
-                  "WebkitFlexDirection": "row",
-                  "WebkitFlexGrow": 1,
-                  "WebkitFlexShrink": 1,
-                  "alignItems": "center",
-                  "display": "flex",
-                  "flexBasis": "0%",
-                  "flexDirection": "row",
-                  "flexGrow": 1,
-                  "flexShrink": 1,
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexNegative": 1,
-                  "msFlexPositive": 1,
-                  "msFlexPreferredSize": "0%",
+                  "color": "rgba(255,255,255,1.00)",
+                  "fontFamily": "Roboto",
+                  "fontSize": "14px",
+                  "fontWeight": "500",
+                  "lineHeight": "20px",
+                  "paddingTop": "1px",
+                  "textDecoration": "none",
                 }
               }
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "500",
-                    "lineHeight": "20px",
-                    "paddingTop": "1px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "uppercase",
-                  }
-                }
-              >
-                Title in SaveButton
-              </span>
-            </div>
+              Title in SaveButton
+            </span>
           </div>
         </div>
       </div>
@@ -405,21 +249,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
 
 exports[`WrappedSaveButton matches snapshot 3`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -439,13 +269,11 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-justifyContent-1777fci"
       style={
         Object {
           "WebkitAlignItems": "stretch",
           "WebkitBoxAlign": "stretch",
-          "WebkitBoxPack": "center",
-          "WebkitJustifyContent": "center",
           "alignItems": "stretch",
           "backgroundColor": "rgba(12,38,61,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -466,7 +294,6 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
           "display": "flex",
-          "justifyContent": "center",
           "marginBottom": "0px",
           "marginLeft": "0px",
           "marginRight": "0px",
@@ -474,7 +301,6 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
           "minHeight": "44px",
           "minWidth": "86px",
           "msFlexAlign": "stretch",
-          "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
@@ -483,7 +309,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n"
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -502,101 +328,41 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
             "borderBottomRightRadius": "50px",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
-            "cursor": "pointer",
-            "msTouchAction": "manipulation",
-            "overflowX": "hidden",
-            "overflowY": "hidden",
-            "position": "relative",
-            "touchAction": "manipulation",
           }
         }
         tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "center",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "center",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz"
+            className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
             dir="auto"
             style={
               Object {
                 "color": "rgba(255,255,255,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "letterSpacing": "1px",
-                "marginBottom": "9px",
-                "marginLeft": "8px",
-                "marginRight": "8px",
-                "marginTop": "9px",
-                "textAlign": "center",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "500",
               }
             }
           >
-            <div
-              className="css-view-1dbjc4n"
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j r-textTransform-tsynxw"
+              dir="auto"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxFlex": 1,
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitFlexBasis": "0%",
-                  "WebkitFlexDirection": "row",
-                  "WebkitFlexGrow": 1,
-                  "WebkitFlexShrink": 1,
-                  "alignItems": "center",
-                  "display": "flex",
-                  "flexBasis": "0%",
-                  "flexDirection": "row",
-                  "flexGrow": 1,
-                  "flexShrink": 1,
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexNegative": 1,
-                  "msFlexPositive": 1,
-                  "msFlexPreferredSize": "0%",
+                  "color": "rgba(255,255,255,1.00)",
+                  "fontFamily": "Roboto",
+                  "fontSize": "14px",
+                  "fontWeight": "500",
+                  "lineHeight": "20px",
+                  "paddingTop": "1px",
+                  "textDecoration": "none",
                 }
               }
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "500",
-                    "lineHeight": "20px",
-                    "paddingTop": "1px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "uppercase",
-                  }
-                }
-              >
-                SaveButton with color
-              </span>
-            </div>
+              SaveButton with color
+            </span>
           </div>
         </div>
       </div>
@@ -607,21 +373,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
 
 exports[`WrappedSaveButton matches snapshot 4`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -641,13 +393,11 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-view-1dbjc4n r-justifyContent-1777fci"
       style={
         Object {
           "WebkitAlignItems": "stretch",
           "WebkitBoxAlign": "stretch",
-          "WebkitBoxPack": "center",
-          "WebkitJustifyContent": "center",
           "alignItems": "stretch",
           "backgroundColor": "rgba(12,38,61,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -668,7 +418,6 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
           "display": "flex",
-          "justifyContent": "center",
           "marginBottom": "0px",
           "marginLeft": "0px",
           "marginRight": "0px",
@@ -676,7 +425,6 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
           "minHeight": "44px",
           "minWidth": "86px",
           "msFlexAlign": "stretch",
-          "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
@@ -685,7 +433,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n"
+        className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
         data-focusable={true}
         disabled={false}
         onKeyDown={[Function]}
@@ -704,101 +452,41 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
             "borderBottomRightRadius": "50px",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
-            "cursor": "pointer",
-            "msTouchAction": "manipulation",
-            "overflowX": "hidden",
-            "overflowY": "hidden",
-            "position": "relative",
-            "touchAction": "manipulation",
           }
         }
         tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "center",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "center",
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz"
+            className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
             dir="auto"
             style={
               Object {
                 "color": "rgba(255,255,255,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "letterSpacing": "1px",
-                "marginBottom": "9px",
-                "marginLeft": "8px",
-                "marginRight": "8px",
-                "marginTop": "9px",
-                "textAlign": "center",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontWeight": "500",
               }
             }
           >
-            <div
-              className="css-view-1dbjc4n"
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j r-textTransform-tsynxw"
+              dir="auto"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxFlex": 1,
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitFlexBasis": "0%",
-                  "WebkitFlexDirection": "row",
-                  "WebkitFlexGrow": 1,
-                  "WebkitFlexShrink": 1,
-                  "alignItems": "center",
-                  "display": "flex",
-                  "flexBasis": "0%",
-                  "flexDirection": "row",
-                  "flexGrow": 1,
-                  "flexShrink": 1,
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexNegative": 1,
-                  "msFlexPositive": 1,
-                  "msFlexPreferredSize": "0%",
+                  "color": "rgba(255,255,255,1.00)",
+                  "fontFamily": "Roboto",
+                  "fontSize": "14px",
+                  "fontWeight": "500",
+                  "lineHeight": "20px",
+                  "paddingTop": "1px",
+                  "textDecoration": "none",
                 }
               }
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "500",
-                    "lineHeight": "20px",
-                    "paddingTop": "1px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "uppercase",
-                  }
-                }
-              >
-                SaveButton with custom delay
-              </span>
-            </div>
+              SaveButton with custom delay
+            </span>
           </div>
         </div>
       </div>

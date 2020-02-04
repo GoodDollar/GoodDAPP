@@ -160,7 +160,10 @@ const styles = ({ theme }) => ({
       default: 36 / 2,
       web: '50%',
     }),
-    paddingVertical: 20,
+    paddingVertical: Platform.select({
+      web: 20,
+      default: 7,
+    }),
     paddingHorizontal: 7,
   },
   feedback: {

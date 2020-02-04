@@ -80,8 +80,7 @@ const Claim = props => {
       }
     } catch (e) {
       log.error('evaluateFRValidity failed', e.message, e)
-      showErrorDialog('Something unexpected happened', '', {
-        boldMessage: 'Try again.',
+      showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
         onDismiss: () => {
           screenProps.goToRoot()
         },
@@ -99,8 +98,7 @@ const Claim = props => {
       .then(entitlement => setState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
       .catch(e => {
         log.error('gatherStats failed', e.message, e)
-        showErrorDialog('Something unexpected happened', '', {
-          boldMessage: 'Try again.',
+        showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
           onDismiss: () => {
             screenProps.goToRoot()
           },
@@ -131,8 +129,7 @@ const Claim = props => {
       wrappedGoodWallet.getNextClaimTime(),
     ]).catch(e => {
       log.error('gatherStats failed', e.message, e)
-      showErrorDialog('Something unexpected happened', '', {
-        boldMessage: 'Try again.',
+      showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
         onDismiss: () => {
           screenProps.goToRoot()
         },

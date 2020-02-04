@@ -6,7 +6,8 @@ import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
-import { CustomButton, Section, Wrapper } from '../common'
+import { Section, Wrapper } from '../common'
+import SaveAnimatedButton from '../common/animations/SaveButton/SaveButton'
 import ImageCropper from '../common/form/ImageCropper'
 
 const log = logger.child({ from: 'EditAvatar' })
@@ -46,14 +47,7 @@ const EditAvatar = ({ screenProps, theme }) => {
           <ImageCropper image={profile.avatar} onChange={handleAvatarChange} />
         </Section.Row>
         <Section.Stack justifyContent="flex-end" grow>
-          <CustomButton
-            disabled={!changed || saving}
-            loading={saving}
-            onPress={saveAvatar}
-            color={theme.colors.darkBlue}
-          >
-            Save
-          </CustomButton>
+          <SaveAnimatedButton loading={saving} onPress={saveAvatar} disabled={!changed} />
         </Section.Stack>
       </Section>
     </Wrapper>

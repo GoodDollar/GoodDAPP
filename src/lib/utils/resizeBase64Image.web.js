@@ -1,12 +1,5 @@
-import { Platform } from 'react-native'
-
 export default (base64, sizeByWidth) => {
   return new Promise((resolve, reject) => {
-    // FIXME: RN
-    if (Platform.OS !== 'web') {
-      return resolve(base64)
-    }
-
     const img = new Image()
 
     img.onload = function() {

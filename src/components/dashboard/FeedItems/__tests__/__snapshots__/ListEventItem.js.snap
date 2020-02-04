@@ -2,24 +2,10 @@
 
 exports[`ListEventItem receive matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-width-13qz1uu"
     style={
       Object {
         "WebkitAlignItems": "center",
@@ -44,7 +30,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         "paddingLeft": "8px",
         "paddingRight": "8px",
         "paddingTop": "8px",
-        "width": "100%",
       }
     }
   >
@@ -105,7 +90,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(163,163,163,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "10px",
               "fontWeight": "normal",
@@ -124,7 +108,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(0,187,165,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "15px",
               "fontWeight": "700",
@@ -161,7 +144,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(0,187,165,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "15px",
                 "fontWeight": "700",
@@ -181,7 +163,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
@@ -198,7 +179,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(0,187,165,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto Slab",
                   "fontSize": "10px",
                   "fontWeight": "700",
@@ -217,7 +197,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(0,187,165,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto Slab",
                   "fontSize": "9.5px",
                   "fontWeight": "700",
@@ -261,7 +240,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       >
         <div
           aria-disabled={true}
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-position-u8s1d r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           disabled={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -273,12 +252,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
               "WebkitAlignSelf": "flex-start",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
               "alignSelf": "flex-start",
               "backgroundColor": "rgba(203,203,203,1.00)",
               "borderBottomColor": "rgba(163,163,163,1.00)",
@@ -297,20 +271,14 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               "left": "-41px",
               "marginTop": "8px",
               "msFlexItemAlign": "start",
-              "msUserSelect": "none",
-              "position": "absolute",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
               "width": "34px",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
                 "borderBottomLeftRadius": "16px",
                 "borderBottomRightRadius": "16px",
                 "borderTopLeftRadius": "16px",
@@ -321,41 +289,23 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
               style={
                 Object {
-                  "WebkitFlexBasis": "auto",
                   "borderBottomLeftRadius": "16px",
                   "borderBottomRightRadius": "16px",
                   "borderTopLeftRadius": "16px",
                   "borderTopRightRadius": "16px",
-                  "flexBasis": "auto",
                   "height": "32px",
-                  "msFlexPreferredSize": "auto",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
                   "width": "32px",
-                  "zIndex": 0,
                 }
               }
             >
               <div
-                className="css-view-1dbjc4n"
+                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
                 style={
                   Object {
-                    "backgroundColor": "rgba(0,0,0,0.00)",
                     "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "cover",
-                    "bottom": "0px",
-                    "height": "100%",
-                    "left": "0px",
-                    "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
-                    "width": "100%",
-                    "zIndex": -1,
                   }
                 }
               />
@@ -410,7 +360,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 "WebkitLineClamp": 2,
                 "alignItems": "flex-end",
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "display": "flex",
                 "flexShrink": 0,
                 "fontFamily": "Roboto",
@@ -433,7 +382,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
                   "fontWeight": "normal",
@@ -442,7 +390,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
-                  "verticalAlign": "middle",
                 }
               }
             >
@@ -454,7 +401,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "500",
@@ -462,7 +408,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
-                  "verticalAlign": "middle",
                 }
               }
             >
@@ -476,7 +421,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               Object {
                 "WebkitFlexShrink": 0,
                 "color": "rgba(163,163,163,1.00)",
-                "direction": "ltr",
                 "flexShrink": 0,
                 "fontFamily": "Roboto",
                 "fontSize": "10px",
@@ -521,24 +465,10 @@ exports[`ListEventItem receive matches snapshot 1`] = `
 
 exports[`ListEventItem send matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-width-13qz1uu"
     style={
       Object {
         "WebkitAlignItems": "center",
@@ -563,7 +493,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
         "paddingLeft": "8px",
         "paddingRight": "8px",
         "paddingTop": "8px",
-        "width": "100%",
       }
     }
   >
@@ -624,7 +553,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(163,163,163,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "10px",
               "fontWeight": "normal",
@@ -643,7 +571,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(250,108,119,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "15px",
               "fontWeight": "700",
@@ -680,7 +607,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(250,108,119,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "15px",
                 "fontWeight": "700",
@@ -700,7 +626,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
@@ -717,7 +642,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto Slab",
                   "fontSize": "10px",
                   "fontWeight": "700",
@@ -736,7 +660,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto Slab",
                   "fontSize": "9.5px",
                   "fontWeight": "700",
@@ -780,7 +703,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
       >
         <div
           aria-disabled={true}
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-position-u8s1d r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           disabled={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -792,12 +715,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
               "WebkitAlignSelf": "flex-start",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
               "alignSelf": "flex-start",
               "backgroundColor": "rgba(203,203,203,1.00)",
               "borderBottomColor": "rgba(163,163,163,1.00)",
@@ -816,20 +734,14 @@ exports[`ListEventItem send matches snapshot 1`] = `
               "left": "-41px",
               "marginTop": "8px",
               "msFlexItemAlign": "start",
-              "msUserSelect": "none",
-              "position": "absolute",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
               "width": "34px",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
                 "borderBottomLeftRadius": "16px",
                 "borderBottomRightRadius": "16px",
                 "borderTopLeftRadius": "16px",
@@ -840,41 +752,23 @@ exports[`ListEventItem send matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
               style={
                 Object {
-                  "WebkitFlexBasis": "auto",
                   "borderBottomLeftRadius": "16px",
                   "borderBottomRightRadius": "16px",
                   "borderTopLeftRadius": "16px",
                   "borderTopRightRadius": "16px",
-                  "flexBasis": "auto",
                   "height": "32px",
-                  "msFlexPreferredSize": "auto",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
                   "width": "32px",
-                  "zIndex": 0,
                 }
               }
             >
               <div
-                className="css-view-1dbjc4n"
+                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
                 style={
                   Object {
-                    "backgroundColor": "rgba(0,0,0,0.00)",
                     "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "cover",
-                    "bottom": "0px",
-                    "height": "100%",
-                    "left": "0px",
-                    "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
-                    "width": "100%",
-                    "zIndex": -1,
                   }
                 }
               />
@@ -929,7 +823,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 "WebkitLineClamp": 2,
                 "alignItems": "flex-end",
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "display": "flex",
                 "flexShrink": 0,
                 "fontFamily": "Roboto",
@@ -952,7 +845,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
                   "fontWeight": "normal",
@@ -961,7 +853,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
-                  "verticalAlign": "middle",
                 }
               }
             >
@@ -973,7 +864,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "500",
@@ -981,7 +871,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
-                  "verticalAlign": "middle",
                 }
               }
             >
@@ -995,7 +884,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
               Object {
                 "WebkitFlexShrink": 0,
                 "color": "rgba(163,163,163,1.00)",
-                "direction": "ltr",
                 "flexShrink": 0,
                 "fontFamily": "Roboto",
                 "fontSize": "10px",
@@ -1040,24 +928,10 @@ exports[`ListEventItem send matches snapshot 1`] = `
 
 exports[`ListEventItem withdraw matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-width-13qz1uu"
     style={
       Object {
         "WebkitAlignItems": "center",
@@ -1082,7 +956,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         "paddingLeft": "8px",
         "paddingRight": "8px",
         "paddingTop": "8px",
-        "width": "100%",
       }
     }
   >
@@ -1143,7 +1016,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(163,163,163,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "10px",
               "fontWeight": "normal",
@@ -1162,7 +1034,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(0,195,174,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "15px",
               "fontWeight": "700",
@@ -1199,7 +1070,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(0,195,174,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "15px",
                 "fontWeight": "700",
@@ -1219,7 +1089,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
@@ -1236,7 +1105,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(0,195,174,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto Slab",
                   "fontSize": "10px",
                   "fontWeight": "700",
@@ -1255,7 +1123,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(0,195,174,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto Slab",
                   "fontSize": "9.5px",
                   "fontWeight": "700",
@@ -1299,7 +1166,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       >
         <div
           aria-disabled={true}
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-position-u8s1d r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
           disabled={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -1311,12 +1178,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
               "WebkitAlignSelf": "flex-start",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
               "alignSelf": "flex-start",
               "backgroundColor": "rgba(203,203,203,1.00)",
               "borderBottomColor": "rgba(163,163,163,1.00)",
@@ -1335,20 +1197,14 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               "left": "-41px",
               "marginTop": "8px",
               "msFlexItemAlign": "start",
-              "msUserSelect": "none",
-              "position": "absolute",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
               "width": "34px",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
                 "borderBottomLeftRadius": "16px",
                 "borderBottomRightRadius": "16px",
                 "borderTopLeftRadius": "16px",
@@ -1359,41 +1215,23 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
               style={
                 Object {
-                  "WebkitFlexBasis": "auto",
                   "borderBottomLeftRadius": "16px",
                   "borderBottomRightRadius": "16px",
                   "borderTopLeftRadius": "16px",
                   "borderTopRightRadius": "16px",
-                  "flexBasis": "auto",
                   "height": "32px",
-                  "msFlexPreferredSize": "auto",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
                   "width": "32px",
-                  "zIndex": 0,
                 }
               }
             >
               <div
-                className="css-view-1dbjc4n"
+                className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
                 style={
                   Object {
-                    "backgroundColor": "rgba(0,0,0,0.00)",
                     "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "cover",
-                    "bottom": "0px",
-                    "height": "100%",
-                    "left": "0px",
-                    "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
-                    "width": "100%",
-                    "zIndex": -1,
                   }
                 }
               />
@@ -1448,7 +1286,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 "WebkitLineClamp": 2,
                 "alignItems": "flex-end",
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "display": "flex",
                 "flexShrink": 0,
                 "fontFamily": "Roboto",
@@ -1471,7 +1308,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
                   "fontWeight": "normal",
@@ -1480,7 +1316,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
-                  "verticalAlign": "middle",
                 }
               }
             >
@@ -1492,7 +1327,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "500",
@@ -1500,7 +1334,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
-                  "verticalAlign": "middle",
                 }
               }
             >
@@ -1514,7 +1347,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               Object {
                 "WebkitFlexShrink": 0,
                 "color": "rgba(163,163,163,1.00)",
-                "direction": "ltr",
                 "flexShrink": 0,
                 "fontFamily": "Roboto",
                 "fontSize": "10px",

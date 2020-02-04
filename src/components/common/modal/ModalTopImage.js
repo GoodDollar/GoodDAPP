@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import receiveIllustation from '../../../assets/Feed/receive.svg'
 import sendIllustration from '../../../assets/Feed/send.svg'
 import messageIllustration from '../../../assets/Feed/message.png'
@@ -79,13 +79,7 @@ const TopImage = ({ type, styles }) => {
     }[type] || null)
 
   const image = getImageByType()
-  return (
-    image && (
-      <View style={image.containerStyle}>
-        {/*<Image style={image.style} source={image.src} />*/}
-      </View>
-    )
-  )
+  return image && <View style={image.containerStyle}>{/*<Image style={image.style} source={image.src} />*/}</View>
 }
 
 const getStylesFromProps = ({ theme }) => ({

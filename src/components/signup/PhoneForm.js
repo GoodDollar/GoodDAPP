@@ -60,20 +60,6 @@ class PhoneForm extends React.Component<Props, State> {
     })
   }
 
-  onFocus = () => {
-    const { store } = this.props
-    if (isMobile) {
-      store.set('isMobileKeyboardShown')(true)
-    }
-  }
-
-  onBlur = () => {
-    const { store } = this.props
-    if (isMobile) {
-      store.set('isMobileKeyboardShown')(false)
-    }
-  }
-
   componentDidUpdate() {
     if (this.props.screenProps.data.countryCode !== this.state.countryCode) {
       this.setState({

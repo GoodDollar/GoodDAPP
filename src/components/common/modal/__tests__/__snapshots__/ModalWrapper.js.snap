@@ -2,24 +2,10 @@
 
 exports[`ModalWrapper matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onResponderGrant={[Function]}
     onResponderReject={[Function]}
     onResponderRelease={[Function]}
@@ -32,27 +18,6 @@ exports[`ModalWrapper matches snapshot 1`] = `
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     onWheel={[Function]}
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
-        "WebkitOverflowScrolling": "touch",
-        "WebkitTransform": "translateZ(0px)",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "flexShrink": 1,
-        "msFlexDirection": "column",
-        "msFlexNegative": 1,
-        "msFlexPositive": 1,
-        "overflowX": "hidden",
-        "overflowY": "auto",
-        "transform": "translateZ(0px)",
-      }
-    }
   >
     <div
       className="css-view-1dbjc4n"
@@ -71,22 +36,18 @@ exports[`ModalWrapper matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox"
           style={
             Object {
               "WebkitAlignSelf": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 0,
               "alignSelf": "center",
-              "flexGrow": 1,
               "flexShrink": 0,
               "marginBottom": "88.51948051948051px",
               "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
-              "msFlexPositive": 1,
               "paddingLeft": "20px",
               "paddingRight": "20px",
               "width": "100%",
@@ -112,54 +73,35 @@ exports[`ModalWrapper matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-flexGrow-16y2uox"
               style={
                 Object {
-                  "WebkitBoxFlex": 1,
-                  "WebkitFlexGrow": 1,
                   "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(238,238,238,1.00)",
                   "backgroundImage": "url(wave.svg)",
                   "backgroundRepeat": "repeat-y",
                   "borderBottomLeftRadius": "5px",
                   "borderTopLeftRadius": "5px",
-                  "flexGrow": 1,
                   "flexShrink": 0,
                   "maxWidth": "10px",
                   "minWidth": "10px",
                   "msFlexNegative": 0,
-                  "msFlexPositive": 1,
                   "position": "relative",
                   "zIndex": 5,
                 }
               }
             />
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitBoxFlex": 1,
-                  "WebkitFlexGrow": 1,
-                  "WebkitFlexShrink": 1,
-                  "flexGrow": 1,
-                  "flexShrink": 1,
-                  "msFlexNegative": 1,
-                  "msFlexPositive": 1,
-                }
-              }
+              className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n"
+                className="css-view-1dbjc4n r-flexGrow-16y2uox"
                 style={
                   Object {
-                    "WebkitBoxFlex": 1,
-                    "WebkitFlexGrow": 1,
                     "backgroundColor": "rgba(255,255,255,1.00)",
                     "borderBottomRightRadius": "5px",
                     "borderTopRightRadius": "5px",
                     "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-                    "flexGrow": 1,
-                    "msFlexPositive": 1,
                     "paddingBottom": "16px",
                     "paddingLeft": "16px",
                     "paddingRight": "16px",
@@ -182,24 +124,10 @@ exports[`ModalWrapper matches snapshot 1`] = `
 
 exports[`ModalWrapper matches snapshot with properties 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
     onResponderGrant={[Function]}
     onResponderReject={[Function]}
     onResponderRelease={[Function]}
@@ -212,27 +140,6 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     onWheel={[Function]}
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
-        "WebkitOverflowScrolling": "touch",
-        "WebkitTransform": "translateZ(0px)",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "flexShrink": 1,
-        "msFlexDirection": "column",
-        "msFlexNegative": 1,
-        "msFlexPositive": 1,
-        "overflowX": "hidden",
-        "overflowY": "auto",
-        "transform": "translateZ(0px)",
-      }
-    }
   >
     <div
       className="css-view-1dbjc4n"
@@ -251,22 +158,18 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexGrow-16y2uox"
           style={
             Object {
               "WebkitAlignSelf": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 0,
               "alignSelf": "center",
-              "flexGrow": 1,
               "flexShrink": 0,
               "marginBottom": "88.51948051948051px",
               "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
-              "msFlexPositive": 1,
               "paddingLeft": "20px",
               "paddingRight": "20px",
               "width": "100%",
@@ -292,55 +195,36 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-view-1dbjc4n r-flexGrow-16y2uox"
               style={
                 Object {
-                  "WebkitBoxFlex": 1,
-                  "WebkitFlexGrow": 1,
                   "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(238,238,238,1.00)",
                   "backgroundImage": "url(wave.svg)",
                   "backgroundRepeat": "repeat-y",
                   "borderBottomLeftRadius": "5px",
                   "borderTopLeftRadius": "5px",
-                  "flexGrow": 1,
                   "flexShrink": 0,
                   "marginBottom": "16px",
                   "maxWidth": "10px",
                   "minWidth": "10px",
                   "msFlexNegative": 0,
-                  "msFlexPositive": 1,
                   "position": "relative",
                   "zIndex": 5,
                 }
               }
             />
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitBoxFlex": 1,
-                  "WebkitFlexGrow": 1,
-                  "WebkitFlexShrink": 1,
-                  "flexGrow": 1,
-                  "flexShrink": 1,
-                  "msFlexNegative": 1,
-                  "msFlexPositive": 1,
-                }
-              }
+              className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
             >
               <div
-                className="css-view-1dbjc4n"
+                className="css-view-1dbjc4n r-flexGrow-16y2uox"
                 style={
                   Object {
-                    "WebkitBoxFlex": 1,
-                    "WebkitFlexGrow": 1,
                     "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "0",
+                    "borderBottomRightRadius": "0px",
                     "borderTopRightRadius": "5px",
                     "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
-                    "flexGrow": 1,
-                    "msFlexPositive": 1,
                     "paddingBottom": "16px",
                     "paddingLeft": "16px",
                     "paddingRight": "16px",

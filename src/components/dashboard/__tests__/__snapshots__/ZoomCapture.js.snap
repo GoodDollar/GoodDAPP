@@ -2,50 +2,13 @@
 
 exports[`ZoomCapture matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
   >
     <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
-          "paddingBottom": "5px",
-          "paddingLeft": "5px",
-          "paddingRight": "5px",
-          "paddingTop": "5px",
-        }
-      }
+      className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderRadius-1f0042m r-flex-13awgt0 r-padding-1uu6nss"
     >
       <div
         id="zoom-parent-container"
@@ -61,25 +24,7 @@ exports[`ZoomCapture matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxPack": "justify",
-              "WebkitJustifyContent": "space-around",
-              "alignItems": "center",
-              "display": "flex",
-              "height": "100%",
-              "justifyContent": "space-around",
-              "msFlexAlign": "center",
-              "msFlexPack": "distribute",
-              "position": "absolute",
-              "top": "0px",
-              "width": "100%",
-              "zIndex": 10,
-            }
-          }
+          className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-height-1pi2tsx r-justifyContent-a2tzq0 r-position-u8s1d r-top-ipm5af r-width-13qz1uu r-zIndex-mhe3cw"
         />
         <div
           id="zoom-interface-container"

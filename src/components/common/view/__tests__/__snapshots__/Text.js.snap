@@ -6,7 +6,6 @@ exports[`Text matches snapshot 1`] = `
   dir="auto"
   style={
     Object {
-      "direction": "ltr",
       "fontFamily": "Roboto",
       "fontSize": "16px",
       "fontWeight": "normal",
@@ -27,7 +26,6 @@ exports[`Text matches snapshot with different fontSize 1`] = `
   dir="auto"
   style={
     Object {
-      "direction": "ltr",
       "fontFamily": "Roboto",
       "fontSize": "20px",
       "fontWeight": "normal",
@@ -49,7 +47,6 @@ exports[`Text matches snapshot with different textAlign 1`] = `
   style={
     Object {
       "color": "rgba(255,0,0,1.00)",
-      "direction": "ltr",
       "fontFamily": "Roboto",
       "fontSize": "16px",
       "fontWeight": "normal",
@@ -71,7 +68,6 @@ exports[`Text matches snapshot with string color 1`] = `
   style={
     Object {
       "color": "rgba(255,0,0,1.00)",
-      "direction": "ltr",
       "fontFamily": "Roboto",
       "fontSize": "16px",
       "fontWeight": "normal",
@@ -93,7 +89,6 @@ exports[`Text matches snapshot with theme defined color 1`] = `
   style={
     Object {
       "color": "rgba(98,0,238,1.00)",
-      "direction": "ltr",
       "fontFamily": "Roboto",
       "fontSize": "16px",
       "fontWeight": "normal",

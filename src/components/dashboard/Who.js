@@ -44,7 +44,7 @@ const Who = (props: AmountProps) => {
         {!isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
       </TopBar>
       <Section grow>
-        <Section.Stack justifyContent="flex-start" style={styles.container}>
+        <Section.Stack justifyContent="space-between" style={styles.container}>
           <Section.Title fontWeight="medium">{text}</Section.Title>
           <InputText
             autoFocus

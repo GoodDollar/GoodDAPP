@@ -34,7 +34,7 @@ const Signin = props => {
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
-            <Section.Text>
+            <Section.Stack>
               <Circle number={1}>
                 {'Go to your '}
                 <Text fontWeight="bold" fontSize={18} fontFamily="Roboto">
@@ -67,7 +67,7 @@ const Signin = props => {
                   Magic Link Button
                 </Text>
               </Circle>
-            </Section.Text>
+            </Section.Stack>
           </View>
         </Section.Row>
       </Wrapper>
@@ -105,13 +105,18 @@ const getStylesFromProps = ({ theme }) => {
   return {
     mainWrapper: {
       paddingHorizontal: 0,
+      paddingTop: 35,
       justifyContent: Platform.select({
         web: 'space-evenly',
         default: 'space-around',
       }),
       flexDirection: 'column',
-      maxHeight: '75%',
       marginBottom: 15,
+      ...Platform.select({
+        web: {
+          maxHeight: '75%',
+        },
+      }),
     },
     row: {
       flex: 1,

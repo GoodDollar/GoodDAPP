@@ -6,7 +6,6 @@ exports[`Address matches snapshot 1`] = `
   dir="auto"
   style={
     Object {
-      "direction": "ltr",
       "fontFamily": "Roboto",
       "fontSize": "16px",
       "fontWeight": "normal",

@@ -2,24 +2,10 @@
 
 exports[`SideMenuItem matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}
@@ -31,8 +17,6 @@ exports[`SideMenuItem matches snapshot 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "MozTransitionProperty": "opacity",
-        "MozUserSelect": "none",
         "WebkitAlignItems": "center",
         "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
@@ -40,29 +24,19 @@ exports[`SideMenuItem matches snapshot 1`] = `
         "WebkitBoxPack": "start",
         "WebkitFlexDirection": "row",
         "WebkitJustifyContent": "flex-start",
-        "WebkitTransitionDuration": "0.15s",
-        "WebkitTransitionProperty": "opacity",
-        "WebkitUserSelect": "none",
         "alignItems": "center",
         "borderBottomColor": "rgba(238,238,238,1.00)",
         "borderBottomStyle": "solid",
         "borderBottomWidth": "1px",
-        "cursor": "pointer",
         "flexDirection": "row",
         "justifyContent": "flex-start",
         "msFlexAlign": "center",
         "msFlexDirection": "row",
         "msFlexPack": "start",
-        "msTouchAction": "manipulation",
-        "msUserSelect": "none",
         "paddingBottom": "16px",
         "paddingLeft": "0px",
         "paddingRight": "16px",
         "paddingTop": "16px",
-        "touchAction": "manipulation",
-        "transitionDuration": "0.15s",
-        "transitionProperty": "opacity",
-        "userSelect": "none",
       }
     }
     tabIndex="0"
@@ -108,7 +82,6 @@ exports[`SideMenuItem matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(66,69,74,1.00)",
-          "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "14px",
           "fontWeight": "500",

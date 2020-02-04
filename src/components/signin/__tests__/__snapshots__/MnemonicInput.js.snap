@@ -2,21 +2,7 @@
 
 exports[`SignIn - MnemonicInput matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -70,7 +56,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -88,7 +73,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={1}
@@ -102,11 +87,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -119,15 +100,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -188,7 +163,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -206,7 +180,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={2}
@@ -220,11 +194,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -237,15 +207,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -306,7 +270,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -324,7 +287,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={3}
@@ -338,11 +301,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -355,15 +314,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -424,7 +377,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -442,7 +394,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={4}
@@ -456,11 +408,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -473,15 +421,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -542,7 +484,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -560,7 +501,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={5}
@@ -574,11 +515,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -591,15 +528,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -660,7 +591,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -678,7 +608,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={6}
@@ -692,11 +622,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -709,15 +635,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -778,7 +698,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -796,7 +715,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={7}
@@ -810,11 +729,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -827,15 +742,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -896,7 +805,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -914,7 +822,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={8}
@@ -928,11 +836,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -945,15 +849,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -1014,7 +912,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -1032,7 +929,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={9}
@@ -1046,11 +943,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -1063,15 +956,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -1132,7 +1019,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -1150,7 +1036,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={10}
@@ -1164,11 +1050,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -1181,15 +1063,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -1250,7 +1126,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -1268,7 +1143,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={11}
@@ -1282,11 +1157,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -1299,15 +1170,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }
@@ -1368,7 +1233,6 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -1386,7 +1250,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       autoCapitalize="sentences"
       autoComplete="on"
       autoCorrect="on"
-      className="css-textinput-1cwyjr8"
+      className="css-textinput-1cwyjr8 r-flex-13awgt0"
       data-focusable={true}
       dir="auto"
       label={12}
@@ -1400,11 +1264,7 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
       spellCheck={true}
       style={
         Object {
-          "WebkitBoxFlex": 1,
           "WebkitBoxPack": "center",
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -1417,15 +1277,9 @@ exports[`SignIn - MnemonicInput matches snapshot 1`] = `
           "borderTopColor": "rgba(0,175,255,1.00)",
           "borderTopRightRadius": "22px",
           "borderTopWidth": "1px",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "height": "44px",
           "justifyContent": "center",
-          "msFlexNegative": 1,
           "msFlexPack": "center",
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingLeft": "16px",
           "width": "94px",
         }

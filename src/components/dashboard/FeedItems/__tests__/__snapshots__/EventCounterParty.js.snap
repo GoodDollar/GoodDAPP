@@ -2,21 +2,7 @@
 
 exports[`EventCounterParty receive matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-text-901oao css-textMultiLine-cens5h"
@@ -25,7 +11,6 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       Object {
         "WebkitLineClamp": 2,
         "color": "rgba(66,69,74,1.00)",
-        "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
         "fontWeight": "normal",
@@ -42,7 +27,6 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(66,69,74,1.00)",
-          "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "10px",
           "fontWeight": "normal",
@@ -51,7 +35,6 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
-          "verticalAlign": "middle",
         }
       }
     >
@@ -63,7 +46,6 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(66,69,74,1.00)",
-          "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "500",
@@ -71,7 +53,6 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
-          "verticalAlign": "middle",
         }
       }
     >
@@ -83,21 +64,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
 
 exports[`EventCounterParty send matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-text-901oao css-textMultiLine-cens5h"
@@ -106,7 +73,6 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       Object {
         "WebkitLineClamp": 2,
         "color": "rgba(66,69,74,1.00)",
-        "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
         "fontWeight": "normal",
@@ -123,7 +89,6 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(66,69,74,1.00)",
-          "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "10px",
           "fontWeight": "normal",
@@ -132,7 +97,6 @@ exports[`EventCounterParty send matches snapshot 1`] = `
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
-          "verticalAlign": "middle",
         }
       }
     >
@@ -144,7 +108,6 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(66,69,74,1.00)",
-          "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "500",
@@ -152,7 +115,6 @@ exports[`EventCounterParty send matches snapshot 1`] = `
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
-          "verticalAlign": "middle",
         }
       }
     >
@@ -164,21 +126,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
 
 exports[`EventCounterParty withdraw matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-text-901oao css-textMultiLine-cens5h"
@@ -187,7 +135,6 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       Object {
         "WebkitLineClamp": 2,
         "color": "rgba(66,69,74,1.00)",
-        "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
         "fontWeight": "normal",
@@ -204,7 +151,6 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(66,69,74,1.00)",
-          "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "10px",
           "fontWeight": "normal",
@@ -213,7 +159,6 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
-          "verticalAlign": "middle",
         }
       }
     >
@@ -225,7 +170,6 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(66,69,74,1.00)",
-          "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "500",
@@ -233,7 +177,6 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
-          "verticalAlign": "middle",
         }
       }
     >

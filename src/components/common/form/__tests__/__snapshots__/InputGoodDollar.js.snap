@@ -2,37 +2,14 @@
 
 exports[`InputGoodDollar matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitBoxFlex": 1,
-        "WebkitFlexBasis": "0%",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
-        "flexBasis": "0%",
-        "flexGrow": 1,
-        "flexShrink": 1,
         "marginBottom": "8px",
-        "msFlexNegative": 1,
-        "msFlexPositive": 1,
-        "msFlexPreferredSize": "0%",
+        "width": "100%",
       }
     }
   >
@@ -40,17 +17,8 @@ exports[`InputGoodDollar matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitBoxFlex": 1,
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "marginBottom": "8px",
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
+          "width": "100%",
         }
       }
     >
@@ -87,6 +55,7 @@ exports[`InputGoodDollar matches snapshot 1`] = `
             "paddingRight": "32px",
             "paddingTop": "4px",
             "textAlign": "center",
+            "width": "100%",
           }
         }
         type="text"
@@ -103,6 +72,7 @@ exports[`InputGoodDollar matches snapshot 1`] = `
           "direction": "ltr",
           "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
           "fontSize": "12px",
+          "fontWeight": "400",
           "height": "18px",
           "opacity": 0,
           "paddingBottom": "0px",
@@ -120,37 +90,14 @@ exports[`InputGoodDollar matches snapshot 1`] = `
 
 exports[`InputGoodDollar matches snapshot 2`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitBoxFlex": 1,
-        "WebkitFlexBasis": "0%",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
-        "flexBasis": "0%",
-        "flexGrow": 1,
-        "flexShrink": 1,
         "marginBottom": "8px",
-        "msFlexNegative": 1,
-        "msFlexPositive": 1,
-        "msFlexPreferredSize": "0%",
+        "width": "100%",
       }
     }
   >
@@ -158,17 +105,8 @@ exports[`InputGoodDollar matches snapshot 2`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitBoxFlex": 1,
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "marginBottom": "8px",
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
+          "width": "100%",
         }
       }
     >
@@ -205,6 +143,7 @@ exports[`InputGoodDollar matches snapshot 2`] = `
             "paddingRight": "32px",
             "paddingTop": "4px",
             "textAlign": "center",
+            "width": "100%",
           }
         }
         type="text"
@@ -221,6 +160,7 @@ exports[`InputGoodDollar matches snapshot 2`] = `
           "direction": "ltr",
           "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
           "fontSize": "12px",
+          "fontWeight": "400",
           "height": "18px",
           "opacity": 1,
           "paddingBottom": "0px",

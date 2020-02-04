@@ -243,7 +243,7 @@ const Dashboard = props => {
       //mark as displayed
       setShowDelayedTimer(true)
       store.set('addWebApp')({ show: true })
-    }, 2000)
+    }, 1000)
     setShowDelayedTimer(id)
   }
 

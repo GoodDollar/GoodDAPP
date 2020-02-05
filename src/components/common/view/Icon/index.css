@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'gooddollar';
-  src: url('../../../../assets/fonts/gooddollar.eot');
-  src: url('../../../../assets/fonts/gooddollar.eot#iefix') format('embedded-opentype'),
-       url('../../../../assets/fonts/gooddollar.woff2') format('woff2'),
-       url('../../../../assets/fonts/gooddollar.woff') format('woff'),
-       url('../../../../assets/fonts/gooddollar.ttf') format('truetype'),
-       url('../../../../assets/fonts/gooddollar.svg#gooddollar') format('svg');
+  src: url('../../../../assets/fonts/GoodDollar/gooddollar.eot');
+  src: url('../../../../assets/fonts/GoodDollar/gooddollar.eot#iefix') format('embedded-opentype'),
+       url('../../../../assets/fonts/GoodDollar/gooddollar.woff2') format('woff2'),
+       url('../../../../assets/fonts/GoodDollar/gooddollar.woff') format('woff'),
+       url('../../../../assets/fonts/GoodDollar/gooddollar.ttf') format('truetype'),
+       url('../../../../assets/fonts/GoodDollar/gooddollar.svg#gooddollar') format('svg');
   font-weight: normal;
   font-style: normal;
 }

@@ -7,7 +7,7 @@ import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
-import { EditPhoneInput } from '../common/form/EditPhoneInput/EditPhoneInput'
+import EditPhoneInput from '../common/form/EditPhoneInput/EditPhoneInput'
 
 const ProfileDataTable = ({
   profile,
@@ -68,15 +68,7 @@ const ProfileDataTable = ({
                   }}
                   placeholder="Enter phone number"
                   value={profile.mobile}
-                  style={{
-                    borderColor: errors.mobile ? theme.colors.red : theme.colors.lightGray,
-                    borderRadius: 24,
-                    borderWidth: 1,
-                    color: errors.mobile ? theme.colors.red : theme.colors.text,
-                    padding: 10,
-                    position: 'relative',
-                  }}
-                  disableBorder
+                  style={styles.phoneInput}
                 />
                 <Section.Row style={styles.suffixIcon}>
                   <Icon
@@ -123,7 +115,7 @@ const ProfileDataTable = ({
   )
 }
 
-const getStylesFromProps = ({ theme }) => {
+const getStylesFromProps = ({ theme, errors }) => {
   return {
     borderedBottomStyle: {
       borderBottomColor: theme.colors.lightGray,
@@ -149,6 +141,14 @@ const getStylesFromProps = ({ theme }) => {
         web: 0,
         default: 5,
       }),
+    },
+    phoneInput: {
+      borderColor: errors && (errors.mobile ? theme.colors.red : theme.colors.lightGray),
+      borderRadius: 24,
+      borderWidth: 1,
+      color: errors && (errors.mobile ? theme.colors.red : theme.colors.text),
+      padding: 10,
+      position: 'relative',
     },
   }
 }

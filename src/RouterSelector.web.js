@@ -15,10 +15,14 @@ const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
 
 // import Router from './SignupRouter'
-let SignupRouter = lazy(() =>
+let SignupRouter = React.lazy(() =>
   initAnalytics()
     .then(_ =>
-      Promise.all([import(/* webpackChunkName: "signuprouter" */ './SignupRouter'), handleLinks(), delay(2000)])
+      Promise.all([
+        lazy(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
+        handleLinks(),
+        delay(2000),
+      ])
     )
     .then(r => r[0])
 )
@@ -76,12 +80,12 @@ const handleLinks = async () => {
   }
 }
 
-let AppRouter = lazy(() => {
+let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
-  let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
+  let walletAndStorageReady = lazy(() => import(/* webpackChunkName: "init" */ './init'))
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
 
-  return Promise.all([import(/* webpackChunkName: "router" */ './Router'), p2])
+  return Promise.all([lazy(() => import(/* webpackChunkName: "router" */ './Router')), p2])
     .then(r => {
       log.debug('router ready')
       return r

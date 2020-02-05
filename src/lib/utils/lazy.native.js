@@ -1,8 +1,5 @@
 // @flow
-import React from 'react'
 
-const lazy = fn => {
-  return React.lazy(fn)
-}
+const lazy = fn => fn()
 
 export default lazy

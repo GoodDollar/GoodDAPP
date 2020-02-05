@@ -58,7 +58,8 @@ const getStylesFromProps = ({ theme }) => {
     fontFamily: theme.fonts.default,
     fontSize: normalize(14),
     fontWeight: '400',
-    padding: 10,
+    paddingVertical: Platform.select({ web: 0, default: 7 }),
+    lineHeight: Platform.select({ web: 36, default: 24 }),
   }
 
   return {

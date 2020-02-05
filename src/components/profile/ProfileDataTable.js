@@ -1,4 +1,5 @@
 import React from 'react'
+import { Platform } from 'react-native'
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from '../common/view/Icon'
@@ -142,6 +143,12 @@ const getStylesFromProps = ({ theme }) => {
     errorMargin: {
       marginTop: theme.sizes.default,
       marginBottom: theme.sizes.default,
+    },
+    phoneIcon: {
+      paddingTop: Platform.select({
+        web: 0,
+        default: 5,
+      }),
     },
   }
 }

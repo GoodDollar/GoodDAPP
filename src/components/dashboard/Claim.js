@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, Platform, View } from 'react-native'
+import { AsyncStorage, Platform, View } from 'react-native'
 import numeral from 'numeral'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -20,15 +20,10 @@ import Text from '../common/view/Text'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
-import illustration from '../../assets/Claim/illustration.svg'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -253,7 +248,6 @@ const Claim = props => {
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
           <AnimationsJumpingPeople isCitizen={isCitizen} />
-          {/*<Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />*/}
           {!isCitizen && (
             <ClaimButton
               isCitizen={true}

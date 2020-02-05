@@ -2,12 +2,14 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { isMobile } from 'mobile-device-detect'
 import { getScreenHeight, getScreenWidth } from '../../../../lib/utils/Orientation'
-import animationData from './data.json'
+import { getAnimationData } from '../../../../lib/utils/lottie'
+const { animationData, imageAssetsFolder } = getAnimationData('Logo', require('./data'))
+
 class Logo extends React.Component {
   render() {
     return (
       <Lottie
-        imageAssetsFolder={'/assets'}
+        imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
         autoPlay={true}
         source={animationData}

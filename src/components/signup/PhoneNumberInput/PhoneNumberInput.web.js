@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
-import PhoneInput from 'react-phone-number-input'
+import { EditPhoneInput } from '../../common/form/EditPhoneInput/EditPhoneInput.web'
 import './PhoneNumberInput.css'
 
 export default props => {
-  return <PhoneInput {...props} />
+  return <EditPhoneInput {...props} />
 }

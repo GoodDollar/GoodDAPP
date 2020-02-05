@@ -70,8 +70,9 @@ class NameForm extends React.Component<Props, State> {
   render() {
     const { fullName, errorMessage } = this.state
     const { key } = this.props.navigation.state
+    const { loading } = this.props.screenProps.data
     return (
-      <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit}>
+      <CustomWrapper valid={this.state.isValid} loading={loading} handleSubmit={this.handleSubmit}>
         <Section grow justifyContent="flex-start">
           <Section.Stack justifyContent="flex-start" style={this.props.styles.container}>
             <Section.Row justifyContent="center" style={this.props.styles.row}>

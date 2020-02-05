@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -38,7 +38,7 @@ const FeedModalItem = (props: FeedEventProps) => {
       itemType={itemType}
       onClose={buttonPress}
       showJaggedEdge={showJaggedEdge}
-      fullHeight={true}
+      fullHeight
     >
       {item.type === 'feedback' ? (
         <FeedbackModalItem {...props} />

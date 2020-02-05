@@ -89,7 +89,7 @@ const FeedListItem = (props: FeedListItemProps) => {
         <Animatable.View
           animation={showLoadAnim ? animScheme : ''}
           duration={duration}
-          delay={400}
+          delay={550}
           easing={easing}
           useNativeDriver
         >

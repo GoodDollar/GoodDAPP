@@ -9,6 +9,7 @@ import { getScreenWidth } from '../../../lib/utils/Orientation'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
+import userStorage from '../../../lib/gundb/UserStorage'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -27,6 +28,10 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
+
+  const updateFeedEventAnimation = () => {
+    userStorage.updateFeedAnimationStatus(feed.id)
+  }
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -89,7 +94,13 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               </>
             )}
           </View>
-          <EventIcon style={styles.typeIcon} type={itemType} size={normalize(34)} />
+          <EventIcon
+            style={styles.typeIcon}
+            type={itemType}
+            size={normalize(34)}
+            onAnimationFinish={updateFeedEventAnimation}
+            showAnim={!feed.animationExecuted}
+          />
         </View>
       </View>
     </View>

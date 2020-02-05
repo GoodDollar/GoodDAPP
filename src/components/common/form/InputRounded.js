@@ -59,7 +59,7 @@ const getStylesFromProps = ({ theme }) => {
     fontSize: normalize(14),
     fontWeight: '400',
     paddingVertical: Platform.select({ web: 0, default: 7 }),
-    lineHeight: Platform.select({ web: 36, default: 24 }),
+    lineHeight: Platform.select({ web: 36, default: 18 }),
   }
 
   return {

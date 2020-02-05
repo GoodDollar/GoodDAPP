@@ -9,11 +9,25 @@ class SaveButton extends React.Component {
   componentDidMount() {
     if (!isMobileReactNative) {
       this.anim.onEnterFrame = e => {
-        const { success } = this.props
-        if (e.currentTime > 39 && !success) {
-          this.anim.goToAndPlay(0, true)
+        const { loading } = this.props
+        if (e.currentTime > 39 && loading) {
+          if (!isMobileReactNative) {
+            this.anim.goToAndPlay(0, true)
+          }
         }
       }
+
+      this.anim.onComplete = () => {
+        const { loading, onFinish } = this.props
+
+        if (onFinish && !loading) {
+          onFinish()
+        }
+      }
+    }
+
+    if (this.props.loading) {
+      this.anim.play()
     }
   }
 
@@ -24,8 +38,23 @@ class SaveButton extends React.Component {
   handlePress = () => {
     const { onPress } = this.props
 
-    onPress()
-    this.anim.play()
+    onPress && onPress()
+
+    if (isMobileReactNative) {
+      this.anim.play(0, 39)
+    } else {
+      this.anim.play()
+    }
+  }
+
+  handleAnimationFinish = () => {
+    const { onFinish, loading } = this.props
+
+    if (onFinish && !loading) {
+      onFinish()
+    } else if (loading) {
+      this.play(0, 39)
+    }
   }
 
   render() {
@@ -33,7 +62,7 @@ class SaveButton extends React.Component {
 
     return (
       <TouchableOpacity style={[styles.wrapper, style]} disabled={loading || disabled} onPress={this.handlePress}>
-        <Lottie ref={this.setAnim} loop={false} source={animationData} />
+        <Lottie ref={this.setAnim} loop={false} source={animationData} onAnimationFinish={this.handleAnimationFinish} />
       </TouchableOpacity>
     )
   }

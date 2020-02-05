@@ -27,7 +27,11 @@ class SaveButton extends React.Component {
     }
 
     if (this.props.loading) {
-      this.anim.play()
+      if (isMobileReactNative) {
+        this.anim.play(0, 39)
+      } else {
+        this.anim.play()
+      }
     }
   }
 

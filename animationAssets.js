@@ -46,18 +46,32 @@ const getSVGPath = (animationName) => path.join(mainPath, pathToAssetsAnimations
 const createPath = async (somePath) => {
   await fsNode.mkdirsSync(somePath)
 }
-const copyToIOSAndRename = async (animationName) => {
+const renameIOS = async (animationName, image, amplification) => {
+  const oldName = `${image}${amplification>1?`@${amplification}x`:''}.png`
+  const iosPAth = getIOSPath(animationName)
+  const newName = oldName.replace('img', animationName)
+  await fs.rename(path.join(iosPAth, oldName), path.join(iosPAth, newName))
+}
+
+const mapping = {
+  1:['drawable-mdpi','drawable-ldpi'],
+  2:['drawable-hdpi'],
+  3:['drawable-xhdpi'],
+}
+
+
+
+const copyAndroidFile = async (animationName, image, amplification) => {
+  const imageName = `${image}${amplification>1?`@${amplification}x`:''}.png`
   const newPathToAndroidAnimation = getAndroidPath(animationName)
   const newPathToIOSAnimation = getIOSPath(animationName)
-  await createPath(newPathToIOSAnimation)
-  const animationFiles = await files(newPathToAndroidAnimation)
-  if (animationFiles) {
-    for (const oldName of animationFiles) {
-      const newName = oldName.replace('img', animationName)
-      await fs.copyFile(path.join(newPathToAndroidAnimation, oldName), path.join(newPathToIOSAnimation, newName))
-    }
+  for (const folder of mapping[amplification]){
+    const newPath = path.join(newPathToAndroidAnimation,folder)
+    await createPath(newPath)
+    await fs.copyFileSync(path.join(newPathToIOSAnimation, imageName), path.join(newPath, `${image}.png`))
   }
 }
+
 const renderPrettyDate = (uglyDate) => {
   return uglyDate.toISOString()
 }
@@ -145,10 +159,11 @@ const convertSingleSVG2PNGWithAmplification = (svgData, directoryFrom, directory
 }
 const convertAndCopyFile = async (svgData, animationName, imageName, amplification) => {
   const svgPath = getSVGPath(animationName)
-  const newPathToAndroidAnimation = getAndroidPath(animationName)
-  await createPath(newPathToAndroidAnimation)
-  convertSingleSVG2PNGWithAmplification(svgData, svgPath, newPathToAndroidAnimation, imageName, amplification)
-  await copyToIOSAndRename(animationName)
+  const newPathToIOSAnimation = getIOSPath(animationName)
+  await createPath(newPathToIOSAnimation)
+  convertSingleSVG2PNGWithAmplification(svgData, svgPath, newPathToIOSAnimation, imageName, amplification)
+  await copyAndroidFile(animationName,imageName,amplification)
+  await renameIOS(animationName,imageName,amplification)
 }
 const convertSingleAnimationFile = async (file, animationName) => {
   const imageName = file.substring(0, file.length - 4)

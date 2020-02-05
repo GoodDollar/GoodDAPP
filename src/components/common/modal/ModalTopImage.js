@@ -13,73 +13,74 @@ import hanukaStartsIllustration from '../../../assets/Feed/hanukaStarts.svg'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
-const TopImage = ({ type, styles }) => {
-  const getImageByType = () =>
-    ({
-      withdraw: {
-        src: receiveIllustation,
-        style: styles.mainImage,
-        containerStyle: styles.mainImageContainer,
-      },
-      claim: {
-        src: receiveIllustation,
-        style: styles.mainImage,
-        containerStyle: styles.mainImageContainer,
-      },
-      claiming: {
-        src: claimingIllustration,
-        style: styles.claiming,
-        containerStyle: styles.mainImageContainer,
-      },
-      bonuscompleted: {
-        src: receiveIllustation,
-        style: styles.mainImage,
-        containerStyle: styles.mainImageContainer,
-      },
-      receive: {
-        src: receiveIllustation,
-        style: styles.mainImage,
-        containerStyle: styles.mainImageContainer,
-      },
-      send: {
-        src: sendIllustration,
-        style: styles.mainImage,
-        containerStyle: styles.mainImageContainer,
-      },
-      message: {
-        src: messageIllustration,
-        style: styles.mainPhoto,
-        containerStyle: styles.mainPhotoContainer,
-      },
-      invite: {
-        src: inviteFriendsIllustration,
-        style: styles.mainPhoto,
-        containerStyle: styles.mainPhotoContainer,
-      },
-      welcome: {
-        src: inviteIllustration,
-        style: styles.mainPhoto,
-        containerStyle: styles.mainPhotoContainer,
-      },
-      backup: {
-        src: backupIllustration,
-        style: styles.mainPhoto,
-        containerStyle: styles.mainPhotoContainer,
-      },
-      spending: {
-        src: spendingIllustration,
-        style: styles.spending,
-        containerStyle: styles.mainPhotoContainer,
-      },
-      hanukaStarts: {
-        src: hanukaStartsIllustration,
-        style: styles.hanukaStarts,
-        containerStyle: styles.mainImageContainer,
-      },
-    }[type] || null)
+export const getImageByType = (type, styles = {}) =>
+  ({
+    withdraw: {
+      src: receiveIllustation,
+      style: styles.mainImage,
+      containerStyle: styles.mainImageContainer,
+    },
+    claim: {
+      src: receiveIllustation,
+      style: styles.mainImage,
+      containerStyle: styles.mainImageContainer,
+    },
+    claiming: {
+      src: claimingIllustration,
+      style: styles.claiming,
+      containerStyle: styles.mainImageContainer,
+    },
+    bonuscompleted: {
+      src: receiveIllustation,
+      style: styles.mainImage,
+      containerStyle: styles.mainImageContainer,
+    },
+    receive: {
+      src: receiveIllustation,
+      style: styles.mainImage,
+      containerStyle: styles.mainImageContainer,
+    },
+    send: {
+      src: sendIllustration,
+      style: styles.mainImage,
+      containerStyle: styles.mainImageContainer,
+    },
+    message: {
+      src: messageIllustration,
+      style: styles.mainPhoto,
+      containerStyle: styles.mainPhotoContainer,
+    },
+    invite: {
+      src: inviteFriendsIllustration,
+      style: styles.mainPhoto,
+      containerStyle: styles.mainPhotoContainer,
+    },
+    welcome: {
+      src: inviteIllustration,
+      style: styles.mainPhoto,
+      containerStyle: styles.mainPhotoContainer,
+    },
+    backup: {
+      src: backupIllustration,
+      style: styles.mainPhoto,
+      containerStyle: styles.mainPhotoContainer,
+    },
+    spending: {
+      src: spendingIllustration,
+      style: styles.spending,
+      containerStyle: styles.mainPhotoContainer,
+    },
+    hanukaStarts: {
+      src: hanukaStartsIllustration,
+      style: styles.hanukaStarts,
+      containerStyle: styles.mainImageContainer,
+    },
+  }[type] || null)
 
-  const image = getImageByType()
-  return image && <View style={image.containerStyle}>{/*<Image style={image.style} source={image.src} />*/}</View>
+const TopImage = ({ type, styles }) => {
+  const image = getImageByType(type, styles)
+
+  return image && <View style={image.containerStyle} />
 }
 
 const getStylesFromProps = ({ theme }) => ({

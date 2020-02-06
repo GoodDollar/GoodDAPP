@@ -142,7 +142,6 @@
     "react-native-recaptcha-v3": "0.0.16",
     "react-native-safe-area-context": "^0.6.1",
     "react-native-safe-area-view": "^1.0.0",
-    "react-native-safe-module": "^1.2.0",
     "react-native-safe-modules": "^1.0.0",
     "react-native-screens": "^2.0.0-alpha.22",
     "react-native-side-menu-gooddapp": "git+https://github.com/GoodDollar/react-native-side-menu.git",

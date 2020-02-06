@@ -78,6 +78,9 @@ const EditPhoneInput = (props: Props) => {
     setUserTypingCountry(false)
   })
 
+  const { onBlur, onFocus, placeholder } = props
+  const textProps = { onBlur, onFocus, placeholder }
+
   return (
     <PhoneInput
       ref={phoneInputRef}
@@ -86,6 +89,7 @@ const EditPhoneInput = (props: Props) => {
       onSelectCountry={handleSelectCountry}
       style={props.style}
       textStyle={props.textStyle}
+      textProps={textProps}
     />
   )
 }

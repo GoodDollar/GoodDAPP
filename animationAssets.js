@@ -46,12 +46,12 @@ const getSVGPath = (animationName) => path.join(mainPath, pathToAssetsAnimations
 const createPath = async (somePath) => {
   await fsNode.mkdirsSync(somePath)
 }
-const renameIOS = async (animationName, image, amplification) => {
-  const oldName = `${image}${amplification>1?`@${amplification}x`:''}.png`
-  const iosPAth = getIOSPath(animationName)
-  const newName = oldName.replace('img', animationName)
-  await fs.rename(path.join(iosPAth, oldName), path.join(iosPAth, newName))
-}
+// const renameIOS = async (animationName, image, amplification) => {
+//   const oldName = `${image}${amplification>1?`@${amplification}x`:''}.png`
+//   const iosPAth = getIOSPath(animationName)
+//   const newName = oldName.replace('img', animationName)
+//   await fs.rename(path.join(iosPAth, oldName), path.join(iosPAth, newName))
+// }
 
 const mapping = {
   1:['drawable-mdpi','drawable-ldpi'],

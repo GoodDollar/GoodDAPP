@@ -1,18 +1,19 @@
 import { Platform } from 'react-native'
-import { isMobileReactNative } from './platform'
 
 export const fixAssets = (assets, animationName) => {
-  if (!(assets && Array.isArray(assets)) || !isMobileReactNative) {
+  if (!(assets && Array.isArray(assets))) {
     return assets
   }
   return assets.map(asset => {
     asset.p = Platform.select({
-      ios: asset.p.replace('svg', 'png').replace('img', animationName),
-      android: asset.p.replace('svg', 'png'),
+      ios: asset.p.replace('img', animationName),
+      android: asset.p,
+      web: asset.p.replace('png', 'svg'),
     })
     asset.u = Platform.select({
       ios: '',
       android: '',
+      web: asset.u,
     })
     return asset
   })

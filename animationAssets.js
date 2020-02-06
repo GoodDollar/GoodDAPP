@@ -62,7 +62,8 @@ const mapping = {
 
 
 const copyAndroidFile = async (animationName, image, amplification) => {
-  const imageName = `${image}${amplification>1?`@${amplification}x`:''}.png`
+
+  const imageName = `${image.replace('img', animationName)}${amplification>1?`@${amplification}x`:''}.png`
   const newPathToAndroidAnimation = getAndroidPath(animationName)
   const newPathToIOSAnimation = getIOSPath(animationName)
   for (const folder of mapping[amplification]){
@@ -94,7 +95,7 @@ const getLastModifiedDateTimeForFile = (fileName) => {
   const stats = fs.statSync(fileName)
   return new Date(util.inspect(stats.mtime))
 }
-const convertSingleSVG2PNGWithAmplification = (svgData, directoryFrom, directoryTo, imageName, amplification) => {
+const convertSingleSVG2PNGWithAmplification = (animationName, svgData, directoryFrom, directoryTo, imageName, amplification) => {
   try {
 
     if (!(svgData.buffer)) {
@@ -124,7 +125,7 @@ const convertSingleSVG2PNGWithAmplification = (svgData, directoryFrom, directory
 
     // Determine PNG file name
     const amplificationString = amplification > 1 ? '@' + amplification + 'x' : ''
-    const pngFileName = path.resolve(directoryTo, imageName + amplificationString + '.png')
+    const pngFileName = path.resolve(directoryTo, imageName.replace('img', animationName) + amplificationString + '.png')
 
     // Determine last modified and compare to SVG. Use 1/1/1970 if not found so that SVG appears older
     let pngLastModified = null
@@ -161,9 +162,9 @@ const convertAndCopyFile = async (svgData, animationName, imageName, amplificati
   const svgPath = getSVGPath(animationName)
   const newPathToIOSAnimation = getIOSPath(animationName)
   await createPath(newPathToIOSAnimation)
-  convertSingleSVG2PNGWithAmplification(svgData, svgPath, newPathToIOSAnimation, imageName, amplification)
+  convertSingleSVG2PNGWithAmplification(animationName, svgData, svgPath, newPathToIOSAnimation, imageName, amplification)
   await copyAndroidFile(animationName,imageName,amplification)
-  await renameIOS(animationName,imageName,amplification)
+  // await renameIOS(animationName,imageName,amplification)
 }
 const convertSingleAnimationFile = async (file, animationName) => {
   const imageName = file.substring(0, file.length - 4)

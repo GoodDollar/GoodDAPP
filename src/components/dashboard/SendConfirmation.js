@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import CopyButton from '../common/buttons/CopyButton'
 import Section from '../common/layout/Section'
@@ -10,7 +10,6 @@ import { withStyles } from '../../lib/styles'
 import { Icon } from '../common'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
-import './AButton.css'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
@@ -40,19 +39,19 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
                 <Icon name="send" size={getDesignRelativeHeight(45)} color="white" />
               </View>
             </Section.Row>
-            <Section.Title fontWeight="medium" style={styles.amountWrapper}>
+            <Section.Row fontWeight="medium" style={styles.amountWrapper}>
               <BigGoodDollar
                 number={amount}
                 color="red"
                 bigNumberProps={{
                   fontSize: 36,
-                  lineHeight: 24,
+                  lineHeight: 36,
                   fontFamily: 'Roboto Slab',
                   fontWeight: 'bold',
                 }}
                 bigNumberUnitProps={{ fontSize: 14 }}
               />
-            </Section.Title>
+            </Section.Row>
           </Section.Stack>
           {reason && (
             <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
@@ -92,7 +91,10 @@ const getStylesFromProps = ({ theme }) => ({
     width: getDesignRelativeHeight(75),
     backgroundColor: theme.colors.red,
     position: 'relative',
-    borderRadius: '50%',
+    borderRadius: Platform.select({
+      default: getDesignRelativeHeight(75) / 2,
+      web: '50%',
+    }),
     marginTop: getDesignRelativeHeight(15),
     marginBottom: getDesignRelativeHeight(24),
     display: 'flex',

@@ -2,7 +2,7 @@
 
 exports[`IconButton disabled matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
+  className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
   data-focusable={true}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
@@ -14,8 +14,6 @@ exports[`IconButton disabled matches snapshot 1`] = `
   onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "MozTransitionProperty": "opacity",
-      "MozUserSelect": "none",
       "WebkitAlignItems": "center",
       "WebkitBoxAlign": "center",
       "WebkitBoxDirection": "normal",
@@ -25,11 +23,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
       "WebkitFlexDirection": "column",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
-      "WebkitTransitionDuration": "0.15s",
-      "WebkitTransitionProperty": "opacity",
-      "WebkitUserSelect": "none",
       "alignItems": "center",
-      "cursor": "pointer",
       "flexBasis": "0%",
       "flexDirection": "column",
       "flexGrow": 1,
@@ -39,12 +33,6 @@ exports[`IconButton disabled matches snapshot 1`] = `
       "msFlexNegative": 1,
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
-      "msTouchAction": "manipulation",
-      "msUserSelect": "none",
-      "touchAction": "manipulation",
-      "transitionDuration": "0.15s",
-      "transitionProperty": "opacity",
-      "userSelect": "none",
     }
   }
   tabIndex="0"
@@ -86,7 +74,6 @@ exports[`IconButton disabled matches snapshot 1`] = `
     style={
       Object {
         "color": "rgba(0,0,0,0.32)",
-        "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "11px",
         "fontWeight": "normal",
@@ -104,7 +91,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
 
 exports[`IconButton enabled matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
+  className="css-view-1dbjc4n r-cursor-1loqt21 r-touchAction-1otgn73 r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
   data-focusable={true}
   onKeyDown={[Function]}
   onKeyUp={[Function]}
@@ -116,8 +103,6 @@ exports[`IconButton enabled matches snapshot 1`] = `
   onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "MozTransitionProperty": "opacity",
-      "MozUserSelect": "none",
       "WebkitAlignItems": "center",
       "WebkitBoxAlign": "center",
       "WebkitBoxDirection": "normal",
@@ -127,11 +112,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
       "WebkitFlexDirection": "column",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
-      "WebkitTransitionDuration": "0.15s",
-      "WebkitTransitionProperty": "opacity",
-      "WebkitUserSelect": "none",
       "alignItems": "center",
-      "cursor": "pointer",
       "flexBasis": "0%",
       "flexDirection": "column",
       "flexGrow": 1,
@@ -141,12 +122,6 @@ exports[`IconButton enabled matches snapshot 1`] = `
       "msFlexNegative": 1,
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
-      "msTouchAction": "manipulation",
-      "msUserSelect": "none",
-      "touchAction": "manipulation",
-      "transitionDuration": "0.15s",
-      "transitionProperty": "opacity",
-      "userSelect": "none",
     }
   }
   tabIndex="0"
@@ -188,7 +163,6 @@ exports[`IconButton enabled matches snapshot 1`] = `
     style={
       Object {
         "color": "inherit",
-        "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "11px",
         "fontWeight": "normal",

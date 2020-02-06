@@ -2,24 +2,10 @@
 
 exports[`BackupWallet matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-position-bnwqim"
     data-name="viewWrapper"
     style={
       Object {
@@ -28,7 +14,7 @@ exports[`BackupWallet matches snapshot 1`] = `
         "WebkitBoxOrient": "vertical",
         "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
-        "backgroundImage": "none",
+        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
         "display": "flex",
         "flexDirection": "column",
         "flexGrow": 1,
@@ -39,7 +25,6 @@ exports[`BackupWallet matches snapshot 1`] = `
         "paddingLeft": "8px",
         "paddingRight": "8px",
         "paddingTop": "8px",
-        "position": "relative",
         "width": "100%",
       }
     }
@@ -65,20 +50,18 @@ exports[`BackupWallet matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao"
+        className="css-text-901oao r-textAlign-q4m81j"
         dir="auto"
         grow={true}
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "700",
             "lineHeight": "22px",
             "marginBottom": "8px",
             "marginTop": "8px",
-            "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
           }
@@ -87,20 +70,18 @@ exports[`BackupWallet matches snapshot 1`] = `
         please save your 12-word pass phrase
 
         <span
-          className="css-text-901oao css-textHasAncestor-16my406"
+          className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
           dir="auto"
           grow={true}
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
-              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "16px",
               "fontWeight": "normal",
               "lineHeight": "22px",
               "marginBottom": "8px",
               "marginTop": "8px",
-              "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
             }
@@ -111,22 +92,18 @@ so you can recover your wallet anytime
         </span>
       </div>
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-flexDirection-18u37iz"
         style={
           Object {
             "WebkitAlignItems": "stretch",
             "WebkitBoxAlign": "stretch",
-            "WebkitBoxDirection": "normal",
             "WebkitBoxFlex": 1,
             "WebkitBoxLines": "multiple",
-            "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "justify",
-            "WebkitFlexDirection": "row",
             "WebkitFlexGrow": 1,
             "WebkitFlexWrap": "wrap",
             "WebkitJustifyContent": "space-between",
             "alignItems": "stretch",
-            "flexDirection": "row",
             "flexGrow": 1,
             "flexWrap": "wrap",
             "justifyContent": "space-between",
@@ -135,7 +112,6 @@ so you can recover your wallet anytime
             "marginRight": "8px",
             "marginTop": "8px",
             "msFlexAlign": "stretch",
-            "msFlexDirection": "row",
             "msFlexPack": "justify",
             "msFlexPositive": 1,
             "msFlexWrap": "wrap",
@@ -144,29 +120,19 @@ so you can recover your wallet anytime
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -180,9 +146,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -190,17 +153,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -213,7 +174,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={1}
@@ -227,12 +188,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -244,15 +199,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -262,29 +209,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -298,9 +235,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -308,17 +242,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -331,7 +263,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={2}
@@ -345,12 +277,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -362,15 +288,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -380,29 +298,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -416,9 +324,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -426,17 +331,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -449,7 +352,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={3}
@@ -463,12 +366,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -480,15 +377,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -498,29 +387,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -534,9 +413,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -544,17 +420,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -567,7 +441,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={4}
@@ -581,12 +455,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -598,15 +466,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -616,29 +476,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -652,9 +502,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -662,17 +509,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -685,7 +530,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={5}
@@ -699,12 +544,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -716,15 +555,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -734,29 +565,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -770,9 +591,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -780,17 +598,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -803,7 +619,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={6}
@@ -817,12 +633,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -834,15 +644,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -852,29 +654,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -888,9 +680,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -898,17 +687,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -921,7 +708,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={7}
@@ -935,12 +722,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -952,15 +733,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -970,29 +743,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -1006,9 +769,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -1016,17 +776,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -1039,7 +797,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={8}
@@ -1053,12 +811,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -1070,15 +822,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -1088,29 +832,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -1124,9 +858,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -1134,17 +865,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -1157,7 +886,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={9}
@@ -1171,12 +900,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -1188,15 +911,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -1206,29 +921,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -1242,9 +947,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -1252,17 +954,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -1275,7 +975,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={10}
@@ -1289,12 +989,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -1306,15 +1000,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -1324,29 +1010,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -1360,9 +1036,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -1370,17 +1043,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -1393,7 +1064,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={11}
@@ -1407,12 +1078,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -1424,15 +1089,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -1442,29 +1099,19 @@ so you can recover your wallet anytime
           />
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-flexDirection-18u37iz"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
               "height": "44px",
               "marginTop": "8px",
-              "msFlexDirection": "row",
               "width": "45%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "22px",
@@ -1478,9 +1125,6 @@ so you can recover your wallet anytime
                 "borderTopWidth": "1px",
                 "display": "flex",
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
                 "width": "32px",
@@ -1488,17 +1132,15 @@ so you can recover your wallet anytime
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-901oao r-textAlign-q4m81j"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
-                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
@@ -1511,7 +1153,7 @@ so you can recover your wallet anytime
             autoCapitalize="sentences"
             autoComplete="on"
             autoCorrect="on"
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-flex-13awgt0 r-justifyContent-1777fci"
             data-focusable={true}
             dir="auto"
             label={12}
@@ -1525,12 +1167,6 @@ so you can recover your wallet anytime
             spellCheck={true}
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomRightRadius": "22px",
@@ -1542,15 +1178,7 @@ so you can recover your wallet anytime
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopRightRadius": "22px",
                 "borderTopWidth": "1px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
                 "height": "44px",
-                "justifyContent": "center",
-                "msFlexNegative": 1,
-                "msFlexPack": "center",
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
                 "paddingLeft": "16px",
                 "width": "94px",
               }
@@ -1583,13 +1211,11 @@ so you can recover your wallet anytime
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
               "alignItems": "stretch",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -1609,7 +1235,6 @@ so you can recover your wallet anytime
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "display": "flex",
-              "justifyContent": "center",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -1617,7 +1242,6 @@ so you can recover your wallet anytime
               "minHeight": "44px",
               "minWidth": "auto",
               "msFlexAlign": "stretch",
-              "msFlexPack": "center",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -1626,7 +1250,7 @@ so you can recover your wallet anytime
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
             data-focusable={true}
             disabled={false}
             onKeyDown={[Function]}
@@ -1645,122 +1269,53 @@ so you can recover your wallet anytime
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "position": "relative",
-                "touchAction": "manipulation",
               }
             }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexPack": "center",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
             >
               <div
-                className="css-text-901oao css-textOneLine-bfa6kz"
+                className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j"
                 dir="auto"
                 style={
                   Object {
                     "color": "rgba(0,175,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "letterSpacing": "1px",
-                    "marginBottom": "9px",
-                    "marginLeft": "8px",
-                    "marginRight": "8px",
-                    "marginTop": "9px",
-                    "textAlign": "center",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontWeight": "500",
                   }
                 }
               >
-                <div
-                  className="css-view-1dbjc4n"
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j"
+                  dir="auto"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxFlex": 1,
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitFlexBasis": "0%",
-                      "WebkitFlexDirection": "row",
-                      "WebkitFlexGrow": 1,
-                      "WebkitFlexShrink": 1,
-                      "alignItems": "center",
-                      "display": "flex",
-                      "flexBasis": "0%",
-                      "flexDirection": "row",
-                      "flexGrow": 1,
-                      "flexShrink": 1,
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexNegative": 1,
-                      "msFlexPositive": 1,
-                      "msFlexPreferredSize": "0%",
+                      "color": "rgba(0,175,255,1.00)",
+                      "fontFamily": "Roboto",
+                      "fontSize": "15px",
+                      "fontWeight": "normal",
+                      "letterSpacing": "0px",
+                      "lineHeight": "22px",
+                      "paddingTop": "1px",
+                      "textDecoration": "underline",
+                      "textTransform": "none",
                     }
                   }
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
-                        "WebkitBoxPack": "center",
-                        "WebkitJustifyContent": "center",
-                        "alignItems": "center",
-                        "color": "rgba(0,175,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "15px",
-                        "fontWeight": "normal",
-                        "justifyContent": "center",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "msFlexAlign": "center",
-                        "msFlexPack": "center",
-                        "paddingTop": "1px",
-                        "textAlign": "center",
-                        "textDecoration": "underline",
-                        "textTransform": "none",
-                      }
-                    }
-                  >
-                    Copy all to clipboard
-                  </span>
-                </div>
+                  Copy all to clipboard
+                </span>
               </div>
             </div>
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-justifyContent-1777fci"
           style={
             Object {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
               "alignItems": "stretch",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -1780,7 +1335,6 @@ so you can recover your wallet anytime
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "display": "flex",
-              "justifyContent": "center",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -1788,7 +1342,6 @@ so you can recover your wallet anytime
               "minHeight": "44px",
               "minWidth": "auto",
               "msFlexAlign": "stretch",
-              "msFlexPack": "center",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -1797,7 +1350,7 @@ so you can recover your wallet anytime
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
             data-focusable={true}
             disabled={false}
             onKeyDown={[Function]}
@@ -1816,123 +1369,54 @@ so you can recover your wallet anytime
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "position": "relative",
-                "touchAction": "manipulation",
               }
             }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexPack": "center",
-                }
-              }
+              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
             >
               <div
-                className="css-text-901oao css-textOneLine-bfa6kz"
+                className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j"
                 dir="auto"
                 style={
                   Object {
                     "color": "rgba(0,175,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "letterSpacing": "1px",
-                    "marginBottom": "9px",
-                    "marginLeft": "8px",
-                    "marginRight": "8px",
-                    "marginTop": "9px",
-                    "textAlign": "center",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontWeight": "500",
                   }
                 }
               >
-                <div
-                  className="css-view-1dbjc4n"
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j"
+                  dir="auto"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxFlex": 1,
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitFlexBasis": "0%",
-                      "WebkitFlexDirection": "row",
-                      "WebkitFlexGrow": 1,
-                      "WebkitFlexShrink": 1,
-                      "alignItems": "center",
-                      "display": "flex",
-                      "flexBasis": "0%",
-                      "flexDirection": "row",
-                      "flexGrow": 1,
-                      "flexShrink": 1,
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexNegative": 1,
-                      "msFlexPositive": 1,
-                      "msFlexPreferredSize": "0%",
+                      "color": "rgba(0,175,255,1.00)",
+                      "fontFamily": "Roboto",
+                      "fontSize": "15px",
+                      "fontWeight": "normal",
+                      "letterSpacing": "0px",
+                      "lineHeight": "22px",
+                      "paddingTop": "1px",
+                      "textDecoration": "underline",
+                      "textTransform": "none",
                     }
                   }
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
-                        "WebkitBoxPack": "center",
-                        "WebkitJustifyContent": "center",
-                        "alignItems": "center",
-                        "color": "rgba(0,175,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "15px",
-                        "fontWeight": "normal",
-                        "justifyContent": "center",
-                        "letterSpacing": "0px",
-                        "lineHeight": "22px",
-                        "msFlexAlign": "center",
-                        "msFlexPack": "center",
-                        "paddingTop": "1px",
-                        "textAlign": "center",
-                        "textDecoration": "underline",
-                        "textTransform": "none",
-                      }
-                    }
-                  >
-                    Send me a backup email
-                  </span>
-                </div>
+                  Send me a backup email
+                </span>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
+        className="css-view-1dbjc4n r-justifyContent-1777fci"
         style={
           Object {
             "WebkitAlignItems": "stretch",
             "WebkitBoxAlign": "stretch",
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
             "alignItems": "stretch",
             "backgroundColor": "rgba(0,175,255,1.00)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -1953,7 +1437,6 @@ so you can recover your wallet anytime
             "borderTopWidth": "0px",
             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
             "display": "flex",
-            "justifyContent": "center",
             "marginBottom": "0px",
             "marginLeft": "0px",
             "marginRight": "0px",
@@ -1961,7 +1444,6 @@ so you can recover your wallet anytime
             "minHeight": "44px",
             "minWidth": "64px",
             "msFlexAlign": "stretch",
-            "msFlexPack": "center",
             "paddingBottom": "0px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
@@ -1971,7 +1453,7 @@ so you can recover your wallet anytime
       >
         <div
           aria-disabled={true}
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-overflow-1udh08x r-position-bnwqim"
           disabled={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -1987,106 +1469,41 @@ so you can recover your wallet anytime
               "borderBottomRightRadius": "50px",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "position": "relative",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexDirection": "row",
-                "msFlexPack": "center",
-              }
-            }
+            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
           >
             <div
-              className="css-text-901oao css-textOneLine-bfa6kz"
+              className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
               dir="auto"
               style={
                 Object {
                   "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "letterSpacing": "1px",
-                  "marginBottom": "9px",
-                  "marginLeft": "16px",
-                  "marginRight": "16px",
-                  "marginTop": "9px",
-                  "textAlign": "center",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontWeight": "500",
                 }
               }
             >
-              <div
-                className="css-view-1dbjc4n"
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j r-textTransform-tsynxw"
+                dir="auto"
                 style={
                   Object {
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
-                    "WebkitBoxDirection": "normal",
-                    "WebkitBoxFlex": 1,
-                    "WebkitBoxOrient": "horizontal",
-                    "WebkitFlexBasis": "0%",
-                    "WebkitFlexDirection": "row",
-                    "WebkitFlexGrow": 1,
-                    "WebkitFlexShrink": 1,
-                    "alignItems": "center",
-                    "display": "flex",
-                    "flexBasis": "0%",
-                    "flexDirection": "row",
-                    "flexGrow": 1,
-                    "flexShrink": 1,
-                    "msFlexAlign": "center",
-                    "msFlexDirection": "row",
-                    "msFlexNegative": 1,
-                    "msFlexPositive": 1,
-                    "msFlexPreferredSize": "0%",
+                    "color": "rgba(255,255,255,1.00)",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0px",
+                    "lineHeight": "22px",
+                    "paddingTop": "1px",
+                    "textDecoration": "none",
                   }
                 }
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
-                  dir="auto"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxPack": "center",
-                      "WebkitJustifyContent": "center",
-                      "alignItems": "center",
-                      "color": "rgba(255,255,255,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "500",
-                      "justifyContent": "center",
-                      "letterSpacing": "0px",
-                      "lineHeight": "22px",
-                      "msFlexAlign": "center",
-                      "msFlexPack": "center",
-                      "paddingTop": "1px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "uppercase",
-                    }
-                  }
-                >
-                  Done
-                </span>
-              </div>
+                Done
+              </span>
             </div>
           </div>
         </div>

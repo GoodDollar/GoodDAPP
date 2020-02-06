@@ -2,41 +2,17 @@
 
 exports[`AmountInput matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n"
+    className="css-view-1dbjc4n r-flex-13awgt0"
     style={
       Object {
-        "WebkitBoxFlex": 1,
         "WebkitBoxPack": "justify",
-        "WebkitFlexBasis": "0%",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
         "WebkitJustifyContent": "space-between",
         "display": "flex",
-        "flexBasis": "0%",
-        "flexGrow": 1,
-        "flexShrink": 1,
         "justifyContent": "space-between",
-        "msFlexNegative": 1,
         "msFlexPack": "justify",
-        "msFlexPositive": 1,
-        "msFlexPreferredSize": "0%",
         "width": "100%",
       }
     }
@@ -54,17 +30,8 @@ exports[`AmountInput matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitBoxFlex": 1,
-            "WebkitFlexBasis": "0%",
-            "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
-            "flexBasis": "0%",
-            "flexGrow": 1,
-            "flexShrink": 1,
             "marginBottom": "8px",
-            "msFlexNegative": 1,
-            "msFlexPositive": 1,
-            "msFlexPreferredSize": "0%",
+            "width": "100%",
           }
         }
       >
@@ -72,17 +39,8 @@ exports[`AmountInput matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "marginBottom": "8px",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
+              "width": "100%",
             }
           }
         >
@@ -91,7 +49,7 @@ exports[`AmountInput matches snapshot 1`] = `
             autoComplete="on"
             autoCorrect="on"
             autoFocus={true}
-            className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+            className="css-textinput-1cwyjr8 r-cursor-1loqt21 r-placeholderTextColor-1xktb6b r-touchAction-1otgn73"
             dir="auto"
             onBlur={[Function]}
             onChange={[Function]}
@@ -117,19 +75,17 @@ exports[`AmountInput matches snapshot 1`] = `
                 "borderBottomStyle": "solid",
                 "borderBottomWidth": "1px",
                 "color": "rgba(66,69,74,1.00)",
-                "cursor": "pointer",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "32px",
                 "fontWeight": "bold",
                 "letterSpacing": "1.2px",
                 "marginTop": "auto",
-                "msTouchAction": "manipulation",
                 "paddingBottom": "4px",
                 "paddingLeft": "32px",
                 "paddingRight": "32px",
                 "paddingTop": "4px",
                 "textAlign": "center",
-                "touchAction": "manipulation",
+                "width": "100%",
               }
             }
             tabIndex="-1"
@@ -147,6 +103,7 @@ exports[`AmountInput matches snapshot 1`] = `
               "direction": "ltr",
               "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "12px",
+              "fontWeight": "400",
               "height": "18px",
               "opacity": 0,
               "paddingBottom": "0px",
@@ -203,7 +160,7 @@ exports[`AmountInput matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -215,33 +172,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -252,7 +191,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -267,7 +205,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -279,33 +217,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -316,7 +236,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -331,7 +250,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -343,33 +262,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -380,7 +281,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -417,7 +317,7 @@ exports[`AmountInput matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -429,33 +329,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -466,7 +348,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -481,7 +362,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -493,33 +374,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -530,7 +393,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -545,7 +407,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -557,33 +419,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -594,7 +438,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -631,7 +474,7 @@ exports[`AmountInput matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -643,33 +486,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -680,7 +505,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -695,7 +519,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -707,33 +531,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -744,7 +550,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -759,7 +564,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -771,33 +576,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -808,7 +595,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -845,7 +631,7 @@ exports[`AmountInput matches snapshot 1`] = `
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -857,33 +643,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -894,7 +662,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -909,7 +676,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -921,33 +688,15 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
@@ -958,7 +707,6 @@ exports[`AmountInput matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
@@ -973,7 +721,7 @@ exports[`AmountInput matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n"
+          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-flex-13awgt0 r-touchAction-1otgn73 r-userSelect-lrvibr"
           data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
@@ -985,46 +733,27 @@ exports[`AmountInput matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "WebkitUserSelect": "none",
               "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "cursor": "pointer",
               "display": "flex",
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
               "msFlexAlign": "center",
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-              "msTouchAction": "manipulation",
-              "msUserSelect": "none",
               "paddingBottom": "8px",
               "paddingLeft": "8px",
               "paddingRight": "8px",
               "paddingTop": "8px",
-              "touchAction": "manipulation",
-              "userSelect": "none",
             }
           }
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-cursor-1loqt21"
             style={
               Object {
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
                 "backgroundRepeat": "no-repeat",
                 "backgroundSize": "contain",
-                "cursor": "pointer",
                 "height": "30px",
                 "justifyContent": "center",
                 "msFlexPack": "center",

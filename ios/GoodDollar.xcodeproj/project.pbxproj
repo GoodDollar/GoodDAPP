@@ -37,8 +37,6 @@
 		DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */ = {isa = PBXBuildFile; fileRef = 93E02E113E3842B8892E0408 /* gooddollar.woff */; };
 		E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */; };
 		E1DAB5E24F0D3D118AB22F8B /* libPods-GoodDollarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D23A9B7E76536439E0125FCB /* libPods-GoodDollarTests.a */; };
-		E60FCDF723E86A8000BC4BDF /* RocketShip_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E60FCDF523E86A8000BC4BDF /* RocketShip_0.png */; };
-		E60FCDF823E86A8000BC4BDF /* RocketShip_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E60FCDF623E86A8000BC4BDF /* RocketShip_1.png */; };
 		E621C99C23E83AC30047715D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E621C99A23E83AC30047715D /* File.swift */; };
 		EF61EC78C5A945409D510E28 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */; };
 		FE7F9276E81C4092953052B5 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9717AB5AC1648A29F31922C /* Roboto-BlackItalic.ttf */; };
@@ -119,8 +117,6 @@
 		D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Italic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Italic.ttf"; sourceTree = "<group>"; };
 		E177BA7F034F44F4A748FB5F /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BoldItalic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
 		E51AAC4C1A61478CB461B936 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		E60FCDF523E86A8000BC4BDF /* RocketShip_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketShip_0.png; path = assets/animations/RocketShip/RocketShip_0.png; sourceTree = "<group>"; };
-		E60FCDF623E86A8000BC4BDF /* RocketShip_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketShip_1.png; path = assets/animations/RocketShip/RocketShip_1.png; sourceTree = "<group>"; };
 		E621C99A23E83AC30047715D /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		E621C99B23E83AC30047715D /* GoodDollar-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GoodDollar-Bridging-Header.h"; sourceTree = "<group>"; };
 		E9C15CBD2AB9813A7EA6F9A9 /* Pods-GoodDollar-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodDollar-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-GoodDollar-tvOSTests/Pods-GoodDollar-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -200,7 +196,6 @@
 		2C4C1FF0C9A44611A84FAD12 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E60FCDF423E86A6D00BC4BDF /* animations */,
 				9CCAFF4478E640FABF678756 /* AntDesign.ttf */,
 				669EF8BFFEBF4BA48B02FA6E /* Entypo.ttf */,
 				F7F00E88304443CE80D1CEE9 /* EvilIcons.ttf */,
@@ -302,15 +297,6 @@
 				2D02E4901E0B4A5D006451C7 /* GoodDollar-tvOSTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		E60FCDF423E86A6D00BC4BDF /* animations */ = {
-			isa = PBXGroup;
-			children = (
-				E60FCDF523E86A8000BC4BDF /* RocketShip_0.png */,
-				E60FCDF623E86A8000BC4BDF /* RocketShip_1.png */,
-			);
-			name = animations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -460,10 +446,8 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				E60FCDF823E86A8000BC4BDF /* RocketShip_1.png in Resources */,
 				AB8B506C5EA54364B15ED529 /* gooddollar.svg in Resources */,
 				5EC81648CD3A42F0B75FB628 /* gooddollar.ttf in Resources */,
-				E60FCDF723E86A8000BC4BDF /* RocketShip_0.png in Resources */,
 				DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */,
 				A1EA9A99772440ABA619D4F9 /* gooddollar.woff2 in Resources */,
 				AB13C56C918E4FA9A349F99E /* Roboto-Black.ttf in Resources */,

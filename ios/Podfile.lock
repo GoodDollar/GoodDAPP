@@ -203,6 +203,8 @@ PODS:
     - React
   - react-native-camera/RN (3.15.1):
     - React
+  - react-native-image-resizer (1.1.0):
+    - React
   - react-native-netinfo (5.3.2):
     - React
   - react-native-randombytes (3.5.3):
@@ -299,6 +301,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -377,6 +380,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/blur"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-image-resizer:
+    :path: "../node_modules/react-native-image-resizer"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-randombytes:
@@ -454,6 +459,7 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-camera: d5b131588a2d1f0ad377a321793f58794dbdc768
+  react-native-image-resizer: 9dfb844937574db849fd18a56d8e6c607b0a31d8
   react-native-netinfo: 7baf6d0436122ea5d98dc3f17a60fe56c8048046
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203

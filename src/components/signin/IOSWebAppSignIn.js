@@ -7,6 +7,7 @@ import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import lazy from '../../lib/utils/lazy'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import CustomButton from '../common/buttons/CustomButton'
@@ -51,12 +52,12 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     if (userNameAndPWDArray.length === 2) {
       const userName = userNameAndPWDArray[0]
       const userPwd = userNameAndPWDArray[1]
-      const UserStorage = await import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage)
+      const UserStorage = await lazy(() => import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage))
 
       const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
 
       if (mnemonic && bip39.validateMnemonic(mnemonic)) {
-        const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
+        const mnemonicsHelpers = lazy(() => import('../../lib/wallet/SoftwareWalletProvider'))
         const { saveMnemonics } = await mnemonicsHelpers
 
         await saveMnemonics(mnemonic)

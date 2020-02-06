@@ -4,6 +4,7 @@ import bip39 from 'bip39-light'
 import get from 'lodash/get'
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
+import lazy from '../../lib/utils/lazy'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -126,8 +127,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
    */
   async function profileExist(): Promise<any> {
     const [Wallet, UserStorage] = await Promise.all([
-      import('../../lib/wallet/GoodWalletClass').then(_ => _.GoodWallet),
-      import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage),
+      lazy(() => import('../../lib/wallet/GoodWalletClass').then(_ => _.GoodWallet)),
+      lazy(() => import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage)),
     ])
     const wallet = new Wallet({ mnemonic: mnemonics })
     await wallet.ready

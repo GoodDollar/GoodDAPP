@@ -44,12 +44,12 @@ const handleLinks = async () => {
       if (userNameAndPWDArray.length === 2) {
         const userName = userNameAndPWDArray[0]
         const userPwd = userNameAndPWDArray[1]
-        const UserStorage = await import('./lib/gundb/UserStorageClass').then(_ => _.UserStorage)
+        const UserStorage = await lazy(() => import('./lib/gundb/UserStorageClass')).then(_ => _.UserStorage)
 
         const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
 
         if (mnemonic && bip39.validateMnemonic(mnemonic)) {
-          const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
+          const mnemonicsHelpers = lazy(() => import('./lib/wallet/SoftwareWalletProvider'))
           const { saveMnemonics } = await mnemonicsHelpers
           await saveMnemonics(mnemonic)
           await AsyncStorage.setItem('GD_isLoggedIn', true)

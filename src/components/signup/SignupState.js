@@ -11,6 +11,7 @@ import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
+import lazy from '../../lib/utils/lazy'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
@@ -168,8 +169,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     //lazy login in background
     const ready = (async () => {
       log.debug('ready: Starting initialization')
-      const { init } = await import('../../init')
-      const login = import('../../lib/login/GoodWalletLogin')
+      const { init } = await lazy(() => import('../../init'))
+      const login = lazy(() => import('../../lib/login/GoodWalletLogin'))
       const { goodWallet, userStorage, source } = await init()
 
       //for QA

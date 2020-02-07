@@ -5,7 +5,7 @@ import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
-import lazy from './lib/utils/lazy'
+import retryImport from './lib/utils/retryImport'
 import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
 import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
@@ -19,7 +19,7 @@ let SignupRouter = React.lazy(() =>
   initAnalytics()
     .then(_ =>
       Promise.all([
-        lazy(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
+        retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
         handleLinks(),
         delay(2000),
       ])
@@ -44,12 +44,12 @@ const handleLinks = async () => {
       if (userNameAndPWDArray.length === 2) {
         const userName = userNameAndPWDArray[0]
         const userPwd = userNameAndPWDArray[1]
-        const UserStorage = await lazy(() => import('./lib/gundb/UserStorageClass')).then(_ => _.UserStorage)
+        const UserStorage = await retryImport(() => import('./lib/gundb/UserStorageClass')).then(_ => _.UserStorage)
 
         const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
 
         if (mnemonic && bip39.validateMnemonic(mnemonic)) {
-          const mnemonicsHelpers = lazy(() => import('./lib/wallet/SoftwareWalletProvider'))
+          const mnemonicsHelpers = retryImport(() => import('./lib/wallet/SoftwareWalletProvider'))
           const { saveMnemonics } = await mnemonicsHelpers
           await saveMnemonics(mnemonic)
           await AsyncStorage.setItem('GD_isLoggedIn', true)
@@ -82,10 +82,10 @@ const handleLinks = async () => {
 
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
-  let walletAndStorageReady = lazy(() => import(/* webpackChunkName: "init" */ './init'))
+  let walletAndStorageReady = retryImport(() => import(/* webpackChunkName: "init" */ './init'))
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
 
-  return Promise.all([lazy(() => import(/* webpackChunkName: "router" */ './Router')), p2])
+  return Promise.all([retryImport(() => import(/* webpackChunkName: "router" */ './Router')), p2])
     .then(r => {
       log.debug('router ready')
       return r

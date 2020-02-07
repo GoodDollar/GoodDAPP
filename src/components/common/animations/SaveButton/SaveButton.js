@@ -3,7 +3,9 @@ import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
-import animationData from './data.json'
+import { getAnimationData } from '../../../../lib/utils/lottie'
+
+const { animationData, imageAssetsFolder } = getAnimationData('SaveButton', require('./data'))
 
 class SaveButton extends React.Component {
   componentDidMount() {
@@ -57,7 +59,7 @@ class SaveButton extends React.Component {
     if (onFinish && !loading) {
       onFinish()
     } else if (loading) {
-      this.play(0, 39)
+      this.anim.play(0, 39)
     }
   }
 
@@ -66,7 +68,13 @@ class SaveButton extends React.Component {
 
     return (
       <TouchableOpacity style={[styles.wrapper, style]} disabled={loading || disabled} onPress={this.handlePress}>
-        <Lottie ref={this.setAnim} loop={false} source={animationData} onAnimationFinish={this.handleAnimationFinish} />
+        <Lottie
+          ref={this.setAnim}
+          loop={false}
+          source={animationData}
+          onAnimationFinish={this.handleAnimationFinish}
+          imageAssetsFolder={imageAssetsFolder}
+        />
       </TouchableOpacity>
     )
   }

@@ -1,9 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { View } from 'react-native'
-import _set from 'lodash/set'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
-
 import { getAnimationData } from '../../../../lib/utils/lottie'
 
 const { animationData, imageAssetsFolder } = getAnimationData('ClaimButton', require('./data'))

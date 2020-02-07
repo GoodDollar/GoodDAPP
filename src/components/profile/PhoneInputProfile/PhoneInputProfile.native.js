@@ -1,5 +1,5 @@
 import React from 'react'
-import PhoneInput from 'react-phone-number-input'
+import PhoneInput from '../../common/form/EditPhoneInput/EditPhoneInput'
 
 const EditPhoneInput = props => {
   return <PhoneInput {...props} />

@@ -2,8 +2,8 @@
 
 import React from 'react'
 import EditPhoneInput from '../../common/form/EditPhoneInput/EditPhoneInput'
-import './PhoneNumberInput.css'
+import './SignUpInput.css'
 
 export default props => {
-  return <EditPhoneInput nativeID="SignUpInput" {...props} />
+  return <EditPhoneInput id="signup_phone" {...props} />
 }

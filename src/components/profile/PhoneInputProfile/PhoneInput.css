@@ -42,3 +42,8 @@
 .react-phone-number-input__error {
   display: none !important;
 }
+
+.react-phone-number-input__icon {
+  width: 20px;
+  height: 15px;
+}

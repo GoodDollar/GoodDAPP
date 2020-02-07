@@ -7,7 +7,7 @@ import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
-import EditPhoneInput from '../common/form/EditPhoneInput/EditPhoneInput'
+import EditPhoneInput from './PhoneInputProfile/PhoneInputProfile'
 
 const ProfileDataTable = ({
   profile,
@@ -59,7 +59,6 @@ const ProfileDataTable = ({
               <Section.Row>
                 <EditPhoneInput
                   error={errors.mobile && errors.mobile !== ''}
-                  id="signup_phone"
                   onFocus={() => setLockSubmit(true)}
                   onChange={value => onChange({ ...profile, mobile: value })}
                   onBlur={() => {

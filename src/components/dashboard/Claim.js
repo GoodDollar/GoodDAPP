@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, View, Platform } from 'react-native'
+import { AsyncStorage, Image, Platform, View } from 'react-native'
 import numeral from 'numeral'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -22,6 +22,7 @@ import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import ClaimAnimatedButton from '../common/animations/ClaimButton/ClaimButton'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -263,13 +264,14 @@ const Claim = props => {
             />
           )}
           <View style={styles.space} />
-          <ClaimButton
+          {/*<ClaimButton
             isCitizen={isCitizen}
             entitlement={state.entitlement}
             nextClaim={state.nextClaim}
             loading={loading}
             onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
-          />
+          />*/}
+          <ClaimAnimatedButton timeText={state.nextClaim} />
           <Section.Row style={styles.extraInfoStats}>
             <Text style={styles.extraInfoWrapper}>
               <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>

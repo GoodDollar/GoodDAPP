@@ -5,6 +5,10 @@ export const fixAssets = (assets, animationName) => {
     return assets
   }
   return assets.map(asset => {
+    if (!asset.p) {
+      return asset
+    }
+
     asset.p = Platform.select({
       ios: asset.p.replace('img', animationName),
       android: asset.p,

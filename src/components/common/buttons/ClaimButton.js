@@ -35,14 +35,17 @@ const getStylesFromProps = ({ theme }) => ({
       {
         translateY: Platform.select({
           web: '-50%',
-          default: 0,
+          default: '-50%',
         }),
       },
       {
         translateY: Platform.select({
-          web: '-50%',
-          default: 0,
+          web: '-25%',
+          default: '-25%',
         }),
+      },
+      {
+        translateX: '-35%',
       },
     ],
   },

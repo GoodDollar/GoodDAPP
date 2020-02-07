@@ -549,7 +549,7 @@ const Dashboard = props => {
         onScroll={debounce(({ nativeEvent }) => {
           // ISH - including small header calculations
           const minScrollRequired = 150
-          const scrollPosition = nativeEvent.contentOffset.y
+          const scrollPosition = nativeEvent && nativeEvent.contentOffset.y
           const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
           const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
 
@@ -581,6 +581,11 @@ const Dashboard = props => {
 const getStylesFromProps = ({ theme }) => ({
   headerWrapper: {
     height: '100%',
+
+    // width: '100%',
+    // // position: 'relative',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   headerFullName: {
     position: 'absolute',
@@ -590,6 +595,7 @@ const getStylesFromProps = ({ theme }) => ({
 
     //FIXME: RN
     //height: 'fit-content',
+    alignItems: 'center',
     paddingTop: getDesignRelativeHeight(10),
   },
   dashboardWrapper: {
@@ -628,7 +634,7 @@ const getStylesFromProps = ({ theme }) => ({
   avatar: {
     borderRadius: Platform.select({
       web: '50%',
-      default: 21,
+      default: 150 / 2,
     }),
     height: '100%',
     width: '100%',
@@ -671,9 +677,13 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: 16,
   },
   bigNumberWrapper: {
-    alignItems: 'baseline',
+    // alignItems: 'baseline',
     position: 'absolute',
     bottom: 0,
+    width: '100%',
+    alignItems: 'center',
+    alignContent: 'center',
+    left: 0,
   },
   disabledButton: {
     backgroundColor: theme.colors.gray50Percent,

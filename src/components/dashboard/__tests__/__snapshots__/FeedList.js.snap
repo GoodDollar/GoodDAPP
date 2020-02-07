@@ -1868,24 +1868,25 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       </div>
                     </div>
                     <div
-                      className="css-text-901oao"
-                      dir="auto"
+                      className="css-view-1dbjc4n"
                       style={
                         Object {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
-                          "color": "rgba(0,195,174,1.00)",
-                          "fontFamily": "gooddollar",
-                          "fontSize": "34px",
-                          "fontStyle": "normal",
-                          "fontWeight": "normal",
-                          "marginRight": "0px",
                           "marginTop": "8px",
                           "msFlexItemAlign": "start",
                         }
                       }
                     >
-                      
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "height": "34px",
+                            "width": "34px",
+                          }
+                        }
+                      />
                     </div>
                   </div>
                 </div>
@@ -2462,24 +2463,25 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       </div>
                     </div>
                     <div
-                      className="css-text-901oao"
-                      dir="auto"
+                      className="css-view-1dbjc4n"
                       style={
                         Object {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
-                          "color": "rgba(250,108,119,1.00)",
-                          "fontFamily": "gooddollar",
-                          "fontSize": "34px",
-                          "fontStyle": "normal",
-                          "fontWeight": "normal",
-                          "marginRight": "0px",
                           "marginTop": "8px",
                           "msFlexItemAlign": "start",
                         }
                       }
                     >
-                      
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "height": "34px",
+                            "width": "34px",
+                          }
+                        }
+                      />
                     </div>
                   </div>
                 </div>

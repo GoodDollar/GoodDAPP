@@ -13,7 +13,11 @@ const styles = {
     marginTop: -(getScreenHeight() / 4),
     position: 'absolute',
   },
-  ios: {},
+  ios: {
+    width: getScreenWidth(),
+    marginTop: -(getScreenHeight() / 7),
+    position: 'absolute',
+  },
   web: {
     marginTop: -515,
     position: 'absolute',

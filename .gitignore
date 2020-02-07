@@ -65,5 +65,7 @@ secrets.json
 account.data.txt
 tree.txt
 radata/
+ios/assets/**
+android/app/src/main/assets/**
 
 .png-cache

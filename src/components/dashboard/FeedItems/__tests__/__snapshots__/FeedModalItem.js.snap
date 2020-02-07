@@ -30,7 +30,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
             "alignSelf": "flex-start",
             "height": "844px",
             "msFlexItemAlign": "start",
-            "width": "1024px",
+            "width": "100%",
           }
         }
       >
@@ -441,7 +441,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
             "alignSelf": "flex-start",
             "height": "844px",
             "msFlexItemAlign": "start",
-            "width": "1024px",
+            "width": "100%",
           }
         }
       >
@@ -945,7 +945,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             "alignSelf": "flex-start",
             "height": "844px",
             "msFlexItemAlign": "start",
-            "width": "1024px",
+            "width": "100%",
           }
         }
       >
@@ -1565,7 +1565,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
             "alignSelf": "flex-start",
             "height": "844px",
             "msFlexItemAlign": "start",
-            "width": "1024px",
+            "width": "100%",
           }
         }
       >
@@ -2185,7 +2185,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             "alignSelf": "flex-start",
             "height": "844px",
             "msFlexItemAlign": "start",
-            "width": "1024px",
+            "width": "100%",
           }
         }
       >

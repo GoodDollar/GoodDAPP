@@ -5,6 +5,7 @@ import { useScreenState } from '../appNavigation/stackNavigation'
 import CopyButton from '../common/buttons/CopyButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
+import SendAnimation from '../common/animations/Send'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { Icon } from '../common'
@@ -35,9 +36,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
           </Section.Text>
           <Section.Stack style={styles.iconAmountBlock}>
             <Section.Row justifyContent="center">
-              <View style={styles.sendIconWrapper}>
-                <Icon name="send" size={getDesignRelativeHeight(45)} color="white" />
-              </View>
+              <SendAnimation />
             </Section.Row>
             <Section.Row fontWeight="medium" style={styles.amountWrapper}>
               <BigGoodDollar

@@ -12,6 +12,7 @@ import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
+import SuccessAnimation from '../common/animations/Success'
 import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
 import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
@@ -83,7 +84,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         const firstName = getFirstWord(fullName)
         showDialog({
           visible: true,
-          title: 'Welcome back!',
+          image: <SuccessAnimation />,
           buttons: [{ text: 'Yay!' }],
           message: `Hi ${firstName},\nyour wallet was recovered successfully`,
           onDismiss: () => (window.location = incomingRedirectUrl),

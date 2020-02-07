@@ -22,7 +22,8 @@ import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import ClaimAnimatedButton from '../common/animations/ClaimButton/ClaimButton'
+
+//import ClaimAnimatedButton from '../common/animations/ClaimButton/ClaimButton'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -159,7 +160,7 @@ const Claim = props => {
     try {
       //when we come back from FR entitelment might not be set yet
       const curEntitlement = state.entitlement || (await goodWallet.checkEntitlement().toNumber())
-      if (curEntitlement == 0) {
+      if (curEntitlement === 0) {
         return
       }
 
@@ -264,14 +265,14 @@ const Claim = props => {
             />
           )}
           <View style={styles.space} />
-          {/*<ClaimButton
+          <ClaimButton
             isCitizen={isCitizen}
             entitlement={state.entitlement}
             nextClaim={state.nextClaim}
             loading={loading}
             onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
-          />*/}
-          <ClaimAnimatedButton timeText={state.nextClaim} />
+          />
+          {/*<ClaimAnimatedButton timeText={state.nextClaim} />*/}
           <Section.Row style={styles.extraInfoStats}>
             <Text style={styles.extraInfoWrapper}>
               <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>

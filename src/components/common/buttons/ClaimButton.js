@@ -6,7 +6,7 @@ import { withStyles } from '../../../lib/styles'
 
 const ClaimButton = ({ screenProps, styles }) => (
   <PushButton
-    routeName="Claim"
+    routeName={'Claim'}
     testID="claim_button"
     screenProps={screenProps}
     style={styles.claimButton}
@@ -41,17 +41,17 @@ const getStylesFromProps = ({ theme }) => ({
       {
         translateY: Platform.select({
           web: '-50%',
-          default: '-50%',
+          default: -90 / 2,
         }),
       },
       {
         translateY: Platform.select({
           web: '0%',
-          default: '-25%',
+          default: -100 / 4,
         }),
       },
       {
-        translateX: Platform.select({ default: '-35%', web: '-50%' }),
+        translateX: Platform.select({ default: -70 / 2, web: '-50%' }),
       },
     ],
   },

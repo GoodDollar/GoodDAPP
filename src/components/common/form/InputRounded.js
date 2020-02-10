@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, View, Platform } from 'react-native'
+import { Platform, TextInput, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
@@ -14,17 +14,19 @@ import ErrorText from './ErrorText'
  * @returns {React.Node}
  */
 const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChange, ...inputProps }) => {
-  const handleChange = event => {
-    onChange(event.target.value)
+  const handleChange = value => {
+    onChange(value)
   }
-
   return (
     <View style={styles.inputContainer}>
       <View
-        style={inputProps.disabled ? styles.inputText : error ? styles.errorInputContainer : styles.iconInputContainer}
+        style={[
+          styles.wrapperStyle,
+          inputProps.disabled ? styles.inputText : error ? styles.errorInputContainer : styles.iconInputContainer,
+        ]}
       >
         <TextInput
-          onChange={handleChange}
+          onChangeText={value => handleChange(value)}
           placeholderTextColor={theme.colors.gray50Percent}
           style={error ? styles.inputError : styles.input}
           {...inputProps}
@@ -42,15 +44,13 @@ const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChang
   )
 }
 
-const getStylesFromProps = ({ theme }) => {
+const getStylesFromProps = ({ theme, disabled }) => {
   const defaultInputContainer = {
     paddingHorizontal: 32,
     paddingVertical: 0,
     position: 'relative',
     borderRadius: 24,
     borderWidth: 1,
-    marginTop: theme.sizes.defaultHalf,
-    marginBottom: theme.sizes.default,
   }
   const input = {
     color: theme.colors.darkGray,
@@ -58,8 +58,9 @@ const getStylesFromProps = ({ theme }) => {
     flex: 1,
     fontFamily: theme.fonts.default,
     fontSize: normalize(14),
+    justifyContent: 'center',
     fontWeight: '400',
-    lineHeight: 36,
+    paddingVertical: disabled ? 14 : 10,
   }
 
   return {
@@ -78,7 +79,6 @@ const getStylesFromProps = ({ theme }) => {
     iconInputContainer: {
       ...defaultInputContainer,
       borderColor: theme.colors.lightGray,
-      marginBottom: theme.sizes.default,
     },
     inputText: {
       ...defaultInputContainer,
@@ -88,10 +88,6 @@ const getStylesFromProps = ({ theme }) => {
       borderTopColor: theme.colors.lightGray,
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,
-      marginBottom: 0,
-      marginTop: 2,
-      paddingTop: 2,
-      paddingBottom: 2,
     },
     input,
     inputError: {
@@ -107,13 +103,17 @@ const getStylesFromProps = ({ theme }) => {
       right: 0,
       width: defaultInputContainer.paddingHorizontal,
       zIndex: 1,
+      top: disabled ? 1 : 0,
     },
     error: {
       paddingRight: 0,
       textAlign: 'left',
     },
     errorMargin: {
-      marginBottom: theme.sizes.default,
+      marginVertical: theme.sizes.default,
+    },
+    wrapperStyle: {
+      justifyContent: 'center',
     },
   }
 }

@@ -19,4 +19,11 @@ if (typeof localStorage !== 'undefined') {
 global.btoa = require('Base64').btoa;
 global.atob = require('Base64').atob;
 global.Buffer = require('buffer').Buffer;
+
+// msrcrypto line 38 sets document to an object
+Object.defineProperty(global, 'document', {
+  set: console.warn,
+  get: () => undefined
+});
+
 // global.crypto = require('crypto')

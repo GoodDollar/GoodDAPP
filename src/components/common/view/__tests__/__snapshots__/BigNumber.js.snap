@@ -2,21 +2,7 @@
 
 exports[`BigNumber matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -41,11 +27,10 @@ exports[`BigNumber matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(85,85,85,1.00)",
-          "direction": "ltr",
           "fontFamily": "Roboto Slab",
           "fontSize": "36px",
           "fontWeight": "700",
-          "lineHeight": "30px",
+          "lineHeight": "36px",
           "marginRight": "2px",
           "textAlign": "right",
           "textDecoration": "none",
@@ -61,11 +46,10 @@ exports[`BigNumber matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(85,85,85,1.00)",
-          "direction": "ltr",
           "fontFamily": "Roboto Slab",
           "fontSize": "18px",
           "fontWeight": "700",
-          "lineHeight": "24px",
+          "lineHeight": "18px",
           "textAlign": "right",
           "textDecoration": "none",
           "textTransform": "none",

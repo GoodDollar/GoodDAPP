@@ -48,6 +48,7 @@ export type State = {
   loadingIndicator: LoadingIndicator,
   isLoggedInCitizen: boolean,
   isLoggedIn: boolean,
+  feedLoadAnimShown: boolean,
   wallet: any,
   userStorage: any,
   sidemenu: {
@@ -71,6 +72,7 @@ const initialState: State = {
   installPrompt: null,
   isLoggedInCitizen: false,
   isLoggedIn: false,
+  feedLoadAnimShown: false,
   currentScreen: {
     dialogData: {
       visible: false,

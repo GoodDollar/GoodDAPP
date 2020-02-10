@@ -1,13 +1,13 @@
 // @flow
 import React from 'react'
-import { View, Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
 import ModalWrapper from '../../common/modal/ModalWrapper'
 import ModalActionsByFeedType from '../../common/modal/ModalActionsByFeedType'
 import ModalPaymentStatus from '../../common/modal/ModalPaymentStatus'
-import TopImage from '../../common/modal/ModalTopImage'
+import TopImage, { getImageByType } from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
@@ -31,6 +31,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
   const showJaggedEdge = ['claim', 'sendcompleted', 'withdraw', 'receive'].includes(itemType)
+  const topImageExists = !!getImageByType(itemType)
 
   return (
     <ModalWrapper
@@ -38,7 +39,7 @@ const FeedModalItem = (props: FeedEventProps) => {
       itemType={itemType}
       onClose={buttonPress}
       showJaggedEdge={showJaggedEdge}
-      fullHeight={true}
+      fullHeight
     >
       {item.type === 'feedback' ? (
         <FeedbackModalItem {...props} />
@@ -78,7 +79,9 @@ const FeedModalItem = (props: FeedEventProps) => {
               />
             )}
             {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
-            {!eventSettings.withoutAvatar && <EventIcon type={itemType} style={styles.icon} />}
+            {!eventSettings.withoutAvatar && (
+              <EventIcon type={itemType} style={styles.icon} showAnim={!topImageExists} />
+            )}
           </View>
           <View style={styles.messageContainer}>
             <Text fontSize={14} textAlign="left">

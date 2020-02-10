@@ -121,7 +121,7 @@ const TabsView = React.memo((props: TabViewProps) => {
   }
 
   return (
-    <Appbar.Header dark>
+    <Appbar.Header dark style={styles.appBar}>
       {config.isEToro && (
         <TouchableOpacity testID="rewards_tab" onPress={goToRewards} style={styles.rewardsStyle}>
           <Icon name="rewards" size={36} color="white" />
@@ -156,12 +156,17 @@ const styles = ({ theme }) => ({
     borderStyle: 'solid',
     borderColor: 'white',
     borderRadius: Platform.select({
-      // FIXME: RN
-      default: 36 / 2,
+      default: 150 / 2,
       web: '50%',
     }),
-    paddingVertical: 20,
+    paddingVertical: Platform.select({
+      web: 20,
+      default: 7,
+    }),
     paddingHorizontal: 7,
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
   },
   feedback: {
     marginRight: 5,
@@ -172,6 +177,7 @@ const styles = ({ theme }) => ({
   menuStyle: {
     marginRight: 10,
   },
+  appBar: { overflow: 'hidden' },
 })
 
 export default withStyles(styles)(TabsView)

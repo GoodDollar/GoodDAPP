@@ -1,57 +1,60 @@
-/* eslint-disable import/no-unresolved */
 import React, { useEffect, useMemo, useState } from 'react'
-import { TouchableOpacity } from 'react-native'
-import { Appbar } from 'react-native-paper'
+import { TouchableOpacity, View } from 'react-native'
 import { isIOS } from 'mobile-device-detect'
+import { Appbar } from 'react-native-paper'
 import _get from 'lodash/get'
 import _toPairs from 'lodash/toPairs'
-import Config from '../../config/config'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import Icon from '../common/view/Icon'
-import Section from '../common/layout/Section'
-import { useDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
+import Config from '../../config/config'
+import logger from '../../lib/logger/pino-logger'
+import SimpleStore from '../../lib/undux/SimpleStore'
+import Section from '../common/layout/Section'
+import Icon from '../common/view/Icon'
+import { useDialog } from '../../lib/undux/utils/dialog'
+import { createIframe } from '../webView/iframe'
 
-const MarketTab = props => {
+const log = logger.child({ from: 'RewardsTab' })
+
+const RewardsTab = props => {
   const [token, setToken] = useState()
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
 
-  const getMarketPath = () => {
+  const getRewardsPath = () => {
     const params = _get(props, 'navigation.state.params', {})
-    if (isIOS == false) {
-      params.nofooter = true
+    if (isIOS === false) {
+      params.purpose = 'iframe'
     }
-    params.jwt = token
-    let path = decodeURIComponent(_get(params, 'marketPath', ''))
-
+    params.token = token
+    let path = decodeURIComponent(_get(params, 'rewardsPath', ''))
     const query = _toPairs(params)
-      .filter(param => param.indexOf('marketPath') < 0)
+      .filter(p => p[0] !== 'rewardsPath')
       .map(param => param.join('='))
       .join('&')
 
-    return `${Config.marketUrl}/${path}?${query}`
+    return `${Config.web3SiteUrl}/${path}?${query}`
   }
 
-  const isLoaded = () => {
-    store.set('loadingIndicator')({ loading: false })
+  const getToken = async () => {
+    let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
+    log.debug('got rewards login token', token)
+    setToken(token)
   }
 
   useEffect(() => {
-    store.set('loadingIndicator')({ loading: true })
-    userStorage.getProfileFieldValue('marketToken').then(setToken)
+    getToken()
   }, [])
 
   useEffect(() => {
     if (isIOS && token) {
       store.set('loadingIndicator')({ loading: false })
       showDialog({
-        title: 'Press ok to go to market',
+        title: 'Press ok to go to Rewards dashboard',
         buttons: [
           {
             text: 'OK',
             onPress: () => {
-              window.open(getMarketPath(), '_blank')
+              window.open(getRewardsPath(), '_blank')
             },
           },
         ],
@@ -62,26 +65,18 @@ const MarketTab = props => {
     }
   }, [token])
 
-  const src = getMarketPath()
-
-  const marketIframe = useMemo(() => {
-    return (
-      <iframe
-        title="GoodMarket"
-        onLoad={isLoaded}
-        src={src}
-        seamless
-        frameBorder="0"
-        style={{ flex: 1, overflow: 'scroll' }}
-      />
-    )
+  const src = getRewardsPath()
+  const webIframesStyles = { flex: 1 }
+  const Iframe = createIframe(src, 'Rewards', webIframesStyles)
+  const rewardsIframe = useMemo(() => {
+    return <Iframe />
   }, [src])
 
   if (isIOS || token === undefined) {
     return null
   }
 
-  return marketIframe
+  return rewardsIframe
 }
 
 const navBarStyles = {
@@ -101,19 +96,22 @@ const navBarStyles = {
 
 const NavigationBar = navigate => (
   <Appbar.Header dark style={navBarStyles.wrapper}>
-    <Section.Text color="white" fontWeight="medium" style={navBarStyles.title}>
-      {'GOODMARKET'}
+    <View style={{ width: 48 }} />
+    <Appbar.Content />
+    <Section.Text color="white" fontWeight="medium" style={navBarStyles.title} testID="rewards_header">
+      {'REWARDS'}
     </Section.Text>
+    <Appbar.Content />
     <TouchableOpacity onPress={() => navigate('Home')} style={navBarStyles.walletIcon}>
       <Icon name="wallet" size={36} color="white" />
     </TouchableOpacity>
   </Appbar.Header>
 )
 
-MarketTab.navigationOptions = ({ navigation }) => {
+RewardsTab.navigationOptions = ({ navigation }) => {
   return {
     navigationBar: () => NavigationBar(navigation.navigate),
   }
 }
 
-export default MarketTab
+export default RewardsTab

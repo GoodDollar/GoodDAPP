@@ -1,10 +1,11 @@
 // @flow
 import React, { createRef, useEffect, useState } from 'react'
-import { FlatList, View, Platform, Dimensions } from 'react-native'
+import { FlatList, Platform, View } from 'react-native'
+import { isMobileOnly } from 'mobile-device-detect'
 import { Portal } from 'react-native-paper'
 import _once from 'lodash/once'
 import { withStyles } from '../../lib/styles'
-import { getScreenWidth } from '../../lib/utils/Orientation'
+import { getMaxDeviceWidth, getScreenHeight, getScreenWidth } from '../../lib/utils/Orientation'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
 
@@ -14,6 +15,7 @@ const VIEWABILITY_CONFIG = {
   waitForInteraction: true,
 }
 
+const maxScreenWidth = getMaxDeviceWidth()
 const emptyFeed = { type: 'empty', data: {} }
 
 export type FeedModalListProps = {
@@ -82,13 +84,15 @@ const FeedModalList = ({
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedModalItem
-      navigation={navigation}
-      item={item}
-      separators={separators}
-      fixedHeight
-      onPress={() => handleFeedSelection(item, false)}
-    />
+    <View style={styles.horizontalListItem}>
+      <FeedModalItem
+        navigation={navigation}
+        item={item}
+        separators={separators}
+        fixedHeight
+        onPress={() => handleFeedSelection(item, false)}
+      />
+    </View>
   )
 
   const slideEvent = _once(() => {
@@ -109,7 +113,7 @@ const FeedModalList = ({
               setLoading(false)
             }
           }}
-          contentContainerStyle={styles.horizontalList}
+          contentContainerStyle={[styles.horizontalList, !isMobileOnly && { justifyContent: 'center' }]}
           data={feeds && feeds.length ? feeds : [emptyFeed]}
           getItemLayout={getItemLayout}
           initialNumToRender={selectedFeed ? Math.abs(data.findIndex(item => item.id === selectedFeed.id)) : 1}
@@ -135,26 +139,32 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     left: 0,
     padding: 0,
+
     // FIXME: RN
     position: Platform.select({
       web: 'fixed',
       default: 'absolute',
     }),
+
     // FIXME: RN
     height: Platform.select({
       web: '100vh',
-      default: Dimensions.get('window').height,
+      default: getScreenHeight(),
     }),
     width: '100%',
   },
   horizontalList: {
     width: '100%',
+
     // FIXME: RN
     maxWidth: Platform.select({
       web: '100vw',
-      default: Dimensions.get('window').width,
+      default: getScreenWidth(),
     }),
     flex: 1,
+  },
+  horizontalListItem: {
+    width: maxScreenWidth,
   },
   flatList: {
     // FIXME: RN

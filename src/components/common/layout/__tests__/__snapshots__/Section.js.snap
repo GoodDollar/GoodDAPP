@@ -2,21 +2,7 @@
 
 exports[`Section matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -40,7 +26,6 @@ exports[`Section matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(66,69,74,1.00)",
-          "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "24px",
           "fontWeight": "normal",
@@ -81,7 +66,6 @@ exports[`Section matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -101,21 +85,7 @@ exports[`Section matches snapshot 1`] = `
 
 exports[`Section matches snapshot with properties 1`] = `
 <div
-  className="css-view-1dbjc4n"
-  style={
-    Object {
-      "WebkitBoxFlex": 1,
-      "WebkitFlexBasis": "0%",
-      "WebkitFlexGrow": 1,
-      "WebkitFlexShrink": 1,
-      "flexBasis": "0%",
-      "flexGrow": 1,
-      "flexShrink": 1,
-      "msFlexNegative": 1,
-      "msFlexPositive": 1,
-      "msFlexPreferredSize": "0%",
-    }
-  }
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
     className="css-view-1dbjc4n"
@@ -163,7 +133,6 @@ exports[`Section matches snapshot with properties 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",
@@ -203,7 +172,6 @@ exports[`Section matches snapshot with properties 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "normal",

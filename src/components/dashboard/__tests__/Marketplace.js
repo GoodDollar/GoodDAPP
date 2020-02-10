@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../__tests__/__util__'
-import Marketplace from '../Marketplace.web'
+import Marketplace from '../Marketplace'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 

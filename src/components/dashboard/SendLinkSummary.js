@@ -32,7 +32,8 @@ export type AmountProps = {
  * @param {any} props.screenProps
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
-  const profile = GDStore.useStore().get('profile')
+  const gdstore = GDStore.useStore()
+  const profile = gdstore.get('profile')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
 
@@ -155,6 +156,24 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           userStorage.markWithErrorEvent(txHash)
         },
       })
+      const { txPromise } = generateLinkResponse
+
+      txPromise.catch(e => {
+        log.error('generateLinkAndSend:', e.message, e)
+        showErrorDialog('Link generation failed. Please try again', '', {
+          buttons: [
+            {
+              text: 'Try again',
+              onPress: () => {
+                handleConfirm()
+              },
+            },
+          ],
+          onDismiss: () => {
+            screenProps.goToRoot()
+          },
+        })
+      })
 
       log.debug('generateLinkAndSend:', { generateLinkResponse })
 
@@ -187,19 +206,19 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </View>
           </Section.Row>
           <Section.Title fontWeight="medium">YOU ARE SENDING</Section.Title>
-          <Section.Title fontWeight="medium" style={styles.amountWrapper}>
+          <Section.Row fontWeight="medium" style={styles.amountWrapper}>
             <BigGoodDollar
               number={amount}
               color="red"
               bigNumberProps={{
                 fontSize: 36,
-                lineHeight: 24,
+                lineHeight: 36,
                 fontFamily: 'Roboto Slab',
                 fontWeight: 'bold',
               }}
               bigNumberUnitProps={{ fontSize: 14 }}
             />
-          </Section.Title>
+          </Section.Row>
         </Section.Stack>
         <Section.Stack>
           <Section.Row style={[styles.credsWrapper, reason ? styles.toTextWrapper : undefined]}>

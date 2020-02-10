@@ -93,6 +93,8 @@ export type DashboardProps = {
 }
 const Dashboard = props => {
   const { screenProps, styles, theme }: DashboardProps = props
+  const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
+  const [showBalance, setShowBalance] = useState(false)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
   const [headerAvatarLeftAnimValue] = useState(new Animated.Value(avatarCenteredPosition))
@@ -110,6 +112,7 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
+  const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
@@ -136,6 +139,7 @@ const Dashboard = props => {
     left: headerAvatarLeftAnimValue,
   }
   const balanceAnimStyles = {
+    visibility: showBalance ? 'visible' : 'hidden',
     position: 'absolute',
     right: headerBalanceRightAnimValue,
     marginVertical: headerBalanceVerticalMarginAnimValue,
@@ -181,6 +185,10 @@ const Dashboard = props => {
       return
     }
     if (reset) {
+      if (!loadAnimShown) {
+        await delay(1900)
+        store.set('feedLoadAnimShown')(true)
+      }
       setFeeds(res)
     } else {
       setFeeds(feeds.concat(res))
@@ -243,7 +251,7 @@ const Dashboard = props => {
       //mark as displayed
       setShowDelayedTimer(true)
       store.set('addWebApp')({ show: true })
-    }, 1000)
+    }, 2000)
     setShowDelayedTimer(id)
   }
 
@@ -274,6 +282,102 @@ const Dashboard = props => {
     animateClaim()
     InteractionManager.runAfterInteractions(handleAppLinks)
   }
+
+  // The width of the balance block required to place the balance block at the center of the screen
+  // The balance always changes so the width is dynamical.
+  // Animation functionality requires positioning props to be set with numbers.
+  // So we need to calculate the center of the screen within dynamically changed balance block width.
+  const saveBalanceBlockWidth = event => {
+    const width = _get(event, 'nativeEvent.layout.width')
+
+    setBalanceBlockWidth(width)
+
+    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
+    Animated.timing(headerBalanceRightAnimValue, {
+      toValue: balanceCenteredPosition,
+      duration: 100,
+    }).start()
+
+    if (!showBalance) {
+      setShowBalance(true)
+    }
+  }
+
+  useEffect(() => {
+    const timing = 250
+    const fullNameOpacityTiming = 150
+    const easingIn = Easing.in(Easing.quad)
+    const easingOut = Easing.out(Easing.quad)
+    const balanceCenteredPosition = headerContentWidth / 2 - balanceBlockWidth / 2
+
+    if (headerLarge) {
+      Animated.parallel([
+        Animated.timing(headerAvatarAnimValue, {
+          toValue: 68,
+          duration: timing,
+          easing: easingOut,
+        }),
+        Animated.timing(headerHeightAnimValue, {
+          toValue: 165,
+          duration: timing,
+          easing: easingOut,
+        }),
+        Animated.timing(headerAvatarLeftAnimValue, {
+          toValue: avatarCenteredPosition,
+          duration: timing,
+          easing: easingOut,
+        }),
+        Animated.timing(headerFullNameOpacityAnimValue, {
+          toValue: 1,
+          duration: fullNameOpacityTiming,
+          easing: easingOut,
+        }),
+        Animated.timing(headerBalanceRightAnimValue, {
+          toValue: balanceCenteredPosition,
+          duration: timing,
+          easing: easingOut,
+        }),
+        Animated.timing(headerBalanceVerticalMarginAnimValue, {
+          toValue: theme.sizes.defaultDouble,
+          duration: timing,
+          easing: easingOut,
+        }),
+      ]).start()
+    } else {
+      Animated.parallel([
+        Animated.timing(headerAvatarAnimValue, {
+          toValue: 42,
+          duration: timing,
+          easing: easingIn,
+        }),
+        Animated.timing(headerHeightAnimValue, {
+          toValue: 40,
+          duration: timing,
+          easing: easingIn,
+        }),
+        Animated.timing(headerAvatarLeftAnimValue, {
+          toValue: 0,
+          duration: timing,
+          easing: easingIn,
+        }),
+        Animated.timing(headerFullNameOpacityAnimValue, {
+          toValue: 0,
+          duration: fullNameOpacityTiming,
+          easing: easingIn,
+        }),
+        Animated.timing(headerBalanceRightAnimValue, {
+          toValue: 20,
+          duration: timing,
+          easing: easingIn,
+        }),
+        Animated.timing(headerBalanceVerticalMarginAnimValue, {
+          toValue: 0,
+          duration: timing,
+          easing: easingIn,
+        }),
+      ]).start()
+    }
+  }, [headerLarge])
 
   useEffect(() => {
     const timing = 250
@@ -494,11 +598,11 @@ const Dashboard = props => {
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>
-            <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}>
+            <Animated.View onLayout={saveBalanceBlockWidth} style={[styles.bigNumberWrapper, balanceAnimStyles]}>
               <BigGoodDollar
                 testID="amount_value"
                 number={balance}
-                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
+                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold', lineHeight: 42 }}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
             </Animated.View>
@@ -752,7 +856,7 @@ export default createStackNavigator({
     path: 'Rewards/:rewardsPath*',
   },
   Marketplace: {
-    screen: config.market ? MarketTab : WrappedDashboard,
+    screen: MarketTab,
     path: 'Marketplace/:marketPath*',
   },
   MagicLinkInfo,

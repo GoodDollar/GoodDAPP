@@ -20,6 +20,7 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
+import delUndefValNested from '../utils/delUndefValNested'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -1641,7 +1642,9 @@ export class UserStorage {
    * @param {FeedEvent} event
    * @returns {Promise<>}
    */
-  async enqueueTX(event: FeedEvent): Promise<> {
+  async enqueueTX(_event: FeedEvent): Promise<> {
+    const event = delUndefValNested(_event)
+
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {

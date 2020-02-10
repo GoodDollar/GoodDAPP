@@ -24,6 +24,12 @@
 		2DCD954D1E0B4F2C00145EB5 /* GoodDollarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GoodDollarTests.m */; };
 		2FF5A9749E634C41B5508DCD /* RobotoSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77E20F18A1D644E28CD22FBA /* RobotoSlab-Regular.ttf */; };
 		477F7AF867B84C89B5DD55C3 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E177BA7F034F44F4A748FB5F /* Roboto-BoldItalic.ttf */; };
+		54B3919F23F1F2A40018858D /* RocketShip_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B3919923F1F2A30018858D /* RocketShip_0.png */; };
+		54B391A023F1F2A40018858D /* RocketShip_0@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B3919A23F1F2A30018858D /* RocketShip_0@3x.png */; };
+		54B391A123F1F2A40018858D /* RocketShip_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B3919B23F1F2A40018858D /* RocketShip_1.png */; };
+		54B391A223F1F2A40018858D /* RocketShip_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B3919C23F1F2A40018858D /* RocketShip_0@2x.png */; };
+		54B391A323F1F2A40018858D /* RocketShip_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B3919D23F1F2A40018858D /* RocketShip_1@2x.png */; };
+		54B391A423F1F2A40018858D /* RocketShip_1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B3919E23F1F2A40018858D /* RocketShip_1@3x.png */; };
 		5EC81648CD3A42F0B75FB628 /* gooddollar.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EAE46A7BAAA4CB2A16C5F44 /* gooddollar.ttf */; };
 		63FFB60986B04D0FAFABEABA /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B34616F6789742CFA153D77C /* Roboto-MediumItalic.ttf */; };
 		670FC1ABA9C54C1CA52E7B43 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 12CAFADFA277443C9001EECC /* Roboto-ThinItalic.ttf */; };
@@ -38,8 +44,6 @@
 		E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */; };
 		E1DAB5E24F0D3D118AB22F8B /* libPods-GoodDollarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D23A9B7E76536439E0125FCB /* libPods-GoodDollarTests.a */; };
 		E621C99C23E83AC30047715D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E621C99A23E83AC30047715D /* File.swift */; };
-		E68AD01123EC105A003F59C4 /* RocketShip_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E68AD00B23EC105A003F59C4 /* RocketShip_1.png */; };
-		E68AD01223EC105A003F59C4 /* RocketShip_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E68AD00C23EC105A003F59C4 /* RocketShip_0.png */; };
 		EF61EC78C5A945409D510E28 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */; };
 		FE7F9276E81C4092953052B5 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9717AB5AC1648A29F31922C /* Roboto-BlackItalic.ttf */; };
 /* End PBXBuildFile section */
@@ -92,6 +96,12 @@
 		4DD3B67B684149EA91ADA521 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		503435BD5C8549679380F2C6 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		539FABBEB0951E48A3BDC28F /* libPods-GoodDollar-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoodDollar-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		54B3919923F1F2A30018858D /* RocketShip_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketShip_0.png; path = assets/animations/RocketShip/RocketShip_0.png; sourceTree = "<group>"; };
+		54B3919A23F1F2A30018858D /* RocketShip_0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_0@3x.png"; path = "assets/animations/RocketShip/RocketShip_0@3x.png"; sourceTree = "<group>"; };
+		54B3919B23F1F2A40018858D /* RocketShip_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketShip_1.png; path = assets/animations/RocketShip/RocketShip_1.png; sourceTree = "<group>"; };
+		54B3919C23F1F2A40018858D /* RocketShip_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_0@2x.png"; path = "assets/animations/RocketShip/RocketShip_0@2x.png"; sourceTree = "<group>"; };
+		54B3919D23F1F2A40018858D /* RocketShip_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_1@2x.png"; path = "assets/animations/RocketShip/RocketShip_1@2x.png"; sourceTree = "<group>"; };
+		54B3919E23F1F2A40018858D /* RocketShip_1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_1@3x.png"; path = "assets/animations/RocketShip/RocketShip_1@3x.png"; sourceTree = "<group>"; };
 		606D706266A94D118D223001 /* RobotoSlab-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-Medium.ttf"; path = "../src/assets/fonts/Roboto Slab/RobotoSlab-Medium.ttf"; sourceTree = "<group>"; };
 		669EF8BFFEBF4BA48B02FA6E /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		724EE82D2F9C46B6B7490630 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
@@ -121,8 +131,6 @@
 		E51AAC4C1A61478CB461B936 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		E621C99A23E83AC30047715D /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		E621C99B23E83AC30047715D /* GoodDollar-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GoodDollar-Bridging-Header.h"; sourceTree = "<group>"; };
-		E68AD00B23EC105A003F59C4 /* RocketShip_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RocketShip_1.png; sourceTree = "<group>"; };
-		E68AD00C23EC105A003F59C4 /* RocketShip_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RocketShip_0.png; sourceTree = "<group>"; };
 		E9C15CBD2AB9813A7EA6F9A9 /* Pods-GoodDollar-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodDollar-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-GoodDollar-tvOSTests/Pods-GoodDollar-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -307,8 +315,12 @@
 		E68AD00923EC103E003F59C4 /* animations */ = {
 			isa = PBXGroup;
 			children = (
-				E68AD00C23EC105A003F59C4 /* RocketShip_0.png */,
-				E68AD00B23EC105A003F59C4 /* RocketShip_1.png */,
+				54B3919923F1F2A30018858D /* RocketShip_0.png */,
+				54B3919C23F1F2A40018858D /* RocketShip_0@2x.png */,
+				54B3919A23F1F2A30018858D /* RocketShip_0@3x.png */,
+				54B3919B23F1F2A40018858D /* RocketShip_1.png */,
+				54B3919D23F1F2A40018858D /* RocketShip_1@2x.png */,
+				54B3919E23F1F2A40018858D /* RocketShip_1@3x.png */,
 			);
 			name = animations;
 			sourceTree = "<group>";
@@ -460,25 +472,29 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				E68AD01123EC105A003F59C4 /* RocketShip_1.png in Resources */,
 				AB8B506C5EA54364B15ED529 /* gooddollar.svg in Resources */,
 				5EC81648CD3A42F0B75FB628 /* gooddollar.ttf in Resources */,
 				DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */,
-				E68AD01223EC105A003F59C4 /* RocketShip_0.png in Resources */,
+				54B3919F23F1F2A40018858D /* RocketShip_0.png in Resources */,
 				A1EA9A99772440ABA619D4F9 /* gooddollar.woff2 in Resources */,
 				AB13C56C918E4FA9A349F99E /* Roboto-Black.ttf in Resources */,
 				FE7F9276E81C4092953052B5 /* Roboto-BlackItalic.ttf in Resources */,
 				033B8C0A8940430D912EC4AC /* Roboto-Bold.ttf in Resources */,
+				54B391A423F1F2A40018858D /* RocketShip_1@3x.png in Resources */,
 				477F7AF867B84C89B5DD55C3 /* Roboto-BoldItalic.ttf in Resources */,
 				EF61EC78C5A945409D510E28 /* Roboto-Italic.ttf in Resources */,
+				54B391A023F1F2A40018858D /* RocketShip_0@3x.png in Resources */,
 				A899B8D7269344DE8AFCD236 /* Roboto-Light.ttf in Resources */,
 				E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */,
 				0613FF83B35F4C5C877B0A13 /* Roboto-Medium.ttf in Resources */,
 				63FFB60986B04D0FAFABEABA /* Roboto-MediumItalic.ttf in Resources */,
+				54B391A223F1F2A40018858D /* RocketShip_0@2x.png in Resources */,
+				54B391A323F1F2A40018858D /* RocketShip_1@2x.png in Resources */,
 				AD667D3DF1084153B388B849 /* Roboto-Regular.ttf in Resources */,
 				1C070547A367412CA2FF3034 /* Roboto-Thin.ttf in Resources */,
 				670FC1ABA9C54C1CA52E7B43 /* Roboto-ThinItalic.ttf in Resources */,
 				28BEA857639F48198085A31F /* RobotoSlab-Bold.ttf in Resources */,
+				54B391A123F1F2A40018858D /* RocketShip_1.png in Resources */,
 				2D937317297B4E47B382219E /* RobotoSlab-Medium.ttf in Resources */,
 				2FF5A9749E634C41B5508DCD /* RobotoSlab-Regular.ttf in Resources */,
 			);

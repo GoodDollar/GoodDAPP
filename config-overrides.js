@@ -8,7 +8,6 @@ const {
   addBabelPresets,
   fixBabelImports,
   babelExclude,
-  addWebpackModuleRule,
 } = require("customize-cra");
 
 module.exports = {
@@ -18,7 +17,6 @@ module.exports = {
         '^react-native$': 'react-native-web',
         '^lottie-react-native$': 'react-native-web-lottie',
         '^react-native-linear-gradient$': 'react-native-web-linear-gradient',
-        '^lottie-react-native$': 'react-native-web-lottie',
       },
     }),
 
@@ -30,6 +28,7 @@ module.exports = {
       path.resolve('node_modules/react-native-safe-area-view'),
       path.resolve('node_modules/react-native-vector-icons'),
       path.resolve('node_modules/react-native-gesture-handler'),
+      path.resolve('node_modules/react-native-animatable'),
     ]),
 
     babelExclude([

@@ -133,7 +133,6 @@ const Dashboard = props => {
     height: headerAvatarAnimValue,
     width: headerAvatarAnimValue,
     top: 0,
-    left: headerAvatarLeftAnimValue,
   }
   const balanceAnimStyles = {
     position: 'absolute',
@@ -581,15 +580,10 @@ const Dashboard = props => {
 const getStylesFromProps = ({ theme }) => ({
   headerWrapper: {
     height: '100%',
-
-    // width: '100%',
-    // // position: 'relative',
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   headerFullName: {
     position: 'absolute',
-    top: 0,
+    top: 65,
     bottom: 0,
     marginVertical: 'auto',
 
@@ -617,15 +611,6 @@ const getStylesFromProps = ({ theme }) => ({
   userInfo: {
     backgroundColor: 'transparent',
     marginBottom: 12,
-  },
-  userInfoHorizontal: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: 0,
   },
   avatarWrapper: {
     height: '100%',
@@ -677,7 +662,6 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: 16,
   },
   bigNumberWrapper: {
-    // alignItems: 'baseline',
     position: 'absolute',
     bottom: 0,
     width: '100%',

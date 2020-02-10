@@ -5,7 +5,13 @@ import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 
 const ClaimButton = ({ screenProps, styles }) => (
-  <PushButton routeName="Claim" testID="claim_button" screenProps={screenProps} style={styles.claimButton}>
+  <PushButton
+    routeName="Claim"
+    testID="claim_button"
+    screenProps={screenProps}
+    style={styles.claimButton}
+    contentStyle={{ marginHorizontal: -16 }}
+  >
     Claim
   </PushButton>
 )
@@ -40,12 +46,12 @@ const getStylesFromProps = ({ theme }) => ({
       },
       {
         translateY: Platform.select({
-          web: '-25%',
+          web: '0%',
           default: '-25%',
         }),
       },
       {
-        translateX: '-35%',
+        translateX: Platform.select({ default: '-35%', web: '-50%' }),
       },
     ],
   },

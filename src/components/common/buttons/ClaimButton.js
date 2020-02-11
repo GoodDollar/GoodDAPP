@@ -18,7 +18,7 @@ const ClaimButton = ({ screenProps, styles, animated }) => {
           transform: [{ translateY: containerSize.translateY || 0 }, { translateX: containerSize.translateX || 0 }],
         },
       ]}
-      contentStyle={{ marginHorizontal: -16 }}
+      contentStyle={styles.removeMargin}
     >
       Claim
     </PushButton>
@@ -59,6 +59,9 @@ const getStylesFromProps = ({ theme }) => ({
   wrapper: {
     height: '100%',
     zIndex: 1,
+  },
+  removeMargin: {
+    marginHorizontal: -16,
   },
 })
 

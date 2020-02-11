@@ -2,10 +2,24 @@
 
 exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
 >
   <div
-    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+    className="css-view-1dbjc4n"
     onResponderGrant={[Function]}
     onResponderReject={[Function]}
     onResponderRelease={[Function]}
@@ -20,16 +34,38 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
     onWheel={[Function]}
     style={
       Object {
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitFlexDirection": "column",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "WebkitOverflowScrolling": "touch",
+        "WebkitTransform": "translateZ(0px)",
         "display": "flex",
+        "flexDirection": "column",
+        "flexGrow": 1,
+        "flexShrink": 1,
         "height": "1px",
+        "msFlexDirection": "column",
+        "msFlexNegative": 1,
+        "msFlexPositive": 1,
+        "overflowX": "hidden",
+        "overflowY": "auto",
+        "transform": "translateZ(0px)",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n r-flexGrow-16y2uox r-height-1pi2tsx"
+      className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexGrow": 1,
           "display": "flex",
+          "flexGrow": 1,
+          "height": "100%",
+          "msFlexPositive": 1,
         }
       }
     >
@@ -37,136 +73,98 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
         className="css-view-1dbjc4n"
       >
         <div
-          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-overflow-1udh08x r-touchAction-1otgn73 r-userSelect-lrvibr"
-          data-focusable={true}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "borderBottomLeftRadius": "8px",
-              "borderBottomRightRadius": "8px",
-              "borderTopLeftRadius": "8px",
-              "borderTopRightRadius": "8px",
-              "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
-              "flexDirection": "row",
-              "height": "84px",
-              "marginLeft": "8px",
-              "marginRight": "8px",
-              "marginTop": "8px",
-              "maxHeight": "84px",
-              "msFlexDirection": "row",
-            }
-          }
-          tabIndex="0"
+          className="css-view-1dbjc4n"
         >
           <div
-            className="css-view-1dbjc4n r-flex-13awgt0"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-                "paddingLeft": "8px",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexDirection": "row",
+                "borderBottomLeftRadius": "8px",
+                "borderBottomRightRadius": "8px",
+                "borderTopLeftRadius": "8px",
+                "borderTopRightRadius": "8px",
+                "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
+                "flexDirection": "row",
+                "height": "84px",
+                "marginLeft": "8px",
+                "marginRight": "8px",
+                "marginTop": "8px",
+                "maxHeight": "84px",
+                "msFlexDirection": "row",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
               }
             }
           >
             <div
-              className="css-view-1dbjc4n r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
-              style={
-                Object {
-                  "backgroundColor": "rgba(238,238,238,1.00)",
-                  "backgroundImage": "url(feedListItemPattern.svg)",
-                  "backgroundRepeat": "repeat-y",
-                  "backgroundSize": "initial",
-                  "width": "10px",
-                }
-              }
-            />
-            <div
-              className="css-view-1dbjc4n r-width-13qz1uu"
+              className="css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitAlignItems": "center",
                   "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxFlex": 1,
                   "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 1,
                   "WebkitJustifyContent": "center",
                   "alignItems": "center",
-                  "flexDirection": "row",
+                  "backgroundColor": "rgba(255,255,255,1.00)",
+                  "flexBasis": "0%",
+                  "flexGrow": 1,
+                  "flexShrink": 1,
                   "justifyContent": "center",
                   "msFlexAlign": "center",
-                  "msFlexDirection": "row",
+                  "msFlexNegative": 1,
                   "msFlexPack": "center",
-                  "paddingBottom": "4px",
-                  "paddingLeft": "4px",
-                  "paddingRight": "4px",
-                  "paddingTop": "4px",
+                  "msFlexPositive": 1,
+                  "msFlexPreferredSize": "0%",
+                  "paddingLeft": "8px",
                 }
               }
             >
               <div
-                className="css-view-1dbjc4n r-flexDirection-eqz5dr"
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "flex-start",
-                    "WebkitAlignSelf": "flex-end",
-                    "WebkitBoxAlign": "start",
-                    "WebkitBoxPack": "justify",
-                    "WebkitJustifyContent": "space-between",
-                    "alignItems": "flex-start",
-                    "alignSelf": "flex-end",
-                    "justifyContent": "space-between",
-                    "msFlexAlign": "start",
-                    "msFlexItemAlign": "end",
-                    "msFlexPack": "justify",
+                    "backgroundColor": "rgba(238,238,238,1.00)",
+                    "backgroundImage": "url(feedListItemPattern.svg)",
+                    "backgroundRepeat": "repeat-y",
+                    "backgroundSize": "initial",
+                    "height": "100%",
+                    "left": "0px",
+                    "position": "absolute",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "10px",
                   }
                 }
-              >
-                <div
-                  className="css-view-1dbjc4n"
-                  style={
-                    Object {
-                      "backgroundColor": "rgba(238,238,238,1.00)",
-                      "borderBottomLeftRadius": "50%",
-                      "borderBottomRightRadius": "50%",
-                      "borderTopLeftRadius": "50%",
-                      "borderTopRightRadius": "50%",
-                      "height": "34px",
-                      "width": "34px",
-                    }
-                  }
-                />
-              </div>
+              />
               <div
-                className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox"
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "stretch",
-                    "WebkitBoxAlign": "stretch",
-                    "WebkitBoxPack": "justify",
-                    "WebkitJustifyContent": "space-between",
-                    "alignItems": "stretch",
-                    "justifyContent": "space-between",
-                    "marginLeft": "4px",
-                    "msFlexAlign": "stretch",
-                    "msFlexPack": "justify",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "center",
+                    "WebkitFlexDirection": "row",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "center",
+                    "paddingBottom": "4px",
+                    "paddingLeft": "4px",
+                    "paddingRight": "4px",
+                    "paddingTop": "4px",
+                    "width": "100%",
                   }
                 }
               >
@@ -174,86 +172,87 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
+                      "WebkitAlignItems": "flex-start",
+                      "WebkitAlignSelf": "flex-end",
+                      "WebkitBoxAlign": "start",
                       "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
+                      "WebkitBoxOrient": "vertical",
                       "WebkitBoxPack": "justify",
-                      "WebkitFlexDirection": "row",
+                      "WebkitFlexDirection": "column",
                       "WebkitJustifyContent": "space-between",
-                      "alignItems": "center",
-                      "borderBottomColor": "rgba(238,238,238,1.00)",
-                      "borderBottomStyle": "solid",
-                      "borderBottomWidth": "2px",
-                      "flexDirection": "row",
+                      "alignItems": "flex-start",
+                      "alignSelf": "flex-end",
+                      "flexDirection": "column",
                       "justifyContent": "space-between",
-                      "marginBottom": "4px",
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
+                      "msFlexAlign": "start",
+                      "msFlexDirection": "column",
+                      "msFlexItemAlign": "end",
                       "msFlexPack": "justify",
-                      "paddingBottom": "4px",
                     }
                   }
                 >
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-eqz5dr"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitAlignItems": "flex-start",
-                        "WebkitBoxAlign": "start",
-                        "WebkitBoxPack": "justify",
-                        "WebkitJustifyContent": "space-between",
-                        "alignItems": "flex-start",
-                        "justifyContent": "space-between",
-                        "msFlexAlign": "start",
-                        "msFlexPack": "justify",
+                        "backgroundColor": "rgba(238,238,238,1.00)",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
+                        "height": "34px",
+                        "width": "34px",
                       }
                     }
-                  >
-                    <div
-                      className="css-view-1dbjc4n"
-                      style={
-                        Object {
-                          "backgroundColor": "rgba(238,238,238,1.00)",
-                          "height": "10px",
-                          "width": "74px",
-                        }
-                      }
-                    />
-                  </div>
+                  />
                 </div>
                 <div
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
+                      "WebkitAlignItems": "stretch",
+                      "WebkitBoxAlign": "stretch",
                       "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "vertical",
                       "WebkitBoxPack": "justify",
-                      "WebkitFlexDirection": "row",
+                      "WebkitFlexDirection": "column",
+                      "WebkitFlexGrow": 1,
                       "WebkitJustifyContent": "space-between",
-                      "alignItems": "center",
-                      "flexDirection": "row",
+                      "alignItems": "stretch",
+                      "flexDirection": "column",
+                      "flexGrow": 1,
                       "justifyContent": "space-between",
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
+                      "marginLeft": "4px",
+                      "msFlexAlign": "stretch",
+                      "msFlexDirection": "column",
                       "msFlexPack": "justify",
+                      "msFlexPositive": 1,
                     }
                   }
                 >
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitAlignItems": "flex-start",
-                        "WebkitBoxAlign": "start",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
                         "WebkitBoxPack": "justify",
+                        "WebkitFlexDirection": "row",
                         "WebkitJustifyContent": "space-between",
-                        "alignItems": "flex-start",
+                        "alignItems": "center",
+                        "borderBottomColor": "rgba(238,238,238,1.00)",
+                        "borderBottomStyle": "solid",
+                        "borderBottomWidth": "2px",
+                        "flexDirection": "row",
                         "justifyContent": "space-between",
-                        "msFlexAlign": "start",
+                        "marginBottom": "4px",
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
                         "msFlexPack": "justify",
+                        "paddingBottom": "4px",
                       }
                     }
                   >
@@ -261,49 +260,18 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
                       className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
+                          "WebkitAlignItems": "flex-start",
+                          "WebkitBoxAlign": "start",
                           "WebkitBoxDirection": "normal",
-                          "WebkitBoxOrient": "horizontal",
+                          "WebkitBoxOrient": "vertical",
                           "WebkitBoxPack": "justify",
-                          "WebkitFlexDirection": "row",
+                          "WebkitFlexDirection": "column",
                           "WebkitJustifyContent": "space-between",
-                          "alignItems": "center",
-                          "flexDirection": "row",
+                          "alignItems": "flex-start",
+                          "flexDirection": "column",
                           "justifyContent": "space-between",
-                          "msFlexAlign": "center",
-                          "msFlexDirection": "row",
-                          "msFlexPack": "justify",
-                        }
-                      }
-                    >
-                      <div
-                        className="css-view-1dbjc4n"
-                        style={
-                          Object {
-                            "backgroundColor": "rgba(238,238,238,1.00)",
-                            "height": "18px",
-                            "width": "120px",
-                          }
-                        }
-                      />
-                    </div>
-                    <div
-                      className="css-view-1dbjc4n"
-                      style={
-                        Object {
-                          "WebkitAlignItems": "center",
-                          "WebkitBoxAlign": "center",
-                          "WebkitBoxDirection": "normal",
-                          "WebkitBoxOrient": "horizontal",
-                          "WebkitBoxPack": "justify",
-                          "WebkitFlexDirection": "row",
-                          "WebkitJustifyContent": "space-between",
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "space-between",
-                          "msFlexAlign": "center",
-                          "msFlexDirection": "row",
+                          "msFlexAlign": "start",
+                          "msFlexDirection": "column",
                           "msFlexPack": "justify",
                         }
                       }
@@ -314,7 +282,6 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
                           Object {
                             "backgroundColor": "rgba(238,238,238,1.00)",
                             "height": "10px",
-                            "marginTop": "4px",
                             "width": "74px",
                           }
                         }
@@ -322,16 +289,21 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
                     </div>
                   </div>
                   <div
-                    className="css-view-1dbjc4n r-flexDirection-eqz5dr"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitAlignItems": "flex-end",
-                        "WebkitBoxAlign": "end",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
                         "WebkitBoxPack": "justify",
+                        "WebkitFlexDirection": "row",
                         "WebkitJustifyContent": "space-between",
-                        "alignItems": "flex-end",
+                        "alignItems": "center",
+                        "flexDirection": "row",
                         "justifyContent": "space-between",
-                        "msFlexAlign": "end",
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
                         "msFlexPack": "justify",
                       }
                     }
@@ -340,16 +312,855 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
                       className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "backgroundColor": "rgba(238,238,238,1.00)",
-                          "borderBottomLeftRadius": "50%",
-                          "borderBottomRightRadius": "50%",
-                          "borderTopLeftRadius": "50%",
-                          "borderTopRightRadius": "50%",
-                          "height": "34px",
-                          "width": "34px",
+                          "WebkitAlignItems": "flex-start",
+                          "WebkitBoxAlign": "start",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxFlex": 1,
+                          "WebkitBoxOrient": "vertical",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "column",
+                          "WebkitFlexGrow": 1,
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "flex-start",
+                          "flexDirection": "column",
+                          "flexGrow": 1,
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "start",
+                          "msFlexDirection": "column",
+                          "msFlexPack": "justify",
+                          "msFlexPositive": 1,
                         }
                       }
-                    />
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "WebkitAlignItems": "center",
+                            "WebkitBoxAlign": "center",
+                            "WebkitBoxDirection": "normal",
+                            "WebkitBoxOrient": "horizontal",
+                            "WebkitBoxPack": "justify",
+                            "WebkitFlexDirection": "row",
+                            "WebkitJustifyContent": "space-between",
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "justifyContent": "space-between",
+                            "msFlexAlign": "center",
+                            "msFlexDirection": "row",
+                            "msFlexPack": "justify",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n"
+                          style={
+                            Object {
+                              "backgroundColor": "rgba(238,238,238,1.00)",
+                              "height": "18px",
+                              "width": "120px",
+                            }
+                          }
+                        />
+                      </div>
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "WebkitAlignItems": "center",
+                            "WebkitBoxAlign": "center",
+                            "WebkitBoxDirection": "normal",
+                            "WebkitBoxOrient": "horizontal",
+                            "WebkitBoxPack": "justify",
+                            "WebkitFlexDirection": "row",
+                            "WebkitJustifyContent": "space-between",
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "justifyContent": "space-between",
+                            "msFlexAlign": "center",
+                            "msFlexDirection": "row",
+                            "msFlexPack": "justify",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n"
+                          style={
+                            Object {
+                              "backgroundColor": "rgba(238,238,238,1.00)",
+                              "height": "10px",
+                              "marginTop": "4px",
+                              "width": "74px",
+                            }
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "flex-end",
+                          "WebkitBoxAlign": "end",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "vertical",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "column",
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "flex-end",
+                          "flexDirection": "column",
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "end",
+                          "msFlexDirection": "column",
+                          "msFlexPack": "justify",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(238,238,238,1.00)",
+                            "borderBottomLeftRadius": "50%",
+                            "borderBottomRightRadius": "50%",
+                            "borderTopLeftRadius": "50%",
+                            "borderTopRightRadius": "50%",
+                            "height": "34px",
+                            "width": "34px",
+                          }
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexDirection": "row",
+                "borderBottomLeftRadius": "8px",
+                "borderBottomRightRadius": "8px",
+                "borderTopLeftRadius": "8px",
+                "borderTopRightRadius": "8px",
+                "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
+                "flexDirection": "row",
+                "height": "84px",
+                "marginLeft": "8px",
+                "marginRight": "8px",
+                "marginTop": "8px",
+                "maxHeight": "84px",
+                "msFlexDirection": "row",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxFlex": 1,
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 1,
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "backgroundColor": "rgba(255,255,255,1.00)",
+                  "flexBasis": "0%",
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexNegative": 1,
+                  "msFlexPack": "center",
+                  "msFlexPositive": 1,
+                  "msFlexPreferredSize": "0%",
+                  "paddingLeft": "8px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(238,238,238,1.00)",
+                    "backgroundImage": "url(feedListItemPattern.svg)",
+                    "backgroundRepeat": "repeat-y",
+                    "backgroundSize": "initial",
+                    "height": "100%",
+                    "left": "0px",
+                    "position": "absolute",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "10px",
+                  }
+                }
+              />
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "center",
+                    "WebkitFlexDirection": "row",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "center",
+                    "paddingBottom": "4px",
+                    "paddingLeft": "4px",
+                    "paddingRight": "4px",
+                    "paddingTop": "4px",
+                    "width": "100%",
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "flex-start",
+                      "WebkitAlignSelf": "flex-end",
+                      "WebkitBoxAlign": "start",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxOrient": "vertical",
+                      "WebkitBoxPack": "justify",
+                      "WebkitFlexDirection": "column",
+                      "WebkitJustifyContent": "space-between",
+                      "alignItems": "flex-start",
+                      "alignSelf": "flex-end",
+                      "flexDirection": "column",
+                      "justifyContent": "space-between",
+                      "msFlexAlign": "start",
+                      "msFlexDirection": "column",
+                      "msFlexItemAlign": "end",
+                      "msFlexPack": "justify",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "backgroundColor": "rgba(238,238,238,1.00)",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
+                        "height": "34px",
+                        "width": "34px",
+                      }
+                    }
+                  />
+                </div>
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "stretch",
+                      "WebkitBoxAlign": "stretch",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "vertical",
+                      "WebkitBoxPack": "justify",
+                      "WebkitFlexDirection": "column",
+                      "WebkitFlexGrow": 1,
+                      "WebkitJustifyContent": "space-between",
+                      "alignItems": "stretch",
+                      "flexDirection": "column",
+                      "flexGrow": 1,
+                      "justifyContent": "space-between",
+                      "marginLeft": "4px",
+                      "msFlexAlign": "stretch",
+                      "msFlexDirection": "column",
+                      "msFlexPack": "justify",
+                      "msFlexPositive": 1,
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "justify",
+                        "WebkitFlexDirection": "row",
+                        "WebkitJustifyContent": "space-between",
+                        "alignItems": "center",
+                        "borderBottomColor": "rgba(238,238,238,1.00)",
+                        "borderBottomStyle": "solid",
+                        "borderBottomWidth": "2px",
+                        "flexDirection": "row",
+                        "justifyContent": "space-between",
+                        "marginBottom": "4px",
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
+                        "msFlexPack": "justify",
+                        "paddingBottom": "4px",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "flex-start",
+                          "WebkitBoxAlign": "start",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "vertical",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "column",
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "flex-start",
+                          "flexDirection": "column",
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "start",
+                          "msFlexDirection": "column",
+                          "msFlexPack": "justify",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(238,238,238,1.00)",
+                            "height": "10px",
+                            "width": "74px",
+                          }
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "justify",
+                        "WebkitFlexDirection": "row",
+                        "WebkitJustifyContent": "space-between",
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "justifyContent": "space-between",
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
+                        "msFlexPack": "justify",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "flex-start",
+                          "WebkitBoxAlign": "start",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxFlex": 1,
+                          "WebkitBoxOrient": "vertical",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "column",
+                          "WebkitFlexGrow": 1,
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "flex-start",
+                          "flexDirection": "column",
+                          "flexGrow": 1,
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "start",
+                          "msFlexDirection": "column",
+                          "msFlexPack": "justify",
+                          "msFlexPositive": 1,
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "WebkitAlignItems": "center",
+                            "WebkitBoxAlign": "center",
+                            "WebkitBoxDirection": "normal",
+                            "WebkitBoxOrient": "horizontal",
+                            "WebkitBoxPack": "justify",
+                            "WebkitFlexDirection": "row",
+                            "WebkitJustifyContent": "space-between",
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "justifyContent": "space-between",
+                            "msFlexAlign": "center",
+                            "msFlexDirection": "row",
+                            "msFlexPack": "justify",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n"
+                          style={
+                            Object {
+                              "backgroundColor": "rgba(238,238,238,1.00)",
+                              "height": "18px",
+                              "width": "120px",
+                            }
+                          }
+                        />
+                      </div>
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "WebkitAlignItems": "center",
+                            "WebkitBoxAlign": "center",
+                            "WebkitBoxDirection": "normal",
+                            "WebkitBoxOrient": "horizontal",
+                            "WebkitBoxPack": "justify",
+                            "WebkitFlexDirection": "row",
+                            "WebkitJustifyContent": "space-between",
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "justifyContent": "space-between",
+                            "msFlexAlign": "center",
+                            "msFlexDirection": "row",
+                            "msFlexPack": "justify",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n"
+                          style={
+                            Object {
+                              "backgroundColor": "rgba(238,238,238,1.00)",
+                              "height": "10px",
+                              "marginTop": "4px",
+                              "width": "74px",
+                            }
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "flex-end",
+                          "WebkitBoxAlign": "end",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "vertical",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "column",
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "flex-end",
+                          "flexDirection": "column",
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "end",
+                          "msFlexDirection": "column",
+                          "msFlexPack": "justify",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(238,238,238,1.00)",
+                            "borderBottomLeftRadius": "50%",
+                            "borderBottomRightRadius": "50%",
+                            "borderTopLeftRadius": "50%",
+                            "borderTopRightRadius": "50%",
+                            "height": "34px",
+                            "width": "34px",
+                          }
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexDirection": "row",
+                "borderBottomLeftRadius": "8px",
+                "borderBottomRightRadius": "8px",
+                "borderTopLeftRadius": "8px",
+                "borderTopRightRadius": "8px",
+                "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
+                "flexDirection": "row",
+                "height": "84px",
+                "marginLeft": "8px",
+                "marginRight": "8px",
+                "marginTop": "8px",
+                "maxHeight": "84px",
+                "msFlexDirection": "row",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxFlex": 1,
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 1,
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "backgroundColor": "rgba(255,255,255,1.00)",
+                  "flexBasis": "0%",
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexNegative": 1,
+                  "msFlexPack": "center",
+                  "msFlexPositive": 1,
+                  "msFlexPreferredSize": "0%",
+                  "paddingLeft": "8px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(238,238,238,1.00)",
+                    "backgroundImage": "url(feedListItemPattern.svg)",
+                    "backgroundRepeat": "repeat-y",
+                    "backgroundSize": "initial",
+                    "height": "100%",
+                    "left": "0px",
+                    "position": "absolute",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "10px",
+                  }
+                }
+              />
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "center",
+                    "WebkitFlexDirection": "row",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "center",
+                    "paddingBottom": "4px",
+                    "paddingLeft": "4px",
+                    "paddingRight": "4px",
+                    "paddingTop": "4px",
+                    "width": "100%",
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "flex-start",
+                      "WebkitAlignSelf": "flex-end",
+                      "WebkitBoxAlign": "start",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxOrient": "vertical",
+                      "WebkitBoxPack": "justify",
+                      "WebkitFlexDirection": "column",
+                      "WebkitJustifyContent": "space-between",
+                      "alignItems": "flex-start",
+                      "alignSelf": "flex-end",
+                      "flexDirection": "column",
+                      "justifyContent": "space-between",
+                      "msFlexAlign": "start",
+                      "msFlexDirection": "column",
+                      "msFlexItemAlign": "end",
+                      "msFlexPack": "justify",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "backgroundColor": "rgba(238,238,238,1.00)",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
+                        "height": "34px",
+                        "width": "34px",
+                      }
+                    }
+                  />
+                </div>
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "stretch",
+                      "WebkitBoxAlign": "stretch",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "vertical",
+                      "WebkitBoxPack": "justify",
+                      "WebkitFlexDirection": "column",
+                      "WebkitFlexGrow": 1,
+                      "WebkitJustifyContent": "space-between",
+                      "alignItems": "stretch",
+                      "flexDirection": "column",
+                      "flexGrow": 1,
+                      "justifyContent": "space-between",
+                      "marginLeft": "4px",
+                      "msFlexAlign": "stretch",
+                      "msFlexDirection": "column",
+                      "msFlexPack": "justify",
+                      "msFlexPositive": 1,
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "justify",
+                        "WebkitFlexDirection": "row",
+                        "WebkitJustifyContent": "space-between",
+                        "alignItems": "center",
+                        "borderBottomColor": "rgba(238,238,238,1.00)",
+                        "borderBottomStyle": "solid",
+                        "borderBottomWidth": "2px",
+                        "flexDirection": "row",
+                        "justifyContent": "space-between",
+                        "marginBottom": "4px",
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
+                        "msFlexPack": "justify",
+                        "paddingBottom": "4px",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "flex-start",
+                          "WebkitBoxAlign": "start",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "vertical",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "column",
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "flex-start",
+                          "flexDirection": "column",
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "start",
+                          "msFlexDirection": "column",
+                          "msFlexPack": "justify",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(238,238,238,1.00)",
+                            "height": "10px",
+                            "width": "74px",
+                          }
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "justify",
+                        "WebkitFlexDirection": "row",
+                        "WebkitJustifyContent": "space-between",
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "justifyContent": "space-between",
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
+                        "msFlexPack": "justify",
+                      }
+                    }
+                  >
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "flex-start",
+                          "WebkitBoxAlign": "start",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxFlex": 1,
+                          "WebkitBoxOrient": "vertical",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "column",
+                          "WebkitFlexGrow": 1,
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "flex-start",
+                          "flexDirection": "column",
+                          "flexGrow": 1,
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "start",
+                          "msFlexDirection": "column",
+                          "msFlexPack": "justify",
+                          "msFlexPositive": 1,
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "WebkitAlignItems": "center",
+                            "WebkitBoxAlign": "center",
+                            "WebkitBoxDirection": "normal",
+                            "WebkitBoxOrient": "horizontal",
+                            "WebkitBoxPack": "justify",
+                            "WebkitFlexDirection": "row",
+                            "WebkitJustifyContent": "space-between",
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "justifyContent": "space-between",
+                            "msFlexAlign": "center",
+                            "msFlexDirection": "row",
+                            "msFlexPack": "justify",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n"
+                          style={
+                            Object {
+                              "backgroundColor": "rgba(238,238,238,1.00)",
+                              "height": "18px",
+                              "width": "120px",
+                            }
+                          }
+                        />
+                      </div>
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "WebkitAlignItems": "center",
+                            "WebkitBoxAlign": "center",
+                            "WebkitBoxDirection": "normal",
+                            "WebkitBoxOrient": "horizontal",
+                            "WebkitBoxPack": "justify",
+                            "WebkitFlexDirection": "row",
+                            "WebkitJustifyContent": "space-between",
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "justifyContent": "space-between",
+                            "msFlexAlign": "center",
+                            "msFlexDirection": "row",
+                            "msFlexPack": "justify",
+                          }
+                        }
+                      >
+                        <div
+                          className="css-view-1dbjc4n"
+                          style={
+                            Object {
+                              "backgroundColor": "rgba(238,238,238,1.00)",
+                              "height": "10px",
+                              "marginTop": "4px",
+                              "width": "74px",
+                            }
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "flex-end",
+                          "WebkitBoxAlign": "end",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "vertical",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "column",
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "flex-end",
+                          "flexDirection": "column",
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "end",
+                          "msFlexDirection": "column",
+                          "msFlexPack": "justify",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(238,238,238,1.00)",
+                            "borderBottomLeftRadius": "50%",
+                            "borderBottomRightRadius": "50%",
+                            "borderTopLeftRadius": "50%",
+                            "borderTopRightRadius": "50%",
+                            "height": "34px",
+                            "width": "34px",
+                          }
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -360,7 +1171,7 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-view-1dbjc4n r-bottom-1p0dtai r-cursor-1loqt21 r-flexBasis-1mlwlqe r-overflow-1udh08x r-position-u8s1d r-right-zchlnj r-touchAction-1otgn73"
+    className="css-view-1dbjc4n"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}
@@ -372,7 +1183,18 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Object {
+        "WebkitFlexBasis": "auto",
+        "bottom": "0px",
+        "cursor": "pointer",
+        "flexBasis": "auto",
         "height": "74px",
+        "msFlexPreferredSize": "auto",
+        "msTouchAction": "manipulation",
+        "overflowX": "hidden",
+        "overflowY": "hidden",
+        "position": "absolute",
+        "right": "0px",
+        "touchAction": "manipulation",
         "width": "74px",
         "zIndex": 1000,
       }
@@ -380,10 +1202,22 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
     tabIndex="0"
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+      className="css-view-1dbjc4n"
       style={
         Object {
+          "backgroundColor": "rgba(0,0,0,0.00)",
           "backgroundImage": "url(\\"scrollToTop.svg\\")",
+          "backgroundPosition": "center",
+          "backgroundRepeat": "no-repeat",
+          "backgroundSize": "contain",
+          "bottom": "0px",
+          "height": "100%",
+          "left": "0px",
+          "position": "absolute",
+          "right": "0px",
+          "top": "0px",
+          "width": "100%",
+          "zIndex": -1,
         }
       }
     />
@@ -399,10 +1233,24 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
 
 exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
 >
   <div
-    className="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-1sncvnh"
+    className="css-view-1dbjc4n"
     onResponderGrant={[Function]}
     onResponderReject={[Function]}
     onResponderRelease={[Function]}
@@ -417,16 +1265,38 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
     onWheel={[Function]}
     style={
       Object {
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitFlexDirection": "column",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "WebkitOverflowScrolling": "touch",
+        "WebkitTransform": "translateZ(0px)",
         "display": "flex",
+        "flexDirection": "column",
+        "flexGrow": 1,
+        "flexShrink": 1,
         "height": "1px",
+        "msFlexDirection": "column",
+        "msFlexNegative": 1,
+        "msFlexPositive": 1,
+        "overflowX": "hidden",
+        "overflowY": "auto",
+        "transform": "translateZ(0px)",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n r-flexGrow-16y2uox r-height-1pi2tsx"
+      className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexGrow": 1,
           "display": "flex",
+          "flexGrow": 1,
+          "height": "100%",
+          "msFlexPositive": 1,
         }
       }
     >
@@ -434,88 +1304,74 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
         className="css-view-1dbjc4n"
       >
         <div
-          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-overflow-1udh08x r-touchAction-1otgn73 r-userSelect-lrvibr"
-          data-focusable={true}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "borderBottomLeftRadius": "8px",
-              "borderBottomRightRadius": "8px",
-              "borderTopLeftRadius": "8px",
-              "borderTopRightRadius": "8px",
-              "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
-              "flexDirection": "row",
-              "height": "84px",
-              "marginLeft": "8px",
-              "marginRight": "8px",
-              "marginTop": "8px",
-              "maxHeight": "84px",
-              "msFlexDirection": "row",
-            }
-          }
-          tabIndex="0"
+          className="css-view-1dbjc4n"
         >
           <div
-            className="css-view-1dbjc4n r-flex-13awgt0"
+            className="css-view-1dbjc4n"
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-                "paddingLeft": "8px",
+                "MozUserSelect": "none",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexDirection": "row",
+                "WebkitUserSelect": "none",
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "borderBottomLeftRadius": "8px",
+                "borderBottomRightRadius": "8px",
+                "borderTopLeftRadius": "8px",
+                "borderTopRightRadius": "8px",
+                "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
+                "cursor": "pointer",
+                "flexDirection": "row",
+                "height": "84px",
+                "marginLeft": "8px",
+                "marginRight": "8px",
+                "marginTop": "8px",
+                "maxHeight": "84px",
+                "msFlexDirection": "row",
+                "msTouchAction": "manipulation",
+                "msUserSelect": "none",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "touchAction": "manipulation",
+                "userSelect": "none",
               }
             }
+            tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,195,174,1.00)",
-                  "backgroundImage": "url(feedListItemPattern.svg)",
-                  "backgroundRepeat": "repeat-y",
-                  "backgroundSize": "initial",
-                  "width": "10px",
-                }
-              }
-            />
-            <div
-              className="css-view-1dbjc4n r-flexGrow-16y2uox r-width-13qz1uu"
+              className="css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitAlignItems": "center",
                   "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxFlex": 1,
                   "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 1,
                   "WebkitJustifyContent": "center",
                   "alignItems": "center",
-                  "flexDirection": "row",
+                  "backgroundColor": "rgba(255,255,255,1.00)",
+                  "flexBasis": "0%",
+                  "flexGrow": 1,
+                  "flexShrink": 1,
                   "justifyContent": "center",
-                  "maxHeight": "100%",
                   "msFlexAlign": "center",
-                  "msFlexDirection": "row",
+                  "msFlexNegative": 1,
                   "msFlexPack": "center",
-                  "paddingBottom": "8px",
+                  "msFlexPositive": 1,
+                  "msFlexPreferredSize": "0%",
                   "paddingLeft": "8px",
-                  "paddingRight": "8px",
-                  "paddingTop": "8px",
                 }
               }
             >
@@ -523,94 +1379,97 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "width": "34px",
+                    "backgroundColor": "rgba(0,195,174,1.00)",
+                    "backgroundImage": "url(feedListItemPattern.svg)",
+                    "backgroundRepeat": "repeat-y",
+                    "backgroundSize": "initial",
+                    "height": "100%",
+                    "left": "0px",
+                    "position": "absolute",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "10px",
                   }
                 }
               />
               <div
-                className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "marginLeft": "8px",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxFlex": 1,
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "center",
+                    "WebkitFlexDirection": "row",
+                    "WebkitFlexGrow": 1,
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "maxHeight": "100%",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "center",
+                    "msFlexPositive": 1,
+                    "paddingBottom": "8px",
+                    "paddingLeft": "8px",
+                    "paddingRight": "8px",
+                    "paddingTop": "8px",
+                    "width": "100%",
                   }
                 }
               >
                 <div
-                  className="css-view-1dbjc4n r-flexShrink-1wbh5a2"
+                  className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "justify",
-                      "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "space-between",
-                      "alignItems": "center",
-                      "borderBottomColor": "rgba(0,195,174,1.00)",
-                      "borderBottomStyle": "solid",
-                      "borderBottomWidth": "2px",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "justifyContent": "space-between",
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexPack": "justify",
-                      "paddingBottom": "6px",
+                      "width": "34px",
+                    }
+                  }
+                />
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitBoxFlex": 1,
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "marginLeft": "8px",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
                     }
                   }
                 >
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(163,163,163,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "10px",
-                        "fontWeight": "normal",
-                        "lineHeight": "17px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
-                  >
-                    04/01/19 15:03
-                  </div>
-                  <div
-                    className="css-text-901oao"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(0,195,174,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "15px",
-                        "fontWeight": "700",
-                        "lineHeight": "18px",
-                        "marginLeft": "auto",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
-                  >
-                    +
-                  </div>
-                  <div
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
                         "WebkitBoxDirection": "normal",
                         "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "justify",
                         "WebkitFlexDirection": "row",
-                        "alignItems": "baseline",
+                        "WebkitFlexShrink": 1,
+                        "WebkitJustifyContent": "space-between",
+                        "alignItems": "center",
+                        "borderBottomColor": "rgba(0,195,174,1.00)",
+                        "borderBottomStyle": "solid",
+                        "borderBottomWidth": "2px",
                         "display": "flex",
                         "flexDirection": "row",
-                        "msFlexAlign": "baseline",
+                        "flexShrink": 1,
+                        "justifyContent": "space-between",
+                        "msFlexAlign": "center",
                         "msFlexDirection": "row",
+                        "msFlexNegative": 1,
+                        "msFlexPack": "justify",
+                        "paddingBottom": "6px",
                       }
                     }
                   >
@@ -619,152 +1478,213 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(0,195,174,1.00)",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "15px",
-                          "fontWeight": "700",
-                          "lineHeight": "18px",
-                          "marginRight": "4px",
-                          "textAlign": "right",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
-                    >
-                      0.04
-                    </div>
-                    <div
-                      className="css-text-901oao"
-                      dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(66,69,74,1.00)",
+                          "color": "rgba(163,163,163,1.00)",
+                          "direction": "ltr",
                           "fontFamily": "Roboto",
-                          "fontSize": "16px",
+                          "fontSize": "10px",
                           "fontWeight": "normal",
-                          "lineHeight": "16px",
+                          "lineHeight": "17px",
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
-                        dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(0,195,174,1.00)",
-                            "fontFamily": "Roboto Slab",
-                            "fontSize": "10px",
-                            "fontWeight": "700",
-                            "lineHeight": "11px",
-                            "textAlign": "right",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
-                      >
-                        G
-                      </span>
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
-                        dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(0,195,174,1.00)",
-                            "fontFamily": "Roboto Slab",
-                            "fontSize": "9.5px",
-                            "fontWeight": "700",
-                            "lineHeight": "11px",
-                            "textAlign": "right",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
-                      >
-                        $
-                      </span>
+                      04/01/19 15:03
                     </div>
-                  </div>
-                </div>
-                <div
-                  className="css-view-1dbjc4n r-flexShrink-1wbh5a2"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "flex-start",
-                      "WebkitBoxAlign": "start",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "center",
-                      "alignItems": "flex-start",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "height": "45px",
-                      "justifyContent": "center",
-                      "msFlexAlign": "start",
-                      "msFlexDirection": "row",
-                      "msFlexPack": "center",
-                      "position": "relative",
-                    }
-                  }
-                >
-                  <div
-                    aria-disabled={true}
-                    className="css-view-1dbjc4n r-position-u8s1d r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-                    disabled={true}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
-                    style={
-                      Object {
-                        "WebkitAlignSelf": "flex-start",
-                        "alignSelf": "flex-start",
-                        "backgroundColor": "rgba(203,203,203,1.00)",
-                        "borderBottomColor": "rgba(163,163,163,1.00)",
-                        "borderBottomLeftRadius": "17px",
-                        "borderBottomRightRadius": "17px",
-                        "borderBottomWidth": "1px",
-                        "borderLeftColor": "rgba(163,163,163,1.00)",
-                        "borderLeftWidth": "1px",
-                        "borderRightColor": "rgba(163,163,163,1.00)",
-                        "borderRightWidth": "1px",
-                        "borderTopColor": "rgba(163,163,163,1.00)",
-                        "borderTopLeftRadius": "17px",
-                        "borderTopRightRadius": "17px",
-                        "borderTopWidth": "1px",
-                        "height": "34px",
-                        "left": "-41px",
-                        "marginTop": "8px",
-                        "msFlexItemAlign": "start",
-                        "width": "34px",
-                      }
-                    }
-                  >
                     <div
-                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      className="css-text-901oao"
+                      dir="auto"
                       style={
                         Object {
-                          "borderBottomLeftRadius": "16px",
-                          "borderBottomRightRadius": "16px",
-                          "borderTopLeftRadius": "16px",
-                          "borderTopRightRadius": "16px",
-                          "height": "32px",
-                          "width": "32px",
+                          "color": "rgba(0,195,174,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
+                          "fontSize": "15px",
+                          "fontWeight": "700",
+                          "lineHeight": "18px",
+                          "marginLeft": "auto",
+                          "textAlign": "center",
+                          "textDecoration": "none",
+                          "textTransform": "none",
+                        }
+                      }
+                    >
+                      +
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "baseline",
+                          "WebkitBoxAlign": "baseline",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "horizontal",
+                          "WebkitFlexDirection": "row",
+                          "alignItems": "baseline",
+                          "display": "flex",
+                          "flexDirection": "row",
+                          "msFlexAlign": "baseline",
+                          "msFlexDirection": "row",
                         }
                       }
                     >
                       <div
-                        className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+                        className="css-text-901oao"
+                        dir="auto"
                         style={
                           Object {
+                            "color": "rgba(0,195,174,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "15px",
+                            "fontWeight": "700",
+                            "lineHeight": "18px",
+                            "marginRight": "4px",
+                            "textAlign": "right",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                          }
+                        }
+                      >
+                        0.04
+                      </div>
+                      <div
+                        className="css-text-901oao"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(66,69,74,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
+                            "fontSize": "16px",
+                            "fontWeight": "normal",
+                            "lineHeight": "16px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                          }
+                        }
+                      >
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(0,195,174,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto Slab",
+                              "fontSize": "10px",
+                              "fontWeight": "700",
+                              "lineHeight": "11px",
+                              "textAlign": "right",
+                              "textDecoration": "none",
+                              "textTransform": "none",
+                            }
+                          }
+                        >
+                          G
+                        </span>
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(0,195,174,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto Slab",
+                              "fontSize": "9.5px",
+                              "fontWeight": "700",
+                              "lineHeight": "11px",
+                              "textAlign": "right",
+                              "textDecoration": "none",
+                              "textTransform": "none",
+                            }
+                          }
+                        >
+                          $
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "flex-start",
+                        "WebkitBoxAlign": "start",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "center",
+                        "WebkitFlexDirection": "row",
+                        "WebkitFlexShrink": 1,
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "flex-start",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "flexShrink": 1,
+                        "height": "45px",
+                        "justifyContent": "center",
+                        "msFlexAlign": "start",
+                        "msFlexDirection": "row",
+                        "msFlexNegative": 1,
+                        "msFlexPack": "center",
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <div
+                      aria-disabled={true}
+                      className="css-view-1dbjc4n"
+                      disabled={true}
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
+                      style={
+                        Object {
+                          "MozTransitionProperty": "opacity",
+                          "MozUserSelect": "none",
+                          "WebkitAlignSelf": "flex-start",
+                          "WebkitTransitionDuration": "0.15s",
+                          "WebkitTransitionProperty": "opacity",
+                          "WebkitUserSelect": "none",
+                          "alignSelf": "flex-start",
+                          "backgroundColor": "rgba(203,203,203,1.00)",
+                          "borderBottomColor": "rgba(163,163,163,1.00)",
+                          "borderBottomLeftRadius": "17px",
+                          "borderBottomRightRadius": "17px",
+                          "borderBottomWidth": "1px",
+                          "borderLeftColor": "rgba(163,163,163,1.00)",
+                          "borderLeftWidth": "1px",
+                          "borderRightColor": "rgba(163,163,163,1.00)",
+                          "borderRightWidth": "1px",
+                          "borderTopColor": "rgba(163,163,163,1.00)",
+                          "borderTopLeftRadius": "17px",
+                          "borderTopRightRadius": "17px",
+                          "borderTopWidth": "1px",
+                          "height": "34px",
+                          "left": "-41px",
+                          "marginTop": "8px",
+                          "msFlexItemAlign": "start",
+                          "msUserSelect": "none",
+                          "position": "absolute",
+                          "transitionDuration": "0.15s",
+                          "transitionProperty": "opacity",
+                          "userSelect": "none",
+                          "width": "34px",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(0,0,0,0.00)",
                             "borderBottomLeftRadius": "16px",
                             "borderBottomRightRadius": "16px",
                             "borderTopLeftRadius": "16px",
@@ -775,148 +1695,198 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         }
                       >
                         <div
-                          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                          className="css-view-1dbjc4n"
                           style={
                             Object {
-                              "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                              "WebkitFlexBasis": "auto",
+                              "borderBottomLeftRadius": "16px",
+                              "borderBottomRightRadius": "16px",
+                              "borderTopLeftRadius": "16px",
+                              "borderTopRightRadius": "16px",
+                              "flexBasis": "auto",
+                              "height": "32px",
+                              "msFlexPreferredSize": "auto",
+                              "overflowX": "hidden",
+                              "overflowY": "hidden",
+                              "width": "32px",
+                              "zIndex": 0,
                             }
                           }
-                        />
-                        <img
-                          alt=""
-                          className="css-accessibilityImage-9pa8cd"
-                          draggable={false}
-                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
-                        />
+                        >
+                          <div
+                            className="css-view-1dbjc4n"
+                            style={
+                              Object {
+                                "backgroundColor": "rgba(0,0,0,0.00)",
+                                "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                                "backgroundPosition": "center",
+                                "backgroundRepeat": "no-repeat",
+                                "backgroundSize": "cover",
+                                "bottom": "0px",
+                                "height": "100%",
+                                "left": "0px",
+                                "position": "absolute",
+                                "right": "0px",
+                                "top": "0px",
+                                "width": "100%",
+                                "zIndex": -1,
+                              }
+                            }
+                          />
+                          <img
+                            alt=""
+                            className="css-accessibilityImage-9pa8cd"
+                            draggable={false}
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
-                    style={
-                      Object {
-                        "WebkitAlignItems": "flex-start",
-                        "WebkitBoxAlign": "start",
-                        "WebkitBoxPack": "end",
-                        "WebkitJustifyContent": "flex-end",
-                        "alignItems": "flex-start",
-                        "display": "flex",
-                        "justifyContent": "flex-end",
-                        "marginBottom": "0px",
-                        "marginRight": "8px",
-                        "marginTop": "0px",
-                        "msFlexAlign": "start",
-                        "msFlexPack": "end",
-                      }
-                    }
-                  >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h"
-                      dir="auto"
+                      className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "WebkitAlignItems": "flex-end",
-                          "WebkitBoxAlign": "end",
-                          "WebkitFlexShrink": 0,
-                          "WebkitLineClamp": 2,
-                          "alignItems": "flex-end",
-                          "color": "rgba(66,69,74,1.00)",
+                          "WebkitAlignItems": "flex-start",
+                          "WebkitBoxAlign": "start",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxFlex": 1,
+                          "WebkitBoxOrient": "vertical",
+                          "WebkitBoxPack": "end",
+                          "WebkitFlexDirection": "column",
+                          "WebkitFlexGrow": 1,
+                          "WebkitFlexShrink": 1,
+                          "WebkitJustifyContent": "flex-end",
+                          "alignItems": "flex-start",
                           "display": "flex",
-                          "flexShrink": 0,
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "height": "20px",
-                          "lineHeight": "22px",
-                          "marginTop": "6px",
-                          "msFlexAlign": "end",
-                          "msFlexNegative": 0,
-                          "textAlign": "left",
-                          "textDecoration": "none",
-                          "textTransform": "capitalize",
+                          "flexDirection": "column",
+                          "flexGrow": 1,
+                          "flexShrink": 1,
+                          "justifyContent": "flex-end",
+                          "marginBottom": "0px",
+                          "marginRight": "8px",
+                          "marginTop": "0px",
+                          "msFlexAlign": "start",
+                          "msFlexDirection": "column",
+                          "msFlexNegative": 1,
+                          "msFlexPack": "end",
+                          "msFlexPositive": 1,
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao css-textMultiLine-cens5h"
                         dir="auto"
                         style={
                           Object {
+                            "WebkitAlignItems": "flex-end",
+                            "WebkitBoxAlign": "end",
+                            "WebkitFlexShrink": 0,
+                            "WebkitLineClamp": 2,
+                            "alignItems": "flex-end",
                             "color": "rgba(66,69,74,1.00)",
+                            "direction": "ltr",
+                            "display": "flex",
+                            "flexShrink": 0,
+                            "fontFamily": "Roboto",
+                            "fontSize": "16px",
+                            "fontWeight": "normal",
+                            "height": "20px",
+                            "lineHeight": "22px",
+                            "marginTop": "6px",
+                            "msFlexAlign": "end",
+                            "msFlexNegative": 0,
+                            "textAlign": "left",
+                            "textDecoration": "none",
+                            "textTransform": "capitalize",
+                          }
+                        }
+                      >
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(66,69,74,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto",
+                              "fontSize": "10px",
+                              "fontWeight": "normal",
+                              "lineHeight": "14px",
+                              "marginRight": "3px",
+                              "textAlign": "center",
+                              "textDecoration": "none",
+                              "textTransform": "none",
+                              "verticalAlign": "middle",
+                            }
+                          }
+                        >
+                          From: 
+                        </span>
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(66,69,74,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto",
+                              "fontSize": "16px",
+                              "fontWeight": "500",
+                              "lineHeight": "19px",
+                              "textAlign": "center",
+                              "textDecoration": "none",
+                              "textTransform": "none",
+                              "verticalAlign": "middle",
+                            }
+                          }
+                        >
+                          Misao Matimbo
+                        </span>
+                      </div>
+                      <div
+                        className="css-text-901oao css-textOneLine-bfa6kz"
+                        dir="auto"
+                        style={
+                          Object {
+                            "WebkitFlexShrink": 0,
+                            "color": "rgba(163,163,163,1.00)",
+                            "direction": "ltr",
+                            "flexShrink": 0,
                             "fontFamily": "Roboto",
                             "fontSize": "10px",
                             "fontWeight": "normal",
                             "lineHeight": "14px",
-                            "marginRight": "3px",
+                            "msFlexNegative": 0,
+                            "paddingBottom": "0px",
                             "textAlign": "center",
                             "textDecoration": "none",
-                            "textTransform": "none",
+                            "textTransform": "capitalize",
                           }
                         }
                       >
-                        From: 
-                      </span>
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
-                        dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(66,69,74,1.00)",
-                            "fontFamily": "Roboto",
-                            "fontSize": "16px",
-                            "fontWeight": "500",
-                            "lineHeight": "19px",
-                            "textAlign": "center",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
-                      >
-                        Misao Matimbo
-                      </span>
+                        aaa
+                      </div>
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-bfa6kz"
+                      className="css-text-901oao"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitFlexShrink": 0,
-                          "color": "rgba(163,163,163,1.00)",
-                          "flexShrink": 0,
-                          "fontFamily": "Roboto",
-                          "fontSize": "10px",
+                          "WebkitAlignSelf": "flex-start",
+                          "alignSelf": "flex-start",
+                          "color": "rgba(0,195,174,1.00)",
+                          "fontFamily": "gooddollar",
+                          "fontSize": "34px",
+                          "fontStyle": "normal",
                           "fontWeight": "normal",
-                          "lineHeight": "14px",
-                          "msFlexNegative": 0,
-                          "paddingBottom": "0px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "capitalize",
+                          "marginRight": "0px",
+                          "marginTop": "8px",
+                          "msFlexItemAlign": "start",
                         }
                       }
                     >
-                      aaa
+                      
                     </div>
-                  </div>
-                  <div
-                    className="css-text-901oao"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitAlignSelf": "flex-start",
-                        "alignSelf": "flex-start",
-                        "color": "rgba(0,195,174,1.00)",
-                        "fontFamily": "gooddollar",
-                        "fontSize": "34px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
-                        "marginRight": "0px",
-                        "marginTop": "8px",
-                        "msFlexItemAlign": "start",
-                      }
-                    }
-                  >
-                    
                   </div>
                 </div>
               </div>
@@ -928,88 +1898,74 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
         className="css-view-1dbjc4n"
       >
         <div
-          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-cursor-1loqt21 r-overflow-1udh08x r-touchAction-1otgn73 r-userSelect-lrvibr"
-          data-focusable={true}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "borderBottomLeftRadius": "8px",
-              "borderBottomRightRadius": "8px",
-              "borderTopLeftRadius": "8px",
-              "borderTopRightRadius": "8px",
-              "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
-              "flexDirection": "row",
-              "height": "84px",
-              "marginLeft": "8px",
-              "marginRight": "8px",
-              "marginTop": "8px",
-              "maxHeight": "84px",
-              "msFlexDirection": "row",
-            }
-          }
-          tabIndex="0"
+          className="css-view-1dbjc4n"
         >
           <div
-            className="css-view-1dbjc4n r-flex-13awgt0"
+            className="css-view-1dbjc4n"
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-                "paddingLeft": "8px",
+                "MozUserSelect": "none",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexDirection": "row",
+                "WebkitUserSelect": "none",
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "borderBottomLeftRadius": "8px",
+                "borderBottomRightRadius": "8px",
+                "borderTopLeftRadius": "8px",
+                "borderTopRightRadius": "8px",
+                "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
+                "cursor": "pointer",
+                "flexDirection": "row",
+                "height": "84px",
+                "marginLeft": "8px",
+                "marginRight": "8px",
+                "marginTop": "8px",
+                "maxHeight": "84px",
+                "msFlexDirection": "row",
+                "msTouchAction": "manipulation",
+                "msUserSelect": "none",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "touchAction": "manipulation",
+                "userSelect": "none",
               }
             }
+            tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
-              style={
-                Object {
-                  "backgroundColor": "rgba(250,108,119,1.00)",
-                  "backgroundImage": "url(feedListItemPattern.svg)",
-                  "backgroundRepeat": "repeat-y",
-                  "backgroundSize": "initial",
-                  "width": "10px",
-                }
-              }
-            />
-            <div
-              className="css-view-1dbjc4n r-flexGrow-16y2uox r-width-13qz1uu"
+              className="css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitAlignItems": "center",
                   "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxFlex": 1,
                   "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 1,
                   "WebkitJustifyContent": "center",
                   "alignItems": "center",
-                  "flexDirection": "row",
+                  "backgroundColor": "rgba(255,255,255,1.00)",
+                  "flexBasis": "0%",
+                  "flexGrow": 1,
+                  "flexShrink": 1,
                   "justifyContent": "center",
-                  "maxHeight": "100%",
                   "msFlexAlign": "center",
-                  "msFlexDirection": "row",
+                  "msFlexNegative": 1,
                   "msFlexPack": "center",
-                  "paddingBottom": "8px",
+                  "msFlexPositive": 1,
+                  "msFlexPreferredSize": "0%",
                   "paddingLeft": "8px",
-                  "paddingRight": "8px",
-                  "paddingTop": "8px",
                 }
               }
             >
@@ -1017,94 +1973,97 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "width": "34px",
+                    "backgroundColor": "rgba(250,108,119,1.00)",
+                    "backgroundImage": "url(feedListItemPattern.svg)",
+                    "backgroundRepeat": "repeat-y",
+                    "backgroundSize": "initial",
+                    "height": "100%",
+                    "left": "0px",
+                    "position": "absolute",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "10px",
                   }
                 }
               />
               <div
-                className="css-view-1dbjc4n r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "marginLeft": "8px",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxFlex": 1,
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "center",
+                    "WebkitFlexDirection": "row",
+                    "WebkitFlexGrow": 1,
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "maxHeight": "100%",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "center",
+                    "msFlexPositive": 1,
+                    "paddingBottom": "8px",
+                    "paddingLeft": "8px",
+                    "paddingRight": "8px",
+                    "paddingTop": "8px",
+                    "width": "100%",
                   }
                 }
               >
                 <div
-                  className="css-view-1dbjc4n r-flexShrink-1wbh5a2"
+                  className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "justify",
-                      "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "space-between",
-                      "alignItems": "center",
-                      "borderBottomColor": "rgba(250,108,119,1.00)",
-                      "borderBottomStyle": "solid",
-                      "borderBottomWidth": "2px",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "justifyContent": "space-between",
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexPack": "justify",
-                      "paddingBottom": "6px",
+                      "width": "34px",
+                    }
+                  }
+                />
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitBoxFlex": 1,
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "marginLeft": "8px",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
                     }
                   }
                 >
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(163,163,163,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "10px",
-                        "fontWeight": "normal",
-                        "lineHeight": "17px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
-                  >
-                    04/01/19 15:03
-                  </div>
-                  <div
-                    className="css-text-901oao"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(250,108,119,1.00)",
-                        "fontFamily": "Roboto",
-                        "fontSize": "15px",
-                        "fontWeight": "700",
-                        "lineHeight": "18px",
-                        "marginLeft": "auto",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
-                  >
-                    -
-                  </div>
-                  <div
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitAlignItems": "baseline",
-                        "WebkitBoxAlign": "baseline",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
                         "WebkitBoxDirection": "normal",
                         "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "justify",
                         "WebkitFlexDirection": "row",
-                        "alignItems": "baseline",
+                        "WebkitFlexShrink": 1,
+                        "WebkitJustifyContent": "space-between",
+                        "alignItems": "center",
+                        "borderBottomColor": "rgba(250,108,119,1.00)",
+                        "borderBottomStyle": "solid",
+                        "borderBottomWidth": "2px",
                         "display": "flex",
                         "flexDirection": "row",
-                        "msFlexAlign": "baseline",
+                        "flexShrink": 1,
+                        "justifyContent": "space-between",
+                        "msFlexAlign": "center",
                         "msFlexDirection": "row",
+                        "msFlexNegative": 1,
+                        "msFlexPack": "justify",
+                        "paddingBottom": "6px",
                       }
                     }
                   >
@@ -1113,152 +2072,213 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(250,108,119,1.00)",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "15px",
-                          "fontWeight": "700",
-                          "lineHeight": "18px",
-                          "marginRight": "4px",
-                          "textAlign": "right",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
-                    >
-                      0.04
-                    </div>
-                    <div
-                      className="css-text-901oao"
-                      dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(66,69,74,1.00)",
+                          "color": "rgba(163,163,163,1.00)",
+                          "direction": "ltr",
                           "fontFamily": "Roboto",
-                          "fontSize": "16px",
+                          "fontSize": "10px",
                           "fontWeight": "normal",
-                          "lineHeight": "16px",
+                          "lineHeight": "17px",
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
-                        dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(250,108,119,1.00)",
-                            "fontFamily": "Roboto Slab",
-                            "fontSize": "10px",
-                            "fontWeight": "700",
-                            "lineHeight": "11px",
-                            "textAlign": "right",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
-                      >
-                        G
-                      </span>
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
-                        dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(250,108,119,1.00)",
-                            "fontFamily": "Roboto Slab",
-                            "fontSize": "9.5px",
-                            "fontWeight": "700",
-                            "lineHeight": "11px",
-                            "textAlign": "right",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
-                      >
-                        $
-                      </span>
+                      04/01/19 15:03
                     </div>
-                  </div>
-                </div>
-                <div
-                  className="css-view-1dbjc4n r-flexShrink-1wbh5a2"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "flex-start",
-                      "WebkitBoxAlign": "start",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "center",
-                      "alignItems": "flex-start",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "height": "45px",
-                      "justifyContent": "center",
-                      "msFlexAlign": "start",
-                      "msFlexDirection": "row",
-                      "msFlexPack": "center",
-                      "position": "relative",
-                    }
-                  }
-                >
-                  <div
-                    aria-disabled={true}
-                    className="css-view-1dbjc4n r-position-u8s1d r-transitionDuration-eafdt9 r-transitionProperty-1i6wzkk r-userSelect-lrvibr"
-                    disabled={true}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
-                    style={
-                      Object {
-                        "WebkitAlignSelf": "flex-start",
-                        "alignSelf": "flex-start",
-                        "backgroundColor": "rgba(203,203,203,1.00)",
-                        "borderBottomColor": "rgba(163,163,163,1.00)",
-                        "borderBottomLeftRadius": "17px",
-                        "borderBottomRightRadius": "17px",
-                        "borderBottomWidth": "1px",
-                        "borderLeftColor": "rgba(163,163,163,1.00)",
-                        "borderLeftWidth": "1px",
-                        "borderRightColor": "rgba(163,163,163,1.00)",
-                        "borderRightWidth": "1px",
-                        "borderTopColor": "rgba(163,163,163,1.00)",
-                        "borderTopLeftRadius": "17px",
-                        "borderTopRightRadius": "17px",
-                        "borderTopWidth": "1px",
-                        "height": "34px",
-                        "left": "-41px",
-                        "marginTop": "8px",
-                        "msFlexItemAlign": "start",
-                        "width": "34px",
-                      }
-                    }
-                  >
                     <div
-                      className="css-view-1dbjc4n r-backgroundColor-1niwhzg"
+                      className="css-text-901oao"
+                      dir="auto"
                       style={
                         Object {
-                          "borderBottomLeftRadius": "16px",
-                          "borderBottomRightRadius": "16px",
-                          "borderTopLeftRadius": "16px",
-                          "borderTopRightRadius": "16px",
-                          "height": "32px",
-                          "width": "32px",
+                          "color": "rgba(250,108,119,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
+                          "fontSize": "15px",
+                          "fontWeight": "700",
+                          "lineHeight": "18px",
+                          "marginLeft": "auto",
+                          "textAlign": "center",
+                          "textDecoration": "none",
+                          "textTransform": "none",
+                        }
+                      }
+                    >
+                      -
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "baseline",
+                          "WebkitBoxAlign": "baseline",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "horizontal",
+                          "WebkitFlexDirection": "row",
+                          "alignItems": "baseline",
+                          "display": "flex",
+                          "flexDirection": "row",
+                          "msFlexAlign": "baseline",
+                          "msFlexDirection": "row",
                         }
                       }
                     >
                       <div
-                        className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+                        className="css-text-901oao"
+                        dir="auto"
                         style={
                           Object {
+                            "color": "rgba(250,108,119,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "15px",
+                            "fontWeight": "700",
+                            "lineHeight": "18px",
+                            "marginRight": "4px",
+                            "textAlign": "right",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                          }
+                        }
+                      >
+                        0.04
+                      </div>
+                      <div
+                        className="css-text-901oao"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(66,69,74,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
+                            "fontSize": "16px",
+                            "fontWeight": "normal",
+                            "lineHeight": "16px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                          }
+                        }
+                      >
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(250,108,119,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto Slab",
+                              "fontSize": "10px",
+                              "fontWeight": "700",
+                              "lineHeight": "11px",
+                              "textAlign": "right",
+                              "textDecoration": "none",
+                              "textTransform": "none",
+                            }
+                          }
+                        >
+                          G
+                        </span>
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(250,108,119,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto Slab",
+                              "fontSize": "9.5px",
+                              "fontWeight": "700",
+                              "lineHeight": "11px",
+                              "textAlign": "right",
+                              "textDecoration": "none",
+                              "textTransform": "none",
+                            }
+                          }
+                        >
+                          $
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "flex-start",
+                        "WebkitBoxAlign": "start",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "center",
+                        "WebkitFlexDirection": "row",
+                        "WebkitFlexShrink": 1,
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "flex-start",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "flexShrink": 1,
+                        "height": "45px",
+                        "justifyContent": "center",
+                        "msFlexAlign": "start",
+                        "msFlexDirection": "row",
+                        "msFlexNegative": 1,
+                        "msFlexPack": "center",
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <div
+                      aria-disabled={true}
+                      className="css-view-1dbjc4n"
+                      disabled={true}
+                      onKeyDown={[Function]}
+                      onKeyUp={[Function]}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
+                      style={
+                        Object {
+                          "MozTransitionProperty": "opacity",
+                          "MozUserSelect": "none",
+                          "WebkitAlignSelf": "flex-start",
+                          "WebkitTransitionDuration": "0.15s",
+                          "WebkitTransitionProperty": "opacity",
+                          "WebkitUserSelect": "none",
+                          "alignSelf": "flex-start",
+                          "backgroundColor": "rgba(203,203,203,1.00)",
+                          "borderBottomColor": "rgba(163,163,163,1.00)",
+                          "borderBottomLeftRadius": "17px",
+                          "borderBottomRightRadius": "17px",
+                          "borderBottomWidth": "1px",
+                          "borderLeftColor": "rgba(163,163,163,1.00)",
+                          "borderLeftWidth": "1px",
+                          "borderRightColor": "rgba(163,163,163,1.00)",
+                          "borderRightWidth": "1px",
+                          "borderTopColor": "rgba(163,163,163,1.00)",
+                          "borderTopLeftRadius": "17px",
+                          "borderTopRightRadius": "17px",
+                          "borderTopWidth": "1px",
+                          "height": "34px",
+                          "left": "-41px",
+                          "marginTop": "8px",
+                          "msFlexItemAlign": "start",
+                          "msUserSelect": "none",
+                          "position": "absolute",
+                          "transitionDuration": "0.15s",
+                          "transitionProperty": "opacity",
+                          "userSelect": "none",
+                          "width": "34px",
+                        }
+                      }
+                    >
+                      <div
+                        className="css-view-1dbjc4n"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(0,0,0,0.00)",
                             "borderBottomLeftRadius": "16px",
                             "borderBottomRightRadius": "16px",
                             "borderTopLeftRadius": "16px",
@@ -1269,148 +2289,198 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         }
                       >
                         <div
-                          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-4gszlv r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+                          className="css-view-1dbjc4n"
                           style={
                             Object {
-                              "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                              "WebkitFlexBasis": "auto",
+                              "borderBottomLeftRadius": "16px",
+                              "borderBottomRightRadius": "16px",
+                              "borderTopLeftRadius": "16px",
+                              "borderTopRightRadius": "16px",
+                              "flexBasis": "auto",
+                              "height": "32px",
+                              "msFlexPreferredSize": "auto",
+                              "overflowX": "hidden",
+                              "overflowY": "hidden",
+                              "width": "32px",
+                              "zIndex": 0,
                             }
                           }
-                        />
-                        <img
-                          alt=""
-                          className="css-accessibilityImage-9pa8cd"
-                          draggable={false}
-                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
-                        />
+                        >
+                          <div
+                            className="css-view-1dbjc4n"
+                            style={
+                              Object {
+                                "backgroundColor": "rgba(0,0,0,0.00)",
+                                "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                                "backgroundPosition": "center",
+                                "backgroundRepeat": "no-repeat",
+                                "backgroundSize": "cover",
+                                "bottom": "0px",
+                                "height": "100%",
+                                "left": "0px",
+                                "position": "absolute",
+                                "right": "0px",
+                                "top": "0px",
+                                "width": "100%",
+                                "zIndex": -1,
+                              }
+                            }
+                          />
+                          <img
+                            alt=""
+                            className="css-accessibilityImage-9pa8cd"
+                            draggable={false}
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    className="css-view-1dbjc4n r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2"
-                    style={
-                      Object {
-                        "WebkitAlignItems": "flex-start",
-                        "WebkitBoxAlign": "start",
-                        "WebkitBoxPack": "end",
-                        "WebkitJustifyContent": "flex-end",
-                        "alignItems": "flex-start",
-                        "display": "flex",
-                        "justifyContent": "flex-end",
-                        "marginBottom": "0px",
-                        "marginRight": "8px",
-                        "marginTop": "0px",
-                        "msFlexAlign": "start",
-                        "msFlexPack": "end",
-                      }
-                    }
-                  >
                     <div
-                      className="css-text-901oao css-textMultiLine-cens5h"
-                      dir="auto"
+                      className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "WebkitAlignItems": "flex-end",
-                          "WebkitBoxAlign": "end",
-                          "WebkitFlexShrink": 0,
-                          "WebkitLineClamp": 2,
-                          "alignItems": "flex-end",
-                          "color": "rgba(66,69,74,1.00)",
+                          "WebkitAlignItems": "flex-start",
+                          "WebkitBoxAlign": "start",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxFlex": 1,
+                          "WebkitBoxOrient": "vertical",
+                          "WebkitBoxPack": "end",
+                          "WebkitFlexDirection": "column",
+                          "WebkitFlexGrow": 1,
+                          "WebkitFlexShrink": 1,
+                          "WebkitJustifyContent": "flex-end",
+                          "alignItems": "flex-start",
                           "display": "flex",
-                          "flexShrink": 0,
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "height": "20px",
-                          "lineHeight": "22px",
-                          "marginTop": "6px",
-                          "msFlexAlign": "end",
-                          "msFlexNegative": 0,
-                          "textAlign": "left",
-                          "textDecoration": "none",
-                          "textTransform": "capitalize",
+                          "flexDirection": "column",
+                          "flexGrow": 1,
+                          "flexShrink": 1,
+                          "justifyContent": "flex-end",
+                          "marginBottom": "0px",
+                          "marginRight": "8px",
+                          "marginTop": "0px",
+                          "msFlexAlign": "start",
+                          "msFlexDirection": "column",
+                          "msFlexNegative": 1,
+                          "msFlexPack": "end",
+                          "msFlexPositive": 1,
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao css-textMultiLine-cens5h"
                         dir="auto"
                         style={
                           Object {
+                            "WebkitAlignItems": "flex-end",
+                            "WebkitBoxAlign": "end",
+                            "WebkitFlexShrink": 0,
+                            "WebkitLineClamp": 2,
+                            "alignItems": "flex-end",
                             "color": "rgba(66,69,74,1.00)",
+                            "direction": "ltr",
+                            "display": "flex",
+                            "flexShrink": 0,
+                            "fontFamily": "Roboto",
+                            "fontSize": "16px",
+                            "fontWeight": "normal",
+                            "height": "20px",
+                            "lineHeight": "22px",
+                            "marginTop": "6px",
+                            "msFlexAlign": "end",
+                            "msFlexNegative": 0,
+                            "textAlign": "left",
+                            "textDecoration": "none",
+                            "textTransform": "capitalize",
+                          }
+                        }
+                      >
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(66,69,74,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto",
+                              "fontSize": "10px",
+                              "fontWeight": "normal",
+                              "lineHeight": "14px",
+                              "marginRight": "3px",
+                              "textAlign": "center",
+                              "textDecoration": "none",
+                              "textTransform": "none",
+                              "verticalAlign": "middle",
+                            }
+                          }
+                        >
+                          To: 
+                        </span>
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(66,69,74,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto",
+                              "fontSize": "16px",
+                              "fontWeight": "500",
+                              "lineHeight": "19px",
+                              "textAlign": "center",
+                              "textDecoration": "none",
+                              "textTransform": "none",
+                              "verticalAlign": "middle",
+                            }
+                          }
+                        >
+                          Misao Matimbo
+                        </span>
+                      </div>
+                      <div
+                        className="css-text-901oao css-textOneLine-bfa6kz"
+                        dir="auto"
+                        style={
+                          Object {
+                            "WebkitFlexShrink": 0,
+                            "color": "rgba(163,163,163,1.00)",
+                            "direction": "ltr",
+                            "flexShrink": 0,
                             "fontFamily": "Roboto",
                             "fontSize": "10px",
                             "fontWeight": "normal",
                             "lineHeight": "14px",
-                            "marginRight": "3px",
+                            "msFlexNegative": 0,
+                            "paddingBottom": "0px",
                             "textAlign": "center",
                             "textDecoration": "none",
-                            "textTransform": "none",
+                            "textTransform": "capitalize",
                           }
                         }
                       >
-                        To: 
-                      </span>
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
-                        dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(66,69,74,1.00)",
-                            "fontFamily": "Roboto",
-                            "fontSize": "16px",
-                            "fontWeight": "500",
-                            "lineHeight": "19px",
-                            "textAlign": "center",
-                            "textDecoration": "none",
-                            "textTransform": "none",
-                          }
-                        }
-                      >
-                        Misao Matimbo
-                      </span>
+                        aaa
+                      </div>
                     </div>
                     <div
-                      className="css-text-901oao css-textOneLine-bfa6kz"
+                      className="css-text-901oao"
                       dir="auto"
                       style={
                         Object {
-                          "WebkitFlexShrink": 0,
-                          "color": "rgba(163,163,163,1.00)",
-                          "flexShrink": 0,
-                          "fontFamily": "Roboto",
-                          "fontSize": "10px",
+                          "WebkitAlignSelf": "flex-start",
+                          "alignSelf": "flex-start",
+                          "color": "rgba(250,108,119,1.00)",
+                          "fontFamily": "gooddollar",
+                          "fontSize": "34px",
+                          "fontStyle": "normal",
                           "fontWeight": "normal",
-                          "lineHeight": "14px",
-                          "msFlexNegative": 0,
-                          "paddingBottom": "0px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "capitalize",
+                          "marginRight": "0px",
+                          "marginTop": "8px",
+                          "msFlexItemAlign": "start",
                         }
                       }
                     >
-                      aaa
+                      
                     </div>
-                  </div>
-                  <div
-                    className="css-text-901oao"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitAlignSelf": "flex-start",
-                        "alignSelf": "flex-start",
-                        "color": "rgba(250,108,119,1.00)",
-                        "fontFamily": "gooddollar",
-                        "fontSize": "34px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
-                        "marginRight": "0px",
-                        "marginTop": "8px",
-                        "msFlexItemAlign": "start",
-                      }
-                    }
-                  >
-                    
                   </div>
                 </div>
               </div>
@@ -1421,7 +2491,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-view-1dbjc4n r-bottom-1p0dtai r-cursor-1loqt21 r-flexBasis-1mlwlqe r-overflow-1udh08x r-position-u8s1d r-right-zchlnj r-touchAction-1otgn73"
+    className="css-view-1dbjc4n"
     data-focusable={true}
     onKeyDown={[Function]}
     onKeyUp={[Function]}
@@ -1433,7 +2503,18 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Object {
+        "WebkitFlexBasis": "auto",
+        "bottom": "0px",
+        "cursor": "pointer",
+        "flexBasis": "auto",
         "height": "74px",
+        "msFlexPreferredSize": "auto",
+        "msTouchAction": "manipulation",
+        "overflowX": "hidden",
+        "overflowY": "hidden",
+        "position": "absolute",
+        "right": "0px",
+        "touchAction": "manipulation",
         "width": "74px",
         "zIndex": 1000,
       }
@@ -1441,10 +2522,22 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
     tabIndex="0"
   >
     <div
-      className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+      className="css-view-1dbjc4n"
       style={
         Object {
+          "backgroundColor": "rgba(0,0,0,0.00)",
           "backgroundImage": "url(\\"scrollToTop.svg\\")",
+          "backgroundPosition": "center",
+          "backgroundRepeat": "no-repeat",
+          "backgroundSize": "contain",
+          "bottom": "0px",
+          "height": "100%",
+          "left": "0px",
+          "position": "absolute",
+          "right": "0px",
+          "top": "0px",
+          "width": "100%",
+          "zIndex": -1,
         }
       }
     />

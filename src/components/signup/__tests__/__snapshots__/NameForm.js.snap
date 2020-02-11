@@ -170,8 +170,24 @@ exports[`NameForm matches snapshot 1`] = `
                     }
                   }
                 >
-                  <div
-                    className="css-view-1dbjc4n"
+                  <input
+                    autoCapitalize="sentences"
+                    autoComplete="on"
+                    autoCorrect="on"
+                    autoFocus={true}
+                    className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                    data-focusable={true}
+                    dir="auto"
+                    id="Component_input"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyPress={[Function]}
+                    onSelect={[Function]}
+                    onTouchStart={[Function]}
+                    readOnly={false}
+                    spellCheck={true}
                     style={
                       Object {
                         "marginBottom": "8px",
@@ -533,8 +549,24 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                     }
                   }
                 >
-                  <div
-                    className="css-view-1dbjc4n"
+                  <input
+                    autoCapitalize="sentences"
+                    autoComplete="on"
+                    autoCorrect="on"
+                    autoFocus={true}
+                    className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                    data-focusable={true}
+                    dir="auto"
+                    id="Component_input"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyPress={[Function]}
+                    onSelect={[Function]}
+                    onTouchStart={[Function]}
+                    readOnly={false}
+                    spellCheck={true}
                     style={
                       Object {
                         "marginBottom": "8px",

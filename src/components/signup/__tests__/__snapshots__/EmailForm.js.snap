@@ -169,6 +169,29 @@ exports[`EmailForm matches snapshot 1`] = `
                   we will only notify you with important activity
                 </div>
               </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "row",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "marginBottom": "16px",
+                  "marginTop": "16px",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
+                  "msFlexPack": "center",
+                }
+              }
+            >
               <div
                 className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
                 style={
@@ -187,6 +210,43 @@ exports[`EmailForm matches snapshot 1`] = `
                     }
                   }
                 >
+                  <input
+                    autoCapitalize="sentences"
+                    autoComplete="on"
+                    autoCorrect="on"
+                    autoFocus={true}
+                    className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                    data-focusable={true}
+                    dir="auto"
+                    id="Component_input"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyPress={[Function]}
+                    onSelect={[Function]}
+                    onTouchStart={[Function]}
+                    readOnly={false}
+                    spellCheck={true}
+                    style={
+                      Object {
+                        "backgroundColor": "rgba(255,255,255,1.00)",
+                        "borderBottomColor": "rgba(66,69,74,1.00)",
+                        "borderBottomStyle": "solid",
+                        "borderBottomWidth": "1px",
+                        "color": "rgba(66,69,74,1.00)",
+                        "fontFamily": "Roboto Slab",
+                        "fontSize": "18px",
+                        "paddingBottom": "4px",
+                        "paddingLeft": "32px",
+                        "paddingRight": "32px",
+                        "paddingTop": "4px",
+                        "textAlign": "center",
+                      }
+                    }
+                    type="email"
+                    value=""
+                  />
                   <div
                     className="css-view-1dbjc4n"
                     style={

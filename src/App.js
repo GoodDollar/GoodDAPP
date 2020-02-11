@@ -16,6 +16,7 @@ import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import useServiceWorker from './lib/utils/useServiceWorker'
 import Config from './config/config'
 import RouterSelector from './RouterSelector'
+import { ErrorBoundary } from './lib/analytics/bugsnag'
 
 const App = () => {
   useServiceWorker() // Only runs on Web
@@ -96,9 +97,11 @@ const AppHolder = () => {
 
   return (
     <ActionSheetProvider>
-      <SimpleStore.Container>
-        <App />
-      </SimpleStore.Container>
+      <ErrorBoundary>
+        <SimpleStore.Container>
+          <App />
+        </SimpleStore.Container>
+      </ErrorBoundary>
     </ActionSheetProvider>
   )
 }

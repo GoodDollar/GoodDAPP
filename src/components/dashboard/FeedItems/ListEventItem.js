@@ -9,6 +9,7 @@ import { getScreenWidth } from '../../../lib/utils/Orientation'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
+import userStorage from '../../../lib/gundb/UserStorage'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -27,6 +28,10 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const isSmallDevice = isMobile && getScreenWidth() < 353
   const isFeedTypeClaiming = feed.type === 'claiming'
   const isErrorCard = ['senderror', 'withdrawerror'].includes(itemType)
+
+  const updateFeedEventAnimation = () => {
+    userStorage.updateFeedAnimationStatus(feed.id)
+  }
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -89,7 +94,13 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               </>
             )}
           </View>
-          <EventIcon style={styles.typeIcon} type={itemType} size={normalize(34)} />
+          <EventIcon
+            style={styles.typeIcon}
+            type={itemType}
+            size={normalize(34)}
+            onAnimationFinish={updateFeedEventAnimation}
+            showAnim={!feed.animationExecuted}
+          />
         </View>
       </View>
     </View>
@@ -135,43 +146,32 @@ const getFeedTextStyles = ({ theme }) => ({
 })
 
 const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice }) => {
-  let result = ''
-
   switch (feed.type) {
     case 'welcome':
-      result = <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
 
     case 'invite':
-      result = <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
 
     case 'backup':
-      result = <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
 
     case 'spending':
-      result = <ReadMoreText text="here >>>" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="here >>>" buttonText="Read more..." />
 
     case 'claiming':
-      result = isSmallDevice ? <ReadMoreText text="daily G$" /> : ''
-      break
+      return isSmallDevice ? <ReadMoreText text="daily G$" /> : null
 
     case 'hanukaStarts':
-      result = <ReadMoreText text="Claim today for extra G$$$" />
-      break
+      return <ReadMoreText text="Claim today for extra G$$$" />
 
     default:
-      result = (
+      return (
         <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
           {feed.data.message}
         </Text>
       )
-      break
   }
-
-  return result
 })
 
 const getStylesFromProps = ({ theme }) => ({

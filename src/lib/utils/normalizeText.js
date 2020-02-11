@@ -1,7 +1,9 @@
-import { Dimensions } from 'react-native'
 import { isBrowser, isTablet } from 'mobile-device-detect'
 
-const { height, width } = Dimensions.get('window')
+import { getScreenHeight, getScreenWidth } from '../utils/Orientation'
+
+const height = getScreenHeight()
+const width = getScreenWidth()
 
 const DESIGN_WIDTH = 360
 const DESIGN_HEIGHT = 640 - 24

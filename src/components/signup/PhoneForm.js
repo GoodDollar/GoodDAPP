@@ -12,7 +12,7 @@ import Config from '../../config/config'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
-import FromNumberInput from './PhoneNumberInput/PhoneNumberInput'
+import FromNumberInput from './SignUpInput/SignUpInput'
 import CustomWrapper from './signUpWrapper'
 
 const log = logger.child({ from: 'PhoneForm' })

@@ -5,6 +5,7 @@ import amplitude from 'amplitude-js'
 import logger from '../logger/pino-logger'
 import Config from '../../config/config'
 import Sentry from './sentry'
+import bugsnagClient from './bugsnag'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -43,8 +44,8 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   const email = userStorage && (await userStorage.getProfileFieldValue('email'))
   const emailOrId = email || identifier
 
-  if (global.bugsnagClient) {
-    global.bugsnagClient.user = {
+  if (bugsnagClient) {
+    bugsnagClient.user = {
       id: identifier,
       email: emailOrId,
     }
@@ -154,8 +155,8 @@ const patchLogger = () => {
     if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
       debounceFireEvent(ERROR_LOG, { reason: logMessage, logContext })
     }
-    if (global.bugsnagClient && Config.env !== 'test') {
-      global.bugsnagClient.notify(logMessage, {
+    if (bugsnagClient && Config.env !== 'test') {
+      bugsnagClient.notify(logMessage, {
         context: logContext && logContext.from,
         metaData: { logMessage, eMsg, errorObj, rest },
         groupingHash: logContext && logContext.from,

@@ -678,12 +678,14 @@ const getStylesFromProps = ({ theme }) => ({
   },
   headerFullName: {
     position: 'absolute',
-    top: 65,
+    top: 0,
     bottom: 0,
     marginVertical: 'auto',
 
     //FIXME: RN
     //height: 'fit-content',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     paddingTop: getDesignRelativeHeight(10),
   },

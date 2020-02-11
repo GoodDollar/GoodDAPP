@@ -117,6 +117,13 @@ const Dashboard = props => {
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
+  const scale = {
+    transform: [
+      {
+        scale: animValue,
+      },
+    ],
+  }
   const headerAnimateStyles = {
     position: 'relative',
     height: headerHeightAnimValue,
@@ -618,7 +625,12 @@ const Dashboard = props => {
           >
             Send
           </PushButton>
-          <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} animated />
+          <ClaimButton
+            screenProps={screenProps}
+            amount={weiToMask(entitlement, { showUnits: true })}
+            animated
+            animatedScale={scale}
+          />
           <PushButton
             icon="receive"
             iconSize={20}

@@ -4,8 +4,8 @@ import { Animated, Platform, View } from 'react-native'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 
-const ClaimButton = ({ screenProps, styles, animated }) => {
-  const [containerSize, setContainerSize] = React.useState([])
+const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
+  const [pushButtonTranslate, setPushButtonTranslate] = React.useState({})
 
   const Button = (
     <PushButton
@@ -15,7 +15,10 @@ const ClaimButton = ({ screenProps, styles, animated }) => {
       style={[
         styles.claimButton,
         {
-          transform: [{ translateY: containerSize.translateY || 0 }, { translateX: containerSize.translateX || 0 }],
+          transform: [
+            { translateY: pushButtonTranslate.translateY || 0 },
+            { translateX: pushButtonTranslate.translateX || 0 },
+          ],
         },
       ]}
       contentStyle={styles.removeMargin}
@@ -26,12 +29,12 @@ const ClaimButton = ({ screenProps, styles, animated }) => {
 
   const handleLayout = event => {
     const { width, height } = event.nativeEvent.layout
-    setContainerSize({ translateY: -width / 2, translateX: -height / 2 })
+    setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
   }
 
   return (
     <View style={styles.wrapper} onLayout={useCallback(event => handleLayout(event))}>
-      {animated ? <Animated.View>{Button}</Animated.View> : Button}
+      {animated ? <Animated.View style={{ ...animatedScale }}>{Button}</Animated.View> : Button}
     </View>
   )
 }
@@ -61,7 +64,7 @@ const getStylesFromProps = ({ theme }) => ({
     zIndex: 1,
   },
   removeMargin: {
-    marginHorizontal: -16,
+    marginHorizontal: -theme.sizes.defaultDouble,
   },
 })
 

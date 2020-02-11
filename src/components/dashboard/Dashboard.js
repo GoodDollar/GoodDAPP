@@ -794,6 +794,15 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: theme.sizes.defaultDouble,
     justifyContent: 'space-between',
   },
+  userInfoHorizontal: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
+  },
 })
 
 Dashboard.navigationOptions = ({ navigation, screenProps }) => {

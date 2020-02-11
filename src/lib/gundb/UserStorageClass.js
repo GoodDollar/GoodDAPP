@@ -1550,7 +1550,7 @@ export class UserStorage {
 
     data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
     data.address = data.address && UserStorage.cleanFieldForIndex('walletAddress', data.address)
-    data.value = (receiptData && receiptData.value) || amount
+    data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
     data.displayName = counterPartyDisplayName || 'Unknown'
 
     logger.debug('formatEvent: parsed data', { id, type, to, counterPartyDisplayName, from, receiptData, ...data })

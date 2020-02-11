@@ -38,9 +38,13 @@ class SpinnerCheckMark extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.success === false && this.props.success === true) {
       //speed up when finished
-      this.setState({
-        speed: 1.5,
-      })
+      if (isMobileReactNative) {
+        this.setState({
+          speed: 1.5,
+        })
+      } else {
+        this.anim.setSpeed(1.5)
+      }
     }
   }
 

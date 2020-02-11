@@ -12,21 +12,25 @@ const ClaimButton = ({ screenProps, styles, animated }) => {
       routeName="Claim"
       testID="claim_button"
       screenProps={screenProps}
-      style={[styles.claimButton, { transform: containerSize }]}
+      style={[
+        styles.claimButton,
+        {
+          transform: [{ translateY: containerSize.translateY || 0 }, { translateX: containerSize.translateX || 0 }],
+        },
+      ]}
       contentStyle={{ marginHorizontal: -16 }}
     >
       Claim
     </PushButton>
   )
 
+  const handleLayout = event => {
+    const { width, height } = event.nativeEvent.layout
+    setContainerSize({ translateY: -width / 2, translateX: -height / 2 })
+  }
+
   return (
-    <View
-      style={styles.wrapper}
-      onLayout={useCallback(event => {
-        const { width, height } = event.nativeEvent.layout
-        setContainerSize([{ translateY: -width / 2 }, { translateX: -height / 2 }])
-      }, [])}
-    >
+    <View style={styles.wrapper} onLayout={useCallback(event => handleLayout(event))}>
       {animated ? <Animated.View>{Button}</Animated.View> : Button}
     </View>
   )

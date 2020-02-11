@@ -693,9 +693,6 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     bottom: 0,
     marginVertical: 'auto',
-
-    //FIXME: RN
-    //height: 'fit-content',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

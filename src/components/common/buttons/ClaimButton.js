@@ -27,14 +27,14 @@ const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
     </PushButton>
   )
 
-  const handleLayout = event => {
+  const handleLayout = useCallback(event => {
     const { width, height } = event.nativeEvent.layout
     setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
-  }
+  })
 
   return (
-    <View style={styles.wrapper} onLayout={useCallback(event => handleLayout(event))}>
-      {animated ? <Animated.View style={{ ...animatedScale }}>{Button}</Animated.View> : Button}
+    <View style={styles.wrapper} onLayout={handleLayout}>
+      {animated ? <Animated.View style={animatedScale}>{Button}</Animated.View> : Button}
     </View>
   )
 }

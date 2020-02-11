@@ -1,20 +1,36 @@
 // @flow
-import React from 'react'
-import { Platform } from 'react-native'
+import React, { useCallback } from 'react'
+import { Animated, Platform, View } from 'react-native'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 
-const ClaimButton = ({ screenProps, styles }) => (
-  <PushButton
-    routeName="Claim"
-    testID="claim_button"
-    screenProps={screenProps}
-    style={styles.claimButton}
-    contentStyle={{ marginHorizontal: -16 }}
-  >
-    Claim
-  </PushButton>
-)
+const ClaimButton = ({ screenProps, styles, animated }) => {
+  const [containerSize, setContainerSize] = React.useState([])
+
+  const Button = (
+    <PushButton
+      routeName="Claim"
+      testID="claim_button"
+      screenProps={screenProps}
+      style={[styles.claimButton, { transform: containerSize }]}
+      contentStyle={{ marginHorizontal: -16 }}
+    >
+      Claim
+    </PushButton>
+  )
+
+  return (
+    <View
+      style={styles.wrapper}
+      onLayout={useCallback(event => {
+        const { width, height } = event.nativeEvent.layout
+        setContainerSize([{ translateY: -width / 2 }, { translateX: -height / 2 }])
+      }, [])}
+    >
+      {animated ? <Animated.View>{Button}</Animated.View> : Button}
+    </View>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => ({
   claimButton: {
@@ -35,25 +51,10 @@ const getStylesFromProps = ({ theme }) => ({
     top: '50%',
     width: 72,
     zIndex: 99,
-
-    // FIXME: RN
-    transform: [
-      {
-        translateY: Platform.select({
-          web: '-50%',
-          default: -90 / 2,
-        }),
-      },
-      {
-        translateY: Platform.select({
-          web: '0%',
-          default: -100 / 4,
-        }),
-      },
-      {
-        translateX: Platform.select({ default: -70 / 2, web: '-50%' }),
-      },
-    ],
+  },
+  wrapper: {
+    height: '100%',
+    zIndex: 1,
   },
 })
 

@@ -735,7 +735,7 @@ export class UserStorage {
       if (originalTXHash === undefined) {
         logger.error(
           'handleOTPLUpdated: Original payment link TX not found',
-          '',
+          'handleOTPLUpdated failed',
           new Error('handleOTPLUpdated failed'),
           data
         )
@@ -1030,7 +1030,7 @@ export class UserStorage {
     }
     const { errors, isValid } = profile.validate(update)
     if (!isValid) {
-      logger.error('setProfile failed:', '', new Error('setProfile failed'), errors)
+      logger.error('setProfile failed:', 'setProfile failed', new Error('setProfile failed'), errors)
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
       }
@@ -1045,18 +1045,30 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', e.message, e, field)
+            logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
           })
         })
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+
       if (errors.length > 0) {
-        logger.error('setProfile some fields failed', errors.length, errors, JSON.stringify(errors))
+        logger.error(
+          'setProfile some fields failed',
+          'setProfile some fields failed',
+          new Error('setProfile some fields failed'),
+          {
+            errCount: errors.length,
+            errors,
+            strErrors: JSON.stringify(errors),
+          }
+        )
+
         if (Config.throwSaveProfileErrors) {
           return Promise.reject(errors)
         }
       }
+
       return true
     })
   }
@@ -1325,7 +1337,7 @@ export class UserStorage {
           }
 
           return this.formatEvent(feedItem).catch(e => {
-            logger.error('getFormattedEvents Failed formatting event:', e.message, e, feedItem)
+            logger.error('getFormattedEvents Failed formatting event:', e.message, e, { feedItem })
             return {}
           })
         })
@@ -1335,7 +1347,7 @@ export class UserStorage {
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', e.message, e, id)
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
       return undefined
     })
     if (!prevFeedEvent) {
@@ -1360,7 +1372,7 @@ export class UserStorage {
     let updatedEvent = await this.handleReceiptUpdated(receipt)
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
       return {}
     })
   }
@@ -2001,7 +2013,12 @@ export class UserStorage {
     await Promise.all(
       keys(UserStorage.indexableFields).map(k => {
         return this.setProfileFieldPrivacy(k, 'private').catch(() => {
-          logger.error('failed deleting profile field', k)
+          logger.error(
+            'failed deleting profile field',
+            'failed deleting profile field',
+            new Date('failed deleting profile field'),
+            { index: k }
+          )
         })
       })
     )

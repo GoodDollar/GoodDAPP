@@ -105,7 +105,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     log.debug('zoom capture completed', { captureResult })
     fireEvent('FR_Capture')
     if (captureResult === undefined) {
-      log.error('empty capture result')
+      log.error('Capture Result failed', 'empty capture result', null, { captureResult })
       this.showFRError('empty capture result')
     } else {
       this.startFRProcessOnServer(captureResult)

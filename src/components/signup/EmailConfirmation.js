@@ -71,7 +71,7 @@ class EmailConfirmation extends React.Component<Props, State> {
         await this.verifyCode(codeValue)
         this.handleSubmit()
       } catch (e) {
-        log.error({ e })
+        log.error('Submit email verification code failed', e.message, e)
 
         this.setState({
           errorMessage: e.message || e,

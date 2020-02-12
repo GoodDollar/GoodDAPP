@@ -118,6 +118,7 @@ const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
  * @param {boolean} [props.loading]
  * @param {string} [props.color=#555555]
  * @param {boolean} [props.dark]
+ * @param {string} [props.testID]
  * @param {boolean} [props.uppercase=true]
  * @param {string|(string => React.Node} [props.icon=edit)]
  * @param {string} [props.iconAlignment=right]
@@ -132,6 +133,7 @@ const CustomButton = (props: ButtonProps) => {
     mode,
     style,
     children,
+    testID,
     icon,
     iconAlignment,
     iconSize,
@@ -149,6 +151,7 @@ const CustomButton = (props: ButtonProps) => {
   return (
     <BaseButton
       dark={dark}
+      testID={testID}
       mode={mode}
       contentStyle={styles.contentStyle}
       theme={{ ...theme, roundness: 50 }}

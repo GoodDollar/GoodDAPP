@@ -2,7 +2,7 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
-import { getScreenWidth } from '../../../../lib/utils/Orientation'
+import { getScreenHeight, getScreenWidth } from '../../../../lib/utils/Orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 
 const { animationData, imageAssetsFolder } = getAnimationData('JumpingPeople', require('./data'))
@@ -37,9 +37,7 @@ const styles = {
   ios: {},
   web: {
     position: 'absolute',
-    marginTop: isMobile ? -(550 + getScreenWidth() / 2) : -770,
-    marginLeft: -getMarginLeft(),
-    width: getWidth(),
+    marginTop: -(getScreenHeight() / 3),
   },
 }
 

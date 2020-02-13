@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="69px" height="16px" viewBox="0 0 69 16" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<g id="#0000001a">
+<path fill="#000000" opacity="0.10" d=" M 55.54 0.00 L 69.00 0.00 L 69.00 3.39 C 65.40 4.25 61.41 5.70 57.84 4.05 C 56.74 2.94 56.34 1.32 55.54 0.00 Z" />
+<path fill="#000000" opacity="0.10" d=" M 0.00 12.70 C 4.39 12.21 8.80 11.67 13.22 12.18 C 13.06 12.76 12.76 13.93 12.61 14.51 C 11.69 15.02 10.77 15.51 9.84 16.00 L 0.00 16.00 L 0.00 12.70 Z" />
+</g>
 </svg>

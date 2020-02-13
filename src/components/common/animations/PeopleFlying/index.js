@@ -10,12 +10,12 @@ const { animationData, imageAssetsFolder } = getAnimationData('PeopleFlying', re
 const styles = {
   android: {
     width: getScreenWidth() - 15,
-    marginTop: -(getScreenHeight() / 4),
+    marginTop: -50,
     position: 'absolute',
   },
   ios: {},
   web: {
-    marginTop: -515,
+    marginTop: -(getScreenHeight() / 4),
     position: 'absolute',
   },
 }

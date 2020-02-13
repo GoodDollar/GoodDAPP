@@ -327,19 +327,19 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
                       "WebkitBoxDirection": "normal",
                       "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
                       "WebkitFlexDirection": "row",
                       "WebkitJustifyContent": "space-between",
-                      "alignItems": "center",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "flexDirection": "row",
                       "justifyContent": "space-between",
                       "marginBottom": "12px",
-                      "msFlexAlign": "center",
+                      "msFlexAlign": "baseline",
                       "msFlexDirection": "row",
                       "msFlexPack": "justify",
                     }
@@ -1013,19 +1013,19 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
                       "WebkitBoxDirection": "normal",
                       "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
                       "WebkitFlexDirection": "row",
                       "WebkitJustifyContent": "space-between",
-                      "alignItems": "center",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "flexDirection": "row",
                       "justifyContent": "space-between",
                       "marginBottom": "12px",
-                      "msFlexAlign": "center",
+                      "msFlexAlign": "baseline",
                       "msFlexDirection": "row",
                       "msFlexPack": "justify",
                     }
@@ -1817,19 +1817,19 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
                       "WebkitBoxDirection": "normal",
                       "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
                       "WebkitFlexDirection": "row",
                       "WebkitJustifyContent": "space-between",
-                      "alignItems": "center",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "flexDirection": "row",
                       "justifyContent": "space-between",
                       "marginBottom": "12px",
-                      "msFlexAlign": "center",
+                      "msFlexAlign": "baseline",
                       "msFlexDirection": "row",
                       "msFlexPack": "justify",
                     }
@@ -2755,19 +2755,19 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
                       "WebkitBoxDirection": "normal",
                       "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
                       "WebkitFlexDirection": "row",
                       "WebkitJustifyContent": "space-between",
-                      "alignItems": "center",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "flexDirection": "row",
                       "justifyContent": "space-between",
                       "marginBottom": "12px",
-                      "msFlexAlign": "center",
+                      "msFlexAlign": "baseline",
                       "msFlexDirection": "row",
                       "msFlexPack": "justify",
                     }
@@ -3694,19 +3694,19 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
                       "WebkitBoxDirection": "normal",
                       "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
                       "WebkitFlexDirection": "row",
                       "WebkitJustifyContent": "space-between",
-                      "alignItems": "center",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "flexDirection": "row",
                       "justifyContent": "space-between",
                       "marginBottom": "12px",
-                      "msFlexAlign": "center",
+                      "msFlexAlign": "baseline",
                       "msFlexDirection": "row",
                       "msFlexPack": "justify",
                     }

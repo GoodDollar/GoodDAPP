@@ -204,77 +204,6 @@ GoodDollar Wallet
             }
           >
             <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(163,163,163,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "12px",
-                  "fontWeight": "normal",
-                  "lineHeight": "16px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              By clicking the 'Create a wallet' button,
-you are accepting our
-
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                data-focusable={true}
-                dir="auto"
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                style={
-                  Object {
-                    "color": "rgba(163,163,163,1.00)",
-                    "cursor": "pointer",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "12px",
-                    "fontWeight": "700",
-                    "lineHeight": "16px",
-                    "textAlign": "center",
-                    "textDecoration": "underline",
-                    "textTransform": "none",
-                  }
-                }
-                tabIndex="0"
-              >
-                Terms of Use
-              </span>
-               and 
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                data-focusable={true}
-                dir="auto"
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                r={true}
-                style={
-                  Object {
-                    "color": "rgba(163,163,163,1.00)",
-                    "cursor": "pointer",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "12px",
-                    "fontWeight": "700",
-                    "lineHeight": "16px",
-                    "textAlign": "center",
-                    "textDecoration": "underline",
-                    "textTransform": "none",
-                  }
-                }
-                tabIndex="0"
-              >
-                Privacy Policy
-              </span>
-            </div>
-            <div
               className="css-view-1dbjc4n"
               style={
                 Object {
@@ -283,7 +212,7 @@ you are accepting our
                   "WebkitBoxPack": "center",
                   "WebkitJustifyContent": "center",
                   "alignItems": "stretch",
-                  "backgroundColor": "rgba(0,175,255,1.00)",
+                  "backgroundColor": "rgba(248,175,64,1.00)",
                   "borderBottomColor": "rgba(0,175,255,1.00)",
                   "borderBottomLeftRadius": "50px",
                   "borderBottomRightRadius": "50px",
@@ -422,7 +351,7 @@ you are accepting our
                             "WebkitBoxPack": "center",
                             "WebkitJustifyContent": "center",
                             "alignItems": "center",
-                            "color": "rgba(255,255,255,1.00)",
+                            "color": "rgba(66,69,74,1.00)",
                             "direction": "ltr",
                             "fontFamily": "Roboto",
                             "fontSize": "16px",
@@ -435,11 +364,40 @@ you are accepting our
                             "paddingTop": "1px",
                             "textAlign": "center",
                             "textDecoration": "none",
-                            "textTransform": "uppercase",
+                            "textTransform": "none",
                           }
                         }
                       >
-                        Create a wallet
+                        NEW HERE?
+                        <span
+                          className="css-text-901oao css-textHasAncestor-16my406"
+                          dir="auto"
+                          style={
+                            Object {
+                              "WebkitAlignItems": "center",
+                              "WebkitBoxAlign": "center",
+                              "WebkitBoxPack": "center",
+                              "WebkitJustifyContent": "center",
+                              "alignItems": "center",
+                              "color": "rgba(66,69,74,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto",
+                              "fontSize": "16px",
+                              "fontWeight": "800",
+                              "justifyContent": "center",
+                              "letterSpacing": "0px",
+                              "lineHeight": "22px",
+                              "msFlexAlign": "center",
+                              "msFlexPack": "center",
+                              "paddingTop": "1px",
+                              "textAlign": "center",
+                              "textDecoration": "none",
+                              "textTransform": "none",
+                            }
+                          }
+                        >
+                           GET INVITED
+                        </span>
                       </span>
                     </div>
                   </div>

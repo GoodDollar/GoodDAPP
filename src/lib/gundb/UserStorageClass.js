@@ -734,9 +734,9 @@ export class UserStorage {
       const originalTXHash = await this.getTransactionHashByCode(data.hash)
       if (originalTXHash === undefined) {
         logger.error(
-          'handleOTPLUpdated: Original payment link TX not found',
           'handleOTPLUpdated failed',
-          new Error('handleOTPLUpdated failed'),
+          'Original payment link TX not found',
+          new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
           data
         )
         return
@@ -1030,7 +1030,12 @@ export class UserStorage {
     }
     const { errors, isValid } = profile.validate(update)
     if (!isValid) {
-      logger.error('setProfile failed:', 'setProfile failed', new Error('setProfile failed'), errors)
+      logger.error(
+        'setProfile failed',
+        'Fields validation failed',
+        new Error('setProfile failed: Fields validation failed'),
+        { errors }
+      )
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
       }
@@ -1054,9 +1059,9 @@ export class UserStorage {
 
       if (errors.length > 0) {
         logger.error(
-          'setProfile some fields failed',
-          'setProfile some fields failed',
-          new Error('setProfile some fields failed'),
+          'setProfile partially failed',
+          'some of the fields failed during saving',
+          new Error('setProfile: some fields failed during saving'),
           {
             errCount: errors.length,
             errors,
@@ -2012,11 +2017,11 @@ export class UserStorage {
     //first delete from indexes then delete the profile itself
     await Promise.all(
       keys(UserStorage.indexableFields).map(k => {
-        return this.setProfileFieldPrivacy(k, 'private').catch(() => {
+        return this.setProfileFieldPrivacy(k, 'private').catch(err => {
           logger.error(
-            'failed deleting profile field',
-            'failed deleting profile field',
-            new Date('failed deleting profile field'),
+            'Deleting profile field failed',
+            err.message || 'Some error occurred during setting the privacy to the field',
+            err || new Error('Deleting profile field failed'),
             { index: k }
           )
         })

@@ -46,7 +46,11 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     let failedFR = findKey(data, (v, k) => v === false)
     if (data.isError) {
       fireEvent(`FR_Error`, { failedFR, error: data.isError })
-      log.error('FR Error', 'FR Error', null, { failedFR, error: data.isError })
+      log.error('FR Error', 'An error occurred during gun sessionId updates', null, {
+        sessionId,
+        failedFR,
+        error: data.isError,
+      })
     } else if (failedFR) {
       fireEvent(`FR_Failed`, { failedFR })
     }
@@ -193,7 +197,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
       'B. Camera is at eye level\n' +
       'C. Light your face evenly'
   } else if (isProcessFailed) {
-    log.error('FR failed', 'FR failed', null, { processStatus })
+    log.error('FR failed', 'Some of the verification steps failed', null, { processStatus })
     helpText = 'Something went wrong, please try again...'
   }
   return (

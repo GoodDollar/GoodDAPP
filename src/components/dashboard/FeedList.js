@@ -1,6 +1,6 @@
 // @flow
 import React, { createRef } from 'react'
-import { Animated, Platform } from 'react-native'
+import { Animated } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import get from 'lodash/get'
 import { SwipeableFlatList } from 'react-native-swipeable-lists'
@@ -63,11 +63,8 @@ const FeedList = ({
   const flRef = createRef()
 
   const scrollToTop = () => {
-    // FIXME: RN
-    if (Platform.OS === 'web') {
-      if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
-        flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
-      }
+    if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
+      flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
     }
   }
 
@@ -187,7 +184,6 @@ const getStylesFromProps = ({ theme }) => ({
   scrollableView: {
     flexGrow: 1,
     display: 'flex',
-    height: '100%',
   },
 })
 

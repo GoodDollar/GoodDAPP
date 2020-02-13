@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   Animated,
   AppState,
@@ -83,7 +83,7 @@ const log = logger.child({ from: 'Dashboard' })
 
 const screenWidth = getMaxDeviceWidth()
 const headerContentWidth = screenWidth - _theme.sizes.default * 2 * 2
-const avatarCenteredPosition = headerContentWidth / 2 - 34
+const avatarCenteredPosition = Platform.OS === 'web' ? headerContentWidth / 2 - 34 : headerContentWidth / 2 - 78
 
 export type DashboardProps = {
   navigation: any,
@@ -136,6 +136,7 @@ const Dashboard = props => {
     height: headerAvatarAnimValue,
     width: headerAvatarAnimValue,
     top: 0,
+    left: headerAvatarLeftAnimValue,
   }
   const balanceAnimStyles = {
     visibility: showBalance ? 'visible' : 'hidden',
@@ -383,6 +384,7 @@ const Dashboard = props => {
     const fullNameOpacityTiming = 150
     const easingIn = Easing.in(Easing.quad)
     const easingOut = Easing.out(Easing.quad)
+    const balanceCenteredPosition = headerContentWidth / 2 - balanceBlockWidth / 2
 
     if (headerLarge) {
       Animated.parallel([
@@ -407,7 +409,7 @@ const Dashboard = props => {
           easing: easingOut,
         }),
         Animated.timing(headerBalanceRightAnimValue, {
-          toValue: avatarCenteredPosition,
+          toValue: Platform.select({ web: balanceCenteredPosition, default: avatarCenteredPosition }),
           duration: timing,
           easing: easingOut,
         }),
@@ -582,6 +584,21 @@ const Dashboard = props => {
 
   const avatarSource = avatar ? { uri: avatar } : unknownProfile
 
+  const onScroll = useCallback(
+    ({ nativeEvent }) => {
+      const minScrollRequired = 150
+      const scrollPosition = nativeEvent.contentOffset.y
+      const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+      const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
+      if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+        headerLarge && setHeaderLarge(false)
+      } else {
+        !headerLarge && setHeaderLarge(true)
+      }
+    },
+    [headerLarge, feeds]
+  )
+
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Section style={[styles.topInfo]}>
@@ -597,11 +614,20 @@ const Dashboard = props => {
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>
-            <Animated.View onLayout={saveBalanceBlockWidth} style={[styles.bigNumberWrapper, balanceAnimStyles]}>
+            <Animated.View
+              onLayout={Platform.OS === 'web' && saveBalanceBlockWidth}
+              style={[styles.bigNumberWrapper, balanceAnimStyles]}
+            >
               <BigGoodDollar
                 testID="amount_value"
                 number={balance}
-                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold', lineHeight: 42 }}
+                bigNumberProps={{
+                  fontSize: 42,
+                  fontWeight: 'semibold',
+                  lineHeight: 42,
+                  textAlign: 'left',
+                }}
+                style={Platform.OS !== 'web' && styles.marginNegative}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
             </Animated.View>
@@ -652,22 +678,9 @@ const Dashboard = props => {
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed}
         updateData={() => {}}
-        onScroll={debounce(({ nativeEvent }) => {
-          // ISH - including small header calculations
-          const minScrollRequired = 150
-          const scrollPosition = nativeEvent && nativeEvent.contentOffset.y
-          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
-          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-
-          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-            headerLarge && setHeaderLarge(false)
-          } else {
-            !headerLarge && setHeaderLarge(true)
-          }
-
-          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
-        }, 100)}
+        onScroll={onScroll}
         headerLarge={headerLarge}
+        scrollEventThrottle={100}
       />
       {currentFeed && (
         <FeedModalList
@@ -769,18 +782,18 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: 16,
   },
   bigNumberWrapper: {
+    alignItems: 'baseline',
     position: 'absolute',
     bottom: 0,
-    width: '100%',
-    alignItems: 'center',
-    alignContent: 'center',
-    left: 0,
   },
   disabledButton: {
     backgroundColor: theme.colors.gray50Percent,
   },
   bigNumberUnitStyles: {
-    marginRight: normalize(-20),
+    marginRight: Platform.select({
+      web: normalize(-20),
+      default: normalize(-10),
+    }),
   },
   serviceWorkerDialogWhatsNew: {
     textAlign: 'left',
@@ -802,6 +815,9 @@ const getStylesFromProps = ({ theme }) => ({
     paddingLeft: 0,
     paddingRight: 0,
     paddingTop: 0,
+  },
+  marginNegative: {
+    marginBottom: -7,
   },
 })
 

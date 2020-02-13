@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Platform } from 'react-native'
 import InputText from '../common/form/InputText'
 import { ScanQRButton, Section, Wrapper } from '../common'
@@ -38,6 +38,18 @@ const Who = (props: AmountProps) => {
   }, [state.value])
   console.info('Component props -> ', { props, params, text, state })
 
+  const next = useCallback(() => {
+    if (state.isValid) {
+      const [nextRoute, ...nextRoutes] = screenState.nextRoutes || []
+
+      props.screenProps.push(nextRoute, {
+        nextRoutes,
+        params,
+        counterPartyDisplayName: state.value,
+      })
+    }
+  }, [state.isValid, state.value, screenState.nextRoutes, params])
+
   return (
     <Wrapper>
       <TopBar push={screenProps.push}>
@@ -53,6 +65,8 @@ const Who = (props: AmountProps) => {
             placeholder="Enter the recipient name"
             style={styles.input}
             value={state.value}
+            enablesReturnKeyAutomatically
+            onSubmitEditing={next}
           />
         </Section.Stack>
         <Section.Row grow alignItems="flex-end">

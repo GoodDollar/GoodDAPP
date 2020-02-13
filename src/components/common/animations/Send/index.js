@@ -1,6 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { getAnimationData } from '../../../../lib/utils/lottie'
+import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 const { animationData, imageAssetsFolder } = getAnimationData('Send', require('./data'))
 
 class Send extends React.Component {
@@ -13,8 +14,9 @@ class Send extends React.Component {
         source={animationData}
         autoSize={false}
         style={{
-          paddingTop: 20,
-          paddingBottom: 20
+          width: 100,
+          marginTop: getDesignRelativeHeight(35),
+          position: 'absolute',
         }}
         loop={false}
       />

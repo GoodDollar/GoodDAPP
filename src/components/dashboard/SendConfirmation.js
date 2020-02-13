@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Platform, View } from 'react-native'
+import { Platform } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import CopyButton from '../common/buttons/CopyButton'
 import Section from '../common/layout/Section'
@@ -8,7 +8,6 @@ import Wrapper from '../common/layout/Wrapper'
 import SendAnimation from '../common/animations/Send'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
-import { Icon } from '../common'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 import BigGoodDollar from '../common/view/BigGoodDollar'
@@ -103,7 +102,7 @@ const getStylesFromProps = ({ theme }) => ({
   amountWrapper: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: getDesignRelativeHeight(10),
+    marginTop: getDesignRelativeHeight(120),
   },
   credsWrapper: {
     borderWidth: 1,

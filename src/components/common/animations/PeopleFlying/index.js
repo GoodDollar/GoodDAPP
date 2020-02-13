@@ -20,6 +20,7 @@ const styles = {
   },
   web: {
     marginTop: -(getScreenHeight() / 4),
+    width: '100%',
     position: 'absolute',
   },
 }

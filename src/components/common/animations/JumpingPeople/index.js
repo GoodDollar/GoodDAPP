@@ -1,31 +1,10 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
-import { isMobile } from 'mobile-device-detect'
-import { getScreenHeight, getScreenWidth } from '../../../../lib/utils/Orientation'
+import { getScreenHeight } from '../../../../lib/utils/Orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 
 const { animationData, imageAssetsFolder } = getAnimationData('JumpingPeople', require('./data'))
-
-const getWidth = () => {
-  let resultWidth = 630
-  const layerWidth = animationData.w
-  const screenWidth = getScreenWidth()
-  if (screenWidth <= layerWidth) {
-    resultWidth = screenWidth + screenWidth / 2.6
-  }
-  return resultWidth
-}
-
-const getMarginLeft = () => {
-  let resultWidth = 105
-  const layerWidth = animationData.w
-  const screenWidth = getScreenWidth()
-  if (screenWidth <= layerWidth) {
-    resultWidth = screenWidth / 4.2
-  }
-  return resultWidth
-}
 
 const styles = {
   android: {
@@ -38,6 +17,7 @@ const styles = {
   web: {
     position: 'absolute',
     marginTop: -(getScreenHeight() / 3),
+    width: '100%',
   },
 }
 

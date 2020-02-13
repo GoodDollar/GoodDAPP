@@ -183,6 +183,7 @@ const patchLogger = () => {
     }
     if (Config.sentryDSN && Config.env !== 'test') {
       reportToSentry(logMessage, {
+        logMessage,
         errorObj,
         logContext,
         eMsg,

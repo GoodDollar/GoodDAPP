@@ -105,7 +105,7 @@ const FeedModalItem = (props: FeedEventProps) => {
 const getStylesFromProps = ({ theme }) => {
   return {
     dateAndAmount: {
-      alignItems: 'center',
+      alignItems: 'baseline',
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',

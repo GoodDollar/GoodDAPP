@@ -361,8 +361,8 @@ describe('UserStorage', () => {
 
   it('events/gets events first page', async () => {
     //welcome message+01-02 event =2
-    const gunRes = await userStorage.getFeedPage(2)
-    expect(gunRes.length).toEqual(2)
+    const gunRes = await userStorage.getFeedPage(5)
+    expect(gunRes.length).toEqual(5)
   })
 
   it('events/has the welcome event already set', async () => {
@@ -377,7 +377,7 @@ describe('UserStorage', () => {
   it('events/gets events second page using cursor', async () => {
     //rest of other 3 01-01 events
     const gunRes = await userStorage.getFeedPage(2)
-    expect(gunRes.length).toEqual(3)
+    expect(gunRes.length).toEqual(2)
   })
 
   it('resets cursor and get events single day page', async () => {

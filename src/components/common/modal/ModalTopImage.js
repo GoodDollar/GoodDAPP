@@ -90,7 +90,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 0,
     justifyContent: 'center',
     flexDirection: 'row',
-    marginBottom: 15,
+    marginBottom: theme.sizes.defaultDouble,
   },
   mainImage: {
     height: getDesignRelativeHeight(110, true),
@@ -102,9 +102,9 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 0,
     justifyContent: 'center',
     flexDirection: 'row',
-    marginHorizontal: -16,
-    marginTop: -16,
-    marginBottom: 15,
+    marginHorizontal: -theme.sizes.defaultDouble,
+    marginTop: -theme.sizes.defaultDouble,
+    marginBottom: theme.sizes.defaultDouble - 1,
   },
   mainPhoto: {
     height: '20vh',

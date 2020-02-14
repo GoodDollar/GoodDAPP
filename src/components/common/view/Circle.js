@@ -77,7 +77,7 @@ const getStylesFromProps = ({ theme }) => {
       zIndex: 5,
       position: 'absolute',
       top: theme.sizes.default + 1,
-      left: 4,
+      left: theme.sizes.defaultHalf,
       width: 43,
       height: 43,
       borderRadius: 43 / 2,

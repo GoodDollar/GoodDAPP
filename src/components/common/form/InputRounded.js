@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, TextInput, View } from 'react-native'
+import { TextInput, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
@@ -46,7 +46,7 @@ const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChang
 
 const getStylesFromProps = ({ theme, disabled }) => {
   const defaultInputContainer = {
-    paddingHorizontal: 32,
+    paddingHorizontal: theme.sizes.defaultQuadruple,
     paddingVertical: 0,
     position: 'relative',
     borderRadius: 24,
@@ -65,11 +65,7 @@ const getStylesFromProps = ({ theme, disabled }) => {
 
   return {
     inputContainer: {
-      display: Platform.select({
-        // FIXME: RN
-        default: 'flex',
-        web: 'inline-flex',
-      }),
+      display: 'flex',
       flex: 1,
     },
     errorInputContainer: {

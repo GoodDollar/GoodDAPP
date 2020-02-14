@@ -2,7 +2,7 @@
 import startCase from 'lodash/startCase'
 import React, { useEffect, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
-import { TouchableOpacity, Platform } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
@@ -11,6 +11,7 @@ import { CustomButton, Icon, Section, Text } from '../common'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import Wrapper from '../common/layout/Wrapper'
+import { rem } from '../../lib/utils/sizes'
 import OptionsRow from './OptionsRow'
 
 const TITLE = 'PROFILE PRIVACY'
@@ -44,7 +45,7 @@ const ProfilePrivacy = props => {
       const fields = await Promise.all(toUpdate)
 
       // set the current privacy values
-      fields.map(({ privacy }, index) => {
+      fields.forEach(({ privacy }, index) => {
         setInitialPrivacy(prevState => ({ ...prevState, [`${profileFields[index]}`]: privacy }))
         setPrivacy(prevState => ({ ...prevState, [`${profileFields[index]}`]: privacy }))
       })
@@ -179,12 +180,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingRight: 0,
     },
     infoIcon: {
-      ...Platform.select({
-        // FIXME: RN
-        web: {
-          marginLeft: '0.5em',
-        },
-      }),
+      marginLeft: rem(0.5),
     },
     optionsRowContainer: {
       padding: 0,

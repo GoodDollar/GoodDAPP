@@ -34,19 +34,7 @@ const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
 
   return (
     <View style={styles.wrapper} onLayout={handleLayout}>
-      {animated ? (
-        <Animated.View
-          style={[
-            animatedScale,
-            styles.animatedWrapper,
-            { opacity: pushButtonTranslate.translateY || pushButtonTranslate.translateX ? 1 : 0 },
-          ]}
-        >
-          {Button}
-        </Animated.View>
-      ) : (
-        Button
-      )}
+      {animated ? <Animated.View style={[animatedScale, styles.animatedWrapper]}>{Button}</Animated.View> : Button}
     </View>
   )
 }

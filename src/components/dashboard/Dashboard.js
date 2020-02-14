@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Animated,
   AppState,
@@ -287,7 +287,12 @@ const Dashboard = props => {
   // The balance always changes so the width is dynamical.
   // Animation functionality requires positioning props to be set with numbers.
   // So we need to calculate the center of the screen within dynamically changed balance block width.
+  const balanceHasBeenCentered = useRef(false)
+
   const saveBalanceBlockWidth = event => {
+    if (balanceHasBeenCentered.current) {
+      return
+    }
     const width = _get(event, 'nativeEvent.layout.width')
 
     setBalanceBlockWidth(width)
@@ -301,6 +306,7 @@ const Dashboard = props => {
     if (!showBalance) {
       setShowBalance(true)
     }
+    balanceHasBeenCentered.current = true
   }
 
   useEffect(() => {
@@ -334,81 +340,6 @@ const Dashboard = props => {
         }),
         Animated.timing(headerBalanceRightAnimValue, {
           toValue: balanceCenteredPosition,
-          duration: timing,
-          easing: easingOut,
-        }),
-        Animated.timing(headerBalanceVerticalMarginAnimValue, {
-          toValue: theme.sizes.defaultDouble,
-          duration: timing,
-          easing: easingOut,
-        }),
-      ]).start()
-    } else {
-      Animated.parallel([
-        Animated.timing(headerAvatarAnimValue, {
-          toValue: 42,
-          duration: timing,
-          easing: easingIn,
-        }),
-        Animated.timing(headerHeightAnimValue, {
-          toValue: 40,
-          duration: timing,
-          easing: easingIn,
-        }),
-        Animated.timing(headerAvatarLeftAnimValue, {
-          toValue: 0,
-          duration: timing,
-          easing: easingIn,
-        }),
-        Animated.timing(headerFullNameOpacityAnimValue, {
-          toValue: 0,
-          duration: fullNameOpacityTiming,
-          easing: easingIn,
-        }),
-        Animated.timing(headerBalanceRightAnimValue, {
-          toValue: 20,
-          duration: timing,
-          easing: easingIn,
-        }),
-        Animated.timing(headerBalanceVerticalMarginAnimValue, {
-          toValue: 0,
-          duration: timing,
-          easing: easingIn,
-        }),
-      ]).start()
-    }
-  }, [headerLarge])
-
-  useEffect(() => {
-    const timing = 250
-    const fullNameOpacityTiming = 150
-    const easingIn = Easing.in(Easing.quad)
-    const easingOut = Easing.out(Easing.quad)
-
-    if (headerLarge) {
-      Animated.parallel([
-        Animated.timing(headerAvatarAnimValue, {
-          toValue: 68,
-          duration: timing,
-          easing: easingOut,
-        }),
-        Animated.timing(headerHeightAnimValue, {
-          toValue: 165,
-          duration: timing,
-          easing: easingOut,
-        }),
-        Animated.timing(headerAvatarLeftAnimValue, {
-          toValue: avatarCenteredPosition,
-          duration: timing,
-          easing: easingOut,
-        }),
-        Animated.timing(headerFullNameOpacityAnimValue, {
-          toValue: 1,
-          duration: fullNameOpacityTiming,
-          easing: easingOut,
-        }),
-        Animated.timing(headerBalanceRightAnimValue, {
-          toValue: avatarCenteredPosition,
           duration: timing,
           easing: easingOut,
         }),

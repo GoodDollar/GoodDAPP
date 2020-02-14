@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, View } from 'react-native'
+import { AsyncStorage, View } from 'react-native'
 import numeral from 'numeral'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -19,13 +19,11 @@ import Text from '../common/view/Text'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
-import illustration from '../../assets/Claim/illustration.svg'
+import AnimationsJumpingPeople from '../common/animations/JumpingPeople'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
-
-Image.prefetch(illustration)
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -38,8 +36,6 @@ type ClaimState = {
 }
 
 const log = logger.child({ from: 'Claim' })
-
-Image.prefetch(illustration)
 
 const Claim = props => {
   const { screenProps, styles }: ClaimProps = props
@@ -237,7 +233,6 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
   return (
     <Wrapper>
       <Section style={styles.mainContainer}>
@@ -275,7 +270,7 @@ const Claim = props => {
           </Section.Row>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
-          <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
+          <AnimationsJumpingPeople isCitizen={isCitizen} />
           {!isCitizen && (
             <ClaimButton
               isCitizen={true}
@@ -365,19 +360,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     blankBottom: {
       minHeight: getDesignRelativeHeight(4 * theme.sizes.defaultDouble),
-    },
-    illustration: {
-      flexGrow: 0,
-      flexShrink: 0,
-      marginBottom: theme.sizes.default,
-    },
-    illustrationForCitizen: {
-      height: getDesignRelativeHeight(184, false),
-      marginTop: getDesignRelativeHeight(-94, false),
-    },
-    illustrationForNonCitizen: {
-      height: getDesignRelativeHeight(159, false),
-      marginTop: getDesignRelativeHeight(-70, false),
     },
     extraInfo: {
       backgroundColor: theme.colors.surface,

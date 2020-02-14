@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import { AsyncStorage } from 'react-native'
 import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
@@ -12,7 +12,7 @@ import Text from '../common/view/Text'
 import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Auth/Illustration.svg'
+import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 import config from '../../config/config'
 import { theme as mainTheme } from '../theme/styles'
 import API from '../../lib/API/api'
@@ -28,7 +28,6 @@ type Props = {
   styles: any,
 }
 
-Image.prefetch(illustration)
 const log = logger.child({ from: 'Auth' })
 
 class Auth extends React.Component<Props> {
@@ -171,7 +170,7 @@ class Auth extends React.Component<Props> {
         <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
           {'Welcome to\nGoodDollar Wallet'}
         </Text>
-        <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+        <AnimationsPeopleFlying />
         <Section style={styles.bottomContainer}>
           {asGuest && (
             <Text fontSize={12} color="gray80Percent">

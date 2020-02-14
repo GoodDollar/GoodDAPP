@@ -83,7 +83,7 @@ const log = logger.child({ from: 'Dashboard' })
 
 const screenWidth = getMaxDeviceWidth()
 const headerContentWidth = screenWidth - _theme.sizes.default * 2 * 2
-const avatarCenteredPosition = Platform.OS === 'web' ? headerContentWidth / 2 - 34 : headerContentWidth / 2 - 78
+const avatarCenteredPosition = headerContentWidth / 2 - Platform.select({ ios: 78, android: 68, web: 34 })
 
 export type DashboardProps = {
   navigation: any,
@@ -754,7 +754,7 @@ const getStylesFromProps = ({ theme }) => ({
   leftButton: {
     flex: 1,
     height: 44,
-    marginRight: 24,
+    marginRight: -12,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',
@@ -766,7 +766,7 @@ const getStylesFromProps = ({ theme }) => ({
   rightButton: {
     flex: 1,
     height: 44,
-    marginLeft: 24,
+    marginLeft: -12,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',

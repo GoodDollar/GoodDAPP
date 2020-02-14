@@ -6,15 +6,6 @@ import { withStyles } from '../../../lib/styles'
 
 const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
   const [pushButtonTranslate, setPushButtonTranslate] = React.useState({})
-  const [showButton, setShowButton] = React.useState(false)
-  const [fadeAnim] = React.useState(new Animated.Value(0))
-
-  React.useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000,
-    }).start()
-  }, [showButton])
 
   const Button = (
     <PushButton
@@ -39,13 +30,20 @@ const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
   const handleLayout = useCallback(event => {
     const { width, height } = event.nativeEvent.layout
     setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
-    setShowButton(true)
   })
 
   return (
     <View style={styles.wrapper} onLayout={handleLayout}>
       {animated ? (
-        <Animated.View style={[animatedScale, styles.animatedWrapper, { opacity: fadeAnim }]}>{Button}</Animated.View>
+        <Animated.View
+          style={[
+            animatedScale,
+            styles.animatedWrapper,
+            { opacity: pushButtonTranslate.translateY || pushButtonTranslate.translateX ? 1 : 0 },
+          ]}
+        >
+          {Button}
+        </Animated.View>
       ) : (
         Button
       )}

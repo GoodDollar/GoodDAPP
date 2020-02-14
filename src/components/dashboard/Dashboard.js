@@ -384,7 +384,6 @@ const Dashboard = props => {
     const fullNameOpacityTiming = 150
     const easingIn = Easing.in(Easing.quad)
     const easingOut = Easing.out(Easing.quad)
-    const balanceCenteredPosition = headerContentWidth / 2 - balanceBlockWidth / 2
 
     if (headerLarge) {
       Animated.parallel([
@@ -409,7 +408,7 @@ const Dashboard = props => {
           easing: easingOut,
         }),
         Animated.timing(headerBalanceRightAnimValue, {
-          toValue: Platform.select({ web: balanceCenteredPosition, default: avatarCenteredPosition }),
+          toValue: avatarCenteredPosition,
           duration: timing,
           easing: easingOut,
         }),

@@ -83,7 +83,7 @@ const log = logger.child({ from: 'Dashboard' })
 
 const screenWidth = getMaxDeviceWidth()
 const headerContentWidth = screenWidth - _theme.sizes.default * 2 * 2
-const avatarCenteredPosition = headerContentWidth / 2 - Platform.select({ ios: 78, android: 68, web: 34 })
+const avatarCenteredPosition = headerContentWidth / 2 - 34
 
 export type DashboardProps = {
   navigation: any,
@@ -614,10 +614,7 @@ const Dashboard = props => {
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>
-            <Animated.View
-              onLayout={Platform.OS === 'web' && saveBalanceBlockWidth}
-              style={[styles.bigNumberWrapper, balanceAnimStyles]}
-            >
+            <Animated.View onLayout={saveBalanceBlockWidth} style={[styles.bigNumberWrapper, balanceAnimStyles]}>
               <BigGoodDollar
                 testID="amount_value"
                 number={balance}

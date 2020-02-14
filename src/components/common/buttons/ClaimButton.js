@@ -6,6 +6,15 @@ import { withStyles } from '../../../lib/styles'
 
 const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
   const [pushButtonTranslate, setPushButtonTranslate] = React.useState({})
+  const [showButton, setShowButton] = React.useState(false)
+  const [fadeAnim] = React.useState(new Animated.Value(0))
+
+  React.useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+    }).start()
+  }, [showButton])
 
   const Button = (
     <PushButton
@@ -30,11 +39,16 @@ const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
   const handleLayout = useCallback(event => {
     const { width, height } = event.nativeEvent.layout
     setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
+    setShowButton(true)
   })
 
   return (
     <View style={styles.wrapper} onLayout={handleLayout}>
-      {animated ? <Animated.View style={animatedScale}>{Button}</Animated.View> : Button}
+      {animated ? (
+        <Animated.View style={[animatedScale, styles.animatedWrapper, { opacity: fadeAnim }]}>{Button}</Animated.View>
+      ) : (
+        Button
+      )}
     </View>
   )
 }
@@ -49,18 +63,21 @@ const getStylesFromProps = ({ theme }) => ({
       web: '50%',
     }),
     borderWidth: 3,
-    height: 72,
+    height: '100%',
     left: '50%',
     marginHorizontal: 0,
     elevation: 0,
     padding: 3,
     position: 'absolute',
     top: '50%',
-    width: 72,
+    width: '100%',
     zIndex: 99,
   },
+  animatedWrapper: {
+    width: 72,
+    height: 72,
+  },
   wrapper: {
-    height: '100%',
     zIndex: 1,
   },
   removeMargin: {

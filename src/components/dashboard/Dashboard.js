@@ -786,10 +786,7 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: theme.colors.gray50Percent,
   },
   bigNumberUnitStyles: {
-    marginRight: Platform.select({
-      web: normalize(-20),
-      default: normalize(-10),
-    }),
+    marginRight: normalize(-20),
   },
   serviceWorkerDialogWhatsNew: {
     textAlign: 'left',

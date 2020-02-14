@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
-import { isMobile as isMobileOnly } from '../utils/platform'
+import { isMobileOnly } from '../utils/platform'
 import { theme } from '../../components/theme/styles'
 
 let originalScreenHeight = 0

@@ -7,9 +7,9 @@ import { getAnimationData } from '../../../../lib/utils/lottie'
 const { animationData, imageAssetsFolder } = getAnimationData('RocketShip', require('./data'))
 
 const styles = {
-  android: { marginTop: -getScreenHeight() / 8, width: '100%' },
-  ios: { marginTop: -getScreenHeight() / 10, width: '100%', zIndex: -1 },
-  web: { marginTop: -getScreenHeight() / 10, width: '100%' },
+  android: { marginTop: -getScreenHeight() / 11, width: '100%' },
+  ios: { marginTop: -getScreenHeight() / 11, width: '100%' },
+  web: { marginTop: -getScreenHeight() / 11, width: '100%' },
 }
 
 class RocketShip extends React.Component {

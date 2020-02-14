@@ -12,7 +12,7 @@ class SaveButton extends React.Component {
     if (!isMobileReactNative) {
       this.anim.onEnterFrame = e => {
         const { loading } = this.props
-        if (e.currentTime > 39 && loading) {
+        if (e.currentTime > 85 && loading) {
           if (!isMobileReactNative) {
             this.anim.goToAndPlay(0, true)
           }
@@ -30,7 +30,7 @@ class SaveButton extends React.Component {
 
     if (this.props.loading) {
       if (isMobileReactNative) {
-        this.anim.play(0, 39)
+        this.anim.play(0, 85)
       } else {
         this.anim.play()
       }
@@ -47,7 +47,7 @@ class SaveButton extends React.Component {
     onPress && onPress()
 
     if (isMobileReactNative) {
-      this.anim.play(0, 39)
+      this.anim.play(0, 85)
     } else {
       this.anim.play()
     }
@@ -59,7 +59,7 @@ class SaveButton extends React.Component {
     if (onFinish && !loading) {
       onFinish()
     } else if (loading) {
-      this.anim.play(0, 39)
+      this.anim.play(0, 85)
     }
   }
 
@@ -74,6 +74,9 @@ class SaveButton extends React.Component {
           source={animationData}
           onAnimationFinish={this.handleAnimationFinish}
           imageAssetsFolder={imageAssetsFolder}
+          style={{
+            width: '100%',
+          }}
         />
       </TouchableOpacity>
     )
@@ -82,9 +85,7 @@ class SaveButton extends React.Component {
 
 const styles = ({ theme }) => {
   return {
-    wrapper: {
-      width: '100%',
-    },
+    wrapper: {},
   }
 }
 

@@ -1,17 +1,19 @@
 // @flow
 import React from 'react'
 import { Platform, View } from 'react-native'
+import { isMobile } from 'mobile-device-detect'
 import { useScreenState } from '../appNavigation/stackNavigation'
-import CopyButton from '../common/buttons/CopyButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import TopBar from '../common/view/TopBar'
+import Clipboard from '../../lib/utils/Clipboard'
 import { withStyles } from '../../lib/styles'
 import { Icon } from '../common'
+import AnimatedSendButton from '../common/animations/ShareLinkSendButton/ShareLinkSendButton'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -22,8 +24,23 @@ export type ReceiveProps = {
 
 const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
+  const [showErrorDialog] = useErrorDialog()
 
   const { amount, reason, paymentLink } = screenState
+
+  const shareAction = async () => {
+    if (isMobile && navigator.share) {
+      try {
+        await navigator.share(paymentLink)
+      } catch (e) {
+        if (e.name !== 'AbortError') {
+          showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
+        }
+      }
+    } else {
+      Clipboard.setString(paymentLink)
+    }
+  }
 
   return (
     <Wrapper>
@@ -64,9 +81,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
             </Section.Row>
           )}
         </Section.Stack>
-        <CopyButton toCopy={paymentLink} onPressDone={() => screenProps.goToRoot()}>
-          Copy link to clipboard
-        </CopyButton>
+        <AnimatedSendButton onPress={shareAction} onPressDone={() => screenProps.goToRoot()} />
       </Section>
     </Wrapper>
   )

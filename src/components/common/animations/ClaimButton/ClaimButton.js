@@ -1,6 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
+import _set from 'lodash/set'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 
@@ -16,11 +17,13 @@ class ClaimButton extends React.Component {
       this.anim.onEnterFrame = e => {
         const { stopOnClaim } = this.state
 
-        if (stopOnClaim && e.currentTime >= 50) {
+        if (stopOnClaim && e.currentTime >= 75) {
           this.anim.pause()
         }
       }
     }
+
+    this.goToClaim()
   }
 
   setAnim = anim => {
@@ -34,7 +37,7 @@ class ClaimButton extends React.Component {
       },
       () => {
         if (isMobileReactNative) {
-          this.anim.play(0, 50)
+          this.anim.play(0, 75)
         } else {
           this.anim.goToAndPlay(0, true)
         }
@@ -49,19 +52,46 @@ class ClaimButton extends React.Component {
       },
       () => {
         if (isMobileReactNative) {
-          this.anim.play(50, 120)
+          this.anim.play(75, 120)
         } else {
-          this.anim.goToAndPlay(50, true)
+          this.anim.goToAndPlay(75, true)
         }
       }
     )
   }
 
+  handlePress = () => {
+    const { onPressClaim } = this.props
+    const { stopOnClaim } = this.state
+
+    if (onPressClaim && stopOnClaim) {
+      onPressClaim()
+    }
+
+    if (stopOnClaim) {
+      this.goToCounter()
+    }
+  }
+
   render() {
+    const { amount } = this.props
+
+    _set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE - ${amount} `)
+    _set(animationData, 'layers[5].nm', `CLAIM YOUR SHARE - ${amount} `)
+
     return (
-      <View>
-        <Lottie ref={this.setAnim} loop={false} source={animationData} imageAssetsFolder={imageAssetsFolder} />
-      </View>
+      <TouchableOpacity onPress={this.handlePress}>
+        <Lottie
+          ref={this.setAnim}
+          loop={false}
+          source={animationData}
+          imageAssetsFolder={imageAssetsFolder}
+          resizeMode="cover"
+          style={{
+            width: '100%',
+          }}
+        />
+      </TouchableOpacity>
     )
   }
 }

@@ -5,7 +5,7 @@ import { isMobileReactNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 import animationData from './data.json'
 
-class ShareLinkReceiveButton extends React.Component {
+class ShareLinkSendButton extends React.Component {
   state = {
     disabled: false,
     performed: false,
@@ -69,4 +69,4 @@ const styles = ({ theme }) => {
   }
 }
 
-export default withStyles(styles)(ShareLinkReceiveButton)
+export default withStyles(styles)(ShareLinkSendButton)

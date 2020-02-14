@@ -7,7 +7,6 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../common'
-import SaveAnimatedButton from '../common/animations/SaveButton/SaveButton'
 import ImageCropper from '../common/form/ImageCropper'
 
 const log = logger.child({ from: 'EditAvatar' })
@@ -22,11 +21,9 @@ const EditAvatar = ({ screenProps, theme }) => {
   const [avatar, setAvatar] = useState()
   const [changed, setChanged] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [animate, setAnimate] = useState(false)
 
   const saveAvatar = async () => {
     setSaving(true)
-    setAnimate(true)
 
     await wrappedUserStorage.setAvatar(avatar).catch(e => {
       log.error('saving image failed:', e.message, e)
@@ -48,25 +45,14 @@ const EditAvatar = ({ screenProps, theme }) => {
           <ImageCropper image={profile.avatar} onChange={handleAvatarChange} />
         </Section.Row>
         <Section.Stack justifyContent="flex-end" grow>
-          {animate ? (
-            <SaveAnimatedButton
-              loading={saving}
-              disabled={!changed}
-              onFinish={() => {
-                screenProps.pop()
-                setAnimate(false)
-              }}
-            />
-          ) : (
-            <CustomButton
-              disabled={!changed || saving}
-              loading={saving}
-              onPress={saveAvatar}
-              color={theme.colors.darkBlue}
-            >
-              Save
-            </CustomButton>
-          )}
+          <CustomButton
+            disabled={!changed || saving}
+            loading={saving}
+            onPress={saveAvatar}
+            color={theme.colors.darkBlue}
+          >
+            Save
+          </CustomButton>
         </Section.Stack>
       </Section>
     </Wrapper>

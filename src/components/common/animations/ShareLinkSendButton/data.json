@@ -5,7 +5,7 @@
   "op": 151,
   "w": 339,
   "h": 82,
-  "nm": "Share link -Recieve",
+  "nm": "COPY LINK TO CLIPBOARD",
   "ddd": 0,
   "assets": [],
   "fonts": {
@@ -1596,7 +1596,7 @@
       "ddd": 0,
       "ind": 8,
       "ty": 5,
-      "nm": "SHARE AS LINK",
+      "nm": "COPY LINK TO CLIPBOARD",
       "tt": 1,
       "sr": 1,
       "ks": {
@@ -1703,7 +1703,7 @@
               "s": {
                 "s": 17,
                 "f": "Roboto-Bold",
-                "t": "SHARE AS LINK",
+                "t": "COPY LINK TO CLIPBOARD",
                 "j": 2,
                 "tr": -8,
                 "lh": 20.4,

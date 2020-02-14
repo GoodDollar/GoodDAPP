@@ -21,6 +21,8 @@ import { getUserModel } from '../UserModel'
 import update from '../../updates'
 import { addUser } from './__util__/index'
 
+welcomeMessage.date = '2019-01-01'
+
 const delay = duration => {
   return new Promise((resolve, reject) => {
     setTimeout(resolve, duration)

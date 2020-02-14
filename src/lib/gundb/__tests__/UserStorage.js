@@ -361,8 +361,8 @@ describe('UserStorage', () => {
 
   it('events/gets events first page', async () => {
     //welcome message+01-02 event =2
-    const gunRes = await userStorage.getFeedPage(5)
-    expect(gunRes.length).toEqual(5)
+    const gunRes = await userStorage.getFeedPage(3)
+    expect(gunRes.length).toEqual(3)
   })
 
   it('events/has the welcome event already set', async () => {

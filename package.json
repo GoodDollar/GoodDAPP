@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.14.1-2",
+  "version": "0.16.0",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -116,7 +116,8 @@
     "validator": "^10.11.0",
     "web3": "^2.0.0-alpha.1",
     "web3-providers": "^2.0.0-alpha.1",
-    "web3-utils": "^2.0.0-alpha.1"
+    "web3-utils": "^2.0.0-alpha.1",
+    "websocket": "^1.0.31"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",

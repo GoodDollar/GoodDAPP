@@ -1469,7 +1469,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         "msFlexDirection": "row",
                         "msFlexNegative": 1,
                         "msFlexPack": "justify",
-                        "paddingBottom": "6px",
+                        "paddingBottom": "5px",
                       }
                     }
                   >
@@ -1537,7 +1537,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             "color": "rgba(0,195,174,1.00)",
                             "direction": "ltr",
                             "fontFamily": "Roboto Slab",
-                            "fontSize": "15px",
+                            "fontSize": "20px",
                             "fontWeight": "700",
                             "lineHeight": "18px",
                             "marginRight": "4px",
@@ -2064,7 +2064,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         "msFlexDirection": "row",
                         "msFlexNegative": 1,
                         "msFlexPack": "justify",
-                        "paddingBottom": "6px",
+                        "paddingBottom": "5px",
                       }
                     }
                   >
@@ -2132,7 +2132,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             "color": "rgba(250,108,119,1.00)",
                             "direction": "ltr",
                             "fontFamily": "Roboto Slab",
-                            "fontSize": "15px",
+                            "fontSize": "20px",
                             "fontWeight": "700",
                             "lineHeight": "18px",
                             "marginRight": "4px",

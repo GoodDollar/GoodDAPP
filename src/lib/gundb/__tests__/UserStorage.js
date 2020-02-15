@@ -376,8 +376,8 @@ describe('UserStorage', () => {
 
   it('events/gets events second page using cursor', async () => {
     //rest of other 3 01-01 events
-    const gunRes = await userStorage.getFeedPage(2)
-    expect(gunRes.length).toEqual(2)
+    const gunRes = await userStorage.getFeedPage(0)
+    expect(gunRes.length).toEqual(0)
   })
 
   it('resets cursor and get events single day page', async () => {

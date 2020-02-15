@@ -110,17 +110,13 @@ You're all set
         </div>
         <div
           className="css-view-1dbjc4n"
-          style={
-            Object {
-              "height": "1024px",
-            }
-          }
         >
           <div
             className="css-view-1dbjc4n"
             style={
               Object {
-                "marginTop": "-192px",
+                "marginTop": "-69.81818181818181px",
+                "width": "100%",
               }
             }
           />

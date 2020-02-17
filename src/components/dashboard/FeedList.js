@@ -87,14 +87,7 @@ const FeedList = ({
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedListItem
-      key={item.id}
-      item={item}
-      separators={separators}
-      fixedHeight
-      onPress={pressItem(item, index + 1)}
-      style={styles.textLineHeight}
-    />
+    <FeedListItem key={item.id} item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
   )
 
   /**
@@ -191,9 +184,6 @@ const getStylesFromProps = ({ theme }) => ({
   scrollableView: {
     flexGrow: 1,
     display: 'flex',
-  },
-  textLineHeight: {
-    lineHeight: 20,
   },
 })
 

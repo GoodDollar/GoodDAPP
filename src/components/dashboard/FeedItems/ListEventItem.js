@@ -111,6 +111,7 @@ const getWelcomeStyles = ({ theme }) => ({
   readMoreText: {
     letterSpacing: 0,
     marginLeft: 4,
+    lineHeight: 17,
   },
   readMore: {
     minHeight: normalize(16),

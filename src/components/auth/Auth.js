@@ -162,7 +162,6 @@ class Auth extends React.Component<Props> {
   }
 
   render() {
-    console.disableYellowBox = true;
     const { styles } = this.props
     const { asGuest, withW3Token } = this.state
     const firstButtonHandler = asGuest ? this.handleSignUp : this.goToW3Site

@@ -5,7 +5,7 @@ const fs = require("pn/fs") // https://www.npmjs.com/package/pn
 const fsNode = require("fs-extra") // https://www.npmjs.com/package/pn
 const xml = require("node-xml-lite")
 const svg2png = require("svg2png")
-const pathToAndroidAssetsAnimation = 'android/app/src/main/assets/animations'
+const pathToAndroidAssetsAnimation = 'android/app/src/main/res'
 const pathToIOSAssetsAnimation = 'ios/assets/animations'
 const pathToAssetsAnimations = 'public/animations'
 const mainPath = __dirname
@@ -25,7 +25,7 @@ const files = source =>
     return a
   }, [])
 
-const getAndroidPath = (animationName) => path.join(mainPath, pathToAndroidAssetsAnimation, animationName)
+const getAndroidPath = (drawable) => path.join(mainPath, pathToAndroidAssetsAnimation, drawable)
 const getIOSPath = (animationName) => path.join(mainPath, pathToIOSAssetsAnimation, animationName)
 const getSVGPath = (animationName) => path.join(mainPath, pathToAssetsAnimations, animationName)
 // const cleanAndroidDir = async (animationName) => {
@@ -64,12 +64,13 @@ const mapping = {
 const copyAndroidFile = async (animationName, image, amplification) => {
 
   const imageName = `${image.replace('img', animationName)}${amplification>1?`@${amplification}x`:''}.png`
-  const newPathToAndroidAnimation = getAndroidPath(animationName)
+  const newName = `${image.replace('img', animationName)}.png`
   const newPathToIOSAnimation = getIOSPath(animationName)
   for (const folder of mapping[amplification]){
-    const newPath = path.join(newPathToAndroidAnimation,folder)
+    const newPath = getAndroidPath(folder)
     await createPath(newPath)
-    await fs.copyFileSync(path.join(newPathToIOSAnimation, imageName), path.join(newPath, `${image}.png`))
+    console.log(path.join(newPathToIOSAnimation, imageName),'=>',path.join(newPath, newName))
+    await fs.copyFileSync(path.join(newPathToIOSAnimation, imageName), path.join(newPath, newName))
   }
 }
 
@@ -78,8 +79,7 @@ const renderPrettyDate = (uglyDate) => {
 }
 const parseDimension = (dimensionValue, dimensionName, directoryName, imageName) => {
   const dimensionAsString = dimensionValue
-
-  if (!dimensionAsString.endsWith("px")) {
+  if (!(dimensionAsString && dimensionAsString.endsWith("px"))) {
     throw new Error(dimensionName + " must end with px, but it rather is: " + dimensionAsString)
   }
 

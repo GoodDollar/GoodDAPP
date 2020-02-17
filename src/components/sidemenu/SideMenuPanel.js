@@ -2,6 +2,7 @@
 import React from 'react'
 import { AsyncStorage, ScrollView, TouchableOpacity, View } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
+import restart from '../../lib/utils/restart'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -11,7 +12,7 @@ import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { Icon } from '../common'
 import IconWrapper from '../common/modal/IconWrapper'
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
-import isWebApp from '../../lib/utils/isWebApp'
+import { isInstalledApp } from '../../lib/utils/platform'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SideMenuItem from './SideMenuItem'
 
@@ -53,7 +54,7 @@ export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
             if (isDeleted) {
               API.deleteWalletFromW3Site(token)
               await Promise.all([AsyncStorage.clear()])
-              window.location = '/'
+              restart()
             } else {
               showDialog('There was a problem deleting your account. Try again later.')
             }
@@ -172,15 +173,15 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
     ],
   }
 
-  if (isWebApp === false) {
+  if (!isInstalledApp) {
     result.topItems.push({
       icon: 'logout',
       name: 'Logout',
       action: () => {
         fireEvent(LOGOUT)
         AsyncStorage.clear()
-        window.location = '/'
         hideSidemenu()
+        restart()
       },
     })
   }

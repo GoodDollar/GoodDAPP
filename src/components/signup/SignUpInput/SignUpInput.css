@@ -1,26 +1,21 @@
 @import url('~react-phone-number-input/style.css');
 
 .react-phone-number-input {
-  width: 100% !important;
-  border: none !important;
-  border-radius: 0 !important;
-}
-
-.react-phone-number-input > .react-phone-number-input__row {
-  margin-bottom: 8px;
+  width: 100%;
+  border: none;
+  border-radius: 0;
 }
 
 .react-phone-number-input
   > .react-phone-number-input__row
   > .react-phone-number-input__input.react-phone-number-input__phone {
-  border-bottom: 1px solid rgb(0, 0, 0) !important;
-  margin-bottom: 8px;
+  border-bottom: 1px solid rgb(0, 0, 0);
 }
 
 .react-phone-number-input
   > .react-phone-number-input__row
   > .react-phone-number-input__input.react-phone-number-input__phone.react-phone-number-input__input--invalid {
-  border-bottom: 1px solid #fa6c77 !important;
+  border-bottom: 1px solid #fa6c77;
   color: #fa6c77;
   border-color: #fa6c77;
 }

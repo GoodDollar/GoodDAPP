@@ -111,7 +111,7 @@ const getWelcomeStyles = ({ theme }) => ({
   readMoreText: {
     letterSpacing: 0,
     marginLeft: 4,
-    lineHeight: 17,
+    lineHeight: 16,
   },
   readMore: {
     minHeight: normalize(16),
@@ -125,18 +125,21 @@ const getWelcomeStyles = ({ theme }) => ({
   },
   welcomeText: {
     textAlign: 'left',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
 })
 
 const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
-  <Text style={styles.welcomeText}>
+  <View style={styles.welcomeText}>
     <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'}>
       {text}
     </Text>
     <Text color={color || theme.colors.lighterGray} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
       {buttonText}
     </Text>
-  </Text>
+  </View>
 ))
 
 const getFeedTextStyles = ({ theme }) => ({

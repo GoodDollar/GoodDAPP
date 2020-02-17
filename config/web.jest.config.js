@@ -2,7 +2,8 @@
 
 module.exports = {
   moduleNameMapper: {
-    "\\.(css|less)$": "<rootDir>/src/__tests__/__mocks__/styleMock.js"
+    "\\.(css|less)$": "<rootDir>/src/__tests__/__mocks__/styleMock.js",
+    'lottie-react-native': 'react-native-web-lottie',
   },
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',

@@ -316,44 +316,12 @@ with your recipient.
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxPack": "center",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
-                  "backgroundColor": "rgba(250,108,119,1.00)",
-                  "borderBottomLeftRadius": "50%",
-                  "borderBottomRightRadius": "50%",
-                  "borderTopLeftRadius": "50%",
-                  "borderTopRightRadius": "50%",
-                  "display": "flex",
-                  "height": "75px",
-                  "justifyContent": "center",
-                  "marginBottom": "24px",
-                  "marginTop": "15px",
-                  "msFlexAlign": "center",
-                  "msFlexPack": "center",
-                  "position": "relative",
-                  "width": "75px",
+                  "marginTop": "35px",
+                  "position": "absolute",
+                  "width": "100px",
                 }
               }
-            >
-              <div
-                className="css-text-901oao"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "gooddollar",
-                    "fontSize": "45px",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  }
-                }
-              >
-                
-              </div>
-            </div>
+            />
           </div>
           <div
             className="css-text-901oao"
@@ -370,7 +338,7 @@ with your recipient.
                 "fontWeight": "500",
                 "justifyContent": "center",
                 "lineHeight": "30px",
-                "marginTop": "10px",
+                "marginTop": "120px",
                 "msFlexPack": "center",
                 "textAlign": "center",
                 "textDecoration": "none",

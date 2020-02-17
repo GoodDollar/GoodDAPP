@@ -1,11 +1,11 @@
 // @flow
 import React, { useMemo } from 'react'
+import { View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
-import { Section, Wrapper } from '../common'
+import { Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'
-import RecivedAnimation from '../common/animations/Recived'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode } from '../../lib/share'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -36,6 +36,7 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
   ])
 
   const noCreds = !(counterPartyDisplayName || reason)
+  const iconMarginWithoutReason = isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds
   const amountMargin = isMobile ? styles.amountBlockMarginMobile : styles.amountBlockMargin
 
   return (
@@ -46,7 +47,9 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
           {noCreds ? (
             <>
               <Section.Row justifyContent="center">
-                <RecivedAnimation />
+                <View style={[styles.sendIconWrapper, iconMarginWithoutReason]}>
+                  <Icon name="receive" size={getDesignRelativeHeight(45)} color="white" />
+                </View>
               </Section.Row>
               <Section.Stack style={amountMargin}>
                 <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
@@ -68,7 +71,9 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
           ) : (
             <Section.Stack style={amountMargin}>
               <Section.Row justifyContent="center">
-                <RecivedAnimation />
+                <View style={[styles.sendIconWrapper, iconMarginWithoutReason]}>
+                  <Icon name="receive" size={getDesignRelativeHeight(45)} color="white" />
+                </View>
               </Section.Row>
               <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
               <Section.Title fontWeight="medium" style={styles.amountWrapper}>

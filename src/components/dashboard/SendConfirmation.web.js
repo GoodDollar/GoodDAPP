@@ -1,12 +1,13 @@
 // @flow
 import React from 'react'
+import { View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import CopyButton from '../common/buttons/CopyButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import TopBar from '../common/view/TopBar'
-import SendAnimation from '../common/animations/Send'
 import { withStyles } from '../../lib/styles'
+import { Icon } from '../common'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 import './AButton.css'
@@ -35,7 +36,9 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
           </Section.Text>
           <Section.Stack style={styles.iconAmountBlock}>
             <Section.Row justifyContent="center">
-              <SendAnimation />
+              <View style={styles.sendIconWrapper}>
+                <Icon name="send" size={getDesignRelativeHeight(45)} color="white" />
+              </View>
             </Section.Row>
             <Section.Title fontWeight="medium" style={styles.amountWrapper}>
               <BigGoodDollar
@@ -99,7 +102,7 @@ const getStylesFromProps = ({ theme }) => ({
   amountWrapper: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: getDesignRelativeHeight(120),
+    marginTop: getDesignRelativeHeight(10),
   },
   credsWrapper: {
     borderWidth: 1,

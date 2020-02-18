@@ -79,6 +79,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
       if (profile) {
         await AsyncStorage.setItem(IS_LOGGED_IN, 'true')
+
         // FIXME: RN INAPPLINKS
         const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
         const firstName = getFirstWord(fullName)
@@ -163,6 +164,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               onCleanUpField={handleChange}
               getRef={input}
               autoFocus
+              enablesReturnKeyAutomatically
+              onSubmitEditing={recover}
             />
           </Section.Row>
         </Section.Stack>

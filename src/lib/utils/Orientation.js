@@ -8,7 +8,14 @@ if (!originalScreenHeight) {
   originalScreenHeight = Dimensions.get('window').height
 }
 
+let originalScreenWidth = 0
+
+if (!originalScreenWidth) {
+  originalScreenWidth = Dimensions.get('window').width
+}
+
 export const getOriginalScreenHeight = () => originalScreenHeight
+export const getOriginalScreenWidth = () => originalScreenWidth
 
 export const getScreenHeight = () => Dimensions.get('window').height
 export const getMaxDeviceHeight = () => (isMobileOnly ? getScreenHeight() : theme.sizes.maxHeightForTabletAndDesktop)

@@ -1,14 +1,16 @@
-// @flow
+//@flow
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PhoneInput from 'react-native-phone-input'
-import { StyleSheet } from 'react-native'
 
 type Props = {
   value: string,
   onChange: Function,
+  style: Object,
+  disableBorder: Boolean,
+  textStyle: Object,
 }
 
-export default (props: Props) => {
+const EditPhoneInput = (props: Props) => {
   const phoneInputRef = useRef()
   const countriesMap = useRef(new Map())
   const [isUserTypingCountry, setUserTypingCountry] = useState(false)
@@ -76,19 +78,20 @@ export default (props: Props) => {
     setUserTypingCountry(false)
   })
 
+  const { onBlur, onFocus, placeholder } = props
+  const textProps = { onBlur, onFocus, placeholder }
+
   return (
     <PhoneInput
       ref={phoneInputRef}
       value={phoneNumber}
       onChangePhoneNumber={onChange}
-      textStyle={styles.textStyle}
       onSelectCountry={handleSelectCountry}
+      style={props.style}
+      textStyle={props.textStyle}
+      textProps={textProps}
     />
   )
 }
 
-const styles = StyleSheet.create({
-  textStyle: {
-    borderBottomWidth: 1,
-  },
-})
+export default EditPhoneInput

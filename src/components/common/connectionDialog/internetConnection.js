@@ -41,7 +41,7 @@ const InternetConnection = props => {
       isConnectionWeb3 === false ||
       isConnectionGun === false
     ) {
-      log.error('connection failed:', '', {}, { isAPIConnection, isConnection, isConnectionWeb3, isConnectionGun })
+      log.warn('connection failed:', '', {}, { isAPIConnection, isConnection, isConnectionWeb3, isConnectionGun })
       let message
       if (isConnection === false) {
         message = 'Check your internet connection'

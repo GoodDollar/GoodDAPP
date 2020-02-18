@@ -1,6 +1,7 @@
 // @flow
 import React, { useState } from 'react'
 import { BN } from 'web3-utils'
+import logger from '../../lib/logger/pino-logger'
 import { AmountInput, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -12,6 +13,8 @@ export type AmountProps = {
   screenProps: any,
   navigation: any,
 }
+
+const log = logger.child({ from: 'Amount' })
 
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
@@ -26,7 +29,7 @@ const Amount = (props: AmountProps) => {
     if (params && params.action === ACTION_RECEIVE) {
       return true
     }
-    console.info('canContiniue?', { weiAmount, params })
+    log.info('canContiniue?', { weiAmount, params })
     try {
       const txFeePercents = await goodWallet.getTxFee().then(n => n / 10000)
       const fee = await goodWallet.calculateTxFee(weiAmount)
@@ -39,7 +42,8 @@ const Amount = (props: AmountProps) => {
       setError(`Sorry, you don't have enough G$ to send ${weiToGd(amountWithFee)} (${txFeePercents}% transaction fee)`)
       return false
     } catch (e) {
-      setError(e.message)
+      log.error('Failed canContiniue', e.message, e)
+      setError(`Sorry, Something unexpected happened, please try again.`)
       return false
     }
   }

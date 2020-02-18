@@ -11,6 +11,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import Section from '../common/layout/Section'
 import Icon from '../common/view/Icon'
 import { useDialog } from '../../lib/undux/utils/dialog'
+import { createIframe } from '../webView/iframe'
 
 const log = logger.child({ from: 'RewardsTab' })
 
@@ -39,12 +40,8 @@ const RewardsTab = props => {
     log.debug('got rewards login token', token)
     setToken(token)
   }
-  const isLoaded = () => {
-    store.set('loadingIndicator')({ loading: false })
-  }
 
   useEffect(() => {
-    store.set('loadingIndicator')({ loading: true })
     getToken()
   }, [])
 
@@ -69,15 +66,17 @@ const RewardsTab = props => {
   }, [token])
 
   const src = getRewardsPath()
-  const iframe = useMemo(() => {
-    return <iframe title="Rewards" onLoad={isLoaded} src={src} seamless frameBorder="0" style={{ flex: 1 }} />
+  const webIframesStyles = { flex: 1 }
+  const Iframe = createIframe(src, 'Rewards', webIframesStyles)
+  const rewardsIframe = useMemo(() => {
+    return <Iframe />
   }, [src])
 
   if (isIOS || token === undefined) {
     return null
   }
 
-  return iframe
+  return rewardsIframe
 }
 
 const navBarStyles = {

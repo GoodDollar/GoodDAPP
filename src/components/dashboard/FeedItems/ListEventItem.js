@@ -146,43 +146,32 @@ const getFeedTextStyles = ({ theme }) => ({
 })
 
 const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice }) => {
-  let result = ''
-
   switch (feed.type) {
     case 'welcome':
-      result = <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
 
     case 'invite':
-      result = <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
 
     case 'backup':
-      result = <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
 
     case 'spending':
-      result = <ReadMoreText text="here >>>" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="here >>>" buttonText="Read more..." />
 
     case 'claiming':
-      result = isSmallDevice ? <ReadMoreText text="daily G$" /> : ''
-      break
+      return isSmallDevice ? <ReadMoreText text="daily G$" /> : null
 
     case 'hanukaStarts':
-      result = <ReadMoreText text="Claim today for extra G$$$" />
-      break
+      return <ReadMoreText text="Claim today for extra G$$$" />
 
     default:
-      result = (
+      return (
         <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
           {feed.data.message}
         </Text>
       )
-      break
   }
-
-  return result
 })
 
 const getStylesFromProps = ({ theme }) => ({

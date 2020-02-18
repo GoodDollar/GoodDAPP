@@ -44,6 +44,8 @@ const showOutOfGasError = _debounce(
   }
 )
 
+let unsuccessfulLaunchAttempts = 0
+
 /**
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
@@ -157,7 +159,14 @@ const AppSwitch = (props: LoadingProps) => {
       setReady(true)
     } catch (e) {
       log.error('failed initializing app', e.message, e)
-      showErrorDialog('Wallet could not be loaded. Please try again later.')
+      unsuccessfulLaunchAttempts += 1
+      if (unsuccessfulLaunchAttempts > 1) {
+        showErrorDialog('Wallet could not be loaded. Please try again later.', '', {
+          onDismiss: init,
+        })
+      } else {
+        init()
+      }
     }
   }
 

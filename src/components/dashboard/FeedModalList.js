@@ -155,8 +155,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   horizontalList: {
     width: '100%',
-
-    // FIXME: RN
     maxWidth: Platform.select({
       web: '100vw',
       default: getScreenWidth(),
@@ -167,12 +165,17 @@ const getStylesFromProps = ({ theme }) => ({
     width: maxScreenWidth,
   },
   flatList: {
-    // FIXME: RN
-    ...Platform.select({
-      web: {
-        transform: 'translateY(1px)',
+    transform: [
+      {
+        translateY: 1,
       },
-    }),
+    ],
+
+    // ...Platform.select({
+    //   web: {
+    //     transform: 'translateY(1px)',
+    //   },
+    // }),
   },
 })
 

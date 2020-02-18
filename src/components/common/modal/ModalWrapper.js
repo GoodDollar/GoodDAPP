@@ -99,7 +99,11 @@ const getStylesFromProps = ({ theme }) => ({
           web: '-50%',
           default: 0,
         }),
+      },
+      {
         rotate: '63deg',
+      },
+      {
         skewX: '37deg',
       },
     ],

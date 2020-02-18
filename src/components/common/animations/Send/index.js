@@ -14,9 +14,7 @@ class Send extends React.Component {
         source={animationData}
         autoSize={false}
         style={{
-          width: 100,
-          marginTop: getDesignRelativeHeight(35),
-          position: 'absolute',
+          height: getDesignRelativeHeight(145),
         }}
         loop={false}
       />

@@ -3,7 +3,6 @@ import React, { useMemo } from 'react'
 import { Platform, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { Icon, Section, Wrapper } from '../common'
-import RecivedAnimation from "../common/animations/Recived";
 import TopBar from '../common/view/TopBar'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'
@@ -38,6 +37,7 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
   ])
 
   const noCreds = !(counterPartyDisplayName || reason)
+  const iconMarginWithoutReason = isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds
   const amountMargin = isMobile ? styles.amountBlockMarginMobile : styles.amountBlockMargin
 
   return (
@@ -48,7 +48,9 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
           {noCreds ? (
             <>
               <Section.Row justifyContent="center">
-                <RecivedAnimation />
+                <View style={[styles.sendIconWrapper, iconMarginWithoutReason]}>
+                  <Icon name="receive" size={getDesignRelativeHeight(45)} color="white" />
+                </View>
               </Section.Row>
               <Section.Stack style={amountMargin}>
                 <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
@@ -70,7 +72,9 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
           ) : (
             <Section.Stack style={amountMargin}>
               <Section.Row justifyContent="center">
-                <RecivedAnimation />
+                <View style={styles.sendIconWrapper}>
+                  <Icon name="receive" size={getDesignRelativeHeight(45)} color="white" />
+                </View>
               </Section.Row>
               <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
               <Section.Row justifyContent="center" fontWeight="medium" style={styles.amountWrapper}>

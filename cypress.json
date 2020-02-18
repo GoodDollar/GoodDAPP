@@ -1,6 +1,6 @@
 {
     "chromeWebSecurity": false,
-    "defaultCommandTimeout": 120000,
+    "defaultCommandTimeout": 60000,
     "env": {   
         "baseUrl": "https://gooddev.netlify.com/",
         "mainAccountEmail": "gooddollar.test123@gmail.com",

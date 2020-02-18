@@ -742,7 +742,11 @@ export class UserStorage {
         )
         return
       }
-      const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
+
+      const feedEvent = {
+        data: {},
+        ...((await this.getFeedItemByTransactionHash(originalTXHash)) || {}),
+      }
 
       if (get(feedEvent, 'data.otplData')) {
         logger.debug('handleOTPLUpdated skipping event with existed receipt data', feedEvent, receipt)

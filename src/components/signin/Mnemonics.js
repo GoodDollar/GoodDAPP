@@ -163,6 +163,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               onCleanUpField={handleChange}
               getRef={input}
               autoFocus
+              enablesReturnKeyAutomatically
+              onSubmitEditing={recover}
             />
           </Section.Row>
         </Section.Stack>

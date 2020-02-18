@@ -79,6 +79,7 @@ const Signin = props => {
             textDecorationLine="underline"
             fontSize={14}
             color="primary"
+            testID='recoverPhrase'
           >
             {'Or, recover from pass phrase'}
           </Section.Text>

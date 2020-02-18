@@ -12,7 +12,7 @@ import Config from '../../config/config'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
-import FromNumberInput from './SignUpInput/SignUpInput'
+import FormNumberInput from './PhoneNumberInput/PhoneNumberInput'
 import CustomWrapper from './signUpWrapper'
 
 const log = logger.child({ from: 'PhoneForm' })
@@ -119,7 +119,7 @@ class PhoneForm extends React.Component<Props, State> {
               </Section.Title>
             </Section.Row>
             <Section.Stack justifyContent="center" style={styles.column}>
-              <FromNumberInput
+              <FormNumberInput
                 id={key + '_input'}
                 value={this.state.mobile}
                 onChange={this.handleChange}
@@ -128,6 +128,8 @@ class PhoneForm extends React.Component<Props, State> {
                 country={this.state.countryCode}
                 onTouchStart={this.onFocus}
                 onBlur={this.onBlur}
+                onSubmitEditing={this.handleSubmit}
+                enablesReturnKeyAutomatically
               />
               <ErrorText error={errorMessage} style={styles.customError} />
             </Section.Stack>

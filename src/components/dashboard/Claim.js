@@ -24,6 +24,7 @@ import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/anal
 import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
+import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
@@ -246,7 +247,7 @@ const Claim = props => {
             <Section.Text color="primary" size={16} fontFamily="Roboto" lineHeight={19} style={styles.mainTextToast}>
               {'YOU CAN GET'}
             </Section.Text>
-            <Section.Text style={styles.mainTextBigMarginBottom}>
+            <Section.Row style={styles.mainTextBigMarginBottom}>
               <BigGoodDollar
                 number={1}
                 reverse
@@ -255,11 +256,11 @@ const Claim = props => {
                 bigNumberUnitProps={{ color: 'surface', fontSize: 20 }}
                 style={styles.inline}
               />
-              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36} lineHeight={36}>
                 {' Free'}
               </Section.Text>
-            </Section.Text>
-            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+            </Section.Row>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36} lineHeight={36}>
               Every Day
             </Section.Text>
           </View>
@@ -286,13 +287,13 @@ const Claim = props => {
             />
           )}
           <View style={styles.space} />
-          <ClaimButton
+          {/* <ClaimButton
             isCitizen={isCitizen}
             entitlement={state.entitlement}
             nextClaim={state.nextClaim}
             loading={loading}
             onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
-          />
+          /> */}
           <Section.Row style={styles.extraInfoStats}>
             <Text style={styles.extraInfoWrapper}>
               <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
@@ -313,6 +314,8 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: 0,
       paddingHorizontal: 0,
       justifyContent: 'space-between',
+      maxHeight: getMaxDeviceHeight(),
+      paddingBottom: 60
     },
     mainText: {
       alignItems: 'center',

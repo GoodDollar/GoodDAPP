@@ -16,7 +16,7 @@ import Blurred from '../common/view/Blur/Blurred'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
-import handleBackButton from '../../lib/utils/handleBackButton'
+import BackButtonHandler from '../../lib/utils/handleBackButton'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -64,12 +64,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
   /**
    * handler for back Button on Android
    */
+  backButtonHandler
 
   componentDidMount() {
-    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      handleBackButton(this.pop)
-      return true
-    })
+   this.backButtonHandler = new BackButtonHandler({ defaultAction: this.pop })
+  }
+  componentDidUpdate() {
+    this.backButtonHandler.unregister()
   }
 
   /**

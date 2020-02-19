@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, BackHandler, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { AsyncStorage, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
 import _get from 'lodash/get'
@@ -11,7 +11,7 @@ import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import handleBackButton from '../../lib/utils/handleBackButton'
+import BackButtonHandler from '../../lib/utils/handleBackButton'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
@@ -452,11 +452,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }, [navigation.state.index])
 
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      handleBackButton(back)
-      return true
-    })
-  }, [navigation.state.index])
+    const backButtonHandler = new BackButtonHandler({ defaultAction: back })
+    return () => {
+      backButtonHandler.unregister()
+    }
+  }, [back])
 
   const { scrollableContainer, contentContainer } = styles
   return (

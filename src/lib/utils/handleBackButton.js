@@ -7,11 +7,11 @@ class BackButtonHandler {
 
   register = () => {
     this.unregister()
-    BackHandler.addEventListener('hardwareBackPress', () => this.handler())
+    BackHandler.addEventListener('hardwareBackPress', this.handler)
   }
 
   unregister = () => {
-    BackHandler.removeEventListener('hardwareBackPress', () => this.handler())
+    BackHandler.removeEventListener('hardwareBackPress', this.handler)
   }
 
   lastPress = 0

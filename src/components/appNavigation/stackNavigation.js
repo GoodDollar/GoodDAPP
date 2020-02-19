@@ -64,12 +64,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
   /**
    * handler for back Button on Android
    */
-  backButtonHandler
+  backButtonHandler = null
 
   componentDidMount() {
    this.backButtonHandler = new BackButtonHandler({ defaultAction: this.pop })
   }
-  componentDidUpdate() {
+
+  componentWillUnmount() {
     this.backButtonHandler.unregister()
   }
 

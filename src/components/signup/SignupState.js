@@ -169,6 +169,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     //lazy login in background
     const ready = (async () => {
       log.debug('ready: Starting initialization')
+      store.set('loadingIndicator')({ loading: true })
       const { init } = await retryImport(() => import('../../init'))
       const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
       const { goodWallet, userStorage, source } = await init()
@@ -190,6 +191,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       //now that we are loggedin, reload api with JWT
       // await API.init()
+      store.set('loadingIndicator')({ loading: false })
       return { goodWallet, userStorage }
     })()
 

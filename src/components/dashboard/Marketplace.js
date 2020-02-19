@@ -2,9 +2,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Appbar } from 'react-native-paper'
-import { isIOS } from 'mobile-device-detect'
 import _get from 'lodash/get'
 import _toPairs from 'lodash/toPairs'
+import { isIOSWeb } from '../../lib/utils/platform'
 import Config from '../../config/config'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import Icon from '../common/view/Icon'
@@ -20,7 +20,7 @@ const MarketTab = props => {
 
   const getMarketPath = () => {
     const params = _get(props, 'navigation.state.params', {})
-    if (isIOS == false) {
+    if (!isIOSWeb) {
       params.nofooter = true
     }
     params.jwt = token
@@ -39,7 +39,7 @@ const MarketTab = props => {
   }, [])
 
   useEffect(() => {
-    if (isIOS && token) {
+    if (isIOSWeb && token) {
       store.set('loadingIndicator')({ loading: false })
       showDialog({
         title: 'Press ok to go to market',
@@ -62,11 +62,9 @@ const MarketTab = props => {
   const webIframesStyles = { flex: 1, overflow: 'scroll' }
   const Iframe = createIframe(src, 'GoodMarket', webIframesStyles)
 
-  const marketIframe = useMemo(() => {
-    return <Iframe />
-  }, [src])
+  const marketIframe = useMemo(() => <Iframe />, [src])
 
-  if (isIOS || token === undefined) {
+  if (isIOSWeb || token === undefined) {
     return null
   }
 

@@ -1,7 +1,8 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Platform, View } from 'react-native'
-import { isMobile } from 'mobile-device-detect'
+import { Platform, Share, View } from 'react-native'
+import canShare from '../../lib/utils/canShare'
+import { isMobile } from '../../lib/utils/platform'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
@@ -50,7 +51,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const shareAction = async paymentLink => {
     const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
     try {
-      await navigator.share(share)
+      await Share.share(share)
       setShared(true)
     } catch (e) {
       if (e.name !== 'AbortError') {
@@ -94,7 +95,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       setLink(paymentLink)
     }
 
-    if (isMobile && navigator.share) {
+    if (canShare) {
       shareAction(paymentLink)
     } else {
       const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)

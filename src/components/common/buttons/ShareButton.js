@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
-import { isMobile } from 'mobile-device-detect'
+import { Share } from 'react-native'
+import canShare from '../../../lib/utils/canShare'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import CustomButton from './CustomButton'
 import CopyButton from './CopyButton'
@@ -18,7 +19,7 @@ const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareBu
   console.info('getPaymentLink', { share })
   const shareAction = async () => {
     try {
-      await navigator.share(share)
+      await Share.share(share)
     } catch (e) {
       if (e.name !== 'AbortError') {
         showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
@@ -26,7 +27,7 @@ const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareBu
     }
   }
 
-  if (isMobile && navigator.share) {
+  if (canShare) {
     return (
       <CustomButton onPress={shareAction} {...buttonProps}>
         {actionText}

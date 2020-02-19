@@ -1,7 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { View } from 'react-native'
-import { isMobileReactNative } from '../../../../lib/utils/platform'
+import { isMobileNative } from '../../../../lib/utils/platform'
 import animationData from './data.json'
 
 class SpinnerCheckMark extends React.Component {
@@ -10,7 +10,7 @@ class SpinnerCheckMark extends React.Component {
   }
 
   componentDidMount() {
-    if (!isMobileReactNative) {
+    if (!isMobileNative) {
       this.anim.onEnterFrame = e => {
         const { success } = this.props
         if (e.currentTime > 130.5 && !success) {
@@ -38,7 +38,7 @@ class SpinnerCheckMark extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.success === false && this.props.success === true) {
       //speed up when finished
-      if (isMobileReactNative) {
+      if (isMobileNative) {
         this.setState({
           speed: 1.5,
         })
@@ -55,11 +55,11 @@ class SpinnerCheckMark extends React.Component {
         <Lottie
           ref={this.setAnim}
           loop={false}
-          onAnimationFinish={isMobileReactNative && this.onFinish}
+          onAnimationFinish={isMobileNative && this.onFinish}
           source={animationData}
           speed={this.state.speed}
           style={{
-            marginTop: -height / (isMobileReactNative ? 6 : 3),
+            marginTop: -height / (isMobileNative ? 6 : 3),
             width,
             height,
           }}

@@ -1,12 +1,30 @@
 import { Platform } from 'react-native'
-import { isMobile as isMobileWeb, isMobileOnly as isMobileWebOnly } from 'mobile-device-detect'
+import * as mobileWebDetect from 'mobile-device-detect'
+import DeviceInfo from 'react-native-device-info'
 import isWebApp from './isWebApp'
 
-export const isMobileReactNative = Platform.OS === 'android' || Platform.OS === 'ios'
+export * from 'mobile-device-detect'
 
-export const isMobile = isMobileReactNative || isMobileWeb
+export const isMobileWeb = mobileWebDetect.isMobile
 
-export const isInstalledApp = isMobileReactNative || isWebApp
+export const isIOSWeb = mobileWebDetect.isIOS
 
-// TODO: RN - Need to implement isMobileOnlyReactNative
-export const isMobileOnly = isMobileReactNative || isMobileWebOnly
+export const isAndroidWeb = mobileWebDetect.isAndroid
+
+export const isIOSNative = Platform.OS === 'ios'
+
+export const isAndroidNative = Platform.OS === 'android'
+
+export const isMobileNative = isIOSNative || isAndroidNative
+
+export const isMobileOnlyNative = !DeviceInfo.isTablet() && isMobileNative
+
+export const isMobile = isMobileNative || isMobileWeb
+
+export const isInstalledApp = isMobileNative || isWebApp
+
+export const isMobileOnly = isMobileOnlyNative || mobileWebDetect.isMobileOnly
+
+export const isIOS = isIOSWeb || isIOSNative
+
+export const isAndroid = isAndroidWeb || isAndroidNative

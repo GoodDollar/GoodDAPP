@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Platform, ScrollView, View } from 'react-native'
-import { isMobileOnly } from 'mobile-device-detect'
+import { isMobileOnly } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import ModalCloseButton from './ModalCloseButton'
 import ModalJaggedEdge from './ModalJaggedEdge'

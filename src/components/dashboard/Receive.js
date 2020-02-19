@@ -1,7 +1,7 @@
 // @flow
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
-import { isMobile } from 'mobile-device-detect'
+import { Share, View } from 'react-native'
+import canShare from '../../lib/utils/canShare'
 import { fireEvent } from '../../lib/analytics/analytics'
 import { generateCode, generateReceiveShareObject, generateShareLink } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
@@ -32,7 +32,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
 
   const shareAction = async () => {
     try {
-      await navigator.share(share)
+      await Share.share(share)
     } catch (e) {
       if (e.name !== 'AbortError') {
         showErrorDialog(e)
@@ -66,7 +66,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
             Request specific amount
           </PushButton>
           <View style={styles.space} />
-          {isMobile && navigator.share ? (
+          {canShare ? (
             <CustomButton
               onPress={() => {
                 fireEvent('RECEIVE_DONE', { type: 'wallet' })

@@ -24,7 +24,8 @@ import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/anal
 import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
-import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
+
+// import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
@@ -275,7 +276,7 @@ const Claim = props => {
             </View>
           </Section.Row>
         </Section.Stack>
-        <Section.Stack style={styles.extraInfo}>
+        <Section.Stack style={[styles.extraInfo, Platform.OS !== 'web' && styles.mobileCenterContent]}>
           <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
           {!isCitizen && (
             <ClaimButton
@@ -287,13 +288,13 @@ const Claim = props => {
             />
           )}
           <View style={styles.space} />
-          {/* <ClaimButton
+          <ClaimButton
             isCitizen={isCitizen}
             entitlement={state.entitlement}
             nextClaim={state.nextClaim}
             loading={loading}
             onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
-          /> */}
+          />
           <Section.Row style={styles.extraInfoStats}>
             <Text style={styles.extraInfoWrapper}>
               <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
@@ -314,8 +315,6 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: 0,
       paddingHorizontal: 0,
       justifyContent: 'space-between',
-      maxHeight: getMaxDeviceHeight(),
-      paddingBottom: 60
     },
     mainText: {
       alignItems: 'center',
@@ -390,11 +389,16 @@ const getStylesFromProps = ({ theme }) => {
       maxHeight: Platform.select({
         // FIXME: RN
         web: 'fit-content',
-        default: 0,
+        default: 'auto',
       }),
+      width: '100%',
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
       marginTop: getDesignRelativeHeight(85),
+    },
+    mobileCenterContent: {
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     extraInfoStats: {
       marginHorizontal: 0,

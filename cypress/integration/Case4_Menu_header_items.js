@@ -25,7 +25,8 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
   })
 
   it('Check "Invite" tab', () => {
-    cy.contains('Andrew Second')
+    HomePage.inviteTab.should('be.visible')
+    cy.contains('-0.01G$')
     HomePage.inviteTab.click()
     InvitePage.pageHeader.should('contain', 'REWARDS')
     InvitePage.iframe.should('be.visible')

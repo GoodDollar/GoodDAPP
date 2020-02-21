@@ -249,7 +249,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { visible: dialogVisible } = (store.get('currentScreen') || {}).dialogData || {}
     const currentFeed = store.get('currentFeed')
     const menu = (
-      <SafeAreaView style={{ flex: 1 }}>{open ? <SideMenuPanel navigation={navigation} /> : null}</SafeAreaView>
+      <SafeAreaView style={styles.safeArea}>{open ? <SideMenuPanel navigation={navigation} /> : null}</SafeAreaView>
     )
 
     return (
@@ -324,6 +324,12 @@ const styles = StyleSheet.create({
   },
   hideMenu: {
     display: 'none',
+  },
+  safeArea: {
+    padding: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    flex: 1,
   },
 })
 

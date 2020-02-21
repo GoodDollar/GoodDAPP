@@ -86,6 +86,7 @@
     "browserify-zlib": "^0.1.4",
     "buffer": "^5.4.3",
     "canvas-prebuilt": "^2.0.0-alpha.14",
+    "color": "^3.1.2",
     "customize-cra": "^0.9.1",
     "dns.js": "^1.0.1",
     "ethereumjs-util": "^6.1.0",

@@ -25,8 +25,6 @@ import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
-// import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
-
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
@@ -321,6 +319,8 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       marginVertical: 'auto',
       zIndex: 1,
+      height: '42%',
+      justifyContent: 'center',
     },
     mainTextTitle: {
       marginBottom: 12,
@@ -372,6 +372,7 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 0,
       flexShrink: 0,
       marginBottom: theme.sizes.default,
+      width: '100%',
     },
     illustrationForCitizen: {
       height: getDesignRelativeHeight(184, false),
@@ -384,7 +385,6 @@ const getStylesFromProps = ({ theme }) => {
     extraInfo: {
       backgroundColor: theme.colors.surface,
       borderRadius: theme.sizes.borderRadius,
-      flexGrow: 1,
       flexShrink: 1,
       maxHeight: Platform.select({
         // FIXME: RN

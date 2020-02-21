@@ -9,7 +9,7 @@ import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import Section from '../common/layout/Section'
 
 const ButtonAmountToClaim = ({ entitlement, isCitizen, styles }) => (
-  <>
+  <View style={styles.countdownContainer}>
     <Text color="surface" fontWeight="medium">
       {`CLAIM YOUR SHARE - `}
     </Text>
@@ -32,9 +32,9 @@ const ButtonAmountToClaim = ({ entitlement, isCitizen, styles }) => (
         lineHeight: 19,
         marginVertical: 'auto',
       }}
-      style={isCitizen ? styles.amountInButtonCenter : styles.amountInButton}
+      style={isCitizen ? [styles.amountInButtonCenter, styles.justifyCenter] : styles.amountInButton}
     />
-  </>
+  </View>
 )
 
 export const ButtonCountdown = ({ styles, nextClaim }) => (

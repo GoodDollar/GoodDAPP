@@ -448,7 +448,7 @@ exports[`Claim matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "marginTop": "-256px",
+                "marginTop": "-274.2857142857143px",
                 "position": "absolute",
                 "width": "100%",
               }

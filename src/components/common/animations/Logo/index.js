@@ -6,12 +6,24 @@ import { getAnimationData } from '../../../../lib/utils/lottie'
 const { animationData, imageAssetsFolder } = getAnimationData('Logo', require('./data'))
 
 class Logo extends React.Component {
+  setAnim = anim => {
+    this.anim = anim
+  }
+
+  componentDidMount() {
+    if (this.props.animation) {
+      this.anim.play()
+    } else {
+      this.anim.goToAndStop(5200)
+    }
+  }
+
   render() {
     return (
       <Lottie
+        ref={this.setAnim}
         imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
-        autoPlay={true}
         source={animationData}
         autoSize={false}
         style={

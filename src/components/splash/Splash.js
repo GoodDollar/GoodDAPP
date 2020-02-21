@@ -6,12 +6,12 @@ import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
 
-const Splash = () => (
+const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <View style={styles.backgroundWaves} />
       <Section.Stack style={styles.content} grow justifyContent="center">
-        <AnimationsLogo />
+        <AnimationsLogo animation={animation} />
         <Section.Text fontSize={22} color="darkBlue">
           {`V${Config.version}`}
         </Section.Text>
@@ -48,6 +48,11 @@ const styles = StyleSheet.create({
   content: {
     transform: [{ rotateY: '180deg' }],
     marginVertical: '10vh',
+  },
+  logo: {
+    maxWidth: '100%',
+    minHeight: 135,
+    minWidth: 135,
   },
 })
 

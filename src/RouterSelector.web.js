@@ -105,7 +105,7 @@ const RouterSelector = () => {
   }, [isLoggedIn])
 
   return (
-    <React.Suspense fallback={<Splash />}>
+    <React.Suspense fallback={<Splash animation={true} />}>
       <Router />
     </React.Suspense>
   )

@@ -3,6 +3,7 @@ import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
 import { getScreenHeight } from '../../../../lib/utils/Orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
+import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 
 const { animationData, imageAssetsFolder } = getAnimationData('JumpingPeople', require('./data'))
 
@@ -16,7 +17,7 @@ const styles = {
   ios: {},
   web: {
     position: 'absolute',
-    marginTop: -(getScreenHeight() / 3),
+    marginTop: -(getScreenHeight() / getDesignRelativeHeight(getScreenHeight() > 800 ? 3.4 : 2.8)),
     width: '100%',
   },
 }

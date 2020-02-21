@@ -12,7 +12,7 @@ const Config = {
   web3SiteUrlEconomyEndpoint: process.env.REACT_APP_WEB3_SITE_URL_ECONOMY_ENDPOINT || '/learn/economy',
   publicUrl,
   infuraKey: process.env.REACT_APP_INFURA_KEY,
-  network: process.env.REACT_APP_NETWORK || 'fuse',
+  network: 'fuse',
   market: process.env.REACT_APP_MARKET || process.env.REACT_APP_ETORO || process.env.REACT_APP_NETWORK === 'etoro',
   marketUrl: process.env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
   isEToro: process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro',

@@ -319,7 +319,7 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       marginVertical: 'auto',
       zIndex: 1,
-      height: '42%',
+      height: '40%',
       justifyContent: 'center',
     },
     mainTextTitle: {

@@ -49,11 +49,6 @@ const styles = StyleSheet.create({
     transform: [{ rotateY: '180deg' }],
     marginVertical: '10vh',
   },
-  logo: {
-    maxWidth: '100%',
-    minHeight: 135,
-    minWidth: 135,
-  },
 })
 
 export default Splash

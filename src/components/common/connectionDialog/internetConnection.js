@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import debounce from 'lodash/debounce'
 import Config from '../../../config/config'
 import LoadingIcon from '../modal/LoadingIcon'
@@ -13,16 +13,6 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'InternetConnection' })
-const showDialogWindow = debounce((showDialog, message, setShowContent) => {
-  setShowContent(true)
-  showDialog({
-    title: 'Waiting for network',
-    image: <LoadingIcon />,
-    message,
-    showButtons: false,
-    showCloseButtons: false,
-  })
-}, Config.delayMessageNetworkDisconnection)
 
 const InternetConnection = props => {
   const [showDialog, hideDialog] = useDialog()
@@ -31,6 +21,19 @@ const InternetConnection = props => {
   const isConnectionWeb3 = useConnectionWeb3()
   const isConnectionGun = useConnectionGun()
   const [showContent, setShowContent] = useState(false)
+  const showDialogWindow = useCallback(
+    debounce(message => {
+      setShowContent(true)
+      showDialog({
+        title: 'Waiting for network',
+        image: <LoadingIcon />,
+        message,
+        showButtons: false,
+        showCloseButtons: false,
+      })
+    }, Config.delayMessageNetworkDisconnection)
+  )
+
   useEffect(() => {
     if (
       isConnection === false ||
@@ -55,7 +58,8 @@ const InternetConnection = props => {
         }
         message = `Waiting for GoodDollar's server (${servers.join(', ')})`
       }
-      showDialogWindow(showDialog, message, setShowContent)
+
+      showDialogWindow(message)
     } else {
       log.debug('connection back hiding dialog')
       showDialogWindow && showDialogWindow.cancel()

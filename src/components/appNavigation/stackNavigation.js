@@ -2,7 +2,7 @@
 //FIXME:RN
 /* eslint-disable*/
 import React, { Component, useEffect, useState } from 'react'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, BackHandler } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
@@ -16,6 +16,7 @@ import Blurred from '../common/view/Blur/Blurred'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
+import BackButtonHandler from '../../lib/utils/handleBackButton'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -58,6 +59,19 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
   shouldComponentUpdate() {
     return this.trans === false
+  }
+
+  /**
+   * handler for back Button on Android
+   */
+  backButtonHandler = null
+
+  componentDidMount() {
+   this.backButtonHandler = new BackButtonHandler({ defaultAction: this.pop })
+  }
+
+  componentWillUnmount() {
+    this.backButtonHandler.unregister()
   }
 
   /**

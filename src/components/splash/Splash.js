@@ -15,12 +15,21 @@ if (Platform.OS === 'web') {
   Image.prefetch(goodDollarImage)
 }
 
-const Splash = () => (
+const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <WavesBackground>
-        <AnimationsLogo />
-        <Section.Text style={styles.version} fontSize={22}>{`V${Config.version}`}</Section.Text>
+        {animation ? (
+          <>
+            <AnimationsLogo /> <Section.Text style={styles.version} fontSize={22}>{`V${Config.version}`}</Section.Text>
+          </>
+        ) : (
+          <Section.Stack style={styles.content} grow justifyContent="center">
+            <Image source={splashImage} style={styles.logo} resizeMode="contain" />
+            <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
+            <Section.Text fontSize={22}>{`V${Config.version}`}</Section.Text>
+          </Section.Stack>
+        )}
       </WavesBackground>
     </Section>
   </Wrapper>
@@ -51,14 +60,14 @@ const styles = StyleSheet.create({
   },
   logo: {
     maxWidth: '100%',
-    minHeight: 135,
-    minWidth: 135,
+    minHeight: 230,
+    minWidth: 230,
     marginBottom: getDesignRelativeHeight(64),
   },
   goodDollar: {
     maxWidth: '100%',
-    minHeight: 30,
-    minWidth: 212,
+    minHeight: 40,
+    minWidth: 310,
     marginBottom: getDesignRelativeHeight(22),
   },
 })

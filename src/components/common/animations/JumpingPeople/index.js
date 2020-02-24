@@ -1,6 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
+import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 import { getScreenHeight } from '../../../../lib/utils/Orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 
@@ -16,7 +17,7 @@ const styles = {
   ios: {},
   web: {
     position: 'absolute',
-    marginTop: -(getScreenHeight() / 3),
+    marginTop: -(getScreenHeight() / getDesignRelativeHeight(getScreenHeight() > 800 ? 3.3 : 2.7)),
     width: '100%',
   },
 }

@@ -18,8 +18,12 @@ type KeyboardProps = {
   updateCaretPosition?: CaretPosition => void,
 }
 
-const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition, styles }: KeyboardProps) => {
+const NumPadKeyboard = ({ onPress, amount, maxLength, caretPosition, updateCaretPosition, styles }: KeyboardProps) => {
   const onPressKey = (value: string) => {
+    if (maxLength) {
+      return
+    }
+
     const stringAmount = `${amount}`
     const updatedValue = caretPosition
       ? [stringAmount.slice(0, caretPosition.start), value, stringAmount.slice(caretPosition.end)].join('')

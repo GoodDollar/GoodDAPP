@@ -552,70 +552,61 @@ export class UserStorage {
     } else {
       logger.debug('gun login using saved credentials', { existingCreds })
 
-      // this.gun._.user._ = this.gun.get('~' + existingCreds.sea.pub)._
-      // console.log('gun existingsCreds login:', this.gun._, this.gun._.user)
-      // this.gunuser._.sea = existingCreds.sea
-      // this.gunuser.is = existingCreds.is
-
-      this.gun._.user._ = this.gun.get('~' + existingCreds.sea.pub)._
-      this.gun._.user._.sea = existingCreds.sea
-      this.gun._.user._.is = this.gun._.user.is = existingCreds.is
-      this.gunuser._.sea = existingCreds.sea
-      this.gunuser.is = existingCreds.is
+      this.gunuser.restore(existingCreds)
       loggedInPromise = Promise.resolve(this.gunuser)
     }
 
-    return new Promise(async (res, rej) => {
-      let user = await loggedInPromise.catch(e => rej(e))
-      logger.debug('init finished gun loggin', user)
-
-      if (user === undefined) {
-        rej('gun login failed')
-      }
-
-      this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
-      this.user = this.gunuser.is
-      this.profile = this.gunuser.get('profile')
-
-      this.profile.open(doc => {
-        this._lastProfileUpdate = doc
-        this.subscribersProfileUpdates.forEach(callback => callback(doc))
-      })
-      logger.debug('init opened profile')
-
-      logger.debug('init feed')
-      await this.initFeed()
-      logger.debug('init Properties')
-
-      await this.initProperties()
-      logger.debug('init systemfeed')
-
-      await this.startSystemFeed()
-
-      //save ref to user
-      this.gun
-        .get('users')
-        .get(this.gunuser.is.pub)
-        .put(this.gunuser)
-
-      logger.debug('GunDB logged in', {
-        username: existingCreds.username,
-        pubkey: this.gunuser.is,
-        pair: this.gunuser.pair(),
-      })
-      logger.debug('subscribing')
-
-      this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
-        logger.debug({ event }, EVENT_TYPE_RECEIVE)
-      })
-      this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
-        logger.debug({ event }, EVENT_TYPE_SEND)
-      })
-      this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
-      this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
-      this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
-      res(true)
+    let user = await loggedInPromise.catch(e => {
+      logger.warn(e)
+      throw e
     })
+    logger.debug('init finished gun loggin', user)
+
+    if (user === undefined) {
+      throw new Error('gun login failed')
+    }
+
+    this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
+    this.user = this.gunuser.is
+    this.profile = this.gunuser.get('profile')
+    this.profile.open(doc => {
+      this._lastProfileUpdate = doc
+      this.subscribersProfileUpdates.forEach(callback => callback(doc))
+    })
+    logger.debug('init opened profile')
+
+    logger.debug('init feed')
+    await this.initFeed()
+    logger.debug('init Properties')
+
+    await this.initProperties()
+    logger.debug('init systemfeed')
+
+    await this.startSystemFeed()
+
+    //save ref to user
+    this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .put(this.gunuser)
+
+    logger.debug('GunDB logged in', {
+      username: existingCreds.username,
+      pubkey: this.gunuser.is,
+      pair: this.gunuser.pair(),
+    })
+    logger.debug('subscribing')
+
+    this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
+      logger.debug({ event }, EVENT_TYPE_RECEIVE)
+    })
+    this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
+      logger.debug({ event }, EVENT_TYPE_SEND)
+    })
+    this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
+    this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
+    this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
+    return true
   }
 
   /**

@@ -32,7 +32,7 @@ const InternetConnection = props => {
         showCloseButtons: false,
       })
     }, Config.delayMessageNetworkDisconnection),
-    [isConnection, isAPIConnection, isConnectionWeb3, isConnectionGun]
+    []
   )
 
   useEffect(() => {

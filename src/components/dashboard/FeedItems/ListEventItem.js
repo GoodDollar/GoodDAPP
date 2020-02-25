@@ -96,6 +96,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           </View>
           <EventIcon
             style={styles.typeIcon}
+            animStyle={styles.typeAnimatedIcon}
             type={itemType}
             size={normalize(34)}
             onAnimationFinish={updateFeedEventAnimation}
@@ -257,6 +258,10 @@ const getStylesFromProps = ({ theme }) => ({
   },
   typeIcon: {
     marginTop: theme.sizes.default,
+    alignSelf: 'flex-start',
+  },
+  typeAnimatedIcon: {
+    marginTop: theme.sizes.default - 1,
     alignSelf: 'flex-start',
   },
   failTransaction: {

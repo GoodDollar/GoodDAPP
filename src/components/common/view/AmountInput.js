@@ -14,9 +14,10 @@ type AmountInputProps = {
   styles: any,
   title?: string,
   error?: string,
+  maxLength?: number,
 }
 
-const AmountInput = ({ amount, handleAmountChange, styles, error, title }: AmountInputProps) => {
+const AmountInput = ({ amount, handleAmountChange, styles, error, title, maxLength }: AmountInputProps) => {
   const [caretPosition, setCaretPosition] = useState({ start: 0, end: 0 })
 
   useEffect(() => {
@@ -44,10 +45,12 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title }: Amoun
             onChangeAmount={handleAmountChange}
             onSelectionChange={setCaretPosition}
             error={error}
+            maxLength={maxLength}
           />
         </TouchableWithoutFeedback>
       </View>
       <NumPadKeyboard
+        isMaxLength={maxLength === amount.length}
         amount={amount}
         onPress={handleAmountChange}
         caretPosition={caretPosition}

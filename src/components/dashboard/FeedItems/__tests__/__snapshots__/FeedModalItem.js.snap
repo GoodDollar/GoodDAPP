@@ -1237,7 +1237,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "fontStyle": "normal",
                         "fontWeight": "normal",
                         "marginLeft": "auto",
-                        "marginRight": "1px",
+                        "marginRight": "0px",
                       }
                     }
                   >
@@ -2165,21 +2165,22 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "color": "rgba(250,108,119,1.00)",
-                        "fontFamily": "gooddollar",
-                        "fontSize": "34px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
                         "marginLeft": "auto",
-                        "marginRight": "1px",
                       }
                     }
                   >
-                    
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "height": "36px",
+                          "width": "36px",
+                        }
+                      }
+                    />
                   </div>
                 </div>
                 <div
@@ -3103,21 +3104,22 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "color": "rgba(250,108,119,1.00)",
-                        "fontFamily": "gooddollar",
-                        "fontSize": "34px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
                         "marginLeft": "auto",
-                        "marginRight": "1px",
                       }
                     }
                   >
-                    
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "height": "36px",
+                          "width": "36px",
+                        }
+                      }
+                    />
                   </div>
                 </div>
                 <div
@@ -4042,21 +4044,22 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "color": "rgba(0,195,174,1.00)",
-                        "fontFamily": "gooddollar",
-                        "fontSize": "34px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
                         "marginLeft": "auto",
-                        "marginRight": "1px",
                       }
                     }
                   >
-                    
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "height": "36px",
+                          "width": "36px",
+                        }
+                      }
+                    />
                   </div>
                 </div>
                 <div

@@ -72,7 +72,7 @@ const Amount = (props: AmountProps) => {
       <Section grow>
         <Section.Stack grow justifyContent="flex-start">
           <AmountInput
-            maxLength={10}
+            maxLength={20}
             amount={GDAmount}
             handleAmountChange={handleAmountChange}
             error={error}

@@ -18,9 +18,17 @@ type KeyboardProps = {
   updateCaretPosition?: CaretPosition => void,
 }
 
-const NumPadKeyboard = ({ onPress, amount, maxLength, caretPosition, updateCaretPosition, styles }: KeyboardProps) => {
+const NumPadKeyboard = ({
+  onPress,
+  amount,
+  isMaxLength,
+  caretPosition,
+  updateCaretPosition,
+  styles,
+}: KeyboardProps) => {
   const onPressKey = (value: string) => {
-    if (maxLength) {
+    // prevent adding numbers to the amount field if maxLength is reached
+    if (isMaxLength) {
       return
     }
 

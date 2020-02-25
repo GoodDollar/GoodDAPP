@@ -50,7 +50,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title, maxLeng
         </TouchableWithoutFeedback>
       </View>
       <NumPadKeyboard
-        maxLength={maxLength === amount.length}
+        isMaxLength={maxLength === amount.length}
         amount={amount}
         onPress={handleAmountChange}
         caretPosition={caretPosition}

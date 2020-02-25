@@ -552,16 +552,7 @@ export class UserStorage {
     } else {
       logger.debug('gun login using saved credentials', { existingCreds })
 
-      // this.gun._.user._ = this.gun.get('~' + existingCreds.sea.pub)._
-      // console.log('gun existingsCreds login:', this.gun._, this.gun._.user)
-      // this.gunuser._.sea = existingCreds.sea
-      // this.gunuser.is = existingCreds.is
-
-      this.gun._.user._ = this.gun.get('~' + existingCreds.sea.pub)._
-      this.gun._.user._.sea = existingCreds.sea
-      this.gun._.user._.is = this.gun._.user.is = existingCreds.is
-      this.gunuser._.sea = existingCreds.sea
-      this.gunuser.is = existingCreds.is
+      this.gunuser.restore(existingCreds)
       loggedInPromise = Promise.resolve(this.gunuser)
     }
 
@@ -585,17 +576,10 @@ export class UserStorage {
     })
     logger.debug('init opened profile')
 
-    logger.debug('init feed')
-    await this.initFeed()
-    logger.debug('init Properties')
-
-    await this.initProperties()
-    logger.debug('init systemfeed')
-
-    await this.startSystemFeed()
-
     //wait until we read initial data (prevent gundb corruption bug)
     await Promise.all([this.initFeed(), this.initProperties()])
+
+    await this.startSystemFeed()
 
     //save ref to user
     this.gun

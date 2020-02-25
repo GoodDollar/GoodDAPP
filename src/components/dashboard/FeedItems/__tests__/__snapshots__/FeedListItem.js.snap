@@ -597,8 +597,8 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "height": "34px",
-                      "width": "34px",
+                      "height": "36px",
+                      "width": "36px",
                     }
                   }
                 />
@@ -1209,8 +1209,8 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "height": "34px",
-                      "width": "34px",
+                      "height": "36px",
+                      "width": "36px",
                     }
                   }
                 />

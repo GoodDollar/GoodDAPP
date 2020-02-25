@@ -29,6 +29,7 @@ const SendReason = (props: AmountProps) => {
         <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title fontWeight="medium">What For?</Section.Title>
           <InputText
+            maxLength={256}
             autoFocus
             style={[props.styles.input, styles.bottomContent]}
             value={reason}

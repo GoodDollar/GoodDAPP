@@ -1873,7 +1873,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         Object {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
-                          "marginTop": "8px",
+                          "marginTop": "7px",
                           "msFlexItemAlign": "start",
                         }
                       }
@@ -1882,8 +1882,8 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "height": "34px",
-                            "width": "34px",
+                            "height": "36px",
+                            "width": "36px",
                           }
                         }
                       />
@@ -2468,7 +2468,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         Object {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
-                          "marginTop": "8px",
+                          "marginTop": "7px",
                           "msFlexItemAlign": "start",
                         }
                       }
@@ -2477,8 +2477,8 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "height": "34px",
-                            "width": "34px",
+                            "height": "36px",
+                            "width": "36px",
                           }
                         }
                       />

@@ -11,6 +11,7 @@ import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
+import BackButtonHandler from '../../lib/utils/handleBackButton'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
@@ -449,6 +450,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setFinishedPromise(finishedPromise)
     }
   }, [navigation.state.index])
+
+  useEffect(() => {
+    const backButtonHandler = new BackButtonHandler({ defaultAction: back })
+    return () => {
+      backButtonHandler.unregister()
+    }
+  }, [back])
 
   const { scrollableContainer, contentContainer } = styles
   return (

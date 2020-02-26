@@ -2,7 +2,7 @@
 //FIXME:RN
 /* eslint-disable*/
 import React, { Component, useEffect, useState } from 'react'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, SafeAreaView } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
@@ -16,6 +16,7 @@ import Blurred from '../common/view/Blur/Blurred'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
+import BackButtonHandler from '../../lib/utils/handleBackButton'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -58,6 +59,19 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
   shouldComponentUpdate() {
     return this.trans === false
+  }
+
+  /**
+   * handler for back Button on Android
+   */
+  backButtonHandler = null
+
+  componentDidMount() {
+   this.backButtonHandler = new BackButtonHandler({ defaultAction: this.pop })
+  }
+
+  componentWillUnmount() {
+    this.backButtonHandler.unregister()
   }
 
   /**
@@ -248,7 +262,9 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const open = store.get('sidemenu').visible
     const { visible: dialogVisible } = (store.get('currentScreen') || {}).dialogData || {}
     const currentFeed = store.get('currentFeed')
-    const menu = open ? <SideMenuPanel navigation={navigation} /> : null
+    const menu = (
+      <SafeAreaView style={styles.safeArea}>{open ? <SideMenuPanel navigation={navigation} /> : null}</SafeAreaView>
+    )
 
     return (
       <React.Fragment>
@@ -322,6 +338,12 @@ const styles = StyleSheet.create({
   },
   hideMenu: {
     display: 'none',
+  },
+  safeArea: {
+    padding: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    flex: 1,
   },
 })
 

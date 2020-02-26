@@ -170,12 +170,6 @@ const getStylesFromProps = ({ theme }) => ({
         translateY: 1,
       },
     ],
-
-    // ...Platform.select({
-    //   web: {
-    //     transform: 'translateY(1px)',
-    //   },
-    // }),
   },
 })
 

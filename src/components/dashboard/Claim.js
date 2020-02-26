@@ -241,7 +241,6 @@ const Claim = props => {
   return (
     <Wrapper>
       <Section style={styles.mainContainer}>
-
         <Section.Stack style={styles.extraInfo}>
           {/*<Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />*/}
           {/*{!isCitizen && (*/}

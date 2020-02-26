@@ -20,10 +20,10 @@ const InternetConnection = props => {
   const isAPIConnection = useAPIConnection()
   const isConnectionWeb3 = useConnectionWeb3()
   const isConnectionGun = useConnectionGun()
-  const [showContent, setShowContent] = useState(false)
-  const [message, setMessage] = useState(false)
+  const [showDisconnect, setShowDisconnect] = useState(false)
   const showDialogWindow = useCallback(
-    debounce(() => {
+    debounce(message => {
+      setShowDisconnect(true)
       showDialog({
         title: 'Waiting for network',
         image: <LoadingIcon />,
@@ -32,7 +32,7 @@ const InternetConnection = props => {
         showCloseButtons: false,
       })
     }, Config.delayMessageNetworkDisconnection),
-    [message]
+    [showDialog, setShowDisconnect]
   )
 
   useEffect(() => {
@@ -60,19 +60,16 @@ const InternetConnection = props => {
         message = `Waiting for GoodDollar's server (${servers.join(', ')})`
       }
 
-      setMessage(message)
-      setShowContent(true)
-      showDialogWindow()
+      showDialogWindow(message)
     } else {
       log.debug('connection back hiding dialog')
       showDialogWindow && showDialogWindow.cancel()
       hideDialog()
-      setShowContent(false)
-      setMessage('')
+      setShowDisconnect(false)
     }
   }, [isConnection, isAPIConnection, isConnectionWeb3, isConnectionGun])
 
-  return showContent && props.isLoggedIn ? props.onDisconnect() : props.children
+  return showDisconnect && props.isLoggedIn ? props.onDisconnect() : props.children
 }
 
 export default InternetConnection

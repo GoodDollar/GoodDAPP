@@ -10,6 +10,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.lottie.LottiePackage;
 import java.lang.reflect.InvocationTargetException;
+import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import java.util.List;
 public class MainApplication extends Application implements ReactApplication {
 
@@ -45,6 +46,13 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+  }
+
+  @Override
+  protected List<ReactPackage> getPackages() {
+    return Arrays.<ReactPackage>asList(
+            new MainReactPackage(),
+            new ReactNativeContacts());
   }
 
   /**

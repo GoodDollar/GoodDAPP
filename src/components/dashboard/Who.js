@@ -1,6 +1,7 @@
 // @flow
-import React, { useCallback, useEffect } from 'react'
-import { Platform } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Button, PermissionsAndroid, Platform } from 'react-native'
+import Contacts from 'react-native-contacts'
 import InputText from '../common/form/InputText'
 import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -32,6 +33,7 @@ const Who = (props: AmountProps) => {
   const text = isReceive ? 'From Who?' : 'Send To?'
   const getErrorFunction = isReceive ? () => null : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
+  const [contacts, setContacts] = useState([])
 
   useEffect(() => {
     setScreenState({ counterPartyDisplayName: state.value })
@@ -49,6 +51,32 @@ const Who = (props: AmountProps) => {
       })
     }
   }, [state.isValid, state.value, screenState.nextRoutes, params])
+
+  const getContacts = () => {
+    Contacts.getAll((err, contacts) => {
+      if (err === 'denied') {
+        console.warn('Permission to access contacts was denied')
+      } else {
+        setContacts(contacts)
+      }
+    })
+  }
+
+  const handleContacts = () => {
+    if (Platform.OS === 'android') {
+      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+        title: 'Contacts',
+        message: 'This app would like to view your contacts.',
+        buttonPositive: 'Please accept bare mortal',
+      }).then(() => {
+        getContacts()
+      })
+    } else {
+      getContacts()
+    }
+  }
+
+  console.log(contacts)
 
   return (
     <Wrapper>
@@ -68,6 +96,11 @@ const Who = (props: AmountProps) => {
             enablesReturnKeyAutomatically
             onSubmitEditing={next}
           />
+          {Platform.OS !== 'web' && (
+            <Button title="Contact" onPress={handleContacts}>
+              {'Pick a contact'}
+            </Button>
+          )}
         </Section.Stack>
         <Section.Row grow alignItems="flex-end">
           <Section.Row grow={1} justifyContent="flex-start">

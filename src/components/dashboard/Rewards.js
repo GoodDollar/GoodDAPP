@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import _get from 'lodash/get'
@@ -23,7 +23,7 @@ const RewardsTab = props => {
   const getRewardsPath = () => {
     const params = _get(props, 'navigation.state.params', {})
 
-    if (!isIOSWeb) {
+    if (isIOSWeb === false) {
       params.purpose = 'iframe'
     }
 
@@ -37,12 +37,14 @@ const RewardsTab = props => {
     return `${Config.web3SiteUrl}/${path}?${query}`
   }
 
+  const getToken = useCallback(async () => {
+    let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
+    log.debug('got rewards login token', token)
+    setToken(token)
+  }, [])
+
   useEffect(() => {
-    (async () => {
-      let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
-      log.debug('got rewards login token', token)
-      setToken(token)
-    })()
+    getToken()
   }, [])
 
   useEffect(() => {

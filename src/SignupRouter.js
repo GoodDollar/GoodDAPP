@@ -3,7 +3,7 @@ import { createBrowserApp } from '@react-navigation/web'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { Platform, View } from 'react-native'
 import { createAppContainer } from 'react-navigation'
-import { isAndroidWeb, isMobileSafari } from './lib/utils/platform'
+import { isAndroid, isMobileSafari } from './lib/utils/platform'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
@@ -48,7 +48,7 @@ const Router = () => {
   const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
   let minHeight = 480
 
-  if (isAndroidWeb && isShowKeyboard) {
+  if (isAndroid && isShowKeyboard) {
     minHeight = getOriginalScreenHeight()
   }
 

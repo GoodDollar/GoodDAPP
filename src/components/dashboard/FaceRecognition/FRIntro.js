@@ -22,7 +22,7 @@ const FRIntro = props => {
   const { fullName } = store.get('profile')
   const { styles } = props
 
-  const isUnsupported = !isMobileSafari
+  const isUnsupported = isMobileSafari === false
   const isValid = props.screenProps.screenState && props.screenProps.screenState.isValid
 
   if (isUnsupported) {

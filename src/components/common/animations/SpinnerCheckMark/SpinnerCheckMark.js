@@ -11,7 +11,7 @@ class SpinnerCheckMark extends React.Component {
   }
 
   componentDidMount() {
-    if (!isMobileNative) {
+    if (isMobileNative === false) {
       this.anim.onEnterFrame = e => {
         const { success } = this.props
         if (e.currentTime > 130.5 && !success) {
@@ -22,7 +22,7 @@ class SpinnerCheckMark extends React.Component {
         this.onFinish()
       }
     }
-    if (isMobileReactNative) {
+    if (isMobileNative) {
       this.anim.play(0, 130)
     } else {
       this.anim.play()
@@ -32,7 +32,7 @@ class SpinnerCheckMark extends React.Component {
   onFinish = () => {
     const { onFinish, success } = this.props
 
-    if (isMobileReactNative) {
+    if (isMobileNative) {
       if (!success) {
         return this.anim.play(0, 129)
       } else if (!this.state.isFinish) {

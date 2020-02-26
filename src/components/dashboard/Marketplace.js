@@ -20,7 +20,7 @@ const MarketTab = props => {
 
   const getMarketPath = () => {
     const params = _get(props, 'navigation.state.params', {})
-    if (!isIOSWeb) {
+    if (isIOSWeb === false) {
       params.nofooter = true
     }
     params.jwt = token

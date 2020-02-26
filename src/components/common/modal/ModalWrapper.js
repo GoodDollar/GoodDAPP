@@ -2,7 +2,6 @@
 import React from 'react'
 import { Platform, ScrollView, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
-import { rem } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
 import ModalCloseButton from './ModalCloseButton'
 import ModalJaggedEdge from './ModalJaggedEdge'
@@ -88,8 +87,8 @@ const getStylesFromProps = ({ theme }) => ({
   triangle: {
     position: 'absolute',
     display: 'flex',
-    width: rem(2),
-    height: rem(2),
+    width: 24,
+    height: 24,
     backgroundColor: 'white',
     left: '49%',
     bottom: -10,

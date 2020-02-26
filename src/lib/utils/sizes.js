@@ -1,5 +1,3 @@
-// @flow
-
 import { getScreenHeight, getScreenWidth, isPortrait } from './Orientation'
 
 /**
@@ -38,9 +36,4 @@ const DESIGN_HEIGHT = 640 - 24
 export const getDesignRelativeHeight = (height, isMax = true) => {
   const screenHeight = isPortrait() ? getScreenHeight() : getScreenWidth()
   return getDesignRelativeSize(height, isMax, DESIGN_HEIGHT, screenHeight)
-}
-
-export const rem = (size: number) => {
-  const remValue = 12
-  return remValue * size
 }

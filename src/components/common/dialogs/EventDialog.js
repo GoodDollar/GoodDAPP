@@ -6,7 +6,6 @@ import type { TransactionEvent } from '../../../lib/gundb/UserStorage'
 import { Avatar, BigGoodDollar } from '..'
 import CustomButton from '../buttons/CustomButton'
 import Section from '../layout/Section'
-import { rem } from '../../../lib/utils/sizes'
 
 export type EventDialogProps = {
   visible: boolean,
@@ -101,12 +100,12 @@ const styles = StyleSheet.create({
   },
   gdSection: {
     backgroundColor: '#fff',
-    paddingTop: rem(1),
+    paddingTop: 12,
     paddingBottom: 0,
   },
   date: {
     color: '#888888',
-    fontSize: rem(0.7),
+    fontSize: 8.4,
   },
 })
 

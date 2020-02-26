@@ -11,7 +11,6 @@ import { CustomButton, Icon, Section, Text } from '../common'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import Wrapper from '../common/layout/Wrapper'
-import { rem } from '../../lib/utils/sizes'
 import OptionsRow from './OptionsRow'
 
 const TITLE = 'PROFILE PRIVACY'
@@ -180,7 +179,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingRight: 0,
     },
     infoIcon: {
-      marginLeft: rem(0.5),
+      marginLeft: 6,
     },
     optionsRowContainer: {
       padding: 0,

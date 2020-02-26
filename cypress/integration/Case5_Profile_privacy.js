@@ -7,7 +7,6 @@ import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 
 describe('Test case 5: Ability to change profile privacy level', () => {
   it('User should be able to change privacy lvl', () => {
-    cy.clearLocalStorage()
     StartPage.open()
     StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()

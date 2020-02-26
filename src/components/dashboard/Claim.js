@@ -274,7 +274,7 @@ const Claim = props => {
             </View>
           </Section.Row>
         </Section.Stack>
-        <Section.Stack style={[styles.extraInfo, Platform.OS !== 'web' && styles.mobileCenterContent]}>
+        <Section.Stack style={styles.extraInfo}>
           <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
           {!isCitizen && (
             <ClaimButton
@@ -396,10 +396,6 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
       marginTop: getDesignRelativeHeight(85),
-    },
-    mobileCenterContent: {
-      justifyContent: 'center',
-      alignItems: 'center',
     },
     extraInfoStats: {
       marginHorizontal: 0,

@@ -313,13 +313,14 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: 0,
       paddingHorizontal: 0,
       justifyContent: 'space-between',
+      height: '100%',
     },
     mainText: {
+      flex: 1,
       alignItems: 'center',
       flexDirection: 'column',
       marginVertical: 'auto',
       zIndex: 1,
-      height: '40%',
       justifyContent: 'center',
     },
     mainTextTitle: {

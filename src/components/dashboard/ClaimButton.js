@@ -42,7 +42,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
     <Text style={styles.extraInfoCountdownTitle} fontWeight="bold">
       Your next daily claim:
     </Text>
-    <Section.Text>
+    <Section.Text style={styles.textLineHeight}>
       {nextClaim &&
         nextClaim.split('').map((value, index) => {
           return (
@@ -128,6 +128,9 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     marginLeft: theme.sizes.defaultHalf,
+  },
+  textLineHeight: {
+    lineHeight: 36,
   },
 })
 

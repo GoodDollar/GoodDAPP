@@ -8,7 +8,7 @@ import {
 import DeviceInfo from 'react-native-device-info'
 import isWebApp from './isWebApp'
 
-export { isMobileSafari } from 'mobile-device-detect'
+export { isMobileSafari, isBrowser } from 'mobile-device-detect'
 
 export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb }
 

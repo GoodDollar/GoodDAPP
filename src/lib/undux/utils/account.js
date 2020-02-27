@@ -1,5 +1,6 @@
 // @flow
 import type { Store } from 'undux'
+import isNull from 'lodash/isNull'
 import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
@@ -18,7 +19,13 @@ const updateAll = store => {
       }
     })
     .catch(e => {
-      log.error('updateAll failed', e.message, e)
+      let level = 'error'
+
+      if (isNull(store)) {
+        level = 'warn'
+      }
+
+      log[level]('updateAll failed', e.message, e)
     })
 }
 

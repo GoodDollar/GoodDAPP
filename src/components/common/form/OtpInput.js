@@ -70,7 +70,7 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
     borderBottomWidth: 2,
   },
   asideInput: {
-    marginLeft: 15,
+    marginLeft: theme.sizes.defaultDouble - 1,
   },
 })
 

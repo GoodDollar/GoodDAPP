@@ -2,8 +2,6 @@
 import React from 'react'
 import _get from 'lodash/get'
 import logger from '../../lib/logger/pino-logger'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { withStyles } from '../../lib/styles'
 import userStorage from '../../lib/gundb/UserStorage'
 import EmailConfirmation from '../signup/EmailConfirmation'
 import SmsForm from '../signup/SmsForm'
@@ -62,37 +60,4 @@ VerifyEditCode.navigationOptions = {
   title: 'Edit Profile',
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  informativeParagraph: {
-    margin: '1em',
-  },
-  buttonWrapper: {
-    alignContent: 'stretch',
-    flexDirection: 'column',
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  button: {
-    justifyContent: 'center',
-    width: '100%',
-    height: 60,
-  },
-  row: {
-    marginVertical: theme.sizes.defaultDouble,
-  },
-  errorStyle: {
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.red,
-    color: theme.colors.red,
-  },
-  container: {
-    minHeight: getDesignRelativeHeight(200),
-    height: getDesignRelativeHeight(200),
-  },
-  bottomContent: {
-    marginTop: 'auto',
-    marginBottom: theme.sizes.defaultDouble,
-  },
-})
-
-export default withStyles(getStylesFromProps)(VerifyEditCode)
+export default VerifyEditCode

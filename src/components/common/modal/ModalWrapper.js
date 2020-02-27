@@ -86,18 +86,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   triangle: {
     position: 'absolute',
-    display: Platform.select({
-      web: 'block',
-      default: 'flex',
-    }),
-    width: Platform.select({
-      web: '2rem',
-      default: 2,
-    }),
-    height: Platform.select({
-      web: '2rem',
-      default: 2,
-    }),
+    display: 'flex',
+    width: 24,
+    height: 24,
     backgroundColor: 'white',
     left: '49%',
     bottom: -10,
@@ -107,7 +98,11 @@ const getStylesFromProps = ({ theme }) => ({
           web: '-50%',
           default: 0,
         }),
+      },
+      {
         rotate: '63deg',
+      },
+      {
         skewX: '37deg',
       },
     ],

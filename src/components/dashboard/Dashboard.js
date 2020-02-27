@@ -703,10 +703,10 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
   },
   leftButtonText: {
-    marginRight: 16,
+    marginRight: theme.sizes.defaultDouble,
   },
   rightButtonText: {
-    marginLeft: 16,
+    marginLeft: theme.sizes.defaultDouble,
   },
   bigNumberWrapper: {
     alignItems: 'baseline',

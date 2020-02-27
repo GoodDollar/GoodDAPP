@@ -9,8 +9,11 @@ class FeedInfo extends React.Component {
   }
 
   componentDidMount() {
+    const { delay = 0 } = this.props
+
     this.anim.onComplete = this.onAnimationFinishHandler
-    this.anim.play()
+
+    setTimeout(() => this.anim.play(), delay)
   }
 
   onAnimationFinishHandler = () => {

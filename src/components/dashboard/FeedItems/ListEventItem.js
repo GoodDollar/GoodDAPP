@@ -101,6 +101,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
             size={normalize(34)}
             onAnimationFinish={updateFeedEventAnimation}
             showAnim={!feed.animationExecuted}
+            delay={1000}
           />
         </View>
       </View>

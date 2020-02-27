@@ -2,7 +2,7 @@
 import startCase from 'lodash/startCase'
 import React, { useEffect, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
-import { TouchableOpacity, Platform } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
@@ -179,12 +179,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingRight: 0,
     },
     infoIcon: {
-      ...Platform.select({
-        // FIXME: RN
-        web: {
-          marginLeft: '0.5em',
-        },
-      }),
+      marginLeft: 6,
     },
     optionsRowContainer: {
       padding: 0,

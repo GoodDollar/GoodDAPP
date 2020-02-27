@@ -1,8 +1,8 @@
 import React from 'react'
+import { Platform } from 'react-native'
 import Section from '../layout/Section'
 import { withStyles } from '../../../lib/styles'
 import BigGoodDollar from './BigGoodDollar'
-import { Platform } from 'react-native'
 
 const WhoRow = ({ styles, counterPartyDisplayName, actionReceive, marginTop }) =>
   counterPartyDisplayName ? (
@@ -76,11 +76,12 @@ const getStylesFromProps = ({ theme }) => {
       // TODO: see where should we take this color from
       borderBottomColor: theme.colors.gray50Percent,
       borderBottomWidth: 1,
+
       // FIXME: RN
       ...Platform.select({
         web: {
           borderBottomStyle: 'solid',
-        }
+        },
       }),
       alignItems: 'flex-end',
       paddingBottom: theme.sizes.defaultHalf,

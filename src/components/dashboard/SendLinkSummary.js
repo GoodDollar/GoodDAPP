@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { Platform, Share, View } from 'react-native'
 import canShare from '../../lib/utils/canShare'
-import { isMobile } from '../../lib/utils/platform'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'

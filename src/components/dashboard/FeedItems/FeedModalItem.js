@@ -112,10 +112,10 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: 12,
     },
     feedItem: {
-      paddingRight: 4,
+      paddingRight: theme.sizes.defaultHalf,
     },
     bigNumberStyles: {
-      marginRight: 4,
+      marginRight: theme.sizes.defaultHalf,
     },
     transactionDetails: {
       alignItems: 'center',

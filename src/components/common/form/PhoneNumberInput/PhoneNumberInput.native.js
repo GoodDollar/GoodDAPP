@@ -10,7 +10,7 @@ type Props = {
   textStyle: Object,
 }
 
-const EditPhoneInput = (props: Props) => {
+export default (props: Props) => {
   const phoneInputRef = useRef()
   const countriesMap = useRef(new Map())
   const [isUserTypingCountry, setUserTypingCountry] = useState(false)
@@ -78,8 +78,8 @@ const EditPhoneInput = (props: Props) => {
     setUserTypingCountry(false)
   })
 
-  const { onBlur, onFocus, placeholder } = props
-  const textProps = { onBlur, onFocus, placeholder }
+  const { onBlur, onFocus, placeholder, onSubmitEditing, enablesReturnKeyAutomatically } = props
+  const textProps = { onBlur, onFocus, placeholder, onSubmitEditing, enablesReturnKeyAutomatically }
 
   return (
     <PhoneInput
@@ -93,5 +93,3 @@ const EditPhoneInput = (props: Props) => {
     />
   )
 }
-
-export default EditPhoneInput

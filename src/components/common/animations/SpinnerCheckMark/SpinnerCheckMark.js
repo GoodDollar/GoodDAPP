@@ -7,6 +7,7 @@ import animationData from './data.json'
 class SpinnerCheckMark extends React.Component {
   state = {
     speed: 1,
+    isFinish: false,
   }
 
   componentDidMount() {
@@ -21,11 +22,25 @@ class SpinnerCheckMark extends React.Component {
         this.onFinish()
       }
     }
-    this.anim.play()
+    if (isMobileReactNative) {
+      this.anim.play(0, 130)
+    } else {
+      this.anim.play()
+    }
   }
 
   onFinish = () => {
-    const { onFinish } = this.props
+    const { onFinish, success } = this.props
+
+    if (isMobileReactNative) {
+      if (!success) {
+        return this.anim.play(0, 129)
+      } else if (!this.state.isFinish) {
+        this.setState({ isFinish: true })
+        return this.anim.play(130, 230)
+      }
+    }
+
     if (typeof onFinish === 'function') {
       onFinish()
     }

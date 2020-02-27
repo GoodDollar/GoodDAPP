@@ -96,6 +96,8 @@ class EmailForm extends React.Component<Props, State> {
                 error={errorMessage}
                 onCleanUpField={this.handleChange}
                 autoFocus
+                onSubmitEditing={this.handleSubmit}
+                enablesReturnKeyAutomatically
               />
             </Section.Row>
           </Section.Stack>

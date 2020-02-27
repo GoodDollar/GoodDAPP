@@ -2,7 +2,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { AsyncStorage, Platform } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
-import crypto from 'isomorphic-webcrypto'
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import { isMobile } from './lib/utils/platform'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
@@ -11,7 +10,6 @@ import SimpleStore, { initStore, setInitFunctions } from './lib/undux/SimpleStor
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
 import Splash from './components/splash/Splash'
-import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import useServiceWorker from './lib/utils/useServiceWorker'
 import Config from './config/config'
@@ -76,14 +74,6 @@ const AppHolder = () => {
     ;(async () => {
       if (Platform.OS === 'web') {
         await upgradeVersion()
-      }
-
-      if (Platform.OS !== 'web') {
-        try {
-          await crypto.ensureSecure()
-        } catch (e) {
-          logger.error('crypto ensure secure failed:', e.message, e)
-        }
       }
 
       await initStore()

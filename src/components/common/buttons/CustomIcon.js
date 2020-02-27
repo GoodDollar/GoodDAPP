@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 
@@ -17,7 +17,7 @@ const getStylesFromProps = ({ theme }) => ({
       default: 0,
       web: '50%',
     }),
-    padding: 16,
+    padding: theme.sizes.defaultDouble,
   },
 })
 

@@ -16,7 +16,6 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const log = logger.child({ from: 'FRIntro' })
 const FRIntro = props => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')

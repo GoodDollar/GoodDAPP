@@ -103,12 +103,10 @@ const initialState: State = {
  * @module
  */
 let SimpleStore: UnduxStore = createConnectedStore(initialState, withPinoLogger) // default value for tests
-
 const initStore = async () => {
   let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
-  const rehydratedState = { ...initialState, isLoggedIn }
-
-  SimpleStore = createConnectedStore(rehydratedState, withPinoLogger)
+  initialState.isLoggedIn = isLoggedIn
+  SimpleStore = createConnectedStore(initialState, withPinoLogger)
   return SimpleStore
 }
 

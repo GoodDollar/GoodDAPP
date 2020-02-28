@@ -1,5 +1,3 @@
-console.ignoredYellowBox = ['[webview-crypto]'];
-
 import { AppRegistry } from 'react-native'
 import React from  'react'
 //need to import this here before webviewcrypto to prevent circular require because of

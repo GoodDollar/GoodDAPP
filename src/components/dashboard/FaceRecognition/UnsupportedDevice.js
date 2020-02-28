@@ -1,5 +1,3 @@
-// FIXME: RN
-
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, Platform, View } from 'react-native'
 import { isIOS, isMobile } from 'mobile-device-detect'

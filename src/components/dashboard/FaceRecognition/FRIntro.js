@@ -111,8 +111,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingVertical: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   description: {
-    // FIXME: RN
-    display: Platform.OS === 'web' ? 'block' : 'flex',
+    display: 'flex',
     paddingTop: 0,
   },
   descriptionUnderline: {

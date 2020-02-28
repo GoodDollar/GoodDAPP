@@ -79,7 +79,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     navigation.navigate(routeKey)
     setLoading(false)
 
-    //FIXME rn
     if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
       setTimeout(() => {
         const el = document.getElementById(routeKey + '_input')

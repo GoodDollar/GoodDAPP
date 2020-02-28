@@ -107,20 +107,13 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   )
 }
 
-const getWelcomeStyles = ({ theme }) => ({
+const getWelcomeStyles = () => ({
   readMoreText: {
     letterSpacing: 0,
     marginLeft: 4,
-    lineHeight: 16,
-  },
-  readMore: {
-    minHeight: normalize(16),
-    maxHeight: normalize(16),
-    marginHorizontal: -theme.sizes.default,
-    display: Platform.select({
-      // FIXME: RN
-      web: 'inline',
-      default: 'flex',
+    lineHeight: Platform.select({
+      web: 12,
+      default: 16,
     }),
   },
   welcomeText: {
@@ -133,7 +126,7 @@ const getWelcomeStyles = ({ theme }) => ({
 
 const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
   <View style={styles.welcomeText}>
-    <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'}>
+    <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'} fontSize={16} lineHeight={16}>
       {text}
     </Text>
     <Text color={color || theme.colors.lighterGray} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
@@ -142,7 +135,7 @@ const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, button
   </View>
 ))
 
-const getFeedTextStyles = ({ theme }) => ({
+const getFeedTextStyles = () => ({
   message: {
     paddingBottom: 0,
     flexShrink: 0,
@@ -201,12 +194,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   dateAndValue: {
     alignItems: 'center',
-    ...Platform.select({
-      // FIXME: RN
-      web: {
-        borderBottomStyle: 'solid',
-      },
-    }),
+    borderStyle: 'solid',
     borderBottomWidth: 2,
     display: 'flex',
     flexDirection: 'row',
@@ -262,11 +250,9 @@ const getStylesFromProps = ({ theme }) => ({
     alignSelf: 'flex-start',
   },
   failTransaction: {
-    paddingBottom: 'inherit',
+    paddingBottom: 'auto',
   },
   mainText: {
-    //FIXME: RN
-    // textAlignVertical: 'middle',
     paddingTop: 5,
   },
 })

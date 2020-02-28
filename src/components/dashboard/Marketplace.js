@@ -1,4 +1,3 @@
-// TODO: RN
 import React, { useEffect, useMemo, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Appbar } from 'react-native-paper'
@@ -20,7 +19,7 @@ const MarketTab = props => {
 
   const getMarketPath = () => {
     const params = _get(props, 'navigation.state.params', {})
-    if (isIOS == false) {
+    if (isIOS === false) {
       params.nofooter = true
     }
     params.jwt = token

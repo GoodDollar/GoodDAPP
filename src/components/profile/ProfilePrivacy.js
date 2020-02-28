@@ -44,7 +44,7 @@ const ProfilePrivacy = props => {
       const fields = await Promise.all(toUpdate)
 
       // set the current privacy values
-      fields.map(({ privacy }, index) => {
+      fields.forEach(({ privacy }, index) => {
         setInitialPrivacy(prevState => ({ ...prevState, [`${profileFields[index]}`]: privacy }))
         setPrivacy(prevState => ({ ...prevState, [`${profileFields[index]}`]: privacy }))
       })

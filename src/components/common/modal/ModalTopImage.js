@@ -102,8 +102,8 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 0,
     justifyContent: 'center',
     flexDirection: 'row',
-    marginHorizontal: -16,
-    marginTop: -16,
+    marginHorizontal: -theme.sizes.defaultDouble,
+    marginTop: -theme.sizes.defaultDouble,
     marginBottom: 15,
   },
   mainPhoto: {

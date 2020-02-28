@@ -1,15 +1,15 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
-import { getScreenHeight, getScreenWidth } from '../../../../lib/utils/Orientation'
+import { getScreenHeight } from '../../../../lib/utils/Orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 
 const { animationData, imageAssetsFolder } = getAnimationData('RocketShip', require('./data'))
 
 const styles = {
-  android: { marginTop: -getScreenHeight() / 11, width: '100%' },
-  ios: { marginTop: -getScreenHeight() / 11, width: '100%' },
-  web: { marginTop: -getScreenHeight() / 11, width: '100%' },
+  android: { marginTop: -getScreenHeight() / 60, width: '100%' },
+  ios: { marginTop: -getScreenHeight() / 60, width: '100%' },
+  web: { marginTop: -getScreenHeight() / 60, width: '100%' },
 }
 
 class RocketShip extends React.Component {
@@ -17,7 +17,7 @@ class RocketShip extends React.Component {
     if (Platform.OS === 'web') {
       this.anim.onEnterFrame = e => {
         if (e.currentTime >= 195 && this.anim) {
-          this.anim.goToAndPlay(32, true)
+          this.anim.goToAndPlay(29, true)
         }
       }
     }
@@ -30,7 +30,7 @@ class RocketShip extends React.Component {
 
   onFinish = () => {
     if (Platform.OS !== 'web') {
-      this.anim.play(32, 195)
+      this.anim.play(29, 195)
     }
   }
 
@@ -38,7 +38,6 @@ class RocketShip extends React.Component {
     return (
       <View>
         <Lottie
-          play={50}
           onAnimationFinish={this.onFinish}
           loop={false}
           imageAssetsFolder={imageAssetsFolder}

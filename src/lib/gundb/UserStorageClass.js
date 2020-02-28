@@ -466,7 +466,13 @@ export class UserStorage {
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
-        logger.error('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
+        let logLevel = 'error'
+
+        if (e.message && e.message.includes('Wrong user or password')) {
+          logLevel = 'warn'
+        }
+
+        logger[logLevel]('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
         return false
       })
   }

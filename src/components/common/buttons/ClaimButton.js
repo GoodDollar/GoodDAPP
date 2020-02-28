@@ -1,14 +1,43 @@
 // @flow
-import React from 'react'
-import { Platform } from 'react-native'
+import React, { useCallback } from 'react'
+import { Animated, Platform, View } from 'react-native'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 
-const ClaimButton = ({ screenProps, styles }) => (
-  <PushButton routeName="Claim" testID="claim_button" screenProps={screenProps} style={styles.claimButton}>
-    Claim
-  </PushButton>
-)
+const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
+  const [pushButtonTranslate, setPushButtonTranslate] = React.useState({})
+
+  const Button = (
+    <PushButton
+      routeName="Claim"
+      testID="claim_button"
+      screenProps={screenProps}
+      style={[
+        styles.claimButton,
+        {
+          transform: [
+            { translateY: pushButtonTranslate.translateY || 0 },
+            { translateX: pushButtonTranslate.translateX || 0 },
+          ],
+        },
+      ]}
+      contentStyle={styles.removeMargin}
+    >
+      Claim
+    </PushButton>
+  )
+
+  const handleLayout = useCallback(event => {
+    const { width, height } = event.nativeEvent.layout
+    setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
+  })
+
+  return (
+    <View style={styles.wrapper} onLayout={handleLayout}>
+      {animated ? <Animated.View style={[animatedScale, styles.animatedWrapper]}>{Button}</Animated.View> : Button}
+    </View>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => ({
   claimButton: {
@@ -20,31 +49,25 @@ const getStylesFromProps = ({ theme }) => ({
       web: '50%',
     }),
     borderWidth: 3,
-    height: 72,
+    height: '100%',
     left: '50%',
     marginHorizontal: 0,
     elevation: 0,
     padding: 3,
     position: 'absolute',
     top: '50%',
-    width: 72,
+    width: '100%',
     zIndex: 99,
-
-    // FIXME: RN
-    transform: [
-      {
-        translateY: Platform.select({
-          web: '-50%',
-          default: 0,
-        }),
-      },
-      {
-        translateY: Platform.select({
-          web: '-50%',
-          default: 0,
-        }),
-      },
-    ],
+  },
+  animatedWrapper: {
+    width: 72,
+    height: 72,
+  },
+  wrapper: {
+    zIndex: 1,
+  },
+  removeMargin: {
+    marginHorizontal: -theme.sizes.defaultDouble,
   },
 })
 

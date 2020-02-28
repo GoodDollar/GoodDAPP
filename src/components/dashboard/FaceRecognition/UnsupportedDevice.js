@@ -130,7 +130,7 @@ const getStylesFromProps = ({ theme }) => ({
     borderColor: theme.colors.primary,
     borderRadius: 5,
     borderWidth: 1,
-    padding: 4,
+    padding: theme.sizes.defaultHalf,
     marginTop: getDesignRelativeHeight(theme.sizes.default),
   },
   textContainer: {

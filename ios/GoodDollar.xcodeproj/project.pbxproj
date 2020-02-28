@@ -336,6 +336,14 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
+		808BF4AC3E21437DA0A83635 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = Application;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */

@@ -9,6 +9,7 @@ const {
   fixBabelImports,
   babelExclude,
 } = require("customize-cra");
+const rewireReactHotLoader = require('react-app-rewire-hot-loader')
 
 module.exports = {
   webpack: override(
@@ -42,6 +43,7 @@ module.exports = {
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
       'react-native': 'react-native-web',
       'lottie-react-native': 'react-native-web-lottie',
+      'react-dom': '@hot-loader/react-dom',
     }),
 
     ...addExternalBabelPlugins(
@@ -56,6 +58,8 @@ module.exports = {
     ),
 
     addBundleVisualizer({}, true),
+
+    (...args) => rewireReactHotLoader(...args),
   ),
 
   jest: function(config) {

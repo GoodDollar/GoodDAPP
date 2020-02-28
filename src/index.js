@@ -1,17 +1,16 @@
 // @flow
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
+import { setConfig } from 'react-hot-loader'
 import App from './App'
+import './index.css'
 import './components/common/view/Icon/index.css'
 
-const { hot } = require('react-hot-loader')
-const HotApp = hot(module)(App)
+setConfig({ logLevel: 'debug' })
 
 const WebApp = () => (
   <React.Fragment>
-    <HotApp />
+    <App />
     <style type="text/css">{`
       @font-face {
         font-family: 'MaterialCommunityIcons';

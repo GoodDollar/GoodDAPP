@@ -1,9 +1,7 @@
 // @flow
-import React, { createRef } from 'react'
-import { Animated } from 'react-native'
+import React, { createRef, useMemo } from 'react'
 import * as Animatable from 'react-native-animatable'
 import get from 'lodash/get'
-import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -15,17 +13,11 @@ import logger from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
+import AnimatedSwipeableFlatList from './AnimatedSwipeableFlatList'
 
 const log = logger.child({ from: 'ShareButton' })
 
-const VIEWABILITY_CONFIG = {
-  minimumViewTime: 3000,
-  viewAreaCoveragePercentThreshold: 100,
-  waitForInteraction: true,
-}
 const emptyFeed = { type: 'empty', data: {} }
-
-const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 export type FeedListProps = {
   data: any,
@@ -62,6 +54,15 @@ const FeedList = ({
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
   const flRef = createRef()
 
+  const VIEWABILITY_CONFIG = useMemo(
+    () => ({
+      minimumViewTime: 3000,
+      viewAreaCoveragePercentThreshold: 100,
+      waitForInteraction: true,
+    }),
+    []
+  )
+
   const scrollToTop = () => {
     if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
       flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
@@ -86,7 +87,7 @@ const FeedList = ({
     }
   }
 
-  const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
+  const renderItemComponent = ({ item, separators, index }): ItemComponentProps => (
     <FeedListItem key={item.id} item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
   )
 

@@ -5,7 +5,7 @@ import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
-import { extractQueryParams } from './lib/share/index'
+import { extractQueryParams } from './lib/share'
 import logger from './lib/logger/pino-logger'
 import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 import Config from './config/config'
@@ -18,7 +18,7 @@ log.debug({ Config })
 let SignupRouter = React.lazy(() =>
   initAnalytics()
     .then(_ =>
-      Promise.all([import(/* webpackChunkName: "signuprouter" */ './SignupRouter'), handleLinks(), delay(2000)])
+      Promise.all([import(/* webpackChunkName: "signuprouter" */ './routers/SignupRouter'), handleLinks(), delay(2000)])
     )
     .then(r => r[0])
 )
@@ -30,7 +30,7 @@ let SignupRouter = React.lazy(() =>
  * @returns {Promise<boolean>}
  */
 const handleLinks = async () => {
-  //FIXME: RN
+  //FIXME: RN INAPPLINKS
 
   if (Platform.OS !== 'web') {
     return true
@@ -89,7 +89,7 @@ let AppRouter = React.lazy(() => {
   let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
 
-  return Promise.all([import(/* webpackChunkName: "router" */ './Router'), p2])
+  return Promise.all([import(/* webpackChunkName: "router" */ './routers/Router'), p2])
     .then(r => {
       log.debug('router ready')
       return r

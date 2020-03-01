@@ -96,10 +96,12 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           </View>
           <EventIcon
             style={styles.typeIcon}
+            animStyle={styles.typeAnimatedIcon}
             type={itemType}
             size={normalize(34)}
             onAnimationFinish={updateFeedEventAnimation}
             showAnim={!feed.animationExecuted}
+            delay={1000}
           />
         </View>
       </View>
@@ -258,6 +260,12 @@ const getStylesFromProps = ({ theme }) => ({
   typeIcon: {
     marginTop: theme.sizes.default,
     alignSelf: 'flex-start',
+  },
+  typeAnimatedIcon: {
+    marginTop: theme.sizes.default,
+    alignSelf: 'flex-start',
+    height: normalize(35),
+    width: normalize(35),
   },
   failTransaction: {
     paddingBottom: 'inherit',

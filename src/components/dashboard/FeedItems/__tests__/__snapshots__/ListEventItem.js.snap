@@ -499,7 +499,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "flex-start",
               "alignSelf": "flex-start",
-              "marginTop": "8px",
+              "marginTop": "7px",
               "msFlexItemAlign": "start",
             }
           }
@@ -1019,7 +1019,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "flex-start",
               "alignSelf": "flex-start",
-              "marginTop": "8px",
+              "marginTop": "7px",
               "msFlexItemAlign": "start",
             }
           }
@@ -1539,7 +1539,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "flex-start",
               "alignSelf": "flex-start",
-              "marginTop": "8px",
+              "marginTop": "7px",
               "msFlexItemAlign": "start",
             }
           }

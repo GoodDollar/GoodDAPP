@@ -1873,7 +1873,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         Object {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
-                          "marginTop": "8px",
+                          "marginTop": "7px",
                           "msFlexItemAlign": "start",
                         }
                       }
@@ -2468,7 +2468,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         Object {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
-                          "marginTop": "8px",
+                          "marginTop": "7px",
                           "msFlexItemAlign": "start",
                         }
                       }

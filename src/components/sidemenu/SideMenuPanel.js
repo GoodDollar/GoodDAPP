@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { AsyncStorage, ScrollView, TouchableOpacity, View } from 'react-native'
-import { isMobileSafari } from 'mobile-device-detect'
+import { isInstalledApp, isMobileSafari } from '../../lib/utils/platform'
 import restart from '../../lib/utils/restart'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import logger from '../../lib/logger/pino-logger'
@@ -12,7 +12,6 @@ import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { Icon } from '../common'
 import IconWrapper from '../common/modal/IconWrapper'
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
-import { isInstalledApp } from '../../lib/utils/platform'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SideMenuItem from './SideMenuItem'
 

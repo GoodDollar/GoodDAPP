@@ -1,5 +1,8 @@
 PODS:
   - boost-for-react-native (1.63.0)
+  - Branch (0.31.3):
+    - Branch/Core (= 0.31.3)
+  - Branch/Core (0.31.3)
   - BugsnagReactNative (2.23.6):
     - BugsnagReactNative/Core (= 2.23.6)
     - React
@@ -202,6 +205,9 @@ PODS:
   - React-jsinspector (0.61.5)
   - react-native-blur (0.8.0):
     - React
+  - react-native-branch (4.3.0):
+    - Branch (= 0.31.3)
+    - React
   - react-native-camera (3.18.0):
     - React
     - react-native-camera/RCT (= 3.18.0)
@@ -320,6 +326,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
+  - react-native-branch (from `../node_modules/react-native-branch`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -357,6 +364,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
+    - Branch
     - RSKImageCropper
     - Sentry
 
@@ -407,6 +415,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-blur:
     :path: "../node_modules/@react-native-community/blur"
+  react-native-branch:
+    :path: "../node_modules/react-native-branch"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
   react-native-image-resizer:
@@ -474,6 +484,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  Branch: 9b299693ee54b308ff8c18146afe1f711c2069ec
   BugsnagReactNative: 76ba231ece009a6fad369f18d89779ab75cc1c7d
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
@@ -497,6 +508,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
+  react-native-branch: df34ffd1ff1f592b42455c717e55b4b01a1d17d3
   react-native-camera: 36536dd86a41261622967ccf3e19fb63d7dd09e3
   react-native-image-resizer: b718335229b7be37c809bf9ed81d7a066fbfd2dd
   react-native-netinfo: 1ee553f84e01aaffbed0e5bd53d8515f7d675055
@@ -532,6 +544,6 @@ SPEC CHECKSUMS:
   TcpSockets: 8d839b9b14f6f344d98e4642ded13ab3112b462d
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 01135d5d631459becd985ae3e1cd311876afd4d7
+PODFILE CHECKSUM: d6524e945cdf432ed14979ba6d575b27ad95c83c
 
 COCOAPODS: 1.8.4

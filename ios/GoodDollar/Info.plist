@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>branch_app_domain</key>
+	<string>7r3r1.app.link</string>
+	<key>branch_key</key>
+	<string>key_live_pnKHJvnuNTtseGBen6dPChnnyqlenyX4</string>
 	<key>CFBundleDisplayName</key>
 	<string>GoodDollar</string>
 	<key>CFBundleExecutable</key>
@@ -20,6 +24,15 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+      <array>
+          <dict>
+              <key>CFBundleURLSchemes</key>
+              <array>
+                  <string>gooddollar</string>
+              </array>
+          </dict>
+      </array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>

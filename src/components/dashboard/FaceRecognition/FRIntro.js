@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, Platform, View } from 'react-native'
-import { isIOS, isMobileSafari } from 'mobile-device-detect'
+import { isMobileSafari } from '../../../lib/utils/platform'
 import GDStore from '../../../lib/undux/GDStore'
 import Separator from '../../common/layout/Separator'
 import logger from '../../../lib/logger/pino-logger'
@@ -16,15 +16,13 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const log = logger.child({ from: 'FRIntro' })
 const FRIntro = props => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
   const { styles } = props
 
-  const isUnsupported = isIOS && isMobileSafari === false
+  const isUnsupported = isMobileSafari === false
   const isValid = props.screenProps.screenState && props.screenProps.screenState.isValid
-  log.debug({ isIOS, isMobileSafari })
 
   if (isUnsupported) {
     props.screenProps.navigateTo('UnsupportedDevice', { reason: 'isNotMobileSafari' })

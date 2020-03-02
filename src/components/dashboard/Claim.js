@@ -246,7 +246,7 @@ const Claim = props => {
             <Section.Text color="primary" size={16} fontFamily="Roboto" lineHeight={19} style={styles.mainTextToast}>
               {'YOU CAN GET'}
             </Section.Text>
-            <Section.Text style={styles.mainTextBigMarginBottom}>
+            <Section.Row style={styles.mainTextBigMarginBottom}>
               <BigGoodDollar
                 number={1}
                 reverse
@@ -255,11 +255,11 @@ const Claim = props => {
                 bigNumberUnitProps={{ color: 'surface', fontSize: 20 }}
                 style={styles.inline}
               />
-              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36} lineHeight={36}>
                 {' Free'}
               </Section.Text>
-            </Section.Text>
-            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+            </Section.Row>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36} lineHeight={36}>
               Every Day
             </Section.Text>
           </View>
@@ -313,12 +313,15 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: 0,
       paddingHorizontal: 0,
       justifyContent: 'space-between',
+      height: '100%',
     },
     mainText: {
+      flex: 1,
       alignItems: 'center',
       flexDirection: 'column',
       marginVertical: 'auto',
       zIndex: 1,
+      justifyContent: 'center',
     },
     mainTextTitle: {
       marginBottom: 12,
@@ -370,6 +373,7 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 0,
       flexShrink: 0,
       marginBottom: theme.sizes.default,
+      width: '100%',
     },
     illustrationForCitizen: {
       height: getDesignRelativeHeight(184, false),
@@ -382,13 +386,13 @@ const getStylesFromProps = ({ theme }) => {
     extraInfo: {
       backgroundColor: theme.colors.surface,
       borderRadius: theme.sizes.borderRadius,
-      flexGrow: 1,
       flexShrink: 1,
       maxHeight: Platform.select({
         // FIXME: RN
         web: 'fit-content',
-        default: 0,
+        default: 'auto',
       }),
+      width: '100%',
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
       marginTop: getDesignRelativeHeight(85),

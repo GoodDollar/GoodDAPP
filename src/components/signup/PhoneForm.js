@@ -1,7 +1,7 @@
 // @flow
-import { isMobile } from 'mobile-device-detect'
 import React from 'react'
 import debounce from 'lodash/debounce'
+import { isMobile } from '../../lib/utils/platform'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import { getScreenHeight } from '../../lib/utils/Orientation'

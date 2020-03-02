@@ -4,7 +4,7 @@ import bip39 from 'bip39-light'
 import type { HttpProvider, WebSocketProvider } from 'web3-providers'
 import { AsyncStorage } from 'react-native'
 import Config from '../../config/config'
-import { GD_USER_MNEMONIC } from '../constants/localStorage'
+import { GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
@@ -75,17 +75,25 @@ class SoftwareWalletProvider {
 
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
     let pkey: ?string = this.conf.mnemonic || (await getMnemonics())
+    let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS).then(JSON.parse)
 
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
-    let mulWallet = new MultipleAddressWallet(pkey, 10)
+    if (privateKeys == null) {
+      log.debug('Generating private keys from hdwallet')
+      let mulWallet = new MultipleAddressWallet(pkey, 10)
+      privateKeys = mulWallet.addresses.map(addr => '0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))
+      AsyncStorage.setItem(GD_USER_PRIVATEKEYS, JSON.stringify(privateKeys))
+    } else {
+      log.debug('Existing private keys found')
+    }
+
     let web3 = new Web3(provider, null, this.defaults)
-    mulWallet.addresses.forEach(addr => {
-      let wallet = web3.eth.accounts.privateKeyToAccount('0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))
+    privateKeys.forEach(pkey => {
+      let wallet = web3.eth.accounts.privateKeyToAccount(pkey)
       web3.eth.accounts.wallet.add(wallet)
     })
-    let accounts = mulWallet.addresses
-    web3.eth.defaultAccount = accounts[0]
+    web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
     return web3
   }
 

@@ -1,9 +1,9 @@
 // @flow
 import React, { createRef, useEffect, useState } from 'react'
 import { FlatList, Platform, View } from 'react-native'
-import { isMobileOnly } from 'mobile-device-detect'
 import { Portal } from 'react-native-paper'
 import _once from 'lodash/once'
+import { isMobileOnly } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getMaxDeviceWidth, getScreenHeight, getScreenWidth } from '../../lib/utils/Orientation'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'

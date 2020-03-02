@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import { isMobile } from 'mobile-device-detect'
 import { Platform, View } from 'react-native'
+import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, Platform, View } from 'react-native'
-import { isIOS, isMobile } from 'mobile-device-detect'
-
 import get from 'lodash/get'
 import QRCode from 'qrcode.react'
+import { isIOS, isMobile } from '../../../lib/utils/platform'
 import { GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import Config from '../../../config/config'

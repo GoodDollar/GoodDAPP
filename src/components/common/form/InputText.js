@@ -1,8 +1,8 @@
 // @flow
 import React, { useEffect } from 'react'
-import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
+import { isMobile, isMobileSafari } from '../../../lib/utils/platform'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'

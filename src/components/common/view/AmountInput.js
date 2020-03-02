@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
-import { isMobile } from 'mobile-device-detect'
+import { isMobile } from '../../../lib/utils/platform'
 import SectionTitle from '../layout/SectionTitle'
 import InputGoodDollar from '../form/InputGoodDollar'
 import { withStyles } from '../../../lib/styles'

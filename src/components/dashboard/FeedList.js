@@ -54,6 +54,12 @@ const FeedList = ({
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
   const flRef = createRef()
 
+  /**
+   * Creating this constant with useMemo inside the function's body because of errors with
+   * Hot Module Replacement. 
+   * As AnimatedSwipeableFlatList doesn't support changes on the property viewabilityConfig between renders,
+   * if it's defined without being memoized, it gets recreated on every hot reload and fails.
+   */
   const VIEWABILITY_CONFIG = useMemo(
     () => ({
       minimumViewTime: 3000,

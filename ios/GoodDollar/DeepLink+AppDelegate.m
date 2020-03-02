@@ -19,8 +19,10 @@
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
-    return [RNBranch continueUserActivity:userActivity];
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
+  // handler for Universal Links
+  [RNBranch continueUserActivity:userActivity];
+  return YES;
 }
 
 @end

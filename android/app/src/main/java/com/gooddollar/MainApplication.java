@@ -11,6 +11,8 @@ import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.lottie.LottiePackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import io.branch.rnbranch.RNBranchModule;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -45,6 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+    RNBranchModule.getAutoInstance(this);
   }
 
   /**

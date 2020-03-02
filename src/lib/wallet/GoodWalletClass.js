@@ -360,23 +360,36 @@ export class GoodWallet {
   }
 
   async getNextClaimTime(): Promise<any> {
-    const lastClaim = (await this.UBIContract.methods.lastClaimed(this.account).call()) || ZERO
-    return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
+    try {
+      const lastClaim = (await this.UBIContract.methods.lastClaimed(this.account).call()) || ZERO
+      return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
+    } catch (e) {
+      log.error('getNextClaimTime failed', e.message, e)
+      return Promise.reject(e)
+    }
   }
 
   async getAmountAndQuantityClaimedToday(): Promise<any> {
-    const res = (await this.UBIContract.methods.getDailyStats().call()) || [ZERO, ZERO]
-
-    return {
-      people: res[0].toNumber(),
-      amount: res[1].toNumber(),
+    try {
+      const res = (await this.UBIContract.methods.getDailyStats().call()) || [ZERO, ZERO]
+      return {
+        people: res[0].toNumber(),
+        amount: res[1].toNumber(),
+      }
+    } catch (e) {
+      log.error('getAmountAndQuantityClaimedToday failed', e.message, e)
+      return Promise.reject(e)
     }
   }
 
   async checkEntitlement(): Promise<number> {
-    const entitlement = await this.UBIContract.methods.checkEntitlement().call()
-
-    return entitlement
+    try {
+      const entitlement = await this.UBIContract.methods.checkEntitlement().call()
+      return entitlement
+    } catch (e) {
+      log.error('getNextClaimTime failed', e.message, e)
+      return Promise.reject(e)
+    }
   }
 
   /**

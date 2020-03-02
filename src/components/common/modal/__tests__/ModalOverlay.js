@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { isMobileOnly } from 'mobile-device-detect'
+import { isMobileOnly } from '../../../../lib/utils/platform'
 import ImportedModalOverlay from '../ModalOverlay'
 import { withThemeProvider } from '../../../../__tests__/__util__'
 import { theme } from '../../../theme/styles'

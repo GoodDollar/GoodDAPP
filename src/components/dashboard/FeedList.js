@@ -1,6 +1,7 @@
 // @flow
 import React, { createRef } from 'react'
-import { Animated, Platform } from 'react-native'
+import { Animated } from 'react-native'
+import * as Animatable from 'react-native-animatable'
 import get from 'lodash/get'
 import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import GDStore from '../../lib/undux/GDStore'
@@ -62,11 +63,8 @@ const FeedList = ({
   const flRef = createRef()
 
   const scrollToTop = () => {
-    // FIXME: RN
-    if (Platform.OS === 'web') {
-      if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
-        flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
-      }
+    if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
+      flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
     }
   }
 
@@ -106,11 +104,14 @@ const FeedList = ({
         try {
           userStorage.cancelOTPLEvent(id)
           goodWallet.cancelOTLByTransactionHash(id).catch(e => {
-            showErrorDialog('Canceling the payment link has failed', e)
+            log.error('cancel payment failed - quick actions', e.message, e)
             userStorage.updateOTPLEventStatus(id, 'pending')
+            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
           })
         } catch (e) {
-          showErrorDialog('Canceling the payment link has failed', e)
+          log.error('cancel payment failed - quick actions', e.message, e)
+          userStorage.updateOTPLEventStatus(id, 'pending')
+          showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
         }
       }
     }
@@ -133,13 +134,15 @@ const FeedList = ({
     }
 
     return (
-      <FeedActions
-        onPress={hasAction && (() => handleFeedActionPress(item, actions))}
-        actionIcon={actionIcon(actions)}
-        {...props}
-      >
-        {actionLabel(actions)}
-      </FeedActions>
+      <Animatable.View animation="fadeIn" delay={750}>
+        <FeedActions
+          onPress={hasAction && (() => handleFeedActionPress(item, actions))}
+          actionIcon={actionIcon(actions)}
+          {...props}
+        >
+          {actionLabel(actions)}
+        </FeedActions>
+      </Animatable.View>
     )
   }
 
@@ -181,7 +184,6 @@ const getStylesFromProps = ({ theme }) => ({
   scrollableView: {
     flexGrow: 1,
     display: 'flex',
-    height: '100%',
   },
 })
 

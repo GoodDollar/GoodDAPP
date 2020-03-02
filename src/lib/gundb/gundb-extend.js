@@ -84,6 +84,28 @@ const gunExtend = (() => {
         return res
       })
   }
+
+  /**
+   * restore a user from saved credentials
+   * this bypasses the user/password which is slow because of pbkdf2 iterations
+   * this is based on Gun.User.prototype.auth act.g in original sea.js
+   */
+  Gun.User.prototype.restore = function(credentials) {
+    var gun = this,
+      cat = gun._,
+      root = gun.back(-1)
+    const pair = credentials.sea
+    var user = root._.user,
+      at = user._
+    var upt = at.opt
+    at = user._ = root.get('~' + pair.pub)._
+    at.opt = upt
+
+    // add our credentials in-memory only to our root user instance
+    user.is = credentials.is
+    at.sea = pair
+    cat.ing = false
+  }
 })()
 
 export default gunExtend

@@ -1,6 +1,5 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Platform } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -60,7 +59,11 @@ class SmsForm extends React.Component<Props, State> {
         await this.verifyOTP(otpValue)
         this.handleSubmit()
       } catch (e) {
-        log.error('Verify otp failed', e.message, e)
+        if (e.ok === 0) {
+          log.warn('Verify otp failed', e.message, e)
+        } else {
+          log.error('Verify otp failed', e.message, e)
+        }
 
         this.setState({
           errorMessage: e.message || e,
@@ -106,7 +109,6 @@ class SmsForm extends React.Component<Props, State> {
   }
 
   render() {
-    log.warn('Resend sms code failed ' + Platform.web)
     const { errorMessage, otp, renderButton, sendingCode, resentCode } = this.state
     const { styles } = this.props
 
@@ -194,20 +196,6 @@ const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  informativeParagraph: {
-    margin: '1em',
-  },
-  buttonWrapper: {
-    alignContent: 'stretch',
-    flexDirection: 'column',
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  button: {
-    justifyContent: 'center',
-    width: '100%',
-    height: 60,
-  },
   row: {
     marginVertical: theme.sizes.defaultDouble,
   },

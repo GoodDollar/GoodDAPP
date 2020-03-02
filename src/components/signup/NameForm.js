@@ -94,6 +94,8 @@ class NameForm extends React.Component<Props, State> {
                 onCleanUpField={this.handleChange}
                 autoFocus
                 style={styles.transparentBackground}
+                enablesReturnKeyAutomatically
+                onSubmitEditing={this.handleSubmit}
               />
             </Section.Row>
           </Section.Stack>

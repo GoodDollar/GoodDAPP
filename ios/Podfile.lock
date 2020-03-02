@@ -1,5 +1,10 @@
 PODS:
   - boost-for-react-native (1.63.0)
+  - BugsnagReactNative (2.23.6):
+    - BugsnagReactNative/Core (= 2.23.6)
+    - React
+  - BugsnagReactNative/Core (2.23.6):
+    - React
   - BVLinearGradient (2.5.6):
     - React
   - DoubleConversion (1.1.6)
@@ -31,6 +36,8 @@ PODS:
     - RNPermissions
   - QBImagePickerController (3.4.0)
   - RCTRequired (0.61.5)
+  - RCTRestart (0.0.13):
+    - React
   - RCTTypeSafety (0.61.5):
     - FBLazyVector (= 0.61.5)
     - Folly (= 2018.10.22.00)
@@ -195,25 +202,25 @@ PODS:
   - React-jsinspector (0.61.5)
   - react-native-blur (0.8.0):
     - React
-  - react-native-camera (3.15.1):
+  - react-native-camera (3.18.0):
     - React
-    - react-native-camera/RCT (= 3.15.1)
-    - react-native-camera/RN (= 3.15.1)
-  - react-native-camera/RCT (3.15.1):
+    - react-native-camera/RCT (= 3.18.0)
+    - react-native-camera/RN (= 3.18.0)
+  - react-native-camera/RCT (3.18.0):
     - React
-  - react-native-camera/RN (3.15.1):
+  - react-native-camera/RN (3.18.0):
     - React
-  - react-native-image-resizer (1.1.0):
+  - react-native-image-resizer (1.2.0):
     - React
-  - react-native-netinfo (5.3.2):
+  - react-native-netinfo (5.5.1):
     - React
   - react-native-randombytes (3.5.3):
     - React
-  - react-native-safe-area-context (0.6.2):
+  - react-native-safe-area-context (0.7.3):
     - React
   - react-native-udp (3.0.0):
     - React
-  - react-native-webview (8.0.3):
+  - react-native-webview (8.1.0):
     - React
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
@@ -250,9 +257,13 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
-  - RNFS (2.16.2):
+  - RNCAsyncStorage (1.8.0):
     - React
-  - RNGestureHandler (1.5.3):
+  - RNDeviceInfo (5.5.3):
+    - React
+  - RNFS (2.16.6):
+    - React
+  - RNGestureHandler (1.6.0):
     - React
   - RNImageCropPicker (0.27.0):
     - QBImagePickerController
@@ -263,20 +274,28 @@ PODS:
     - React
   - RNPermissions (2.0.9):
     - React
-  - RNReanimated (1.5.0):
+  - RNReanimated (1.7.0):
     - React
-  - RNScreens (2.0.0-alpha.24):
+  - RNScreens (2.1.0):
     - React
+  - RNSentry (1.3.3):
+    - React
+    - Sentry (~> 4.4.0)
   - RNSVG (9.13.6):
     - React
   - RNVectorIcons (6.6.0):
     - React
   - RSKImageCropper (2.2.3)
+  - Sentry (4.4.3):
+    - Sentry/Core (= 4.4.3)
+  - Sentry/Core (4.4.3)
+  - SocketRocket (0.5.1)
   - TcpSockets (3.3.2):
     - React
   - Yoga (1.14.0)
 
 DEPENDENCIES:
+  - BugsnagReactNative (from `../node_modules/bugsnag-react-native`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -289,6 +308,7 @@ DEPENDENCIES:
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary.podspec`)
   - QBImagePickerController (from `../node_modules/react-native-image-crop-picker/ios/QBImagePicker/QBImagePickerController.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
+  - RCTRestart (from `../node_modules/react-native-restart/ios`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
   - React-Core (from `../node_modules/react-native/`)
@@ -318,6 +338,8 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -325,8 +347,10 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - SocketRocket (from `../node_modules/detox/ios_src/SocketRocket`)
   - TcpSockets (from `../node_modules/react-native-tcp`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -334,8 +358,11 @@ SPEC REPOS:
   trunk:
     - boost-for-react-native
     - RSKImageCropper
+    - Sentry
 
 EXTERNAL SOURCES:
+  BugsnagReactNative:
+    :path: "../node_modules/bugsnag-react-native"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
@@ -360,6 +387,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-crop-picker/ios/QBImagePicker/QBImagePickerController.podspec"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
+  RCTRestart:
+    :path: "../node_modules/react-native-restart/ios"
   RCTTypeSafety:
     :path: "../node_modules/react-native/Libraries/TypeSafety"
   React:
@@ -412,6 +441,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -426,10 +459,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  SocketRocket:
+    :path: "../node_modules/detox/ios_src/SocketRocket"
   TcpSockets:
     :path: "../node_modules/react-native-tcp"
   Yoga:
@@ -437,6 +474,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BugsnagReactNative: 76ba231ece009a6fad369f18d89779ab75cc1c7d
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
@@ -449,6 +487,7 @@ SPEC CHECKSUMS:
   Permission-PhotoLibrary: 51718ddf8c0baf1cebf323c68cedcb2ff0cf304a
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
+  RCTRestart: e8e3868a71dbec2cf8055fc2c0635db23c8c4479
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
   React-Core: 688b451f7d616cc1134ac95295b593d1b5158a04
@@ -458,13 +497,13 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-camera: d5b131588a2d1f0ad377a321793f58794dbdc768
-  react-native-image-resizer: 9dfb844937574db849fd18a56d8e6c607b0a31d8
-  react-native-netinfo: 7baf6d0436122ea5d98dc3f17a60fe56c8048046
+  react-native-camera: 36536dd86a41261622967ccf3e19fb63d7dd09e3
+  react-native-image-resizer: b718335229b7be37c809bf9ed81d7a066fbfd2dd
+  react-native-netinfo: 1ee553f84e01aaffbed0e5bd53d8515f7d675055
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
-  react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203
+  react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-udp: 0c1afee1a1eb2b494b25e0c8ab39c783412e0984
-  react-native-webview: de308e0b614039e483eef19a3cf6a9b6b166cff0
+  react-native-webview: f686ed60541ed7291cb1c2aad56b96c86352cb87
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -475,19 +514,24 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  RNFS: 0d4191b1052bef9ce70deff00a5b4169c62bbd9b
-  RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
+  RNCAsyncStorage: 455b48eb552543bad4e3099e180e1700700771f3
+  RNDeviceInfo: 67607dfe9cfbed105838144c40187a8392aa404d
+  RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
+  RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNImageCropPicker: fcdbbbef2f0ea869c6d9ce39b8e4fd67e94009f4
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: 6db7e0a4d94c9c02390d11020b1d3d187aaf77e5
-  RNReanimated: 1761c14b3982fc77fc9fdad6ea2f42ed861c342a
-  RNScreens: 52650fc6874b8ba68a88da452833562fcf45afb5
+  RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
+  RNScreens: 2a9cd603bcebc34319c92e595283d760dd1f55f5
+  RNSentry: 86baf0c87120cd5eb491d073989f8cbc1a2174c6
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
+  Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
+  SocketRocket: dbb1554b8fc288ef8ef370d6285aeca7361be31e
   TcpSockets: 8d839b9b14f6f344d98e4642ded13ab3112b462d
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 56dac7569030be9bdf21083647625949c4bbbf64
+PODFILE CHECKSUM: 01135d5d631459becd985ae3e1cd311876afd4d7
 
 COCOAPODS: 1.8.4

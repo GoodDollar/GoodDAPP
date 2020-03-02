@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import { isMobile } from 'mobile-device-detect'
 import { Platform, View } from 'react-native'
+import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
@@ -111,6 +111,7 @@ const getWelcomeStyles = ({ theme }) => ({
   readMoreText: {
     letterSpacing: 0,
     marginLeft: 4,
+    lineHeight: 16,
   },
   readMore: {
     minHeight: normalize(16),
@@ -124,18 +125,21 @@ const getWelcomeStyles = ({ theme }) => ({
   },
   welcomeText: {
     textAlign: 'left',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
 })
 
 const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
-  <Text style={styles.welcomeText}>
+  <View style={styles.welcomeText}>
     <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'}>
       {text}
     </Text>
     <Text color={color || theme.colors.lighterGray} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
       {buttonText}
     </Text>
-  </Text>
+  </View>
 ))
 
 const getFeedTextStyles = ({ theme }) => ({
@@ -146,43 +150,32 @@ const getFeedTextStyles = ({ theme }) => ({
 })
 
 const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice }) => {
-  let result = ''
-
   switch (feed.type) {
     case 'welcome':
-      result = <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
 
     case 'invite':
-      result = <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
 
     case 'backup':
-      result = <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
 
     case 'spending':
-      result = <ReadMoreText text="here >>>" buttonText="Read more..." />
-      break
+      return <ReadMoreText text="here >>>" buttonText="Read more..." />
 
     case 'claiming':
-      result = isSmallDevice ? <ReadMoreText text="daily G$" /> : ''
-      break
+      return isSmallDevice ? <ReadMoreText text="daily G$" /> : null
 
     case 'hanukaStarts':
-      result = <ReadMoreText text="Claim today for extra G$$$" />
-      break
+      return <ReadMoreText text="Claim today for extra G$$$" />
 
     default:
-      result = (
+      return (
         <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
           {feed.data.message}
         </Text>
       )
-      break
   }
-
-  return result
 })
 
 const getStylesFromProps = ({ theme }) => ({

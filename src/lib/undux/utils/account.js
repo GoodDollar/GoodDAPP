@@ -10,22 +10,20 @@ const log = logger.child({ from: 'undux/utils/balance' })
 const updateAll = store => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
-      const account = store.get('account')
-      const balanceChanged = !account.balance || account.balance != balance
-      const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
+      if (isNull(store)) {
+        log.warn('updateAll failed', 'received store is null')
+      } else {
+        const account = store.get('account')
+        const balanceChanged = !account.balance || account.balance != balance
+        const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
 
-      if (balanceChanged || entitlementChanged || account.ready === false) {
-        store.set('account')({ balance, entitlement, ready: true })
+        if (balanceChanged || entitlementChanged || account.ready === false) {
+          store.set('account')({ balance, entitlement, ready: true })
+        }
       }
     })
     .catch(e => {
-      let level = 'error'
-
-      if (isNull(store)) {
-        level = 'warn'
-      }
-
-      log[level]('updateAll failed', e.message, e)
+      log.error('updateAll failed', e.message, e)
     })
 }
 

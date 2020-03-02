@@ -6,9 +6,11 @@ import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
-import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
+
+// import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
+import JumpingPeople from '../common/animations/JumpingPeople'
 import Text from '../common/view/Text'
 import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -181,7 +183,8 @@ class Auth extends React.Component<Props> {
           <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
             {'Welcome to\nGoodDollar Wallet'}
           </Text>
-          <AnimationsPeopleFlying />
+          {/*<AnimationsPeopleFlying />*/}
+          <JumpingPeople />
           <Section style={styles.bottomContainer}>
             {asGuest && (
               <Text fontSize={12} color="gray80Percent">

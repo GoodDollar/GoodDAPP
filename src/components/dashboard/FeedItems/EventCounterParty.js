@@ -31,7 +31,7 @@ const EventCounterParty = ({ feedItem, styles, style, subtitle, isSmallDevice })
   return (
     <Text textTransform="capitalize" textAlign="left" style={style} numberOfLines={2} ellipsizeMode="tail">
       {direction && (
-        <Text fontSize={10} lineHeight={15} style={styles.direction}>
+        <Text fontSize={10} lineHeight={16} style={styles.direction}>
           {direction}
         </Text>
       )}

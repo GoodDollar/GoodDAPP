@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { isIOS } from 'mobile-device-detect'
 import { Appbar } from 'react-native-paper'
 import _get from 'lodash/get'
 import _toPairs from 'lodash/toPairs'
+import { isIOSWeb } from '../../lib/utils/platform'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -22,9 +22,11 @@ const RewardsTab = props => {
 
   const getRewardsPath = () => {
     const params = _get(props, 'navigation.state.params', {})
-    if (isIOS === false) {
+
+    if (isIOSWeb === false) {
       params.purpose = 'iframe'
     }
+
     params.token = token
     let path = decodeURIComponent(_get(params, 'rewardsPath', ''))
     const query = _toPairs(params)
@@ -35,18 +37,18 @@ const RewardsTab = props => {
     return `${Config.web3SiteUrl}/${path}?${query}`
   }
 
-  const getToken = async () => {
+  const getToken = useCallback(async () => {
     let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
     log.debug('got rewards login token', token)
     setToken(token)
-  }
+  }, [])
 
   useEffect(() => {
     getToken()
   }, [])
 
   useEffect(() => {
-    if (isIOS && token) {
+    if (isIOSWeb && token) {
       store.set('loadingIndicator')({ loading: false })
       showDialog({
         title: 'Press ok to go to Rewards dashboard',
@@ -68,11 +70,9 @@ const RewardsTab = props => {
   const src = getRewardsPath()
   const webIframesStyles = { flex: 1 }
   const Iframe = createIframe(src, 'Rewards', webIframesStyles)
-  const rewardsIframe = useMemo(() => {
-    return <Iframe />
-  }, [src])
+  const rewardsIframe = useMemo(() => <Iframe />, [src])
 
-  if (isIOS || token === undefined) {
+  if (isIOSWeb || token === undefined) {
     return null
   }
 

@@ -10,10 +10,10 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native'
-import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
+import { isBrowser } from '../../lib/utils/platform'
 import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'

@@ -1,7 +1,7 @@
 // @flow
 import React, { useMemo } from 'react'
 import { Platform, View } from 'react-native'
-import { isMobile } from 'mobile-device-detect'
+import { isMobile } from '../../lib/utils/platform'
 import { Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'

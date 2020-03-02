@@ -1,7 +1,7 @@
 // @flow
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import { isMobile } from 'mobile-device-detect'
+import canShare from '../../../lib/utils/canShare'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
 import logger from '../../../lib/logger/pino-logger'
@@ -65,12 +65,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
     let result
 
-    if (isMobile && navigator.share) {
-      result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
-    } else {
+    if (canShare) {
       result = {
         url: generateSendShareText(url, item.data.amount, item.data.endpoint.fullName, currentUserName),
       }
+    } else {
+      result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
     }
 
     fireEventAnalytics('Sharelink')

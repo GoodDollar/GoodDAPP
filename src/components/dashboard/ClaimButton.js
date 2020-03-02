@@ -1,15 +1,15 @@
 import React from 'react'
-import { View, Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { CustomButton } from '../common'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
-import Section from '../common/layout/Section'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import Section from '../common/layout/Section'
 
 const ButtonAmountToClaim = ({ entitlement, isCitizen, styles }) => (
-  <>
+  <View style={styles.countdownContainer}>
     <Text color="surface" fontWeight="medium">
       {`CLAIM YOUR SHARE - `}
     </Text>
@@ -32,9 +32,9 @@ const ButtonAmountToClaim = ({ entitlement, isCitizen, styles }) => (
         lineHeight: 19,
         marginVertical: 'auto',
       }}
-      style={isCitizen ? styles.amountInButtonCenter : styles.amountInButton}
+      style={isCitizen ? [styles.amountInButtonCenter, styles.justifyCenter] : styles.amountInButton}
     />
-  </>
+  </View>
 )
 
 export const ButtonCountdown = ({ styles, nextClaim }) => (
@@ -42,13 +42,14 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
     <Text style={styles.extraInfoCountdownTitle} fontWeight="bold">
       Your next daily claim:
     </Text>
-    <Section.Row grow style={styles.justifyCenter}>
+    <Section.Text style={styles.textLineHeight}>
       {nextClaim &&
         nextClaim.split('').map((value, index) => {
           return (
             <Text
               key={index}
               fontSize={36}
+              lineHeight={36}
               //fontFamily="RobotoSlab"
               fontFamily="Roboto"
               fontWeight="bold"
@@ -59,7 +60,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
             </Text>
           )
         })}
-    </Section.Row>
+    </Section.Text>
   </View>
 )
 
@@ -94,12 +95,14 @@ const getStylesFromProps = ({ theme }) => ({
   },
   minButtonHeight: {
     minHeight: 68,
+    width: '100%',
   },
   buttonCountdown: {
     backgroundColor: theme.colors.orange,
     flexDirection: 'column',
   },
   countdownContainer: {
+    display: 'flex',
     flexDirection: 'column',
   },
   tallCountDown: {
@@ -125,6 +128,9 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     marginLeft: theme.sizes.defaultHalf,
+  },
+  textLineHeight: {
+    lineHeight: 36,
   },
 })
 

@@ -7,8 +7,7 @@ let client = null
 if (Config.bugsnagKey) {
   const config = new Configuration(Config.bugsnagKey)
   config.appVersion = Config.version
-  config.releaseStage = Config.env + '_' + Config.network
-  client = new Client(config)
+  ;(config.releaseStage = Config.env + '_' + Config.network), (client = new Client(config))
 }
 
 export default client

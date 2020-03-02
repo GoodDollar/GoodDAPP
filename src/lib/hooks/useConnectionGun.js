@@ -15,6 +15,9 @@ export default () => {
   const userStorage = store.get('userStorage')
   const connectionCheck = useRef()
 
+  /**
+   * Kills the last connection listener alive.
+   */
   const killLastConnectionCheck = () => {
     if (typeof connectionCheck.current === 'function') {
       connectionCheck.current()
@@ -22,9 +25,16 @@ export default () => {
     }
   }
 
+  /**
+   * isGunConnection gets recursive when the connection fails, so it returns a function to kill
+   * the recursion.
+   */
   const isGunConnection = useCallback(() => {
     killLastConnectionCheck()
 
+    /**
+     * Nothing to do if the app is in background
+     */
     if (!userStorage || AppState.currentState !== 'active') {
       return
     }
@@ -52,22 +62,24 @@ export default () => {
         needToBindEventsGun = true
       }
 
-      let next = setTimeout(() => {
-        next = isGunConnection()
-      }, 1000)
+      /**
+       * If connection fails, it tries again and saves the id of the timer
+       * returned by setTimeout so it can be cleared.
+       */
+      let next = setTimeout(isGunConnection, 1000)
 
-      return () => clearTimeout(next)
+      connectionCheck.current = () => clearTimeout(next)
     }
   })
 
   const gunClose = useCallback(() => {
     log.debug('gun close')
-    connectionCheck.current = isGunConnection()
+    isGunConnection()
   }, [])
 
   const gunError = useCallback(() => {
     log.debug('gun error')
-    connectionCheck.current = isGunConnection()
+    isGunConnection()
   }, [])
 
   const bindEvents = method => {
@@ -95,8 +107,11 @@ export default () => {
 
     const onAppStateChange = nextAppState => {
       if (nextAppState === 'active') {
-        connectionCheck.current = isGunConnection()
+        isGunConnection()
       } else {
+        /**
+         * Kill the last listener if the app is dismissed
+         */
         killLastConnectionCheck()
       }
     }
@@ -104,9 +119,12 @@ export default () => {
     AppState.addEventListener('change', onAppStateChange)
 
     if (!isFirstCheckGun) {
-      connectionCheck.current = isGunConnection()
+      isGunConnection()
     }
 
+    /**
+     * Returns an unsubscribe function to kill the listeners when the effect dies
+     */
     return () => {
       killLastConnectionCheck()
       AppState.removeEventListener('change', onAppStateChange)

@@ -14,6 +14,10 @@ export default () => {
   const wallet = store.get('wallet')
   const connectionCheck = useRef()
 
+  /**
+   * It's called by isWeb3Connection when connection fails.
+   * Saves a function to kill the recursion into connectionCheck
+   */
   const handleWalletNotConnected = useCallback(() => {
     log.debug('isWeb3Connection not connected')
 
@@ -30,13 +34,21 @@ export default () => {
       bindEvents('remove')
     }
 
-    let next = setTimeout(() => {
-      next = isWeb3Connection()
-    }, 1000)
+    /**
+     * Tries to connect again and saves the id of the timer
+     * returned by setTimeout so it can be cleared.
+     */
+    let next = setTimeout(isWeb3Connection, 1000)
 
-    return () => clearTimeout(next)
+    /**
+     * Saves the clear function into connectionCheck.current
+     */
+    connectionCheck.current = () => clearTimeout(next)
   })
 
+  /**
+   * Kills the last connection listener alive.
+   */
   const killLastConnectionCheck = () => {
     if (typeof connectionCheck.current === 'function') {
       connectionCheck.current()
@@ -44,9 +56,16 @@ export default () => {
     }
   }
 
+  /**
+   * When connection fails, it calls handleWalletNotConnected which handles the failure
+   * and then calls this function again to re-try the connection.
+   */
   const isWeb3Connection = useCallback(async () => {
     killLastConnectionCheck()
 
+    /**
+     * Nothing to do if the app is in background
+     */
     if (!wallet || AppState.currentState !== 'active') {
       return
     }
@@ -60,7 +79,7 @@ export default () => {
     const isWalletConnected = wallet.wallet.currentProvider.connected
 
     if (!isWalletConnected) {
-      return handleWalletNotConnected()
+      handleWalletNotConnected()
     }
 
     const isWalletAvailable = await wallet
@@ -69,7 +88,7 @@ export default () => {
       .catch(_ => false)
 
     if (!isWalletAvailable) {
-      return handleWalletNotConnected()
+      handleWalletNotConnected()
     }
 
     if (needToBindEventsWeb3) {
@@ -82,12 +101,12 @@ export default () => {
 
   const web3Close = useCallback(() => {
     log.debug('web3 close')
-    connectionCheck.current = isWeb3Connection()
+    isWeb3Connection()
   }, [])
 
   const web3Error = useCallback(() => {
     log.debug('web3 error')
-    connectionCheck.current = isWeb3Connection()
+    isWeb3Connection()
   }, [])
 
   const bindEvents = method => {
@@ -105,8 +124,11 @@ export default () => {
     const onAppStateChange = nextAppState => {
       if (nextAppState === 'active') {
         log.debug('web3 appstate')
-        connectionCheck.current = isWeb3Connection()
+        isWeb3Connection()
       } else {
+        /**
+         * Kill the last listener if the app is dismissed
+         */
         killLastConnectionCheck()
       }
     }
@@ -115,9 +137,12 @@ export default () => {
 
     if (!isFirstCheckWeb3) {
       log.debug('web3 first')
-      connectionCheck.current = isWeb3Connection()
+      isWeb3Connection()
     }
 
+    /**
+     * Returns an unsubscribe function to kill the listeners when the effect dies
+     */
     return () => {
       killLastConnectionCheck()
       AppState.removeEventListener('change', onAppStateChange)

@@ -5,14 +5,18 @@ export const fixAssets = (assets, animationName) => {
     return assets
   }
   return assets.map(asset => {
-    if (!asset.p) {
+    if (!asset) {
       return asset
+    }
+    if (!asset.p) {
+      return asset.p
     }
     asset.p = Platform.select({
       ios: asset.p.replace('img', animationName),
-      android: asset.p.replace('img', animationName),
-      web: asset.p.replace('png', 'svg'),
+      android: asset.p.replace('img', animationName).toLowerCase(),
+      web: asset.p.replace('png', 'svg').toLowerCase(),
     })
+
     asset.u = Platform.select({
       ios: '',
       android: '',
@@ -26,6 +30,6 @@ export const getAnimationData = (animationName, animationData) => {
   animationData.assets = fixAssets(animationData.assets, animationName)
   return {
     animationData,
-    imageAssetsFolder: `${animationName}/drawable-xhdpi`, //only for android. ios ignore this
+    imageAssetsFolder: 'animations', //only for android. ios ignore this
   }
 }

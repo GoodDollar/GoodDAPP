@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
-import { isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
+import { isMobileSafari } from '../../../lib/utils/platform'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import {

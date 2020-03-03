@@ -4,7 +4,7 @@
 <dict>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>com.gooddollar.bgfetch</string>
+		<string>org.gooddollar.bgfetch</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>

@@ -1,12 +1,10 @@
 // @flow
 import React from 'react'
-import { Image, StyleSheet } from 'react-native'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
-import illustration from '../../assets/Signup/illustration.svg'
+import RocketShip from '../common/animations/RocketShip'
 import Text from '../common/view/Text'
 import CustomWrapper from './signUpWrapper'
 
-Image.prefetch(illustration)
 type Props = {
   screenProps: any,
 }
@@ -33,16 +31,8 @@ export default class SignupCompleted extends React.Component<Props, State> {
         <Text fontWeight="medium" fontSize={22}>
           {`Thanks ${getFirstWord(fullName)}\nYou're all set`}
         </Text>
-        <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+        <RocketShip />
       </CustomWrapper>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  illustration: {
-    minWidth: 220,
-    maxWidth: '100%',
-    minHeight: 260,
-  },
-})

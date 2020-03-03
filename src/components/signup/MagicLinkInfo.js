@@ -19,7 +19,7 @@ const MagicLinkInfoComponent = props => {
   return (
     <CustomWrapper valid={true} handleSubmit={doneCallback} submitText="Cool, got it!">
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-        <View style={styles.bottomContainer}>
+        <View style={styles.headerContainer}>
           <Text
             fontWeight="bold"
             fontSize={28}
@@ -33,7 +33,6 @@ const MagicLinkInfoComponent = props => {
         </View>
       </Section.Row>
       <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
@@ -69,14 +68,6 @@ const MagicLinkInfoComponent = props => {
 const getStylesFromProps = ({ theme }) => {
   return {
     headerText: {
-      // FIXME: RN borderBottom Properties are only allowed on Views
-      ...Platform.select({
-        web: {
-          borderBottomWidth: 2,
-          borderBottomStyle: 'solid',
-          borderBottomColor: theme.colors.primary,
-        },
-      }),
       paddingBottom: getDesignRelativeHeight(5),
     },
     mainWrapper: {
@@ -90,6 +81,12 @@ const getStylesFromProps = ({ theme }) => {
       maxWidth: '100%',
       maxHeight: getDesignRelativeHeight(175),
       minHeight: getDesignRelativeHeight(95),
+      alignSelf: 'center',
+    },
+    headerContainer: {
+      borderBottomWidth: 2,
+      borderBottomStyle: 'solid',
+      borderBottomColor: theme.colors.primary,
     },
   }
 }

@@ -1,4 +1,4 @@
-import { isBrowser, isTablet } from 'mobile-device-detect'
+import { isBrowser, isTablet } from '../utils/platform'
 
 import { getScreenHeight, getScreenWidth } from '../utils/Orientation'
 

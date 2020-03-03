@@ -1,9 +1,11 @@
 //@flow
 import _debounce from 'lodash/debounce'
 import _forEach from 'lodash/forEach'
-import * as Sentry from '@sentry/browser'
+import amplitude from 'amplitude-js'
 import logger from '../logger/pino-logger'
 import Config from '../../config/config'
+import Sentry from './sentry'
+import bugsnagClient from './bugsnag'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -33,7 +35,7 @@ export const APP_OPEN = 'APP_OPEN'
 export const LOGOUT = 'LOGOUT'
 export const CARD_SLIDE = 'CARD_SLIDE'
 
-let Amplitude, FS, Rollbar
+let Amplitude, FS
 
 const log = logger.child({ from: 'analytics' })
 
@@ -42,36 +44,19 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   const email = userStorage && (await userStorage.getProfileFieldValue('email'))
   const emailOrId = email || identifier
 
-  if (global.bugsnagClient) {
-    global.bugsnagClient.user = {
+  if (bugsnagClient) {
+    bugsnagClient.user = {
       id: identifier,
       email: emailOrId,
     }
   }
 
-  if (global.Rollbar && Config.rollbarKey) {
-    Rollbar = global.Rollbar
-    global.Rollbar.configure({
-      accessToken: Config.rollbarKey,
-      captureUncaught: true,
-      captureUnhandledRejections: true,
-      payload: {
-        environment: Config.env + Config.network,
-        codeVersion: Config.version,
-        person: {
-          id: emailOrId,
-          identifier,
-        },
-      },
-    })
-  }
-
-  if (global.amplitude && Config.amplitudeKey) {
-    Amplitude = global.amplitude.getInstance()
+  if (amplitude && Config.amplitudeKey) {
+    Amplitude = amplitude.getInstance()
     Amplitude.init(Config.amplitudeKey)
     Amplitude.setVersionName(Config.version)
     if (Amplitude) {
-      const created = new global.amplitude.Identify().setOnce('first_open_date', new Date().toString())
+      const created = new amplitude.Identify().setOnce('first_open_date', new Date().toString())
       if (email) {
         Amplitude.setUserId(email)
       }
@@ -113,7 +98,6 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   log.debug('Initialized analytics:', {
     Amplitude: Amplitude !== undefined,
     FS: FS !== undefined,
-    Rollbar: Rollbar !== undefined,
   })
 
   patchLogger()
@@ -171,16 +155,14 @@ const patchLogger = () => {
     if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
       debounceFireEvent(ERROR_LOG, { reason: logMessage, logContext })
     }
-    if (global.bugsnagClient && Config.env !== 'test') {
-      global.bugsnagClient.notify(logMessage, {
+    if (bugsnagClient && Config.env !== 'test') {
+      bugsnagClient.notify(logMessage, {
         context: logContext && logContext.from,
         metaData: { logMessage, eMsg, errorObj, rest },
         groupingHash: logContext && logContext.from,
       })
     }
-    if (global.Rollbar && Config.env !== 'test') {
-      global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
-    }
+
     if (Config.sentryDSN && Config.env !== 'test') {
       reportToSentry(logMessage, {
         errorObj,

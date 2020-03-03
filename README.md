@@ -17,6 +17,18 @@ Important: Use node version 10.15.0
 $ npm run web:local
 ```
 
+## Installation Native
+
+```bash
+  (cd ios && pod install)
+```
+
+#### Setup sentry
+```bash
+npx sentry-wizard -i reactNative -p ios android
+```
+
+
 ## Testing
 
 We are using [snapshot testing](https://jestjs.io/docs/en/snapshot-testing)

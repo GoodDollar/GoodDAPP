@@ -131,7 +131,6 @@ class Auth extends React.Component<Props> {
 
     this.props.navigation.navigate(redirectTo, { w3User, w3Token })
 
-    // FIXME: RN
     if (Platform.OS === 'web') {
       //Hack to get keyboard up on mobile need focus from user event such as click
       setTimeout(() => {
@@ -182,7 +181,14 @@ class Auth extends React.Component<Props> {
     return (
       <SafeAreaView style={styles.mainWrapper}>
         <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-          <Text testID="welcomeLabel" style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
+          <Text
+            testID="welcomeLabel"
+            style={styles.headerText}
+            fontSize={22}
+            lineHeight={25}
+            fontFamily="Roboto"
+            fontWeight="medium"
+          >
             {'Welcome to\nGoodDollar Wallet'}
           </Text>
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
@@ -217,12 +223,12 @@ class Auth extends React.Component<Props> {
               style={styles.buttonLayout}
               textStyle={firstButtonTextStyle}
               onPress={firstButtonHandler}
-              testID='firstButton'
+              testID="firstButton"
             >
               {firstButtonText}
             </CustomButton>
             {!withW3Token && (
-              <PushButton testID='signInButton' dark={false} mode="outlined" onPress={this.handleSignIn}>
+              <PushButton testID="signInButton" dark={false} mode="outlined" onPress={this.handleSignIn}>
                 <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
                   ALREADY REGISTERED?
                   <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">

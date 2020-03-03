@@ -22,7 +22,7 @@ const BigGoodDollar = ({ number, formatter, testID, ...props }: Props) => {
 
   return (
     <BigNumber number={number} {...props} testID={testID}>
-      {props.unit ? null : <GDUnits {...props} />}
+      {!props.unit && <GDUnits {...props} />}
     </BigNumber>
   )
 }

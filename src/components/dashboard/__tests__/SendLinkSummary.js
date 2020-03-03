@@ -1,14 +1,20 @@
 import React from 'react'
+import renderer from 'react-test-renderer'
+import GDStore from '../../../lib/undux/GDStore'
 
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer'
 
-import { getWebRouterComponentWithMocks } from './__util__'
+import { getWebRouterComponentWithMocks, getWebRouterComponentWithRoutes } from './__util__'
+const { Container } = GDStore
 
 describe('SendLinkSummary', () => {
   it('renders without errors', () => {
-    const SendLinkSummary = getWebRouterComponentWithMocks('../SendLinkSummary')
-    const tree = renderer.create(<SendLinkSummary />)
+    const SendLinkSummary = getWebRouterComponentWithRoutes('../SendLinkSummary')
+    const tree = renderer.create(
+      <Container>
+        <SendLinkSummary />
+      </Container>
+    )
     expect(tree.toJSON()).toBeTruthy()
   })
 

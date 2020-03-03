@@ -499,21 +499,13 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "flex-start",
               "alignSelf": "flex-start",
-              "marginTop": "7px",
+              "height": "35px",
+              "marginTop": "8px",
               "msFlexItemAlign": "start",
+              "width": "35px",
             }
           }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "height": "36px",
-                "width": "36px",
-              }
-            }
-          />
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -1019,21 +1011,13 @@ exports[`ListEventItem send matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "flex-start",
               "alignSelf": "flex-start",
-              "marginTop": "7px",
+              "height": "35px",
+              "marginTop": "8px",
               "msFlexItemAlign": "start",
+              "width": "35px",
             }
           }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "height": "36px",
-                "width": "36px",
-              }
-            }
-          />
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -1539,21 +1523,13 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             Object {
               "WebkitAlignSelf": "flex-start",
               "alignSelf": "flex-start",
-              "marginTop": "7px",
+              "height": "35px",
+              "marginTop": "8px",
               "msFlexItemAlign": "start",
+              "width": "35px",
             }
           }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "height": "36px",
-                "width": "36px",
-              }
-            }
-          />
-        </div>
+        />
       </div>
     </div>
   </div>

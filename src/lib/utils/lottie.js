@@ -26,6 +26,6 @@ export const getAnimationData = (animationName, animationData) => {
   animationData.assets = fixAssets(animationData.assets, animationName)
   return {
     animationData,
-    imageAssetsFolder: `animations/${animationName}/drawable-xhdpi`, //only for android. ios ignore this
+    imageAssetsFolder: `animations`, //only for android. ios ignore this
   }
 }

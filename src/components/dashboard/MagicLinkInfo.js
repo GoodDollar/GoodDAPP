@@ -79,12 +79,6 @@ const MagicLinkInfoComponent = props => {
 
 const getStylesFromProps = ({ theme }) => {
   return {
-    headerText: {
-      borderBottomWidth: 2,
-      borderBottomStyle: 'solid',
-      borderBottomColor: theme.colors.primary,
-      paddingBottom: getDesignRelativeHeight(5, false),
-    },
     mainWrapper: {
       display: 'flex',
       paddingHorizontal: 0,

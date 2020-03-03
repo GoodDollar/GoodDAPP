@@ -1,10 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-<<<<<<< HEAD
 import { AsyncStorage, Platform, View } from 'react-native'
-=======
-import { AsyncStorage, Image, Platform, View } from 'react-native'
->>>>>>> origin/react-native
 import numeral from 'numeral'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'

@@ -75,6 +75,7 @@
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@sentry/browser": "^5.10.2",
     "@sentry/react-native": "^1.2.2",
+    "@sentry/wizard": "^1.1.1",
     "@tradle/react-native-http": "^2.0.1",
     "Base64": "^1.1.0",
     "FormData": "^0.10.1",

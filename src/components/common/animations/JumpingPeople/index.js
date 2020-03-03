@@ -9,12 +9,11 @@ const { animationData, imageAssetsFolder } = getAnimationData('JumpingPeople', r
 
 const styles = {
   android: {
-    position: 'absolute',
-    width: 500,
-    marginTop: -150,
-    marginLeft: -40,
+    width: '100%',
   },
-  ios: {},
+  ios: {
+    width: '100%',
+  },
   web: {
     position: 'absolute',
     marginTop: -(getScreenHeight() / getDesignRelativeHeight(getScreenHeight() > 800 ? 3.3 : 2.7)),

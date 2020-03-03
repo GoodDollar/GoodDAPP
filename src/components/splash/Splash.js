@@ -7,7 +7,7 @@ import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import WavesBackground from '../common/view/BackroundWaves'
+import WavesBackground from '../common/view/WavesBackground'
 
 if (Platform.OS === 'web') {
   // minimize delay <Image> has over web <img>

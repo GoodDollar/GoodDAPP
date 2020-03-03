@@ -128,7 +128,6 @@ class Auth extends React.Component<Props> {
 
     this.props.navigation.navigate(redirectTo, { w3User, w3Token })
 
-    // FIXME: RN
     if (Platform.OS === 'web') {
       //Hack to get keyboard up on mobile need focus from user event such as click
       setTimeout(() => {

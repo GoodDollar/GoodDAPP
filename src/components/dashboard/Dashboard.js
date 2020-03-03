@@ -205,7 +205,7 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    // FIXME: RN
+    // FIXME: RN INAPPLINKS
     const anyParams = Platform.OS === 'web' ? extractQueryParams(window.location.href) : null
 
     log.debug('handle links effect dashboard', { anyParams })

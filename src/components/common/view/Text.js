@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Text as PaperText } from 'react-native'
+import { Text as PaperText } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 

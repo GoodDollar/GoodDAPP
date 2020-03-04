@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { Platform } from 'react-native'
 import normalize from '../../lib/utils/normalizeText'
 
 import { BigGoodDollar, Section, Wrapper } from '../common'
@@ -108,12 +107,7 @@ const getStylesFromProps = ({ theme }) => {
       // TODO: see where should we take this color from
       borderBottomColor: theme.colors.gray50Percent,
       borderBottomWidth: 1,
-      ...Platform.select({
-        // FIXME: RN
-        web: {
-          borderBottomStyle: 'solid',
-        },
-      }),
+      borderStyle: 'solid',
       marginTop: theme.sizes.defaultDouble,
       paddingBottom: theme.sizes.default,
     },

@@ -139,14 +139,10 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     left: 0,
     padding: 0,
-
-    // FIXME: RN
     position: Platform.select({
       web: 'fixed',
       default: 'absolute',
     }),
-
-    // FIXME: RN
     height: Platform.select({
       web: '100vh',
       default: getScreenHeight(),

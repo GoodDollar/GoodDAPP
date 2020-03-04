@@ -1,0 +1,79 @@
+{
+  "_from": "@gooddollar/react-native-web-facecapture@^0.1.0",
+  "_id": "@gooddollar/react-native-web-facecapture@0.1.0",
+  "_inBundle": false,
+  "_integrity": "sha512-Wu4dY1qp5ez0Yz/6pPzxJStWk3F6CSStLKaLdBnpNVmTkMHTPxGWFpJShEm5NtFf9nXn1x9HoOLQ+AzwfRwjlA==",
+  "_location": "/@gooddollar/react-native-web-facecapture",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@gooddollar/react-native-web-facecapture@^0.1.0",
+    "name": "@gooddollar/react-native-web-facecapture",
+    "escapedName": "@gooddollar%2freact-native-web-facecapture",
+    "scope": "@gooddollar",
+    "rawSpec": "^0.1.0",
+    "saveSpec": null,
+    "fetchSpec": "^0.1.0"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@gooddollar/react-native-web-facecapture/-/react-native-web-facecapture-0.1.0.tgz",
+  "_shasum": "01f5ffb507a90ffbedaad7ad8b34ae4a7e540979",
+  "_spec": "@gooddollar/react-native-web-facecapture@^0.1.0",
+  "_where": "/Users/alexeykosinski/work/nordwhale/GoodDollar/GoodBootstrap/packages/dapp",
+  "author": {
+    "name": "GoodDollar Community",
+    "email": "builders@gooddollar.org"
+  },
+  "bugs": {
+    "url": "https://github.com/GoodDollar/react-native-web-facecapture/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "buffer": "^5.4.3",
+    "face-api.js": "^0.22.0",
+    "image-js": "^0.21.8",
+    "jpeg-js": "^0.3.6",
+    "lodash": "^4.17.15"
+  },
+  "deprecated": false,
+  "devDependencies": {
+    "@babel/core": "~7.6.0",
+    "babel-jest": "~24.9.0",
+    "jest": "~24.9.0",
+    "metro-react-native-babel-preset": "~0.56.0",
+    "react-test-renderer": "~16.9.0"
+  },
+  "homepage": "https://gooddollar.org",
+  "jest": {
+    "preset": "react-native"
+  },
+  "keywords": [
+    "UBI",
+    "basic",
+    "income",
+    "gooddollar",
+    "dapp",
+    "face capture",
+    "identity",
+    "quality",
+    "face"
+  ],
+  "license": "MIT",
+  "name": "@gooddollar/react-native-web-facecapture",
+  "peerDependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-native": "^0.61.4",
+    "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera.git"
+  },
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoodDollar/react-native-web-facecapture.git"
+  },
+  "version": "0.1.0"
+}

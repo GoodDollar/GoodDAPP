@@ -5,7 +5,7 @@ import { Paragraph, Portal } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
-import ErrorIcon from '../modal/ErrorIcon'
+import ErrorAnimation from '../../common/animations/Error'
 import SuccessIcon from '../modal/SuccessIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
@@ -61,7 +61,7 @@ const CustomDialog = ({
   buttonsContainerStyle,
   isMinHeight = true,
 }: DialogProps) => {
-  const defaultImage = type === 'error' ? <ErrorIcon /> : <SuccessIcon />
+  const defaultImage = type === 'error' ? <ErrorAnimation /> : <SuccessIcon />
   const modalColor = getColorFromType(type)
   const textColor = type === 'error' ? 'red' : 'darkGray'
   const color = theme.colors[textColor]

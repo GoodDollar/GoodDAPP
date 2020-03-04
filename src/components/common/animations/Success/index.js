@@ -14,7 +14,7 @@ class Success extends React.Component {
         autoSize={false}
         style={{
           paddingTop: 20,
-          paddingBottom: 20
+          paddingBottom: 20,
         }}
         loop={false}
       />

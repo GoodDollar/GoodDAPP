@@ -1,8 +1,17 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
+import { getScreenWidth } from '../../../../lib/utils/Orientation'
 
 import animationData from './data.json'
+
+const getMarginTop = () => {
+  const width = getScreenWidth()
+  if (width < 600) {
+    return -width / 1.3
+  }
+  return -width / 2.5
+}
 
 const styles = {
   android: {
@@ -13,8 +22,8 @@ const styles = {
   },
   web: {
     width: '100%',
-
-    // marginTop:-500
+    position: 'absolute',
+    marginTop: getMarginTop(),
   },
 }
 const stylesBlock = {
@@ -23,7 +32,9 @@ const stylesBlock = {
   },
   ios: {},
   web: {
-    // height: 100,
+    width: '100%',
+
+    height: 100,
   },
 }
 class JumpingPeople extends React.Component {

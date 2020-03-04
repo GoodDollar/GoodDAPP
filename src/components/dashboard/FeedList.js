@@ -52,6 +52,7 @@ const FeedList = ({
   handleFeedSelection,
   initialNumToRender,
   onEndReached,
+  onEndReachedThreshold,
   styles,
   onScroll,
   headerLarge,
@@ -161,6 +162,7 @@ const FeedList = ({
         maxSwipeDistance={112}
         numColumns={1}
         onEndReached={onEndReached}
+        onEndReachedThreshold={onEndReachedThreshold}
         refreshing={false}
         renderItem={renderItemComponent}
         renderQuickActions={renderQuickActions}

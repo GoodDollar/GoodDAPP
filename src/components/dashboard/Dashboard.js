@@ -84,6 +84,7 @@ export type DashboardProps = {
 }
 const Dashboard = props => {
   const { screenProps, styles, theme }: DashboardProps = props
+  const [getNextFeedAllowed, setGetNextFeedAllowed] = useState(true)
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
@@ -175,6 +176,7 @@ const Dashboard = props => {
     if (res.length == 0) {
       return
     }
+
     if (reset) {
       if (!loadAnimShown) {
         await delay(1900)
@@ -185,6 +187,7 @@ const Dashboard = props => {
       setFeeds(feeds.concat(res))
     }
   }
+
   const subscribeToFeed = () => {
     return new Promise((res, rej) => {
       userStorage.feed.get('byid').on(async data => {
@@ -258,7 +261,7 @@ const Dashboard = props => {
   }
 
   const nextFeed = () => {
-    if (feeds && feeds.length > 0) {
+    if (getNextFeedAllowed && feeds && feeds.length > 0) {
       log.debug('getNextFeed called')
       return getFeedPage()
     }
@@ -367,6 +370,8 @@ const Dashboard = props => {
         }),
       ]).start()
     }
+
+    setTimeout(() => setGetNextFeedAllowed(true), 300)
   }, [headerLarge])
 
   useEffect(() => {
@@ -563,6 +568,7 @@ const Dashboard = props => {
         handleFeedSelection={handleFeedSelection}
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed}
+        onEndReachedThreshold={0.7}
         updateData={() => {}}
         onScroll={debounce(({ nativeEvent }) => {
           // ISH - including small header calculations
@@ -572,9 +578,15 @@ const Dashboard = props => {
           const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
 
           if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-            headerLarge && setHeaderLarge(false)
+            if (headerLarge) {
+              setGetNextFeedAllowed(false)
+              setHeaderLarge(false)
+            }
           } else {
-            !headerLarge && setHeaderLarge(true)
+            if (!headerLarge) {
+              setGetNextFeedAllowed(false)
+              setHeaderLarge(true)
+            }
           }
 
           // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })

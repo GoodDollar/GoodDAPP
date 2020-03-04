@@ -1,4 +1,3 @@
-// TODO: RN
 import React, { useEffect, useMemo, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Appbar } from 'react-native-paper'

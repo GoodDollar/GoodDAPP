@@ -1,8 +1,7 @@
 import React from 'react'
-import { createBrowserApp } from '@react-navigation/web'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { Platform, View } from 'react-native'
-import { createAppContainer } from 'react-navigation'
+import { View } from 'react-native'
+import createAppContainer from './lib/utils/createAppContainer'
 import { isAndroid, isMobileSafari } from './lib/utils/platform'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
@@ -29,7 +28,7 @@ const router = createSwitchNavigator(
   }
 )
 
-const RouterWrapper = Platform.OS === 'web' ? createBrowserApp(router) : createAppContainer(router)
+const RouterWrapper = createAppContainer(router)
 
 const fullScreenContainer = {
   top: 0,

@@ -420,6 +420,7 @@ exports[`Amount matches snapshot 1`] = `
                   autoFocus={true}
                   className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                   dir="auto"
+                  maxLength={20}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}

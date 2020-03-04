@@ -242,7 +242,7 @@ export class GoodWallet {
 
         this.getReceiptWithLogs(event.transactionHash)
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-          .catch(err => log.error('send event get/send receipt failed:', err))
+          .catch(err => log.error('send event get/send receipt failed:', err.message, err))
 
         if (event && event.blockNumber && blockIntervalCallback) {
           blockIntervalCallback({ toBlock: event.blockNumber, event })
@@ -807,7 +807,7 @@ export class GoodWallet {
           onConfirmation && onConfirmation(c)
         })
         .on('error', e => {
-          log.error('sendTransaction error:', e.message, e, tx)
+          log.error('sendTransaction error:', e.message, e, { tx })
           rej(e)
           onError && onError(e)
         })

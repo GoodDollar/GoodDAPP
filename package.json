@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.15.1-0",
+  "version": "0.16.0",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -85,8 +85,10 @@
     "mobile-device-detect": "^0.2.3",
     "moment": "^2.24.0",
     "node-pre-gyp": "^0.14.0",
+    "node-xml-lite": "0.0.7",
     "numeral": "^2.0.6",
     "pino": "^5.12.6",
+    "pn": "^1.1.0",
     "qrcode.react": "^0.9.3",
     "qs": "^6.8.0",
     "react": "^16.8.1",
@@ -112,6 +114,7 @@
     "react-qr-reader": "^2.2.1",
     "recaptcha-v3-react": "^3.0.3",
     "rxjs": "^6.4.0",
+    "svg2png": "^4.1.1",
     "undux": "^5.0.1",
     "validator": "^10.11.0",
     "web3": "^2.0.0-alpha.1",

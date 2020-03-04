@@ -1,4 +1,5 @@
 //@flow
+import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
 import find from 'lodash/find'
 import flatten from 'lodash/flatten'
@@ -20,6 +21,8 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
+import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
+import delUndefValNested from '../utils/delUndefValNested'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -456,14 +459,20 @@ export class UserStorage {
     return mnemonic
   }
 
-  constructor(wallet: GoodWallet, gun: Gun = defaultGun) {
-    this.gun = gun
+  constructor(wallet: GoodWallet, gun: Gun) {
+    this.gun = gun || defaultGun
     this.wallet = wallet
     this.ready = this.wallet.ready
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
-        logger.error('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
+        let logLevel = 'error'
+
+        if (e.message && e.message.includes('Wrong user or password')) {
+          logLevel = 'warn'
+        }
+
+        logger[logLevel]('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
         return false
       })
   }
@@ -514,10 +523,8 @@ export class UserStorage {
       loginToken: { defaultPrivacy: 'private' },
     }
 
-    //sign with different address so its not connected to main user address and there's no 1-1 link
-    const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
-    const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
     this.gunuser = this.gun.user()
+
     if (this.gunuser.is) {
       logger.debug('init:', 'logging out first')
       this.gunuser.leave()
@@ -526,53 +533,86 @@ export class UserStorage {
     // this causes gun create user only on non-incognito to hang if user doesnt exists i have no freaking idea why
     //const existingUsername = await this.gun.get('~@' + username)
     const existingUsername = false
-    logger.debug('init existing username:', { existingUsername })
     let loggedInPromise
-    if (existingUsername) {
-      loggedInPromise = this.gunAuth(username, password).catch(e =>
-        this.gunCreate(username, password).then(r => this.gunAuth(username, password))
-      )
-    } else {
-      loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
-    }
-    this.magiclink = this.createMagicLink(username, password)
 
-    return new Promise(async (res, rej) => {
-      let user = await loggedInPromise.catch(e => rej(e))
-      if (user === undefined) {
-        return
+    logger.debug('init existing username:', { existingUsername })
+
+    let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
+
+    if (existingCreds == null) {
+      //sign with different address so its not connected to main user address and there's no 1-1 link
+      const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
+      const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
+      if (existingUsername) {
+        loggedInPromise = this.gunAuth(username, password).catch(e =>
+          this.gunCreate(username, password).then(r => this.gunAuth(username, password))
+        )
+      } else {
+        loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
       }
-      this.user = this.gunuser.is
-      this.profile = this.gunuser.get('profile')
-      this.profile.open(doc => {
-        this._lastProfileUpdate = doc
-        this.subscribersProfileUpdates.forEach(callback => callback(doc))
+      loggedInPromise = loggedInPromise.then(_ => {
+        existingCreds = { sea: this.gunuser.pair(), is: this.gunuser.is, username, password }
+        AsyncStorage.setItem('GD_GunCredentials', JSON.stringify(existingCreds))
+        return _
       })
-      logger.debug('init to events')
-      await this.initFeed()
-      await this.initProperties()
-      await this.startSystemFeed()
+    } else {
+      logger.debug('gun login using saved credentials', { existingCreds })
 
-      //save ref to user
-      this.gun
-        .get('users')
-        .get(this.gunuser.is.pub)
-        .put(this.gunuser)
+      this.gunuser.restore(existingCreds)
+      loggedInPromise = Promise.resolve(this.gunuser)
+    }
 
-      logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
-      logger.debug('subscribing')
-
-      this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
-        logger.debug({ event }, EVENT_TYPE_RECEIVE)
-      })
-      this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
-        logger.debug({ event }, EVENT_TYPE_SEND)
-      })
-      this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
-      this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
-      this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
-      res(true)
+    let user = await loggedInPromise.catch(e => {
+      logger.warn(e)
+      throw e
     })
+    logger.debug('init finished gun loggin', user)
+
+    if (user === undefined) {
+      throw new Error('gun login failed')
+    }
+
+    this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
+    this.user = this.gunuser.is
+    this.profile = this.gunuser.get('profile')
+    this.profile.open(doc => {
+      this._lastProfileUpdate = doc
+      this.subscribersProfileUpdates.forEach(callback => callback(doc))
+    })
+    logger.debug('init opened profile')
+
+    logger.debug('init feed')
+    await this.initFeed()
+    logger.debug('init Properties')
+
+    await this.initProperties()
+    logger.debug('init systemfeed')
+
+    await this.startSystemFeed()
+
+    //save ref to user
+    this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .put(this.gunuser)
+
+    logger.debug('GunDB logged in', {
+      username: existingCreds.username,
+      pubkey: this.gunuser.is,
+      pair: this.gunuser.pair(),
+    })
+    logger.debug('subscribing')
+
+    this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
+      logger.debug({ event }, EVENT_TYPE_RECEIVE)
+    })
+    this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
+      logger.debug({ event }, EVENT_TYPE_SEND)
+    })
+    this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
+    this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
+    this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
+    return true
   }
 
   /**
@@ -734,14 +774,18 @@ export class UserStorage {
       const originalTXHash = await this.getTransactionHashByCode(data.hash)
       if (originalTXHash === undefined) {
         logger.error(
-          'handleOTPLUpdated: Original payment link TX not found',
-          '',
-          new Error('handleOTPLUpdated failed'),
+          'handleOTPLUpdated failed',
+          'Original payment link TX not found',
+          new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
           data
         )
         return
       }
-      const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
+
+      const feedEvent = {
+        data: {},
+        ...((await this.getFeedItemByTransactionHash(originalTXHash)) || {}),
+      }
 
       if (get(feedEvent, 'data.otplData')) {
         logger.debug('handleOTPLUpdated skipping event with existed receipt data', feedEvent, receipt)
@@ -1030,7 +1074,12 @@ export class UserStorage {
     }
     const { errors, isValid } = profile.validate(update)
     if (!isValid) {
-      logger.error('setProfile failed:', '', new Error('setProfile failed'), errors)
+      logger.error(
+        'setProfile failed',
+        'Fields validation failed',
+        new Error('setProfile failed: Fields validation failed'),
+        { errors }
+      )
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
       }
@@ -1045,18 +1094,30 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', e.message, e, field)
+            logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
           })
         })
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+
       if (errors.length > 0) {
-        logger.error('setProfile some fields failed', errors.length, errors, JSON.stringify(errors))
+        logger.error(
+          'setProfile partially failed',
+          'some of the fields failed during saving',
+          new Error('setProfile: some fields failed during saving'),
+          {
+            errCount: errors.length,
+            errors,
+            strErrors: JSON.stringify(errors),
+          }
+        )
+
         if (Config.throwSaveProfileErrors) {
           return Promise.reject(errors)
         }
       }
+
       return true
     })
   }
@@ -1325,7 +1386,7 @@ export class UserStorage {
           }
 
           return this.formatEvent(feedItem).catch(e => {
-            logger.error('getFormattedEvents Failed formatting event:', e.message, e, feedItem)
+            logger.error('getFormattedEvents Failed formatting event:', e.message, e, { feedItem })
             return {}
           })
         })
@@ -1335,7 +1396,7 @@ export class UserStorage {
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', e.message, e, id)
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
       return undefined
     })
     if (!prevFeedEvent) {
@@ -1360,7 +1421,7 @@ export class UserStorage {
     let updatedEvent = await this.handleReceiptUpdated(receipt)
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
       return {}
     })
   }
@@ -1549,7 +1610,7 @@ export class UserStorage {
 
     data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
     data.address = data.address && UserStorage.cleanFieldForIndex('walletAddress', data.address)
-    data.value = (receiptData && receiptData.value) || amount
+    data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
     data.displayName = counterPartyDisplayName || 'Unknown'
 
     logger.debug('formatEvent: parsed data', { id, type, to, counterPartyDisplayName, from, receiptData, ...data })
@@ -1641,7 +1702,9 @@ export class UserStorage {
    * @param {FeedEvent} event
    * @returns {Promise<>}
    */
-  async enqueueTX(event: FeedEvent): Promise<> {
+  async enqueueTX(_event: FeedEvent): Promise<> {
+    const event = delUndefValNested(_event)
+
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
@@ -2000,8 +2063,13 @@ export class UserStorage {
     //first delete from indexes then delete the profile itself
     await Promise.all(
       keys(UserStorage.indexableFields).map(k => {
-        return this.setProfileFieldPrivacy(k, 'private').catch(() => {
-          logger.error('failed deleting profile field', k)
+        return this.setProfileFieldPrivacy(k, 'private').catch(err => {
+          logger.error(
+            'Deleting profile field failed',
+            err.message || 'Some error occurred during setting the privacy to the field',
+            err || new Error('Deleting profile field failed'),
+            { index: k }
+          )
         })
       })
     )

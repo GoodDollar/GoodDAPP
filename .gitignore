@@ -10,6 +10,6 @@ radata/
 .idea
 yarn.lock
 account.data.txt
-.DS_Store
-.png-cache
 .gradle
+.png-cache
+.DS_Store

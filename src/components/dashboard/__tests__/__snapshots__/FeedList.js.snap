@@ -1873,21 +1873,13 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         Object {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
+                          "height": "35px",
                           "marginTop": "8px",
                           "msFlexItemAlign": "start",
+                          "width": "35px",
                         }
                       }
-                    >
-                      <div
-                        className="css-view-1dbjc4n"
-                        style={
-                          Object {
-                            "height": "34px",
-                            "width": "34px",
-                          }
-                        }
-                      />
-                    </div>
+                    />
                   </div>
                 </div>
               </div>
@@ -2468,21 +2460,13 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         Object {
                           "WebkitAlignSelf": "flex-start",
                           "alignSelf": "flex-start",
+                          "height": "35px",
                           "marginTop": "8px",
                           "msFlexItemAlign": "start",
+                          "width": "35px",
                         }
                       }
-                    >
-                      <div
-                        className="css-view-1dbjc4n"
-                        style={
-                          Object {
-                            "height": "34px",
-                            "width": "34px",
-                          }
-                        }
-                      />
-                    </div>
+                    />
                   </div>
                 </div>
               </div>

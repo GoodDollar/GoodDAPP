@@ -119,7 +119,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   patchLogger()
 }
 
-export const reportToSentry = (errorMsg, extra = {}, tags = {}) =>
+export const reportToSentry = (error, extra = {}, tags = {}) =>
   Sentry.configureScope(scope => {
     // set extra
     _forEach(extra, (value, key) => {
@@ -131,7 +131,7 @@ export const reportToSentry = (errorMsg, extra = {}, tags = {}) =>
       scope.setTags(key, value)
     })
 
-    Sentry.captureException(new Error(errorMsg))
+    Sentry.captureException(error)
   })
 
 export const fireEvent = (event: string, data: any = {}) => {
@@ -182,7 +182,7 @@ const patchLogger = () => {
       global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
     }
     if (Config.sentryDSN && Config.env !== 'test') {
-      reportToSentry(logMessage, {
+      reportToSentry(errorObj && errorObj instanceof Error ? errorObj : new Error(logMessage), {
         errorObj,
         logContext,
         eMsg,

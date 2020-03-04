@@ -441,6 +441,7 @@ exports[`Claim matches snapshot 1`] = `
           style={
             Object {
               "height": "100px",
+              "width": "100%",
             }
           }
         >
@@ -448,7 +449,7 @@ exports[`Claim matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "marginTop": "-274.2857142857143px",
+                "marginTop": "-409.6px",
                 "position": "absolute",
                 "width": "100%",
               }

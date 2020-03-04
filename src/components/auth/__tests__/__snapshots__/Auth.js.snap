@@ -142,8 +142,6 @@ GoodDollar Wallet
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "marginTop": "-192px",
-                  "position": "absolute",
                   "width": "100%",
                 }
               }

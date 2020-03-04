@@ -1,7 +1,7 @@
-import { Easing } from 'react-native';
+import { Easing } from 'react-native'
 
 function makeZoomInTranslation(translationType, pivotPoint) {
-  const modifier = Math.min(1, Math.max(-1, pivotPoint));
+  const modifier = Math.min(1, Math.max(-1, pivotPoint))
   return {
     easing: Easing.bezier(0.175, 0.885, 0.32, 1),
     0: {
@@ -18,7 +18,7 @@ function makeZoomInTranslation(translationType, pivotPoint) {
       scale: 1,
       [translationType]: 0,
     },
-  };
+  }
 }
 
 export const zoomIn = {
@@ -33,12 +33,12 @@ export const zoomIn = {
     opacity: 1,
     scale: 1,
   },
-};
+}
 
-export const zoomInDown = makeZoomInTranslation('translateY', 60);
+export const zoomInDown = makeZoomInTranslation('translateY', 60)
 
-export const zoomInUp = makeZoomInTranslation('translateY', -60);
+export const zoomInUp = makeZoomInTranslation('translateY', -60)
 
-export const zoomInLeft = makeZoomInTranslation('translateX', 10);
+export const zoomInLeft = makeZoomInTranslation('translateX', 10)
 
-export const zoomInRight = makeZoomInTranslation('translateX', -10);
+export const zoomInRight = makeZoomInTranslation('translateX', -10)

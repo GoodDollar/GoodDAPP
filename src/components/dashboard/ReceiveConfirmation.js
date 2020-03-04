@@ -76,7 +76,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           </Section.Stack>
         </Section.Stack>
         <Section.Stack>
-         <ShareButton
+          <ShareButton
             share={share}
             onPressDone={() => {
               fireEvent('RECEIVE_DONE', { type: 'link' })

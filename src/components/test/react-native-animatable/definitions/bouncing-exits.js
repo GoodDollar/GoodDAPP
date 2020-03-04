@@ -17,7 +17,7 @@ export const bounceOut = {
     opacity: 0,
     scale: 0.3,
   },
-};
+}
 
 export const bounceOutUp = {
   0: {
@@ -41,7 +41,7 @@ export const bounceOutUp = {
     opacity: 0,
     translateY: -800,
   },
-};
+}
 
 export const bounceOutDown = {
   0: {
@@ -65,7 +65,7 @@ export const bounceOutDown = {
     opacity: 0,
     translateY: 800,
   },
-};
+}
 
 export const bounceOutRight = {
   0: {
@@ -89,7 +89,7 @@ export const bounceOutRight = {
     opacity: 0,
     translateX: 600,
   },
-};
+}
 
 export const bounceOutLeft = {
   0: {
@@ -113,4 +113,4 @@ export const bounceOutLeft = {
     opacity: 0,
     translateX: -600,
   },
-};
+}

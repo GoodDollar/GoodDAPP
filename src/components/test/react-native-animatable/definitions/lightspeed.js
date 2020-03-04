@@ -18,7 +18,7 @@ export const lightSpeedIn = {
     translateX: 0,
     skewX: '0deg',
   },
-};
+}
 
 export const lightSpeedOut = {
   easing: 'ease-in',
@@ -32,4 +32,4 @@ export const lightSpeedOut = {
     translateX: 200,
     skewX: '30deg',
   },
-};
+}

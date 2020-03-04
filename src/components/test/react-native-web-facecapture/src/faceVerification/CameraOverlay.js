@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
-import { Svg, Defs, Rect, Mask, Ellipse } from "react-native-svg";
+import React, { useEffect, useState } from 'react'
+import { View } from 'react-native'
+import { Defs, Ellipse, Mask, Rect, Svg } from 'react-native-svg'
 function createElement(name, type) {
   function CreateElement(props) {
-    return React.createElement(type, props, props.children);
+    return React.createElement(type, props, props.children)
   }
 
   //   CreateElement.displayName = name;
@@ -16,12 +16,12 @@ function createElement(name, type) {
   //     children: null
   //   };
 
-  return CreateElement;
+  return CreateElement
 }
-const MaskSvg = () => Mask || createElement("Mask", "mask");
+const MaskSvg = () => Mask || createElement('Mask', 'mask')
 
 const WrappedSvg = ({ ellipseProps, rectProps, color }) => {
-  const Mask = MaskSvg();
+  const Mask = MaskSvg()
   return (
     <View>
       <Svg height="100%" width="100%">
@@ -42,29 +42,29 @@ const WrappedSvg = ({ ellipseProps, rectProps, color }) => {
         />
       </Svg>
     </View>
-  );
-};
+  )
+}
 
 const CameraOverlay = props => {
-  const [overlay, setOverlay] = useState(false);
+  const [overlay, setOverlay] = useState(false)
   useEffect(() => {
     //solve bug, svg not shown on first render
-    setOverlay(true);
-  }, []);
+    setOverlay(true)
+  }, [])
   return (
     <View
       style={{
-        position: "absolute",
+        position: 'absolute',
         left: 0,
         right: 0,
         top: 0,
-        height: "100%",
-        width: "100%"
+        height: '100%',
+        width: '100%',
       }}
     >
       {overlay && <WrappedSvg {...props} />}
     </View>
-  );
-};
+  )
+}
 
-export default CameraOverlay;
+export default CameraOverlay

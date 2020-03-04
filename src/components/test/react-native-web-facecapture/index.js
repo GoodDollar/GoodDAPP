@@ -1,3 +1,3 @@
-import FaceCapture from "./src/faceVerification/FaceCapture";
+import FaceCapture from './src/faceVerification/FaceCapture'
 
-export { FaceCapture };
+export { FaceCapture }

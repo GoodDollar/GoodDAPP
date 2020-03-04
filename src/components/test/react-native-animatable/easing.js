@@ -1,4 +1,4 @@
-import { Easing } from 'react-native';
+import { Easing } from 'react-native'
 
 const EASING_FUNCTIONS = {
   // Standard CSS easings
@@ -42,6 +42,6 @@ const EASING_FUNCTIONS = {
   'ease-in-back': Easing.bezier(0.6, -0.28, 0.735, 0.045),
   'ease-out-back': Easing.bezier(0.175, 0.885, 0.32, 1.275),
   'ease-in-out-back': Easing.bezier(0.68, -0.55, 0.265, 1.55),
-};
+}
 
-export default EASING_FUNCTIONS;
+export default EASING_FUNCTIONS

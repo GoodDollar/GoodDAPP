@@ -1,80 +1,80 @@
-import flattenStyle from './flattenStyle';
+import flattenStyle from './flattenStyle'
 
 function compareNumbers(a, b) {
-  return a - b;
+  return a - b
 }
 
 function notNull(value) {
-  return value !== null;
+  return value !== null
 }
 
 function parsePosition(value) {
   if (value === 'from') {
-    return 0;
+    return 0
   }
   if (value === 'to') {
-    return 1;
+    return 1
   }
-  const parsed = parseFloat(value, 10);
+  const parsed = parseFloat(value, 10)
   if (Number.isNaN(parsed) || parsed < 0 || parsed > 1) {
-    return null;
+    return null
   }
-  return parsed;
+  return parsed
 }
 
-const cache = {};
+const cache = {}
 
 export default function createAnimation(definition) {
-  const cacheKey = JSON.stringify(definition);
+  const cacheKey = JSON.stringify(definition)
   if (cache[cacheKey]) {
-    return cache[cacheKey];
+    return cache[cacheKey]
   }
 
   const positions = Object.keys(definition)
     .map(parsePosition)
-    .filter(notNull);
-  positions.sort(compareNumbers);
+    .filter(notNull)
+  positions.sort(compareNumbers)
 
   if (positions.length < 2) {
-    throw new Error('Animation definitions must have at least two values.');
+    throw new Error('Animation definitions must have at least two values.')
   }
 
-  const compiled = {};
+  const compiled = {}
   if (definition.easing) {
-    compiled.easing = definition.easing;
+    compiled.easing = definition.easing
   }
   if (definition.style) {
-    compiled.style = definition.style;
+    compiled.style = definition.style
   }
 
   for (let i = 0; i < positions.length; i += 1) {
-    const position = positions[i];
-    let keyframe = definition[position];
+    const position = positions[i]
+    let keyframe = definition[position]
     if (!keyframe) {
       if (position === 0) {
-        keyframe = definition.from;
+        keyframe = definition.from
       } else if (position === 1) {
-        keyframe = definition.to;
+        keyframe = definition.to
       }
     }
     if (!keyframe) {
-      throw new Error('Missing animation keyframe, this should not happen');
+      throw new Error('Missing animation keyframe, this should not happen')
     }
 
-    keyframe = flattenStyle(keyframe);
+    keyframe = flattenStyle(keyframe)
     Object.keys(keyframe).forEach(key => {
       if (!(key in compiled)) {
         compiled[key] = {
           inputRange: [],
           outputRange: [],
-        };
+        }
       }
-      compiled[key].inputRange.push(position);
-      compiled[key].outputRange.push(keyframe[key]);
-    });
+      compiled[key].inputRange.push(position)
+      compiled[key].outputRange.push(keyframe[key])
+    })
   }
 
-  cache[cacheKey] = compiled;
+  cache[cacheKey] = compiled
 
-  return compiled;
+  return compiled
 }

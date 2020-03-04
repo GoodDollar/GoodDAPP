@@ -26,7 +26,7 @@ export const bounce = {
   1: {
     translateY: 0,
   },
-};
+}
 
 export const flash = {
   0: {
@@ -44,7 +44,7 @@ export const flash = {
   1: {
     opacity: 1,
   },
-};
+}
 
 export const jello = {
   0: {
@@ -87,7 +87,7 @@ export const jello = {
     skewX: '0deg',
     skewY: '0deg',
   },
-};
+}
 
 export const pulse = {
   0: {
@@ -99,7 +99,7 @@ export const pulse = {
   1: {
     scale: 1,
   },
-};
+}
 
 export const rotate = {
   0: {
@@ -117,7 +117,7 @@ export const rotate = {
   1: {
     rotate: '360deg',
   },
-};
+}
 
 export const shake = {
   0: {
@@ -153,7 +153,7 @@ export const shake = {
   1: {
     translateX: 0,
   },
-};
+}
 
 export const swing = {
   0: {
@@ -174,7 +174,7 @@ export const swing = {
   1: {
     rotate: '0deg',
   },
-};
+}
 
 export const rubberBand = {
   0: {
@@ -205,7 +205,7 @@ export const rubberBand = {
     scaleX: 1,
     scaleY: 1,
   },
-};
+}
 
 export const tada = {
   0: {
@@ -247,7 +247,7 @@ export const tada = {
     scale: 1,
     rotate: '0deg',
   },
-};
+}
 
 export const wobble = {
   0: {
@@ -278,4 +278,4 @@ export const wobble = {
     translateX: 0,
     rotate: '0deg',
   },
-};
+}

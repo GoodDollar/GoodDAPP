@@ -1,24 +1,21 @@
-import createAnimation from './createAnimation';
+import createAnimation from './createAnimation'
 
-const animationRegistry = {};
+const animationRegistry = {}
 
 export function registerAnimation(animationName, animation) {
-  animationRegistry[animationName] = animation;
+  animationRegistry[animationName] = animation
 }
 
 export function getAnimationByName(animationName) {
-  return animationRegistry[animationName];
+  return animationRegistry[animationName]
 }
 
 export function getAnimationNames() {
-  return Object.keys(animationRegistry);
+  return Object.keys(animationRegistry)
 }
 
 export function initializeRegistryWithDefinitions(definitions) {
   Object.keys(definitions).forEach(animationName => {
-    registerAnimation(
-      animationName,
-      createAnimation(definitions[animationName]),
-    );
-  });
+    registerAnimation(animationName, createAnimation(definitions[animationName]))
+  })
 }

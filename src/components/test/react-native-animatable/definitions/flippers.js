@@ -22,7 +22,7 @@ export const flipInX = {
     opacity: 1,
     rotateX: '0deg',
   },
-};
+}
 
 export const flipInY = {
   easing: 'ease-in',
@@ -48,7 +48,7 @@ export const flipInY = {
     opacity: 1,
     rotateY: '0deg',
   },
-};
+}
 
 export const flipOutX = {
   style: {
@@ -67,7 +67,7 @@ export const flipOutX = {
     opacity: 0,
     rotateX: '90deg',
   },
-};
+}
 
 export const flipOutY = {
   style: {
@@ -86,4 +86,4 @@ export const flipOutY = {
     opacity: 0,
     rotateY: '90deg',
   },
-};
+}

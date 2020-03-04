@@ -20,7 +20,7 @@ export const bounceIn = {
     opacity: 1,
     scale: 1,
   },
-};
+}
 
 export const bounceInUp = {
   0: {
@@ -40,7 +40,7 @@ export const bounceInUp = {
   1: {
     translateY: 0,
   },
-};
+}
 
 export const bounceInDown = {
   0: {
@@ -60,7 +60,7 @@ export const bounceInDown = {
   1: {
     translateY: 0,
   },
-};
+}
 
 export const bounceInRight = {
   0: {
@@ -80,7 +80,7 @@ export const bounceInRight = {
   1: {
     translateX: 0,
   },
-};
+}
 
 export const bounceInLeft = {
   0: {
@@ -100,4 +100,4 @@ export const bounceInLeft = {
   1: {
     translateX: 0,
   },
-};
+}

@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* GoodDollarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GoodDollarTests.m */; };
 		033B8C0A8940430D912EC4AC /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 87C6E460098F4D6485C02C84 /* Roboto-Bold.ttf */; };
@@ -336,6 +335,30 @@
 				E632CC5E23FAE3450096DF79 /* RocketShip_0@3x.png */,
 			);
 			name = animations;
+			sourceTree = "<group>";
+		};
+		948C136DD52B4D6E842D76EA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = Application;
+			sourceTree = "<group>";
+		};
+		808BF4AC3E21437DA0A83635 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = Application;
+			sourceTree = "<group>";
+		};
+		A7AE4DD0613C4DCBB87CC9E6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

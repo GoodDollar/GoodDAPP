@@ -1,7 +1,6 @@
 // @flow
 import React, { useMemo } from 'react'
-import { isMobile } from 'mobile-device-detect'
-import Clipboard from '../../lib/utils/Clipboard'
+import canShare from '../../lib/utils/canShare'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import { generateReceiveShareObject, generateReceiveShareText, generateShareLink } from '../../lib/share'
@@ -29,7 +28,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const [screenState] = useScreenState(screenProps)
   const { amount, code, reason, counterPartyDisplayName } = screenState
   const share = useMemo(() => {
-    if (isMobile && navigator.share) {
+    if (canShare) {
       return generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName)
     }
     return {
@@ -77,6 +76,14 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           </Section.Stack>
         </Section.Stack>
         <Section.Stack>
+         <ShareButton
+            share={share}
+            onPressDone={() => {
+              fireEvent('RECEIVE_DONE', { type: 'link' })
+              screenProps.goToRoot()
+            }}
+            actionText="Share as link"
+          />
           <ShareLinkReceiveAnimationButton
             onPress={shareAction}
             onPressDone={() => {

@@ -39,7 +39,7 @@ const FeedModalItem = (props: FeedEventProps) => {
       itemType={itemType}
       onClose={buttonPress}
       showJaggedEdge={showJaggedEdge}
-      fullHeight={true}
+      fullHeight
     >
       {item.type === 'feedback' ? (
         <FeedbackModalItem {...props} />
@@ -112,10 +112,10 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: 12,
     },
     feedItem: {
-      paddingRight: 4,
+      paddingRight: theme.sizes.defaultHalf,
     },
     bigNumberStyles: {
-      marginRight: 4,
+      marginRight: theme.sizes.defaultHalf,
     },
     transactionDetails: {
       alignItems: 'center',

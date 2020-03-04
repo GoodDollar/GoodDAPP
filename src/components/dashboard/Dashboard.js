@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Animated,
   AppState,
@@ -10,10 +10,10 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native'
-import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
+import { isBrowser } from '../../lib/utils/platform'
 import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
@@ -93,6 +93,8 @@ export type DashboardProps = {
 }
 const Dashboard = props => {
   const { screenProps, styles, theme }: DashboardProps = props
+  const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
+  const [showBalance, setShowBalance] = useState(false)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
   const [headerAvatarLeftAnimValue] = useState(new Animated.Value(avatarCenteredPosition))
@@ -110,6 +112,7 @@ const Dashboard = props => {
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
+  const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
@@ -136,6 +139,7 @@ const Dashboard = props => {
     left: headerAvatarLeftAnimValue,
   }
   const balanceAnimStyles = {
+    visibility: showBalance ? 'visible' : 'hidden',
     position: 'absolute',
     right: headerBalanceRightAnimValue,
     marginVertical: headerBalanceVerticalMarginAnimValue,
@@ -181,6 +185,10 @@ const Dashboard = props => {
       return
     }
     if (reset) {
+      if (!loadAnimShown) {
+        await delay(1900)
+        store.set('feedLoadAnimShown')(true)
+      }
       setFeeds(res)
     } else {
       setFeeds(feeds.concat(res))
@@ -197,7 +205,7 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    // FIXME: RN
+    // FIXME: RN INAPPLINKS
     const anyParams = Platform.OS === 'web' ? extractQueryParams(window.location.href) : null
 
     log.debug('handle links effect dashboard', { anyParams })
@@ -275,11 +283,38 @@ const Dashboard = props => {
     InteractionManager.runAfterInteractions(handleAppLinks)
   }
 
+  // The width of the balance block required to place the balance block at the center of the screen
+  // The balance always changes so the width is dynamical.
+  // Animation functionality requires positioning props to be set with numbers.
+  // So we need to calculate the center of the screen within dynamically changed balance block width.
+  const balanceHasBeenCentered = useRef(false)
+
+  const saveBalanceBlockWidth = event => {
+    if (balanceHasBeenCentered.current) {
+      return
+    }
+    const width = _get(event, 'nativeEvent.layout.width')
+
+    setBalanceBlockWidth(width)
+
+    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
+    Animated.timing(headerBalanceRightAnimValue, {
+      toValue: balanceCenteredPosition,
+      duration: 100,
+    }).start()
+
+    if (!showBalance) {
+      setShowBalance(true)
+    }
+    balanceHasBeenCentered.current = true
+  }
+
   useEffect(() => {
     const timing = 250
     const fullNameOpacityTiming = 150
     const easingIn = Easing.in(Easing.quad)
     const easingOut = Easing.out(Easing.quad)
+    const balanceCenteredPosition = headerContentWidth / 2 - balanceBlockWidth / 2
 
     if (headerLarge) {
       Animated.parallel([
@@ -304,7 +339,7 @@ const Dashboard = props => {
           easing: easingOut,
         }),
         Animated.timing(headerBalanceRightAnimValue, {
-          toValue: avatarCenteredPosition,
+          toValue: balanceCenteredPosition,
           duration: timing,
           easing: easingOut,
         }),
@@ -479,6 +514,21 @@ const Dashboard = props => {
 
   const avatarSource = avatar ? { uri: avatar } : unknownProfile
 
+  const onScroll = useCallback(
+    ({ nativeEvent }) => {
+      const minScrollRequired = 150
+      const scrollPosition = nativeEvent.contentOffset.y
+      const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+      const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
+      if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+        headerLarge && setHeaderLarge(false)
+      } else {
+        !headerLarge && setHeaderLarge(true)
+      }
+    },
+    [headerLarge, feeds]
+  )
+
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Section style={[styles.topInfo]}>
@@ -494,11 +544,17 @@ const Dashboard = props => {
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>
-            <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}>
+            <Animated.View onLayout={saveBalanceBlockWidth} style={[styles.bigNumberWrapper, balanceAnimStyles]}>
               <BigGoodDollar
                 testID="amount_value"
                 number={balance}
-                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold', lineHeight: 42 }}
+                bigNumberProps={{
+                  fontSize: 42,
+                  fontWeight: 'semibold',
+                  lineHeight: 42,
+                  textAlign: 'left',
+                }}
+                style={Platform.OS !== 'web' && styles.marginNegative}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
             </Animated.View>
@@ -522,9 +578,12 @@ const Dashboard = props => {
           >
             Send
           </PushButton>
-          <Animated.View style={{ zIndex: 1, ...scale }}>
-            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
-          </Animated.View>
+          <ClaimButton
+            screenProps={screenProps}
+            amount={weiToMask(entitlement, { showUnits: true })}
+            animated
+            animatedScale={scale}
+          />
           <PushButton
             icon="receive"
             iconSize={20}
@@ -546,22 +605,9 @@ const Dashboard = props => {
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed}
         updateData={() => {}}
-        onScroll={debounce(({ nativeEvent }) => {
-          // ISH - including small header calculations
-          const minScrollRequired = 150
-          const scrollPosition = nativeEvent.contentOffset.y
-          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
-          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-
-          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-            headerLarge && setHeaderLarge(false)
-          } else {
-            !headerLarge && setHeaderLarge(true)
-          }
-
-          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
-        }, 100)}
+        onScroll={onScroll}
         headerLarge={headerLarge}
+        scrollEventThrottle={100}
       />
       {currentFeed && (
         <FeedModalList
@@ -587,10 +633,11 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     bottom: 0,
     marginVertical: 'auto',
-
-    //FIXME: RN
-    //height: 'fit-content',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingTop: getDesignRelativeHeight(10),
+    zIndex: -1,
   },
   dashboardWrapper: {
     backgroundColor: theme.colors.lightGray,
@@ -612,15 +659,6 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: 'transparent',
     marginBottom: 12,
   },
-  userInfoHorizontal: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: 0,
-  },
   avatarWrapper: {
     height: '100%',
     width: '100%',
@@ -628,7 +666,7 @@ const getStylesFromProps = ({ theme }) => ({
   avatar: {
     borderRadius: Platform.select({
       web: '50%',
-      default: 21,
+      default: 150 / 2,
     }),
     height: '100%',
     width: '100%',
@@ -643,7 +681,7 @@ const getStylesFromProps = ({ theme }) => ({
   leftButton: {
     flex: 1,
     height: 44,
-    marginRight: 24,
+    marginRight: -12,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',
@@ -655,7 +693,7 @@ const getStylesFromProps = ({ theme }) => ({
   rightButton: {
     flex: 1,
     height: 44,
-    marginLeft: 24,
+    marginLeft: -12,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',
@@ -665,10 +703,10 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
   },
   leftButtonText: {
-    marginRight: 16,
+    marginRight: theme.sizes.defaultDouble,
   },
   rightButtonText: {
-    marginLeft: 16,
+    marginLeft: theme.sizes.defaultDouble,
   },
   bigNumberWrapper: {
     alignItems: 'baseline',
@@ -692,6 +730,18 @@ const getStylesFromProps = ({ theme }) => ({
     paddingRight: 0,
     paddingTop: theme.sizes.defaultDouble,
     justifyContent: 'space-between',
+  },
+  userInfoHorizontal: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
+  },
+  marginNegative: {
+    marginBottom: -7,
   },
 })
 

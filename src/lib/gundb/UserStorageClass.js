@@ -1,4 +1,5 @@
 //@flow
+import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
 import find from 'lodash/find'
 import flatten from 'lodash/flatten'
@@ -20,6 +21,7 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
+import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -456,8 +458,8 @@ export class UserStorage {
     return mnemonic
   }
 
-  constructor(wallet: GoodWallet, gun: Gun = defaultGun) {
-    this.gun = gun
+  constructor(wallet: GoodWallet, gun: Gun) {
+    this.gun = gun || defaultGun
     this.wallet = wallet
     const start = Date.now()
     this.ready = this.wallet.ready
@@ -515,10 +517,8 @@ export class UserStorage {
       loginToken: { defaultPrivacy: 'private' },
     }
 
-    //sign with different address so its not connected to main user address and there's no 1-1 link
-    const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
-    const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
     this.gunuser = this.gun.user()
+
     if (this.gunuser.is) {
       logger.debug('init:', 'logging out first')
       this.gunuser.leave()
@@ -527,30 +527,59 @@ export class UserStorage {
     // this causes gun create user only on non-incognito to hang if user doesnt exists i have no freaking idea why
     //const existingUsername = await this.gun.get('~@' + username)
     const existingUsername = false
-    logger.debug('init existing username:', { existingUsername })
     let loggedInPromise
-    if (existingUsername) {
-      loggedInPromise = this.gunAuth(username, password).catch(e =>
-        this.gunCreate(username, password).then(r => this.gunAuth(username, password))
-      )
-    } else {
-      loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
-    }
-    this.magiclink = this.createMagicLink(username, password)
 
-    let user = await loggedInPromise
-    if (user === undefined) {
-      return
+    logger.debug('init existing username:', { existingUsername })
+
+    let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
+
+    if (existingCreds == null) {
+      //sign with different address so its not connected to main user address and there's no 1-1 link
+      const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
+      const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
+      if (existingUsername) {
+        loggedInPromise = this.gunAuth(username, password).catch(e =>
+          this.gunCreate(username, password).then(r => this.gunAuth(username, password))
+        )
+      } else {
+        loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
+      }
+      loggedInPromise = loggedInPromise.then(_ => {
+        existingCreds = { sea: this.gunuser.pair(), is: this.gunuser.is, username, password }
+        AsyncStorage.setItem('GD_GunCredentials', JSON.stringify(existingCreds))
+        return _
+      })
+    } else {
+      logger.debug('gun login using saved credentials', { existingCreds })
+
+      this.gunuser.restore(existingCreds)
+      loggedInPromise = Promise.resolve(this.gunuser)
     }
+
+    let user = await loggedInPromise.catch(e => {
+      logger.warn('gun login failed', e.message, e)
+      throw e
+    })
+    logger.debug('init finished gun loggin', user)
+
+    if (user === undefined) {
+      throw new Error('gun login failed')
+    }
+
+    this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
     this.user = this.gunuser.is
     this.profile = this.gunuser.get('profile')
+
     this.profile.open(doc => {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
+    logger.debug('init opened profile')
 
     //wait until we read initial data (prevent gundb corruption bug)
     await Promise.all([this.initFeed(), this.initProperties()])
+
+    await this.startSystemFeed()
 
     //save ref to user
     this.gun
@@ -558,7 +587,11 @@ export class UserStorage {
       .get(this.gunuser.is.pub)
       .put(this.gunuser)
 
-    logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
+    logger.debug('GunDB logged in', {
+      username: existingCreds.username,
+      pubkey: this.gunuser.is,
+      pair: this.gunuser.pair(),
+    })
     logger.debug('subscribing')
 
     this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {

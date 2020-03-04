@@ -1,9 +1,9 @@
 //@flow
 import React, { useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
-import { isIOS } from 'mobile-device-detect'
 import { Platform, TouchableOpacity } from 'react-native'
 import _get from 'lodash/get'
+import { isIOSWeb } from '../../lib/utils/platform'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import config from '../../config/config'
 import { withStyles } from '../../lib/styles'
@@ -56,8 +56,8 @@ type TabViewProps = {
 const TabsView = React.memo((props: TabViewProps) => {
   const { navigation, styles } = props
   const [toggleMenu] = useSidemenu()
-  const [token, setToken] = useState(isIOS ? undefined : true)
-  const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
+  const [token, setToken] = useState(isIOSWeb ? undefined : true)
+  const [marketToken, setMarketToken] = useState(isIOSWeb ? undefined : true)
 
   const fetchTokens = async () => {
     let _token = await userStorage.getProfileFieldValue('loginToken')
@@ -88,7 +88,7 @@ const TabsView = React.memo((props: TabViewProps) => {
         })
     }
     log.debug('tokens:', { _marketToken, _token })
-    if (isIOS) {
+    if (isIOSWeb) {
       setToken(_token)
       setMarketToken(_marketToken)
     }
@@ -101,7 +101,7 @@ const TabsView = React.memo((props: TabViewProps) => {
   }, [])
 
   const goToRewards = () => {
-    if (isIOS) {
+    if (isIOSWeb) {
       const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`
       window.open(src, '_blank')
     } else {
@@ -112,7 +112,7 @@ const TabsView = React.memo((props: TabViewProps) => {
     navigation.navigate('Support')
   }
   const goToMarketplace = () => {
-    if (isIOS) {
+    if (isIOSWeb) {
       const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
       window.open(src, '_blank')
     } else {
@@ -121,7 +121,7 @@ const TabsView = React.memo((props: TabViewProps) => {
   }
 
   return (
-    <Appbar.Header dark>
+    <Appbar.Header dark style={styles.appBar}>
       {config.isEToro && (
         <TouchableOpacity testID="rewards_tab" onPress={goToRewards} style={styles.rewardsStyle}>
           <Icon name="rewards" size={36} color="white" />
@@ -156,8 +156,7 @@ const styles = ({ theme }) => ({
     borderStyle: 'solid',
     borderColor: 'white',
     borderRadius: Platform.select({
-      // FIXME: RN
-      default: 36 / 2,
+      default: 150 / 2,
       web: '50%',
     }),
     paddingVertical: Platform.select({
@@ -165,6 +164,9 @@ const styles = ({ theme }) => ({
       default: 7,
     }),
     paddingHorizontal: 7,
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
   },
   feedback: {
     marginRight: 5,
@@ -175,6 +177,7 @@ const styles = ({ theme }) => ({
   menuStyle: {
     marginRight: 10,
   },
+  appBar: { overflow: 'hidden' },
 })
 
 export default withStyles(styles)(TabsView)

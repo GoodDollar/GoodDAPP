@@ -18,7 +18,6 @@ const Config = {
   isEToro: process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
-  rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
   httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
   web3TransportProvider: process.env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'WebSocketProvider',
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',

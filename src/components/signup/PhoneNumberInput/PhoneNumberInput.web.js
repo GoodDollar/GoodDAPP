@@ -1,11 +1,9 @@
 // @flow
 
 import React from 'react'
-import PhoneInput from 'react-phone-number-input'
+import PhoneNumberInput from '../../common/form/PhoneNumberInput/PhoneNumberInput'
 import './PhoneNumberInput.css'
 
-export default (props) => {
-  return (
-    <PhoneInput {...props} />
-  )
+export default props => {
+  return <PhoneNumberInput id="signup_phone" {...props} />
 }

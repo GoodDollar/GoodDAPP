@@ -5,46 +5,6 @@ exports[`SigninInfo matches snapshot 1`] = `
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >
   <div
-    className="css-view-1dbjc4n r-bottom-1p0dtai r-display-hvic4v r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-transform-1u2xubs r-zIndex-1s3egr7"
-  >
-    <div
-      className="css-view-1dbjc4n r-bottom-1p0dtai r-justifyContent-1777fci r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
-    >
-      <div
-        className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-flex-13awgt0 r-left-1d2f490 r-overflow-1udh08x r-position-u8s1d r-top-ipm5af"
-        onMoveShouldSetResponder={[Function]}
-        onMoveShouldSetResponderCapture={[Function]}
-        onResponderEnd={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderReject={[Function]}
-        onResponderRelease={[Function]}
-        onResponderStart={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        onStartShouldSetResponderCapture={[Function]}
-        style={
-          Object {
-            "WebkitTransform": "translateX(0px)",
-            "height": "768px",
-            "transform": "translateX(0px)",
-            "width": "1024px",
-          }
-        }
-      >
-        <div
-          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-bottom-1p0dtai r-boxShadow-8egel2 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
-          style={
-            Object {
-              "left": "341.33333333333337px",
-            }
-          }
-        />
-      </div>
-    </div>
-  </div>
-  <div
     className=""
     style={
       Object {
@@ -335,6 +295,11 @@ exports[`SigninInfo matches snapshot 1`] = `
                   "maxWidth": "100%",
                   "minHeight": "118.44155844155844px",
                   "msFlexNegative": 0,
+                  "msFlexPositive": 1,
+                  "msFlexPreferredSize": "auto",
+                  "overflowX": "hidden",
+                  "overflowY": "hidden",
+                  "zIndex": 0,
                 }
               }
             >
@@ -354,14 +319,22 @@ exports[`SigninInfo matches snapshot 1`] = `
               />
             </div>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+              className="css-view-1dbjc4n"
               style={
                 Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
                   "WebkitBoxDirection": "normal",
                   "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxPack": "center",
                   "WebkitFlexDirection": "row",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
                   "flexDirection": "row",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
                   "msFlexDirection": "row",
+                  "msFlexPack": "center",
                 }
               }
             >
@@ -369,17 +342,19 @@ exports[`SigninInfo matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
               >
                 <div
-                  className="css-view-1dbjc4n r-flexDirection-eqz5dr"
+                  className="css-text-901oao"
+                  dir="auto"
                   style={
                     Object {
-                      "WebkitAlignItems": "stretch",
-                      "WebkitBoxAlign": "stretch",
-                      "WebkitBoxPack": "justify",
-                      "WebkitJustifyContent": "space-between",
-                      "alignItems": "stretch",
-                      "justifyContent": "space-between",
-                      "msFlexAlign": "stretch",
-                      "msFlexPack": "justify",
+                      "color": "rgba(66,69,74,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontSize": "16px",
+                      "fontWeight": "normal",
+                      "lineHeight": "22px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
                     }
                   }
                 >
@@ -399,6 +374,8 @@ exports[`SigninInfo matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
                       style={
                         Object {
+                          "WebkitBoxPack": "center",
+                          "WebkitJustifyContent": "center",
                           "backgroundColor": "rgba(0,175,255,1.00)",
                           "borderBottomLeftRadius": "50%",
                           "borderBottomRightRadius": "50%",
@@ -467,6 +444,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                           style={
                             Object {
                               "color": "rgba(66,69,74,1.00)",
+                              "direction": "ltr",
                               "fontFamily": "Roboto",
                               "fontSize": "18px",
                               "fontWeight": "700",
@@ -479,7 +457,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                         >
                           email
                         </span>
-                      </div>
+                      </span>
                     </div>
                   </div>
                   <div
@@ -498,6 +476,8 @@ exports[`SigninInfo matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
                       style={
                         Object {
+                          "WebkitBoxPack": "center",
+                          "WebkitJustifyContent": "center",
                           "backgroundColor": "rgba(0,175,255,1.00)",
                           "borderBottomLeftRadius": "50%",
                           "borderBottomRightRadius": "50%",
@@ -586,10 +566,15 @@ exports[`SigninInfo matches snapshot 1`] = `
                     className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj"
                     style={
                       Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
                         "WebkitBoxDirection": "normal",
                         "WebkitBoxOrient": "horizontal",
                         "WebkitFlexDirection": "row",
+                        "alignItems": "center",
+                        "display": "flex",
                         "flexDirection": "row",
+                        "msFlexAlign": "center",
                         "msFlexDirection": "row",
                       }
                     }
@@ -598,6 +583,8 @@ exports[`SigninInfo matches snapshot 1`] = `
                       className="css-view-1dbjc4n r-alignItems-1awozwy r-display-6koalj r-justifyContent-1777fci"
                       style={
                         Object {
+                          "WebkitBoxPack": "center",
+                          "WebkitJustifyContent": "center",
                           "backgroundColor": "rgba(0,175,255,1.00)",
                           "borderBottomLeftRadius": "50%",
                           "borderBottomRightRadius": "50%",
@@ -678,19 +665,21 @@ exports[`SigninInfo matches snapshot 1`] = `
                         >
                           Magic Link Button
                         </span>
-                      </div>
-                      <div
-                        className="css-text-901oao r-position-u8s1d"
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
                         dir="auto"
                         letterSpacing={0.14}
                         style={
                           Object {
                             "bottom": "-13px",
                             "color": "rgba(163,163,163,1.00)",
+                            "direction": "ltr",
                             "fontFamily": "Roboto",
                             "fontSize": "14px",
                             "fontWeight": "normal",
                             "lineHeight": "16px",
+                            "position": "absolute",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -699,7 +688,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                       >
                         
 * works from any device
-                      </div>
+                      </span>
                     </div>
                   </div>
                 </div>

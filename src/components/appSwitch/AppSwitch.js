@@ -44,6 +44,8 @@ const showOutOfGasError = _debounce(
   }
 )
 
+let unsuccessfulLaunchAttempts = 0
+
 /**
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
@@ -61,7 +63,7 @@ const AppSwitch = (props: LoadingProps) => {
     const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
     AsyncStorage.removeItem(DESTINATION_PATH)
 
-    // FIXME: RN
+    // FIXME: RN INAPPLINKS
     if (Platform.OS !== 'web') {
       return undefined
     }
@@ -157,7 +159,14 @@ const AppSwitch = (props: LoadingProps) => {
       setReady(true)
     } catch (e) {
       log.error('failed initializing app', e.message, e)
-      showErrorDialog('Wallet could not be loaded. Please try again later.')
+      unsuccessfulLaunchAttempts += 1
+      if (unsuccessfulLaunchAttempts > 1) {
+        showErrorDialog('Wallet could not be loaded. Please try again later.', '', {
+          onDismiss: init,
+        })
+      } else {
+        init()
+      }
     }
   }
 
@@ -243,7 +252,7 @@ const AppSwitch = (props: LoadingProps) => {
   const display = ready ? (
     <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
   ) : (
-    <Splash />
+    <Splash animation={false} />
   )
   return <React.Fragment>{display}</React.Fragment>
 }

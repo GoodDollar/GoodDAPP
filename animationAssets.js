@@ -5,6 +5,7 @@ const fs = require("pn/fs") // https://www.npmjs.com/package/pn
 const fsNode = require("fs-extra") // https://www.npmjs.com/package/pn
 const xml = require("node-xml-lite")
 const svg2png = require("svg2png")
+const pathToAndroidRes = 'android/app/src/main/res'
 const pathToAndroidAssetsAnimation = 'android/app/src/main/assets/animations'
 const pathToIOSAssetsAnimation = 'ios/assets/animations'
 const pathToAssetsAnimations = 'public/animations'
@@ -25,7 +26,8 @@ const files = source =>
     return a
   }, [])
 
-const getAndroidPath = (animationName) => path.join(mainPath, pathToAndroidAssetsAnimation, animationName)
+const getAndroidResPath = (drawable) => path.join(mainPath, pathToAndroidRes, drawable)
+const getAndroidAssetsPath = () => path.join(mainPath, pathToAndroidAssetsAnimation)
 const getIOSPath = (animationName) => path.join(mainPath, pathToIOSAssetsAnimation, animationName)
 const getSVGPath = (animationName) => path.join(mainPath, pathToAssetsAnimations, animationName)
 // const cleanAndroidDir = async (animationName) => {
@@ -46,30 +48,34 @@ const getSVGPath = (animationName) => path.join(mainPath, pathToAssetsAnimations
 const createPath = async (somePath) => {
   await fsNode.mkdirsSync(somePath)
 }
-const renameIOS = async (animationName, image, amplification) => {
-  const oldName = `${image}${amplification>1?`@${amplification}x`:''}.png`
-  const iosPAth = getIOSPath(animationName)
-  const newName = oldName.replace('img', animationName)
-  await fs.rename(path.join(iosPAth, oldName), path.join(iosPAth, newName))
-}
+// const renameIOS = async (animationName, image, amplification) => {
+//   const oldName = `${image}${amplification>1?`@${amplification}x`:''}.png`
+//   const iosPAth = getIOSPath(animationName)
+//   const newName = oldName.replace('img', animationName)
+//   await fs.rename(path.join(iosPAth, oldName), path.join(iosPAth, newName))
+// }
 
 const mapping = {
-  1:['drawable-mdpi','drawable-ldpi'],
-  2:['drawable-hdpi'],
-  3:['drawable-xhdpi'],
+  1: ['drawable-mdpi', 'drawable-ldpi'],
+  2: ['drawable-hdpi'],
+  3: ['drawable-xhdpi'],
 }
-
-
 
 const copyAndroidFile = async (animationName, image, amplification) => {
 
-  const imageName = `${image.replace('img', animationName)}${amplification>1?`@${amplification}x`:''}.png`
-  const newPathToAndroidAnimation = getAndroidPath(animationName)
+  const imageName = `${image.replace('img', animationName)}${amplification > 1 ? `@${amplification}x` : ''}.png`
+  const newName = `${image.replace('img', animationName)}.png`.toLowerCase()
   const newPathToIOSAnimation = getIOSPath(animationName)
-  for (const folder of mapping[amplification]){
-    const newPath = path.join(newPathToAndroidAnimation,folder)
+  for (const folder of mapping[amplification]) {
+    const newPath = getAndroidResPath(folder)
     await createPath(newPath)
-    await fs.copyFileSync(path.join(newPathToIOSAnimation, imageName), path.join(newPath, `${image}.png`))
+    console.log(path.join(newPathToIOSAnimation, imageName), '=>', path.join(newPath, newName))
+    await fs.copyFileSync(path.join(newPathToIOSAnimation, imageName), path.join(newPath, newName))
+    if (amplification === 3) {
+      const newPath = getAndroidAssetsPath()
+      await createPath(newPath)
+      await fs.copyFileSync(path.join(newPathToIOSAnimation, imageName), path.join(newPath, newName))
+    }
   }
 }
 
@@ -78,8 +84,7 @@ const renderPrettyDate = (uglyDate) => {
 }
 const parseDimension = (dimensionValue, dimensionName, directoryName, imageName) => {
   const dimensionAsString = dimensionValue
-
-  if (!dimensionAsString.endsWith("px")) {
+  if (!(dimensionAsString && dimensionAsString.endsWith("px"))) {
     throw new Error(dimensionName + " must end with px, but it rather is: " + dimensionAsString)
   }
 
@@ -95,7 +100,8 @@ const getLastModifiedDateTimeForFile = (fileName) => {
   const stats = fs.statSync(fileName)
   return new Date(util.inspect(stats.mtime))
 }
-const convertSingleSVG2PNGWithAmplification = (animationName, svgData, directoryFrom, directoryTo, imageName, amplification) => {
+const convertSingleSVG2PNGWithAmplification = (
+  animationName, svgData, directoryFrom, directoryTo, imageName, amplification) => {
   try {
 
     if (!(svgData.buffer)) {
@@ -125,7 +131,8 @@ const convertSingleSVG2PNGWithAmplification = (animationName, svgData, directory
 
     // Determine PNG file name
     const amplificationString = amplification > 1 ? '@' + amplification + 'x' : ''
-    const pngFileName = path.resolve(directoryTo, imageName.replace('img', animationName) + amplificationString + '.png')
+    const pngFileName = path.resolve(directoryTo,
+      imageName.replace('img', animationName) + amplificationString + '.png')
 
     // Determine last modified and compare to SVG. Use 1/1/1970 if not found so that SVG appears older
     let pngLastModified = null
@@ -162,8 +169,9 @@ const convertAndCopyFile = async (svgData, animationName, imageName, amplificati
   const svgPath = getSVGPath(animationName)
   const newPathToIOSAnimation = getIOSPath(animationName)
   await createPath(newPathToIOSAnimation)
-  convertSingleSVG2PNGWithAmplification(animationName, svgData, svgPath, newPathToIOSAnimation, imageName, amplification)
-  await copyAndroidFile(animationName,imageName,amplification)
+  convertSingleSVG2PNGWithAmplification(animationName, svgData, svgPath, newPathToIOSAnimation, imageName,
+    amplification)
+  await copyAndroidFile(animationName, imageName, amplification)
   // await renameIOS(animationName,imageName,amplification)
 }
 const convertSingleAnimationFile = async (file, animationName) => {

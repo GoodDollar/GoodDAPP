@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { StyleSheet } from 'react-native'
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
@@ -22,6 +22,17 @@ const SendReason = (props: AmountProps) => {
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { reason, ...restState } = screenState
 
+  const next = useCallback(() => {
+    const [nextRoute, ...nextRoutes] = screenState.nextRoutes || []
+
+    props.screenProps.push(nextRoute, {
+      nextRoutes,
+      ...restState,
+      reason,
+      params,
+    })
+  }, [restState, reason, screenState.nextRoutes, params])
+
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
@@ -34,6 +45,8 @@ const SendReason = (props: AmountProps) => {
             value={reason}
             onChangeText={reason => setScreenState({ reason })}
             placeholder="Add a message"
+            enablesReturnKeyAutomatically
+            onSubmitEditing={next}
           />
         </Section.Stack>
         <Section.Row style={styles.bottomContent}>

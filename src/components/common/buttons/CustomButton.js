@@ -1,9 +1,11 @@
 // @flow
 import React from 'react'
-import { /*ActivityIndicator,*/ Button as BaseButton, DefaultTheme } from 'react-native-paper'
+import { View } from 'react-native'
+import { ActivityIndicator, DefaultTheme } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
+import BaseButton from './BaseButton'
 
 type IconFunction = (string, number) => React.Node
 
@@ -60,8 +62,10 @@ const mapPropsToStyles = ({ theme, compact }) => ({
     letterSpacing: 0,
   },
   contentWrapper: {
-    width: 100,
-    height: 100,
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 1,
   },
   activityIndicator: {
     marginRight: compact ? theme.sizes.defaultHalf : theme.sizes.default,
@@ -118,6 +122,7 @@ const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
  * @param {boolean} [props.loading]
  * @param {string} [props.color=#555555]
  * @param {boolean} [props.dark]
+ * @param {string} [props.testID]
  * @param {boolean} [props.uppercase=true]
  * @param {string|(string => React.Node} [props.icon=edit)]
  * @param {string} [props.iconAlignment=right]
@@ -132,6 +137,7 @@ const CustomButton = (props: ButtonProps) => {
     mode,
     style,
     children,
+    testID,
     icon,
     iconAlignment,
     iconSize,
@@ -145,10 +151,10 @@ const CustomButton = (props: ButtonProps) => {
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
   const color = props.color ? props.color : theme.colors.default
-
   return (
     <BaseButton
       dark={dark}
+      testID={testID}
       mode={mode}
       contentStyle={styles.contentStyle}
       theme={{ ...theme, roundness: 50 }}
@@ -156,37 +162,39 @@ const CustomButton = (props: ButtonProps) => {
       disabled={disabled || loading}
       {...buttonProps}
       color={color}
-      loading={
-        //eslint-disable-next-line
-        //FIXME: RN temporary show loading instead of not working activityindicator
-        loading
-      }
       style={[styles.buttonStyle, style]}
     >
-      {/*<View style={styles.contentWrapper}>*/}
-      {icon && (!iconAlignment || iconAlignment === 'left') && (
-        <IconButton icon={icon} theme={theme} dark={dark} size={iconSize || 14} style={iconStyle || styles.leftIcon} />
-      )}
-      {
-        //eslint-disable-next-line
-        //FIXME: RN doesnt work in android, first needs width and height otherwise throws an exception, but doesnt render at all
-        //even if given width+height, needs to make custom button baded on view+touchable??
-        /* {loading && (
+      <View style={styles.contentWrapper}>
+        {icon && (!iconAlignment || iconAlignment === 'left') && (
+          <IconButton
+            icon={icon}
+            theme={theme}
+            dark={dark}
+            size={iconSize || 14}
+            style={iconStyle || styles.leftIcon}
+          />
+        )}
+        {loading && (
           <ActivityIndicator
             style={styles.activityIndicator}
             animating={loading}
             color={dark ? theme.colors.surface : color}
             size={23}
           />
-        )} */
-      }
-      <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.color}>
-        {children}
-      </TextContent>
-      {icon && iconAlignment === 'right' && (
-        <IconButton icon={icon} theme={theme} dark={dark} size={iconSize || 14} style={iconStyle || styles.rightIcon} />
-      )}
-      {/*</View>*/}
+        )}
+        <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.color}>
+          {children}
+        </TextContent>
+        {icon && iconAlignment === 'right' && (
+          <IconButton
+            icon={icon}
+            theme={theme}
+            dark={dark}
+            size={iconSize || 14}
+            style={iconStyle || styles.rightIcon}
+          />
+        )}
+      </View>
     </BaseButton>
   )
 }

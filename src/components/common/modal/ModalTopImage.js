@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { Image, View } from 'react-native'
 import receiveIllustation from '../../../assets/Feed/receive.svg'
 import sendIllustration from '../../../assets/Feed/send.svg'
 import messageIllustration from '../../../assets/Feed/message.png'
@@ -10,19 +10,26 @@ import backupIllustration from '../../../assets/Feed/backup.png'
 import spendingIllustration from '../../../assets/Feed/spending.svg'
 import claimingIllustration from '../../../assets/Feed/claiming.svg'
 import hanukaStartsIllustration from '../../../assets/Feed/hanukaStarts.svg'
+import ReceivedAnimation from '../../common/animations/Received'
+import SendAnimation from '../../common/animations/Send'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 export const getImageByType = (type, styles = {}) =>
   ({
     withdraw: {
-      src: receiveIllustation,
-      style: styles.mainImage,
+      animationComponent: ReceivedAnimation,
+      animation: true,
+      containerStyle: styles.mainImageContainer,
+    },
+    sendcompleted: {
+      animationComponent: SendAnimation,
+      animation: true,
       containerStyle: styles.mainImageContainer,
     },
     claim: {
-      src: receiveIllustation,
-      style: styles.mainImage,
+      animationComponent: ReceivedAnimation,
+      animation: true,
       containerStyle: styles.mainImageContainer,
     },
     claiming: {
@@ -31,8 +38,8 @@ export const getImageByType = (type, styles = {}) =>
       containerStyle: styles.mainImageContainer,
     },
     bonuscompleted: {
-      src: receiveIllustation,
-      style: styles.mainImage,
+      animationComponent: ReceivedAnimation,
+      animation: true,
       containerStyle: styles.mainImageContainer,
     },
     receive: {
@@ -79,8 +86,19 @@ export const getImageByType = (type, styles = {}) =>
 
 const TopImage = ({ type, styles }) => {
   const image = getImageByType(type, styles)
+  if (image) {
+    return image.animation ? (
+      <View style={image.containerStyle}>
+        <image.animationComponent />
+      </View>
+    ) : (
+      <View style={image.containerStyle}>
+        <Image style={image.style} source={image.src} />
+      </View>
+    )
+  }
 
-  return image && <View style={image.containerStyle} />
+  return null
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -102,8 +120,8 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 0,
     justifyContent: 'center',
     flexDirection: 'row',
-    marginHorizontal: -16,
-    marginTop: -16,
+    marginHorizontal: -theme.sizes.defaultDouble,
+    marginTop: -theme.sizes.defaultDouble,
     marginBottom: 15,
   },
   mainPhoto: {

@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Platform, View } from 'react-native'
-import { isMobile } from 'mobile-device-detect'
+import { Platform, Share, View } from 'react-native'
+import canShare from '../../lib/utils/canShare'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject, generateSendShareText } from '../../lib/share'
@@ -32,7 +32,8 @@ export type AmountProps = {
  * @param {any} props.screenProps
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
-  const profile = GDStore.useStore().get('profile')
+  const gdstore = GDStore.useStore()
+  const profile = gdstore.get('profile')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
 
@@ -49,7 +50,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const shareAction = async paymentLink => {
     const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
     try {
-      await navigator.share(share)
+      await Share.share(share)
       setShared(true)
     } catch (e) {
       if (e.name !== 'AbortError') {
@@ -93,7 +94,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       setLink(paymentLink)
     }
 
-    if (isMobile && navigator.share) {
+    if (canShare) {
       shareAction(paymentLink)
     } else {
       const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
@@ -154,6 +155,24 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         onError: () => {
           userStorage.markWithErrorEvent(txHash)
         },
+      })
+      const { txPromise } = generateLinkResponse
+
+      txPromise.catch(e => {
+        log.error('generateLinkAndSend:', e.message, e)
+        showErrorDialog('Link generation failed. Please try again', '', {
+          buttons: [
+            {
+              text: 'Try again',
+              onPress: () => {
+                handleConfirm()
+              },
+            },
+          ],
+          onDismiss: () => {
+            screenProps.goToRoot()
+          },
+        })
       })
 
       log.debug('generateLinkAndSend:', { generateLinkResponse })

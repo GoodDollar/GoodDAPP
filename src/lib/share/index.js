@@ -124,16 +124,16 @@ type ShareObject = {
 }
 
 /**
- * Generates the standard object required for `navigator.share` method to trigger Share menu on mobile devices
+ * Generates the standard object required for `Share.share` method to trigger Share menu on mobile devices
  * @param {string} title
- * @param {string} text
+ * @param {string} message
  * @param {string} url - Link
  * @returns {ShareObject}
  */
-export function generateShareObject(title: string, text: string, url: string): ShareObject {
+export function generateShareObject(title: string, message: string, url: string): ShareObject {
   return {
     title,
-    text,
+    message,
     url,
   }
 }

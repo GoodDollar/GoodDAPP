@@ -1,6 +1,6 @@
 // @flow
 import React, { createRef, useEffect } from 'react'
-import { isMobile } from 'mobile-device-detect'
+import { isMobile } from '../../../lib/utils/platform'
 import logger from '../../../lib/logger/pino-logger'
 import { getScreenHeight, getScreenWidth } from '../../../lib/utils/Orientation'
 

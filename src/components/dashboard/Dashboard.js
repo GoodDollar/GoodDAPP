@@ -10,10 +10,10 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native'
-import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
+import { isBrowser } from '../../lib/utils/platform'
 import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
@@ -205,7 +205,7 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    // FIXME: RN
+    // FIXME: RN INAPPLINKS
     const anyParams = Platform.OS === 'web' ? extractQueryParams(window.location.href) : null
 
     log.debug('handle links effect dashboard', { anyParams })
@@ -703,10 +703,10 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
   },
   leftButtonText: {
-    marginRight: 16,
+    marginRight: theme.sizes.defaultDouble,
   },
   rightButtonText: {
-    marginLeft: 16,
+    marginLeft: theme.sizes.defaultDouble,
   },
   bigNumberWrapper: {
     alignItems: 'baseline',

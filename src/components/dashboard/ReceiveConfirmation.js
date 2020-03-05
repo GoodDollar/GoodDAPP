@@ -1,6 +1,6 @@
 // @flow
 import React, { useMemo } from 'react'
-import { isMobile } from 'mobile-device-detect'
+import canShare from '../../lib/utils/canShare'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import { generateReceiveShareObject, generateReceiveShareText, generateShareLink } from '../../lib/share'
@@ -26,7 +26,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const [screenState] = useScreenState(screenProps)
   const { amount, code, reason, counterPartyDisplayName } = screenState
   const share = useMemo(() => {
-    if (isMobile && navigator.share) {
+    if (canShare) {
       return generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName)
     }
     return {

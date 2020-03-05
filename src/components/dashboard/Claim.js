@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, Platform, View } from 'react-native'
+import { AsyncStorage, Platform, View } from 'react-native'
 import numeral from 'numeral'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -14,20 +14,16 @@ import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import { Wrapper } from '../common'
+import AnimationsJumpingPeople from '../common/animations/JumpingPeople'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
-import illustration from '../../assets/Claim/illustration.svg'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -237,7 +233,6 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
   return (
     <Wrapper>
       <Section style={styles.mainContainer}>
@@ -246,7 +241,7 @@ const Claim = props => {
             <Section.Text color="primary" size={16} fontFamily="Roboto" lineHeight={19} style={styles.mainTextToast}>
               {'YOU CAN GET'}
             </Section.Text>
-            <Section.Text style={styles.mainTextBigMarginBottom}>
+            <Section.Row style={styles.mainTextBigMarginBottom}>
               <BigGoodDollar
                 number={1}
                 reverse
@@ -255,11 +250,11 @@ const Claim = props => {
                 bigNumberUnitProps={{ color: 'surface', fontSize: 20 }}
                 style={styles.inline}
               />
-              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36} lineHeight={36}>
                 {' Free'}
               </Section.Text>
-            </Section.Text>
-            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+            </Section.Row>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36} lineHeight={36}>
               Every Day
             </Section.Text>
           </View>
@@ -275,7 +270,7 @@ const Claim = props => {
           </Section.Row>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
-          <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
+          <AnimationsJumpingPeople isCitizen={isCitizen} />
           {!isCitizen && (
             <ClaimButton
               isCitizen={true}
@@ -313,12 +308,15 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: 0,
       paddingHorizontal: 0,
       justifyContent: 'space-between',
+      height: '100%',
     },
     mainText: {
+      flex: 1,
       alignItems: 'center',
       flexDirection: 'column',
       marginVertical: 'auto',
       zIndex: 1,
+      justifyContent: 'center',
     },
     mainTextTitle: {
       marginBottom: 12,
@@ -370,25 +368,18 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 0,
       flexShrink: 0,
       marginBottom: theme.sizes.default,
-    },
-    illustrationForCitizen: {
-      height: getDesignRelativeHeight(184, false),
-      marginTop: getDesignRelativeHeight(-94, false),
-    },
-    illustrationForNonCitizen: {
-      height: getDesignRelativeHeight(159, false),
-      marginTop: getDesignRelativeHeight(-70, false),
+      width: '100%',
     },
     extraInfo: {
       backgroundColor: theme.colors.surface,
       borderRadius: theme.sizes.borderRadius,
-      flexGrow: 1,
       flexShrink: 1,
       maxHeight: Platform.select({
         // FIXME: RN
         web: 'fit-content',
-        default: 0,
+        default: 'auto',
       }),
+      width: '100%',
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
       marginTop: getDesignRelativeHeight(85),

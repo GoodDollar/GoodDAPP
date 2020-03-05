@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { isMobileSafari } from 'mobile-device-detect'
 import _get from 'lodash/get'
+import { isMobileSafari } from '../../lib/utils/platform'
 import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
@@ -79,7 +79,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     navigation.navigate(routeKey)
     setLoading(false)
 
-    //FIXME rn
     if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
       setTimeout(() => {
         const el = document.getElementById(routeKey + '_input')

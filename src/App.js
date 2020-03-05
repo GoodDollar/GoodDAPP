@@ -14,6 +14,7 @@ import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import useServiceWorker from './lib/utils/useServiceWorker'
 import Config from './config/config'
 import RouterSelector from './RouterSelector'
+import { ErrorBoundary } from './lib/analytics/bugsnag'
 
 const App = () => {
   useServiceWorker() // Only runs on Web
@@ -41,7 +42,7 @@ const App = () => {
       <PaperProvider theme={theme}>
         <SimpleStoreDialog />
         <LoadingIndicator />
-        <InternetConnection onDisconnect={() => <Splash />} isLoggedIn={isLoggedIn}>
+        <InternetConnection onDisconnect={() => <Splash animation={false} />} isLoggedIn={isLoggedIn}>
           {SplashOrRouter}
           {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
         </InternetConnection>
@@ -86,9 +87,11 @@ const AppHolder = () => {
 
   return (
     <ActionSheetProvider>
-      <SimpleStore.Container>
-        <App />
-      </SimpleStore.Container>
+      <ErrorBoundary>
+        <SimpleStore.Container>
+          <App />
+        </SimpleStore.Container>
+      </ErrorBoundary>
     </ActionSheetProvider>
   )
 }

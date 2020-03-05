@@ -1,4 +1,5 @@
-platform :ios, '9.0'
+targetVersion = '9.0'
+platform :ios, targetVersion
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 target 'GoodDollar' do
@@ -65,4 +66,14 @@ target 'GoodDollar-tvOS' do
     # Pods for testing
   end
 
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < targetVersion.to_f
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = targetVersion
+      end
+    end
+  end
 end

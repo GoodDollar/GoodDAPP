@@ -1,11 +1,8 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { TouchableOpacity } from 'react-native'
+import { Platform, TouchableOpacity } from 'react-native'
 import _set from 'lodash/set'
-import { isMobileReactNative } from '../../../../lib/utils/platform'
-import { getAnimationData } from '../../../../lib/utils/lottie'
-
-const { animationData, imageAssetsFolder } = getAnimationData('ClaimButton', require('./data'))
+import animationData from './data.json'
 
 class ClaimButton extends React.Component {
   state = {
@@ -13,7 +10,7 @@ class ClaimButton extends React.Component {
   }
 
   componentDidMount() {
-    if (!isMobileReactNative) {
+    if (Platform === 'web') {
       this.anim.onEnterFrame = e => {
         const { stopOnClaim } = this.state
 
@@ -36,10 +33,10 @@ class ClaimButton extends React.Component {
         stopOnClaim: true,
       },
       () => {
-        if (isMobileReactNative) {
-          this.anim.play(0, 75)
-        } else {
+        if (Platform === 'web') {
           this.anim.goToAndPlay(0, true)
+        } else {
+          this.anim.play(0, 75)
         }
       }
     )
@@ -51,10 +48,10 @@ class ClaimButton extends React.Component {
         stopOnClaim: false,
       },
       () => {
-        if (isMobileReactNative) {
-          this.anim.play(75, 120)
-        } else {
+        if (Platform === 'web') {
           this.anim.goToAndPlay(75, true)
+        } else {
+          this.anim.play(75, 120)
         }
       }
     )
@@ -73,24 +70,19 @@ class ClaimButton extends React.Component {
     }
   }
 
+  getGap() {
+    const { amount } = this.props
+    return ' '.repeat((String(amount).length - 1) * 4)
+  }
+
   render() {
     const { amount } = this.props
 
-    _set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE - ${amount} `)
-    _set(animationData, 'layers[5].nm', `CLAIM YOUR SHARE - ${amount} `)
-
+    _set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${amount ? ` - ${amount}` : ''} `)
+    _set(animationData, 'layers[4].t.d.k[0].s.t', amount ? ` - ${this.getGap()}G$` : '')
     return (
       <TouchableOpacity onPress={this.handlePress}>
-        <Lottie
-          ref={this.setAnim}
-          loop={false}
-          source={animationData}
-          imageAssetsFolder={imageAssetsFolder}
-          resizeMode="cover"
-          style={{
-            width: '100%',
-          }}
-        />
+        <Lottie ref={this.setAnim} loop={false} source={animationData} resizeMode="cover" style={{ width: '100%' }} />
       </TouchableOpacity>
     )
   }

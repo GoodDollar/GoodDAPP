@@ -8,6 +8,8 @@ import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 
 import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
+
+// import ClaimButton from '../common/animations/ClaimButton/ClaimButton'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
@@ -188,6 +190,7 @@ class Auth extends React.Component<Props> {
           >
             {'Welcome to\nGoodDollar Wallet'}
           </Text>
+          {/*<ClaimButton amount={12452} />*/}
           <AnimationsPeopleFlying />
           <Section style={styles.bottomContainer}>
             {asGuest && (

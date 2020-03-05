@@ -7,7 +7,7 @@ import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 
-import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
+// import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 
 // import ClaimButton from '../common/animations/ClaimButton/ClaimButton'
 import { PushButton } from '../appNavigation/PushButton'
@@ -191,7 +191,7 @@ class Auth extends React.Component<Props> {
             {'Welcome to\nGoodDollar Wallet'}
           </Text>
           {/*<ClaimButton amount={12452} />*/}
-          <AnimationsPeopleFlying />
+          {/*<AnimationsPeopleFlying />*/}
           <Section style={styles.bottomContainer}>
             {asGuest && (
               <Text fontSize={12} color="gray80Percent">

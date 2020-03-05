@@ -21,7 +21,7 @@ const Splash = ({ animation }) => (
       <WavesBackground>
         {animation ? (
           <>
-            <AnimationsLogo /> <Section.Text style={styles.version} fontSize={22}>{`V${Config.version}`}</Section.Text>
+            <AnimationsLogo />
           </>
         ) : (
           <Section.Stack style={styles.content} grow justifyContent="center">

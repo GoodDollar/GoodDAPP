@@ -9,7 +9,7 @@ export { default as useConnection } from './useConnection'
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useAPIConnection = () => {
-  const [isConnection, setIsConnection] = useState(true)
+  const [isConnection, setIsConnection] = useState(false)
 
   /**
    * Don't start app if server isn't responding

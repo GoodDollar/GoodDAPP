@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, PermissionsAndroid, Platform } from 'react-native'
+import { Button, PermissionsAndroid, Platform, Text } from 'react-native'
 import Contacts from 'react-native-contacts'
 import InputText from '../common/form/InputText'
 import { ScanQRButton, Section, Wrapper } from '../common'
@@ -10,6 +10,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
 
 export type AmountProps = {
   screenProps: any,
@@ -52,29 +53,15 @@ const Who = (props: AmountProps) => {
     }
   }, [state.isValid, state.value, screenState.nextRoutes, params])
 
-  const getContacts = () => {
+  useEffect(() => {
     Contacts.getAll((err, contacts) => {
       if (err === 'denied') {
-        console.warn('Permission to access contacts was denied')
+        console.log('permissions denied')
       } else {
         setContacts(contacts)
       }
     })
-  }
-
-  const handleContacts = () => {
-    if (Platform.OS === 'android') {
-      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-        title: 'Contacts',
-        message: 'This app would like to view your contacts.',
-        buttonPositive: 'Please accept bare mortal',
-      }).then(() => {
-        getContacts()
-      })
-    } else {
-      getContacts()
-    }
-  }
+  }, [Contacts])
 
   console.log(contacts)
 
@@ -96,11 +83,19 @@ const Who = (props: AmountProps) => {
             enablesReturnKeyAutomatically
             onSubmitEditing={next}
           />
-          {Platform.OS !== 'web' && (
-            <Button title="Contact" onPress={handleContacts}>
-              {'Pick a contact'}
-            </Button>
-          )}
+          <Section.Stack>
+            <Section.Title>{'Choose a Contact'}</Section.Title>
+            {contacts && (
+              <FlatList
+                data={contacts}
+                renderItem={({ item, index }) => (
+                  <TouchableOpacity onPress={() => console.log('user es', item)}>
+                    <Text>{item.givenName}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            )}
+          </Section.Stack>
         </Section.Stack>
         <Section.Row grow alignItems="flex-end">
           <Section.Row grow={1} justifyContent="flex-start">

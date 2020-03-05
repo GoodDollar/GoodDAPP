@@ -8,7 +8,7 @@ import SimpleStore from '../undux/SimpleStore'
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
-  const [isConnection, setIsConnection] = useState(true)
+  const [isConnection, setIsConnection] = useState(false)
 
   NetInfo.isConnected.fetch().then(isConnectionNow => setIsConnection(isConnectionNow))
 
@@ -26,7 +26,7 @@ let isFirstCheckGun = false
 let needToBindEventsWeb3 = true
 let needToBindEventsGun = true
 export const useConnectionWeb3 = () => {
-  const [isConnection, setIsConnection] = useState(true)
+  const [isConnection, setIsConnection] = useState(false)
 
   const store = SimpleStore.useStore()
   const wallet = store.get('wallet')
@@ -99,7 +99,7 @@ export const useConnectionWeb3 = () => {
 }
 
 export const useConnectionGun = () => {
-  const [isConnection, setIsConnection] = useState(true)
+  const [isConnection, setIsConnection] = useState(false)
   const store = SimpleStore.useStore()
   const userStorage = store.get('userStorage')
   const isGunConnection = () => {
@@ -173,7 +173,7 @@ export const useConnectionGun = () => {
 }
 
 export const useAPIConnection = () => {
-  const [isConnection, setIsConnection] = useState(true)
+  const [isConnection, setIsConnection] = useState(false)
 
   /**
    * Don't start app if server isn't responding

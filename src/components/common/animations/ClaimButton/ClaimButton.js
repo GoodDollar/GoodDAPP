@@ -14,6 +14,7 @@ class ClaimButton extends React.Component {
     const { amount } = this.props
 
     // set amount of G$ text to animation
+
     _set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${amount ? ` - ${amount}` : ''} `)
 
     // set x coordinate of G$ text to animation
@@ -41,33 +42,25 @@ class ClaimButton extends React.Component {
   }
 
   goToClaim = () => {
-    this.setState(
-      {
-        stopOnClaim: true,
-      },
-      () => {
-        if (Platform.OS === 'web') {
-          this.anim.goToAndPlay(0, true)
-        } else {
-          this.anim.play(0, 75)
-        }
+    const cb = () => {
+      if (Platform.OS === 'web') {
+        this.anim.goToAndPlay(0, true)
+      } else {
+        this.anim.play(0, 75)
       }
-    )
+    }
+    this.setState({ stopOnClaim: true }, cb)
   }
 
   goToCounter = () => {
-    this.setState(
-      {
-        stopOnClaim: false,
-      },
-      () => {
-        if (Platform.OS === 'web') {
-          this.anim.goToAndPlay(75, true)
-        } else {
-          this.anim.play(75, 0)
-        }
+    const cb = () => {
+      if (Platform.OS === 'web') {
+        this.anim.goToAndPlay(75, true)
+      } else {
+        this.anim.play(75, 0)
       }
-    )
+    }
+    this.setState({ stopOnClaim: false }, cb)
   }
 
   handlePress = () => {

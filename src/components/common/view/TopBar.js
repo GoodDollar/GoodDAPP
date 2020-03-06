@@ -13,7 +13,7 @@ import BigGoodDollar from './BigGoodDollar'
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
-const TopBar = ({ hideBalance, push, children }) => {
+const TopBar = ({ hideBalance, push, children, hideProfile }) => {
   const store = GDStore.useStore()
   const { balance } = store.get('account')
   const { avatar } = store.get('profile')
@@ -26,7 +26,7 @@ const TopBar = ({ hideBalance, push, children }) => {
           default: 'flex-end',
         })}
       >
-        <Avatar source={avatar} onPress={push && (() => push('Profile'))} />
+        {!hideProfile && <Avatar source={avatar} onPress={push && (() => push('Profile'))} />}
         {/*
          if children exist, it will be rendered
          if children=undefined and hideBalance=false, BigGoodDollar will be rendered

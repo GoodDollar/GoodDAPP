@@ -1,16 +1,18 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, PermissionsAndroid, Platform, Text } from 'react-native'
+import { FlatList, Platform, ScrollView } from 'react-native'
 import Contacts from 'react-native-contacts'
 import InputText from '../common/form/InputText'
-import { ScanQRButton, Section, Wrapper } from '../common'
+import { ScanQRButton, Section, SendToAddress, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
+import Separator from '../common/layout/Separator'
+import normalize from '../../lib/utils/normalizeText'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
+import FeedContactItem from './FeedContactItem'
 
 export type AmountProps = {
   screenProps: any,
@@ -53,68 +55,118 @@ const Who = (props: AmountProps) => {
     }
   }, [state.isValid, state.value, screenState.nextRoutes, params])
 
-  useEffect(() => {
+  const getAllContacts = () => {
     Contacts.getAll((err, contacts) => {
       if (err === 'denied') {
-        console.log('permissions denied')
+        console.warn('permissions denied')
       } else {
         setContacts(contacts)
       }
     })
-  }, [Contacts])
+  }
 
-  console.log(contacts)
+  useEffect(() => {
+    if (Contacts) {
+      getAllContacts()
+    }
+  }, [])
+
+  const handleSearch = query => {
+    const queryIsNumber = parseInt(query)
+    if (state) {
+      setValue(query)
+    }
+    if (query) {
+      if (typeof queryIsNumber === 'number' && !isNaN(queryIsNumber)) {
+        return setContacts(
+          contacts.filter(({ phoneNumbers }) => new RegExp(`^(.*(${query}).*)$`, 'gmi').test(phoneNumbers[0].number))
+        )
+      }
+      if (typeof query === 'string') {
+        return setContacts(contacts.filter(({ givenName }) => new RegExp(`^(.*(${query}).*)$`, 'gmi').test(givenName)))
+      }
+    } else {
+      return getAllContacts()
+    }
+  }
 
   return (
-    <Wrapper>
-      <TopBar push={screenProps.push}>
-        {!isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
+    <Wrapper style={styles.wrapper}>
+      <TopBar push={screenProps.push} hideProfile={!isReceive}>
+        {!isReceive && <SendToAddress />}
+        {!isReceive && (
+          <ScanQRButton onPress={() => screenProps.push('SendByQR')} direction={{ flexDirection: 'column-reverse' }} />
+        )}
       </TopBar>
-      <Section grow>
-        <Section.Stack justifyContent="space-between" style={styles.container}>
-          <Section.Title fontWeight="medium">{text}</Section.Title>
-          <InputText
-            autoFocus
-            error={state.error}
-            onChangeText={setValue}
-            placeholder="Enter the recipient name"
-            style={styles.input}
-            value={state.value}
-            enablesReturnKeyAutomatically
-            onSubmitEditing={next}
-          />
-          <Section.Stack>
-            <Section.Title>{'Choose a Contact'}</Section.Title>
+      <ScrollView>
+        <Section grow>
+          <Section.Stack justifyContent="space-around" style={styles.container}>
+            <Section.Title fontWeight="medium">{text}</Section.Title>
+            <InputText
+              autoFocus
+              error={state.error}
+              onChangeText={handleSearch}
+              placeholder="Search contact name / phone"
+              style={styles.input}
+              value={state.value}
+              enablesReturnKeyAutomatically
+              onSubmitEditing={next}
+              iconName="search"
+            />
+          </Section.Stack>
+          <Section.Row justifyContent="space-between">
+            <Section.Title fontWeight="medium" style={styles.sectionTitle}>
+              {'Recently used'}
+            </Section.Title>
+            <Section.Separator style={styles.separator} width={1} />
+          </Section.Row>
+          <Section.Row>
+            {contacts && (
+              <FlatList
+                data={contacts && contacts.slice(0, 5)}
+                renderItem={({ item, index }) => (
+                  <FeedContactItem contact={item} selectContact={setValue} horizontalMode />
+                )}
+                ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
+                horizontal
+                contentContainerStyle={styles.recentlyUserContainer}
+              />
+            )}
+          </Section.Row>
+          <Section.Row justifyContent="space-between">
+            <Section.Title fontWeight="medium" style={styles.sectionTitle}>
+              {'Choose a Contact'}
+            </Section.Title>
+            <Section.Separator style={styles.separator} width={1} />
+          </Section.Row>
+          <Section.Stack style={styles.bottomSpace}>
             {contacts && (
               <FlatList
                 data={contacts}
-                renderItem={({ item, index }) => (
-                  <TouchableOpacity onPress={() => console.log('user es', item)}>
-                    <Text>{item.givenName}</Text>
-                  </TouchableOpacity>
-                )}
+                renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={setValue} />}
+                ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
               />
             )}
           </Section.Stack>
-        </Section.Stack>
-        <Section.Row grow alignItems="flex-end">
-          <Section.Row grow={1} justifyContent="flex-start">
-            <BackButton mode="text" screenProps={screenProps}>
-              Cancel
-            </BackButton>
+          <Section.Row grow alignItems="flex-end">
+            <Section.Row grow={1} justifyContent="flex-start">
+              <BackButton mode="text" screenProps={screenProps}>
+                Cancel
+              </BackButton>
+            </Section.Row>
+            <Section.Stack grow={3}>
+              <NextButton
+                {...props}
+                nextRoutes={screenState.nextRoutes}
+                values={{ params, counterPartyDisplayName: state.value }}
+                canContinue={() => state.isValid}
+                label={state.value || !isReceive ? 'Next' : 'Skip'}
+                disabled={!state.isValid}
+              />
+            </Section.Stack>
           </Section.Row>
-          <Section.Stack grow={3}>
-            <NextButton
-              {...props}
-              nextRoutes={screenState.nextRoutes}
-              values={{ params, counterPartyDisplayName: state.value }}
-              canContinue={() => state.isValid}
-              label={state.value || !isReceive ? 'Next' : 'Skip'}
-              disabled={!state.isValid}
-            />
-          </Section.Stack>
-        </Section.Row>
-      </Section>
+        </Section>
+      </ScrollView>
     </Wrapper>
   )
 }
@@ -127,14 +179,35 @@ Who.shouldNavigateToComponent = props => {
 }
 
 export default withStyles(({ theme }) => ({
+  separatorColor: theme.colors.gray50Percent,
+  titleSeparator: theme.colors.primary,
   input: {
     marginTop: Platform.select({
       web: 'auto',
-      default: 40,
     }),
+  },
+  sectionTitle: {
+    color: theme.colors.primary,
+    fontFamily: theme.fonts.default,
+    fontSize: normalize(16),
+    paddingRight: 10,
+  },
+  separator: {
+    flex: 1,
+    opacity: 0.3,
   },
   container: {
     minHeight: getDesignRelativeHeight(180),
     height: getDesignRelativeHeight(180),
+  },
+  wrapper: {
+    flex: 1,
+  },
+  recentlyUserContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  bottomSpace: {
+    marginBottom: 20,
   },
 }))(Who)

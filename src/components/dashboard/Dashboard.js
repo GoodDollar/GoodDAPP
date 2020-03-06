@@ -569,6 +569,8 @@ const Dashboard = props => {
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed}
         onEndReachedThreshold={0.7}
+        removeClippedSubviews
+        windowSize={7}
         updateData={() => {}}
         onScroll={debounce(({ nativeEvent }) => {
           // ISH - including small header calculations

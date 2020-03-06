@@ -9,11 +9,24 @@ class ClaimButton extends React.Component {
     stopOnClaim: true,
   }
 
+  constructor(props) {
+    super(props)
+    const { amount } = this.props
+
+    // set amount of G$ text to animation
+    _set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${amount ? ` - ${amount}` : ''} `)
+
+    // set x coordinate of G$ text to animation
+    _set(animationData, 'layers[4].ks.p.k[0].s[0]', this.getGap())
+    _set(animationData, 'layers[4].ks.p.k[1].s[0]', this.getGap())
+    _set(animationData, 'layers[4].ks.p.k[2].s[0]', this.getGap())
+    _set(animationData, 'layers[4].ks.p.k[3].s[0]', this.getGap())
+  }
+
   componentDidMount() {
-    if (Platform === 'web') {
+    if (Platform.OS === 'web') {
       this.anim.onEnterFrame = e => {
         const { stopOnClaim } = this.state
-
         if (stopOnClaim && e.currentTime >= 75) {
           this.anim.pause()
         }
@@ -33,7 +46,7 @@ class ClaimButton extends React.Component {
         stopOnClaim: true,
       },
       () => {
-        if (Platform === 'web') {
+        if (Platform.OS === 'web') {
           this.anim.goToAndPlay(0, true)
         } else {
           this.anim.play(0, 75)
@@ -48,10 +61,10 @@ class ClaimButton extends React.Component {
         stopOnClaim: false,
       },
       () => {
-        if (Platform === 'web') {
+        if (Platform.OS === 'web') {
           this.anim.goToAndPlay(75, true)
         } else {
-          this.anim.play(75, 120)
+          this.anim.play(75, 0)
         }
       }
     )
@@ -72,14 +85,16 @@ class ClaimButton extends React.Component {
 
   getGap() {
     const { amount } = this.props
-    return ' '.repeat((String(amount).length - 1) * 4)
+
+    // calculate x coordinate of G$ text in animation
+    return Platform.select({
+      ios: 261 + (String(amount).length - 1) * 5,
+      android: 278 + (String(amount).length - 1) * 6.5,
+      web: 255 + (String(amount).length - 1) * 5,
+    })
   }
 
   render() {
-    const { amount } = this.props
-
-    _set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${amount ? ` - ${amount}` : ''} `)
-    _set(animationData, 'layers[4].t.d.k[0].s.t', amount ? ` - ${this.getGap()}G$` : '')
     return (
       <TouchableOpacity onPress={this.handlePress}>
         <Lottie ref={this.setAnim} loop={false} source={animationData} resizeMode="cover" style={{ width: '100%' }} />

@@ -26,10 +26,6 @@ import ClaimAnimatedButton from '../common/animations/ClaimButton/ClaimButton'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
-
 type ClaimProps = DashboardProps
 type ClaimState = {
   nextClaim: string,

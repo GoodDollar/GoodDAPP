@@ -45,13 +45,47 @@ const task = async taskId => {
     return BackgroundFetch.finish(taskId)
   }
 
+  await userStorage.feed.put({
+    lastSeenDate: Date.now(),
+  })
+
+  const feed = await userStorage.getAllFeed()
+  const lastFeedCheck = await userStorage.feed.get('lastSeenDate')
+
+  const hasNewPayment = feed.some(({ type, status, data }) => {
+    const isPaymentEvent = type === 'receive'
+      && status === 'completed'
+      && data.receiptData === 'Transfer'
+
+    if (!isPaymentEvent) {
+      return false
+    }
+
+    const date = new Date(window.coso[1].date).getTime()
+    return date > lastFeedCheck
+  })
+
+  const hasNewPaymentWithdraw = feed.some(({ type, status, data }) => {
+    const isPaymentWithdraw = type === 'send'
+      && status === 'completed'
+      && data.otplData && data.otplData.name === 'PaymentWithdraw'
+
+    if (!isPaymentWithdraw) {
+      return false
+    }
+
+    const date = new Date(window.coso[1].date).getTime()
+    return date > lastFeedCheck
+  })
+
+  if (!hasNewPayment && !hasNewPaymentWithdraw) {
+    return BackgroundFetch.finish(taskId)
+  }
+
   PushNotification.localNotification({
     title: 'YO! This is a notification',
     message: 'Now get back to work',
   })
-
-  // No need to finish the task as the notification already does it
-  // BackgroundFetch.finish(taskId)
 }
 
 const androidHeadlessTask = async ({ taskId }) => {
@@ -65,4 +99,4 @@ const taskManagerErrorHandler = error => {
 
 BackgroundFetch.configure(options, task, taskManagerErrorHandler)
 BackgroundFetch.registerHeadlessTask(androidHeadlessTask)
-BackgroundFetch.scheduleTask({ taskId: 'com.gooddollar.bgfetch' })
+BackgroundFetch.scheduleTask({ taskId: 'org.gooddollar.bgfetch' })

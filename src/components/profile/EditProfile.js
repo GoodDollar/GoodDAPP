@@ -11,8 +11,9 @@ import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
-import { SaveButton, Section, UserAvatar, Wrapper } from '../common'
-import SaveAnimatedButton from '../common/animations/SaveButton/SaveButton'
+import { Section, UserAvatar, Wrapper } from '../common'
+import SaveButton from '../common/animations/SaveButton/SaveButton'
+import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
@@ -30,7 +31,6 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const storedProfile = store.get('privateProfile')
   const [profile, setProfile] = useState(storedProfile)
   const [saving, setSaving] = useState(false)
-  const [animate, setAnimate] = useState(false)
   const [isValid, setIsValid] = useState(true)
   const [isPristine, setIsPristine] = useState(true)
   const [errors, setErrors] = useState({})
@@ -99,7 +99,6 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
   const handleSaveButton = async () => {
     setSaving(true)
-    setAnimate(true)
 
     fireEvent(PROFILE_UPDATE)
 
@@ -128,7 +127,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     return userStorage
       .setProfile(toupdate, true)
       .catch(e => {
-        log.error('Error saving profile', e.message, e, { toupdate })
+        log.error('Error saving profile', { toupdate }, e.message, e)
         showErrorDialog('Could not save profile. Please try again.')
         return false
       })
@@ -136,7 +135,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   }
 
   const onProfileSaved = () => {
-    screenProps.pop()
+    screenProps.push(`Dashboard`)
   }
 
   const handleAvatarPress = event => {
@@ -154,6 +153,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     //need to pass parameters into memoized debounced method otherwise setX hooks wont work
     validate(profile, storedProfile, setIsPristine, setErrors, setIsValid)
   }, [profile])
+
   return (
     <Wrapper>
       <Section grow>
@@ -161,10 +161,15 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
           <UserAvatar profile={profile} onPress={handleAvatarPress}>
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
-          {animate ? (
-            <SaveAnimatedButton loading={saving} onFinish={onProfileSaved} style={styles.animatedSaveButton} />
+          {lockSubmit || isPristine || !isValid ? (
+            <SaveButtonDisabled style={styles.animatedSaveButton} />
           ) : (
-            <SaveButton disabled={lockSubmit || isPristine || !isValid} onPress={handleSaveButton} />
+            <SaveButton
+              loading={saving}
+              onPress={handleSaveButton}
+              onFinish={onProfileSaved}
+              style={styles.animatedSaveButton}
+            />
           )}
         </Section.Row>
         <ProfileDataTable
@@ -188,8 +193,10 @@ EditProfile.navigationOptions = {
 const getStylesFromProps = ({ theme }) => ({
   animatedSaveButton: {
     position: 'absolute',
-    top: -16,
-    right: -17,
+    width: 120,
+    height: 60,
+    top: -3,
+    right: -24,
     marginVertical: 0,
     display: 'flex',
     justifyContent: 'flex-end',

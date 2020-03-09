@@ -12,6 +12,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
 import { SaveButton, Section, UserAvatar, Wrapper } from '../common'
+import SaveAnimatedButton from '../common/animations/SaveButton/SaveButton'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
@@ -29,6 +30,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const storedProfile = store.get('privateProfile')
   const [profile, setProfile] = useState(storedProfile)
   const [saving, setSaving] = useState(false)
+  const [animate, setAnimate] = useState(false)
   const [isValid, setIsValid] = useState(true)
   const [isPristine, setIsPristine] = useState(true)
   const [errors, setErrors] = useState({})
@@ -97,6 +99,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
   const handleSaveButton = async () => {
     setSaving(true)
+    setAnimate(true)
 
     fireEvent(PROFILE_UPDATE)
 
@@ -151,7 +154,6 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     //need to pass parameters into memoized debounced method otherwise setX hooks wont work
     validate(profile, storedProfile, setIsPristine, setErrors, setIsValid)
   }, [profile])
-
   return (
     <Wrapper>
       <Section grow>
@@ -159,11 +161,11 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
           <UserAvatar profile={profile} onPress={handleAvatarPress}>
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
-          <SaveButton
-            disabled={lockSubmit || isPristine || !isValid}
-            onPress={handleSaveButton}
-            onPressDone={onProfileSaved}
-          />
+          {animate ? (
+            <SaveAnimatedButton loading={saving} onFinish={onProfileSaved} style={styles.animatedSaveButton} />
+          ) : (
+            <SaveButton disabled={lockSubmit || isPristine || !isValid} onPress={handleSaveButton} />
+          )}
         </Section.Row>
         <ProfileDataTable
           onChange={handleProfileChange}
@@ -183,6 +185,15 @@ EditProfile.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({})
+const getStylesFromProps = ({ theme }) => ({
+  animatedSaveButton: {
+    position: 'absolute',
+    top: -16,
+    right: -17,
+    marginVertical: 0,
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+})
 
 export default withStyles(getStylesFromProps)(EditProfile)

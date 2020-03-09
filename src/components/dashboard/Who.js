@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, Platform, ScrollView } from 'react-native'
+import { FlatList, PermissionsAndroid, Platform, ScrollView } from 'react-native'
 import Contacts from 'react-native-contacts'
 import InputText from '../common/form/InputText'
 import { ScanQRButton, Section, SendToAddress, Wrapper } from '../common'
@@ -11,6 +11,7 @@ import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNa
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
+import { isAndroid } from '../../lib/utils/platform'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 import FeedContactItem from './FeedContactItem'
 
@@ -56,13 +57,29 @@ const Who = (props: AmountProps) => {
   }, [state.isValid, state.value, screenState.nextRoutes, params])
 
   const getAllContacts = () => {
-    Contacts.getAll((err, contacts) => {
-      if (err === 'denied') {
-        console.warn('permissions denied')
-      } else {
-        setContacts(contacts)
-      }
-    })
+    if (isAndroid) {
+      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+        title: 'Contacts',
+        message: 'This app would like to view your contacts.',
+        buttonPositive: 'Please accept bare mortal',
+      }).then(() => {
+        Contacts.getAll((err, contacts) => {
+          if (err === 'denied') {
+            console.warn('permissions denied')
+          } else {
+            setContacts(contacts)
+          }
+        })
+      })
+    } else {
+      Contacts.getAll((err, contacts) => {
+        if (err === 'denied') {
+          console.warn('permissions denied')
+        } else {
+          setContacts(contacts)
+        }
+      })
+    }
   }
 
   useEffect(() => {
@@ -71,24 +88,34 @@ const Who = (props: AmountProps) => {
     }
   }, [])
 
-  const handleSearch = query => {
-    const queryIsNumber = parseInt(query)
-    if (state) {
-      setValue(query)
-    }
-    if (query) {
-      if (typeof queryIsNumber === 'number' && !isNaN(queryIsNumber)) {
-        return setContacts(
-          contacts.filter(({ phoneNumbers }) => new RegExp(`^(.*(${query}).*)$`, 'gmi').test(phoneNumbers[0].number))
-        )
+  const handleSearch = useCallback(
+    query => {
+      const queryIsNumber = parseInt(query)
+      if (state) {
+        setValue(query)
       }
-      if (typeof query === 'string') {
-        return setContacts(contacts.filter(({ givenName }) => new RegExp(`^(.*(${query}).*)$`, 'gmi').test(givenName)))
+      if (query && !query.includes('+') && !query.includes('*')) {
+        if (typeof queryIsNumber === 'number' && !isNaN(queryIsNumber)) {
+          return setContacts(
+            contacts.filter(({ phoneNumbers }) =>
+              new RegExp(`^(.*(${query}).*)$`, 'gmi').test(phoneNumbers[0] && phoneNumbers[0].number)
+            )
+          )
+        }
+        if (typeof query === 'string') {
+          return setContacts(
+            contacts.filter(({ givenName, familyName }) => {
+              const fullName = `${givenName} ${familyName}`
+              return new RegExp(`^(.*(${query}).*)$`, 'gmi').test(fullName)
+            })
+          )
+        }
+      } else {
+        return getAllContacts()
       }
-    } else {
-      return getAllContacts()
-    }
-  }
+    },
+    [contacts || state.value]
+  )
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -103,7 +130,6 @@ const Who = (props: AmountProps) => {
           <Section.Stack justifyContent="space-around" style={styles.container}>
             <Section.Title fontWeight="medium">{text}</Section.Title>
             <InputText
-              autoFocus
               error={state.error}
               onChangeText={handleSearch}
               placeholder="Search contact name / phone"

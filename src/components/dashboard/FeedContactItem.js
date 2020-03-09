@@ -5,7 +5,7 @@ import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 
 const FeedContactItem = ({ contact, selectContact, horizontalMode, styles }) => {
-  const phoneNumber = contact.phoneNumbers[0].number
+  const phoneNumber = contact.phoneNumbers[0] && contact.phoneNumbers[0].number
   const fullName = `${contact.givenName} ${contact.familyName}`
 
   if (horizontalMode) {
@@ -25,7 +25,7 @@ const FeedContactItem = ({ contact, selectContact, horizontalMode, styles }) => 
     )
   }
   return (
-    <TouchableOpacity onPress={() => selectContact(contact.givenName)}>
+    <TouchableOpacity onPress={() => selectContact(fullName)}>
       <Section.Row key={contact.recordId} style={styles.contactWrapperVertical}>
         <Section.Row style={styles.rowSpace}>
           <Avatar size={normalize(34)} source={contact.hasThumbnail && contact.thumbnailPath} />

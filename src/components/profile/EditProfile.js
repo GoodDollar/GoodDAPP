@@ -189,8 +189,8 @@ EditProfile.navigationOptions = {
 const getStylesFromProps = ({ theme }) => ({
   animatedSaveButton: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: -16,
+    right: -17,
     marginVertical: 0,
     display: 'flex',
     justifyContent: 'flex-end',

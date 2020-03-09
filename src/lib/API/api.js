@@ -245,20 +245,14 @@ class API {
    * `/verify/facerecognition` post api call
    * @param {Credentials} creds
    */
-  performFaceRecognition(req: FormData): Promise<$AxiosXHR<any>> {
+  performFaceRecognition(req: any): Promise<$AxiosXHR<any>> {
     //return { data: { ok: 1, livenessPassed: true, duplicates: false, zoomEnrollmentId:-1 } } //TODO: // REMOVE!!!!!!!!!!
-    return this.client
-      .post('/verify/facerecognition', req, {
-        headers: {
-          'Content-Type': `multipart/form-data;`,
-        },
-      })
-      .then(r => {
-        if (r.data.onlyInEnv) {
-          return { data: { ok: 1, enrollResult: { alreadyEnrolled: true } } }
-        }
-        return r
-      })
+    return this.client.post('/verify/facerecognition', req).then(r => {
+      if (r.data.onlyInEnv) {
+        return { data: { ok: 1, enrollResult: { alreadyEnrolled: true } } }
+      }
+      return r
+    })
   }
 
   /**

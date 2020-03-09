@@ -29,9 +29,8 @@ const log = logger.child({ from: 'FaceRecognitionAPI' })
 export const FaceRecognitionAPI = {
   async performFaceRecognition(data: CaptureResult) {
     log.info('performFaceRecognition', { sessionId: data.sessionId, imageCount: data.images.length })
-    let req = this.createFaceRecognitionReq(data)
     try {
-      let res = await API.performFaceRecognition(req)
+      let res = await API.performFaceRecognition(data)
       return this.onFaceRecognitionResponse(res.data)
     } catch (e) {
       log.error('General Error in FaceRecognition', e.message, e)

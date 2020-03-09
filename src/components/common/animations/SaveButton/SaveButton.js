@@ -30,7 +30,6 @@ class SaveButton extends React.Component {
       }
     } else {
       if (isMobileReactNative) {
-        this.setState({ isAnimated: false })
         this.anim.play(12, 13)
       } else {
         this.anim.goToAndStop(12, true)

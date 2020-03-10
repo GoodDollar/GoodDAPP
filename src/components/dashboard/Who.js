@@ -57,34 +57,32 @@ const Who = (props: AmountProps) => {
   }, [state.isValid, state.value, screenState.nextRoutes, params])
 
   const getAllContacts = () => {
-    if (isAndroid) {
-      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-        title: 'Contacts',
-        message: 'This app would like to view your contacts.',
-        buttonPositive: 'Please accept bare mortal',
-      }).then(() => {
-        Contacts.getAll((err, contacts) => {
-          if (err === 'denied') {
-            console.warn('permissions denied')
-          } else {
-            setContacts(contacts)
-          }
-        })
-      })
-    } else {
-      Contacts.getAll((err, contacts) => {
-        if (err === 'denied') {
-          console.warn('permissions denied')
-        } else {
-          setContacts(contacts)
-        }
-      })
-    }
+    Contacts.getAll((err, contacts) => {
+      if (err === 'denied') {
+        console.warn('permissions denied')
+      } else {
+        setContacts(contacts)
+      }
+    })
+  }
+
+  const showPermissionsAndroid = () => {
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+      title: 'Contacts',
+      message: 'This app would like to view your contacts.',
+      buttonPositive: 'Please accept bare mortal',
+    }).then(() => {
+      getAllContacts()
+    })
   }
 
   useEffect(() => {
     if (Contacts) {
-      getAllContacts()
+      if (isAndroid) {
+        showPermissionsAndroid()
+      } else {
+        getAllContacts()
+      }
     }
   }, [])
 

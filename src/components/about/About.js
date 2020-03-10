@@ -1,12 +1,12 @@
 import React from 'react'
-import { Image, StyleSheet, Platform } from 'react-native'
+import { Image, Platform, StyleSheet } from 'react-native'
 import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
 import normalize from '../../lib/utils/normalizeText'
-import WavesBackground from '../common/view/BackroundWaves'
+import WavesBackground from '../common/view/WavesBackground'
 
 if (Platform.OS === 'web') {
   // minimize delay <Image> has over web <img>

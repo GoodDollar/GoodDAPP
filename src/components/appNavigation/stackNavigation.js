@@ -1,8 +1,6 @@
 // @flow
-//FIXME:RN
-/* eslint-disable*/
 import React, { Component, useEffect, useState } from 'react'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
@@ -13,6 +11,7 @@ import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import Blurred from '../common/view/Blur/Blurred'
+import BackButtonHandler from '../../lib/utils/handleBackButton'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
@@ -61,12 +60,26 @@ class AppView extends Component<AppViewProps, AppViewState> {
   }
 
   /**
+   * handler for back Button on Android
+   */
+  backButtonHandler = null
+
+  componentDidMount() {
+    this.backButtonHandler = new BackButtonHandler({ defaultAction: this.pop })
+  }
+
+  componentWillUnmount() {
+    this.backButtonHandler.unregister()
+  }
+
+  /**
    * getComponent gets the component and props and returns the same component except when
    * shouldNavigateToComponent is present in component and not complaining
    * This function can be written in every component that needs to prevent access
    * if there is not in a correct navigation flow.
    * Example: doesn't makes sense to navigate to Amount if there is no nextRoutes
    * @param {React.Component} Component
+   * @param props
    */
   getComponent = (Component, props) => {
     const { shouldNavigateToComponent } = Component
@@ -124,7 +137,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const route = navigation.state.routes[navigation.state.index].key
     this.trans = true
     this.setState(
-      (state, props) => {
+      state => {
         return {
           stack: [
             ...state.stack,
@@ -136,7 +149,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
           currentState: { ...params, route },
         }
       },
-      state => {
+      () => {
         navigation.navigate(nextRoute, navigationParams)
         this.trans = false
       }
@@ -172,13 +185,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const route = navigation.state.routes[navigation.state.index].key
     this.trans = true
     this.setState(
-      (state, props) => {
+      state => {
         return {
           stack: state.stack,
           currentState: { ...params, route },
         }
       },
-      state => {
+      () => {
         navigation.navigate(nextRoute)
         this.trans = false
       }
@@ -248,7 +261,9 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const open = store.get('sidemenu').visible
     const { visible: dialogVisible } = (store.get('currentScreen') || {}).dialogData || {}
     const currentFeed = store.get('currentFeed')
-    const menu = open ? <SideMenuPanel navigation={navigation} /> : null
+    const menu = (
+      <SafeAreaView style={styles.safeArea}>{open ? <SideMenuPanel navigation={navigation} /> : null}</SafeAreaView>
+    )
 
     return (
       <React.Fragment>
@@ -322,6 +337,12 @@ const styles = StyleSheet.create({
   },
   hideMenu: {
     display: 'none',
+  },
+  safeArea: {
+    padding: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    flex: 1,
   },
 })
 

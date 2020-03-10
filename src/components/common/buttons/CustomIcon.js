@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 
@@ -10,14 +10,13 @@ const CustomIcon = ({ styles, theme, name, color, size, reverse, reverseColor })
   </View>
 )
 
-const getStylesFromProps = ({ theme }) => ({
+const getStylesFromProps = ({ theme, size }) => ({
   imageIcon: {
     borderRadius: Platform.select({
-      // FIXME: RN
-      default: 0,
+      default: size / 2,
       web: '50%',
     }),
-    padding: 16,
+    padding: theme.sizes.defaultDouble,
   },
 })
 

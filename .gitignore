@@ -58,6 +58,10 @@ buck-out/
 # CocoaPods
 /ios/Pods/
 
+# Sentry
+android/sentry.properties
+ios/sentry.properties
+
 # Others
 .env
 .env.staging

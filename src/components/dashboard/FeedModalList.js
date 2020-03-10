@@ -1,9 +1,9 @@
 // @flow
 import React, { createRef, useEffect, useState } from 'react'
 import { FlatList, Platform, View } from 'react-native'
-import { isMobileOnly } from 'mobile-device-detect'
 import { Portal } from 'react-native-paper'
 import _once from 'lodash/once'
+import { isMobileOnly } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getMaxDeviceWidth, getScreenHeight, getScreenWidth } from '../../lib/utils/Orientation'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
@@ -139,14 +139,10 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     left: 0,
     padding: 0,
-
-    // FIXME: RN
     position: Platform.select({
       web: 'fixed',
       default: 'absolute',
     }),
-
-    // FIXME: RN
     height: Platform.select({
       web: '100vh',
       default: getScreenHeight(),
@@ -155,8 +151,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   horizontalList: {
     width: '100%',
-
-    // FIXME: RN
     maxWidth: Platform.select({
       web: '100vw',
       default: getScreenWidth(),
@@ -167,12 +161,11 @@ const getStylesFromProps = ({ theme }) => ({
     width: maxScreenWidth,
   },
   flatList: {
-    // FIXME: RN
-    ...Platform.select({
-      web: {
-        transform: 'translateY(1px)',
+    transform: [
+      {
+        translateY: 1,
       },
-    }),
+    ],
   },
 })
 

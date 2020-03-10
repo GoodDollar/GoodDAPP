@@ -14,7 +14,6 @@ import CircleButtonWrapper from '../CircleButtonWrapper'
 import CameraButton from '../CameraButton'
 import openCropper from './openCropper'
 
-//FIXME: RN - problem with gun/mscrypto when saving large image
 export const pickerOptions = {
   width: 400,
   height: 400,

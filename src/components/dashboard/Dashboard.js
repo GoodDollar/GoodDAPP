@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Animated,
   AppState,
@@ -10,10 +10,10 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native'
-import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
+import { isBrowser } from '../../lib/utils/platform'
 import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
@@ -205,7 +205,7 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    // FIXME: RN
+    // FIXME: RN INAPPLINKS
     const anyParams = Platform.OS === 'web' ? extractQueryParams(window.location.href) : null
 
     log.debug('handle links effect dashboard', { anyParams })
@@ -287,7 +287,12 @@ const Dashboard = props => {
   // The balance always changes so the width is dynamical.
   // Animation functionality requires positioning props to be set with numbers.
   // So we need to calculate the center of the screen within dynamically changed balance block width.
+  const balanceHasBeenCentered = useRef(false)
+
   const saveBalanceBlockWidth = event => {
+    if (balanceHasBeenCentered.current) {
+      return
+    }
     const width = _get(event, 'nativeEvent.layout.width')
 
     setBalanceBlockWidth(width)
@@ -301,6 +306,7 @@ const Dashboard = props => {
     if (!showBalance) {
       setShowBalance(true)
     }
+    balanceHasBeenCentered.current = true
   }
 
   useEffect(() => {
@@ -334,81 +340,6 @@ const Dashboard = props => {
         }),
         Animated.timing(headerBalanceRightAnimValue, {
           toValue: balanceCenteredPosition,
-          duration: timing,
-          easing: easingOut,
-        }),
-        Animated.timing(headerBalanceVerticalMarginAnimValue, {
-          toValue: theme.sizes.defaultDouble,
-          duration: timing,
-          easing: easingOut,
-        }),
-      ]).start()
-    } else {
-      Animated.parallel([
-        Animated.timing(headerAvatarAnimValue, {
-          toValue: 42,
-          duration: timing,
-          easing: easingIn,
-        }),
-        Animated.timing(headerHeightAnimValue, {
-          toValue: 40,
-          duration: timing,
-          easing: easingIn,
-        }),
-        Animated.timing(headerAvatarLeftAnimValue, {
-          toValue: 0,
-          duration: timing,
-          easing: easingIn,
-        }),
-        Animated.timing(headerFullNameOpacityAnimValue, {
-          toValue: 0,
-          duration: fullNameOpacityTiming,
-          easing: easingIn,
-        }),
-        Animated.timing(headerBalanceRightAnimValue, {
-          toValue: 20,
-          duration: timing,
-          easing: easingIn,
-        }),
-        Animated.timing(headerBalanceVerticalMarginAnimValue, {
-          toValue: 0,
-          duration: timing,
-          easing: easingIn,
-        }),
-      ]).start()
-    }
-  }, [headerLarge])
-
-  useEffect(() => {
-    const timing = 250
-    const fullNameOpacityTiming = 150
-    const easingIn = Easing.in(Easing.quad)
-    const easingOut = Easing.out(Easing.quad)
-
-    if (headerLarge) {
-      Animated.parallel([
-        Animated.timing(headerAvatarAnimValue, {
-          toValue: 68,
-          duration: timing,
-          easing: easingOut,
-        }),
-        Animated.timing(headerHeightAnimValue, {
-          toValue: 165,
-          duration: timing,
-          easing: easingOut,
-        }),
-        Animated.timing(headerAvatarLeftAnimValue, {
-          toValue: avatarCenteredPosition,
-          duration: timing,
-          easing: easingOut,
-        }),
-        Animated.timing(headerFullNameOpacityAnimValue, {
-          toValue: 1,
-          duration: fullNameOpacityTiming,
-          easing: easingOut,
-        }),
-        Animated.timing(headerBalanceRightAnimValue, {
-          toValue: avatarCenteredPosition,
           duration: timing,
           easing: easingOut,
         }),
@@ -584,6 +515,21 @@ const Dashboard = props => {
 
   const avatarSource = avatar ? { uri: avatar } : unknownProfile
 
+  const onScroll = useCallback(
+    ({ nativeEvent }) => {
+      const minScrollRequired = 150
+      const scrollPosition = nativeEvent.contentOffset.y
+      const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+      const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
+      if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+        headerLarge && setHeaderLarge(false)
+      } else {
+        !headerLarge && setHeaderLarge(true)
+      }
+    },
+    [headerLarge, feeds]
+  )
+
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Section style={[styles.topInfo]}>
@@ -603,7 +549,13 @@ const Dashboard = props => {
               <BigGoodDollar
                 testID="amount_value"
                 number={balance}
-                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold', lineHeight: 42 }}
+                bigNumberProps={{
+                  fontSize: 42,
+                  fontWeight: 'semibold',
+                  lineHeight: 42,
+                  textAlign: 'left',
+                }}
+                style={Platform.OS !== 'web' && styles.marginNegative}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
             </Animated.View>
@@ -627,9 +579,12 @@ const Dashboard = props => {
           >
             Send
           </PushButton>
-          <Animated.View style={{ zIndex: 1, ...scale }}>
-            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
-          </Animated.View>
+          <ClaimButton
+            screenProps={screenProps}
+            amount={weiToMask(entitlement, { showUnits: true })}
+            animated
+            animatedScale={scale}
+          />
           <PushButton
             icon="receive"
             iconSize={20}
@@ -651,22 +606,9 @@ const Dashboard = props => {
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed}
         updateData={() => {}}
-        onScroll={debounce(({ nativeEvent }) => {
-          // ISH - including small header calculations
-          const minScrollRequired = 150
-          const scrollPosition = nativeEvent.contentOffset.y
-          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
-          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-
-          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-            headerLarge && setHeaderLarge(false)
-          } else {
-            !headerLarge && setHeaderLarge(true)
-          }
-
-          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
-        }, 100)}
+        onScroll={onScroll}
         headerLarge={headerLarge}
+        scrollEventThrottle={100}
       />
       {currentFeed && (
         <FeedModalList
@@ -692,10 +634,11 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     bottom: 0,
     marginVertical: 'auto',
-
-    //FIXME: RN
-    //height: 'fit-content',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingTop: getDesignRelativeHeight(10),
+    zIndex: -1,
   },
   dashboardWrapper: {
     backgroundColor: theme.colors.lightGray,
@@ -717,15 +660,6 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: 'transparent',
     marginBottom: 12,
   },
-  userInfoHorizontal: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: 0,
-  },
   avatarWrapper: {
     height: '100%',
     width: '100%',
@@ -733,7 +667,7 @@ const getStylesFromProps = ({ theme }) => ({
   avatar: {
     borderRadius: Platform.select({
       web: '50%',
-      default: 21,
+      default: 150 / 2,
     }),
     height: '100%',
     width: '100%',
@@ -748,7 +682,7 @@ const getStylesFromProps = ({ theme }) => ({
   leftButton: {
     flex: 1,
     height: 44,
-    marginRight: 24,
+    marginRight: -12,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',
@@ -760,7 +694,7 @@ const getStylesFromProps = ({ theme }) => ({
   rightButton: {
     flex: 1,
     height: 44,
-    marginLeft: 24,
+    marginLeft: -12,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',
@@ -770,10 +704,10 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
   },
   leftButtonText: {
-    marginRight: 16,
+    marginRight: theme.sizes.defaultDouble,
   },
   rightButtonText: {
-    marginLeft: 16,
+    marginLeft: theme.sizes.defaultDouble,
   },
   bigNumberWrapper: {
     alignItems: 'baseline',
@@ -797,6 +731,18 @@ const getStylesFromProps = ({ theme }) => ({
     paddingRight: 0,
     paddingTop: theme.sizes.defaultDouble,
     justifyContent: 'space-between',
+  },
+  userInfoHorizontal: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
+  },
+  marginNegative: {
+    marginBottom: -7,
   },
 })
 

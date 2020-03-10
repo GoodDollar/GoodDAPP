@@ -38,13 +38,17 @@
 		E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDD16A39BB4A25A988E8B9 /* Roboto-LightItalic.ttf */; };
 		E1DAB5E24F0D3D118AB22F8B /* libPods-GoodDollarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D23A9B7E76536439E0125FCB /* libPods-GoodDollarTests.a */; };
 		E621C99C23E83AC30047715D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = E621C99A23E83AC30047715D /* File.swift */; };
-		E68AD01023EC105A003F59C4 /* RocketShip_1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E68AD00A23EC105A003F59C4 /* RocketShip_1@3x.png */; };
-		E68AD01123EC105A003F59C4 /* RocketShip_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E68AD00B23EC105A003F59C4 /* RocketShip_1.png */; };
-		E68AD01223EC105A003F59C4 /* RocketShip_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E68AD00C23EC105A003F59C4 /* RocketShip_0.png */; };
-		E68AD01323EC105A003F59C4 /* RocketShip_0@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E68AD00D23EC105A003F59C4 /* RocketShip_0@3x.png */; };
-		E68AD01423EC105A003F59C4 /* RocketShip_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E68AD00E23EC105A003F59C4 /* RocketShip_0@2x.png */; };
-		E68AD01523EC105A003F59C4 /* RocketShip_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E68AD00F23EC105A003F59C4 /* RocketShip_1@2x.png */; };
+		E632CC5F23FAE3450096DF79 /* RocketShip_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E632CC5C23FAE3450096DF79 /* RocketShip_0.png */; };
+		E632CC6023FAE3450096DF79 /* RocketShip_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E632CC5D23FAE3450096DF79 /* RocketShip_0@2x.png */; };
+		E632CC6123FAE3450096DF79 /* RocketShip_0@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E632CC5E23FAE3450096DF79 /* RocketShip_0@3x.png */; };
+		E667FC2F240FE2A9003F304F /* Send_0@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC29240FE2A8003F304F /* Send_0@3x.png */; };
+		E667FC30240FE2A9003F304F /* Received_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC2A240FE2A8003F304F /* Received_0@2x.png */; };
+		E667FC31240FE2A9003F304F /* Received_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC2B240FE2A9003F304F /* Received_0.png */; };
+		E667FC32240FE2A9003F304F /* Send_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC2C240FE2A9003F304F /* Send_0@2x.png */; };
+		E667FC33240FE2A9003F304F /* Send_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC2D240FE2A9003F304F /* Send_0.png */; };
+		E667FC34240FE2A9003F304F /* Received_0@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC2E240FE2A9003F304F /* Received_0@3x.png */; };
 		EF61EC78C5A945409D510E28 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */; };
+		FE722EDEC57B4C4D89CDD9F7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FABE8676831A432DA7210B81 /* libz.tbd */; };
 		FE7F9276E81C4092953052B5 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9717AB5AC1648A29F31922C /* Roboto-BlackItalic.ttf */; };
 /* End PBXBuildFile section */
 
@@ -125,17 +129,21 @@
 		E51AAC4C1A61478CB461B936 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		E621C99A23E83AC30047715D /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		E621C99B23E83AC30047715D /* GoodDollar-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GoodDollar-Bridging-Header.h"; sourceTree = "<group>"; };
-		E68AD00A23EC105A003F59C4 /* RocketShip_1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_1@3x.png"; path = "assets/animations/RocketShip/RocketShip_1@3x.png"; sourceTree = "<group>"; };
-		E68AD00B23EC105A003F59C4 /* RocketShip_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketShip_1.png; path = assets/animations/RocketShip/RocketShip_1.png; sourceTree = "<group>"; };
-		E68AD00C23EC105A003F59C4 /* RocketShip_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketShip_0.png; path = assets/animations/RocketShip/RocketShip_0.png; sourceTree = "<group>"; };
-		E68AD00D23EC105A003F59C4 /* RocketShip_0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_0@3x.png"; path = "assets/animations/RocketShip/RocketShip_0@3x.png"; sourceTree = "<group>"; };
-		E68AD00E23EC105A003F59C4 /* RocketShip_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_0@2x.png"; path = "assets/animations/RocketShip/RocketShip_0@2x.png"; sourceTree = "<group>"; };
-		E68AD00F23EC105A003F59C4 /* RocketShip_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_1@2x.png"; path = "assets/animations/RocketShip/RocketShip_1@2x.png"; sourceTree = "<group>"; };
+		E632CC5C23FAE3450096DF79 /* RocketShip_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RocketShip_0.png; path = assets/animations/RocketShip/RocketShip_0.png; sourceTree = "<group>"; };
+		E632CC5D23FAE3450096DF79 /* RocketShip_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_0@2x.png"; path = "assets/animations/RocketShip/RocketShip_0@2x.png"; sourceTree = "<group>"; };
+		E632CC5E23FAE3450096DF79 /* RocketShip_0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RocketShip_0@3x.png"; path = "assets/animations/RocketShip/RocketShip_0@3x.png"; sourceTree = "<group>"; };
+		E667FC29240FE2A8003F304F /* Send_0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Send_0@3x.png"; path = "assets/animations/Send/Send_0@3x.png"; sourceTree = "<group>"; };
+		E667FC2A240FE2A8003F304F /* Received_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Received_0@2x.png"; path = "assets/animations/Received/Received_0@2x.png"; sourceTree = "<group>"; };
+		E667FC2B240FE2A9003F304F /* Received_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Received_0.png; path = assets/animations/Received/Received_0.png; sourceTree = "<group>"; };
+		E667FC2C240FE2A9003F304F /* Send_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Send_0@2x.png"; path = "assets/animations/Send/Send_0@2x.png"; sourceTree = "<group>"; };
+		E667FC2D240FE2A9003F304F /* Send_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Send_0.png; path = assets/animations/Send/Send_0.png; sourceTree = "<group>"; };
+		E667FC2E240FE2A9003F304F /* Received_0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Received_0@3x.png"; path = "assets/animations/Received/Received_0@3x.png"; sourceTree = "<group>"; };
 		E9C15CBD2AB9813A7EA6F9A9 /* Pods-GoodDollar-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoodDollar-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-GoodDollar-tvOSTests/Pods-GoodDollar-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F7F00E88304443CE80D1CEE9 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		F9717AB5AC1648A29F31922C /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BlackItalic.ttf"; path = "../src/assets/fonts/Roboto/Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
+		FABE8676831A432DA7210B81 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6618C4EE03342A8C7D630E5 /* libPods-GoodDollar.a in Frameworks */,
+				FE722EDEC57B4C4D89CDD9F7 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +266,7 @@
 				1DFF17A6E09DF86406B30CB9 /* libPods-GoodDollar-tvOS.a */,
 				539FABBEB0951E48A3BDC28F /* libPods-GoodDollar-tvOSTests.a */,
 				D23A9B7E76536439E0125FCB /* libPods-GoodDollarTests.a */,
+				FABE8676831A432DA7210B81 /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -315,12 +325,15 @@
 		E68AD00923EC103E003F59C4 /* animations */ = {
 			isa = PBXGroup;
 			children = (
-				E68AD00C23EC105A003F59C4 /* RocketShip_0.png */,
-				E68AD00E23EC105A003F59C4 /* RocketShip_0@2x.png */,
-				E68AD00D23EC105A003F59C4 /* RocketShip_0@3x.png */,
-				E68AD00B23EC105A003F59C4 /* RocketShip_1.png */,
-				E68AD00F23EC105A003F59C4 /* RocketShip_1@2x.png */,
-				E68AD00A23EC105A003F59C4 /* RocketShip_1@3x.png */,
+				E667FC2B240FE2A9003F304F /* Received_0.png */,
+				E667FC2A240FE2A8003F304F /* Received_0@2x.png */,
+				E667FC2E240FE2A9003F304F /* Received_0@3x.png */,
+				E667FC2D240FE2A9003F304F /* Send_0.png */,
+				E667FC2C240FE2A9003F304F /* Send_0@2x.png */,
+				E667FC29240FE2A8003F304F /* Send_0@3x.png */,
+				E632CC5C23FAE3450096DF79 /* RocketShip_0.png */,
+				E632CC5D23FAE3450096DF79 /* RocketShip_0@2x.png */,
+				E632CC5E23FAE3450096DF79 /* RocketShip_0@3x.png */,
 			);
 			name = animations;
 			sourceTree = "<group>";
@@ -358,6 +371,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				03A877F1CBAE2DB0B5737778 /* [CP] Copy Pods Resources */,
+				9534F3609DA24F6396C06AEE /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -471,32 +485,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				E632CC6023FAE3450096DF79 /* RocketShip_0@2x.png in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				E68AD01123EC105A003F59C4 /* RocketShip_1.png in Resources */,
+				E667FC2F240FE2A9003F304F /* Send_0@3x.png in Resources */,
 				AB8B506C5EA54364B15ED529 /* gooddollar.svg in Resources */,
-				E68AD01523EC105A003F59C4 /* RocketShip_1@2x.png in Resources */,
+				E632CC6123FAE3450096DF79 /* RocketShip_0@3x.png in Resources */,
+				E667FC30240FE2A9003F304F /* Received_0@2x.png in Resources */,
+				E667FC33240FE2A9003F304F /* Send_0.png in Resources */,
 				5EC81648CD3A42F0B75FB628 /* gooddollar.ttf in Resources */,
+				E632CC5F23FAE3450096DF79 /* RocketShip_0.png in Resources */,
 				DE74C6CCC3544EC195014935 /* gooddollar.woff in Resources */,
-				E68AD01223EC105A003F59C4 /* RocketShip_0.png in Resources */,
 				A1EA9A99772440ABA619D4F9 /* gooddollar.woff2 in Resources */,
+				E667FC32240FE2A9003F304F /* Send_0@2x.png in Resources */,
 				AB13C56C918E4FA9A349F99E /* Roboto-Black.ttf in Resources */,
 				FE7F9276E81C4092953052B5 /* Roboto-BlackItalic.ttf in Resources */,
 				033B8C0A8940430D912EC4AC /* Roboto-Bold.ttf in Resources */,
 				477F7AF867B84C89B5DD55C3 /* Roboto-BoldItalic.ttf in Resources */,
 				EF61EC78C5A945409D510E28 /* Roboto-Italic.ttf in Resources */,
-				E68AD01023EC105A003F59C4 /* RocketShip_1@3x.png in Resources */,
-				E68AD01323EC105A003F59C4 /* RocketShip_0@3x.png in Resources */,
 				A899B8D7269344DE8AFCD236 /* Roboto-Light.ttf in Resources */,
 				E137265E33804FE593F76DD1 /* Roboto-LightItalic.ttf in Resources */,
 				0613FF83B35F4C5C877B0A13 /* Roboto-Medium.ttf in Resources */,
 				63FFB60986B04D0FAFABEABA /* Roboto-MediumItalic.ttf in Resources */,
 				AD667D3DF1084153B388B849 /* Roboto-Regular.ttf in Resources */,
+				E667FC31240FE2A9003F304F /* Received_0.png in Resources */,
 				1C070547A367412CA2FF3034 /* Roboto-Thin.ttf in Resources */,
 				670FC1ABA9C54C1CA52E7B43 /* Roboto-ThinItalic.ttf in Resources */,
 				28BEA857639F48198085A31F /* RobotoSlab-Bold.ttf in Resources */,
+				E667FC34240FE2A9003F304F /* Received_0@3x.png in Resources */,
 				2D937317297B4E47B382219E /* RobotoSlab-Medium.ttf in Resources */,
 				2FF5A9749E634C41B5508DCD /* RobotoSlab-Regular.ttf in Resources */,
-				E68AD01423EC105A003F59C4 /* RocketShip_0@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,7 +547,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		03A877F1CBAE2DB0B5737778 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -618,7 +635,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 		59E80D476C7476B4A756C4FB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -641,6 +658,20 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9534F3609DA24F6396C06AEE /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
 		AFE6E81A73AA1EEB4772A00E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

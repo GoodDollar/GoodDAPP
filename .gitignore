@@ -70,6 +70,6 @@ account.data.txt
 tree.txt
 radata/
 ios/assets/**
-android/app/src/main/assets/animations
+android/app/src/main/assets/**
 
 .png-cache

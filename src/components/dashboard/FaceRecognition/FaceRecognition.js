@@ -140,6 +140,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
         {showCamera && (
           <FaceCapture
+            pictureOptions={{
+              width: 1080,
+            }}
             debug={true}
             onFaces={this.onCaptureResult}
             onError={this.showFRError}

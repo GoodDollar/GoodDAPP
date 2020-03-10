@@ -1,19 +1,17 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, PermissionsAndroid, Platform, ScrollView } from 'react-native'
+import { PermissionsAndroid, Platform, ScrollView } from 'react-native'
 import Contacts from 'react-native-contacts'
 import InputText from '../common/form/InputText'
 import { ScanQRButton, Section, SendToAddress, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import Separator from '../common/layout/Separator'
-import normalize from '../../lib/utils/normalizeText'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
-import { isAndroid } from '../../lib/utils/platform'
+import { isAndroid, isMobileNative } from '../../lib/utils/platform'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
-import FeedContactItem from './FeedContactItem'
+import ContactsSearch from './ContactsSearch'
 
 export type AmountProps = {
   screenProps: any,
@@ -115,63 +113,35 @@ const Who = (props: AmountProps) => {
     [contacts || state.value]
   )
 
+  const Scroll = isMobileNative ? ScrollView : React.Fragment
+
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} hideProfile={!isReceive}>
         {!isReceive && <SendToAddress />}
         {!isReceive && (
-          <ScanQRButton onPress={() => screenProps.push('SendByQR')} direction={{ flexDirection: 'column-reverse' }} />
+          <ScanQRButton
+            onPress={() => screenProps.push('SendByQR')}
+            direction={{ flexDirection: isMobileNative ? 'column-reverse' : 'row' }}
+          />
         )}
       </TopBar>
-      <ScrollView>
+      <Scroll>
         <Section grow>
           <Section.Stack justifyContent="space-around" style={styles.container}>
             <Section.Title fontWeight="medium">{text}</Section.Title>
             <InputText
               error={state.error}
-              onChangeText={handleSearch}
-              placeholder="Search contact name / phone"
+              onChangeText={isMobileNative ? handleSearch : setValue}
+              placeholder={isMobileNative ? 'Search contact name / phone' : 'Enter the recipient name'}
               style={styles.input}
               value={state.value}
               enablesReturnKeyAutomatically
               onSubmitEditing={next}
-              iconName="search"
+              iconName={isMobileNative && 'search'}
             />
           </Section.Stack>
-          <Section.Row justifyContent="space-between">
-            <Section.Title fontWeight="medium" style={styles.sectionTitle}>
-              {'Recently used'}
-            </Section.Title>
-            <Section.Separator style={styles.separator} width={1} />
-          </Section.Row>
-          <Section.Row>
-            {contacts && (
-              <FlatList
-                data={contacts && contacts.slice(0, 5)}
-                renderItem={({ item, index }) => (
-                  <FeedContactItem contact={item} selectContact={setValue} horizontalMode />
-                )}
-                ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
-                horizontal
-                contentContainerStyle={styles.recentlyUserContainer}
-              />
-            )}
-          </Section.Row>
-          <Section.Row justifyContent="space-between">
-            <Section.Title fontWeight="medium" style={styles.sectionTitle}>
-              {'Choose a Contact'}
-            </Section.Title>
-            <Section.Separator style={styles.separator} width={1} />
-          </Section.Row>
-          <Section.Stack style={styles.bottomSpace}>
-            {contacts && (
-              <FlatList
-                data={contacts}
-                renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={setValue} />}
-                ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
-              />
-            )}
-          </Section.Stack>
+          {isMobileNative && <ContactsSearch contacts={contacts} setValue={setValue} />}
           <Section.Row grow alignItems="flex-end">
             <Section.Row grow={1} justifyContent="flex-start">
               <BackButton mode="text" screenProps={screenProps}>
@@ -190,7 +160,7 @@ const Who = (props: AmountProps) => {
             </Section.Stack>
           </Section.Row>
         </Section>
-      </ScrollView>
+      </Scroll>
     </Wrapper>
   )
 }
@@ -203,22 +173,10 @@ Who.shouldNavigateToComponent = props => {
 }
 
 export default withStyles(({ theme }) => ({
-  separatorColor: theme.colors.gray50Percent,
-  titleSeparator: theme.colors.primary,
   input: {
     marginTop: Platform.select({
       web: 'auto',
     }),
-  },
-  sectionTitle: {
-    color: theme.colors.primary,
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    paddingRight: 10,
-  },
-  separator: {
-    flex: 1,
-    opacity: 0.3,
   },
   container: {
     minHeight: getDesignRelativeHeight(180),
@@ -227,11 +185,7 @@ export default withStyles(({ theme }) => ({
   wrapper: {
     flex: 1,
   },
-  recentlyUserContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  bottomSpace: {
-    marginBottom: 20,
+  webScroll: {
+    display: 'contents',
   },
 }))(Who)

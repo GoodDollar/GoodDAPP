@@ -8,30 +8,20 @@ const FeedContactItem = ({ contact, selectContact, horizontalMode, styles }) => 
   const phoneNumber = contact.phoneNumbers[0] && contact.phoneNumbers[0].number
   const fullName = `${contact.givenName} ${contact.familyName}`
 
-  if (horizontalMode) {
-    return (
-      <TouchableOpacity onPress={() => selectContact(fullName)}>
-        <Section.Row key={contact.recordId}>
-          <Section style={styles.contactWrapperHorizontal}>
-            <Avatar
-              size={normalize(34)}
-              source={contact.hasThumbnail && contact.thumbnailPath}
-              style={styles.avatarSpace}
-            />
-            <Text>{contact.givenName || contact.familyName}</Text>
-          </Section>
-        </Section.Row>
-      </TouchableOpacity>
-    )
-  }
   return (
     <TouchableOpacity onPress={() => selectContact(fullName)}>
-      <Section.Row key={contact.recordId} style={styles.contactWrapperVertical}>
-        <Section.Row style={styles.rowSpace}>
-          <Avatar size={normalize(34)} source={contact.hasThumbnail && contact.thumbnailPath} />
-          <Text style={styles.name}>{fullName}</Text>
-        </Section.Row>
-        <Text>{phoneNumber}</Text>
+      <Section.Row key={contact.recordId} style={!horizontalMode && styles.contactWrapperVertical}>
+        <Section style={horizontalMode ? styles.contactWrapperHorizontal : styles.rowSpace}>
+          <Avatar
+            size={normalize(34)}
+            source={contact.hasThumbnail && contact.thumbnailPath}
+            style={horizontalMode && styles.avatarSpace}
+          />
+          <Text style={!horizontalMode && styles.name}>
+            {horizontalMode ? contact.givenName || contact.familyName : fullName}
+          </Text>
+        </Section>
+        {!horizontalMode && <Text>{phoneNumber}</Text>}
       </Section.Row>
     </TouchableOpacity>
   )
@@ -50,6 +40,10 @@ export default withStyles(({ theme }) => ({
   rowSpace: {
     paddingBottom: 5,
     paddingTop: 5,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 0,
   },
   name: {
     marginLeft: 10,

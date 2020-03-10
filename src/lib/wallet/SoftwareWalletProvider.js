@@ -70,31 +70,38 @@ class SoftwareWalletProvider {
   }
 
   async initSoftwareWallet(): Promise<Web3> {
-    let provider = this.getWeb3TransportProvider()
-    log.info('wallet config:', this.conf, provider)
+    try {
+      let provider = this.getWeb3TransportProvider()
+      log.info('wallet config:', this.conf, provider)
 
-    //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = this.conf.mnemonic || (await getMnemonics())
-    let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS).then(JSON.parse)
+      //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
+      let pkey: ?string = this.conf.mnemonic || (await getMnemonics())
+      let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS).then(JSON.parse)
 
-    //we start from addres 1, since from address 0 pubkey all public keys can  be generated
-    //and we want privacy
-    if (privateKeys == null) {
-      log.debug('Generating private keys from hdwallet')
-      let mulWallet = new MultipleAddressWallet(pkey, 10)
-      privateKeys = mulWallet.addresses.map(addr => '0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))
-      AsyncStorage.setItem(GD_USER_PRIVATEKEYS, JSON.stringify(privateKeys))
-    } else {
-      log.debug('Existing private keys found')
+      //we start from addres 1, since from address 0 pubkey all public keys can  be generated
+      //and we want privacy
+      if (privateKeys == null) {
+        log.debug('Generating private keys from hdwallet')
+        let mulWallet = new MultipleAddressWallet(pkey, 10)
+        privateKeys = mulWallet.addresses.map(addr => '0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))
+        AsyncStorage.setItem(GD_USER_PRIVATEKEYS, JSON.stringify(privateKeys))
+      } else {
+        log.debug('Existing private keys found')
+      }
+
+      let web3 = new Web3(provider, null, this.defaults)
+      privateKeys.forEach(pkey => {
+        let wallet = web3.eth.accounts.privateKeyToAccount(pkey)
+        web3.eth.accounts.wallet.add(wallet)
+      })
+      web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
+
+      return web3
+    } catch (e) {
+      log.error('Web3 Provider initialization failed', e.message, e, {
+        configs: this.conf,
+      })
     }
-
-    let web3 = new Web3(provider, null, this.defaults)
-    privateKeys.forEach(pkey => {
-      let wallet = web3.eth.accounts.privateKeyToAccount(pkey)
-      web3.eth.accounts.wallet.add(wallet)
-    })
-    web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
-    return web3
   }
 
   getWeb3TransportProvider(): HttpProvider | WebSocketProvider {

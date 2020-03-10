@@ -1,18 +1,21 @@
 // @flow
 import React, { useMemo } from 'react'
-import { isMobile } from 'mobile-device-detect'
+import { isMobile } from '../../lib/utils/platform'
+import canShare from '../../lib/utils/canShare'
 import { fireEvent } from '../../lib/analytics/analytics'
+import Clipboard from '../../lib/utils/Clipboard'
 import GDStore from '../../lib/undux/GDStore'
 import { generateReceiveShareObject, generateReceiveShareText, generateShareLink } from '../../lib/share'
 import BigGoodDollar from '../common/view/BigGoodDollar'
-import QRCode from '../common/view/QRCode'
+import QRCode from '../common/view/QrCode/QRCode'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
-import ShareButton from '../common/buttons/ShareButton'
+import ShareLinkReceiveAnimationButton from '../common/animations/ShareLinkReceiveButton/ShareLinkReceiveButton'
 import TopBar from '../common/view/TopBar'
 
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -23,10 +26,11 @@ export type ReceiveProps = {
 
 const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')
+  const [showErrorDialog] = useErrorDialog()
   const [screenState] = useScreenState(screenProps)
   const { amount, code, reason, counterPartyDisplayName } = screenState
   const share = useMemo(() => {
-    if (isMobile && navigator.share) {
+    if (canShare) {
       return generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName)
     }
     return {
@@ -37,6 +41,20 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const urlForQR = useMemo(() => {
     return generateShareLink('receive', code)
   }, [code])
+
+  const shareAction = async () => {
+    if (isMobile && navigator.share) {
+      try {
+        await navigator.share(share)
+      } catch (e) {
+        if (e.name !== 'AbortError') {
+          showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
+        }
+      }
+    } else {
+      Clipboard.setString(share)
+    }
+  }
 
   return (
     <Wrapper>
@@ -52,7 +70,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
               <BigGoodDollar
                 number={amount}
                 color="green"
-                bigNumberProps={{ fontSize: 36, lineHeight: 24, fontWeight: 'bold', fontFamily: 'Roboto Slab' }}
+                bigNumberProps={{ fontSize: 36, lineHeight: 36, fontWeight: 'bold', fontFamily: 'Roboto Slab' }}
                 bigNumberUnitProps={{ fontSize: 14 }}
               />
             )}
@@ -60,13 +78,12 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           </Section.Stack>
         </Section.Stack>
         <Section.Stack>
-          <ShareButton
-            share={share}
+          <ShareLinkReceiveAnimationButton
+            onPress={shareAction}
             onPressDone={() => {
               fireEvent('RECEIVE_DONE', { type: 'link' })
               screenProps.goToRoot()
             }}
-            actionText="Share as link"
           />
         </Section.Stack>
       </Section>

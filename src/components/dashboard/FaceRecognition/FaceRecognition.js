@@ -127,7 +127,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     const { showCamera, showGuidedFR, sessionId, isAPISuccess } = this.state
     return (
       <Wrapper style={{ margin: 0, padding: 0 }}>
-        {!!showGuidedFR && (
+        {showGuidedFR && (
           <GuidedFR
             sessionId={sessionId}
             userStorage={userStorage}
@@ -138,7 +138,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
           />
         )}
 
-        {!!showCamera && (
+        {showCamera && (
           <FaceCapture
             debug={true}
             onFaces={this.onCaptureResult}

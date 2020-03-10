@@ -43,7 +43,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
       Your next daily claim:
     </Text>
     <Section.Row grow style={styles.justifyCenter}>
-      {!!nextClaim &&
+      {nextClaim &&
         nextClaim.split('').map((value, index) => {
           return (
             <Text

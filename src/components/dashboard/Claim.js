@@ -241,31 +241,64 @@ const Claim = props => {
   return (
     <Wrapper>
       <Section style={styles.mainContainer}>
+        <Section.Stack style={styles.mainText}>
+          <View style={styles.mainTextBorder}>
+            <Section.Text color="primary" size={16} fontFamily="Roboto" lineHeight={19} style={styles.mainTextToast}>
+              {'YOU CAN GET'}
+            </Section.Text>
+            <Section.Text style={styles.mainTextBigMarginBottom}>
+              <BigGoodDollar
+                number={1}
+                reverse
+                formatter={number => number}
+                bigNumberProps={{ color: 'surface' }}
+                bigNumberUnitProps={{ color: 'surface', fontSize: 20 }}
+                style={styles.inline}
+              />
+              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+                {' Free'}
+              </Section.Text>
+            </Section.Text>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+              Every Day
+            </Section.Text>
+          </View>
+          <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.subMainText]}>
+            <View style={styles.bottomContainer}>
+              <Text color="white" fontSize={16} fontFamily="Roboto">
+                {'Claim & spend it on'}
+              </Text>
+              <Text color="white" fontFamily="Roboto" size={16}>
+                {`things you care about`}
+              </Text>
+            </View>
+          </Section.Row>
+        </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
-          {/*<Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />*/}
-          {/*{!isCitizen && (*/}
-          {/*  <ClaimButton*/}
-          {/*    isCitizen={true}*/}
-          {/*    entitlement={0}*/}
-          {/*    nextClaim={state.nextClaim}*/}
-          {/*    loading={loading}*/}
-          {/*    style={styles.countdown}*/}
-          {/*  />*/}
-          {/*)}*/}
-          {/*<View style={styles.space} />*/}
+          <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
+          {!isCitizen && (
+            <ClaimButton
+              isCitizen={true}
+              entitlement={0}
+              nextClaim={state.nextClaim}
+              loading={loading}
+              style={styles.countdown}
+            />
+          )}
+          <View style={styles.space} />
           <ClaimButton
             isCitizen={isCitizen}
             entitlement={state.entitlement}
             nextClaim={state.nextClaim}
-            loading={!!loading}
-            onPress={() => faceRecognition()}
+            loading={loading}
+            onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
           />
-          {/*<Section.Row style={styles.extraInfoStats}>*/}
-          {/*  <Text style={styles.extraInfoWrapper}>*/}
-          {/*    <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>*/}
-          {/*    <Section.Text>good people have claimed today!</Section.Text>*/}
-          {/*  </Text>*/}
-          {/*</Section.Row>*/}
+          <Section.Row style={styles.extraInfoStats}>
+            <Text style={styles.extraInfoWrapper}>
+              <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
+              <Section.Text>good people have claimed today!</Section.Text>
+            </Text>
+          </Section.Row>
         </Section.Stack>
       </Section>
     </Wrapper>

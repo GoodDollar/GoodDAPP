@@ -281,7 +281,6 @@ const Dashboard = props => {
     handleResize()
     animateClaim()
     InteractionManager.runAfterInteractions(handleAppLinks)
-    props.navigation.navigate('FaceVerification')
   }
 
   // The width of the balance block required to place the balance block at the center of the screen

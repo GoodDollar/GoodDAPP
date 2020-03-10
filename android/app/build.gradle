@@ -191,8 +191,8 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-contacts')
     implementation project(':lottie-react-native')
+    implementation project(':react-native-contacts')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
     // Add v8-android - prebuilt libv8android.so into APK

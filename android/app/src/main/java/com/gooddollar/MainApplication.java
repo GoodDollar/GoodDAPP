@@ -27,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           packages.add(new LottiePackage());
+          packages.add(new ReactNativeContacts());
           return packages;
         }
 
@@ -46,13 +47,6 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
-  }
-
-  @Override
-  protected List<ReactPackage> getPackages() {
-    return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new ReactNativeContacts());
   }
 
   /**

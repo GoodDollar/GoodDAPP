@@ -70,38 +70,56 @@ class SoftwareWalletProvider {
   }
 
   async initSoftwareWallet(): Promise<Web3> {
-    try {
-      let provider = this.getWeb3TransportProvider()
-      log.info('wallet config:', this.conf, provider)
+    const attempts = 2
+    let attempt = 1
+    let provider
 
-      //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-      let pkey: ?string = this.conf.mnemonic || (await getMnemonics())
-      let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS).then(JSON.parse)
+    while (!provider && attempts >= attempt) {
+      try {
+        provider = this.getWeb3TransportProvider()
+      } catch (e) {
+        if (attempt === attempts) {
+          // The error log will be executed in GoodWallet init fn and UserStorage constructor
+          return Promise.reject({
+            message: 'Web3 Software Transport Provider initialization failed: ' + e.message,
+          })
+        }
 
-      //we start from addres 1, since from address 0 pubkey all public keys can  be generated
-      //and we want privacy
-      if (privateKeys == null) {
-        log.debug('Generating private keys from hdwallet')
-        let mulWallet = new MultipleAddressWallet(pkey, 10)
-        privateKeys = mulWallet.addresses.map(addr => '0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))
-        AsyncStorage.setItem(GD_USER_PRIVATEKEYS, JSON.stringify(privateKeys))
-      } else {
-        log.debug('Existing private keys found')
+        log.warn('Web3 Software Transport Provider initialization failed', e.message, e, {
+          configs: this.conf,
+          attempt,
+        })
+
+        provider = undefined
+        ++attempt
       }
-
-      let web3 = new Web3(provider, null, this.defaults)
-      privateKeys.forEach(pkey => {
-        let wallet = web3.eth.accounts.privateKeyToAccount(pkey)
-        web3.eth.accounts.wallet.add(wallet)
-      })
-      web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
-
-      return web3
-    } catch (e) {
-      log.error('Web3 Provider initialization failed', e.message, e, {
-        configs: this.conf,
-      })
     }
+
+    log.info('wallet config:', this.conf, provider)
+
+    //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
+    let pkey: ?string = this.conf.mnemonic || (await getMnemonics())
+    let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS).then(JSON.parse)
+
+    //we start from addres 1, since from address 0 pubkey all public keys can  be generated
+    //and we want privacy
+    if (privateKeys == null) {
+      log.debug('Generating private keys from hdwallet')
+      let mulWallet = new MultipleAddressWallet(pkey, 10)
+      privateKeys = mulWallet.addresses.map(addr => '0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))
+      AsyncStorage.setItem(GD_USER_PRIVATEKEYS, JSON.stringify(privateKeys))
+    } else {
+      log.debug('Existing private keys found')
+    }
+
+    let web3 = new Web3(provider, null, this.defaults)
+    privateKeys.forEach(pkey => {
+      let wallet = web3.eth.accounts.privateKeyToAccount(pkey)
+      web3.eth.accounts.wallet.add(wallet)
+    })
+    web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
+
+    return web3
   }
 
   getWeb3TransportProvider(): HttpProvider | WebSocketProvider {

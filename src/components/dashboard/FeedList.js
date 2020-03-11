@@ -56,7 +56,6 @@ const FeedList = ({
   styles,
   onScroll,
   headerLarge,
-  removeClippedSubviews,
   windowSize,
 }: FeedListProps) => {
   const [showErrorDialog] = useErrorDialog()
@@ -171,7 +170,6 @@ const FeedList = ({
         viewabilityConfig={VIEWABILITY_CONFIG}
         onScroll={onScroll}
         ref={flRef}
-        removeClippedSubviews={removeClippedSubviews}
         windowSize={windowSize}
       />
       {headerLarge ? null : <ScrollToTopButton onPress={scrollToTop} />}

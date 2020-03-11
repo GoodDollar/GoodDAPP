@@ -10,13 +10,17 @@ import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import FeedContactItem from './FeedContactItem'
 
-const WhoContent = ({ contacts, styles, setValue, error, text, value, next, state, setContacts }) => {
+const WhoContent = ({ styles, setValue, error, text, value, next, state }) => {
+  const [contacts, setContacts] = React.useState([])
+  const [initialList, setInitalList] = React.useState(contacts)
+
   const getAllContacts = () => {
     Contacts.getAll((err, contacts) => {
       if (err === 'denied') {
         console.warn('permissions denied')
       } else {
         setContacts(contacts)
+        setInitalList(contacts)
       }
     })
   }
@@ -49,14 +53,14 @@ const WhoContent = ({ contacts, styles, setValue, error, text, value, next, stat
     if (query && !query.includes('+') && !query.includes('*')) {
       if (typeof queryIsNumber === 'number' && !isNaN(queryIsNumber)) {
         return setContacts(
-          contacts.filter(({ phoneNumbers }) =>
+          initialList.filter(({ phoneNumbers }) =>
             new RegExp(`^(.*(${query}).*)$`, 'gmi').test(phoneNumbers[0] && phoneNumbers[0].number)
           )
         )
       }
       if (typeof query === 'string') {
         return setContacts(
-          contacts.filter(({ givenName, familyName }) => {
+          initialList.filter(({ givenName, familyName }) => {
             const fullName = `${givenName} ${familyName}`
             return new RegExp(`^(.*(${query}).*)$`, 'gmi').test(fullName)
           })

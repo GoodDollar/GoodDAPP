@@ -9,6 +9,7 @@ const WhoContent = ({ styles, error, text, setValue, value, next }) => {
     <Section.Stack justifyContent="space-around" style={styles.container}>
       <Section.Title fontWeight="medium">{text}</Section.Title>
       <InputText
+        autoFocus
         error={error}
         onChangeText={setValue}
         placeholder="Enter the recipient name"

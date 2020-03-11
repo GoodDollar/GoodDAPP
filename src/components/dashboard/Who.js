@@ -27,13 +27,14 @@ const Who = (props: AmountProps) => {
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
   const isReceive = params && params.action === ACTION_RECEIVE
-  const { counterPartyDisplayName } = screenState
+  const { counterPartyDisplayName, phoneNumber } = screenState
   const text = isReceive ? 'From Who?' : 'Send To?'
   const getErrorFunction = isReceive ? () => null : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
+  const [phone, setPhone] = useValidatedValueState(phoneNumber, getErrorFunction)
 
   useEffect(() => {
-    setScreenState({ counterPartyDisplayName: state.value })
+    setScreenState({ counterPartyDisplayName: state.value, phoneNumber: phone.value })
   }, [state.value])
   console.info('Component props -> ', { props, params, text, state })
 
@@ -44,6 +45,7 @@ const Who = (props: AmountProps) => {
       props.screenProps.push(nextRoute, {
         nextRoutes,
         params,
+        phoneNumber: phone && phone.value,
         counterPartyDisplayName: state.value,
       })
     }
@@ -62,7 +64,8 @@ const Who = (props: AmountProps) => {
       <Scroll>
         <Section grow>
           <WhoContent
-            setValue={setValue}
+            setName={setValue}
+            setPhone={setPhone}
             error={state.error}
             state={state}
             text={text}
@@ -79,7 +82,7 @@ const Who = (props: AmountProps) => {
               <NextButton
                 {...props}
                 nextRoutes={screenState.nextRoutes}
-                values={{ params, counterPartyDisplayName: state.value }}
+                values={{ params, counterPartyDisplayName: state.value, phoneNumber: phone && phone.value }}
                 canContinue={() => state.isValid}
                 label={state.value || !isReceive ? 'Next' : 'Skip'}
                 disabled={!state.isValid}

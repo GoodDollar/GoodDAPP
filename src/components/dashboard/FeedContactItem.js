@@ -9,7 +9,7 @@ const FeedContactItem = ({ contact, selectContact, horizontalMode, styles }) => 
   const fullName = `${contact.givenName} ${contact.familyName}`
 
   return (
-    <TouchableOpacity onPress={() => selectContact(fullName)}>
+    <TouchableOpacity onPress={() => selectContact(fullName, phoneNumber)}>
       <Section.Row key={contact.recordId} style={!horizontalMode && styles.contactWrapperVertical}>
         <Section style={horizontalMode ? styles.contactWrapperHorizontal : styles.rowSpace}>
           <Avatar

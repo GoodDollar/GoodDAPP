@@ -41,7 +41,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [shared, setShared] = useState(false)
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
-  const { amount, reason = null, counterPartyDisplayName } = screenState
+  const { amount, reason = null, counterPartyDisplayName, phoneNumber } = screenState
 
   const faceRecognition = () => {
     return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
@@ -135,6 +135,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               amount,
               paymentLink: generateLinkResponse.paymentLink,
               code: generateLinkResponse.code,
+              phoneNumber: phoneNumber && phoneNumber,
             },
           }
 

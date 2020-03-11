@@ -4,14 +4,14 @@ import InputText from '../common/form/InputText'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
-const WhoContent = ({ styles, error, text, setValue, value, next }) => {
+const WhoContent = ({ styles, error, text, setName, value, next }) => {
   return (
     <Section.Stack justifyContent="space-around" style={styles.container}>
       <Section.Title fontWeight="medium">{text}</Section.Title>
       <InputText
         autoFocus
         error={error}
-        onChangeText={setValue}
+        onChangeText={setName}
         placeholder="Enter the recipient name"
         style={styles.input}
         value={value}

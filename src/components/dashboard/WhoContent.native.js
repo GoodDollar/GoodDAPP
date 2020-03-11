@@ -8,11 +8,14 @@ import InputText from '../common/form/InputText'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import userStorage from '../../lib/gundb/UserStorage'
 import FeedContactItem from './FeedContactItem'
 
-const WhoContent = ({ styles, setValue, error, text, value, next, state }) => {
+const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state }) => {
   const [contacts, setContacts] = React.useState([])
   const [initialList, setInitalList] = React.useState(contacts)
+  const [recentlyUsed, setRecentlyUsed] = React.useState([])
+  const [recentlyUsedList, setRecentlyUsedList] = React.useState([])
 
   const getAllContacts = () => {
     Contacts.getAll((err, contacts) => {
@@ -25,6 +28,17 @@ const WhoContent = ({ styles, setValue, error, text, value, next, state }) => {
     })
   }
 
+  const selectContact = (name, phone) => {
+    setName(name)
+    setPhone(phone)
+  }
+
+  const getUserFeed = async () => {
+    const userFeed = await userStorage.getAllFeed()
+    const recent = userFeed.filter(({ type }) => type === 'send' || type === 'receive')
+    setRecentlyUsed(recent)
+  }
+
   const showPermissionsAndroid = () => {
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
       title: 'Contacts',
@@ -34,6 +48,10 @@ const WhoContent = ({ styles, setValue, error, text, value, next, state }) => {
       getAllContacts()
     })
   }
+
+  useEffect(() => {
+    getUserFeed()
+  }, [])
 
   useEffect(() => {
     if (Contacts) {
@@ -48,7 +66,7 @@ const WhoContent = ({ styles, setValue, error, text, value, next, state }) => {
   const handleSearch = useCallback(query => {
     const queryIsNumber = parseInt(query)
     if (state) {
-      setValue(query)
+      setName(query)
     }
     if (query && !query.includes('+') && !query.includes('*')) {
       if (typeof queryIsNumber === 'number' && !isNaN(queryIsNumber)) {
@@ -70,6 +88,23 @@ const WhoContent = ({ styles, setValue, error, text, value, next, state }) => {
       return getAllContacts()
     }
   })
+
+  useEffect(() => {
+    findRecentlyUsed()
+  }, [contacts, recentlyUsed])
+
+  const findRecentlyUsed = () => {
+    let matches = []
+    if (recentlyUsed.length > 0 && contacts.length > 0) {
+      recentlyUsed.forEach(contact => {
+        matches.push(
+          contacts.filter(item => item.phoneNumbers[0] && contact.data.phoneNumber === item.phoneNumbers[0].number)
+        )
+      })
+    }
+
+    setRecentlyUsedList(matches.flat())
+  }
 
   return (
     <>
@@ -93,10 +128,12 @@ const WhoContent = ({ styles, setValue, error, text, value, next, state }) => {
         <Section.Separator style={styles.separator} width={1} />
       </Section.Row>
       <Section.Row>
-        {contacts && (
+        {recentlyUsedList && (
           <FlatList
-            data={contacts && contacts.slice(0, 5)}
-            renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={setValue} horizontalMode />}
+            data={recentlyUsedList}
+            renderItem={({ item, index }) => (
+              <FeedContactItem contact={item} selectContact={selectContact} horizontalMode />
+            )}
             ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
             horizontal
             contentContainerStyle={styles.recentlyUserContainer}
@@ -113,7 +150,7 @@ const WhoContent = ({ styles, setValue, error, text, value, next, state }) => {
         {contacts && (
           <FlatList
             data={contacts}
-            renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={setValue} />}
+            renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={selectContact} />}
             ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
           />
         )}

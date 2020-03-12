@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { FlatList, PermissionsAndroid } from 'react-native'
 import Contacts from 'react-native-contacts'
+import { uniq } from 'lodash'
 import { isAndroid } from '../../lib/utils/platform'
 import { Section } from '../common'
 import Separator from '../common/layout/Separator'
@@ -10,6 +11,7 @@ import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import userStorage from '../../lib/gundb/UserStorage'
 import FeedContactItem from './FeedContactItem'
+
 const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state }) => {
   const [contacts, setContacts] = React.useState([])
   const [initialList, setInitalList] = React.useState(contacts)
@@ -130,7 +132,7 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
           </Section.Row>
           <Section.Row>
             <FlatList
-              data={recentlyUsedList.slice(0, 5)}
+              data={uniq(recentlyUsedList).slice(0, 5)}
               renderItem={({ item, index }) => (
                 <FeedContactItem contact={item} selectContact={selectContact} horizontalMode index={index} />
               )}

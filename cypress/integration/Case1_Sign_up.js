@@ -13,12 +13,7 @@ describe('Test case 1: Ability to Sign Up', () => {
     SignUpPage.pageHeader.should('contain', 'Sign Up')
     SignUpPage.nameInput.should('be.visible')
     SignUpPage.nextButton.should('be.visible')
-    //Need add wait due issue with next button
-    cy.wait(7000)
-    cy.clearLocalStorage()
-    cy.reload()
-    StartPage.continueOnWebButton.click()
-    cy.wait(8000)
+
     SignUpPage.nameInput.type('Name')
     SignUpPage.invalidValueErrorMessage1.should('exist')
     SignUpPage.nameInput.clear()
@@ -44,12 +39,6 @@ describe('Test case 1: Ability to Sign Up', () => {
     StartPage.continueOnWebButton.click()
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')
-    //Need add wait due issue with next button
-    cy.wait(7000)
-    cy.clearLocalStorage()
-    cy.reload()
-    StartPage.continueOnWebButton.click()
-    cy.wait(8000)
     SignUpPage.nameInput.type(Cypress.env('usernameForRegistration'))
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()

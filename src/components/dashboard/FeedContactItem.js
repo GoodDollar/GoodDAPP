@@ -31,7 +31,6 @@ export default withStyles(({ theme, index }) => ({
   contactWrapperHorizontal: {
     alignItems: 'center',
     paddingHorizontal: 0,
-    paddingRight: index < 4 && '11%',
   },
   contactWrapperVertical: {
     width: '100%',

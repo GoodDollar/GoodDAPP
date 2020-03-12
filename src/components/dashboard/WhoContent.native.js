@@ -10,7 +10,6 @@ import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import userStorage from '../../lib/gundb/UserStorage'
 import FeedContactItem from './FeedContactItem'
-
 const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state }) => {
   const [contacts, setContacts] = React.useState([])
   const [initialList, setInitalList] = React.useState(contacts)
@@ -176,7 +175,7 @@ export default withStyles(({ theme }) => ({
   },
   recentlyUserContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
   },
   bottomSpace: {
     marginBottom: 20,

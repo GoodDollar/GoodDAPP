@@ -22,7 +22,7 @@ const InternetConnection = props => {
   const isConnectionGun = useConnectionGun()
   const [showDisconnect, setShowDisconnect] = useState(false)
   const showDialogWindow = useCallback(
-    debounce(message => {
+    debounce((message, showDialog, setShowDisconnect) => {
       setShowDisconnect(true)
       showDialog({
         title: 'Waiting for network',
@@ -32,10 +32,11 @@ const InternetConnection = props => {
         showCloseButtons: false,
       })
     }, Config.delayMessageNetworkDisconnection),
-    [showDialog, setShowDisconnect]
+    []
   )
 
   useEffect(() => {
+    showDialogWindow.cancel()
     if (
       isConnection === false ||
       isAPIConnection === false ||
@@ -60,10 +61,9 @@ const InternetConnection = props => {
         message = `Waiting for GoodDollar's server (${servers.join(', ')})`
       }
 
-      showDialogWindow(message)
+      showDialogWindow(message, showDialog, setShowDisconnect)
     } else {
-      log.debug('connection back hiding dialog')
-      showDialogWindow && showDialogWindow.cancel()
+      log.debug('connection back hiding dialog', showDialogWindow.cancel)
       hideDialog()
       setShowDisconnect(false)
     }

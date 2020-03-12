@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Animated, AppState, Dimensions, Easing, Image, InteractionManager, TouchableOpacity } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
@@ -84,7 +84,6 @@ export type DashboardProps = {
 }
 const Dashboard = props => {
   const { screenProps, styles, theme }: DashboardProps = props
-  const [getNextFeedAllowed, setGetNextFeedAllowed] = useState(true)
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
@@ -260,12 +259,12 @@ const Dashboard = props => {
     Dimensions.addEventListener('change', () => debouncedHandleResize())
   }
 
-  const nextFeed = () => {
-    if (getNextFeedAllowed && feeds && feeds.length > 0) {
+  const nextFeed = useMemo(() => {
+    if (feeds && feeds.length > 0) {
       log.debug('getNextFeed called')
       return getFeedPage()
     }
-  }
+  }, [feeds])
 
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
@@ -370,8 +369,6 @@ const Dashboard = props => {
         }),
       ]).start()
     }
-
-    setTimeout(() => setGetNextFeedAllowed(true), 300)
   }, [headerLarge])
 
   useEffect(() => {
@@ -502,6 +499,40 @@ const Dashboard = props => {
 
   const avatarSource = avatar || unknownProfile
 
+  const memoFeedList = useMemo(() => {
+    return (
+      <FeedList
+        data={feeds}
+        handleFeedSelection={handleFeedSelection}
+        initialNumToRender={PAGE_SIZE}
+        onEndReached={nextFeed}
+        onEndReachedThreshold={0.7}
+        windowSize={7}
+        updateData={() => {}}
+        onScroll={debounce(({ nativeEvent }) => {
+          // ISH - including small header calculations
+          const minScrollRequired = 150
+          const scrollPosition = nativeEvent.contentOffset.y
+          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
+
+          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+            if (headerLarge) {
+              setHeaderLarge(false)
+            }
+          } else {
+            if (!headerLarge) {
+              setHeaderLarge(true)
+            }
+          }
+
+          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
+        }, 100)}
+        headerLarge={headerLarge}
+      />
+    )
+  }, [feeds, headerLarge])
+
   return (
     <Wrapper style={styles.dashboardWrapper}>
       <Section style={[styles.topInfo]}>
@@ -563,37 +594,7 @@ const Dashboard = props => {
           </PushButton>
         </Section.Row>
       </Section>
-      <FeedList
-        data={feeds}
-        handleFeedSelection={handleFeedSelection}
-        initialNumToRender={PAGE_SIZE}
-        onEndReached={nextFeed}
-        onEndReachedThreshold={0.7}
-        windowSize={7}
-        updateData={() => {}}
-        onScroll={debounce(({ nativeEvent }) => {
-          // ISH - including small header calculations
-          const minScrollRequired = 150
-          const scrollPosition = nativeEvent.contentOffset.y
-          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
-          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-
-          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-            if (headerLarge) {
-              setGetNextFeedAllowed(false)
-              setHeaderLarge(false)
-            }
-          } else {
-            if (!headerLarge) {
-              setGetNextFeedAllowed(false)
-              setHeaderLarge(true)
-            }
-          }
-
-          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
-        }, 100)}
-        headerLarge={headerLarge}
-      />
+      {memoFeedList}
       {currentFeed && (
         <FeedModalList
           data={isBrowser ? [currentFeed] : feeds}

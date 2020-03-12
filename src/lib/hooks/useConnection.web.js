@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 export default () => {
-  const [isConnection, setIsConnection] = useState(true)
+  const [isConnection, setIsConnection] = useState(false)
 
   const updateOnlineStatus = () => {
     setIsConnection(navigator.onLine)

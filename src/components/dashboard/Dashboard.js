@@ -84,6 +84,7 @@ export type DashboardProps = {
 }
 const Dashboard = props => {
   const { screenProps, styles, theme }: DashboardProps = props
+  const [getNextFeedAllowed, setGetNextFeedAllowed] = useState(true)
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
@@ -177,7 +178,9 @@ const Dashboard = props => {
     }
 
     if (reset) {
+      // a flag used to show feed load animation only at the first app loading
       if (!loadAnimShown) {
+        // a time to perform feed load animation till the end
         await delay(1900)
         store.set('feedLoadAnimShown')(true)
       }
@@ -259,12 +262,12 @@ const Dashboard = props => {
     Dimensions.addEventListener('change', () => debouncedHandleResize())
   }
 
-  const nextFeed = useMemo(() => {
-    if (feeds && feeds.length > 0) {
+  const nextFeed = () => {
+    if (getNextFeedAllowed && feeds && feeds.length > 0) {
       log.debug('getNextFeed called')
       return getFeedPage()
     }
-  }, [feeds])
+  }
 
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
@@ -369,6 +372,9 @@ const Dashboard = props => {
         }),
       ]).start()
     }
+
+    // needed to allow executing getNextFeed fn after header animation ends
+    setTimeout(() => setGetNextFeedAllowed(true), 300)
   }, [headerLarge])
 
   useEffect(() => {
@@ -518,10 +524,16 @@ const Dashboard = props => {
 
           if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
             if (headerLarge) {
+              // its required as header animation causes component re-renders. FlatList triggers the onEndReached callback on each re-render (know issue on github).
+              // so we need to forbid getNextFeed fn to be executed while header animation performing
+              setGetNextFeedAllowed(false)
               setHeaderLarge(false)
             }
           } else {
             if (!headerLarge) {
+              // its required as header animation causes component re-renders. FlatList triggers the onEndReached callback on each re-render (know issue on github).
+              // so we need to forbid getNextFeed fn to be executed while header animation performing
+              setGetNextFeedAllowed(false)
               setHeaderLarge(true)
             }
           }

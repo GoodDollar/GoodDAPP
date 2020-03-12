@@ -17,7 +17,6 @@ const WhoContent = ({ styles, error, text, setName, value, next }) => {
         value={value}
         enablesReturnKeyAutomatically
         onSubmitEditing={next}
-        iconName="search"
       />
     </Section.Stack>
   )

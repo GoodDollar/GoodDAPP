@@ -4,7 +4,7 @@ import { Avatar, Section } from '../common'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 
-const FeedContactItem = ({ contact, selectContact, horizontalMode, styles }) => {
+const FeedContactItem = ({ contact, selectContact, horizontalMode, styles, index }) => {
   const phoneNumber = contact.phoneNumbers[0] && contact.phoneNumbers[0].number
   const fullName = `${contact.givenName} ${contact.familyName}`
 
@@ -27,11 +27,11 @@ const FeedContactItem = ({ contact, selectContact, horizontalMode, styles }) => 
   )
 }
 
-export default withStyles(({ theme }) => ({
+export default withStyles(({ theme, index }) => ({
   contactWrapperHorizontal: {
     alignItems: 'center',
-    justifyContent: 'flex-start',
     paddingHorizontal: 0,
+    paddingRight: index < 4 && '11%',
   },
   contactWrapperVertical: {
     width: '100%',

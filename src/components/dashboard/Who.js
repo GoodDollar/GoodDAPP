@@ -54,7 +54,7 @@ const Who = (props: AmountProps) => {
   const Scroll = isMobileNative ? ScrollView : React.Fragment
 
   return (
-    <Wrapper>
+    <Wrapper style={{ flex: 1 }}>
       <TopBar push={screenProps.push} hideProfile={!isReceive}>
         {!isReceive && <SendToAddress />}
         {!isReceive && (

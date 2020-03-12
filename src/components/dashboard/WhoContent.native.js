@@ -121,25 +121,28 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
           iconName="search"
         />
       </Section.Stack>
-      <Section.Row justifyContent="space-between">
-        <Section.Title fontWeight="medium" style={styles.sectionTitle}>
-          {'Recently used'}
-        </Section.Title>
-        <Section.Separator style={styles.separator} width={1} />
-      </Section.Row>
-      <Section.Row>
-        {recentlyUsedList && (
-          <FlatList
-            data={recentlyUsedList}
-            renderItem={({ item, index }) => (
-              <FeedContactItem contact={item} selectContact={selectContact} horizontalMode />
-            )}
-            ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
-            horizontal
-            contentContainerStyle={styles.recentlyUserContainer}
-          />
-        )}
-      </Section.Row>
+      {recentlyUsedList && (
+        <>
+          <Section.Row justifyContent="space-between">
+            <Section.Title fontWeight="medium" style={styles.sectionTitle}>
+              {'Recently used'}
+            </Section.Title>
+            <Section.Separator style={styles.separator} width={1} />
+          </Section.Row>
+          <Section.Row>
+            <FlatList
+              data={recentlyUsedList.slice(0, 5)}
+              renderItem={({ item, index }) => (
+                <FeedContactItem contact={item} selectContact={selectContact} horizontalMode index={index} />
+              )}
+              ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
+              horizontal
+              contentContainerStyle={styles.recentlyUserContainer}
+              scrollEnabled={false}
+            />
+          </Section.Row>
+        </>
+      )}
       <Section.Row justifyContent="space-between">
         <Section.Title fontWeight="medium" style={styles.sectionTitle}>
           {'Choose a Contact'}
@@ -173,7 +176,7 @@ export default withStyles(({ theme }) => ({
   },
   recentlyUserContainer: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   bottomSpace: {
     marginBottom: 20,

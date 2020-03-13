@@ -22,9 +22,11 @@ import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
+import goodWallet from '../wallet/GoodWallet'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
+import userStorage from './UserStorage'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -2094,5 +2096,68 @@ export class UserStorage {
 
     logger.debug('deleteAccount', { deleteResults })
     return true
+  }
+
+  async test(date) {
+    const lastBlock = await userStorage.getLastBlockNode().then()
+
+    goodWallet.listenTxUpdates(parseInt(lastBlock), ({ toBlock }) =>
+      userStorage.saveLastBlockNumber(parseInt(toBlock) + 1)
+    )
+  }
+
+  async getFeedSince(date) {
+    const beginningOfDayMillis = moment(date)
+      .startOf('day')
+      .valueOf()
+
+    const feedIndexByDate = await this.feed.get('index')
+
+    const days = Object.keys(feedIndexByDate).filter(dayString => {
+      const dayMillis = moment(dayString)
+        .startOf('day')
+        .valueOf()
+
+      return dayMillis >= beginningOfDayMillis
+    })
+
+    const feedPromises = days.map(date => {
+      return this.feed.get(date)
+    })
+
+    const feedByDates = await Promise.all(feedPromises)
+
+    const dateFilterMillis = new Date(date).getTime()
+
+    const feed = flatten(feedByDates).filter(event => {
+      const eventDateMillis = new Date(event.updateDate).getTime()
+      return eventDateMillis > dateFilterMillis
+    })
+
+    return Promise.all(
+      feed
+        .filter(_ => _.id)
+        .map(async eventIndex => {
+          let item = this.feed
+            .get('byid')
+            .get(eventIndex.id)
+            .decrypt()
+
+          if (item === undefined) {
+            const receipt = await this.wallet.getReceiptWithLogs(eventIndex.id).catch(e => {
+              logger.warn('no receipt found for id:', eventIndex.id, e.message, e)
+              return undefined
+            })
+
+            if (receipt) {
+              item = await this.handleReceiptUpdated(receipt)
+            } else {
+              logger.warn('no receipt found for undefined item id:', eventIndex.id)
+            }
+          }
+
+          return item
+        })
+    )
   }
 }

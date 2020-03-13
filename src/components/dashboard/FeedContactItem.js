@@ -6,7 +6,7 @@ import normalize from '../../lib/utils/normalizeText'
 
 const FeedContactItem = ({ contact, selectContact, horizontalMode, styles, index }) => {
   const phoneNumber = contact.phoneNumbers[0] && contact.phoneNumbers[0].number
-  const fullName = `${contact.givenName} ${contact.familyName}`
+  const fullName = contact.familyName ? `${contact.givenName} ${contact.familyName}` : contact.givenName
 
   return (
     <TouchableOpacity onPress={() => selectContact(fullName, phoneNumber)}>

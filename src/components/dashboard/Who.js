@@ -32,6 +32,7 @@ const Who = (props: AmountProps) => {
   const getErrorFunction = isReceive ? () => null : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
   const [phone, setPhone] = useValidatedValueState(phoneNumber, getErrorFunction)
+  const [showNext, setShowNext] = React.useState(false)
 
   useEffect(() => {
     setScreenState({ counterPartyDisplayName: state.value, phoneNumber: phone.value })
@@ -71,24 +72,28 @@ const Who = (props: AmountProps) => {
             text={text}
             value={state.value}
             next={next}
+            showNext={setShowNext}
           />
-          <Section.Row grow alignItems="flex-end">
-            <Section.Row grow={1} justifyContent="flex-start">
-              <BackButton mode="text" screenProps={screenProps}>
-                Cancel
-              </BackButton>
-            </Section.Row>
-            <Section.Stack grow={3}>
-              <NextButton
-                {...props}
-                nextRoutes={screenState.nextRoutes}
-                values={{ params, counterPartyDisplayName: state.value, phoneNumber: phone && phone.value }}
-                canContinue={() => state.isValid}
-                label={state.value || !isReceive ? 'Next' : 'Skip'}
-                disabled={!state.isValid}
-              />
-            </Section.Stack>
-          </Section.Row>
+          {(isMobileNative && showNext) ||
+            (!isMobileNative && (
+              <Section.Row grow alignItems="flex-end">
+                <Section.Row grow={1} justifyContent="flex-start">
+                  <BackButton mode="text" screenProps={screenProps}>
+                    Cancel
+                  </BackButton>
+                </Section.Row>
+                <Section.Stack grow={3}>
+                  <NextButton
+                    {...props}
+                    nextRoutes={screenState.nextRoutes}
+                    values={{ params, counterPartyDisplayName: state.value, phoneNumber: phone && phone.value }}
+                    canContinue={() => state.isValid}
+                    label={state.value || !isReceive ? 'Next' : 'Skip'}
+                    disabled={!state.isValid}
+                  />
+                </Section.Stack>
+              </Section.Row>
+            ))}
         </Section>
       </Scroll>
     </Wrapper>

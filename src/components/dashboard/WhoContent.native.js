@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { FlatList, PermissionsAndroid } from 'react-native'
 import Contacts from 'react-native-contacts'
-import { uniq } from 'lodash'
+import { orderBy, uniq } from 'lodash'
 import { isAndroid } from '../../lib/utils/platform'
 import { Section } from '../common'
 import Separator from '../common/layout/Separator'
@@ -12,7 +12,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import userStorage from '../../lib/gundb/UserStorage'
 import FeedContactItem from './FeedContactItem'
 
-const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state }) => {
+const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state, showNext }) => {
   const [contacts, setContacts] = React.useState([])
   const [initialList, setInitalList] = React.useState(contacts)
   const [recentlyUsed, setRecentlyUsed] = React.useState([])
@@ -23,15 +23,17 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
       if (err === 'denied') {
         console.warn('permissions denied')
       } else {
-        setContacts(contacts)
-        setInitalList(contacts)
+        const sortContacts = orderBy(contacts, ['givenName'])
+        setContacts(sortContacts)
+        setInitalList(sortContacts)
       }
     })
   }
 
-  const selectContact = (name, phone) => {
-    setName(name)
-    setPhone(phone)
+  const selectContact = async (name, phone) => {
+    await setName(name)
+    await setPhone(phone)
+    return next()
   }
 
   const getUserFeed = async () => {
@@ -86,9 +88,17 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
         )
       }
     } else {
-      return getAllContacts()
+      getAllContacts()
     }
   })
+
+  useEffect(() => {
+    if (contacts.length === 0) {
+      showNext(true)
+    } else {
+      showNext(false)
+    }
+  }, [contacts])
 
   useEffect(() => {
     findRecentlyUsed()
@@ -122,7 +132,7 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
           iconName="search"
         />
       </Section.Stack>
-      {recentlyUsedList && (
+      {recentlyUsedList.length > 0 && (
         <>
           <Section.Row justifyContent="space-between">
             <Section.Title fontWeight="medium" style={styles.sectionTitle}>
@@ -151,7 +161,7 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
         <Section.Separator style={styles.separator} width={1} />
       </Section.Row>
       <Section.Stack style={styles.bottomSpace}>
-        {contacts && (
+        {contacts.length > 0 && (
           <FlatList
             data={contacts}
             renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={selectContact} />}

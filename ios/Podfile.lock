@@ -289,7 +289,6 @@ PODS:
   - Sentry (4.4.3):
     - Sentry/Core (= 4.4.3)
   - Sentry/Core (4.4.3)
-  - SocketRocket (0.5.1)
   - TcpSockets (3.3.2):
     - React
   - Yoga (1.14.0)
@@ -350,7 +349,6 @@ DEPENDENCIES:
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - SocketRocket (from `../node_modules/detox/ios_src/SocketRocket`)
   - TcpSockets (from `../node_modules/react-native-tcp`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -465,8 +463,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
-  SocketRocket:
-    :path: "../node_modules/detox/ios_src/SocketRocket"
   TcpSockets:
     :path: "../node_modules/react-native-tcp"
   Yoga:
@@ -528,7 +524,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
-  SocketRocket: dbb1554b8fc288ef8ef370d6285aeca7361be31e
   TcpSockets: 8d839b9b14f6f344d98e4642ded13ab3112b462d
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 

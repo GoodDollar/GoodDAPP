@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, View, Platform } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import Text from '../common/view/Text'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -24,12 +24,7 @@ const dialogStyles = ({ theme }) => ({
   },
   title: {
     width: '100%',
-    ...Platform.select({
-      // FIXME: RN
-      web: {
-        borderBottomStyle: 'solid',
-      },
-    }),
+    borderStyle: 'solid',
     borderBottomWidth: 2,
     borderBottomColor: theme.colors.primary,
     paddingBottom: getDesignRelativeWidth(9),

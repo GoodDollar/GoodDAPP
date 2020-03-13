@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, View, Platform } from 'react-native'
+import { Image, View } from 'react-native'
 import _get from 'lodash/get'
 import * as web3Utils from 'web3-utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -142,12 +142,6 @@ const getStylesFromProps = ({ theme }) => ({
     minWidth: getDesignRelativeWidth(265),
     paddingTop: getDesignRelativeHeight(25),
     paddingBottom: getDesignRelativeHeight(25),
-    ...Platform.select({
-      // FIXME: RN
-      web: {
-        verticalAlign: 'text-top',
-      },
-    }),
   },
   mainTitle: {
     fontWeight: 'bold',

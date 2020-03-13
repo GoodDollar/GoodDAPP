@@ -10,11 +10,10 @@ const CustomIcon = ({ styles, theme, name, color, size, reverse, reverseColor })
   </View>
 )
 
-const getStylesFromProps = ({ theme }) => ({
+const getStylesFromProps = ({ theme, size }) => ({
   imageIcon: {
     borderRadius: Platform.select({
-      // FIXME: RN
-      default: 0,
+      default: size / 2,
       web: '50%',
     }),
     padding: theme.sizes.defaultDouble,

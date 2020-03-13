@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Platform, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
 
@@ -29,12 +29,7 @@ const sideMenuItemStyles = ({ theme }) => ({
   clickableRow: {
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.lightGray,
-    ...Platform.select({
-      // FIXME: RN
-      web: {
-        borderBottomStyle: 'solid',
-      },
-    }),
+    borderStyle: 'solid',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',

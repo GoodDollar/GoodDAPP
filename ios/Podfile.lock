@@ -202,13 +202,13 @@ PODS:
   - React-jsinspector (0.61.5)
   - react-native-blur (0.8.0):
     - React
-  - react-native-camera (3.19.0):
+  - react-native-camera (3.18.0):
     - React
-    - react-native-camera/RCT (= 3.19.0)
-    - react-native-camera/RN (= 3.19.0)
-  - react-native-camera/RCT (3.19.0):
+    - react-native-camera/RCT (= 3.18.0)
+    - react-native-camera/RN (= 3.18.0)
+  - react-native-camera/RCT (3.18.0):
     - React
-  - react-native-camera/RN (3.19.0):
+  - react-native-camera/RN (3.18.0):
     - React
   - react-native-image-resizer (1.2.0):
     - React
@@ -259,7 +259,7 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - RNBackgroundFetch (3.0.3):
     - React
-  - RNCAsyncStorage (1.8.1):
+  - RNCAsyncStorage (1.8.0):
     - React
   - RNCPushNotificationIOS (1.0.7):
     - React
@@ -280,7 +280,7 @@ PODS:
     - React
   - RNReanimated (1.7.0):
     - React
-  - RNScreens (2.2.0):
+  - RNScreens (2.1.0):
     - React
   - RNSentry (1.3.3):
     - React
@@ -503,7 +503,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-camera: 1a62f163f06c7e54811fc9396cdb80269a665238
+  react-native-camera: 36536dd86a41261622967ccf3e19fb63d7dd09e3
   react-native-image-resizer: b718335229b7be37c809bf9ed81d7a066fbfd2dd
   react-native-netinfo: 1ee553f84e01aaffbed0e5bd53d8515f7d675055
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
@@ -521,7 +521,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNBackgroundFetch: 8098740c9fa1419cd96cfecab942c132dda8c140
-  RNCAsyncStorage: 00bdf63f7f1e0f11d3323533dba4f222e58bf092
+  RNCAsyncStorage: 455b48eb552543bad4e3099e180e1700700771f3
   RNCPushNotificationIOS: 107404643700c0a0db042fa6058e5e2a4c16bc6e
   RNDeviceInfo: 67607dfe9cfbed105838144c40187a8392aa404d
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
@@ -530,7 +530,7 @@ SPEC CHECKSUMS:
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: 6db7e0a4d94c9c02390d11020b1d3d187aaf77e5
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
-  RNScreens: 812b79d384e2bea7eebc4ec981469160d4948fd5
+  RNScreens: 2a9cd603bcebc34319c92e595283d760dd1f55f5
   RNSentry: 86baf0c87120cd5eb491d073989f8cbc1a2174c6
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4

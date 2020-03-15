@@ -21,6 +21,7 @@ const InternetConnection = props => {
   const isConnectionWeb3 = useConnectionWeb3()
   const isConnectionGun = useConnectionGun()
   const [showDisconnect, setShowDisconnect] = useState(false)
+  const [firstLoadError, setFirstLoadError] = useState(true)
   const showDialogWindow = useCallback(
     debounce((message, showDialog, setShowDisconnect) => {
       setShowDisconnect(true)
@@ -43,7 +44,19 @@ const InternetConnection = props => {
       isConnectionWeb3 === false ||
       isConnectionGun === false
     ) {
-      log.warn('connection failed:', '', {}, { isAPIConnection, isConnection, isConnectionWeb3, isConnectionGun })
+      log.warn('connection failed:', {
+        isAPIConnection,
+        isConnection,
+        isConnectionWeb3,
+        isConnectionGun,
+        firstLoadError,
+      })
+
+//supress showing the error dialog while in splash and connecting
+      if (firstLoadError) {
+        return setShowDisconnect(true)
+      }
+
       let message
       if (isConnection === false) {
         message = 'Check your internet connection'
@@ -63,7 +76,10 @@ const InternetConnection = props => {
 
       showDialogWindow(message, showDialog, setShowDisconnect)
     } else {
-      log.debug('connection back hiding dialog', showDialogWindow.cancel)
+      log.debug('connection back hiding dialog')
+//first time that connection is ok, from now on we will start showing the connection dialog on error
+      setFirstLoadError(false)
+      showDialogWindow && showDialogWindow.cancel()
       hideDialog()
       setShowDisconnect(false)
     }

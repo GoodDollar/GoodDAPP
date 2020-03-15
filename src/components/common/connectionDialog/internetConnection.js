@@ -23,7 +23,7 @@ const InternetConnection = props => {
   const [showDisconnect, setShowDisconnect] = useState(false)
   const [firstLoadError, setFirstLoadError] = useState(true)
   const showDialogWindow = useCallback(
-    debounce(message => {
+    debounce((message, showDialog, setShowDisconnect) => {
       setShowDisconnect(true)
       showDialog({
         title: 'Waiting for network',
@@ -33,10 +33,11 @@ const InternetConnection = props => {
         showCloseButtons: false,
       })
     }, Config.delayMessageNetworkDisconnection),
-    [showDialog, setShowDisconnect]
+    []
   )
 
   useEffect(() => {
+    showDialogWindow.cancel()
     if (
       isConnection === false ||
       isAPIConnection === false ||
@@ -73,7 +74,7 @@ const InternetConnection = props => {
         message = `Waiting for GoodDollar's server (${servers.join(', ')})`
       }
 
-      showDialogWindow(message)
+      showDialogWindow(message, showDialog, setShowDisconnect)
     } else {
       log.debug('connection back hiding dialog')
 //first time that connection is ok, from now on we will start showing the connection dialog on error

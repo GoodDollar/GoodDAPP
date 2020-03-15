@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.16.0",
+  "version": "0.16.1-0",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -75,7 +75,7 @@
     "canvas-prebuilt": "^1.6.11",
     "ethereumjs-util": "^6.1.0",
     "ethereumjs-wallet": "^0.6.3",
-    "gun": "^0.2019.1120",
+    "gun": "^0.2019.1228",
     "hdkey": "^1.1.1",
     "loadjs": "^3.6.1",
     "lodash": "^4.17.15",

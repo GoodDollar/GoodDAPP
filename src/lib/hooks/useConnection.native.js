@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import NetInfo from '@react-native-community/netinfo'
 
 export default () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const [isConnection, setIsConnection] = useState(true)
 
   NetInfo.fetch().then(({ isConnected }) => {
     setIsConnection(isConnected)

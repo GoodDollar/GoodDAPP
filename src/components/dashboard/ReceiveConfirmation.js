@@ -48,7 +48,6 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
 
     if (isMobileNative || navigator.share) {
       executeShare = Share.share
-      executeShare = navigator.share
     } else {
       executeShare = Clipboard.setString
     }

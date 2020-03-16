@@ -579,22 +579,14 @@ export class UserStorage {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
+
     logger.debug('init opened profile')
 
-    logger.debug('init feed')
-    await this.initFeed()
-    logger.debug('init Properties')
-
-    await this.initProperties()
-    logger.debug('init systemfeed')
-
-    await this.startSystemFeed()
-
     //save ref to user
-    this.gun
+    await this.gun
       .get('users')
       .get(this.gunuser.is.pub)
-      .put(this.gunuser)
+      .putAck(this.gunuser)
 
     logger.debug('GunDB logged in', {
       username: existingCreds.username,
@@ -612,6 +604,16 @@ export class UserStorage {
     this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
     this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
     this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
+
+    //for some reason doing init stuff before  causes gun to get stuck
+    //this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
+    logger.debug('init Properties + feed')
+
+    await Promise.all([this.initProperties(), this.initFeed()])
+
+    logger.debug('init systemfeed')
+
+    await this.startSystemFeed()
     return true
   }
 
@@ -875,9 +877,9 @@ export class UserStorage {
    */
   async initFeed() {
     this.feed = this.gunuser.get('feed')
-    this.feed.get('index').on(this.updateFeedIndex, false)
     await this.feed
     await this.feed.get('byid')
+    this.feed.get('index').on(this.updateFeedIndex, false)
   }
 
   async startSystemFeed() {

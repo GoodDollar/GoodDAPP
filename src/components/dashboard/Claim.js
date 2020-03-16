@@ -22,6 +22,7 @@ import Section from '../common/layout/Section'
 import AnimationsJumpingPeople from '../common/animations/JumpingPeople'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import ClaimAnimatedButton from '../common/animations/ClaimButton/ClaimButton'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -275,23 +276,20 @@ const Claim = props => {
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
           <AnimationsJumpingPeople isCitizen={isCitizen} />
-          {!isCitizen && (
+          {isCitizen && state.entitlement > 0 ? (
+            <ClaimAnimatedButton
+              amount={state.entitlement}
+              onPressClaim={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
+            />
+          ) : (
             <ClaimButton
-              isCitizen={true}
-              entitlement={0}
+              isCitizen={isCitizen}
+              entitlement={state.entitlement}
               nextClaim={state.nextClaim}
               loading={loading}
-              style={styles.countdown}
             />
           )}
           <View style={styles.space} />
-          <ClaimButton
-            isCitizen={isCitizen}
-            entitlement={state.entitlement}
-            nextClaim={state.nextClaim}
-            loading={loading}
-            onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
-          />
           <Section.Row style={styles.extraInfoStats}>
             <Text style={styles.extraInfoWrapper}>
               <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>

@@ -79,7 +79,7 @@ const Content = ({ handleCheckSurvey, styles }: any) => {
         <View style={styles.radioBtnBlock}>
           <RadioButton.Group onValueChange={checkSurvey} value={survey}>
             {surveyOptions.map((field, index) => (
-              <Section.Row justifyContent="left" key={index}>
+              <Section.Row justifyContent="flex-start" key={index}>
                 <RadioButton value={field} />
                 <Text>{field}</Text>
               </Section.Row>

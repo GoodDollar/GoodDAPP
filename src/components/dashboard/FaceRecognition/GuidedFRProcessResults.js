@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, View, Platform } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import findKey from 'lodash/findKey'
 import Text from '../../common/view/Text'
 
@@ -34,7 +34,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   const [processStatus, setStatus] = useState({
     isError: undefined,
     isStarted: undefined,
-    isNotDuplicate: undefined,
+    isDuplicate: undefined,
     isEnrolled: undefined,
     isLive: undefined,
     isWhitelisted: undefined,
@@ -56,7 +56,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
     // log.debug('analyzed data,', { processStatus })
 
-    // if (data && data.isNotDuplicate) {
+    // if (data && data.isDuplicate) {
     //   explanation = 'Your are already in the database'
     //   setText(explanation)
 
@@ -138,7 +138,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   // }, [isAPISuccess])
 
   const isProcessFailed =
-    processStatus.isNotDuplicate === false ||
+    processStatus.isDuplicate === true ||
     processStatus.isEnrolled === false ||
     processStatus.isLive === false ||
     processStatus.isWhitelisted === false ||
@@ -168,7 +168,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   //if (processStatus.useAPIResult && isAPISuccess === false) {
   if (processStatus.isError) {
     helpText = `Something went wrong, please try again...\n\n(${processStatus.isError})`
-  } else if (processStatus.isNotDuplicate === false) {
+  } else if (processStatus.isDuplicate === true) {
     helpText = (
       <View>
         <Text color="red">{'You look very familiar...\nIt seems you already have a wallet,\nyou can:\n\n'}</Text>
@@ -210,7 +210,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
             <FRStep
               title={'Checking duplicates'}
               isActive={true}
-              status={isProcessSuccess || processStatus.isNotDuplicate}
+              status={processStatus.isDuplicate !== undefined ? !processStatus.isDuplicate : undefined}
               isProcessFailed={isProcessFailed}
             />
             <FRStep
@@ -218,7 +218,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
               isActive={
                 isProcessFailed ||
                 isProcessSuccess ||
-                (processStatus.isNotDuplicate !== undefined && processStatus.isNotDuplicate === true)
+                (processStatus.isDuplicate !== undefined && processStatus.isDuplicate === false)
               }
               status={isProcessSuccess || processStatus.isLive}
               isProcessFailed={isProcessFailed}

@@ -94,7 +94,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       setLink(paymentLink)
     }
 
-    if (canShare) {
+    if (canShare()) {
       shareAction(paymentLink)
     } else {
       const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)

@@ -22,6 +22,7 @@ import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import ClaimAnimatedButton from '../common/animations/ClaimButton/ClaimButton'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -281,13 +282,19 @@ const Claim = props => {
             />
           )}
           <View style={styles.space} />
-          <ClaimButton
-            isCitizen={isCitizen}
-            entitlement={state.entitlement}
-            nextClaim={state.nextClaim}
-            loading={loading}
-            onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
-          />
+          {isCitizen && state.entitlement > 0 ? (
+            <ClaimAnimatedButton
+              amount={state.entitlement}
+              onPressClaim={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
+            />
+          ) : (
+            <ClaimButton
+              isCitizen={isCitizen}
+              entitlement={state.entitlement}
+              nextClaim={state.nextClaim}
+              loading={loading}
+            />
+          )}
           <Section.Row style={styles.extraInfoStats}>
             <Text style={styles.extraInfoWrapper}>
               <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>

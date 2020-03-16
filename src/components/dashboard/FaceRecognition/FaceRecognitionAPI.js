@@ -21,7 +21,6 @@ const log = logger.child({ from: 'FaceRecognitionAPI' })
 /**
  * Responsible to communicate with GoodServer and UserStorage on FaceRecognition related actions, and handle sucess / failure
  * * onFaceRecognitionFailure: Analyze the failure reason and returns a proper error message
- * * createFaceRecognitionReq - prepares the FR request for the server
  * * performFaceRecognition - calls the server API to perform FR process
  * * onFaceRecognitionResponse - Analyze the server result and call failure / success handler accordingly
  * * onFaceRecognitionSuccess - sets the enrollmentIdentifier (recivied from a successful FR process) on the user private storage
@@ -36,15 +35,6 @@ export const FaceRecognitionAPI = {
       log.error('General Error in FaceRecognition', e.message, e)
       return { ok: 0, error: 'Failed to perform face recognition on server' }
     }
-  },
-
-  createFaceRecognitionReq(data: CaptureResult) {
-    let req = new FormData()
-    req.append('sessionId', data.sessionId)
-    data.images.forEach(img => req.append('images', Buffer.from(img.base64, 'base64'), { contentType: 'image/jpeg' }))
-    let account = goodWallet.getAccountForType('zoomId')
-    req.append('enrollmentIdentifier', account)
-    return req
   },
 
   onFaceRecognitionResponse(result: FaceRecognitionResponse): FaceRecognitionAPIResponse {

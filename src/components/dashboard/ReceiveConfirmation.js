@@ -46,7 +46,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const shareAction = async () => {
     let executeShare
 
-    if (isMobileNative) {
+    if (isMobileNative || navigator.share) {
       executeShare = Share.share
     } else if (isMobileWeb && navigator.share) {
       executeShare = navigator.share

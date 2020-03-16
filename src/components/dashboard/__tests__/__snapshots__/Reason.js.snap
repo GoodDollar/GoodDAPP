@@ -284,6 +284,7 @@ exports[`Reason matches snapshot 1`] = `
               className="css-textinput-1cwyjr8 r-marginTop-1t01tom r-placeholderTextColor-1xktb6b r-position-bnwqim r-textAlign-q4m81j r-width-13qz1uu"
               data-focusable={true}
               dir="auto"
+              maxLength={256}
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}

@@ -16,7 +16,7 @@ const EventIcon = ({ onAnimationFinish, showAnim = true, type, theme, styles, st
 
 const getStylesFromProps = ({ theme }) => ({
   eventIcon: {
-    marginRight: 0,
+    marginRight: 1,
   },
 })
 

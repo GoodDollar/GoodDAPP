@@ -62,7 +62,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                   <BigGoodDollar
                     number={item.data.amount}
                     color={mainColor}
-                    bigNumberProps={{ fontSize: 22 }}
+                    bigNumberProps={{ fontSize: 24 }}
                     bigNumberStyles={styles.bigNumberStyles}
                     bigNumberUnitProps={{ fontSize: 12 }}
                   />
@@ -105,7 +105,7 @@ const FeedModalItem = (props: FeedEventProps) => {
 const getStylesFromProps = ({ theme }) => {
   return {
     dateAndAmount: {
-      alignItems: 'center',
+      alignItems: 'baseline',
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',

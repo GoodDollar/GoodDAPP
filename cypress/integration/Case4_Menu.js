@@ -26,12 +26,12 @@ describe('Test case 4: Check topbar items functionality', () => {
 
   it('Check "Invite" page', () => {
     HomePage.inviteTab.should('be.visible')
-    cy.wait(100) //whithout this "wait" cypress clicks on element when it is not attachecd to DOM yet
+    cy.contains('Andrew Second')
     HomePage.inviteTab.click()
     InvitePage.pageHeader.should('contain', 'REWARDS')
     InvitePage.iframe.should('be.visible')
     InvitePage.iframe
-      .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
+      .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 8500)))
       .then(iframe => {
         const body = iframe.contents().find('body')
 
@@ -45,7 +45,7 @@ describe('Test case 4: Check topbar items functionality', () => {
 
   it('Check "Support" page', () => {
     HomePage.supportTab.should('be.visible')
-    cy.wait(100) //whithout this "wait" cypress clicks on element when it is not attachecd to DOM yet
+    cy.contains('Andrew Second')
     HomePage.supportTab.click()
     SupportPage.pageHeader.should('contain', 'Feedback & Support')
     SupportPage.iframe.should('be.visible')
@@ -99,7 +99,7 @@ describe('Test case 4: Check topbar items functionality', () => {
 
   it('Check sending Magic Link', () => {
     HomePage.optionsButton.should('be.visible')
-    cy.wait(100) //whithout this "wait" cypress clicks on element when it is not attachecd to DOM yet
+    cy.contains('Andrew Second')
     HomePage.optionsButton.click()
     HomePage.options.eq(1).click()
     cy.get('span')

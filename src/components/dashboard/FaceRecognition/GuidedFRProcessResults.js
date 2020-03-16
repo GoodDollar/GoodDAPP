@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, View, Platform } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import findKey from 'lodash/findKey'
 import Text from '../../common/view/Text'
 
@@ -48,7 +48,11 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     let failedFR = findKey(data, (v, k) => v === false)
     if (data.isError) {
       fireEvent(`FR_Error`, { failedFR, error: data.isError })
-      log.error('FR Error', data.isError)
+      log.error('FR Error', 'An error occurred during gun sessionId updates', null, {
+        sessionId,
+        failedFR,
+        error: data.isError,
+      })
     } else if (failedFR) {
       fireEvent(`FR_Failed`, { failedFR })
     }
@@ -195,7 +199,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
       'B. Camera is at eye level\n' +
       'C. Light your face evenly'
   } else if (isProcessFailed) {
-    log.error('FR failed', processStatus)
+    log.error('FR failed', 'Some of the verification steps failed', null, { processStatus })
     helpText = 'Something went wrong, please try again...'
   }
   return (

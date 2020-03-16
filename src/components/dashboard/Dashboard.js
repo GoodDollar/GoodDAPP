@@ -512,7 +512,10 @@ const Dashboard = props => {
         handleFeedSelection={handleFeedSelection}
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed}
+        // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
+        // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
         onEndReachedThreshold={0.7}
+        // Determines the maximum number of items rendered outside of the visible area
         windowSize={7}
         updateData={() => {}}
         onScroll={debounce(({ nativeEvent }) => {

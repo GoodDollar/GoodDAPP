@@ -31,7 +31,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const [screenState] = useScreenState(screenProps)
   const { amount, code, reason, counterPartyDisplayName } = screenState
   const share = useMemo(() => {
-    if (canShare) {
+    if (canShare()) {
       return generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName)
     }
     return {

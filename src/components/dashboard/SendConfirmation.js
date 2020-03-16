@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { Platform, View } from 'react-native'
-import { isMobile } from 'mobile-device-detect'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
@@ -13,7 +12,6 @@ import AnimatedSendButton from '../common/animations/ShareLinkSendButton/ShareLi
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -24,22 +22,11 @@ export type ReceiveProps = {
 
 const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
-  const [showErrorDialog] = useErrorDialog()
 
   const { amount, reason, paymentLink } = screenState
 
   const shareAction = async () => {
-    if (isMobile && navigator.share) {
-      try {
-        await navigator.share(paymentLink)
-      } catch (e) {
-        if (e.name !== 'AbortError') {
-          showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
-        }
-      }
-    } else {
-      Clipboard.setString(paymentLink)
-    }
+    await Clipboard.setString(paymentLink)
   }
 
   return (

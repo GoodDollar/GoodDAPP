@@ -1,7 +1,7 @@
 // @flow
 import React, { useMemo } from 'react'
 import { Share } from 'react-native'
-import { isMobileNative, isMobileWeb } from '../../lib/utils/platform'
+import { isMobileNative } from '../../lib/utils/platform'
 import canShare from '../../lib/utils/canShare'
 import { fireEvent } from '../../lib/analytics/analytics'
 import Clipboard from '../../lib/utils/Clipboard'

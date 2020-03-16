@@ -135,7 +135,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   }
 
   const onProfileSaved = () => {
-    screenProps.push(`Dashboard`)
+    screenProps.goToRoot()
   }
 
   const handleAvatarPress = event => {

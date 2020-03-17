@@ -121,6 +121,17 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
         },
       },
       {
+        icon: 'statistics',
+        name: 'Statistics',
+        action: () => {
+          navigation.navigate({
+            routeName: 'Statistics',
+            type: 'Navigation/NAVIGATE',
+          })
+          hideSidemenu()
+        },
+      },
+      {
         icon: 'privacy',
         name: 'Profile Privacy',
         action: () => {

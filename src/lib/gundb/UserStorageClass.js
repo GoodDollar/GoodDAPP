@@ -22,6 +22,7 @@ import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
+import env from '../../config/env'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -1629,7 +1630,7 @@ export class UserStorage {
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+    const favicon = `${env.PUBLIC_URL}/favicon-96x96.png`
     const profileFromGun = () =>
       profileToShow &&
       profileToShow

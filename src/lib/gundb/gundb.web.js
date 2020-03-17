@@ -7,12 +7,14 @@ import 'gun/sea'
 import './gundb-extend'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
+import env from '../../config/env'
+
 // eslint-disable-next-line no-unused-vars
 
 const initGunDB = () => {
   let gun
   if (!global.gun) {
-    if (process.env.NODE_ENV === 'test') {
+    if (env.NODE_ENV === 'test') {
       gun = Gun()
     } else {
       gun = Gun({

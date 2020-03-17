@@ -1,19 +1,12 @@
 import React from 'react'
-import { Image, ImageBackground, StyleSheet } from 'react-native'
-import splashImage from '../../assets/Splash/logo.svg'
-import goodDollarImage from '../../assets/Splash/goodDollar.svg'
+import { ImageBackground, StyleSheet } from 'react-native'
+import AnimationsLogo from '../common/animations/Logo'
 import wavePattern from '../../assets/splashWaves.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
-//minimize delay <Image> has over web <img>
-Image.prefetch(splashImage)
-Image.prefetch(goodDollarImage)
-Image.prefetch(wavePattern)
-
-const Splash = () => (
+const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <ImageBackground
@@ -23,8 +16,7 @@ const Splash = () => (
         resizeMode="repeat"
       >
         <Section.Stack style={styles.content} grow justifyContent="center">
-          <Image source={splashImage} style={styles.logo} resizeMode="contain" />
-          <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
+          <AnimationsLogo animation={animation} />
           <Section.Text fontSize={22} color="darkBlue">
             {`V${Config.version}`}
           </Section.Text>
@@ -61,18 +53,6 @@ const styles = StyleSheet.create({
   content: {
     transform: [{ rotateY: '180deg' }],
     marginVertical: '10vh',
-  },
-  logo: {
-    maxWidth: '100%',
-    minHeight: 135,
-    minWidth: 135,
-    marginBottom: getDesignRelativeHeight(64),
-  },
-  goodDollar: {
-    maxWidth: '100%',
-    minHeight: 30,
-    minWidth: 212,
-    marginBottom: getDesignRelativeHeight(22),
   },
 })
 

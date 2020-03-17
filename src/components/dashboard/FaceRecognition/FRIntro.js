@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
 import GDStore from '../../../lib/undux/GDStore'
 import Separator from '../../common/layout/Separator'
@@ -10,9 +10,7 @@ import { fireEvent } from '../../../lib/analytics/analytics'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
-import illustration from '../../../assets/FaceRecognition/illustration.svg'
-
-Image.prefetch(illustration)
+import FaceVerificationSmiley from '../../common/animations/FaceVerificationSmiley'
 
 const log = logger.child({ from: 'FRIntro' })
 const FRIntro = props => {
@@ -41,7 +39,7 @@ const FRIntro = props => {
           <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
             {`${getFirstWord(fullName)},\nLet's make sure you are a real live person`}
           </Section.Title>
-          <Image source={illustration} resizeMode="contain" style={styles.illustration} />
+          <FaceVerificationSmiley />
           <Separator width={2} />
           <Text style={styles.descriptionContainer}>
             <Text fontWeight="bold" color="primary" style={styles.description}>

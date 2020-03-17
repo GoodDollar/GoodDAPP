@@ -85,41 +85,9 @@ exports[`Splash matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "backgroundImage": "url(wave50.svg)",
-            "backgroundRepeat": "repeat-y",
-            "backgroundSize": "cover",
             "height": "100%",
-            "opacity": 0.2,
             "position": "absolute",
             "width": "100%",
-          }
-        }
-      />
-      <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "stretch",
-            "WebkitBoxAlign": "stretch",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 1,
-            "WebkitBoxOrient": "vertical",
-            "WebkitBoxPack": "center",
-            "WebkitFlexDirection": "column",
-            "WebkitFlexGrow": 1,
-            "WebkitJustifyContent": "center",
-            "WebkitTransform": "rotateY(180deg)",
-            "alignItems": "stretch",
-            "flexDirection": "column",
-            "flexGrow": 1,
-            "justifyContent": "center",
-            "marginBottom": "10vh",
-            "marginTop": "10vh",
-            "msFlexAlign": "stretch",
-            "msFlexDirection": "column",
-            "msFlexPack": "center",
-            "msFlexPositive": 1,
-            "transform": "rotateY(180deg)",
           }
         }
       >
@@ -127,28 +95,103 @@ exports[`Splash matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitFlexBasis": "auto",
+              "bottom": "0px",
+              "flexBasis": "auto",
+              "height": "100%",
+              "left": "0px",
+              "msFlexPreferredSize": "auto",
+              "opacity": 0.1,
+              "overflowX": "hidden",
+              "overflowY": "hidden",
+              "position": "absolute",
+              "right": "0px",
+              "top": "0px",
               "width": "100%",
-            }
-          }
-        />
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(12,38,61,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "22px",
-              "fontWeight": "normal",
-              "lineHeight": "30px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
+              "zIndex": -1,
             }
           }
         >
-          Vv0
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "backgroundImage": "url(\\"splashWaves.svg\\")",
+                "backgroundPosition": "0 0",
+                "backgroundRepeat": "repeat",
+                "backgroundSize": "auto",
+                "bottom": "0px",
+                "height": "100%",
+                "left": "0px",
+                "position": "absolute",
+                "right": "0px",
+                "top": "0px",
+                "width": "100%",
+                "zIndex": -1,
+              }
+            }
+          />
+          <img
+            alt=""
+            className="css-accessibilityImage-9pa8cd"
+            draggable={false}
+            src="splashWaves.svg"
+          />
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxFlex": 1,
+              "WebkitBoxOrient": "vertical",
+              "WebkitBoxPack": "center",
+              "WebkitFlexDirection": "column",
+              "WebkitFlexGrow": 1,
+              "WebkitJustifyContent": "center",
+              "WebkitTransform": "rotateY(180deg)",
+              "alignItems": "stretch",
+              "flexDirection": "column",
+              "flexGrow": 1,
+              "justifyContent": "center",
+              "msFlexAlign": "stretch",
+              "msFlexDirection": "column",
+              "msFlexPack": "center",
+              "msFlexPositive": 1,
+              "transform": "rotateY(180deg)",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "width": "100%",
+              }
+            }
+          />
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(12,38,61,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "22px",
+                "fontWeight": "normal",
+                "lineHeight": "30px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            Vv0
+          </div>
         </div>
       </div>
     </div>

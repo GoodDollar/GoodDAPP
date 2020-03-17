@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   wavesImage: {
-    opacity: 0.2,
+    opacity: 0.1,
   },
   content: {
     transform: [{ rotateY: '180deg' }],

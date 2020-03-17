@@ -8,6 +8,7 @@ import {
 import isWebApp from './isWebApp'
 import isTablet from './isTablet'
 
+export const isMobileReactNative = Platform.OS !== 'web'
 export { isMobileSafari, isBrowser } from 'mobile-device-detect'
 
 export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb }

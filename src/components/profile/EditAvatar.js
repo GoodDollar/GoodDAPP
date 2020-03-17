@@ -31,7 +31,6 @@ const EditAvatar = ({ screenProps, theme }) => {
     })
 
     setSaving(false)
-    screenProps.pop()
   }
 
   const handleAvatarChange = avatar => {

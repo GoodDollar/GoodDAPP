@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -197,7 +198,7 @@ dependencies {
     // Add v8-android - prebuilt libv8android.so into APK
     implementation 'org.chromium:v8-android:+'
     implementation "androidx.annotation:annotation:1.1.0"
-    androidTestImplementation('com.wix:detox:+') { transitive = true } 
+    androidTestImplementation('com.wix:detox:+') { transitive = true }
     androidTestImplementation 'junit:junit:4.12'
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, ImageBackground, StyleSheet } from 'react-native'
 import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
-import wavePattern from '../../assets/wave50.svg'
+import wavePattern from '../../assets/splashWaves.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
@@ -16,14 +16,20 @@ Image.prefetch(wavePattern)
 const Splash = () => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
-      <View style={styles.backgroundWaves} />
-      <Section.Stack style={styles.content} grow justifyContent="center">
-        <Image source={splashImage} style={styles.logo} resizeMode="contain" />
-        <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
-        <Section.Text fontSize={22} color="darkBlue">
-          {`V${Config.version}`}
-        </Section.Text>
-      </Section.Stack>
+      <ImageBackground
+        source={wavePattern}
+        imageStyle={styles.waves}
+        style={styles.backgroundWaves}
+        resizeMode="repeat"
+      >
+        <Section.Stack style={styles.content} grow justifyContent="center">
+          <Image source={splashImage} style={styles.logo} resizeMode="contain" />
+          <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
+          <Section.Text fontSize={22} color="darkBlue">
+            {`V${Config.version}`}
+          </Section.Text>
+        </Section.Stack>
+      </ImageBackground>
     </Section>
   </Wrapper>
 )
@@ -48,9 +54,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundImage: `url(${wavePattern})`,
-    backgroundRepeat: 'repeat-y',
-    backgroundSize: 'cover',
+  },
+  waves: {
     opacity: 0.2,
   },
   content: {

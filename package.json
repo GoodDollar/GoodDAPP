@@ -271,8 +271,8 @@
   "detox": {
     "configurations": {
       "ios.sim.debug": {
-        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/GoodDollar.app",
-        "build": "xcodebuild -workspace ios/GoodDollar.xcworkspace -scheme GoodDollar -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/GoodDollar.app",
+        "build": "xcodebuild -workspace ios/GoodDollar.xcworkspace -scheme GoodDollar -configuration Release -sdk iphonesimulator -derivedDataPath ios/build",
         "type": "ios.simulator",
         "device": {
           "type": "iPhone 11"

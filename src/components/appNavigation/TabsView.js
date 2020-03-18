@@ -120,33 +120,79 @@ const TabsView = React.memo((props: TabViewProps) => {
     }
   }
 
-  return (
-    <Appbar.Header dark>
-      {config.isEToro && (
-        <TouchableOpacity testID="rewards_tab" onPress={goToRewards} style={styles.rewardsStyle}>
-          <Icon name="rewards" size={36} color="white" />
-        </TouchableOpacity>
-      )}
-      <Appbar.Content />
-      <TouchableOpacity onPress={goToRewards}>
-        <Icon name="invite2" size={36} color="white" testID="invite_tab" />
-      </TouchableOpacity>
-      <Appbar.Content />
-      {config.market && (
-        <TouchableOpacity testID="goodmarket_tab" onPress={goToMarketplace} style={styles.marketIconBackground}>
-          <Icon name="goodmarket" size={36} color="white" />
-        </TouchableOpacity>
-      )}
-      <Appbar.Content />
-      <TouchableOpacity onPress={goToSupport} style={styles.feedback}>
+  // default header buttons
+  const headerButtons = [
+    <Appbar.Content key="header-button-0" />,
+    <TouchableOpacity onPress={toggleMenu} key="header-button-1">
+      <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
+    </TouchableOpacity>,
+  ]
+
+  if (!config.isEToro && !config.market) {
+    // etoro and market is off
+    headerButtons.unshift(
+      <TouchableOpacity key="header-button-2" onPress={goToSupport} style={styles.marginLeft10}>
         <Icon name="support2" size={36} color="white" testID="support_tab" />
       </TouchableOpacity>
-      <Appbar.Content />
-      <TouchableOpacity onPress={toggleMenu}>
-        <Icon name="settings" size={20} color="white" style={styles.menuStyle} testID="burger_button" />
+    )
+  } else if (!config.isEToro && config.market) {
+    // only market is on
+    headerButtons.unshift(
+      <TouchableOpacity key="header-button-2" onPress={goToSupport} style={styles.marginLeft10}>
+        <Icon name="support2" size={36} color="white" testID="support_tab" />
+      </TouchableOpacity>,
+      <Appbar.Content key="header-button-3" />,
+      <TouchableOpacity
+        key="header-button-4"
+        testID="goodmarket_tab"
+        onPress={goToMarketplace}
+        style={[styles.marketIconBackground, styles.marginRight10]}
+      >
+        <Icon name="goodmarket" size={36} color="white" />
       </TouchableOpacity>
-    </Appbar.Header>
-  )
+    )
+  } else if (config.isEToro && !config.market) {
+    // only etoro is on
+    headerButtons.unshift(
+      <TouchableOpacity key="header-button-2" testID="rewards_tab" onPress={goToRewards} style={styles.marginLeft10}>
+        <Icon name="rewards" size={36} color="white" />
+      </TouchableOpacity>,
+      <Appbar.Content key="header-button-3" />,
+      <TouchableOpacity onPress={goToRewards}>
+        <Icon name="invite2" size={36} color="white" testID="invite_tab" />
+      </TouchableOpacity>,
+      <Appbar.Content key="header-button-4" />,
+      <TouchableOpacity key="header-button-5" onPress={goToSupport} style={styles.feedback}>
+        <Icon name="support2" size={36} color="white" testID="support_tab" />
+      </TouchableOpacity>
+    )
+  } else {
+    // etoro and market is on
+    headerButtons.unshift(
+      <TouchableOpacity key="header-button-2" testID="rewards_tab" onPress={goToRewards} style={styles.marginLeft10}>
+        <Icon name="rewards" size={36} color="white" />
+      </TouchableOpacity>,
+      <Appbar.Content key="header-button-3" />,
+      <TouchableOpacity onPress={goToRewards}>
+        <Icon name="invite2" size={36} color="white" testID="invite_tab" />
+      </TouchableOpacity>,
+      <Appbar.Content key="header-button-4" />,
+      <TouchableOpacity
+        key="header-button-5"
+        testID="goodmarket_tab"
+        onPress={goToMarketplace}
+        style={styles.marketIconBackground}
+      >
+        <Icon name="goodmarket" size={36} color="white" />
+      </TouchableOpacity>,
+      <Appbar.Content key="header-button-6" />,
+      <TouchableOpacity key="header-button-6" onPress={goToSupport} style={styles.feedback}>
+        <Icon name="support2" size={36} color="white" testID="support_tab" />
+      </TouchableOpacity>
+    )
+  }
+
+  return <Appbar.Header dark>{headerButtons}</Appbar.Header>
 })
 
 const styles = ({ theme }) => ({
@@ -162,10 +208,10 @@ const styles = ({ theme }) => ({
   feedback: {
     marginRight: 5,
   },
-  rewardsStyle: {
+  marginLeft10: {
     marginLeft: 10,
   },
-  menuStyle: {
+  marginRight10: {
     marginRight: 10,
   },
 })

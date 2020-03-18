@@ -13,10 +13,10 @@ class Error extends React.Component {
         source={animationData}
         autoSize={false}
         style={{
+          flex: 1,
           width: 200,
+          paddingVertical: 20,
           marginHorizontal: 'auto',
-          paddingTop: 20,
-          paddingBottom: 20,
         }}
         loop={false}
       />

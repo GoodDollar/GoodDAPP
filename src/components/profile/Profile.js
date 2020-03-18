@@ -29,9 +29,15 @@ const ProfileWrapper = props => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row justifyContent="space-between" alignItems="flex-start">
-          <CircleButtonWrapper iconName={'privacy'} iconSize={23} onPress={() => screenProps.push('ProfilePrivacy')} />
+          <CircleButtonWrapper
+            label={'Privacy'}
+            iconName={'privacy'}
+            iconSize={23}
+            onPress={() => screenProps.push('ProfilePrivacy')}
+          />
           <UserAvatar profile={profile} onPress={handleAvatarPress} />
           <CircleButtonWrapper
+            label={'Edit'}
             iconName={'edit'}
             iconSize={25}
             onPress={() => screenProps.push('EditProfile')}

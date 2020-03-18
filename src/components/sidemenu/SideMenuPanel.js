@@ -121,20 +121,6 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
         },
       },
       {
-        icon: 'privacy',
-        name: 'Profile Privacy',
-        action: () => {
-          navigation.navigate({
-            routeName: 'ProfilePrivacy',
-            type: 'Navigation/NAVIGATE',
-            params: {
-              backPage: 'Dashboard',
-            },
-          })
-          hideSidemenu()
-        },
-      },
-      {
         icon: 'faq',
         name: 'FAQ',
         action: () => {

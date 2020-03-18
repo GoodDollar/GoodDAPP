@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, UserAvatar, Wrapper } from '../common'
@@ -25,22 +25,21 @@ const ProfileWrapper = props => {
     screenProps.push(`ViewAvatar`)
   }
 
+  const handlePrivacyPress = useCallback(() => screenProps.push(`ProfilePrivacy`), [screenProps])
+
+  const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
+
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row justifyContent="space-between" alignItems="flex-start">
-          <CircleButtonWrapper
-            label={'Privacy'}
-            iconName={'privacy'}
-            iconSize={23}
-            onPress={() => screenProps.push('ProfilePrivacy')}
-          />
+          <CircleButtonWrapper label={'Privacy'} iconName={'privacy'} iconSize={23} onPress={handlePrivacyPress} />
           <UserAvatar profile={profile} onPress={handleAvatarPress} />
           <CircleButtonWrapper
             label={'Edit'}
             iconName={'edit'}
             iconSize={25}
-            onPress={() => screenProps.push('EditProfile')}
+            onPress={handleEditProfilePress}
             style={[styles.iconRight]}
           />
         </Section.Row>

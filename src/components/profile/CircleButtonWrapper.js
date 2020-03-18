@@ -17,7 +17,7 @@ const CircleButtonWrapper = props => {
         <Icon color={iconColor} size={iconSize} name={iconName} />
       </TouchableOpacity>
       {label && (
-        <Text fontSize={10} fontWeight="500" lineHeight={11} style={labelStyles}>
+        <Text fontSize={10} fontWeight="500" lineHeight={11} style={[styles.label, labelStyles]}>
           {label}
         </Text>
       )}
@@ -38,7 +38,9 @@ const getStylesFromProps = ({ theme }) => ({
     height: 42,
     justifyContent: 'center',
     width: 42,
-    marginBottom: 3,
+  },
+  label: {
+    marginTop: 3,
   },
 })
 

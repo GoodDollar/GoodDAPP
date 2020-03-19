@@ -35,8 +35,11 @@ export type AvatarProps = {
  */
 const UserAvatar = (props: AvatarProps) => {
   const { profile, children, styles, containerStyle } = props
+  let avatarSize = props.avatarSize
 
-  const avatarSize = getDesignRelativeWidth(AVATAR_DESIGN_WIDTH)
+  if (!avatarSize) {
+    avatarSize = getDesignRelativeWidth(AVATAR_DESIGN_WIDTH)
+  }
 
   return (
     <View style={styles.avatar}>

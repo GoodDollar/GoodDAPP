@@ -4,6 +4,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -14,6 +15,8 @@ import VerifyEdit from './VerifyEdit'
 import VerifyEditCode from './VerifyEditCode'
 
 const TITLE = 'Profile'
+
+const avatarSize = getDesignRelativeWidth(136)
 
 const ProfileWrapper = props => {
   const store = GDStore.useStore()
@@ -27,17 +30,31 @@ const ProfileWrapper = props => {
 
   return (
     <Wrapper>
+      <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.avatarAndButtonsRow}>
+        <CircleButtonWrapper
+          label={'Privacy'}
+          iconName={'privacy'}
+          iconSize={23}
+          onPress={() => screenProps.push('ProfilePrivacy')}
+          containerStyle={styles.iconLeft}
+        />
+        <UserAvatar
+          containerStyle={styles.userAvatarWrapper}
+          style={styles.userAvatar}
+          profile={profile}
+          onPress={handleAvatarPress}
+          avatarSize={avatarSize}
+        />
+        <CircleButtonWrapper
+          label={'Edit'}
+          iconName={'edit'}
+          iconSize={25}
+          onPress={() => screenProps.push('EditProfile')}
+          style={styles.iconRightContainer}
+          containerStyle={styles.iconRight}
+        />
+      </Section.Row>
       <Section style={styles.section}>
-        <Section.Row justifyContent="space-between" alignItems="flex-start">
-          <CircleButtonWrapper iconName={'privacy'} iconSize={23} onPress={() => screenProps.push('ProfilePrivacy')} />
-          <UserAvatar profile={profile} onPress={handleAvatarPress} />
-          <CircleButtonWrapper
-            iconName={'edit'}
-            iconSize={25}
-            onPress={() => screenProps.push('EditProfile')}
-            style={[styles.iconRight]}
-          />
-        </Section.Row>
         <ProfileDataTable profile={profile} />
       </Section>
     </Wrapper>
@@ -53,8 +70,33 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     padding: theme.sizes.defaultDouble,
   },
-  iconRight: {
+  iconRightContainer: {
     transform: [{ rotateY: '180deg' }],
+  },
+  iconLeft: {
+    position: 'absolute',
+    left: getDesignRelativeWidth(20),
+  },
+  iconRight: {
+    position: 'absolute',
+    right: getDesignRelativeWidth(20),
+  },
+  userAvatarWrapper: {
+    borderColor: theme.colors.white,
+    borderWidth: 3,
+    borderStyle: 'solid',
+    borderRadius: '50%',
+    position: 'absolute',
+  },
+  userAvatar: {
+    borderWidth: 0,
+  },
+  avatarAndButtonsRow: {
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'relative',
+    zIndex: 1,
+    height: avatarSize / 2,
   },
 })
 

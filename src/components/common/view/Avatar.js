@@ -5,14 +5,6 @@ import { Avatar } from 'react-native-paper'
 import unknownProfile from '../../../assets/unknownProfile.svg'
 import { withStyles } from '../../../lib/styles'
 
-export type AvatarProps = {
-  onPress?: () => {},
-  size?: number,
-  source?: string,
-  style?: {},
-  styles?: any,
-}
-
 /**
  * Touchable Avatar
  * @param {Props} props
@@ -22,27 +14,23 @@ export type AvatarProps = {
  * @param {Number} [props.size=34]
  * @returns {React.Node}
  */
-const CustomAvatar = (props: AvatarProps) => {
-  const { styles, style, source, onPress, size, ...restProps } = props
-
-  return (
-    <TouchableOpacity
-      activeOpacity={0.5}
-      disabled={!onPress}
-      onPress={onPress}
-      style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
-      underlayColor="#fff"
-    >
-      <Avatar.Image
-        size={size - 2}
-        source={{ uri: source || unknownProfile }}
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
-        {...restProps}
-      />
-      {props.children}
-    </TouchableOpacity>
-  )
-}
+const CustomAvatar = ({ styles, style, source, onPress, size, children, ...restProps }) => (
+  <TouchableOpacity
+    activeOpacity={0.5}
+    disabled={!onPress}
+    onPress={onPress}
+    style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
+    underlayColor="#fff"
+  >
+    <Avatar.Image
+      size={size - 2}
+      source={{ uri: source || unknownProfile }}
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
+      {...restProps}
+    />
+    {children}
+  </TouchableOpacity>
+)
 
 CustomAvatar.defaultProps = {
   size: 42,

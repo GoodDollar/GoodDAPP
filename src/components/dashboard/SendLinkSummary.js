@@ -135,7 +135,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               amount,
               paymentLink: generateLinkResponse.paymentLink,
               code: generateLinkResponse.code,
-              phoneNumber,
+              phoneNumber: phoneNumber,
             },
           }
 

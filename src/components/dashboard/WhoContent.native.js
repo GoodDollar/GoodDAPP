@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { FlatList, PermissionsAndroid } from 'react-native'
 import Contacts from 'react-native-contacts'
-import { orderBy, uniq } from 'lodash'
+import { get, orderBy, uniq } from 'lodash'
 import { isAndroid } from '../../lib/utils/platform'
 import { Section } from '../common'
 import Separator from '../common/layout/Separator'
@@ -15,7 +15,7 @@ import FeedContactItem from './FeedContactItem'
 const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state, showNext }) => {
   const [contacts, setContacts] = React.useState([])
   const [initialList, setInitalList] = React.useState(contacts)
-  const [recentlyUsed, setRecentlyUsed] = React.useState([])
+  const [recentFeedItems, setRecentFeedItems] = React.useState([])
   const [recentlyUsedList, setRecentlyUsedList] = React.useState([])
 
   const getAllContacts = () => {
@@ -30,16 +30,18 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
     })
   }
 
-  const selectContact = async (name, phone) => {
-    await setName(name)
-    await setPhone(phone)
-    return next()
+  const selectContact = (name, phone) => {
+    setName(name)
+    setPhone(phone)
+    setTimeout(() => {
+      return next()
+    }, 100)
   }
 
   const getUserFeed = async () => {
     const userFeed = await userStorage.getAllFeed()
     const recent = userFeed.filter(({ type }) => type === 'send' || type === 'receive')
-    setRecentlyUsed(recent)
+    setRecentFeedItems(recent)
   }
 
   const showPermissionsAndroid = () => {
@@ -74,16 +76,14 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
     if (query && !query.includes('+') && !query.includes('*')) {
       if (typeof queryIsNumber === 'number' && !isNaN(queryIsNumber)) {
         return setContacts(
-          initialList.filter(({ phoneNumbers }) =>
-            new RegExp(`^(.*(${query}).*)$`, 'gmi').test(phoneNumbers[0] && phoneNumbers[0].number)
-          )
+          initialList.filter(({ phoneNumbers }) => get(phoneNumbers, '[0].number', '').indexOf(query) >= 0)
         )
       }
       if (typeof query === 'string') {
         return setContacts(
           initialList.filter(({ givenName, familyName }) => {
-            const fullName = `${givenName} ${familyName}`
-            return new RegExp(`^(.*(${query}).*)$`, 'gmi').test(fullName)
+            const fullName = `${givenName} ${familyName}`.toLocaleLowerCase()
+            return fullName.indexOf(query.toLocaleLowerCase()) >= 0
           })
         )
       }
@@ -102,14 +102,16 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
 
   useEffect(() => {
     findRecentlyUsed()
-  }, [contacts, recentlyUsed])
+  }, [contacts, recentFeedItems])
 
   const findRecentlyUsed = () => {
     let matches = []
-    if (recentlyUsed.length > 0 && contacts.length > 0) {
-      recentlyUsed.forEach(contact => {
+    if (recentFeedItems.length > 0 && contacts.length > 0) {
+      recentFeedItems.forEach(feedItem => {
         matches.push(
-          contacts.filter(item => item.phoneNumbers[0] && contact.data.phoneNumber === item.phoneNumbers[0].number)
+          contacts.filter(
+            contact => contact.phoneNumbers[0] && feedItem.data.phoneNumber === contact.phoneNumbers[0].number
+          )
         )
       })
     }

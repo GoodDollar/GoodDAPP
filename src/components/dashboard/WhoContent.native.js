@@ -30,12 +30,10 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
     })
   }
 
-  const selectContact = (name, phone) => {
-    setName(name)
-    setPhone(phone)
-    setTimeout(() => {
-      return next()
-    }, 100)
+  const selectContact = async (name, phone) => {
+    await setName(name)
+    await setPhone(phone)
+    return setTimeout(next)
   }
 
   const getUserFeed = async () => {

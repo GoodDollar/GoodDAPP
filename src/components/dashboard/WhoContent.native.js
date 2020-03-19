@@ -154,21 +154,23 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
           </Section.Row>
         </>
       )}
-      <Section.Row justifyContent="space-between">
-        <Section.Title fontWeight="medium" style={styles.sectionTitle}>
-          {'Choose a Contact'}
-        </Section.Title>
-        <Section.Separator style={styles.separator} width={1} />
-      </Section.Row>
-      <Section.Stack style={styles.bottomSpace}>
-        {contacts.length > 0 && (
-          <FlatList
-            data={contacts}
-            renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={selectContact} />}
-            ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
-          />
-        )}
-      </Section.Stack>
+      {contacts.length > 0 && (
+        <>
+          <Section.Row justifyContent="space-between">
+            <Section.Title fontWeight="medium" style={styles.sectionTitle}>
+              {'Choose a Contact'}
+            </Section.Title>
+            <Section.Separator style={styles.separator} width={1} />
+          </Section.Row>
+          <Section.Stack style={styles.bottomSpace}>
+            <FlatList
+              data={contacts}
+              renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={selectContact} />}
+              ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
+            />
+          </Section.Stack>
+        </>
+      )}
     </>
   )
 }

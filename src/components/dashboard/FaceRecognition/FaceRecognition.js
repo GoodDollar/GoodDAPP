@@ -22,7 +22,6 @@ type State = {
   loadingText: string,
   facemap: Blob,
   zoomReady: boolean,
-  captureResult: ZoomCaptureResult,
   isWhitelisted: boolean | void,
   showHelper: boolean,
 }
@@ -43,7 +42,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
     zoomReady: false,
-    captureResult: {},
     isWhitelisted: undefined,
     showHelper: get(this.props, 'screenProps.screenState.showHelper', true),
   }
@@ -101,7 +99,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.setState({
       showGuidedFR: false,
       sessionId: undefined,
-      dhowCamera: true,
+      showCamera: true,
       isAPISuccess: undefined,
       showHelper: true,
     })

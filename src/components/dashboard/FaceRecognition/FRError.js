@@ -28,8 +28,6 @@ const FRError = ({ styles, screenProps }) => {
     }
   }
 
-  log.debug({ styles, screenProps, reason })
-
   //is the error mesage something we want to show to the user? currently only camera related
   const isRelevantError = reason.match(/camera/i) || reason === 'Permission denied'
   let error = isRelevantError
@@ -54,7 +52,10 @@ const FRError = ({ styles, screenProps }) => {
     screenProps.navigateTo('FaceVerification', { showHelper: true })
   }, [screenProps])
 
-  log.debug(screenProps)
+  useEffect(() => {
+    log.debug({ styles, screenProps, reason })
+  }, [styles, screenProps])
+
   return (
     <Wrapper>
       <View style={styles.topContainer}>

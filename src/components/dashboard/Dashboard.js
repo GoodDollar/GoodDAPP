@@ -74,7 +74,7 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
-import FaceRecognition from './FaceRecognition/FaceRecognition'
+import FaceVerification from './FaceRecognition/FaceRecognition'
 import FRIntro from './FaceRecognition/FRIntro'
 import FRError from './FaceRecognition/FRError'
 import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
@@ -787,7 +787,7 @@ export default createStackNavigator({
   ReceiveByQR,
 
   FRError,
-  FaceVerification: FaceRecognition,
+  FaceVerification,
   FRIntro,
   UnsupportedDevice,
   SendQRSummary,

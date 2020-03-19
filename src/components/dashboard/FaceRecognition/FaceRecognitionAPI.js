@@ -1,7 +1,6 @@
 // @flow
 import API from '../../../lib/API/api'
 import logger from '../../../lib/logger/pino-logger'
-import goodWallet from '../../../lib/wallet/GoodWallet'
 
 type FaceRecognitionResponse = {
   ok: boolean,
@@ -30,44 +29,43 @@ export const FaceRecognitionAPI = {
     log.info('performFaceRecognition', { sessionId: data.sessionId, imageCount: data.images.length })
     try {
       let res = await API.performFaceRecognition(data)
-      return this.onFaceRecognitionResponse(res.data)
+      return onFaceRecognitionResponse(res.data)
     } catch (e) {
       log.error('General Error in FaceRecognition', e.message, e)
       return { ok: 0, error: 'Failed to perform face recognition on server' }
     }
   },
+}
+const onFaceRecognitionResponse = (result: FaceRecognitionResponse): FaceRecognitionAPIResponse => {
+  log.info({ result })
+  if (!result || !result.ok) {
+    return onFaceRecognitionFailure(result)
+  } else if (result.ok) {
+    return onFaceRecognitionSuccess(result)
+  }
 
-  onFaceRecognitionResponse(result: FaceRecognitionResponse): FaceRecognitionAPIResponse {
-    log.info({ result })
-    if (!result || !result.ok) {
-      return this.onFaceRecognitionFailure(result)
-    } else if (result.ok) {
-      return this.onFaceRecognitionSuccess(result)
-    }
+  log.error('unknown error', { result }) // TODO: handle general error
+  onFaceRecognitionFailure(result)
 
-    log.error('unknown error', { result }) // TODO: handle general error
-    this.onFaceRecognitionFailure(result)
+  return { ok: 0, error: 'General Error' }
+}
 
-    return { ok: 0, error: 'General Error' }
-  },
+const onFaceRecognitionSuccess = (res: FaceRecognitionResponse) => {
+  log.info('Face Recognition finished successfull', { res })
+  return { ok: 1, ...res }
+}
 
-  onFaceRecognitionSuccess(res: FaceRecognitionResponse) {
-    log.info('Face Recognition finished successfull', { res })
-    return { ok: 1, ...res }
-  },
+const onFaceRecognitionFailure = (result: FaceRecognitionResponse) => {
+  log.warn('user did not pass Face Recognition', result)
+  let reason = ''
+  if (!result) {
+    reason = 'General Error'
+  } else if (result.error) {
+    reason = result.error
+  }
 
-  onFaceRecognitionFailure(result: FaceRecognitionResponse) {
-    log.warn('user did not pass Face Recognition', result)
-    let reason = ''
-    if (!result) {
-      reason = 'General Error'
-    } else if (result.error) {
-      reason = result.error
-    }
-
-    //TODO: Rami - should i handle this error as well, or is it on Liav's verification screen
-    return { ok: 0, error: reason }
-  },
+  //TODO: Rami - should i handle this error as well, or is it on Liav's verification screen
+  return { ok: 0, error: reason }
 }
 
 export default FaceRecognitionAPI

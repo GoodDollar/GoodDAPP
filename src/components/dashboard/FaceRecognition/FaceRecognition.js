@@ -1,6 +1,7 @@
 // @flow
-import React, { createRef } from 'react'
+import React from 'react'
 import get from 'lodash/get'
+import { v4 as uuidv4 } from 'uuid'
 import { FaceCapture } from '@gooddollar/react-native-web-facecapture'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
@@ -48,37 +49,26 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     showHelper: get(this.props, 'screenProps.screenState.showHelper', true),
   }
 
-  loadedZoom: any
-
   timeout: TimeoutID
-
-  containerRef = createRef()
 
   width = 720
 
   height = 0
 
-  uuidv4() {
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-      (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
-    )
-  }
-
-  onCaptureResult = (face, camera, images): void => {
-    log.debug('capture completed', { face, imageCount: images.length })
+  onCaptureResult = (face, images): void => {
     fireEvent('FR_Capture')
     if (images === undefined || images.length === 0) {
       log.error('empty capture result')
       this.showFRError('empty capture result')
     } else {
-      this.startFRProcessOnServer(images)
+      this.startFRProcessOnServer(face)
     }
   }
 
-  startFRProcessOnServer = async images => {
+  async startFRProcessOnServer(images) {
     try {
       log.debug('Sending capture result to server')
-      const sessionId = this.uuidv4()
+      const sessionId = uuidv4()
       this.setState({
         showCamera: false,
         showGuidedFR: true,
@@ -139,14 +129,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         )}
 
         {showCamera && (
-          <FaceCapture
-            pictureOptions={{
-              width: 1080,
-            }}
-            onFaces={this.onCaptureResult}
-            onError={this.showFRError}
-            showHelper={this.state.showHelper}
-          />
+          <FaceCapture onFaces={this.onCaptureResult} onError={this.showFRError} showHelper={this.state.showHelper} />
         )}
       </Wrapper>
     )

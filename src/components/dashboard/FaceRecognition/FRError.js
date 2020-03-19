@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { Image, Platform, View } from 'react-native'
-import get from 'lodash/get'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'
@@ -17,14 +16,10 @@ if (Platform.OS === 'web') {
   Image.prefetch(Oops)
 }
 
-const FRError = props => {
-  const { styles } = props
-  const store = GDStore.useStore()
-  const { fullName } = store.get('profile')
+const FRError = ({ styles, screenProps }) => {
+  const { screenState } = screenProps
+  let { isValid, error: reason } = screenState
 
-  const isValid = get(props, 'screenProps.screenState.isValid', undefined)
-
-  let reason = get(props, 'screenProps.screenState.error', '')
   if (reason instanceof Error || reason.message || reason.error) {
     if (reason.name === 'NotAllowedError') {
       reason = `Looks like GoodDollar doesn't have access to your camera. Please provide access and try again`
@@ -33,7 +28,7 @@ const FRError = props => {
     }
   }
 
-  log.debug({ props, reason })
+  log.debug({ styles, screenProps, reason })
 
   //is the error mesage something we want to show to the user? currently only camera related
   const isRelevantError = reason.match(/camera/i) || reason === 'Permission denied'
@@ -41,15 +36,25 @@ const FRError = props => {
     ? reason
     : "You see, it's not that easy\n to capture your beauty :)\nSo, let's give it another shot..."
   let title = isRelevantError ? 'Something went wrong...' : 'Something went wrong on our side...'
-  if (isValid) {
-    props.screenProps.pop({ isValid })
-  }
 
-  const gotoFR = () => {
-    props.screenProps.navigateTo('FaceVerification', { showHelper: true })
-  }
+  useEffect(() => {
+    if (isValid) {
+      screenProps.pop({ isValid })
+    }
+  }, [isValid])
 
-  log.debug(props.screenProps)
+  const fullName = useMemo(() => {
+    const store = GDStore.useStore()
+    const { fullName } = store.get('profile')
+
+    return fullName
+  }, [])
+
+  const gotoFR = useCallback(() => {
+    screenProps.navigateTo('FaceVerification', { showHelper: true })
+  }, [screenProps])
+
+  log.debug(screenProps)
   return (
     <Wrapper>
       <View style={styles.topContainer}>

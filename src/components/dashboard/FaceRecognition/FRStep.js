@@ -10,7 +10,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/ut
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
 const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom, styles }) => {
-  paddingBottom = paddingBottom === undefined ? 12 : paddingBottom
+  const paddingBtm = paddingBottom === undefined ? 12 : paddingBottom
   let statusColor = status === true ? 'success' : status === false ? 'failure' : 'none'
   let statusIcon =
     status === undefined ? null : (
@@ -26,7 +26,7 @@ const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom, style
   log.debug('FRStep', { title, status, isActive, statusColor, textStyle })
   let color = isActive === false ? 'gray50Percent' : status === false ? 'red' : 'darkGray'
   return (
-    <View style={[styles.topContainer, { paddingBottom }]}>
+    <View style={[styles.topContainer, { paddingBottom: paddingBtm }]}>
       <View style={styles.mainView}>
         <Text color={color} fontWeight={isActive ? 'medium' : 'normal'} lineHeight={28}>
           {title}

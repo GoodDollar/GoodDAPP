@@ -57,6 +57,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     fireEvent(CLICK_BTN_RECOVER_WALLET)
     const showError = () =>
       showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
+        title: 'Ooops ...',
         boldMessage: 'Please check it and try again.',
       })
 

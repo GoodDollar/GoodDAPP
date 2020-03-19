@@ -37,7 +37,7 @@ import { FAQ, PrivacyArticle, PrivacyPolicy, Statistics, Support, TermsOfUse } f
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
-import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
+import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -97,6 +97,7 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
+  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const currentFeed = store.get('currentFeed')
@@ -163,7 +164,7 @@ const Dashboard = props => {
 
   const handleDeleteRedirect = () => {
     if (props.navigation.state.key === 'Delete') {
-      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
+      showDeleteAccountDialog()
     }
   }
 

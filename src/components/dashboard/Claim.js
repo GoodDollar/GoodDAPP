@@ -276,6 +276,16 @@ const Claim = props => {
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
           <AnimationsJumpingPeople isCitizen={isCitizen} />
+          {!isCitizen && (
+            <ClaimButton
+              isCitizen={true}
+              entitlement={0}
+              nextClaim={state.nextClaim}
+              loading={loading}
+              style={styles.countdown}
+            />
+          )}
+          <View style={styles.space} />
           {isCitizen && state.entitlement > 0 ? (
             <ClaimAnimatedButton
               amount={state.entitlement}
@@ -289,7 +299,6 @@ const Claim = props => {
               loading={loading}
             />
           )}
-          <View style={styles.space} />
           <Section.Row style={styles.extraInfoStats}>
             <Text style={styles.extraInfoWrapper}>
               <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>

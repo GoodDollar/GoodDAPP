@@ -8,8 +8,7 @@ import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import { fireEvent } from '../../../lib/analytics/analytics'
-import FRapi from './FaceRecognitionAPI'
-import type FaceRecognitionResponse from './FaceRecognitionAPI'
+import { type FaceRecognitionResponse, performFaceRecognition } from './FaceRecognitionAPI'
 import GuidedFR from './GuidedFRProcessResults'
 
 const log = logger.child({ from: 'FaceRecognition' })
@@ -74,7 +73,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         showGuidedFR: true,
         sessionId,
       })
-      let result: FaceRecognitionResponse = await FRapi.performFaceRecognition({ images, sessionId })
+      let result: FaceRecognitionResponse = await performFaceRecognition({ images, sessionId })
       log.debug('FR API:', { result })
       if (!result || !result.ok) {
         log.warn('FR API call failed:', { result })
@@ -129,7 +128,14 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         )}
 
         {showCamera && (
-          <FaceCapture onFaces={this.onCaptureResult} onError={this.showFRError} showHelper={this.state.showHelper} />
+          <FaceCapture
+            onFaces={this.onCaptureResult}
+            onError={this.showFRError}
+            howHelper={this.state.showHelper}
+            photos={2} // count of the final face photos to make
+            quality={1080} // quality of the final photos
+            sampleQuality={480} // quality of the transitional photos made for validate face position/>
+          />
         )}
       </Wrapper>
     )

@@ -6,12 +6,11 @@ import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import { fireEvent } from '../../../lib/analytics/analytics'
-import FRapi from './FaceRecognitionAPI'
-import type FaceRecognitionResponse from './FaceRecognitionAPI'
-import GuidedFR from './GuidedFRProcessResults'
-import ZoomCapture from './ZoomCapture'
-import { type ZoomCaptureResult } from './Zoom'
-import zoomSdkLoader from './ZoomSdkLoader'
+import { type FaceRecognitionResponse, performFaceRecognition } from '../FaceRecognition/FaceRecognitionAPI'
+import GuidedFR from '../FaceRecognition/GuidedFRProcessResults'
+import ZoomCapture from '../FaceRecognition/ZoomCapture'
+import { type ZoomCaptureResult } from '../FaceRecognition/Zoom'
+import zoomSdkLoader from '../FaceRecognition/ZoomSdkLoader'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
@@ -120,7 +119,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         showGuidedFR: true,
         sessionId: captureResult.sessionId,
       })
-      let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
+      let result: FaceRecognitionResponse = await performFaceRecognition(captureResult)
       log.debug('FR API:', { result })
       if (!result || !result.ok) {
         log.warn('FR API call failed:', { result })

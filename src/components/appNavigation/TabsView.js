@@ -1,5 +1,5 @@
 //@flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
@@ -13,13 +13,8 @@ import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 
 const log = logger.child({ from: 'TabsView' })
-type TabViewProps = {
-  routes: { [string]: any },
-  goTo: (routeKey: string) => void,
-}
 
 // TODO: Decide if makes sense keep this to add tab behavior again
-
 // type TabButtonProps = {
 //   text?: string,
 //   routeName: string,
@@ -84,13 +79,12 @@ const supportButton = (goToSupport, space, style) => (
   </>
 )
 
-const TabsView = React.memo((props: TabViewProps) => {
-  const { navigation, styles } = props
+const TabsView = React.memo(({ navigation, styles }) => {
   const [toggleMenu] = useSidemenu()
   const [token, setToken] = useState(isIOS ? undefined : true)
   const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
 
-  const fetchTokens = async () => {
+  const fetchTokens = useCallback(async () => {
     let _token = await userStorage.getProfileFieldValue('loginToken')
 
     if (!_token) {
@@ -118,12 +112,14 @@ const TabsView = React.memo((props: TabViewProps) => {
           return newtoken
         })
     }
+
     log.debug('tokens:', { _marketToken, _token })
+
     if (isIOS) {
       setToken(_token)
       setMarketToken(_marketToken)
     }
-  }
+  }, [setToken, setMarketToken])
 
   useEffect(() => {
     if (config.isEToro) {
@@ -131,25 +127,27 @@ const TabsView = React.memo((props: TabViewProps) => {
     }
   }, [])
 
-  const goToRewards = () => {
+  const goToRewards = useCallback(() => {
     if (isIOS) {
       const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`
       window.open(src, '_blank')
     } else {
       navigation.navigate('Rewards')
     }
-  }
-  const goToSupport = () => {
+  }, [navigation, token])
+
+  const goToSupport = useCallback(() => {
     navigation.navigate('Support')
-  }
-  const goToMarketplace = () => {
+  }, [navigation])
+
+  const goToMarketplace = useCallback(() => {
     if (isIOS) {
       const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
       window.open(src, '_blank')
     } else {
       navigation.navigate('Marketplace')
     }
-  }
+  }, [navigation, marketToken])
 
   return (
     <Appbar.Header dark>

@@ -76,6 +76,8 @@ import com.android.build.OutputFile
  * ]
  */
 
+def isTesting = new Boolean(System.getenv('TEST_REACT_NATIVE'))
+
 project.ext.react = [
     entryFile: "index.js",
     enableHermes: false,  // clean and rebuild if changing
@@ -218,6 +220,16 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
+}
+
+gradle.projectsEvaluated {
+  def tasksToSkip = project.tasks.matching {
+    it.name.contains("SentryUpload")
+  }
+
+  if (isTesting) {
+    tasksToSkip.all { enabled = false }
+  }
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

@@ -40,12 +40,6 @@
 		E632CC5F23FAE3450096DF79 /* RocketShip_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E632CC5C23FAE3450096DF79 /* RocketShip_0.png */; };
 		E632CC6023FAE3450096DF79 /* RocketShip_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E632CC5D23FAE3450096DF79 /* RocketShip_0@2x.png */; };
 		E632CC6123FAE3450096DF79 /* RocketShip_0@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E632CC5E23FAE3450096DF79 /* RocketShip_0@3x.png */; };
-		E667FC2F240FE2A9003F304F /* Send_0@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC29240FE2A8003F304F /* Send_0@3x.png */; };
-		E667FC30240FE2A9003F304F /* Received_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC2A240FE2A8003F304F /* Received_0@2x.png */; };
-		E667FC31240FE2A9003F304F /* Received_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC2B240FE2A9003F304F /* Received_0.png */; };
-		E667FC32240FE2A9003F304F /* Send_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC2C240FE2A9003F304F /* Send_0@2x.png */; };
-		E667FC33240FE2A9003F304F /* Send_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC2D240FE2A9003F304F /* Send_0.png */; };
-		E667FC34240FE2A9003F304F /* Received_0@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E667FC2E240FE2A9003F304F /* Received_0@3x.png */; };
 		EF61EC78C5A945409D510E28 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D75540B53F2F4826BE39A26E /* Roboto-Italic.ttf */; };
 		FE722EDEC57B4C4D89CDD9F7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FABE8676831A432DA7210B81 /* libz.tbd */; };
 		FE7F9276E81C4092953052B5 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9717AB5AC1648A29F31922C /* Roboto-BlackItalic.ttf */; };
@@ -335,6 +329,22 @@
 				E632CC5E23FAE3450096DF79 /* RocketShip_0@3x.png */,
 			);
 			name = animations;
+			sourceTree = "<group>";
+		};
+		948C136DD52B4D6E842D76EA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = Application;
+			sourceTree = "<group>";
+		};
+		808BF4AC3E21437DA0A83635 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = Application;
 			sourceTree = "<group>";
 		};
 		A7AE4DD0613C4DCBB87CC9E6 /* Frameworks */ = {

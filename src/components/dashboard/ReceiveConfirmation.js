@@ -1,6 +1,7 @@
 // @flow
 import React, { useMemo } from 'react'
-import { isMobile } from '../../lib/utils/platform'
+import { Share } from 'react-native'
+import { isMobileNative } from '../../lib/utils/platform'
 import canShare from '../../lib/utils/canShare'
 import { fireEvent } from '../../lib/analytics/analytics'
 import Clipboard from '../../lib/utils/Clipboard'
@@ -30,7 +31,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const [screenState] = useScreenState(screenProps)
   const { amount, code, reason, counterPartyDisplayName } = screenState
   const share = useMemo(() => {
-    if (canShare) {
+    if (canShare()) {
       return generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName)
     }
     return {
@@ -42,19 +43,21 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
     return generateShareLink('receive', code)
   }, [code])
 
-  //FIXME: RN need to restore native share after merge with master
-  //and adding the share animation
   const shareAction = async () => {
-    if (isMobile && navigator.share) {
-      try {
-        await navigator.share(share)
-      } catch (e) {
-        if (e.name !== 'AbortError') {
-          showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
-        }
-      }
+    let executeShare
+
+    if (isMobileNative || navigator.share) {
+      executeShare = Share.share
     } else {
-      Clipboard.setString(share)
+      executeShare = Clipboard.setString
+    }
+
+    try {
+      await executeShare(share)
+    } catch (e) {
+      if (e.name !== 'AbortError') {
+        showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
+      }
     }
   }
 

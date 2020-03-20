@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Share } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
@@ -20,11 +20,13 @@ const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareBu
   const [showErrorDialog] = useErrorDialog()
   const { canShare } = useNativeSharing()
 
-  log.info('getPaymentLink', { share })
+  useEffect(() => {
+    log.info('getPaymentLink', { share })
+  }, [])
 
   const shareAction = useCallback(async () => {
     try {
-      await Share.share(share).catch(e => alert('qqq', e))
+      await Share.share(share)
     } catch (e) {
       if (e.name !== 'AbortError') {
         showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')

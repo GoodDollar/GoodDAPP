@@ -1,8 +1,9 @@
 // @flow
 import React from 'react'
+import { View } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { Section, UserAvatar, Wrapper } from '../common'
+import { Section, Text, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import EditAvatar from './EditAvatar'
@@ -30,7 +31,7 @@ const ProfileWrapper = props => {
 
   return (
     <Wrapper>
-      <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.avatarAndButtonsRow}>
+      <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
         <CircleButtonWrapper
           label={'Privacy'}
           iconName={'privacy'}
@@ -38,13 +39,18 @@ const ProfileWrapper = props => {
           onPress={() => screenProps.push('ProfilePrivacy')}
           containerStyle={styles.iconLeft}
         />
-        <UserAvatar
-          containerStyle={styles.userAvatarWrapper}
-          style={styles.userAvatar}
-          profile={profile}
-          onPress={handleAvatarPress}
-          avatarSize={avatarSize}
-        />
+        <View style={styles.userDataWrapper}>
+          <UserAvatar
+            containerStyle={styles.userAvatarWrapper}
+            style={styles.userAvatar}
+            profile={profile}
+            onPress={handleAvatarPress}
+            avatarSize={avatarSize}
+          />
+          <Text fontSize={22} fontFamily="Roboto Slab" lineHeight={29} style={styles.userName}>
+            {!!profile && profile.fullName}
+          </Text>
+        </View>
         <CircleButtonWrapper
           label={'Edit'}
           iconName={'edit'}
@@ -55,6 +61,7 @@ const ProfileWrapper = props => {
         />
       </Section.Row>
       <Section style={styles.section}>
+        <View style={styles.emptySpace} />
         <ProfileDataTable profile={profile} />
       </Section>
     </Wrapper>
@@ -66,6 +73,10 @@ ProfileWrapper.navigationOptions = {
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  emptySpace: {
+    height: 75,
+    width: '100%',
+  },
   section: {
     flexGrow: 1,
     padding: theme.sizes.defaultDouble,
@@ -81,22 +92,27 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'absolute',
     right: getDesignRelativeWidth(20),
   },
+  userDataWrapper: {
+    position: 'absolute',
+  },
   userAvatarWrapper: {
     borderColor: theme.colors.white,
     borderWidth: 3,
     borderStyle: 'solid',
     borderRadius: '50%',
-    position: 'absolute',
   },
   userAvatar: {
     borderWidth: 0,
   },
-  avatarAndButtonsRow: {
+  userDataAndButtonsRow: {
     display: 'flex',
     justifyContent: 'center',
     position: 'relative',
     zIndex: 1,
     height: avatarSize / 2,
+  },
+  userName: {
+    marginTop: theme.sizes.default,
   },
 })
 

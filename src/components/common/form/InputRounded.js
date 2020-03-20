@@ -28,6 +28,8 @@ const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChang
           placeholderTextColor={theme.colors.gray50Percent}
           style={error ? styles.inputError : styles.input}
           {...inputProps}
+          disabled={false}
+          editable={!inputProps.disabled}
         />
         <View style={styles.suffixIcon}>
           <Icon

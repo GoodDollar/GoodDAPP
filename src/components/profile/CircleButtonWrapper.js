@@ -13,8 +13,8 @@ const CircleButtonWrapper = ({
   style,
   containerStyle,
   iconName,
-  iconColor = '#fff',
-  iconSize = 20,
+  iconColor,
+  iconSize,
 }) => (
   <View style={containerStyle}>
     <TouchableOpacity
@@ -31,6 +31,11 @@ const CircleButtonWrapper = ({
     )}
   </View>
 )
+
+CircleButtonWrapper.defaultProps = {
+  iconColor: '#fff',
+  iconSize: 20,
+}
 
 const getStylesFromProps = ({ theme }) => ({
   wrapper: {

@@ -33,23 +33,18 @@ export type AvatarProps = {
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
-const UserAvatar = (props: AvatarProps) => {
-  const { profile, children, styles, containerStyle } = props
-  let avatarSize = props.avatarSize
-
-  if (!avatarSize) {
-    avatarSize = getDesignRelativeWidth(AVATAR_DESIGN_WIDTH)
-  }
-
-  return (
-    <View style={styles.avatar}>
-      <View style={[styles.innerAvatar, containerStyle]}>
-        <Avatar size={avatarSize} {...props} source={profile.avatar}>
-          {children}
-        </Avatar>
-      </View>
+const UserAvatar = ({ profile, children, styles, containerStyle, size, ...rest }: AvatarProps) => (
+  <View style={styles.avatar}>
+    <View style={[styles.innerAvatar, containerStyle]}>
+      <Avatar size={size} {...rest} source={profile.avatar}>
+        {children}
+      </Avatar>
     </View>
-  )
+  </View>
+)
+
+UserAvatar.defaultProps = {
+  size: getDesignRelativeWidth(AVATAR_DESIGN_WIDTH),
 }
 
 const getStylesFromProps = ({ theme }) => ({

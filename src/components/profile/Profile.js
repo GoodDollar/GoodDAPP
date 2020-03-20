@@ -45,7 +45,7 @@ const ProfileWrapper = props => {
             style={styles.userAvatar}
             profile={profile}
             onPress={handleAvatarPress}
-            avatarSize={avatarSize}
+            size={avatarSize}
           />
           <Text fontSize={22} fontFamily="Roboto Slab" lineHeight={29} style={styles.userName}>
             {!!profile && profile.fullName}

@@ -1,5 +1,6 @@
 //@flow
 import React, { useCallback, useEffect, useState } from 'react'
+import { View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
@@ -11,6 +12,8 @@ import userStorage from '../../lib/gundb/UserStorage'
 import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
+
+const { isEToro, market, marketUrl, showInvite, showRewards, web3SiteUrl } = config
 
 const log = logger.child({ from: 'TabsView' })
 
@@ -48,34 +51,46 @@ const log = logger.child({ from: 'TabsView' })
 //   </View>
 // )
 
-const etoroButtons = (goToRewards, styles) => (
+const RewardButton = ({ onPress, style }) => (
   <>
-    <TouchableOpacity testID="rewards_tab" onPress={goToRewards} style={styles.marginLeft10}>
+    <TouchableOpacity testID="rewards_tab" onPress={onPress} style={style}>
       <Icon name="rewards" size={36} color="white" />
-    </TouchableOpacity>
-    <Appbar.Content />
-    <TouchableOpacity onPress={goToRewards}>
-      <Icon name="invite2" size={36} color="white" testID="invite_tab" />
     </TouchableOpacity>
     <Appbar.Content />
   </>
 )
 
-const marketButtons = (goToMarketplace, style) => (
+const MarketButton = ({ onPress, style }) => (
   <>
-    <TouchableOpacity key="header-button-4" testID="goodmarket_tab" onPress={goToMarketplace} style={style}>
+    <TouchableOpacity testID="goodmarket_tab" onPress={onPress} style={style}>
       <Icon name="goodmarket" size={36} color="white" />
     </TouchableOpacity>
     <Appbar.Content />
   </>
 )
 
-const supportButton = (goToSupport, space, style) => (
+const InviteButton = ({ onPress, style }) => (
   <>
-    <TouchableOpacity onPress={goToSupport} style={style}>
+    <TouchableOpacity onPress={onPress} style={style}>
+      <Icon name="invite2" size={36} color="white" testID="invite_tab" />
+    </TouchableOpacity>
+    <Appbar.Content />
+  </>
+)
+
+const SupportButton = ({ onPress, style }) => (
+  <>
+    <TouchableOpacity onPress={onPress} style={style}>
       <Icon name="support2" size={36} color="white" testID="support_tab" />
     </TouchableOpacity>
-    {space && <Appbar.Content />}
+    <Appbar.Content />
+  </>
+)
+
+const EmptySpaceComponent = ({ style }) => (
+  <>
+    <View style={style} />
+    <Appbar.Content />
   </>
 )
 
@@ -122,14 +137,14 @@ const TabsView = React.memo(({ navigation, styles }) => {
   }, [setToken, setMarketToken])
 
   useEffect(() => {
-    if (config.isEToro) {
+    if (isEToro) {
       fetchTokens()
     }
   }, [])
 
   const goToRewards = useCallback(() => {
     if (isIOS) {
-      const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`
+      const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
       window.open(src, '_blank')
     } else {
       navigation.navigate('Rewards')
@@ -142,7 +157,7 @@ const TabsView = React.memo(({ navigation, styles }) => {
 
   const goToMarketplace = useCallback(() => {
     if (isIOS) {
-      const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
+      const src = `${marketUrl}?jwt=${marketToken}&nofooter=true`
       window.open(src, '_blank')
     } else {
       navigation.navigate('Marketplace')
@@ -151,11 +166,31 @@ const TabsView = React.memo(({ navigation, styles }) => {
 
   return (
     <Appbar.Header dark>
-      {config.isEToro && etoroButtons(goToRewards, styles)}
-      {!config.isEToro && supportButton(goToSupport, true, styles.marginLeft10)}
-      {config.market && marketButtons(goToMarketplace, [styles.marketIconBackground, styles.marginRight5])}
-      {config.isEToro && supportButton(goToSupport, true, styles)}
-      <TouchableOpacity onPress={toggleMenu}>
+      {(isEToro || showRewards) && (
+        <RewardButton onPress={goToRewards} style={[styles.iconWidth, styles.marginLeft10]} />
+      )}
+      {(isEToro || showInvite) && (
+        <InviteButton
+          onPress={goToRewards}
+          style={[styles.iconWidth, !isEToro && !showRewards && styles.marginLeft10]}
+        />
+      )}
+      {!isEToro && !showInvite && !showRewards && (
+        <SupportButton onPress={goToSupport} style={[styles.iconWidth, styles.marginLeft10]} />
+      )}
+      {!isEToro && market && ((!showRewards && showInvite) || (!showInvite && showRewards)) && (
+        <EmptySpaceComponent style={styles.iconWidth} />
+      )}
+      {market && (
+        <MarketButton
+          onPress={goToMarketplace}
+          style={[styles.marketIconBackground, styles.iconWidth, styles.marginRight10]}
+        />
+      )}
+      {(isEToro || showInvite || showRewards) && (
+        <SupportButton onPress={goToSupport} style={[styles.iconWidth, !market && styles.marginRight10]} />
+      )}
+      <TouchableOpacity onPress={toggleMenu} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>
@@ -180,6 +215,9 @@ const styles = ({ theme }) => ({
   },
   marginRight10: {
     marginRight: 10,
+  },
+  iconWidth: {
+    width: 37,
   },
 })
 

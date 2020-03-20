@@ -7,13 +7,43 @@ import { TouchableOpacity } from 'react-native-web'
 import _get from 'lodash/get'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import config from '../../config/config'
-import { withStyles } from '../../lib/styles'
+import { theme } from '../../components/theme/styles'
 import userStorage from '../../lib/gundb/UserStorage'
 import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 
 const { isEToro, market, marketUrl, showInvite, showRewards, web3SiteUrl } = config
+
+const styles = {
+  marketIconBackground: {
+    backgroundColor: theme.colors.green,
+    borderWidth: 3,
+    borderStyle: 'solid',
+    borderColor: 'white',
+    borderRadius: '50%',
+    paddingVertical: 20,
+    paddingHorizontal: 7,
+  },
+  marginLeft10: {
+    marginLeft: 10,
+  },
+  marginRight10: {
+    marginRight: 10,
+  },
+  iconWidth: {
+    width: 37,
+  },
+}
+
+const showSupportFirst = !isEToro && !showInvite && !showRewards
+const showRewardsFlag = showRewards || isEToro
+const showInviteFlag = showInvite || isEToro
+const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
+const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
+const marketButtonStyles = [styles.marketIconBackground, styles.marginRight10]
+const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyles
+const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : defaultLeftButtonStyles
 
 const log = logger.child({ from: 'TabsView' })
 
@@ -94,7 +124,7 @@ const EmptySpaceComponent = ({ style }) => (
   </>
 )
 
-const TabsView = React.memo(({ navigation, styles }) => {
+const TabsView = React.memo(({ navigation }) => {
   const [toggleMenu] = useSidemenu()
   const [token, setToken] = useState(isIOS ? undefined : true)
   const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
@@ -166,30 +196,21 @@ const TabsView = React.memo(({ navigation, styles }) => {
 
   return (
     <Appbar.Header dark>
-      {(isEToro || showRewards) && (
-        <RewardButton onPress={goToRewards} style={[styles.iconWidth, styles.marginLeft10]} />
-      )}
-      {(isEToro || showInvite) && (
-        <InviteButton
-          onPress={goToRewards}
-          style={[styles.iconWidth, !isEToro && !showRewards && styles.marginLeft10]}
-        />
-      )}
-      {!isEToro && !showInvite && !showRewards && (
-        <SupportButton onPress={goToSupport} style={[styles.iconWidth, styles.marginLeft10]} />
-      )}
-      {!isEToro && market && ((!showRewards && showInvite) || (!showInvite && showRewards)) && (
-        <EmptySpaceComponent style={styles.iconWidth} />
+      {showSupportFirst ? (
+        <SupportButton onPress={goToSupport} style={defaultLeftButtonStyles} />
+      ) : (
+        <>
+          {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
+          {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
+        </>
       )}
       {market && (
-        <MarketButton
-          onPress={goToMarketplace}
-          style={[styles.marketIconBackground, styles.iconWidth, styles.marginRight10]}
-        />
+        <>
+          {!isEToro && !!(!showInvite ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
+          <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />
+        </>
       )}
-      {(isEToro || showInvite || showRewards) && (
-        <SupportButton onPress={goToSupport} style={[styles.iconWidth, !market && styles.marginRight10]} />
-      )}
+      {!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}
       <TouchableOpacity onPress={toggleMenu} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>
@@ -197,28 +218,4 @@ const TabsView = React.memo(({ navigation, styles }) => {
   )
 })
 
-const styles = ({ theme }) => ({
-  marketIconBackground: {
-    backgroundColor: theme.colors.green,
-    borderWidth: 3,
-    borderStyle: 'solid',
-    borderColor: 'white',
-    borderRadius: '50%',
-    paddingVertical: 20,
-    paddingHorizontal: 7,
-  },
-  marginRight5: {
-    marginRight: 5,
-  },
-  marginLeft10: {
-    marginLeft: 10,
-  },
-  marginRight10: {
-    marginRight: 10,
-  },
-  iconWidth: {
-    width: 37,
-  },
-})
-
-export default withStyles(styles)(TabsView)
+export default TabsView

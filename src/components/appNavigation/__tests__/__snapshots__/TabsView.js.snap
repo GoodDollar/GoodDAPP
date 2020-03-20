@@ -61,6 +61,7 @@ exports[`TabsView matches snapshot 1`] = `
           "transitionDuration": "0.15s",
           "transitionProperty": "opacity",
           "userSelect": "none",
+          "width": "37px",
         }
       }
       tabIndex="0"
@@ -154,6 +155,7 @@ exports[`TabsView matches snapshot 1`] = `
           "transitionDuration": "0.15s",
           "transitionProperty": "opacity",
           "userSelect": "none",
+          "width": "37px",
         }
       }
       tabIndex="0"

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { TextInput, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
@@ -14,9 +14,12 @@ import ErrorText from './ErrorText'
  * @returns {React.Node}
  */
 const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChange, ...inputProps }) => {
-  const handleChange = event => {
-    onChange(event.target.value)
-  }
+  const handleChange = useCallback(
+    event => {
+      onChange(event.target.value)
+    },
+    [onChange]
+  )
 
   return (
     <View style={styles.inputContainer}>

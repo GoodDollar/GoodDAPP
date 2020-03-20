@@ -32,11 +32,11 @@ const Who = (props: AmountProps) => {
   const getErrorFunction = isReceive ? () => null : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
   const [phone, setPhone] = useValidatedValueState(phoneNumber, getErrorFunction)
-  const [showNext, setShowNext] = React.useState(isMobileNative ? false : true)
+  const [showNext, setShowNext] = React.useState(!isMobileNative)
 
   useEffect(() => {
     setScreenState({ counterPartyDisplayName: state.value, phoneNumber: phone.value })
-  }, [state.value])
+  }, [state.value || phone.value])
   console.info('Component props -> ', { props, params, text, state })
 
   const next = useCallback(() => {

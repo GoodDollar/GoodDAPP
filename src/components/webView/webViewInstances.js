@@ -11,4 +11,5 @@ export const PrivacyArticle = createIframe(
   'Privacy And Identity'
 )
 export const Support = createIframe('https://community.gooddollar.org/support-iframe/', 'Feedback & Support')
+export const Statistics = createIframe(Config.dashboardUrl, 'Statisctics')
 export const FAQ = createIframe(`https://community.gooddollar.org/faq-${Config.isEToro ? 'etoro' : 'iframe'}`, 'FAQ')

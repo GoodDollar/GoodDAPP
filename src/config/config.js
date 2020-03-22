@@ -40,6 +40,7 @@ const Config = {
   hanukaEndDate: process.env.REACT_APP_HANUKA_END_DATE, // date
   delayMessageNetworkDisconnection: process.env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 3000,
   showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
+  showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   ethereum: {
     '42': {
       network_id: 42,

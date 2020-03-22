@@ -62,6 +62,7 @@ const Who = (props: AmountProps) => {
             autoFocus
             error={state.error}
             onChangeText={setValue}
+            maxLength={128}
             placeholder="Enter the recipient name"
             style={styles.input}
             value={state.value}

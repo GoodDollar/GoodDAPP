@@ -71,9 +71,11 @@ class NameForm extends React.Component<Props, State> {
     const { fullName, errorMessage } = this.state
     const { key } = this.props.navigation.state
     const { styles } = this.props
+    const { loading } = this.props.screenProps.data
     return (
       <CustomWrapper
         valid={this.state.isValid}
+        loading={loading}
         handleSubmit={this.handleSubmit}
         style={this.props.styles.transparentBackground}
       >

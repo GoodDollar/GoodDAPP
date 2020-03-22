@@ -55,7 +55,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               <BigGoodDollar
                 number={feed.data.amount}
                 color={mainColor}
-                bigNumberProps={{ fontSize: 15, lineHeight: 18 }}
+                bigNumberProps={{ fontSize: 20, lineHeight: 18 }}
                 bigNumberStyles={styles.bigNumberStyles}
                 bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
@@ -96,10 +96,12 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           </View>
           <EventIcon
             style={styles.typeIcon}
+            animStyle={styles.typeAnimatedIcon}
             type={itemType}
             size={normalize(34)}
             onAnimationFinish={updateFeedEventAnimation}
             showAnim={!feed.animationExecuted}
+            delay={1000}
           />
         </View>
       </View>
@@ -200,7 +202,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     flexShrink: 1,
     justifyContent: 'space-between',
-    paddingBottom: theme.sizes.default - 2,
+    paddingBottom: 5,
   },
   actionSymbol: {
     marginLeft: 'auto',
@@ -248,6 +250,12 @@ const getStylesFromProps = ({ theme }) => ({
   typeIcon: {
     marginTop: theme.sizes.default,
     alignSelf: 'flex-start',
+  },
+  typeAnimatedIcon: {
+    marginTop: theme.sizes.default,
+    alignSelf: 'flex-start',
+    height: normalize(35),
+    width: normalize(35),
   },
   failTransaction: {
     paddingBottom: 'auto',

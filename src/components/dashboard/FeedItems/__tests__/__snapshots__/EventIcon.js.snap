@@ -2,76 +2,24 @@
 
 exports[`EventIcon - Receive matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
-  dir="auto"
-  style={
-    Object {
-      "color": "rgba(98,0,238,1.00)",
-      "fontFamily": "gooddollar",
-      "fontSize": "34px",
-      "fontStyle": "normal",
-      "fontWeight": "normal",
-      "marginRight": "0px",
-    }
-  }
->
-  
-</div>
+  className="css-view-1dbjc4n"
+/>
 `;
 
 exports[`EventIcon - Send matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
-  dir="auto"
-  style={
-    Object {
-      "color": "rgba(98,0,238,1.00)",
-      "fontFamily": "gooddollar",
-      "fontSize": "34px",
-      "fontStyle": "normal",
-      "fontWeight": "normal",
-      "marginRight": "0px",
-    }
-  }
->
-  
-</div>
+  className="css-view-1dbjc4n"
+/>
 `;
 
 exports[`EventIcon - Withdraw matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
-  dir="auto"
-  style={
-    Object {
-      "color": "rgba(98,0,238,1.00)",
-      "fontFamily": "gooddollar",
-      "fontSize": "34px",
-      "fontStyle": "normal",
-      "fontWeight": "normal",
-      "marginRight": "0px",
-    }
-  }
->
-  
-</div>
+  className="css-view-1dbjc4n"
+/>
 `;
 
 exports[`EventIcon - welcome matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
-  dir="auto"
-  style={
-    Object {
-      "color": "rgba(98,0,238,1.00)",
-      "fontFamily": "gooddollar",
-      "fontSize": "34px",
-      "fontStyle": "normal",
-      "fontWeight": "normal",
-      "marginRight": "0px",
-    }
-  }
->
-  
-</div>
+  className="css-view-1dbjc4n"
+/>
 `;

@@ -14,7 +14,10 @@ const Config = {
   dashboardUrl: process.env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
-  market: process.env.REACT_APP_MARKET || process.env.REACT_APP_ETORO || process.env.REACT_APP_NETWORK === 'etoro',
+  market:
+    process.env.REACT_APP_MARKET === 'true' ||
+    process.env.REACT_APP_ETORO === 'true' ||
+    process.env.REACT_APP_NETWORK === 'etoro',
   marketUrl: process.env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
   isEToro: process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,

@@ -13,6 +13,7 @@ import Splash from './components/splash/Splash'
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
+import Config from './config/config'
 import * as serviceWorker from './serviceWorker'
 
 const log = logger.child({ from: 'App' })
@@ -53,7 +54,7 @@ const App = () => {
   // onRecaptcha = (token: string) => {
   //   userStorage.setProfileField('recaptcha', token, 'private')
   // }
-  const [useDesktop, setUseDesktop] = useState(store.get('isLoggedIn') === true)
+  const [useDesktop, setUseDesktop] = useState(Config.showSplashDesktop === false || store.get('isLoggedIn') === true)
 
   const continueWithDesktop = () => {
     setUseDesktop(true)

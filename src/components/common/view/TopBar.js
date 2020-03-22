@@ -20,14 +20,14 @@ const TopBar = ({ hideBalance, push, children, hideProfile = true }) => {
 
   return (
     <Section style={styles.topBar}>
-      <Section.Row alignItems="center">
-        {hideProfile !== true && <Avatar source={avatar} onPress={push && (() => push('Profile'))} />}
+      <Section.Row alignItems="center" style={{ flexDirection: 'row-reverse' }}>
         {/*
          if children exist, it will be rendered
          if children=undefined and hideBalance=false, BigGoodDollar will be rendered
          if children=undefined and hideBalance=true, nothing will be rendered
          */}
         {children ? children : !hideBalance && <BigGoodDollar number={balance} />}
+        {hideProfile !== true && <Avatar source={avatar} onPress={push && (() => push('Profile'))} />}
       </Section.Row>
     </Section>
   )

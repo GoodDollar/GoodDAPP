@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import receiveIllustation from '../../../assets/Feed/receive.svg'
 import sendIllustration from '../../../assets/Feed/send.svg'
 import messageIllustration from '../../../assets/Feed/message.png'
@@ -14,6 +14,21 @@ import ReceivedAnimation from '../../common/animations/Received'
 import SendAnimation from '../../common/animations/Send'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+
+const mainPhotoStyle = {
+  web: {
+    height: '20vh',
+    width: '100%',
+  },
+  ios: {
+    height: getDesignRelativeHeight(175, true),
+    width: '100%',
+  },
+  android: {
+    height: getDesignRelativeHeight(175, true),
+    width: '100%',
+  },
+}
 
 export const getImageByType = (type, styles = {}) =>
   ({
@@ -124,10 +139,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: -theme.sizes.defaultDouble,
     marginBottom: 15,
   },
-  mainPhoto: {
-    height: '20vh',
-    width: '100%',
-  },
+  mainPhoto: Platform.select(mainPhotoStyle),
   spending: {
     width: getDesignRelativeWidth(176),
     height: getDesignRelativeHeight(76),

@@ -283,7 +283,7 @@
         "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Nexus_5_API_26"
+          "avdName": "android-29"
         }
       }
     },

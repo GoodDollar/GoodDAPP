@@ -52,7 +52,7 @@ export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
             log.debug('deleted account', isDeleted)
 
             if (isDeleted) {
-              API.deleteWalletFromW3Site(token)
+              token && API.deleteWalletFromW3Site(token)
               await Promise.all([AsyncStorage.clear()])
               window.location = '/'
             } else {

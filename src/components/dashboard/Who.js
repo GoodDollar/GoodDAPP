@@ -27,30 +27,37 @@ const Who = (props: AmountProps) => {
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
   const isReceive = params && params.action === ACTION_RECEIVE
-  const { counterPartyDisplayName, phoneNumber } = screenState
+  const { counterPartyDisplayName } = screenState
   const text = isReceive ? 'From Who?' : 'Send To?'
   const getErrorFunction = isReceive ? () => null : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
-  const [phone, setPhone] = useValidatedValueState(phoneNumber, getErrorFunction)
   const [showNext, setShowNext] = React.useState(!isMobileNative)
+  const [contact, setContact] = React.useState()
 
   useEffect(() => {
-    setScreenState({ counterPartyDisplayName: state.value, phoneNumber: phone.value })
-  }, [state.value || phone.value])
+    setScreenState({ counterPartyDisplayName: (contact && contact.fullName) || state.value })
+  }, [contact, state.value])
+
   console.info('Component props -> ', { props, params, text, state })
 
   const next = useCallback(() => {
-    if (state.isValid) {
+    if (state.isValid || contact) {
       const [nextRoute, ...nextRoutes] = screenState.nextRoutes || []
 
       props.screenProps.push(nextRoute, {
         nextRoutes,
         params,
-        phoneNumber: phone && phone.value,
-        counterPartyDisplayName: state.value,
+        counterPartyDisplayName: (contact && contact.fullName) || state.value,
+        contact: contact,
       })
     }
-  }, [state.isValid, state.value, screenState.nextRoutes, params])
+  }, [state.isValid, state.value, contact, screenState.nextRoutes, params])
+
+  useEffect(() => {
+    if (contact) {
+      next()
+    }
+  }, [contact])
 
   const Scroll = isMobileNative ? ScrollView : React.Fragment
 
@@ -66,13 +73,14 @@ const Who = (props: AmountProps) => {
         <Section grow>
           <WhoContent
             setName={setValue}
-            setPhone={setPhone}
             error={state.error}
             state={state}
             text={text}
             value={state.value}
             next={next}
             showNext={setShowNext}
+            setContact={setContact}
+            setValue={setValue}
           />
           {showNext && (
             <Section.Row grow alignItems="flex-end">

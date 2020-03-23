@@ -9,7 +9,7 @@ const FeedContactItem = ({ contact, selectContact, horizontalMode, styles, index
   const fullName = contact.familyName ? `${contact.givenName} ${contact.familyName}` : contact.givenName
 
   return (
-    <TouchableOpacity onPress={() => selectContact(fullName, phoneNumber)}>
+    <TouchableOpacity onPress={() => selectContact({ fullName, phoneNumber })}>
       <Section.Row key={contact.recordId} style={!horizontalMode && styles.contactWrapperVertical}>
         <Section style={horizontalMode ? styles.contactWrapperHorizontal : styles.rowSpace}>
           <Avatar
@@ -31,6 +31,7 @@ export default withStyles(({ theme, index }) => ({
   contactWrapperHorizontal: {
     alignItems: 'center',
     paddingHorizontal: 0,
+    minWidth: '22%',
   },
   contactWrapperVertical: {
     width: '100%',

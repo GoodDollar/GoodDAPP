@@ -12,7 +12,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import userStorage from '../../lib/gundb/UserStorage'
 import FeedContactItem from './FeedContactItem'
 
-const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state, showNext }) => {
+const WhoContent = ({ styles, setContact, error, text, value, next, state, showNext, setValue }) => {
   const [contacts, setContacts] = React.useState([])
   const [initialList, setInitalList] = React.useState(contacts)
   const [recentFeedItems, setRecentFeedItems] = React.useState([])
@@ -30,14 +30,8 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
     })
   }
 
-  const selectContact = async (name, phone) => {
-    await setName(name)
-    await setPhone(phone)
-    return setTimeout(next)
-  }
-
   const getUserFeed = async () => {
-    const userFeed = await userStorage.getAllFeed()
+    const userFeed = await userStorage.getFeedPage(5, true)
     const recent = userFeed.filter(({ type }) => type === 'send' || type === 'receive')
     setRecentFeedItems(recent)
   }
@@ -45,8 +39,8 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
   const showPermissionsAndroid = () => {
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
       title: 'Contacts',
-      message: 'This app would like to view your contacts.',
-      buttonPositive: 'Please accept bare mortal',
+      message: 'We need access to view your contacts, so you can easily send G$ to them.',
+      buttonPositive: 'Approve',
     }).then(() => {
       getAllContacts()
     })
@@ -69,7 +63,7 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
   const handleSearch = useCallback(query => {
     const queryIsNumber = parseInt(query)
     if (state) {
-      setName(query)
+      setValue(query)
     }
     if (query && !query.includes('+') && !query.includes('*')) {
       if (typeof queryIsNumber === 'number' && !isNaN(queryIsNumber)) {
@@ -144,7 +138,7 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
             <FlatList
               data={uniq(recentlyUsedList).slice(0, 5)}
               renderItem={({ item, index }) => (
-                <FeedContactItem contact={item} selectContact={selectContact} horizontalMode index={index} />
+                <FeedContactItem contact={item} selectContact={setContact} horizontalMode index={index} />
               )}
               ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
               horizontal
@@ -165,7 +159,7 @@ const WhoContent = ({ styles, setName, setPhone, error, text, value, next, state
           <Section.Stack style={styles.bottomSpace}>
             <FlatList
               data={contacts}
-              renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={selectContact} />}
+              renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={setContact} />}
               ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
             />
           </Section.Stack>
@@ -189,7 +183,7 @@ export default withStyles(({ theme }) => ({
   },
   recentlyUserContainer: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   bottomSpace: {
     marginBottom: 20,

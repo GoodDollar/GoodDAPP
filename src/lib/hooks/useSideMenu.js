@@ -97,20 +97,6 @@ export default (props = {}) => {
         },
       },
       {
-        icon: 'privacy',
-        name: 'Profile Privacy',
-        action: () => {
-          navigation.navigate({
-            routeName: 'ProfilePrivacy',
-            type: 'Navigation/NAVIGATE',
-            params: {
-              backPage: 'Dashboard',
-            },
-          })
-          slideOut()
-        },
-      },
-      {
         icon: 'faq',
         name: 'FAQ',
         action: () => {

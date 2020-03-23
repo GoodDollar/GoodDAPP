@@ -1,13 +1,15 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
-import { isMobileReactNative } from '../../../../lib/utils/platform'
+import { isMobileNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 import animationData from './data.json'
 
 class SaveButton extends React.Component {
+  state = {}
+
   componentDidMount() {
-    if (!isMobileReactNative) {
+    if (!isMobileNative) {
       this.anim.onEnterFrame = e => {
         const { loading } = this.props
         if (e.currentTime >= 101 && loading) {
@@ -23,13 +25,13 @@ class SaveButton extends React.Component {
       }
     }
     if (this.props.loading) {
-      if (isMobileReactNative) {
+      if (isMobileNative) {
         this.anim.play(39, 101)
       } else {
         this.anim.goToAndStop(39, true)
       }
     } else {
-      if (isMobileReactNative) {
+      if (isMobileNative) {
         this.anim.play(12, 13)
       } else {
         this.anim.goToAndStop(12, true)
@@ -44,7 +46,7 @@ class SaveButton extends React.Component {
   handlePress = () => {
     const { onPress } = this.props
     onPress && onPress()
-    if (isMobileReactNative) {
+    if (isMobileNative) {
       this.setState({ animStep: 1 })
       this.anim.play(12, 101)
     } else {
@@ -55,7 +57,7 @@ class SaveButton extends React.Component {
   handleAnimationFinish = () => {
     const { onFinish, loading } = this.props
     const { animStep } = this.state
-    if (isMobileReactNative) {
+    if (isMobileNative) {
       if (onFinish && !loading && animStep === 1) {
         this.anim.play(101, 300)
         this.setState({ animStep: 2 })

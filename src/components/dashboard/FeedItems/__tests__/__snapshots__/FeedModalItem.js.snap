@@ -169,11 +169,18 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
                   style={
                     Object {
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
                       "WebkitJustifyContent": "space-between",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "justifyContent": "space-between",
                       "marginBottom": "12px",
+                      "msFlexAlign": "baseline",
+                      "msFlexDirection": "row",
                       "msFlexPack": "justify",
                     }
                   }
@@ -580,11 +587,18 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
                   style={
                     Object {
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
                       "WebkitJustifyContent": "space-between",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "justifyContent": "space-between",
                       "marginBottom": "12px",
+                      "msFlexAlign": "baseline",
+                      "msFlexDirection": "row",
                       "msFlexPack": "justify",
                     }
                   }
@@ -752,7 +766,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "fontStyle": "normal",
                         "fontWeight": "normal",
                         "marginLeft": "auto",
-                        "marginRight": "0px",
+                        "marginRight": "1px",
                       }
                     }
                   >
@@ -1081,11 +1095,18 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
                   style={
                     Object {
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
                       "WebkitJustifyContent": "space-between",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "justifyContent": "space-between",
                       "marginBottom": "12px",
+                      "msFlexAlign": "baseline",
+                      "msFlexDirection": "row",
                       "msFlexPack": "justify",
                     }
                   }
@@ -1144,7 +1165,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         Object {
                           "color": "rgba(250,108,119,1.00)",
                           "fontFamily": "Roboto Slab",
-                          "fontSize": "22px",
+                          "fontSize": "24px",
                           "fontWeight": "700",
                           "lineHeight": "36px",
                           "marginRight": "4px",
@@ -1372,7 +1393,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "fontStyle": "normal",
                         "fontWeight": "normal",
                         "marginLeft": "auto",
-                        "marginRight": "0px",
+                        "marginRight": "1px",
                       }
                     }
                   >
@@ -1701,11 +1722,18 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
                   style={
                     Object {
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
                       "WebkitJustifyContent": "space-between",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "justifyContent": "space-between",
                       "marginBottom": "12px",
+                      "msFlexAlign": "baseline",
+                      "msFlexDirection": "row",
                       "msFlexPack": "justify",
                     }
                   }
@@ -1764,7 +1792,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         Object {
                           "color": "rgba(250,108,119,1.00)",
                           "fontFamily": "Roboto Slab",
-                          "fontSize": "22px",
+                          "fontSize": "24px",
                           "fontWeight": "700",
                           "lineHeight": "36px",
                           "marginRight": "4px",
@@ -1992,7 +2020,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         "fontStyle": "normal",
                         "fontWeight": "normal",
                         "marginLeft": "auto",
-                        "marginRight": "0px",
+                        "marginRight": "1px",
                       }
                     }
                   >
@@ -2322,11 +2350,18 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
                   style={
                     Object {
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
                       "WebkitJustifyContent": "space-between",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "justifyContent": "space-between",
                       "marginBottom": "12px",
+                      "msFlexAlign": "baseline",
+                      "msFlexDirection": "row",
                       "msFlexPack": "justify",
                     }
                   }
@@ -2385,7 +2420,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         Object {
                           "color": "rgba(0,195,174,1.00)",
                           "fontFamily": "Roboto Slab",
-                          "fontSize": "22px",
+                          "fontSize": "24px",
                           "fontWeight": "700",
                           "lineHeight": "36px",
                           "marginRight": "4px",
@@ -2613,7 +2648,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "fontStyle": "normal",
                         "fontWeight": "normal",
                         "marginLeft": "auto",
-                        "marginRight": "0px",
+                        "marginRight": "1px",
                       }
                     }
                   >

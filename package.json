@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.14.1-2",
+  "version": "0.16.1-0",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -176,6 +176,7 @@
     "string_decoder": "^0.10.31",
     "text-encoding": "^0.7.0",
     "timers-browserify": "^1.4.2",
+    "svg2png": "^4.1.1",
     "undux": "^5.0.1",
     "url": "^0.10.3",
     "util": "^0.10.4",
@@ -183,7 +184,8 @@
     "vm-browserify": "^1.1.2",
     "web3": "^2.0.0-alpha.1",
     "web3-providers": "^2.0.0-alpha.1",
-    "web3-utils": "^2.0.0-alpha.1"
+    "web3-utils": "^2.0.0-alpha.1",
+    "websocket": "^1.0.31"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^0.0.5",

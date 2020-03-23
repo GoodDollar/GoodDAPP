@@ -1,6 +1,6 @@
 {
     "chromeWebSecurity": false,
-    "defaultCommandTimeout": 120000,
+    "defaultCommandTimeout": 60000,
     "env": {   
         "baseUrl": "https://gooddev.netlify.com/",
         "mainAccountEmail": "gooddollar.test123@gmail.com",
@@ -19,7 +19,7 @@
         "additionalAccountEmail": "gooddollar.2test123@gmail.com",
         "additionalAccountUsername": "Andrew Second",
         "additionalAccountPhone": "+529881238235",
-        "additionalAccountMnemonics": "vapor fresh tennis eagle author sponsor during gun cushion train cup dwarf",
+        "additionalAccountMnemonics": "render execute tenant assume palace bullet near choose survey below ranch supreme",
         "emailForCheckingRegistration": "main.test.acc.gooddollar@gmail.com",
         "usernameForRegistration": "Name Surname",
         "numberForCheckingRegistration": "+380673001751"

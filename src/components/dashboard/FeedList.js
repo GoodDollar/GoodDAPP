@@ -170,7 +170,7 @@ const FeedList = ({
         onScroll={onScroll}
         ref={flRef}
       />
-      {headerLarge ? null : <ScrollToTopButton onPress={scrollToTop} />}
+      {<ScrollToTopButton onPress={scrollToTop} show={headerLarge} />}
     </>
   )
 }

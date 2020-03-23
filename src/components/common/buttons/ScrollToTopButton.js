@@ -1,18 +1,23 @@
 // @flow
 import React from 'react'
-import { Image, TouchableWithoutFeedback, Platform } from 'react-native'
+import { Image, Platform, TouchableWithoutFeedback } from 'react-native'
 import scrollToTop from '../../../assets/scrollToTop.svg'
 import { withStyles } from '../../../lib/styles'
+import Fade from '../animations/Fade'
 
 if (Platform.OS === 'web') {
   Image.prefetch(scrollToTop)
 }
 
-const ScrollToTopButton = ({ onPress, styles, style }) => (
-  <TouchableWithoutFeedback onPress={onPress}>
-    <Image source={scrollToTop} resizeMode="contain" style={[styles.scrollToTopImage, style]} />
-  </TouchableWithoutFeedback>
-)
+const ScrollToTopButton = ({ onPress, styles, style, show }) => {
+  return (
+    <Fade show={show}>
+      <TouchableWithoutFeedback onPress={onPress}>
+        <Image source={scrollToTop} resizeMode="contain" style={[styles.scrollToTopImage, style]} />
+      </TouchableWithoutFeedback>
+    </Fade>
+  )
+}
 
 const getStylesFromProps = () => ({
   scrollToTopImage: {

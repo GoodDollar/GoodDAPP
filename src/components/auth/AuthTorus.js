@@ -17,6 +17,7 @@ import { theme as mainTheme } from '../theme/styles'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 Image.prefetch(illustration)
 const log = logger.child({ from: 'AuthTorus' })
@@ -24,6 +25,8 @@ const log = logger.child({ from: 'AuthTorus' })
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const asGuest = true
   const [serviceWorker, setServiceWorker] = useState(undefined)
+  const [showErrorDialog] = useErrorDialog()
+
   const torus = useMemo(
     () =>
       new TorusSdk({
@@ -65,8 +68,16 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleSignUp = async () => {
     store.set('loadingIndicator')({ loading: true })
     const redirectTo = 'Phone'
-    let torusUser = await torus.triggerLogin()
-    log.debug('torus login success', { torusUser })
+    let torusUser
+    try {
+      torusUser = await torus.triggerLogin()
+      log.debug('torus login success', { torusUser })
+    } catch (e) {
+      store.set('loadingIndicator')({ loading: false })
+      log.error('torus login failed', e.message, e)
+      showErrorDialog('We were unable to complete the login. Please try again.')
+      return
+    }
 
     try {
       if (indexedDB !== undefined) {

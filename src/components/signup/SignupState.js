@@ -170,9 +170,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   //keep privatekey from torus as master seed before initializing wallet
-  //so wallet can use it
+  //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
   const checkTorusLogin = async () => {
     const masterSeed = torusUserFromProps.privateKey
+    if (Config.torusEnabled && masterSeed === undefined) {
+      return navigation.navigate('Auth')
+    }
     await AsyncStorage.setItem(GD_USER_MASTERSEED, masterSeed)
     log.debug('wrote torus master seed', { torusUserFromProps })
     return !!masterSeed
@@ -219,16 +222,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
   useEffect(() => {
     // don't allow to start sign up flow not from begining except when w3Token provided
+    //or have info from torus login (ie name)
     AsyncStorage.getItem('GD_web3Token').then(token => {
       log.debug('redirecting to start, got index:', navigation.state.index)
 
-      if (token && navigation.state.index > 1) {
-        setLoading(true)
+      if ((torusUserFromProps.name || token) && navigation.state.index > 1) {
         return navigateWithFocus(navigation.state.routes[1].key)
       }
 
-      if (!token && navigation.state.index > 0) {
-        setLoading(true)
+      if ((torusUserFromProps.name || token) === false && navigation.state.index > 0) {
         return navigateWithFocus(navigation.state.routes[0].key)
       }
     })

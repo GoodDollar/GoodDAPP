@@ -4,13 +4,13 @@ import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
 import _get from 'lodash/get'
-import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import config from '../../config/config'
 import { withStyles } from '../../lib/styles'
 import userStorage from '../../lib/gundb/UserStorage'
 import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
+import useSideMenu from '../../lib/hooks/useSideMenu'
 
 const log = logger.child({ from: 'TabsView' })
 type TabViewProps = {
@@ -55,7 +55,7 @@ type TabViewProps = {
 
 const TabsView = React.memo((props: TabViewProps) => {
   const { navigation, styles } = props
-  const [toggleMenu] = useSidemenu()
+  const { slideToggle } = useSideMenu()
   const [token, setToken] = useState(isIOS ? undefined : true)
   const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
 
@@ -142,7 +142,7 @@ const TabsView = React.memo((props: TabViewProps) => {
         <Icon name="support2" size={36} color="white" testID="support_tab" />
       </TouchableOpacity>
       <Appbar.Content />
-      <TouchableOpacity onPress={toggleMenu}>
+      <TouchableOpacity onPress={slideToggle}>
         <Icon name="settings" size={20} color="white" style={styles.menuStyle} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>

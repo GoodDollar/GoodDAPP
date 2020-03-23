@@ -5,13 +5,13 @@ import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
 import _get from 'lodash/get'
-import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import config from '../../config/config'
 import { theme } from '../../components/theme/styles'
 import userStorage from '../../lib/gundb/UserStorage'
 import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
+import useSideMenu from '../../lib/hooks/useSideMenu'
 
 const { isEToro, market, marketUrl, showInvite, showRewards, web3SiteUrl } = config
 
@@ -125,7 +125,7 @@ const EmptySpaceComponent = ({ style }) => (
 )
 
 const TabsView = React.memo(({ navigation }) => {
-  const [toggleMenu] = useSidemenu()
+  const { slideToggle } = useSideMenu()
   const [token, setToken] = useState(isIOS ? undefined : true)
   const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
 
@@ -211,7 +211,7 @@ const TabsView = React.memo(({ navigation }) => {
         </>
       )}
       {!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}
-      <TouchableOpacity onPress={toggleMenu} style={styles.iconWidth}>
+      <TouchableOpacity onPress={slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>

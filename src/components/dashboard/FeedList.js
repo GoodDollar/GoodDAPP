@@ -52,9 +52,11 @@ const FeedList = ({
   handleFeedSelection,
   initialNumToRender,
   onEndReached,
+  onEndReachedThreshold,
   styles,
   onScroll,
   headerLarge,
+  windowSize,
 }: FeedListProps) => {
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
@@ -161,12 +163,14 @@ const FeedList = ({
         maxSwipeDistance={112}
         numColumns={1}
         onEndReached={onEndReached}
+        onEndReachedThreshold={onEndReachedThreshold}
         refreshing={false}
         renderItem={renderItemComponent}
         renderQuickActions={renderQuickActions}
         viewabilityConfig={VIEWABILITY_CONFIG}
         onScroll={onScroll}
         ref={flRef}
+        windowSize={windowSize}
       />
       {headerLarge ? null : <ScrollToTopButton onPress={scrollToTop} />}
     </>

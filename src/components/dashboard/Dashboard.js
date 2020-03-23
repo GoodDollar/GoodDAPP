@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Animated, AppState, Dimensions, Easing, Image, InteractionManager, TouchableOpacity } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
 import debounce from 'lodash/debounce'
@@ -33,11 +33,11 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, PrivacyPolicy, Statistics, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
-import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
+import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -84,6 +84,7 @@ export type DashboardProps = {
 }
 const Dashboard = props => {
   const { screenProps, styles, theme }: DashboardProps = props
+  const [getNextFeedAllowed, setGetNextFeedAllowed] = useState(true)
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
@@ -97,6 +98,7 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
+  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const currentFeed = store.get('currentFeed')
@@ -163,7 +165,7 @@ const Dashboard = props => {
 
   const handleDeleteRedirect = () => {
     if (props.navigation.state.key === 'Delete') {
-      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
+      showDeleteAccountDialog()
     }
   }
 
@@ -175,8 +177,11 @@ const Dashboard = props => {
     if (res.length == 0) {
       return
     }
+
     if (reset) {
+      // a flag used to show feed load animation only at the first app loading
       if (!loadAnimShown) {
+        // a time to perform feed load animation till the end
         await delay(1900)
         store.set('feedLoadAnimShown')(true)
       }
@@ -185,6 +190,7 @@ const Dashboard = props => {
       setFeeds(feeds.concat(res))
     }
   }
+
   const subscribeToFeed = () => {
     return new Promise((res, rej) => {
       userStorage.feed.get('byid').on(async data => {
@@ -258,7 +264,7 @@ const Dashboard = props => {
   }
 
   const nextFeed = () => {
-    if (feeds && feeds.length > 0) {
+    if (getNextFeedAllowed && feeds && feeds.length > 0) {
       log.debug('getNextFeed called')
       return getFeedPage()
     }
@@ -367,6 +373,9 @@ const Dashboard = props => {
         }),
       ]).start()
     }
+
+    // needed to allow executing getNextFeed fn after header animation ends
+    setTimeout(() => setGetNextFeedAllowed(true), 300)
   }, [headerLarge])
 
   useEffect(() => {
@@ -497,6 +506,47 @@ const Dashboard = props => {
 
   const avatarSource = avatar || unknownProfile
 
+  const memoFeedList = useMemo(() => {
+    return (
+      <FeedList
+        data={feeds}
+        handleFeedSelection={handleFeedSelection}
+        initialNumToRender={PAGE_SIZE}
+        onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
+        // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
+        onEndReachedThreshold={0.7} // Determines the maximum number of items rendered outside of the visible area
+        windowSize={7}
+        updateData={() => {}}
+        onScroll={debounce(({ nativeEvent }) => {
+          // ISH - including small header calculations
+          const minScrollRequired = 150
+          const scrollPosition = nativeEvent.contentOffset.y
+          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
+          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
+
+          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
+            if (headerLarge) {
+              // its required as header animation causes component re-renders. FlatList triggers the onEndReached callback on each re-render (know issue on github).
+              // so we need to forbid getNextFeed fn to be executed while header animation performing
+              setGetNextFeedAllowed(false)
+              setHeaderLarge(false)
+            }
+          } else {
+            if (!headerLarge) {
+              // its required as header animation causes component re-renders. FlatList triggers the onEndReached callback on each re-render (know issue on github).
+              // so we need to forbid getNextFeed fn to be executed while header animation performing
+              setGetNextFeedAllowed(false)
+              setHeaderLarge(true)
+            }
+          }
+
+          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
+        }, 100)}
+        headerLarge={headerLarge}
+      />
+    )
+  }, [feeds, headerLarge])
+
   return (
     <Wrapper style={styles.dashboardWrapper}>
       <Section style={[styles.topInfo]}>
@@ -558,29 +608,7 @@ const Dashboard = props => {
           </PushButton>
         </Section.Row>
       </Section>
-      <FeedList
-        data={feeds}
-        handleFeedSelection={handleFeedSelection}
-        initialNumToRender={PAGE_SIZE}
-        onEndReached={nextFeed}
-        updateData={() => {}}
-        onScroll={debounce(({ nativeEvent }) => {
-          // ISH - including small header calculations
-          const minScrollRequired = 150
-          const scrollPosition = nativeEvent.contentOffset.y
-          const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
-          const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
-
-          if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-            headerLarge && setHeaderLarge(false)
-          } else {
-            !headerLarge && setHeaderLarge(true)
-          }
-
-          // log.info('scrollPos', { feeds: feeds.length, scrollPosition, scrollPositionISH, minScrollRequiredISH })
-        }, 100)}
-        headerLarge={headerLarge}
-      />
+      {memoFeedList}
       {currentFeed && (
         <FeedModalList
           data={isBrowser ? [currentFeed] : feeds}
@@ -761,6 +789,7 @@ export default createStackNavigator({
   TOU: TermsOfUse,
   Support,
   FAQ,
+  Statistics,
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: {

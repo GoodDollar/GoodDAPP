@@ -6,7 +6,6 @@ import { Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'
-
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode } from '../../lib/share'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -72,7 +71,7 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
           ) : (
             <Section.Stack style={amountMargin}>
               <Section.Row justifyContent="center">
-                <View style={styles.sendIconWrapper}>
+                <View style={[styles.sendIconWrapper, iconMarginWithoutReason]}>
                   <Icon name="receive" size={getDesignRelativeHeight(45)} color="white" />
                 </View>
               </Section.Row>

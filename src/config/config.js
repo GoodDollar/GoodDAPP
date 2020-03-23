@@ -19,6 +19,8 @@ const Config = {
   torusEnabled: process.env.REACT_APP_USE_TORUS === 'true',
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,
+  showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
+  showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
   rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,

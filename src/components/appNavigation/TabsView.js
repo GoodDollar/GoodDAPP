@@ -1,25 +1,53 @@
 //@flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
 import _get from 'lodash/get'
 import config from '../../config/config'
-import { withStyles } from '../../lib/styles'
+import { theme } from '../../components/theme/styles'
 import userStorage from '../../lib/gundb/UserStorage'
 import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 
-const log = logger.child({ from: 'TabsView' })
-type TabViewProps = {
-  routes: { [string]: any },
-  goTo: (routeKey: string) => void,
+const { isEToro, market, marketUrl, showInvite, showRewards, web3SiteUrl } = config
+
+const styles = {
+  marketIconBackground: {
+    backgroundColor: theme.colors.green,
+    borderWidth: 3,
+    borderStyle: 'solid',
+    borderColor: 'white',
+    borderRadius: '50%',
+    paddingVertical: 20,
+    paddingHorizontal: 7,
+  },
+  marginLeft10: {
+    marginLeft: 10,
+  },
+  marginRight10: {
+    marginRight: 10,
+  },
+  iconWidth: {
+    width: 37,
+  },
 }
 
-// TODO: Decide if makes sense keep this to add tab behavior again
+const showSupportFirst = !isEToro && !showInvite && !showRewards
+const showRewardsFlag = showRewards || isEToro
+const showInviteFlag = showInvite || isEToro
+const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
+const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
+const marketButtonStyles = [styles.marketIconBackground, styles.marginRight10]
+const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyles
+const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : defaultLeftButtonStyles
 
+const log = logger.child({ from: 'TabsView' })
+
+// TODO: Decide if makes sense keep this to add tab behavior again
 // type TabButtonProps = {
 //   text?: string,
 //   routeName: string,
@@ -53,13 +81,55 @@ type TabViewProps = {
 //   </View>
 // )
 
-const TabsView = React.memo((props: TabViewProps) => {
-  const { navigation, styles } = props
+const RewardButton = ({ onPress, style }) => (
+  <>
+    <TouchableOpacity testID="rewards_tab" onPress={onPress} style={style}>
+      <Icon name="rewards" size={36} color="white" />
+    </TouchableOpacity>
+    <Appbar.Content />
+  </>
+)
+
+const MarketButton = ({ onPress, style }) => (
+  <>
+    <TouchableOpacity testID="goodmarket_tab" onPress={onPress} style={style}>
+      <Icon name="goodmarket" size={36} color="white" />
+    </TouchableOpacity>
+    <Appbar.Content />
+  </>
+)
+
+const InviteButton = ({ onPress, style }) => (
+  <>
+    <TouchableOpacity onPress={onPress} style={style}>
+      <Icon name="invite2" size={36} color="white" testID="invite_tab" />
+    </TouchableOpacity>
+    <Appbar.Content />
+  </>
+)
+
+const SupportButton = ({ onPress, style }) => (
+  <>
+    <TouchableOpacity onPress={onPress} style={style}>
+      <Icon name="support2" size={36} color="white" testID="support_tab" />
+    </TouchableOpacity>
+    <Appbar.Content />
+  </>
+)
+
+const EmptySpaceComponent = ({ style }) => (
+  <>
+    <View style={style} />
+    <Appbar.Content />
+  </>
+)
+
+const TabsView = React.memo(({ navigation }) => {
   const { slideToggle } = useSideMenu()
   const [token, setToken] = useState(isIOS ? undefined : true)
   const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
 
-  const fetchTokens = async () => {
+  const fetchTokens = useCallback(async () => {
     let _token = await userStorage.getProfileFieldValue('loginToken')
 
     if (!_token) {
@@ -87,87 +157,65 @@ const TabsView = React.memo((props: TabViewProps) => {
           return newtoken
         })
     }
+
     log.debug('tokens:', { _marketToken, _token })
+
     if (isIOS) {
       setToken(_token)
       setMarketToken(_marketToken)
     }
-  }
+  }, [setToken, setMarketToken])
 
   useEffect(() => {
-    if (config.isEToro) {
+    if (isEToro) {
       fetchTokens()
     }
   }, [])
 
-  const goToRewards = () => {
+  const goToRewards = useCallback(() => {
     if (isIOS) {
-      const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`
+      const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
       window.open(src, '_blank')
     } else {
       navigation.navigate('Rewards')
     }
-  }
-  const goToSupport = () => {
+  }, [navigation, token])
+
+  const goToSupport = useCallback(() => {
     navigation.navigate('Support')
-  }
-  const goToMarketplace = () => {
+  }, [navigation])
+
+  const goToMarketplace = useCallback(() => {
     if (isIOS) {
-      const src = `${config.marketUrl}?jwt=${marketToken}&nofooter=true`
+      const src = `${marketUrl}?jwt=${marketToken}&nofooter=true`
       window.open(src, '_blank')
     } else {
       navigation.navigate('Marketplace')
     }
-  }
+  }, [navigation, marketToken])
 
   return (
     <Appbar.Header dark>
-      {config.isEToro && (
-        <TouchableOpacity testID="rewards_tab" onPress={goToRewards} style={styles.rewardsStyle}>
-          <Icon name="rewards" size={36} color="white" />
-        </TouchableOpacity>
+      {showSupportFirst ? (
+        <SupportButton onPress={goToSupport} style={defaultLeftButtonStyles} />
+      ) : (
+        <>
+          {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
+          {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
+        </>
       )}
-      <Appbar.Content />
-      <TouchableOpacity onPress={goToRewards}>
-        <Icon name="invite2" size={36} color="white" testID="invite_tab" />
-      </TouchableOpacity>
-      <Appbar.Content />
-      {config.market && (
-        <TouchableOpacity testID="goodmarket_tab" onPress={goToMarketplace} style={styles.marketIconBackground}>
-          <Icon name="goodmarket" size={36} color="white" />
-        </TouchableOpacity>
+      {market && (
+        <>
+          {!isEToro && !!(!showInvite ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
+          <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />
+        </>
       )}
-      <Appbar.Content />
-      <TouchableOpacity onPress={goToSupport} style={styles.feedback}>
-        <Icon name="support2" size={36} color="white" testID="support_tab" />
-      </TouchableOpacity>
-      <Appbar.Content />
-      <TouchableOpacity onPress={slideToggle}>
-        <Icon name="settings" size={20} color="white" style={styles.menuStyle} testID="burger_button" />
+      {!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}
+      <TouchableOpacity onPress={slideToggle} style={styles.iconWidth}>
+        <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>
   )
 })
 
-const styles = ({ theme }) => ({
-  marketIconBackground: {
-    backgroundColor: theme.colors.green,
-    borderWidth: 3,
-    borderStyle: 'solid',
-    borderColor: 'white',
-    borderRadius: '50%',
-    paddingVertical: 20,
-    paddingHorizontal: 7,
-  },
-  feedback: {
-    marginRight: 5,
-  },
-  rewardsStyle: {
-    marginLeft: 10,
-  },
-  menuStyle: {
-    marginRight: 10,
-  },
-})
-
-export default withStyles(styles)(TabsView)
+export default TabsView

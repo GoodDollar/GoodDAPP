@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Image } from 'react-native'
 import TorusSdk from '@toruslabs/torus-direct-web-sdk'
 import Mnemonics from '../signin/Mnemonics'
@@ -22,18 +22,41 @@ Image.prefetch(illustration)
 const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
-  const torus = new TorusSdk({
-    typeOfLogin: 'google',
-    verifier: 'google-gooddollar',
-    GOOGLE_CLIENT_ID: config.googleClientId,
-    FACEBOOK_APP_ID: config.facebookAppId,
-    proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
-    network: 'ropsten', // details for test net
-    redirect_uri: `${config.publicUrl}/redirect.html`,
-  })
-
   const asGuest = true
+  const [serviceWorker, setServiceWorker] = useState(undefined)
+  const torus = useMemo(
+    () =>
+      new TorusSdk({
+        typeOfLogin: 'google',
+        verifier: 'google-gooddollar',
+        GOOGLE_CLIENT_ID: config.googleClientId,
+        FACEBOOK_APP_ID: config.facebookAppId,
+        proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
+        network: 'ropsten', // details for test net
+        redirect_uri: `${config.publicUrl}/torus/redirect`,
+        enableLogging: config.env === 'development',
+      }),
+    []
+  )
 
+  const registerTorusWorker = async () => {
+    try {
+      const registration = await navigator.serviceWorker.register(`${config.publicUrl}/torus//sw.js`)
+      log.debug('torus service worker registerd', { registration })
+      setServiceWorker(registration)
+    } catch (e) {
+      log.error('failed registering torus service worker', e.message, e)
+    }
+  }
+
+  useEffect(() => {
+    registerTorusWorker()
+    return () => {
+      if (serviceWorker) {
+        serviceWorker.unregister()
+      }
+    }
+  }, [])
   const goToW3Site = () => {
     fireEvent(CLICK_BTN_GETINVITED)
     window.location = config.web3SiteUrl
@@ -42,7 +65,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleSignUp = async () => {
     store.set('loadingIndicator')({ loading: true })
     const redirectTo = 'Phone'
-    let torusUser = await torus.triggerLogin('facebook')
+    let torusUser = await torus.triggerLogin()
     log.debug('torus login success', { torusUser })
 
     try {
@@ -128,6 +151,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           style={styles.buttonLayout}
           textStyle={firstButtonTextStyle}
           onPress={firstButtonHandler}
+          disabled={serviceWorker === undefined}
         >
           {firstButtonText}
         </CustomButton>

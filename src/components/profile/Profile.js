@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -24,10 +24,17 @@ const ProfileWrapper = props => {
   const profile = store.get('profile')
   const { screenProps, styles } = props
 
-  const handleAvatarPress = event => {
-    event.preventDefault()
-    screenProps.push(`ViewAvatar`)
-  }
+  const handleAvatarPress = useCallback(
+    event => {
+      event.preventDefault()
+      screenProps.push(`ViewAvatar`)
+    },
+    [screenProps]
+  )
+
+  const handlePrivacyPress = useCallback(() => screenProps.push(`ProfilePrivacy`), [screenProps])
+
+  const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
 
   return (
     <Wrapper>
@@ -36,7 +43,7 @@ const ProfileWrapper = props => {
           label={'Privacy'}
           iconName={'privacy'}
           iconSize={23}
-          onPress={() => screenProps.push('ProfilePrivacy')}
+          onPress={handlePrivacyPress}
           containerStyle={styles.iconLeft}
         />
         <View style={styles.userDataWrapper}>
@@ -55,7 +62,7 @@ const ProfileWrapper = props => {
           label={'Edit'}
           iconName={'edit'}
           iconSize={25}
-          onPress={() => screenProps.push('EditProfile')}
+          onPress={handleEditProfilePress}
           style={styles.iconRightContainer}
           containerStyle={styles.iconRight}
         />

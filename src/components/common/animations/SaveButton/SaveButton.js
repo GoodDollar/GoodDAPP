@@ -6,6 +6,8 @@ import { withStyles } from '../../../../lib/styles'
 import animationData from './data.json'
 
 class SaveButton extends React.Component {
+  state = {}
+
   componentDidMount() {
     if (!isMobileReactNative) {
       this.anim.onEnterFrame = e => {

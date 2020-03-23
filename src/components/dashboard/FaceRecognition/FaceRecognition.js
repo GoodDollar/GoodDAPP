@@ -55,7 +55,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   onCaptureResult = (face, images): void => {
     fireEvent('FR_Capture')
     if (images === undefined || images.length === 0) {
-      log.error('empty capture result')
+      log.error('Capture Result failed', 'empty capture result', null, { images })
       this.showFRError('empty capture result')
     } else {
       this.startFRProcessOnServer(face)

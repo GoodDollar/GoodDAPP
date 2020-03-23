@@ -27,7 +27,7 @@ const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareBu
     }
   }
 
-  if (canShare) {
+  if (canShare()) {
     return (
       <CustomButton onPress={shareAction} {...buttonProps}>
         {actionText}

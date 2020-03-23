@@ -94,7 +94,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       setLink(paymentLink)
     }
 
-    if (canShare) {
+    if (canShare()) {
       shareAction(paymentLink)
     } else {
       const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
@@ -185,7 +185,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       showErrorDialog('Could not complete transaction. Please try again.')
     } catch (e) {
       showErrorDialog('Could not complete transaction. Please try again.')
-      log.error(e.message, e)
+      log.error('Something went wrong while trying to generate send link', e.message, e)
     }
   }
 

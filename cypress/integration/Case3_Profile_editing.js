@@ -120,7 +120,7 @@ describe('Test case 3: Ability to change user data', () => {
 
     // EditProfilePage.phoneInput.type('+999999999999')
     // EditProfilePage.emailInput.type('incorrect@email')
-    EditProfilePage.wrongNameErrorDiv.should('contain', 'Only letters, numbers and underscore')
+    cy.contains('Only letters, numbers and underscore')
 
     // EditProfilePage.phoneInput.should('have.class', 'react-phone-number-input__input--invalid')
     // EditProfilePage.wrongEmailErrorDiv.should('contain', 'Enter a valid format: yourname@example.com');

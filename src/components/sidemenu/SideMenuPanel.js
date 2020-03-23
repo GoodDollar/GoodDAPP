@@ -9,6 +9,7 @@ import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
+import retryImport from '../../lib/utils/retryImport'
 import { Icon } from '../common'
 import IconWrapper from '../common/modal/IconWrapper'
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
@@ -39,7 +40,7 @@ export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
             showButtons: false,
           })
           try {
-            const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
+            const userStorage = await retryImport(() => import('../../lib/gundb/UserStorage')).then(_ => _.default)
 
             let token = await userStorage.getProfileFieldValue('w3Token')
 

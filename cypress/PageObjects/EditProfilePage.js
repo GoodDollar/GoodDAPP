@@ -40,14 +40,8 @@ class EditProfilePage {
     return cy.get('img[src*=data]', { timeout: 10000 })
   }
 
-  get wrongNameErrorDiv() {
-    return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div/div/div[2]/div/div/div[1]/div/div[2]', {
-      timeout: 10000,
-    })
-  }
-
   get wrongEmailErrorDiv() {
-    return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div[2]', {
+    return cy.xpath('//*[@id="root"]/div[1]/div/div/div/div[2]/div/div/div/div[2]/div/div/div[1]/div/div[2]', {
       timeout: 10000,
     })
   }

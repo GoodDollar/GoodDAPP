@@ -66,7 +66,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
             Request specific amount
           </PushButton>
           <View style={styles.space} />
-          {canShare ? (
+          {canShare() ? (
             <CustomButton
               onPress={() => {
                 fireEvent('RECEIVE_DONE', { type: 'wallet' })

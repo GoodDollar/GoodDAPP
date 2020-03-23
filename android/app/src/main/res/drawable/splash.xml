@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list 
+xmlns:android="http://schemas.android.com/apk/res/android" 
+android:orientation="horizontal">
+   <item
+        android:drawable="@mipmap/background"/>
+    <item
+        android:drawable="@mipmap/logo"
+        android:gravity="center_vertical|center_horizontal"
+        android:bottom="150dp"/>
+    <item
+        android:gravity="center_horizontal|center_vertical"
+        android:drawable="@mipmap/gooddollar"
+        android:top="100dp"/>  
+</layer-list>

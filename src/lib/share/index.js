@@ -130,10 +130,10 @@ type ShareObject = {
  * @param {string} url - Link
  * @returns {ShareObject}
  */
-export function generateShareObject(title: string, text: string, url: string): ShareObject {
+export function generateShareObject(title: string, message: string, url: string): ShareObject {
   return {
     title,
-    text,
+    message,
     url,
   }
 }

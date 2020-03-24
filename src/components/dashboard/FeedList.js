@@ -27,7 +27,6 @@ const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlat
 
 export type FeedListProps = {
   data: any,
-  updateData: any,
   onEndReached: any,
   initialNumToRender: ?number,
   store: GDStore,

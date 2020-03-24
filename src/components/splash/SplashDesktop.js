@@ -1,7 +1,7 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, ImageBackground, StyleSheet } from 'react-native'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
-import wavePattern from '../../assets/wave50.svg'
+import wavePattern from '../../assets/splashWaves.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
@@ -15,20 +15,26 @@ Image.prefetch(wavePattern)
 const SplashDesktop = ({ onContinue, urlForQR }) => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
-      <View style={styles.backgroundWaves} />
-      <Section.Stack style={styles.content} grow justifyContent="space-between">
-        <Section.Text fontSize={22} color="darkBlue">
-          <Section.Text fontSize={22} fontWeight="black" color="darkBlue">
-            {`Welcome to GoodDollar Wallet\n`}
+      <ImageBackground
+        source={wavePattern}
+        imageStyle={styles.wavesImage}
+        style={styles.backgroundWaves}
+        resizeMode="repeat"
+      >
+        <Section.Stack style={styles.content} grow justifyContent="space-between">
+          <Section.Text fontSize={22} color="darkBlue">
+            <Section.Text fontSize={22} fontWeight="black" color="darkBlue">
+              {'Welcome to GoodDollar Wallet\n'}
+            </Section.Text>
+            {'For best experience\nplease scan and continue\non your mobile device.'}
           </Section.Text>
-          {`For best experience\nplease scan and continue\non your mobile device.`}
-        </Section.Text>
-        <QRCode value={urlForQR} size={150} qrStyles={styles.qrStyles} />
-        <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
-        <CustomButton mode="outlined" color="white" style={styles.buttonContinue} onPress={onContinue}>
-          Continue on Web
-        </CustomButton>
-      </Section.Stack>
+          <QRCode value={urlForQR} size={150} qrStyles={styles.qrStyles} />
+          <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
+          <CustomButton mode="outlined" color="white" style={styles.buttonContinue} onPress={onContinue}>
+            Continue on Web
+          </CustomButton>
+        </Section.Stack>
+      </ImageBackground>
     </Section>
   </Wrapper>
 )
@@ -53,10 +59,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundImage: `url(${wavePattern})`,
-    backgroundRepeat: 'repeat-y',
-    backgroundSize: 'cover',
-    opacity: 0.2,
+    padding: 10,
+  },
+  wavesImage: {
+    opacity: 0.1,
   },
   content: {
     transform: [{ rotateY: '180deg' }],

@@ -122,7 +122,6 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
           style={styles.input}
           value={value}
           enablesReturnKeyAutomatically
-          onSubmitEditing={next}
           iconName="search"
         />
       </Section.Stack>

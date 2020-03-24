@@ -47,12 +47,12 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
     try {
       if (indexedDB !== undefined) {
-        const req = new Promise((res, rej) => {
-          const del = indexedDB.deleteDatabase('radata')
-          del.onsuccess = res
-          del.onerror = rej
+        const reqPromise = new Promise((res, rej) => {
+          const req = indexedDB.deleteDatabase('radata')
+          req.onsuccess = res
+          req.onerror = rej
         })
-        await req
+        await reqPromise
 
         log.info('indexedDb successfully cleared')
       }

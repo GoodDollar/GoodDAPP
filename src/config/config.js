@@ -1,4 +1,4 @@
-const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin)
+const publicUrl = (window && window.location && window.location.origin) || process.env.REACT_APP_PUBLIC_URL
 
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',

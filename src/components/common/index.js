@@ -23,6 +23,7 @@ import ShareButton from './buttons/ShareButton'
 import Text from './view/Text'
 import UserAvatar from './view/UserAvatar'
 import Wrapper from './layout/Wrapper'
+import WrapperClaim from './layout/WrapperClaim'
 
 export {
   Address,
@@ -51,4 +52,5 @@ export {
   UserAvatar,
   Wrapper,
   AwaitButton,
+  WrapperClaim,
 }

@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, View } from 'react-native'
+import { AsyncStorage, Image, View } from 'react-native'
 import numeral from 'numeral'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -13,16 +13,14 @@ import wrapper from '../../lib/undux/utils/wrapper'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
-import { Wrapper } from '../common'
-import BigGoodDollar from '../common/view/BigGoodDollar'
+import { WrapperClaim } from '../common'
+import arrowsDown from '../../assets/arrowsDown.svg'
 import Text from '../common/view/Text'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
-import AnimationsJumpingPeople from '../common/animations/JumpingPeople'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import ClaimAnimatedButton from '../common/animations/ClaimButton/ClaimButton'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -36,8 +34,10 @@ type ClaimState = {
   },
 }
 
-const log = logger.child({ from: 'Claim' })
+Image.prefetch(arrowsDown)
 
+const log = logger.child({ from: 'Claim' })
+const dollarValueGenerate = '$1252,122.25'
 const Claim = props => {
   const { screenProps, styles }: ClaimProps = props
   const store = SimpleStore.useStore()
@@ -239,56 +239,43 @@ const Claim = props => {
   }
 
   return (
-    <Wrapper>
+    <WrapperClaim>
       <Section style={styles.mainContainer}>
         <Section.Stack style={styles.mainText}>
           <View style={styles.mainTextBorder}>
-            <Section.Text color="primary" size={16} fontFamily="Roboto" lineHeight={19} style={styles.mainTextToast}>
-              {'YOU CAN GET'}
-            </Section.Text>
             <Section.Text style={styles.mainTextBigMarginBottom}>
-              <BigGoodDollar
-                number={1}
-                reverse
-                formatter={number => number}
-                bigNumberProps={{ color: 'surface' }}
-                bigNumberUnitProps={{ color: 'surface', fontSize: 20 }}
-                style={styles.inline}
-              />
-              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
-                {' Free'}
+              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={40}>
+                {`Universal \n`}
               </Section.Text>
-            </Section.Text>
-            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
-              Every Day
+              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={40}>
+                {`Basic Income \n For All`}
+              </Section.Text>
             </Section.Text>
           </View>
           <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.subMainText]}>
             <View style={styles.bottomContainer}>
-              <Text color="white" fontSize={16} fontFamily="Roboto">
-                {'Claim & spend it on'}
+              <Text color="#0C263D" fontSize={16} fontWeight={500} ontFamily="Roboto">
+                {`Total money generated today:`}
               </Text>
-              <Text color="white" fontFamily="Roboto" size={16}>
-                {`things you care about`}
+              <Text color="#0C263D" fontSize={30} fontWeight="bold" ontFamily="Roboto">
+                {dollarValueGenerate}
               </Text>
             </View>
           </Section.Row>
+          <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.subMainText]}>
+            <Image source={arrowsDown} style={styles.arrowsDown} />
+          </Section.Row>
         </Section.Stack>
-        <Section.Stack style={styles.extraInfo}>
-          <AnimationsJumpingPeople isCitizen={isCitizen} />
-          {isCitizen && state.entitlement > 0 ? (
-            <ClaimAnimatedButton
-              amount={state.entitlement}
-              onPressClaim={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
-            />
-          ) : (
-            <ClaimButton
-              isCitizen={isCitizen}
-              entitlement={state.entitlement}
-              nextClaim={state.nextClaim}
-              loading={loading}
-            />
-          )}
+        <Section.Stack style={styles.btnBlock}>
+          <ClaimButton
+            isCitizen={isCitizen}
+            entitlement={state.entitlement}
+            nextClaim={state.nextClaim}
+            loading={loading}
+            onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
+          />
+        </Section.Stack>
+        <Section.Stack style={styles.moreInfo}>
           <View style={styles.space} />
           <Section.Row style={styles.extraInfoStats}>
             <Text style={styles.extraInfoWrapper}>
@@ -298,7 +285,7 @@ const Claim = props => {
           </Section.Row>
         </Section.Stack>
       </Section>
-    </Wrapper>
+    </WrapperClaim>
   )
 }
 
@@ -314,7 +301,7 @@ const getStylesFromProps = ({ theme }) => {
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
-      marginVertical: 'auto',
+      height: '55%',
       zIndex: 1,
     },
     mainTextTitle: {
@@ -322,10 +309,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     mainTextBorder: {
       marginTop: getDesignRelativeHeight(10),
-      borderWidth: 2,
-      borderStyle: 'solid',
-      borderColor: theme.colors.white,
-      borderRadius: 5,
       paddingHorizontal: getDesignRelativeWidth(40),
       paddingVertical: getDesignRelativeHeight(25),
       position: 'relative',
@@ -364,14 +347,23 @@ const getStylesFromProps = ({ theme }) => {
       minHeight: getDesignRelativeHeight(4 * theme.sizes.defaultDouble),
     },
     extraInfo: {
-      backgroundColor: theme.colors.surface,
-      borderRadius: theme.sizes.borderRadius,
-      flexGrow: 1,
-      flexShrink: 1,
-      maxHeight: 'fit-content',
-      paddingVertical: theme.sizes.defaultDouble,
-      paddingHorizontal: theme.sizes.default,
-      marginTop: getDesignRelativeHeight(85),
+      alignItems: 'center',
+      flexDirection: 'column',
+      height: '60%',
+      zIndex: 1,
+    },
+    btnBlock: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      zIndex: 1,
+      width: getDesignRelativeWidth(340),
+      height: getDesignRelativeHeight(196),
+      marginHorizontal: 'auto',
+    },
+    arrowsDown: {
+      marginTop: getDesignRelativeHeight(15),
+      height: getDesignRelativeHeight(25),
+      width: getDesignRelativeWidth(65),
     },
     extraInfoStats: {
       marginHorizontal: 0,
@@ -387,6 +379,7 @@ const getStylesFromProps = ({ theme }) => {
       display: 'inline',
       textAlign: 'center',
       width: getDesignRelativeWidth(340),
+      marginBottom: getDesignRelativeHeight(10),
     },
     inline: {
       display: 'inline',
@@ -402,7 +395,7 @@ const getStylesFromProps = ({ theme }) => {
 }
 
 Claim.navigationOptions = {
-  title: 'Claim Daily G$',
+  title: 'Claim',
 }
 
 export default withStyles(getStylesFromProps)(Claim)

@@ -1,9 +1,8 @@
 // @flow
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Share, View } from 'react-native'
-import canShare from '../../lib/utils/canShare'
+import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
-import { generateCode, generateReceiveShareObject, generateShareLink } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -18,32 +17,38 @@ export type ReceiveProps = {
   styles: any,
 }
 
-const RECEIVE_TITLE = 'Receive G$'
 const SHARE_TEXT = 'Share your wallet link'
-const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
+
+const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')
   const { account, networkId } = goodWallet
   const [showErrorDialog] = useErrorDialog()
+  const { canShare, generateCode, generateReceiveShareObject, generateShareLink } = useNativeSharing()
   const amount = 0
   const reason = ''
   const codeObj = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
   const share = useMemo(() => generateReceiveShareObject(codeObj, amount, '', profile.fullName), [codeObj])
   const shareLink = useMemo(() => generateShareLink('receive', codeObj), [codeObj])
 
-  const shareAction = async () => {
+  const shareAction = useCallback(async () => {
     try {
+      fireEvent('RECEIVE_DONE', { type: 'wallet' })
       await Share.share(share)
     } catch (e) {
       if (e.name !== 'AbortError') {
         showErrorDialog(e)
       }
     }
-  }
+  }, [showErrorDialog, share])
+
+  const onPressScanQRButton = useCallback(() => screenProps.push('ReceiveByQR'), [screenProps])
+
+  const onPressCopyButton = () => fireEvent('RECEIVE_DONE', { type: 'wallet' })
 
   return (
     <Wrapper>
       <TopBar hideBalance={false} push={screenProps.push}>
-        <ScanQRButton onPress={() => screenProps.push('ReceiveByQR')} />
+        <ScanQRButton onPress={onPressScanQRButton} />
       </TopBar>
       <Section grow>
         <Section.Stack grow={3} justifyContent="space-around" alignItems="center">
@@ -67,21 +72,12 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
           </PushButton>
           <View style={styles.space} />
           {canShare ? (
-            <CustomButton
-              onPress={() => {
-                fireEvent('RECEIVE_DONE', { type: 'wallet' })
-                shareAction()
-              }}
-            >
-              {SHARE_TEXT}
-            </CustomButton>
+            <CustomButton onPress={shareAction}>{SHARE_TEXT}</CustomButton>
           ) : (
             <CopyButton
               style={styles.shareButton}
               toCopy={shareLink}
-              onPress={() => {
-                fireEvent('RECEIVE_DONE', { type: 'wallet' })
-              }}
+              onPress={onPressCopyButton}
               onPressDone={screenProps.goToRoot}
             >
               {SHARE_TEXT}
@@ -94,7 +90,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
 }
 
 Receive.navigationOptions = {
-  title: RECEIVE_TITLE,
+  title: 'Receive G$',
 }
 
 const getStylesFromProps = ({ theme }) => ({

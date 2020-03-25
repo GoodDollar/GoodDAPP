@@ -14,6 +14,7 @@ import ReceivedAnimation from '../../common/animations/Received'
 import SendAnimation from '../../common/animations/Send'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { getMaxDeviceHeight } from '../../../lib/utils/Orientation'
 
 export const getImageByType = (type, styles = {}) =>
   ({
@@ -125,7 +126,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 15,
   },
   mainPhoto: {
-    height: '20vh',
+    height: getMaxDeviceHeight() / 5,
     width: '100%',
   },
   spending: {

@@ -23,6 +23,8 @@ import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
+import { delay } from '../utils/async'
+
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -433,6 +435,10 @@ export class UserStorage {
     let gunuser = gun.user()
     let mnemonic = ''
 
+    //hack to get gun working. these seems to preload data gun needs to login
+    //otherwise it get stuck on a clean incognito
+    await Promise.race([gun.get('~@' + username).then(), delay(1000)])
+    await delay(1000)
     const authUserInGun = (username, password) => {
       return new Promise((res, rej) => {
         gunuser.auth(username, password, user => {
@@ -530,12 +536,7 @@ export class UserStorage {
       this.gunuser.leave()
     }
 
-    // this causes gun create user only on non-incognito to hang if user doesnt exists i have no freaking idea why
-    //const existingUsername = await this.gun.get('~@' + username)
-    const existingUsername = false
     let loggedInPromise
-
-    logger.debug('init existing username:', { existingUsername })
 
     let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
 
@@ -543,6 +544,13 @@ export class UserStorage {
       //sign with different address so its not connected to main user address and there's no 1-1 link
       const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
       const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
+
+      //hack to get gun working. these seems to preload data gun needs to login
+      //otherwise it get stuck on a clean incognito, either when checking existingusername (if doesnt exists)
+      //or in gun auth
+      const existingUsername = await Promise.race([this.gun.get('~@' + username), delay(1000)])
+      await delay(1000)
+      logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
           this.gunCreate(username, password).then(r => this.gunAuth(username, password))

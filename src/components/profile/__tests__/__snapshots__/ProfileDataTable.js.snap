@@ -148,13 +148,13 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               }
             >
               <input
-                aria-disabled={true}
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
                 className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                data-focusable={true}
                 dir="auto"
-                disabled={true}
+                disabled={false}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -162,7 +162,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 onKeyPress={[Function]}
                 onSelect={[Function]}
                 placeholder="Choose a Username"
-                readOnly={false}
+                readOnly={true}
                 spellCheck={true}
                 style={
                   Object {
@@ -184,7 +184,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                   }
                 }
-                tabIndex="-1"
                 type="text"
               />
               <div
@@ -292,13 +291,13 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               }
             >
               <input
-                aria-disabled={true}
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
                 className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                data-focusable={true}
                 dir="auto"
-                disabled={true}
+                disabled={false}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -306,7 +305,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 onKeyPress={[Function]}
                 onSelect={[Function]}
                 placeholder="Add your Mobile"
-                readOnly={false}
+                readOnly={true}
                 spellCheck={true}
                 style={
                   Object {
@@ -328,7 +327,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                   }
                 }
-                tabIndex="-1"
                 type="text"
                 value="2222222222222"
               />
@@ -439,13 +437,13 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               }
             >
               <input
-                aria-disabled={true}
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
                 className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                data-focusable={true}
                 dir="auto"
-                disabled={true}
+                disabled={false}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -453,7 +451,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 onKeyPress={[Function]}
                 onSelect={[Function]}
                 placeholder="Add your Email"
-                readOnly={false}
+                readOnly={true}
                 spellCheck={true}
                 style={
                   Object {
@@ -475,7 +473,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                   }
                 }
-                tabIndex="-1"
                 type="text"
                 value="john@doe.com"
               />
@@ -840,17 +837,23 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
               <div
                 className="react-phone-number-input"
                 style={
-                  Object {
-                    "borderColor": "#EEE",
-                    "borderRadius": 24,
-                    "borderWidth": 1,
-                    "color": "#222",
-                    "paddingBottom": 0,
-                    "paddingLeft": 0,
-                    "paddingRight": 0,
-                    "paddingTop": 0,
-                    "position": "relative",
-                  }
+                  Array [
+                    Object {
+                      "borderColor": "#EEE",
+                      "borderRadius": 24,
+                      "borderWidth": 1,
+                      "color": "#222",
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "position": "relative",
+                    },
+                    Object {
+                      "borderColor": "#EEE",
+                      "color": "#222",
+                    },
+                  ]
                 }
               >
                 <div
@@ -2982,17 +2985,23 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               <div
                 className="react-phone-number-input react-phone-number-input--invalid"
                 style={
-                  Object {
-                    "borderColor": "#FA6C77",
-                    "borderRadius": 24,
-                    "borderWidth": 1,
-                    "color": "#FA6C77",
-                    "paddingBottom": 0,
-                    "paddingLeft": 0,
-                    "paddingRight": 0,
-                    "paddingTop": 0,
-                    "position": "relative",
-                  }
+                  Array [
+                    Object {
+                      "borderColor": "#EEE",
+                      "borderRadius": 24,
+                      "borderWidth": 1,
+                      "color": "#222",
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                      "position": "relative",
+                    },
+                    Object {
+                      "borderColor": "#FA6C77",
+                      "color": "#FA6C77",
+                    },
+                  ]
                 }
               >
                 <div

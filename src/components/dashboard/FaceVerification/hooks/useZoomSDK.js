@@ -8,6 +8,7 @@ const sdk = ZoomAuthentication.ZoomSDK;
 
 export default ({ onInitialized = noop, onError = noop }) => {
   const [isInitialized, setInitialized] = useState(false);
+  const [initError, setInitError] = useState(null);
   const onInitializedRef = useRef(onInitialized);
   const onErrorRef = useRef(onError);
 
@@ -21,18 +22,19 @@ export default ({ onInitialized = noop, onError = noop }) => {
       const sdkStatus = sdk.getStatus();
       const sdkInitialized = sdk.ZoomSDKStatus.Initialized === sdkStatus;
 
-      setInitialized(sdkInitialized);
-
       if (!sdkInitialized) {
         const exception = new Error(sdk
           .getFriendlyDescriptionForZoomSDKStatus(sdkStatus)
         );
 
         exception.code = sdkStatus;
+
+        setInitError(exception);
         onErrorRef.current(exception);
         return;
       }
 
+      setInitialized(sdkInitialized);
       onInitializedRef.current();
     });
   }, []);

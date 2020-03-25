@@ -1,5 +1,5 @@
 const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin)
-
+const isEToro = process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro'
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
   version: process.env.VERSION || 'v0',
@@ -14,9 +14,9 @@ const Config = {
   dashboardUrl: process.env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
-  market: process.env.REACT_APP_MARKET || process.env.REACT_APP_ETORO || process.env.REACT_APP_NETWORK === 'etoro',
+  market: process.env.REACT_APP_MARKET === 'true' || isEToro,
   marketUrl: process.env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
-  isEToro: process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro',
+  isEToro,
   showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,

@@ -62,7 +62,7 @@ export const FaceRecognitionAPI = {
       return this.onFaceRecognitionSuccess(result)
     }
 
-    log.error('unknown error', { result }) // TODO: handle general error
+    log.error('Face recognition response failed', 'unknown error', null, { result }) // TODO: handle general error
     this.onFaceRecognitionFailure(result)
 
     return { ok: 0, error: 'General Error' }

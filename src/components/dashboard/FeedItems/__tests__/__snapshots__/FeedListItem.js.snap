@@ -184,7 +184,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   "msFlexDirection": "row",
                   "msFlexNegative": 1,
                   "msFlexPack": "justify",
-                  "paddingBottom": "6px",
+                  "paddingBottom": "5px",
                 }
               }
             >
@@ -252,7 +252,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                       "color": "rgba(250,108,119,1.00)",
                       "direction": "ltr",
                       "fontFamily": "Roboto Slab",
-                      "fontSize": "15px",
+                      "fontSize": "20px",
                       "fontWeight": "700",
                       "lineHeight": "18px",
                       "marginRight": "4px",
@@ -583,25 +583,18 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-text-901oao"
-                dir="auto"
+                className="css-view-1dbjc4n"
                 style={
                   Object {
                     "WebkitAlignSelf": "flex-start",
                     "alignSelf": "flex-start",
-                    "color": "rgba(250,108,119,1.00)",
-                    "fontFamily": "gooddollar",
-                    "fontSize": "34px",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                    "marginRight": "0px",
+                    "height": "35px",
                     "marginTop": "8px",
                     "msFlexItemAlign": "start",
+                    "width": "35px",
                   }
                 }
-              >
-                
-              </div>
+              />
             </div>
           </div>
         </div>
@@ -795,7 +788,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   "msFlexDirection": "row",
                   "msFlexNegative": 1,
                   "msFlexPack": "justify",
-                  "paddingBottom": "6px",
+                  "paddingBottom": "5px",
                 }
               }
             >
@@ -863,7 +856,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                       "color": "rgba(0,195,174,1.00)",
                       "direction": "ltr",
                       "fontFamily": "Roboto Slab",
-                      "fontSize": "15px",
+                      "fontSize": "20px",
                       "fontWeight": "700",
                       "lineHeight": "18px",
                       "marginRight": "4px",
@@ -1194,25 +1187,18 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-text-901oao"
-                dir="auto"
+                className="css-view-1dbjc4n"
                 style={
                   Object {
                     "WebkitAlignSelf": "flex-start",
                     "alignSelf": "flex-start",
-                    "color": "rgba(0,195,174,1.00)",
-                    "fontFamily": "gooddollar",
-                    "fontSize": "34px",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                    "marginRight": "0px",
+                    "height": "35px",
                     "marginTop": "8px",
                     "msFlexItemAlign": "start",
+                    "width": "35px",
                   }
                 }
-              >
-                
-              </div>
+              />
             </div>
           </div>
         </div>

@@ -77,7 +77,7 @@ const CustomDialog = ({
         isMinHeight={isMinHeight}
       >
         <React.Fragment>
-          {title && (
+          {!!title && (
             <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>
               {title}
             </Text>
@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
   content: {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     flexGrow: 1,
     padding: 0,
   },

@@ -140,7 +140,7 @@ const AppSwitch = (props: LoadingProps) => {
     //     props.navigation.navigate('Auth')
     //   } else {
     //     // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
-    //     log.error('Failed to sign in', credsOrError)
+    //     log.error('Failed to sign in', 'Failed to sign in', new Error('Failed to sign in'), { credsOrError })
     //     props.navigation.navigate('Auth')
     //   }
     // }

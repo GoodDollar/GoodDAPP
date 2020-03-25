@@ -103,7 +103,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   patchLogger()
 }
 
-export const reportToSentry = (errorMsg, extra = {}, tags = {}) =>
+export const reportToSentry = (error, extra = {}, tags = {}) =>
   Sentry.configureScope(scope => {
     // set extra
     _forEach(extra, (value, key) => {
@@ -115,7 +115,7 @@ export const reportToSentry = (errorMsg, extra = {}, tags = {}) =>
       scope.setTags(key, value)
     })
 
-    Sentry.captureException(new Error(errorMsg))
+    Sentry.captureException(error)
   })
 
 export const fireEvent = (event: string, data: any = {}) => {
@@ -152,7 +152,7 @@ const patchLogger = () => {
   let error = global.logger.error
   global.logger.error = function() {
     let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
-    if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
+    if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') === -1) {
       debounceFireEvent(ERROR_LOG, { reason: logMessage, logContext })
     }
     if (bugsnagClient && Config.env !== 'test') {
@@ -164,7 +164,7 @@ const patchLogger = () => {
     }
 
     if (Config.sentryDSN && Config.env !== 'test') {
-      reportToSentry(logMessage, {
+      reportToSentry(errorObj && errorObj instanceof Error ? errorObj : new Error(logMessage), {
         errorObj,
         logContext,
         eMsg,

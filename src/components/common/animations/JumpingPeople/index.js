@@ -1,8 +1,11 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
+import { isMobileOnly } from 'mobile-device-detect'
 
+import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 import animationData from './data.json'
+
 const styles = {
   android: {
     width: '100%',
@@ -16,8 +19,7 @@ const styles = {
   },
   web: {
     width: '100%',
-    position: 'absolute',
-    marginTop: -270,
+    marginBottom: isMobileOnly ? getDesignRelativeHeight(5) : -getDesignRelativeHeight(20),
   },
 }
 const stylesBlock = {
@@ -32,6 +34,8 @@ const stylesBlock = {
   web: {
     width: '100%',
     height: 100,
+    justifyContent: 'flex-end',
+    marginTop: isMobileOnly ? 0 : getDesignRelativeHeight(50),
   },
 }
 class JumpingPeople extends React.Component {

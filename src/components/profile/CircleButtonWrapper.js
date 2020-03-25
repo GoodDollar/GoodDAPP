@@ -11,11 +11,12 @@ const CircleButtonWrapper = ({
   disabled,
   styles,
   style,
+  containerStyle,
   iconName,
-  iconColor = '#fff',
-  iconSize = 20,
+  iconColor,
+  iconSize,
 }) => (
-  <View>
+  <View style={containerStyle}>
     <TouchableOpacity
       cursor={disabled ? 'inherit' : 'pointer'}
       onPress={disabled ? undefined : onPress}
@@ -23,13 +24,18 @@ const CircleButtonWrapper = ({
     >
       <Icon color={iconColor} size={iconSize} name={iconName} />
     </TouchableOpacity>
-    {label && (
-      <Text fontSize={10} fontWeight="500" lineHeight={11} style={[styles.label, labelStyles]}>
+    {!!label && (
+      <Text fontSize={10} fontWeight="500" lineHeight={11} color="white" style={[styles.label, labelStyles]}>
         {label}
       </Text>
     )}
   </View>
 )
+
+CircleButtonWrapper.defaultProps = {
+  iconColor: '#fff',
+  iconSize: 20,
+}
 
 const getStylesFromProps = ({ theme }) => ({
   wrapper: {

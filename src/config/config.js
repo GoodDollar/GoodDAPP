@@ -1,5 +1,5 @@
 const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin)
-
+const isEToro = process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro'
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
   version: process.env.VERSION || 'v0',
@@ -13,12 +13,12 @@ const Config = {
   dashboardUrl: process.env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
-  market: process.env.REACT_APP_MARKET || process.env.REACT_APP_ETORO || process.env.REACT_APP_NETWORK === 'etoro',
+  market: process.env.REACT_APP_MARKET === 'true' || isEToro,
   marketUrl: process.env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
-  isEToro: process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro',
   torusEnabled: process.env.REACT_APP_USE_TORUS === 'true',
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,
+  isEToro,
   showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
@@ -43,6 +43,8 @@ const Config = {
   hanukaStartDate: process.env.REACT_APP_HANUKA_START_DATE, // date
   hanukaEndDate: process.env.REACT_APP_HANUKA_END_DATE, // date
   delayMessageNetworkDisconnection: process.env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 3000,
+  showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
+  showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   ethereum: {
     '42': {
       network_id: 42,

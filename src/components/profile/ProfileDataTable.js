@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PhoneInput from 'react-phone-number-input'
 import './ProfileDataTablePhoneInput.css'
@@ -13,15 +13,13 @@ const ProfileDataTable = ({
   profile,
   storedProfile,
   onChange,
-  errors: errorsProp,
+  errors,
   editable,
   theme,
   styles,
   navigation,
   setLockSubmit,
 }) => {
-  const errors = errorsProp || {}
-
   const verifyEmail = () => {
     if (profile.email !== storedProfile.email) {
       verifyEdit('email', profile.email)
@@ -34,9 +32,31 @@ const ProfileDataTable = ({
     }
   }
 
-  const verifyEdit = (field, content) => {
-    navigation.navigate('VerifyEdit', { field, content })
-  }
+  const verifyEdit = useCallback(
+    (field, content) => {
+      navigation.navigate('VerifyEdit', { field, content })
+    },
+    [navigation]
+  )
+
+  // username handlers
+  const onUserNameChange = useCallback(username => onChange({ ...profile, username }), [onChange, profile])
+
+  // phone handlers
+  const onPhoneInputFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
+  const onPhoneInputChange = useCallback(value => onChange({ ...profile, mobile: value }), [onChange, profile])
+  const onPhoneInputBlur = useCallback(() => {
+    setLockSubmit(false)
+    verifyPhone()
+  }, [setLockSubmit])
+
+  // email handlers
+  const onEmailFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
+  const onEmailChange = useCallback(email => onChange({ ...profile, email }), [onChange, profile])
+  const onEmailBlur = useCallback(() => {
+    setLockSubmit(false)
+    verifyEmail()
+  }, [setLockSubmit])
 
   return (
     <Section.Row alignItems="center" grow={1}>
@@ -48,7 +68,7 @@ const ProfileDataTable = ({
             icon="username"
             iconColor={theme.colors.primary}
             iconSize={22}
-            onChange={username => onChange({ ...profile, username })}
+            onChange={onUserNameChange}
             placeholder="Choose a Username"
             value={profile.username}
           />
@@ -60,25 +80,18 @@ const ProfileDataTable = ({
                 <PhoneInput
                   error={errors.mobile && errors.mobile !== ''}
                   id="signup_phone"
-                  onFocus={() => setLockSubmit(true)}
-                  onChange={value => onChange({ ...profile, mobile: value })}
-                  onBlur={() => {
-                    setLockSubmit(false)
-                    verifyPhone()
-                  }}
+                  onFocus={onPhoneInputFocus}
+                  onChange={onPhoneInputChange}
+                  onBlur={onPhoneInputBlur}
                   placeholder="Enter phone number"
                   value={profile.mobile}
-                  style={{
-                    borderColor: errors.mobile ? theme.colors.red : theme.colors.lightGray,
-                    borderRadius: 24,
-                    borderWidth: 1,
-                    color: errors.mobile ? theme.colors.red : theme.colors.text,
-                    paddingBottom: 0,
-                    paddingLeft: 0,
-                    paddingRight: 0,
-                    paddingTop: 0,
-                    position: 'relative',
-                  }}
+                  style={[
+                    styles.phoneInputStyle,
+                    {
+                      borderColor: errors.mobile ? theme.colors.red : theme.colors.lightGray,
+                      color: errors.mobile ? theme.colors.red : theme.colors.text,
+                    },
+                  ]}
                 />
                 <Section.Row style={styles.suffixIcon}>
                   <Icon
@@ -110,12 +123,9 @@ const ProfileDataTable = ({
             icon="envelope"
             iconColor={theme.colors.primary}
             iconSize={20}
-            onFocus={() => setLockSubmit(true)}
-            onChange={email => onChange({ ...profile, email })}
-            onBlur={() => {
-              setLockSubmit(false)
-              verifyEmail()
-            }}
+            onFocus={onEmailFocus}
+            onChange={onEmailChange}
+            onBlur={onEmailBlur}
             placeholder="Add your Email"
             value={profile.email}
           />
@@ -123,6 +133,10 @@ const ProfileDataTable = ({
       </KeyboardAwareScrollView>
     </Section.Row>
   )
+}
+
+ProfileDataTable.defaultProps = {
+  errors: {},
 }
 
 const getStylesFromProps = ({ theme }) => {
@@ -145,6 +159,17 @@ const getStylesFromProps = ({ theme }) => {
     errorMargin: {
       marginTop: theme.sizes.default,
       marginBottom: theme.sizes.default,
+    },
+    phoneInputStyle: {
+      borderColor: theme.colors.lightGray,
+      borderRadius: 24,
+      borderWidth: 1,
+      color: theme.colors.text,
+      paddingBottom: 0,
+      paddingLeft: 0,
+      paddingRight: 0,
+      paddingTop: 0,
+      position: 'relative',
     },
   }
 }

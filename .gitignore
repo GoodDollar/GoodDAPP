@@ -72,4 +72,9 @@ radata/
 ios/assets/**
 android/app/src/main/assets/animations
 
+.idea
+yarn.lock
+account.data.txt
+.gradle
 .png-cache
+.DS_Store

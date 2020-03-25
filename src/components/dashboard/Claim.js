@@ -132,16 +132,20 @@ const Claim = props => {
           screenProps.goToRoot()
         },
       })
+
+      return []
     })
 
-    const nextClaim = await getNextClaim(nextClaimDate)
-    setState(prevState => ({ ...prevState, claimedToday, nextClaim }))
-    setClaimInterval(
-      setInterval(async () => {
-        const nextClaim = await getNextClaim(nextClaimDate)
-        setState(prevState => ({ ...prevState, nextClaim }))
-      }, 1000)
-    )
+    if (claimedToday && nextClaimDate) {
+      const nextClaim = await getNextClaim(nextClaimDate)
+      setState(prevState => ({ ...prevState, claimedToday, nextClaim }))
+      setClaimInterval(
+        setInterval(async () => {
+          const nextClaim = await getNextClaim(nextClaimDate)
+          setState(prevState => ({ ...prevState, nextClaim }))
+        }, 1000)
+      )
+    }
   }
 
   // Claim STATS

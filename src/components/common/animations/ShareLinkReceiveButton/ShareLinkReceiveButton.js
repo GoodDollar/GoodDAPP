@@ -1,7 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
-import { isMobileReactNative } from '../../../../lib/utils/platform'
+import { isMobileNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 import animationData from './data.json'
 
@@ -51,7 +51,7 @@ class ShareLinkReceiveButton extends React.Component {
           ref={this.setAnim}
           loop={false}
           source={animationData}
-          onAnimationFinish={isMobileReactNative && this.onAnimationFinish}
+          onAnimationFinish={isMobileNative && this.onAnimationFinish}
           style={{
             width: '100%',
           }}

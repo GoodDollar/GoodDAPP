@@ -4,6 +4,7 @@ import bip39 from 'bip39-light'
 import get from 'lodash/get'
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
+import retryImport from '../../lib/utils/retryImport'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -37,7 +38,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
-    const splitted = mnemonics.split(' ').filter(o => o)
+    const splitted = mnemonics.split(/\s+/).filter(o => o)
     if (splitted.length > MAX_WORDS) {
       setErrorMessage('Your pass phrase appears to be incorrect.')
     } else {
@@ -48,6 +49,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } else {
       setSubmitBlocked(true)
     }
+    mnemonics = splitted.join(' ')
     setMnemonics(mnemonics)
   }
 
@@ -57,6 +59,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     fireEvent(CLICK_BTN_RECOVER_WALLET)
     const showError = () =>
       showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
+        title: 'Ooops ...',
         boldMessage: 'Please check it and try again.',
       })
 
@@ -77,7 +80,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
       // We validate that a user was registered for the specified mnemonics
       const [profile, fullName] = await profileExist()
-
+      log.debug('profile exists:', { profile, fullName })
       if (profile) {
         await AsyncStorage.setItem(IS_LOGGED_IN, 'true')
 
@@ -129,8 +132,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
    */
   async function profileExist(): Promise<any> {
     const [Wallet, UserStorage] = await Promise.all([
-      import('../../lib/wallet/GoodWalletClass').then(_ => _.GoodWallet),
-      import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage),
+      retryImport(() => import('../../lib/wallet/GoodWalletClass').then(_ => _.GoodWallet)),
+      retryImport(() => import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage)),
     ])
     const wallet = new Wallet({ mnemonic: mnemonics })
     await wallet.ready

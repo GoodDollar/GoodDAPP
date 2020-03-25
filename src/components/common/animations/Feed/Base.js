@@ -1,6 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { Platform, View } from 'react-native'
+
+import { Platform } from 'react-native'
 
 class FeedInfo extends React.Component {
   state = {
@@ -9,8 +10,11 @@ class FeedInfo extends React.Component {
   }
 
   componentDidMount() {
+    const { delay = 0 } = this.props
+
     this.anim.onComplete = this.onAnimationFinishHandler
-    this.anim.play()
+
+    setTimeout(() => this.anim.play(), delay)
   }
 
   onAnimationFinishHandler = () => {
@@ -42,22 +46,17 @@ class FeedInfo extends React.Component {
   }
 
   render() {
-    const { height, width, style } = this.props
+    const { style } = this.props
     const { isWeb } = this.state
 
     return (
-      <View style={style}>
-        <Lottie
-          ref={this.setAnim}
-          source={this.animationData}
-          style={{
-            width,
-            height,
-          }}
-          loop={false}
-          onAnimationFinish={isWeb ? undefined : this.onAnimationFinishHandler}
-        />
-      </View>
+      <Lottie
+        ref={this.setAnim}
+        source={this.animationData}
+        style={style}
+        loop={false}
+        onAnimationFinish={isWeb ? undefined : this.onAnimationFinishHandler}
+      />
     )
   }
 }

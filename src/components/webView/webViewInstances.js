@@ -3,7 +3,7 @@ import { createIframe } from './iframe.web'
 
 export const TermsOfUse = createIframe(
   `https://community.gooddollar.org/${Config.isEToro ? 'pilot-terms' : 'dappterms'}/`,
-  'Terms of Use'
+  'Privacy Policy & Terms'
 )
 export const PrivacyPolicy = createIframe('https://community.gooddollar.org/pp/', 'Privacy Policy')
 export const PrivacyArticle = createIframe(

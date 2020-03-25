@@ -106,17 +106,9 @@ export default (props = {}) => {
       },
       {
         icon: 'terms-of-use',
-        name: 'Terms of Use',
+        name: 'Privacy Policy & Terms',
         action: () => {
           navigation.navigate('TOU')
-          slideOut()
-        },
-      },
-      {
-        icon: 'privacy-policy',
-        name: 'Privacy Policy',
-        action: () => {
-          navigation.navigate('PP')
           slideOut()
         },
       },

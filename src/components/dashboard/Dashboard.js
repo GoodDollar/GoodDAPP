@@ -33,7 +33,7 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import { FAQ, PrivacyArticle, PrivacyPolicy, Statistics, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, Statistics, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
@@ -786,7 +786,8 @@ export default createStackNavigator({
   // FRIntro,
   // UnsupportedDevice,
   SendQRSummary,
-  PP: PrivacyPolicy,
+
+  // PP: PrivacyPolicy,
   PrivacyArticle,
   TOU: TermsOfUse,
   Support,

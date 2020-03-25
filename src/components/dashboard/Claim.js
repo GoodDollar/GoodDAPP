@@ -22,7 +22,6 @@ import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import env from '../../config/env'
 import ClaimAnimatedButton from '../common/animations/ClaimButton/ClaimButton'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
@@ -88,7 +87,7 @@ const Claim = props => {
 
   const init = async () => {
     //hack to make unit test pass, activityindicator in claim button cuasing
-    if (env.NODE_ENV !== 'test') {
+    if (Config.nodeEnv !== 'test') {
       setLoading(true)
     }
     await goodWallet

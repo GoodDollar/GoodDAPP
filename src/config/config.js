@@ -66,6 +66,7 @@ const Config = {
       websocketWeb3Provider: 'ws://localhost:9545/ws',
     },
   },
+  nodeEnv: env.NODE_ENV,
 }
 
 Config.web3SiteUrlEconomyPage = `${Config.web3SiteUrl}${Config.web3SiteUrlEconomyEndpoint}`

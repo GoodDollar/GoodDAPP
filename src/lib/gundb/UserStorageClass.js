@@ -25,7 +25,6 @@ import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
 import { delay } from '../utils/async'
 import { isMobileNative } from '../utils/platform'
-import env from '../../config/env'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -1676,7 +1675,7 @@ export class UserStorage {
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = `${env.PUBLIC_URL}/favicon-96x96.png`
+    const favicon = `${Config.publicUrl}/favicon-96x96.png`
     const profileFromGun = () =>
       profileToShow &&
       profileToShow

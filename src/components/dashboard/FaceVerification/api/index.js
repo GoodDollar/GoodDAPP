@@ -1,48 +1,80 @@
 // @flow
+import { CancelToken } from 'axios'
 import API from '../../../../lib/API/api'
 import logger from '../../../../lib/logger/pino-logger'
 
-export type FaceRecognitionResponse = {
-  ok: boolean,
-  livenessPassed?: boolean,
-  isDuplicate?: boolean,
-  enrollResult?: any | false,
-}
+import {
+  type FaceRecognitionResponse,
+  type FaceVerificationPayload,
+  type FaceVerificationProvider,
+  FaceVerificationProviders
+} from './typings'
 
-type FaceRecognitionAPIResponse = {
-  ok: boolean,
-  error: string,
-}
+class FaceVerificationApi {
+  rootApi: typeof API
+  logger: any
+  lastCancelToken: any = null
 
-type CaptureResult = { sessionId: String, images: Array<any> }
+  constructor(rootApi: typeof API, logger: any) {
+    this.rootApi = rootApi
+    this.logger = logger
+  }
 
-const log = logger.child({ from: 'FaceRecognitionAPI' })
+  async performFaceVerification(
+    payload: FaceVerificationPayload,
+    provider: FaceVerificationProvider = FaceVerificationProviders.Kairos
+  ): Promise<FaceRecognitionResponse> {
+    const { rootApi, logger } = this;
+    const { sessionId, images } = payload
+    const cancelToken = CancelToken.source();
 
-export async function performFaceRecognition(payload: CaptureResult): FaceRecognitionAPIResponse {
-  const { sessionId, images } = payload
+    this.lastCancelToken = cancelToken;
+    logger.info('performFaceVerification', { sessionId, imageCount: images.length })
 
-  log.info('performFaceRecognition', { sessionId, imageCount: images.length })
+    try {
+      const result = await rootApi.performFaceVerification(
+        payload, provider, cancelToken.token
+      )
 
-  try {
-    const result = await API.performFaceRecognition(payload)
+      if (!result) {
+        throw new Error('Failed to perform face recognition on server')
+      }
 
-    if (!result) {
-      throw new Error('Failed to perform face recognition on server')
+      const { ok, error, ...response } = result
+
+      if (!ok) {
+        const exception = new Error(error);
+
+        exception.response = response;
+        throw exception;
+      }
+
+      logger.info('Face Recognition finished successfull', { response })
+
+      return response
+    } catch (exception) {
+      const { message } = exception
+
+      logger.error('Face recognition failed', message, exception)
+      throw exception
+    } finally {
+      this.lastCancelToken = null
+    }
+  }
+
+  cancelInFlightRequests(): void {
+    const { lastCancelToken } = this;
+
+    if (!lastCancelToken) {
+      return
     }
 
-    const { ok, error, ...response } = result
-
-    if (!ok) {
-      throw new Error(error)
-    }
-
-    log.info('Face Recognition finished successfull', { response })
-
-    return { success: true, ...response }
-  } catch (exception) {
-    const { message } = exception
-
-    log.error('Face recognition failed', message, exception)
-    return { success: false, error: message }
+    lastCancelToken.cancel('Face verification has beed reached timeout');
+    this.lastCancelToken = null;
   }
 }
+
+export default new FaceVerificationApi(
+  API,
+  logger.child({ from: 'FaceRecognitionAPI' })
+);

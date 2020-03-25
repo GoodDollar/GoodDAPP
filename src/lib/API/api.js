@@ -243,16 +243,22 @@ class API {
 
   /**
    * `/verify/facerecognition` post api call
-   * @param {Credentials} creds
+   * @param {any} payload
+   * @param {string} provider
    */
-  performFaceRecognition(req: any): Promise<$AxiosXHR<any>> {
-    //return { data: { ok: 1, livenessPassed: true, duplicates: false, zoomEnrollmentId:-1 } } //TODO: // REMOVE!!!!!!!!!!
-    return this.client.post('/verify/facerecognition', req).then(r => {
-      if (r.data.onlyInEnv) {
-        return { data: { ok: 1, enrollResult: { alreadyEnrolled: true } } }
-      }
-      return r
-    })
+  async performFaceVerification(payload: any, provider: string = 'kairos', cancelToken?: any = null): Promise<$AxiosXHR<any>> {
+    // TODO: add provider to uri
+    const endpoint = `/verify/facerecognition`
+    const requestConfig = cancelToken ? { cancelToken } : null
+
+    const response = await this.client.post(endpoint, payload, requestConfig)
+    const { onlyInEnv } = response.data;
+
+    if (('kairos' === provider) && onlyInEnv) {
+      return { data: { ok: 1, enrollResult: { alreadyEnrolled: true } } }
+    }
+
+    return response;
   }
 
   /**

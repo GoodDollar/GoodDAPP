@@ -8,7 +8,8 @@ import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import { fireEvent } from '../../../lib/analytics/analytics'
-import { type FaceRecognitionResponse, performFaceRecognition } from './api'
+import { type FaceRecognitionResponse } from './api/typings'
+import api from './api'
 import GuidedFR from './components/GuidedFRProcessResults'
 
 const log = logger.child({ from: 'FaceRecognition' })
@@ -16,12 +17,10 @@ const log = logger.child({ from: 'FaceRecognition' })
 type FaceRecognitionProps = DashboardProps & {}
 
 type State = {
-  showZoomCapture: boolean,
   showGuidedFR: boolean,
   sessionId: string | void,
   loadingText: string,
   facemap: Blob,
-  zoomReady: boolean,
   isWhitelisted: boolean | void,
   showHelper: boolean,
 }
@@ -63,23 +62,26 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   async startFRProcessOnServer(images) {
+    const sessionId = uuidv4()
+
     try {
       log.debug('Sending capture result to server')
-      const sessionId = uuidv4()
+
       this.setState({
         showCamera: false,
         showGuidedFR: true,
         sessionId,
       })
-      let result: FaceRecognitionResponse = await performFaceRecognition({ images, sessionId })
+
+      const result: FaceRecognitionResponse =
+        await api.performFaceVerification({ images, sessionId })
+
       log.debug('FR API:', { result })
-      if (!result || !result.ok) {
-        log.warn('FR API call failed:', { result })
-        this.showFRError(result.error)
-      }
-    } catch (e) {
-      log.error('FR API call failed:', e.message, e)
-      this.showFRError(e.message)
+    } catch (exception) {
+      const { message } = exception;
+
+      log.error('FR API call failed:', message, exception)
+      this.showFRError(message)
     }
   }
 

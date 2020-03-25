@@ -249,11 +249,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   typeIcon: {
     marginTop: theme.sizes.default,
-    alignSelf: 'flex-start',
-  },
-  typeAnimatedIcon: {
-    marginTop: theme.sizes.default,
-    alignSelf: 'flex-start',
     height: normalize(35),
     width: normalize(35),
   },

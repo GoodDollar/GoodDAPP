@@ -10,6 +10,7 @@ import ModalPaymentStatus from '../../common/modal/ModalPaymentStatus'
 import TopImage, { getImageByType } from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
+import normalize from '../../../lib/utils/normalizeText'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
@@ -140,6 +141,8 @@ const getStylesFromProps = ({ theme }) => {
     },
     icon: {
       marginLeft: 'auto',
+      height: normalize(36),
+      width: normalize(36),
     },
     messageContainer: {
       flex: 1,

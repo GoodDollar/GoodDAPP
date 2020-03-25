@@ -1675,7 +1675,7 @@ export class UserStorage {
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+    const favicon = `${Config.publicUrl}/favicon-96x96.png`
     const profileFromGun = () =>
       profileToShow &&
       profileToShow

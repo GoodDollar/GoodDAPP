@@ -5,22 +5,32 @@
  * @format
  */
 
+const { getDefaultConfig } = require("metro-config");
 const nodeLibs = require('node-libs-react-native')
 
-module.exports = {
-  resolver: {
-    extraNodeModules: {
-      ...nodeLibs,
-      vm: require.resolve('vm-browserify')
-    },
-  },
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: false,
+module.exports = (async () => {
+  const {
+    resolver: { sourceExts, assetExts }
+  } = await getDefaultConfig()
+
+  return {
+    resolver: {
+      extraNodeModules: {
+        ...nodeLibs,
+        vm: require.resolve('vm-browserify')
       },
-    }),
-    assetPlugins: ['react-native-svg-asset-plugin'],
-  },
-};
+      assetExts: assetExts.filter(ext => ext !== "svg"),
+      sourceExts: [...sourceExts, "svg"]
+    },
+    transformer: {
+      babelTransformerPath: require.resolve("react-native-svg-transformer"),
+      getTransformOptions: async () => ({
+        transform: {
+          experimentalImportSupport: false,
+          inlineRequires: false,
+        },
+      }),
+      assetPlugins: ['react-native-svg-asset-plugin'],
+    },
+  }
+})();

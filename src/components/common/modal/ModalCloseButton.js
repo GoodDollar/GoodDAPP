@@ -1,20 +1,18 @@
 // @flow
 import React from 'react'
-import { Image, Platform, TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { mediumZIndex } from './styles'
 import CloseSVG from './img/close.svg'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(CloseSVG)
-}
 
 const ModalCloseButton = (props: any) => {
   const { styles, onClose } = props
 
   return (
     <TouchableOpacity style={styles.modalCloseImageContainer} onPress={onClose}>
-      <Image style={styles.modalCloseImage} source={CloseSVG} />
+      <View style={styles.modalCloseImage}>
+        <CloseSVG width="100%" height="100%" />
+      </View>
     </TouchableOpacity>
   )
 }

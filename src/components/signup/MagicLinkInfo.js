@@ -1,16 +1,12 @@
 // @flow
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Signup/maginLinkIllustration.svg'
+import MagicLinkSVG from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomWrapper from './signUpWrapper'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps = {} } = props
@@ -32,7 +28,9 @@ const MagicLinkInfoComponent = props => {
           </Text>
         </View>
       </Section.Row>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+      <View style={styles.illustration}>
+        <MagicLinkSVG width="100%" height="100%" />
+      </View>
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
@@ -78,7 +76,7 @@ const getStylesFromProps = ({ theme }) => {
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
-      maxWidth: '100%',
+      width: '100%',
       maxHeight: getDesignRelativeHeight(175),
       minHeight: getDesignRelativeHeight(95),
       alignSelf: 'center',

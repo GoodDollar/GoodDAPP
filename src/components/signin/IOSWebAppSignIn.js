@@ -2,7 +2,7 @@
 //eslint-disable-next-line
 import bip39 from 'bip39-light'
 import React, { Fragment, useState } from 'react'
-import { AsyncStorage, Image, Platform } from 'react-native'
+import { AsyncStorage, View } from 'react-native'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -15,10 +15,6 @@ import InputText from '../common/form/InputText'
 import NavBar from '../appNavigation/NavBar'
 import IOSWebAppSignInSVG from '../../assets/IOSWebAppSignIn.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(IOSWebAppSignInSVG)
-}
 
 const TITLE = 'EASY ACCESS'
 const log = logger.child({ from: TITLE })
@@ -105,7 +101,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
             />
           </Section.Row>
         </Section.Stack>
-        <Image source={IOSWebAppSignInSVG} resizeMode={'contain'} style={styles.image} />
+        <View style={styles.image}>
+          <IOSWebAppSignInSVG width="100%" height="100%" />
+        </View>
         <Section style={styles.bottomContainer}>
           <CustomButton style={styles.buttonLayout} onPress={recover} disabled={!isValid || isRecovering}>
             {'SIGN IN'}

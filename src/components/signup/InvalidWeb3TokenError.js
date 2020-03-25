@@ -1,9 +1,9 @@
 import React from 'react'
-import { AsyncStorage, Image, StyleSheet, Text, View } from 'react-native'
+import { AsyncStorage, StyleSheet, Text, View } from 'react-native'
 import normalize from '../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
-import Oops from '../../assets/oops.svg'
+import OopsSVG from '../../assets/oops.svg'
 import config from '../../config/config'
 
 const InvalidWeb3TokenError = props => {
@@ -29,7 +29,9 @@ const InvalidWeb3TokenError = props => {
           }}
         >
           <Section.Title style={styles.mainTitle}>{TITLE}</Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={{ height: normalize(146) }} />
+          <View style={{ height: normalize(146) }}>
+            <OopsSVG width="100%" height="100%" />
+          </View>
           <Section
             style={{
               padding: 0,

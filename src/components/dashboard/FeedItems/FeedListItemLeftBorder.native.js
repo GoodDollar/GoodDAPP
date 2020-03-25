@@ -1,12 +1,14 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import wavePattern from '../../../assets/feedListItemPattern.svg'
+import WavePatternSVG from '../../../assets/feedListItemPattern.svg'
 
 const FeedListItemLeftBorder = ({ styles, style }) => {
   return (
     <View style={[styles.container, style]}>
-      <Image source={wavePattern} style={StyleSheet.absoluteFill} resizeMode="cover" />
+      <View style={StyleSheet.absoluteFill}>
+        <WavePatternSVG width="100%" height="100%" />
+      </View>
     </View>
   )
 }

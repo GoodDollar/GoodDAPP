@@ -299,13 +299,6 @@ module.exports = {
               plugins: [
                 [
                   require.resolve('babel-plugin-named-asset-import'),
-                  {
-                    loaderMap: {
-                      svg: {
-                        ReactComponent: '@svgr/webpack?-prettier,-svgo![path]',
-                      },
-                    },
-                  },
                 ],
               ],
               cacheDirectory: true,
@@ -399,6 +392,11 @@ module.exports = {
               },
               'sass-loader'
             ),
+          },
+          // SVGR is an tool that converts your SVG files into React components that you can use directly in JXS.
+          {
+            test: /\.svg$/,
+            use: ['@svgr/webpack'],
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.

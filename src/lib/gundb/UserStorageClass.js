@@ -24,7 +24,7 @@ import resizeBase64Image from '../utils/resizeBase64Image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
 import { delay } from '../utils/async'
-
+import { isMobileNative } from '../utils/platform'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -41,6 +41,9 @@ const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
 const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
 
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
+
+//gun hack for login
+const GUN_DELAY = isMobileNative ? 3000 : 1000
 
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
@@ -437,8 +440,7 @@ export class UserStorage {
 
     //hack to get gun working. these seems to preload data gun needs to login
     //otherwise it get stuck on a clean incognito
-    await Promise.race([gun.get('~@' + username).then(), delay(1000)])
-    await delay(1000)
+    await Promise.race([gun.get('~@' + username).then(), delay(GUN_DELAY)])
     const authUserInGun = (username, password) => {
       return new Promise((res, rej) => {
         gunuser.auth(username, password, user => {
@@ -540,7 +542,6 @@ export class UserStorage {
     let loggedInPromise
 
     let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
-
     if (existingCreds == null) {
       //sign with different address so its not connected to main user address and there's no 1-1 link
       const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
@@ -549,8 +550,7 @@ export class UserStorage {
       //hack to get gun working. these seems to preload data gun needs to login
       //otherwise it get stuck on a clean incognito, either when checking existingusername (if doesnt exists)
       //or in gun auth
-      const existingUsername = await Promise.race([this.gun.get('~@' + username), delay(1000)])
-      await delay(1000)
+      const existingUsername = await Promise.race([this.gun.get('~@' + username), delay(GUN_DELAY)])
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
@@ -584,12 +584,13 @@ export class UserStorage {
     this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
     this.user = this.gunuser.is
     this.profile = this.gunuser.get('profile')
+    const profile = await this.profile
     this.profile.open(doc => {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
 
-    logger.debug('init opened profile')
+    logger.debug('init opened profile', profile)
 
     //save ref to user
     await this.gun
@@ -887,6 +888,10 @@ export class UserStorage {
   initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+
+    //preload feed items
+    this.feed.get('byid').map(x => x)
+
     return Promise.all([this.feed, this.feed.get('byid')])
   }
 

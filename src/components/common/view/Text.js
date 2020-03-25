@@ -3,7 +3,6 @@ import React from 'react'
 import { Text as PaperText } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
-import { isAndroidNative } from '../../../lib/utils/platform'
 
 const LINE_HEIGHT_FACTOR = 1.2
 
@@ -105,7 +104,7 @@ const getStylesFromProps = ({
   const calculatedFontFamily =
     theme.fonts[fontFamily] ||
     fontFamily ||
-    (isAndroidNative && fontWeight && `Roboto-${fontWeight.charAt(0).toUpperCase()}${fontWeight.slice(1)}`) ||
+    (fontWeight && `Roboto-${fontWeight.charAt(0).toUpperCase()}${fontWeight.slice(1)}`) ||
     'Roboto'
 
   return {

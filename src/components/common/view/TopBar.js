@@ -13,21 +13,21 @@ import BigGoodDollar from './BigGoodDollar'
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
-const TopBar = ({ hideBalance, push, children }) => {
+const TopBar = ({ hideBalance, push, children, hideProfile = true }) => {
   const store = GDStore.useStore()
   const { balance } = store.get('account')
   const { avatar } = store.get('profile')
 
   return (
     <Section style={styles.topBar}>
-      <Section.Row alignItems="center">
-        <Avatar source={avatar} onPress={push && (() => push('Profile'))} />
+      <Section.Row alignItems="center" style={{ flexDirection: 'row-reverse' }}>
         {/*
          if children exist, it will be rendered
          if children=undefined and hideBalance=false, BigGoodDollar will be rendered
          if children=undefined and hideBalance=true, nothing will be rendered
          */}
         {children ? children : !hideBalance && <BigGoodDollar number={balance} />}
+        {hideProfile !== true && <Avatar source={avatar} onPress={push && (() => push('Profile'))} />}
       </Section.Row>
     </Section>
   )

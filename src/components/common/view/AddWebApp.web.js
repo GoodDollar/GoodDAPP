@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
-import { isMobileSafari } from 'mobile-device-detect'
+import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
@@ -16,10 +16,9 @@ import addAppIlustration from '../../../assets/addApp.svg'
 import Icon from '../view/Icon'
 import userStorage from '../../../lib/gundb/UserStorage'
 import API from '../../../lib/API/api'
-
 import Text from '../../common/view/Text'
-
 import logger from '../../../lib/logger/pino-logger'
+import Config from '../../../config/config'
 
 const log = logger.child({ from: 'AddWebApp' })
 
@@ -198,6 +197,10 @@ const AddWebApp = props => {
   }
 
   const checkShowDialog = async () => {
+    //dont show add to home on pure desktop
+    if (isMobile === false && Config.showAddToHomeDesktop === false) {
+      return
+    }
     const [lastCheck, nextCheck, skipCount, lastClaim, iOSAdded] = await Promise.all([
       AsyncStorage.getItem('GD_AddWebAppLastCheck'),
       AsyncStorage.getItem('GD_AddWebAppNextCheck'),

@@ -2,14 +2,14 @@
 import React from 'react'
 import get from 'lodash/get'
 import { v4 as uuidv4 } from 'uuid'
-import { FaceCapture } from '@gooddollar/react-native-web-facecapture'
+import { FaceCapture } from '@gooddollar/react-native-web-facecapture' // eslint-disable-line
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import { fireEvent } from '../../../lib/analytics/analytics'
-import { type FaceRecognitionResponse, performFaceRecognition } from './FaceRecognitionAPI'
-import GuidedFR from './GuidedFRProcessResults'
+import { type FaceRecognitionResponse, performFaceRecognition } from './api'
+import GuidedFR from './components/GuidedFRProcessResults'
 
 const log = logger.child({ from: 'FaceRecognition' })
 

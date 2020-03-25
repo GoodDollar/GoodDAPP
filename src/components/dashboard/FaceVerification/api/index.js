@@ -1,6 +1,6 @@
 // @flow
-import API from '../../../lib/API/api'
-import logger from '../../../lib/logger/pino-logger'
+import API from '../../../../lib/API/api'
+import logger from '../../../../lib/logger/pino-logger'
 
 export type FaceRecognitionResponse = {
   ok: boolean,
@@ -13,6 +13,7 @@ type FaceRecognitionAPIResponse = {
   ok: boolean,
   error: string,
 }
+
 type CaptureResult = { sessionId: String, images: Array<any> }
 
 const log = logger.child({ from: 'FaceRecognitionAPI' })

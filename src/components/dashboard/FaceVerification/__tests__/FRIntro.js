@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedFRIntro from '../FRIntro'
+import ImportedFRIntro from '../components/FRIntro'
 
 const FRIntro = withThemeProvider(ImportedFRIntro)
 

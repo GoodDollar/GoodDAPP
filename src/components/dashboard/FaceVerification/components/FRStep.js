@@ -1,11 +1,11 @@
 import React from 'react'
 import { ActivityIndicator, Platform, View } from 'react-native'
-import Text from '../../common/view/Text'
-import Icon from '../../common/view/Icon'
-import normalize from '../../../lib/utils/normalizeText'
-import logger from '../../../lib/logger/pino-logger'
-import { withStyles } from '../../../lib/styles'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import Text from '../../../common/view/Text'
+import Icon from '../../../common/view/Icon'
+import normalize from '../../../../lib/utils/normalizeText'
+import logger from '../../../../lib/logger/pino-logger'
+import { withStyles } from '../../../../lib/styles'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 

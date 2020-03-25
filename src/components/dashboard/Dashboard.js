@@ -74,10 +74,10 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
-import FaceVerification from './FaceRecognition/FaceRecognition'
-import FRIntro from './FaceRecognition/FRIntro'
-import FRError from './FaceRecognition/FRError'
-import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
+import FaceVerification from './FaceVerification'
+import FRIntro from './FaceVerification/components/FRIntro'
+import FRError from './FaceVerification/components/FRError'
+import UnsupportedDevice from './FaceVerification/components/UnsupportedDevice'
 
 const log = logger.child({ from: 'Dashboard' })
 

@@ -33,6 +33,8 @@ export default ({ onComplete = noop, onError = noop }) => {
     const isSuccess = sessionSuccessRef.current;
     const lastResult = sessionResultRef.current;
 
+    sessionRef.current = null;
+
     setSessionState({ isComplete: true, isSuccess, lastResult });
     onComplete(isSuccess, lastResult);
   }, [onComplete, setSessionState]);

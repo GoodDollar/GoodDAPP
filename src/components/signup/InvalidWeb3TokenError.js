@@ -30,7 +30,7 @@ const InvalidWeb3TokenError = props => {
         >
           <Section.Title style={styles.mainTitle}>{TITLE}</Section.Title>
           <View style={{ height: normalize(146) }}>
-            <OopsSVG width="100%" height="100%" />
+            <OopsSVG />
           </View>
           <Section
             style={{

@@ -10,6 +10,17 @@ const {
   babelExclude,
 } = require("customize-cra");
 
+// SVGR is an tool that converts your SVG files into React components that you can use directly in JXS.
+const svgrOverride = config => {
+  let loaders = config.module.rules[2].oneOf
+  loaders.splice(loaders.length - 1, 0, {
+    test: /\.svg$/,
+    use: ['@svgr/webpack'],
+  })
+
+  return config
+}
+
 module.exports = {
   webpack: override(
     fixBabelImports('module-resolver', {
@@ -19,6 +30,8 @@ module.exports = {
         '^react-native-linear-gradient$': 'react-native-web-linear-gradient',
       },
     }),
+
+    svgrOverride,
 
     babelInclude([
       path.resolve('src'),

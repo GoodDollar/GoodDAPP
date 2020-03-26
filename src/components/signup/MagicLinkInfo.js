@@ -29,7 +29,7 @@ const MagicLinkInfoComponent = props => {
         </View>
       </Section.Row>
       <View style={styles.illustration}>
-        <MagicLinkSVG width="100%" height="100%" />
+        <MagicLinkSVG />
       </View>
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>

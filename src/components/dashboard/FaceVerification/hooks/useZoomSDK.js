@@ -39,5 +39,9 @@ export default ({ onInitialized = noop, onError = noop }) => {
     });
   }, []);
 
-  return [sdk, isInitialized];
+  return {
+    sdk,
+    isInitialized,
+    initError
+  };
 }

@@ -20,7 +20,7 @@ const SplashDesktop = ({ onContinue, urlForQR }) => (
         </Section.Text>
         <QRCode value={urlForQR} size={150} qrStyles={styles.qrStyles} />
         <View style={styles.goodDollar}>
-          <GoodDollarImageSVG width="100%" height="100%" />
+          <GoodDollarImageSVG />
         </View>
         <CustomButton mode="outlined" color="white" style={styles.buttonContinue} onPress={onContinue}>
           Continue on Web
@@ -62,9 +62,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   goodDollar: {
-    maxWidth: '100%',
+    width: '100%',
     minHeight: 30,
-    minWidth: 212,
+    alignItems: 'center',
   },
   buttonContinue: {
     borderColor: 'white',

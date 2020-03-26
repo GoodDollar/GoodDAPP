@@ -21,7 +21,7 @@ const Splash = ({ animation }) => (
         ) : (
           <Section.Stack style={styles.content} grow justifyContent="center">
             <View style={styles.logo}>
-              <SplashSVG width="100%" height="100%" />
+              <SplashSVG widht="100%" height="100%" />
             </View>
             <View style={styles.goodDollar}>
               <GoodDollarSVG widht="100%" height="100%" />

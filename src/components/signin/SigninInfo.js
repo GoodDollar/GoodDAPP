@@ -28,7 +28,7 @@ const Signin = props => {
     <Section.Stack grow justifyContent="flex-start">
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
         <View style={styles.illustration}>
-          <SingInSVG width="100%" height="100%" />
+          <SingInSVG />
         </View>
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>

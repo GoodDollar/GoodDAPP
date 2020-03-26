@@ -133,8 +133,7 @@ type ShareObject = {
 export function generateShareObject(title: string, message: string, url: string): ShareObject {
   return {
     title,
-    message,
-    url,
+    message: `${message} ${url}`,
   }
 }
 

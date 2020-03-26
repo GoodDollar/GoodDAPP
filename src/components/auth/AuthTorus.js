@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import { Image } from 'react-native'
-import Mnemonics from '../signin/Mnemonics'
+import { AsyncStorage, Image } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
-import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
+import { CLICK_BTN_GETINVITED, fireEvent, SIGNIN_TORUS_SUCCESS, SIGNUP_STARTED } from '../../lib/analytics/analytics'
+import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
@@ -17,6 +17,7 @@ import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import retryImport from '../../lib/utils/retryImport'
 import { torusGoogle, useTorusServiceWorker } from './useTorus'
 
 Image.prefetch(illustration)
@@ -31,12 +32,43 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     window.location = config.web3SiteUrl
   }
 
+  //login so we can check if user exists
+  const ready = async () => {
+    log.debug('ready: Starting initialization')
+    const { init } = await retryImport(() => import('../../init'))
+    log.debug('ready: got init', init)
+    const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
+    log.debug('ready: got login', login)
+    const { goodWallet, userStorage, source } = await init()
+    log.debug('ready: done init')
+
+    //for QA
+    global.wallet = goodWallet
+    await userStorage.ready
+    log.debug('ready: userstorage ready')
+
+    //the login also re-initialize the api with new jwt
+    await login
+      .then(l => l.default.auth())
+      .catch(e => {
+        log.error('failed auth:', e.message, e)
+
+        // showErrorDialog('Failed authenticating with server', e)
+      })
+    log.debug('ready: login ready')
+
+    return { goodWallet, userStorage, source }
+  }
+
   const handleSignUp = async () => {
     store.set('loadingIndicator')({ loading: true })
     const redirectTo = 'Phone'
     let torusUser
     try {
       torusUser = await torusGoogle.triggerLogin()
+
+      //set masterseed so wallet can use it in 'ready' where we check if user exists
+      await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
       log.debug('torus login success', { torusUser })
     } catch (e) {
       store.set('loadingIndicator')({ loading: false })
@@ -46,31 +78,34 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     }
 
     try {
-      if (indexedDB !== undefined) {
-        const reqPromise = new Promise((res, rej) => {
-          const req = indexedDB.deleteDatabase('radata')
-          req.onsuccess = res
-          req.onerror = rej
-        })
-        await reqPromise
+      const { userStorage, source } = await ready()
+      const userExists = await userStorage.userAlreadyExist()
+      log.debug('checking userAlreadyExist', { userExists })
 
-        log.info('indexedDb successfully cleared')
+      //user exists reload with dashboard route
+      if (userExists) {
+        fireEvent(SIGNIN_TORUS_SUCCESS)
+        await AsyncStorage.setItem(IS_LOGGED_IN, true)
+        store.set('isLoggedIn')(true)
+        return
       }
+
+      //user doesnt exists start signup
+      fireEvent(SIGNUP_STARTED, { source })
+      navigation.navigate(redirectTo, { torusUser })
+
+      //Hack to get keyboard up on mobile need focus from user event such as click
+      setTimeout(() => {
+        const el = document.getElementById('Name_input')
+        if (el) {
+          el.focus()
+        }
+      }, 500)
     } catch (e) {
-      log.error('Failed to clear indexedDb', e.message, e)
+      log.error('Failed to initialize wallet and storage', e.message, e)
     } finally {
       store.set('loadingIndicator')({ loading: false })
     }
-
-    navigation.navigate(redirectTo, { torusUser })
-
-    //Hack to get keyboard up on mobile need focus from user event such as click
-    setTimeout(() => {
-      const el = document.getElementById('Name_input')
-      if (el) {
-        el.focus()
-      }
-    }, 500)
   }
 
   const handleNavigateTermsOfUse = () => screenProps.push('TermsOfUse')
@@ -189,7 +224,6 @@ export default createStackNavigator(
     Login: auth,
     TermsOfUse,
     PrivacyPolicy,
-    Recover: Mnemonics,
     Support,
   },
   {

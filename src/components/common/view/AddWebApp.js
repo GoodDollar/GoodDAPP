@@ -69,7 +69,7 @@ const DiaglogTitle = withStyles(mapStylesToProps)(({ children, styles }) => (
 const DialogImage = props => (
   <View style={props.styles.imageContainer}>
     <View style={props.styles.image}>
-      <AddAppSVG width="100%" height="100%" />
+      <AddAppSVG />
     </View>
   </View>
 )

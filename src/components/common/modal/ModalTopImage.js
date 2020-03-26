@@ -109,7 +109,7 @@ const TopImage = ({ type, styles }) => {
         {!!ImageData.imageSrc && <Image style={ImageData.style} source={ImageData.imageSrc} />}
         {!!ImageData.svgSrc && (
           <View style={ImageData.style}>
-            <ImageData.svgSrc width="100%" height="100%" />
+            <ImageData.svgSrc />
           </View>
         )}
       </View>

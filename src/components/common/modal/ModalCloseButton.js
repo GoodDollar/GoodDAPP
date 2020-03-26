@@ -11,7 +11,7 @@ const ModalCloseButton = (props: any) => {
   return (
     <TouchableOpacity style={styles.modalCloseImageContainer} onPress={onClose}>
       <View style={styles.modalCloseImage}>
-        <CloseSVG width="100%" height="100%" />
+        <CloseSVG />
       </View>
     </TouchableOpacity>
   )

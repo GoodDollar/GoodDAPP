@@ -6,7 +6,7 @@ export default ({ children }) => {
   return (
     <Fragment>
       <View style={styles.wavesBackground}>
-        <WavesSVG width="100%" height="100%" resizeMode="cover" />
+        <WavesSVG />
       </View>
       {children}
     </Fragment>

@@ -7,7 +7,7 @@ import { withStyles } from '../../../lib/styles'
 const ScrollToTopButton = ({ onPress, styles, style }) => (
   <TouchableWithoutFeedback onPress={onPress}>
     <View style={[styles.scrollToTopImage, style]}>
-      <ScrollToTopSVG width="100%" height="100%" />
+      <ScrollToTopSVG />
     </View>
   </TouchableWithoutFeedback>
 )

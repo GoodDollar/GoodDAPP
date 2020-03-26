@@ -67,7 +67,7 @@ Don’t worry, we’ll take care off you.\n`
         <Section style={styles.mainContainer} justifyContent={'space-evenly'}>
           <Section.Title style={styles.mainTitle}>{TITLE}</Section.Title>
           <View style={styles.image}>
-            <OopsSVG width="100%" height="100%" />
+            <OopsSVG />
           </View>
           <Section style={styles.mainSection}>
             <Separator style={styles.separator} width={2} />

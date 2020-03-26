@@ -539,7 +539,7 @@ const Dashboard = props => {
                   <Image source={{ uri: avatar }} style={styles.avatar} />
                 ) : (
                   <View style={styles.avatar}>
-                    <UnknownProfileSVG width="100%" height="100%" />
+                    <UnknownProfileSVG />
                   </View>
                 )}
               </TouchableOpacity>

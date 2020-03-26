@@ -60,7 +60,7 @@ const MagicLinkInfoComponent = props => {
             </View>
           </Section.Row>
           <View style={styles.illustration}>
-            <MagicLinkSVG width="100%" height="100%" />
+            <MagicLinkSVG />
           </View>
         </Section.Stack>
       </Section>

@@ -36,7 +36,7 @@ export default withStyles(dialogStyles)(({ styles, theme }) => {
     <View>
       <View style={styles.imageContainer}>
         <View style={styles.image}>
-          <UpdateVersionSVG width="100%" height="100%" />
+          <UpdateVersionSVG />
         </View>
         <Text
           fontSize={22}

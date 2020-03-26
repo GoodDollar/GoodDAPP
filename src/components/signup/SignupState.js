@@ -4,7 +4,7 @@ import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
 import _get from 'lodash/get'
-import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
+import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
@@ -50,7 +50,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const _w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User', {})
   const w3Token = _get(navigation, 'state.routes[1].params.w3Token')
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
-  const torusUserFromProps = _get(navigation, 'state.routes[1].params.torusUser', {})
+  const torusUserFromProps = _get(
+    navigation.state.routes.find(route => _get(route, 'params.torusUser')),
+    'params.torusUser',
+    {}
+  )
 
   const initialState: SignupState = {
     ...getUserModel({
@@ -171,20 +175,39 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   //keep privatekey from torus as master seed before initializing wallet
   //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
-  const checkTorusLogin = async () => {
+  const checkTorusLogin = () => {
     const masterSeed = torusUserFromProps.privateKey
     if (Config.torusEnabled && masterSeed === undefined) {
+      log.debug('torus user information missing', { torusUserFromProps })
       return navigation.navigate('Auth')
     }
-    await AsyncStorage.setItem(GD_USER_MASTERSEED, masterSeed)
-    log.debug('wrote torus master seed', { torusUserFromProps })
     return !!masterSeed
   }
+
+  const verifyStartRoute = async () => {
+    // don't allow to start sign up flow not from begining except when w3Token provided
+    //or have info from torus login (ie name)
+    const token = await AsyncStorage.getItem('GD_web3Token')
+
+    log.debug('redirecting to start, got index:', navigation.state.index, { torusUserFromProps })
+
+    if ((torusUserFromProps.name || token) && navigation.state.index > 1) {
+      log.debug('redirecting to Phone skipping name')
+      return navigateWithFocus(navigation.state.routes[1].key)
+    }
+
+    if ((torusUserFromProps.name || token) === false && navigation.state.index > 0) {
+      return navigateWithFocus(navigation.state.routes[0].key)
+    }
+  }
   const onMount = async () => {
+    checkTorusLogin()
+    verifyStartRoute()
+
     //get user country code for phone
     //read user data from w3 if needed
     //read torus seed
-    await Promise.all([getCountryCode(), checkW3Token(), checkTorusLogin()])
+    await Promise.all([getCountryCode(), checkW3Token()])
 
     //verify web3 email here
     if (Config.skipEmailVerification === false && state.w3Token && state.email) {
@@ -193,6 +216,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     //lazy login in background
     const ready = (async () => {
+      if (torusUserFromProps.privateKey) {
+        log.debug('skipping ready initialization (already done in AuthTorus)')
+        const [, { init }] = await Promise.all([API.ready, retryImport(() => import('../../init'))])
+        return init()
+      }
+
       log.debug('ready: Starting initialization')
       const { init } = await retryImport(() => import('../../init'))
       const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
@@ -211,7 +240,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
           // showErrorDialog('Failed authenticating with server', e)
         })
+
       await API.ready
+      log.debug('ready: signupstate ready')
 
       //now that we are loggedin, reload api with JWT
       // await API.init()
@@ -221,20 +252,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     setReady(ready)
   }
   useEffect(() => {
-    // don't allow to start sign up flow not from begining except when w3Token provided
-    //or have info from torus login (ie name)
-    AsyncStorage.getItem('GD_web3Token').then(token => {
-      log.debug('redirecting to start, got index:', navigation.state.index)
-
-      if ((torusUserFromProps.name || token) && navigation.state.index > 1) {
-        return navigateWithFocus(navigation.state.routes[1].key)
-      }
-
-      if ((torusUserFromProps.name || token) === false && navigation.state.index > 0) {
-        return navigateWithFocus(navigation.state.routes[0].key)
-      }
-    })
-
     onMount()
   }, [])
 

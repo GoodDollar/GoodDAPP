@@ -102,7 +102,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           </Section.Row>
         </Section.Stack>
         <View style={styles.image}>
-          <IOSWebAppSignInSVG width="100%" height="100%" />
+          <IOSWebAppSignInSVG />
         </View>
         <Section style={styles.bottomContainer}>
           <CustomButton style={styles.buttonLayout} onPress={recover} disabled={!isValid || isRecovering}>

@@ -41,6 +41,7 @@ export const useTorusServiceWorker = () => {
     registerTorusWorker()
     return () => {
       if (serviceWorker) {
+        log.debug('unregistering torus service worker')
         serviceWorker.unregister()
       }
     }

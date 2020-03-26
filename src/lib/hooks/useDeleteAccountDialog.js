@@ -45,7 +45,14 @@ export default ({ API, showDialog, store, theme }) =>
 
                 if (isDeleted) {
                   token && API.deleteWalletFromW3Site(token)
-                  await Promise.all([AsyncStorage.clear()])
+                  const req = new Promise((res, rej) => {
+                    const del = indexedDB.deleteDatabase('radata')
+                    del.onsuccess = res
+                    del.onerror = rej
+                  })
+
+                  //remove all local data so its not cached and user will re-login
+                  await Promise.all([AsyncStorage.clear(), req.catch()])
                   window.location = '/'
                 } else {
                   showDialog('There was a problem deleting your account. Try again later.')

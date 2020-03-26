@@ -83,7 +83,7 @@ const UnsupportedDevice = props => {
             {title}
           </Section.Title>
           <View style={styles.image}>
-            <OopsSVG width="100%" height="100%" />
+            <OopsSVG />
           </View>
           <Section style={styles.textContainer}>
             <Separator width={2} />

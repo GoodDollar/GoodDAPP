@@ -55,7 +55,7 @@ const FRError = props => {
             {`${getFirstWord(fullName)},\n${title}`}
           </Section.Title>
           <View style={styles.errorImage}>
-            <OopsSVG width="100%" height="100%" />
+            <OopsSVG />
           </View>
           <Section style={styles.errorSection}>
             <Separator width={2} />

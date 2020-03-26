@@ -160,7 +160,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
       <View style={styles.imageView}>
         <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
         <View style={styles.image}>
-          <LookingGoodSVG width="100%" height="100%" />
+          <LookingGoodSVG />
         </View>
       </View>
     ) : null

@@ -246,12 +246,22 @@ class API {
    * @param {any} payload
    * @param {string} provider
    */
-  async performFaceVerification(payload: any, provider: string = 'kairos', cancelToken?: any = null): Promise<$AxiosXHR<any>> {
+  async performFaceVerification(payload: any, provider: string = 'kairos', axiosCancelToken?: any = null): Promise<$AxiosXHR<any>> {
     // TODO: add provider to uri
+    const { client } = this;
     const endpoint = `/verify/facerecognition`
-    const requestConfig = cancelToken ? { cancelToken } : null
+    const axiosConfig = {}
 
-    const response = await this.client.post(endpoint, payload, requestConfig)
+    if (axiosCancelToken) {
+      axiosConfig.cancelToken = axiosCancelToken;
+    }
+
+    // TODO: remove stub when backend will be finished
+    if ('zoom' === provider) {
+      return { data: { ok: 1 }}
+    }
+
+    const response = await this.client.post(endpoint, payload, axiosConfig)
     const { onlyInEnv } = response.data;
 
     if (('kairos' === provider) && onlyInEnv) {

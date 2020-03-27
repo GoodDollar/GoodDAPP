@@ -1,5 +1,5 @@
 // @flow
-import { CancelToken } from 'axios'
+import axios from 'axios'
 import API from '../../../../lib/API/api'
 import logger from '../../../../lib/logger/pino-logger'
 
@@ -22,47 +22,62 @@ class FaceVerificationApi {
 
   async performFaceVerification(
     payload: FaceVerificationPayload,
-    provider: FaceVerificationProvider = FaceVerificationProviders.Kairos
+    provider: FaceVerificationProvider = FaceVerificationProviders.Kairos,
+    progressSubscription?: ({ loaded: number, total: number }) => void
   ): Promise<FaceRecognitionResponse> {
-    const { rootApi, logger } = this;
-    const { sessionId, images } = payload
-    const cancelToken = CancelToken.source();
+    const { rootApi, logger } = this
+    const tokenSource = axios.CancelToken.source()
+    const axiosConfig = { cancelToken: tokenSource.token }
+    const { sessionId, images, auditTrailImage, lowQualityAuditTrailImage } = payload
 
-    this.lastCancelToken = cancelToken;
-    logger.info('performFaceVerification', { sessionId, imageCount: images.length })
+    let imageCount;
+
+    switch (provider) {
+      case FaceVerificationProviders.Kairos:
+        imageCount = images.length
+        break;
+      case FaceVerificationProviders.Zoom:
+        imageCount = Number(!!(auditTrailImage || lowQualityAuditTrailImage))
+        break;
+      default:
+    }
+
+    this.lastCancelToken = tokenSource
+    logger.info('performFaceVerification', { provider, sessionId, imageCount })
+
+    if (progressSubscription) {
+      axiosConfig.onProgress = progressSubscription
+    }
 
     try {
-      const result = await rootApi.performFaceVerification(
-        payload, provider, cancelToken.token
-      )
+      const { data: response } = await rootApi.performFaceVerification(
+        payload, provider, axiosConfig
+      );
 
-      if (!result) {
+      const { ok, error } = response || {}
+
+      if (!response) {
         throw new Error('Failed to perform face recognition on server')
       }
 
-      const { ok, error, ...response } = result
-
       if (!ok) {
-        const exception = new Error(error);
-
-        exception.response = response;
-        throw exception;
+        throw response;
       }
 
       logger.info('Face Recognition finished successfull', { response })
 
-      return response
-    } catch (exception) {
-      const { message } = exception
+      return data
+    } catch (errorOrFailedResponse) {
+      const { message, error } = errorOrFailedResponse
 
-      logger.error('Face recognition failed', message, exception)
-      throw exception
+      logger.error('Face recognition failed', error || message, errorOrFailedResponse)
+      throw errorOrFailedResponse
     } finally {
       this.lastCancelToken = null
     }
   }
 
-  cancelInFlightRequests(): void {
+  cancelInFlightRequests() {
     const { lastCancelToken } = this;
 
     if (!lastCancelToken) {

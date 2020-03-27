@@ -40,7 +40,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     sessionId: undefined,
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
-    zoomReady: false,
     isWhitelisted: undefined,
     showHelper: get(this.props, 'screenProps.screenState.showHelper', true),
   }
@@ -77,10 +76,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         await api.performFaceVerification({ images, sessionId })
 
       log.debug('FR API:', { result })
-    } catch (exception) {
-      const { message } = exception;
+    } catch (exceptionOrFailedResponse) {
+      const { message, error } = exceptionOrFailedResponse;
 
-      log.error('FR API call failed:', message, exception)
+      log.error('FR API call failed:', error || message, exceptionOrFailedResponse)
       this.showFRError(message)
     }
   }

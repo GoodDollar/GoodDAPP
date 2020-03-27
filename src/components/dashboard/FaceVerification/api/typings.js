@@ -15,8 +15,8 @@ export type FaceVerificationResponse = {
 }
 
 export type FaceVerificationPayload = {
-  sessionId: String
-} && ({
+  sessionId: string
+} & ({
   images: Array<{
     width: number,
     height: number,
@@ -26,8 +26,9 @@ export type FaceVerificationPayload = {
     pictureOrientation: number,
     deviceOrientation: number,
   }>
-} || {
+} | {
   faceMap: string,
   lowQualityAuditTrailImage: string,
   auditTrailImage: string,
+  userAgent: string,
 })

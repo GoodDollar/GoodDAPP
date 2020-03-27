@@ -5,12 +5,16 @@ import api from '../api';
 import { FaceVerificationProviders } from '../api/typings';
 import ZoomAuthentication from "../../../../lib/zoom/ZoomAuthentication";
 
-const sdk = ZoomAuthentication.ZoomSDK;
-const { ZoomSessionStatus, ZoomSession, ZoomCustomization } = sdk;
+const {
+  ZoomSession,
+  ZoomCustomization,
+  ZoomSessionStatus,
+  createZoomAPIUserAgentString
+} = ZoomAuthentication.ZoomSDK;
 
 const getFaceMapBase64 = async faceMetrics => new Promise(
   (resolve, reject) => faceMetrics.getFaceMapBase64(faceMap =>
-    faceMap ? resolve(faceMetrics)
+    faceMap ? resolve(faceMap)
       : reject(new Error("Error generating FaceMap !"))
   )
 )
@@ -53,33 +57,45 @@ export default ({ onComplete = noop, onError = noop }) => {
         sessionId,
         faceMap,
         lowQualityAuditTrailImage: first(captured),
-        auditTrailImage: first(capturedHD)
+        auditTrailImage: first(capturedHD),
+        userAgent: createZoomAPIUserAgentString(sessionId)
       };
 
-      await api.performFaceVerification(payload, FaceVerificationProviders.Zoom);
+      const response = await api.performFaceVerification(
+        payload, ({ loaded, total }) => {
+          zoomFaceMapResultCallback.uploadProgress(loaded / total)
+        }
+      );
+
       ZoomCustomization.setOverrideResultScreenSuccessMessage(
-        "Face Recognition finished successfull"
+        response.enrollmentResult.message
       );
 
       sessionSuccessRef.current = true;
       zoomFaceMapResultCallback.succeed();
     } catch (exception) {
       const { message, response } = exception;
+      let errorMessage = message;
 
-      //TODO: analyze exception
-      // if we have some response with explanations
-      // what went wrong (e.g. Brightness etc)
-      // display corresponding message and retry
       if (response) {
-        ZoomCustomization.setOverrideResultScreenSuccessMessage(
-          message
-        );
+        const {
+          code, subCode,
+          message: zoomMessage
+        } = response.enrollmentResult || {}
 
-        zoomFaceMapResultCallback.retry();
-        return
+        errorMessage = zoomMessage;
+
+        if ((200 === code) || ('nameCollision' === subCode)) {
+          ZoomCustomization.setOverrideResultScreenSuccessMessage(
+            errorMessage
+          );
+
+          zoomFaceMapResultCallback.retry();
+          return;
+        }
       }
 
-      zoomFaceMapResultCallback.cancel(message);
+      zoomFaceMapResultCallback.cancel(errorMessage);
       onError(exception);
     }
   }, [onError]);

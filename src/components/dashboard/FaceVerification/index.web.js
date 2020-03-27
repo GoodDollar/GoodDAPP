@@ -4,12 +4,12 @@ import { noop } from 'lodash';
 import useZoomSDK from './hooks/useZoomSDK';
 import useZoomVerification from './hooks/useZoomVerification';
 
-const FaceVerification = ({ onSuccess = noop, onError = noop }) => {
-  const completionHandler = useCallback((isSuccess, lastResult) => {
+const FaceVerification = ({ screenProps, onError = noop }) => {
+  const completionHandler = useCallback(isSuccess => {
     if (isSuccess) {
-      onSuccess(lastResult);
+      screenProps.pop({ isValid: true })
     }
-  }, [onSuccess]);
+  }, [onSuccess, screenProps]);
 
   const { startVerification } = useZoomVerification({
     onComplete: completionHandler,

@@ -7,17 +7,18 @@ import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../lib/constants/localStora
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
+import NavBar from '../appNavigation/NavBar'
 import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Auth/Illustration.svg'
+import illustration from '../../assets/Auth/torusIllustration.svg'
 import config from '../../config/config'
 import { theme as mainTheme } from '../theme/styles'
 import Section from '../common/layout/Section'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import retryImport from '../../lib/utils/retryImport'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { torusGoogle, useTorusServiceWorker } from './useTorus'
 
 Image.prefetch(illustration)
@@ -112,8 +113,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
   const handleNavigatePrivacyPolicy = () => screenProps.push('PrivacyPolicy')
 
-  const firstButtonHandler = asGuest ? handleSignUp : goToW3Site
-  const firstButtonText = asGuest ? (
+  // google button settings
+  const googleButtonHandler = asGuest ? handleSignUp : goToW3Site
+  const googleButtonText = asGuest ? (
     'Login with Google'
   ) : (
     <Text style={styles.buttonText} fontWeight="medium">
@@ -123,20 +125,34 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       </Text>
     </Text>
   )
+  const googleButtonTextStyle = asGuest ? undefined : styles.textBlack
 
-  const firstButtonColor = asGuest ? undefined : mainTheme.colors.orange
-  const firstButtonTextStyle = asGuest ? undefined : styles.textBlack
+  // facebook button settings
+  const facebookButtonHandler = asGuest ? handleSignUp : goToW3Site
+  const facebookButtonText = 'Login with Facebook'
+  const facebookButtonTextStyle = asGuest ? undefined : styles.textBlack
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
-        {'Welcome to\nGoodDollar Wallet'}
+      <NavBar title="Welcome to gooddollar!" />
+      <Text
+        style={styles.headerText}
+        fontSize={26}
+        lineHeight={34}
+        letterSpacing={0.26}
+        fontFamily="Roboto"
+        fontWeight="bold"
+      >
+        Join and Claim G$ Daily.
+        <Text fontSize={26} lineHeight={34} letterSpacing={0.26} fontFamily="Roboto">
+          {"\nYes, it's that simple."}
+        </Text>
       </Text>
       <Image source={illustration} style={styles.illustration} resizeMode="contain" />
       <Section style={styles.bottomContainer}>
         {asGuest && (
-          <Text fontSize={12} color="gray80Percent">
-            {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+          <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
+            {'By Signing up you are accepting our\n'}
             <Text
               fontSize={12}
               color="gray80Percent"
@@ -159,13 +175,22 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           </Text>
         )}
         <CustomButton
-          color={firstButtonColor}
+          color={mainTheme.colors.googleRed}
           style={styles.buttonLayout}
-          textStyle={firstButtonTextStyle}
-          onPress={firstButtonHandler}
+          textStyle={googleButtonTextStyle}
+          onPress={googleButtonHandler}
           disabled={torusReady === false}
         >
-          {firstButtonText}
+          {googleButtonText}
+        </CustomButton>
+        <CustomButton
+          color={mainTheme.colors.facebookBlue}
+          style={styles.buttonLayout}
+          textStyle={facebookButtonTextStyle}
+          onPress={facebookButtonHandler}
+          disabled={torusReady === false}
+        >
+          {facebookButtonText}
         </CustomButton>
       </Section>
     </Wrapper>
@@ -188,7 +213,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingBottom: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      marginVertical: 20,
+      marginVertical: theme.sizes.default,
     },
     buttonText: {
       alignItems: 'center',
@@ -203,14 +228,16 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: theme.sizes.default,
-      maxWidth: '100%',
-      minHeight: 100,
-      maxHeight: 192,
+      width: '100%',
+      maxHeight: getDesignRelativeHeight(240),
       paddingTop: theme.sizes.default,
     },
     headerText: {
-      marginTop: getDesignRelativeHeight(95),
-      marginBottom: getDesignRelativeHeight(25),
+      marginTop: getDesignRelativeHeight(30),
+      marginBottom: getDesignRelativeHeight(30),
+    },
+    privacyAndTerms: {
+      marginBottom: 20,
     },
   }
 }

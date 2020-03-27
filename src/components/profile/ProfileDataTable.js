@@ -24,8 +24,8 @@ const ProfileDataTable = ({
   setLockSubmit,
   showCustomFlag,
 }) => {
-  const phoneMeta = showCustomFlag && parsePhoneNumberFromString(profile.mobile)
-  const countryFlagUrl = showCustomFlag && useCountryFlagUrl(phoneMeta.country)
+  const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)
+  const countryFlagUrl = showCustomFlag && phoneMeta && useCountryFlagUrl(phoneMeta.country)
 
   const verifyEmail = () => {
     if (profile.email !== storedProfile.email) {
@@ -117,9 +117,9 @@ const ProfileDataTable = ({
             </Section.Stack>
           ) : (
             <Fragment>
-              {showCustomFlag && <Image source={{ uri: countryFlagUrl }} style={styles.flag} />}
+              {showCustomFlag && countryFlagUrl && <Image source={{ uri: countryFlagUrl }} style={styles.flag} />}
               <InputRounded
-                containerStyle={styles.phoneContainer}
+                containerStyle={countryFlagUrl && styles.phoneContainer}
                 disabled={true}
                 error={errors.mobile}
                 icon="phone"

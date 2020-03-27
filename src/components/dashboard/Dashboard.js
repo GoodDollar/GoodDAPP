@@ -33,7 +33,7 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import { FAQ, PrivacyArticle, Statistics, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, Statistics, Support, PrivacyPolicyAndTerms } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
@@ -789,7 +789,7 @@ export default createStackNavigator({
 
   // PP: PrivacyPolicy,
   PrivacyArticle,
-  TOU: TermsOfUse,
+  TOU: PrivacyPolicyAndTerms,
   Support,
   FAQ,
   Statistics,

@@ -674,7 +674,6 @@ const getStylesFromProps = ({ theme }) => ({
   topInfo: {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
-    marginBottom: 0,
     marginLeft: theme.sizes.default,
     marginRight: theme.sizes.default,
     paddingBottom: theme.sizes.default,

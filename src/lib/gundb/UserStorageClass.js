@@ -231,6 +231,7 @@ export const startClaiming = {
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
+    preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
     reason:
       'GoodDollar gives every active member a small daily income. Sign in every day, collect free GoodDollars and use them to pay for goods and services.',
     endpoint: {
@@ -1544,7 +1545,7 @@ export class UserStorage {
 
     try {
       const { data, type, date, id, status, createdDate, animationExecuted } = event
-      const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
+      const { sender, preReasonText, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
       const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
@@ -1593,6 +1594,7 @@ export class UserStorage {
             withdrawStatus,
           },
           amount: value,
+          preMessageText: preReasonText,
           message: reason || message,
           subtitle,
           withdrawCode,

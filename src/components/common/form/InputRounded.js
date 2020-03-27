@@ -13,7 +13,7 @@ import ErrorText from './ErrorText'
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
-const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChange, ...inputProps }) => {
+const InputRounded = ({ styles, containerStyle, theme, icon, iconSize, iconColor, error, onChange, ...inputProps }) => {
   const handleChange = useCallback(
     event => {
       onChange(event.target.value)
@@ -24,7 +24,10 @@ const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChang
   return (
     <View style={styles.inputContainer}>
       <View
-        style={inputProps.disabled ? styles.inputText : error ? styles.errorInputContainer : styles.iconInputContainer}
+        style={[
+          inputProps.disabled ? styles.inputText : error ? styles.errorInputContainer : styles.iconInputContainer,
+          containerStyle,
+        ]}
       >
         <TextInput
           onChange={handleChange}

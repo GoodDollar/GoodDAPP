@@ -43,6 +43,7 @@ const Config = {
   delayMessageNetworkDisconnection: process.env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 3000,
   showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
+  flagsUrl: process.env.REACT_APP_FLAGS_URL ||  'https://lipis.github.io/flag-icon-css/flags/4x3/',
   ethereum: {
     '42': {
       network_id: 42,

@@ -5,9 +5,9 @@ import animationData from './data.json'
 
 class SaveButtonDisabled extends React.Component {
   render() {
-    const { style = {}, onPress } = this.props
+    const { style = {} } = this.props
     return (
-      <TouchableOpacity style={style} disabled={true} onPress={onPress}>
+      <TouchableOpacity style={style} disabled>
         <Lottie
           loop={false}
           play={false}

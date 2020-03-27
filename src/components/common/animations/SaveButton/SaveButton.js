@@ -72,10 +72,10 @@ class SaveButton extends React.Component {
   }
 
   render() {
-    const { styles, style = {}, loading, disabled } = this.props
+    const { style = {}, loading, disabled } = this.props
 
     return (
-      <TouchableOpacity style={[styles.wrapper, style]} disabled={loading || disabled} onPress={this.handlePress}>
+      <TouchableOpacity style={style} disabled={loading || disabled} onPress={this.handlePress}>
         <Lottie
           ref={this.setAnim}
           loop={false}
@@ -91,9 +91,7 @@ class SaveButton extends React.Component {
 }
 
 const styles = ({ theme }) => {
-  return {
-    wrapper: {},
-  }
+  return {}
 }
 
 export default withStyles(styles)(SaveButton)

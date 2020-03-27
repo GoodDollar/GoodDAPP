@@ -681,6 +681,9 @@ const getStylesFromProps = ({ theme }) => ({
     paddingLeft: theme.sizes.default,
     paddingRight: theme.sizes.default,
     paddingTop: theme.sizes.defaultDouble,
+    marginBottom: -3,
+    zIndex: 10,
+    position: 'relative',
   },
   userInfo: {
     backgroundColor: 'transparent',

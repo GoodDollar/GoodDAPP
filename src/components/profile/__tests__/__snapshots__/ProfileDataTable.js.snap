@@ -837,23 +837,17 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
               <div
                 className="react-phone-number-input"
                 style={
-                  Array [
-                    Object {
-                      "borderColor": "#EEE",
-                      "borderRadius": 24,
-                      "borderWidth": 1,
-                      "color": "#222",
-                      "paddingBottom": 0,
-                      "paddingLeft": 0,
-                      "paddingRight": 0,
-                      "paddingTop": 0,
-                      "position": "relative",
-                    },
-                    Object {
-                      "borderColor": "#EEE",
-                      "color": "#222",
-                    },
-                  ]
+                  Object {
+                    "borderColor": "#EEE",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "color": "#222",
+                    "paddingBottom": 0,
+                    "paddingLeft": 0,
+                    "paddingRight": 0,
+                    "paddingTop": 0,
+                    "position": "relative",
+                  }
                 }
               >
                 <div
@@ -2985,23 +2979,17 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               <div
                 className="react-phone-number-input react-phone-number-input--invalid"
                 style={
-                  Array [
-                    Object {
-                      "borderColor": "#EEE",
-                      "borderRadius": 24,
-                      "borderWidth": 1,
-                      "color": "#222",
-                      "paddingBottom": 0,
-                      "paddingLeft": 0,
-                      "paddingRight": 0,
-                      "paddingTop": 0,
-                      "position": "relative",
-                    },
-                    Object {
-                      "borderColor": "#FA6C77",
-                      "color": "#FA6C77",
-                    },
-                  ]
+                  Object {
+                    "borderColor": "#FA6C77",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "color": "#FA6C77",
+                    "paddingBottom": 0,
+                    "paddingLeft": 0,
+                    "paddingRight": 0,
+                    "paddingTop": 0,
+                    "position": "relative",
+                  }
                 }
               >
                 <div

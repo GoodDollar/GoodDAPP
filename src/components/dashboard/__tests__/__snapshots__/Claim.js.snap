@@ -440,7 +440,12 @@ exports[`Claim matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitBoxPack": "end",
+              "WebkitJustifyContent": "flex-end",
               "height": "100px",
+              "justifyContent": "flex-end",
+              "marginTop": "50px",
+              "msFlexPack": "end",
               "width": "100%",
             }
           }
@@ -449,8 +454,7 @@ exports[`Claim matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "marginTop": "-270px",
-                "position": "absolute",
+                "marginBottom": "-20px",
                 "width": "100%",
               }
             }
@@ -708,14 +712,6 @@ exports[`Claim matches snapshot 1`] = `
             </div>
           </div>
         </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "height": "16px",
-            }
-          }
-        />
         <div
           className="css-view-1dbjc4n"
           style={

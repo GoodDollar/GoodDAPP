@@ -610,17 +610,15 @@ export class UserStorage {
 
     //for some reason doing init stuff before  causes gun to get stuck
     //this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
-    logger.debug('init Properties + feed')
 
-    await Promise.all([
-      this.initProfile(),
-      this.initProperties(),
-      this.initFeed(), //save ref to user
-      await this.gun
-        .get('users')
-        .get(this.gunuser.is.pub)
-        .putAck(this.gunuser),
-    ])
+    //doing await one by one - Gun hack so it doesnt get stuck
+    await this.initProfile()
+    await this.initProperties()
+    await this.initFeed()
+    await this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .putAck(this.gunuser) //save ref to user
 
     logger.debug('init systemfeed')
 
@@ -889,10 +887,10 @@ export class UserStorage {
   async initFeed() {
     this.feed = this.gunuser.get('feed')
     const feed = await this.feed
-    logger.debug('got feed', { feed })
+    logger.debug('init feed', { feed })
     if (feed != null) {
       const byid = await this.feed.get('byid')
-      logger.debug('got feed byid', { byid })
+      logger.debug('init feed byid', { byid })
     }
 
     this.feed.get('index').on(this.updateFeedIndex, false)
@@ -937,7 +935,7 @@ export class UserStorage {
   async initProperties() {
     this.properties = this.gunuser.get('properties')
     const props = await this.properties
-    logger.debug('got properties', { props })
+    logger.debug('init properties', { props })
 
     if (props == null) {
       let putRes = await this.properties.putAck(UserProperties.defaultProperties)

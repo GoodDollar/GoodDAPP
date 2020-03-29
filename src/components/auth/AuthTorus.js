@@ -19,7 +19,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import retryImport from '../../lib/utils/retryImport'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { torusGoogle, useTorusServiceWorker } from './useTorus'
+import { torusFacebook, torusGoogle, useTorusServiceWorker } from './useTorus'
 
 Image.prefetch(illustration)
 const log = logger.child({ from: 'AuthTorus' })
@@ -61,12 +61,23 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     return { goodWallet, userStorage, source }
   }
 
-  const handleSignUp = async () => {
+  const signupGoogle = () => handleSignUp('google')
+  const signupFacebook = () => handleSignUp('facebook')
+
+  const handleSignUp = async (provider: 'facebook' | 'google') => {
     store.set('loadingIndicator')({ loading: true })
     const redirectTo = 'Phone'
     let torusUser
     try {
-      torusUser = await torusGoogle.triggerLogin()
+      switch (provider) {
+        case 'facebook':
+          torusUser = await torusFacebook.triggerLogin()
+          break
+        default:
+        case 'google':
+          torusUser = await torusGoogle.triggerLogin()
+          break
+      }
 
       //set masterseed so wallet can use it in 'ready' where we check if user exists
       await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
@@ -114,7 +125,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleNavigatePrivacyPolicy = () => screenProps.push('PrivacyPolicy')
 
   // google button settings
-  const googleButtonHandler = asGuest ? handleSignUp : goToW3Site
+  const googleButtonHandler = asGuest ? signupGoogle : goToW3Site
   const googleButtonText = asGuest ? (
     'Login with Google'
   ) : (
@@ -128,7 +139,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const googleButtonTextStyle = asGuest ? undefined : styles.textBlack
 
   // facebook button settings
-  const facebookButtonHandler = asGuest ? handleSignUp : goToW3Site
+  const facebookButtonHandler = asGuest ? signupFacebook : goToW3Site
   const facebookButtonText = 'Login with Facebook'
   const facebookButtonTextStyle = asGuest ? undefined : styles.textBlack
 

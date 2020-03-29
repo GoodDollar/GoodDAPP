@@ -440,7 +440,7 @@ export class UserStorage {
     const usernamePromise = new Promise(function(res, rej) {
       this.gun.get('~@' + username).once(res, { wait: 1000 })
     })
-    await Promise.race([usernamePromise, delay(2000)])
+    await Promise.race([usernamePromise, delay(3000)])
     const authUserInGun = (username, password) => {
       return new Promise((res, rej) => {
         gunuser.auth(username, password, user => {
@@ -554,7 +554,7 @@ export class UserStorage {
       const usernamePromise = new Promise(function(res, rej) {
         this.gun.get('~@' + username).once(res, { wait: 1000 })
       })
-      const existingUsername = await Promise.race([usernamePromise, delay(2000)])
+      const existingUsername = await Promise.race([usernamePromise, delay(3000)])
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>

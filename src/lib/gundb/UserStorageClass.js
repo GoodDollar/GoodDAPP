@@ -437,8 +437,10 @@ export class UserStorage {
 
     //hack to get gun working. these seems to preload data gun needs to login
     //otherwise it get stuck on a clean incognito
-    await Promise.race([gun.get('~@' + username).then(), delay(1000)])
-    await delay(1000)
+    const usernamePromise = new Promise(function(res, rej) {
+      this.gun.get('~@' + username).once(res, { wait: 1000 })
+    })
+    await Promise.race([usernamePromise, delay(3000)])
     const authUserInGun = (username, password) => {
       return new Promise((res, rej) => {
         gunuser.auth(username, password, user => {
@@ -539,17 +541,20 @@ export class UserStorage {
     let loggedInPromise
 
     let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
-
+    existingCreds = null
     if (existingCreds == null) {
       //sign with different address so its not connected to main user address and there's no 1-1 link
-      const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
+      const username = await this.wallet.sign('GoodDollarTorusUser', 'gundb').then(r => r.slice(0, 20))
       const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
+      logger.debug('login to gun', { username, password })
 
       //hack to get gun working. these seems to preload data gun needs to login
       //otherwise it get stuck on a clean incognito, either when checking existingusername (if doesnt exists)
       //or in gun auth
-      const existingUsername = await Promise.race([this.gun.get('~@' + username), delay(1000)])
-      await delay(1000)
+      const usernamePromise = new Promise(function(res, rej) {
+        this.gun.get('~@' + username).once(res, { wait: 1000 })
+      })
+      const existingUsername = await Promise.race([usernamePromise, delay(3000)])
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
@@ -582,24 +587,14 @@ export class UserStorage {
 
     this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
     this.user = this.gunuser.is
-    this.profile = this.gunuser.get('profile')
-    this.profile.open(doc => {
-      this._lastProfileUpdate = doc
-      this.subscribersProfileUpdates.forEach(callback => callback(doc))
-    })
 
-    logger.debug('init opened profile')
-
-    //save ref to user
-    await this.gun
-      .get('users')
-      .get(this.gunuser.is.pub)
-      .putAck(this.gunuser)
+    const gunuser = await this.gun.user()
 
     logger.debug('GunDB logged in', {
       username: existingCreds.username,
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
+      gunuser,
     })
     logger.debug('subscribing')
 
@@ -615,9 +610,15 @@ export class UserStorage {
 
     //for some reason doing init stuff before  causes gun to get stuck
     //this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
-    logger.debug('init Properties + feed')
 
-    await Promise.all([this.initProperties(), this.initFeed()])
+    //doing await one by one - Gun hack so it doesnt get stuck
+    await this.initProfile()
+    await this.initProperties()
+    await this.initFeed()
+    await this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .putAck(this.gunuser) //save ref to user
 
     logger.debug('init systemfeed')
 
@@ -885,8 +886,13 @@ export class UserStorage {
    */
   async initFeed() {
     this.feed = this.gunuser.get('feed')
-    await this.feed
-    await this.feed.get('byid')
+    const feed = await this.feed
+    logger.debug('init feed', { feed })
+    if (feed != null) {
+      const byid = await this.feed.get('byid')
+      logger.debug('init feed byid', { byid })
+    }
+
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
 
@@ -920,6 +926,7 @@ export class UserStorage {
     }
 
     this.addHanukaBonusStartsCard()
+    logger.debug('startSystemFeed: done')
   }
 
   /**
@@ -927,12 +934,30 @@ export class UserStorage {
    */
   async initProperties() {
     this.properties = this.gunuser.get('properties')
+    const props = await this.properties
+    logger.debug('init properties', { props })
 
-    if ((await this.properties) === undefined) {
+    if (props == null) {
       let putRes = await this.properties.putAck(UserProperties.defaultProperties)
       logger.debug('set defaultProperties ok:', { defaultProperties: UserProperties.defaultProperties, putRes })
     }
     this.userProperties = new UserProperties(this.properties)
+  }
+
+  async initProfile() {
+    const gunuser = await this.gunuser
+    this.profile = this.gunuser.get('profile')
+    const profile = gunuser.profile && (await this.profile)
+    if (profile == null) {
+      await this.gunuser.get('profile').putAck({ initialized: true })
+      this.profile = this.gunuser.get('profile')
+    }
+    this.profile.open(doc => {
+      this._lastProfileUpdate = doc
+      this.subscribersProfileUpdates.forEach(callback => callback(doc))
+    })
+
+    logger.debug('init opened profile', { gunRef: this.profile, profile, gunuser })
   }
 
   /**
@@ -2062,8 +2087,9 @@ export class UserStorage {
    */
   async userAlreadyExist(): Promise<boolean> {
     const profile = await this.profile
-    logger.debug('userAlreadyExist', this.profile !== undefined && profile !== undefined && profile !== null)
-    return !!profile
+    const exists = get(profile, 'registered', false)
+    logger.debug('userAlreadyExist', { exists, profile })
+    return exists
   }
 
   /**

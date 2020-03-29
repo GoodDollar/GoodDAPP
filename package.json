@@ -67,6 +67,7 @@
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@sentry/browser": "^5.10.2",
+    "@toruslabs/torus-direct-web-sdk": "^1.0.1",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",
     "await-mutex": "^1.0.2",

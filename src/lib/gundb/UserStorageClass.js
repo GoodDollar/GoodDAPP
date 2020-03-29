@@ -437,7 +437,7 @@ export class UserStorage {
 
     //hack to get gun working. these seems to preload data gun needs to login
     //otherwise it get stuck on a clean incognito
-    const usernamePromise = new Promise(function(res, rej) {
+    const usernamePromise = new Promise((res, rej) => {
       this.gun.get('~@' + username).once(res, { wait: 1000 })
     })
     await Promise.race([usernamePromise, delay(3000)])
@@ -551,7 +551,7 @@ export class UserStorage {
       //hack to get gun working. these seems to preload data gun needs to login
       //otherwise it get stuck on a clean incognito, either when checking existingusername (if doesnt exists)
       //or in gun auth
-      const usernamePromise = new Promise(function(res, rej) {
+      const usernamePromise = new Promise((res, rej) => {
         this.gun.get('~@' + username).once(res, { wait: 1000 })
       })
       const existingUsername = await Promise.race([usernamePromise, delay(3000)])

@@ -1,6 +1,7 @@
 import { GoodWallet } from '../GoodWalletClass'
 import adminWallet from './__util__/AdminWallet'
 
+//TODO: need to convert to smart contracts v0.1.0 for phase0
 describe('GoodWalletShare/ReceiveTokens', () => {
   jest.setTimeout(100000)
   const amount = 1

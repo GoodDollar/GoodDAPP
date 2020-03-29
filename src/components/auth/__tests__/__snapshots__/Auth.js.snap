@@ -214,7 +214,6 @@ you are accepting our
                 dir="auto"
                 onClick={[Function]}
                 onKeyDown={[Function]}
-                r={true}
                 style={
                   Object {
                     "color": "rgba(163,163,163,1.00)",

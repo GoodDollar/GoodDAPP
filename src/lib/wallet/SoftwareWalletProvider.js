@@ -4,7 +4,7 @@ import bip39 from 'bip39-light'
 import type { HttpProvider, WebSocketProvider } from 'web3-providers'
 import { AsyncStorage } from 'react-native'
 import Config from '../../config/config'
-import { GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
+import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
@@ -23,7 +23,7 @@ export function saveMnemonics(mnemonics: string): Promise<any> {
  * get user mnemonics stored on device or generate a new one
  */
 export async function getMnemonics(): Promise<string> {
-  let pkey = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+  let pkey = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || (await AsyncStorage.getItem(GD_USER_MASTERSEED))
 
   if (pkey) {
     log.info('pkey found, creating account from pkey:', { pkey })

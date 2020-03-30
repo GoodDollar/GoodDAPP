@@ -95,10 +95,12 @@ const ProfileDataTable = ({
                   style={{
                     borderRadius: 24,
                     borderWidth: 1,
-                    paddingBottom: 0,
+                    paddingBottom: 5,
                     paddingLeft: 0,
                     paddingRight: 0,
-                    paddingTop: 0,
+                    paddingTop: 5,
+                    marginTop: 2,
+                    marginBottom: 2,
                     position: 'relative',
                     borderColor: errors.mobile ? theme.colors.red : theme.colors.lightGray,
                     color: errors.mobile ? theme.colors.red : theme.colors.text,
@@ -163,11 +165,10 @@ const getStylesFromProps = ({ theme }) => {
     suffixIcon: {
       alignItems: 'center',
       display: 'flex',
-      height: 38,
+      height: 40,
       justifyContent: 'center',
       position: 'absolute',
-      right: 0,
-      top: 0,
+      right: 1,
       width: 32,
       zIndex: 1,
     },
@@ -185,9 +186,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     disabledPhoneContainer: {
       paddingLeft: 10,
-    },
-    phoneContainer: {
-      marginBottom: theme.sizes.default / 2,
     },
   }
 }

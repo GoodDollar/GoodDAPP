@@ -82,7 +82,10 @@ const getStylesFromProps = ({ theme }) => {
     iconInputContainer: {
       ...defaultInputContainer,
       borderColor: theme.colors.lightGray,
-      marginBottom: theme.sizes.default,
+      marginTop: 2,
+      marginBottom: 2,
+      paddingTop: 2,
+      paddingBottom: 2,
     },
     inputText: {
       ...defaultInputContainer,
@@ -92,7 +95,7 @@ const getStylesFromProps = ({ theme }) => {
       borderTopColor: theme.colors.lightGray,
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,
-      marginBottom: 0,
+      marginBottom: 2,
       marginTop: 2,
       paddingTop: 2,
       paddingBottom: 2,
@@ -106,6 +109,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       display: 'flex',
       height: '100%',
+      top: 0,
       justifyContent: 'center',
       position: 'absolute',
       right: 0,

@@ -228,7 +228,7 @@ const getStylesFromProps = ({ theme }) => ({
     borderWidth: 0,
   },
   emptySpace: {
-    height: 80,
+    height: 74,
     width: '100%',
   },
 })

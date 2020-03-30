@@ -22,12 +22,11 @@ const VIEWABILITY_CONFIG = {
   viewAreaCoveragePercentThreshold: 100,
   waitForInteraction: true,
 }
-const emptyFeed = { type: 'empty', data: {} }
+const emptyFeed = { type: 'empty', data: {}, id: 'empty' }
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 export type FeedListProps = {
   data: any,
-  updateData: any,
   onEndReached: any,
   initialNumToRender: ?number,
   store: GDStore,

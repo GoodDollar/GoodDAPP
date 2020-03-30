@@ -1,13 +1,14 @@
 import React from 'react'
 import { createBrowserApp } from '@react-navigation/web'
 import { createSwitchNavigator } from '@react-navigation/core'
-
 import { Platform } from 'react-native'
 import { isAndroid, isMobileSafari } from 'mobile-device-detect'
+import Config from './config/config'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
+import AuthTorus from './components/auth/AuthTorus'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blurred'
 import './components/appNavigation/blurFx.css'
@@ -17,9 +18,10 @@ import isWebApp from './lib/utils/isWebApp'
 import { getOriginalScreenHeight } from './lib/utils/Orientation'
 
 const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
+const AuthType = Config.torusEnabled ? AuthTorus : Auth
 const router = createSwitchNavigator(
   {
-    Auth,
+    Auth: AuthType,
     Signup,
     InvalidW3TokenError,
     SigninInfo,

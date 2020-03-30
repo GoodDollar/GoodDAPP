@@ -1,6 +1,6 @@
 // @flow
 import { isMobile } from 'mobile-device-detect'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
@@ -13,10 +13,29 @@ import Splash from './components/splash/Splash'
 import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
+import Config from './config/config'
 import * as serviceWorker from './serviceWorker'
 
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
+const DisconnectedSplash = () => <Splash animation={false} />
+
+const SplashOrRouter = memo(({ store }) => {
+  const isLoggedIn = !!store.get('isLoggedIn')
+  const [useDesktop, setUseDesktop] = useState(Config.showSplashDesktop === false || isLoggedIn)
+  const continueWithDesktop = useCallback(() => setUseDesktop(true), [setUseDesktop])
+
+  return (
+    <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedIn}>
+      {!isMobile && !useDesktop ? (
+        <SplashDesktop onContinue={continueWithDesktop} urlForQR={window.location.href} />
+      ) : (
+        <RouterSelector />
+      )}
+    </InternetConnection>
+  )
+})
+
 const App = () => {
   const store = SimpleStore.useStore()
   useEffect(() => {
@@ -53,35 +72,17 @@ const App = () => {
   // onRecaptcha = (token: string) => {
   //   userStorage.setProfileField('recaptcha', token, 'private')
   // }
-  const [useDesktop, setUseDesktop] = useState(store.get('isLoggedIn') === true)
 
-  const continueWithDesktop = () => {
-    setUseDesktop(true)
-  }
-
-  const SplashOrRouter =
-    !isMobile && !useDesktop ? (
-      <SplashDesktop onContinue={continueWithDesktop} urlForQR={window.location.href} />
-    ) : (
-      <RouterSelector />
-    )
-
-  return useMemo(
-    () => (
-      <PaperProvider theme={theme}>
-        <SafeAreaView style={styles.safeAreaView}>
-          <React.Fragment>
-            <SimpleStoreDialog />
-            <LoadingIndicator />
-            <InternetConnection onDisconnect={() => <Splash animation={false} />} isLoggedIn={store.get('isLoggedIn')}>
-              {SplashOrRouter}
-              {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
-            </InternetConnection>
-          </React.Fragment>
-        </SafeAreaView>
-      </PaperProvider>
-    ),
-    [isMobile, useDesktop]
+  return (
+    <PaperProvider theme={theme}>
+      <SafeAreaView style={styles.safeAreaView}>
+        <React.Fragment>
+          <SimpleStoreDialog />
+          <LoadingIndicator />
+          <SplashOrRouter store={store} />
+        </React.Fragment>
+      </SafeAreaView>
+    </PaperProvider>
   )
 }
 

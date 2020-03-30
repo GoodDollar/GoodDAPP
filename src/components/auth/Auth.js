@@ -9,7 +9,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
@@ -189,7 +189,6 @@ class Auth extends React.Component<Props> {
                 fontSize={12}
                 color="gray80Percent"
                 fontWeight="bold"
-                r
                 textDecorationLine="underline"
                 onPress={this.handleNavigatePrivacyPolicy}
               >
@@ -271,7 +270,7 @@ auth.navigationOptions = {
 export default createStackNavigator(
   {
     Login: auth,
-    TermsOfUse,
+    TermsOfUse: PrivacyPolicyAndTerms,
     PrivacyPolicy,
     Recover: Mnemonics,
     Support,

@@ -141,7 +141,7 @@ exports[`Claim matches snapshot 1`] = `
                 }
               }
             >
-              Universal 
+              Universal
 
             </span>
             <span
@@ -161,7 +161,7 @@ exports[`Claim matches snapshot 1`] = `
                 }
               }
             >
-              Basic Income 
+              Basic Income
  For All
             </span>
           </div>
@@ -531,7 +531,7 @@ exports[`Claim matches snapshot 1`] = `
                             }
                           }
                         >
-                          Get your 
+                          Get your
                         </span>
                         <span
                           className="css-text-901oao css-textHasAncestor-16my406"
@@ -852,7 +852,7 @@ exports[`Claim matches snapshot 1`] = `
                             }
                           }
                         >
-                          Get your 
+                          Get your
                         </span>
                         <span
                           className="css-text-901oao css-textHasAncestor-16my406"
@@ -1075,7 +1075,7 @@ exports[`Claim matches snapshot 1`] = `
               }
             >
               0
-               
+
             </span>
             <span
               className="css-text-901oao css-textHasAncestor-16my406"

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
 import { withStyles } from '../../lib/styles'
@@ -90,46 +90,58 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styl
   </CustomButton>
 )
 
-const ClaimAnimationButton = props => {
-  const { styles, entitlement, onPress } = props
-  const [card, setCard] = useState(null)
-  const entitlementOld = useRef(undefined)
+const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, ...buttonProps }) => {
+  const cardRef = useRef()
+  const setCardRef = useCallback(ref => (cardRef.current = ref), [])
+
+  const nextClaimOnHold = useRef(null)
+  const suspendRendering = useCallback(() => {
+    nextClaimOnHold.current = nextClaim
+  }, [nextClaim])
+  const restoreRendering = useCallback(() => {
+    nextClaimOnHold.current = null
+  }, [])
 
   useEffect(() => {
-    if (entitlementOld.current === undefined) {
-      entitlementOld.current = entitlement
-    } else {
-      if (entitlementOld.current === 0 && entitlement) {
-        card.flip()
-      }
+    if (entitlement && cardRef.current) {
+      cardRef.current.flip()
     }
   }, [entitlement])
 
-  const handlerOnPress = () => {
-    if (entitlement > 0) {
-      entitlementOld.current = 0
-      onPress()
-    }
+  if (entitlement && !cardRef.current) {
+    return (
+      <ClaimButton {...buttonProps} entitlement={entitlement} nextClaim={nextClaim} onPress={onPress} styles={styles} />
+    )
   }
 
-  const onFlipEnd = () => {
-    entitlementOld.current = entitlement
-  }
+  const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
 
   return (
     <CardFlip
       style={styles.cardContainer}
-      onFlipEnd={onFlipEnd}
-      ref={setCard}
-      flipDirection={'x'}
+      ref={setCardRef}
+      flipDirection="x"
       duration={1000}
       perspective={1000}
+      onFlipStart={suspendRendering}
+      onFlipEnd={restoreRendering}
     >
-      <ClaimButton {...props} onPress={handlerOnPress} entitlement={entitlementOld.current} />
-      <ClaimButton {...props} onPress={handlerOnPress} entitlement={entitlement === 0 ? 100 : entitlement} />
+      <ClaimButton
+        {...buttonProps}
+        styles={styles}
+        entitlement={0}
+        nextClaim={nextClaimToDisplay}
+      />
+      <ClaimButton
+        {...buttonProps}
+        styles={styles}
+        entitlement={entitlement}
+        nextClaim={nextClaimToDisplay}
+        onPress={onPress}
+      />
     </CardFlip>
   )
-}
+})
 const getStylesFromProps = ({ theme }) => ({
   justifyCenter: {
     justifyContent: 'center',
@@ -142,6 +154,7 @@ const getStylesFromProps = ({ theme }) => ({
   cardContainer: {
     alignItems: 'center',
     width: getDesignRelativeWidth(196),
+    height: getDesignRelativeHeight(196),
     marginTop: getDesignRelativeWidth(10),
   },
   minButtonHeight: {

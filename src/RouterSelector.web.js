@@ -21,7 +21,7 @@ let SignupRouter = React.lazy(() =>
       Promise.all([
         retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
         handleLinks(),
-        delay(2000),
+        delay(5000),
       ])
     )
     .then(r => r[0])
@@ -105,7 +105,7 @@ const RouterSelector = () => {
   }, [isLoggedIn])
 
   return (
-    <React.Suspense fallback={<Splash animation={true} />}>
+    <React.Suspense fallback={<Splash animation />}>
       <Router />
     </React.Suspense>
   )

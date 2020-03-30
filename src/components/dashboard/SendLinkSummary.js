@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, Share, View } from 'react-native'
+import { text } from 'react-native-communications'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
@@ -109,7 +110,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
 
     if (canShare) {
-      shareAction(paymentLink)
+      if (contact.phoneNumber) {
+        text(contact.phoneNumber, paymentLink)
+        screenProps.push('Dashboard')
+      } else {
+        shareAction(paymentLink)
+      }
     } else {
       const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
 

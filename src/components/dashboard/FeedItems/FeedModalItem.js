@@ -85,7 +85,7 @@ const FeedModalItem = (props: FeedEventProps) => {
           </View>
           <View style={styles.messageContainer}>
             {!!item.data.preMessageText && (
-              <Text fontSize={14} textAlign="left" fontWeight="bold">
+              <Text fontSize={14} textAlign="left" lineHeight={20} letterSpacing={0.14} fontWeight="bold">
                 {item.data.preMessageText}
                 {'\n\n'}
               </Text>

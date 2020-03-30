@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../__tests__/__util__'
-import Rewards from '../Rewards.web'
+import Rewards from '../Rewards'
 
 describe('Rewards', () => {
   const WrappedRewards = withThemeProvider(Rewards)

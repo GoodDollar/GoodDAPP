@@ -12,8 +12,6 @@
     "prettier/react"
   ],
   "plugins": [
-    //FIXME: RN
-    //"dependencies",
     "flowtype",
     "import",
     "prettier",
@@ -32,21 +30,6 @@
         "extensions": [".js", ".android.js", ".ios.js", ".web.js", ".native.js"]
       }
     }
-    //FIXME: RN
-    // "dependencies/resolver": {
-    //   "node": {
-    //     "paths": [
-    //       "src"
-    //     ]
-    //   },
-    //   "extensions": [
-    //     ".js",
-    //     ".android.js",
-    //     ".ios.js",
-    //     ".web.js",
-    //     ".native.js"
-    //   ]
-    // }
   },
   "rules": {
     "prettier/prettier": "warn",

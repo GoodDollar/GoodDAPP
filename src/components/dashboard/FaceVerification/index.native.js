@@ -70,12 +70,11 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         sessionId,
       })
 
-      const result: FaceRecognitionResponse =
-        await api.performFaceVerification({ images, sessionId })
+      const result: FaceRecognitionResponse = await api.performFaceVerification({ images, sessionId })
 
       log.debug('FR API:', { result })
     } catch (exceptionOrFailedResponse) {
-      const { message, error } = exceptionOrFailedResponse;
+      const { message, error } = exceptionOrFailedResponse
 
       log.error('FR API call failed:', error || message, exceptionOrFailedResponse)
       this.showFRError(message)

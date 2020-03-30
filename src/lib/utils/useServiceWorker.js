@@ -1,9 +1,9 @@
 // @flow
 import { useEffect } from 'react'
-import SimpleStore from '../undux/SimpleStore'
-import isWebApp from './isWebApp'
-import logger from '../logger/pino-logger'
 import { Platform } from 'react-native'
+import SimpleStore from '../undux/SimpleStore'
+import logger from '../logger/pino-logger'
+import isWebApp from './isWebApp'
 
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistered = false
@@ -17,7 +17,7 @@ export default () => {
 
     const serviceWorker = require('../../serviceWorker')
 
-    const onUpdate = (reg) => {
+    const onUpdate = reg => {
       store.set('serviceWorkerUpdated')(reg)
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         log.debug('service worker: controllerchange')
@@ -25,7 +25,7 @@ export default () => {
       })
     }
 
-    const onRegister = (reg) => {
+    const onRegister = reg => {
       if (reg.waiting) {
         onUpdate(reg)
       }

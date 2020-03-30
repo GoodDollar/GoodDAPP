@@ -1,5 +1,7 @@
 // @flow
 
+/* eslint-disable no-use-before-define */
+
 /**
  * @type
  */

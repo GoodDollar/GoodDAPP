@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import Icon from '../../common/view/Icon'
 import Text from '../../common/view/Text'
 import SummaryTable from '../../common/view/SummaryTable'

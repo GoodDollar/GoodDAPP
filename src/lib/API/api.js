@@ -246,18 +246,22 @@ class API {
    * @param {any} payload
    * @param {string} provider
    */
-  async performFaceVerification(payload: any, provider: string = 'kairos', axiosConfig?: any = {}): Promise<$AxiosXHR<any>> {
-    const { client } = this;
+  async performFaceVerification(
+    payload: any,
+    provider: string = 'kairos',
+    axiosConfig?: any = {}
+  ): Promise<$AxiosXHR<any>> {
+    const { client } = this
     const endpoint = `/verify/facerecognition/${provider}`
 
-    const response = await this.client.post(endpoint, payload, axiosConfig)
-    const { onlyInEnv } = response.data;
+    const response = await client.post(endpoint, payload, axiosConfig)
+    const { onlyInEnv } = response.data
 
-    if (('kairos' === provider) && onlyInEnv) {
+    if ('kairos' === provider && onlyInEnv) {
       return { data: { ok: 1, isVerified: true } }
     }
 
-    return response;
+    return response
   }
 
   /**

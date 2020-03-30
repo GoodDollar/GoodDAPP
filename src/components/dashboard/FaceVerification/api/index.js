@@ -7,12 +7,14 @@ import {
   type FaceRecognitionResponse,
   type FaceVerificationPayload,
   type FaceVerificationProvider,
-  FaceVerificationProviders
+  FaceVerificationProviders,
 } from './typings'
 
 class FaceVerificationApi {
   rootApi: typeof API
+
   logger: any
+
   lastCancelToken: any = null
 
   constructor(rootApi: typeof API, logger: any) {
@@ -25,56 +27,45 @@ class FaceVerificationApi {
     provider: FaceVerificationProvider = FaceVerificationProviders.Kairos,
     progressSubscription?: ({ loaded: number, total: number }) => void
   ): Promise<FaceRecognitionResponse> {
-    let imageCount;
-    let axiosConfig = {};
+    let imageCount
+    let axiosConfig = {}
     const { rootApi, logger } = this
 
-    const {
-      sessionId, images, auditTrailImage,
-      lowQualityAuditTrailImage
-    } = payload
+    const { sessionId, images, auditTrailImage, lowQualityAuditTrailImage } = payload
 
     switch (provider) {
       case FaceVerificationProviders.Kairos:
         imageCount = images.length
-        break;
+        break
       case FaceVerificationProviders.Zoom:
-        const tokenSource = axios.CancelToken.source()
+        this.lastCancelToken = axios.CancelToken.source()
 
-        imageCount = Number(!!(auditTrailImage
-          || lowQualityAuditTrailImage)
-        )
+        imageCount = Number(!!(auditTrailImage || lowQualityAuditTrailImage))
 
         axiosConfig = {
-          cancelToken: tokenSource.token,
-          onProgress: progressSubscription
+          cancelToken: this.lastCancelToken.token,
+          onProgress: progressSubscription,
         }
-
-        this.lastCancelToken = tokenSource
-        break;
+        break
       default:
     }
 
     logger.info('performFaceVerification', { provider, sessionId, imageCount })
 
     try {
-      const { data: response } = await rootApi.performFaceVerification(
-        payload, provider, axiosConfig
-      );
-
-      const { ok, error } = response || {}
+      const { data: response } = await rootApi.performFaceVerification(payload, provider, axiosConfig)
 
       if (!response) {
         throw new Error('Failed to perform face recognition on server')
       }
 
-      if (!ok) {
-        throw response;
+      if (!response.ok) {
+        throw response
       }
 
       logger.info('Face Recognition finished successfull', { response })
 
-      return data
+      return response
     } catch (errorOrFailedResponse) {
       const { message, error } = errorOrFailedResponse
 
@@ -86,18 +77,15 @@ class FaceVerificationApi {
   }
 
   cancelInFlightRequests() {
-    const { lastCancelToken } = this;
+    const { lastCancelToken } = this
 
     if (!lastCancelToken) {
       return
     }
 
-    lastCancelToken.cancel('Face verification has beed reached timeout');
-    this.lastCancelToken = null;
+    lastCancelToken.cancel('Face verification has beed reached timeout')
+    this.lastCancelToken = null
   }
 }
 
-export default new FaceVerificationApi(
-  API,
-  logger.child({ from: 'FaceRecognitionAPI' })
-);
+export default new FaceVerificationApi(API, logger.child({ from: 'FaceRecognitionAPI' }))

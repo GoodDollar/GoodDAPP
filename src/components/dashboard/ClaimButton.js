@@ -50,7 +50,6 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
               key={index}
               fontSize={36}
               lineHeight={36}
-              //fontFamily="RobotoSlab"
               fontFamily="Roboto"
               fontWeight="bold"
               color="white"

@@ -8,10 +8,13 @@ const {
   addBabelPresets,
   fixBabelImports,
   babelExclude,
+  useEslintRc,
 } = require("customize-cra");
 
 module.exports = {
   webpack: override(
+    useEslintRc('.eslintrc'),
+
     fixBabelImports('module-resolver', {
       alias: {
         '^react-native$': 'react-native-web',
@@ -33,6 +36,7 @@ module.exports = {
     ]),
 
     babelExclude([
+      path.resolve('src/lib/zoom'),
       path.resolve('node_modules/@react-navigation/core/lib/module/utils'),
       path.resolve('node_modules/@react-navigation/native/dist/utils'),
       path.resolve('node_modules/@react-navigation/web'),

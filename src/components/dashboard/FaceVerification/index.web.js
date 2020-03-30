@@ -1,27 +1,30 @@
-import { useCallback } from "react";
-import { noop } from 'lodash';
+import { useCallback } from 'react'
+import { noop } from 'lodash'
 
-import useZoomSDK from './hooks/useZoomSDK';
-import useZoomVerification from './hooks/useZoomVerification';
+import useZoomSDK from './hooks/useZoomSDK'
+import useZoomVerification from './hooks/useZoomVerification'
 
 const FaceVerification = ({ screenProps, onError = noop }) => {
-  const completionHandler = useCallback(isSuccess => {
-    if (isSuccess) {
-      screenProps.pop({ isValid: true })
-    }
-  }, [onSuccess, screenProps]);
+  const completionHandler = useCallback(
+    isSuccess => {
+      if (isSuccess) {
+        screenProps.pop({ isValid: true })
+      }
+    },
+    [screenProps]
+  )
 
   const { startVerification } = useZoomVerification({
     onComplete: completionHandler,
-    onError
-  });
+    onError,
+  })
 
   useZoomSDK({
     onInitialized: startVerification,
-    onError
-  });
+    onError,
+  })
 
-  return null;
+  return null
 }
 
-export default FaceVerification;
+export default FaceVerification

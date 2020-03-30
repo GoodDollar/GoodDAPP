@@ -20,18 +20,18 @@ const ModalCloseButton = (props: any) => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  modalCloseImageContainer: {
-    position: 'relative',
-    zIndex: mediumZIndex,
-  },
   modalCloseImage: {
+    position: 'relative',
+  },
+  modalCloseImageContainer: {
     position: 'absolute',
+    zIndex: mediumZIndex,
     top: -20,
     right: 0,
+    width: 37,
     height: 37,
     marginLeft: 'auto',
     marginRight: -(37 / 2),
-    width: 37,
   },
 })
 

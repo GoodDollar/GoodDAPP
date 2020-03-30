@@ -69,7 +69,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
   return (
     <Wrapper>
-      <Section grow>
+      <Section grow justifyContent="space-between">
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
             <Text fontSize={22} lineHeight={25} fontWeight="medium" fontFamily="Roboto" style={styles.mainText}>

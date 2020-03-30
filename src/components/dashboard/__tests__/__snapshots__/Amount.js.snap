@@ -312,6 +312,7 @@ exports[`Amount matches snapshot 1`] = `
                   autoFocus={true}
                   className="css-textinput-1cwyjr8 r-cursor-1loqt21 r-placeholderTextColor-1xktb6b r-textAlign-q4m81j r-touchAction-1otgn73 r-width-13qz1uu"
                   dir="auto"
+                  maxLength={20}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}

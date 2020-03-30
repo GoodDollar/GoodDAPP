@@ -6,6 +6,7 @@
  */
 
 const nodeLibs = require('node-libs-react-native')
+const defaultSourceExts = require('metro-config/src/defaults/defaults').sourceExts
 
 module.exports = {
   resolver: {
@@ -13,6 +14,9 @@ module.exports = {
       ...nodeLibs,
       vm: require.resolve('vm-browserify')
     },
+    sourceExts: process.env.TEST_REACT_NATIVE
+      ? ['e2e.js'].concat(defaultSourceExts)
+      : defaultSourceExts
   },
   transformer: {
     getTransformOptions: async () => ({

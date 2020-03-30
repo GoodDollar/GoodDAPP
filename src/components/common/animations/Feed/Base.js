@@ -1,6 +1,8 @@
 import React from 'react'
+import { View } from 'react-native'
 import Lottie from 'lottie-react-native'
-import { Platform, View } from 'react-native'
+
+import { Platform } from 'react-native'
 
 class FeedInfo extends React.Component {
   state = {
@@ -9,8 +11,21 @@ class FeedInfo extends React.Component {
   }
 
   componentDidMount() {
+    const { delay = 0, asImage } = this.props
+
     this.anim.onComplete = this.onAnimationFinishHandler
-    this.anim.play()
+
+    if (asImage) {
+      const lastFrame = Number(this.animationData.op) - 1
+
+      if (this.state.isWeb) {
+        this.anim.goToAndStop(lastFrame, true)
+      } else {
+        this.anim.play(lastFrame - 1, lastFrame)
+      }
+    } else {
+      setTimeout(() => this.anim.play(), delay)
+    }
   }
 
   onAnimationFinishHandler = () => {
@@ -42,7 +57,7 @@ class FeedInfo extends React.Component {
   }
 
   render() {
-    const { height, width, style } = this.props
+    const { style } = this.props
     const { isWeb } = this.state
 
     return (
@@ -51,8 +66,8 @@ class FeedInfo extends React.Component {
           ref={this.setAnim}
           source={this.animationData}
           style={{
-            width,
-            height,
+            height: '100%',
+            width: '100%',
           }}
           loop={false}
           onAnimationFinish={isWeb ? undefined : this.onAnimationFinishHandler}

@@ -85,7 +85,7 @@ const FeedListItem = (props: FeedListItemProps) => {
         <Animatable.View
           animation={showLoadAnim ? animScheme : ''}
           duration={duration}
-          delay={400}
+          delay={550}
           easing={easing}
           useNativeDriver
         >
@@ -123,7 +123,6 @@ const getStylesFromProps = ({ theme }) => ({
     borderRadius: theme.feedItems.borderRadius,
     flexDirection: 'row',
     marginTop: theme.sizes.default,
-    overflow: 'hidden',
     shadowColor: theme.colors.text,
     shadowOffset: {
       width: 0,
@@ -137,6 +136,8 @@ const getStylesFromProps = ({ theme }) => ({
     shadowRadius: 4,
   },
   rowContent: {
+    borderRadius: theme.feedItems.borderRadius,
+    overflow: 'hidden',
     alignItems: 'center',
     backgroundColor: theme.feedItems.itemBackgroundColor,
     flex: 1,

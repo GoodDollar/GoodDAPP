@@ -2,14 +2,14 @@
 import React from 'react'
 import { Platform, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
-import CopyButton from '../common/buttons/CopyButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import TopBar from '../common/view/TopBar'
+import Clipboard from '../../lib/utils/Clipboard'
 import { withStyles } from '../../lib/styles'
 import { Icon } from '../common'
+import AnimatedSendButton from '../common/animations/ShareLinkSendButton/ShareLinkSendButton'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
@@ -24,6 +24,10 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
 
   const { amount, reason, paymentLink } = screenState
+
+  const shareAction = async () => {
+    await Clipboard.setString(paymentLink)
+  }
 
   return (
     <Wrapper>
@@ -64,9 +68,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
             </Section.Row>
           )}
         </Section.Stack>
-        <CopyButton toCopy={paymentLink} onPressDone={() => screenProps.goToRoot()}>
-          Copy link to clipboard
-        </CopyButton>
+        <AnimatedSendButton onPress={shareAction} onPressDone={() => screenProps.goToRoot()} />
       </Section>
     </Wrapper>
   )

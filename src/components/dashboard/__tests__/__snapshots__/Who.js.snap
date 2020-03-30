@@ -281,6 +281,7 @@ exports[`Who matches snapshot 1`] = `
               className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b r-textAlign-q4m81j r-width-13qz1uu"
               data-focusable={true}
               dir="auto"
+              maxLength={128}
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}

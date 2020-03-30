@@ -15,6 +15,7 @@ const WhoContent = ({ styles, error, text, setValue, value, next }) => {
         placeholder="Enter the recipient name"
         style={styles.input}
         value={value}
+        maxLength={128}
         enablesReturnKeyAutomatically
         onSubmitEditing={next}
       />

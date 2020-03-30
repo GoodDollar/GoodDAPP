@@ -25,29 +25,37 @@ class FaceVerificationApi {
     provider: FaceVerificationProvider = FaceVerificationProviders.Kairos,
     progressSubscription?: ({ loaded: number, total: number }) => void
   ): Promise<FaceRecognitionResponse> {
-    const { rootApi, logger } = this
-    const tokenSource = axios.CancelToken.source()
-    const axiosConfig = { cancelToken: tokenSource.token }
-    const { sessionId, images, auditTrailImage, lowQualityAuditTrailImage } = payload
-
     let imageCount;
+    let axiosConfig = {};
+    const { rootApi, logger } = this
+
+    const {
+      sessionId, images, auditTrailImage,
+      lowQualityAuditTrailImage
+    } = payload
 
     switch (provider) {
       case FaceVerificationProviders.Kairos:
         imageCount = images.length
         break;
       case FaceVerificationProviders.Zoom:
-        imageCount = Number(!!(auditTrailImage || lowQualityAuditTrailImage))
+        const tokenSource = axios.CancelToken.source()
+
+        imageCount = Number(!!(auditTrailImage
+          || lowQualityAuditTrailImage)
+        )
+
+        axiosConfig = {
+          cancelToken: tokenSource.token,
+          onProgress: progressSubscription
+        }
+
+        this.lastCancelToken = tokenSource
         break;
       default:
     }
 
-    this.lastCancelToken = tokenSource
     logger.info('performFaceVerification', { provider, sessionId, imageCount })
-
-    if (progressSubscription) {
-      axiosConfig.onProgress = progressSubscription
-    }
 
     try {
       const { data: response } = await rootApi.performFaceVerification(

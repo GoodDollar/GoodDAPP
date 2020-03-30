@@ -9,7 +9,8 @@ const {
   ZoomSession,
   ZoomCustomization,
   ZoomSessionStatus,
-  createZoomAPIUserAgentString
+  createZoomAPIUserAgentString,
+  getFriendlyDescriptionForZoomSessionStatus,
 } = ZoomAuthentication.ZoomSDK;
 
 const getFaceMapBase64 = async faceMetrics => new Promise(
@@ -22,12 +23,14 @@ const getFaceMapBase64 = async faceMetrics => new Promise(
 const initialSessionState = {
   isComplete: false,
   isSuccess: false,
-  lastResult: null
+  lastResult: null,
+  lastMessage: null,
 };
 
 export default ({ onComplete = noop, onError = noop }) => {
   const sessionRef = useRef(null);
   const sessionResultRef = useRef(null);
+  const sessionMessageRef = useRef(null);
   const sessionSuccessRef = useRef(false);
   const resultCallbackRef = useRef(null);
 
@@ -36,11 +39,22 @@ export default ({ onComplete = noop, onError = noop }) => {
   const handleCompletion = useCallback(() => {
     const isSuccess = sessionSuccessRef.current;
     const lastResult = sessionResultRef.current;
+    let lastMessage = sessionMessageRef.current;
+
+    if (!lastMessage) {
+      lastMessage = getFriendlyDescriptionForZoomSessionStatus(
+        lastResult.status
+      )
+    }
 
     sessionRef.current = null;
 
-    setSessionState({ isComplete: true, isSuccess, lastResult });
-    onComplete(isSuccess, lastResult);
+    setSessionState({
+      isComplete: true, isSuccess,
+      lastResult, lastMessage
+    });
+
+    onComplete(isSuccess, lastResult, lastMessage);
   }, [onComplete, setSessionState]);
 
   const performVerification = useCallback(async () => {
@@ -67,15 +81,18 @@ export default ({ onComplete = noop, onError = noop }) => {
         }
       );
 
+      const { message: successMessage } = response.enrollmentResult
+
       ZoomCustomization.setOverrideResultScreenSuccessMessage(
-        response.enrollmentResult.message
+        successMessage
       );
 
-      sessionSuccessRef.current = true;
-      zoomFaceMapResultCallback.succeed();
+      sessionMessageRef.current = successMessage
+      sessionSuccessRef.current = true
+      zoomFaceMapResultCallback.succeed()
     } catch (exception) {
       const { message, response } = exception;
-      let errorMessage = message;
+      let sessionMessageRef.current = message;
 
       if (response) {
         const {
@@ -83,11 +100,11 @@ export default ({ onComplete = noop, onError = noop }) => {
           message: zoomMessage
         } = response.enrollmentResult || {}
 
-        errorMessage = zoomMessage;
+        sessionMessageRef.current = zoomMessage
 
         if ((200 === code) || ('nameCollision' === subCode)) {
           ZoomCustomization.setOverrideResultScreenSuccessMessage(
-            errorMessage
+            sessionMessageRef.current
           );
 
           zoomFaceMapResultCallback.retry();
@@ -95,7 +112,7 @@ export default ({ onComplete = noop, onError = noop }) => {
         }
       }
 
-      zoomFaceMapResultCallback.cancel(errorMessage);
+      zoomFaceMapResultCallback.cancel(sessionMessageRef.current);
       onError(exception);
     }
   }, [onError]);

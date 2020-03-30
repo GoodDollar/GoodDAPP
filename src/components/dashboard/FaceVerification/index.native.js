@@ -20,7 +20,6 @@ type State = {
   showGuidedFR: boolean,
   sessionId: string | void,
   loadingText: string,
-  facemap: Blob,
   isWhitelisted: boolean | void,
   showHelper: boolean,
 }
@@ -39,7 +38,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     showGuidedFR: false,
     sessionId: undefined,
     loadingText: '',
-    facemap: new Blob([], { type: 'text/plain' }),
     isWhitelisted: undefined,
     showHelper: get(this.props, 'screenProps.screenState.showHelper', true),
   }

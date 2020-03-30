@@ -57,16 +57,16 @@ const ProfilePrivacy = props => {
     showDialog({
       title: 'SETTINGS',
       content: (
-        <>
+        <Section.Stack grow>
           {privacyOptions.map(field => (
-            <Section.Stack grow key={field} style={styles.dialogTipItem}>
+            <Section key={field} style={styles.dialogTipItem}>
               <Text fontWeight="bold" fontSize={18} color="primary" textAlign="left">
                 {startCase(field)}
               </Text>
               <Text textAlign="left">{tips[field]}</Text>
-            </Section.Stack>
+            </Section>
           ))}
-        </>
+        </Section.Stack>
       ),
       buttons: [
         {
@@ -200,7 +200,8 @@ const getStylesFromProps = ({ theme }) => {
       minHeight: 60,
     },
     dialogTipItem: {
-      marginBottom: 20,
+      alignItems: 'flex-start',
+      paddingVertical: 10,
     },
     mainWrapper: {
       backgroundImage: 'none',

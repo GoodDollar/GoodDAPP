@@ -78,7 +78,9 @@ const FeedModalItem = (props: FeedEventProps) => {
                 style={styles.avatar}
               />
             )}
-            {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
+            {item.data && item.data.endpoint && (
+              <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
+            )}
             {!eventSettings.withoutAvatar && (
               <EventIcon type={itemType} style={styles.icon} showAnim={!topImageExists} />
             )}
@@ -119,6 +121,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     feedItem: {
       paddingRight: 4,
+    },
+    feedItemText: {
+      fontSize: 22,
+      lineHeight: 22,
     },
     bigNumberStyles: {
       marginRight: 4,

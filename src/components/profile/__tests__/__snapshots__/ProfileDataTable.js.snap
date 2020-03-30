@@ -746,28 +746,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "12px",
-                  "height": "18px",
-                  "marginBottom": "8px",
-                  "opacity": 0,
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "12px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
         <div
@@ -807,6 +785,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 "flexDirection": "column",
                 "flexGrow": 1,
                 "justifyContent": "space-between",
+                "marginBottom": "4px",
                 "msFlexAlign": "stretch",
                 "msFlexDirection": "column",
                 "msFlexPack": "justify",
@@ -2467,29 +2446,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "12px",
-                  "height": "18px",
-                  "marginBottom": "8px",
-                  "marginTop": "8px",
-                  "opacity": 0,
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "12px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
         <div
@@ -2634,28 +2590,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "12px",
-                  "height": "18px",
-                  "marginBottom": "8px",
-                  "opacity": 0,
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "12px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
       </div>
@@ -2888,28 +2822,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "12px",
-                  "height": "18px",
-                  "marginBottom": "8px",
-                  "opacity": 0,
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "12px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
         <div

@@ -82,7 +82,7 @@ const ProfileDataTable = ({
         </Section.Row>
         <Section.Row>
           {editable ? (
-            <Section.Stack grow>
+            <Section.Stack grow style={!errors.mobile && styles.phoneContainer}>
               <Section.Row>
                 <PhoneInput
                   error={errors.mobile && errors.mobile !== ''}
@@ -113,13 +113,13 @@ const ProfileDataTable = ({
                   />
                 </Section.Row>
               </Section.Row>
-              <ErrorText error={errors.mobile} style={styles.errorMargin} />
+              {!!errors.mobile && <ErrorText error={errors.mobile} style={styles.errorMargin} />}
             </Section.Stack>
           ) : (
             <Fragment>
               {showCustomFlag && countryFlagUrl && <Image source={{ uri: countryFlagUrl }} style={styles.flag} />}
               <InputRounded
-                containerStyle={countryFlagUrl && styles.phoneContainer}
+                containerStyle={countryFlagUrl && styles.disabledPhoneContainer}
                 disabled={true}
                 error={errors.mobile}
                 icon="phone"
@@ -183,8 +183,11 @@ const getStylesFromProps = ({ theme }) => {
       borderColor: theme.colors.lightGray,
       borderRadius: '50%',
     },
-    phoneContainer: {
+    disabledPhoneContainer: {
       paddingLeft: 10,
+    },
+    phoneContainer: {
+      marginBottom: theme.sizes.default / 2,
     },
   }
 }

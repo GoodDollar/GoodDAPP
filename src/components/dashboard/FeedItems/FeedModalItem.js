@@ -78,12 +78,20 @@ const FeedModalItem = (props: FeedEventProps) => {
                 style={styles.avatar}
               />
             )}
-            {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
+            {item.data && item.data.endpoint && (
+              <EventCounterParty style={styles.feedItem} textStyle={styles.feedItemText} feedItem={item} />
+            )}
             {!eventSettings.withoutAvatar && (
               <EventIcon type={itemType} style={styles.icon} showAnim={!topImageExists} />
             )}
           </View>
           <View style={styles.messageContainer}>
+            {!!item.data.preMessageText && (
+              <Text fontSize={14} textAlign="left" lineHeight={20} letterSpacing={0.14} fontWeight="bold">
+                {item.data.preMessageText}
+                {'\n\n'}
+              </Text>
+            )}
             <Text fontSize={14} textAlign="left">
               {item.data.message || ''}
             </Text>
@@ -113,6 +121,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     feedItem: {
       paddingRight: 4,
+    },
+    feedItemText: {
+      fontSize: 22,
+      lineHeight: 22,
     },
     bigNumberStyles: {
       marginRight: 4,

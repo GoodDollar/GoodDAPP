@@ -44,7 +44,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const { amount, reason = null, counterPartyDisplayName } = screenState
 
   const faceRecognition = () => {
-    return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
+    return screenProps.push('FaceVerificationIntro', { from: 'SendLinkSummary' })
   }
 
   const shareAction = async paymentLink => {

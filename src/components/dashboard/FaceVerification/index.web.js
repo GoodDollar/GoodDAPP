@@ -1,30 +1,39 @@
 import { useCallback } from 'react'
-import { noop } from 'lodash'
 
 import useZoomSDK from './hooks/useZoomSDK'
 import useZoomVerification from './hooks/useZoomVerification'
 
-const FaceVerification = ({ screenProps, onError = noop }) => {
-  const completionHandler = useCallback(
-    isSuccess => {
-      if (isSuccess) {
-        screenProps.pop({ isValid: true })
-      }
-    },
-    [screenProps]
-  )
+const FaceVerification = ({ screenProps }) => {
+  const completionHandler = useCallback(isSuccess => {
+    if (isSuccess) {
+      screenProps.pop({ isValid: true })
+    }
+  }, [screenProps])
+
+  const exceptionHandler = useCallback((error, allowRetry = true) => {
+    screenProps.navigateTo('FaceVerificationError', { error, allowRetry })
+  }, [screenProps])
+
+  const sdkExceptionHandler = useCallback(error => {
+    exceptionHandler(error, false)
+  }, [exceptionHandler])
 
   const { startVerification } = useZoomVerification({
     onComplete: completionHandler,
-    onError,
+    onError: exceptionHandler
   })
 
   useZoomSDK({
     onInitialized: startVerification,
-    onError,
+    onError: sdkExceptionHandler
   })
 
   return null
+}
+
+FaceVerification.navigationOptions = {
+  title: 'Face Verification',
+  navigationBarHidden: false,
 }
 
 export default FaceVerification

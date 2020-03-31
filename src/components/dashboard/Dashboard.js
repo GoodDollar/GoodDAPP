@@ -75,9 +75,9 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
 import FaceVerification from './FaceVerification'
-import FRIntro from './FaceVerification/components/FRIntro'
-import FRError from './FaceVerification/components/FRError'
-import UnsupportedDevice from './FaceVerification/components/UnsupportedDevice'
+import FaceVerificationIntro from './FaceVerification/components/IntroScreen'
+import FaceVerificationError from './FaceVerification/components/ErrorScreen'
+import FaceVerificationUnsupported from './FaceVerification/components/UnsupportedScreen'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -786,10 +786,11 @@ export default createStackNavigator({
   SendByQR,
   ReceiveByQR,
 
-  FRError,
   FaceVerification,
-  FRIntro,
-  UnsupportedDevice,
+  FaceVerificationIntro,
+  FaceVerificationError,
+  FaceVerificationUnsupported,
+
   SendQRSummary,
   PP: PrivacyPolicy,
   PrivacyArticle,

@@ -7,9 +7,9 @@ import logger from '../../../../lib/logger/pino-logger'
 import { withStyles } from '../../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
-const log = logger.child({ from: 'GuidedFRProcessResults' })
+const log = logger.child({ from: 'GuidedResults' })
 
-const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom, styles }) => {
+const ResultStep = ({ title, isActive, status, isProcessFailed, paddingBottom, styles }) => {
   const paddingBtm = paddingBottom === undefined ? 12 : paddingBottom
   let statusColor = status === true ? 'success' : status === false ? 'failure' : 'none'
   let statusIcon =
@@ -23,7 +23,7 @@ const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom, style
 
   //not active use grey otherwise based on status
   let textStyle = isActive === false ? styles.textInactive : status === false ? styles.textError : styles.textActive
-  log.debug('FRStep', { title, status, isActive, statusColor, textStyle })
+  log.debug('ResultStep', { title, status, isActive, statusColor, textStyle })
   let color = isActive === false ? 'gray50Percent' : status === false ? 'red' : 'darkGray'
   return (
     <View style={[styles.topContainer, { paddingBottom: paddingBtm }]}>
@@ -90,4 +90,4 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 0,
   },
 })
-export default withStyles(getStylesFromProps)(FRStep)
+export default withStyles(getStylesFromProps)(ResultStep)

@@ -10,7 +10,7 @@ import userStorage from '../../../lib/gundb/UserStorage'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { type FaceRecognitionResponse } from './api/typings'
 import api from './api'
-import GuidedFR from './components/GuidedFRProcessResults'
+import GuidedFR from './components/GuidedResults'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
@@ -31,7 +31,7 @@ type State = {
  * 3. Display relevant error messages
  * 4. Enables/Disables UI components as dependancy in the state of the process
  **/
-class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
+class FaceVerification extends React.Component<FaceRecognitionProps, State> {
   state = {
     showPreText: false,
     showCamera: true,
@@ -52,7 +52,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     fireEvent('FR_Capture')
     if (images === undefined || images.length === 0) {
       log.error('Capture Result failed', 'empty capture result', null, { images })
-      this.showFRError('empty capture result')
+      this.showErrorScreen('empty capture result')
     } else {
       this.startFRProcessOnServer(face)
     }
@@ -77,18 +77,18 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       const { message, error } = exceptionOrFailedResponse
 
       log.error('FR API call failed:', error || message, exceptionOrFailedResponse)
-      this.showFRError(message)
+      this.showErrorScreen(message)
     }
   }
 
-  showFRError = (error: string | Error) => {
+  showErrorScreen = (error: string | Error) => {
     log.debug('onError called', { error })
     if (error.code === 'E_TAKE_PICTURE_FAILED') {
       return
     }
     fireEvent('FR_Error')
     this.setState({ showCamera: false, showGuidedFR: false, sessionId: undefined }, () => {
-      this.props.screenProps.navigateTo('FRError', { error })
+      this.props.screenProps.navigateTo('FaceVerificationError', { error })
     })
   }
 
@@ -126,7 +126,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         {showCamera && (
           <FaceCapture
             onFaces={this.onCaptureResult}
-            onError={this.showFRError}
+            onError={this.showErrorScreen}
             howHelper={this.state.showHelper}
             photos={2} // count of the final face photos to make
             quality={1080} // quality of the final photos
@@ -138,8 +138,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 }
 
-FaceRecognition.navigationOptions = {
+FaceVerification.navigationOptions = {
   title: 'Face Verification',
   navigationBarHidden: false,
 }
-export default FaceRecognition
+export default FaceVerification

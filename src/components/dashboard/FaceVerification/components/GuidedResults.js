@@ -19,15 +19,15 @@ import { fireEvent } from '../../../../lib/analytics/analytics'
 import { withStyles } from '../../../../lib/styles'
 import normalize from '../../../../lib/utils/normalizeText'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
-import FRStep from './FRStep'
+import ResultStep from './ResultStep'
 
 if (Platform.OS === 'web') {
   Image.prefetch(LookingGood)
 }
 
-const log = logger.child({ from: 'GuidedFRProcessResults' })
+const log = logger.child({ from: 'GuidedResults' })
 
-const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation, isAPISuccess, styles }: any) => {
+const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPISuccess, styles }: any) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
@@ -211,14 +211,14 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
         <View style={styles.mainView}>
           <Separator width={2} />
           <View style={styles.steps}>
-            <FRStep
+            <ResultStep
               title={'Checking duplicates'}
               isActive={true}
               /* eslint-disable-next-line no-negated-condition */
               status={processStatus.isDuplicate !== undefined ? !processStatus.isDuplicate : undefined}
               isProcessFailed={isProcessFailed}
             />
-            <FRStep
+            <ResultStep
               title={'Checking liveness'}
               isActive={
                 isProcessFailed ||
@@ -228,7 +228,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
               status={isProcessSuccess || processStatus.isLive}
               isProcessFailed={isProcessFailed}
             />
-            <FRStep
+            <ResultStep
               title={'Validating identity'}
               isActive={
                 isProcessFailed ||
@@ -238,7 +238,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
               status={isProcessSuccess || processStatus.isWhitelisted}
               isProcessFailed={isProcessFailed}
             />
-            <FRStep
+            <ResultStep
               title={'Updating profile'}
               isActive={
                 isProcessFailed ||
@@ -316,4 +316,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(GuidedFRProcessResults)
+export default withStyles(getStylesFromProps)(GuidedResults)

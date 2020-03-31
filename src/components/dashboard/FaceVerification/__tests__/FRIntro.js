@@ -1,18 +1,18 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedFRIntro from '../components/FRIntro'
+import ImportedIntroScreen from '../components/IntroScreen'
 
-const FRIntro = withThemeProvider(ImportedFRIntro)
+const IntroScreen = withThemeProvider(ImportedIntroScreen)
 
-describe('FRIntro', () => {
+describe('FaceVerificationIntro', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<FRIntro screenProps={{ screenState: {} }} />)
+    const tree = renderer.create(<IntroScreen screenProps={{ screenState: {} }} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<FRIntro screenProps={{ screenState: {} }} />)
+    const component = renderer.create(<IntroScreen screenProps={{ screenState: {} }} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

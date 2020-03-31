@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FRIntro matches snapshot 1`] = `
+exports[`IntroScreen matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
 >

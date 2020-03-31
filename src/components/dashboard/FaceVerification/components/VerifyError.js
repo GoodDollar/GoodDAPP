@@ -1,56 +1,52 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+// Please follow those imports order (need to add eslint rule for that)
+
+// 1. React
+import React, { useEffect, useMemo } from 'react'
+// 2. React Native
 import { Image, Platform, View } from 'react-native'
-import { getFirstWord } from '../../../../lib/utils/getFirstWord'
-import { CustomButton, Section, Wrapper } from '../../../common'
-import Separator from '../../../common/layout/Separator'
-import Oops from '../../../../assets/oops.svg'
+// 3. Libraries components (here're absent)
+
+// 4. common components
 import Text from '../../../common/view/Text'
+import Separator from '../../../common/layout/Separator'
+import { Section, Wrapper } from '../../../common'
+// 5. local components like ResultStep, GuidedResults and others from FaceVerification (here're absent)
+
+// 6. FLUX imports: store, reducers, actions
 import GDStore from '../../../../lib/undux/GDStore'
+
+// 7. Utilities
 import logger from '../../../../lib/logger/pino-logger'
-import { withStyles } from '../../../../lib/styles'
+import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
-const log = logger.child({ from: 'FRError' })
+// 8. styles & assets
+import { withStyles } from '../../../../lib/styles'
+import Oops from '../../../../assets/oops.svg'
+
+const defaultLogger = logger.child({ from: 'VerifyError' })
 
 if (Platform.OS === 'web') {
   Image.prefetch(Oops)
 }
 
-const FRError = ({ styles, screenProps }) => {
-  const { screenState } = screenProps
-  let { isValid, error: reason } = screenState
+const VerifyError = ({
+  styles,
+  reason,
+  description,
+  action,
 
-  if (reason instanceof Error || reason.message || reason.error) {
-    if (reason.name === 'NotAllowedError') {
-      reason = `Looks like GoodDollar doesn't have access to your camera. Please provide access and try again`
-    } else {
-      reason = reason.message || reason.error
-    }
-  }
+  title = 'Something went wrong...',
+  log = defaultLogger,
+}) => {
+  const { error, message } = reason || {}
 
-  //is the error mesage something we want to show to the user? currently only camera related
-  const isRelevantError = reason.match(/camera/i) || reason === 'Permission denied'
-  let error = isRelevantError
-    ? reason
-    : "You see, it's not that easy\n to capture your beauty :)\nSo, let's give it another shot..."
-  let title = isRelevantError ? 'Something went wrong...' : 'Something went wrong on our side...'
-
-  useEffect(() => {
-    if (isValid) {
-      screenProps.pop({ isValid })
-    }
-  }, [isValid])
-
-  const fullName = useMemo(() => {
+  const firstName = useMemo(() => {
     const store = GDStore.useStore()
     const { fullName } = store.get('profile')
 
-    return fullName
+    return getFirstWord(fullName)
   }, [])
-
-  const gotoFR = useCallback(() => {
-    screenProps.navigateTo('FaceVerification', { showHelper: true })
-  }, [screenProps])
 
   useEffect(() => {
     log.debug({ styles, screenProps, reason })
@@ -62,28 +58,21 @@ const FRError = ({ styles, screenProps }) => {
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="medium" textTransform="none">
             {' '}
-            {`${getFirstWord(fullName)},\n${title}`}
+            {`${firstName},\n${title}`}
           </Section.Title>
           <Image source={Oops} resizeMode="center" style={styles.errorImage} />
           <Section style={styles.errorSection}>
             <Separator width={2} />
             <Text color="primary" fontWeight="bold" style={styles.description}>
-              {`${error}`}
+              {`${description || error || message || reason}`}
             </Text>
             <Separator width={2} />
           </Section>
         </Section>
-        <Section>
-          <CustomButton onPress={gotoFR}>PLEASE TRY AGAIN</CustomButton>
-        </Section>
+        {action && (<Section>{action}</Section>)}
       </View>
     </Wrapper>
   )
-}
-
-FRError.navigationOptions = {
-  title: 'Face Verification',
-  navigationBarHidden: false,
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -105,9 +94,6 @@ const getStylesFromProps = ({ theme }) => ({
   errorImage: {
     height: getDesignRelativeHeight(146),
   },
-  errorText: {
-    fontWeight: 'normal',
-  },
   descriptionContainer: {
     flex: 1,
     marginBottom: 0,
@@ -121,15 +107,9 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
     marginBottom: 0,
   },
-  bottomContainer: {
-    display: 'flex',
-    flex: 1,
-    paddingTop: getDesignRelativeHeight(20),
-    justifyContent: 'flex-end',
-  },
   description: {
     paddingVertical: getDesignRelativeHeight(25),
   },
 })
 
-export default withStyles(getStylesFromProps)(FRError)
+export default withStyles(getStylesFromProps)(VerifyError)

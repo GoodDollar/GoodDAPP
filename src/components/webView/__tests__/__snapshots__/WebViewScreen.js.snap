@@ -34,6 +34,23 @@ exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
 />
 `;
 
+exports[`WebViewScreen Instances PrivacyPolicyAndTerms matches snapshot 1`] = `
+<iframe
+  frameBorder="0"
+  height="100%"
+  onLoad={[Function]}
+  seamless={true}
+  src="https://community.gooddollar.org/tou/"
+  style={
+    Object {
+      "height": 844,
+    }
+  }
+  title="Privacy Policy & Terms"
+  width="100%"
+/>
+`;
+
 exports[`WebViewScreen Instances Support matches snapshot 1`] = `
 <iframe
   frameBorder="0"
@@ -47,23 +64,6 @@ exports[`WebViewScreen Instances Support matches snapshot 1`] = `
     }
   }
   title="Feedback & Support"
-  width="100%"
-/>
-`;
-
-exports[`WebViewScreen Instances TermsOfUse matches snapshot 1`] = `
-<iframe
-  frameBorder="0"
-  height="100%"
-  onLoad={[Function]}
-  seamless={true}
-  src="https://community.gooddollar.org/dappterms/"
-  style={
-    Object {
-      "height": 844,
-    }
-  }
-  title="Privacy Policy & Terms"
   width="100%"
 />
 `;

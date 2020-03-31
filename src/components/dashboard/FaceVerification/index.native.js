@@ -48,19 +48,18 @@ class FaceVerification extends React.Component<FaceRecognitionProps, State> {
 
   height = 0
 
-  onCaptureResult = (face, images): void => {
+  onCaptureResult = (face, images, captured): void => {
     fireEvent('FR_Capture')
     if (images === undefined || images.length === 0) {
       log.error('Capture Result failed', 'empty capture result', null, { images })
       this.showErrorScreen('empty capture result')
     } else {
-      this.startFRProcessOnServer(face)
+      this.startFRProcessOnServer(captured)
     }
   }
 
   async startFRProcessOnServer(images) {
     const sessionId = uuidv4()
-
     try {
       log.debug('Sending capture result to server')
 
@@ -83,7 +82,7 @@ class FaceVerification extends React.Component<FaceRecognitionProps, State> {
 
   showErrorScreen = (error: string | Error) => {
     log.debug('onError called', { error })
-    if (error.code === 'E_TAKE_PICTURE_FAILED') {
+    if (error.code && error.code === 'E_TAKE_PICTURE_FAILED') {
       return
     }
     fireEvent('FR_Error')

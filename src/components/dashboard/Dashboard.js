@@ -75,9 +75,9 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
 import FaceVerification from './FaceVerification'
-import FaceVerificationIntro from './FaceVerification/components/IntroScreen'
-import FaceVerificationError from './FaceVerification/components/ErrorScreen'
-import FaceVerificationUnsupported from './FaceVerification/components/UnsupportedScreen'
+import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
+import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
+import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedScreen'
 
 const log = logger.child({ from: 'Dashboard' })
 

@@ -6,6 +6,11 @@ import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 
 const sdk = ZoomAuthentication.ZoomSDK
 
+const {
+  ZoomSDKStatus,
+  getFriendlyDescriptionForZoomSDKStatus
+} = sdk;
+
 export default ({ onInitialized = noop, onError = noop }) => {
   const [isInitialized, setInitialized] = useState(false)
   const [initError, setInitError] = useState(null)
@@ -13,30 +18,38 @@ export default ({ onInitialized = noop, onError = noop }) => {
   const onErrorRef = useRef(onError)
 
   useEffect(() => {
+    const handleException = exception => {
+      setInitError(exception)
+      onErrorRef.current(exception)
+    }
+
     // Set a the directory path for other ZoOm Resources.
-    sdk.setResourceDirectory('../zoom/resources')
+    sdk.setResourceDirectory('/zoom/resources')
 
     // Set the directory path for required ZoOm images.
-    sdk.setImagesDirectory('../zoom/images')
+    sdk.setImagesDirectory('/zoom/images')
 
     // Initialize ZoOm and configure the UI features.
-    sdk.initialize(Config.zoomLicenseKey, () => {
-      const sdkStatus = sdk.getStatus()
-      const sdkInitialized = sdk.ZoomSDKStatus.Initialized === sdkStatus
 
-      if (!sdkInitialized) {
-        const exception = new Error(sdk.getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
+    try {
+      sdk.initialize(Config.zoomLicenseKey, () => {
+        const sdkStatus = sdk.getStatus()
+        const sdkInitialized = ZoomSDKStatus.Initialized === sdkStatus
 
-        exception.code = sdkStatus
+        if (!sdkInitialized) {
+          const exception = new Error(getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
 
-        setInitError(exception)
-        onErrorRef.current(exception)
-        return
-      }
+          exception.code = sdkStatus
+          handleException(exception)
+          return
+        }
 
-      setInitialized(sdkInitialized)
-      onInitializedRef.current()
-    })
+        setInitialized(sdkInitialized)
+        onInitializedRef.current()
+      })
+    } catch (exception) {
+      handleException(exception)
+    }
   }, [])
 
   return {

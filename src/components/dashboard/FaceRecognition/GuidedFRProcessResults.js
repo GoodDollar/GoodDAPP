@@ -1,11 +1,11 @@
 //@flow
 import React, { useEffect, useState } from 'react'
 import { Image, View } from 'react-native'
-import findKey from 'lodash/findKey'
+import { findKey } from 'lodash'
 import Text from '../../common/view/Text'
 
-// import find from 'lodash/find'
-// import mapValues from 'lodash/mapValues'
+// import { find, mapValues } from 'lodash'
+
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import CustomButton from '../../common/buttons/CustomButton'
 import Section from '../../common/layout/Section'

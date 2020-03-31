@@ -1,5 +1,5 @@
 //@flow
-import _pick from 'lodash/pick'
+import { pick } from 'lodash'
 import { Platform } from 'react-native'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
@@ -28,7 +28,7 @@ export const init = () => {
       // FIXME RN INAPPLINKS
       if (Platform.OS === 'web') {
         const params = extractQueryParams(window.location.href)
-        source = Object.keys(_pick(params, ['web3', 'paymentCode', 'code'])).pop() || source
+        source = Object.keys(pick(params, ['web3', 'paymentCode', 'code'])).pop() || source
       }
 
       fireEvent(APP_OPEN, { source, isWebApp })

@@ -1,5 +1,5 @@
 // @flow
-import startCase from 'lodash/startCase'
+import { startCase } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'

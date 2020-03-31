@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Image, View } from 'react-native'
-import _get from 'lodash/get'
+import { get as _get } from 'lodash'
 import * as web3Utils from 'web3-utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import goodWallet from '../../lib/wallet/GoodWallet'

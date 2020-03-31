@@ -1,7 +1,7 @@
 // @flow
 //eslint-disable-next-line
 import bip39 from 'bip39-light'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import retryImport from '../../lib/utils/retryImport'

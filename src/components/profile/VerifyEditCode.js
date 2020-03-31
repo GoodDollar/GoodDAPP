@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import _get from 'lodash/get'
+import { gret as _get } from 'lodash'
 import logger from '../../lib/logger/pino-logger'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'

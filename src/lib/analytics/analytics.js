@@ -1,6 +1,5 @@
 //@flow
-import _debounce from 'lodash/debounce'
-import _forEach from 'lodash/forEach'
+import { debounce as _debounce, forEach as _forEach } from 'lodash'
 import * as Sentry from '@sentry/browser'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'

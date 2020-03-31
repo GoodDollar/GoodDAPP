@@ -1,7 +1,7 @@
 // @flow
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import _get from 'lodash/get'
+import { get as _get } from 'lodash'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'

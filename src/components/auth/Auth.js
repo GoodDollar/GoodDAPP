@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { AsyncStorage } from 'react-native'
-import _get from 'lodash/get'
+import { get as _get } from 'lodash'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'

@@ -1,6 +1,6 @@
 import React from 'react'
 import WebView from 'react-native-web-webview'
-import _get from 'lodash/get'
+import { get as _get } from 'lodash'
 
 const WebViewScreen = props => {
   const { source, title, ...rest } = props

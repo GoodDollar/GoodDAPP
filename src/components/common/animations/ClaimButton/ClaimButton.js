@@ -1,7 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, TouchableOpacity } from 'react-native'
-import _set from 'lodash/set'
+import { set as _set } from 'lodash'
 import animationData from './data.json'
 
 class ClaimButton extends React.Component {

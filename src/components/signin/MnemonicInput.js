@@ -1,5 +1,5 @@
 // @flow
-import values from 'lodash/values'
+import { values } from 'lodash'
 import React, { createRef, useEffect, useState } from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'

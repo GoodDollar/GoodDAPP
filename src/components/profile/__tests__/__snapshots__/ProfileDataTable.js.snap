@@ -137,7 +137,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                   "borderTopLeftRadius": "0px",
                   "borderTopRightRadius": "0px",
                   "borderTopWidth": "1px",
-                  "marginBottom": "0px",
+                  "marginBottom": "2px",
                   "marginTop": "2px",
                   "paddingBottom": "2px",
                   "paddingLeft": "32px",
@@ -202,6 +202,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "msFlexPack": "center",
                     "position": "absolute",
                     "right": "0px",
+                    "top": "0px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -280,7 +281,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                   "borderTopLeftRadius": "0px",
                   "borderTopRightRadius": "0px",
                   "borderTopWidth": "1px",
-                  "marginBottom": "0px",
+                  "marginBottom": "2px",
                   "marginTop": "2px",
                   "paddingBottom": "2px",
                   "paddingLeft": "32px",
@@ -346,6 +347,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "msFlexPack": "center",
                     "position": "absolute",
                     "right": "0px",
+                    "top": "0px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -426,7 +428,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                   "borderTopLeftRadius": "0px",
                   "borderTopRightRadius": "0px",
                   "borderTopWidth": "1px",
-                  "marginBottom": "0px",
+                  "marginBottom": "2px",
                   "marginTop": "2px",
                   "paddingBottom": "2px",
                   "paddingLeft": "32px",
@@ -492,6 +494,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "msFlexPack": "center",
                     "position": "absolute",
                     "right": "0px",
+                    "top": "0px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -659,12 +662,12 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
-                  "marginBottom": "8px",
-                  "marginTop": "4px",
-                  "paddingBottom": "0px",
+                  "marginBottom": "2px",
+                  "marginTop": "2px",
+                  "paddingBottom": "2px",
                   "paddingLeft": "32px",
                   "paddingRight": "32px",
-                  "paddingTop": "0px",
+                  "paddingTop": "2px",
                   "position": "relative",
                 }
               }
@@ -724,6 +727,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     "msFlexPack": "center",
                     "position": "absolute",
                     "right": "0px",
+                    "top": "0px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -746,28 +750,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "12px",
-                  "height": "18px",
-                  "marginBottom": "8px",
-                  "opacity": 0,
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "12px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
         <div
@@ -837,23 +819,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
               <div
                 className="react-phone-number-input"
                 style={
-                  Array [
-                    Object {
-                      "borderColor": "#EEE",
-                      "borderRadius": 24,
-                      "borderWidth": 1,
-                      "color": "#222",
-                      "paddingBottom": 0,
-                      "paddingLeft": 0,
-                      "paddingRight": 0,
-                      "paddingTop": 0,
-                      "position": "relative",
-                    },
-                    Object {
-                      "borderColor": "#EEE",
-                      "color": "#222",
-                    },
-                  ]
+                  Object {
+                    "borderColor": "#EEE",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "color": "#222",
+                    "marginBottom": 2,
+                    "marginTop": 2,
+                    "paddingBottom": 5,
+                    "paddingLeft": 0,
+                    "paddingRight": 0,
+                    "paddingTop": 5,
+                    "position": "relative",
+                  }
                 }
               >
                 <div
@@ -2443,14 +2421,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     "alignItems": "center",
                     "display": "flex",
                     "flexDirection": "row",
-                    "height": "38px",
+                    "height": "40px",
                     "justifyContent": "center",
                     "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
+                    "right": "1px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -2473,29 +2450,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "12px",
-                  "height": "18px",
-                  "marginBottom": "8px",
-                  "marginTop": "8px",
-                  "opacity": 0,
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "12px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
         <div
@@ -2552,12 +2506,12 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
-                  "marginBottom": "8px",
-                  "marginTop": "4px",
-                  "paddingBottom": "0px",
+                  "marginBottom": "2px",
+                  "marginTop": "2px",
+                  "paddingBottom": "2px",
                   "paddingLeft": "32px",
                   "paddingRight": "32px",
-                  "paddingTop": "0px",
+                  "paddingTop": "2px",
                   "position": "relative",
                 }
               }
@@ -2618,6 +2572,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     "msFlexPack": "center",
                     "position": "absolute",
                     "right": "0px",
+                    "top": "0px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -2640,28 +2595,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "12px",
-                  "height": "18px",
-                  "marginBottom": "8px",
-                  "opacity": 0,
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "12px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
       </div>
@@ -2807,12 +2740,12 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
-                  "marginBottom": "8px",
-                  "marginTop": "4px",
-                  "paddingBottom": "0px",
+                  "marginBottom": "2px",
+                  "marginTop": "2px",
+                  "paddingBottom": "2px",
                   "paddingLeft": "32px",
                   "paddingRight": "32px",
-                  "paddingTop": "0px",
+                  "paddingTop": "2px",
                   "position": "relative",
                 }
               }
@@ -2872,6 +2805,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     "msFlexPack": "center",
                     "position": "absolute",
                     "right": "0px",
+                    "top": "0px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -2894,28 +2828,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "12px",
-                  "height": "18px",
-                  "marginBottom": "8px",
-                  "opacity": 0,
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "12px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
         <div
@@ -2985,23 +2897,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               <div
                 className="react-phone-number-input react-phone-number-input--invalid"
                 style={
-                  Array [
-                    Object {
-                      "borderColor": "#EEE",
-                      "borderRadius": 24,
-                      "borderWidth": 1,
-                      "color": "#222",
-                      "paddingBottom": 0,
-                      "paddingLeft": 0,
-                      "paddingRight": 0,
-                      "paddingTop": 0,
-                      "position": "relative",
-                    },
-                    Object {
-                      "borderColor": "#FA6C77",
-                      "color": "#FA6C77",
-                    },
-                  ]
+                  Object {
+                    "borderColor": "#FA6C77",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
+                    "color": "#FA6C77",
+                    "marginBottom": 2,
+                    "marginTop": 2,
+                    "paddingBottom": 5,
+                    "paddingLeft": 0,
+                    "paddingRight": 0,
+                    "paddingTop": 5,
+                    "position": "relative",
+                  }
                 }
               >
                 <div
@@ -4594,14 +4502,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     "alignItems": "center",
                     "display": "flex",
                     "flexDirection": "row",
-                    "height": "38px",
+                    "height": "40px",
                     "justifyContent": "center",
                     "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
+                    "right": "1px",
                     "width": "32px",
                     "zIndex": 1,
                   }
@@ -4771,6 +4678,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     "msFlexPack": "center",
                     "position": "absolute",
                     "right": "0px",
+                    "top": "0px",
                     "width": "32px",
                     "zIndex": 1,
                   }

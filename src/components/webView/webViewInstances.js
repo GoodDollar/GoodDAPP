@@ -1,9 +1,9 @@
 import Config from '../../config/config'
 import { createIframe } from './iframe.web'
 
-export const TermsOfUse = createIframe(
-  `https://community.gooddollar.org/${Config.isEToro ? 'pilot-terms' : 'dappterms'}/`,
-  'Terms of Use'
+export const PrivacyPolicyAndTerms = createIframe(
+  `https://community.gooddollar.org/${Config.isEToro ? 'pilot-terms' : 'tou'}/`,
+  'Privacy Policy & Terms'
 )
 export const PrivacyPolicy = createIframe('https://community.gooddollar.org/pp/', 'Privacy Policy')
 export const PrivacyArticle = createIframe(

@@ -35,7 +35,7 @@ class Logo extends React.Component {
         enableMergePathsAndroidForKitKatAndAbove={true}
         source={animationData}
         autoSize={false}
-        style={Platform.select(styles)}
+        style={[Platform.select(styles), this.props.style]}
         loop={false}
       />
     )

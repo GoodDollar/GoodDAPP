@@ -132,7 +132,7 @@ const TabsView = React.memo(({ navigation }) => {
   const fetchTokens = useCallback(async () => {
     let _token = await userStorage.getProfileFieldValue('loginToken')
 
-    if (!_token) {
+    if (!_token && config.enableInvites) {
       _token = await API.getLoginToken()
         .then(r => _get(r, 'data.loginToken'))
         .then(newToken => {
@@ -146,7 +146,7 @@ const TabsView = React.memo(({ navigation }) => {
 
     let _marketToken = await userStorage.getProfileFieldValue('marketToken')
 
-    if (!_marketToken) {
+    if (!_marketToken && config.market) {
       _marketToken = await API.getMarketToken()
         .then(_ => _get(_, 'data.jwt'))
         .then(newtoken => {
@@ -167,9 +167,7 @@ const TabsView = React.memo(({ navigation }) => {
   }, [setToken, setMarketToken])
 
   useEffect(() => {
-    if (isEToro) {
-      fetchTokens()
-    }
+    fetchTokens()
   }, [])
 
   const goToRewards = useCallback(() => {

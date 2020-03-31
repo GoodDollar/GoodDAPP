@@ -1,5 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
+import { View } from 'react-native'
 import debounce from 'lodash/debounce'
 import isEqualWith from 'lodash/isEqualWith'
 import isEqual from 'lodash/isEqual'
@@ -15,11 +16,14 @@ import { Section, UserAvatar, Wrapper } from '../common'
 import SaveButton from '../common/animations/SaveButton/SaveButton'
 import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
+
+const avatarSize = getDesignRelativeWidth(136)
 
 // To remove profile values that are already failing
 function filterObject(obj) {
@@ -156,22 +160,28 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
   return (
     <Wrapper>
+      <Section.Row justifyContent="center" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
+        <UserAvatar
+          profile={profile}
+          onPress={handleAvatarPress}
+          style={styles.userAvatar}
+          containerStyle={styles.userAvatarWrapper}
+        >
+          <CameraButton handleCameraPress={handleCameraPress} />
+        </UserAvatar>
+        {lockSubmit || isPristine || !isValid ? (
+          <SaveButtonDisabled style={styles.animatedSaveButton} />
+        ) : (
+          <SaveButton
+            loading={saving}
+            onPress={handleSaveButton}
+            onFinish={onProfileSaved}
+            style={styles.animatedSaveButton}
+          />
+        )}
+      </Section.Row>
       <Section grow>
-        <Section.Row justifyContent="center" alignItems="flex-start">
-          <UserAvatar profile={profile} onPress={handleAvatarPress}>
-            <CameraButton handleCameraPress={handleCameraPress} />
-          </UserAvatar>
-          {lockSubmit || isPristine || !isValid ? (
-            <SaveButtonDisabled style={styles.animatedSaveButton} />
-          ) : (
-            <SaveButton
-              loading={saving}
-              onPress={handleSaveButton}
-              onFinish={onProfileSaved}
-              style={styles.animatedSaveButton}
-            />
-          )}
-        </Section.Row>
+        <View style={styles.emptySpace} />
         <ProfileDataTable
           onChange={handleProfileChange}
           editable
@@ -200,6 +210,26 @@ const getStylesFromProps = ({ theme }) => ({
     marginVertical: 0,
     display: 'flex',
     justifyContent: 'flex-end',
+  },
+  userDataAndButtonsRow: {
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'relative',
+    zIndex: 1,
+    height: avatarSize / 2,
+  },
+  userAvatarWrapper: {
+    borderColor: theme.colors.white,
+    borderWidth: 3,
+    borderStyle: 'solid',
+    borderRadius: '50%',
+  },
+  userAvatar: {
+    borderWidth: 0,
+  },
+  emptySpace: {
+    height: 74,
+    width: '100%',
   },
 })
 

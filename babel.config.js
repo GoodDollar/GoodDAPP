@@ -1,7 +1,12 @@
 module.exports = function(api) {
   api.cache(true)
   return {
-    presets: [['module:metro-react-native-babel-preset'], ['react-app']],
+    presets: [['module:metro-react-native-babel-preset'], ['react-app'], ['@babel/preset-env', {
+      modules: false,
+      targets: {
+        node: 4,
+      }
+    }]],
     comments: true,
     env: {
       production: {
@@ -18,7 +23,9 @@ module.exports = function(api) {
             WebView: 'react-native-web-webview'
           }
         }
-      ]
+      ],
+      'lodash',
+      '@babel/plugin-proposal-class-properties',
     ]
   }
 }

@@ -112,7 +112,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     if (canShare) {
       if (contact.phoneNumber) {
         text(contact.phoneNumber, paymentLink)
-        screenProps.push('Dashboard')
+        setShared(true)
       } else {
         shareAction(paymentLink)
       }

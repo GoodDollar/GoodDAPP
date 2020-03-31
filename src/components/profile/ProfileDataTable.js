@@ -1,7 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { Fragment, useCallback } from 'react'
+import { Image } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PhoneInput from 'react-phone-number-input'
+import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import './ProfileDataTablePhoneInput.css'
+import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
@@ -19,7 +22,11 @@ const ProfileDataTable = ({
   styles,
   navigation,
   setLockSubmit,
+  showCustomFlag,
 }) => {
+  const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)
+  const countryFlagUrl = showCustomFlag && phoneMeta && useCountryFlagUrl(phoneMeta.country)
+
   const verifyEmail = () => {
     if (profile.email !== storedProfile.email) {
       verifyEdit('email', profile.email)
@@ -75,7 +82,7 @@ const ProfileDataTable = ({
         </Section.Row>
         <Section.Row>
           {editable ? (
-            <Section.Stack grow>
+            <Section.Stack grow style={!errors.mobile && styles.phoneContainer}>
               <Section.Row>
                 <PhoneInput
                   error={errors.mobile && errors.mobile !== ''}
@@ -85,13 +92,19 @@ const ProfileDataTable = ({
                   onBlur={onPhoneInputBlur}
                   placeholder="Enter phone number"
                   value={profile.mobile}
-                  style={[
-                    styles.phoneInputStyle,
-                    {
-                      borderColor: errors.mobile ? theme.colors.red : theme.colors.lightGray,
-                      color: errors.mobile ? theme.colors.red : theme.colors.text,
-                    },
-                  ]}
+                  style={{
+                    borderRadius: 24,
+                    borderWidth: 1,
+                    paddingBottom: 5,
+                    paddingLeft: 0,
+                    paddingRight: 0,
+                    paddingTop: 5,
+                    marginTop: 2,
+                    marginBottom: 2,
+                    position: 'relative',
+                    borderColor: errors.mobile ? theme.colors.red : theme.colors.lightGray,
+                    color: errors.mobile ? theme.colors.red : theme.colors.text,
+                  }}
                 />
                 <Section.Row style={styles.suffixIcon}>
                   <Icon
@@ -102,18 +115,22 @@ const ProfileDataTable = ({
                   />
                 </Section.Row>
               </Section.Row>
-              <ErrorText error={errors.mobile} style={styles.errorMargin} />
+              {!!errors.mobile && <ErrorText error={errors.mobile} style={styles.errorMargin} />}
             </Section.Stack>
           ) : (
-            <InputRounded
-              disabled={true}
-              error={errors.mobile}
-              icon="phone"
-              iconColor={theme.colors.primary}
-              iconSize={28}
-              placeholder="Add your Mobile"
-              value={profile.mobile}
-            />
+            <Fragment>
+              {showCustomFlag && countryFlagUrl && <Image source={{ uri: countryFlagUrl }} style={styles.flag} />}
+              <InputRounded
+                containerStyle={countryFlagUrl && styles.disabledPhoneContainer}
+                disabled={true}
+                error={errors.mobile}
+                icon="phone"
+                iconColor={theme.colors.primary}
+                iconSize={28}
+                placeholder="Add your Mobile"
+                value={profile.mobile}
+              />
+            </Fragment>
           )}
         </Section.Row>
         <Section.Row style={!editable && styles.borderedBottomStyle}>
@@ -148,11 +165,10 @@ const getStylesFromProps = ({ theme }) => {
     suffixIcon: {
       alignItems: 'center',
       display: 'flex',
-      height: 38,
+      height: 40,
       justifyContent: 'center',
       position: 'absolute',
-      right: 0,
-      top: 0,
+      right: 1,
       width: 32,
       zIndex: 1,
     },
@@ -160,16 +176,16 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: theme.sizes.default,
       marginBottom: theme.sizes.default,
     },
-    phoneInputStyle: {
-      borderColor: theme.colors.lightGray,
-      borderRadius: 24,
+    flag: {
+      height: 24,
+      width: 24,
       borderWidth: 1,
-      color: theme.colors.text,
-      paddingBottom: 0,
-      paddingLeft: 0,
-      paddingRight: 0,
-      paddingTop: 0,
-      position: 'relative',
+      borderStyle: 'solid',
+      borderColor: theme.colors.lightGray,
+      borderRadius: '50%',
+    },
+    disabledPhoneContainer: {
+      paddingLeft: 10,
     },
   }
 }

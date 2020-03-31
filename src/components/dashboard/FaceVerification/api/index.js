@@ -55,23 +55,28 @@ class FaceVerificationApi {
 
     try {
       const { data: response } = await rootApi.performFaceVerification(payload, provider, axiosConfig)
+      const { ok, error } = response || {}
 
       if (!response) {
         throw new Error('Failed to perform face recognition on server')
       }
 
-      if (!response.ok) {
-        throw response
+      if (!ok) {
+        const exception = new Error(error)
+
+        exception.response = response
+        throw exception
       }
 
       logger.info('Face Recognition finished successfull', { response })
 
       return response
-    } catch (errorOrFailedResponse) {
-      const { message, error } = errorOrFailedResponse
+    } catch (exception) {
+      const { message, response } = exception
+      const { error } = response || {}
 
-      logger.error('Face recognition failed', error || message, errorOrFailedResponse)
-      throw errorOrFailedResponse
+      logger.error('Face recognition failed', error || message, exception)
+      throw exception
     } finally {
       this.lastCancelToken = null
     }

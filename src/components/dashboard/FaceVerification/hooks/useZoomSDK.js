@@ -18,9 +18,31 @@ export default ({ onInitialized = noop, onError = noop }) => {
   const onErrorRef = useRef(onError)
 
   useEffect(() => {
+    let sdkStatus = sdk.getStatus()
+
     const handleException = exception => {
-      setInitError(exception)
       onErrorRef.current(exception)
+      setInitError(exception)
+    }
+
+    const handleSdkStatus = () => {
+      const sdkInitialized = ZoomSDKStatus.Initialized === sdkStatus
+
+      if (!sdkInitialized) {
+        const exception = new Error(getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
+
+        exception.code = sdkStatus
+        handleException(exception)
+        return
+      }
+
+      onInitializedRef.current()
+      setInitialized(sdkInitialized)
+    }
+
+    if (ZoomSDKStatus.NeverInitialized !== sdkStatus) {
+      handleSdkStatus()
+      return
     }
 
     // Set a the directory path for other ZoOm Resources.
@@ -33,19 +55,8 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
     try {
       sdk.initialize(Config.zoomLicenseKey, () => {
-        const sdkStatus = sdk.getStatus()
-        const sdkInitialized = ZoomSDKStatus.Initialized === sdkStatus
-
-        if (!sdkInitialized) {
-          const exception = new Error(getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
-
-          exception.code = sdkStatus
-          handleException(exception)
-          return
-        }
-
-        setInitialized(sdkInitialized)
-        onInitializedRef.current()
+        sdkStatus = sdk.getStatus()
+        handleSdkStatus()
       })
     } catch (exception) {
       handleException(exception)

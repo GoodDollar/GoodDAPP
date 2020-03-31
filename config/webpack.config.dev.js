@@ -370,7 +370,7 @@ module.exports = {
     // This gives some necessary context to module not found errors, such as
     // the requesting resource.
     new ModuleNotFoundPlugin(paths.appPath),
-
+    // Performs the lodash import optimization across the project
     new LodashModuleReplacementPlugin({
       collections: true,
       paths: true,

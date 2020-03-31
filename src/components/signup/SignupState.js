@@ -65,7 +65,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     smsValidated: false,
     isEmailConfirmed: Config.torusEnabled || !!w3UserFromProps.email,
     jwt: '',
-    skipEmail: Config.skipEmailVerification || !!w3UserFromProps.email,
+    skipEmail: !!w3UserFromProps.email || !!torusUserFromProps.email,
     skipEmailConfirmation: Config.skipEmailVerification || !!w3UserFromProps.email,
     skipMagicLinkInfo: Config.torusEnabled,
     w3Token,

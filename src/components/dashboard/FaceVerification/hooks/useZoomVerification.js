@@ -2,7 +2,10 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import { first, noop } from 'lodash'
 
 import api from '../api'
+import { FaceVerificationProviders } from '../api/typings'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
+
+const { Zoom } = FaceVerificationProviders
 
 const {
   ZoomSession,
@@ -75,7 +78,7 @@ export default ({ onComplete = noop, onError = noop }) => {
         userAgent: createZoomAPIUserAgentString(sessionId),
       }
 
-      const response = await api.performFaceVerification(payload, ({ loaded, total }) => {
+      const response = await api.performFaceVerification(payload, Zoom, ({ loaded, total }) => {
         zoomFaceMapResultCallback.uploadProgress(loaded / total)
       })
 

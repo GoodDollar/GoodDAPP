@@ -35,7 +35,7 @@ const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPI
     isError: undefined,
     isStarted: undefined,
     isDuplicate: undefined,
-    isEnrolled: undefined,
+    isEnroll: undefined,
     isLive: undefined,
     isWhitelisted: undefined,
     isProfileSaved: undefined,
@@ -46,12 +46,12 @@ const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPI
 
     // let explanation = ''
     let failedFR = findKey(data, (v, k) => v === false)
-    if (data.isError) {
-      fireEvent(`FR_Error`, { failedFR, error: data.isError })
+    if (data.error) {
+      fireEvent(`FR_Error`, { failedFR, error: data.error })
       log.error('FR Error', 'An error occurred during gun sessionId updates', null, {
         sessionId,
         failedFR,
-        error: data.isError,
+        error: data.error,
       })
     } else if (failedFR) {
       fireEvent(`FR_Failed`, { failedFR })
@@ -143,7 +143,7 @@ const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPI
 
   const isProcessFailed =
     processStatus.isDuplicate === true ||
-    processStatus.isEnrolled === false ||
+    processStatus.isEnroll === false ||
     processStatus.isLive === false ||
     processStatus.isWhitelisted === false ||
     processStatus.isProfileSaved === false
@@ -171,7 +171,7 @@ const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPI
 
   //if (processStatus.useAPIResult && isAPISuccess === false) {
   if (processStatus.isError) {
-    helpText = `Something went wrong, please try again...\n\n(${processStatus.isError})`
+    helpText = <Text>{`Something went wrong, please try again...\n\n(${processStatus.isError})`}</Text>
   } else if (processStatus.isDuplicate === true) {
     helpText = (
       <View>
@@ -193,11 +193,15 @@ const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPI
       </View>
     )
   } else if (processStatus.isLive === false) {
-    helpText =
-      'We could not verify you are a living person. Funny hu? please make sure:\n\n' +
-      'A. Center your webcam\n' +
-      'B. Camera is at eye level\n' +
-      'C. Light your face evenly'
+    helpText = (
+      <Text>
+        {'We could not verify you are a living person. Funny hu? please make sure:\n\n' +
+          'A. Center your webcam\n' +
+          'B. Camera is at eye level\n' +
+          'C. Light your face evenly'
+        }
+      </Text>
+    )
   } else if (isProcessFailed) {
     log.error('FR failed', 'Some of the verification steps failed', null, { processStatus })
     helpText = 'Something went wrong, please try again...'

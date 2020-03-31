@@ -1,15 +1,18 @@
 // Please follow those imports order (need to add eslint rule for that)
 
 // 1. React
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
+
 // 2. React Native
 import { Image, Platform, View } from 'react-native'
+
 // 3. Libraries components (here're absent)
 
 // 4. common components
 import Text from '../../../common/view/Text'
 import Separator from '../../../common/layout/Separator'
 import { Section, Wrapper } from '../../../common'
+
 // 5. local components like ResultStep, GuidedResults and others from FaceVerification (here're absent)
 
 // 6. FLUX imports: store, reducers, actions
@@ -39,18 +42,14 @@ const VerifyError = ({
   title = 'Something went wrong...',
   log = defaultLogger,
 }) => {
+  const store = GDStore.useStore()
   const { error, message } = reason || {}
 
   const firstName = useMemo(() => {
-    const store = GDStore.useStore()
     const { fullName } = store.get('profile')
 
     return getFirstWord(fullName)
-  }, [])
-
-  useEffect(() => {
-    log.debug({ styles, screenProps, reason })
-  }, [styles, screenProps])
+  }, [store])
 
   return (
     <Wrapper>
@@ -69,7 +68,7 @@ const VerifyError = ({
             <Separator width={2} />
           </Section>
         </Section>
-        {action && (<Section>{action}</Section>)}
+        {action && <Section>{action}</Section>}
       </View>
     </Wrapper>
   )

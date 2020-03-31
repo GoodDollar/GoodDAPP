@@ -19,14 +19,14 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import retryImport from '../../lib/utils/retryImport'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { torusFacebook, torusGoogle, useTorusServiceWorker } from './useTorus'
+import { useTorus } from './useTorus'
 
 Image.prefetch(illustration)
 const log = logger.child({ from: 'AuthTorus' })
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const asGuest = true
   const [showErrorDialog] = useErrorDialog()
-  const torusReady = useTorusServiceWorker()
+  const torusSDK = useTorus()
 
   const goToW3Site = () => {
     fireEvent(CLICK_BTN_GETINVITED)
@@ -71,11 +71,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     try {
       switch (provider) {
         case 'facebook':
-          torusUser = await torusFacebook.triggerLogin()
+          torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')
           break
         default:
         case 'google':
-          torusUser = await torusGoogle.triggerLogin()
+          torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
           break
       }
 
@@ -190,7 +190,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           style={styles.buttonLayout}
           textStyle={googleButtonTextStyle}
           onPress={googleButtonHandler}
-          disabled={torusReady === false}
+          disabled={torusSDK === undefined}
         >
           {googleButtonText}
         </CustomButton>
@@ -199,7 +199,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           style={styles.buttonLayout}
           textStyle={facebookButtonTextStyle}
           onPress={facebookButtonHandler}
-          disabled={torusReady === false}
+          disabled={torusSDK === undefined}
         >
           {facebookButtonText}
         </CustomButton>

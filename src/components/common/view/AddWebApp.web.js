@@ -49,7 +49,7 @@ const mapStylesToProps = ({ theme }) => {
       width: '100%',
       textAlign: 'center',
       lineHeight: 22,
-      fontWeight: 500,
+      fontWeight: '500',
     },
     explanationDialogTextBold: {
       fontWeight: 'bold',

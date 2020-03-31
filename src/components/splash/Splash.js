@@ -28,7 +28,7 @@ const Splash = ({ animation }) => (
             >
               GoodDollar Demo
             </Section.Text>
-            <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight={500}>
+            <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="medium">
               {'All G$ coins in the demo\nare for test purposes only.\nOnce all feedback is incorporated,\n'}
               <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="bold">
                 all demo G$ coins will be deleted.
@@ -36,7 +36,7 @@ const Splash = ({ animation }) => (
             </Section.Text>
           </Section.Stack>
           <AnimationsLogo animation={animation} style={styles.animation} />
-          <Section.Text fontSize={16} color="darkBlue" fontWeight={500}>
+          <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
             Demo V{Config.version}
           </Section.Text>
         </Section.Stack>

@@ -899,7 +899,6 @@ export class UserStorage {
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
-    const isCameFromW3Site = userProperties.cameFromW3Site
     logger.debug('startSystemFeed', { userProperties, firstVisitAppDate })
     this.addBackupCard()
     this.addStartClaimingCard()
@@ -916,7 +915,7 @@ export class UserStorage {
         this.enqueueTX(welcomeMessage)
       }
 
-      if (!isCameFromW3Site) {
+      if (Config.enableInvites) {
         setTimeout(() => {
           this.enqueueTX(inviteFriendsMessage)
         }, 2 * 60 * 1000) // 2 minutes

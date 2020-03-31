@@ -18,10 +18,10 @@ const ScanQRButton = ({ onPress, styles, theme, disabled, style = {} }: Props) =
   <TouchableOpacity style={style.row} onPress={disabled ? undefined : onPress}>
     <View style={styles.buttonContainer}>
       <View style={styles.iconWrapper}>
-        <Icon name="qrcode" color="white" size={28} />
+        <Icon name="send-to-address" color="white" size={26} />
       </View>
       <Text color="darkBlue" fontSize={10} fontWeight="medium" lineHeight={11} style={styles.text}>
-        Scan QR Code
+        Send to address
       </Text>
     </View>
   </TouchableOpacity>
@@ -41,7 +41,7 @@ const mapPropsToStyle = ({ theme }) => ({
   buttonContainer: {
     display: 'flex',
     alignItems: 'center',
-    marginRight: getDesignRelativeWidth(20),
+    marginLeft: getDesignRelativeWidth(20),
   },
 })
 

@@ -15,7 +15,7 @@ import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
-import { SEND_TITLE } from './utils/sendReceiveFlow'
+import { ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SurveySend from './SurveySend'
 
 const log = logger.child({ from: 'SendLinkSummary' })
@@ -41,7 +41,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [shared, setShared] = useState(false)
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
-  const { amount, reason = null, counterPartyDisplayName } = screenState
+  const [loading, setLoading] = useState('')
+  const { amount, reason = null, counterPartyDisplayName, address } = screenState
 
   const faceRecognition = useCallback(() => {
     return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
@@ -100,6 +101,78 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   }, [shared])
 
   const handleConfirm = useCallback(() => {
+    const action = screenState.params.action
+
+    if (action === ACTION_SEND_TO_ADDRESS) {
+      sendViaAddress()
+    } else {
+      sendViaLink()
+    }
+  }, [screenState])
+
+  const sendViaAddress = useCallback(() => {
+    try {
+      setLoading(true)
+      let txhash
+      goodWallet.sendAmount(address, amount, {
+        onTransactionHash: hash => {
+          log.debug('Send G$ to address', { hash })
+          txhash = hash
+
+          // Save transaction
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            type: 'send',
+            data: {
+              to: address,
+              amount,
+            },
+          }
+
+          userStorage.enqueueTX(transactionEvent)
+
+          if (Config.isEToro) {
+            userStorage.saveSurveyDetails(hash, {
+              amount,
+              survey,
+            })
+          }
+
+          fireEvent('SEND_DONE', { type: screenState.params.type })
+
+          showDialog({
+            visible: true,
+            title: 'SUCCESS!',
+            message: 'The G$ was sent successfully',
+            buttons: [{ text: 'Yay!' }],
+            onDismiss: screenProps.goToRoot,
+          })
+
+          setLoading(false)
+
+          return hash
+        },
+        onError: e => {
+          log.error('Send TX failed:', e.message, e)
+
+          setLoading(false)
+          userStorage.markWithErrorEvent(txhash)
+        },
+      })
+    } catch (e) {
+      log.error('Send TX failed:', e.message, e)
+
+      showErrorDialog({
+        visible: true,
+        title: 'Transaction Failed!',
+        message: `There was a problem sending G$. Try again`,
+        dismissText: 'OK',
+      })
+    }
+  }, [setLoading, address, amount, showDialog, showErrorDialog])
+
+  const sendViaLink = useCallback(() => {
     let paymentLink = link
 
     // Prevents calling back `generateLink` as it generates a new transaction every time it's called
@@ -250,9 +323,15 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
               To
             </Section.Text>
-            <Section.Text fontSize={24} fontWeight="medium" lineHeight={24} style={styles.toText}>
-              {counterPartyDisplayName}
-            </Section.Text>
+            {address ? (
+              <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
+                {address}
+              </Section.Text>
+            ) : (
+              <Section.Text fontSize={24} fontWeight="medium" lineHeight={24} style={styles.toText}>
+                {counterPartyDisplayName}
+              </Section.Text>
+            )}
           </Section.Row>
           {reason && (
             <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
@@ -275,7 +354,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton onPress={isCitizen ? handleConfirm : faceRecognition} disabled={isCitizen === undefined}>
+            <CustomButton
+              onPress={isCitizen ? handleConfirm : faceRecognition}
+              disabled={isCitizen === undefined}
+              lodaing={loading}
+            >
               Confirm
             </CustomButton>
           </Section.Stack>

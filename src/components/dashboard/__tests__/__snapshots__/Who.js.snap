@@ -96,29 +96,12 @@ exports[`Who matches snapshot 1`] = `
             Object {
               "MozTransitionProperty": "opacity",
               "MozUserSelect": "none",
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "end",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "flex-end",
               "WebkitTransitionDuration": "0.15s",
               "WebkitTransitionProperty": "opacity",
               "WebkitUserSelect": "none",
-              "alignItems": "center",
               "cursor": "pointer",
-              "flexDirection": "row",
-              "justifyContent": "flex-end",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "end",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "0px",
-              "paddingLeft": "0px",
-              "paddingRight": "0px",
-              "paddingTop": "0px",
               "touchAction": "manipulation",
               "transitionDuration": "0.15s",
               "transitionProperty": "opacity",
@@ -128,62 +111,179 @@ exports[`Who matches snapshot 1`] = `
           tabIndex="0"
         >
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(12,38,61,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "500",
-                "lineHeight": "20px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "alignItems": "center",
+                "display": "flex",
+                "marginRight": "20px",
+                "msFlexAlign": "center",
               }
             }
           >
-            Scan QR Code
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "backgroundColor": "rgba(12,38,61,1.00)",
+                  "borderBottomLeftRadius": "50%",
+                  "borderBottomRightRadius": "50%",
+                  "borderTopLeftRadius": "50%",
+                  "borderTopRightRadius": "50%",
+                  "display": "flex",
+                  "height": "42px",
+                  "justifyContent": "center",
+                  "marginBottom": "5px",
+                  "msFlexAlign": "center",
+                  "msFlexPack": "center",
+                  "width": "42px",
+                }
+              }
+            >
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "fontFamily": "gooddollar",
+                    "fontSize": "28px",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  }
+                }
+              >
+                
+              </div>
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(12,38,61,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "10px",
+                  "fontWeight": "500",
+                  "lineHeight": "11px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              Scan QR Code
+            </div>
           </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          data-focusable={true}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "MozTransitionProperty": "opacity",
+              "MozUserSelect": "none",
+              "WebkitTransitionDuration": "0.15s",
+              "WebkitTransitionProperty": "opacity",
+              "WebkitUserSelect": "none",
+              "cursor": "pointer",
+              "msTouchAction": "manipulation",
+              "msUserSelect": "none",
+              "touchAction": "manipulation",
+              "transitionDuration": "0.15s",
+              "transitionProperty": "opacity",
+              "userSelect": "none",
+            }
+          }
+          tabIndex="0"
+        >
           <div
             className="css-view-1dbjc4n"
             style={
               Object {
                 "WebkitAlignItems": "center",
                 "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
                 "alignItems": "center",
-                "backgroundColor": "rgba(12,38,61,1.00)",
-                "borderBottomLeftRadius": "50%",
-                "borderBottomRightRadius": "50%",
-                "borderTopLeftRadius": "50%",
-                "borderTopRightRadius": "50%",
                 "display": "flex",
-                "height": "42px",
-                "justifyContent": "center",
-                "marginLeft": "8px",
+                "marginLeft": "20px",
                 "msFlexAlign": "center",
-                "msFlexPack": "center",
-                "width": "42px",
               }
             }
           >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "backgroundColor": "rgba(12,38,61,1.00)",
+                  "borderBottomLeftRadius": "50%",
+                  "borderBottomRightRadius": "50%",
+                  "borderTopLeftRadius": "50%",
+                  "borderTopRightRadius": "50%",
+                  "display": "flex",
+                  "height": "42px",
+                  "justifyContent": "center",
+                  "marginBottom": "5px",
+                  "msFlexAlign": "center",
+                  "msFlexPack": "center",
+                  "width": "42px",
+                }
+              }
+            >
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "fontFamily": "gooddollar",
+                    "fontSize": "26px",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  }
+                }
+              >
+                
+              </div>
+            </div>
             <div
               className="css-text-901oao"
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "fontFamily": "gooddollar",
-                  "fontSize": "28px",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
+                  "color": "rgba(12,38,61,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "10px",
+                  "fontWeight": "500",
+                  "lineHeight": "11px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
                 }
               }
             >
-              
+              Send to address
             </div>
           </div>
         </div>
@@ -326,6 +426,56 @@ exports[`Who matches snapshot 1`] = `
               }
               type="text"
             />
+            <div
+              className="css-view-1dbjc4n"
+              data-focusable={true}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "MozTransitionProperty": "opacity",
+                  "MozUserSelect": "none",
+                  "WebkitTransitionDuration": "0.15s",
+                  "WebkitTransitionProperty": "opacity",
+                  "WebkitUserSelect": "none",
+                  "bottom": "10px",
+                  "cursor": "pointer",
+                  "msTouchAction": "manipulation",
+                  "msUserSelect": "none",
+                  "paddingTop": "8px",
+                  "position": "absolute",
+                  "right": "8px",
+                  "touchAction": "manipulation",
+                  "transitionDuration": "0.15s",
+                  "transitionProperty": "opacity",
+                  "userSelect": "none",
+                  "zIndex": 1,
+                }
+              }
+              tabIndex="0"
+            >
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(66,69,74,1.00)",
+                    "fontFamily": "gooddollar",
+                    "fontSize": "16px",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  }
+                }
+              >
+                
+              </div>
+            </div>
           </div>
           <div
             className="css-text-901oao"

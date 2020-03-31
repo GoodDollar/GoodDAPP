@@ -48,6 +48,7 @@ class FaceVerificationApi {
         }
         break
       default:
+        throw new Error(`Provider '${provider}' haven't registered.`)
     }
 
     logger.info('performFaceVerification', { provider, sessionId, imageCount })

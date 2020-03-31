@@ -39,14 +39,14 @@ const VerifyError = ({
   title = 'Something went wrong...',
   log = defaultLogger,
 }) => {
+  const store = GDStore.useStore()
   const { error, message } = reason || {}
 
   const firstName = useMemo(() => {
-    const store = GDStore.useStore()
     const { fullName } = store.get('profile')
 
     return getFirstWord(fullName)
-  }, [])
+  }, [store])
 
   useEffect(() => {
     log.debug({ styles, screenProps, reason })

@@ -9,6 +9,22 @@ const {
   fixBabelImports,
   babelExclude,
 } = require("customize-cra");
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+
+const lodashWebpackPluginOverride = (config) => {
+  config.plugins.unshift(
+    new LodashModuleReplacementPlugin({
+      collections: true,
+      paths: true,
+      flattening: true,
+      currying: true,
+      placeholder: true,
+      caching: true,
+    }),
+  )
+
+  return config
+}
 
 module.exports = {
   webpack: override(
@@ -45,6 +61,7 @@ module.exports = {
     }),
 
     ...addExternalBabelPlugins(
+      "lodash",
       "@babel/plugin-proposal-class-properties",
       "@babel/plugin-proposal-object-rest-spread"
     ),
@@ -54,6 +71,8 @@ module.exports = {
       "@babel/preset-react",
       "@babel/preset-flow"
     ),
+
+    lodashWebpackPluginOverride,
 
     addBundleVisualizer({}, true),
   ),

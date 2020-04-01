@@ -38,6 +38,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
+  const [loading, setLoading] = useState(false)
 
   const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
@@ -96,6 +97,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const sendPayment = to => {
     try {
+      setLoading(true)
       let txhash
       goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
@@ -130,10 +132,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             buttons: [{ text: 'Yay!' }],
             onDismiss: setShared(true),
           })
+          setLoading(false)
           return hash
         },
         onError: e => {
           log.error('Send TX failed:', e.message, e)
+          setLoading(false)
           userStorage.markWithErrorEvent(txhash)
         },
       })
@@ -355,7 +359,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton onPress={isCitizen ? handleConfirm : faceRecognition} disabled={isCitizen === undefined}>
+            <CustomButton
+              onPress={isCitizen ? handleConfirm : faceRecognition}
+              disabled={isCitizen === undefined}
+              loading={loading}
+            >
               Confirm
             </CustomButton>
           </Section.Stack>

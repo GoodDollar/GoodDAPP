@@ -41,7 +41,7 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import { FAQ, PrivacyArticle, Statistics, Support, PrivacyPolicyAndTerms } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
@@ -635,11 +635,9 @@ const Dashboard = props => {
         data={feeds}
         handleFeedSelection={handleFeedSelection}
         initialNumToRender={PAGE_SIZE}
-        onEndReached={nextFeed}
-        // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
+        onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
         // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
-        onEndReachedThreshold={0.7}
-        // Determines the maximum number of items rendered outside of the visible area
+        onEndReachedThreshold={0.7} // Determines the maximum number of items rendered outside of the visible area
         windowSize={7}
         onScroll={onScroll}
         headerLarge={headerLarge}

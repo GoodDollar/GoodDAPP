@@ -221,7 +221,7 @@ exports[`Profile matches snapshot 1`] = `
             }
           }
         >
-          Profile
+          Your Profile
         </h1>
       </div>
       <div
@@ -935,7 +935,7 @@ exports[`Profile matches snapshot 1`] = `
                             "borderTopLeftRadius": "0px",
                             "borderTopRightRadius": "0px",
                             "borderTopWidth": "1px",
-                            "marginBottom": "0px",
+                            "marginBottom": "2px",
                             "marginTop": "2px",
                             "paddingBottom": "2px",
                             "paddingLeft": "32px",
@@ -1000,6 +1000,7 @@ exports[`Profile matches snapshot 1`] = `
                               "msFlexPack": "center",
                               "position": "absolute",
                               "right": "0px",
+                              "top": "0px",
                               "width": "32px",
                               "zIndex": 1,
                             }
@@ -1078,7 +1079,7 @@ exports[`Profile matches snapshot 1`] = `
                             "borderTopLeftRadius": "0px",
                             "borderTopRightRadius": "0px",
                             "borderTopWidth": "1px",
-                            "marginBottom": "0px",
+                            "marginBottom": "2px",
                             "marginTop": "2px",
                             "paddingBottom": "2px",
                             "paddingLeft": "32px",
@@ -1143,6 +1144,7 @@ exports[`Profile matches snapshot 1`] = `
                               "msFlexPack": "center",
                               "position": "absolute",
                               "right": "0px",
+                              "top": "0px",
                               "width": "32px",
                               "zIndex": 1,
                             }
@@ -1223,7 +1225,7 @@ exports[`Profile matches snapshot 1`] = `
                             "borderTopLeftRadius": "0px",
                             "borderTopRightRadius": "0px",
                             "borderTopWidth": "1px",
-                            "marginBottom": "0px",
+                            "marginBottom": "2px",
                             "marginTop": "2px",
                             "paddingBottom": "2px",
                             "paddingLeft": "32px",
@@ -1288,6 +1290,7 @@ exports[`Profile matches snapshot 1`] = `
                               "msFlexPack": "center",
                               "position": "absolute",
                               "right": "0px",
+                              "top": "0px",
                               "width": "32px",
                               "zIndex": 1,
                             }

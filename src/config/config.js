@@ -19,6 +19,7 @@ const Config = {
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,
   isEToro,
+  enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
@@ -34,6 +35,7 @@ const Config = {
   withMockedFeeds: process.env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
   safariMobileKeyboardGuidedSize: process.env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
   receiveUrl: process.env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
+  enableShortUrl: process.env.REACT_APP_ENABLE_SHORTURL === 'true',
   sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}`,
   nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
   displayStartClaimingCardTime: process.env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 3 * 24 * 60 * 60 * 1000, // 3 days
@@ -45,6 +47,7 @@ const Config = {
   delayMessageNetworkDisconnection: process.env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 3000,
   showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
+  flagsUrl: process.env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
   ethereum: {
     '42': {
       network_id: 42,

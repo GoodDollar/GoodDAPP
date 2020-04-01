@@ -15,8 +15,6 @@ import CircleButtonWrapper from './CircleButtonWrapper'
 import VerifyEdit from './VerifyEdit'
 import VerifyEditCode from './VerifyEditCode'
 
-const TITLE = 'Profile'
-
 const avatarSize = getDesignRelativeWidth(136)
 
 const ProfileWrapper = props => {
@@ -69,14 +67,14 @@ const ProfileWrapper = props => {
       </Section.Row>
       <Section style={styles.section}>
         <View style={styles.emptySpace} />
-        <ProfileDataTable profile={profile} />
+        <ProfileDataTable profile={profile} showCustomFlag />
       </Section>
     </Wrapper>
   )
 }
 
 ProfileWrapper.navigationOptions = {
-  title: TITLE,
+  title: 'Your Profile',
 }
 
 const getStylesFromProps = ({ theme }) => ({

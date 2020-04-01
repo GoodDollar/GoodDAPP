@@ -91,47 +91,47 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styl
 )
 
 const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, ...buttonProps }) => {
+  const initialEntitlementRef = useRef(entitlement)
+
   const cardRef = useRef()
   const setCardRef = useCallback(ref => (cardRef.current = ref), [])
 
   const nextClaimOnHold = useRef(null)
-  const suspendRendering = useCallback(() => {
-    nextClaimOnHold.current = nextClaim
-  }, [nextClaim])
-  const restoreRendering = useCallback(() => {
-    nextClaimOnHold.current = null
-  }, [])
+  const suspendRendering = useCallback(() => (nextClaimOnHold.current = nextClaim), [nextClaim])
+
+  const restoreRendering = useCallback(() => (nextClaimOnHold.current = null), [])
 
   useEffect(() => {
-    if (entitlement && cardRef.current) {
-      cardRef.current.flip()
+    const card = cardRef.current
+
+    if (card && entitlement) {
+      card.flip()
     }
   }, [entitlement])
 
-  if (entitlement && !cardRef.current) {
+  if (initialEntitlementRef.current) {
     return (
-      <ClaimButton {...buttonProps} entitlement={entitlement} nextClaim={nextClaim} onPress={onPress} styles={styles} />
+      <ClaimButton {...buttonProps} styles={styles} entitlement={entitlement} nextClaim={nextClaim} onPress={onPress} />
     )
   }
 
-  const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
+  if (!entitlement) {
+    return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} />
+  }
 
+  const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
   return (
     <CardFlip
       style={styles.cardContainer}
       ref={setCardRef}
       flipDirection="x"
       duration={1000}
-      perspective={1000}
+      flipZoom={0}
+      perspective={0}
       onFlipStart={suspendRendering}
       onFlipEnd={restoreRendering}
     >
-      <ClaimButton
-        {...buttonProps}
-        styles={styles}
-        entitlement={0}
-        nextClaim={nextClaimToDisplay}
-      />
+      <ClaimButton {...buttonProps} styles={styles} entitlement={0} nextClaim={nextClaimToDisplay} />
       <ClaimButton
         {...buttonProps}
         styles={styles}

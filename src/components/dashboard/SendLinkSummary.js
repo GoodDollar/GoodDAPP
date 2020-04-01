@@ -6,6 +6,7 @@ import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import Config from '../../config/config'
+import gun from '../../lib/gundb/gundb'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -93,39 +94,111 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     ]
   )
 
+  const sendPayment = to => {
+    try {
+      let txhash
+      goodWallet.sendAmount(to, amount, {
+        onTransactionHash: hash => {
+          txhash = hash
+
+          // Save transaction
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            type: 'send',
+            data: {
+              to,
+              reason,
+              amount,
+            },
+          }
+          userStorage.enqueueTX(transactionEvent)
+
+          if (Config.isEToro) {
+            userStorage.saveSurveyDetails(hash, {
+              reason,
+              amount,
+              survey,
+            })
+          }
+
+          fireEvent('SEND_DONE', { type: screenState.params.type })
+          showDialog({
+            visible: true,
+            title: 'SUCCESS!',
+            message: 'The G$ was sent successfully',
+            buttons: [{ text: 'Yay!' }],
+            onDismiss: setShared(true),
+          })
+          return hash
+        },
+        onError: e => {
+          log.error('Send TX failed:', e.message, e)
+          userStorage.markWithErrorEvent(txhash)
+        },
+      })
+    } catch (e) {
+      log.error('Send TX failed:', e.message, e)
+      showErrorDialog({
+        visible: true,
+        title: 'Transaction Failed!',
+        message: `There was a problem sending G$. Try again`,
+        dismissText: 'OK',
+      })
+    }
+  }
+
+  const searchWalletAddress = async phoneNumber => {
+    const walletAddress = await gun
+      .get('users/bymobile')
+      .get(phoneNumber)
+      .get('profile')
+      .get('walletAddress')
+      .get('display')
+
+    return walletAddress
+  }
+
   // Going to root after shared
+
   useEffect(() => {
     if (shared) {
       screenProps.goToRoot()
     }
   }, [shared])
 
-  const handleConfirm = useCallback(() => {
+  const handleConfirm = useCallback(async () => {
     let paymentLink = link
+    const phoneNumber = contact.phoneNumber && contact.phoneNumber.replace(/\D/g, '')
+    const walletAddress = phoneNumber && (await searchWalletAddress(phoneNumber))
 
-    // Prevents calling back `generateLink` as it generates a new transaction every time it's called
     if (paymentLink === '') {
       paymentLink = generateLink()
       setLink(paymentLink)
     }
 
-    if (canShare) {
-      if (contact.phoneNumber) {
+    if (phoneNumber) {
+      if (walletAddress) {
+        sendPayment(walletAddress)
+      } else {
         text(contact.phoneNumber, paymentLink)
         setShared(true)
-      } else {
-        shareAction(paymentLink)
       }
     } else {
-      const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
+      // Prevents calling back `generateLink` as it generates a new transaction every time it's called
+      if (canShare) {
+        shareAction(paymentLink)
+      } else {
+        const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
 
-      // Show confirmation
-      screenProps.push('SendConfirmation', {
-        paymentLink: desktopShareLink,
-        amount,
-        reason,
-        counterPartyDisplayName,
-      })
+        // Show confirmation
+        screenProps.push('SendConfirmation', {
+          paymentLink: desktopShareLink,
+          amount,
+          reason,
+          counterPartyDisplayName,
+        })
+      }
     }
   }, [
     generateSendShareText,

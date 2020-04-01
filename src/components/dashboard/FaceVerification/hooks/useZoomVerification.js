@@ -105,11 +105,11 @@ export default ({ onComplete = noop, onError = noop }) => {
         lastMessage = message
 
         if (response) {
-          const { code, subCode, message: zoomMessage } = response.enrollmentResult || {}
+          const { code, message: zoomMessage } = response.enrollmentResult || {}
 
           lastMessage = zoomMessage
 
-          if (200 === code || 'nameCollision' === subCode) {
+          if (200 === code) {
             ZoomCustomization.setOverrideResultScreenSuccessMessage(lastMessage)
 
             zoomFaceMapResultCallback.retry()

@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import WebViewScreen, { createWebViewScreen } from '../WebViewScreen'
-import { FAQ, PrivacyPolicy, Support, TermsOfUse } from '../webViewInstances'
+import { FAQ, PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webViewInstances'
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
 // Note: test renderer must be required after react-native.
@@ -33,19 +33,19 @@ describe('WebViewScreen', () => {
 })
 
 describe('WebViewScreen Instances', () => {
-  it('they renders without errors', () => {
+  it('PrivacyPolicyAndTerms renders without errors', () => {
     const tree = renderer.create(
       <StoresWrapper>
-        <TermsOfUse />
+        <PrivacyPolicyAndTerms />
       </StoresWrapper>
     )
     expect(tree.toJSON()).toBeTruthy()
   })
 
-  it('TermsOfUse matches snapshot', () => {
+  it('PrivacyPolicyAndTerms matches snapshot', () => {
     const component = renderer.create(
       <StoresWrapper>
-        <TermsOfUse />
+        <PrivacyPolicyAndTerms />
       </StoresWrapper>
     )
     const tree = component.toJSON()

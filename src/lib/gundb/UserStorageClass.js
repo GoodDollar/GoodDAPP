@@ -783,7 +783,8 @@ export class UserStorage {
       logger.debug('handleOTPLUpdated', { data, receipt })
 
       //get our tx that created the payment link
-      const originalTXHash = await this.getTransactionHashByCode(data.hash)
+      //paymentId is new format, hash is in old beta format
+      const originalTXHash = await this.getTransactionHashByCode(data.hash || data.paymentId)
       if (originalTXHash === undefined) {
         logger.error(
           'handleOTPLUpdated failed',
@@ -1929,11 +1930,11 @@ export class UserStorage {
     //saving index by onetime code so we can retrieve and update it once withdrawn
     //or skip own withdraw
     if (event.type === EVENT_TYPE_SEND && event.data.code) {
-      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
+      const hashedCode = event.data.hashedCode || this.wallet.wallet.utils.sha3(event.data.code)
       this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
     } else if (event.type === 'withdraw' && event.data.code) {
       //are we withdrawing our own link?
-      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
+      const hashedCode = event.data.hashedCode || this.wallet.wallet.utils.sha3(event.data.code)
       const ownlink = await this.feed.get('codeToTxHash').get(hashedCode)
       if (ownlink) {
         logger.debug('updateFeedEvent: skipping own link withdraw', { event })

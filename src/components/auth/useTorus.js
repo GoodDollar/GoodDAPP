@@ -13,7 +13,7 @@ const sdkOptions = {
 }
 export const torus = new TorusSdk({
   GOOGLE_CLIENT_ID: config.googleClientId,
-  FACEBOOK_APP_ID: config.facebookAppId,
+  FACEBOOK_CLIENT_ID: config.facebookAppId,
   ...sdkOptions,
 })
 

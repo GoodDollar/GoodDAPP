@@ -1,9 +1,10 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState, useEffect } from 'react'
 import { first, noop } from 'lodash'
 
 import api from '../api'
 import { FaceVerificationProviders } from '../api/typings'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
+import useMountedState from '../../../../lib/hooks/useMountedState'
 
 const { Zoom } = FaceVerificationProviders
 
@@ -24,6 +25,7 @@ const initialSessionState = {
 
 export default ({ onComplete = noop, onError = noop }) => {
   const sessionRef = useRef(null)
+  const mountedStateRef = useMountedState()
   const [sessionState, setSessionState] = useState(initialSessionState)
 
   const startVerification = useCallback(() => {
@@ -45,6 +47,10 @@ export default ({ onComplete = noop, onError = noop }) => {
 
       sessionRef.current = null
       onComplete(isSuccess, lastResult, lastMessage)
+
+      if (!mountedStateRef.current) {
+        return
+      }
 
       setSessionState({
         isComplete: true,

@@ -4,39 +4,29 @@ import useZoomSDK from './hooks/useZoomSDK'
 import useZoomVerification from './hooks/useZoomVerification'
 
 const FaceVerification = ({ screenProps }) => {
-  const screenPropsRef = useRef(null)
+  const showErrorScreen = useCallback((error, allowRetry = false) => {
+    screenProps.navigateTo(
+      'FaceVerificationError', { error, allowRetry }
+    )
+  }, [screenProps])
 
-  const handlers = useMemo(() => {
-    const exceptionHandler = (error, allowRetry = true) =>
-      screenPropsRef.current.navigateTo(
-        'FaceVerificationError', { error, allowRetry }
-      )
-
-    return {
-      exception: exceptionHandler,
-      sdkException: error => exceptionHandler(error, false),
-      completion: isSuccess => {
-        if (isSuccess) {
-          screenProps.current.pop({ isValid: true })
-        }
-      }
+  const completionHandler = useCallback((isSuccess, _, lastMessage) => {
+    if (isSuccess) {
+      screenProps.pop({ isValid: true })
+      return
     }
-  }, [])
+
+    showErrorScreen(new Error(lastMessage), true)
+  }, [screenProps, showErrorScreen])
 
   const { startVerification } = useZoomVerification({
-    onComplete: handlers.completion,
-    onError: handlers.exception,
+    onComplete: completionHandler
   })
 
   useZoomSDK({
     onInitialized: startVerification,
-    onError: handlers.sdkException,
+    onError: showErrorScreen,
   })
-
-  useEffect(
-    () => screenPropsRef.current = screenProps,
-    [screenProps]
-  );
 
   return null
 }

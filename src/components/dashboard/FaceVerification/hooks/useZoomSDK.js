@@ -3,6 +3,7 @@ import { noop } from 'lodash'
 
 import Config from '../../../../config/config'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
+import useMountedState from '../../../../lib/hooks/useMountedState'
 
 const sdk = ZoomAuthentication.ZoomSDK
 
@@ -14,6 +15,7 @@ const {
 export default ({ onInitialized = noop, onError = noop }) => {
   const [isInitialized, setInitialized] = useState(false)
   const [initError, setInitError] = useState(null)
+  const mountedStateRef = useMountedState()
   const onInitializedRef = useRef(onInitialized)
   const onErrorRef = useRef(onError)
 
@@ -22,7 +24,10 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
     const handleException = exception => {
       onErrorRef.current(exception)
-      setInitError(exception)
+
+      if (mountedStateRef.current) {
+        setInitError(exception)
+      }
     }
 
     const handleSdkStatus = () => {

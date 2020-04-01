@@ -320,7 +320,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       return true
     } catch (e) {
       log.error('New user failure', e.message, e)
-      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate)
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, e.message)
 
       // showErrorDialog('Something went on our side. Please try again')
       setCreateError(true)
@@ -381,10 +381,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     log.info('signup data:', { data, nextRoute, newState })
 
     if (nextRoute === undefined) {
-      await waitForRegistrationToFinish()
+      const ok = await waitForRegistrationToFinish()
 
       //this will cause a re-render and move user to the dashboard route
-      store.set('isLoggedIn')(true)
+      if (ok) {
+        store.set('isLoggedIn')(true)
+      }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
         let { data } = await API.sendOTP(newState)

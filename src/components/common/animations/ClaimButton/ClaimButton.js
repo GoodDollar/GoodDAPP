@@ -1,7 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, TouchableOpacity } from 'react-native'
-import { set as _set } from 'lodash'
+import { set } from 'lodash'
 import animationData from './data.json'
 
 class ClaimButton extends React.Component {
@@ -15,13 +15,13 @@ class ClaimButton extends React.Component {
 
     // set amount of G$ text to animation
 
-    _set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${amount ? ` - ${amount}` : ''} `)
+    set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${amount ? ` - ${amount}` : ''} `)
 
     // set x coordinate of G$ text to animation
-    _set(animationData, 'layers[4].ks.p.k[0].s[0]', this.getGap())
-    _set(animationData, 'layers[4].ks.p.k[1].s[0]', this.getGap())
-    _set(animationData, 'layers[4].ks.p.k[2].s[0]', this.getGap())
-    _set(animationData, 'layers[4].ks.p.k[3].s[0]', this.getGap())
+    set(animationData, 'layers[4].ks.p.k[0].s[0]', this.getGap())
+    set(animationData, 'layers[4].ks.p.k[1].s[0]', this.getGap())
+    set(animationData, 'layers[4].ks.p.k[2].s[0]', this.getGap())
+    set(animationData, 'layers[4].ks.p.k[3].s[0]', this.getGap())
   }
 
   componentDidMount() {

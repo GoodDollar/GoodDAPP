@@ -1,8 +1,8 @@
 // @flow
-import { startCase } from 'lodash'
 import React from 'react'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
+import { startCase } from 'lodash'
 import { withStyles } from '../../lib/styles'
 import { Text } from '../common'
 

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
-import { get as _get } from 'lodash'
+import { get } from 'lodash'
 import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
@@ -47,11 +47,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
-  const _w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User', {})
-  const w3Token = _get(navigation, 'state.routes[1].params.w3Token')
+  const _w3UserFromProps = get(navigation, 'state.routes[1].params.w3User', {})
+  const w3Token = get(navigation, 'state.routes[1].params.w3Token')
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
-  const torusUserFromProps = _get(
-    navigation.state.routes.find(route => _get(route, 'params.torusUser')),
+  const torusUserFromProps = get(
+    navigation.state.routes.find(route => get(route, 'params.torusUser')),
     'params.torusUser',
     {}
   )

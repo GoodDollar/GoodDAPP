@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Image, View } from 'react-native'
-import { get as _get } from 'lodash'
+import { get } from 'lodash'
 import * as web3Utils from 'web3-utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -16,7 +16,7 @@ const log = logger.child({ from: 'OutOfGasError' })
 const OutOfGasError = props => {
   const { styles, theme } = props
   const MIN_BALANCE_VALUE = '100000'
-  const isValid = _get(props, 'screenProps.screenState.isValid', undefined)
+  const isValid = get(props, 'screenProps.screenState.isValid', undefined)
   const ERROR = `In order for transactions to go through,
 you need ‘Gas’ witch is a virtual money. 
 Don’t worry, we’ll take care off you.\n`

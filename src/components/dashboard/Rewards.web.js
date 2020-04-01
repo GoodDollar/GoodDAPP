@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { isIOS } from 'mobile-device-detect'
 import { Appbar } from 'react-native-paper'
-import { get as _get, toPairs as _toPairs } from 'lodash'
+import { get, toPairs } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -19,13 +19,13 @@ const RewardsTab = props => {
   const [showDialog] = useDialog()
 
   const getRewardsPath = () => {
-    const params = _get(props, 'navigation.state.params', {})
+    const params = get(props, 'navigation.state.params', {})
     if (isIOS === false) {
       params.purpose = 'iframe'
     }
     params.token = token
-    let path = decodeURIComponent(_get(params, 'rewardsPath', ''))
-    const query = _toPairs(params)
+    let path = decodeURIComponent(get(params, 'rewardsPath', ''))
+    const query = toPairs(params)
       .filter(p => p[0] !== 'rewardsPath')
       .map(param => param.join('='))
       .join('&')

@@ -10,7 +10,9 @@ import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 import logger from './lib/logger/pino-logger'
 
 const log = logger.child({ from: 'init' })
+
 let initialized = false
+
 export const init = () => {
   return Promise.all([goodWallet.ready, userStorage.ready]).then(async () => {
     log.debug('wallet and storage ready, initializing analytics', { initialized })

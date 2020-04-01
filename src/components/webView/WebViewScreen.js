@@ -1,6 +1,6 @@
 import React from 'react'
 import WebView from 'react-native-web-webview'
-import { get as _get } from 'lodash'
+import { get } from 'lodash'
 
 const WebViewScreen = props => {
   const { source, title, ...rest } = props
@@ -17,7 +17,7 @@ export const createWebViewScreen = (source, title) => {
 
     switch (title) {
       case 'Rewards':
-        loginToken = _get(navigation, 'state.params.loginToken')
+        loginToken = get(navigation, 'state.params.loginToken')
 
         source += `?token=${loginToken}`
         break

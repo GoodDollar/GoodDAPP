@@ -1,8 +1,8 @@
 // @flow
-import { startCase } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
+import { startCase } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'

@@ -17,11 +17,13 @@ class ClaimButton extends React.Component {
 
     set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${amount ? ` - ${amount}` : ''} `)
 
+    const gap = this.getGap()
+
     // set x coordinate of G$ text to animation
-    set(animationData, 'layers[4].ks.p.k[0].s[0]', this.getGap())
-    set(animationData, 'layers[4].ks.p.k[1].s[0]', this.getGap())
-    set(animationData, 'layers[4].ks.p.k[2].s[0]', this.getGap())
-    set(animationData, 'layers[4].ks.p.k[3].s[0]', this.getGap())
+    set(animationData, 'layers[4].ks.p.k[0].s[0]', gap)
+    set(animationData, 'layers[4].ks.p.k[1].s[0]', gap)
+    set(animationData, 'layers[4].ks.p.k[2].s[0]', gap)
+    set(animationData, 'layers[4].ks.p.k[3].s[0]', gap)
   }
 
   componentDidMount() {

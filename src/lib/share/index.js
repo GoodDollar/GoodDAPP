@@ -225,7 +225,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
   let queryParams = ''
 
-  if (Config.network === 'production') {
+  if (Config.enableShortUrl) {
     queryParams = `/${paramsBase64}`
   } else {
     queryParams = action === 'send' ? `?paymentCode=${paramsBase64}` : `?code=${paramsBase64}`

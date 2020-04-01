@@ -1,7 +1,7 @@
 // Please follow those imports order (need to add eslint rule for that)
 
 // 1. React
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 // 2. React Native
 import { Image, Platform, View } from 'react-native'

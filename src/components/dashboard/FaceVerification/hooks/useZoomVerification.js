@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState, useEffect } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { first, noop } from 'lodash'
 
 import api from '../api'

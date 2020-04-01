@@ -48,24 +48,28 @@ const UnsupportedScreen = ({ styles, screenProps }) => {
     <VerifyError
       log={log}
       reason={reason}
-      action={code && (isMobile ? (
-        <View>
-          <CopyButton mode="contained" toCopy={code}>
-            Copy Link
-          </CopyButton>
-        </View>
-      ) : (
-        <>
-          <Text style={styles.qrText}>Scan via your mobile</Text>
-          <View style={styles.qrView}>
-            <QRCode value={code} size={111} />
+      action={
+        code &&
+        (isMobile ? (
+          <View>
+            <CopyButton mode="contained" toCopy={code}>
+              Copy Link
+            </CopyButton>
           </View>
-        </>
-      ))}
+        ) : (
+          <>
+            <Text style={styles.qrText}>Scan via your mobile</Text>
+            <View style={styles.qrView}>
+              <QRCode value={code} size={111} />
+            </View>
+          </>
+        ))
+      }
       title={isIOS ? 'iPhones are great, but...' : 'We need to talk...'}
-      description={reason === 'isNotMobileSafari' ?
-        'In order to continue, you will need to switch to your Safari browser.\nJust copy and paste the link into Safari.' :
-        "In order to continue, it's best you switch to your mobile device, also for best experience use Chrome/Safari browser."
+      description={
+        reason === 'isNotMobileSafari'
+          ? 'In order to continue, you will need to switch to your Safari browser.\nJust copy and paste the link into Safari.'
+          : "In order to continue, it's best you switch to your mobile device, also for best experience use Chrome/Safari browser."
       }
     />
   )

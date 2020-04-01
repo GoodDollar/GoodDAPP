@@ -40,9 +40,9 @@ const ErrorScreen = ({ styles, screenProps }) => {
       title={isRelevantError ? 'Something went wrong...' : 'Something went wrong on our side...'}
       description={
         isRelevantError
-          ? !isCameraNotAllowed
-            ? null
-            : `Looks like GoodDollar doesn't have access to your camera. Please provide access and try again`
+          ? isCameraNotAllowed
+            ? `Looks like GoodDollar doesn't have access to your camera. Please provide access and try again`
+            : null
           : "You see, it's not that easy\n to capture your beauty :)\nSo, let's give it another shot..."
       }
     />

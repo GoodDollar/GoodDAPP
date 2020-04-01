@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import QRCode from '../QRCode'
+import QRCode from '../QrCode/QRCode'
 import { withThemeProvider } from '../../../../__tests__/__util__'
 
 const QRCodeWithTheme = withThemeProvider(QRCode)

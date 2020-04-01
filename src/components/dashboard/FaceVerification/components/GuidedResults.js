@@ -198,8 +198,7 @@ const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPI
         {'We could not verify you are a living person. Funny hu? please make sure:\n\n' +
           'A. Center your webcam\n' +
           'B. Camera is at eye level\n' +
-          'C. Light your face evenly'
-        }
+          'C. Light your face evenly'}
       </Text>
     )
   } else if (isProcessFailed) {

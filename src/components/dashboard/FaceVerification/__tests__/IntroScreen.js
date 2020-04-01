@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedIntroScreen from '../components/IntroScreen'
+import ImportedIntroScreen from '../screens/IntroScreen'
 
 const IntroScreen = withThemeProvider(ImportedIntroScreen)
 

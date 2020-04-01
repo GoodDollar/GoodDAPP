@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../__tests__/__util__'
-import ResultStep from '../FaceVerification/components/ResultStep'
+import { withThemeProvider } from '../../../../__tests__/__util__'
+import ResultStep from '../components/ResultStep'
 
 describe('ResultStep', () => {
   const WrappedResultStep = withThemeProvider(ResultStep)

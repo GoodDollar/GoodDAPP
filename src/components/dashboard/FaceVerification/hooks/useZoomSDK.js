@@ -7,10 +7,7 @@ import useMountedState from '../../../../lib/hooks/useMountedState'
 
 const sdk = ZoomAuthentication.ZoomSDK
 
-const {
-  ZoomSDKStatus,
-  getFriendlyDescriptionForZoomSDKStatus
-} = sdk;
+const { ZoomSDKStatus, getFriendlyDescriptionForZoomSDKStatus } = sdk
 
 export default ({ onInitialized = noop, onError = noop }) => {
   const [isInitialized, setInitialized] = useState(false)

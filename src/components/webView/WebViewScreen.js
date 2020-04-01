@@ -1,5 +1,5 @@
 import React from 'react'
-import WebView from 'react-native-web-webview'
+import WebView from 'react-native-web-webview' // eslint-disable-line import/no-unresolved
 import _get from 'lodash/get'
 
 const WebViewScreen = props => {

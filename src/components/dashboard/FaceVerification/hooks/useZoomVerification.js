@@ -61,14 +61,14 @@ export default ({ onComplete = noop, onError = noop }) => {
     }
 
     // eslint-disable-next-line require-await
-    const getFaceMapBase64 = async () => new Promise((resolve, reject) => {
-      const { faceMetrics } = lastResult
+    const getFaceMapBase64 = async () =>
+      new Promise((resolve, reject) => {
+        const { faceMetrics } = lastResult
 
-      faceMetrics.getFaceMapBase64(faceMap =>
-        faceMap ? resolve(faceMap)
-          : reject(new Error('Error generating FaceMap !'))
-      )
-    })
+        faceMetrics.getFaceMapBase64(faceMap =>
+          faceMap ? resolve(faceMap) : reject(new Error('Error generating FaceMap !'))
+        )
+      })
 
     const performVerification = async () => {
       const zoomSessionResult = lastResult
@@ -138,9 +138,7 @@ export default ({ onComplete = noop, onError = noop }) => {
       performVerification()
     }
 
-    sessionRef.current = new ZoomSession(
-      handleCompletion, { processZoomSessionResultWhileZoomWaits }
-    )
+    sessionRef.current = new ZoomSession(handleCompletion, { processZoomSessionResultWhileZoomWaits })
   }, [onComplete, onError, setSessionState])
 
   return {

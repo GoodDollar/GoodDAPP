@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { BlurView } from '@react-native-community/blur'
+import { BlurView } from '@react-native-community/blur' // eslint-disable-line import/named
 import { findNodeHandle, StyleSheet, View } from 'react-native'
 
 const Blurred = props => {

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export default () => {
   const mountedState = useRef(false)
@@ -6,7 +6,7 @@ export default () => {
   useEffect(() => {
     mountedState.current = true
 
-    return () => mountedState.current = false
+    return () => (mountedState.current = false)
   }, [])
 
   return mountedState

@@ -1,13 +1,13 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import WavePatternSVG from '../../../assets/feedListItemPattern.svg'
 
 const FeedListItemLeftBorder = ({ styles, style }) => {
   return (
     <View style={[styles.container, style]}>
-      <View style={StyleSheet.absoluteFill}>
-        <WavePatternSVG width="100%" height="100%" />
+      <View style={styles.wavesBackground}>
+        <WavePatternSVG />
       </View>
     </View>
   )
@@ -18,6 +18,11 @@ const getStylesFromProps = ({ color }) => ({
     backgroundColor: color,
     position: 'relative',
     overflow: 'hidden',
+  },
+  wavesBackground: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
   },
 })
 

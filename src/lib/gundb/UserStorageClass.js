@@ -1963,6 +1963,8 @@ export class UserStorage {
       }
     }
 
+    date = new Date(date)
+
     // force valid dates
     date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`

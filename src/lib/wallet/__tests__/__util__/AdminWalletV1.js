@@ -124,8 +124,8 @@ export class Wallet {
       }
     }
 
-    await this.topAdmins
-    log.info('topped admins ok')
+    // await this.topAdmins
+    // log.info('topped admins ok')
     for (let addr of this.addresses) {
       // eslint-disable-next-line no-await-in-loop
       const balance = await this.web3.eth.getBalance(addr)
@@ -368,12 +368,12 @@ export class Wallet {
     { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = txCallbacks
-    gas = gas || (await tx.estimateGas().then(gas => gas + 30000))
-    gasPrice = gasPrice || this.gasPrice
+    gas = gas || (await tx.estimateGas().then(gas => gas + 50000))
+    gasPrice = gasPrice || defaultGasPrice
 
     let release = await this.mutex.lock()
     this.nonce = parseInt(await this.web3.eth.getTransactionCount(this.address))
-
+    log.debug('sending tx:', { gas, gasPrice, nonce: this.nonce })
     return new Promise((res, rej) => {
       tx.send({ gas, gasPrice, chainId: this.networkId, nonce: this.nonce })
         .on('transactionHash', h => {

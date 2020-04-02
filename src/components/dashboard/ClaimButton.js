@@ -76,12 +76,11 @@ const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles }) => {
   return <ButtonAmountToClaim styles={styles} entitlement={entitlement} isCitizen={isCitizen} />
 }
 
-const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styles, style }) => (
+const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style }) => (
   <CustomButton
     testId="claim_button"
     compact={true}
     disabled={entitlement <= 0}
-    loading={loading}
     mode="contained"
     onPress={onPress}
     style={[styles.minButtonHeight, isCitizen && !entitlement ? styles.buttonCountdown : {}, style]}
@@ -155,7 +154,6 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
     width: getDesignRelativeWidth(196),
     height: getDesignRelativeHeight(196),
-    marginTop: getDesignRelativeWidth(10),
   },
   minButtonHeight: {
     borderRadius: '50%',

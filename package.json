@@ -154,7 +154,6 @@
     "react-native-screens": "^2.1.0",
     "react-native-side-menu-gooddapp": "git+https://github.com/GoodDollar/react-native-side-menu.git",
     "react-native-svg": "^9.13.6",
-    "react-native-svg-asset-plugin": "^0.3.0",
     "react-native-swipeable-lists": "0.0.1",
     "react-native-tcp": "^3.3.2",
     "react-native-udp": "^3.0.0",

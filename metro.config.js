@@ -30,7 +30,6 @@ module.exports = (async () => {
           inlineRequires: false,
         },
       }),
-      assetPlugins: ['react-native-svg-asset-plugin'],
     },
   }
 })();

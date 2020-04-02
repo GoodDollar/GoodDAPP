@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react'
-import { View } from 'react-native'
-import { withStyles } from '../../../lib/styles'
+import { StyleSheet, View } from 'react-native'
 import WavesSVG from '../../../assets/wave50.svg'
 
-const WavesBackground = ({ children }) => {
+export default ({ children }) => {
   return (
     <Fragment>
       <View style={styles.wavesBackground}>
@@ -14,7 +13,7 @@ const WavesBackground = ({ children }) => {
   )
 }
 
-const styles = () => ({
+const styles = StyleSheet.create({
   wavesBackground: {
     position: 'absolute',
     bottom: 0,
@@ -24,5 +23,3 @@ const styles = () => ({
     opacity: 0.2,
   },
 })
-
-export default withStyles(styles)(WavesBackground)

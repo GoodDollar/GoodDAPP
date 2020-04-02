@@ -19,21 +19,20 @@ const backgroundImage = {
   marginTop: '-3px',
 }
 
-const wrapperClaim = props => {
+const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) => {
+  const { container } = styles
   const simpleStore = SimpleStore.useStore()
-  const shouldGrow = simpleStore && !simpleStore.get('isMobileSafariKeyboardShown')
+  const shouldGrow = !simpleStore.get('isMobileSafariKeyboardShown')
 
-  const growStyle = { flexGrow: shouldGrow ? 1 : 0 }
+  const wrapperStyles = useMemo(() => {
+    const growStyle = { flexGrow: shouldGrow ? 1 : 0 }
+    const backgroundStyle = backgroundColor ? { backgroundColor } : backgroundImage
 
-  const { backgroundColor, children, style, styles, ...rest } = props
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const backgroundStyle = useMemo(() => {
-    return backgroundColor ? { backgroundColor: backgroundColor } : backgroundImage
-  }, [backgroundColor])
+    return [container, backgroundStyle, growStyle, style]
+  }, [shouldGrow, backgroundColor, container, style])
 
   return (
-    <View data-name="viewWrapper" style={[styles.container, backgroundStyle, growStyle, style]} {...rest}>
+    <View data-name="viewWrapper" style={wrapperStyles} {...props}>
       {children}
     </View>
   )
@@ -51,4 +50,4 @@ const getStylesFromProps = ({ theme }) => {
   return styles
 }
 
-export default withStyles(getStylesFromProps)(wrapperClaim)
+export default withStyles(getStylesFromProps)(WrapperClaim)

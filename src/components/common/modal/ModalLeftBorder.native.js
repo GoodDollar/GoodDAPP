@@ -15,6 +15,7 @@ const ModalLeftBorderWeb = (props: any) => {
     <View style={[styles.modalLeftBorder, { backgroundColor: borderColor }, style]}>
       <View style={[StyleSheet.absoluteFill]}>
         <SVG />
+        <SVG />
       </View>
     </View>
   )

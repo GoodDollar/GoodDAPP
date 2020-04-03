@@ -3,7 +3,7 @@ import React, { useCallback, useEffect } from 'react'
 import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
-import SimpleStore from '../../../lib/undux/SimpleStore'
+import { useCurriedSetters } from '../../../lib/undux/SimpleStore'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import Config from '../../../config/config'
@@ -20,40 +20,44 @@ const InputText = ({
   theme,
   style,
   getRef,
+  onBlur,
   ...props
 }) => {
-  const simpleStore = SimpleStore.useStore()
-  const shouldChangeSizeOnKeyboardShown = isMobileSafari && simpleStore.set && Config.safariMobileKeyboardGuidedSize
+  const [setMobileSafariKeyboardShown, setMobileKeyboardShown] = useCurriedSetters([
+    'isMobileSafariKeyboardShown',
+    'isMobileKeyboardShown',
+  ])
+  const shouldChangeSizeOnKeyboardShown = isMobileSafari && Config.safariMobileKeyboardGuidedSize
 
   const onTouchStart = useCallback(() => {
     if (shouldChangeSizeOnKeyboardShown) {
       window.scrollTo(0, 0)
       document.body.scrollTop = 0
-      simpleStore.set('isMobileSafariKeyboardShown')(true)
+      setMobileSafariKeyboardShown(true)
     }
 
     if (isMobile) {
-      simpleStore.set('isMobileKeyboardShown')(true)
+      setMobileKeyboardShown(true)
     }
-  }, [simpleStore])
+  }, [setMobileSafariKeyboardShown, setMobileKeyboardShown])
 
-  const onBlur = useCallback(() => {
+  const onBlurHandler = useCallback(() => {
     if (shouldChangeSizeOnKeyboardShown) {
-      simpleStore.set('isMobileSafariKeyboardShown')(false)
+      setMobileSafariKeyboardShown(false)
     }
 
     if (isMobile) {
-      simpleStore.set('isMobileKeyboardShown')(false)
+      setMobileKeyboardShown(false)
     }
 
-    if (props.onBlur) {
-      props.onBlur()
+    if (onBlur) {
+      onBlur()
     }
-  }, [simpleStore, props])
+  }, [setMobileSafariKeyboardShown, setMobileKeyboardShown, onBlur])
 
   useEffect(() => {
-    simpleStore.set('isMobileSafariKeyboardShown')(false)
-    simpleStore.set('isMobileKeyboardShown')(false)
+    setMobileSafariKeyboardShown(false)
+    setMobileKeyboardShown(false)
   }, [])
 
   const inputColor = error ? theme.colors.red : theme.colors.darkGray
@@ -71,7 +75,7 @@ const InputText = ({
           style={[styles.input, inputStyle, style]}
           placeholderTextColor={theme.colors.gray50Percent}
           onTouchStart={onTouchStart}
-          onBlur={onBlur}
+          onBlur={onBlurHandler}
         />
         {showAdornment && error !== '' && (
           <TouchableOpacity style={[styles.adornment, adornmentStyle]} onPress={adornmentAction}>

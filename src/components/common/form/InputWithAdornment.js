@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
@@ -60,11 +60,11 @@ const InputText = ({
     setMobileKeyboardShown(false)
   }, [])
 
-  const inputColor = error ? theme.colors.red : theme.colors.darkGray
-  const inputStyle = {
-    borderBottomColor: inputColor,
-    color: inputColor,
-  }
+  const inputColor = useMemo(() => {
+    const { red, darkGray } = theme.colors
+
+    return error ? red : darkGray
+  }, [error])
 
   return (
     <View style={styles.view}>
@@ -72,7 +72,7 @@ const InputText = ({
         <TextInput
           {...props}
           ref={getRef}
-          style={[styles.input, inputStyle, style]}
+          style={[styles.input, { borderBottomColor: inputColor, color: inputColor }, style]}
           placeholderTextColor={theme.colors.gray50Percent}
           onTouchStart={onTouchStart}
           onBlur={onBlurHandler}

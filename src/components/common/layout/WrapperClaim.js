@@ -1,14 +1,14 @@
 // @flow
 import React, { useMemo } from 'react'
 import { Image, View } from 'react-native'
-import { isMobile, isMobileOnly } from 'mobile-device-detect'
+import { isMobileOnly } from 'mobile-device-detect'
 import { withStyles } from '../../../lib/styles'
 import { getScreenHeight } from '../../../lib/utils/Orientation'
 import wrapperClaimBackgroundImage from '../../../assets/wrapperClaim.svg'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 Image.prefetch(wrapperClaimBackgroundImage)
 
-const sizeFactor = isMobile ? 2.7 : 1.9
+const sizeFactor = isMobileOnly ? 2.5 : 2.4
 const screenHeight = getScreenHeight()
 
 const backgroundImage = {

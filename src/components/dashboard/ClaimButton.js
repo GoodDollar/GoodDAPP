@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
+import Config from '../../config/config'
 import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { CustomButton } from '../common'
@@ -9,36 +10,43 @@ import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 
-const ButtonAmountToClaim = ({ entitlement, isCitizen, styles }) => (
-  <View style={styles.textBtn}>
-    <Text color="#0C263D" fontWeight="medium">
-      {`Get your `}
-    </Text>
-    <Text color="#0C263D" fontWeight="medium">
-      {` free daily share:`}
-    </Text>
-    <BigGoodDollar
-      number={entitlement}
-      formatter={weiToGd}
-      fontFamily="Roboto"
-      bigNumberProps={{
-        fontFamily: 'Roboto',
-        fontSize: 36,
-        color: 'surface',
-        fontWeight: 'bold',
-        lineHeight: 36,
-      }}
-      bigNumberUnitProps={{
-        fontFamily: 'Roboto',
-        fontSize: 16,
-        color: 'surface',
-        fontWeight: 'medium',
-        lineHeight: 20,
-      }}
-      style={isCitizen ? styles.amountInButtonCenter : styles.amountInButton}
-    />
-  </View>
-)
+const ButtonAmountToClaim = ({ entitlement, isCitizen, styles }) =>
+  Config.claimContentPhaseZero ? (
+    <View style={styles.textBtn}>
+      <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={40}>
+        {`Claim`}
+      </Text>
+    </View>
+  ) : (
+    <View style={styles.textBtn}>
+      <Text color="#0C263D" fontWeight="medium">
+        {`Get your `}
+      </Text>
+      <Text color="#0C263D" fontWeight="medium">
+        {` free daily share:`}
+      </Text>
+      <BigGoodDollar
+        number={entitlement}
+        formatter={weiToGd}
+        fontFamily="Roboto"
+        bigNumberProps={{
+          fontFamily: 'Roboto',
+          fontSize: 36,
+          color: 'surface',
+          fontWeight: 'bold',
+          lineHeight: 36,
+        }}
+        bigNumberUnitProps={{
+          fontFamily: 'Roboto',
+          fontSize: 16,
+          color: 'surface',
+          fontWeight: 'medium',
+          lineHeight: 20,
+        }}
+        style={isCitizen ? styles.amountInButtonCenter : styles.amountInButton}
+      />
+    </View>
+  )
 
 export const ButtonCountdown = ({ styles, nextClaim }) => (
   <View style={styles.countdownContainer}>

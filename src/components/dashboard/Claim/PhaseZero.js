@@ -64,7 +64,7 @@ const ClaimPhaseZero = ({
         ) : null}
         <View>
           <Section.Text style={styles.secondTextBlock}>
-            <Section.Text color="surface" fontFamily="slab" fontSize={18}>
+            <Section.Text color="surface" fontFamily="Roboto" fontSize={18}>
               {`GoodDollar is the world’s first experiment\nto create a framework to generate\nUBI on a global scale.\n`}
               <Text
                 color="surface"

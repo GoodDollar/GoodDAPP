@@ -16,7 +16,7 @@ const backgroundImage = {
   backgroundPosition: 'center top',
   backgroundSize: `${screenHeight - screenHeight / sizeFactor}px`,
   backgroundRepeat: 'no-repeat',
-  marginTop: '-3px',
+  marginTop: '-1px',
 }
 
 const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) => {

@@ -4,14 +4,14 @@ import { StyleSheet } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner'
 
 import logger from '../../lib/logger/pino-logger'
-import { extractQueryParams, readCode } from '../../lib/share'
+import { readCode } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
-const log = logger.child({ from: 'SendByQR' })
+const log = logger.child({ from: 'SendByQR.web' })
 
 type Props = {
   screenProps: any,
@@ -20,11 +20,10 @@ type Props = {
 const SendByQR = ({ screenProps }: Props) => {
   const store = SimpleStore.useStore()
 
-  const handleScan = async ({ data }) => {
+  const handleScan = async data => {
     if (data) {
       try {
-        const paramsUrl = extractQueryParams(data)
-        const code = readCode(paramsUrl.code)
+        const code = readCode(data)
 
         log.info({ code })
 

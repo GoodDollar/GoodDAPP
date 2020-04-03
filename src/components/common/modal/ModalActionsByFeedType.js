@@ -1,14 +1,13 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
-import canShare from '../../../lib/utils/canShare'
+import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
 import logger from '../../../lib/logger/pino-logger'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import { generateSendShareObject, generateSendShareText, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
@@ -21,13 +20,14 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const [showErrorDialog] = useErrorDialog()
   const [state, setState] = useState({})
   const store = GDStore.useStore()
+  const { canShare, generateSendShareObject, generateSendShareText, generateShareLink } = useNativeSharing()
   const currentUserName = store.get('profile').fullName
 
   const fireEventAnalytics = actionType => {
     fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
   }
 
-  const cancelPayment = async () => {
+  const cancelPayment = useCallback(async () => {
     log.info({ item, action: 'cancelPayment' })
     fireEventAnalytics('cancelPayment')
     if (item.status === 'pending') {
@@ -55,9 +55,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       }
     }
     handleModalClose()
-  }
+  }, [showErrorDialog, setState, state, handleModalClose])
 
-  const getPaymentLink = () => {
+  const getPaymentLink = useMemo(() => {
     const url = generateShareLink('send', {
       paymentCode: item.data.withdrawCode,
       reason: item.data.message,
@@ -66,50 +66,53 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     let result
 
     if (canShare) {
+      result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
+    } else {
       result = {
         url: generateSendShareText(url, item.data.amount, item.data.endpoint.fullName, currentUserName),
       }
-    } else {
-      result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
     }
 
     fireEventAnalytics('Sharelink')
 
     return result
-  }
+  }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject])
 
-  const readMore = () => {
+  const readMore = useCallback(() => {
     fireEventAnalytics('readMore')
     log.info({ item, action: 'readMore' })
     handleModalClose()
-  }
-  const shareMessage = () => {
+  }, [handleModalClose, item])
+
+  const shareMessage = useCallback(() => {
     fireEventAnalytics('shareMessage')
     log.info({ item, action: 'shareMessage' })
     handleModalClose()
-  }
-  const invitePeople = () => {
+  }, [handleModalClose, item])
+
+  const invitePeople = useCallback(() => {
     fireEventAnalytics('Rewards')
     navigation.navigate('Rewards')
     handleModalClose()
-  }
+  }, [handleModalClose, navigation])
 
-  const Marketplace = () => {
+  const Marketplace = useCallback(() => {
     fireEventAnalytics('Marketplace')
     navigation.navigate('Marketplace')
     handleModalClose()
-  }
-  const backupPage = () => {
+  }, [handleModalClose, navigation])
+
+  const backupPage = useCallback(() => {
     fireEventAnalytics('BackupWallet')
     navigation.navigate('BackupWallet')
     handleModalClose()
-  }
+  }, [handleModalClose, navigation])
 
-  const goToClaimPage = () => {
+  const goToClaimPage = useCallback(() => {
     fireEventAnalytics('Claim')
     navigation.navigate('Claim')
     handleModalClose()
-  }
+  }, [handleModalClose, navigation])
 
   switch (item.displayType) {
     case 'sendpending':
@@ -127,7 +130,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               Cancel link
             </CustomButton>
             <ShareButton
-              share={getPaymentLink()}
+              share={getPaymentLink}
               actionText="Share link"
               mode="outlined"
               style={[styles.rightButton, styles.shareButton]}
@@ -224,7 +227,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="contained" style={styles.button} onPress={goToClaimPage}>
               <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
-                {'CLAIM G$'}
+                CLAIM G$
               </Text>
             </CustomButton>
           </View>
@@ -237,7 +240,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="contained" style={styles.button} onPress={goToClaimPage}>
               <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
-                {'CLAIM NOW'}
+                CLAIM NOW
               </Text>
             </CustomButton>
           </View>

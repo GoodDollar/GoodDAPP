@@ -12,7 +12,7 @@ const statusLabel = {
 const PaymentStatus = ({ item, styles }) =>
   item.displayType in statusLabel && (
     <View style={styles.titleStyle}>
-      <Text color="primary" fontSize={22} fontWeight="500">
+      <Text color="primary" fontSize={22} fontWeight="medium">
         {statusLabel[item.displayType]}
       </Text>
     </View>

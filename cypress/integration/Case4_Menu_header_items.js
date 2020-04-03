@@ -25,11 +25,13 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
   })
 
   it('Check "Invite" tab', () => {
+    HomePage.inviteTab.should('be.visible')
+    cy.contains('-0.01G$')
     HomePage.inviteTab.click()
     InvitePage.pageHeader.should('contain', 'REWARDS')
     InvitePage.iframe.should('be.visible')
     InvitePage.iframe
-      .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
+      .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 8500)))
       .then(iframe => {
         const body = iframe.contents().find('body')
 
@@ -42,6 +44,7 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
   })
 
   it('Check support page', () => {
+    cy.contains('Andrew Second')
     HomePage.supportTab.click()
     SupportPage.pageHeader.should('contain', 'Feedback & Support')
     SupportPage.iframe.should('be.visible')
@@ -69,12 +72,12 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
         cy.wrap(body.find(SupportPage.helpFormTextArea))
           .focus()
           .type('Test message')
-        cy.wrap(body.find(SupportPage.submitHelpFormButton)).click()
+        // cy.wrap(body.find(SupportPage.submitHelpFormButton)).click()
 
-        cy.wrap(body.find(SupportPage.helpFormSuccessMessage)).should(
-          'contain',
-          'Thank you, your support request has been received.'
-        )
+        // cy.wrap(body.find(SupportPage.helpFormSuccessMessage)).should(
+        //   'contain',
+        //   'Thank you, your support request has been received.'
+        // )
 
         // cy.wrap(body.find(SupportPage.subscribeFormName)).should('be.visible')
         // cy.wrap(body.find(SupportPage.subscribeFormSurname)).should('be.visible')

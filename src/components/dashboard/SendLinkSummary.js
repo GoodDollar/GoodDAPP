@@ -1,10 +1,9 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, Share, View } from 'react-native'
-import canShare from '../../lib/utils/canShare'
+import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
-import { generateSendShareObject, generateSendShareText } from '../../lib/share'
 import Config from '../../config/config'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -36,6 +35,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const profile = gdstore.get('profile')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
+  const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
 
   const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
@@ -43,40 +43,54 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [link, setLink] = useState('')
   const { amount, reason = null, counterPartyDisplayName } = screenState
 
-  const faceRecognition = () => {
+  const faceRecognition = useCallback(() => {
     return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
-  }
+  }, [screenProps])
 
-  const shareAction = async paymentLink => {
-    const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
-    try {
-      await Share.share(share)
-      setShared(true)
-    } catch (e) {
-      if (e.name !== 'AbortError') {
-        showDialog({
-          title: 'There was a problem triggering share action.',
-          message: `You can still copy the link by tapping on "Copy link to clipboard".`,
-          dismissText: 'Ok',
-          onDismiss: () => {
-            const desktopShareLink = generateSendShareText(
-              paymentLink,
-              amount,
-              counterPartyDisplayName,
-              profile.fullName
-            )
+  const shareAction = useCallback(
+    async paymentLink => {
+      const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
 
-            screenProps.push('SendConfirmation', {
-              paymentLink: desktopShareLink,
-              amount,
-              reason,
-              counterPartyDisplayName,
-            })
-          },
-        })
+      try {
+        await Share.share(share)
+        setShared(true)
+      } catch (e) {
+        if (e.name !== 'AbortError') {
+          showDialog({
+            title: 'There was a problem triggering share action.',
+            message: `You can still copy the link by tapping on "Copy link to clipboard".`,
+            dismissText: 'Ok',
+            onDismiss: () => {
+              const desktopShareLink = generateSendShareText(
+                paymentLink,
+                amount,
+                counterPartyDisplayName,
+                profile.fullName
+              )
+
+              screenProps.push('SendConfirmation', {
+                paymentLink: desktopShareLink,
+                amount,
+                reason,
+                counterPartyDisplayName,
+              })
+            },
+          })
+        }
       }
-    }
-  }
+    },
+    [
+      generateSendShareText,
+      generateSendShareObject,
+      amount,
+      reason,
+      counterPartyDisplayName,
+      profile,
+      setShared,
+      showDialog,
+      screenProps,
+    ]
+  )
 
   // Going to root after shared
   useEffect(() => {
@@ -85,7 +99,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [shared])
 
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(() => {
     let paymentLink = link
 
     // Prevents calling back `generateLink` as it generates a new transaction every time it's called
@@ -107,13 +121,24 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         counterPartyDisplayName,
       })
     }
-  }
+  }, [
+    generateSendShareText,
+    generateSendShareText,
+    setLink,
+    canShare,
+    link,
+    amount,
+    reason,
+    counterPartyDisplayName,
+    profile,
+    screenProps,
+  ])
 
   /**
    * Generates link to send and call send email/sms action
    * @throws Error if link cannot be send
    */
-  const generateLink = () => {
+  const generateLink = useCallback(() => {
     try {
       let txHash
 
@@ -185,9 +210,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       showErrorDialog('Could not complete transaction. Please try again.')
     } catch (e) {
       showErrorDialog('Could not complete transaction. Please try again.')
-      log.error(e.message, e)
+      log.error('Something went wrong while trying to generate send link', e.message, e)
     }
-  }
+  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, screenProps])
 
   useEffect(() => {
     if (isCitizen === false) {

@@ -133,8 +133,7 @@ type ShareObject = {
 export function generateShareObject(title: string, message: string, url: string): ShareObject {
   return {
     title,
-    message,
-    url,
+    message: `${message} ${url}`,
   }
 }
 
@@ -150,7 +149,7 @@ export function generateSendShareObject(url: string, amount: number, to: string,
 
 export function generateSendShareText(...args): ShareObject {
   const temp = generateSendShareObject(...args)
-  return `${temp.text} ${temp.url}`
+  return `${temp.message} ${temp.url}`
 }
 
 /**
@@ -175,7 +174,7 @@ export function generateReceiveShareObject(codeObj: any, amount: number, to: str
 
 export function generateReceiveShareText(...args): ShareObject {
   const temp = generateReceiveShareObject(...args)
-  return `${temp.text} ${temp.url}`
+  return `${temp.message} ${temp.url}`
 }
 
 type HrefLinkProps = {

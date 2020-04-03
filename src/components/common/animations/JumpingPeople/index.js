@@ -1,41 +1,34 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
-import { getScreenHeight, getScreenWidth } from '../../../../lib/utils/Orientation'
 
 import animationData from './data.json'
 
-const getMarginTop = () => {
-  const width = getScreenWidth()
-  if (width < 600) {
-    return -width / 1.3
-  }
-  return -width / 2.5
-}
-
 const styles = {
   android: {
-    position: 'absolute',
     width: '100%',
-    marginTop: -getScreenHeight() / 25,
+    position: 'absolute',
+    marginTop: -110,
   },
   ios: {
     position: 'absolute',
+    marginTop: -70,
     width: '100%',
-    marginTop: -getScreenHeight() / 25,
   },
   web: {
     width: '100%',
     position: 'absolute',
-    marginTop: getMarginTop(),
+    marginTop: -270,
   },
 }
 const stylesBlock = {
   android: {
-    height: 300,
+    width: '100%',
+    height: 100,
   },
   ios: {
-    height: 300,
+    width: '100%',
+    height: 100,
   },
   web: {
     width: '100%',

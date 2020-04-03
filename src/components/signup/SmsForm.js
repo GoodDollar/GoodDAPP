@@ -117,7 +117,7 @@ class SmsForm extends React.Component<Props, State> {
         <Section grow justifyContent="flex-start">
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
-              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+              <Section.Title color="darkGray" fontSize={22} fontWeight="medium" textTransform="none">
                 {'Enter the verification code\nsent to your phone'}
               </Section.Title>
             </Section.Row>

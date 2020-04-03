@@ -10,6 +10,7 @@ import Config from '../../../config/config'
 import ErrorText from './ErrorText'
 
 const InputText = ({
+  showAdornment,
   adornment,
   adornmentAction,
   adornmentSize = 16,
@@ -72,7 +73,7 @@ const InputText = ({
           onTouchStart={onTouchStart}
           onBlur={onBlur}
         />
-        {adornment && error !== '' && (
+        {showAdornment && error !== '' && (
           <TouchableOpacity style={[styles.adornment, adornmentStyle]} onPress={adornmentAction}>
             <Icon size={normalize(adornmentSize)} color={inputColor} name={adornment} />
           </TouchableOpacity>

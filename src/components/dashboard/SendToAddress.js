@@ -61,6 +61,7 @@ const SendToAddress = (props: TypeProps) => {
             placeholder="Enter Wallet Address"
             style={styles.input}
             value={state.value}
+            showAddornment
             adornment="paste"
             adornmentAction={pasteValueFromClipboard}
             adornmentSize={32}

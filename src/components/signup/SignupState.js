@@ -4,7 +4,7 @@ import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
 import _get from 'lodash/get'
-import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
+import { DESTINATION_PATH, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
@@ -27,7 +27,7 @@ import MagicLinkInfo from './MagicLinkInfo'
 
 const log = logger.child({ from: 'SignupState' })
 
-export type SignupState = UserModel & SMSRecord
+export type SignupState = UserModel & SMSRecord & { invite_code?: string }
 type Ready = Promise<{ goodWallet: any, userStorage: any }>
 const SignupWizardNavigator = createSwitchNavigator(
   {
@@ -200,6 +200,17 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       return navigateWithFocus(navigation.state.routes[0].key)
     }
   }
+
+  /**
+   * if user arrived from w3 with an inviteCode, we forward it to the server
+   * which registers the user on w3 with it
+   */
+  const checkW3InviteCode = async () => {
+    const _destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
+    const destinationPath = JSON.parse(_destinationPath)
+    return _get(destinationPath, 'params.inviteCode')
+  }
+
   const onMount = async () => {
     checkTorusLogin()
     verifyStartRoute()
@@ -262,9 +273,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     log.info('Sending new user data', state)
     try {
       const { goodWallet, userStorage } = await ready
-
+      const inviteCode = await checkW3InviteCode()
       const { skipEmail, skipEmailConfirmation, ...requestPayload } = state
-
+      if (inviteCode) {
+        requestPayload.inviteCode = inviteCode
+      }
       let w3Token = requestPayload.w3Token
 
       if (w3Token) {
@@ -320,7 +333,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       return true
     } catch (e) {
       log.error('New user failure', e.message, e)
-      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate)
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, e.message)
 
       // showErrorDialog('Something went on our side. Please try again')
       setCreateError(true)
@@ -381,10 +394,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     log.info('signup data:', { data, nextRoute, newState })
 
     if (nextRoute === undefined) {
-      await waitForRegistrationToFinish()
+      const ok = await waitForRegistrationToFinish()
 
       //this will cause a re-render and move user to the dashboard route
-      store.set('isLoggedIn')(true)
+      if (ok) {
+        store.set('isLoggedIn')(true)
+      }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
         let { data } = await API.sendOTP(newState)

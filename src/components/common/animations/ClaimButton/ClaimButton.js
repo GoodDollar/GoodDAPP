@@ -2,6 +2,7 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, TouchableOpacity } from 'react-native'
 import _set from 'lodash/set'
+import { weiToMask } from '../../../../lib/wallet/utils'
 import animationData from './data.json'
 
 class ClaimButton extends React.Component {
@@ -11,17 +12,20 @@ class ClaimButton extends React.Component {
 
   constructor(props) {
     super(props)
-    const { amount } = this.props
+    const { amount, formatter } = this.props
+    const numberFormatter = formatter || weiToMask
+    const entitlement = amount === undefined ? '-.--' : numberFormatter(amount)
+    const length = String(entitlement).length
 
     // set amount of G$ text to animation
 
-    _set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${amount ? ` - ${amount}` : ''} `)
+    _set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${entitlement ? ` - ${entitlement}` : ''} `)
 
     // set x coordinate of G$ text to animation
-    _set(animationData, 'layers[4].ks.p.k[0].s[0]', this.getGap())
-    _set(animationData, 'layers[4].ks.p.k[1].s[0]', this.getGap())
-    _set(animationData, 'layers[4].ks.p.k[2].s[0]', this.getGap())
-    _set(animationData, 'layers[4].ks.p.k[3].s[0]', this.getGap())
+    _set(animationData, 'layers[4].ks.p.k[0].s[0]', this.getGap(length))
+    _set(animationData, 'layers[4].ks.p.k[1].s[0]', this.getGap(length))
+    _set(animationData, 'layers[4].ks.p.k[2].s[0]', this.getGap(length))
+    _set(animationData, 'layers[4].ks.p.k[3].s[0]', this.getGap(length))
   }
 
   componentDidMount() {
@@ -76,14 +80,12 @@ class ClaimButton extends React.Component {
     }
   }
 
-  getGap() {
-    const { amount } = this.props
-
+  getGap(length) {
     // calculate x coordinate of G$ text in animation
     return Platform.select({
-      ios: 261 + (String(amount).length - 1) * 5,
-      android: 278 + (String(amount).length - 1) * 6.5,
-      web: 255 + (String(amount).length - 1) * 5,
+      ios: 261 + (length - 1) * 5,
+      android: 278 + (length - 1) * 6.5,
+      web: 255 + (length - 1) * 5,
     })
   }
 

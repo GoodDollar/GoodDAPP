@@ -6,6 +6,7 @@ export const getCountryFlagUrl = countryCode => {
 
 export const getCountryCodeForFlag = country => {
   switch (country) {
+    // eslint-disable-next-line lines-around-comment
     // "Ascension Island".
     // The flag is missing for it:
     // https://lipis.github.io/flag-icon-css/flags/4x3/ac.svg
@@ -32,6 +33,10 @@ export const getCountryCodeForFlag = country => {
 }
 
 export default countryCode => {
+  if (countryCode === undefined) {
+    return
+  }
+
   const code = getCountryCodeForFlag(countryCode)
 
   return getCountryFlagUrl(code)

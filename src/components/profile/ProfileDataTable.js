@@ -25,7 +25,7 @@ const ProfileDataTable = ({
   showCustomFlag,
 }) => {
   const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)
-  const countryFlagUrl = showCustomFlag && phoneMeta && useCountryFlagUrl(phoneMeta.country)
+  const countryFlagUrl = useCountryFlagUrl(phoneMeta && phoneMeta.country)
 
   const verifyEmail = () => {
     if (profile.email !== storedProfile.email) {

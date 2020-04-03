@@ -11,6 +11,7 @@ import { useWrappedApi } from '../API/useWrappedApi'
 
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
 import isWebApp from '../../lib/utils/isWebApp'
+import Config from '../../config/config'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 export default (props = {}) => {
@@ -42,7 +43,7 @@ export default (props = {}) => {
 
   const topItems = useMemo(() => {
     const installPrompt = store.get('installPrompt')
-    const items = [
+    let items = [
       {
         icon: 'profile',
         name: 'My profile',
@@ -126,7 +127,9 @@ export default (props = {}) => {
         },
       })
     }
-
+    if (Config.torusEnabled) {
+      items = items.filter(i => ['Magic Link', 'Backup Wallet'].includes(i.name) === false)
+    }
     return items
   }, [slideOut, navigation, store])
 

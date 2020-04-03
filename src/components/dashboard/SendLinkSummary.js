@@ -231,6 +231,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               reason,
               amount,
               paymentLink: generateLinkResponse.paymentLink,
+              hashedCode: generateLinkResponse.hashedCode,
               code: generateLinkResponse.code,
             },
           }

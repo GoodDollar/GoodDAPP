@@ -10,6 +10,7 @@ import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
 import userStorage from '../../../lib/gundb/UserStorage'
+import { UseClaimFeedText } from '../Claim/Counter'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -156,11 +157,7 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
       break
 
     case 'useclaim':
-      result = (
-        <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
-          {'You`ve claimed G$ for 14 days & your spot is secured'}
-        </Text>
-      )
+      result = <UseClaimFeedText styles={styles} />
       break
 
     case 'backup':

@@ -18,7 +18,6 @@ export default class UserProperties {
     cameFromW3Site: false,
     lastBonusCheckDate: null,
     countClaim: 0,
-    isAddedLongUseOfClaimsFeed: false,
   }
 
   fields = [

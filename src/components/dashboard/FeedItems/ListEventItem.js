@@ -155,6 +155,14 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
       result = <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
       break
 
+    case 'useclaim':
+      result = (
+        <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
+          {'You`ve claimed G$ for 14 days & your spot is secured'}
+        </Text>
+      )
+      break
+
     case 'backup':
       result = <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
       break

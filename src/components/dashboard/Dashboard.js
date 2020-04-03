@@ -14,6 +14,7 @@ import { isBrowser } from 'mobile-device-detect'
 import { get as _get, debounce } from 'lodash'
 import type { Store } from 'undux'
 import { fireEvent } from '../../lib/analytics/analytics'
+import { longUseOfClaims } from '../../lib/gundb/UserStorageClass'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -287,6 +288,16 @@ const Dashboard = props => {
 
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+
+    if (config.claimContentPhaseZero) {
+      const countClaim = await userStorage.userProperties.get('countClaim')
+      const isAddedLongUseOfClaimsFeed = await userStorage.userProperties.get('isAddedLongUseOfClaimsFeed')
+      if (!isAddedLongUseOfClaimsFeed && countClaim >= config.countClaimForFeed) {
+        await userStorage.enqueueTX(longUseOfClaims)
+        await userStorage.userProperties.set('isAddedLongUseOfClaimsFeed', true)
+      }
+    }
+
     log.debug('initDashboard subscribed to feed')
     handleDeleteRedirect()
     handleResize()

@@ -120,6 +120,13 @@ const getEventSettingsByType = (theme, type) => {
       withoutAmount: true,
       withoutAvatar: true,
     },
+    useclaim: {
+      color: theme.colors.primary,
+      component: FeedInfo,
+      name: 'info',
+      withoutAmount: true,
+      withoutAvatar: true,
+    },
     backup: {
       color: theme.colors.primary,
       component: FeedInfo,

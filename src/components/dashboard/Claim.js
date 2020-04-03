@@ -213,6 +213,10 @@ const Claim = props => {
 
       if (receipt.status) {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash })
+        const isAddedLongUseOfClaimsFeed = await userStorage.userProperties.get('isAddedLongUseOfClaimsFeed')
+        if (Config.claimContentPhaseZero && !isAddedLongUseOfClaimsFeed) {
+          await userStorage.userProperties.set('countClaim', userStorage.countClaim ? userStorage.countClaim + 1 : 1)
+        }
         checkHanukaBonusDates()
         showDialog({
           buttons: [{ text: 'Yay!' }],

@@ -1,8 +1,10 @@
+import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin)
 const isEToro = process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro'
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
   version: process.env.VERSION || 'v0',
+  contractsVersion,
   newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://gdlr.info/newversion',
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',

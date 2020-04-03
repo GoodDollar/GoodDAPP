@@ -92,56 +92,6 @@ exports[`InputGoodDollar matches snapshot 1`] = `
         type="text"
         wei={12002}
       />
-      <div
-        className="css-view-1dbjc4n"
-        data-focusable={true}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "MozTransitionProperty": "opacity",
-            "MozUserSelect": "none",
-            "WebkitTransitionDuration": "0.15s",
-            "WebkitTransitionProperty": "opacity",
-            "WebkitUserSelect": "none",
-            "bottom": "10px",
-            "cursor": "pointer",
-            "msTouchAction": "manipulation",
-            "msUserSelect": "none",
-            "paddingTop": "8px",
-            "position": "absolute",
-            "right": "8px",
-            "touchAction": "manipulation",
-            "transitionDuration": "0.15s",
-            "transitionProperty": "opacity",
-            "userSelect": "none",
-            "zIndex": 1,
-          }
-        }
-        tabIndex="0"
-      >
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "fontFamily": "gooddollar",
-              "fontSize": "16px",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            }
-          }
-        >
-          
-        </div>
-      </div>
     </div>
     <div
       className="css-text-901oao"
@@ -260,56 +210,6 @@ exports[`InputGoodDollar matches snapshot 2`] = `
         type="text"
         wei={12002}
       />
-      <div
-        className="css-view-1dbjc4n"
-        data-focusable={true}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "MozTransitionProperty": "opacity",
-            "MozUserSelect": "none",
-            "WebkitTransitionDuration": "0.15s",
-            "WebkitTransitionProperty": "opacity",
-            "WebkitUserSelect": "none",
-            "bottom": "10px",
-            "cursor": "pointer",
-            "msTouchAction": "manipulation",
-            "msUserSelect": "none",
-            "paddingTop": "8px",
-            "position": "absolute",
-            "right": "8px",
-            "touchAction": "manipulation",
-            "transitionDuration": "0.15s",
-            "transitionProperty": "opacity",
-            "userSelect": "none",
-            "zIndex": 1,
-          }
-        }
-        tabIndex="0"
-      >
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(250,108,119,1.00)",
-              "fontFamily": "gooddollar",
-              "fontSize": "16px",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            }
-          }
-        >
-          
-        </div>
-      </div>
     </div>
     <div
       className="css-text-901oao"

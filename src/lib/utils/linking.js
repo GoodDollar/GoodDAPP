@@ -22,6 +22,7 @@ export const openLink = async (uri: string, target?: '_blank' | '_self' = '_blan
     }
 
     window.open(...args)
+    return
   }
 
   return Linking.openURL(uri)

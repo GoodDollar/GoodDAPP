@@ -2,6 +2,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import numeral from 'numeral'
+import Config from '../../../config/config'
 
 import { weiToGd } from '../../../lib/wallet/utils'
 import { WrapperClaim } from '../../common'
@@ -55,7 +56,15 @@ const Claimphase0 = ({ styles, isCitizen, entitlement, state, handleClaim, faceR
             <Section.Text style={styles.secondTextBlock}>
               <Section.Text color="surface" fontFamily="slab" fontSize={18}>
                 {`GoodDollar is the world’s first experiment\nto create a framework to generate\nUBI on a global scale.\n`}
-                <Text color="surface" textDecorationLine="underline" fontSize={18} fontWeight="bold" fontFamily="slab">
+                <Text
+                  color="surface"
+                  style={styles.learnMoreLink}
+                  textDecorationLine="underline"
+                  fontSize={18}
+                  fontWeight="bold"
+                  fontFamily="slab"
+                  onPress={() => window.open(Config.urlToLearnMore, '_blank')}
+                >
                   {'Learn More'}
                 </Text>
               </Section.Text>

@@ -48,7 +48,8 @@ const Config = {
   showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: process.env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
-  claimContentPhaseZero: process.env.REACT_APP_ENV_PHASE_ZERO || false,
+  claimContentPhaseZero: process.env.REACT_APP_ENV_PHASE_ZERO || true,
+  urlToLearnMore: process.env.REACT_APP_ENV_URL_TO_LEARN_MORE || '/',
   ethereum: {
     '42': {
       network_id: 42,

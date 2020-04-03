@@ -364,6 +364,9 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: getDesignRelativeWidth(10),
       marginBottom: getDesignRelativeHeight(10),
     },
+    learnMoreLink: {
+      cursor: 'pointer',
+    },
   }
 }
 

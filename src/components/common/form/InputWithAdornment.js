@@ -9,6 +9,8 @@ import Icon from '../view/Icon'
 import Config from '../../../config/config'
 import ErrorText from './ErrorText'
 
+const shouldChangeSizeOnKeyboardShown = isMobileSafari && Config.safariMobileKeyboardGuidedSize
+
 const InputText = ({
   showAdornment,
   adornment,
@@ -27,7 +29,6 @@ const InputText = ({
     'isMobileSafariKeyboardShown',
     'isMobileKeyboardShown',
   ])
-  const shouldChangeSizeOnKeyboardShown = isMobileSafari && Config.safariMobileKeyboardGuidedSize
 
   const onTouchStart = useCallback(() => {
     if (shouldChangeSizeOnKeyboardShown) {

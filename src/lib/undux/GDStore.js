@@ -59,12 +59,6 @@ const initialState: State = {
  * default exported instance of our global Undux Store
  * @module
  */
-const GDStore: StoreDefinition<State> = createConnectedStore(
-  initialState,
-  compose(
-    effects,
-    withPinoLogger
-  )
-)
+const GDStore: StoreDefinition<State> = createConnectedStore(initialState, compose(effects, withPinoLogger))
 
 export default GDStore

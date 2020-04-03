@@ -20,8 +20,8 @@ import Section from '../common/layout/Section'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
-import ClaimContentPhase0 from './Claim/Phase0'
-import ClaimContentPhase1 from './Claim/Phase1'
+import ClaimContentPhaseZero from './Claim/PhaseZero'
+import ClaimContentPhaseOne from './Claim/PhaseOne'
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -238,20 +238,22 @@ const Claim = props => {
   }
 
   const propsForContent = {
-    styles: styles,
-    isCitizen: isCitizen,
+    styles,
+    isCitizen,
+    claimedToday: state.claimedToday,
     entitlement: state.entitlement,
-    state: state,
+    nextClaim: state.nextClaim,
     handleClaim: handleClaim,
     faceRecognition: faceRecognition,
   }
+
   return (
     <WrapperClaim>
       <Section style={styles.mainContainer}>
-        {Config.claimContentPhaseZero ? (
-          <ClaimContentPhase0 {...propsForContent} />
+        {Config.isPhaseZero ? (
+          <ClaimContentPhaseZero {...propsForContent} />
         ) : (
-          <ClaimContentPhase1 {...propsForContent} />
+          <ClaimContentPhaseOne {...propsForContent} />
         )}
       </Section>
     </WrapperClaim>

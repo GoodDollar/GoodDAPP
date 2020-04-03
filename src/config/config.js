@@ -1,10 +1,14 @@
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
+
 const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin)
 const isEToro = process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro'
+
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
   version: process.env.VERSION || 'v0',
   contractsVersion,
+  isPhaseZero: process.env.REACT_APP_ENV_PHASE_ZERO || true,
+  isEToro,
   newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://gdlr.info/newversion',
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
@@ -20,7 +24,6 @@ const Config = {
   torusEnabled: process.env.REACT_APP_USE_TORUS === 'true',
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,
-  isEToro,
   enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
@@ -50,8 +53,6 @@ const Config = {
   showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: process.env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
-  claimContentPhaseZero: process.env.REACT_APP_ENV_PHASE_ZERO || true,
-  urlToLearnMore: process.env.REACT_APP_ENV_URL_TO_LEARN_MORE || 'https://w3.gooddollar.org/learn/ubi',
   ethereum: {
     '42': {
       network_id: 42,

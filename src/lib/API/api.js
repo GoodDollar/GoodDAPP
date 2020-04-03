@@ -83,7 +83,10 @@ class API {
         baseURL: Config.web3SiteUrl,
         timeout: 30000,
       })
-      w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
+      w3Instance.interceptors.request.use(
+        req => req,
+        error => Promise.reject(error)
+      )
       w3Instance.interceptors.response.use(
         response => response.data,
         error => {

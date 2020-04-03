@@ -8,7 +8,7 @@ const InputText = ({ showCleanAdornment, onChangeText, ...props }) => {
   return (
     <InputWithAdornment
       {...props}
-      showAddornment={!!showCleanAdornment && !!onChangeText}
+      showAdornment={!!showCleanAdornment && !!onChangeText}
       adornment="close"
       adornmentAction={action}
       onChangeText={onChangeText}

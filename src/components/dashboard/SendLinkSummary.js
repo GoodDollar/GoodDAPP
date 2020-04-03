@@ -42,7 +42,13 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
   const [loading, setLoading] = useState('')
-  const { amount, reason = null, counterPartyDisplayName, address } = screenState
+  const {
+    amount,
+    reason = null,
+    counterPartyDisplayName,
+    address,
+    params: { action },
+  } = screenState
 
   const faceRecognition = useCallback(() => {
     return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
@@ -101,14 +107,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   }, [shared])
 
   const handleConfirm = useCallback(() => {
-    const action = screenState.params.action
-
     if (action === ACTION_SEND_TO_ADDRESS) {
       sendViaAddress()
     } else {
       sendViaLink()
     }
-  }, [screenState])
+  }, [action])
 
   const sendViaAddress = useCallback(() => {
     try {

@@ -10,7 +10,7 @@ import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
 import userStorage from '../../../lib/gundb/UserStorage'
-import { UseClaimFeedText } from '../Claim/Counter'
+import ClaimsThresholdFeedItem from '../Claim/ClaimsThresholdFeedItem'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -156,8 +156,8 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
       result = <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
       break
 
-    case 'useclaim':
-      result = <UseClaimFeedText styles={styles} />
+    case 'claimsThreshold':
+      result = <ClaimsThresholdFeedItem styles={styles} />
       break
 
     case 'backup':

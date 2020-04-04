@@ -89,7 +89,7 @@ class FaceVerificationApi {
       return
     }
 
-    lastCancelToken.cancel('Face verification has beed reached timeout')
+    lastCancelToken.cancel('Face verification timeout')
     this.lastCancelToken = null
   }
 }

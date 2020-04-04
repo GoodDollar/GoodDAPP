@@ -43,7 +43,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
           ? isCameraNotAllowed
             ? `Looks like GoodDollar doesn't have access to your camera. Please provide access and try again`
             : null
-          : "You see, it's not that easy\n to capture your beauty :)\nSo, let's give it another shot..."
+          : `You see, it's not that easy\n to capture your beauty :)\nSo, let's give it another shot...`
       }
     />
   )

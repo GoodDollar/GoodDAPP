@@ -40,7 +40,7 @@ const Config = {
   enableShortUrl: process.env.REACT_APP_ENABLE_SHORTURL === 'true',
   sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}`,
   nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
-  displayStartClaimingCardTime: process.env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 3 * 24 * 60 * 60 * 1000, // 3 days
+  displayStartClaimingCardTime: process.env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
   bugsnagKey: process.env.REACT_APP_BUGSNAG_API_KEY,
   backgroundReqsInterval: process.env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, // minutes
   sentryDSN: process.env.REACT_APP_SENTRY_DSN,

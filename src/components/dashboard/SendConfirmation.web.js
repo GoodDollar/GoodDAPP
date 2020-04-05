@@ -14,6 +14,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { fireEvent } from '../../lib/analytics/analytics'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -29,8 +30,10 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { amount, reason, paymentLink } = screenState
 
   const shareAction = async () => {
+    let type = 'copy'
     if (isMobile && navigator.share) {
       try {
+        type = 'share'
         await navigator.share(paymentLink)
       } catch (e) {
         if (e.name !== 'AbortError') {
@@ -40,6 +43,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     } else {
       Clipboard.setString(paymentLink)
     }
+    fireEvent('SEND_CONFIRMATION_SHARE', { type })
   }
 
   return (

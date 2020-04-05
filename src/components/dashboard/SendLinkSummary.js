@@ -53,6 +53,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
       try {
         await Share.share(share)
+
+        //on non web we have the send confirmation which is skipped here, so we simulate the events
+        //so we have same funnel for mobile + web
+        fireEvent('SEND_CONFIRMATION', { type: 'link' })
+        fireEvent('SEND_CONFIRMATION_SHARE', { type: 'share' })
+
         setShared(true)
       } catch (e) {
         if (e.name !== 'AbortError') {

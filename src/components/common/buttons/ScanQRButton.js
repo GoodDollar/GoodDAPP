@@ -30,7 +30,7 @@ const ScanQRButton = ({ onPress, styles, theme, disabled, style = {} }: Props) =
 const mapPropsToStyle = ({ theme }) => ({
   iconWrapper: {
     backgroundColor: theme.colors.darkBlue,
-    borderRadius: '50%',
+    borderRadius: 21, // half of height
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

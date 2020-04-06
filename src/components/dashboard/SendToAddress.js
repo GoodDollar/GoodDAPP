@@ -19,7 +19,7 @@ export type TypeProps = {
 
 const validate = value => {
   if (!value) {
-    return 'Name is mandatory'
+    return 'Value is mandatory'
   }
 
   if (!isAddress(value)) {

@@ -22,14 +22,12 @@ import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
-import goodWallet from '../wallet/GoodWallet'
 import delUndefValNested from '../utils/delUndefValNested'
 import { delay } from '../utils/async'
 import { isMobileNative } from '../utils/platform'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
-import userStorage from './UserStorage'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -2149,14 +2147,6 @@ export class UserStorage {
 
     logger.debug('deleteAccount', { deleteResults })
     return true
-  }
-
-  async test(date) {
-    const lastBlock = await userStorage.getLastBlockNode().then()
-
-    goodWallet.listenTxUpdates(parseInt(lastBlock), ({ toBlock }) =>
-      userStorage.saveLastBlockNumber(parseInt(toBlock) + 1)
-    )
   }
 
   async getFeedSince(date) {

@@ -25,6 +25,7 @@ export const PHRASE_BACKUP = 'PHRASE_BACKUP'
 export const PHRASE_BACKUP_COPY = 'PHRASE_BACKUP_COPY'
 export const ADDTOHOME = 'ADDTOHOME'
 export const ADDTOHOME_LATER = 'ADDTOHOME_LATER'
+export const CLAIM_TASK_COMPLETED = 'CLAIM_TASK_COMPLETED'
 
 //desktop/chrome did user accept or reject the install prompt
 export const ADDTOHOME_OK = 'ADDTOHOME_OK'

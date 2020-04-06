@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 
 import Config from '../../../config/config'
+import { CLAIM_TASK_COMPLETED, fireEvent } from '../../../lib/analytics/analytics'
 
 import userStorage from '../../../lib/gundb/UserStorage'
 import { longUseOfClaims } from './events'
@@ -21,6 +22,7 @@ export default () => {
     }
 
     if (++current === claimDaysThreshold) {
+      fireEvent(CLAIM_TASK_COMPLETED)
       await userStorage.enqueueTX(longUseOfClaims)
     }
 

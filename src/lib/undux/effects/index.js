@@ -1,4 +1,4 @@
-import compose from 'lodash/fp/compose'
+import { compose } from 'lodash/fp'
 import withBalanceChange from './balanceChange'
 import withProfile from './profile'
 

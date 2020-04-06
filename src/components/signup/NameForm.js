@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import { validateFullName } from '../../lib/validators/validateFullName'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'

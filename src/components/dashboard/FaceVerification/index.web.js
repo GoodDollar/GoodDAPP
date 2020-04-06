@@ -1,7 +1,34 @@
 import { useCallback } from 'react'
+import { pick } from 'lodash'
 
 import useZoomSDK from './hooks/useZoomSDK'
-import useZoomVerification from './hooks/useZoomVerification'
+import useZoomVerification, { ZoomSessionStatus } from './hooks/useZoomVerification'
+
+const cameraIssuesStatusCodes = Object.values(
+  pick(
+    ZoomSessionStatus,
+
+    // camera permissions wasn't given
+    'UserCancelledWhenAttemptingToGetCameraPermissions',
+
+    // no camera available.
+    'CameraDoesNotExist',
+
+    // camera was not enabled.
+    'CameraNotEnabled',
+
+    // selected camera is not active
+    'CameraNotRunning',
+
+    // camera is busy because another ZoOm Session in progress.
+    'ZoomSessionInProgress',
+
+    // video initialization issues
+    'UnmanagedSessionVideoInitializationNotCompleted',
+    'VideoHeightOrWidthZeroOrUninitialized',
+    'VideoCaptureStreamNotActive'
+  )
+)
 
 const FaceVerification = ({ screenProps }) => {
   const showErrorScreen = useCallback(
@@ -12,13 +39,19 @@ const FaceVerification = ({ screenProps }) => {
   )
 
   const completionHandler = useCallback(
-    (isSuccess, _, lastMessage) => {
+    (isSuccess, { status }, lastMessage) => {
+      const exception = new Error(lastMessage)
+
       if (isSuccess) {
         screenProps.navigateTo('Home')
         return
       }
 
-      showErrorScreen(new Error(lastMessage), true)
+      if (cameraIssuesStatusCodes.includes(status)) {
+        exception.name = 'NotAllowedError'
+      }
+
+      showErrorScreen(exception, true)
     },
     [screenProps, showErrorScreen]
   )

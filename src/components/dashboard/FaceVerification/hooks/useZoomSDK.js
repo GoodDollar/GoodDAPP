@@ -7,7 +7,7 @@ import useMountedState from '../../../../lib/hooks/useMountedState'
 
 const sdk = ZoomAuthentication.ZoomSDK
 
-const { ZoomSDKStatus, getFriendlyDescriptionForZoomSDKStatus } = sdk
+export const { ZoomSDKStatus, getFriendlyDescriptionForZoomSDKStatus } = sdk
 
 export default ({ onInitialized = noop, onError = noop }) => {
   const [isInitialized, setInitialized] = useState(false)
@@ -53,9 +53,8 @@ export default ({ onInitialized = noop, onError = noop }) => {
     // Set the directory path for required ZoOm images.
     sdk.setImagesDirectory('/zoom/images')
 
-    // Initialize ZoOm and configure the UI features.
-
     try {
+      // Initialize ZoOm and configure the UI features.
       sdk.initialize(Config.zoomLicenseKey, () => {
         sdkStatus = sdk.getStatus()
         handleSdkStatus()

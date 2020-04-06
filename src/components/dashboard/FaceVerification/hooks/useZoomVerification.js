@@ -7,14 +7,11 @@ import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import useMountedState from '../../../../lib/hooks/useMountedState'
 
 const { Zoom } = FaceVerificationProviders
+const { ZoomSDK } = ZoomAuthentication
 
-const {
-  ZoomSession,
-  ZoomCustomization,
-  ZoomSessionStatus,
-  createZoomAPIUserAgentString,
-  getFriendlyDescriptionForZoomSessionStatus,
-} = ZoomAuthentication.ZoomSDK
+const { ZoomSession, ZoomCustomization, createZoomAPIUserAgentString } = ZoomSDK
+
+export const { ZoomSessionStatus, getFriendlyDescriptionForZoomSessionStatus } = ZoomSDK
 
 const initialSessionState = {
   isComplete: false,
@@ -117,6 +114,7 @@ export default ({ onComplete = noop, onError = noop }) => {
           }
         }
 
+        exception.code = lastResult.status
         zoomFaceMapResultCallback.cancel(lastMessage)
         onError(exception)
       }

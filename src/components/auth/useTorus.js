@@ -5,11 +5,13 @@ import logger from '../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'AuthTorus' })
 
+const isDev = config.env === 'development'
+
 const sdkOptions = {
   proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
   network: 'ropsten', // details for test net
-  baseUrl: `${config.publicUrl}/torus/`,
-  enableLogging: config.env === 'development',
+  baseUrl: isDev ? undefined : `${config.publicUrl}/torus/`,
+  enableLogging: isDev,
 }
 export const torus = new TorusSdk({
   GOOGLE_CLIENT_ID: config.googleClientId,

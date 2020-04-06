@@ -429,7 +429,7 @@ export class UserStorage {
     //hack to get gun working. these seems to preload data gun needs to login
     //otherwise it get stuck on a clean incognito
     const usernamePromise = new Promise((res, rej) => {
-      this.gun.get('~@' + username).once(res, { wait: 1000 })
+      this.gun.get('~@' + username).once(res, { wait: 3000 })
     })
     await Promise.race([usernamePromise, delay(3000)])
     const authUserInGun = (username, password) => {
@@ -543,7 +543,7 @@ export class UserStorage {
       //otherwise it get stuck on a clean incognito, either when checking existingusername (if doesnt exists)
       //or in gun auth
       const usernamePromise = new Promise((res, rej) => {
-        this.gun.get('~@' + username).once(res, { wait: 1000 })
+        this.gun.get('~@' + username).once(res, { wait: 3000 })
       })
       const existingUsername = await Promise.race([usernamePromise, delay(3000)])
       logger.debug('init existing username:', { existingUsername })
@@ -773,7 +773,8 @@ export class UserStorage {
       logger.debug('handleOTPLUpdated', { data, receipt })
 
       //get our tx that created the payment link
-      const originalTXHash = await this.getTransactionHashByCode(data.hash)
+      //paymentId is new format, hash is in old beta format
+      const originalTXHash = await this.getTransactionHashByCode(data.hash || data.paymentId)
       if (originalTXHash === undefined) {
         logger.error(
           'handleOTPLUpdated failed',
@@ -961,7 +962,7 @@ export class UserStorage {
     const displayTimeFilter = 24 * 60 * 60 * 1000 // 24 hours
     const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
 
-    if (!userProperties.isMadeBackup && allowToShowByTimeFilter) {
+    if (Config.torusEnabled === false && !userProperties.isMadeBackup && allowToShowByTimeFilter) {
       await this.enqueueTX(backupMessage)
       await this.userProperties.set('isMadeBackup', true)
     }
@@ -1918,24 +1919,41 @@ export class UserStorage {
 
     //saving index by onetime code so we can retrieve and update it once withdrawn
     //or skip own withdraw
-    if (event.type === EVENT_TYPE_SEND && event.data.code) {
-      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
-      this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
-    } else if (event.type === 'withdraw' && event.data.code) {
-      //are we withdrawing our own link?
-      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
-      const ownlink = await this.feed.get('codeToTxHash').get(hashedCode)
-      if (ownlink) {
-        logger.debug('updateFeedEvent: skipping own link withdraw', { event })
-        this.feed
-          .get('queue')
-          .get(event.id)
-          .put(null)
-        return event
+    const { wallet, feed } = this
+    const { utils } = wallet.wallet
+    const { id: eventId, type, data } = event
+    let { date } = event
+    const { code, hashedCode } = data
+
+    if (code) {
+      let ownLink
+      const eventHashedCode = hashedCode || utils.sha3(code)
+      const codeToTxHashRef = feed.get('codeToTxHash')
+
+      switch (type) {
+        case EVENT_TYPE_SEND:
+          codeToTxHashRef.put({ [eventHashedCode]: eventId })
+          break
+        case EVENT_TYPE_WITHDRAW:
+          ownLink = await codeToTxHashRef.get(eventHashedCode)
+
+          if (!ownLink) {
+            break
+          }
+
+          logger.debug('updateFeedEvent: skipping own link withdraw', { event })
+
+          feed
+            .get('queue')
+            .get(eventId)
+            .put(null)
+          return event
+        default:
+          break
       }
     }
 
-    let date = new Date(event.date)
+    date = new Date(date)
 
     // force valid dates
     date = isValidDate(date) ? date : new Date()
@@ -1947,12 +1965,12 @@ export class UserStorage {
       prevdate = isValidDate(prevdate) ? prevdate : date
       let prevday = `${prevdate.toISOString().slice(0, 10)}`
       if (day !== prevday) {
-        let dayEventsArr = (await this.feed.get(prevday)) || []
+        let dayEventsArr = (await feed.get(prevday)) || []
         let removePos = dayEventsArr.findIndex(e => e.id === event.id)
         if (removePos >= 0) {
           dayEventsArr.splice(removePos, 1)
-          this.feed.get(prevday).put(JSON.stringify(dayEventsArr))
-          this.feed
+          feed.get(prevday).put(JSON.stringify(dayEventsArr))
+          feed
             .get('index')
             .get(prevday)
             .put(dayEventsArr.length)
@@ -1961,7 +1979,7 @@ export class UserStorage {
     }
 
     // Update dates index
-    let dayEventsArr = (await this.feed.get(day).then()) || []
+    let dayEventsArr = (await feed.get(day).then()) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
     const eventIndexItem = { id: event.id, updateDate: event.date }
     if (toUpd) {
@@ -1978,17 +1996,17 @@ export class UserStorage {
     logger.debug('updateFeedEvent starting encrypt')
 
     // Saving eventFeed by id
-    const eventAck = this.feed
+    const eventAck = feed
       .get('byid')
-      .get(event.id)
+      .get(eventId)
       .secretAck(event)
       .then()
       .catch(e => {
         logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
         return { err: e.message }
       })
-    const saveDayIndexPtr = this.feed.get(day).putAck(JSON.stringify(dayEventsArr))
-    const saveDaySizePtr = this.feed
+    const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
+    const saveDaySizePtr = feed
       .get('index')
       .get(day)
       .putAck(dayEventsArr.length)

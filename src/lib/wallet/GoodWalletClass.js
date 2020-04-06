@@ -601,9 +601,9 @@ export class GoodWallet {
   /**
    * Depending on what's queried off the blockchain for the OTL code, will return an status to display
    * @param otlCode - one time link code
-   * @returns {Promise<'Completed' | 'Cancelled' | 'Pending'>}
+   * @returns {Promise<{status:'Completed' | 'Cancelled' | 'Pending'}>}
    */
-  async getWithdrawDetails(otlCode: string): Promise<'Completed' | 'Cancelled' | 'Pending'> {
+  async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
     const hash = this.getWithdrawLink(otlCode)
     const { payments } = this.oneTimePaymentsContract.methods
 
@@ -619,6 +619,7 @@ export class GoodWallet {
       status = WITHDRAW_STATUS_COMPLETE
     }
     return {
+      hashedCode: hash,
       status,
       amount,
       sender: paymentSender,
@@ -734,7 +735,7 @@ export class GoodWallet {
       }
 
       if (topWallet) {
-        log.info('no gas, asking for top wallet')
+        log.info('no gas, asking for top wallet', { nativeBalance, required: wei, address: this.account })
         const toppingRes = await API.verifyTopWallet()
         const { data } = toppingRes
         if (data.ok !== 1) {

@@ -1,7 +1,7 @@
 import { GoodWallet } from '../GoodWalletClass'
-import adminWallet from './__util__/AdminWallet'
+import adminWallet from './__util__/AdminWalletV1'
+import '../PaymentLinks'
 
-//TODO: need to convert to smart contracts v0.1.0 for phase0
 describe('GoodWalletShare/ReceiveTokens', () => {
   jest.setTimeout(100000)
   const amount = 1
@@ -18,12 +18,13 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     })
 
     await adminWallet.ready
+
     await testWallet.ready
 
     await testWallet2.ready
 
-    await adminWallet.whitelistUser(testWallet.account, 'did:gd')
-    await adminWallet.whitelistUser(testWallet2.account, 'did:gd')
+    await adminWallet.whitelistUser(testWallet.account, 'did:gd' + Math.random())
+    await adminWallet.whitelistUser(testWallet2.account, 'did:gd' + Math.random())
 
     await adminWallet.topWallet(testWallet.account, 0, true)
 
@@ -79,15 +80,17 @@ describe('GoodWalletShare/ReceiveTokens', () => {
   })
 
   it('should deposit and withdraw properly', async () => {
-    const DEPOSIT_CODE = testWallet.wallet.utils.randomHex(10).replace('0x', '')
+    const { privateKey: DEPOSIT_CODE } = testWallet.wallet.eth.accounts.create()
     const DEPOSIT_CODE_HASH = testWallet.getWithdrawLink(DEPOSIT_CODE)
+    const asParam = testWallet.wallet.eth.abi.encodeParameter('address', DEPOSIT_CODE_HASH)
+
     const balance = await testWallet.balanceOf().then(n => Number(n))
 
     expect(balance).toBeGreaterThan(0)
 
     const fee = await testWallet.getTxFee(balance)
 
-    await testWallet.depositToHash(balance, DEPOSIT_CODE_HASH)
+    await testWallet.depositToHash(balance, asParam)
 
     const newBalance = await testWallet.balanceOf()
 
@@ -122,6 +125,8 @@ describe('GoodWalletShare/ReceiveTokens', () => {
   })
 
   it('should emit PaymentCancel event', async done => {
+    expect(await testWallet2.claim().catch(_ => true)).toBeTruthy()
+
     const { txPromise, hashedCode } = testWallet2.generateLink(amount, reason)
     await txPromise
 
@@ -133,45 +138,5 @@ describe('GoodWalletShare/ReceiveTokens', () => {
 
     expect(await testWallet2.cancelOTL(hashedCode).catch(_ => false)).toBeTruthy()
     testWallet2.unsubscribeFromEvent(eventId)
-  })
-
-  xit('should not allow blacklisted to deposit', () => {
-    return testWallet.ready.then(async () => {
-      const DEPOSIT_CODE = 'test3'
-      const DEPOSIT_CODE_HASH = testWallet.getWithdrawLink(DEPOSIT_CODE)
-      const balance = await testWallet.balanceOf().then(n => Number(n))
-      expect(balance).toBeGreaterThan(0)
-
-      await adminWallet.blacklistUser(testWallet.account)
-
-      try {
-        await testWallet.depositToHash(balance, DEPOSIT_CODE_HASH)
-      } catch (err) {
-        let condition = err.message.search('Caller is blacklisted') > -1
-        expect(condition).toBeTrue()
-      }
-    })
-  })
-
-  xit('should not allow blacklisted to withdraw', () => {
-    return testWallet.ready.then(async () => {
-      const DEPOSIT_CODE = 'test4'
-      const DEPOSIT_CODE_HASH = testWallet.getWithdrawLink(DEPOSIT_CODE)
-      const balance = await testWallet.balanceOf().then(n => Number(n))
-      expect(balance).toBeGreaterThan(0)
-
-      await adminWallet.blacklistUser(testWallet2.account)
-
-      await testWallet.depositToHash(balance, DEPOSIT_CODE_HASH)
-
-      const isused = await testWallet2.isWithdrawLinkUsed(DEPOSIT_CODE_HASH)
-      expect(isused).to.be.true()
-      try {
-        await testWallet2.withdraw(DEPOSIT_CODE)
-      } catch (err) {
-        let condition = err.message.search('Receiver is blacklisted') > -1
-        expect(condition).toBeTrue()
-      }
-    })
   })
 })

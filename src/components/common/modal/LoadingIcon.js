@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import { url as LoadingIconSVG } from './img/LoadingIcon.svg'
+import LoadingIconSVG from './img/LoadingIcon.svg'
 
 const LoadingIcon = ({ styles, style, loadingIconStyle }) => {
   const [rotateValue] = useState(new Animated.Value(0))
@@ -20,7 +20,7 @@ const LoadingIcon = ({ styles, style, loadingIconStyle }) => {
 
   return (
     <View style={[styles.loadingIconContainer, style]}>
-      <Animated.Image
+      <Animated.View
         style={[
           {
             transform: [
@@ -35,8 +35,9 @@ const LoadingIcon = ({ styles, style, loadingIconStyle }) => {
           styles.loadingIcon,
           loadingIconStyle,
         ]}
-        source={LoadingIconSVG}
-      />
+      >
+        <LoadingIconSVG />
+      </Animated.View>
     </View>
   )
 }

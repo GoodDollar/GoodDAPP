@@ -18,7 +18,7 @@ const ReceiveToAddressButton = ({ onPress, styles, theme, disabled, style = {} }
   <TouchableOpacity style={style.row} onPress={disabled ? undefined : onPress}>
     <View style={styles.buttonContainer}>
       <View style={styles.iconWrapper}>
-        <Icon name="send-to-address" color="white" size={26} />
+        <Icon name="receive-to-address" color="white" size={26} />
       </View>
       <Text color="darkBlue" fontSize={10} fontWeight="medium" lineHeight={11} style={styles.text}>
         Receive to address

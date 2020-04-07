@@ -22,43 +22,45 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "stretch",
-        "WebkitBoxAlign": "stretch",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxPack": "center",
         "WebkitJustifyContent": "center",
-        "alignItems": "stretch",
+        "alignItems": "center",
         "backgroundColor": "rgba(0,175,255,1.00)",
-        "borderBottomColor": "rgba(0,175,255,1.00)",
-        "borderBottomLeftRadius": "50px",
-        "borderBottomRightRadius": "50px",
+        "borderBottomColor": "rgba(255,255,255,1.00)",
+        "borderBottomLeftRadius": "50%",
+        "borderBottomRightRadius": "50%",
         "borderBottomStyle": "solid",
-        "borderBottomWidth": "0px",
-        "borderLeftColor": "rgba(0,175,255,1.00)",
+        "borderBottomWidth": "3px",
+        "borderLeftColor": "rgba(255,255,255,1.00)",
         "borderLeftStyle": "solid",
-        "borderLeftWidth": "0px",
-        "borderRightColor": "rgba(0,175,255,1.00)",
+        "borderLeftWidth": "3px",
+        "borderRightColor": "rgba(255,255,255,1.00)",
         "borderRightStyle": "solid",
-        "borderRightWidth": "0px",
-        "borderTopColor": "rgba(0,175,255,1.00)",
-        "borderTopLeftRadius": "50px",
-        "borderTopRightRadius": "50px",
+        "borderRightWidth": "3px",
+        "borderTopColor": "rgba(255,255,255,1.00)",
+        "borderTopLeftRadius": "50%",
+        "borderTopRightRadius": "50%",
         "borderTopStyle": "solid",
-        "borderTopWidth": "0px",
-        "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+        "borderTopWidth": "3px",
+        "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "display": "flex",
+        "height": "196px",
         "justifyContent": "center",
         "marginBottom": "0px",
         "marginLeft": "0px",
         "marginRight": "0px",
         "marginTop": "0px",
-        "minHeight": "68px",
+        "minHeight": "44px",
         "minWidth": "auto",
-        "msFlexAlign": "stretch",
+        "msFlexAlign": "center",
         "msFlexPack": "center",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
         "paddingTop": "0px",
+        "width": "196px",
       }
     }
   >
@@ -156,40 +158,19 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "500",
-                  "lineHeight": "22px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              CLAIM YOUR SHARE - 
-            </span>
             <div
               className="css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitAlignItems": "center",
                   "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitFlexDirection": "row",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
                   "alignItems": "center",
                   "display": "flex",
-                  "flexDirection": "row",
-                  "marginLeft": "4px",
+                  "justifyContent": "center",
                   "msFlexAlign": "center",
-                  "msFlexDirection": "row",
+                  "msFlexPack": "center",
                 }
               }
             >
@@ -198,31 +179,11 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "36px",
-                    "fontWeight": "500",
-                    "lineHeight": "36px",
-                    "marginRight": "2px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                1
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(66,69,74,1.00)",
+                    "color": "rgba(12,38,61,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
-                    "fontWeight": "normal",
+                    "fontWeight": "500",
                     "lineHeight": "22px",
                     "textAlign": "center",
                     "textDecoration": "none",
@@ -230,47 +191,121 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
                   }
                 }
               >
+                Get your 
+              </span>
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(12,38,61,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                 free daily share:
+              </span>
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitFlexDirection": "row",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                  }
+                }
+              >
                 <span
                   className="css-text-901oao css-textHasAncestor-16my406"
                   dir="auto"
-                  marginVertical="auto"
                   style={
                     Object {
                       "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "36px",
+                      "marginRight": "2px",
+                      "textAlign": "right",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                    }
+                  }
+                >
+                  1
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(66,69,74,1.00)",
                       "direction": "ltr",
                       "fontFamily": "Roboto",
                       "fontSize": "16px",
-                      "fontWeight": "500",
-                      "lineHeight": "19px",
-                      "textAlign": "right",
+                      "fontWeight": "normal",
+                      "lineHeight": "22px",
+                      "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
                     }
                   }
                 >
-                  G
-                </span>
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
-                  dir="auto"
-                  marginVertical="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "15.5px",
-                      "fontWeight": "500",
-                      "lineHeight": "19px",
-                      "textAlign": "right",
-                      "textDecoration": "none",
-                      "textTransform": "none",
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "lineHeight": "20px",
+                        "textAlign": "right",
+                        "textDecoration": "none",
+                        "textTransform": "none",
+                      }
                     }
-                  }
-                >
-                  $
+                  >
+                    G
+                  </span>
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "15.5px",
+                        "fontWeight": "500",
+                        "lineHeight": "20px",
+                        "textAlign": "right",
+                        "textDecoration": "none",
+                        "textTransform": "none",
+                      }
+                    }
+                  >
+                    $
+                  </span>
                 </span>
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -302,47 +337,50 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "stretch",
-        "WebkitBoxAlign": "stretch",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "vertical",
         "WebkitBoxPack": "center",
         "WebkitFlexDirection": "column",
         "WebkitJustifyContent": "center",
-        "alignItems": "stretch",
+        "alignItems": "center",
         "backgroundColor": "rgba(248,175,64,1.00)",
-        "borderBottomColor": "rgba(0,175,255,1.00)",
-        "borderBottomLeftRadius": "50px",
-        "borderBottomRightRadius": "50px",
+        "borderBottomColor": "rgba(255,255,255,1.00)",
+        "borderBottomLeftRadius": "50%",
+        "borderBottomRightRadius": "50%",
         "borderBottomStyle": "solid",
-        "borderBottomWidth": "0px",
-        "borderLeftColor": "rgba(0,175,255,1.00)",
+        "borderBottomWidth": "3px",
+        "borderLeftColor": "rgba(255,255,255,1.00)",
         "borderLeftStyle": "solid",
-        "borderLeftWidth": "0px",
-        "borderRightColor": "rgba(0,175,255,1.00)",
+        "borderLeftWidth": "3px",
+        "borderRightColor": "rgba(255,255,255,1.00)",
         "borderRightStyle": "solid",
-        "borderRightWidth": "0px",
-        "borderTopColor": "rgba(0,175,255,1.00)",
-        "borderTopLeftRadius": "50px",
-        "borderTopRightRadius": "50px",
+        "borderRightWidth": "3px",
+        "borderTopColor": "rgba(255,255,255,1.00)",
+        "borderTopLeftRadius": "50%",
+        "borderTopRightRadius": "50%",
         "borderTopStyle": "solid",
-        "borderTopWidth": "0px",
+        "borderTopWidth": "3px",
+        "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "display": "flex",
         "flexDirection": "column",
+        "height": "196px",
         "justifyContent": "center",
         "marginBottom": "0px",
         "marginLeft": "0px",
         "marginRight": "0px",
         "marginTop": "0px",
-        "minHeight": "68px",
+        "minHeight": "44px",
         "minWidth": "auto",
-        "msFlexAlign": "stretch",
+        "msFlexAlign": "center",
         "msFlexDirection": "column",
         "msFlexPack": "center",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
         "paddingTop": "0px",
+        "width": "196px",
       }
     }
   >
@@ -395,7 +433,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,0,0,0.32)",
+              "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
@@ -459,7 +497,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                     "fontWeight": "700",
                     "letterSpacing": "0.08px",
                     "lineHeight": "22px",
-                    "marginBottom": "8px",
                     "textAlign": "center",
                     "textDecoration": "none",
                     "textTransform": "none",
@@ -504,7 +541,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                       "fontSize": "36px",
                       "fontWeight": "700",
                       "lineHeight": "30px",
-                      "marginTop": "-4px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -525,7 +561,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                       "fontSize": "36px",
                       "fontWeight": "700",
                       "lineHeight": "30px",
-                      "marginTop": "-4px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -546,7 +581,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                       "fontSize": "36px",
                       "fontWeight": "700",
                       "lineHeight": "30px",
-                      "marginTop": "-4px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -567,7 +601,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                       "fontSize": "36px",
                       "fontWeight": "700",
                       "lineHeight": "30px",
-                      "marginTop": "-4px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -588,7 +621,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                       "fontSize": "36px",
                       "fontWeight": "700",
                       "lineHeight": "30px",
-                      "marginTop": "-4px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -609,7 +641,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                       "fontSize": "36px",
                       "fontWeight": "700",
                       "lineHeight": "30px",
-                      "marginTop": "-4px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -630,7 +661,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                       "fontSize": "36px",
                       "fontWeight": "700",
                       "lineHeight": "30px",
-                      "marginTop": "-4px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -651,7 +681,6 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
                       "fontSize": "36px",
                       "fontWeight": "700",
                       "lineHeight": "30px",
-                      "marginTop": "-4px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -693,42 +722,45 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "stretch",
-        "WebkitBoxAlign": "stretch",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxPack": "center",
         "WebkitJustifyContent": "center",
-        "alignItems": "stretch",
-        "backgroundColor": "rgba(0,0,0,0.12)",
-        "borderBottomColor": "rgba(0,175,255,1.00)",
-        "borderBottomLeftRadius": "50px",
-        "borderBottomRightRadius": "50px",
+        "alignItems": "center",
+        "backgroundColor": "rgba(0,175,255,1.00)",
+        "borderBottomColor": "rgba(255,255,255,1.00)",
+        "borderBottomLeftRadius": "50%",
+        "borderBottomRightRadius": "50%",
         "borderBottomStyle": "solid",
-        "borderBottomWidth": "0px",
-        "borderLeftColor": "rgba(0,175,255,1.00)",
+        "borderBottomWidth": "3px",
+        "borderLeftColor": "rgba(255,255,255,1.00)",
         "borderLeftStyle": "solid",
-        "borderLeftWidth": "0px",
-        "borderRightColor": "rgba(0,175,255,1.00)",
+        "borderLeftWidth": "3px",
+        "borderRightColor": "rgba(255,255,255,1.00)",
         "borderRightStyle": "solid",
-        "borderRightWidth": "0px",
-        "borderTopColor": "rgba(0,175,255,1.00)",
-        "borderTopLeftRadius": "50px",
-        "borderTopRightRadius": "50px",
+        "borderRightWidth": "3px",
+        "borderTopColor": "rgba(255,255,255,1.00)",
+        "borderTopLeftRadius": "50%",
+        "borderTopRightRadius": "50%",
         "borderTopStyle": "solid",
-        "borderTopWidth": "0px",
+        "borderTopWidth": "3px",
+        "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "display": "flex",
+        "height": "196px",
         "justifyContent": "center",
         "marginBottom": "0px",
         "marginLeft": "0px",
         "marginRight": "0px",
         "marginTop": "0px",
-        "minHeight": "68px",
+        "minHeight": "44px",
         "minWidth": "auto",
-        "msFlexAlign": "stretch",
+        "msFlexAlign": "center",
         "msFlexPack": "center",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
         "paddingTop": "0px",
+        "width": "196px",
       }
     }
   >
@@ -781,7 +813,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,0,0,0.32)",
+              "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
@@ -820,40 +852,19 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "500",
-                  "lineHeight": "22px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              CLAIM YOUR SHARE - 
-            </span>
             <div
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "WebkitAlignItems": "baseline",
-                  "WebkitBoxAlign": "baseline",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitFlexDirection": "row",
-                  "alignItems": "baseline",
-                  "display": "inline",
-                  "flexDirection": "row",
-                  "marginLeft": "4px",
-                  "msFlexAlign": "baseline",
-                  "msFlexDirection": "row",
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "display": "flex",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexPack": "center",
                 }
               }
             >
@@ -862,31 +873,11 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
+                    "color": "rgba(12,38,61,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "500",
-                    "lineHeight": "36px",
-                    "marginRight": "2px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                0
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "16px",
-                    "fontWeight": "normal",
                     "lineHeight": "22px",
                     "textAlign": "center",
                     "textDecoration": "none",
@@ -894,47 +885,121 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                   }
                 }
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
-                  dir="auto"
-                  marginVertical="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "10px",
-                      "fontWeight": "500",
-                      "lineHeight": "19px",
-                      "textAlign": "right",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
-                >
-                  G
-                </span>
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
-                  dir="auto"
-                  marginVertical="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "9.5px",
-                      "fontWeight": "500",
-                      "lineHeight": "19px",
-                      "textAlign": "right",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
-                >
-                  $
-                </span>
+                Get your 
               </span>
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(12,38,61,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                 free daily share:
+              </span>
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "baseline",
+                    "WebkitBoxAlign": "baseline",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitFlexDirection": "row",
+                    "alignItems": "baseline",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "msFlexAlign": "baseline",
+                    "msFlexDirection": "row",
+                  }
+                }
+              >
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "36px",
+                      "marginRight": "2px",
+                      "textAlign": "right",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                    }
+                  }
+                >
+                  -.--
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(66,69,74,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontSize": "16px",
+                      "fontWeight": "normal",
+                      "lineHeight": "22px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                    }
+                  }
+                >
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "lineHeight": "20px",
+                        "textAlign": "right",
+                        "textDecoration": "none",
+                        "textTransform": "none",
+                      }
+                    }
+                  >
+                    G
+                  </span>
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "15.5px",
+                        "fontWeight": "500",
+                        "lineHeight": "20px",
+                        "textAlign": "right",
+                        "textDecoration": "none",
+                        "textTransform": "none",
+                      }
+                    }
+                  >
+                    $
+                  </span>
+                </span>
+              </div>
             </div>
           </div>
         </div>

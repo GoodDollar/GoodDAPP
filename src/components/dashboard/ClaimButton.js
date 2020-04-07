@@ -1,40 +1,53 @@
-import React from 'react'
+import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
+import CardFlip from 'react-native-card-flip'
+
+import { CustomButton } from '../common'
+import Section from '../common/layout/Section'
+import Text from '../common/view/Text'
+import BigGoodDollar from '../common/view/BigGoodDollar'
+
 import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
-import { CustomButton } from '../common'
-import BigGoodDollar from '../common/view/BigGoodDollar'
-import Text from '../common/view/Text'
-import Section from '../common/layout/Section'
-import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 
-const ButtonAmountToClaim = ({ entitlement, isCitizen, styles }) => (
-  <>
-    <Text color="surface" fontWeight="medium">
-      {`CLAIM YOUR SHARE - `}
-    </Text>
-    <BigGoodDollar
-      number={entitlement}
-      formatter={weiToGd}
-      fontFamily="Roboto"
-      bigNumberProps={{
-        fontFamily: 'Roboto',
-        fontSize: isCitizen ? 36 : 16,
-        color: 'surface',
-        fontWeight: 'medium',
-        lineHeight: 36,
-      }}
-      bigNumberUnitProps={{
-        fontFamily: 'Roboto',
-        fontSize: isCitizen ? 16 : 10,
-        color: 'surface',
-        fontWeight: 'medium',
-        lineHeight: 19,
-        marginVertical: 'auto',
-      }}
-      style={isCitizen ? styles.amountInButtonCenter : styles.amountInButton}
-    />
-  </>
+const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles }) => (
+  <View style={styles.textBtn}>
+    {showLabelOnly ? (
+      <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={40}>
+        {`Claim`}
+      </Text>
+    ) : (
+      <>
+        <Text color="#0C263D" fontWeight="medium">
+          {`Get your `}
+        </Text>
+        <Text color="#0C263D" fontWeight="medium">
+          {` free daily share:`}
+        </Text>
+        <BigGoodDollar
+          number={entitlement}
+          formatter={weiToGd}
+          fontFamily="Roboto"
+          bigNumberProps={{
+            fontFamily: 'Roboto',
+            fontSize: 36,
+            color: 'surface',
+            fontWeight: 'bold',
+            lineHeight: 36,
+          }}
+          bigNumberUnitProps={{
+            fontFamily: 'Roboto',
+            fontSize: 16,
+            color: 'surface',
+            fontWeight: 'medium',
+            lineHeight: 20,
+          }}
+          style={isCitizen ? styles.amountInButtonCenter : styles.amountInButton}
+        />
+      </>
+    )}
+  </View>
 )
 
 export const ButtonCountdown = ({ styles, nextClaim }) => (
@@ -73,12 +86,11 @@ const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles }) => {
   return <ButtonAmountToClaim styles={styles} entitlement={entitlement} isCitizen={isCitizen} />
 }
 
-const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styles, style }) => (
+const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style }) => (
   <CustomButton
     testId="claim_button"
     compact={true}
     disabled={entitlement <= 0}
-    loading={loading}
     mode="contained"
     onPress={onPress}
     style={[styles.minButtonHeight, isCitizen && !entitlement ? styles.buttonCountdown : {}, style]}
@@ -87,12 +99,81 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styl
   </CustomButton>
 )
 
+const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, ...buttonProps }) => {
+  const initialEntitlementRef = useRef(entitlement)
+
+  const cardRef = useRef()
+  const setCardRef = useCallback(ref => (cardRef.current = ref), [])
+
+  const nextClaimOnHold = useRef(null)
+  const suspendRendering = useCallback(() => (nextClaimOnHold.current = nextClaim), [nextClaim])
+
+  const restoreRendering = useCallback(() => (nextClaimOnHold.current = null), [])
+
+  useEffect(() => {
+    const card = cardRef.current
+
+    if (card && entitlement) {
+      card.flip()
+    }
+  }, [entitlement])
+
+  if (initialEntitlementRef.current) {
+    return (
+      <ClaimButton {...buttonProps} styles={styles} entitlement={entitlement} nextClaim={nextClaim} onPress={onPress} />
+    )
+  }
+
+  if (!entitlement) {
+    return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} />
+  }
+
+  const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
+  return (
+    <CardFlip
+      style={styles.cardContainer}
+      ref={setCardRef}
+      flipDirection="x"
+      duration={1000}
+      flipZoom={0}
+      perspective={0}
+      onFlipStart={suspendRendering}
+      onFlipEnd={restoreRendering}
+    >
+      <ClaimButton {...buttonProps} styles={styles} entitlement={0} nextClaim={nextClaimToDisplay} />
+      <ClaimButton
+        {...buttonProps}
+        styles={styles}
+        entitlement={entitlement}
+        nextClaim={nextClaimToDisplay}
+        onPress={onPress}
+      />
+    </CardFlip>
+  )
+})
 const getStylesFromProps = ({ theme }) => ({
   justifyCenter: {
     justifyContent: 'center',
   },
+  textBtn: {
+    justifyContent: 'center',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  cardContainer: {
+    alignItems: 'center',
+    width: getDesignRelativeWidth(196),
+    height: getDesignRelativeHeight(196),
+  },
   minButtonHeight: {
-    minHeight: 68,
+    borderRadius: '50%',
+    borderColor: '#FFFFFF',
+    borderWidth: 3,
+    borderStyle: 'solid',
+    height: getDesignRelativeHeight(196),
+    boxShadow: '10px 12px 25px -14px',
+    width: getDesignRelativeWidth(196),
+    alignItems: 'center',
   },
   buttonCountdown: {
     backgroundColor: theme.colors.orange,
@@ -106,21 +187,17 @@ const getStylesFromProps = ({ theme }) => ({
   },
   countdown: {
     width: getDesignRelativeWidth(25),
-    marginTop: -theme.sizes.defaultHalf,
   },
   extraInfoCountdownTitle: {
-    marginBottom: theme.sizes.default,
     letterSpacing: 0.08,
   },
   amountInButton: {
-    display: 'inline',
-    marginLeft: theme.sizes.defaultHalf,
+    display: 'flex',
   },
   amountInButtonCenter: {
     display: 'flex',
     alignItems: 'center',
-    marginLeft: theme.sizes.defaultHalf,
   },
 })
 
-export default withStyles(getStylesFromProps)(ClaimButton)
+export default withStyles(getStylesFromProps)(ClaimAnimationButton)

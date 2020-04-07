@@ -46,11 +46,11 @@ const ProfileWrapper = props => {
         />
         <View style={styles.userDataWrapper}>
           <UserAvatar
-            containerStyle={styles.userAvatarWrapper}
             style={styles.userAvatar}
             profile={profile}
             onPress={handleAvatarPress}
             size={avatarSize}
+            imageSize={avatarSize - 6}
           />
           <Text fontSize={22} fontFamily="Roboto Slab" lineHeight={29} style={styles.userName}>
             {!!profile && profile.fullName}
@@ -100,14 +100,9 @@ const getStylesFromProps = ({ theme }) => ({
   userDataWrapper: {
     position: 'absolute',
   },
-  userAvatarWrapper: {
-    borderColor: theme.colors.white,
-    borderWidth: 3,
-    borderStyle: 'solid',
-    borderRadius: '50%',
-  },
   userAvatar: {
-    borderWidth: 0,
+    borderWidth: 3,
+    borderColor: theme.colors.white,
   },
   userDataAndButtonsRow: {
     display: 'flex',

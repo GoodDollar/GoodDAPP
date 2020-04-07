@@ -161,8 +161,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               onChangeText={handleChange}
               error={errorMessage}
               onKeyPress={handleEnter}
-              onCleanUpField={handleChange}
               getRef={input}
+              showCleanAdornment
               autoFocus
             />
           </Section.Row>

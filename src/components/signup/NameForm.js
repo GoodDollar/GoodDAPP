@@ -87,7 +87,7 @@ class NameForm extends React.Component<Props, State> {
                 onChangeText={this.handleChange}
                 error={errorMessage}
                 onKeyPress={this.handleEnter}
-                onCleanUpField={this.handleChange}
+                showCleanAdornment
                 autoFocus
               />
             </Section.Row>

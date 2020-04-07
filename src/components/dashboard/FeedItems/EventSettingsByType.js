@@ -4,6 +4,7 @@ import FeedReceiveSuccess from '../../common/animations/Feed/ReceiveSuccess/Rece
 import FeedBonusRewardSuccess from '../../common/animations/Feed/BonusRewardSuccess/BonusRewardSuccess'
 import FeedInfo from '../../common/animations/Feed/Info/Info'
 import FeedClaim from '../../common/animations/Feed/Claim/Claim'
+import { eventSettings } from '../../dashboard/Claim/events'
 
 const getEventSettingsByType = (theme, type) => {
   const styles = {
@@ -120,6 +121,7 @@ const getEventSettingsByType = (theme, type) => {
       withoutAmount: true,
       withoutAvatar: true,
     },
+    claimsThreshold: eventSettings(theme),
     backup: {
       color: theme.colors.primary,
       component: FeedInfo,

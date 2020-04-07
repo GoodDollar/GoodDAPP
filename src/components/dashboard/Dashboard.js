@@ -65,6 +65,7 @@ import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
 import ReceiveToAddress from './ReceiveToAddress'
 import ReceiveConfirmation from './ReceiveConfirmation'
+import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
 import SendConfirmation from './SendConfirmation'
@@ -288,6 +289,7 @@ const Dashboard = props => {
 
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+
     log.debug('initDashboard subscribed to feed')
     handleDeleteRedirect()
     handleResize()
@@ -814,6 +816,8 @@ export default createStackNavigator({
   SendConfirmation,
   SendByQR,
   ReceiveByQR,
+
+  SendToAddress,
 
   // FRError,
   // FaceVerification: FaceRecognition,

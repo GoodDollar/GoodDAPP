@@ -33,7 +33,7 @@ describe('WebViewScreen', () => {
 })
 
 describe('WebViewScreen Instances', () => {
-  it('they renders without errors', () => {
+  it('PrivacyPolicyAndTerms renders without errors', () => {
     const tree = renderer.create(
       <StoresWrapper>
         <PrivacyPolicyAndTerms />
@@ -42,7 +42,7 @@ describe('WebViewScreen Instances', () => {
     expect(tree.toJSON()).toBeTruthy()
   })
 
-  it('TermsOfUse matches snapshot', () => {
+  it('PrivacyPolicyAndTerms matches snapshot', () => {
     const component = renderer.create(
       <StoresWrapper>
         <PrivacyPolicyAndTerms />

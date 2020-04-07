@@ -332,6 +332,7 @@ exports[`EmailForm matches snapshot 1`] = `
                         "WebkitTransitionDuration": "0.15s",
                         "WebkitTransitionProperty": "opacity",
                         "WebkitUserSelect": "none",
+                        "bottom": "10px",
                         "cursor": "pointer",
                         "msTouchAction": "manipulation",
                         "msUserSelect": "none",

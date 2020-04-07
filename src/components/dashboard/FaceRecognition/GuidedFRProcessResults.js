@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 import { findKey } from 'lodash'
 import Text from '../../common/view/Text'
 
@@ -13,17 +13,13 @@ import Separator from '../../common/layout/Separator'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/gundb/UserStorage'
-import LookingGood from '../../../assets/LookingGood.svg'
+import LookingGoodSVG from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import normalize from '../../../lib/utils/normalizeText'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import FRStep from './FRStep'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(LookingGood)
-}
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
@@ -159,11 +155,13 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     </Section>
   ) : null
 
-  let lookingGood =
+  let lookingGoodComponent =
     isProcessFailed === false && processStatus.isProfileSaved ? (
       <View style={styles.imageView}>
         <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
-        <Image source={LookingGood} resizeMode={'center'} style={styles.image} />
+        <View style={styles.image}>
+          <LookingGoodSVG />
+        </View>
       </View>
     ) : null
 
@@ -254,7 +252,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
         <View style={styles.imageView}>
           <Text color="red">{helpText}</Text>
         </View>
-        <View style={styles.imageContainer}>{lookingGood}</View>
+        <View style={styles.imageContainer}>{lookingGoodComponent}</View>
       </Section>
       {retryButtonOrNull}
     </View>

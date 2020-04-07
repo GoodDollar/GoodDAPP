@@ -439,7 +439,7 @@ export class UserStorage {
     //hack to get gun working. these seems to preload data gun needs to login
     //otherwise it get stuck on a clean incognito
     const usernamePromise = new Promise((res, rej) => {
-      this.gun.get('~@' + username).once(res, { wait: 1000 })
+      this.gun.get('~@' + username).once(res, { wait: 3000 })
     })
     await Promise.race([usernamePromise, delay(3000)])
     const authUserInGun = (username, password) => {
@@ -553,7 +553,7 @@ export class UserStorage {
       //otherwise it get stuck on a clean incognito, either when checking existingusername (if doesnt exists)
       //or in gun auth
       const usernamePromise = new Promise((res, rej) => {
-        this.gun.get('~@' + username).once(res, { wait: 1000 })
+        this.gun.get('~@' + username).once(res, { wait: 3000 })
       })
       const existingUsername = await Promise.race([usernamePromise, delay(3000)])
       logger.debug('init existing username:', { existingUsername })
@@ -972,7 +972,7 @@ export class UserStorage {
     const displayTimeFilter = 24 * 60 * 60 * 1000 // 24 hours
     const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
 
-    if (!userProperties.isMadeBackup && allowToShowByTimeFilter) {
+    if (Config.torusEnabled === false && !userProperties.isMadeBackup && allowToShowByTimeFilter) {
       await this.enqueueTX(backupMessage)
       await this.userProperties.set('isMadeBackup', true)
     }

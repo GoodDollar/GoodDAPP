@@ -18,6 +18,7 @@ import {
 } from '../UserStorageClass'
 import UserPropertiesClass from '../UserPropertiesClass'
 import { getUserModel } from '../UserModel'
+import { longUseOfClaims } from '../../../components/dashboard/Claim/events'
 import update from '../../updates'
 import { addUser } from './__util__/index'
 
@@ -425,6 +426,12 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(startClaiming)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(startClaiming)
+  })
+
+  it('events/claimed  for 14 days ', async () => {
+    await userStorage.updateFeedEvent(longUseOfClaims)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(longUseOfClaims)
   })
 
   it('events/add hanuka bonus starts event', async () => {

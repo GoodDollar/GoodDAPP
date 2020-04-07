@@ -22,6 +22,7 @@ import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimContentPhaseZero from './Claim/PhaseZero'
 import ClaimContentPhaseOne from './Claim/PhaseOne'
+import useClaimCounter from './Claim/useClaimCounter'
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -56,7 +57,9 @@ const Claim = props => {
       amount: '--',
     },
   })
+
   const wrappedGoodWallet = wrapper(goodWallet, store)
+  const advanceClaimsCounter = useClaimCounter()
 
   // if we returned from facerecoginition then the isValid param would be set
   // this happens only on first claim
@@ -211,7 +214,9 @@ const Claim = props => {
 
       if (receipt.status) {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash })
+        await advanceClaimsCounter()
         checkHanukaBonusDates()
+
         showDialog({
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,

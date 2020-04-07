@@ -9,7 +9,7 @@ import Icon from '../view/Icon'
 import Config from '../../../config/config'
 import ErrorText from './ErrorText'
 
-const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...props }: any) => {
+const InputText = ({ error, onCleanUpField, styles, theme, style, containerStyle, getRef, ...props }: any) => {
   const simpleStore = SimpleStore.useStore()
 
   const shouldChangeSizeOnKeyboardShown = isMobileSafari && simpleStore.set && Config.safariMobileKeyboardGuidedSize
@@ -46,7 +46,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
   }
 
   return (
-    <View style={styles.view}>
+    <View style={[styles.view, containerStyle]}>
       <View style={styles.view}>
         <TextInput
           {...props}

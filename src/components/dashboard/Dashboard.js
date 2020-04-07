@@ -63,6 +63,7 @@ import Receive from './Receive'
 import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
+import ReceiveToAddress from './ReceiveToAddress'
 import ReceiveConfirmation from './ReceiveConfirmation'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
@@ -803,6 +804,7 @@ export default createStackNavigator({
     path: ':action/Reason',
     params: { action: ACTION_SEND },
   },
+  ReceiveToAddress,
   ReceiveSummary,
   ReceiveConfirmation: {
     screen: ReceiveConfirmation,

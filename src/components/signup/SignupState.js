@@ -208,7 +208,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const checkW3InviteCode = async () => {
     const _destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     const destinationPath = JSON.parse(_destinationPath)
-    return _get(destinationPath, 'params.inviteCode')
+    return get(destinationPath, 'params.inviteCode')
   }
 
   const onMount = async () => {

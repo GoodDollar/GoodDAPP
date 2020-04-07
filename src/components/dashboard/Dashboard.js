@@ -538,8 +538,6 @@ const Dashboard = props => {
     [showDialog, hideDialog, showErrorDialog, store, navigation]
   )
 
-  const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
-
   const onScroll = useCallback(
     ({ nativeEvent }) => {
       const minScrollRequired = 150

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 import { get } from 'lodash'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { CustomButton, Section, Wrapper } from '../../common'

@@ -250,6 +250,7 @@ was emailed to you
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
+                    enterkeyhint="next"
                     maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -396,6 +397,7 @@ was emailed to you
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
+                    enterkeyhint="next"
                     maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -542,6 +544,7 @@ was emailed to you
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
+                    enterkeyhint="next"
                     maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -689,6 +692,7 @@ was emailed to you
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
+                    enterkeyhint="next"
                     maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -835,6 +839,7 @@ was emailed to you
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
+                    enterkeyhint="next"
                     maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -981,6 +986,7 @@ was emailed to you
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
+                    enterkeyhint="next"
                     maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}

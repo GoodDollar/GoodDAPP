@@ -2,12 +2,11 @@
 import { useCallback, useEffect, useRef } from 'react'
 
 import Config from '../../../config/config'
-import { CLAIM_TASK_COMPLETED, fireEvent } from '../../../lib/analytics/analytics'
+import { fireEvent } from '../../../lib/analytics/analytics'
 
 import userStorage from '../../../lib/gundb/UserStorage'
-import { longUseOfClaims } from './events'
+import { CLAIM_TASK_COMPLETED, claimDaysThreshold, longUseOfClaims } from './events'
 
-const claimDaysThreshold = 14
 const claimDaysProperty = 'countClaim'
 const { userProperties } = userStorage
 

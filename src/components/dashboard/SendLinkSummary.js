@@ -125,6 +125,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             type: 'send',
             data: {
               to: address,
+              reason,
               amount,
             },
           }
@@ -169,7 +170,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         dismissText: 'OK',
       })
     }
-  }, [setLoading, address, amount, showDialog, showErrorDialog])
+  }, [setLoading, address, amount, reason, showDialog, showErrorDialog])
 
   const sendViaLink = useCallback(() => {
     let paymentLink = link

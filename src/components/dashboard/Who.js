@@ -43,7 +43,7 @@ const Who = (props: AmountProps) => {
     () =>
       screenProps &&
       screenProps.push('SendToAddress', {
-        nextRoutes: ['Amount', 'SendLinkSummary'],
+        nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
         params: { action: ACTION_SEND_TO_ADDRESS },
       }),
     [screenProps]

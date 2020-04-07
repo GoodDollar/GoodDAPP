@@ -921,7 +921,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="AF"
                       >
-                        Afghanistan
+                        Afghanistan (‫افغانستان‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -933,19 +933,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="AL"
                       >
-                        Albania
+                        Albania (Shqipëri)
                       </option>
                       <option
                         disabled={false}
                         value="DZ"
                       >
-                        Algeria
+                        Algeria (‫الجزائر‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="AS"
                       >
-                        American Samoa
+                        American Samoa (Amerika Sāmoa)
                       </option>
                       <option
                         disabled={false}
@@ -981,7 +981,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="AM"
                       >
-                        Armenia
+                        Armenia (Հայաստան)
                       </option>
                       <option
                         disabled={false}
@@ -1005,13 +1005,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="AT"
                       >
-                        Austria
+                        Austria (Österreich)
                       </option>
                       <option
                         disabled={false}
                         value="AZ"
                       >
-                        Azerbaijan
+                        Azerbaijan (Azərbaycan)
                       </option>
                       <option
                         disabled={false}
@@ -1023,13 +1023,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="BH"
                       >
-                        Bahrain
+                        Bahrain (‫البحرين‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="BD"
                       >
-                        Bangladesh
+                        Bangladesh (বাংলাদেশ)
                       </option>
                       <option
                         disabled={false}
@@ -1041,13 +1041,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="BY"
                       >
-                        Belarus
+                        Belarus (Беларусь)
                       </option>
                       <option
                         disabled={false}
                         value="BE"
                       >
-                        Belgium
+                        Belgium (België)
                       </option>
                       <option
                         disabled={false}
@@ -1059,7 +1059,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="BJ"
                       >
-                        Benin
+                        Benin (Bénin)
                       </option>
                       <option
                         disabled={false}
@@ -1071,19 +1071,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="BT"
                       >
-                        Bhutan
+                        Bhutan (འབྲུག)
                       </option>
                       <option
                         disabled={false}
                         value="BO"
                       >
-                        Bolivia, plurinational state of
-                      </option>
-                      <option
-                        disabled={false}
-                        value="BQ"
-                      >
-                        Bonaire, Sint Eustatius and Saba
+                        Bolivia
                       </option>
                       <option
                         disabled={false}
@@ -1101,7 +1095,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="BR"
                       >
-                        Brazil
+                        Brazil (Brasil)
                       </option>
                       <option
                         disabled={false}
@@ -1111,15 +1105,21 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                       </option>
                       <option
                         disabled={false}
+                        value="VG"
+                      >
+                        British Virgin Islands
+                      </option>
+                      <option
+                        disabled={false}
                         value="BN"
                       >
-                        Brunei Darussalam
+                        Brunei (Negara Brunei Darussalam)
                       </option>
                       <option
                         disabled={false}
                         value="BG"
                       >
-                        Bulgaria
+                        Bulgaria (България)
                       </option>
                       <option
                         disabled={false}
@@ -1129,27 +1129,21 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                       </option>
                       <option
                         disabled={false}
-                        value="MM"
-                      >
-                        Burma
-                      </option>
-                      <option
-                        disabled={false}
                         value="BI"
                       >
-                        Burundi
+                        Burundi (Uburundi)
                       </option>
                       <option
                         disabled={false}
                         value="KH"
                       >
-                        Cambodia
+                        Cambodia (កម្ពុជា)
                       </option>
                       <option
                         disabled={false}
                         value="CM"
                       >
-                        Cameroon
+                        Cameroon (Cameroun)
                       </option>
                       <option
                         disabled={false}
@@ -1161,7 +1155,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="CV"
                       >
-                        Cape Verde
+                        Cape Verde (Kabu Verdi)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BQ"
+                      >
+                        Caribbean Netherlands
                       </option>
                       <option
                         disabled={false}
@@ -1179,7 +1179,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="TD"
                       >
-                        Chad
+                        Chad (Tchad)
                       </option>
                       <option
                         disabled={false}
@@ -1191,7 +1191,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="CN"
                       >
-                        China
+                        China (中国)
                       </option>
                       <option
                         disabled={false}
@@ -1215,19 +1215,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="KM"
                       >
-                        Comoros
-                      </option>
-                      <option
-                        disabled={false}
-                        value="CG"
-                      >
-                        Congo
+                        Comoros (‫جزر القمر‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="CD"
                       >
-                        Congo, Democratic Republic of the
+                        Congo (DRC) (Kongo)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CG"
+                      >
+                        Congo (Republic) (Congo-Brazzaville)
                       </option>
                       <option
                         disabled={false}
@@ -1245,13 +1245,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="CI"
                       >
-                        Cote d'Ivoire
+                        Côte d’Ivoire
                       </option>
                       <option
                         disabled={false}
                         value="HR"
                       >
-                        Croatia
+                        Croatia (Hrvatska)
                       </option>
                       <option
                         disabled={false}
@@ -1269,19 +1269,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="CY"
                       >
-                        Cyprus
+                        Cyprus (Κύπρος)
                       </option>
                       <option
                         disabled={false}
                         value="CZ"
                       >
-                        Czech Republic
+                        Czech Republic (Česká republika)
                       </option>
                       <option
                         disabled={false}
                         value="DK"
                       >
-                        Denmark
+                        Denmark (Danmark)
                       </option>
                       <option
                         disabled={false}
@@ -1311,7 +1311,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="EG"
                       >
-                        Egypt
+                        Egypt (‫مصر‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -1323,7 +1323,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="GQ"
                       >
-                        Equatorial Guinea
+                        Equatorial Guinea (Guinea Ecuatorial)
                       </option>
                       <option
                         disabled={false}
@@ -1335,7 +1335,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="EE"
                       >
-                        Estonia
+                        Estonia (Eesti)
                       </option>
                       <option
                         disabled={false}
@@ -1347,49 +1347,49 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="FK"
                       >
-                        Falkland Islands (Malvinas)
+                        Falkland Islands (Islas Malvinas)
                       </option>
                       <option
                         disabled={false}
                         value="FO"
                       >
-                        Faroe Islands
+                        Faroe Islands (Føroyar)
                       </option>
                       <option
                         disabled={false}
                         value="FJ"
                       >
-                        Fiji
+                        Fiji (Matanitu Tugalala o Viti)
                       </option>
                       <option
                         disabled={false}
                         value="FI"
                       >
-                        Finland
+                        Finland (Suomi)
                       </option>
                       <option
                         disabled={false}
                         value="FR"
                       >
-                        France
+                        France (République française)
                       </option>
                       <option
                         disabled={false}
                         value="GF"
                       >
-                        French Guiana
+                        French Guiana (Guyane française)
                       </option>
                       <option
                         disabled={false}
                         value="PF"
                       >
-                        French Polynesia
+                        French Polynesia (Polynésie française)
                       </option>
                       <option
                         disabled={false}
                         value="GA"
                       >
-                        Gabon
+                        Gabon (République gabonaise)
                       </option>
                       <option
                         disabled={false}
@@ -1401,19 +1401,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="GE"
                       >
-                        Georgia
+                        Georgia (საქართველო)
                       </option>
                       <option
                         disabled={false}
                         value="DE"
                       >
-                        Germany
+                        Germany (Deutschland)
                       </option>
                       <option
                         disabled={false}
                         value="GH"
                       >
-                        Ghana
+                        Ghana (Gaana)
                       </option>
                       <option
                         disabled={false}
@@ -1425,13 +1425,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="GR"
                       >
-                        Greece
+                        Greece (Ελλάδα)
                       </option>
                       <option
                         disabled={false}
                         value="GL"
                       >
-                        Greenland
+                        Greenland (Kalaallit Nunaat)
                       </option>
                       <option
                         disabled={false}
@@ -1449,7 +1449,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="GU"
                       >
-                        Guam
+                        Guam (Guåhån)
                       </option>
                       <option
                         disabled={false}
@@ -1467,13 +1467,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="GN"
                       >
-                        Guinea
+                        Guinea (Guinée)
                       </option>
                       <option
                         disabled={false}
                         value="GW"
                       >
-                        Guinea-Bissau
+                        Guinea-Bissau (Guiné Bissau)
                       </option>
                       <option
                         disabled={false}
@@ -1485,13 +1485,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="HT"
                       >
-                        Haiti
-                      </option>
-                      <option
-                        disabled={false}
-                        value="VA"
-                      >
-                        Holy See (Vatican City State)
+                        Haiti (République d'Haïti)
                       </option>
                       <option
                         disabled={false}
@@ -1503,25 +1497,25 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="HK"
                       >
-                        Hong Kong
+                        Hong Kong (香港)
                       </option>
                       <option
                         disabled={false}
                         value="HU"
                       >
-                        Hungary
+                        Hungary (Magyarország)
                       </option>
                       <option
                         disabled={false}
                         value="IS"
                       >
-                        Iceland
+                        Iceland (Ísland)
                       </option>
                       <option
                         disabled={false}
                         value="IN"
                       >
-                        India
+                        India (भारत)
                       </option>
                       <option
                         disabled={false}
@@ -1533,13 +1527,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="IR"
                       >
-                        Iran, Islamic Republic of
+                        Iran (‫ایران‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="IQ"
                       >
-                        Iraq
+                        Iraq (‫العراق‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -1557,13 +1551,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="IL"
                       >
-                        Israel
+                        Israel (‫ישראל‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="IT"
                       >
-                        Italy
+                        Italy (Italia)
                       </option>
                       <option
                         disabled={false}
@@ -1575,7 +1569,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="JP"
                       >
-                        Japan
+                        Japan (日本)
                       </option>
                       <option
                         disabled={false}
@@ -1587,13 +1581,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="JO"
                       >
-                        Jordan
+                        Jordan (‫الأردن‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="KZ"
                       >
-                        Kazakhstan
+                        Kazakhstan (Казахстан)
                       </option>
                       <option
                         disabled={false}
@@ -1609,18 +1603,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                       </option>
                       <option
                         disabled={false}
-                        value="KP"
-                      >
-                        Korea, Democratic People's republic of
-                      </option>
-                      <option
-                        disabled={false}
-                        value="KR"
-                      >
-                        Korea, Republic of
-                      </option>
-                      <option
-                        disabled={false}
                         value="XK"
                       >
                         Kosovo
@@ -1629,31 +1611,31 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="KW"
                       >
-                        Kuwait
+                        Kuwait (‫الكويت‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="KG"
                       >
-                        Kyrgyzstan
+                        Kyrgyzstan (Кыргызстан)
                       </option>
                       <option
                         disabled={false}
                         value="LA"
                       >
-                        Lao People's Democratic Republic
+                        Laos (ລາວ)
                       </option>
                       <option
                         disabled={false}
                         value="LV"
                       >
-                        Latvia
+                        Latvia (Latvija)
                       </option>
                       <option
                         disabled={false}
                         value="LB"
                       >
-                        Lebanon
+                        Lebanon (‫لبنان‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -1671,7 +1653,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="LY"
                       >
-                        Libyan Arab Jamahiriya
+                        Libya (‫ليبيا‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -1683,37 +1665,37 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="LT"
                       >
-                        Lithuania
+                        Lithuania (Lietuva)
                       </option>
                       <option
                         disabled={false}
                         value="LU"
                       >
-                        Luxembourg
+                        Luxembourg (Lëtzebuerg)
                       </option>
                       <option
                         disabled={false}
                         value="MO"
                       >
-                        Macao
+                        Macau (澳門)
                       </option>
                       <option
                         disabled={false}
                         value="MK"
                       >
-                        Macedonia, The Former Yugoslav Republic Of
+                        Macedonia (FYROM) (Македонија)
                       </option>
                       <option
                         disabled={false}
                         value="MG"
                       >
-                        Madagascar
+                        Madagascar (Madagasikara)
                       </option>
                       <option
                         disabled={false}
                         value="MW"
                       >
-                        Malawi
+                        Malawi (Malaŵi)
                       </option>
                       <option
                         disabled={false}
@@ -1755,13 +1737,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="MR"
                       >
-                        Mauritania
+                        Mauritania (‫موريتانيا‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="MU"
                       >
-                        Mauritius
+                        Mauritius (Moris)
                       </option>
                       <option
                         disabled={false}
@@ -1773,19 +1755,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="MX"
                       >
-                        Mexico
+                        Mexico (México)
                       </option>
                       <option
                         disabled={false}
                         value="FM"
                       >
-                        Micronesia, Federated States of
+                        Micronesia
                       </option>
                       <option
                         disabled={false}
                         value="MD"
                       >
-                        Moldova
+                        Moldova (Republica Moldova)
                       </option>
                       <option
                         disabled={false}
@@ -1797,13 +1779,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="MN"
                       >
-                        Mongolia
+                        Mongolia (Монгол)
                       </option>
                       <option
                         disabled={false}
                         value="ME"
                       >
-                        Montenegro
+                        Montenegro (Crna Gora)
                       </option>
                       <option
                         disabled={false}
@@ -1815,43 +1797,49 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="MA"
                       >
-                        Morocco
+                        Morocco (‫المغرب‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="MZ"
                       >
-                        Mozambique
+                        Mozambique (Moçambique)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MM"
+                      >
+                        Myanmar (Burma) (မြန်မာ)
                       </option>
                       <option
                         disabled={false}
                         value="NA"
                       >
-                        Namibia
+                        Namibia (Namibië)
                       </option>
                       <option
                         disabled={false}
                         value="NR"
                       >
-                        Nauru
+                        Nauru (Repubrikin Naoero)
                       </option>
                       <option
                         disabled={false}
                         value="NP"
                       >
-                        Nepal
+                        Nepal (नेपाल)
                       </option>
                       <option
                         disabled={false}
                         value="NL"
                       >
-                        Netherlands
+                        Netherlands (Nederland)
                       </option>
                       <option
                         disabled={false}
                         value="NC"
                       >
-                        New Caledonia
+                        New Caledonia (Nouvelle-Calédonie)
                       </option>
                       <option
                         disabled={false}
@@ -1869,7 +1857,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="NE"
                       >
-                        Niger
+                        Niger (Nijar)
                       </option>
                       <option
                         disabled={false}
@@ -1881,13 +1869,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="NU"
                       >
-                        Niue
+                        Niue (Niuē)
                       </option>
                       <option
                         disabled={false}
                         value="NF"
                       >
                         Norfolk Island
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KP"
+                      >
+                        North Korea (조선 민주주의 인민 공화국)
                       </option>
                       <option
                         disabled={false}
@@ -1899,37 +1893,37 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="NO"
                       >
-                        Norway
+                        Norway (Norge)
                       </option>
                       <option
                         disabled={false}
                         value="OM"
                       >
-                        Oman
+                        Oman (‫عُمان‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="PK"
                       >
-                        Pakistan
+                        Pakistan (‫پاکستان‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="PW"
                       >
-                        Palau
+                        Palau (Beluu er a Belau)
                       </option>
                       <option
                         disabled={false}
                         value="PS"
                       >
-                        Palestinian Territory, Occupied
+                        Palestine (‫فلسطين‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="PA"
                       >
-                        Panama
+                        Panama (Panamá)
                       </option>
                       <option
                         disabled={false}
@@ -1941,31 +1935,31 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="PY"
                       >
-                        Paraguay
+                        Paraguay (Tetã Paraguái)
                       </option>
                       <option
                         disabled={false}
                         value="PE"
                       >
-                        Peru
+                        Peru (Perú)
                       </option>
                       <option
                         disabled={false}
                         value="PH"
                       >
-                        Philippines
+                        Philippines (Republika ng Pilipinas)
                       </option>
                       <option
                         disabled={false}
                         value="PL"
                       >
-                        Poland
+                        Poland (Polska)
                       </option>
                       <option
                         disabled={false}
                         value="PT"
                       >
-                        Portugal
+                        Portugal (República Portuguesa)
                       </option>
                       <option
                         disabled={false}
@@ -1977,25 +1971,25 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="QA"
                       >
-                        Qatar
+                        Qatar (‫قطر‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="RE"
                       >
-                        Reunion
+                        Réunion (La Réunion)
                       </option>
                       <option
                         disabled={false}
                         value="RO"
                       >
-                        Romania
+                        Romania (România)
                       </option>
                       <option
                         disabled={false}
                         value="RU"
                       >
-                        Russian Federation
+                        Russia (Россия)
                       </option>
                       <option
                         disabled={false}
@@ -2007,13 +2001,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="BL"
                       >
-                        Saint Barthélemy
+                        Saint Barthélemy (Saint-Barthélemy)
                       </option>
                       <option
                         disabled={false}
                         value="SH"
                       >
-                        Saint Helena, Ascension And Tristan Da Cunha
+                        Saint Helena
                       </option>
                       <option
                         disabled={false}
@@ -2031,7 +2025,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="MF"
                       >
-                        Saint Martin (French Part)
+                        Saint Martin (Saint-Martin)
                       </option>
                       <option
                         disabled={false}
@@ -2049,7 +2043,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="WS"
                       >
-                        Samoa
+                        Samoa (Sāmoa)
                       </option>
                       <option
                         disabled={false}
@@ -2061,31 +2055,31 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="ST"
                       >
-                        Sao Tome and Principe
+                        São Tomé and Príncipe
                       </option>
                       <option
                         disabled={false}
                         value="SA"
                       >
-                        Saudi Arabia
+                        Saudi Arabia (‫المملكة العربية السعودية‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="SN"
                       >
-                        Senegal
+                        Senegal (Sénégal)
                       </option>
                       <option
                         disabled={false}
                         value="RS"
                       >
-                        Serbia
+                        Serbia (Србија)
                       </option>
                       <option
                         disabled={false}
                         value="SC"
                       >
-                        Seychelles
+                        Seychelles (Repiblik Sesel)
                       </option>
                       <option
                         disabled={false}
@@ -2097,7 +2091,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="SG"
                       >
-                        Singapore
+                        Singapore (Singapura) (新加坡共和国)
                       </option>
                       <option
                         disabled={false}
@@ -2109,13 +2103,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="SK"
                       >
-                        Slovakia
+                        Slovakia (Slovensko)
                       </option>
                       <option
                         disabled={false}
                         value="SI"
                       >
-                        Slovenia
+                        Slovenia (Slovenija)
                       </option>
                       <option
                         disabled={false}
@@ -2127,7 +2121,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="SO"
                       >
-                        Somalia
+                        Somalia (Soomaaliya)
                       </option>
                       <option
                         disabled={false}
@@ -2137,27 +2131,33 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                       </option>
                       <option
                         disabled={false}
+                        value="KR"
+                      >
+                        South Korea (대한민국)
+                      </option>
+                      <option
+                        disabled={false}
                         value="SS"
                       >
-                        South Sudan
+                        South Sudan (‫جنوب السودان‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="ES"
                       >
-                        Spain
+                        Spain (España)
                       </option>
                       <option
                         disabled={false}
                         value="LK"
                       >
-                        Sri Lanka
+                        Sri Lanka (ශ්‍රී ලංකාව)
                       </option>
                       <option
                         disabled={false}
                         value="SD"
                       >
-                        Sudan
+                        Sudan (‫السودان‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -2175,61 +2175,61 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="SZ"
                       >
-                        Swaziland
+                        Swaziland (Umbuso weSwatini)
                       </option>
                       <option
                         disabled={false}
                         value="SE"
                       >
-                        Sweden
+                        Sweden (Sverige)
                       </option>
                       <option
                         disabled={false}
                         value="CH"
                       >
-                        Switzerland
+                        Switzerland (Schweiz)
                       </option>
                       <option
                         disabled={false}
                         value="SY"
                       >
-                        Syrian Arab Republic
+                        Syria (‫سوريا‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="TW"
                       >
-                        Taiwan, Province of China
+                        Taiwan (台灣)
                       </option>
                       <option
                         disabled={false}
                         value="TJ"
                       >
-                        Tajikistan
+                        Tajikistan (Ҷумҳурии Тоҷикистон)
                       </option>
                       <option
                         disabled={false}
                         value="TZ"
                       >
-                        Tanzania, United Republic Of
+                        Tanzania
                       </option>
                       <option
                         disabled={false}
                         value="TH"
                       >
-                        Thailand
+                        Thailand (ไทย)
                       </option>
                       <option
                         disabled={false}
                         value="TL"
                       >
-                        Timor-Leste
+                        Timor-Leste (Timór-Leste)
                       </option>
                       <option
                         disabled={false}
                         value="TG"
                       >
-                        Togo
+                        Togo (République togolaise)
                       </option>
                       <option
                         disabled={false}
@@ -2259,19 +2259,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="TN"
                       >
-                        Tunisia
+                        Tunisia (‫تونس‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="TR"
                       >
-                        Turkey
+                        Turkey (Türkiye)
                       </option>
                       <option
                         disabled={false}
                         value="TM"
                       >
-                        Turkmenistan
+                        Turkmenistan (Türkmenistan)
                       </option>
                       <option
                         disabled={false}
@@ -2287,6 +2287,12 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                       </option>
                       <option
                         disabled={false}
+                        value="VI"
+                      >
+                        U.S. Virgin Islands
+                      </option>
+                      <option
+                        disabled={false}
                         value="UG"
                       >
                         Uganda
@@ -2295,13 +2301,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="UA"
                       >
-                        Ukraine
+                        Ukraine (Україна)
                       </option>
                       <option
                         disabled={false}
                         value="AE"
                       >
-                        United Arab Emirates
+                        United Arab Emirates (‫الإمارات العربية المتحدة‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -2325,13 +2331,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="UZ"
                       >
-                        Uzbekistan
+                        Uzbekistan (Oʻzbekiston)
                       </option>
                       <option
                         disabled={false}
                         value="VU"
                       >
                         Vanuatu
+                      </option>
+                      <option
+                        disabled={false}
+                        value="VA"
+                      >
+                        Vatican City (Città del Vaticano)
                       </option>
                       <option
                         disabled={false}
@@ -2343,37 +2355,25 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                         disabled={false}
                         value="VN"
                       >
-                        Vietnam
-                      </option>
-                      <option
-                        disabled={false}
-                        value="VG"
-                      >
-                        Virgin Islands, British
-                      </option>
-                      <option
-                        disabled={false}
-                        value="VI"
-                      >
-                        Virgin Islands, U.S.
+                        Vietnam (Việt Nam)
                       </option>
                       <option
                         disabled={false}
                         value="WF"
                       >
-                        Wallis and Futuna
+                        Wallis and Futuna (Wallis-et-Futuna)
                       </option>
                       <option
                         disabled={false}
                         value="EH"
                       >
-                        Western Sahara
+                        Western Sahara (‫الصحراء الغربية‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="YE"
                       >
-                        Yemen
+                        Yemen (‫اليمن‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -2394,15 +2394,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   </div>
                   <input
                     autoComplete="tel"
-                    className="react-phone-number-input__input react-phone-number-input__phone react-phone-number-input__input--style"
+                    className="react-phone-number-input__input react-phone-number-input__phone"
                     disabled={false}
                     id="signup_phone"
                     onBlur={[Function]}
                     onChange={[Function]}
-                    onCut={[Function]}
                     onFocus={[Function]}
                     onKeyDown={[Function]}
-                    onPaste={[Function]}
                     placeholder="Enter phone number"
                     type="tel"
                     value="2222222222222"
@@ -3001,7 +2999,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="AF"
                       >
-                        Afghanistan
+                        Afghanistan (‫افغانستان‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -3013,19 +3011,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="AL"
                       >
-                        Albania
+                        Albania (Shqipëri)
                       </option>
                       <option
                         disabled={false}
                         value="DZ"
                       >
-                        Algeria
+                        Algeria (‫الجزائر‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="AS"
                       >
-                        American Samoa
+                        American Samoa (Amerika Sāmoa)
                       </option>
                       <option
                         disabled={false}
@@ -3061,7 +3059,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="AM"
                       >
-                        Armenia
+                        Armenia (Հայաստան)
                       </option>
                       <option
                         disabled={false}
@@ -3085,13 +3083,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="AT"
                       >
-                        Austria
+                        Austria (Österreich)
                       </option>
                       <option
                         disabled={false}
                         value="AZ"
                       >
-                        Azerbaijan
+                        Azerbaijan (Azərbaycan)
                       </option>
                       <option
                         disabled={false}
@@ -3103,13 +3101,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="BH"
                       >
-                        Bahrain
+                        Bahrain (‫البحرين‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="BD"
                       >
-                        Bangladesh
+                        Bangladesh (বাংলাদেশ)
                       </option>
                       <option
                         disabled={false}
@@ -3121,13 +3119,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="BY"
                       >
-                        Belarus
+                        Belarus (Беларусь)
                       </option>
                       <option
                         disabled={false}
                         value="BE"
                       >
-                        Belgium
+                        Belgium (België)
                       </option>
                       <option
                         disabled={false}
@@ -3139,7 +3137,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="BJ"
                       >
-                        Benin
+                        Benin (Bénin)
                       </option>
                       <option
                         disabled={false}
@@ -3151,19 +3149,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="BT"
                       >
-                        Bhutan
+                        Bhutan (འབྲུག)
                       </option>
                       <option
                         disabled={false}
                         value="BO"
                       >
-                        Bolivia, plurinational state of
-                      </option>
-                      <option
-                        disabled={false}
-                        value="BQ"
-                      >
-                        Bonaire, Sint Eustatius and Saba
+                        Bolivia
                       </option>
                       <option
                         disabled={false}
@@ -3181,7 +3173,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="BR"
                       >
-                        Brazil
+                        Brazil (Brasil)
                       </option>
                       <option
                         disabled={false}
@@ -3191,15 +3183,21 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                       </option>
                       <option
                         disabled={false}
+                        value="VG"
+                      >
+                        British Virgin Islands
+                      </option>
+                      <option
+                        disabled={false}
                         value="BN"
                       >
-                        Brunei Darussalam
+                        Brunei (Negara Brunei Darussalam)
                       </option>
                       <option
                         disabled={false}
                         value="BG"
                       >
-                        Bulgaria
+                        Bulgaria (България)
                       </option>
                       <option
                         disabled={false}
@@ -3209,27 +3207,21 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                       </option>
                       <option
                         disabled={false}
-                        value="MM"
-                      >
-                        Burma
-                      </option>
-                      <option
-                        disabled={false}
                         value="BI"
                       >
-                        Burundi
+                        Burundi (Uburundi)
                       </option>
                       <option
                         disabled={false}
                         value="KH"
                       >
-                        Cambodia
+                        Cambodia (កម្ពុជា)
                       </option>
                       <option
                         disabled={false}
                         value="CM"
                       >
-                        Cameroon
+                        Cameroon (Cameroun)
                       </option>
                       <option
                         disabled={false}
@@ -3241,7 +3233,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="CV"
                       >
-                        Cape Verde
+                        Cape Verde (Kabu Verdi)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BQ"
+                      >
+                        Caribbean Netherlands
                       </option>
                       <option
                         disabled={false}
@@ -3259,7 +3257,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="TD"
                       >
-                        Chad
+                        Chad (Tchad)
                       </option>
                       <option
                         disabled={false}
@@ -3271,7 +3269,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="CN"
                       >
-                        China
+                        China (中国)
                       </option>
                       <option
                         disabled={false}
@@ -3295,19 +3293,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="KM"
                       >
-                        Comoros
-                      </option>
-                      <option
-                        disabled={false}
-                        value="CG"
-                      >
-                        Congo
+                        Comoros (‫جزر القمر‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="CD"
                       >
-                        Congo, Democratic Republic of the
+                        Congo (DRC) (Kongo)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CG"
+                      >
+                        Congo (Republic) (Congo-Brazzaville)
                       </option>
                       <option
                         disabled={false}
@@ -3325,13 +3323,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="CI"
                       >
-                        Cote d'Ivoire
+                        Côte d’Ivoire
                       </option>
                       <option
                         disabled={false}
                         value="HR"
                       >
-                        Croatia
+                        Croatia (Hrvatska)
                       </option>
                       <option
                         disabled={false}
@@ -3349,19 +3347,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="CY"
                       >
-                        Cyprus
+                        Cyprus (Κύπρος)
                       </option>
                       <option
                         disabled={false}
                         value="CZ"
                       >
-                        Czech Republic
+                        Czech Republic (Česká republika)
                       </option>
                       <option
                         disabled={false}
                         value="DK"
                       >
-                        Denmark
+                        Denmark (Danmark)
                       </option>
                       <option
                         disabled={false}
@@ -3391,7 +3389,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="EG"
                       >
-                        Egypt
+                        Egypt (‫مصر‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -3403,7 +3401,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="GQ"
                       >
-                        Equatorial Guinea
+                        Equatorial Guinea (Guinea Ecuatorial)
                       </option>
                       <option
                         disabled={false}
@@ -3415,7 +3413,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="EE"
                       >
-                        Estonia
+                        Estonia (Eesti)
                       </option>
                       <option
                         disabled={false}
@@ -3427,49 +3425,49 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="FK"
                       >
-                        Falkland Islands (Malvinas)
+                        Falkland Islands (Islas Malvinas)
                       </option>
                       <option
                         disabled={false}
                         value="FO"
                       >
-                        Faroe Islands
+                        Faroe Islands (Føroyar)
                       </option>
                       <option
                         disabled={false}
                         value="FJ"
                       >
-                        Fiji
+                        Fiji (Matanitu Tugalala o Viti)
                       </option>
                       <option
                         disabled={false}
                         value="FI"
                       >
-                        Finland
+                        Finland (Suomi)
                       </option>
                       <option
                         disabled={false}
                         value="FR"
                       >
-                        France
+                        France (République française)
                       </option>
                       <option
                         disabled={false}
                         value="GF"
                       >
-                        French Guiana
+                        French Guiana (Guyane française)
                       </option>
                       <option
                         disabled={false}
                         value="PF"
                       >
-                        French Polynesia
+                        French Polynesia (Polynésie française)
                       </option>
                       <option
                         disabled={false}
                         value="GA"
                       >
-                        Gabon
+                        Gabon (République gabonaise)
                       </option>
                       <option
                         disabled={false}
@@ -3481,19 +3479,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="GE"
                       >
-                        Georgia
+                        Georgia (საქართველო)
                       </option>
                       <option
                         disabled={false}
                         value="DE"
                       >
-                        Germany
+                        Germany (Deutschland)
                       </option>
                       <option
                         disabled={false}
                         value="GH"
                       >
-                        Ghana
+                        Ghana (Gaana)
                       </option>
                       <option
                         disabled={false}
@@ -3505,13 +3503,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="GR"
                       >
-                        Greece
+                        Greece (Ελλάδα)
                       </option>
                       <option
                         disabled={false}
                         value="GL"
                       >
-                        Greenland
+                        Greenland (Kalaallit Nunaat)
                       </option>
                       <option
                         disabled={false}
@@ -3529,7 +3527,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="GU"
                       >
-                        Guam
+                        Guam (Guåhån)
                       </option>
                       <option
                         disabled={false}
@@ -3547,13 +3545,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="GN"
                       >
-                        Guinea
+                        Guinea (Guinée)
                       </option>
                       <option
                         disabled={false}
                         value="GW"
                       >
-                        Guinea-Bissau
+                        Guinea-Bissau (Guiné Bissau)
                       </option>
                       <option
                         disabled={false}
@@ -3565,13 +3563,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="HT"
                       >
-                        Haiti
-                      </option>
-                      <option
-                        disabled={false}
-                        value="VA"
-                      >
-                        Holy See (Vatican City State)
+                        Haiti (République d'Haïti)
                       </option>
                       <option
                         disabled={false}
@@ -3583,25 +3575,25 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="HK"
                       >
-                        Hong Kong
+                        Hong Kong (香港)
                       </option>
                       <option
                         disabled={false}
                         value="HU"
                       >
-                        Hungary
+                        Hungary (Magyarország)
                       </option>
                       <option
                         disabled={false}
                         value="IS"
                       >
-                        Iceland
+                        Iceland (Ísland)
                       </option>
                       <option
                         disabled={false}
                         value="IN"
                       >
-                        India
+                        India (भारत)
                       </option>
                       <option
                         disabled={false}
@@ -3613,13 +3605,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="IR"
                       >
-                        Iran, Islamic Republic of
+                        Iran (‫ایران‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="IQ"
                       >
-                        Iraq
+                        Iraq (‫العراق‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -3637,13 +3629,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="IL"
                       >
-                        Israel
+                        Israel (‫ישראל‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="IT"
                       >
-                        Italy
+                        Italy (Italia)
                       </option>
                       <option
                         disabled={false}
@@ -3655,7 +3647,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="JP"
                       >
-                        Japan
+                        Japan (日本)
                       </option>
                       <option
                         disabled={false}
@@ -3667,13 +3659,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="JO"
                       >
-                        Jordan
+                        Jordan (‫الأردن‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="KZ"
                       >
-                        Kazakhstan
+                        Kazakhstan (Казахстан)
                       </option>
                       <option
                         disabled={false}
@@ -3689,18 +3681,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                       </option>
                       <option
                         disabled={false}
-                        value="KP"
-                      >
-                        Korea, Democratic People's republic of
-                      </option>
-                      <option
-                        disabled={false}
-                        value="KR"
-                      >
-                        Korea, Republic of
-                      </option>
-                      <option
-                        disabled={false}
                         value="XK"
                       >
                         Kosovo
@@ -3709,31 +3689,31 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="KW"
                       >
-                        Kuwait
+                        Kuwait (‫الكويت‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="KG"
                       >
-                        Kyrgyzstan
+                        Kyrgyzstan (Кыргызстан)
                       </option>
                       <option
                         disabled={false}
                         value="LA"
                       >
-                        Lao People's Democratic Republic
+                        Laos (ລາວ)
                       </option>
                       <option
                         disabled={false}
                         value="LV"
                       >
-                        Latvia
+                        Latvia (Latvija)
                       </option>
                       <option
                         disabled={false}
                         value="LB"
                       >
-                        Lebanon
+                        Lebanon (‫لبنان‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -3751,7 +3731,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="LY"
                       >
-                        Libyan Arab Jamahiriya
+                        Libya (‫ليبيا‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -3763,37 +3743,37 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="LT"
                       >
-                        Lithuania
+                        Lithuania (Lietuva)
                       </option>
                       <option
                         disabled={false}
                         value="LU"
                       >
-                        Luxembourg
+                        Luxembourg (Lëtzebuerg)
                       </option>
                       <option
                         disabled={false}
                         value="MO"
                       >
-                        Macao
+                        Macau (澳門)
                       </option>
                       <option
                         disabled={false}
                         value="MK"
                       >
-                        Macedonia, The Former Yugoslav Republic Of
+                        Macedonia (FYROM) (Македонија)
                       </option>
                       <option
                         disabled={false}
                         value="MG"
                       >
-                        Madagascar
+                        Madagascar (Madagasikara)
                       </option>
                       <option
                         disabled={false}
                         value="MW"
                       >
-                        Malawi
+                        Malawi (Malaŵi)
                       </option>
                       <option
                         disabled={false}
@@ -3835,13 +3815,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="MR"
                       >
-                        Mauritania
+                        Mauritania (‫موريتانيا‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="MU"
                       >
-                        Mauritius
+                        Mauritius (Moris)
                       </option>
                       <option
                         disabled={false}
@@ -3853,19 +3833,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="MX"
                       >
-                        Mexico
+                        Mexico (México)
                       </option>
                       <option
                         disabled={false}
                         value="FM"
                       >
-                        Micronesia, Federated States of
+                        Micronesia
                       </option>
                       <option
                         disabled={false}
                         value="MD"
                       >
-                        Moldova
+                        Moldova (Republica Moldova)
                       </option>
                       <option
                         disabled={false}
@@ -3877,13 +3857,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="MN"
                       >
-                        Mongolia
+                        Mongolia (Монгол)
                       </option>
                       <option
                         disabled={false}
                         value="ME"
                       >
-                        Montenegro
+                        Montenegro (Crna Gora)
                       </option>
                       <option
                         disabled={false}
@@ -3895,43 +3875,49 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="MA"
                       >
-                        Morocco
+                        Morocco (‫المغرب‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="MZ"
                       >
-                        Mozambique
+                        Mozambique (Moçambique)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MM"
+                      >
+                        Myanmar (Burma) (မြန်မာ)
                       </option>
                       <option
                         disabled={false}
                         value="NA"
                       >
-                        Namibia
+                        Namibia (Namibië)
                       </option>
                       <option
                         disabled={false}
                         value="NR"
                       >
-                        Nauru
+                        Nauru (Repubrikin Naoero)
                       </option>
                       <option
                         disabled={false}
                         value="NP"
                       >
-                        Nepal
+                        Nepal (नेपाल)
                       </option>
                       <option
                         disabled={false}
                         value="NL"
                       >
-                        Netherlands
+                        Netherlands (Nederland)
                       </option>
                       <option
                         disabled={false}
                         value="NC"
                       >
-                        New Caledonia
+                        New Caledonia (Nouvelle-Calédonie)
                       </option>
                       <option
                         disabled={false}
@@ -3949,7 +3935,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="NE"
                       >
-                        Niger
+                        Niger (Nijar)
                       </option>
                       <option
                         disabled={false}
@@ -3961,13 +3947,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="NU"
                       >
-                        Niue
+                        Niue (Niuē)
                       </option>
                       <option
                         disabled={false}
                         value="NF"
                       >
                         Norfolk Island
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KP"
+                      >
+                        North Korea (조선 민주주의 인민 공화국)
                       </option>
                       <option
                         disabled={false}
@@ -3979,37 +3971,37 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="NO"
                       >
-                        Norway
+                        Norway (Norge)
                       </option>
                       <option
                         disabled={false}
                         value="OM"
                       >
-                        Oman
+                        Oman (‫عُمان‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="PK"
                       >
-                        Pakistan
+                        Pakistan (‫پاکستان‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="PW"
                       >
-                        Palau
+                        Palau (Beluu er a Belau)
                       </option>
                       <option
                         disabled={false}
                         value="PS"
                       >
-                        Palestinian Territory, Occupied
+                        Palestine (‫فلسطين‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="PA"
                       >
-                        Panama
+                        Panama (Panamá)
                       </option>
                       <option
                         disabled={false}
@@ -4021,31 +4013,31 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="PY"
                       >
-                        Paraguay
+                        Paraguay (Tetã Paraguái)
                       </option>
                       <option
                         disabled={false}
                         value="PE"
                       >
-                        Peru
+                        Peru (Perú)
                       </option>
                       <option
                         disabled={false}
                         value="PH"
                       >
-                        Philippines
+                        Philippines (Republika ng Pilipinas)
                       </option>
                       <option
                         disabled={false}
                         value="PL"
                       >
-                        Poland
+                        Poland (Polska)
                       </option>
                       <option
                         disabled={false}
                         value="PT"
                       >
-                        Portugal
+                        Portugal (República Portuguesa)
                       </option>
                       <option
                         disabled={false}
@@ -4057,25 +4049,25 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="QA"
                       >
-                        Qatar
+                        Qatar (‫قطر‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="RE"
                       >
-                        Reunion
+                        Réunion (La Réunion)
                       </option>
                       <option
                         disabled={false}
                         value="RO"
                       >
-                        Romania
+                        Romania (România)
                       </option>
                       <option
                         disabled={false}
                         value="RU"
                       >
-                        Russian Federation
+                        Russia (Россия)
                       </option>
                       <option
                         disabled={false}
@@ -4087,13 +4079,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="BL"
                       >
-                        Saint Barthélemy
+                        Saint Barthélemy (Saint-Barthélemy)
                       </option>
                       <option
                         disabled={false}
                         value="SH"
                       >
-                        Saint Helena, Ascension And Tristan Da Cunha
+                        Saint Helena
                       </option>
                       <option
                         disabled={false}
@@ -4111,7 +4103,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="MF"
                       >
-                        Saint Martin (French Part)
+                        Saint Martin (Saint-Martin)
                       </option>
                       <option
                         disabled={false}
@@ -4129,7 +4121,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="WS"
                       >
-                        Samoa
+                        Samoa (Sāmoa)
                       </option>
                       <option
                         disabled={false}
@@ -4141,31 +4133,31 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="ST"
                       >
-                        Sao Tome and Principe
+                        São Tomé and Príncipe
                       </option>
                       <option
                         disabled={false}
                         value="SA"
                       >
-                        Saudi Arabia
+                        Saudi Arabia (‫المملكة العربية السعودية‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="SN"
                       >
-                        Senegal
+                        Senegal (Sénégal)
                       </option>
                       <option
                         disabled={false}
                         value="RS"
                       >
-                        Serbia
+                        Serbia (Србија)
                       </option>
                       <option
                         disabled={false}
                         value="SC"
                       >
-                        Seychelles
+                        Seychelles (Repiblik Sesel)
                       </option>
                       <option
                         disabled={false}
@@ -4177,7 +4169,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="SG"
                       >
-                        Singapore
+                        Singapore (Singapura) (新加坡共和国)
                       </option>
                       <option
                         disabled={false}
@@ -4189,13 +4181,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="SK"
                       >
-                        Slovakia
+                        Slovakia (Slovensko)
                       </option>
                       <option
                         disabled={false}
                         value="SI"
                       >
-                        Slovenia
+                        Slovenia (Slovenija)
                       </option>
                       <option
                         disabled={false}
@@ -4207,7 +4199,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="SO"
                       >
-                        Somalia
+                        Somalia (Soomaaliya)
                       </option>
                       <option
                         disabled={false}
@@ -4217,27 +4209,33 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                       </option>
                       <option
                         disabled={false}
+                        value="KR"
+                      >
+                        South Korea (대한민국)
+                      </option>
+                      <option
+                        disabled={false}
                         value="SS"
                       >
-                        South Sudan
+                        South Sudan (‫جنوب السودان‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="ES"
                       >
-                        Spain
+                        Spain (España)
                       </option>
                       <option
                         disabled={false}
                         value="LK"
                       >
-                        Sri Lanka
+                        Sri Lanka (ශ්‍රී ලංකාව)
                       </option>
                       <option
                         disabled={false}
                         value="SD"
                       >
-                        Sudan
+                        Sudan (‫السودان‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -4255,61 +4253,61 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="SZ"
                       >
-                        Swaziland
+                        Swaziland (Umbuso weSwatini)
                       </option>
                       <option
                         disabled={false}
                         value="SE"
                       >
-                        Sweden
+                        Sweden (Sverige)
                       </option>
                       <option
                         disabled={false}
                         value="CH"
                       >
-                        Switzerland
+                        Switzerland (Schweiz)
                       </option>
                       <option
                         disabled={false}
                         value="SY"
                       >
-                        Syrian Arab Republic
+                        Syria (‫سوريا‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="TW"
                       >
-                        Taiwan, Province of China
+                        Taiwan (台灣)
                       </option>
                       <option
                         disabled={false}
                         value="TJ"
                       >
-                        Tajikistan
+                        Tajikistan (Ҷумҳурии Тоҷикистон)
                       </option>
                       <option
                         disabled={false}
                         value="TZ"
                       >
-                        Tanzania, United Republic Of
+                        Tanzania
                       </option>
                       <option
                         disabled={false}
                         value="TH"
                       >
-                        Thailand
+                        Thailand (ไทย)
                       </option>
                       <option
                         disabled={false}
                         value="TL"
                       >
-                        Timor-Leste
+                        Timor-Leste (Timór-Leste)
                       </option>
                       <option
                         disabled={false}
                         value="TG"
                       >
-                        Togo
+                        Togo (République togolaise)
                       </option>
                       <option
                         disabled={false}
@@ -4339,19 +4337,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="TN"
                       >
-                        Tunisia
+                        Tunisia (‫تونس‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="TR"
                       >
-                        Turkey
+                        Turkey (Türkiye)
                       </option>
                       <option
                         disabled={false}
                         value="TM"
                       >
-                        Turkmenistan
+                        Turkmenistan (Türkmenistan)
                       </option>
                       <option
                         disabled={false}
@@ -4367,6 +4365,12 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                       </option>
                       <option
                         disabled={false}
+                        value="VI"
+                      >
+                        U.S. Virgin Islands
+                      </option>
+                      <option
+                        disabled={false}
                         value="UG"
                       >
                         Uganda
@@ -4375,13 +4379,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="UA"
                       >
-                        Ukraine
+                        Ukraine (Україна)
                       </option>
                       <option
                         disabled={false}
                         value="AE"
                       >
-                        United Arab Emirates
+                        United Arab Emirates (‫الإمارات العربية المتحدة‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -4405,13 +4409,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="UZ"
                       >
-                        Uzbekistan
+                        Uzbekistan (Oʻzbekiston)
                       </option>
                       <option
                         disabled={false}
                         value="VU"
                       >
                         Vanuatu
+                      </option>
+                      <option
+                        disabled={false}
+                        value="VA"
+                      >
+                        Vatican City (Città del Vaticano)
                       </option>
                       <option
                         disabled={false}
@@ -4423,37 +4433,25 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                         disabled={false}
                         value="VN"
                       >
-                        Vietnam
-                      </option>
-                      <option
-                        disabled={false}
-                        value="VG"
-                      >
-                        Virgin Islands, British
-                      </option>
-                      <option
-                        disabled={false}
-                        value="VI"
-                      >
-                        Virgin Islands, U.S.
+                        Vietnam (Việt Nam)
                       </option>
                       <option
                         disabled={false}
                         value="WF"
                       >
-                        Wallis and Futuna
+                        Wallis and Futuna (Wallis-et-Futuna)
                       </option>
                       <option
                         disabled={false}
                         value="EH"
                       >
-                        Western Sahara
+                        Western Sahara (‫الصحراء الغربية‬‎)
                       </option>
                       <option
                         disabled={false}
                         value="YE"
                       >
-                        Yemen
+                        Yemen (‫اليمن‬‎)
                       </option>
                       <option
                         disabled={false}
@@ -4474,15 +4472,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   </div>
                   <input
                     autoComplete="tel"
-                    className="react-phone-number-input__input react-phone-number-input__phone react-phone-number-input__input--style react-phone-number-input__input--invalid react-phone-number-input__input--style--invalid"
+                    className="react-phone-number-input__input react-phone-number-input__phone react-phone-number-input__input--invalid"
                     disabled={false}
                     id="signup_phone"
                     onBlur={[Function]}
                     onChange={[Function]}
-                    onCut={[Function]}
                     onFocus={[Function]}
                     onKeyDown={[Function]}
-                    onPaste={[Function]}
                     placeholder="Enter phone number"
                     type="tel"
                     value="2222222222222"

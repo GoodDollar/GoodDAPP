@@ -2,14 +2,15 @@
 import React, { useCallback, useEffect } from 'react'
 import { isAddress } from 'web3-utils'
 
-import Clipboard from '../../lib/utils/Clipboard'
 import InputWithAdornment from '../common/form/InputWithAdornment'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
+import useClipboardPaste from '../../lib/hooks/useClipboardPaste'
 
 export type TypeProps = {
   screenProps: any,
@@ -41,12 +42,7 @@ const SendToAddress = (props: TypeProps) => {
   }, [state.value])
 
   const canContinue = useCallback(() => state.isValid, [state])
-
-  const pasteValueFromClipboard = useCallback(async () => {
-    const valueFromClipboard = await Clipboard.getString()
-
-    setValue(valueFromClipboard)
-  }, [setValue])
+  const pasteValueFromClipboard = useClipboardPaste(setValue)
 
   return (
     <Wrapper>

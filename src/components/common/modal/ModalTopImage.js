@@ -21,11 +21,11 @@ const mainPhotoStyles = {
     width: '100%',
   },
   ios: {
-    height: 175,
+    height: getDesignRelativeHeight(175, true),
     width: '100%',
   },
   android: {
-    height: 175,
+    height: getDesignRelativeHeight(175, true),
     width: '100%',
   },
 }

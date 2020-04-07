@@ -20,7 +20,6 @@ const emptyFeed = { type: 'empty', data: {} }
 
 export type FeedModalListProps = {
   data: any,
-  updateData: any,
   onEndReached: any,
   initialNumToRender: ?number,
   handleFeedSelection: Function,
@@ -39,7 +38,6 @@ type ItemComponentProps = {
 
 const FeedModalList = ({
   data,
-  updateData,
   onEndReached,
   initialNumToRender,
   handleFeedSelection,

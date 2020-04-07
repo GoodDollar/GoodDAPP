@@ -12,6 +12,7 @@ module.exports = (async () => {
   const {
     resolver: { sourceExts, assetExts }
   } = await getDefaultConfig()
+  const defaultSourceExts = [ ...sourceExts, 'svg' ]
 
   return {
     resolver: {
@@ -20,7 +21,9 @@ module.exports = (async () => {
         vm: require.resolve('vm-browserify')
       },
       assetExts: assetExts.filter(ext => ext !== "svg"),
-      sourceExts: [...sourceExts, "svg"]
+      sourceExts: process.env.TEST_REACT_NATIVE
+        ? ['e2e.js'].concat(defaultSourceExts)
+        : defaultSourceExts
     },
     transformer: {
       babelTransformerPath: require.resolve("react-native-svg-transformer"),

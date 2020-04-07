@@ -82,7 +82,7 @@ class NameForm extends React.Component<Props, State> {
         <Section grow justifyContent="flex-start" style={styles.transparentBackground}>
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center" style={styles.row}>
-              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+              <Section.Title color="darkGray" fontSize={22} fontWeight="medium" textTransform="none">
                 {'Hi, nice to meet you.\n Please enter your full name'}
               </Section.Title>
             </Section.Row>

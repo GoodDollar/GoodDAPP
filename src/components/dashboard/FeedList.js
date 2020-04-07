@@ -29,7 +29,6 @@ const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlat
 
 export type FeedListProps = {
   data: any,
-  updateData: any,
   onEndReached: any,
   initialNumToRender: ?number,
   store: GDStore,
@@ -170,7 +169,7 @@ const FeedList = ({
         onScroll={onScroll}
         ref={flRef}
       />
-      {headerLarge ? null : <ScrollToTopButton onPress={scrollToTop} />}
+      {<ScrollToTopButton onPress={scrollToTop} show={headerLarge} />}
     </>
   )
 }

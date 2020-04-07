@@ -3,6 +3,7 @@ import React from 'react'
 import { Text as PaperText } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
+import { isMobileNative } from '../../../lib/utils/platform'
 
 const LINE_HEIGHT_FACTOR = 1.2
 
@@ -102,12 +103,18 @@ const getStylesFromProps = ({
   const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
   const calculatedFontWeight = isNaN(fontWeight) ? calculateFontWeight(fontWeight) : fontWeight
 
+  const calculatedFontFamily =
+    theme.fonts[fontFamily] ||
+    fontFamily ||
+    (fontWeight && isMobileNative && `Roboto-${fontWeight.charAt(0).toUpperCase()}${fontWeight.slice(1)}`) ||
+    'Roboto'
+
   return {
     text: {
       color: theme.colors[color] || color || theme.colors.darkGray,
       textAlign: textAlign || 'center',
       fontWeight: calculatedFontWeight,
-      fontFamily: theme.fonts[fontFamily] || fontFamily || 'Roboto',
+      fontFamily: calculatedFontFamily,
       fontSize: normalize(calculatedFontSize),
       lineHeight: normalize(calculatedLineHeight),
       textTransform: textTransform || 'none',

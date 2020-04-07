@@ -36,6 +36,7 @@ export default () => {
      * Nothing to do if the app is in background
      */
     if (!userStorage || AppState.currentState !== 'active') {
+      log.debug('nothing to do', userStorage, AppState.currentState)
       return
     }
 
@@ -70,17 +71,17 @@ export default () => {
 
       connectionCheck.current = () => clearTimeout(next)
     }
-  })
+  }, [AppState.currentState, userStorage])
 
   const gunClose = useCallback(() => {
     log.debug('gun close')
     isGunConnection()
-  }, [])
+  }, [isGunConnection])
 
   const gunError = useCallback(() => {
     log.debug('gun error')
     isGunConnection()
-  }, [])
+  }, [isGunConnection])
 
   const bindEvents = method => {
     log.debug('gun binding listeners')

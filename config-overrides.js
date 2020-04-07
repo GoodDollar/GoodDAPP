@@ -9,6 +9,22 @@ const {
   fixBabelImports,
   babelExclude,
 } = require("customize-cra");
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+
+const lodashWebpackPluginOverride = (config) => {
+  config.plugins.unshift(
+    new LodashModuleReplacementPlugin({
+      collections: true,
+      paths: true,
+      flattening: true,
+      currying: true,
+      placeholder: true,
+      caching: true,
+    }),
+  )
+
+  return config
+}
 
 // SVGR is an tool that converts your SVG files into React components that you can use directly in JXS.
 const svgrOverride = config => {
@@ -87,6 +103,7 @@ module.exports = {
     }),
 
     ...addExternalBabelPlugins(
+      "lodash",
       "@babel/plugin-proposal-class-properties",
       "@babel/plugin-proposal-object-rest-spread"
     ),
@@ -96,6 +113,8 @@ module.exports = {
       "@babel/preset-react",
       "@babel/preset-flow"
     ),
+
+    lodashWebpackPluginOverride,
 
     addBundleVisualizer({}, true),
   ),

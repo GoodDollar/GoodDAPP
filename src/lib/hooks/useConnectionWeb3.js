@@ -44,7 +44,7 @@ export default () => {
      * Saves the clear function into connectionCheck.current
      */
     connectionCheck.current = () => clearTimeout(next)
-  })
+  }, [wallet])
 
   /**
    * Kills the last connection listener alive.
@@ -97,17 +97,17 @@ export default () => {
     }
 
     setIsConnection(true)
-  })
+  }, [wallet, AppState.currentState, handleWalletNotConnected])
 
   const web3Close = useCallback(() => {
     log.debug('web3 close')
     isWeb3Connection()
-  }, [])
+  }, [isWeb3Connection])
 
   const web3Error = useCallback(() => {
     log.debug('web3 error')
     isWeb3Connection()
-  }, [])
+  }, [isWeb3Connection])
 
   const bindEvents = method => {
     log.debug('web3 binding listeners')

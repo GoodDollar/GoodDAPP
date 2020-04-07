@@ -128,7 +128,7 @@ class EmailConfirmation extends React.Component<Props, State> {
         <Section grow justifyContent="flex-start">
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
-              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+              <Section.Title color="darkGray" fontSize={22} fontWeight="medium" textTransform="none">
                 {'You’ve got mail!\nA second verification code\nwas emailed to you'}
               </Section.Title>
             </Section.Row>

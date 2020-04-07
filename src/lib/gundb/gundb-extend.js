@@ -1,6 +1,10 @@
 import Gun from 'gun/gun'
 import SEA from 'gun/sea'
 import 'gun/lib/load'
+import { isMobileNative } from '../utils/platform'
+
+//gun hack to wait for data
+const GUN_ONCE_DELAY = isMobileNative ? 1500 : 200
 
 /**
  * extend gundb SEA with decrypt to match ".secret"
@@ -13,7 +17,7 @@ const gunExtend = (() => {
   Gun.chain.then = function(cb) {
     var gun = this,
       p = new Promise(function(res, rej) {
-        gun.once(res, { wait: 200 })
+        gun.once(res, { wait: GUN_ONCE_DELAY })
       })
     return cb ? p.then(cb) : p
   }

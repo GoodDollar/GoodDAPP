@@ -26,6 +26,46 @@ const lodashWebpackPluginOverride = (config) => {
   return config
 }
 
+// SVGR is an tool that converts your SVG files into React components that you can use directly in JXS.
+const svgrOverride = config => {
+  let loaders = config.module.rules[2].oneOf
+  loaders.splice(loaders.length - 1, 0, {
+    test: /\.svg$/,
+    use: [{
+      loader: '@svgr/webpack',
+      options: {
+        template: function defaultTemplate({ template }, opts, { imports, interfaces, componentName, props, jsx, exports }) {
+          const plugins = ['jsx']
+          let exportLoadedFileAsUrl = ''
+
+          if (opts.state.caller.previousExport) {
+            exportLoadedFileAsUrl = opts.state.caller.previousExport.replace('default', 'const url =')
+          }
+
+          if (opts.typescript) {
+            plugins.push('typescript')
+          }
+
+          const typeScriptTpl = template.smart({ plugins })
+
+          return typeScriptTpl.ast`${imports}
+            ${interfaces}
+            function ${componentName}(${props}) {
+              return ${jsx};
+            }
+            ${exportLoadedFileAsUrl}
+            export default ${componentName}
+            `
+        }
+      }
+    }, {
+      loader: 'file-loader'
+    }],
+  })
+
+  return config
+}
+
 module.exports = {
   webpack: override(
     fixBabelImports('module-resolver', {
@@ -35,6 +75,8 @@ module.exports = {
         '^react-native-linear-gradient$': 'react-native-web-linear-gradient',
       },
     }),
+
+    svgrOverride,
 
     babelInclude([
       path.resolve('src'),

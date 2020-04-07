@@ -1,16 +1,11 @@
 import React from 'react'
-import { Image, Platform, StyleSheet, View } from 'react-native'
-import goodDollarImage from '../../assets/Splash/goodDollar.svg'
+import { StyleSheet, View } from 'react-native'
+import GoodDollarImageSVG from '../../assets/Splash/goodDollar.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import QRCode from '../common/view/QrCode/QRCode'
-
-if (Platform.OS === 'web') {
-  // minimize delay <Image> has over web <img>
-  Image.prefetch(goodDollarImage)
-}
 
 const SplashDesktop = ({ onContinue, urlForQR }) => (
   <Wrapper style={styles.wrapper}>
@@ -24,7 +19,9 @@ const SplashDesktop = ({ onContinue, urlForQR }) => (
           {`For best experience\nplease scan and continue\non your mobile device.`}
         </Section.Text>
         <QRCode value={urlForQR} size={150} qrStyles={styles.qrStyles} />
-        <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
+        <View style={styles.goodDollar}>
+          <GoodDollarImageSVG />
+        </View>
         <CustomButton mode="outlined" color="white" style={styles.buttonContinue} onPress={onContinue}>
           Continue on Web
         </CustomButton>
@@ -65,9 +62,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   goodDollar: {
-    maxWidth: '100%',
+    width: '100%',
     minHeight: 30,
-    minWidth: 212,
+    alignItems: 'center',
   },
   buttonContinue: {
     borderColor: 'white',

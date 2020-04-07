@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, Platform, View } from 'react-native'
+import { AsyncStorage, View } from 'react-native'
 import get from 'lodash/get'
 import QRCode from 'qrcode.react'
 import { isIOS, isMobile } from '../../../lib/utils/platform'
@@ -8,17 +8,13 @@ import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import Config from '../../../config/config'
 import { CopyButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'
-import Oops from '../../../assets/oops.svg'
+import OopsSVG from '../../../assets/oops.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import Text from '../../common/view/Text'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(Oops)
-}
 
 const log = logger.child({ from: 'UnsupportedDevice' })
 
@@ -86,7 +82,9 @@ const UnsupportedDevice = props => {
           <Section.Title style={styles.mainTitle} fontWeight="medium" textTransform="none">
             {title}
           </Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={styles.image} />
+          <View style={styles.image}>
+            <OopsSVG />
+          </View>
           <Section style={styles.textContainer}>
             <Separator width={2} />
             <Text fontSize={16} fontWeight="bold" color="primary" style={styles.description}>
@@ -100,10 +98,12 @@ const UnsupportedDevice = props => {
     </Wrapper>
   )
 }
+
 UnsupportedDevice.navigationOptions = {
   navigationBarHidden: false,
   title: 'Friendly Suggestion',
 }
+
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
     display: 'flex',
@@ -166,4 +166,5 @@ UnsupportedDevice.navigationOptions = {
   title: 'Face Verification',
   navigationBarHidden: false,
 }
+
 export default withStyles(getStylesFromProps)(UnsupportedDevice)

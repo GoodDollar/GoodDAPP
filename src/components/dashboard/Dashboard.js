@@ -9,6 +9,7 @@ import {
   InteractionManager,
   Platform,
   TouchableOpacity,
+  View,
 } from 'react-native'
 import debounce from 'lodash/debounce'
 import _get from 'lodash/get'
@@ -51,7 +52,7 @@ import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
-import unknownProfile from '../../assets/unknownProfile.svg'
+import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
 import Amount from './Amount'
@@ -537,8 +538,6 @@ const Dashboard = props => {
     [showDialog, hideDialog, showErrorDialog, store, navigation]
   )
 
-  const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
-
   const onScroll = useCallback(
     ({ nativeEvent }) => {
       const minScrollRequired = 150
@@ -565,7 +564,13 @@ const Dashboard = props => {
           <Section.Stack alignItems="center" style={styles.headerWrapper}>
             <Animated.View style={avatarAnimStyles}>
               <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
-                <Image source={avatarSource} style={styles.avatar} />
+                {avatar ? (
+                  <Image source={{ uri: avatar }} style={styles.avatar} />
+                ) : (
+                  <View style={styles.avatar}>
+                    <UnknownProfileSVG />
+                  </View>
+                )}
               </TouchableOpacity>
             </Animated.View>
             <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>

@@ -1,19 +1,15 @@
 // @flow
 import React from 'react'
-import { AsyncStorage, Image, Platform, TouchableOpacity, View } from 'react-native'
+import { AsyncStorage, Platform, TouchableOpacity, View } from 'react-native'
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
 
 import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Signin/illustration.svg'
+import SingInSVG from '../../assets/Signin/illustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 const Signin = props => {
   const { styles } = props
@@ -31,7 +27,9 @@ const Signin = props => {
   return (
     <Section.Stack grow justifyContent="flex-start">
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-        <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+        <View style={styles.illustration}>
+          <SingInSVG />
+        </View>
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
             <Section.Stack>

@@ -1,19 +1,13 @@
 import React from 'react'
-import { Image, Platform, StyleSheet } from 'react-native'
-import splashImage from '../../assets/Splash/logo.svg'
-import goodDollarImage from '../../assets/Splash/goodDollar.svg'
+import { StyleSheet, View } from 'react-native'
+import SplashSVG from '../../assets/Splash/logo.svg'
+import GoodDollarSVG from '../../assets/Splash/goodDollar.svg'
 import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import WavesBackground from '../common/view/WavesBackground'
-
-if (Platform.OS === 'web') {
-  // minimize delay <Image> has over web <img>
-  Image.prefetch(splashImage)
-  Image.prefetch(goodDollarImage)
-}
 
 const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>
@@ -26,8 +20,12 @@ const Splash = ({ animation }) => (
           </>
         ) : (
           <Section.Stack style={styles.content} grow justifyContent="center">
-            <Image source={splashImage} style={styles.logo} resizeMode="contain" />
-            <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
+            <View style={styles.logo}>
+              <SplashSVG widht="100%" height="100%" />
+            </View>
+            <View style={styles.goodDollar}>
+              <GoodDollarSVG widht="100%" height="100%" />
+            </View>
             <Section.Text fontSize={22}>{`V${Config.version}`}</Section.Text>
           </Section.Stack>
         )}
@@ -60,16 +58,18 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   logo: {
-    maxWidth: '100%',
-    minHeight: 230,
+    width: '100%',
+    height: 230,
     minWidth: 230,
     marginBottom: getDesignRelativeHeight(64),
   },
   goodDollar: {
-    maxWidth: '100%',
-    minHeight: 40,
+    width: '100%',
+    height: 40,
     minWidth: 310,
     marginBottom: getDesignRelativeHeight(22),
+    display: 'flex',
+    alignItems: 'center',
   },
 })
 

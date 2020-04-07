@@ -20,6 +20,7 @@ const InputText = ({
   error,
   styles,
   theme,
+  containerStyle,
   style,
   getRef,
   onBlur,
@@ -68,7 +69,7 @@ const InputText = ({
   }, [error])
 
   return (
-    <View style={styles.view}>
+    <View style={[styles.view, containerStyle]}>
       <View style={styles.view}>
         <TextInput
           {...props}

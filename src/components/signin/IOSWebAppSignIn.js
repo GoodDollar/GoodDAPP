@@ -94,13 +94,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         </Section.Stack>
         <Section.Stack justifyContent="space-between">
           <Section.Row justifyContent="center">
-            <InputText
-              value={code}
-              onChangeText={handleChange}
-              onKeyPress={handleEnter}
-              onCleanUpField={handleChange}
-              autoFocus
-            />
+            <InputText value={code} onChangeText={handleChange} onKeyPress={handleEnter} showCleanAdornment autoFocus />
           </Section.Row>
         </Section.Stack>
         <Image source={IOSWebAppSignInSVG} resizeMode={'contain'} style={styles.image} />

@@ -64,6 +64,7 @@ import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
 import ReceiveConfirmation from './ReceiveConfirmation'
+import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
 import SendConfirmation from './SendConfirmation'
@@ -813,6 +814,8 @@ export default createStackNavigator({
   SendConfirmation,
   SendByQR,
   ReceiveByQR,
+
+  SendToAddress,
 
   // FRError,
   // FaceVerification: FaceRecognition,

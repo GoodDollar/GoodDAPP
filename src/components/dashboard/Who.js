@@ -1,14 +1,14 @@
 // @flow
-import React, { useEffect } from 'react'
-import InputText from '../common/form/InputText'
+import React, { useCallback, useEffect } from 'react'
 
-import { ScanQRButton, Section, Wrapper } from '../common'
+import InputText from '../common/form/InputText'
+import { ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
-import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
+import { ACTION_RECEIVE, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
   screenProps: any,
@@ -36,12 +36,24 @@ const Who = (props: AmountProps) => {
   useEffect(() => {
     setScreenState({ counterPartyDisplayName: state.value })
   }, [state.value])
-  console.info('Component props -> ', { props, params, text, state })
+
+  const handlePressQR = useCallback(() => screenProps.push('SendByQR'), [screenProps])
+
+  const handlePressSendToAddress = useCallback(
+    () =>
+      screenProps &&
+      screenProps.push('SendToAddress', {
+        nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
+        params: { action: ACTION_SEND_TO_ADDRESS },
+      }),
+    [screenProps]
+  )
 
   return (
     <Wrapper>
       <TopBar push={screenProps.push}>
-        {!isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
+        {!isReceive && <ScanQRButton onPress={handlePressQR} />}
+        {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />}
       </TopBar>
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>

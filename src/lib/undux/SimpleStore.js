@@ -1,4 +1,5 @@
 // @flow
+import { useMemo } from 'react'
 import { createConnectedStore } from 'undux'
 import { AsyncStorage } from 'react-native'
 import { IS_LOGGED_IN } from '../constants/localStorage'
@@ -103,6 +104,7 @@ const initialState: State = {
  * @module
  */
 let SimpleStore: UnduxStore = createConnectedStore(initialState, withPinoLogger) // default value for tests
+
 const initStore = async () => {
   let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
   initialState.isLoggedIn = isLoggedIn
@@ -116,4 +118,11 @@ const setInitFunctions = (_setWallet, _setUserStorage) => {
   setWallet = _setWallet
   setUserStorage = _setUserStorage
 }
-export { initStore, SimpleStore as default, setInitFunctions, setWallet, setUserStorage }
+
+const useCurriedSetters = (paths: string[]) => {
+  const store = SimpleStore.useStore()
+
+  return useMemo(() => paths.map(path => store.set(path)), [paths, store])
+}
+
+export { initStore, SimpleStore as default, setInitFunctions, setWallet, setUserStorage, useCurriedSetters }

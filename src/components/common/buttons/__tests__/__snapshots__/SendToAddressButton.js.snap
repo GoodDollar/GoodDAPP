@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ScanQRButton should match snapshot 1`] = `
+exports[`SendToAddressButton should match snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -55,7 +55,7 @@ exports[`ScanQRButton should match snapshot 1`] = `
           "WebkitBoxAlign": "center",
           "alignItems": "center",
           "display": "flex",
-          "marginRight": "20px",
+          "marginLeft": "20px",
           "msFlexAlign": "center",
         }
       }
@@ -91,13 +91,13 @@ exports[`ScanQRButton should match snapshot 1`] = `
             Object {
               "color": "rgba(255,255,255,1.00)",
               "fontFamily": "gooddollar",
-              "fontSize": "28px",
+              "fontSize": "26px",
               "fontStyle": "normal",
               "fontWeight": "normal",
             }
           }
         >
-          
+          
         </div>
       </div>
       <div
@@ -117,7 +117,7 @@ exports[`ScanQRButton should match snapshot 1`] = `
           }
         }
       >
-        Scan QR Code
+        Send to address
       </div>
     </div>
   </div>

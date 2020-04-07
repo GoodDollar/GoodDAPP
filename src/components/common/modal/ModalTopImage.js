@@ -5,6 +5,7 @@ import receiveIllustation from '../../../assets/Feed/receive.svg'
 import sendIllustration from '../../../assets/Feed/send.svg'
 import messageIllustration from '../../../assets/Feed/message.png'
 import inviteIllustration from '../../../assets/Feed/invite.png'
+import claimIllustration from '../../../assets/Feed/IllustrationsMenHero.svg' // eslint-disable-line
 import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
 import backupIllustration from '../../../assets/Feed/backup.png'
 import spendingIllustration from '../../../assets/Feed/spending.svg'
@@ -67,6 +68,11 @@ export const getImageByType = (type, styles = {}) =>
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
+    claimsThreshold: {
+      src: claimIllustration,
+      style: styles.claimIllustration,
+      containerStyle: styles.mainPhotoContainer,
+    },
     backup: {
       src: backupIllustration,
       style: styles.mainPhoto,
@@ -127,6 +133,11 @@ const getStylesFromProps = ({ theme }) => ({
   mainPhoto: {
     height: '20vh',
     width: '100%',
+  },
+  claimIllustration: {
+    marginTop: getDesignRelativeHeight(30),
+    height: '24vh',
+    width: '60%',
   },
   spending: {
     width: getDesignRelativeWidth(176),

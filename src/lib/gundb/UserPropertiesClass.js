@@ -17,6 +17,7 @@ export default class UserProperties {
     isAddedToHomeScreen: false,
     cameFromW3Site: false,
     lastBonusCheckDate: null,
+    countClaim: 0,
   }
 
   fields = [
@@ -26,6 +27,7 @@ export default class UserProperties {
     'isAddedToHomeScreen',
     'cameFromW3Site',
     'lastBonusCheckDate',
+    'countClaim',
   ]
 
   /**

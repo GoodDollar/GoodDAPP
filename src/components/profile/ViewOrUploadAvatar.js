@@ -50,27 +50,29 @@ const ViewOrUploadAvatar = props => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        {profile.avatar ? (
-          <>
-            <UserAvatar profile={profile} size={272} />
-            <CircleButtonWrapper
-              style={styles.closeButton}
-              iconName={'trash'}
-              iconSize={22}
-              onPress={handleClosePress}
-            />
-            <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
-          </>
-        ) : (
-          <>
-            <InputFile onChange={handleAddAvatar}>
-              <UserAvatar profile={profile} size={272} />{' '}
-            </InputFile>
-            <InputFile onChange={handleAddAvatar}>
-              <CameraButton style={styles.cameraButton} />
-            </InputFile>
-          </>
-        )}
+        <Section.Stack>
+          {profile.avatar ? (
+            <>
+              <UserAvatar profile={profile} size={272} />
+              <CircleButtonWrapper
+                style={styles.closeButton}
+                iconName={'trash'}
+                iconSize={22}
+                onPress={handleClosePress}
+              />
+              <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
+            </>
+          ) : (
+            <>
+              <InputFile onChange={handleAddAvatar}>
+                <UserAvatar profile={profile} size={272} />{' '}
+              </InputFile>
+              <InputFile onChange={handleAddAvatar}>
+                <CameraButton style={styles.cameraButton} />
+              </InputFile>
+            </>
+          )}
+        </Section.Stack>
         <CustomButton style={styles.doneButton} onPress={goToProfile}>
           Done
         </CustomButton>
@@ -87,6 +89,7 @@ const getStylesFromProps = ({ theme }) => ({
   section: {
     flex: 1,
     position: 'relative',
+    justifyContent: 'space-between',
   },
   cameraButton: {
     left: 'auto',

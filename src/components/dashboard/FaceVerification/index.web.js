@@ -56,7 +56,7 @@ const FaceVerification = ({ screenProps }) => {
 
       // if session was successfull - returning sucess to the caller
       if (isSuccess) {
-        screenProps.navigateTo('Home')
+        screenProps.pop({ isValid: true })
         return
       }
 

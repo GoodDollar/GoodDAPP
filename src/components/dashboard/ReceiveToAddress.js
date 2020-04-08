@@ -17,8 +17,8 @@ export type TypeProps = {
   styles: any,
 }
 
-const ReceiveToAddress = (props: TypeProps) => {
-  const { screenProps, styles } = props
+const ReceiveToAddress = ({ screenProps, styles }: TypeProps) => {
+  const { account } = GoodWallet
 
   return (
     <Wrapper>
@@ -27,17 +27,12 @@ const ReceiveToAddress = (props: TypeProps) => {
       </TopBar>
       <Section grow justifyContent="space-between">
         <Section.Title fontWeight="medium">YOUR WALLET ADDRESS:</Section.Title>
-        <InputText
-          containerStyle={styles.containerInput}
-          style={styles.input}
-          value={GoodWallet.account}
-          editable={false}
-        />
+        <InputText containerStyle={styles.containerInput} style={styles.input} value={account} editable={false} />
         <Text fontSize={24} fontWeight="medium" lineHeight={30}>
           {'You can copy and share it\nwith others'}
         </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-        <CopyButton style={styles.confirmButton} toCopy={GoodWallet.account} onPressDone={screenProps.goToRoot} />
+        <CopyButton style={styles.confirmButton} toCopy={account} onPressDone={screenProps.goToRoot} />
       </Section>
     </Wrapper>
   )

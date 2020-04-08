@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 import findKey from 'lodash/findKey'
 import Text from '../../../common/view/Text'
 
@@ -159,11 +159,13 @@ const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPI
     </Section>
   ) : null
 
-  let lookingGood =
+  let lookingGoodComponent =
     isProcessFailed === false && processStatus.isProfileSaved ? (
       <View style={styles.imageView}>
         <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
-        <Image source={LookingGood} resizeMode={'center'} style={styles.image} />
+        <View style={styles.image}>
+          <LookingGoodSVG />
+        </View>
       </View>
     ) : null
 
@@ -258,7 +260,7 @@ const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPI
         <View style={styles.imageView}>
           <Text color="red">{helpText}</Text>
         </View>
-        <View style={styles.imageContainer}>{lookingGood}</View>
+        <View style={styles.imageContainer}>{lookingGoodComponent}</View>
       </Section>
       {retryButtonOrNull}
     </View>

@@ -87,7 +87,7 @@ const Claim = props => {
 
   const init = async () => {
     //hack to make unit test pass, activityindicator in claim button cuasing
-    if (process.env.NODE_ENV !== 'test') {
+    if (Config.nodeEnv !== 'test') {
       setLoading(true)
     }
     await goodWallet

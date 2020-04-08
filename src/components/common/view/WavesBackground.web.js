@@ -1,15 +1,11 @@
 import React, { Fragment } from 'react'
-import { Image, Platform, StyleSheet } from 'react-native'
-import waves from '../../../assets/wave50.svg'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(waves)
-}
+import { StyleSheet, View } from 'react-native'
+import { url as waves } from '../../../assets/wave50.svg'
 
 export default ({ children }) => {
   return (
     <Fragment>
-      <Image source={waves} style={styles.wavesBackground} resizeMode="cover" />
+      <View style={styles.wavesBackground} />
       {children}
     </Fragment>
   )
@@ -17,10 +13,10 @@ export default ({ children }) => {
 
 const styles = StyleSheet.create({
   wavesBackground: {
+    backgroundImage: `url(${waves})`,
     position: 'absolute',
     width: '100%',
     height: '100%',
     opacity: 0.2,
-    backgroundColor: 'transparent',
   },
 })

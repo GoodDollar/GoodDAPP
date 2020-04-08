@@ -1,19 +1,22 @@
 // @flow
 
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import wavePattern from '../../../assets/wave.svg'
-import wavePatternForTooltipArrow from '../../../assets/feedListItemPattern.svg'
+import WavePatternSVG from '../../../assets/wave.svg'
+import WavePatternForTooltipArrowSVG from '../../../assets/feedListItemPattern.svg'
 import { mediumZIndex } from './styles'
 
 const ModalLeftBorderWeb = (props: any) => {
   const { styles, theme, borderColor = theme.colors.lightGray, style, showTooltipArrow } = props
-  const pattern = showTooltipArrow ? wavePatternForTooltipArrow : wavePattern
+  const SVG = showTooltipArrow ? WavePatternForTooltipArrowSVG : WavePatternSVG
 
   return (
     <View style={[styles.modalLeftBorder, { backgroundColor: borderColor }, style]}>
-      <Image source={pattern} style={[StyleSheet.absoluteFill]} resizeMode="cover" />
+      <View style={[StyleSheet.absoluteFill]}>
+        <SVG />
+        <SVG />
+      </View>
     </View>
   )
 }

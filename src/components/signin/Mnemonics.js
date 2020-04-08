@@ -38,7 +38,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
-    const splitted = mnemonics.split(' ').filter(o => o)
+    const splitted = mnemonics.split(/\s+/).filter(o => o)
     if (splitted.length > MAX_WORDS) {
       setErrorMessage('Your pass phrase appears to be incorrect.')
     } else {
@@ -49,6 +49,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } else {
       setSubmitBlocked(true)
     }
+    mnemonics = splitted.join(' ')
     setMnemonics(mnemonics)
   }
 
@@ -79,7 +80,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
       // We validate that a user was registered for the specified mnemonics
       const [profile, fullName] = await profileExist()
-
+      log.debug('profile exists:', { profile, fullName })
       if (profile) {
         await AsyncStorage.setItem(IS_LOGGED_IN, 'true')
 

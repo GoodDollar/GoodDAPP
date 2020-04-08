@@ -99,10 +99,11 @@ export default ({ onInitialized = noop, onError = noop }) => {
       }
     }
 
-    // checking the first retrieved status code
-    // if we already tried to initialize SDK,
-    // then just handling last attempt status
-    if (ZoomSDKStatus.NeverInitialized !== sdkStatus) {
+    // checking the last retrieved status code
+    // if Zoom was initialized successfully,
+    // then just handling status & executing
+    // onInitialized callback
+    if (ZoomSDKStatus.Initialized === sdkStatus) {
       handleSdkStatus()
       return
     }

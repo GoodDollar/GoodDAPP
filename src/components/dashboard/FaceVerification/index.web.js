@@ -1,15 +1,14 @@
 import { useCallback } from 'react'
-import { pick } from 'lodash'
+import { pick, findKey } from 'lodash'
 
-import useZoomSDK from './hooks/useZoomSDK'
+import useZoomSDK, { ZoomSDKStatus } from './hooks/useZoomSDK'
 import useZoomVerification, { ZoomSessionStatus } from './hooks/useZoomVerification'
 
-// All Zoom session result codes could be thrown if the
-// camera isn't available or no camera access was confirmed
-const cameraIssuesStatusCodes = Object.values(
-  pick(
-    ZoomSessionStatus,
-
+const kindOfCameraIssuesMap = mapValues({
+  // All Zoom session result codes could be thrown if the
+  // camera isn't available or no camera access was confirmed
+  // in this case we're marking error as 'NotAllowedError'.
+  'NotAllowedError': [
     // camera permissions wasn't given
     'UserCancelledWhenAttemptingToGetCameraPermissions',
 
@@ -29,8 +28,19 @@ const cameraIssuesStatusCodes = Object.values(
     'UnmanagedSessionVideoInitializationNotCompleted',
     'VideoHeightOrWidthZeroOrUninitialized',
     'VideoCaptureStreamNotActive'
-  )
-)
+  ],
+
+  // All Zoom sdk and session result codes could be thrown if device
+  // orientation isn't portrait or was changed during the session
+  // in this case we're marking error as 'DeviceOrientationError'.
+  'DeviceOrientationError': [
+    // device orientation was changed during the ZoOm Session
+    'OrientationChangeDuringSession',
+
+    // device is in landscape mode
+    'LandscapeModeNotAllowed'
+  ]
+}, sessionStatus => ZoomSessionStatus[sessionStatus])
 
 const FaceVerification = ({ screenProps }) => {
   // Redirects to the error screen, passing exception
@@ -42,13 +52,7 @@ const FaceVerification = ({ screenProps }) => {
     [screenProps]
   )
 
-  /**
-   * ZoomSDK session completition handler
-   * @param {boolean} isSuccess
-   * @param {ZoomSDK.ZoomSessionResult} Session result object
-   * @param {string} lastMessage Full description of the last
-   * session status or success/error message got from server
-   */
+  // ZoomSDK session completition handler
   const completionHandler = useCallback(
     (isSuccess, { status }, lastMessage) => {
       // preparing error object
@@ -60,11 +64,16 @@ const FaceVerification = ({ screenProps }) => {
         return
       }
 
-      // if error was caused by the camera issues - marking
-      // error as 'NotAllowedError'. It's needed for ErrorScreen
-      // component could display that something is wrong with the camera
-      if (cameraIssuesStatusCodes.includes(status)) {
-        exception.name = 'NotAllowedError'
+      // the following code is needed for ErrorScreen component
+      // could display specific error message corresponding to
+      // the kind of issue (camera, orientation etc)
+      const errorName = findKey(
+        kindOfCameraIssuesMap,
+        statusCodes => statusCodes.includes(status)
+      )
+
+      if (errorName) {
+        exception.name = errorName
       }
 
       // handling error
@@ -72,6 +81,19 @@ const FaceVerification = ({ screenProps }) => {
     },
     [screenProps, showErrorScreen]
   )
+
+  // ZoomSDK initialization error handler
+  const sdkExceptionHandler = useCallback(exception => {
+    // the following code is needed for ErrorScreen component
+    // could display specific error message corresponding to
+    // the kind of issue (camera, orientation etc)
+    if (ZoomSDKStatus.DeviceInLandscapeMode === exception.code) {
+      exception.name = 'DeviceOrientationError'
+    }
+
+    // handling error
+    showErrorScreen(exception, false)
+  }. [showErrorScreen])
 
   // Using zoom verification hook, passing completion callback
   const { startVerification } = useZoomVerification({
@@ -83,7 +105,7 @@ const FaceVerification = ({ screenProps }) => {
   // on error redirecting to the error screen
   useZoomSDK({
     onInitialized: startVerification,
-    onError: showErrorScreen,
+    onError: sdkExceptionHandler,
   })
 
   return null

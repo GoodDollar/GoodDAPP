@@ -7,7 +7,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
-import { CopyButton, CustomButton, QRCode, ScanQRButton, Section, Wrapper } from '../common'
+import { CopyButton, CustomButton, QRCode, ReceiveToAddressButton, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 
@@ -43,12 +43,15 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
 
   const onPressScanQRButton = useCallback(() => screenProps.push('ReceiveByQR'), [screenProps])
 
+  const onPressReceiveToAddressButton = useCallback(() => screenProps.push('ReceiveToAddress'), [screenProps])
+
   const onPressCopyButton = () => fireEvent('RECEIVE_DONE', { type: 'wallet' })
 
   return (
     <Wrapper>
       <TopBar hideBalance={false} push={screenProps.push}>
         <ScanQRButton onPress={onPressScanQRButton} />
+        <ReceiveToAddressButton onPress={onPressReceiveToAddressButton} />
       </TopBar>
       <Section grow>
         <Section.Stack grow={3} justifyContent="space-around" alignItems="center">

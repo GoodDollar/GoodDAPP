@@ -12,6 +12,8 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
+import useNativeSharing from '../../lib/hooks/useNativeSharing'
+import GDStore from '../../lib/undux/GDStore'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -21,8 +23,9 @@ export type ReceiveProps = {
 }
 
 const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
+  const { canShare, generateReceiveShareObject, generateReceiveShareText } = useNativeSharing()
+  const profile = GDStore.useStore().get('profile')
   const [screenState] = useScreenState(screenProps)
-  const { params } = props.navigation.state
 
   const { amount, reason, counterPartyDisplayName } = screenState
 
@@ -34,6 +37,14 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
     reason,
     counterPartyDisplayName,
   ])
+
+  const shareString = useMemo(() => {
+    if (canShare) {
+      return generateReceiveShareObject(codeObj, amount, counterPartyDisplayName, profile.fullName)
+    }
+
+    return generateReceiveShareText(codeObj, amount, counterPartyDisplayName, profile.fullName)
+  }, [codeObj, canShare, generateReceiveShareObject, generateReceiveShareText])
 
   const noCreds = !(counterPartyDisplayName || reason)
   const iconMarginWithoutReason = isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds
@@ -122,9 +133,9 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
           </Section.Row>
           <Section.Stack grow={3}>
             <PushButton
-              routeName="ReceiveConfirmation"
+              routeName="TransactionConfirmation"
               screenProps={screenProps}
-              params={{ reason, amount, code: codeObj, counterPartyDisplayName, params }}
+              params={{ paymentLink: shareString }}
             >
               Confirm
             </PushButton>

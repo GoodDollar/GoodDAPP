@@ -66,7 +66,10 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
             routeName="Who"
             mode="outlined"
             screenProps={screenProps}
-            params={{ nextRoutes: ['Amount', 'Reason', 'ReceiveSummary'], params: { action: 'Receive' } }}
+            params={{
+              nextRoutes: ['Amount', 'Reason', 'ReceiveSummary', 'TransactionConfirmation'],
+              params: { action: 'Receive' },
+            }}
           >
             Request specific amount
           </PushButton>

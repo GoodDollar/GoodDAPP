@@ -34,6 +34,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const gdstore = GDStore.useStore()
   const profile = gdstore.get('profile')
   const [screenState] = useScreenState(screenProps)
+  const { push, goToRoot } = screenProps
   const [showDialog, , showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
 
@@ -46,8 +47,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const { action } = params
 
   const faceRecognition = useCallback(() => {
-    return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
-  }, [screenProps])
+    return push('FRIntro', { from: 'SendLinkSummary' })
+  }, [push])
 
   const shareAction = useCallback(
     async paymentLink => {
@@ -76,11 +77,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 profile.fullName
               )
 
-              screenProps.push('SendConfirmation', {
+              push('TransactionConfirmation', {
                 paymentLink: desktopShareLink,
-                amount,
-                reason,
-                counterPartyDisplayName,
               })
             },
           })
@@ -91,21 +89,20 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       generateSendShareText,
       generateSendShareObject,
       amount,
-      reason,
       counterPartyDisplayName,
       profile,
       setShared,
       showDialog,
-      screenProps,
+      push,
     ]
   )
 
   // Going to root after shared
   useEffect(() => {
     if (shared) {
-      screenProps.goToRoot()
+      goToRoot()
     }
-  }, [shared])
+  }, [shared, goToRoot])
 
   const handleConfirm = useCallback(() => {
     if (action === ACTION_SEND_TO_ADDRESS) {
@@ -193,25 +190,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
 
       // Show confirmation
-      screenProps.push('SendConfirmation', {
+      push('TransactionConfirmation', {
         paymentLink: desktopShareLink,
-        amount,
-        reason,
-        counterPartyDisplayName,
       })
     }
-  }, [
-    generateSendShareText,
-    generateSendShareText,
-    setLink,
-    canShare,
-    link,
-    amount,
-    reason,
-    counterPartyDisplayName,
-    profile,
-    screenProps,
-  ])
+  }, [generateSendShareText, setLink, canShare, link, amount, counterPartyDisplayName, profile, push])
 
   /**
    * Generates link to send and call send email/sms action
@@ -302,7 +285,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} />
+      <TopBar push={push} />
       <Section grow style={styles.section}>
         <Section.Stack>
           <Section.Row justifyContent="center">

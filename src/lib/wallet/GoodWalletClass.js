@@ -359,7 +359,11 @@ export class GoodWallet {
 
   async getNextClaimTime(): Promise<any> {
     try {
-      const lastClaim = (await this.UBIContract.methods.lastClaimed(this.account).call()) || ZERO
+      let lastClaim = await this.UBIContract.methods.lastClaimed(this.account).call()
+
+      if (!lastClaim) {
+        lastClaim = ZERO
+      }
       return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
     } catch (e) {
       log.error('getNextClaimTime failed', e.message, e)
@@ -369,10 +373,14 @@ export class GoodWallet {
 
   async getAmountAndQuantityClaimedToday(): Promise<any> {
     try {
-      const res = (await this.UBIContract.methods.getDailyStats().call()) || [ZERO, ZERO]
+      let stats = await this.UBIContract.methods.getDailyStats().call()
+      if (!stats) {
+        stats = [ZERO, ZERO]
+      }
+
       return {
-        people: res[0].toNumber(),
-        amount: res[1].toNumber(),
+        people: stats[0].toNumber(),
+        amount: stats[1].toNumber(),
       }
     } catch (e) {
       log.error('getAmountAndQuantityClaimedToday failed', e.message, e)
@@ -382,11 +390,12 @@ export class GoodWallet {
 
   async checkEntitlement(): Promise<number> {
     try {
-      const entitlement = await this.UBIContract.methods.checkEntitlement().call()
-      return entitlement
-    } catch (e) {
-      log.error('getNextClaimTime failed', e.message, e)
-      return Promise.reject(e)
+      return await this.UBIContract.methods.checkEntitlement().call()
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('checkEntitlement failed', message, exception)
+      throw exception
     }
   }
 
@@ -443,16 +452,30 @@ export class GoodWallet {
     return this.wallet.eth.getBlockNumber().then(toBN)
   }
 
-  balanceOf(): Promise<number> {
-    return this.tokenContract.methods
-      .balanceOf(this.account)
-      .call()
-      .then(toBN)
-      .then(_ => _.toNumber())
+  async balanceOf(): Promise<number> {
+    try {
+      const balance = await this.tokenContract.methods.balanceOf(this.account).call()
+
+      const balanceValue = await toBN(balance)
+
+      return balanceValue.toNumber()
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('BalanceOf failed', message, exception)
+      throw exception
+    }
   }
 
-  balanceOfNative(): Promise<number> {
-    return this.wallet.eth.getBalance(this.account).then(parseInt)
+  async balanceOfNative(): Promise<number> {
+    try {
+      return await this.wallet.eth.getBalance(this.account).then(parseInt)
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('balanceOfNative failed', message, exception)
+      throw exception
+    }
   }
 
   signMessage() {}
@@ -475,8 +498,15 @@ export class GoodWallet {
    * @param address
    * @returns {Promise<boolean>}
    */
-  isVerified(address: string): Promise<boolean> {
-    return this.identityContract.methods.isWhitelisted(address).call()
+  async isVerified(address: string): Promise<boolean> {
+    try {
+      return await this.identityContract.methods.isWhitelisted(address).call()
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('isVerified failed', message, exception)
+      throw exception
+    }
   }
 
   /**
@@ -491,11 +521,18 @@ export class GoodWallet {
    * Get transaction fee from GoodDollarReserveContract
    * @returns {Promise<boolean>}
    */
-  getTxFee(): Promise<boolean> {
-    return this.tokenContract.methods
-      .getFees(1)
-      .call()
-      .then(toBN)
+  async getTxFee(): Promise<boolean> {
+    try {
+      return await this.tokenContract.methods
+        .getFees(1)
+        .call()
+        .then(toBN)
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('getTxFee failed', message, exception)
+      throw exception
+    }
   }
 
   /**
@@ -594,9 +631,16 @@ export class GoodWallet {
    * @param {string} link
    * @returns {Promise<boolean>}
    */
-  isWithdrawLinkUsed(link: string): Promise<boolean> {
-    const { hasPayment } = this.oneTimePaymentsContract.methods
-    return hasPayment(link).call()
+  async isWithdrawLinkUsed(link: string): Promise<boolean> {
+    try {
+      const { hasPayment } = await this.oneTimePaymentsContract.methods
+      return hasPayment(link).call()
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('isWithdrawLinkUsed failed', message, exception)
+      throw exception
+    }
   }
 
   /**

@@ -17,6 +17,7 @@ import NumPadKeyboard from './view/NumPadKeyboard'
 import QRCode from './view/QRCode'
 import SaveButton from './buttons/SaveButton'
 import ScanQRButton from './buttons/ScanQRButton'
+import ReceiveToAddressButton from './buttons/ReceiveToAddressButton'
 import SendToAddressButton from './buttons/SendToAddressButton'
 import AwaitButton from './buttons/AwaitButton'
 import Section from './layout/Section'
@@ -47,6 +48,7 @@ export {
   QRCode,
   SaveButton,
   ScanQRButton,
+  ReceiveToAddressButton,
   SendToAddressButton,
   Section,
   ShareButton,

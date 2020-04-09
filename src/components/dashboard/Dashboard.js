@@ -63,6 +63,7 @@ import Receive from './Receive'
 import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
+import ReceiveToAddress from './ReceiveToAddress'
 import TransactionConfirmation from './TransactionConfirmation'
 import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
@@ -807,6 +808,7 @@ export default createStackNavigator({
     path: ':action/Reason',
     params: { action: ACTION_SEND },
   },
+  ReceiveToAddress,
   ReceiveSummary,
   ReceiveByQR,
 

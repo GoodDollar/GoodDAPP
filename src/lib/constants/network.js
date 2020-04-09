@@ -1,8 +1,5 @@
 // @flow
-import findKey from 'lodash/findKey'
-import isEqual from 'lodash/isEqual'
-import partial from 'lodash/partial'
-import startCase from 'lodash/startCase'
+import { findKey, isEqual, partial, startCase } from 'lodash'
 
 export const NETWORK_ID = {
   MAINNET: 1,

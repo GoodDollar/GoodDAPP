@@ -1,6 +1,5 @@
 //@flow
-import _debounce from 'lodash/debounce'
-import _forEach from 'lodash/forEach'
+import { debounce, forEach } from 'lodash'
 import * as Sentry from '@sentry/browser'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
@@ -126,12 +125,12 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
 export const reportToSentry = (error, extra = {}, tags = {}) =>
   Sentry.configureScope(scope => {
     // set extra
-    _forEach(extra, (value, key) => {
+    forEach(extra, (value, key) => {
       scope.setExtra(key, value)
     })
 
     // set tags
-    _forEach(tags, (value, key) => {
+    forEach(tags, (value, key) => {
       scope.setTags(key, value)
     })
 
@@ -166,7 +165,7 @@ export const fireEventFromNavigation = route => {
 }
 
 //for error logs if they happen frequently only log one
-const debounceFireEvent = _debounce(fireEvent, 500, { leading: true })
+const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
 const patchLogger = () => {
   let error = global.logger.error

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { getScreenHeight } from '../../lib/utils/Orientation'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'

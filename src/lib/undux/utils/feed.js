@@ -1,9 +1,10 @@
 // @flow
 import type { Store } from 'undux'
-import throttle from 'lodash/throttle'
+import { throttle } from 'lodash'
 import Config from '../../../config/config'
 import userStorage from '../../gundb/UserStorage'
 import pino from '../../logger/pino-logger'
+
 const logger = pino.child({ from: 'feeds' })
 
 export const PAGE_SIZE = 10

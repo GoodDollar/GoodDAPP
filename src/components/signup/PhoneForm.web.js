@@ -2,7 +2,7 @@
 import { isMobile } from 'mobile-device-detect'
 import React from 'react'
 import PhoneInput from 'react-phone-number-input'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import './PhoneForm.css'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'

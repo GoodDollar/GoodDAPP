@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import { isIOS, isMobile } from 'mobile-device-detect'
 
-import get from 'lodash/get'
+import { get } from 'lodash'
 import QRCode from 'qrcode.react'
 import { GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'

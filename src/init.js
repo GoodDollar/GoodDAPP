@@ -1,5 +1,5 @@
 //@flow
-import _pick from 'lodash/pick'
+import { pick } from 'lodash'
 import { Platform } from 'react-native'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
@@ -10,7 +10,9 @@ import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 import logger from './lib/logger/pino-logger'
 
 const log = logger.child({ from: 'init' })
+
 let initialized = false
+
 export const init = () => {
   return Promise.all([goodWallet.ready, userStorage.ready]).then(async () => {
     log.debug('wallet and storage ready, initializing analytics', { initialized })
@@ -28,7 +30,7 @@ export const init = () => {
       // FIXME RN INAPPLINKS
       if (Platform.OS === 'web') {
         const params = extractQueryParams(window.location.href)
-        source = Object.keys(_pick(params, ['web3', 'paymentCode', 'code'])).pop() || source
+        source = Object.keys(pick(params, ['web3', 'paymentCode', 'code'])).pop() || source
       }
 
       fireEvent(APP_OPEN, { source, isWebApp })

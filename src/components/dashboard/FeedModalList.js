@@ -3,11 +3,12 @@ import React, { createRef, useEffect, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
 import { Portal } from 'react-native-paper'
-import _once from 'lodash/once'
+import { once } from 'lodash'
 import { withStyles } from '../../lib/styles'
 import { getMaxDeviceWidth, getScreenWidth } from '../../lib/utils/Orientation'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
+
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
   viewAreaCoveragePercentThreshold: 100,
@@ -92,7 +93,7 @@ const FeedModalList = ({
     </View>
   )
 
-  const slideEvent = _once(() => {
+  const slideEvent = once(() => {
     fireEvent(CARD_SLIDE)
   })
 

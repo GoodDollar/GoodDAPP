@@ -4,7 +4,7 @@ import { View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
-import _get from 'lodash/get'
+import { get } from 'lodash'
 import config from '../../config/config'
 import { theme } from '../../components/theme/styles'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -134,7 +134,7 @@ const TabsView = React.memo(({ navigation }) => {
 
     if (!_token && config.enableInvites) {
       _token = await API.getLoginToken()
-        .then(r => _get(r, 'data.loginToken'))
+        .then(r => get(r, 'data.loginToken'))
         .then(newToken => {
           if (newToken) {
             userStorage.setProfileField('loginToken', newToken, 'private')
@@ -148,7 +148,7 @@ const TabsView = React.memo(({ navigation }) => {
 
     if (!_marketToken && config.market) {
       _marketToken = await API.getMarketToken()
-        .then(_ => _get(_, 'data.jwt'))
+        .then(_ => get(_, 'data.jwt'))
         .then(newtoken => {
           if (newtoken) {
             userStorage.setProfileField('marketToken', newtoken)

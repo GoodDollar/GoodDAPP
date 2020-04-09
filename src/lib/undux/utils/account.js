@@ -1,6 +1,6 @@
 // @flow
 import type { Store } from 'undux'
-import isNull from 'lodash/isNull'
+import { isNull } from 'lodash'
 import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'

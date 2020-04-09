@@ -7,7 +7,7 @@ import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.json
 import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 import moment from 'moment'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import Mutex from 'await-mutex'
 import * as web3Utils from 'web3-utils'
 import logger from '../../../logger/pino-logger'

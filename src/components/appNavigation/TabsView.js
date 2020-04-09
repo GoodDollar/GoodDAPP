@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 import { Platform, TouchableOpacity } from 'react-native'
-import _get from 'lodash/get'
+import { get } from 'lodash'
 import { isIOSWeb } from '../../lib/utils/platform'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import config from '../../config/config'
@@ -64,7 +64,7 @@ const TabsView = React.memo((props: TabViewProps) => {
 
     if (!_token) {
       _token = await API.getLoginToken()
-        .then(r => _get(r, 'data.loginToken'))
+        .then(r => get(r, 'data.loginToken'))
         .then(newToken => {
           if (newToken) {
             userStorage.setProfileField('loginToken', newToken, 'private')
@@ -78,7 +78,7 @@ const TabsView = React.memo((props: TabViewProps) => {
 
     if (!_marketToken) {
       _marketToken = await API.getMarketToken()
-        .then(_ => _get(_, 'data.jwt'))
+        .then(_ => get(_, 'data.jwt'))
         .then(newtoken => {
           if (newtoken) {
             userStorage.setProfileField('marketToken', newtoken)

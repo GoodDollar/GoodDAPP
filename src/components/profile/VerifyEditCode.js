@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import _get from 'lodash/get'
+import { get } from 'lodash'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
 import EmailConfirmation from '../signup/EmailConfirmation'
@@ -10,8 +10,8 @@ const log = logger.child({ from: 'Verify Edit Code' })
 
 const VerifyEditCode = props => {
   const { navigation } = props
-  const field = _get(navigation, 'state.params.field')
-  const content = _get(navigation, 'state.params.content')
+  const field = get(navigation, 'state.params.field')
+  const content = get(navigation, 'state.params.content')
   let fieldToSave
   let retryFunctionName
   let RenderComponent

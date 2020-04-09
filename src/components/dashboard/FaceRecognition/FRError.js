@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'

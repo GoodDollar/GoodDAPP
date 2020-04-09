@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
-import _get from 'lodash/get'
-import _toPairs from 'lodash/toPairs'
+import { get, toPairs } from 'lodash'
 import { isIOSWeb } from '../../lib/utils/platform'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
@@ -21,15 +20,15 @@ const RewardsTab = props => {
   const [showDialog] = useDialog()
 
   const getRewardsPath = () => {
-    const params = _get(props, 'navigation.state.params', {})
+    const params = get(props, 'navigation.state.params', {})
 
     if (isIOSWeb === false) {
       params.purpose = 'iframe'
     }
 
     params.token = token
-    let path = decodeURIComponent(_get(params, 'rewardsPath', ''))
-    const query = _toPairs(params)
+    let path = decodeURIComponent(get(params, 'rewardsPath', ''))
+    const query = toPairs(params)
       .filter(p => p[0] !== 'rewardsPath')
       .map(param => param.join('='))
       .join('&')

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, View } from 'react-native'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import QRCode from 'qrcode.react'
 import { isIOS, isMobile } from '../../../lib/utils/platform'
 import { GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'

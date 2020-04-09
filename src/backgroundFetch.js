@@ -1,6 +1,7 @@
 import BackgroundFetch from 'react-native-background-fetch'
 import PushNotification from 'react-native-push-notification'
 import { AsyncStorage } from 'react-native'
+import moment from 'moment'
 import Config from './config/config'
 import { IS_LOGGED_IN } from './lib/constants/localStorage'
 import goodWallet from './lib/wallet/GoodWallet'
@@ -38,31 +39,46 @@ const task = async taskId => {
   }
 
   const lastFeedCheck = await userStorage.feed.get('lastSeenDate')
-  const feed = await userStorage.getFeedSince(lastFeedCheck)
+  const feed = await userStorage.getFeedPage(20, true)
+  const beginningOfDayMillis = moment(lastFeedCheck)
+    .startOf('day')
+    .valueOf()
 
   console.log('lastFeedCheck', lastFeedCheck)
   console.log('feed', feed)
 
-  const hasNewPayment = feed.some(({ type, status }) => {
+  const hasNewPayment = (type, status) => {
     return type === 'receive' && status === 'completed'
-  })
+  }
 
-  const hasNewPaymentWithdraw = feed.some(({ type, status }) => {
+  const hasNewPaymentWithdraw = (type, status) => {
     return type === 'send' && status === 'completed'
+  }
+
+  const newFeeds = feed.filter(feedItem => {
+    const dayMillis = moment(feedItem.date)
+      .startOf('day')
+      .valueOf()
+    const { type, status } = feedItem
+    const newFeedItem =
+      (hasNewPayment(type, status) || hasNewPaymentWithdraw(type, status)) && dayMillis >= beginningOfDayMillis
+    return newFeedItem && feedItem
   })
 
   await userStorage.feed.put({
     lastSeenDate: Date.now(),
   })
 
-  if (!hasNewPayment && !hasNewPaymentWithdraw) {
+  if (!newFeeds) {
     return BackgroundFetch.finish(taskId)
   }
 
-  PushNotification.localNotification({
-    title: 'YO! This is a notification',
-    message: 'Now get back to work',
-  })
+  newFeeds.map(feed =>
+    PushNotification.localNotification({
+      title: `${feed.type} operation is ${feed.status}`,
+      message: 'Now get back to work',
+    })
+  )
 }
 
 const androidHeadlessTask = async ({ taskId }) => {

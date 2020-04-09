@@ -246,23 +246,27 @@ class API {
 
   /**
    * `/verify/facerecognition` post api call
-   * @param {Credentials} creds
+   * @param {any} payload
+   * @param {string} provider
    */
-  performFaceRecognition(req: FormData): Promise<$AxiosXHR<any>> {
-    //return { data: { ok: 1, livenessPassed: true, duplicates: false, zoomEnrollmentId:-1 } } //TODO: // REMOVE!!!!!!!!!!
-    return this.client
-      .post('/verify/facerecognition', req, {
-        headers: {
-          'Content-Type': `multipart/form-data;`,
-        },
-      })
-      .then(r => {
-        if (r.data.onlyInEnv) {
-          return { data: { ok: 1, enrollResult: { alreadyEnrolled: true } } }
-        }
-        return r
-      })
+  async performFaceVerification(
+    payload: any,
+    provider: string = 'kairos',
+    axiosConfig: any = {}
+  ): Promise<$AxiosXHR<any>> {
+    const { client } = this
+    const endpoint = `/verify/facerecognition/${provider}`
+
+    const response = await client.post(endpoint, payload, axiosConfig)
+    const { onlyInEnv } = response.data
+
+    if ('kairos' === provider && onlyInEnv) {
+      return { data: { ok: 1, isVerified: true } }
+    }
+
+    return response
   }
+
 
   /**
    * `/user/market` get api call

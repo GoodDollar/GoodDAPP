@@ -1,19 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
-import GDStore from '../../../lib/undux/GDStore'
-import Separator from '../../common/layout/Separator'
-import logger from '../../../lib/logger/pino-logger'
-import Text from '../../common/view/Text'
-import { CustomButton, Section, Wrapper } from '../../common'
-import { fireEvent } from '../../../lib/analytics/analytics'
-import { getFirstWord } from '../../../lib/utils/getFirstWord'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import { withStyles } from '../../../lib/styles'
-import FaceVerificationSmiley from '../../common/animations/FaceVerificationSmiley'
+import GDStore from '../../../../lib/undux/GDStore'
+import Separator from '../../../common/layout/Separator'
+import logger from '../../../../lib/logger/pino-logger'
+import Text from '../../../common/view/Text'
+import { CustomButton, Section, Wrapper } from '../../../common'
+import { fireEvent } from '../../../../lib/analytics/analytics'
+import { getFirstWord } from '../../../../lib/utils/getFirstWord'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+import { withStyles } from '../../../../lib/styles'
+import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
 
-const log = logger.child({ from: 'FRIntro' })
-const FRIntro = props => {
+const log = logger.child({ from: 'FaceVerificationIntro' })
+
+const IntroScreen = props => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
   const { styles } = props
@@ -23,15 +24,20 @@ const FRIntro = props => {
   log.debug({ isIOS, isMobileSafari })
 
   if (isUnsupported) {
-    props.screenProps.navigateTo('UnsupportedDevice', { reason: 'isNotMobileSafari' })
+    props.screenProps.navigateTo('FaceVerificationUnsupported', { reason: 'isNotMobileSafari' })
   }
-  if (isValid) {
-    props.screenProps.pop({ isValid: true })
-  } else {
-    fireEvent('FR_Intro')
-  }
+
+  useEffect(() => {
+    if (isValid) {
+      props.screenProps.pop({ isValid: true })
+    } else {
+      fireEvent('FR_Intro')
+    }
+  }, [isValid])
+
   const gotoPrivacyArticle = () => props.screenProps.push('PrivacyArticle')
   const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
+
   return (
     <Wrapper>
       <Section style={styles.topContainer} grow={1} justifyContent="center">
@@ -67,7 +73,8 @@ const FRIntro = props => {
     </Wrapper>
   )
 }
-FRIntro.navigationOptions = {
+
+IntroScreen.navigationOptions = {
   navigationBarHidden: false,
   title: 'Face Verification',
 }
@@ -107,7 +114,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingVertical: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   description: {
-    display: 'block',
+    display: 'flex',
     paddingTop: 0,
   },
   descriptionUnderline: {
@@ -122,4 +129,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(FRIntro)
+export default withStyles(getStylesFromProps)(IntroScreen)

@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResultStep matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitFlexDirection": "row",
+        "flexDirection": "row",
+        "marginRight": "0px",
+        "msFlexDirection": "row",
+        "paddingBottom": "12px",
+        "paddingTop": "0px",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxFlex": 2,
+          "WebkitFlexGrow": 2,
+          "flexGrow": 2,
+          "msFlexPositive": 2,
+        }
+      }
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(66,69,74,1.00)",
+            "fontFamily": "Roboto",
+            "fontSize": "16px",
+            "fontWeight": "500",
+            "lineHeight": "28px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+          }
+        }
+      >
+        Checking liveness
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
+          "backgroundColor": "rgba(0,195,174,1.00)",
+          "borderBottomLeftRadius": "50%",
+          "borderBottomRightRadius": "50%",
+          "borderTopLeftRadius": "50%",
+          "borderTopRightRadius": "50%",
+          "height": "28px",
+          "justifyContent": "center",
+          "msFlexPack": "center",
+          "width": "28px",
+        }
+      }
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "fontFamily": "gooddollar",
+            "fontSize": "14px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "textAlign": "center",
+          }
+        }
+      >
+        
+      </div>
+    </div>
+  </div>
+</div>
+`;

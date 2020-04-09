@@ -1,37 +1,39 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
-import { findKey /*, find, mapValues*/ } from 'lodash'
-import Text from '../../common/view/Text'
+import { View } from 'react-native'
+import findKey from 'lodash/findKey'
+import Text from '../../../common/view/Text'
 
-import { getFirstWord } from '../../../lib/utils/getFirstWord'
-import CustomButton from '../../common/buttons/CustomButton'
-import Section from '../../common/layout/Section'
-import Separator from '../../common/layout/Separator'
-import logger from '../../../lib/logger/pino-logger'
-import goodWallet from '../../../lib/wallet/GoodWallet'
-import userStorage from '../../../lib/gundb/UserStorage'
-import LookingGood from '../../../assets/LookingGood.svg'
-import GDStore from '../../../lib/undux/GDStore'
-import { fireEvent } from '../../../lib/analytics/analytics'
-import { withStyles } from '../../../lib/styles'
-import normalize from '../../../lib/utils/normalizeText'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import FRStep from './FRStep'
+import { getFirstWord } from '../../../../lib/utils/getFirstWord'
+import CustomButton from '../../../common/buttons/CustomButton'
+import Section from '../../../common/layout/Section'
+import Separator from '../../../common/layout/Separator'
+import logger from '../../../../lib/logger/pino-logger'
+import goodWallet from '../../../../lib/wallet/GoodWallet'
+import userStorage from '../../../../lib/gundb/UserStorage'
+import LookingGood from '../../../../assets/LookingGood.svg'
+import GDStore from '../../../../lib/undux/GDStore'
+import { fireEvent } from '../../../../lib/analytics/analytics'
+import { withStyles } from '../../../../lib/styles'
+import normalize from '../../../../lib/utils/normalizeText'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+import ResultStep from './ResultStep'
 
-Image.prefetch(LookingGood)
+if (Platform.OS === 'web') {
+  Image.prefetch(LookingGood)
+}
 
-const log = logger.child({ from: 'GuidedFRProcessResults' })
+const log = logger.child({ from: 'GuidedResults' })
 
-const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation, isAPISuccess, styles }: any) => {
+const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPISuccess, styles }: any) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
   const [processStatus, setStatus] = useState({
     isError: undefined,
     isStarted: undefined,
-    isNotDuplicate: undefined,
-    isEnrolled: undefined,
+    isDuplicate: undefined,
+    isEnroll: undefined,
     isLive: undefined,
     isWhitelisted: undefined,
     isProfileSaved: undefined,
@@ -42,12 +44,12 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
     // let explanation = ''
     let failedFR = findKey(data, (v, k) => v === false)
-    if (data.isError) {
-      fireEvent(`FR_Error`, { failedFR, error: data.isError })
+    if (data.error) {
+      fireEvent(`FR_Error`, { failedFR, error: data.error })
       log.error('FR Error', 'An error occurred during gun sessionId updates', null, {
         sessionId,
         failedFR,
-        error: data.isError,
+        error: data.error,
       })
     } else if (failedFR) {
       fireEvent(`FR_Failed`, { failedFR })
@@ -56,7 +58,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
     // log.debug('analyzed data,', { processStatus })
 
-    // if (data && data.isNotDuplicate) {
+    // if (data && data.isDuplicate) {
     //   explanation = 'Your are already in the database'
     //   setText(explanation)
 
@@ -138,8 +140,8 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   // }, [isAPISuccess])
 
   const isProcessFailed =
-    processStatus.isNotDuplicate === false ||
-    processStatus.isEnrolled === false ||
+    processStatus.isDuplicate === true ||
+    processStatus.isEnroll === false ||
     processStatus.isLive === false ||
     processStatus.isWhitelisted === false ||
     processStatus.isProfileSaved === false
@@ -155,11 +157,13 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     </Section>
   ) : null
 
-  let lookingGood =
+  let lookingGoodComponent =
     isProcessFailed === false && processStatus.isProfileSaved ? (
       <View style={styles.imageView}>
         <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
-        <Image source={LookingGood} resizeMode={'center'} style={styles.image} />
+        <View style={styles.image}>
+          <LookingGoodSVG />
+        </View>
       </View>
     ) : null
 
@@ -167,8 +171,8 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
   //if (processStatus.useAPIResult && isAPISuccess === false) {
   if (processStatus.isError) {
-    helpText = `Something went wrong, please try again...\n\n(${processStatus.isError})`
-  } else if (processStatus.isNotDuplicate === false) {
+    helpText = <Text>{`Something went wrong, please try again...\n\n(${processStatus.isError})`}</Text>
+  } else if (processStatus.isDuplicate === true) {
     helpText = (
       <View>
         <Text color="red">{'You look very familiar...\nIt seems you already have a wallet,\nyou can:\n\n'}</Text>
@@ -189,11 +193,14 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
       </View>
     )
   } else if (processStatus.isLive === false) {
-    helpText =
-      'We could not verify you are a living person. Funny hu? please make sure:\n\n' +
-      'A. Center your webcam\n' +
-      'B. Camera is at eye level\n' +
-      'C. Light your face evenly'
+    helpText = (
+      <Text>
+        {'We could not verify you are a living person. Funny hu? please make sure:\n\n' +
+          'A. Center your webcam\n' +
+          'B. Camera is at eye level\n' +
+          'C. Light your face evenly'}
+      </Text>
+    )
   } else if (isProcessFailed) {
     log.error('FR failed', 'Some of the verification steps failed', null, { processStatus })
     helpText = 'Something went wrong, please try again...'
@@ -207,23 +214,24 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
         <View style={styles.mainView}>
           <Separator width={2} />
           <View style={styles.steps}>
-            <FRStep
+            <ResultStep
               title={'Checking duplicates'}
               isActive={true}
-              status={isProcessSuccess || processStatus.isNotDuplicate}
+              /* eslint-disable-next-line no-negated-condition */
+              status={processStatus.isDuplicate !== undefined ? !processStatus.isDuplicate : undefined}
               isProcessFailed={isProcessFailed}
             />
-            <FRStep
+            <ResultStep
               title={'Checking liveness'}
               isActive={
                 isProcessFailed ||
                 isProcessSuccess ||
-                (processStatus.isNotDuplicate !== undefined && processStatus.isNotDuplicate === true)
+                (processStatus.isDuplicate !== undefined && processStatus.isDuplicate === false)
               }
               status={isProcessSuccess || processStatus.isLive}
               isProcessFailed={isProcessFailed}
             />
-            <FRStep
+            <ResultStep
               title={'Validating identity'}
               isActive={
                 isProcessFailed ||
@@ -233,7 +241,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
               status={isProcessSuccess || processStatus.isWhitelisted}
               isProcessFailed={isProcessFailed}
             />
-            <FRStep
+            <ResultStep
               title={'Updating profile'}
               isActive={
                 isProcessFailed ||
@@ -250,7 +258,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
         <View style={styles.imageView}>
           <Text color="red">{helpText}</Text>
         </View>
-        <View style={styles.imageContainer}>{lookingGood}</View>
+        <View style={styles.imageContainer}>{lookingGoodComponent}</View>
       </Section>
       {retryButtonOrNull}
     </View>
@@ -311,4 +319,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(GuidedFRProcessResults)
+export default withStyles(getStylesFromProps)(GuidedResults)

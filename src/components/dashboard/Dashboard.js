@@ -75,10 +75,11 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
-// import FaceRecognition from './FaceRecognition/FaceRecognition'
-// import FRIntro from './FaceRecognition/FRIntro'
-// import FRError from './FaceRecognition/FRError'
-// import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
+import FaceVerification from './FaceVerification'
+import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
+import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
+import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedScreen'
+
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -819,10 +820,11 @@ export default createStackNavigator({
 
   SendToAddress,
 
-  // FRError,
-  // FaceVerification: FaceRecognition,
-  // FRIntro,
-  // UnsupportedDevice,
+  FaceVerification,
+  FaceVerificationIntro,
+  FaceVerificationError,
+  FaceVerificationUnsupported,
+
   SendQRSummary,
 
   // PP: PrivacyPolicy,

@@ -28,19 +28,23 @@ import MagicLinkInfo from './MagicLinkInfo'
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord & { invite_code?: string }
+
 type Ready = Promise<{ goodWallet: any, userStorage: any }>
-const SignupWizardNavigator = createSwitchNavigator(
-  {
-    Name: NameForm,
-    Phone: PhoneForm,
-    SMS: SmsForm,
-    Email: EmailForm,
-    EmailConfirmation,
-    SignupCompleted,
-    MagicLinkInfo,
-  },
-  navigationConfig
-)
+
+const routes = {
+  Name: NameForm,
+  Phone: PhoneForm,
+  SMS: SmsForm,
+  Email: EmailForm,
+  EmailConfirmation,
+  SignupCompleted,
+}
+
+if (Config.enableSelfCustody) {
+  routes.MagicLinkInfo = MagicLinkInfo
+}
+
+const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
@@ -177,7 +181,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
   const checkTorusLogin = () => {
     const masterSeed = torusUserFromProps.privateKey
-    if (Config.torusEnabled && masterSeed === undefined) {
+    if (!Config.enableSelfCustody && Config.torusEnabled && masterSeed === undefined) {
       log.debug('torus user information missing', { torusUserFromProps })
       return navigation.navigate('Auth')
     }

@@ -262,19 +262,21 @@ const getStylesFromProps = ({ theme }) => {
     },
   }
 }
+
 const auth = withStyles(getStylesFromProps)(SimpleStore.withStore(Auth))
 auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,
 }
-export default createStackNavigator(
-  {
-    Login: auth,
-    PrivacyPolicyAndTerms,
-    Recover: Mnemonics,
-    Support,
-  },
-  {
-    backRouteName: 'Auth',
-  }
-)
+
+const routes = {
+  Login: auth,
+  PrivacyPolicyAndTerms,
+  Support,
+}
+
+if (config.enableSelfCustody) {
+  routes.Recover = Mnemonics
+}
+
+export default createStackNavigator(routes, { backRouteName: 'Auth' })

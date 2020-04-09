@@ -5,7 +5,7 @@ import { Platform } from 'react-native'
 import { isAndroid, isMobileSafari } from 'mobile-device-detect'
 import Config from './config/config'
 import Signup from './components/signup/SignupState'
-import SigninInfo from './components/signin/SigninInfo'
+import SignInInfo from './components/signin/SigninInfo'
 import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
 import AuthTorus from './components/auth/AuthTorus'
@@ -19,18 +19,20 @@ import { getOriginalScreenHeight } from './lib/utils/Orientation'
 
 const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 const AuthType = Config.torusEnabled ? AuthTorus : Auth
-const router = createSwitchNavigator(
-  {
-    Auth: AuthType,
-    Signup,
-    InvalidW3TokenError,
-    SigninInfo,
-    IOSWebAppSignIn,
-  },
-  {
-    initialRouteName,
-  }
-)
+
+const routes = {
+  Auth: AuthType,
+  Signup,
+  InvalidW3TokenError,
+  IOSWebAppSignIn,
+}
+
+if (Config.enableSelfCustody) {
+  routes.SigninInfo = SignInInfo
+}
+
+const router = createSwitchNavigator(routes, { initialRouteName })
+
 let WebRouter
 if (Platform.OS === 'web') {
   WebRouter = createBrowserApp(router)

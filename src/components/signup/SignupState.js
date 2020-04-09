@@ -314,7 +314,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       goodWallet
         .getBlockNumber()
         .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
-        .catch(e => log.error('save blocknumber failed:', e.message, e))
+        .catch(e => log.warn('save blocknumber failed:', e.message, e))
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       Promise.all([

@@ -755,7 +755,7 @@ export class GoodWallet {
         ok: false,
       }
     } catch (e) {
-      log.error('verifyHasGas:', e.message, e, { wei })
+      log.warn('verifyHasGas:', e.message, e, { wei })
       return {
         ok: false,
         error: false,

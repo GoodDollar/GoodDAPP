@@ -18,7 +18,7 @@ const OutOfGasError = props => {
   const MIN_BALANCE_VALUE = '100000'
   const isValid = _get(props, 'screenProps.screenState.isValid', undefined)
   const ERROR = `In order for transactions to go through,
-you need ‘Gas’ witch is a virtual money. 
+you need ‘Gas’ witch is a virtual money.
 Don’t worry, we’ll take care off you.\n`
   const ERROR_BOLD = "We're giving it to you for FREE, FOREVER."
   const TITLE = "Ooops,\nYou're out of gas..."
@@ -51,7 +51,7 @@ Don’t worry, we’ll take care off you.\n`
       }
       isOk = ok
     } catch (e) {
-      log.error('verifyHasGasFailed', e.message, e)
+      log.warn('verifyHasGasFailed', e.message, e)
     }
     setLoading(false)
     if (isOk) {

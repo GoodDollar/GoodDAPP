@@ -36,15 +36,14 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
 
   const shareStringSource = [codeObject, amount, counterPartyDisplayName, fullName]
   const shareString = useMemo(
-    () => (canShare ? generateReceiveShareObject : generateReceiveShareText)(...shareStringSource),
+    () => ({
+      paymentLink: (canShare ? generateReceiveShareObject : generateReceiveShareText)(...shareStringSource),
+    }),
     [...shareStringSource, canShare, generateReceiveShareObject, generateReceiveShareText]
   )
 
   const noCreds = !(counterPartyDisplayName || reason)
-  const iconMarginWithoutReason = useMemo(
-    () => (isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds),
-    [styles]
-  )
+  const iconMarginWithoutReason = useMemo(() => (isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds), [styles,])
   const amountMargin = useMemo(() => (isMobile ? styles.amountBlockMarginMobile : styles.amountBlockMargin), [styles])
 
   return (
@@ -129,11 +128,7 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <PushButton
-              routeName="TransactionConfirmation"
-              screenProps={screenProps}
-              params={{ paymentLink: shareString }}
-            >
+            <PushButton routeName="TransactionConfirmation" screenProps={screenProps} params={shareString}>
               Confirm
             </PushButton>
           </Section.Stack>

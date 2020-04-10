@@ -5,6 +5,7 @@ const isEToro = process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_
 
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
+  isTest: process.env.REACT_APP_ENV === 'test',
   version: process.env.VERSION || 'v0',
   contractsVersion,
   isEToro,

@@ -1,7 +1,6 @@
 // @flow
 
 export const FaceVerificationProviders = {
-  Kairos: 'kairos',
   Zoom: 'zoom',
 }
 

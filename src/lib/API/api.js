@@ -83,10 +83,7 @@ class API {
         baseURL: Config.web3SiteUrl,
         timeout: 30000,
       })
-      w3Instance.interceptors.request.use(
-        req => req,
-        error => Promise.reject(error)
-      )
+      w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
       w3Instance.interceptors.response.use(
         response => response.data,
         error => {
@@ -251,22 +248,16 @@ class API {
    */
   async performFaceVerification(
     payload: any,
-    provider: string = 'kairos',
+    provider: string = 'zoom',
     axiosConfig: any = {}
   ): Promise<$AxiosXHR<any>> {
     const { client } = this
     const endpoint = `/verify/facerecognition/${provider}`
 
     const response = await client.post(endpoint, payload, axiosConfig)
-    const { onlyInEnv } = response.data
-
-    if ('kairos' === provider && onlyInEnv) {
-      return { data: { ok: 1, isVerified: true } }
-    }
 
     return response
   }
-
 
   /**
    * `/user/market` get api call

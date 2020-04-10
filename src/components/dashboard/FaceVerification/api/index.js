@@ -4,10 +4,10 @@ import API from '../../../../lib/API/api'
 import logger from '../../../../lib/logger/pino-logger'
 
 import {
-  type FaceVerificationResponse,
   type FaceVerificationPayload,
   type FaceVerificationProvider,
   FaceVerificationProviders,
+  type FaceVerificationResponse,
 } from './typings'
 
 class FaceVerificationApi {
@@ -24,31 +24,22 @@ class FaceVerificationApi {
 
   async performFaceVerification(
     payload: FaceVerificationPayload,
-    provider: FaceVerificationProvider = FaceVerificationProviders.Kairos,
+    provider: FaceVerificationProvider = FaceVerificationProviders.Zoom,
     progressSubscription?: ({ loaded: number, total: number }) => void
   ): Promise<FaceVerificationResponse> {
     let imageCount
     let axiosConfig = {}
     const { rootApi, logger } = this
 
-    const { sessionId, images, auditTrailImage, lowQualityAuditTrailImage } = payload
+    const { sessionId, auditTrailImage, lowQualityAuditTrailImage } = payload
 
-    switch (provider) {
-      case FaceVerificationProviders.Kairos:
-        imageCount = images.length
-        break
-      case FaceVerificationProviders.Zoom:
-        this.lastCancelToken = axios.CancelToken.source()
+    this.lastCancelToken = axios.CancelToken.source()
 
-        imageCount = Number(!!(auditTrailImage || lowQualityAuditTrailImage))
+    imageCount = Number(!!(auditTrailImage || lowQualityAuditTrailImage))
 
-        axiosConfig = {
-          cancelToken: this.lastCancelToken.token,
-          onProgress: progressSubscription,
-        }
-        break
-      default:
-        throw new Error(`Provider '${provider}' haven't registered.`)
+    axiosConfig = {
+      cancelToken: this.lastCancelToken.token,
+      onProgress: progressSubscription,
     }
 
     logger.info('performFaceVerification', { provider, sessionId, imageCount })

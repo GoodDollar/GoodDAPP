@@ -80,7 +80,6 @@ import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedScreen'
 
-
 const log = logger.child({ from: 'Dashboard' })
 
 const screenWidth = getMaxDeviceWidth()

@@ -13,7 +13,7 @@ module.exports = function(api) {
         plugins: ['react-native-paper/babel']
       }
     },
-    ignore: ['node_modules/art/core/color.js'],
+    ignore: ['node_modules/art/core/color.js', 'src/lib/zoom/ZoomAuthentication.js'],
     plugins: [
       [
         'module-resolver',

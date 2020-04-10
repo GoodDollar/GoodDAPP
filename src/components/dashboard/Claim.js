@@ -238,8 +238,7 @@ const Claim = props => {
   }
 
   const faceRecognition = () => {
-    //await handleClaim()
-    screenProps.push('FRIntro', { from: 'Claim' })
+    screenProps.push('FaceVerificationIntro', { from: 'Claim' })
   }
 
   const propsForContent = {

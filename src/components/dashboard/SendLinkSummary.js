@@ -52,7 +52,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const shareAction = useCallback(
     async paymentLink => {
-      const shareStringSource = [paymentLink].concat(shareStringStateDepSource)
+      const shareStringSource = [paymentLink, ...shareStringStateDepSource]
       const shareString = generateSendShareObject(...shareStringSource)
 
       try {
@@ -158,30 +158,27 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   }, [setLoading, address, amount, reason, showDialog, showErrorDialog])
 
   const sendViaLink = useCallback(() => {
-    let paymentLink = link
-
-    // Prevents calling back `generateLink` as it generates a new transaction every time it's called
-    if (paymentLink === '') {
-      paymentLink = generateLink()
-      setLink(paymentLink)
-    }
+    let paymentLink = getLink()
 
     if (canShare) {
       shareAction(paymentLink)
     } else {
-      const shareStringSource = [paymentLink].concat(shareStringStateDepSource)
-      const desktopShareLink = generateSendShareText(...shareStringSource)
+      const desktopShareLink = generateSendShareText(paymentLink, ...shareStringStateDepSource)
 
       // Show confirmation
       push('TransactionConfirmation', { paymentLink: desktopShareLink })
     }
-  }, [...shareStringStateDepSource, generateSendShareText, setLink, canShare, link, push])
+  }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
 
   /**
    * Generates link to send and call send email/sms action
    * @throws Error if link cannot be send
    */
-  const generateLink = useCallback(() => {
+  const getLink = useCallback(() => {
+    if (link) {
+      return link
+    }
+
     try {
       let txHash
 
@@ -225,29 +222,31 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           userStorage.markWithErrorEvent(txHash)
         },
       })
-      const { txPromise } = generateLinkResponse
-
-      txPromise.catch(e => {
-        log.error('generateLinkAndSend:', e.message, e)
-        showErrorDialog('Link generation failed. Please try again', '', {
-          buttons: [
-            {
-              text: 'Try again',
-              onPress: () => {
-                handleConfirm()
-              },
-            },
-          ],
-          onDismiss: () => {
-            goToRoot()
-          },
-        })
-      })
 
       log.debug('generateLinkAndSend:', { generateLinkResponse })
 
       if (generateLinkResponse) {
-        const { paymentLink } = generateLinkResponse
+        const { txPromise, paymentLink } = generateLinkResponse
+
+        txPromise.catch(e => {
+          log.error('generateLinkAndSend:', e.message, e)
+          showErrorDialog('Link generation failed. Please try again', '', {
+            buttons: [
+              {
+                text: 'Try again',
+                onPress: () => {
+                  handleConfirm()
+                },
+              },
+            ],
+            onDismiss: () => {
+              goToRoot()
+            },
+          })
+        })
+
+        setLink(paymentLink)
+
         return paymentLink
       }
 
@@ -256,7 +255,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       showErrorDialog('Could not complete transaction. Please try again.')
       log.error('Something went wrong while trying to generate send link', e.message, e)
     }
-  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, goToRoot])
+  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, setLink, link, goToRoot])
 
   const onConfirmPressHandler = useMemo(() => (isCitizen ? handleConfirm : faceRecognition), [isCitizen])
 

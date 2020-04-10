@@ -2,7 +2,7 @@
 import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { get } from 'lodash'
-import Mnemonics from '../signin/Mnemonics'
+import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
@@ -276,7 +276,7 @@ const routes = {
 }
 
 if (config.enableSelfCustody) {
-  routes.Recover = Mnemonics
+  Object.assign(routes, { Recover })
 }
 
 export default createStackNavigator(routes, { backRouteName: 'Auth' })

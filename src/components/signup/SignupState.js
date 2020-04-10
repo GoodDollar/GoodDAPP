@@ -41,7 +41,7 @@ const routes = {
 }
 
 if (Config.enableSelfCustody) {
-  routes.MagicLinkInfo = MagicLinkInfo
+  Object.assign(routes, { MagicLinkInfo })
 }
 
 const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)

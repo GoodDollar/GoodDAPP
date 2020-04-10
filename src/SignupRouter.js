@@ -5,7 +5,7 @@ import { Platform } from 'react-native'
 import { isAndroid, isMobileSafari } from 'mobile-device-detect'
 import Config from './config/config'
 import Signup from './components/signup/SignupState'
-import SignInInfo from './components/signin/SigninInfo'
+import SigninInfo from './components/signin/SigninInfo'
 import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
 import AuthTorus from './components/auth/AuthTorus'
@@ -28,7 +28,7 @@ const routes = {
 }
 
 if (Config.enableSelfCustody) {
-  routes.SigninInfo = SignInInfo
+  Object.assign(routes, { SigninInfo })
 }
 
 const router = createSwitchNavigator(routes, { initialRouteName })

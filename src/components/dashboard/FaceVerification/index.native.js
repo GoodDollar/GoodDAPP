@@ -8,7 +8,7 @@ import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import { fireEvent } from '../../../lib/analytics/analytics'
-import { type FaceRecognitionResponse } from './api/typings'
+import { type FaceVerificationResponse } from './api/typings'
 import api from './api'
 import GuidedFR from './components/GuidedResults'
 
@@ -69,7 +69,7 @@ class FaceVerification extends React.Component<FaceRecognitionProps, State> {
         sessionId,
       })
 
-      const result: FaceRecognitionResponse = await api.performFaceVerification({ images, sessionId })
+      const result: FaceVerificationResponse = await api.performFaceVerification({ images, sessionId })
 
       log.debug('FR API:', { result })
     } catch (exception) {

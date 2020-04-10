@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 import findKey from 'lodash/findKey'
 import Text from '../../../common/view/Text'
 
@@ -25,7 +25,7 @@ if (Platform.OS === 'web') {
 
 const log = logger.child({ from: 'GuidedResults' })
 
-const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPISuccess, styles }: any) => {
+const GuidedResults = ({ sessionId, retry, done, navigation, isAPISuccess, styles }: any) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
@@ -162,7 +162,7 @@ const GuidedResults = ({ profileSaved, sessionId, retry, done, navigation, isAPI
       <View style={styles.imageView}>
         <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
         <View style={styles.image}>
-          <LookingGoodSVG />
+          <Image source={LookingGood} resizeMode={'center'} style={styles.image} />
         </View>
       </View>
     ) : null

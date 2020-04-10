@@ -40,10 +40,10 @@ const ClaimPhaseOne = ({
         </View>
         <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.subMainText]}>
           <View style={styles.bottomContainer}>
-            <Text color="#0C263D" fontSize={16} fontWeight={500} ontFamily="Roboto">
+            <Text color="#0C263D" fontSize={16} fontWeight={500} fontFamily="Roboto">
               {`Total money generated today:`}
             </Text>
-            <Text color="#0C263D" fontSize={30} fontWeight="bold" ontFamily="Roboto">
+            <Text color="#0C263D" fontSize={30} fontWeight="bold" fontFamily="Roboto">
               <BigGoodDollar
                 style={{ display: 'contents' }}
                 reverse={true}

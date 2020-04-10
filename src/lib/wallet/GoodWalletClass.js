@@ -374,6 +374,7 @@ export class GoodWallet {
   async getAmountAndQuantityClaimedToday(): Promise<any> {
     try {
       let stats = await this.UBIContract.methods.getDailyStats().call()
+
       if (!stats) {
         stats = [ZERO, ZERO]
       }
@@ -388,9 +389,9 @@ export class GoodWallet {
     }
   }
 
-  async checkEntitlement(): Promise<number> {
+  checkEntitlement(): Promise<number> {
     try {
-      return await this.UBIContract.methods.checkEntitlement().call()
+      return this.UBIContract.methods.checkEntitlement().call()
     } catch (exception) {
       const { message } = exception
 
@@ -455,8 +456,7 @@ export class GoodWallet {
   async balanceOf(): Promise<number> {
     try {
       const balance = await this.tokenContract.methods.balanceOf(this.account).call()
-
-      const balanceValue = await toBN(balance)
+      const balanceValue = toBN(balance)
 
       return balanceValue.toNumber()
     } catch (exception) {
@@ -468,8 +468,17 @@ export class GoodWallet {
   }
 
   async balanceOfNative(): Promise<number> {
+    const { wallet, account } = this
+
     try {
-      return await this.wallet.eth.getBalance(this.account).then(parseInt)
+      const balance = await wallet.eth.getBalance(account)
+      const balanceValue = parseInt(balance)
+
+      if (isNaN(balanceValue)) {
+        throw new Error(`Invalid balance value '${balance}'`)
+      }
+
+      return balanceValue
     } catch (exception) {
       const { message } = exception
 
@@ -498,9 +507,9 @@ export class GoodWallet {
    * @param address
    * @returns {Promise<boolean>}
    */
-  async isVerified(address: string): Promise<boolean> {
+  isVerified(address: string): Promise<boolean> {
     try {
-      return await this.identityContract.methods.isWhitelisted(address).call()
+      return this.identityContract.methods.isWhitelisted(address).call()
     } catch (exception) {
       const { message } = exception
 
@@ -523,10 +532,14 @@ export class GoodWallet {
    */
   async getTxFee(): Promise<boolean> {
     try {
-      return await this.tokenContract.methods
-        .getFees(1)
-        .call()
-        .then(toBN)
+      const fee = await this.tokenContract.methods.getFees(1).call()
+      const feeValue = toBN(fee)
+
+      if (isNaN(feeValue)) {
+        throw new Error(`Invalid balance value '${fee}'`)
+      }
+
+      return feeValue
     } catch (exception) {
       const { message } = exception
 
@@ -553,18 +566,23 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   async canSend(amount: number, options = {}): Promise<boolean> {
-    const { feeIncluded = false } = options
-    let amountWithFee = amount
+    try {
+      const { feeIncluded = false } = options
+      let amountWithFee = amount
 
-    if (!feeIncluded) {
-      // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
-      const fee = await this.calculateTxFee(amount)
+      if (!feeIncluded) {
+        // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
+        const fee = await this.calculateTxFee(amount)
 
-      amountWithFee = new BN(amount).add(fee)
+        amountWithFee = new BN(amount).add(fee)
+      }
+      const balance = await this.balanceOf()
+      return parseInt(amountWithFee) <= balance
+    } catch (exception) {
+      const { message } = exception
+      log.warn('canSend failed', message, exception)
     }
-
-    const balance = await this.balanceOf()
-    return parseInt(amountWithFee) <= balance
+    return false
   }
 
   /**
@@ -631,10 +649,9 @@ export class GoodWallet {
    * @param {string} link
    * @returns {Promise<boolean>}
    */
-  async isWithdrawLinkUsed(link: string): Promise<boolean> {
+  isWithdrawLinkUsed(link: string): Promise<boolean> {
     try {
-      const { hasPayment } = await this.oneTimePaymentsContract.methods
-      return hasPayment(link).call()
+      return this.oneTimePaymentsContract.methods.hsPayment(link).call()
     } catch (exception) {
       const { message } = exception
 
@@ -649,25 +666,35 @@ export class GoodWallet {
    * @returns {Promise<{status:'Completed' | 'Cancelled' | 'Pending'}>}
    */
   async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
-    const hash = this.getWithdrawLink(otlCode)
-    const { payments } = this.oneTimePaymentsContract.methods
+    try {
+      const hashedCode = this.getWithdrawLink(otlCode)
+      const { paymentAmount, hasPayment, paymentSender: sender } = await this.oneTimePaymentsContract.methods
+        .payments(hashedCode)
+        .call()
 
-    const { paymentAmount, paymentSender, hasPayment } = await payments(hash).call()
-    const amount = toBN(paymentAmount).toNumber()
-    let status = WITHDRAW_STATUS_UNKNOWN
+      const amount = toBN(paymentAmount).toNumber()
+      let status = WITHDRAW_STATUS_UNKNOWN
 
-    // Check payment availability
-    if (hasPayment && amount > 0) {
-      status = WITHDRAW_STATUS_PENDING
-    }
-    if (hasPayment === false && toBN(paymentSender).isZero() === false) {
-      status = WITHDRAW_STATUS_COMPLETE
-    }
-    return {
-      hashedCode: hash,
-      status,
-      amount,
-      sender: paymentSender,
+      // Check payment availability
+      if (hasPayment && amount > 0) {
+        status = WITHDRAW_STATUS_PENDING
+      }
+
+      if (hasPayment === false && toBN(sender).isZero() === false) {
+        status = WITHDRAW_STATUS_COMPLETE
+      }
+
+      return {
+        hashedCode,
+        status,
+        amount,
+        sender,
+      }
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('getWithdrawDetails failed', message, exception)
+      throw exception
     }
   }
 

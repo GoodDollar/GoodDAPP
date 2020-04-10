@@ -116,8 +116,13 @@ const Claim = props => {
   const getNextClaim = async date => {
     let nextClaimTime = date - new Date().getTime()
     if (nextClaimTime < 0 && state.entitlement <= 0) {
-      const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
-      setState(prev => ({ ...prev, entitlement }))
+      try {
+        const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
+        setState(prev => ({ ...prev, entitlement }))
+      } catch (exception) {
+        const { message } = exception
+        log.warn('getNextClaim failed', message, exception)
+      }
     }
     return new Date(nextClaimTime).toISOString().substr(11, 8)
   }

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, Share, View } from 'react-native'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -32,30 +32,31 @@ export type AmountProps = {
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const gdstore = GDStore.useStore()
-  const profile = gdstore.get('profile')
   const [screenState] = useScreenState(screenProps)
-  const { push, goToRoot } = screenProps
   const [showDialog, , showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
 
-  const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
+  const { push, goToRoot } = screenProps
+
+  const { fullName } = gdstore.get('profile')
+  const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
+  const { action } = params
+
+  const [isCitizen, setIsCitizen] = useState(gdstore.get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
   const [loading, setLoading] = useState('')
-  const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
-  const { action } = params
 
-  const faceRecognition = useCallback(() => {
-    return push('FRIntro', { from: 'SendLinkSummary' })
-  }, [push])
+  const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
 
   const shareAction = useCallback(
     async paymentLink => {
-      const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
+      const shareStringSource = [paymentLink].concat(shareStringStateDepSource)
+      const shareString = generateSendShareObject(...shareStringSource)
 
       try {
-        await Share.share(share)
+        await Share.share(shareString)
 
         //on non web we have the send confirmation which is skipped here, so we simulate the events
         //so we have same funnel for mobile + web
@@ -70,12 +71,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             message: `You can still copy the link by tapping on "Copy link to clipboard".`,
             dismissText: 'Ok',
             onDismiss: () => {
-              const desktopShareLink = generateSendShareText(
-                paymentLink,
-                amount,
-                counterPartyDisplayName,
-                profile.fullName
-              )
+              const desktopShareLink = generateSendShareText(...shareStringSource)
 
               push('TransactionConfirmation', {
                 paymentLink: desktopShareLink,
@@ -85,24 +81,10 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         }
       }
     },
-    [
-      generateSendShareText,
-      generateSendShareObject,
-      amount,
-      counterPartyDisplayName,
-      profile,
-      setShared,
-      showDialog,
-      push,
-    ]
+    [...shareStringStateDepSource, generateSendShareText, generateSendShareObject, setShared, showDialog, push]
   )
 
-  // Going to root after shared
-  useEffect(() => {
-    if (shared) {
-      goToRoot()
-    }
-  }, [shared, goToRoot])
+  const faceRecognition = useCallback(() => push('FRIntro', { from: 'SendLinkSummary' }), [push])
 
   const handleConfirm = useCallback(() => {
     if (action === ACTION_SEND_TO_ADDRESS) {
@@ -187,14 +169,13 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     if (canShare) {
       shareAction(paymentLink)
     } else {
-      const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
+      const shareStringSource = [paymentLink].concat(shareStringStateDepSource)
+      const desktopShareLink = generateSendShareText(...shareStringSource)
 
       // Show confirmation
-      push('TransactionConfirmation', {
-        paymentLink: desktopShareLink,
-      })
+      push('TransactionConfirmation', { paymentLink: desktopShareLink })
     }
-  }, [generateSendShareText, setLink, canShare, link, amount, counterPartyDisplayName, profile, push])
+  }, [...shareStringStateDepSource, generateSendShareText, setLink, canShare, link, push])
 
   /**
    * Generates link to send and call send email/sms action
@@ -258,7 +239,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             },
           ],
           onDismiss: () => {
-            screenProps.goToRoot()
+            goToRoot()
           },
         })
       })
@@ -275,13 +256,18 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       showErrorDialog('Could not complete transaction. Please try again.')
       log.error('Something went wrong while trying to generate send link', e.message, e)
     }
-  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, screenProps])
+  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, goToRoot])
+
+  const onConfirmPressHandler = useMemo(() => (isCitizen ? handleConfirm : faceRecognition), [isCitizen])
 
   useEffect(() => {
     if (isCitizen === false) {
       goodWallet.isCitizen().then(setIsCitizen)
     }
   }, [])
+
+  // Going to root after shared
+  useEffect(() => shared && goToRoot(), [shared])
 
   return (
     <Wrapper>
@@ -344,11 +330,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton
-              onPress={isCitizen ? handleConfirm : faceRecognition}
-              disabled={isCitizen === undefined}
-              lodaing={loading}
-            >
+            <CustomButton onPress={onConfirmPressHandler} disabled={isCitizen === undefined} lodaing={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>

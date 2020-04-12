@@ -4,15 +4,18 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 import ImportedIntroScreen from '../screens/IntroScreen'
 
 const IntroScreen = withThemeProvider(ImportedIntroScreen)
+const screenState = {
+  isValid: true,
+}
 
 describe('FaceVerificationIntro', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<IntroScreen screenProps={{ screenState: {} }} />)
+    const tree = renderer.create(<IntroScreen screenProps={{ pop: () => {}, screenState }} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<IntroScreen screenProps={{ screenState: {} }} />)
+    const component = renderer.create(<IntroScreen screenProps={{ pop: () => {}, screenState }} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

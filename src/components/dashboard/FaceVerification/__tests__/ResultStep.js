@@ -1,21 +1,21 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import ResultStep from '../components/ResultStep'
+import UnsupportedScreen from '../screens/UnsupportedScreen'
 
 describe('ResultStep', () => {
-  const WrappedResultStep = withThemeProvider(ResultStep)
+  const WrappedUnsupportedScreen = withThemeProvider(UnsupportedScreen)
 
   it('renders without errors', () => {
     const tree = renderer.create(
-      <WrappedResultStep title={'Checking liveness'} isActive={true} status={true} isProcessFailed={false} />
+      <WrappedUnsupportedScreen title={'Checking liveness'} screenProps={{ screenState: { reason: 'Test' } }} />
     )
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
     const component = renderer.create(
-      <WrappedResultStep title={'Checking liveness'} isActive={true} status={true} isProcessFailed={false} />
+      <WrappedUnsupportedScreen title={'Checking liveness'} screenProps={{ screenState: { reason: 'Test' } }} />
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

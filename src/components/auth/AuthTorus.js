@@ -127,7 +127,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   // google button settings
   const googleButtonHandler = asGuest ? signupGoogle : goToW3Site
   const googleButtonText = asGuest ? (
-    'Login with Google'
+    'Continue with Google'
   ) : (
     <Text style={styles.buttonText} fontWeight="medium">
       NEW HERE?
@@ -140,7 +140,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
   // facebook button settings
   const facebookButtonHandler = asGuest ? signupFacebook : goToW3Site
-  const facebookButtonText = 'Login with Facebook'
+  const facebookButtonText = 'Continue with Facebook'
   const facebookButtonTextStyle = asGuest ? undefined : styles.textBlack
 
   return (

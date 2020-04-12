@@ -38,10 +38,15 @@ const upgradeVersion = async () => {
   const valid = ['etoro', 'phase0-a']
   const required = Config.isEToro ? 'etoro' : 'phase0-a'
   const version = await AsyncStorage.getItem('GD_version')
-  if (valid.includes(version)) {
+  if (version == null || valid.includes(version)) {
     return
   }
-  const req = new Promise((res, rej) => {
+  const req = new Promise(async (res, rej) => {
+    const databases = await indexedDB.databases()
+    const exists = databases.filter(_ => _.name === 'radata').length > 0
+    if (exists === false) {
+      return res()
+    }
     const del = indexedDB.deleteDatabase('radata')
     del.onsuccess = res
     del.onerror = rej

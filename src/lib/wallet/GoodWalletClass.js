@@ -10,6 +10,7 @@ import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import values from 'lodash/values'
 import get from 'lodash/get'
+import mapValues from 'lodash/mapValues'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
@@ -379,10 +380,10 @@ export class GoodWallet {
         stats = [ZERO, ZERO]
       }
 
-      return {
-        people: stats[0].toNumber(),
-        amount: stats[1].toNumber(),
-      }
+      const { amount, count } = mapValues(stats, (value, key) =>
+        ['amount', 'count'].includes(key) ? value.toNumber() : null
+      )
+      return { amount, people: count }
     } catch (e) {
       log.error('getAmountAndQuantityClaimedToday failed', e.message, e)
       return Promise.reject(e)

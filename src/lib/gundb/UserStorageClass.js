@@ -880,7 +880,11 @@ export class UserStorage {
     this.feed = this.gunuser.get('feed')
     const feed = await this.feed
     logger.debug('init feed', { feed })
-    if (feed != null) {
+
+    if (feed == null) {
+      this.feed.put({ byid: {}, index: {}, queue: {} })
+      logger.debug('init empty feed')
+    } else {
       const byid = await this.feed.get('byid')
       logger.debug('init feed byid', { byid })
     }
@@ -1355,7 +1359,7 @@ export class UserStorage {
     let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
       return this.feed
         .get(day[0])
-        .then()
+        .then(JSON.parse)
         .catch(e => {
           logger.error('getFeed', e.message, e)
           return []
@@ -1367,7 +1371,7 @@ export class UserStorage {
       eventsIndex
         .filter(_ => _.id)
         .map(async eventIndex => {
-          let item = this.feed
+          let item = await this.feed
             .get('byid')
             .get(eventIndex.id)
             .decrypt()
@@ -1397,7 +1401,6 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-
     return Promise.all(
       feed
         .filter(
@@ -1965,7 +1968,7 @@ export class UserStorage {
       prevdate = isValidDate(prevdate) ? prevdate : date
       let prevday = `${prevdate.toISOString().slice(0, 10)}`
       if (day !== prevday) {
-        let dayEventsArr = (await feed.get(prevday)) || []
+        let dayEventsArr = (await feed.get(prevday).then(JSON.parse)) || []
         let removePos = dayEventsArr.findIndex(e => e.id === event.id)
         if (removePos >= 0) {
           dayEventsArr.splice(removePos, 1)
@@ -1979,7 +1982,7 @@ export class UserStorage {
     }
 
     // Update dates index
-    let dayEventsArr = (await feed.get(day).then()) || []
+    let dayEventsArr = (await feed.get(day).then(JSON.parse)) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
     const eventIndexItem = { id: event.id, updateDate: event.date }
     if (toUpd) {

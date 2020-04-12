@@ -1,6 +1,5 @@
 // @flow
-import fromPairs from 'lodash/fromPairs'
-import isEmpty from 'lodash/isEmpty'
+import { fromPairs, isEmpty } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from 'validator/lib/isEmail'

@@ -19,6 +19,7 @@ const getClientEnvironment = require('./env')
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt')
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -451,6 +452,16 @@ module.exports = {
     // This gives some necessary context to module not found errors, such as
     // the requesting resource.
     new ModuleNotFoundPlugin(paths.appPath),
+    // Performs the lodash import optimization across the project
+    new LodashModuleReplacementPlugin({
+      collections: true,
+      paths: true,
+      flattening: true,
+      currying: true,
+      placeholder: true,
+      caching: true,
+      shorthands:true,
+    }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.

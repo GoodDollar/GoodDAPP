@@ -2,7 +2,7 @@
 import React, { createRef } from 'react'
 import { Animated, SwipeableFlatList } from 'react-native'
 import * as Animatable from 'react-native-animatable'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'

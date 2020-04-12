@@ -1,12 +1,8 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
-import debounce from 'lodash/debounce'
-import isEqualWith from 'lodash/isEqualWith'
-import isEqual from 'lodash/isEqual'
+import { debounce, isEqual, isEqualWith, merge, pickBy } from 'lodash'
 
-import merge from 'lodash/merge'
-import pickBy from 'lodash/pickBy'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'

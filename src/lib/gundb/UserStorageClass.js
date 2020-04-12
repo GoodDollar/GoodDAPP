@@ -545,7 +545,7 @@ export class UserStorage {
       const usernamePromise = new Promise((res, rej) => {
         this.gun.get('~@' + username).once(res, { wait: 3000 })
       })
-      const existingUsername = await Promise.race([usernamePromise, delay(3000)])
+      const existingUsername = await Promise.race([usernamePromise, delay(4000, false)])
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
@@ -882,7 +882,7 @@ export class UserStorage {
     logger.debug('init feed', { feed })
 
     if (feed == null) {
-      this.feed.put({ byid: {}, index: {}, queue: {} })
+      // this.feed.put({ byid: {}, index: {}, queue: {} })
       logger.debug('init empty feed')
     } else {
       const byid = await this.feed.get('byid')
@@ -1968,7 +1968,8 @@ export class UserStorage {
       prevdate = isValidDate(prevdate) ? prevdate : date
       let prevday = `${prevdate.toISOString().slice(0, 10)}`
       if (day !== prevday) {
-        let dayEventsArr = (await feed.get(prevday).then(JSON.parse)) || []
+        let dayEventsArr =
+          (await feed.get(prevday).then(data => (typeof data === 'string' ? JSON.parse(data) : data))) || []
         let removePos = dayEventsArr.findIndex(e => e.id === event.id)
         if (removePos >= 0) {
           dayEventsArr.splice(removePos, 1)
@@ -1982,7 +1983,7 @@ export class UserStorage {
     }
 
     // Update dates index
-    let dayEventsArr = (await feed.get(day).then(JSON.parse)) || []
+    let dayEventsArr = (await feed.get(day).then(data => (typeof data === 'string' ? JSON.parse(data) : data))) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
     const eventIndexItem = { id: event.id, updateDate: event.date }
     if (toUpd) {

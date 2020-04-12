@@ -35,13 +35,20 @@ if (style.styleSheet) {
  * decide if we need to clear storage
  */
 const upgradeVersion = async () => {
-  const valid = ['etoro', 'phase0']
-  const required = Config.isEToro ? 'etoro' : 'phase0'
+  const valid = ['etoro', 'phase0-a']
+  const required = Config.isEToro ? 'etoro' : 'phase0-a'
   const version = await AsyncStorage.getItem('GD_version')
   if (valid.includes(version)) {
     return
   }
-  await AsyncStorage.clear()
+  const req = new Promise((res, rej) => {
+    const del = indexedDB.deleteDatabase('radata')
+    del.onsuccess = res
+    del.onerror = rej
+  })
+
+  //remove all local data so its not cached and user will re-login
+  await Promise.all([AsyncStorage.clear(), req.catch()])
   return AsyncStorage.setItem('GD_version', required)
 }
 

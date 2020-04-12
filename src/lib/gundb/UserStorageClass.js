@@ -545,7 +545,10 @@ export class UserStorage {
       const usernamePromise = new Promise((res, rej) => {
         this.gun.get('~@' + username).once(res, { wait: 3000 })
       })
-      const existingUsername = await Promise.race([usernamePromise, delay(4000, false)])
+      const usernamePromise2 = new Promise((res, rej) => {
+        this.gun.get('~@' + username).on(res)
+      })
+      const existingUsername = await Promise.race([usernamePromise2, usernamePromise, delay(4000, false)])
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
@@ -603,14 +606,22 @@ export class UserStorage {
     //this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
 
     //doing await one by one - Gun hack so it doesnt get stuck
-    await this.initProfile()
-    await this.initProperties()
-    await this.initFeed()
-    await this.gun
-      .get('users')
-      .get(this.gunuser.is.pub)
-      .putAck(this.gunuser) //save ref to user
-
+    // await this.initProfile()
+    // await this.initProperties()
+    // await this.initFeed()
+    // await this.gun
+    //   .get('users')
+    //   .get(this.gunuser.is.pub)
+    //   .putAck(this.gunuser) //save ref to user
+    await Promise.all([
+      this.initProfile(),
+      this.initProperties(),
+      this.initFeed(),
+      this.gun
+        .get('users')
+        .get(this.gunuser.is.pub)
+        .putAck(this.gunuser), //save ref to user
+    ])
     logger.debug('init systemfeed')
 
     await this.startSystemFeed()

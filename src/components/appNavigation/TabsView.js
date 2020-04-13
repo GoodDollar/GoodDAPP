@@ -13,7 +13,7 @@ import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 
-const { isEToro, market, marketUrl, showInvite, showRewards, web3SiteUrl } = config
+const { isEToro, market, marketUrl, showInvite, showRewards } = config
 
 const styles = {
   marketIconBackground: {
@@ -171,12 +171,11 @@ const TabsView = React.memo(({ navigation }) => {
   }, [])
 
   const goToRewards = useCallback(() => {
-    if (isIOS) {
-      const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
-      window.open(src, '_blank')
-    } else {
-      navigation.navigate('Rewards')
-    }
+    // if (isIOS) {
+    //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
+    //   return window.open(src, '_blank')
+    // }
+    navigation.navigate('Rewards')
   }, [navigation, token])
 
   const goToSupport = useCallback(() => {

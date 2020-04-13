@@ -545,7 +545,10 @@ export class UserStorage {
       const usernamePromise = new Promise((res, rej) => {
         this.gun.get('~@' + username).once(res, { wait: 3000 })
       })
-      const existingUsername = await Promise.race([usernamePromise, delay(3000)])
+      const usernamePromise2 = new Promise((res, rej) => {
+        this.gun.get('~@' + username).on(res)
+      })
+      const existingUsername = await Promise.race([usernamePromise2, usernamePromise, delay(4000, false)])
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
@@ -603,14 +606,22 @@ export class UserStorage {
     //this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
 
     //doing await one by one - Gun hack so it doesnt get stuck
-    await this.initProfile()
-    await this.initProperties()
-    await this.initFeed()
-    await this.gun
-      .get('users')
-      .get(this.gunuser.is.pub)
-      .putAck(this.gunuser) //save ref to user
-
+    // await this.initProfile()
+    // await this.initProperties()
+    // await this.initFeed()
+    // await this.gun
+    //   .get('users')
+    //   .get(this.gunuser.is.pub)
+    //   .putAck(this.gunuser) //save ref to user
+    await Promise.all([
+      this.initProfile(),
+      this.initProperties(),
+      this.initFeed(),
+      this.gun
+        .get('users')
+        .get(this.gunuser.is.pub)
+        .putAck(this.gunuser), //save ref to user
+    ])
     logger.debug('init systemfeed')
 
     await this.startSystemFeed()
@@ -689,7 +700,7 @@ export class UserStorage {
     return EVENT_TYPES[data.name] || operationType
   }
 
-  async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
+  async handleReceiptUpdated(receipt: any): Promise<FeedEvent | void> {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
@@ -698,7 +709,7 @@ export class UserStorage {
       (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
     ) {
       logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
-      return {}
+      return
     }
     const release = await this.feedMutex.lock()
     try {
@@ -757,7 +768,7 @@ export class UserStorage {
     } finally {
       release()
     }
-    return {}
+    return
   }
 
   /**
@@ -882,7 +893,7 @@ export class UserStorage {
     logger.debug('init feed', { feed })
 
     if (feed == null) {
-      this.feed.put({ byid: {}, index: {}, queue: {} })
+      // this.feed.put({ byid: {}, index: {}, queue: {} })
       logger.debug('init empty feed')
     } else {
       const byid = await this.feed.get('byid')
@@ -1448,6 +1459,10 @@ export class UserStorage {
 
     //update the event
     let updatedEvent = await this.handleReceiptUpdated(receipt)
+    if (updatedEvent === undefined) {
+      return standardPrevFeedEvent
+    }
+
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
@@ -1968,7 +1983,8 @@ export class UserStorage {
       prevdate = isValidDate(prevdate) ? prevdate : date
       let prevday = `${prevdate.toISOString().slice(0, 10)}`
       if (day !== prevday) {
-        let dayEventsArr = (await feed.get(prevday).then(JSON.parse)) || []
+        let dayEventsArr =
+          (await feed.get(prevday).then(data => (typeof data === 'string' ? JSON.parse(data) : data))) || []
         let removePos = dayEventsArr.findIndex(e => e.id === event.id)
         if (removePos >= 0) {
           dayEventsArr.splice(removePos, 1)
@@ -1982,7 +1998,7 @@ export class UserStorage {
     }
 
     // Update dates index
-    let dayEventsArr = (await feed.get(day).then(JSON.parse)) || []
+    let dayEventsArr = (await feed.get(day).then(data => (typeof data === 'string' ? JSON.parse(data) : data))) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
     const eventIndexItem = { id: event.id, updateDate: event.date }
     if (toUpd) {

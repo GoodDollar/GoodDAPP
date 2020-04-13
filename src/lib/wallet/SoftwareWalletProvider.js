@@ -23,7 +23,7 @@ export function saveMnemonics(mnemonics: string): Promise<any> {
  * get user mnemonics stored on device or generate a new one
  */
 export async function getMnemonics(): Promise<string> {
-  let pkey = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || (await AsyncStorage.getItem(GD_USER_MASTERSEED))
+  let pkey = (await AsyncStorage.getItem(GD_USER_MASTERSEED)) || (await AsyncStorage.getItem(GD_USER_MNEMONIC))
 
   if (pkey) {
     log.info('pkey found, creating account from pkey:', { pkey })

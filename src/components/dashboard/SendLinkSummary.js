@@ -46,7 +46,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const { action } = params
 
   const faceRecognition = useCallback(() => {
-    return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
+    return screenProps.push('FaceVerificationIntro', { from: 'SendLinkSummary' })
   }, [screenProps])
 
   const shareAction = useCallback(

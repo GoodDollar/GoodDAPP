@@ -700,7 +700,7 @@ export class UserStorage {
     return EVENT_TYPES[data.name] || operationType
   }
 
-  async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
+  async handleReceiptUpdated(receipt: any): Promise<FeedEvent | void> {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
@@ -709,7 +709,7 @@ export class UserStorage {
       (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
     ) {
       logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
-      return {}
+      return
     }
     const release = await this.feedMutex.lock()
     try {
@@ -768,7 +768,7 @@ export class UserStorage {
     } finally {
       release()
     }
-    return {}
+    return
   }
 
   /**
@@ -1459,6 +1459,10 @@ export class UserStorage {
 
     //update the event
     let updatedEvent = await this.handleReceiptUpdated(receipt)
+    if (updatedEvent === undefined) {
+      return standardPrevFeedEvent
+    }
+
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })

@@ -527,18 +527,13 @@ export class GoodWallet {
 
   /**
    * Get transaction fee from GoodDollarReserveContract
-   * @returns {Promise<boolean>}
+   * @returns {Promise<number>}
    */
-  async getTxFee(): Promise<boolean> {
+  async getTxFee(): Promise<number> {
     try {
       const fee = await this.tokenContract.methods.getFees(1).call()
-      const feeValue = toBN(fee)
 
-      if (isNaN(feeValue)) {
-        throw new Error(`Invalid balance value '${fee}'`)
-      }
-
-      return feeValue
+      return toBN(fee).toNumber()
     } catch (exception) {
       const { message } = exception
 

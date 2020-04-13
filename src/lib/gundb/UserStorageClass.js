@@ -99,15 +99,6 @@ export type FeedEvent = {
 }
 
 /**
- * Survey details
- */
-export type SurveyDetails = {
-  amount: string,
-  reason: string,
-  survey: string,
-}
-
-/**
  * Blockchain transaction event data
  */
 export type TransactionEvent = FeedEvent & {
@@ -1473,39 +1464,6 @@ export class UserStorage {
   async isUsername(username: string) {
     const profile = await this.gun.get('users/byusername').get(username)
     return profile !== undefined
-  }
-
-  /**
-   * Save survey
-   * @param {string} hash
-   * @param {object} details
-   * @returns {Promise<void>}
-   */
-  async saveSurveyDetails(hash, details: SurveyDetails) {
-    try {
-      const date = moment(new Date()).format('DDMMYY')
-      await this.gun.get('survey').get(date)
-      await this.gun
-        .get('survey')
-        .get(date)
-        .putAck({ [hash]: details })
-      return true
-    } catch (e) {
-      logger.error('saveSurveyDetails :', e.message, e, details)
-      return false
-    }
-  }
-
-  /**
-   * Get all survey
-   * @returns {Promise<void>}
-   */
-  async getSurveyDetailByHashAndDate(hash: string, date: string) {
-    const result = await this.gun
-      .get('survey')
-      .get(date)
-      .get(hash)
-    return result
   }
 
   /**

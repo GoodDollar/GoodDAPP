@@ -12,8 +12,6 @@ import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
 import SummaryTable from '../common/view/SummaryTable'
 import TopBar from '../common/view/TopBar'
-import Config from '../../config/config'
-import SurveySend from './SurveySend'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -33,8 +31,6 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const [showDialog, showErrorDialog] = useDialog()
-  const [survey, setSurvey] = useState('other')
-  const [showSurvey, setShowSurvey] = useState(false)
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
@@ -96,13 +92,6 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
             },
           }
           userStorage.enqueueTX(transactionEvent)
-          if (Config.isEToro) {
-            userStorage.saveSurveyDetails(hash, {
-              reason,
-              amount,
-              survey,
-            })
-          }
 
           fireEvent('SEND_DONE', { type: screenState.params.type })
           showDialog({
@@ -161,17 +150,12 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton
-              mode="contained"
-              onPress={() => (Config.isEToro ? setShowSurvey(true) : confirm())}
-              loading={loading}
-            >
+            <CustomButton mode="contained" onPress={confirm} loading={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>
         </Section.Row>
       </Section>
-      {showSurvey && <SurveySend handleCheckSurvey={setSurvey} onDismiss={confirm} />}
     </Wrapper>
   )
 }

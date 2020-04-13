@@ -4,7 +4,6 @@ import { Platform, Share, View } from 'react-native'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
-import Config from '../../config/config'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -16,7 +15,6 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import { ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
-import SurveySend from './SurveySend'
 
 const log = logger.child({ from: 'SendLinkSummary' })
 
@@ -39,7 +37,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
-  const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
   const [loading, setLoading] = useState('')
   const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
@@ -137,13 +134,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           }
 
           userStorage.enqueueTX(transactionEvent)
-
-          if (Config.isEToro) {
-            userStorage.saveSurveyDetails(hash, {
-              amount,
-              survey,
-            })
-          }
 
           fireEvent('SEND_DONE', { type: 'Address' })
 
@@ -248,14 +238,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
 
           userStorage.enqueueTX(transactionEvent)
-
-          if (Config.isEToro) {
-            userStorage.saveSurveyDetails(hash, {
-              reason,
-              amount,
-              survey,
-            })
-          }
         },
         onError: () => {
           userStorage.markWithErrorEvent(txHash)
@@ -292,7 +274,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       showErrorDialog('Could not complete transaction. Please try again.')
       log.error('Something went wrong while trying to generate send link', e.message, e)
     }
-  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, screenProps])
+  }, [amount, reason, counterPartyDisplayName, showErrorDialog, screenProps])
 
   useEffect(() => {
     if (isCitizen === false) {
@@ -371,7 +353,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           </Section.Stack>
         </Section.Row>
       </Section>
-      <SurveySend handleCheckSurvey={setSurvey} />
     </Wrapper>
   )
 }

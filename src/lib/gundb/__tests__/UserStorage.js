@@ -1,6 +1,4 @@
 // @flow
-import { pick } from 'lodash'
-import moment from 'moment'
 import Contracts from '@gooddollar/goodcontracts/releases/deployment.json'
 import gun from '../gundb'
 import Config from '../../../config/config'
@@ -461,20 +459,6 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(backupMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(backupMessage)
-  })
-
-  it('has the Survey already set', async () => {
-    const hash = 'test_hash'
-    const date = moment(new Date()).format('DDMMYY')
-    const testSurvey = {
-      amount: 'amount',
-      reason: 'reason',
-      survey: 'survey',
-    }
-    await userStorage.saveSurveyDetails(hash, testSurvey)
-    const surveys = await userStorage.getSurveyDetailByHashAndDate(hash, date)
-    const result = pick(surveys, ['amount', 'reason', 'survey'])
-    expect(result).toEqual(testSurvey)
   })
 
   it('should delete the Welcome event', async () => {

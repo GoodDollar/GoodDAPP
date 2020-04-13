@@ -533,7 +533,7 @@ export class GoodWallet {
     try {
       const fee = await this.tokenContract.methods.getFees(1).call()
 
-      return toBN(fee).toNumber()
+      return toBN(fee)
     } catch (exception) {
       const { message } = exception
 

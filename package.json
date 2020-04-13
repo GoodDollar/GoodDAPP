@@ -63,7 +63,7 @@
     "@babel/preset-flow": "^7.0.0",
     "@bugsnag/js": "^6.4.3",
     "@bugsnag/plugin-react": "^6.4.0",
-    "@gooddollar/goodcontracts": "^1.0.3",
+    "@gooddollar/goodcontracts": "^1.1.0",
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@sentry/browser": "^5.10.2",

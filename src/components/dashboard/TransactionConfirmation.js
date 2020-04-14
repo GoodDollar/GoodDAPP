@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import Section from '../common/layout/Section'
@@ -73,14 +73,16 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
           </Section.Stack>
         </Section.Stack>
         <Image style={styles.image} source={ConfirmTransactionSVG} resizeMode="contain" />
-        <CopyButton toCopy={paymentLink} onPress={handlePressConfirm} onPressDone={handlePressDone}>
-          <>
-            <Icon color="white" name="link" size={25} style={styles.buttonIcon} />
-            <Section.Text color="white" fontWeight="bold">
-              COPY LINK TO CLIPBOARD
-            </Section.Text>
-          </>
-        </CopyButton>
+        <View style={styles.confirmButtonWrapper}>
+          <CopyButton toCopy={paymentLink} onPress={handlePressConfirm} onPressDone={handlePressDone}>
+            <>
+              <Icon color="white" name="link" size={25} style={styles.buttonIcon} />
+              <Section.Text size={14} color="white" fontWeight="bold">
+                COPY LINK TO CLIPBOARD
+              </Section.Text>
+            </>
+          </CopyButton>
+        </View>
       </Section>
     </Wrapper>
   )
@@ -93,7 +95,7 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'space-between',
   },
   textContainer: {
-    marginTop: getDesignRelativeHeight(50),
+    marginTop: 'auto',
   },
   confirmationTitle: {
     display: 'flex',
@@ -110,20 +112,19 @@ const getStylesFromProps = ({ theme }) => ({
   image: {
     width: '100%',
     height: getDesignRelativeHeight(150, false),
+    marginTop: 'auto',
+  },
+  confirmButtonWrapper: {
+    marginTop: 'auto',
   },
   buttonIcon: {
-    marginRight: getDesignRelativeWidth(15),
+    marginRight: getDesignRelativeWidth(10),
   },
 })
 
 SendConfirmation.navigationOptions = {
   title: SEND_TITLE,
   backButtonHidden: true,
-}
-
-SendConfirmation.shouldNavigateToComponent = props => {
-  const { screenState } = props.screenProps
-  return !!screenState.paymentLink
 }
 
 export default withStyles(getStylesFromProps)(SendConfirmation)

@@ -6,7 +6,7 @@ exports[`WebViewScreen Instances FAQ matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://community.gooddollar.org/faq-iframe"
+  src="https://community.gooddollar.org/faq"
   style={
     Object {
       "height": 844,

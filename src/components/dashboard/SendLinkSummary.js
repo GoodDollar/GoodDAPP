@@ -266,7 +266,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   }, [])
 
   // Going to root after shared
-  useEffect(() => shared && goToRoot(), [shared])
+  useEffect(() => {
+    if (shared) {
+      goToRoot()
+    }
+  }, [shared])
 
   return (
     <Wrapper>

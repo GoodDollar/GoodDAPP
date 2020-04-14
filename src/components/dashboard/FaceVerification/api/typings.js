@@ -1,11 +1,5 @@
 // @flow
 
-export const FaceVerificationProviders = {
-  Zoom: 'zoom',
-}
-
-export type FaceVerificationProvider = $Values<typeof FaceVerificationProviders>
-
 // TODO add type for enrollResult
 export type FaceVerificationResponse = {
   enrollResult: any,

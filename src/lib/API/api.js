@@ -124,11 +124,9 @@ class API {
 
   /**
    * `/user/delete` post api call
-   * @param {string} zoomId
-   * @param {string} zoomSignature
    */
-  deleteAccount(zoomId: string, zoomSignature: string): AxiosPromise<any> {
-    return this.client.post('/user/delete', { zoomId, zoomSignature })
+  deleteAccount(): AxiosPromise<any> {
+    return this.client.post('/user/delete')
   }
 
   /**
@@ -244,19 +242,26 @@ class API {
   /**
    * `/verify/facerecognition` post api call
    * @param {any} payload
-   * @param {string} provider
+   * @param {string} enrollmentIdentifier
+   * @param {any} axiosConfig
    */
-  async performFaceVerification(
-    payload: any,
-    provider: string = 'zoom',
-    axiosConfig: any = {}
-  ): Promise<$AxiosXHR<any>> {
+  performFaceVerification(payload: any, enrollmentIdentifier: string, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
     const { client } = this
-    const endpoint = `/verify/facerecognition/${provider}`
+    const endpoint = `/verify/face/${enrollmentIdentifier}`
 
-    const response = await client.post(endpoint, payload, axiosConfig)
+    return client.put(endpoint, payload, axiosConfig)
+  }
 
-    return response
+  /**
+   * `/verify/facerecognition` post api call
+   * @param {string} enrollmentIdentifier
+   * @param {string} signature
+   */
+  disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
+    const { client } = this
+    const endpoint = `/verify/face/${enrollmentIdentifier}?signature=${signature}`
+
+    return client.delete(endpoint)
   }
 
   /**

@@ -2,18 +2,14 @@ import { useCallback, useRef, useState } from 'react'
 import { first, noop } from 'lodash'
 
 import api from '../api'
-import { FaceVerificationProviders } from '../api/typings'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import useMountedState from '../../../../lib/hooks/useMountedState'
-
-// Zoom provider enum code
-const { Zoom } = FaceVerificationProviders
 
 // Zoom SDK reference
 const { ZoomSDK } = ZoomAuthentication
 
 // ZoomSession incapsulation & helper classes / functions
-const { ZoomSession, ZoomCustomization, createZoomAPIUserAgentString } = ZoomSDK
+const { ZoomSession, ZoomCustomization } = ZoomSDK
 
 export const {
   // Zoom session status codes enum
@@ -166,15 +162,10 @@ export default ({ onComplete = noop, onError = noop }) => {
           faceMap,
           lowQualityAuditTrailImage: first(captured),
           auditTrailImage: first(capturedHD),
-
-          // special unique user agent key should also be sent
-          // it's contains some additional data e.g. browser language
-          // & features, license key, installation id, device orientation etc
-          userAgent: createZoomAPIUserAgentString(sessionId),
         }
 
         // calling API
-        const response = await api.performFaceVerification(payload, Zoom, ({ loaded, total }) => {
+        const response = await api.performFaceVerification(payload, ({ loaded, total }) => {
           // handling XMLHttpRequest upload progress, passing changes to the Zoom UI
           zoomFaceMapResultCallback.uploadProgress(loaded / total)
         })

@@ -6,6 +6,7 @@ import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun'
 import SEA from 'gun/sea'
+import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/index.js'
 import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
@@ -18,7 +19,6 @@ import { delay } from '../utils/async'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
-
 const logger = pino.child({ from: 'UserStorage' })
 
 const EVENT_TYPE_WITHDRAW = 'withdraw'
@@ -2130,13 +2130,12 @@ export class UserStorage {
    * Calling the server to delete their data
    */
   async deleteAccount(): Promise<boolean> {
-    const zoomId = await this.wallet.getAccountForType('zoomId').replace('0x', '')
-    const zoomSignature = await this.wallet.sign(zoomId, 'zoomId')
     let deleteResults = false
     let deleteAccountResult
 
     try {
-      deleteAccountResult = await API.deleteAccount(zoomId, zoomSignature)
+      await FaceVerificationAPI.disposeFaceSnapshot()
+      deleteAccountResult = await API.deleteAccount()
 
       if (deleteAccountResult.data.ok) {
         deleteResults = await Promise.all([

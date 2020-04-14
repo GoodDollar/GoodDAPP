@@ -3,12 +3,7 @@ import axios from 'axios'
 import API from '../../../../lib/API/api'
 import logger from '../../../../lib/logger/pino-logger'
 
-import {
-  type FaceVerificationPayload,
-  type FaceVerificationProvider,
-  FaceVerificationProviders,
-  type FaceVerificationResponse,
-} from './typings'
+import { type FaceVerificationPayload, type FaceVerificationResponse } from './typings'
 
 class FaceVerificationApi {
   rootApi: typeof API
@@ -17,42 +12,49 @@ class FaceVerificationApi {
 
   lastCancelToken: any = null
 
-  constructor(rootApi: typeof API, logger: any) {
+  /**
+   * wallet an instance of GoodWallet
+   * @instance {GoodWallet}
+   */
+  wallet: GoodWallet
+
+  constructor(rootApi: typeof API, logger: any, wallet: GoodWallet) {
     this.rootApi = rootApi
     this.logger = logger
+    this.wallet = wallet
   }
 
   async performFaceVerification(
     payload: FaceVerificationPayload,
-    provider: FaceVerificationProvider = FaceVerificationProviders.Zoom,
     progressSubscription?: ({ loaded: number, total: number }) => void
   ): Promise<FaceVerificationResponse> {
-    let imageCount
     let axiosConfig = {}
     const { rootApi, logger } = this
 
-    const { sessionId, auditTrailImage, lowQualityAuditTrailImage } = payload
+    const { sessionId } = payload
 
     this.lastCancelToken = axios.CancelToken.source()
-
-    imageCount = Number(!!(auditTrailImage || lowQualityAuditTrailImage))
 
     axiosConfig = {
       cancelToken: this.lastCancelToken.token,
       onProgress: progressSubscription,
     }
 
-    logger.info('performFaceVerification', { provider, sessionId, imageCount })
+    logger.info('performFaceVerification', { sessionId })
 
     try {
-      const { data: response } = await rootApi.performFaceVerification(payload, provider, axiosConfig)
-      const { ok, error } = response || {}
+      const { data: response } = await rootApi.performFaceVerification(
+        payload,
+        this.enrollmentIdentifier(),
+        axiosConfig
+      )
+      const { success, error } = response || {}
 
       if (!response) {
         throw new Error('Failed to perform face recognition on server')
       }
 
-      if (!ok) {
+      if (!success) {
         const exception = new Error(error)
 
         exception.response = response
@@ -82,6 +84,17 @@ class FaceVerificationApi {
 
     lastCancelToken.cancel('Face verification timeout')
     this.lastCancelToken = null
+  }
+
+  get enrollmentIdentifier(): string {
+    return this.wallet.getAccountForType('faceVerification').replace('0x', '')
+  }
+
+  async disposeFaceSnapshot(): Promise<void> {
+    const { wallet, rootApi, enrollmentIdentifier } = this
+    const signature = await wallet.sign(enrollmentIdentifier, 'faceVerification')
+
+    await rootApi.disposeFaceSnapshot(enrollmentIdentifier, signature)
   }
 }
 

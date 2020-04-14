@@ -36,8 +36,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   }
 
   //login so we can check if user exists
-  const ready = async () => {
-    log.debug('ready: Starting initialization')
+  const ready = async replacing => {
+    log.debug('ready: Starting initialization', { replacing })
     const { init } = await retryImport(() => import('../../init'))
     log.debug('ready: got init', init)
     const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
@@ -45,13 +45,20 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     const { goodWallet, userStorage, source } = await init()
     log.debug('ready: done init')
 
+    if (replacing) {
+      log.debug('reinitializing wallet and storage with new user')
+      goodWallet.init()
+      await goodWallet.ready
+      await userStorage.init()
+    }
+
     //for QA
     global.wallet = goodWallet
     await userStorage.ready
     log.debug('ready: userstorage ready')
 
     //the login also re-initialize the api with new jwt
-    await login
+    login
       .then(l => l.default.auth())
       .catch(e => {
         log.error('failed auth:', e.message, e)
@@ -71,6 +78,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       store.set('loadingIndicator')({ loading: true })
       const redirectTo = 'Phone'
       let torusUser
+      let replacing = false
       try {
         switch (provider) {
           case 'facebook':
@@ -80,6 +88,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           case 'google':
             torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
             break
+        }
+        const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+        if (curSeed && curSeed !== torusUser.privateKey) {
+          await AsyncStorage.clear()
+          replacing = true
         }
 
         //set masterseed so wallet can use it in 'ready' where we check if user exists
@@ -93,7 +106,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       }
 
       try {
-        const { userStorage, source } = await ready()
+        const { userStorage, source } = await ready(replacing)
         const userExists = await userStorage.userAlreadyExist()
         log.debug('checking userAlreadyExist', { userExists })
 
@@ -224,7 +237,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           onPress={googleButtonHandler}
           disabled={torusSDK === undefined}
         >
-          Login with Google
+          Continue with Google
         </CustomButton>
         <CustomButton
           color={mainTheme.colors.facebookBlue}
@@ -233,7 +246,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           onPress={facebookButtonHandler}
           disabled={torusSDK === undefined}
         >
-          Login with Facebook
+          Continue with Facebook
         </CustomButton>
       </Section>
     </Wrapper>
@@ -256,7 +269,8 @@ const getStylesFromProps = ({ theme }) => {
       paddingBottom: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      marginVertical: theme.sizes.default,
+      marginTop: theme.sizes.default,
+      marginBottom: theme.sizes.default,
     },
     buttonText: {
       alignItems: 'center',

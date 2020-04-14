@@ -146,7 +146,7 @@ module.exports = {
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
       WebView: 'react-native-web-webview',
-     'lottie-react-native': 'react-native-web-lottie',
+      'lottie-react-native': 'react-native-web-lottie',
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -378,6 +378,7 @@ module.exports = {
       currying: true,
       placeholder: true,
       caching: true,
+      shorthands: true,
     }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.

@@ -44,7 +44,7 @@ export default ({ API, showDialog, store, theme }) =>
                 log.debug('deleted account', isDeleted)
 
                 if (isDeleted) {
-                  token && API.deleteWalletFromW3Site(token)
+                  token && API.deleteWalletFromW3Site(token).catch(e => log.warn(e.message, e))
                   const req = new Promise((res, rej) => {
                     const del = indexedDB.deleteDatabase('radata')
                     del.onsuccess = res

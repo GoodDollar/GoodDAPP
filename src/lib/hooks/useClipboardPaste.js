@@ -15,6 +15,6 @@ export default (onPaste, logger = log) =>
     } catch (exception) {
       const { message } = exception
 
-      logger.error('Paste action failed', message, exception)
+      logger.warn('Paste action failed', message, exception)
     }
   }, [onPaste])

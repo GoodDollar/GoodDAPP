@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AppState, AsyncStorage, Platform } from 'react-native'
+import { AppState, AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import _get from 'lodash/get'
 import _debounce from 'lodash/debounce'
@@ -62,11 +62,6 @@ const AppSwitch = (props: LoadingProps) => {
     // const navInfo = router.getPathAndParamsForState(state)
     const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
     AsyncStorage.removeItem(DESTINATION_PATH)
-
-    // FIXME: RN
-    if (Platform.OS !== 'web') {
-      return undefined
-    }
 
     if (destinationPath) {
       const app = router.getActionForPathAndParams(destinationPath.path) || {}

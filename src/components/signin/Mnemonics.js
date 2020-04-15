@@ -197,7 +197,8 @@ const mnemonicsStyles = ({ theme }) => ({
     marginVertical: theme.paddings.defaultMargin,
   },
   buttonLayout: {
-    marginVertical: 20,
+    marginTop: 20,
+    marginBottom: 20,
   },
   bottomContainer: {
     maxHeight: 80,

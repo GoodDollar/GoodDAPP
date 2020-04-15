@@ -235,7 +235,6 @@ For All
                 <div
                   className="css-text-901oao"
                   dir="auto"
-                  ontFamily="Roboto"
                   style={
                     Object {
                       "color": "rgba(12,38,61,1.00)",
@@ -255,7 +254,6 @@ For All
                 <div
                   className="css-text-901oao"
                   dir="auto"
-                  ontFamily="Roboto"
                   style={
                     Object {
                       "color": "rgba(12,38,61,1.00)",

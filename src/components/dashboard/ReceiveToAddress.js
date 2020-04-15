@@ -17,26 +17,29 @@ export type TypeProps = {
   styles: any,
 }
 
-const ReceiveToAddress = ({ screenProps, styles }: TypeProps) => {
-  const { account } = GoodWallet
+const { account } = GoodWallet
 
-  return (
-    <Wrapper>
-      <TopBar push={screenProps.push} hideProfile={false}>
-        <View />
-      </TopBar>
-      <Section grow justifyContent="space-between">
-        <Section.Title fontWeight="medium">YOUR WALLET ADDRESS:</Section.Title>
-        <InputText containerStyle={styles.containerInput} style={styles.input} value={account} editable={false} />
-        <Text fontSize={24} fontWeight="medium" lineHeight={30}>
-          {'You can copy and share it\nwith others'}
-        </Text>
-        <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-        <CopyButton style={styles.confirmButton} toCopy={account} onPressDone={screenProps.goToRoot} />
-      </Section>
-    </Wrapper>
-  )
-}
+const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => (
+  <Wrapper>
+    <TopBar push={screenProps.push} hideProfile={false}>
+      <View />
+    </TopBar>
+    <Section grow justifyContent="space-between">
+      <Section.Title fontWeight="medium">YOUR WALLET ADDRESS:</Section.Title>
+      <InputText
+        containerStyle={styles.containerInput}
+        style={styles.input}
+        value={address || account}
+        editable={false}
+      />
+      <Text fontSize={24} fontWeight="medium" lineHeight={30}>
+        {'You can copy and share it\nwith others'}
+      </Text>
+      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+      <CopyButton style={styles.confirmButton} toCopy={address || account} onPressDone={screenProps.goToRoot} />
+    </Section>
+  </Wrapper>
+)
 
 ReceiveToAddress.navigationOptions = {
   title: 'Receive G$',

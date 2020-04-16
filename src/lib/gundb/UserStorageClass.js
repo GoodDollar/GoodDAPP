@@ -278,7 +278,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     logs.filter(log => {
       return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
-    'value'
+    log => log.value
   )
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)

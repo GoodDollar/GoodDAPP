@@ -2,7 +2,7 @@
 import axios from 'axios'
 import API from '../../../../lib/API/api'
 import logger from '../../../../lib/logger/pino-logger'
-
+import goodWallet from '../../../../lib/wallet/GoodWallet'
 import { type FaceVerificationPayload, type FaceVerificationResponse } from './typings'
 
 class FaceVerificationApi {
@@ -86,7 +86,7 @@ class FaceVerificationApi {
     this.lastCancelToken = null
   }
 
-  get enrollmentIdentifier(): string {
+  enrollmentIdentifier(): string {
     return this.wallet.getAccountForType('faceVerification').replace('0x', '')
   }
 
@@ -98,4 +98,4 @@ class FaceVerificationApi {
   }
 }
 
-export default new FaceVerificationApi(API, logger.child({ from: 'FaceRecognitionAPI' }))
+export default new FaceVerificationApi(API, logger.child({ from: 'FaceRecognitionAPI' }), goodWallet)

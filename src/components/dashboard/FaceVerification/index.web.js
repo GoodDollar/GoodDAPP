@@ -42,7 +42,7 @@ const kindOfCameraIssuesMap = mapValues(
       'LandscapeModeNotAllowed',
     ],
   },
-  sessionStatus => ZoomSessionStatus[sessionStatus]
+  statusesKeys => statusesKeys.map(key => ZoomSessionStatus[key])
 )
 
 const FaceVerification = ({ screenProps }) => {

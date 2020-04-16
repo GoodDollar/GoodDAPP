@@ -306,7 +306,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               }
             }
             type="text"
-            value="0xfd85255a0FB30cfAf0AB2b98ee39f921d667ccB3"
           />
         </div>
         <div

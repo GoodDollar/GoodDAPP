@@ -13,6 +13,7 @@ import wrapper from '../../lib/undux/utils/wrapper'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
+import { weiToGd } from '../../lib/wallet/utils'
 import { Wrapper } from '../common'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
@@ -279,6 +280,7 @@ const Claim = props => {
           {isCitizen && state.entitlement > 0 ? (
             <ClaimAnimatedButton
               amount={state.entitlement}
+              formatter={weiToGd}
               onPressClaim={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
             />
           ) : (

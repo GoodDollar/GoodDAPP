@@ -9,7 +9,7 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 
 import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles }) => (
   <View style={styles.textBtn}>
@@ -163,16 +163,16 @@ const getStylesFromProps = ({ theme }) => ({
   cardContainer: {
     alignItems: 'center',
     width: getDesignRelativeWidth(196),
-    height: getDesignRelativeHeight(196),
+    height: getDesignRelativeWidth(196),
   },
   minButtonHeight: {
     borderRadius: '50%',
     borderColor: '#FFFFFF',
     borderWidth: 3,
     borderStyle: 'solid',
-    height: getDesignRelativeHeight(196),
-    boxShadow: '10px 12px 25px -14px',
+    height: getDesignRelativeWidth(196),
     width: getDesignRelativeWidth(196),
+    boxShadow: '10px 12px 25px -14px',
     alignItems: 'center',
   },
   buttonCountdown: {

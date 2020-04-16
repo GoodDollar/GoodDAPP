@@ -243,8 +243,9 @@ const Claim = props => {
     //temporary solution in the zero phase, for the situation when the user is not in the whitelist.
     if (Config.isPhaseZero) {
       showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
+    } else {
+      screenProps.push('FRIntro', { from: 'Claim' })
     }
-    screenProps.push('FRIntro', { from: 'Claim' })
   }
 
   const propsForContent = {

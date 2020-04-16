@@ -68,7 +68,7 @@ exports[`TabsView matches snapshot 1`] = `
     >
       <div
         className="css-text-901oao"
-        data-testid="support_tab"
+        data-testid="invite_tab"
         dir="auto"
         style={
           Object {
@@ -80,7 +80,7 @@ exports[`TabsView matches snapshot 1`] = `
           }
         }
       >
-        
+        
       </div>
     </div>
     <div

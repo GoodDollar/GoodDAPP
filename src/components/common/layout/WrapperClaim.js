@@ -1,22 +1,31 @@
 // @flow
 import React, { useMemo } from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
 import { withStyles } from '../../../lib/styles'
-import { getScreenHeight } from '../../../lib/utils/Orientation'
-import wrapperClaimBackgroundImage from '../../../assets/wrapperClaim.svg'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-Image.prefetch(wrapperClaimBackgroundImage)
 
-const sizeFactor = isMobileOnly ? 2.5 : 2.4
-const screenHeight = getScreenHeight()
+const backgroundGradientStyles = {
+  position: 'absolute',
+  width: '200%',
+  height: '75%',
+  borderBottomLeftRadius: '50%',
+  borderBottomRightRadius: '50%',
+  right: '-50%',
+  backgroundImage:
+    'linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)',
+}
 
-const backgroundImage = {
-  backgroundImage: `url(${wrapperClaimBackgroundImage})`,
-  backgroundPosition: 'center top',
-  backgroundSize: `${screenHeight - screenHeight / sizeFactor}px`,
-  backgroundRepeat: 'no-repeat',
-  marginTop: '-1px',
+const backgroundLineStyles = {
+  position: 'absolute',
+  height: '100%',
+  width: '100%',
+  top: -5,
+  borderBottomWidth: 3,
+  borderBottomColor: 'white',
+  borderBottomStyle: 'solid',
+  borderBottomLeftRadius: '50%',
+  borderBottomRightRadius: '50%',
 }
 
 const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) => {
@@ -26,13 +35,18 @@ const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) =>
 
   const wrapperStyles = useMemo(() => {
     const growStyle = { flexGrow: shouldGrow ? 1 : 0 }
-    const backgroundStyle = backgroundColor ? { backgroundColor } : backgroundImage
+    const backgroundStyle = backgroundColor ? { backgroundColor } : {}
 
     return [container, backgroundStyle, growStyle, style]
   }, [shouldGrow, backgroundColor, container, style])
 
   return (
     <View data-name="viewWrapper" style={wrapperStyles} {...props}>
+      {!backgroundColor && (
+        <View style={backgroundGradientStyles}>
+          <View style={backgroundLineStyles} />
+        </View>
+      )}
       {children}
     </View>
   )
@@ -42,6 +56,7 @@ const getStylesFromProps = ({ theme }) => {
   let styles = {
     container: {
       width: '100%',
+      position: 'relative',
     },
   }
   if (!isMobileOnly) {

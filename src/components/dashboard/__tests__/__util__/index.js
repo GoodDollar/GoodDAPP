@@ -28,7 +28,7 @@ const withContainer = Component => props => {
   )
 }
 
-export const getWebRouterComponentWithRoutes = routes => {
+export const getWebRouterComponentWithRoutes = (routes, componetnProps) => {
   const AppNavigator = createSwitchNavigator(routes)
   class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
     static router = AppNavigator.router
@@ -36,20 +36,20 @@ export const getWebRouterComponentWithRoutes = routes => {
     static navigationOptions = AppNavigator.navigationOptions
 
     render() {
-      return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
+      return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} {...componetnProps} />
     }
   }
   return withContainer(createBrowserApp(createSwitchNavigator({ AppNavigation })))
 }
 
-export const getWebRouterComponentWithMocks = componentPath => {
+export const getWebRouterComponentWithMocks = (componentPath, componetnProps = {}) => {
   const Component = getComponentWithMocks(componentPath)
 
   const routes = {
     Component,
   }
 
-  return getWebRouterComponentWithRoutes(routes)
+  return getWebRouterComponentWithRoutes(routes, componetnProps)
 }
 
 export const convertDateToUTC = unixDate => {

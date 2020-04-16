@@ -182,7 +182,7 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }
 
-  const checkBonusInterval = async perform => {
+  const checkBonusInterval = async force => {
     if (config.enableInvites !== true) {
       return
     }
@@ -192,7 +192,8 @@ const AppSwitch = (props: LoadingProps) => {
     log.debug({ lastTimeBonusCheck, isUserWhitelisted, gdstore })
     if (
       isUserWhitelisted !== true ||
-      (lastTimeBonusCheck &&
+      (force !== true &&
+        lastTimeBonusCheck &&
         moment()
           .subtract(Number(config.backgroundReqsInterval), 'minutes')
           .isBefore(moment(lastTimeBonusCheck)))
@@ -218,7 +219,7 @@ const AppSwitch = (props: LoadingProps) => {
 
   const handleAppFocus = state => {
     if (state === 'active') {
-      checkBonusInterval()
+      checkBonusInterval(true)
       showOutOfGasError(props)
     }
   }

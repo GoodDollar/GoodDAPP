@@ -290,6 +290,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         userStorage.setProfileField('registered', true, 'public').catch(_ => _),
       ])
 
+      // Stores creationBlock number into 'lastBlock' feed's node
+      goodWallet
+        .getBlockNumber()
+        .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
+        .catch(e => log.error('save blocknumber failed:', e.message, e))
+
       //first need to add user to our database
       const addUserAPIPromise = API.addUser(requestPayload).then(res => {
         const data = res.data
@@ -309,12 +315,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       })
 
       await addUserAPIPromise
-
-      // Stores creationBlock number into 'lastBlock' feed's node
-      goodWallet
-        .getBlockNumber()
-        .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
-        .catch(e => log.warn('save blocknumber failed:', e.message, e))
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       Promise.all([

@@ -645,7 +645,7 @@ export class GoodWallet {
    */
   isWithdrawLinkUsed(link: string): Promise<boolean> {
     try {
-      return this.oneTimePaymentsContract.methods.hsPayment(link).call()
+      return this.oneTimePaymentsContract.methods.hasPayment(link).call()
     } catch (exception) {
       const { message } = exception
 

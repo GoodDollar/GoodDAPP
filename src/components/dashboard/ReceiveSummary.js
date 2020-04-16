@@ -12,6 +12,8 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
+import useNativeSharing from '../../lib/hooks/useNativeSharing'
+import GDStore from '../../lib/undux/GDStore'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -20,24 +22,29 @@ export type ReceiveProps = {
   theme: any,
 }
 
-const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
+const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
+  const gdStore = GDStore.useStore()
   const [screenState] = useScreenState(screenProps)
-  const { params } = props.navigation.state
+  const { canShare, generateReceiveShareObject, generateReceiveShareText } = useNativeSharing()
 
+  const { fullName } = gdStore.get('profile')
+  const { account, networkId } = goodWallet
   const { amount, reason, counterPartyDisplayName } = screenState
 
-  const { account, networkId } = goodWallet
-  const codeObj = useMemo(() => generateCode(account, networkId, amount, reason, counterPartyDisplayName), [
-    account,
-    networkId,
-    amount,
-    reason,
-    counterPartyDisplayName,
-  ])
+  const codeSource = [account, networkId, amount, reason, counterPartyDisplayName]
+  const codeObject = useMemo(() => generateCode(...codeSource), [generateCode, ...codeSource])
+
+  const shareStringSource = [codeObject, amount, counterPartyDisplayName, fullName]
+  const shareString = useMemo(
+    () => ({
+      paymentLink: (canShare ? generateReceiveShareObject : generateReceiveShareText)(...shareStringSource),
+    }),
+    [...shareStringSource, canShare, generateReceiveShareObject, generateReceiveShareText]
+  )
 
   const noCreds = !(counterPartyDisplayName || reason)
-  const iconMarginWithoutReason = isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds
-  const amountMargin = isMobile ? styles.amountBlockMarginMobile : styles.amountBlockMargin
+  const iconMarginWithoutReason = useMemo(() => (isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds), [styles,])
+  const amountMargin = useMemo(() => (isMobile ? styles.amountBlockMarginMobile : styles.amountBlockMargin), [styles])
 
   return (
     <Wrapper>
@@ -121,11 +128,7 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <PushButton
-              routeName="ReceiveConfirmation"
-              screenProps={screenProps}
-              params={{ reason, amount, code: codeObj, counterPartyDisplayName, params }}
-            >
+            <PushButton routeName="TransactionConfirmation" screenProps={screenProps} params={shareString}>
               Confirm
             </PushButton>
           </Section.Stack>

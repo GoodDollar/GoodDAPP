@@ -22,12 +22,12 @@ const DisconnectedSplash = () => <Splash animation={false} />
 
 const SplashOrRouter = memo(({ store }) => {
   const isLoggedIn = !!store.get('isLoggedIn')
-  const [useDesktop, setUseDesktop] = useState(Config.showSplashDesktop === false || isLoggedIn)
-  const continueWithDesktop = useCallback(() => setUseDesktop(true), [setUseDesktop])
+  const [useDesktop, setUseDesktop] = useState(Config.showSplashDesktop || isLoggedIn)
+  const continueWithDesktop = useCallback(() => setUseDesktop(false), [setUseDesktop])
 
   return (
     <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedIn}>
-      {!isMobile && !useDesktop ? (
+      {!isMobile && useDesktop ? (
         <SplashDesktop onContinue={continueWithDesktop} urlForQR={window.location.href} />
       ) : (
         <RouterSelector />

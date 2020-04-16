@@ -10,21 +10,6 @@ const styles = {
 describe('PhaseOne', () => {
   const WrappedClaimButton = withThemeProvider(PhaseOne)
 
-  it('renders without errors', () => {
-    const tree = renderer.create(
-      <WrappedClaimButton
-        styles={styles}
-        isCitizen={true}
-        claimedToday={claimedToday}
-        entitlement={0}
-        nextClaim="00:10:00"
-        loading={false}
-        onPress={() => null}
-      />
-    )
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
   it('matches snapshot for non-citizen', () => {
     const component = renderer.create(
       <WrappedClaimButton

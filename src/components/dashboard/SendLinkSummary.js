@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, Share, View } from 'react-native'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -32,29 +32,31 @@ export type AmountProps = {
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const gdstore = GDStore.useStore()
-  const profile = gdstore.get('profile')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
 
-  const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
+  const { push, goToRoot } = screenProps
+
+  const { fullName } = gdstore.get('profile')
+  const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
+  const { action } = params
+
+  const [isCitizen, setIsCitizen] = useState(gdstore.get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
   const [loading, setLoading] = useState('')
-  const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
-  const { action } = params
 
-  const faceRecognition = useCallback(() => {
-    return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
-  }, [screenProps])
+  const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
 
   const shareAction = useCallback(
     async paymentLink => {
-      const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
+      const shareStringSource = [paymentLink, ...shareStringStateDepSource]
+      const shareString = generateSendShareObject(...shareStringSource)
 
       try {
-        await Share.share(share)
+        await Share.share(shareString)
 
         //on non web we have the send confirmation which is skipped here, so we simulate the events
         //so we have same funnel for mobile + web
@@ -69,43 +71,20 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             message: `You can still copy the link by tapping on "Copy link to clipboard".`,
             dismissText: 'Ok',
             onDismiss: () => {
-              const desktopShareLink = generateSendShareText(
-                paymentLink,
-                amount,
-                counterPartyDisplayName,
-                profile.fullName
-              )
+              const desktopShareLink = generateSendShareText(...shareStringSource)
 
-              screenProps.push('SendConfirmation', {
+              push('TransactionConfirmation', {
                 paymentLink: desktopShareLink,
-                amount,
-                reason,
-                counterPartyDisplayName,
               })
             },
           })
         }
       }
     },
-    [
-      generateSendShareText,
-      generateSendShareObject,
-      amount,
-      reason,
-      counterPartyDisplayName,
-      profile,
-      setShared,
-      showDialog,
-      screenProps,
-    ]
+    [...shareStringStateDepSource, generateSendShareText, generateSendShareObject, setShared, showDialog, push]
   )
 
-  // Going to root after shared
-  useEffect(() => {
-    if (shared) {
-      screenProps.goToRoot()
-    }
-  }, [shared])
+  const faceRecognition = useCallback(() => push('FRIntro', { from: 'SendLinkSummary' }), [push])
 
   const handleConfirm = useCallback(() => {
     if (action === ACTION_SEND_TO_ADDRESS) {
@@ -179,45 +158,27 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   }, [setLoading, address, amount, reason, showDialog, showErrorDialog])
 
   const sendViaLink = useCallback(() => {
-    let paymentLink = link
-
-    // Prevents calling back `generateLink` as it generates a new transaction every time it's called
-    if (paymentLink === '') {
-      paymentLink = generateLink()
-      setLink(paymentLink)
-    }
+    let paymentLink = getLink()
 
     if (canShare) {
       shareAction(paymentLink)
     } else {
-      const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
+      const desktopShareLink = generateSendShareText(paymentLink, ...shareStringStateDepSource)
 
       // Show confirmation
-      screenProps.push('SendConfirmation', {
-        paymentLink: desktopShareLink,
-        amount,
-        reason,
-        counterPartyDisplayName,
-      })
+      push('TransactionConfirmation', { paymentLink: desktopShareLink })
     }
-  }, [
-    generateSendShareText,
-    generateSendShareText,
-    setLink,
-    canShare,
-    link,
-    amount,
-    reason,
-    counterPartyDisplayName,
-    profile,
-    screenProps,
-  ])
+  }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
 
   /**
    * Generates link to send and call send email/sms action
    * @throws Error if link cannot be send
    */
-  const generateLink = useCallback(() => {
+  const getLink = useCallback(() => {
+    if (link) {
+      return link
+    }
+
     try {
       let txHash
 
@@ -261,29 +222,31 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           userStorage.markWithErrorEvent(txHash)
         },
       })
-      const { txPromise } = generateLinkResponse
-
-      txPromise.catch(e => {
-        log.error('generateLinkAndSend:', e.message, e)
-        showErrorDialog('Link generation failed. Please try again', '', {
-          buttons: [
-            {
-              text: 'Try again',
-              onPress: () => {
-                handleConfirm()
-              },
-            },
-          ],
-          onDismiss: () => {
-            screenProps.goToRoot()
-          },
-        })
-      })
 
       log.debug('generateLinkAndSend:', { generateLinkResponse })
 
       if (generateLinkResponse) {
-        const { paymentLink } = generateLinkResponse
+        const { txPromise, paymentLink } = generateLinkResponse
+
+        txPromise.catch(e => {
+          log.error('generateLinkAndSend:', e.message, e)
+          showErrorDialog('Link generation failed. Please try again', '', {
+            buttons: [
+              {
+                text: 'Try again',
+                onPress: () => {
+                  handleConfirm()
+                },
+              },
+            ],
+            onDismiss: () => {
+              goToRoot()
+            },
+          })
+        })
+
+        setLink(paymentLink)
+
         return paymentLink
       }
 
@@ -292,7 +255,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       showErrorDialog('Could not complete transaction. Please try again.')
       log.error('Something went wrong while trying to generate send link', e.message, e)
     }
-  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, screenProps])
+  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, setLink, link, goToRoot])
+
+  const onConfirmPressHandler = useMemo(() => (isCitizen ? handleConfirm : faceRecognition), [isCitizen])
 
   useEffect(() => {
     if (isCitizen === false) {
@@ -300,9 +265,16 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [])
 
+  // Going to root after shared
+  useEffect(() => {
+    if (shared) {
+      goToRoot()
+    }
+  }, [shared])
+
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} />
+      <TopBar push={push} />
       <Section grow style={styles.section}>
         <Section.Stack>
           <Section.Row justifyContent="center">
@@ -361,11 +333,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton
-              onPress={isCitizen ? handleConfirm : faceRecognition}
-              disabled={isCitizen === undefined}
-              lodaing={loading}
-            >
+            <CustomButton onPress={onConfirmPressHandler} disabled={isCitizen === undefined} lodaing={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>

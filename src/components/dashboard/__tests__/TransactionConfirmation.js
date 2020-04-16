@@ -2,21 +2,18 @@ import React from 'react'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
-
 import { getWebRouterComponentWithMocks } from './__util__'
 
-const address = '0x0000000000000000000000000000000000000000'
-
-describe('ReceiveToAddress', () => {
-  const ReceiveToAddress = getWebRouterComponentWithMocks('../ReceiveToAddress', { address })
-
+describe('SendConfirmation', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<ReceiveToAddress />)
+    const TransactionConfirmation = getWebRouterComponentWithMocks('../TransactionConfirmation')
+    const tree = renderer.create(<TransactionConfirmation />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<ReceiveToAddress />)
+    const TransactionConfirmation = getWebRouterComponentWithMocks('../TransactionConfirmation')
+    const component = renderer.create(<TransactionConfirmation />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

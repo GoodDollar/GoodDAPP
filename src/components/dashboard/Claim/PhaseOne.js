@@ -75,7 +75,6 @@ const ClaimPhaseOne = ({
       faceRecognition={faceRecognition}
     />
     <Section.Stack style={styles.moreInfo}>
-      <View style={styles.space} />
       <Section.Row style={styles.extraInfoStats}>
         <Text style={styles.extraInfoWrapper}>
           <Section.Text fontWeight="bold">{numeral(people).format('0a')} </Section.Text>

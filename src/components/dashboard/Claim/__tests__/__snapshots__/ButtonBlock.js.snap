@@ -742,7 +742,7 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
 </div>
 `;
 
-exports[`ButtonBlock matches snapshot for non-citizen 1`] = `
+exports[`ButtonBlock renders without errors and matches snapshot for non-citizen 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={

@@ -8,53 +8,29 @@ const styles = {
   stylesmainContainer: null,
 }
 describe('PhaseOne', () => {
-  const WrappedClaimButton = withThemeProvider(PhaseOne)
+  const WrappedPhaseOne = withThemeProvider(PhaseOne)
 
-  it('matches snapshot for non-citizen', () => {
-    const component = renderer.create(
-      <WrappedClaimButton
-        styles={styles}
-        isCitizen={false}
-        claimedToday={claimedToday}
-        entitlement={0}
-        nextClaim="00:10:00"
-        loading={false}
-        onPress={() => null}
-      />
-    )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+  it('renders without errors and matches snapshot', () => {
+    let tree
 
-  it('matches snapshot for citizen without entitlement', () => {
-    const component = renderer.create(
-      <WrappedClaimButton
-        styles={styles}
-        isCitizen={true}
-        claimedToday={claimedToday}
-        entitlement={0}
-        nextClaim="00:10:00"
-        loading={false}
-        onPress={() => null}
-      />
-    )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
+    expect(
+      () =>
+        (tree = renderer
+          .create(
+            <WrappedPhaseOne
+              styles={styles}
+              isCitizen={true}
+              claimedToday={claimedToday}
+              entitlement={0}
+              nextClaim="00:10:00"
+              loading={false}
+              onPress={() => null}
+            />
+          )
+          .toJSON())
+    ).not.toThrow()
 
-  it('matches snapshot for citizen with entitlement', () => {
-    const component = renderer.create(
-      <WrappedClaimButton
-        styles={styles}
-        isCitizen={true}
-        entitlement={100}
-        claimedToday={claimedToday}
-        nextClaim="00:10:00"
-        loading={false}
-        onPress={() => null}
-      />
-    )
-    const tree = component.toJSON()
+    expect(tree).toBeTruthy()
     expect(tree).toMatchSnapshot()
   })
 })

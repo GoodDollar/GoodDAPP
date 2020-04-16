@@ -11,32 +11,26 @@ const styles = {
 describe('ButtonBlock', () => {
   const WrappedClaimButton = withThemeProvider(ButtonBlock)
 
-  it('renders without errors', () => {
-    const tree = renderer.create(
-      <WrappedClaimButton
-        styles={styles}
-        isCitizen={true}
-        entitlement={0}
-        nextClaim="00:10:00"
-        loading={false}
-        onPress={() => null}
-      />
-    )
-    expect(tree.toJSON()).toBeTruthy()
-  })
+  it('renders without errors and matches snapshot for non-citizen', () => {
+    let tree
 
-  it('matches snapshot for non-citizen', () => {
-    const component = renderer.create(
-      <WrappedClaimButton
-        styles={styles}
-        isCitizen={false}
-        entitlement={0}
-        nextClaim="00:10:00"
-        loading={false}
-        onPress={() => null}
-      />
-    )
-    const tree = component.toJSON()
+    expect(
+      () =>
+        (tree = renderer
+          .create(
+            <WrappedClaimButton
+              styles={styles}
+              isCitizen={false}
+              entitlement={0}
+              nextClaim="00:10:00"
+              loading={false}
+              onPress={() => null}
+            />
+          )
+          .toJSON())
+    ).not.toThrow()
+
+    expect(tree).toBeTruthy()
     expect(tree).toMatchSnapshot()
   })
 

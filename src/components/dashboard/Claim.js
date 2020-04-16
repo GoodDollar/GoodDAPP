@@ -241,8 +241,9 @@ const Claim = props => {
   const faceRecognition = () => {
     //await handleClaim()
     //temporary solution in the zero phase, for the situation when the user is not in the whitelist.
-    showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
-
+    if (Config.isPhaseZero) {
+      showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
+    }
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 

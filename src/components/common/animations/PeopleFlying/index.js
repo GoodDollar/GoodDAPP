@@ -1,6 +1,7 @@
 import { Platform, View } from 'react-native'
 import React from 'react'
 import Lottie from 'lottie-react-native'
+import AnimationBase from '../Base'
 import animationData from './data.json'
 
 const styles = {
@@ -15,7 +16,7 @@ const styles = {
   },
 }
 
-class PeopleFlying extends React.Component {
+class PeopleFlying extends AnimationBase {
   render() {
     return (
       <View>

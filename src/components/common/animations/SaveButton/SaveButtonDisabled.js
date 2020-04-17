@@ -1,9 +1,10 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
+import AnimationBase from '../Base'
 import animationData from './data.json'
 
-class SaveButtonDisabled extends React.Component {
+class SaveButtonDisabled extends AnimationBase {
   render() {
     const { style = {}, onPress } = this.props
     return (

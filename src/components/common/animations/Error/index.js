@@ -1,6 +1,7 @@
 import React from 'react'
 import { Platform, View } from 'react-native'
 import Lottie from 'lottie-react-native'
+import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 const { animationData, imageAssetsFolder } = getAnimationData('Error', require('./data'))
 
@@ -26,7 +27,7 @@ const styles = {
   },
 }
 
-class Error extends React.Component {
+class Error extends AnimationBase {
   render() {
     return (
       <View style={Platform.select(styles)}>

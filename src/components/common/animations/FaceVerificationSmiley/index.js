@@ -1,6 +1,7 @@
 import React from 'react'
 import { Platform } from 'react-native'
 import Lottie from 'lottie-react-native'
+import AnimationBase from '../Base'
 import { getScreenHeight } from '../../../../lib/utils/Orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 
@@ -17,7 +18,7 @@ const styles = {
   },
 }
 
-class FaceVerificationSmiley extends React.Component {
+class FaceVerificationSmiley extends AnimationBase {
   render() {
     return (
       <Lottie

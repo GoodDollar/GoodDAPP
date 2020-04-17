@@ -64,16 +64,18 @@ import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
 import ReceiveToAddress from './ReceiveToAddress'
-import ReceiveConfirmation from './ReceiveConfirmation'
+import TransactionConfirmation from './TransactionConfirmation'
 import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
-import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
+
+//import ReceiveConfirmation from './ReceiveConfirmation'
+// import SendConfirmation from './SendConfirmation'
 
 import FaceVerification from './FaceVerification'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
@@ -609,7 +611,7 @@ const Dashboard = props => {
             contentStyle={styles.leftButtonContent}
             textStyle={styles.leftButtonText}
             params={{
-              nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
+              nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'TransactionConfirmation'],
               params: { action: 'Send' },
             }}
             compact
@@ -808,16 +810,18 @@ export default createStackNavigator({
   },
   ReceiveToAddress,
   ReceiveSummary,
-  ReceiveConfirmation: {
-    screen: ReceiveConfirmation,
-    path: ':action/ReceiveConfirmation',
-  },
-  SendLinkSummary,
-  SendConfirmation,
-  SendByQR,
   ReceiveByQR,
 
+  /*ReceiveConfirmation: {
+    screen: ReceiveConfirmation,
+    path: ':action/ReceiveConfirmation',
+  },*/
+
+  SendLinkSummary,
+  SendByQR,
   SendToAddress,
+
+  // SendConfirmation,
 
   FaceVerification,
   FaceVerificationIntro,
@@ -825,6 +829,8 @@ export default createStackNavigator({
   FaceVerificationUnsupported,
 
   SendQRSummary,
+
+  TransactionConfirmation,
 
   // PP: PrivacyPolicy,
   PrivacyArticle,

@@ -4,6 +4,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
+import './lib/gundb/gundb'
 import { theme } from './components/theme/styles'
 import SimpleStore, { setInitFunctions } from './lib/undux/SimpleStore'
 import RouterSelector from './RouterSelector.web'
@@ -15,20 +16,19 @@ import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import Config from './config/config'
 import * as serviceWorker from './serviceWorker'
-
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
 const DisconnectedSplash = () => <Splash animation={false} />
 
 const SplashOrRouter = memo(({ store }) => {
   const isLoggedIn = !!store.get('isLoggedIn')
-  const [useDesktop, setUseDesktop] = useState(Config.showSplashDesktop === false || isLoggedIn)
-  const continueWithDesktop = useCallback(() => setUseDesktop(true), [setUseDesktop])
+  const [showDesktopSplash, setShowDesktopSplash] = useState(Config.showSplashDesktop || isLoggedIn)
+  const dismissDesktopSplash = useCallback(() => setShowDesktopSplash(false), [setShowDesktopSplash])
 
   return (
     <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedIn}>
-      {!isMobile && !useDesktop ? (
-        <SplashDesktop onContinue={continueWithDesktop} urlForQR={window.location.href} />
+      {!isMobile && showDesktopSplash ? (
+        <SplashDesktop onContinue={dismissDesktopSplash} urlForQR={window.location.href} />
       ) : (
         <RouterSelector />
       )}

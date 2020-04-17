@@ -124,7 +124,8 @@ const mnemonicsStyles = ({ theme }) => ({
     marginTop: getDesignRelativeHeight(10),
   },
   buttonLayout: {
-    marginVertical: getDesignRelativeHeight(20),
+    marginTop: getDesignRelativeHeight(20),
+    marginBottom: getDesignRelativeHeight(20),
   },
   bottomContainer: {
     maxHeight: getDesignRelativeHeight(100),

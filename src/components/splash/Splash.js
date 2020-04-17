@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageBackground, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import AnimationsLogo from '../common/animations/Logo'
 import wavePattern from '../../assets/splashWaves.svg'
 import Wrapper from '../common/layout/Wrapper'
@@ -10,37 +10,31 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
-      <ImageBackground
-        source={wavePattern}
-        imageStyle={styles.waves}
-        style={styles.backgroundWaves}
-        resizeMode="repeat"
-      >
-        <Section.Stack style={styles.content} grow justifyContent="center">
-          <Section.Stack>
-            <Section.Text
-              fontSize={26}
-              fontWeight="bold"
-              color="white"
-              letterSpacing={0.13}
-              lineHeight={32}
-              style={styles.title}
-            >
-              GoodDollar Demo
+      <View style={styles.waves} />
+      <Section.Stack style={styles.content} grow justifyContent="center">
+        <Section.Stack>
+          <Section.Text
+            fontSize={26}
+            fontWeight="bold"
+            color="white"
+            letterSpacing={0.13}
+            lineHeight={32}
+            style={styles.title}
+          >
+            GoodDollar Demo
+          </Section.Text>
+          <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="medium">
+            {'All G$ coins in the demo\nare for test purposes only.\nOnce all feedback is incorporated,\n'}
+            <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="bold">
+              all demo G$ coins will be deleted.
             </Section.Text>
-            <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="medium">
-              {'All G$ coins in the demo\nare for test purposes only.\nOnce all feedback is incorporated,\n'}
-              <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="bold">
-                all demo G$ coins will be deleted.
-              </Section.Text>
-            </Section.Text>
-          </Section.Stack>
-          <AnimationsLogo animation={animation} style={styles.animation} />
-          <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
-            Demo V{Config.version}
           </Section.Text>
         </Section.Stack>
-      </ImageBackground>
+        <AnimationsLogo animation={animation} style={styles.animation} />
+        <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
+          Demo V{Config.version}
+        </Section.Text>
+      </Section.Stack>
     </Section>
   </Wrapper>
 )
@@ -61,12 +55,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
   },
-  backgroundWaves: {
+  waves: {
     position: 'absolute',
     width: '100%',
     height: '100%',
-  },
-  waves: {
+    backgroundImage: `url(${wavePattern})`,
+    backgroundRepeat: 'repeat-y',
     opacity: 0.1,
   },
   content: {

@@ -13,7 +13,7 @@ import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 
-const { isEToro, market, marketUrl, showInvite, showRewards, web3SiteUrl } = config
+const { isEToro, market, marketUrl, showInvite, showRewards } = config
 
 const styles = {
   marketIconBackground: {
@@ -36,13 +36,15 @@ const styles = {
   },
 }
 
-const showSupportFirst = !isEToro && !showInvite && !showRewards
+//const showSupportFirst = !isEToro && !showInvite && !showRewards
 const showRewardsFlag = showRewards || isEToro
 const showInviteFlag = showInvite || isEToro
 const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
-const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
+
+// const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
 const marketButtonStyles = [styles.marketIconBackground, styles.marginRight10]
-const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyles
+
+// const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyles
 const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : defaultLeftButtonStyles
 
 const log = logger.child({ from: 'TabsView' })
@@ -108,14 +110,14 @@ const InviteButton = ({ onPress, style }) => (
   </>
 )
 
-const SupportButton = ({ onPress, style }) => (
+/*const SupportButton = ({ onPress, style }) => (
   <>
     <TouchableOpacity onPress={onPress} style={style}>
       <Icon name="support2" size={36} color="white" testID="support_tab" />
     </TouchableOpacity>
     <Appbar.Content />
   </>
-)
+)*/
 
 const EmptySpaceComponent = ({ style }) => (
   <>
@@ -171,17 +173,16 @@ const TabsView = React.memo(({ navigation }) => {
   }, [])
 
   const goToRewards = useCallback(() => {
-    if (isIOS) {
-      const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
-      window.open(src, '_blank')
-    } else {
-      navigation.navigate('Rewards')
-    }
+    // if (isIOS) {
+    //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
+    //   return window.open(src, '_blank')
+    // }
+    navigation.navigate('Rewards')
   }, [navigation, token])
 
-  const goToSupport = useCallback(() => {
+  /*const goToSupport = useCallback(() => {
     navigation.navigate('Support')
-  }, [navigation])
+  }, [navigation])*/
 
   const goToMarketplace = useCallback(() => {
     if (isIOS) {
@@ -194,21 +195,23 @@ const TabsView = React.memo(({ navigation }) => {
 
   return (
     <Appbar.Header dark>
-      {showSupportFirst ? (
+      {/*{showSupportFirst ? (
         <SupportButton onPress={goToSupport} style={defaultLeftButtonStyles} />
       ) : (
         <>
           {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
           {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
         </>
-      )}
+      )}*/}
+      {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
+      {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
       {market && (
         <>
           {!isEToro && !!(!showInvite ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
           <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />
         </>
       )}
-      {!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}
+      {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
       <TouchableOpacity onPress={slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>

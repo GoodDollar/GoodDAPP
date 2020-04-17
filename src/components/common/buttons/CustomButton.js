@@ -45,7 +45,10 @@ const mapPropsToStyles = ({ theme, compact }) => ({
     paddingLeft: 0,
     paddingRight: 0,
     padding: 0,
-    margin: 0,
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
     display: 'flex',
   },
   leftIcon: {

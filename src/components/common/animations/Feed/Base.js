@@ -1,14 +1,15 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform } from 'react-native'
+import AnimationBase from '../Base'
 
-class FeedInfo extends React.Component {
+class FeedInfo extends AnimationBase {
   state = {
     isWeb: Platform.OS === 'web',
     performCount: 0,
   }
 
-  componentDidMount() {
+  onMount() {
     const { delay = 0 } = this.props
 
     this.anim.onComplete = this.onAnimationFinishHandler
@@ -38,10 +39,6 @@ class FeedInfo extends React.Component {
         performCount: newPerformCount,
       }
     })
-  }
-
-  setAnim = anim => {
-    this.anim = anim
   }
 
   render() {

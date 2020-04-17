@@ -18,7 +18,7 @@ class FaceVerificationApi {
    */
   wallet: GoodWallet
 
-  constructor(rootApi: typeof API, logger: any, wallet: GoodWallet) {
+  constructor(rootApi: typeof API, wallet: GoodWallet, logger: any) {
     this.rootApi = rootApi
     this.logger = logger
     this.wallet = wallet
@@ -98,4 +98,4 @@ class FaceVerificationApi {
   }
 }
 
-export default new FaceVerificationApi(API, logger.child({ from: 'FaceRecognitionAPI' }), goodWallet)
+export default new FaceVerificationApi(API, goodWallet, logger.child({ from: 'FaceRecognitionAPI' }))

@@ -259,9 +259,9 @@ class API {
    */
   disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
     const { client } = this
-    const endpoint = `/verify/face/${enrollmentIdentifier}?signature=${signature}`
+    const endpoint = `/verify/face/${enrollmentIdentifier}`
 
-    return client.delete(endpoint)
+    return client.delete(endpoint, { params: { signature } })
   }
 
   /**

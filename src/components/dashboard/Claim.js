@@ -283,8 +283,9 @@ const getStylesFromProps = ({ theme }) => {
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
-      height: '55%',
+      height: '56%',
       zIndex: 1,
+      marginBottom: 10,
     },
     mainTextTitle: {
       marginBottom: 12,
@@ -335,13 +336,12 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
-      width: getDesignRelativeWidth(340),
-      height: getDesignRelativeHeight(196),
-      marginHorizontal: 'auto',
+      marginTop: getDesignRelativeHeight(10),
+      marginBottom: getDesignRelativeHeight(10),
     },
     arrowsDown: {
-      height: getDesignRelativeHeight(25),
-      width: getDesignRelativeWidth(65),
+      height: 25,
+      width: 61,
     },
     extraInfoStats: {
       marginHorizontal: 0,

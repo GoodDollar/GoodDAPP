@@ -99,9 +99,9 @@ export default (props = {}) => {
       },
       {
         icon: 'faq',
-        name: 'FAQ',
+        name: 'Support & FAQ',
         action: () => {
-          navigation.navigate('FAQ')
+          navigation.navigate('Support')
           slideOut()
         },
       },

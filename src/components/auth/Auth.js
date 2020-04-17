@@ -236,7 +236,8 @@ const getStylesFromProps = ({ theme }) => {
       paddingBottom: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      marginVertical: 20,
+      marginTop: 20,
+      marginBottom: 20,
     },
     buttonText: {
       alignItems: 'center',

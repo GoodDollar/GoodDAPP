@@ -11,12 +11,12 @@ describe('ReceiveToAddress', () => {
   const ReceiveToAddress = getWebRouterComponentWithMocks('../ReceiveToAddress', { address })
 
   it('renders without errors', () => {
-    const tree = renderer.create(<ReceiveToAddress address={address} />)
+    const tree = renderer.create(<ReceiveToAddress />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<ReceiveToAddress address={address} />)
+    const component = renderer.create(<ReceiveToAddress />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

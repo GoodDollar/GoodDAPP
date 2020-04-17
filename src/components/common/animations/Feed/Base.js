@@ -1,16 +1,15 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import Lottie from 'lottie-react-native'
+import AnimationBase from '../Base'
 
-import { Platform } from 'react-native'
-
-class FeedInfo extends React.Component {
+class FeedInfo extends AnimationBase {
   state = {
     isWeb: Platform.OS === 'web',
     performCount: 0,
   }
 
-  componentDidMount() {
+  onMount() {
     const { delay = 0, asImage } = this.props
 
     this.anim.onComplete = this.onAnimationFinishHandler
@@ -50,10 +49,6 @@ class FeedInfo extends React.Component {
         performCount: newPerformCount,
       }
     })
-  }
-
-  setAnim = anim => {
-    this.anim = anim
   }
 
   render() {

@@ -1,16 +1,17 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { View } from 'react-native'
+import AnimationBase from '../Base'
 import { isMobileNative } from '../../../../lib/utils/platform'
 import animationData from './data.json'
 
-class SpinnerCheckMark extends React.Component {
+class SpinnerCheckMark extends AnimationBase {
   state = {
     speed: 1,
     isFinish: false,
   }
 
-  componentDidMount() {
+  onMount() {
     if (isMobileNative === false) {
       this.anim.onEnterFrame = e => {
         const { success } = this.props
@@ -18,10 +19,12 @@ class SpinnerCheckMark extends React.Component {
           this.anim.goToAndPlay(0, true)
         }
       }
+
       this.anim.onComplete = () => {
         this.onFinish()
       }
     }
+
     if (isMobileNative) {
       this.anim.play(0, 130)
     } else {
@@ -44,10 +47,6 @@ class SpinnerCheckMark extends React.Component {
     if (typeof onFinish === 'function') {
       onFinish()
     }
-  }
-
-  setAnim = anim => {
-    this.anim = anim
   }
 
   componentDidUpdate(prevProps) {

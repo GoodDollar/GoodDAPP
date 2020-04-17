@@ -247,7 +247,7 @@ class API {
    */
   performFaceVerification(payload: any, enrollmentIdentifier: string, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
     const { client } = this
-    const endpoint = `/verify/face/${enrollmentIdentifier.toLowerCase()}`
+    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
 
     return client.put(endpoint, payload, axiosConfig)
   }
@@ -259,7 +259,7 @@ class API {
    */
   disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
     const { client } = this
-    const endpoint = `/verify/face/${enrollmentIdentifier}`
+    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
 
     return client.delete(endpoint, { params: { signature } })
   }

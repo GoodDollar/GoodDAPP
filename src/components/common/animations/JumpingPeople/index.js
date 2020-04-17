@@ -1,8 +1,9 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
-
+import AnimationBase from '../Base'
 import animationData from './data.json'
+
 const styles = {
   android: {
     width: '100%',
@@ -34,7 +35,8 @@ const stylesBlock = {
     height: 100,
   },
 }
-class JumpingPeople extends React.Component {
+
+class JumpingPeople extends AnimationBase {
   render() {
     return (
       <View style={Platform.select(stylesBlock)}>

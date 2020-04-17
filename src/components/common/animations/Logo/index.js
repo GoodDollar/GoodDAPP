@@ -1,8 +1,10 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform } from 'react-native'
+import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 const { animationData, imageAssetsFolder } = getAnimationData('Logo', require('./data'))
+
 const styles = {
   android: {
     width: '100%',
@@ -14,12 +16,9 @@ const styles = {
     width: '100%',
   },
 }
-class Logo extends React.Component {
-  setAnim = anim => {
-    this.anim = anim
-  }
 
-  componentDidMount() {
+class Logo extends AnimationBase {
+  onMount() {
     if (this.props.animation) {
       this.anim.play()
     } else {

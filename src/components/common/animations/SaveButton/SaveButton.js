@@ -1,12 +1,13 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
+import AnimationBase from '../Base'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 import animationData from './data.json'
 
-class SaveButton extends React.Component {
-  componentDidMount() {
+class SaveButton extends AnimationBase {
+  onMount() {
     if (!isMobileReactNative) {
       this.anim.onEnterFrame = e => {
         const { loading } = this.props
@@ -35,10 +36,6 @@ class SaveButton extends React.Component {
         this.anim.goToAndStop(12, true)
       }
     }
-  }
-
-  setAnim = anim => {
-    this.anim = anim
   }
 
   handlePress = () => {

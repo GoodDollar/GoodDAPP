@@ -2,7 +2,7 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
-
+import AnimationBase from '../Base'
 import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 import animationData from './data.json'
 
@@ -38,7 +38,8 @@ const stylesBlock = {
     marginTop: isMobileOnly ? 0 : getDesignRelativeHeight(50),
   },
 }
-class JumpingPeople extends React.Component {
+
+class JumpingPeople extends AnimationBase {
   render() {
     return (
       <View style={Platform.select(stylesBlock)}>

@@ -1,17 +1,18 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
+import AnimationBase from '../Base'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 import animationData from './data.json'
 
-class ShareLinkReceiveButton extends React.Component {
+class ShareLinkReceiveButton extends AnimationBase {
   state = {
     disabled: false,
     performed: false,
   }
 
-  componentDidMount() {
+  onMount() {
     this.anim.onComplete = this.onAnimationFinish
   }
 
@@ -20,10 +21,6 @@ class ShareLinkReceiveButton extends React.Component {
       performed: true,
       disabled: false,
     })
-  }
-
-  setAnim = anim => {
-    this.anim = anim
   }
 
   handlePress = () => {

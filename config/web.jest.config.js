@@ -30,7 +30,7 @@ module.exports = {
     '^(?!.*\\.(js|jsx|css|json)$)': '<rootDir>/config/jest/fileTransform.js'
   },
   transformIgnorePatterns: [
-    '<rootDir>/src/lib/zoom/',
+    '<rootDir>/src/lib/zoom/ZoomAuthentication.js',
     '<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)',
   ],
   moduleFileExtensions: [
@@ -55,7 +55,8 @@ module.exports = {
     "<rootDir>/src/.*/.*(android|ios|native)\.js",
     "<rootDir>/src/index.js",
     "<rootDir>/src/init.js",
-    "<rootDir>/src/serviceWorker.js"
+    "<rootDir>/src/serviceWorker.js",
+    "<rootDir>/src/lib/zoom/ZoomAuthentication.js"
   ],
   globals: {
     "TZ" : "UTC"

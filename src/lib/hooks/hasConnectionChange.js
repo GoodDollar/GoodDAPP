@@ -26,7 +26,7 @@ let isFirstCheckGun = false
 let needToBindEventsWeb3 = true
 let needToBindEventsGun = true
 export const useConnectionWeb3 = () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const [isConnection, setIsConnection] = useState(true)
 
   const store = SimpleStore.useStore()
   const wallet = store.get('wallet')
@@ -101,7 +101,7 @@ export const useConnectionWeb3 = () => {
 }
 
 export const useConnectionGun = () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const userStorage = store.get('userStorage')
   const isGunConnection = () => {

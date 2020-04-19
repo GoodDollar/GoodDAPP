@@ -19,6 +19,7 @@ import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import { deleteGunDB } from '../../lib/hooks/useDeleteAccountDialog'
 
 type Props = {
   navigation: any,
@@ -105,11 +106,7 @@ class Auth extends React.Component<Props> {
     const redirectTo = w3Token ? 'Phone' : 'Signup'
     log.debug({ w3User, w3Token })
     try {
-      const req = new Promise((res, rej) => {
-        const del = indexedDB.deleteDatabase('radata')
-        del.onsuccess = res
-        del.onerror = rej
-      })
+      const req = deleteGunDB()
       await req
 
       log.info('indexedDb successfully cleared')

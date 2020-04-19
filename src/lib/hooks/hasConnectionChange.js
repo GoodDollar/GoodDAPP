@@ -62,6 +62,8 @@ export const useConnectionWeb3 = () => {
         }
         setTimeout(isWeb3Connection, 1000)
       }
+    } else {
+      setIsConnection(true)
     }
   }
 
@@ -125,6 +127,8 @@ export const useConnectionGun = () => {
         }
         setTimeout(isGunConnection, 1000)
       }
+    } else {
+      setIsConnection(true)
     }
   }
 

@@ -51,7 +51,7 @@ let unsuccessfulLaunchAttempts = 0
  */
 const AppSwitch = (props: LoadingProps) => {
   const gdstore = GDStore.useStore()
-  const [showErrorDialog, hideDialog] = useErrorDialog()
+  const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
 
@@ -154,10 +154,7 @@ const AppSwitch = (props: LoadingProps) => {
       log.error('failed initializing app', e.message, e)
       unsuccessfulLaunchAttempts += 1
       if (unsuccessfulLaunchAttempts > 3) {
-        showErrorDialog('Wallet could not be loaded. Please wait, retrying...', '')
-        await delay(2000)
-        hideDialog()
-        init()
+        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
         await delay(500)
         init()

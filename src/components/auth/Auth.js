@@ -9,7 +9,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
@@ -138,7 +138,7 @@ class Auth extends React.Component<Props> {
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('PrivacyPolicyAndTerms')
 
-  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicyAndTerms')
+  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   goToW3Site = () => {
     fireEvent(CLICK_BTN_GETINVITED)
@@ -269,6 +269,7 @@ export default createStackNavigator(
   {
     Login: auth,
     PrivacyPolicyAndTerms,
+    PrivacyPolicy,
     Recover: Mnemonics,
     Support,
   },

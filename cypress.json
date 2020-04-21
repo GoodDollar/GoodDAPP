@@ -22,6 +22,10 @@
         "additionalAccountMnemonics": "render execute tenant assume palace bullet near choose survey below ranch supreme",
         "emailForCheckingRegistration": "main.test.acc.gooddollar@gmail.com",
         "usernameForRegistration": "Name Surname",
-        "numberForCheckingRegistration": "+380673001751"
+        "numberForCheckingRegistration": "+380673001751",
+        "googleSocialLoginUsername": "alex.pirogov@qatestlab.net",
+        "googleSocialLoginPassword": "setPass",
+        "loginUrl": "https://gooddev.netlify.com/",
+        "localStorageName": "gooddev.id"
     }
 }

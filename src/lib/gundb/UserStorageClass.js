@@ -954,7 +954,7 @@ export class UserStorage {
     const gunuser = await this.gunuser
     this.profile = this.gunuser.get('profile')
     const profile = gunuser.profile && (await this.profile)
-    if (profile == null) {
+    if (gunuser.profile == null) {
       await this.gunuser.get('profile').putAck({ initialized: true })
       this.profile = this.gunuser.get('profile')
     }

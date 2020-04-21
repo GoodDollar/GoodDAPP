@@ -122,6 +122,99 @@ exports[`ViewAvatar matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n"
+          >
+            <div
+              className="css-view-1dbjc4n"
+              data-focusable={true}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "MozTransitionProperty": "opacity",
+                  "MozUserSelect": "none",
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "WebkitTransitionDuration": "0.15s",
+                  "WebkitTransitionProperty": "opacity",
+                  "WebkitUserSelect": "none",
+                  "alignItems": "center",
+                  "backgroundColor": "rgba(12,38,61,1.00)",
+                  "borderBottomLeftRadius": "21px",
+                  "borderBottomRightRadius": "21px",
+                  "borderTopLeftRadius": "21px",
+                  "borderTopRightRadius": "21px",
+                  "bottom": "0px",
+                  "cursor": "pointer",
+                  "display": "flex",
+                  "height": "42px",
+                  "justifyContent": "center",
+                  "left": "auto",
+                  "marginRight": "-56.888888888888886px",
+                  "msFlexAlign": "center",
+                  "msFlexPack": "center",
+                  "msTouchAction": "manipulation",
+                  "msUserSelect": "none",
+                  "position": "absolute",
+                  "right": "1px",
+                  "top": "1px",
+                  "touchAction": "manipulation",
+                  "transitionDuration": "0.15s",
+                  "transitionProperty": "opacity",
+                  "userSelect": "none",
+                  "width": "42px",
+                }
+              }
+              tabIndex="0"
+            >
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "fontFamily": "gooddollar",
+                    "fontSize": "22px",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  }
+                }
+              >
+                
+              </div>
+            </div>
+          </div>
+        </label>
+        <input
+          accept="image/*"
+          id="file"
+          name="file"
+          onChange={[Function]}
+          style={
+            Object {
+              "opacity": 0,
+            }
+          }
+          type="file"
+        />
+        <label
+          htmlFor="file"
+          style={
+            Object {
+              "cursor": "pointer",
+              "display": "inline-block",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
             style={
               Object {
                 "WebkitBoxDirection": "normal",
@@ -269,99 +362,6 @@ exports[`ViewAvatar matches snapshot 1`] = `
             </div>
           </div>
            
-        </label>
-        <input
-          accept="image/*"
-          id="file"
-          name="file"
-          onChange={[Function]}
-          style={
-            Object {
-              "opacity": 0,
-            }
-          }
-          type="file"
-        />
-        <label
-          htmlFor="file"
-          style={
-            Object {
-              "cursor": "pointer",
-              "display": "inline-block",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-          >
-            <div
-              className="css-view-1dbjc4n"
-              data-focusable={true}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              style={
-                Object {
-                  "MozTransitionProperty": "opacity",
-                  "MozUserSelect": "none",
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxPack": "center",
-                  "WebkitJustifyContent": "center",
-                  "WebkitTransitionDuration": "0.15s",
-                  "WebkitTransitionProperty": "opacity",
-                  "WebkitUserSelect": "none",
-                  "alignItems": "center",
-                  "backgroundColor": "rgba(12,38,61,1.00)",
-                  "borderBottomLeftRadius": "21px",
-                  "borderBottomRightRadius": "21px",
-                  "borderTopLeftRadius": "21px",
-                  "borderTopRightRadius": "21px",
-                  "bottom": "0px",
-                  "cursor": "pointer",
-                  "display": "flex",
-                  "height": "42px",
-                  "justifyContent": "center",
-                  "left": "auto",
-                  "marginRight": "-85.33333333333333px",
-                  "msFlexAlign": "center",
-                  "msFlexPack": "center",
-                  "msTouchAction": "manipulation",
-                  "msUserSelect": "none",
-                  "position": "absolute",
-                  "right": "1px",
-                  "top": "1px",
-                  "touchAction": "manipulation",
-                  "transitionDuration": "0.15s",
-                  "transitionProperty": "opacity",
-                  "userSelect": "none",
-                  "width": "42px",
-                }
-              }
-              tabIndex="0"
-            >
-              <div
-                className="css-text-901oao"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "gooddollar",
-                    "fontSize": "22px",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  }
-                }
-              >
-                
-              </div>
-            </div>
-          </div>
         </label>
       </div>
       <div

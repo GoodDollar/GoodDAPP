@@ -66,10 +66,10 @@ const ViewOrUploadAvatar = props => {
           ) : (
             <>
               <InputFile onChange={handleAddAvatar}>
-                <UserAvatar profile={profile} size={272} />{' '}
+                <CameraButton style={styles.cameraButtonNewImg} />
               </InputFile>
               <InputFile onChange={handleAddAvatar}>
-                <CameraButton style={styles.cameraButton} />
+                <UserAvatar profile={profile} size={272} />{' '}
               </InputFile>
             </>
           )}
@@ -99,6 +99,13 @@ const getStylesFromProps = ({ theme }) => ({
     top: 1,
     right: 1,
     marginRight: getDesignRelativeWidth(-30),
+  },
+  cameraButtonNewImg: {
+    left: 'auto',
+    position: 'absolute',
+    top: 1,
+    right: 1,
+    marginRight: getDesignRelativeWidth(-20),
   },
   closeButton: {
     left: 1,

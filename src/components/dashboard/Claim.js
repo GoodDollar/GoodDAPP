@@ -19,6 +19,7 @@ import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import type { DashboardProps } from './Dashboard'
 import ClaimContentPhaseZero from './Claim/PhaseZero'
 import ClaimContentPhaseOne from './Claim/PhaseOne'
@@ -46,7 +47,7 @@ const Claim = props => {
   const { entitlement } = gdstore.get('account')
   const isCitizen = gdstore.get('isLoggedInCitizen')
 
-  const [showDialog, , showErrorDialog] = useDialog()
+  const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
   const [state, setState]: [ClaimState, Function] = useState({
@@ -239,7 +240,12 @@ const Claim = props => {
 
   const faceRecognition = () => {
     //await handleClaim()
-    screenProps.push('FRIntro', { from: 'Claim' })
+    //temporary solution in the zero phase, for the situation when the user is not in the whitelist.
+    if (Config.isPhaseZero) {
+      showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
+    } else {
+      screenProps.push('FRIntro', { from: 'Claim' })
+    }
   }
 
   const propsForContent = {

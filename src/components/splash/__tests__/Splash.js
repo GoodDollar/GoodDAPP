@@ -1,5 +1,8 @@
 import React from 'react'
+
+// Note: react-test-renderer should be imported after react
 import renderer from 'react-test-renderer'
+
 import { withThemeProvider } from '../../../__tests__/__util__'
 import ImportedSplash from '../Splash'
 

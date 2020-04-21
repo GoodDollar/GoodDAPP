@@ -8,7 +8,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
 import NavBar from '../appNavigation/NavBar'
-import { PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Auth/torusIllustration.svg'
@@ -148,7 +148,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
   const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
 
-  const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
+  const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
 
   // google button settings
   const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest])
@@ -310,6 +310,7 @@ export default createStackNavigator(
   {
     Login: auth,
     PrivacyPolicyAndTerms,
+    PrivacyPolicy,
     Support,
   },
   {

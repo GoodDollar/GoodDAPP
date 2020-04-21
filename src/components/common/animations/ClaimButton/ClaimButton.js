@@ -2,10 +2,11 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, TouchableOpacity } from 'react-native'
 import { set } from 'lodash'
+import AnimationBase from '../Base'
 import { weiToMask } from '../../../../lib/wallet/utils'
 import animationData from './data.json'
 
-class ClaimButton extends React.Component {
+class ClaimButton extends AnimationBase {
   state = {
     stopOnClaim: true,
   }
@@ -30,7 +31,7 @@ class ClaimButton extends React.Component {
     set(animationData, 'layers[4].ks.p.k[3].s[0]', gap)
   }
 
-  componentDidMount() {
+  onMount() {
     if (Platform.OS === 'web') {
       this.anim.onEnterFrame = e => {
         const { stopOnClaim } = this.state
@@ -41,10 +42,6 @@ class ClaimButton extends React.Component {
     }
 
     this.goToClaim()
-  }
-
-  setAnim = anim => {
-    this.anim = anim
   }
 
   goToClaim = () => {

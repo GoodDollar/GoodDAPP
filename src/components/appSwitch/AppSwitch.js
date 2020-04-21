@@ -17,6 +17,7 @@ import runUpdates from '../../lib/updates'
 
 import Splash from '../splash/Splash'
 import config from '../../config/config'
+import { delay } from '../../lib/utils/async'
 
 type LoadingProps = {
   navigation: any,
@@ -139,22 +140,23 @@ const AppSwitch = (props: LoadingProps) => {
     // }
   }
 
-  const init = async (retries = 3) => {
+  const init = async () => {
     log.debug('initializing', gdstore)
 
     try {
       await initialize()
-      await Promise.all([runUpdates(), prepareLoginToken(), checkBonusInterval(), showOutOfGasError(props)])
+      checkBonusInterval()
+      prepareLoginToken()
+      await Promise.all([runUpdates(), showOutOfGasError(props)])
 
       setReady(true)
     } catch (e) {
       log.error('failed initializing app', e.message, e)
       unsuccessfulLaunchAttempts += 1
-      if (unsuccessfulLaunchAttempts > 1) {
-        showErrorDialog('Wallet could not be loaded. Please try again later.', '', {
-          onDismiss: init,
-        })
+      if (unsuccessfulLaunchAttempts > 3) {
+        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
+        await delay(500)
         init()
       }
     }
@@ -164,11 +166,11 @@ const AppSwitch = (props: LoadingProps) => {
     if (config.enableInvites !== true) {
       return
     }
-    const loginToken = await userStorage.getProfileFieldValue('loginToken')
-    log.info('Prepare login token process started', loginToken)
 
-    if (!loginToken) {
-      try {
+    try {
+      const loginToken = await userStorage.getProfileFieldValue('loginToken')
+      log.info('Prepare login token process started', loginToken)
+      if (!loginToken) {
         const response = await API.getLoginToken()
 
         const _loginToken = get(response, 'data.loginToken')
@@ -176,9 +178,9 @@ const AppSwitch = (props: LoadingProps) => {
         if (_loginToken) {
           await userStorage.setProfileField('loginToken', _loginToken, 'private')
         }
-      } catch (e) {
-        log.error('prepareLoginToken failed', e.message, e)
       }
+    } catch (e) {
+      log.error('prepareLoginToken failed', e.message, e)
     }
   }
 

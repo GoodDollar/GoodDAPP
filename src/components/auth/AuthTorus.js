@@ -120,7 +120,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         //user doesnt exists start signup
         fireEvent(SIGNUP_STARTED, { source, provider })
-        navigate(redirectTo, { torusUser })
+        navigate(redirectTo, { regMethod: 'torus', torusUser })
 
         //Hack to get keyboard up on mobile need focus from user event such as click
         setTimeout(() => {

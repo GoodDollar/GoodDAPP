@@ -52,6 +52,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
   const _w3UserFromProps = get(navigation, 'state.routes[1].params.w3User', {})
+  const regMethod = get(navigation, 'state.routes[1].params.regMethod', 'selfCustody')
   const w3Token = get(navigation, 'state.routes[1].params.w3Token')
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
   const torusUserFromProps = get(
@@ -60,6 +61,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     {}
   )
 
+  const isRegMethodSelfCustody = regMethod === 'selfCustody'
+  const skipEmailOrMagicLink = !isRegMethodSelfCustody && Config.torusEnabled
+
   const initialState: SignupState = {
     ...getUserModel({
       email: w3UserFromProps.email || torusUserFromProps.email || '',
@@ -67,11 +71,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       mobile: '',
     }),
     smsValidated: false,
-    isEmailConfirmed: Config.torusEnabled || !!w3UserFromProps.email,
+    isEmailConfirmed: skipEmailOrMagicLink || !!w3UserFromProps.email,
     jwt: '',
     skipEmail: !!w3UserFromProps.email || !!torusUserFromProps.email,
     skipEmailConfirmation: Config.skipEmailVerification || !!w3UserFromProps.email,
-    skipMagicLinkInfo: Config.torusEnabled,
+    skipMagicLinkInfo: skipEmailOrMagicLink,
     w3Token,
   }
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
@@ -181,7 +185,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
   const checkTorusLogin = () => {
     const masterSeed = torusUserFromProps.privateKey
-    if (Config.torusEnabled && masterSeed === undefined) {
+    if (!isRegMethodSelfCustody && Config.torusEnabled && masterSeed === undefined) {
       log.debug('torus user information missing', { torusUserFromProps })
       return navigation.navigate('Auth')
     }
@@ -449,7 +453,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       let ok = await waitForRegistrationToFinish()
       if (ok) {
         const { userStorage } = await ready
-        if (Config.torusEnabled === false) {
+        if (isRegMethodSelfCustody || Config.torusEnabled === false) {
           API.sendMagicLinkByEmail(userStorage.getMagicLink())
             .then(r => log.info('magiclink sent'))
             .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))

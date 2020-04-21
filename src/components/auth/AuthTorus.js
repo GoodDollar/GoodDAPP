@@ -296,7 +296,7 @@ const getStylesFromProps = ({ theme }) => {
     privacyAndTerms: {
       marginBottom: 20,
     },
-    singInLink: {
+    signInLink: {
       marginVertical: 5,
     },
   }

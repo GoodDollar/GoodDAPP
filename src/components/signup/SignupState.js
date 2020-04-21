@@ -78,6 +78,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     skipMagicLinkInfo: skipEmailOrMagicLink,
     w3Token,
   }
+
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)

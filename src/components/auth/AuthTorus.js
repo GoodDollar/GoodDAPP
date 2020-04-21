@@ -297,7 +297,8 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: 20,
     },
     signInLink: {
-      marginVertical: 5,
+      marginTop: 5,
+      marginBottom: 5,
     },
   }
 }

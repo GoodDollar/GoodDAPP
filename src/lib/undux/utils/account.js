@@ -23,7 +23,7 @@ const updateAll = store => {
       }
     })
     .catch(e => {
-      log.warn('updateAll failed', e.message, e)
+      log.error('updateAll failed', e.message, e)
     })
 }
 

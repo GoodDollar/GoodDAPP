@@ -8,6 +8,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
 
@@ -53,7 +54,6 @@ const ViewOrUploadAvatar = props => {
         <Section.Stack>
           {profile.avatar ? (
             <>
-              <UserAvatar profile={profile} size={272} />
               <CircleButtonWrapper
                 style={styles.closeButton}
                 iconName={'trash'}
@@ -61,6 +61,7 @@ const ViewOrUploadAvatar = props => {
                 onPress={handleClosePress}
               />
               <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
+              <UserAvatar profile={profile} size={272} />
             </>
           ) : (
             <>
@@ -89,18 +90,22 @@ const getStylesFromProps = ({ theme }) => ({
   section: {
     flex: 1,
     position: 'relative',
-    justifyContent: 'space-between',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cameraButton: {
     left: 'auto',
     position: 'absolute',
-    right: 12,
-    top: theme.sizes.defaultDouble,
+    top: 1,
+    right: 1,
+    marginRight: getDesignRelativeWidth(-30),
   },
   closeButton: {
-    left: 12,
+    left: 1,
+    right: 'auto',
     position: 'absolute',
-    top: theme.sizes.defaultDouble,
+    top: 1,
+    marginLeft: getDesignRelativeWidth(-30),
   },
   doneButton: {
     marginTop: 'auto',

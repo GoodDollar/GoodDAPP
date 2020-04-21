@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { withTheme } from 'react-native-paper'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
@@ -14,7 +14,7 @@ const log = logger.child({ from: 'EditAvatar' })
 
 const TITLE = 'Edit Avatar'
 
-const EditAvatar = ({ screenProps, theme }) => {
+const EditAvatar = ({ theme, navigation }) => {
   const store = GDStore.useStore()
   const wrappedUserStorage = useWrappedUserStorage()
   const profile = store.get('profile')
@@ -22,6 +22,7 @@ const EditAvatar = ({ screenProps, theme }) => {
   const [avatar, setAvatar] = useState()
   const [changed, setChanged] = useState(false)
   const [saving, setSaving] = useState(false)
+  const avatarRef = useRef(profile.avatar)
 
   const saveAvatar = async () => {
     setSaving(true)
@@ -31,8 +32,15 @@ const EditAvatar = ({ screenProps, theme }) => {
       showErrorDialog('We could not capture all your beauty. Please try again.')
     })
 
+    navigation.navigate('ViewAvatar')
     setSaving(false)
   }
+
+  useEffect(() => {
+    if (!avatarRef.current) {
+      avatarRef.current = profile.avatar
+    }
+  }, [profile])
 
   const handleAvatarChange = avatar => {
     setAvatar(avatar)
@@ -43,7 +51,7 @@ const EditAvatar = ({ screenProps, theme }) => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row>
-          <ImageCropper image={profile.avatar} onChange={handleAvatarChange} />
+          <ImageCropper image={avatarRef.current} onChange={handleAvatarChange} />
         </Section.Row>
         <Section.Stack justifyContent="flex-end" grow>
           <CustomButton

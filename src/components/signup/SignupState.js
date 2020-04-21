@@ -181,7 +181,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
   const checkTorusLogin = () => {
     const masterSeed = torusUserFromProps.privateKey
-    if (!Config.enableSelfCustody && Config.torusEnabled && masterSeed === undefined) {
+    if (Config.torusEnabled && masterSeed === undefined) {
       log.debug('torus user information missing', { torusUserFromProps })
       return navigation.navigate('Auth')
     }

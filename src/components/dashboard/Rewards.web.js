@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { isIOS } from 'mobile-device-detect'
+
+// import { isIOS } from 'mobile-device-detect'
 import { get, toPairs } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
@@ -9,6 +10,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 
 const log = logger.child({ from: 'RewardsTab' })
 
+const openInNewTab = false //isIOS
 const RewardsTab = props => {
   const [token, setToken] = useState()
   const store = SimpleStore.useStore()
@@ -16,7 +18,7 @@ const RewardsTab = props => {
 
   const getRewardsPath = () => {
     const params = get(props, 'navigation.state.params', {})
-    if (isIOS === false) {
+    if (openInNewTab === false) {
       params.purpose = 'iframe'
     }
     params.token = token
@@ -44,7 +46,7 @@ const RewardsTab = props => {
   }, [])
 
   useEffect(() => {
-    if (isIOS && token) {
+    if (openInNewTab && token) {
       store.set('loadingIndicator')({ loading: false })
       showDialog({
         title: 'Press ok to go to Rewards dashboard',
@@ -68,7 +70,7 @@ const RewardsTab = props => {
     return <iframe title="Rewards" onLoad={isLoaded} src={src} seamless frameBorder="0" style={{ flex: 1 }} />
   }, [src])
 
-  if (isIOS || token === undefined) {
+  if (openInNewTab || token === undefined) {
     return null
   }
 

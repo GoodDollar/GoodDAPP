@@ -215,7 +215,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
                 </Section.Text>
               </TouchableOpacity>
             </Section.Row>
-            <Section.Row alignItems="center" justifyContent="center" style={styles.singInLink}>
+            <Section.Row alignItems="center" justifyContent="center" style={styles.signInLink}>
               <TouchableOpacity onPress={goToSignIn}>
                 <Section.Text
                   fontWeight="medium"
@@ -296,8 +296,9 @@ const getStylesFromProps = ({ theme }) => {
     privacyAndTerms: {
       marginBottom: 20,
     },
-    singInLink: {
-      marginVertical: 5,
+    signInLink: {
+      marginTop: 5,
+      marginBottom: 5,
     },
   }
 }

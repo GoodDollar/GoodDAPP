@@ -232,12 +232,14 @@ const AppSwitch = (props: LoadingProps) => {
   }, [])
 
   useEffect(() => {
-    AppState.addEventListener('change', handleAppFocus)
+    if (ready && gdstore) {
+      AppState.addEventListener('change', handleAppFocus)
 
-    return function() {
-      AppState.removeEventListener('change', handleAppFocus)
+      return function() {
+        AppState.removeEventListener('change', handleAppFocus)
+      }
     }
-  }, [gdstore])
+  }, [gdstore, ready])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

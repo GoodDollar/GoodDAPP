@@ -10,6 +10,6 @@ export const PrivacyArticle = createIframe(
   'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   'Privacy And Identity'
 )
-export const Support = createIframe('https://support.gooddollar.org', ' Support & FAQ')
+export const Support = createIframe('https://support.gooddollar.org', ' Support & FAQ', true)
 export const Statistics = createIframe(Config.dashboardUrl, 'Statistics')
 export const FAQ = createIframe(`https://community.gooddollar.org/faq${Config.isEToro ? '-etoro' : ''}`, 'FAQ')

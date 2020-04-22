@@ -34,8 +34,8 @@ const mapPropsToStyle = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 32,
-    width: 32,
+    height: 30,
+    width: 30,
     marginBottom: 5,
   },
   buttonContainer: {

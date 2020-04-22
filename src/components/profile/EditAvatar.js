@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { withTheme } from 'react-native-paper'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
@@ -16,48 +16,64 @@ const TITLE = 'Edit Avatar'
 
 const EditAvatar = ({ theme, navigation }) => {
   const store = GDStore.useStore()
-  const wrappedUserStorage = useWrappedUserStorage()
-  const profile = store.get('profile')
   const [showErrorDialog] = useErrorDialog()
-  const [avatar, setAvatar] = useState()
-  const [changed, setChanged] = useState(false)
-  const [saving, setSaving] = useState(false)
-  const avatarRef = useRef(profile.avatar)
 
-  const saveAvatar = async () => {
-    setSaving(true)
+  const user = useWrappedUserStorage()
+  const profile = store.get('profile')
 
-    await wrappedUserStorage.setAvatar(avatar).catch(e => {
-      log.error('saving image failed:', e.message, e)
+  const [isDirty, markAsDirty] = useState(false)
+  const [processing, setProcessing] = useState(false)
+
+  const [avatar, setAvatar] = useState(profile.avatar)
+  const croppedRef = useRef(avatar)
+
+  const updateAvatar = useCallback(async () => {
+    setProcessing(true)
+
+    try {
+      await user.setAvatar(croppedRef.current)
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('saving image failed:', message, exception)
       showErrorDialog('We could not capture all your beauty. Please try again.')
-    })
+    } finally {
+      setProcessing(false)
+    }
 
     navigation.navigate('ViewAvatar')
-    setSaving(false)
-  }
+  }, [navigation, markAsDirty, setProcessing, showErrorDialog, user])
+
+  const onCropped = useCallback(
+    cropped => {
+      croppedRef.current = cropped
+      markAsDirty(true)
+    },
+    [markAsDirty]
+  )
 
   useEffect(() => {
-    if (!avatarRef.current) {
-      avatarRef.current = profile.avatar
+    if (!processing) {
+      const { avatar } = profile
+
+      setAvatar(avatar)
+      markAsDirty(false)
+
+      croppedRef.current = avatar
     }
   }, [profile])
-
-  const handleAvatarChange = avatar => {
-    setAvatar(avatar)
-    setChanged(true)
-  }
 
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row>
-          <ImageCropper image={avatarRef.current} onChange={handleAvatarChange} />
+          <ImageCropper image={avatar} onChange={onCropped} />
         </Section.Row>
         <Section.Stack justifyContent="flex-end" grow>
           <CustomButton
-            disabled={!changed || saving}
-            loading={saving}
-            onPress={saveAvatar}
+            disabled={!isDirty || processing}
+            loading={processing}
+            onPress={updateAvatar}
             color={theme.colors.darkBlue}
           >
             Save

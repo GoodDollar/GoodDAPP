@@ -19,18 +19,20 @@ import { getOriginalScreenHeight } from './lib/utils/Orientation'
 
 const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 const AuthType = Config.torusEnabled ? AuthTorus : Auth
-const router = createSwitchNavigator(
-  {
-    Auth: AuthType,
-    Signup,
-    InvalidW3TokenError,
-    SigninInfo,
-    IOSWebAppSignIn,
-  },
-  {
-    initialRouteName,
-  }
-)
+
+const routes = {
+  Auth: AuthType,
+  Signup,
+  InvalidW3TokenError,
+  IOSWebAppSignIn,
+}
+
+if (Config.enableSelfCustody) {
+  Object.assign(routes, { SigninInfo })
+}
+
+const router = createSwitchNavigator(routes, { initialRouteName })
+
 let WebRouter
 if (Platform.OS === 'web') {
   WebRouter = createBrowserApp(router)

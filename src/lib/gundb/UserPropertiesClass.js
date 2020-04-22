@@ -40,6 +40,11 @@ export default class UserProperties {
 
   constructor(propertiesGun: Gun) {
     this.gun = propertiesGun
+    this.ready = this.gun
+      .decrypt()
+      .catch(_ => {})
+      .then(_ => Object.assign({}, UserProperties.defaultProperties, _))
+      .then(_ => (this.data = _))
   }
 
   /**
@@ -50,17 +55,10 @@ export default class UserProperties {
    * @returns {Promise<void>}
    */
   async set(field: string, value: any) {
-    await this.gun.get(field).putAck(value)
+    this.data[field] = value
+    await this.gun.secret(this.data)
 
     return true
-  }
-
-  /**
-   * Return properties from GUN
-   * @returns {*}
-   */
-  getPropertiesFromGun() {
-    return this.gun
   }
 
   /**
@@ -69,7 +67,7 @@ export default class UserProperties {
    * @returns {Promise<any>}
    */
   get(field: string) {
-    return this.gun.get(field)
+    return this.data[field]
   }
 
   /**
@@ -77,6 +75,6 @@ export default class UserProperties {
    * @returns {{}}
    */
   getAll() {
-    return this.getPropertiesFromGun()
+    return this.data
   }
 }

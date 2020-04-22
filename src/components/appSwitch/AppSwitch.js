@@ -250,7 +250,7 @@ const AppSwitch = (props: LoadingProps) => {
     return function() {
       AppState.removeEventListener('change', handleAppFocus)
     }
-  }, [AppState])
+  }, [gdstore, handleAppFocus])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

@@ -1,5 +1,5 @@
 // @flow
-import React, { createRef } from 'react'
+import React, { createRef, useEffect } from 'react'
 import { Animated, SwipeableFlatList } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { get } from 'lodash'
@@ -12,11 +12,12 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
+import useAppState from '../../lib/hooks/useAppState'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 
 const log = logger.child({ from: 'ShareButton' })
-
+let showBounce = true
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
   viewAreaCoveragePercentThreshold: 100,
@@ -60,6 +61,7 @@ const FeedList = ({
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
   const flRef = createRef()
+  useAppState({ onBackground: () => (showBounce = true) }) //show first row bounce on new "session"
 
   const scrollToTop = () => {
     if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
@@ -145,10 +147,13 @@ const FeedList = ({
     )
   }
 
+  useEffect(() => {
+    showBounce = false //turn of bounce after first display
+  }, [])
   return (
     <>
       <AnimatedSwipeableFlatList
-        bounceFirstRowOnMount={true}
+        bounceFirstRowOnMount={showBounce}
         style={styles.scrollView}
         contentContainerStyle={styles.scrollableView}
         data={feeds}

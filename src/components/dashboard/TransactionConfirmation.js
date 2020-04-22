@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { Image, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
@@ -46,14 +46,8 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
 
   const handlePressDone = useCallback(() => goToRoot(), [goToRoot])
 
-  const secondTextPoint = useMemo(
-    () => (action === ACTION_SEND ? 'Share it with your recipient' : 'Share it with sender'),
-    [action]
-  )
-  const thirdTextPoint = useMemo(
-    () => (action === ACTION_SEND ? 'Recipient approves request' : 'Sender approves request'),
-    [action]
-  )
+  const secondTextPoint = action === ACTION_SEND ? 'Share it with your recipient' : 'Share it with sender'
+  const thirdTextPoint = action === ACTION_SEND ? 'Recipient approves request' : 'Sender approves request'
 
   return (
     <Wrapper>

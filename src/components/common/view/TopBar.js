@@ -35,11 +35,13 @@ const TopBar = ({ hideBalance, push, children, hideProfile = true }) => {
 
 const styles = StyleSheet.create({
   topBar: {
+    justifyContent: 'center',
     marginBottom: 8,
     paddingBottom: 8,
     paddingLeft: 12,
     paddingRight: 8,
     paddingTop: 8,
+    height: 62,
   },
 })
 

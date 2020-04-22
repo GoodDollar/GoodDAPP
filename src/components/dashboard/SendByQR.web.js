@@ -50,7 +50,7 @@ const SendByQR = ({ screenProps }: Props) => {
 
   return (
     <Wrapper>
-      <TopBar hideBalance={true} push={screenProps.push} />
+      <TopBar hideBalance={true} hideProfile={false} push={screenProps.push} />
       <Section style={styles.bottomSection}>
         <Section.Row>
           <QrReader

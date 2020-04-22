@@ -46,6 +46,10 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
 
   const handlePressDone = useCallback(() => goToRoot(), [goToRoot])
 
+  const secondTextPoint = useMemo(
+    () => (action === ACTION_SEND ? 'Share it with your recipient' : 'Share it with sender'),
+    [action]
+  )
   const thirdTextPoint = useMemo(
     () => (action === ACTION_SEND ? 'Recipient approves request' : 'Sender approves request'),
     [action]
@@ -65,7 +69,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
             </Section.Text>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'2. '}</Section.Text>
-              Share it with your recipient
+              {secondTextPoint}
             </Section.Text>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'3. '}</Section.Text>

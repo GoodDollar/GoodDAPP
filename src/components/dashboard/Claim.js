@@ -21,7 +21,6 @@ import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/anal
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import type { DashboardProps } from './Dashboard'
-import ClaimContentPhaseZero from './Claim/PhaseZero'
 import ClaimContentPhaseOne from './Claim/PhaseOne'
 import useClaimCounter from './Claim/useClaimCounter'
 
@@ -261,11 +260,7 @@ const Claim = props => {
   return (
     <WrapperClaim>
       <Section style={styles.mainContainer}>
-        {Config.isPhaseZero ? (
-          <ClaimContentPhaseZero {...propsForContent} />
-        ) : (
-          <ClaimContentPhaseOne {...propsForContent} />
-        )}
+        <ClaimContentPhaseOne {...propsForContent} />
       </Section>
     </WrapperClaim>
   )

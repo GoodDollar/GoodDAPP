@@ -143,12 +143,12 @@ exports[`Who matches snapshot 1`] = `
                   "borderTopLeftRadius": "21px",
                   "borderTopRightRadius": "21px",
                   "display": "flex",
-                  "height": "32px",
+                  "height": "30px",
                   "justifyContent": "center",
                   "marginBottom": "5px",
                   "msFlexAlign": "center",
                   "msFlexPack": "center",
-                  "width": "32px",
+                  "width": "30px",
                 }
               }
             >

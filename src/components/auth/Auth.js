@@ -2,7 +2,7 @@
 import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { get } from 'lodash'
-import Mnemonics from '../signin/Mnemonics'
+import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
@@ -260,20 +260,22 @@ const getStylesFromProps = ({ theme }) => {
     },
   }
 }
+
 const auth = withStyles(getStylesFromProps)(SimpleStore.withStore(Auth))
 auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,
 }
-export default createStackNavigator(
-  {
-    Login: auth,
-    PrivacyPolicyAndTerms,
-    PrivacyPolicy,
-    Recover: Mnemonics,
-    Support,
-  },
-  {
-    backRouteName: 'Auth',
-  }
-)
+
+const routes = {
+  Login: auth,
+  PrivacyPolicyAndTerms,
+  PrivacyPolicy,
+  Support,
+}
+
+if (config.enableSelfCustody) {
+  Object.assign(routes, { Recover })
+}
+
+export default createStackNavigator(routes, { backRouteName: 'Auth' })

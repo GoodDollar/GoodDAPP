@@ -1,15 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Animated,
-  AppState,
-  Dimensions,
-  Easing,
-  Image,
-  InteractionManager,
-  Platform,
-  TouchableOpacity,
-} from 'react-native'
+import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
 import { get as _get, debounce } from 'lodash'
 import type { Store } from 'undux'
@@ -46,6 +37,7 @@ import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
+import useAppState from '../../lib/hooks/useAppState'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -122,6 +114,7 @@ const Dashboard = props => {
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
+  const { appState } = useAppState()
   const scale = {
     transform: [
       {
@@ -234,11 +227,11 @@ const Dashboard = props => {
     }
   }
 
-  const handleAppFocus = state => {
-    if (state === 'active') {
+  useEffect(() => {
+    if (appState === 'active') {
       animateClaim()
     }
-  }
+  }, [appState])
 
   const animateClaim = useCallback(() => {
     const { entitlement } = gdstore.get('account')
@@ -411,11 +404,6 @@ const Dashboard = props => {
   useEffect(() => {
     log.debug('Dashboard didmount', navigation)
     initDashboard()
-    AppState.addEventListener('change', handleAppFocus)
-
-    return function() {
-      AppState.removeEventListener('change', handleAppFocus)
-    }
   }, [])
 
   /**

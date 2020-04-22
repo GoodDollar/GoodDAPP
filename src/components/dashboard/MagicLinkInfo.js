@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
 import API from '../../lib/API/api'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -10,13 +10,10 @@ import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Signup/maginLinkIllustration.svg'
+import MagicLinkSVG from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
 
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 const log = logger.child({ from: 'MagicLinkInfo' })
 
 const MagicLinkInfoComponent = props => {
@@ -62,7 +59,9 @@ const MagicLinkInfoComponent = props => {
               </Text>
             </View>
           </Section.Row>
-          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+          <View style={styles.illustration}>
+            <MagicLinkSVG />
+          </View>
         </Section.Stack>
       </Section>
       <Section.Stack alignItems="stretch">
@@ -79,12 +78,6 @@ const MagicLinkInfoComponent = props => {
 
 const getStylesFromProps = ({ theme }) => {
   return {
-    headerText: {
-      borderBottomWidth: 2,
-      borderBottomStyle: 'solid',
-      borderBottomColor: theme.colors.primary,
-      paddingBottom: getDesignRelativeHeight(5, false),
-    },
     mainWrapper: {
       display: 'flex',
       paddingHorizontal: 0,

@@ -10,6 +10,7 @@ import ModalPaymentStatus from '../../common/modal/ModalPaymentStatus'
 import TopImage, { getImageByType } from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
+import normalize from '../../../lib/utils/normalizeText'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
@@ -62,7 +63,7 @@ const FeedModalItem = (props: FeedEventProps) => {
                   <BigGoodDollar
                     number={item.data.amount}
                     color={mainColor}
-                    bigNumberProps={{ fontSize: 22 }}
+                    bigNumberProps={{ fontSize: 24 }}
                     bigNumberStyles={styles.bigNumberStyles}
                     bigNumberUnitProps={{ fontSize: 12 }}
                   />
@@ -105,7 +106,7 @@ const FeedModalItem = (props: FeedEventProps) => {
 const getStylesFromProps = ({ theme }) => {
   return {
     dateAndAmount: {
-      alignItems: 'center',
+      alignItems: 'baseline',
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -140,6 +141,8 @@ const getStylesFromProps = ({ theme }) => {
     },
     icon: {
       marginLeft: 'auto',
+      height: normalize(36),
+      width: normalize(36),
     },
     messageContainer: {
       flex: 1,

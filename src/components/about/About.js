@@ -1,18 +1,12 @@
 import React from 'react'
-import { Image, StyleSheet, Platform } from 'react-native'
-import splashImage from '../../assets/Splash/logo.svg'
-import goodDollarImage from '../../assets/Splash/goodDollar.svg'
+import { StyleSheet, View } from 'react-native'
+import SplashSVG from '../../assets/Splash/logo.svg'
+import GoodDollarSVG from '../../assets/Splash/goodDollar.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
 import normalize from '../../lib/utils/normalizeText'
-import WavesBackground from '../common/view/BackroundWaves'
-
-if (Platform.OS === 'web') {
-  // minimize delay <Image> has over web <img>
-  Image.prefetch(splashImage)
-  Image.prefetch(goodDollarImage)
-}
+import WavesBackground from '../common/view/WavesBackground'
 
 const About = () => (
   <Wrapper style={styles.wrapper}>
@@ -23,8 +17,12 @@ const About = () => (
             Welcome to
           </Section.Text>
           <Section.Row style={styles.imageContainer}>
-            <Image source={splashImage} style={styles.logo} resizeMode="contain" />
-            <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
+            <View style={styles.logo}>
+              <SplashSVG width="100%" height="100%" />
+            </View>
+            <View style={styles.goodDollar}>
+              <GoodDollarSVG width="100%" height="100%" />
+            </View>
             <Section.Text fontSize={22} color="darkBlue">
               {`V${Config.version}`}
             </Section.Text>

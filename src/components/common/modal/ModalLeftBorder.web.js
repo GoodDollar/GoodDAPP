@@ -2,8 +2,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import wavePattern from '../../../assets/wave.svg'
-import wavePatternForTooltipArrow from '../../../assets/feedListItemPattern.svg'
+import { url as wavePattern } from '../../../assets/wave.svg'
+import { url as wavePatternForTooltipArrow } from '../../../assets/feedListItemPattern.svg'
 import { mediumZIndex } from './styles'
 
 const ModalLeftBorderWeb = (props: any) => {

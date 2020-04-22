@@ -1,5 +1,6 @@
 // @flow
 import type { Store } from 'undux'
+import { isNull } from 'lodash'
 import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
@@ -9,12 +10,16 @@ const log = logger.child({ from: 'undux/utils/balance' })
 const updateAll = store => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
-      const account = store.get('account')
-      const balanceChanged = !account.balance || account.balance != balance
-      const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
+      if (isNull(store)) {
+        log.warn('updateAll failed', 'received store is null')
+      } else {
+        const account = store.get('account')
+        const balanceChanged = !account.balance || account.balance !== balance
+        const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
 
-      if (balanceChanged || entitlementChanged || account.ready === false) {
-        store.set('account')({ balance, entitlement, ready: true })
+        if (balanceChanged || entitlementChanged || account.ready === false) {
+          store.set('account')({ balance, entitlement, ready: true })
+        }
       }
     })
     .catch(e => {

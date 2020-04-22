@@ -2,7 +2,7 @@
 import React, { createRef } from 'react'
 import { Animated } from 'react-native'
 import * as Animatable from 'react-native-animatable'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
@@ -29,7 +29,6 @@ const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlat
 
 export type FeedListProps = {
   data: any,
-  updateData: any,
   onEndReached: any,
   initialNumToRender: ?number,
   store: GDStore,
@@ -170,7 +169,7 @@ const FeedList = ({
         onScroll={onScroll}
         ref={flRef}
       />
-      {headerLarge ? null : <ScrollToTopButton onPress={scrollToTop} />}
+      {<ScrollToTopButton onPress={scrollToTop} show={headerLarge} />}
     </>
   )
 }

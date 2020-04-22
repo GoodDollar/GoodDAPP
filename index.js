@@ -2,6 +2,5 @@
  * @format
  */
 
-require('./shim.js')
-require('./native.js')
-
+import './shim.js'
+import './native.js'

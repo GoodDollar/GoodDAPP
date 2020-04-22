@@ -31,26 +31,20 @@ const EventCounterParty = ({ feedItem, styles, style, subtitle, isSmallDevice })
   return (
     <Text textTransform="capitalize" textAlign="left" style={style} numberOfLines={2} ellipsizeMode="tail">
       {direction && (
-        <Text fontSize={10} style={styles.direction}>
+        <Text fontSize={10} lineHeight={16} style={styles.direction}>
           {direction}
         </Text>
       )}
-      <Text fontWeight="medium" lineHeight={19} style={styles.fullName}>
+      <Text fontWeight="medium" lineHeight={19}>
         {displayText}
       </Text>
     </Text>
   )
 }
 
-const getStylesFromProps = ({ theme }) => ({
+const getStylesFromProps = () => ({
   direction: {
-    //FIXME: RN not valid value 'middle'
-    //textAlignVertical: 'middle',
     marginRight: 3,
-  },
-  fullName: {
-    //FIXME: RN not valid value 'middle'
-    // textAlignVertical: 'middle',
   },
 })
 

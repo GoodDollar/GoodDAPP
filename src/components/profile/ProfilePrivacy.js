@@ -1,8 +1,8 @@
 // @flow
-import startCase from 'lodash/startCase'
 import React, { useEffect, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
+import { startCase } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
@@ -57,16 +57,16 @@ const ProfilePrivacy = props => {
     showDialog({
       title: 'SETTINGS',
       content: (
-        <>
+        <Section.Stack grow>
           {privacyOptions.map(field => (
-            <Section.Stack grow key={field} style={styles.dialogTipItem}>
+            <Section key={field} style={styles.dialogTipItem}>
               <Text fontWeight="bold" fontSize={18} color="primary" textAlign="left">
                 {startCase(field)}
               </Text>
               <Text textAlign="left">{tips[field]}</Text>
-            </Section.Stack>
+            </Section>
           ))}
-        </>
+        </Section.Stack>
       ),
       buttons: [
         {
@@ -200,7 +200,8 @@ const getStylesFromProps = ({ theme }) => {
       minHeight: 60,
     },
     dialogTipItem: {
-      marginBottom: 20,
+      alignItems: 'flex-start',
+      paddingVertical: 10,
     },
     mainWrapper: {
       backgroundImage: 'none',

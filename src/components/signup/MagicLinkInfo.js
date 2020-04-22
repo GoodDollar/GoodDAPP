@@ -1,16 +1,12 @@
 // @flow
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Signup/maginLinkIllustration.svg'
+import MagicLinkSVG from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomWrapper from './signUpWrapper'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps = {} } = props
@@ -19,21 +15,22 @@ const MagicLinkInfoComponent = props => {
   return (
     <CustomWrapper valid={true} handleSubmit={doneCallback} submitText="Cool, got it!">
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-        <View style={styles.bottomContainer}>
+        <View style={styles.headerContainer}>
           <Text
             fontWeight="bold"
             fontSize={28}
             fontFamily="Roboto Slab"
             color="primary"
             style={styles.headerText}
-            lineHeight={25}
+            lineHeight={28}
           >
             {'GOOD TO KNOW'}
           </Text>
         </View>
       </Section.Row>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-
+      <View style={styles.illustration}>
+        <MagicLinkSVG />
+      </View>
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
@@ -69,14 +66,6 @@ const MagicLinkInfoComponent = props => {
 const getStylesFromProps = ({ theme }) => {
   return {
     headerText: {
-      // FIXME: RN borderBottom Properties are only allowed on Views
-      ...Platform.select({
-        web: {
-          borderBottomWidth: 2,
-          borderBottomStyle: 'solid',
-          borderBottomColor: theme.colors.primary,
-        },
-      }),
       paddingBottom: getDesignRelativeHeight(5),
     },
     mainWrapper: {
@@ -87,9 +76,15 @@ const getStylesFromProps = ({ theme }) => {
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
-      maxWidth: '100%',
+      width: '100%',
       maxHeight: getDesignRelativeHeight(175),
       minHeight: getDesignRelativeHeight(95),
+      alignSelf: 'center',
+    },
+    headerContainer: {
+      borderBottomWidth: 2,
+      borderBottomStyle: 'solid',
+      borderBottomColor: theme.colors.primary,
     },
   }
 }

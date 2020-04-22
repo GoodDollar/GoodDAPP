@@ -1,11 +1,11 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, View, Platform } from 'react-native'
-import findKey from 'lodash/findKey'
+import { View } from 'react-native'
+import { findKey } from 'lodash'
 import Text from '../../common/view/Text'
 
-// import find from 'lodash/find'
-// import mapValues from 'lodash/mapValues'
+// import { find, mapValues } from 'lodash'
+
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import CustomButton from '../../common/buttons/CustomButton'
 import Section from '../../common/layout/Section'
@@ -13,17 +13,13 @@ import Separator from '../../common/layout/Separator'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/gundb/UserStorage'
-import LookingGood from '../../../assets/LookingGood.svg'
+import LookingGoodSVG from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import normalize from '../../../lib/utils/normalizeText'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import FRStep from './FRStep'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(LookingGood)
-}
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
@@ -48,7 +44,11 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     let failedFR = findKey(data, (v, k) => v === false)
     if (data.isError) {
       fireEvent(`FR_Error`, { failedFR, error: data.isError })
-      log.error('FR Error', data.isError)
+      log.error('FR Error', 'An error occurred during gun sessionId updates', null, {
+        sessionId,
+        failedFR,
+        error: data.isError,
+      })
     } else if (failedFR) {
       fireEvent(`FR_Failed`, { failedFR })
     }
@@ -155,11 +155,13 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     </Section>
   ) : null
 
-  let lookingGood =
+  let lookingGoodComponent =
     isProcessFailed === false && processStatus.isProfileSaved ? (
       <View style={styles.imageView}>
         <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
-        <Image source={LookingGood} resizeMode={'center'} style={styles.image} />
+        <View style={styles.image}>
+          <LookingGoodSVG />
+        </View>
       </View>
     ) : null
 
@@ -195,7 +197,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
       'B. Camera is at eye level\n' +
       'C. Light your face evenly'
   } else if (isProcessFailed) {
-    log.error('FR failed', processStatus)
+    log.error('FR failed', 'Some of the verification steps failed', null, { processStatus })
     helpText = 'Something went wrong, please try again...'
   }
   return (
@@ -250,7 +252,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
         <View style={styles.imageView}>
           <Text color="red">{helpText}</Text>
         </View>
-        <View style={styles.imageContainer}>{lookingGood}</View>
+        <View style={styles.imageContainer}>{lookingGoodComponent}</View>
       </Section>
       {retryButtonOrNull}
     </View>

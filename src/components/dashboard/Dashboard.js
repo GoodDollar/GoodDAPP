@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   Animated,
   AppState,
@@ -9,9 +9,9 @@ import {
   InteractionManager,
   Platform,
   TouchableOpacity,
+  View,
 } from 'react-native'
-import debounce from 'lodash/debounce'
-import _get from 'lodash/get'
+import { debounce, get } from 'lodash'
 import type { Store } from 'undux'
 import { isBrowser } from '../../lib/utils/platform'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -51,8 +51,8 @@ import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
-import unknownProfile from '../../assets/unknownProfile.svg'
 import Linking from '../../lib/utils/linking'
+import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
 import Amount from './Amount'
@@ -93,7 +93,7 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
-  const { screenProps, styles, theme }: DashboardProps = props
+  const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
@@ -150,51 +150,60 @@ const Dashboard = props => {
     return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
   }
 
-  const checkCode = async anyParams => {
-    try {
-      if (anyParams && anyParams.code) {
-        const { screenProps } = props
-        const code = readCode(decodeURI(anyParams.code))
-        if (isTheSameUser(code) === false) {
-          try {
-            const { route, params } = await routeAndPathForCode('send', code)
-            screenProps.push(route, params)
-          } catch (e) {
-            showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
-              onDismiss: screenProps.goToRoot,
-            })
+  const checkCode = useCallback(
+    async anyParams => {
+      try {
+        if (anyParams && anyParams.code) {
+          const code = readCode(decodeURI(anyParams.code))
+
+          if (isTheSameUser(code) === false) {
+            try {
+              const { route, params } = await routeAndPathForCode('send', code)
+              screenProps.push(route, params)
+            } catch (e) {
+              showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+                onDismiss: screenProps.goToRoot,
+              })
+            }
           }
         }
+      } catch (e) {
+        log.error('checkCode unexpected error:', e.message, e)
       }
-    } catch (e) {
-      log.error('checkCode unexpected error:', e.message, e)
-    }
-  }
+    },
+    [screenProps, showErrorDialog]
+  )
 
-  const handleDeleteRedirect = () => {
-    if (props.navigation.state.key === 'Delete') {
+  const handleDeleteRedirect = useCallback(() => {
+    if (navigation.state.key === 'Delete') {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
     }
-  }
+  }, [navigation, showErrorDialog, store, theme])
 
-  const getFeedPage = async (reset = false) => {
-    const res =
-      (await userStorage
-        .getFormattedEvents(PAGE_SIZE, reset)
-        .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
-    if (res.length === 0) {
-      return
-    }
-    if (reset) {
-      if (!loadAnimShown) {
-        await delay(1900)
-        store.set('feedLoadAnimShown')(true)
+  const getFeedPage = useCallback(
+    async (reset = false) => {
+      const res =
+        (await userStorage
+          .getFormattedEvents(PAGE_SIZE, reset)
+          .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
+
+      if (res.length === 0) {
+        return
       }
-      setFeeds(res)
-    } else {
-      setFeeds(feeds.concat(res))
-    }
-  }
+
+      if (reset) {
+        if (!loadAnimShown) {
+          await delay(1900)
+          store.set('feedLoadAnimShown')(true)
+        }
+        setFeeds(res)
+      } else {
+        setFeeds(feeds.concat(res))
+      }
+    },
+    [loadAnimShown, store, setFeeds, feeds]
+  )
+
   const subscribeToFeed = () => {
     return new Promise((res, rej) => {
       userStorage.feed.get('byid').on(async data => {
@@ -227,7 +236,7 @@ const Dashboard = props => {
     }
   }
 
-  const animateClaim = () => {
+  const animateClaim = useCallback(() => {
     const { entitlement } = gdstore.get('account')
 
     if (Number(entitlement)) {
@@ -245,9 +254,9 @@ const Dashboard = props => {
         }),
       ]).start()
     }
-  }
+  }, [gdstore, animValue])
 
-  const showDelayed = () => {
+  const showDelayed = useCallback(() => {
     const id = setTimeout(() => {
       //wait until not loading and not showing other modal (see use effect)
       //mark as displayed
@@ -255,7 +264,7 @@ const Dashboard = props => {
       store.set('addWebApp')({ show: true })
     }, 2000)
     setShowDelayedTimer(id)
-  }
+  }, [setShowDelayedTimer, store])
 
   /**
    * rerender on screen size change
@@ -269,12 +278,12 @@ const Dashboard = props => {
     Dimensions.addEventListener('change', () => debouncedHandleResize())
   }
 
-  const nextFeed = () => {
+  const nextFeed = useCallback(() => {
     if (feeds && feeds.length > 0) {
       log.debug('getNextFeed called')
       return getFeedPage()
     }
-  }
+  }, [feeds])
 
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
@@ -291,25 +300,29 @@ const Dashboard = props => {
   // So we need to calculate the center of the screen within dynamically changed balance block width.
   const balanceHasBeenCentered = useRef(false)
 
-  const saveBalanceBlockWidth = event => {
-    if (balanceHasBeenCentered.current) {
-      return
-    }
-    const width = _get(event, 'nativeEvent.layout.width')
+  const saveBalanceBlockWidth = useCallback(
+    event => {
+      if (balanceHasBeenCentered.current) {
+        return
+      }
 
-    setBalanceBlockWidth(width)
+      const width = get(event, 'nativeEvent.layout.width')
 
-    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
-    Animated.timing(headerBalanceRightAnimValue, {
-      toValue: balanceCenteredPosition,
-      duration: 100,
-    }).start()
+      setBalanceBlockWidth(width)
 
-    if (!showBalance) {
-      setShowBalance(true)
-    }
-    balanceHasBeenCentered.current = true
-  }
+      const balanceCenteredPosition = headerContentWidth / 2 - width / 2
+      Animated.timing(headerBalanceRightAnimValue, {
+        toValue: balanceCenteredPosition,
+        duration: 100,
+      }).start()
+
+      if (!showBalance) {
+        setShowBalance(true)
+      }
+      balanceHasBeenCentered.current = true
+    },
+    [setBalanceBlockWidth, headerBalanceRightAnimValue, showBalance, setShowBalance, balanceHasBeenCentered]
+  )
 
   useEffect(() => {
     const timing = 250
@@ -388,7 +401,7 @@ const Dashboard = props => {
   }, [headerLarge])
 
   useEffect(() => {
-    log.debug('Dashboard didmount', props.navigation)
+    log.debug('Dashboard didmount', navigation)
     initDashboard()
     AppState.addEventListener('change', handleAppFocus)
 
@@ -401,15 +414,14 @@ const Dashboard = props => {
    * dont show delayed items such as add to home popup if some other dialog is showing
    */
   useEffect(() => {
-    const showingSomething =
-      _get(currentScreen, 'dialogData.visible') || _get(loadingIndicator, 'loading') || currentFeed
+    const showingSomething = get(currentScreen, 'dialogData.visible') || get(loadingIndicator, 'loading') || currentFeed
 
     if (showDelayedTimer !== true && showDelayedTimer && showingSomething) {
       setShowDelayedTimer(clearTimeout(showDelayedTimer))
     } else if (!showDelayedTimer) {
       showDelayed()
     }
-  }, [_get(currentScreen, 'dialogData.visible'), _get(loadingIndicator, 'loading'), currentFeed])
+  }, [get(currentScreen, 'dialogData.visible'), get(loadingIndicator, 'loading'), currentFeed])
 
   useEffect(() => {
     if (serviceWorkerUpdated) {
@@ -442,79 +454,89 @@ const Dashboard = props => {
     }
   }, [serviceWorkerUpdated])
 
-  const showEventModal = currentFeed => {
-    store.set('currentFeed')(currentFeed)
-  }
+  const showEventModal = useCallback(
+    currentFeed => {
+      store.set('currentFeed')(currentFeed)
+    },
+    [store]
+  )
 
   const handleFeedSelection = (receipt, horizontal) => {
     showEventModal(horizontal ? receipt : null)
   }
 
-  const showNewFeedEvent = async eventId => {
-    try {
-      const item = await userStorage.getFormatedEventById(eventId)
-      log.info('showNewFeedEvent', { eventId, item })
-      if (item) {
-        showEventModal(item)
-      } else {
+  const showNewFeedEvent = useCallback(
+    async eventId => {
+      try {
+        const item = await userStorage.getFormatedEventById(eventId)
+        log.info('showNewFeedEvent', { eventId, item })
+        if (item) {
+          showEventModal(item)
+        } else {
+          showDialog({
+            title: 'Error',
+            message: 'Event does not exist',
+          })
+        }
+      } catch (e) {
         showDialog({
           title: 'Error',
           message: 'Event does not exist',
         })
       }
-    } catch (e) {
-      showDialog({
-        title: 'Error',
-        message: 'Event does not exist',
-      })
-    }
-  }
+    },
+    [showDialog]
+  )
 
-  const handleWithdraw = async params => {
-    const { styles }: DashboardProps = props
-    const paymentParams = prepareDataWithdraw(params)
+  const handleWithdraw = useCallback(
+    async params => {
+      const paymentParams = prepareDataWithdraw(params)
 
-    try {
-      showDialog({
-        title: 'Processing Payment Link...',
-        image: <LoadingIcon />,
-        message: 'please wait while processing...',
-        buttons: [{ text: 'YAY!', style: styles.disabledButton }],
-      })
-      const { status, transactionHash } = await executeWithdraw(store, paymentParams.paymentCode, paymentParams.reason)
-      if (transactionHash) {
-        fireEvent('WITHDRAW')
-        hideDialog()
-        return
-      }
-      switch (status) {
-        case WITHDRAW_STATUS_COMPLETE:
-          showErrorDialog('Payment already withdrawn or canceled by sender')
-          break
-        case WITHDRAW_STATUS_UNKNOWN:
-          for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
-            // eslint-disable-next-line no-await-in-loop
-            await delay(2000)
-            // eslint-disable-next-line no-await-in-loop
-            const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
-            if (status === WITHDRAW_STATUS_PENDING) {
+      try {
+        showDialog({
+          title: 'Processing Payment Link...',
+          image: <LoadingIcon />,
+          message: 'please wait while processing...',
+          buttons: [{ text: 'YAY!', style: styles.disabledButton }],
+        })
+        const { status, transactionHash } = await executeWithdraw(
+          store,
+          paymentParams.paymentCode,
+          paymentParams.reason
+        )
+        if (transactionHash) {
+          fireEvent('WITHDRAW')
+          hideDialog()
+          return
+        }
+        switch (status) {
+          case WITHDRAW_STATUS_COMPLETE:
+            showErrorDialog('Payment already withdrawn or canceled by sender')
+            break
+          case WITHDRAW_STATUS_UNKNOWN:
+            for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
               // eslint-disable-next-line no-await-in-loop
-              return await handleWithdraw()
+              await delay(2000)
+              // eslint-disable-next-line no-await-in-loop
+              const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
+              if (status === WITHDRAW_STATUS_PENDING) {
+                // eslint-disable-next-line no-await-in-loop
+                return await handleWithdraw()
+              }
             }
-          }
-          showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
-          break
-        default:
+            showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
+            break
+          default:
+        }
+      } catch (e) {
+        log.error('withdraw failed:', e.message, e, { errCode: e.code })
+        showErrorDialog(e.message)
+      } finally {
+        navigation.setParams({ paymentCode: undefined })
       }
-    } catch (e) {
-      log.error('withdraw failed:', e.code, e.message, e)
-      showErrorDialog(e.message)
-    } finally {
-      props.navigation.setParams({ paymentCode: undefined })
-    }
-  }
-
-  const avatarSource = avatar ? { uri: avatar } : unknownProfile
+    },
+    [showDialog, hideDialog, showErrorDialog, store, navigation]
+  )
 
   const onScroll = useCallback(
     ({ nativeEvent }) => {
@@ -531,14 +553,24 @@ const Dashboard = props => {
     [headerLarge, feeds]
   )
 
+  const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feeds), [currentFeed, feeds])
+
+  const goToProfile = useCallback(() => screenProps.push('Profile'), [screenProps])
+
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>
       <Section style={[styles.topInfo]}>
         <Animated.View style={headerAnimateStyles}>
           <Section.Stack alignItems="center" style={styles.headerWrapper}>
             <Animated.View style={avatarAnimStyles}>
-              <TouchableOpacity onPress={() => screenProps.push('Profile')} style={styles.avatarWrapper}>
-                <Image source={avatarSource} style={styles.avatar} />
+              <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
+                {avatar ? (
+                  <Image source={{ uri: avatar }} style={styles.avatar} />
+                ) : (
+                  <View style={styles.avatar}>
+                    <UnknownProfileSVG />
+                  </View>
+                )}
               </TouchableOpacity>
             </Animated.View>
             <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>
@@ -606,20 +638,18 @@ const Dashboard = props => {
         handleFeedSelection={handleFeedSelection}
         initialNumToRender={PAGE_SIZE}
         onEndReached={nextFeed}
-        updateData={() => {}}
         onScroll={onScroll}
         headerLarge={headerLarge}
         scrollEventThrottle={100}
       />
       {currentFeed && (
         <FeedModalList
-          data={isBrowser ? [currentFeed] : feeds}
+          data={modalListData}
           handleFeedSelection={handleFeedSelection}
           initialNumToRender={PAGE_SIZE}
           onEndReached={nextFeed}
           selectedFeed={currentFeed}
-          updateData={() => {}}
-          navigation={props.navigation}
+          navigation={navigation}
         />
       )}
     </Wrapper>
@@ -649,13 +679,15 @@ const getStylesFromProps = ({ theme }) => ({
   topInfo: {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
-    marginBottom: 0,
     marginLeft: theme.sizes.default,
     marginRight: theme.sizes.default,
     paddingBottom: theme.sizes.default,
     paddingLeft: theme.sizes.default,
     paddingRight: theme.sizes.default,
     paddingTop: theme.sizes.defaultDouble,
+    marginBottom: -3,
+    zIndex: 10,
+    position: 'relative',
   },
   userInfo: {
     backgroundColor: 'transparent',

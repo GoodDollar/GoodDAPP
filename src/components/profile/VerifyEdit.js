@@ -1,7 +1,7 @@
 // @flow
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import _get from 'lodash/get'
+import { get } from 'lodash'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
@@ -23,8 +23,8 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const gdstore = GDStore.useStore()
   const { fullName } = gdstore.get('profile')
   const firstName = fullName && fullName.split(' ')[0]
-  const field = _get(navigation, 'state.params.field')
-  const content = _get(navigation, 'state.params.content')
+  const field = get(navigation, 'state.params.field')
+  const content = get(navigation, 'state.params.content')
   let fieldToSend
   let fieldToShow
   let sendToText
@@ -69,7 +69,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
   return (
     <Wrapper>
-      <Section grow>
+      <Section grow justifyContent="space-between">
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
             <Text fontSize={22} lineHeight={25} fontWeight="medium" fontFamily="Roboto" style={styles.mainText}>

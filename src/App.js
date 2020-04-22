@@ -42,7 +42,7 @@ const App = () => {
       <PaperProvider theme={theme}>
         <SimpleStoreDialog />
         <LoadingIndicator />
-        <InternetConnection onDisconnect={() => <Splash />} isLoggedIn={isLoggedIn}>
+        <InternetConnection onDisconnect={() => <Splash animation={false} />} isLoggedIn={isLoggedIn}>
           {SplashOrRouter}
           {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
         </InternetConnection>

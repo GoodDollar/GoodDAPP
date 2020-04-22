@@ -1,5 +1,5 @@
 // @flow
-import values from 'lodash/values'
+import { values } from 'lodash'
 import React, { createRef, useEffect, useState } from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
@@ -144,7 +144,6 @@ const mnemonicInputStyles = ({ theme }) => ({
     height: height >= 640 ? 44 : 36,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: theme.paddings.mainContainerPadding,
   },
 })
 

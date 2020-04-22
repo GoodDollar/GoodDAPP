@@ -2,11 +2,12 @@
 //eslint-disable-next-line
 import bip39 from 'bip39-light'
 import React, { Fragment, useState } from 'react'
-import { AsyncStorage, Image, Platform } from 'react-native'
+import { AsyncStorage, View } from 'react-native'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import retryImport from '../../lib/utils/retryImport'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import CustomButton from '../common/buttons/CustomButton'
@@ -14,10 +15,6 @@ import InputText from '../common/form/InputText'
 import NavBar from '../appNavigation/NavBar'
 import IOSWebAppSignInSVG from '../../assets/IOSWebAppSignIn.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(IOSWebAppSignInSVG)
-}
 
 const TITLE = 'EASY ACCESS'
 const log = logger.child({ from: TITLE })
@@ -53,12 +50,12 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     if (userNameAndPWDArray.length === 2) {
       const userName = userNameAndPWDArray[0]
       const userPwd = userNameAndPWDArray[1]
-      const UserStorage = await import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage)
+      const UserStorage = await retryImport(() => import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage))
 
       const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
 
       if (mnemonic && bip39.validateMnemonic(mnemonic)) {
-        const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
+        const mnemonicsHelpers = retryImport(() => import('../../lib/wallet/SoftwareWalletProvider'))
         const { saveMnemonics } = await mnemonicsHelpers
 
         await saveMnemonics(mnemonic)
@@ -104,7 +101,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
             />
           </Section.Row>
         </Section.Stack>
-        <Image source={IOSWebAppSignInSVG} resizeMode={'contain'} style={styles.image} />
+        <View style={styles.image}>
+          <IOSWebAppSignInSVG />
+        </View>
         <Section style={styles.bottomContainer}>
           <CustomButton style={styles.buttonLayout} onPress={recover} disabled={!isValid || isRecovering}>
             {'SIGN IN'}

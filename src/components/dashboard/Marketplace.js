@@ -1,9 +1,7 @@
-// TODO: RN
 import React, { useEffect, useMemo, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Appbar } from 'react-native-paper'
-import _get from 'lodash/get'
-import _toPairs from 'lodash/toPairs'
+import { get, toPairs } from 'lodash'
 import { isIOSWeb } from '../../lib/utils/platform'
 import Config from '../../config/config'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -19,14 +17,14 @@ const MarketTab = props => {
   const [showDialog] = useDialog()
 
   const getMarketPath = () => {
-    const params = _get(props, 'navigation.state.params', {})
+    const params = get(props, 'navigation.state.params', {})
     if (isIOSWeb === false) {
       params.nofooter = true
     }
     params.jwt = token
-    let path = decodeURIComponent(_get(params, 'marketPath', ''))
+    let path = decodeURIComponent(get(params, 'marketPath', ''))
 
-    const query = _toPairs(params)
+    const query = toPairs(params)
       .filter(param => param.indexOf('marketPath') < 0)
       .map(param => param.join('='))
       .join('&')

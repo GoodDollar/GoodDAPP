@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { AppState, AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
-import _get from 'lodash/get'
-import _debounce from 'lodash/debounce'
+import { debounce, get } from 'lodash'
 import moment from 'moment'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -15,9 +14,11 @@ import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/gundb/UserStorage'
 import runUpdates from '../../lib/updates'
+import Linking from '../../lib/utils/linking'
 
 import Splash from '../splash/Splash'
 import config from '../../config/config'
+import { isMobileNative } from '../../lib/utils/platform'
 
 type LoadingProps = {
   navigation: any,
@@ -28,7 +29,7 @@ const log = logger.child({ from: 'AppSwitch' })
 
 const MIN_BALANCE_VALUE = '100000'
 const GAS_CHECK_DEBOUNCE_TIME = 1000
-const showOutOfGasError = _debounce(
+const showOutOfGasError = debounce(
   async props => {
     const gasResult = await goodWallet.verifyHasGas(goodWallet.wallet.utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
       topWallet: false,
@@ -135,7 +136,7 @@ const AppSwitch = (props: LoadingProps) => {
     //     props.navigation.navigate('Auth')
     //   } else {
     //     // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
-    //     log.error('Failed to sign in', credsOrError)
+    //     log.error('Failed to sign in', 'Failed to sign in', new Error('Failed to sign in'), { credsOrError })
     //     props.navigation.navigate('Auth')
     //   }
     // }
@@ -176,7 +177,7 @@ const AppSwitch = (props: LoadingProps) => {
       try {
         const response = await API.getLoginToken()
 
-        const _loginToken = _get(response, 'data.loginToken')
+        const _loginToken = get(response, 'data.loginToken')
 
         if (_loginToken) {
           await userStorage.setProfileField('loginToken', _loginToken, 'private')
@@ -230,16 +231,26 @@ const AppSwitch = (props: LoadingProps) => {
 
   useEffect(() => {
     init()
+    if (isMobileNative && Linking.pathname) {
+      return props.navigation.navigate(Linking.pathname.slice(1))
+    }
     navigateToUrlAction()
   }, [])
 
   useEffect(() => {
-    AppState.addEventListener('change', handleAppFocus)
+    if (isMobileNative && Linking.pathname) {
+      Linking.subscribe(() => {
+        return props.navigation.navigate(Linking.pathname.slice(1))
+      })
+    }
+  }, [Linking.pathname])
 
+  useEffect(() => {
+    AppState.addEventListener('change', handleAppFocus)
     return function() {
       AppState.removeEventListener('change', handleAppFocus)
     }
-  }, [gdstore, handleAppFocus])
+  }, [AppState])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
@@ -247,7 +258,7 @@ const AppSwitch = (props: LoadingProps) => {
   const display = ready ? (
     <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
   ) : (
-    <Splash />
+    <Splash animation={false} />
   )
   return <React.Fragment>{display}</React.Fragment>
 }

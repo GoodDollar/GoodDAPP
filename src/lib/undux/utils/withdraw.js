@@ -66,7 +66,7 @@ export const executeWithdraw = async (
     }
     return { status }
   } catch (e) {
-    log.error('code withdraw failed', e.message, e, code)
+    log.error('code withdraw failed', e.message, e, { code })
     throw e
   }
 }

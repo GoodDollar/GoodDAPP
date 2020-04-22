@@ -4,6 +4,7 @@ import React from  'react'
 //global.crypto = {} dont know why
 import 'react-native-crypto'
 import WebviewCrypto from '@gooddollar/react-native-webview-crypto'
+import Config from 'react-native-config'
 import App from './src/App'
 import { name as appName } from './app.json'
 import 'react-native-gesture-handler'
@@ -16,5 +17,7 @@ const DeApp  = () => (
     <App />
   </SafeAreaProvider>
 )
+
+console.disableYellowBox = !!Config.TEST_REACT_NATIVE;
 
 AppRegistry.registerComponent(appName, () => DeApp)

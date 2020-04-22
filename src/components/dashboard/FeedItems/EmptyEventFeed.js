@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Platform } from 'react-native'
+import { View } from 'react-native'
 import { withTheme } from 'react-native-paper'
 import { Section } from '../../common/'
 import { withStyles } from '../../../lib/styles'
@@ -8,12 +8,7 @@ import { withStyles } from '../../../lib/styles'
 const EmptyBlock = ({ width, height, borderRadius, style, theme }) => {
   const customStyle = {
     backgroundColor: theme.colors.lightGray,
-    // FIXME: RN
-    ...Platform.select({
-      web: {
-        borderRadius,
-      },
-    }),
+    borderRadius,
     height: height,
     width: width,
   }
@@ -35,7 +30,7 @@ const EmptyBlockThemed = withTheme(EmptyBlock)
 const FeedListItem = ({ styles }) => (
   <Section.Row style={styles.innerRow}>
     <Section.Stack alignItems="flex-start" style={styles.avatatBottom}>
-      <EmptyBlockThemed width={34} height={34} borderRadius="50%" />
+      <EmptyBlockThemed width={34} height={34} borderRadius={34 / 2} />
     </Section.Stack>
     <Section.Stack grow={1} style={styles.mainSection}>
       <Section.Row style={styles.emptyBlockBorderRow}>
@@ -53,7 +48,7 @@ const FeedListItem = ({ styles }) => (
           </Section.Row>
         </Section.Stack>
         <Section.Stack alignItems="flex-end">
-          <EmptyBlockThemed width={34} height={34} borderRadius="50%" />
+          <EmptyBlockThemed width={34} height={34} borderRadius={34 / 2} />
         </Section.Stack>
       </Section.Row>
     </Section.Stack>
@@ -76,12 +71,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   emptyBlockBorderRow: {
     borderBottomColor: theme.colors.lightGray,
-    ...Platform.select({
-      // FIXME: RN
-      web: {
-        borderBottomStyle: 'solid',
-      },
-    }),
+    borderBottomStyle: 'solid',
     borderBottomWidth: 2,
     paddingBottom: theme.sizes.defaultHalf,
     marginBottom: theme.sizes.defaultHalf,

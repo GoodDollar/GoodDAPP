@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.14.1-2",
+  "version": "0.16.1-0",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -22,10 +22,10 @@
     "test": "npm run link && npm run test:web && npm run test:native",
     "test:web-watch": "npm run link && react-app-rewired test --watch",
     "test:web": "npm run link && react-app-rewired test",
-    "test:native": "npm run link && export TEST_REACT_NATIVE=1; react-app-rewired test",
-    "test:native-watch": "npm run link && TEST_REACT_NATIVE=1; react-app-rewired test --watch",
+    "test:native": "npm run test:ios && npm run test:android",
+    "test:ios": "npm run animation:assets && ENVFILE=.env.test detox build -c ios.sim.debug && detox test -c ios.sim.debug",
+    "test:android": "npm run animation:assets && ENVFILE=.env.test detox build -c android.emu.release && detox test -c android.emu.release",
     "coverage": "react-app-rewired test --coverage",
-    "coverage:native": "TEST_REACT_NATIVE=1; react-app-rewired test --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "bundlesize:check": "bundlesize",
     "flow": "flow",
@@ -128,6 +128,7 @@
     "react-native-animatable": "1.3.3",
     "react-native-branch": "^4.3.0",
     "react-native-camera": "^3.18.0",
+    "react-native-config": "^0.12.0",
     "react-native-crypto": "^2.2.0",
     "react-native-device-info": "^5.5.3",
     "react-native-fs": "^2.16.6",
@@ -155,7 +156,6 @@
     "react-native-screens": "^2.1.0",
     "react-native-side-menu-gooddapp": "git+https://github.com/GoodDollar/react-native-side-menu.git",
     "react-native-svg": "^9.13.6",
-    "react-native-svg-asset-plugin": "^0.3.0",
     "react-native-swipeable-lists": "0.0.1",
     "react-native-tcp": "^3.3.2",
     "react-native-udp": "^3.0.0",
@@ -175,6 +175,7 @@
     "rxjs": "^6.4.0",
     "stream-browserify": "^1.0.0",
     "string_decoder": "^0.10.31",
+    "svg2png": "^4.1.1",
     "text-encoding": "^0.7.0",
     "timers-browserify": "^1.4.2",
     "undux": "^5.0.1",
@@ -184,15 +185,20 @@
     "vm-browserify": "^1.1.2",
     "web3": "^2.0.0-alpha.1",
     "web3-providers": "^2.0.0-alpha.1",
-    "web3-utils": "^2.0.0-alpha.1"
+    "web3-utils": "^2.0.0-alpha.1",
+    "websocket": "^1.0.31"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^0.0.5",
+    "@svgr/webpack": "^5.3.0",
     "artillery": "^1.6.0-28",
     "auto-changelog": "^1.16.2",
     "babel-plugin-import": "^1.13.0",
     "babel-plugin-inline-dotenv": "^1.5.0",
+    "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-react-native-web": "^0.12.0-rc.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react-native": "^5.0.2",
     "bundlesize": "^0.18.0",
     "clipboardy": "^2.1.0",
@@ -223,6 +229,8 @@
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
     "lint-staged": "^8.1.6",
+    "lodash-webpack-plugin": "^0.11.5",
+    "metro-config": "^0.59.0",
     "metro-react-native-babel-preset": "^0.51.0",
     "netlify-cli": "^2.13.1",
     "node-pre-gyp": "^0.14.0",
@@ -233,11 +241,15 @@
     "react-app-rewired": "^2.1.5",
     "react-hot-loader": "^4.6.5",
     "react-native-dotenv": "^0.2.0",
+    "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "16.9.0",
     "serve": "^11.0.0",
     "source-map-explorer": "^2.2.2",
     "svg2png": "^4.1.1",
     "webpack-bundle-analyzer": "^3.6.0"
+  },
+  "resolutions": {
+    "hoist-non-react-statics": "^3.3.0"
   },
   "browserslist": [
     ">0.2%",
@@ -268,8 +280,8 @@
   "detox": {
     "configurations": {
       "ios.sim.debug": {
-        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/GoodDollar.app",
-        "build": "xcodebuild -workspace ios/GoodDollar.xcworkspace -scheme GoodDollar -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/GoodDollar.app",
+        "build": "xcodebuild -workspace ios/GoodDollar.xcworkspace -scheme GoodDollar -configuration Release -sdk iphonesimulator -derivedDataPath ios/build",
         "type": "ios.simulator",
         "device": {
           "type": "iPhone 11"
@@ -277,10 +289,10 @@
       },
       "android.emu.release": {
         "binaryPath": "android/app/build/outputs/apk/release/app-release.apk",
-        "build": "cd android && gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
+        "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Nexus_5_API_26"
+          "avdName": "android-29"
         }
       }
     },

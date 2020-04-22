@@ -55,7 +55,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               <BigGoodDollar
                 number={feed.data.amount}
                 color={mainColor}
-                bigNumberProps={{ fontSize: 15, lineHeight: 18 }}
+                bigNumberProps={{ fontSize: 20, lineHeight: 18 }}
                 bigNumberStyles={styles.bigNumberStyles}
                 bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
@@ -96,10 +96,12 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           </View>
           <EventIcon
             style={styles.typeIcon}
+            animStyle={styles.typeAnimatedIcon}
             type={itemType}
             size={normalize(34)}
             onAnimationFinish={updateFeedEventAnimation}
             showAnim={!feed.animationExecuted}
+            delay={1000}
           />
         </View>
       </View>
@@ -107,20 +109,13 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   )
 }
 
-const getWelcomeStyles = ({ theme }) => ({
+const getWelcomeStyles = () => ({
   readMoreText: {
     letterSpacing: 0,
     marginLeft: 4,
-    lineHeight: 16,
-  },
-  readMore: {
-    minHeight: normalize(16),
-    maxHeight: normalize(16),
-    marginHorizontal: -theme.sizes.default,
-    display: Platform.select({
-      // FIXME: RN
-      web: 'inline',
-      default: 'flex',
+    lineHeight: Platform.select({
+      web: 12,
+      default: 16,
     }),
   },
   welcomeText: {
@@ -133,7 +128,7 @@ const getWelcomeStyles = ({ theme }) => ({
 
 const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
   <View style={styles.welcomeText}>
-    <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'}>
+    <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'} fontSize={16} lineHeight={16}>
       {text}
     </Text>
     <Text color={color || theme.colors.lighterGray} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
@@ -142,7 +137,7 @@ const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, button
   </View>
 ))
 
-const getFeedTextStyles = ({ theme }) => ({
+const getFeedTextStyles = () => ({
   message: {
     paddingBottom: 0,
     flexShrink: 0,
@@ -201,18 +196,13 @@ const getStylesFromProps = ({ theme }) => ({
   },
   dateAndValue: {
     alignItems: 'center',
-    ...Platform.select({
-      // FIXME: RN
-      web: {
-        borderBottomStyle: 'solid',
-      },
-    }),
+    borderStyle: 'solid',
     borderBottomWidth: 2,
     display: 'flex',
     flexDirection: 'row',
     flexShrink: 1,
     justifyContent: 'space-between',
-    paddingBottom: theme.sizes.default - 2,
+    paddingBottom: 5,
   },
   actionSymbol: {
     marginLeft: 'auto',
@@ -259,14 +249,13 @@ const getStylesFromProps = ({ theme }) => ({
   },
   typeIcon: {
     marginTop: theme.sizes.default,
-    alignSelf: 'flex-start',
+    height: normalize(35),
+    width: normalize(35),
   },
   failTransaction: {
-    paddingBottom: 'inherit',
+    paddingBottom: 'auto',
   },
   mainText: {
-    //FIXME: RN
-    // textAlignVertical: 'middle',
     paddingTop: 5,
   },
 })

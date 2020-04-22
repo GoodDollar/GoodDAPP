@@ -4,11 +4,11 @@ import { TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
-import wavePattern from '../../../assets/feedListItemPattern.svg'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import Config from '../../../config/config'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
+import FeedListItemLeftBorder from './FeedListItemLeftBorder'
 
 type FeedListItemProps = {
   item: FeedEvent,
@@ -31,10 +31,6 @@ const FeedListItem = (props: FeedListItemProps) => {
   const itemType = item.displayType || item.type
   const isItemEmpty = itemType === 'empty'
   const itemStyle = getEventSettingsByType(theme, itemType)
-  const imageStyle = {
-    backgroundColor: itemStyle.color,
-    backgroundImage: `url(${wavePattern})`,
-  }
   const disableAnimForTests = Config.env === 'test'
   const easing = 'ease-in'
 
@@ -67,7 +63,7 @@ const FeedListItem = (props: FeedListItemProps) => {
         <Animatable.View animation={showLoadAnim ? animScheme : ''} duration={duration} easing={easing} useNativeDriver>
           <View style={styles.row}>
             <View style={styles.rowContent}>
-              <View style={[styles.rowContentBorder, imageStyle]} />
+              <FeedListItemLeftBorder style={styles.rowContentBorder} color={itemStyle.color} />
               <ListEventItem {...props} />
             </View>
           </View>
@@ -81,7 +77,7 @@ const FeedListItem = (props: FeedListItemProps) => {
         >
           <View style={styles.row}>
             <View style={styles.rowContent}>
-              <View style={[styles.rowContentBorder, imageStyle]} />
+              <FeedListItemLeftBorder style={styles.rowContentBorder} color={itemStyle.color} />
               <ListEventItem {...props} />
             </View>
           </View>
@@ -89,13 +85,13 @@ const FeedListItem = (props: FeedListItemProps) => {
         <Animatable.View
           animation={showLoadAnim ? animScheme : ''}
           duration={duration}
-          delay={400}
+          delay={550}
           easing={easing}
           useNativeDriver
         >
           <View style={styles.row}>
             <View style={styles.rowContent}>
-              <View style={[styles.rowContentBorder, imageStyle]} />
+              <FeedListItemLeftBorder style={styles.rowContentBorder} color={itemStyle.color} />
               <ListEventItem {...props} />
             </View>
           </View>
@@ -114,7 +110,7 @@ const FeedListItem = (props: FeedListItemProps) => {
         underlayColor={theme.colors.lightGray}
       >
         <View style={styles.rowContent}>
-          <View style={[styles.rowContentBorder, imageStyle]} />
+          <FeedListItemLeftBorder style={styles.rowContentBorder} color={itemStyle.color} />
           <ListEventItem {...props} />
         </View>
       </TouchableHighlight>
@@ -127,7 +123,6 @@ const getStylesFromProps = ({ theme }) => ({
     borderRadius: theme.feedItems.borderRadius,
     flexDirection: 'row',
     marginTop: theme.sizes.default,
-    overflow: 'hidden',
     shadowColor: theme.colors.text,
     shadowOffset: {
       width: 0,
@@ -141,6 +136,8 @@ const getStylesFromProps = ({ theme }) => ({
     shadowRadius: 4,
   },
   rowContent: {
+    borderRadius: theme.feedItems.borderRadius,
+    overflow: 'hidden',
     alignItems: 'center',
     backgroundColor: theme.feedItems.itemBackgroundColor,
     flex: 1,
@@ -148,8 +145,6 @@ const getStylesFromProps = ({ theme }) => ({
     paddingLeft: theme.paddings.mainContainerPadding,
   },
   rowContentBorder: {
-    backgroundRepeat: 'repeat-y',
-    backgroundSize: 'initial',
     height: '100%',
     left: 0,
     position: 'absolute',

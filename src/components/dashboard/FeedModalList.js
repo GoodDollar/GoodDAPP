@@ -2,7 +2,7 @@
 import React, { createRef, useEffect, useState } from 'react'
 import { FlatList, Platform, View } from 'react-native'
 import { Portal } from 'react-native-paper'
-import _once from 'lodash/once'
+import { once } from 'lodash'
 import { isMobileOnly } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getMaxDeviceWidth, getScreenHeight, getScreenWidth } from '../../lib/utils/Orientation'
@@ -20,7 +20,6 @@ const emptyFeed = { type: 'empty', data: {} }
 
 export type FeedModalListProps = {
   data: any,
-  updateData: any,
   onEndReached: any,
   initialNumToRender: ?number,
   handleFeedSelection: Function,
@@ -39,7 +38,6 @@ type ItemComponentProps = {
 
 const FeedModalList = ({
   data,
-  updateData,
   onEndReached,
   initialNumToRender,
   handleFeedSelection,
@@ -95,7 +93,7 @@ const FeedModalList = ({
     </View>
   )
 
-  const slideEvent = _once(() => {
+  const slideEvent = once(() => {
     fireEvent(CARD_SLIDE)
   })
 
@@ -139,14 +137,10 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     left: 0,
     padding: 0,
-
-    // FIXME: RN
     position: Platform.select({
       web: 'fixed',
       default: 'absolute',
     }),
-
-    // FIXME: RN
     height: Platform.select({
       web: '100vh',
       default: getScreenHeight(),

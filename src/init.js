@@ -1,5 +1,5 @@
 //@flow
-import _pick from 'lodash/pick'
+import { pick } from 'lodash'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import isWebApp from './lib/utils/isWebApp'
@@ -18,7 +18,7 @@ export const init = () => {
     setUserStorage(userStorage)
     await initAnalytics(goodWallet, userStorage)
 
-    const source = Object.keys(_pick(Linking.params, ['web3', 'paymentCode', 'code'])).pop() || 'none'
+    const source = Object.keys(pick(Linking.params, ['web3', 'paymentCode', 'code'])).pop() || 'none'
 
     fireEvent(APP_OPEN, { source, isWebApp })
 

@@ -1,17 +1,7 @@
 //@flow
 import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
-import find from 'lodash/find'
-import flatten from 'lodash/flatten'
-import isEqual from 'lodash/isEqual'
-import keys from 'lodash/keys'
-import maxBy from 'lodash/maxBy'
-import merge from 'lodash/merge'
-import orderBy from 'lodash/orderBy'
-import takeWhile from 'lodash/takeWhile'
-import toPairs from 'lodash/toPairs'
-import values from 'lodash/values'
-import get from 'lodash/get'
+import { find, flatten, get, isEqual, keys, maxBy, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun/gun'
@@ -22,6 +12,9 @@ import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
+import delUndefValNested from '../utils/delUndefValNested'
+import { delay } from '../utils/async'
+import { isMobileNative } from '../utils/platform'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -38,6 +31,9 @@ const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
 const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
 
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
+
+//gun hack for login
+const GUN_DELAY = isMobileNative ? 3000 : 1000
 
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
@@ -432,6 +428,9 @@ export class UserStorage {
     let gunuser = gun.user()
     let mnemonic = ''
 
+    //hack to get gun working. these seems to preload data gun needs to login
+    //otherwise it get stuck on a clean incognito
+    await Promise.race([gun.get('~@' + username).then(), delay(GUN_DELAY)])
     const authUserInGun = (username, password) => {
       return new Promise((res, rej) => {
         gunuser.auth(username, password, user => {
@@ -466,7 +465,13 @@ export class UserStorage {
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.', (Date.now() - start) / 1000), 'seconds')
       .catch(e => {
-        logger.error('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
+        let logLevel = 'error'
+
+        if (e.message && e.message.includes('Wrong user or password')) {
+          logLevel = 'warn'
+        }
+
+        logger[logLevel]('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
         return false
       })
   }
@@ -524,19 +529,19 @@ export class UserStorage {
       this.gunuser.leave()
     }
 
-    // this causes gun create user only on non-incognito to hang if user doesnt exists i have no freaking idea why
-    //const existingUsername = await this.gun.get('~@' + username)
-    const existingUsername = false
     let loggedInPromise
 
-    logger.debug('init existing username:', { existingUsername })
-
     let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
-
     if (existingCreds == null) {
       //sign with different address so its not connected to main user address and there's no 1-1 link
       const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
       const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
+
+      //hack to get gun working. these seems to preload data gun needs to login
+      //otherwise it get stuck on a clean incognito, either when checking existingusername (if doesnt exists)
+      //or in gun auth
+      const existingUsername = await Promise.race([this.gun.get('~@' + username), delay(GUN_DELAY)])
+      logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
           this.gunCreate(username, password).then(r => this.gunAuth(username, password))
@@ -569,23 +574,19 @@ export class UserStorage {
     this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
     this.user = this.gunuser.is
     this.profile = this.gunuser.get('profile')
-
+    const profile = await this.profile
     this.profile.open(doc => {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
-    logger.debug('init opened profile')
 
-    //wait until we read initial data (prevent gundb corruption bug)
-    await Promise.all([this.initFeed(), this.initProperties()])
-
-    await this.startSystemFeed()
+    logger.debug('init opened profile', profile)
 
     //save ref to user
-    this.gun
+    await this.gun
       .get('users')
       .get(this.gunuser.is.pub)
-      .put(this.gunuser)
+      .putAck(this.gunuser)
 
     logger.debug('GunDB logged in', {
       username: existingCreds.username,
@@ -603,6 +604,16 @@ export class UserStorage {
     this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
     this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
     this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
+
+    //for some reason doing init stuff before  causes gun to get stuck
+    //this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
+    logger.debug('init Properties + feed')
+
+    await Promise.all([this.initProperties(), this.initFeed()])
+
+    logger.debug('init systemfeed')
+
+    await this.startSystemFeed()
     return true
   }
 
@@ -765,14 +776,18 @@ export class UserStorage {
       const originalTXHash = await this.getTransactionHashByCode(data.hash)
       if (originalTXHash === undefined) {
         logger.error(
-          'handleOTPLUpdated: Original payment link TX not found',
-          '',
-          new Error('handleOTPLUpdated failed'),
+          'handleOTPLUpdated failed',
+          'Original payment link TX not found',
+          new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
           data
         )
         return
       }
-      const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
+
+      const feedEvent = {
+        data: {},
+        ...((await this.getFeedItemByTransactionHash(originalTXHash)) || {}),
+      }
 
       if (get(feedEvent, 'data.otplData')) {
         logger.debug('handleOTPLUpdated skipping event with existed receipt data', feedEvent, receipt)
@@ -863,6 +878,10 @@ export class UserStorage {
   initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+
+    //preload feed items
+    this.feed.get('byid').map(x => x)
+
     return Promise.all([this.feed, this.feed.get('byid')])
   }
 
@@ -1060,7 +1079,12 @@ export class UserStorage {
     }
     const { errors, isValid } = profile.validate(update)
     if (!isValid) {
-      logger.error('setProfile failed:', '', new Error('setProfile failed'), errors)
+      logger.error(
+        'setProfile failed',
+        'Fields validation failed',
+        new Error('setProfile failed: Fields validation failed'),
+        { errors }
+      )
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
       }
@@ -1075,18 +1099,30 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', e.message, e, field)
+            logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
           })
         })
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+
       if (errors.length > 0) {
-        logger.error('setProfile some fields failed', errors.length, errors, JSON.stringify(errors))
+        logger.error(
+          'setProfile partially failed',
+          'some of the fields failed during saving',
+          new Error('setProfile: some fields failed during saving'),
+          {
+            errCount: errors.length,
+            errors,
+            strErrors: JSON.stringify(errors),
+          }
+        )
+
         if (Config.throwSaveProfileErrors) {
           return Promise.reject(errors)
         }
       }
+
       return true
     })
   }
@@ -1355,7 +1391,7 @@ export class UserStorage {
           }
 
           return this.formatEvent(feedItem).catch(e => {
-            logger.error('getFormattedEvents Failed formatting event:', e.message, e, feedItem)
+            logger.error('getFormattedEvents Failed formatting event:', e.message, e, { feedItem })
             return {}
           })
         })
@@ -1365,7 +1401,7 @@ export class UserStorage {
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', e.message, e, id)
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
       return undefined
     })
     if (!prevFeedEvent) {
@@ -1390,7 +1426,7 @@ export class UserStorage {
     let updatedEvent = await this.handleReceiptUpdated(receipt)
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
       return {}
     })
   }
@@ -1579,7 +1615,7 @@ export class UserStorage {
 
     data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
     data.address = data.address && UserStorage.cleanFieldForIndex('walletAddress', data.address)
-    data.value = (receiptData && receiptData.value) || amount
+    data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
     data.displayName = counterPartyDisplayName || 'Unknown'
 
     logger.debug('formatEvent: parsed data', { id, type, to, counterPartyDisplayName, from, receiptData, ...data })
@@ -1629,7 +1665,7 @@ export class UserStorage {
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+    const favicon = `${Config.publicUrl}/favicon-96x96.png`
     const profileFromGun = () =>
       profileToShow &&
       profileToShow
@@ -1671,7 +1707,9 @@ export class UserStorage {
    * @param {FeedEvent} event
    * @returns {Promise<>}
    */
-  async enqueueTX(event: FeedEvent): Promise<> {
+  async enqueueTX(_event: FeedEvent): Promise<> {
+    const event = delUndefValNested(_event)
+
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
@@ -2030,8 +2068,13 @@ export class UserStorage {
     //first delete from indexes then delete the profile itself
     await Promise.all(
       keys(UserStorage.indexableFields).map(k => {
-        return this.setProfileFieldPrivacy(k, 'private').catch(() => {
-          logger.error('failed deleting profile field', k)
+        return this.setProfileFieldPrivacy(k, 'private').catch(err => {
+          logger.error(
+            'Deleting profile field failed',
+            err.message || 'Some error occurred during setting the privacy to the field',
+            err || new Error('Deleting profile field failed'),
+            { index: k }
+          )
         })
       })
     )

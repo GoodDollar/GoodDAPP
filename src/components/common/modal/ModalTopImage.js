@@ -1,86 +1,122 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
-import receiveIllustation from '../../../assets/Feed/receive.svg'
-import sendIllustration from '../../../assets/Feed/send.svg'
-import messageIllustration from '../../../assets/Feed/message.png'
-import inviteIllustration from '../../../assets/Feed/invite.png'
-import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
-import backupIllustration from '../../../assets/Feed/backup.png'
-import spendingIllustration from '../../../assets/Feed/spending.svg'
-import claimingIllustration from '../../../assets/Feed/claiming.svg'
-import hanukaStartsIllustration from '../../../assets/Feed/hanukaStarts.svg'
+import { Image, Platform, View } from 'react-native'
+import ReceiveSVG from '../../../assets/Feed/receive.svg'
+import SendSVG from '../../../assets/Feed/send.svg'
+import MessagePNG from '../../../assets/Feed/message.png'
+import InvitePNG from '../../../assets/Feed/invite.png'
+import InviteFriendsPNG from '../../../assets/Feed/inviteFriends.png'
+import BackupPNG from '../../../assets/Feed/backup.png'
+import SpendingSVG from '../../../assets/Feed/spending.svg'
+import ClaimingSVG from '../../../assets/Feed/claiming.svg'
+import HanukaStartsSVG from '../../../assets/Feed/hanukaStarts.svg'
+import ReceivedAnimation from '../../common/animations/Received'
+import SendAnimation from '../../common/animations/Send'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+
+const mainPhotoStyles = {
+  web: {
+    height: '20vh',
+    width: '100%',
+  },
+  ios: {
+    height: getDesignRelativeHeight(175, true),
+    width: '100%',
+  },
+  android: {
+    height: getDesignRelativeHeight(175, true),
+    width: '100%',
+  },
+}
 
 export const getImageByType = (type, styles = {}) =>
   ({
     withdraw: {
-      src: receiveIllustation,
-      style: styles.mainImage,
+      animationComponent: ReceivedAnimation,
+      animation: true,
+      containerStyle: styles.mainImageContainer,
+    },
+    sendcompleted: {
+      animationComponent: SendAnimation,
+      animation: true,
       containerStyle: styles.mainImageContainer,
     },
     claim: {
-      src: receiveIllustation,
-      style: styles.mainImage,
+      animationComponent: ReceivedAnimation,
+      animation: true,
       containerStyle: styles.mainImageContainer,
     },
     claiming: {
-      src: claimingIllustration,
+      svgSrc: ClaimingSVG,
       style: styles.claiming,
       containerStyle: styles.mainImageContainer,
     },
     bonuscompleted: {
-      src: receiveIllustation,
-      style: styles.mainImage,
+      animationComponent: ReceivedAnimation,
+      animation: true,
       containerStyle: styles.mainImageContainer,
     },
     receive: {
-      src: receiveIllustation,
+      svgSrc: ReceiveSVG,
       style: styles.mainImage,
       containerStyle: styles.mainImageContainer,
     },
     send: {
-      src: sendIllustration,
+      svgSrc: SendSVG,
       style: styles.mainImage,
       containerStyle: styles.mainImageContainer,
     },
     message: {
-      src: messageIllustration,
+      imageSrc: MessagePNG,
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
     invite: {
-      src: inviteFriendsIllustration,
+      imageSrc: InviteFriendsPNG,
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
     welcome: {
-      src: inviteIllustration,
+      imageSrc: InvitePNG,
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
     backup: {
-      src: backupIllustration,
+      imageSrc: BackupPNG,
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
     spending: {
-      src: spendingIllustration,
+      svgSrc: SpendingSVG,
       style: styles.spending,
       containerStyle: styles.mainPhotoContainer,
     },
     hanukaStarts: {
-      src: hanukaStartsIllustration,
+      svgSrc: HanukaStartsSVG,
       style: styles.hanukaStarts,
       containerStyle: styles.mainImageContainer,
     },
   }[type] || null)
 
 const TopImage = ({ type, styles }) => {
-  const image = getImageByType(type, styles)
+  const ImageData = getImageByType(type, styles)
 
-  return image && <View style={image.containerStyle} />
+  if (ImageData) {
+    return (
+      <View style={ImageData.containerStyle}>
+        {!!ImageData.animation && <ImageData.animationComponent />}
+        {!!ImageData.imageSrc && <Image style={ImageData.style} source={ImageData.imageSrc} />}
+        {!!ImageData.svgSrc && (
+          <View style={ImageData.style}>
+            <ImageData.svgSrc />
+          </View>
+        )}
+      </View>
+    )
+  }
+
+  return null
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -106,10 +142,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: -theme.sizes.defaultDouble,
     marginBottom: 15,
   },
-  mainPhoto: {
-    height: '20vh',
-    width: '100%',
-  },
+  mainPhoto: Platform.select(mainPhotoStyles),
   spending: {
     width: getDesignRelativeWidth(176),
     height: getDesignRelativeHeight(76),

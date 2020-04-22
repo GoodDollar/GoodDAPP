@@ -10,7 +10,7 @@ import logger from '../logger/pino-logger'
 const initGunDB = () => {
   let gun
   if (!global.gun) {
-    if (process.env.NODE_ENV === 'test') {
+    if (Config.nodeEnv === 'test') {
       gun = Gun()
     } else {
       gun = Gun({

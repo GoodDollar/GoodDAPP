@@ -22,9 +22,14 @@ class LinkingNative {
     event: '',
   }
 
+  navigationCallbacks = []
+
   pathname = ''
 
-  subscribe = () => {
+  subscribe = navigationCallback => {
+    if (navigationCallback) {
+      this.navigationCallbacks.push(navigationCallback)
+    }
     this._unsubscribe = branch.subscribe(this._listener)
   }
 
@@ -57,6 +62,12 @@ class LinkingNative {
     validParams.forEach(validParam => {
       if (queryParams[validParam]) {
         this.params[validParam] = queryParams[validParam]
+      }
+    })
+
+    this.navigationCallbacks.forEach(navigation => {
+      if (navigation) {
+        return navigation()
       }
     })
   }

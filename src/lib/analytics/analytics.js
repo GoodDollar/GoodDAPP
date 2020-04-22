@@ -1,6 +1,5 @@
 //@flow
-import _debounce from 'lodash/debounce'
-import _forEach from 'lodash/forEach'
+import { debounce, forEach } from 'lodash'
 import amplitude from 'amplitude-js'
 import logger from '../logger/pino-logger'
 import Config from '../../config/config'
@@ -103,19 +102,19 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   patchLogger()
 }
 
-export const reportToSentry = (errorMsg, extra = {}, tags = {}) =>
+export const reportToSentry = (error, extra = {}, tags = {}) =>
   Sentry.configureScope(scope => {
     // set extra
-    _forEach(extra, (value, key) => {
+    forEach(extra, (value, key) => {
       scope.setExtra(key, value)
     })
 
     // set tags
-    _forEach(tags, (value, key) => {
+    forEach(tags, (value, key) => {
       scope.setTags(key, value)
     })
 
-    Sentry.captureException(new Error(errorMsg))
+    Sentry.captureException(error)
   })
 
 export const fireEvent = (event: string, data: any = {}) => {
@@ -146,13 +145,13 @@ export const fireEventFromNavigation = route => {
 }
 
 //for error logs if they happen frequently only log one
-const debounceFireEvent = _debounce(fireEvent, 500, { leading: true })
+const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
 const patchLogger = () => {
   let error = global.logger.error
   global.logger.error = function() {
     let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
-    if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
+    if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') === -1) {
       debounceFireEvent(ERROR_LOG, { reason: logMessage, logContext })
     }
     if (bugsnagClient && Config.env !== 'test') {
@@ -164,7 +163,7 @@ const patchLogger = () => {
     }
 
     if (Config.sentryDSN && Config.env !== 'test') {
-      reportToSentry(logMessage, {
+      reportToSentry(errorObj && errorObj instanceof Error ? errorObj : new Error(logMessage), {
         errorObj,
         logContext,
         eMsg,

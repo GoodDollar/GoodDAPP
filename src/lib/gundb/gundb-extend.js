@@ -1,6 +1,10 @@
 import Gun from 'gun/gun'
 import SEA from 'gun/sea'
 import 'gun/lib/load'
+import { isMobileNative } from '../utils/platform'
+
+//gun hack to wait for data
+const GUN_ONCE_DELAY = isMobileNative ? 1500 : 200
 
 /**
  * extend gundb SEA with decrypt to match ".secret"
@@ -13,7 +17,7 @@ const gunExtend = (() => {
   Gun.chain.then = function(cb) {
     var gun = this,
       p = new Promise(function(res, rej) {
-        gun.once(res, { wait: 200 })
+        gun.once(res, { wait: GUN_ONCE_DELAY })
       })
     return cb ? p.then(cb) : p
   }
@@ -83,6 +87,28 @@ const gunExtend = (() => {
         cb && cb(res)
         return res
       })
+  }
+
+  /**
+   * restore a user from saved credentials
+   * this bypasses the user/password which is slow because of pbkdf2 iterations
+   * this is based on Gun.User.prototype.auth act.g in original sea.js
+   */
+  Gun.User.prototype.restore = function(credentials) {
+    var gun = this,
+      cat = gun._,
+      root = gun.back(-1)
+    const pair = credentials.sea
+    var user = root._.user,
+      at = user._
+    var upt = at.opt
+    at = user._ = root.get('~' + pair.pub)._
+    at.opt = upt
+
+    // add our credentials in-memory only to our root user instance
+    user.is = credentials.is
+    at.sea = pair
+    cat.ing = false
   }
 
   /**

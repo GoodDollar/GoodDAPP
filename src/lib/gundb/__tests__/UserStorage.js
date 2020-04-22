@@ -1,5 +1,5 @@
 // @flow
-import _ from 'lodash'
+import { pick } from 'lodash'
 import moment from 'moment'
 import Contracts from '@gooddollar/goodcontracts/releases/deployment.json'
 import gun from '../gundb'
@@ -20,6 +20,8 @@ import UserPropertiesClass from '../UserPropertiesClass'
 import { getUserModel } from '../UserModel'
 import update from '../../updates'
 import { addUser } from './__util__/index'
+
+welcomeMessage.date = '2019-01-01'
 
 const delay = duration => {
   return new Promise((resolve, reject) => {
@@ -358,9 +360,9 @@ describe('UserStorage', () => {
   })
 
   it('events/gets events first page', async () => {
-    //welcome message+01-02 event =2
-    const gunRes = await userStorage.getFeedPage(2)
-    expect(gunRes.length).toEqual(2)
+    //welcome message+01-02 event =5
+    const gunRes = await userStorage.getFeedPage(5)
+    expect(gunRes.length).toEqual(5)
   })
 
   it('events/has the welcome event already set', async () => {
@@ -374,8 +376,8 @@ describe('UserStorage', () => {
 
   it('events/gets events second page using cursor', async () => {
     //rest of other 3 01-01 events
-    const gunRes = await userStorage.getFeedPage(2)
-    expect(gunRes.length).toEqual(3)
+    const gunRes = await userStorage.getFeedPage(0)
+    expect(gunRes.length).toEqual(0)
   })
 
   it('resets cursor and get events single day page', async () => {
@@ -464,7 +466,7 @@ describe('UserStorage', () => {
     }
     await userStorage.saveSurveyDetails(hash, testSurvey)
     const surveys = await userStorage.getSurveyDetailByHashAndDate(hash, date)
-    const result = _.pick(surveys, ['amount', 'reason', 'survey'])
+    const result = pick(surveys, ['amount', 'reason', 'survey'])
     expect(result).toEqual(testSurvey)
   })
 

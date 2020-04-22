@@ -1,29 +1,34 @@
 import React from 'react'
-import { Image, StyleSheet, Platform } from 'react-native'
-import splashImage from '../../assets/Splash/logo.svg'
-import goodDollarImage from '../../assets/Splash/goodDollar.svg'
+import { StyleSheet, View } from 'react-native'
+import SplashSVG from '../../assets/Splash/logo.svg'
+import GoodDollarSVG from '../../assets/Splash/goodDollar.svg'
+import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import WavesBackground from '../common/view/BackroundWaves'
+import WavesBackground from '../common/view/WavesBackground'
 
-if (Platform.OS === 'web') {
-  // minimize delay <Image> has over web <img>
-  Image.prefetch(splashImage)
-  Image.prefetch(goodDollarImage)
-}
-
-
-const Splash = () => (
+const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <WavesBackground>
-        <Section.Stack style={styles.content} grow justifyContent="center">
-          <Image source={splashImage} style={styles.logo} resizeMode="contain" />
-          <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
-          <Section.Text fontSize={22}>{`V${Config.version}`}</Section.Text>
-        </Section.Stack>
+        {animation ? (
+          <>
+            <AnimationsLogo />
+            <Section.Text style={styles.version} fontSize={22}>{`V${Config.version}`}</Section.Text>
+          </>
+        ) : (
+          <Section.Stack style={styles.content} grow justifyContent="center">
+            <View style={styles.logo}>
+              <SplashSVG widht="100%" height="100%" />
+            </View>
+            <View style={styles.goodDollar}>
+              <GoodDollarSVG widht="100%" height="100%" />
+            </View>
+            <Section.Text fontSize={22}>{`V${Config.version}`}</Section.Text>
+          </Section.Stack>
+        )}
       </WavesBackground>
     </Section>
   </Wrapper>
@@ -49,17 +54,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  version: {
+    zIndex: 100,
+  },
   logo: {
-    maxWidth: '100%',
-    minHeight: 135,
-    minWidth: 135,
+    width: '100%',
+    height: 230,
+    minWidth: 230,
     marginBottom: getDesignRelativeHeight(64),
   },
   goodDollar: {
-    maxWidth: '100%',
-    minHeight: 30,
-    minWidth: 212,
+    width: '100%',
+    height: 40,
+    minWidth: 310,
     marginBottom: getDesignRelativeHeight(22),
+    display: 'flex',
+    alignItems: 'center',
   },
 })
 

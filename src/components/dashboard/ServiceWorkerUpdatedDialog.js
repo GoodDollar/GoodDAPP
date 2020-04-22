@@ -1,17 +1,13 @@
 import React from 'react'
-import { Image, View, Platform } from 'react-native'
+import { View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import Text from '../common/view/Text'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import UpdateVersion from '../../assets/updateversion.svg'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(UpdateVersion)
-}
+import UpdateVersionSVG from '../../assets/updateversion.svg'
 
 const dialogStyles = ({ theme }) => ({
   image: {
-    textAlign: 'center',
+    alignItems: 'center',
     height: getDesignRelativeHeight(134),
     width: getDesignRelativeHeight(191),
     marginBottom: getDesignRelativeHeight(25),
@@ -20,16 +16,11 @@ const dialogStyles = ({ theme }) => ({
     paddingTop: getDesignRelativeHeight(32),
     paddingHorizontal: getDesignRelativeWidth(5),
     display: 'flex',
-    alignItems: ' center',
+    alignItems: 'center',
   },
   title: {
     width: '100%',
-    ...Platform.select({
-      // FIXME: RN
-      web: {
-        borderBottomStyle: 'solid',
-      },
-    }),
+    borderStyle: 'solid',
     borderBottomWidth: 2,
     borderBottomColor: theme.colors.primary,
     paddingBottom: getDesignRelativeWidth(9),
@@ -44,7 +35,9 @@ export default withStyles(dialogStyles)(({ styles, theme }) => {
   return (
     <View>
       <View style={styles.imageContainer}>
-        <Image source={UpdateVersion} style={styles.image} />
+        <View style={styles.image}>
+          <UpdateVersionSVG />
+        </View>
         <Text
           fontSize={22}
           lineHeight={26}

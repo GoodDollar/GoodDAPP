@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, Platform, View } from 'react-native'
+import { AsyncStorage, Platform, View } from 'react-native'
 import numeral from 'numeral'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -14,20 +14,17 @@ import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import { Wrapper } from '../common'
+import AnimationsJumpingPeople from '../common/animations/JumpingPeople'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
-import illustration from '../../assets/Claim/illustration.svg'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import ClaimAnimatedButton from '../common/animations/ClaimButton/ClaimButton'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -90,7 +87,7 @@ const Claim = props => {
 
   const init = async () => {
     //hack to make unit test pass, activityindicator in claim button cuasing
-    if (process.env.NODE_ENV !== 'test') {
+    if (Config.nodeEnv !== 'test') {
       setLoading(true)
     }
     await goodWallet
@@ -134,16 +131,20 @@ const Claim = props => {
           screenProps.goToRoot()
         },
       })
+
+      return []
     })
 
-    const nextClaim = await getNextClaim(nextClaimDate)
-    setState(prevState => ({ ...prevState, claimedToday, nextClaim }))
-    setClaimInterval(
-      setInterval(async () => {
-        const nextClaim = await getNextClaim(nextClaimDate)
-        setState(prevState => ({ ...prevState, nextClaim }))
-      }, 1000)
-    )
+    if (claimedToday && nextClaimDate) {
+      const nextClaim = await getNextClaim(nextClaimDate)
+      setState(prevState => ({ ...prevState, claimedToday, nextClaim }))
+      setClaimInterval(
+        setInterval(async () => {
+          const nextClaim = await getNextClaim(nextClaimDate)
+          setState(prevState => ({ ...prevState, nextClaim }))
+        }, 1000)
+      )
+    }
   }
 
   // Claim STATS
@@ -237,7 +238,6 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
   return (
     <Wrapper>
       <Section style={styles.mainContainer}>
@@ -275,7 +275,7 @@ const Claim = props => {
           </Section.Row>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
-          <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
+          <AnimationsJumpingPeople isCitizen={isCitizen} />
           {!isCitizen && (
             <ClaimButton
               isCitizen={true}
@@ -286,13 +286,19 @@ const Claim = props => {
             />
           )}
           <View style={styles.space} />
-          <ClaimButton
-            isCitizen={isCitizen}
-            entitlement={state.entitlement}
-            nextClaim={state.nextClaim}
-            loading={loading}
-            onPress={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
-          />
+          {isCitizen && state.entitlement > 0 ? (
+            <ClaimAnimatedButton
+              amount={state.entitlement}
+              onPressClaim={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
+            />
+          ) : (
+            <ClaimButton
+              isCitizen={isCitizen}
+              entitlement={state.entitlement}
+              nextClaim={state.nextClaim}
+              loading={loading}
+            />
+          )}
           <Section.Row style={styles.extraInfoStats}>
             <Text style={styles.extraInfoWrapper}>
               <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
@@ -374,14 +380,6 @@ const getStylesFromProps = ({ theme }) => {
       flexShrink: 0,
       marginBottom: theme.sizes.default,
       width: '100%',
-    },
-    illustrationForCitizen: {
-      height: getDesignRelativeHeight(184, false),
-      marginTop: getDesignRelativeHeight(-94, false),
-    },
-    illustrationForNonCitizen: {
-      height: getDesignRelativeHeight(159, false),
-      marginTop: getDesignRelativeHeight(-70, false),
     },
     extraInfo: {
       backgroundColor: theme.colors.surface,

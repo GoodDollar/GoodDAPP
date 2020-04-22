@@ -5,6 +5,7 @@ import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
+import retryImport from './lib/utils/retryImport'
 import logger from './lib/logger/pino-logger'
 import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 import Config from './config/config'
@@ -18,7 +19,11 @@ log.debug({ Config })
 let SignupRouter = React.lazy(() =>
   initAnalytics()
     .then(_ =>
-      Promise.all([import(/* webpackChunkName: "signuprouter" */ './SignupRouter'), handleLinks(), delay(2000)])
+      Promise.all([
+        retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
+        handleLinks(),
+        delay(2000),
+      ])
     )
     .then(r => r[0])
 )
@@ -31,10 +36,8 @@ let SignupRouter = React.lazy(() =>
  */
 const handleLinks = async () => {
   const { params } = Linking
-
   try {
     const { magiclink } = params
-
     if (magiclink) {
       let userNameAndPWD = Buffer.from(decodeURIComponent(magiclink), 'base64').toString()
       let userNameAndPWDArray = userNameAndPWD.split('+')
@@ -42,12 +45,12 @@ const handleLinks = async () => {
       if (userNameAndPWDArray.length === 2) {
         const userName = userNameAndPWDArray[0]
         const userPwd = userNameAndPWDArray[1]
-        const UserStorage = await import('./lib/gundb/UserStorageClass').then(_ => _.UserStorage)
+        const UserStorage = await retryImport(() => import('./lib/gundb/UserStorageClass')).then(_ => _.UserStorage)
 
         const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
 
         if (mnemonic && bip39.validateMnemonic(mnemonic)) {
-          const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
+          const mnemonicsHelpers = retryImport(() => import('./lib/wallet/SoftwareWalletProvider'))
           const { saveMnemonics } = await mnemonicsHelpers
           await saveMnemonics(mnemonic)
           await AsyncStorage.setItem('GD_isLoggedIn', 'true')
@@ -60,9 +63,7 @@ const handleLinks = async () => {
         await AsyncStorage.setItem('GD_web3Token', params.web3)
         delete params.web3
       }
-
       let path = Linking.pathname.slice(1)
-
       path = path.length === 0 ? 'AppNavigation/Dashboard' : path
       if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
         const dest = { path, params }
@@ -82,10 +83,10 @@ const handleLinks = async () => {
 
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
-  let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
+  let walletAndStorageReady = retryImport(() => import(/* webpackChunkName: "init" */ './init'))
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
 
-  return Promise.all([import(/* webpackChunkName: "router" */ './Router'), p2])
+  return Promise.all([retryImport(() => import(/* webpackChunkName: "router" */ './Router')), p2])
     .then(r => {
       log.debug('router ready')
       return r
@@ -105,7 +106,7 @@ const RouterSelector = () => {
   }, [isLoggedIn])
 
   return (
-    <React.Suspense fallback={<Splash />}>
+    <React.Suspense fallback={<Splash animation={true} />}>
       <Router />
     </React.Suspense>
   )

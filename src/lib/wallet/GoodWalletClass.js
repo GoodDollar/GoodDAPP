@@ -8,8 +8,7 @@ import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import values from 'lodash/values'
-import get from 'lodash/get'
+import { get, values } from 'lodash'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import API from '../API/api'
@@ -244,7 +243,7 @@ export class GoodWallet {
 
         this.getReceiptWithLogs(event.transactionHash)
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-          .catch(err => log.error('send event get/send receipt failed:', err))
+          .catch(err => log.error('send event get/send receipt failed:', err.message, err))
 
         if (event && event.blockNumber && blockIntervalCallback) {
           blockIntervalCallback({ toBlock: event.blockNumber, event })
@@ -809,7 +808,7 @@ export class GoodWallet {
           onConfirmation && onConfirmation(c)
         })
         .on('error', e => {
-          log.error('sendTransaction error:', e.message, e, tx)
+          log.error('sendTransaction error:', e.message, e, { tx })
           rej(e)
           onError && onError(e)
         })

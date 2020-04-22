@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import _get from 'lodash/get'
+import { get } from 'lodash'
 import { isMobileSafari } from '../../lib/utils/platform'
 import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import NavBar from '../appNavigation/NavBar'
@@ -12,6 +12,7 @@ import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import BackButtonHandler from '../../lib/utils/handleBackButton'
+import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
@@ -47,8 +48,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
-  const _w3UserFromProps = _get(navigation, 'state.routes[1].params.w3User', {})
-  const w3Token = _get(navigation, 'state.routes[1].params.w3Token')
+  const _w3UserFromProps = get(navigation, 'state.routes[1].params.w3User', {})
+  const w3Token = get(navigation, 'state.routes[1].params.w3Token')
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
 
   const initialState: SignupState = {
@@ -79,7 +80,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     navigation.navigate(routeKey)
     setLoading(false)
 
-    //FIXME rn
     if (Platform.OS === 'web' && (isMobileSafari || routeKey === 'Phone')) {
       setTimeout(() => {
         const el = document.getElementById(routeKey + '_input')
@@ -171,8 +171,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     //lazy login in background
     const ready = (async () => {
       log.debug('ready: Starting initialization')
-      const { init } = await import('../../init')
-      const login = import('../../lib/login/GoodWalletLogin')
+      const { init } = await retryImport(() => import('../../init'))
+      const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
       const { goodWallet, userStorage, source } = await init()
 
       //for QA

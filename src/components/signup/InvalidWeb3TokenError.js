@@ -1,12 +1,12 @@
 import React from 'react'
-import { AsyncStorage, Image, Platform, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, StyleSheet, Text, View } from 'react-native'
 import normalize from '../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
-import Oops from '../../assets/oops.svg'
+import OopsSVG from '../../assets/oops.svg'
 import config from '../../config/config'
 
-const InvalidWe3TokenError = props => {
+const InvalidWeb3TokenError = props => {
   AsyncStorage.removeItem('GD_web3Token')
 
   const ERROR_BOLD = 'Please get back to the web site and try again'
@@ -29,7 +29,9 @@ const InvalidWe3TokenError = props => {
           }}
         >
           <Section.Title style={styles.mainTitle}>{TITLE}</Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={{ height: normalize(146) }} />
+          <View style={{ height: normalize(146) }}>
+            <OopsSVG />
+          </View>
           <Section
             style={{
               padding: 0,
@@ -51,7 +53,7 @@ const InvalidWe3TokenError = props => {
   )
 }
 
-InvalidWe3TokenError.navigationOptions = {
+InvalidWeb3TokenError.navigationOptions = {
   navigationBarHidden: false,
   title: 'Invalid Auth Token',
 }
@@ -81,12 +83,6 @@ const styles = StyleSheet.create({
     color: '#00AFFF',
     paddingTop: normalize(25),
     paddingBottom: normalize(25),
-    ...Platform.select({
-      // FIXME: RN
-      web: {
-        verticalAlign: 'text-top',
-      },
-    }),
   },
   mainTitle: {
     fontFamily: 'Roboto',
@@ -97,4 +93,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default InvalidWe3TokenError
+export default InvalidWeb3TokenError

@@ -1,17 +1,14 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import debounce from 'lodash/debounce'
-import isEqualWith from 'lodash/isEqualWith'
-import isEqual from 'lodash/isEqual'
-
-import merge from 'lodash/merge'
-import pickBy from 'lodash/pickBy'
+import { debounce, isEqual, isEqualWith, merge, pickBy } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
-import { SaveButton, Section, UserAvatar, Wrapper } from '../common'
+import { Section, UserAvatar, Wrapper } from '../common'
+import SaveButton from '../common/animations/SaveButton/SaveButton'
+import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
@@ -133,7 +130,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   }
 
   const onProfileSaved = () => {
-    screenProps.pop()
+    screenProps.goToRoot()
   }
 
   const handleAvatarPress = event => {
@@ -159,11 +156,16 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
           <UserAvatar profile={profile} onPress={handleAvatarPress}>
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
-          <SaveButton
-            disabled={lockSubmit || isPristine || !isValid}
-            onPress={handleSaveButton}
-            onPressDone={onProfileSaved}
-          />
+          {lockSubmit || isPristine || !isValid ? (
+            <SaveButtonDisabled style={styles.animatedSaveButton} />
+          ) : (
+            <SaveButton
+              loading={saving}
+              onPress={handleSaveButton}
+              onFinish={onProfileSaved}
+              style={styles.animatedSaveButton}
+            />
+          )}
         </Section.Row>
         <ProfileDataTable
           onChange={handleProfileChange}
@@ -183,6 +185,17 @@ EditProfile.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({})
+const getStylesFromProps = ({ theme }) => ({
+  animatedSaveButton: {
+    position: 'absolute',
+    width: 120,
+    height: 60,
+    top: -3,
+    right: -24,
+    marginVertical: 0,
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+})
 
 export default withStyles(getStylesFromProps)(EditProfile)

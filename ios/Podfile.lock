@@ -216,6 +216,8 @@ PODS:
     - React
   - react-native-camera/RN (3.18.0):
     - React
+  - react-native-config (0.12.0):
+    - React
   - react-native-image-resizer (1.2.0):
     - React
   - react-native-netinfo (5.5.1):
@@ -295,7 +297,6 @@ PODS:
   - Sentry (4.4.3):
     - Sentry/Core (= 4.4.3)
   - Sentry/Core (4.4.3)
-  - SocketRocket (0.5.1)
   - TcpSockets (3.3.2):
     - React
   - Yoga (1.14.0)
@@ -328,6 +329,7 @@ DEPENDENCIES:
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-branch (from `../node_modules/react-native-branch`)
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - react-native-config (from `../node_modules/react-native-config`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
@@ -357,7 +359,6 @@ DEPENDENCIES:
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - SocketRocket (from `../node_modules/detox/ios_src/SocketRocket`)
   - TcpSockets (from `../node_modules/react-native-tcp`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -419,6 +420,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-branch"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
   react-native-image-resizer:
     :path: "../node_modules/react-native-image-resizer"
   react-native-netinfo:
@@ -475,8 +478,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
-  SocketRocket:
-    :path: "../node_modules/detox/ios_src/SocketRocket"
   TcpSockets:
     :path: "../node_modules/react-native-tcp"
   Yoga:
@@ -510,6 +511,7 @@ SPEC CHECKSUMS:
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-branch: df34ffd1ff1f592b42455c717e55b4b01a1d17d3
   react-native-camera: 36536dd86a41261622967ccf3e19fb63d7dd09e3
+  react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-image-resizer: b718335229b7be37c809bf9ed81d7a066fbfd2dd
   react-native-netinfo: 1ee553f84e01aaffbed0e5bd53d8515f7d675055
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
@@ -540,10 +542,9 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
-  SocketRocket: dbb1554b8fc288ef8ef370d6285aeca7361be31e
   TcpSockets: 8d839b9b14f6f344d98e4642ded13ab3112b462d
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: d6524e945cdf432ed14979ba6d575b27ad95c83c
+PODFILE CHECKSUM: b3fc8a2375f50450f1aafc432f29c86591509fde
 
 COCOAPODS: 1.8.4

@@ -8,7 +8,7 @@ import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { get, mapValues, values } from 'lodash'
+import { get, invokeMap, values } from 'lodash'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
@@ -372,16 +372,10 @@ export class GoodWallet {
 
   async getAmountAndQuantityClaimedToday(): Promise<any> {
     try {
-      let stats = await this.UBIContract.methods.getDailyStats().call()
+      const stats = await this.UBIContract.methods.getDailyStats().call()
+      const [people, amount] = invokeMap(stats || [ZERO, ZERO], 'toNumber')
 
-      if (!stats) {
-        stats = [ZERO, ZERO]
-      }
-
-      const { amount, count } = mapValues(stats, (value, key) =>
-        ['amount', 'count'].includes(key) ? value.toNumber() : null
-      )
-      return { amount, people: count }
+      return { amount, people }
     } catch (e) {
       log.error('getAmountAndQuantityClaimedToday failed', e.message, e)
       return Promise.reject(e)

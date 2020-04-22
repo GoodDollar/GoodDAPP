@@ -12,7 +12,7 @@ import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
 
 const log = logger.child({ from: 'ViewAvatar' })
-const TITLE = 'Your Profile'
+const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
   const { styles } = props

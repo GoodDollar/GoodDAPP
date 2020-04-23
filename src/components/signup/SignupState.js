@@ -10,6 +10,7 @@ import {
   GD_USER_MNEMONIC,
   IS_LOGGED_IN,
 } from '../../lib/constants/localStorage'
+import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
@@ -65,8 +66,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     {}
   )
 
-  const [regMethod, setRegMethod] = useState('selfCustody')
-  const isRegMethodSelfCustody = regMethod === 'selfCustody'
+  const [regMethod, setRegMethod] = useState(REGISTRATION_METHOD_SELF_CUSTODY)
+  const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmailOrMagicLink = !isRegMethodSelfCustody && Config.torusEnabled
 
   const initialState: SignupState = {
@@ -233,7 +234,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
     const _regMethod = initialRegMethod
       ? initialRegMethod
-      : get(navigation, 'state.routes[1].params.regMethod', 'selfCustody')
+      : get(navigation, 'state.routes[1].params.regMethod', REGISTRATION_METHOD_SELF_CUSTODY)
     setRegMethod(_regMethod)
     AsyncStorage.setItem(GD_INITIAL_REG_METHOD, _regMethod)
 

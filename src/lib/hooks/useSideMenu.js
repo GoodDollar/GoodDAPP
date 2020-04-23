@@ -11,6 +11,7 @@ import userStorage from '../gundb/UserStorage'
 import { useWrappedApi } from '../API/useWrappedApi'
 
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
+import { REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import isWebApp from '../../lib/utils/isWebApp'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
@@ -48,7 +49,7 @@ export default (props = {}) => {
 
   const topItems = useMemo(() => {
     const installPrompt = store.get('installPrompt')
-    const isRegMethodTorus = regMethod === 'torus'
+    const isRegMethodTorus = regMethod === REGISTRATION_METHOD_TORUS
 
     let items = [
       {

@@ -1,6 +1,7 @@
 // @flow
-import React from 'react'
+import React, { useContext } from 'react'
 import { TouchableHighlight, View } from 'react-native'
+import { NavigationContext } from '@react-navigation/core'
 import * as Animatable from 'react-native-animatable'
 import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
@@ -28,6 +29,7 @@ type FeedListItemProps = {
  */
 const FeedListItem = (props: FeedListItemProps) => {
   const { theme, item, onPress, styles } = props
+  const navigation = useContext(NavigationContext)
   const itemType = item.displayType || item.type
   const isItemEmpty = itemType === 'empty'
   const itemStyle = getEventSettingsByType(theme, itemType)
@@ -37,6 +39,7 @@ const FeedListItem = (props: FeedListItemProps) => {
   }
   const disableAnimForTests = Config.env === 'test'
   const easing = 'ease-in'
+  const onPressAction = item.action ? eval(item.action) : undefined
 
   if (isItemEmpty) {
     const simpleStore = SimpleStore.useStore()
@@ -108,7 +111,7 @@ const FeedListItem = (props: FeedListItemProps) => {
     <Animatable.View animation={disableAnimForTests ? '' : 'fadeIn'} easing={easing} useNativeDriver>
       <TouchableHighlight
         activeOpacity={0.5}
-        onPress={() => onPress(item.id)}
+        onPress={() => (onPressAction ? onPressAction(navigation) : onPress(item.id))}
         style={styles.row}
         tvParallaxProperties={{ pressMagnification: 1.1 }}
         underlayColor={theme.colors.lightGray}

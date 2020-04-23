@@ -2,8 +2,11 @@
 import { useMemo } from 'react'
 import { createConnectedStore } from 'undux'
 import { AsyncStorage } from 'react-native'
+import { isString } from 'lodash'
+
 import { IS_LOGGED_IN } from '../constants/localStorage'
-import withPinoLogger from './plugins/logger'
+import pinoLogger from '../logger/pino-logger'
+import withPinoLogger, { log as unduxLogger } from './plugins/logger'
 
 /**
  * Dialog data. This is being used to show a dialog across the app
@@ -125,4 +128,27 @@ const useCurriedSetters = (paths: string[]) => {
   return useMemo(() => paths.map(path => store.set(path)), [paths, store])
 }
 
-export { initStore, SimpleStore as default, setInitFunctions, setWallet, setUserStorage, useCurriedSetters }
+const assertStore = (store, logger = unduxLogger, message = 'Operation failed') => {
+  let log = logger
+  const storeIsNull = !store
+
+  if (isString(logger)) {
+    log = pinoLogger.child({ from: logger })
+  }
+
+  if (storeIsNull) {
+    log.warn('updateAll failed', 'Received store is null')
+  }
+
+  return !storeIsNull
+}
+
+export {
+  initStore,
+  assertStore,
+  SimpleStore as default,
+  setInitFunctions,
+  setWallet,
+  setUserStorage,
+  useCurriedSetters,
+}

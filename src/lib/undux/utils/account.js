@@ -1,9 +1,9 @@
 // @flow
 import type { Store } from 'undux'
-import { isNull } from 'lodash'
 import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
+import { assertStore } from '../SimpleStore'
 
 const log = logger.child({ from: 'undux/utils/balance' })
 
@@ -19,8 +19,7 @@ const updateAll = async store => {
     return
   }
 
-  if (isNull(store)) {
-    log.warn('updateAll failed', 'Received store is null')
+  if (!assertStore(store, log, 'updateAll failed')) {
     return
   }
 

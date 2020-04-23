@@ -12,6 +12,47 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  test:
+    name: Detox Tests
+    runs-on: macos-latest      
+    steps:
+      - name: fix max_user_watches
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.3
+      - name: Cache node modules
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 28
+      - name: Install npm dependencies
+        run: |
+          npm ci
+      - name: Prepare env
+        env: # Or as an environment variable
+          SENTRYRC: ${{ secrets.sentryrc_file }}
+        run: |
+          echo "$SENTRYRC" > android/sentry.properties
+          cp .env.dev .env
+      - name: Use specific Java version for sdkmanager to work
+        uses: joschi/setup-jdk@v1
+        with:
+          java-version: 'openjdk8'
+          architecture: 'x64'
+      - name: run detox build & test
+        run: npm run test:android
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on

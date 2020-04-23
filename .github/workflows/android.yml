@@ -20,9 +20,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps: 
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.3
       - name: Install npm dependencies
         run: |
-          npm install
+          npm ci
       - name: Build Android Release
         run: |
           cd android && ./gradlew assembleRelease

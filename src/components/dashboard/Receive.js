@@ -17,7 +17,7 @@ export type ReceiveProps = {
   styles: any,
 }
 
-const SHARE_TEXT = 'Share your wallet link'
+const SHARE_TEXT = 'Receive via wallet link'
 
 const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')

@@ -83,10 +83,7 @@ class API {
         baseURL: Config.web3SiteUrl,
         timeout: 30000,
       })
-      w3Instance.interceptors.request.use(
-        req => req,
-        error => Promise.reject(error)
-      )
+      w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
       w3Instance.interceptors.response.use(
         response => response.data,
         error => {
@@ -231,9 +228,9 @@ class API {
    * @param {string} mobile
    * @param {string} magicCode
    */
-  sendMagicCodeBySms(mobile: string, magicCode: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/magiccode', { to: mobile, magicCode })
-  }
+  // sendMagicCodeBySms(mobile: string, magicCode: string): Promise<$AxiosXHR<any>> {
+  //   return this.client.post('/send/magiccode', { to: mobile, magicCode })
+  // }
 
   /**
    * `/send/linksms` post api call

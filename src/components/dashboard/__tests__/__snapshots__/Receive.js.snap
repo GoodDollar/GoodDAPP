@@ -313,23 +313,27 @@ exports[`Receive matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
+            "height": "25%",
+          }
+        }
+      />
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
             "WebkitAlignItems": "center",
             "WebkitBoxAlign": "center",
             "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 3,
             "WebkitBoxOrient": "vertical",
-            "WebkitBoxPack": "justify",
+            "WebkitBoxPack": "center",
             "WebkitFlexDirection": "column",
-            "WebkitFlexGrow": 3,
-            "WebkitJustifyContent": "space-around",
+            "WebkitJustifyContent": "center",
             "alignItems": "center",
             "flexDirection": "column",
-            "flexGrow": 3,
-            "justifyContent": "space-around",
+            "justifyContent": "center",
             "msFlexAlign": "center",
             "msFlexDirection": "column",
-            "msFlexPack": "distribute",
-            "msFlexPositive": 3,
+            "msFlexPack": "center",
           }
         }
       >
@@ -341,10 +345,10 @@ exports[`Receive matches snapshot 1`] = `
               "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "14px",
-              "fontWeight": "normal",
-              "lineHeight": "20px",
-              "marginBottom": "8px",
+              "fontSize": "16px",
+              "fontWeight": "500",
+              "lineHeight": "22px",
+              "marginBottom": "24px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -504,6 +508,8 @@ exports[`Receive matches snapshot 1`] = `
             "flexDirection": "column",
             "flexGrow": 1,
             "justifyContent": "center",
+            "marginBottom": "20px",
+            "marginTop": "20px",
             "msFlexAlign": "center",
             "msFlexDirection": "column",
             "msFlexPack": "center",

@@ -1,6 +1,6 @@
 // @flow
 import type { Store } from 'undux'
-import SimpleStore from '../SimpleStore'
+import SimpleStore, { assertStore } from '../SimpleStore'
 import { type DialogProps } from '../../../components/common/dialogs/CustomDialog'
 import pino from '../../logger/pino-logger'
 import { fireEvent } from '../../analytics/analytics'
@@ -44,6 +44,9 @@ export const showDialogForError = (
 
 export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
   log.debug('showDialogWithData', { dialogData })
+  if (!assertStore(store, log, 'showDialogWithData failed')) {
+    return
+  }
   store.set('currentScreen')({
     ...store.get('currentScreen'),
     dialogData: {
@@ -55,7 +58,9 @@ export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
 
 export const hideDialog = (store: Store) => {
   log.debug('hideDialog')
-
+  if (!assertStore(store, log, 'hideDialog failed')) {
+    return
+  }
   store.set('currentScreen')({
     ...store.get('currentScreen'),
     dialogData: {

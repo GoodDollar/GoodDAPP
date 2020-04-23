@@ -18,9 +18,25 @@ jobs:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-
-    - name: React Native Android Build APK
-      uses: realabbas/Github-Actions-React-Native@v1.1.2
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.3
+      - name: Install npm dependencies
+        run: |
+          npm ci
+      - name: Prepare env
+        env: # Or as an environment variable
+          SENTRYRC: ${{ secrets.sentryrc_file }}
+        run: |
+          echo "$SENTRYRC" > android/sentry.properties
+          cp .env.dev .env
+      - name: Build Android Release
+        run: |
+          cd android && ./gradlew assembleRelease
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release.apk
+          path: android/app/build/outputs/apk/release/

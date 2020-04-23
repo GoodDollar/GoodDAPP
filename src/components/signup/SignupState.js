@@ -293,6 +293,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         userStorage.userProperties.set('cameFromW3Site', true)
       }
 
+      userStorage.userProperties.set('regMethod', regMethod)
+
       const mnemonic = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || ''
       await Promise.all([
         userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }).catch(_ => _),

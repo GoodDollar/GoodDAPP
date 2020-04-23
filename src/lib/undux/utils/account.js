@@ -5,12 +5,12 @@ import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
 
-const log = logger.child({ from: 'undux/utils/balance' })
+const log = logger.child({ from: 'undux/utils/account' })
 
 const updateAll = store => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
-      if (isNull(store)) {
+      if (isNull(store) || isNull(store.storeSnapshot)) {
         log.warn('updateAll failed', 'received store is null')
       } else {
         const account = store.get('account')

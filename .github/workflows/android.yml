@@ -26,6 +26,12 @@ jobs:
       - name: Install npm dependencies
         run: |
           npm ci
+      - name: Prepare env
+        env: # Or as an environment variable
+          SENTRYRC: ${{ secrets.sentryrc_file }}
+        run: |
+          echo "$SENTRYRC" > android/sentry.properties
+          cp .env.dev .env
       - name: Build Android Release
         run: |
           cd android && ./gradlew assembleRelease

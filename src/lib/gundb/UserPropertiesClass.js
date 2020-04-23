@@ -18,6 +18,7 @@ export default class UserProperties {
     cameFromW3Site: false,
     lastBonusCheckDate: null,
     countClaim: 0,
+    regMethod: 'selfCustody',
   }
 
   fields = [
@@ -28,6 +29,7 @@ export default class UserProperties {
     'cameFromW3Site',
     'lastBonusCheckDate',
     'countClaim',
+    'regMethod',
   ]
 
   /**

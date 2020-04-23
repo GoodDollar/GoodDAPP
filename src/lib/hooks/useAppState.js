@@ -7,22 +7,17 @@ export default settings => {
 
   useEffect(() => {
     const handleAppStateChange = nextAppState => {
-      if (nextAppState === 'active') {
-        isValidFunction(onForeground) && onForeground()
-      } else if (appState === 'active' && nextAppState.match(/inactive|background/)) {
-        isValidFunction(onBackground) && onBackground()
+      if (appState !== nextAppState) {
+        const cb = nextAppState === 'active' ? onForeground : onBackground
+        cb()
+        onChange(nextAppState)
       }
       setAppState(nextAppState)
-      appState !== nextAppState && isValidFunction(onChange) && onChange(nextAppState)
     }
     AppState.addEventListener('change', handleAppStateChange)
 
     return () => AppState.removeEventListener('change', handleAppStateChange)
-  }, [settings])
+  }, [appState, settings])
 
-  // settings validation
-  function isValidFunction(func) {
-    return func && typeof func === 'function'
-  }
   return { appState }
 }

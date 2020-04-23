@@ -1,4 +1,4 @@
-import React, { useCAllback } from 'react'
+import React, { useCallback } from 'react'
 import { StyleSheet } from 'react-native'
 import GDStore from '../../../lib/undux/GDStore'
 import Section from '../layout/Section'
@@ -18,7 +18,7 @@ const TopBar = ({ hideBalance, push, children, hideProfile = true, profileAsLink
   const { balance } = store.get('account')
   const { avatar } = store.get('profile')
 
-  const redirectToProfile = useCAllback(() => push('Profile'), [push])
+  const redirectToProfile = useCallback(() => push('Profile'), [push])
 
   return (
     <Section style={styles.topBar}>

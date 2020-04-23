@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { ScanQRButton, Section, SendToAddress, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -31,8 +31,8 @@ const Who = (props: AmountProps) => {
   const text = isReceive ? 'From Who?' : 'Send To?'
   const getErrorFunction = isReceive ? () => null : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
-  const [showNext, setShowNext] = React.useState(!isMobileNative)
-  const [contact, setContact] = React.useState()
+  const [showNext, setShowNext] = useState(!isMobileNative)
+  const [contact, setContact] = useState()
 
   useEffect(() => {
     setScreenState({ counterPartyDisplayName: (contact && contact.fullName) || state.value })
@@ -66,7 +66,7 @@ const Who = (props: AmountProps) => {
       <TopBar push={screenProps.push} hideProfile={!isReceive}>
         {!isReceive && <SendToAddress />}
         {!isReceive && (
-          <ScanQRButton onPress={() => screenProps.push('SendByQR')} direction={{ flexDirection: 'column-reverse' }} />
+          <ScanQRButton onPress={() => screenProps.push('SendByQR')} style={{ flexDirection: 'column-reverse' }} />
         )}
       </TopBar>
       <Scroll>

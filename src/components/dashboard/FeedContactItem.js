@@ -1,11 +1,12 @@
 import React from 'react'
 import { Text, TouchableOpacity } from 'react-native'
+import { map } from 'lodash'
 import { Avatar, Section } from '../common'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 
 const FeedContactItem = ({ contact, selectContact, horizontalMode, styles, index }) => {
-  const phoneNumber = contact.phoneNumbers[0] && contact.phoneNumbers[0].number
+  const [phoneNumber] = map(contact.phoneNumbers, 'number')
   const fullName = contact.familyName ? `${contact.givenName} ${contact.familyName}` : contact.givenName
 
   return (

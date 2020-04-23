@@ -156,10 +156,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     const walletAddress = await gun
       .get('users/bymobile')
       .get(phoneNumber)
-      .get('profile')
-      .get('walletAddress')
-      .get('display')
-
+      .path('profile.walletAddress.display')
     return walletAddress
   }
 
@@ -173,10 +170,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const handleConfirm = useCallback(async () => {
     let paymentLink = link
-    const phoneNumber = contact.phoneNumber && contact.phoneNumber.replace(/\D/g, '')
-    const walletAddress = phoneNumber && (await searchWalletAddress(phoneNumber))
+    let walletAddress
+    const { phoneNumber } = contact
+    if (phoneNumber) {
+      const cleanPhoneNumber = phoneNumber.replace(/\D/g, '')
+      walletAddress = await searchWalletAddress(cleanPhoneNumber)
+    }
 
-    if (paymentLink === '') {
+    if (!paymentLink) {
       paymentLink = generateLink()
       setLink(paymentLink)
     }

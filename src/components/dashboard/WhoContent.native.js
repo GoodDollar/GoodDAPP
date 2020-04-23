@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect } from 'react'
 import { FlatList, PermissionsAndroid } from 'react-native'
-import Contacts from 'react-native-contacts'
-import { get, orderBy, uniq } from 'lodash'
+import { promisify } from 'es6-promisify'
+import contacts from 'react-native-contacts'
+import { map, memoize, orderBy, uniq } from 'lodash'
 import { isAndroid } from '../../lib/utils/platform'
 import { Section } from '../common'
 import Separator from '../common/layout/Separator'
@@ -11,24 +12,13 @@ import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import userStorage from '../../lib/gundb/UserStorage'
 import FeedContactItem from './FeedContactItem'
+const Contacts = promisify(contacts.getAll)
 
 const WhoContent = ({ styles, setContact, error, text, value, next, state, showNext, setValue }) => {
   const [contacts, setContacts] = React.useState([])
   const [initialList, setInitalList] = React.useState(contacts)
   const [recentFeedItems, setRecentFeedItems] = React.useState([])
   const [recentlyUsedList, setRecentlyUsedList] = React.useState([])
-
-  const getAllContacts = () => {
-    Contacts.getAll((err, contacts) => {
-      if (err === 'denied') {
-        console.warn('permissions denied')
-      } else {
-        const sortContacts = orderBy(contacts, ['givenName'])
-        setContacts(sortContacts)
-        setInitalList(sortContacts)
-      }
-    })
-  }
 
   const getUserFeed = async () => {
     const userFeed = await userStorage.getFeedPage(5, true)
@@ -41,8 +31,6 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
       title: 'Contacts',
       message: 'We need access to view your contacts, so you can easily send G$ to them.',
       buttonPositive: 'Approve',
-    }).then(() => {
-      getAllContacts()
     })
   }
 
@@ -54,35 +42,42 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
     if (Contacts) {
       if (isAndroid) {
         showPermissionsAndroid()
-      } else {
-        getAllContacts()
       }
+      Contacts().then((contacts, err) => {
+        if (err === 'denied') {
+          console.warn('permissions denied')
+        } else {
+          const sortContacts = orderBy(contacts, ['givenName'])
+          setContacts(sortContacts)
+          setInitalList(sortContacts)
+        }
+      })
     }
   }, [])
 
-  const handleSearch = useCallback(query => {
-    const queryIsNumber = parseInt(query)
-    if (state) {
-      setValue(query)
-    }
-    if (query && !query.includes('+') && !query.includes('*')) {
-      if (typeof queryIsNumber === 'number' && !isNaN(queryIsNumber)) {
-        return setContacts(
-          initialList.filter(({ phoneNumbers }) => get(phoneNumbers, '[0].number', '').indexOf(query) >= 0)
-        )
+  const filterContacts = useCallback(
+    memoize(searchQuery => {
+      const query = searchQuery.toLocaleLowerCase()
+
+      return initialList.filter(({ givenName, familyName, phoneNumbers }) => {
+        const [phoneNumber] = map(phoneNumbers, 'number')
+
+        return [givenName, familyName, phoneNumber].some(field => (field || '').toLocaleLowerCase().includes(query))
+      })
+    }),
+    [initialList]
+  )
+
+  const handleSearch = useCallback(
+    query => {
+      if (state) {
+        setValue(query)
       }
-      if (typeof query === 'string') {
-        return setContacts(
-          initialList.filter(({ givenName, familyName }) => {
-            const fullName = `${givenName} ${familyName}`.toLocaleLowerCase()
-            return fullName.indexOf(query.toLocaleLowerCase()) >= 0
-          })
-        )
-      }
-    } else {
-      getAllContacts()
-    }
-  })
+
+      setContacts(filterContacts(query))
+    },
+    [setContacts, setValue, filterContacts]
+  )
 
   useEffect(() => {
     if (contacts.length === 0) {
@@ -101,15 +96,28 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
     if (recentFeedItems.length > 0 && contacts.length > 0) {
       recentFeedItems.forEach(feedItem => {
         matches.push(
-          contacts.filter(
-            contact => contact.phoneNumbers[0] && feedItem.data.phoneNumber === contact.phoneNumbers[0].number
-          )
+          contacts.filter(({ phoneNumbers }) => {
+            const [contactNumber] = map(phoneNumbers, 'number')
+            const { phoneNumber } = feedItem.data
+            return contactNumber && phoneNumber === contactNumber
+          })
         )
       })
     }
 
-    setRecentlyUsedList(matches.flat())
+    const recentlyContacts = uniq(matches.flat())
+
+    setRecentlyUsedList(recentlyContacts)
   }
+
+  const renderItem = useCallback(
+    horizontalMode => ({ item, index }) => {
+      return <FeedContactItem contact={item} selectContact={setContact} horizontalMode={horizontalMode} index={index} />
+    },
+    [setContact]
+  )
+
+  const ItemSeparator = () => <Separator color={styles.separatorColor} />
 
   return (
     <>
@@ -135,11 +143,9 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
           </Section.Row>
           <Section.Row>
             <FlatList
-              data={uniq(recentlyUsedList).slice(0, 5)}
-              renderItem={({ item, index }) => (
-                <FeedContactItem contact={item} selectContact={setContact} horizontalMode index={index} />
-              )}
-              ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
+              data={recentlyUsedList}
+              renderItem={renderItem(true)}
+              ItemSeparatorComponent={ItemSeparator}
               horizontal
               contentContainerStyle={styles.recentlyUserContainer}
               scrollEnabled={false}
@@ -156,11 +162,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
             <Section.Separator style={styles.separator} width={1} />
           </Section.Row>
           <Section.Stack style={styles.bottomSpace}>
-            <FlatList
-              data={contacts}
-              renderItem={({ item, index }) => <FeedContactItem contact={item} selectContact={setContact} />}
-              ItemSeparatorComponent={() => <Separator color={styles.separatorColor} />}
-            />
+            <FlatList data={contacts} renderItem={renderItem()} ItemSeparatorComponent={ItemSeparator} />
           </Section.Stack>
         </>
       )}

@@ -9,10 +9,20 @@ import BigGoodDollar from '../../common/view/BigGoodDollar'
 
 import { weiToGd } from '../../../lib/wallet/utils'
 import { openLink } from '../../../lib/utils/linking'
+import { getScreenWidth } from '../../../lib/utils/Orientation'
 import ButtonBlock from './ButtonBlock'
 
 // eslint-disable-next-line require-await
 const openLearnMoreLink = async () => openLink('https://w3.gooddollar.org/learn/ubi')
+
+const calcFontSize = fontSize => {
+  const originalWidth = getScreenWidth()
+  if (originalWidth < 350) {
+    fontSize = fontSize / 1.3
+  }
+
+  return fontSize
+}
 
 const ClaimPhaseZero = ({
   handleClaim,
@@ -21,21 +31,28 @@ const ClaimPhaseZero = ({
   isCitizen,
   entitlement,
   nextClaim,
+  theme,
   claimedToday: { amount, people },
 }) => (
   <>
-    <Section.Stack style={styles.mainText}>
-      <View style={styles.mainTextBorder}>
-        <Section.Text>
-          <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={40}>
-            {entitlement ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
-          </Section.Text>
+    <View style={styles.mainTextBorder}>
+      <Section.Text>
+        <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={calcFontSize(40)}>
+          {entitlement ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
         </Section.Text>
-      </View>
+      </Section.Text>
+    </View>
+    <Section.Stack style={styles.mainText}>
       {entitlement > 0 ? (
-        <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.subMainText]}>
+        <Section.Row alignItems="center" justifyContent="center" style={[styles.row]}>
           <View style={styles.amountBlock}>
-            <Text color="#0C263D" fontSize={55} fontWeight="bold" fontFamily="Roboto">
+            <Text
+              color="#0C263D"
+              fontSize={calcFontSize(55)}
+              style={styles.amountBlockTitle}
+              fontWeight="bold"
+              fontFamily="Roboto"
+            >
               <BigGoodDollar
                 reverse={true}
                 number={entitlement}
@@ -43,15 +60,15 @@ const ClaimPhaseZero = ({
                 fontFamily="Roboto"
                 bigNumberProps={{
                   fontFamily: 'Roboto',
-                  fontSize: 50,
-                  color: 'black',
+                  fontSize: calcFontSize(44),
+                  color: theme.colors.darkBlue,
                   fontWeight: 'bold',
                   lineHeight: 36,
                 }}
                 bigNumberUnitProps={{
                   fontFamily: 'Roboto',
-                  fontSize: 45,
-                  color: 'black',
+                  fontSize: calcFontSize(42),
+                  color: theme.colors.darkBlue,
                   fontWeight: 'medium',
                   lineHeight: 20,
                 }}
@@ -62,13 +79,13 @@ const ClaimPhaseZero = ({
       ) : null}
       <View>
         <Section.Text style={styles.secondTextBlock}>
-          <Section.Text color="surface" fontFamily="Roboto" fontSize={18}>
+          <Section.Text color="surface" fontFamily="Roboto" fontSize={calcFontSize(18)}>
             {`GoodDollar is the world’s first experiment\nto create a framework to generate\nUBI on a global scale.\n`}
             <Text
               color="surface"
               style={styles.learnMoreLink}
               textDecorationLine="underline"
-              fontSize={18}
+              fontSize={calcFontSize(18)}
               fontWeight="bold"
               fontFamily="slab"
               onPress={openLearnMoreLink}
@@ -86,40 +103,38 @@ const ClaimPhaseZero = ({
       nextClaim={nextClaim}
       handleClaim={handleClaim}
       faceRecognition={faceRecognition}
-      showLabelOnly
+      showLabelOnly={true}
     />
-    <Section.Stack style={styles.moreInfo}>
-      <View style={styles.space} />
-      <Section.Row style={styles.extraInfoStats}>
-        <Text style={styles.extraInfoWrapper} fontSize={16} fontWeight="bold" fontFamily="Roboto">
-          <Section.Text>{`Today\n `}</Section.Text>
-          <Section.Text fontWeight="bold">
-            <BigGoodDollar
-              style={{ display: 'contents' }}
-              reverse={true}
-              number={amount}
-              formatter={weiToGd}
-              fontFamily="Roboto"
-              bigNumberProps={{
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                color: 'black',
-              }}
-              bigNumberUnitProps={{
-                fontFamily: 'Roboto',
-                fontSize: 18,
-                color: 'black',
-              }}
-            />
-          </Section.Text>
-          <Section.Text>{` Claimed by `}</Section.Text>
-          <Section.Text fontWeight="bold" color="black">
-            {numeral(people).format('0a')}{' '}
-          </Section.Text>
-          <Section.Text>{` Good People`}</Section.Text>
-        </Text>
-      </Section.Row>
-    </Section.Stack>
+    <Section.Row style={styles.extraInfoStats}>
+      <Text style={styles.extraInfoWrapper} fontWeight="bold" fontFamily="Roboto">
+        <Section.Text fontSize={calcFontSize(16)}>{`Today, `}</Section.Text>
+        <Section.Text fontWeight="bold" fontSize={calcFontSize(16)}>
+          <BigGoodDollar
+            style={{ display: 'contents' }}
+            reverse={true}
+            number={amount}
+            spaceBetween={false}
+            formatter={weiToGd}
+            fontFamily="Roboto"
+            bigNumberProps={{
+              fontFamily: 'Roboto',
+              fontSize: calcFontSize(17),
+              color: 'black',
+            }}
+            bigNumberUnitProps={{
+              fontFamily: 'Roboto',
+              fontSize: calcFontSize(16),
+              color: 'black',
+            }}
+          />
+        </Section.Text>
+        <Section.Text fontSize={calcFontSize(16)}>{`Claimed by `}</Section.Text>
+        <Section.Text fontWeight="bold" color="black" fontSize={calcFontSize(16)}>
+          {numeral(people).format('0a')}{' '}
+        </Section.Text>
+        <Section.Text fontSize={calcFontSize(16)}>{`Good People`}</Section.Text>
+      </Text>
+    </Section.Row>
   </>
 )
 

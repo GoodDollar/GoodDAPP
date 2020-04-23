@@ -39,7 +39,7 @@ Image.prefetch(arrowsDown)
 const log = logger.child({ from: 'Claim' })
 
 const Claim = props => {
-  const { screenProps, styles }: ClaimProps = props
+  const { screenProps, styles, theme }: ClaimProps = props
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
 
@@ -249,6 +249,7 @@ const Claim = props => {
 
   const propsForContent = {
     styles,
+    theme,
     isCitizen,
     claimedToday: state.claimedToday,
     entitlement: state.entitlement,
@@ -278,35 +279,24 @@ const getStylesFromProps = ({ theme }) => {
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
-      height: '56%',
+      height: '45%',
       zIndex: 1,
-      marginBottom: 10,
+      justifyContent: 'space-around',
     },
-    mainTextTitle: {
-      marginBottom: 12,
+    amountBlockTitle: {
+      marginTop: 3,
     },
     mainTextBorder: {
-      marginTop: getDesignRelativeHeight(10),
-      paddingHorizontal: getDesignRelativeWidth(40),
-      paddingVertical: getDesignRelativeHeight(25),
       position: 'relative',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
     },
     mainTextToast: {
-      paddingHorizontal: getDesignRelativeWidth(30),
-      paddingVertical: getDesignRelativeWidth(2),
       backgroundColor: theme.colors.white,
       position: 'absolute',
       top: -getDesignRelativeHeight(13),
       borderRadius: 5,
-    },
-    subMainText: {
-      marginTop: getDesignRelativeHeight(10),
-    },
-    learnMore: {
-      marginTop: getDesignRelativeHeight(15),
     },
     learnMoreDialogReadMoreButton: {
       borderWidth: 1,
@@ -331,8 +321,6 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
-      marginTop: getDesignRelativeHeight(10),
-      marginBottom: getDesignRelativeHeight(10),
     },
     arrowsDown: {
       height: 25,
@@ -345,7 +333,6 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: theme.sizes.borderRadius,
-      paddingTop: 8,
       flexGrow: 1,
     },
     extraInfoWrapper: {
@@ -370,7 +357,6 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: theme.sizes.borderRadius,
       paddingHorizontal: getDesignRelativeWidth(30),
       paddingVertical: getDesignRelativeWidth(10),
-      marginBottom: getDesignRelativeHeight(10),
     },
     learnMoreLink: {
       cursor: 'pointer',

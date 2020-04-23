@@ -10,6 +10,9 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getScreenWidth } from '../../lib/utils/Orientation'
+
+const isSmallDev = getScreenWidth() < 350
 
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles }) => (
   <View style={styles.textBtn}>
@@ -51,10 +54,21 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
 )
 
 export const ButtonCountdown = ({ styles, nextClaim }) => (
-  <View style={styles.countdownContainer}>
-    <Text style={styles.extraInfoCountdownTitle} fontWeight="bold">
-      Your next daily claim:
-    </Text>
+  <View style={isSmallDev ? styles.countdownContainerSmallDev : styles.countdownContainer}>
+    {isSmallDev ? (
+      <View style={styles.btnTitleSmallDev}>
+        <Text style={styles.extraInfoCountdownTitle} fontWeight="bold">
+          {`Your next`}
+        </Text>
+        <Text style={styles.extraInfoCountdownTitle} fontWeight="bold">
+          {`daily claim:`}
+        </Text>
+      </View>
+    ) : (
+      <Text style={styles.extraInfoCountdownTitle} fontWeight="bold">
+        Your next daily claim:
+      </Text>
+    )}
     <Section.Row grow style={styles.justifyCenter}>
       {nextClaim &&
         nextClaim.split('').map((value, index) => {
@@ -75,18 +89,30 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
   </View>
 )
 
-const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles }) => {
+const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnly }) => {
   if (isCitizen) {
     return entitlement ? (
-      <ButtonAmountToClaim styles={styles} entitlement={entitlement} isCitizen={isCitizen} />
+      <ButtonAmountToClaim
+        styles={styles}
+        entitlement={entitlement}
+        isCitizen={isCitizen}
+        showLabelOnly={showLabelOnly}
+      />
     ) : (
       <ButtonCountdown styles={styles} nextClaim={nextClaim} />
     )
   }
-  return <ButtonAmountToClaim styles={styles} entitlement={entitlement} isCitizen={isCitizen} />
+  return (
+    <ButtonAmountToClaim
+      styles={styles}
+      entitlement={entitlement}
+      isCitizen={isCitizen}
+      showLabelOnly={showLabelOnly}
+    />
+  )
 }
 
-const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style }) => (
+const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly }) => (
   <CustomButton
     testId="claim_button"
     compact={true}
@@ -95,7 +121,13 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
     onPress={onPress}
     style={[styles.minButtonHeight, isCitizen && !entitlement ? styles.buttonCountdown : {}, style]}
   >
-    <ButtonContent isCitizen={isCitizen} entitlement={entitlement} nextClaim={nextClaim} styles={styles} />
+    <ButtonContent
+      isCitizen={isCitizen}
+      showLabelOnly={showLabelOnly}
+      entitlement={entitlement}
+      nextClaim={nextClaim}
+      styles={styles}
+    />
   </CustomButton>
 )
 
@@ -181,6 +213,15 @@ const getStylesFromProps = ({ theme }) => ({
   },
   countdownContainer: {
     flexDirection: 'column',
+  },
+  countdownContainerSmallDev: {
+    flexDirection: 'column',
+    height: getDesignRelativeWidth(180),
+  },
+  btnTitleSmallDev: {
+    position: 'absolute',
+    marginLeft: 35,
+    marginTop: 20,
   },
   tallCountDown: {
     width: getDesignRelativeWidth(10),

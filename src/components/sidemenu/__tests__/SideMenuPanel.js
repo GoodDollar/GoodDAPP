@@ -6,8 +6,10 @@ import { withThemeProvider } from '../../../__tests__/__util__'
 
 const SideMenuPanelTheme = withThemeProvider(SideMenuPanel)
 
-describe('SideMenuPanel', async () => {
-  await userStorage.ready
+describe('SideMenuPanel', () => {
+  beforeAll(async () => {
+    await userStorage.ready
+  })
 
   it('renders without errors', () => {
     const tree = renderer.create(<SideMenuPanelTheme />)

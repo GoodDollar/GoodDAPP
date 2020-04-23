@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCAllback } from 'react'
 import { StyleSheet } from 'react-native'
 import GDStore from '../../../lib/undux/GDStore'
 import Section from '../layout/Section'
@@ -18,6 +18,8 @@ const TopBar = ({ hideBalance, push, children, hideProfile = true, profileAsLink
   const { balance } = store.get('account')
   const { avatar } = store.get('profile')
 
+  const redirectToProfile = useCAllback(() => push('Profile'), [push])
+
   return (
     <Section style={styles.topBar}>
       <Section.Row alignItems="center" style={{ flexDirection: 'row-reverse' }}>
@@ -27,7 +29,7 @@ const TopBar = ({ hideBalance, push, children, hideProfile = true, profileAsLink
          if children=undefined and hideBalance=true, nothing will be rendered
          */}
         {children ? children : !hideBalance && <BigGoodDollar number={balance} />}
-        {hideProfile !== true && <Avatar source={avatar} onPress={push && profileAsLink && (() => push('Profile'))} />}
+        {hideProfile !== true && <Avatar source={avatar} onPress={push && profileAsLink ? redirectToProfile : null} />}
       </Section.Row>
     </Section>
   )

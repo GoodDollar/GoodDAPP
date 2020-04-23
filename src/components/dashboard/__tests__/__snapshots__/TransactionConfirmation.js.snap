@@ -226,7 +226,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
             >
               2. 
             </span>
-            Share it with your recipient
+            Share it with sender
           </div>
           <div
             className="css-text-901oao"
@@ -266,7 +266,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
             >
               3. 
             </span>
-            Recipient approves request
+            Sender approves request
           </div>
           <div
             className="css-text-901oao"

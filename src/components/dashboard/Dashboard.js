@@ -829,7 +829,11 @@ export default createStackNavigator({
   // UnsupportedDevice,
   SendQRSummary,
 
-  TransactionConfirmation,
+  TransactionConfirmation: {
+    screen: TransactionConfirmation,
+    path: ':action/TransactionConfirmation',
+    params: { action: ACTION_SEND },
+  },
 
   // PP: PrivacyPolicy,
   PrivacyArticle,

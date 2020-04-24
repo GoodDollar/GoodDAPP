@@ -1,4 +1,5 @@
 import branch from 'react-native-branch'
+import { assign, camelCase, keys, mapKeys, over, pick } from 'lodash'
 import { extractQueryParams } from '../share'
 import restart from './restart'
 import extractPathname from './extractPathname'
@@ -30,7 +31,9 @@ class LinkingNative {
     if (navigationCallback) {
       this.navigationCallbacks.push(navigationCallback)
     }
-    this._unsubscribe = branch.subscribe(this._listener)
+    if (!this._unsubscribe) {
+      this._unsubscribe = branch.subscribe(this._listener)
+    }
   }
 
   unsubscribe = () => {
@@ -46,30 +49,24 @@ class LinkingNative {
       return
     }
 
-    if (!this._isFirstRun && params['+clicked_branch_link'] && this._lastClick !== params['+click_timestamp']) {
+    const { clickedBranchLink, clickTimestamp, nonBranchLink, referingLink } = mapKeys(params, (_, name) =>
+      camelCase(name)
+    )
+
+    if (!this._isFirstRun && clickedBranchLink && this._lastClick !== clickTimestamp) {
       return restart()
     }
 
     this._isFirstRun = false
-    this._lastClick = params['+click_timestamp']
-    const nonBranchLink = params['+non_branch_link']
-    const branchLink = params['~referring_link']
+    this._lastClick = clickTimestamp
+    const branchLink = referingLink
     const queryParams = nonBranchLink ? extractQueryParams(nonBranchLink) : params
-    const validParams = Object.keys(this.params)
 
     this.pathname = extractPathname(nonBranchLink || branchLink)
 
-    validParams.forEach(validParam => {
-      if (queryParams[validParam]) {
-        this.params[validParam] = queryParams[validParam]
-      }
-    })
+    assign(this.params, pick(queryParams, keys(this.params)))
 
-    this.navigationCallbacks.forEach(navigation => {
-      if (navigation) {
-        return navigation()
-      }
-    })
+    over(this.navigationCallbacks)()
   }
 }
 

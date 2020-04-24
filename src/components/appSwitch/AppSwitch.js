@@ -231,10 +231,13 @@ const AppSwitch = (props: LoadingProps) => {
 
   useEffect(() => {
     init()
+    navigateToUrlAction()
+  }, [])
+
+  useEffect(() => {
     if (isMobileNative && Linking.pathname) {
       return props.navigation.navigate(Linking.pathname.slice(1))
     }
-    navigateToUrlAction()
   }, [])
 
   useEffect(() => {

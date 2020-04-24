@@ -2,7 +2,7 @@
 import type { Effects, Store } from 'undux'
 import userStorage from '../../gundb/UserStorage'
 import type { State } from '../GDStore'
-import { assertStore } from '../SimpleStore'
+import { assertStoreSnapshot } from '../SimpleStore'
 import logger from '../../logger/pino-logger'
 
 const log = logger.child({ from: '/undux/effects/profile' })
@@ -12,7 +12,7 @@ const log = logger.child({ from: '/undux/effects/profile' })
  * @param {Store} store
  */
 const withProfile: Effects<State> = (store: Store) => {
-  if (!assertStore(store, log, 'withProfile failed')) {
+  if (!assertStoreSnapshot(store, log, 'withProfile failed')) {
     return
   }
 

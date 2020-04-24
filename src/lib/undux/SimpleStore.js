@@ -122,30 +122,37 @@ const setInitFunctions = (_setWallet, _setUserStorage) => {
   setUserStorage = _setUserStorage
 }
 
+const storeAssertion = (condition, logger, message) => {
+  let log = logger
+  const assertionFailed = condition()
+
+  if (isString(logger)) {
+    log = pinoLogger.child({ from: logger })
+  }
+
+  if (assertionFailed) {
+    log.warn('updateAll failed', 'Received store is null')
+  }
+
+  return !assertionFailed
+}
+
 const useCurriedSetters = (paths: string[]) => {
   const store = SimpleStore.useStore()
 
   return useMemo(() => paths.map(path => store.set(path)), [paths, store])
 }
 
-const assertStore = (store, logger = unduxLogger, message = 'Operation failed') => {
-  let log = logger
-  const storeIsNull = !store || !store.storeSnapshot
+const assertStore = (store, logger = unduxLogger, message = 'Operation failed') =>
+  storeAssertion(() => !store, logger, message)
 
-  if (isString(logger)) {
-    log = pinoLogger.child({ from: logger })
-  }
-
-  if (storeIsNull) {
-    log.warn('updateAll failed', 'Received store is null')
-  }
-
-  return !storeIsNull
-}
+const assertStoreSnapshot = (store, logger = unduxLogger, message = 'Operation failed') =>
+  storeAssertion(() => !store || !store.storeSnapshot, logger, message)
 
 export {
   initStore,
   assertStore,
+  assertStoreSnapshot,
   SimpleStore as default,
   setInitFunctions,
   setWallet,

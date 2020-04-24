@@ -4,12 +4,12 @@ import type { Effects, Store } from 'undux'
 import { initTransferEvents } from '../utils/account'
 import type { State } from '../GDStore'
 import logger from '../../logger/pino-logger'
-import { assertStore } from '../SimpleStore'
+import { assertStoreSnapshot } from '../SimpleStore'
 
 const log = logger.child({ from: 'undux/utils/balance' })
 
 const withBalanceChange: Effects<State> = (store: Store) => {
-  if (!assertStore(store, log, 'withBalanceChange failed')) {
+  if (!assertStoreSnapshot(store, log, 'withBalanceChange failed')) {
     return
   }
 

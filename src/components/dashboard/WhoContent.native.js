@@ -1,24 +1,24 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FlatList, PermissionsAndroid } from 'react-native'
 import { promisify } from 'es6-promisify'
 import contacts from 'react-native-contacts'
 import { map, memoize, orderBy, uniq } from 'lodash'
 import { isAndroid } from '../../lib/utils/platform'
 import { Section } from '../common'
-import Separator from '../common/layout/Separator'
 import InputText from '../common/form/InputText'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import userStorage from '../../lib/gundb/UserStorage'
 import FeedContactItem from './FeedContactItem'
+import ItemSeparator from './ItemSeparator'
 const Contacts = promisify(contacts.getAll)
 
 const WhoContent = ({ styles, setContact, error, text, value, next, state, showNext, setValue }) => {
-  const [contacts, setContacts] = React.useState([])
-  const [initialList, setInitalList] = React.useState(contacts)
-  const [recentFeedItems, setRecentFeedItems] = React.useState([])
-  const [recentlyUsedList, setRecentlyUsedList] = React.useState([])
+  const [contacts, setContacts] = useState([])
+  const [recentFeedItems, setRecentFeedItems] = useState([])
+  const [recentlyUsedList, setRecentlyUsedList] = useState([])
+  let initialList = useRef()
 
   const getUserFeed = async () => {
     const userFeed = await userStorage.getFeedPage(5, true)
@@ -49,7 +49,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
         } else {
           const sortContacts = orderBy(contacts, ['givenName'])
           setContacts(sortContacts)
-          setInitalList(sortContacts)
+          initialList = sortContacts
         }
       })
     }
@@ -68,15 +68,17 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
     [initialList]
   )
 
+  const isStateEmpty = !state
+
   const handleSearch = useCallback(
     query => {
-      if (state) {
+      if (!isStateEmpty) {
         setValue(query)
       }
 
       setContacts(filterContacts(query))
     },
-    [setContacts, setValue, filterContacts]
+    [setContacts, setValue, filterContacts, isStateEmpty]
   )
 
   useEffect(() => {
@@ -88,10 +90,6 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
   }, [contacts])
 
   useEffect(() => {
-    findRecentlyUsed()
-  }, [contacts, recentFeedItems])
-
-  const findRecentlyUsed = () => {
     let matches = []
     if (recentFeedItems.length > 0 && contacts.length > 0) {
       recentFeedItems.forEach(feedItem => {
@@ -108,16 +106,21 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
     const recentlyContacts = uniq(matches.flat())
 
     setRecentlyUsedList(recentlyContacts)
-  }
+  }, [contacts, recentFeedItems])
 
-  const renderItem = useCallback(
-    horizontalMode => ({ item, index }) => {
-      return <FeedContactItem contact={item} selectContact={setContact} horizontalMode={horizontalMode} index={index} />
-    },
+  const getItemRenderer = useCallback(
+    memoize((mode = 'verticalMode') => ({ item, index }) => {
+      return (
+        <FeedContactItem
+          contact={item}
+          selectContact={setContact}
+          horizontalMode={mode === 'horizontalMode'}
+          index={index}
+        />
+      )
+    }),
     [setContact]
   )
-
-  const ItemSeparator = () => <Separator color={styles.separatorColor} />
 
   return (
     <>
@@ -144,7 +147,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
           <Section.Row>
             <FlatList
               data={recentlyUsedList}
-              renderItem={renderItem(true)}
+              renderItem={getItemRenderer('horizontalMode')}
               ItemSeparatorComponent={ItemSeparator}
               horizontal
               contentContainerStyle={styles.recentlyUserContainer}
@@ -162,7 +165,11 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
             <Section.Separator style={styles.separator} width={1} />
           </Section.Row>
           <Section.Stack style={styles.bottomSpace}>
-            <FlatList data={contacts} renderItem={renderItem()} ItemSeparatorComponent={ItemSeparator} />
+            <FlatList
+              data={contacts}
+              renderItem={getItemRenderer('verticalMode')}
+              ItemSeparatorComponent={ItemSeparator}
+            />
           </Section.Stack>
         </>
       )}
@@ -171,7 +178,6 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
 }
 
 export default withStyles(({ theme }) => ({
-  separatorColor: theme.colors.gray50Percent,
   sectionTitle: {
     color: theme.colors.primary,
     fontFamily: theme.fonts.default,

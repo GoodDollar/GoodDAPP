@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { getScreenHeight } from '../../lib/utils/Orientation'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -77,7 +77,7 @@ class EmailForm extends React.Component<Props, State> {
         <Section grow justifyContent="flex-start" style={styles.row}>
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
-              <Section.Title textTransform="none" color="darkGray" fontSize={22} fontWeight="500">
+              <Section.Title textTransform="none" color="darkGray" fontSize={22} fontWeight="medium">
                 Please enter your email
               </Section.Title>
             </Section.Row>

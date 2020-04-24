@@ -1,0 +1,101 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI V1
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [react-native]
+  pull_request:
+    branches: [react-native]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  test:
+    name: Detox Tests
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.3
+      - name: Use specific Java version for sdkmanager to work
+        uses: joschi/setup-jdk@v1
+        with:
+          java-version: 'openjdk8'
+          architecture: 'x64'
+      - name: Install npm dependencies
+        uses: bahmutov/npm-install@v1
+      - name: Cache Android
+        id: cache-android
+        uses: actions/cache@v1
+        with:
+          path: .android
+          key: ${{ runner.os }}-android-29
+      - name: Download Android Emulator Image
+        if: steps.cache-android.outputs.cache-hit != 'true'
+        run: |
+          echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install "system-images;android-29;google_apis;x86"
+          echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd --force --name Nexus_5X_API_29_x86 --device "Nexus 5X" -k 'system-images;android-29;google_apis;x86'
+      # - name: Android Emulator
+      #   timeout-minutes: 10
+      #   continue-on-error: true
+      #   run: |
+      #     echo "Starting emulator"
+      #     $ANDROID_HOME/emulator/emulator -list-avds
+      #     nohup $ANDROID_HOME/emulator/emulator -avd emu -no-audio -no-snapshot -no-window &
+      #     $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+      #     $ANDROID_HOME/platform-tools/adb devices
+      #     echo "Emulator started"
+      - name: Prepare env
+        env: # Or as an environment variable
+          SENTRYRC: ${{ secrets.sentryrc_file }}
+        run: |
+          echo "$SENTRYRC" > android/sentry.properties
+          cp .env.dev .env
+      - name: run detox build & test
+        run: |
+          $ANDROID_HOME/emulator/emulator -list-avds
+          npm run test:android
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: fix max_user_watches
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.3
+      - name: Cache node modules
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install npm dependencies
+        run: |
+          npm ci
+      - name: Prepare env
+        env: # Or as an environment variable
+          SENTRYRC: ${{ secrets.sentryrc_file }}
+        run: |
+          echo "$SENTRYRC" > android/sentry.properties
+          cp .env.dev .env
+      - name: Build Android Release
+        run: |
+          cd android && ./gradlew assembleRelease
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release.apk
+          path: android/app/build/outputs/apk/release/

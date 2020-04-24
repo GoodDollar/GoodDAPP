@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { AsyncStorage, Image, View } from 'react-native'
+import { AsyncStorage, View } from 'react-native'
 import moment from 'moment'
 import { isMobileSafari } from '../../../lib/utils/platform'
 import SimpleStore from '../../../lib/undux/SimpleStore'
@@ -12,7 +12,7 @@ import {
   fireEvent,
 } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
-import addAppIlustration from '../../../assets/addApp.svg'
+import AddAppSVG from '../../../assets/addApp.svg'
 import Icon from '../view/Icon'
 import userStorage from '../../../lib/gundb/UserStorage'
 import API from '../../../lib/API/api'
@@ -68,7 +68,9 @@ const DiaglogTitle = withStyles(mapStylesToProps)(({ children, styles }) => (
 
 const DialogImage = props => (
   <View style={props.styles.imageContainer}>
-    <Image style={props.styles.image} source={addAppIlustration} resizeMode="contain" {...props} />
+    <View style={props.styles.image}>
+      <AddAppSVG />
+    </View>
   </View>
 )
 

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import { isMobile } from '../../lib/utils/platform'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
@@ -114,7 +114,7 @@ class PhoneForm extends React.Component<Props, State> {
         <Section grow justifyContent="flex-start" style={styles.transparentBackground}>
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
-              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+              <Section.Title color="darkGray" fontSize={22} fontWeight="medium" textTransform="none">
                 {`${getFirstWord(fullName)},\nenter your phone number\nso we could verify you`}
               </Section.Title>
             </Section.Row>

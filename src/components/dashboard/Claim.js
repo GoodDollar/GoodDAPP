@@ -19,7 +19,7 @@ import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/anal
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import type { DashboardProps } from './Dashboard'
-import ClaimContentPhaseOne from './Claim/PhaseOne'
+import ClaimContent from './Claim/PhaseOne'
 import useClaimCounter from './Claim/useClaimCounter'
 
 type ClaimProps = DashboardProps
@@ -258,7 +258,7 @@ const Claim = props => {
 
   return (
     <WrapperClaim>
-      <ClaimContentPhaseOne {...propsForContent} />
+      <ClaimContent {...propsForContent} />
     </WrapperClaim>
   )
 }

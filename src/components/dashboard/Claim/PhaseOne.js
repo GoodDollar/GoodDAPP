@@ -13,7 +13,7 @@ import ButtonBlock from './ButtonBlock'
 // eslint-disable-next-line require-await
 const openLearnMoreLink = async () => openLink('https://w3.gooddollar.org/learn/ubi')
 
-const ClaimPhaseZero = ({
+const ClaimPhaseOne = ({
   handleClaim,
   faceRecognition,
   styles,
@@ -123,4 +123,4 @@ const ClaimPhaseZero = ({
   </Section.Stack>
 )
 
-export default ClaimPhaseZero
+export default ClaimPhaseOne

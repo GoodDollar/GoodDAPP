@@ -520,6 +520,7 @@ exports[`Profile matches snapshot 1`] = `
                     "justifyContent": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
+                    "width": "136px",
                   }
                 }
               >

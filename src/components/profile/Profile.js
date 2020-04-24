@@ -74,7 +74,7 @@ const ProfileWrapper = props => {
 }
 
 ProfileWrapper.navigationOptions = {
-  title: 'Your Profile',
+  title: 'My Profile',
 }
 
 const getStylesFromProps = ({ theme }) => ({

@@ -19,8 +19,8 @@ import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import type { DashboardProps } from './Dashboard'
-import ClaimContentPhaseZero from './Claim/PhaseZero'
 import ClaimContentPhaseOne from './Claim/PhaseOne'
 import useClaimCounter from './Claim/useClaimCounter'
 
@@ -46,7 +46,7 @@ const Claim = props => {
   const { entitlement } = gdstore.get('account')
   const isCitizen = gdstore.get('isLoggedInCitizen')
 
-  const [showDialog, , showErrorDialog] = useDialog()
+  const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
   const [state, setState]: [ClaimState, Function] = useState({
@@ -244,7 +244,12 @@ const Claim = props => {
 
   const faceRecognition = () => {
     //await handleClaim()
-    screenProps.push('FRIntro', { from: 'Claim' })
+    //temporary solution in the zero phase, for the situation when the user is not in the whitelist.
+    if (Config.isPhaseZero) {
+      showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
+    } else {
+      screenProps.push('FRIntro', { from: 'Claim' })
+    }
   }
 
   const propsForContent = {
@@ -260,11 +265,7 @@ const Claim = props => {
   return (
     <WrapperClaim>
       <Section style={styles.mainContainer}>
-        {Config.isPhaseZero ? (
-          <ClaimContentPhaseZero {...propsForContent} />
-        ) : (
-          <ClaimContentPhaseOne {...propsForContent} />
-        )}
+        <ClaimContentPhaseOne {...propsForContent} />
       </Section>
     </WrapperClaim>
   )
@@ -282,8 +283,9 @@ const getStylesFromProps = ({ theme }) => {
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
-      height: '55%',
+      height: '56%',
       zIndex: 1,
+      marginBottom: 10,
     },
     mainTextTitle: {
       marginBottom: 12,
@@ -334,13 +336,12 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
-      width: getDesignRelativeWidth(340),
-      height: getDesignRelativeHeight(196),
-      marginHorizontal: 'auto',
+      marginTop: getDesignRelativeHeight(10),
+      marginBottom: getDesignRelativeHeight(10),
     },
     arrowsDown: {
-      height: getDesignRelativeHeight(25),
-      width: getDesignRelativeWidth(65),
+      height: 25,
+      width: 61,
     },
     extraInfoStats: {
       marginHorizontal: 0,

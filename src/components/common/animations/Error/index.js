@@ -1,9 +1,10 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
+import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 const { animationData, imageAssetsFolder } = getAnimationData('Error', require('./data'))
 
-class Error extends React.Component {
+class Error extends AnimationBase {
   render() {
     return (
       <Lottie

@@ -2,14 +2,14 @@
 import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { get } from 'lodash'
-import Mnemonics from '../signin/Mnemonics'
+import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
@@ -19,6 +19,7 @@ import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import { deleteGunDB } from '../../lib/hooks/useDeleteAccountDialog'
 
 type Props = {
   navigation: any,
@@ -105,11 +106,7 @@ class Auth extends React.Component<Props> {
     const redirectTo = w3Token ? 'Phone' : 'Signup'
     log.debug({ w3User, w3Token })
     try {
-      const req = new Promise((res, rej) => {
-        const del = indexedDB.deleteDatabase('radata')
-        del.onsuccess = res
-        del.onerror = rej
-      })
+      const req = deleteGunDB()
       await req
 
       log.info('indexedDb successfully cleared')
@@ -141,7 +138,7 @@ class Auth extends React.Component<Props> {
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('PrivacyPolicyAndTerms')
 
-  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicyAndTerms')
+  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   goToW3Site = () => {
     fireEvent(CLICK_BTN_GETINVITED)
@@ -263,19 +260,22 @@ const getStylesFromProps = ({ theme }) => {
     },
   }
 }
+
 const auth = withStyles(getStylesFromProps)(SimpleStore.withStore(Auth))
 auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,
 }
-export default createStackNavigator(
-  {
-    Login: auth,
-    PrivacyPolicyAndTerms,
-    Recover: Mnemonics,
-    Support,
-  },
-  {
-    backRouteName: 'Auth',
-  }
-)
+
+const routes = {
+  Login: auth,
+  PrivacyPolicyAndTerms,
+  PrivacyPolicy,
+  Support,
+}
+
+if (config.enableSelfCustody) {
+  Object.assign(routes, { Recover })
+}
+
+export default createStackNavigator(routes, { backRouteName: 'Auth' })

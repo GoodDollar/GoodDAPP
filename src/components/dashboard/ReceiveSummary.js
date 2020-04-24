@@ -4,8 +4,7 @@ import { View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { PushButton } from '../appNavigation/PushButton'
+import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode } from '../../lib/share'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -36,9 +35,7 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
 
   const shareStringSource = [codeObject, amount, counterPartyDisplayName, fullName]
   const shareString = useMemo(
-    () => ({
-      paymentLink: (canShare ? generateReceiveShareObject : generateReceiveShareText)(...shareStringSource),
-    }),
+    () => (canShare ? generateReceiveShareObject : generateReceiveShareText)(...shareStringSource),
     [...shareStringSource, canShare, generateReceiveShareObject, generateReceiveShareText]
   )
 
@@ -130,9 +127,12 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <PushButton routeName="TransactionConfirmation" screenProps={screenProps} params={shareString}>
-              Confirm
-            </PushButton>
+            <NextButton
+              screenProps={screenProps}
+              values={{ ...screenState, paymentLink: shareString }}
+              nextRoutes={screenState.nextRoutes}
+              label={'Confirm'}
+            />
           </Section.Stack>
         </Section.Row>
       </Section>

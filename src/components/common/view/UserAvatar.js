@@ -47,10 +47,11 @@ UserAvatar.defaultProps = {
   size: getDesignRelativeWidth(AVATAR_DESIGN_WIDTH),
 }
 
-const getStylesFromProps = ({ theme }) => ({
+const getStylesFromProps = ({ theme, size }) => ({
   avatar: {
     flexDirection: 'row',
     justifyContent: 'center',
+    width: size,
   },
   innerAvatar: {
     alignItems: 'center',

@@ -1,6 +1,6 @@
 // @flow
-import React from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import React, { useCallback, useMemo } from 'react'
+import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent, SIGNIN_TORUS_SUCCESS, SIGNUP_STARTED } from '../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../lib/constants/localStorage'
@@ -8,7 +8,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
 import NavBar from '../appNavigation/NavBar'
-import { PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Auth/torusIllustration.svg'
@@ -27,6 +27,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const asGuest = true
   const [showErrorDialog] = useErrorDialog()
   const torusSDK = useTorus()
+  const { navigate } = navigation
+  const { push } = screenProps
 
   const goToW3Site = () => {
     fireEvent(CLICK_BTN_GETINVITED)
@@ -71,90 +73,90 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const signupGoogle = () => handleSignUp('google')
   const signupFacebook = () => handleSignUp('facebook')
 
-  const handleSignUp = async (provider: 'facebook' | 'google') => {
-    store.set('loadingIndicator')({ loading: true })
-    const redirectTo = 'Phone'
-    let torusUser
-    let replacing = false
-    try {
-      switch (provider) {
-        case 'facebook':
-          torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')
-          break
-        default:
-        case 'google':
-          torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
-          break
-      }
-      const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
-      if (curSeed && curSeed != torusUser.privateKey) {
-        await AsyncStorage.clear()
-        replacing = true
-      }
+  const handleSignUp = useCallback(
+    async (provider: 'facebook' | 'google') => {
+      store.set('loadingIndicator')({ loading: true })
+      const redirectTo = 'Phone'
+      let torusUser
+      let replacing = false
+      try {
+        switch (provider) {
+          case 'facebook':
+            torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')
+            break
+          default:
+          case 'google':
+            torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
+            break
+        }
+        const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+        if (curSeed && curSeed !== torusUser.privateKey) {
+          await AsyncStorage.clear()
+          replacing = true
+        }
 
-      //set masterseed so wallet can use it in 'ready' where we check if user exists
-      await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
-      log.debug('torus login success', { torusUser })
-    } catch (e) {
-      store.set('loadingIndicator')({ loading: false })
-      log.error('torus login failed', e.message, e)
-      showErrorDialog('We were unable to complete the login. Please try again.')
-      return
-    }
-
-    try {
-      const { userStorage, source } = await ready(replacing)
-      const userExists = await userStorage.userAlreadyExist()
-      log.debug('checking userAlreadyExist', { userExists })
-
-      //user exists reload with dashboard route
-      if (userExists) {
-        fireEvent(SIGNIN_TORUS_SUCCESS)
-        await AsyncStorage.setItem(IS_LOGGED_IN, true)
-        store.set('isLoggedIn')(true)
+        //set masterseed so wallet can use it in 'ready' where we check if user exists
+        await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
+        log.debug('torus login success', { torusUser })
+      } catch (e) {
+        store.set('loadingIndicator')({ loading: false })
+        log.error('torus login failed', e.message, e)
+        showErrorDialog('We were unable to complete the login. Please try again.')
         return
       }
 
-      //user doesnt exists start signup
-      fireEvent(SIGNUP_STARTED, { source, provider })
-      navigation.navigate(redirectTo, { torusUser })
+      try {
+        const { userStorage, source } = await ready(replacing)
+        const userExists = await userStorage.userAlreadyExist()
+        log.debug('checking userAlreadyExist', { userExists })
 
-      //Hack to get keyboard up on mobile need focus from user event such as click
-      setTimeout(() => {
-        const el = document.getElementById('Name_input')
-        if (el) {
-          el.focus()
+        //user exists reload with dashboard route
+        if (userExists) {
+          fireEvent(SIGNIN_TORUS_SUCCESS)
+          await AsyncStorage.setItem(IS_LOGGED_IN, true)
+          store.set('isLoggedIn')(true)
+          return
         }
-      }, 500)
-    } catch (e) {
-      log.error('Failed to initialize wallet and storage', e.message, e)
-    } finally {
-      store.set('loadingIndicator')({ loading: false })
-    }
-  }
 
-  const handleNavigateTermsOfUse = () => screenProps.push('PrivacyPolicyAndTerms')
+        //user doesnt exists start signup
+        fireEvent(SIGNUP_STARTED, { source, provider })
+        navigate(redirectTo, { regMethod: 'torus', torusUser })
 
-  const handleNavigatePrivacyPolicy = () => screenProps.push('PrivacyPolicyAndTerms')
+        //Hack to get keyboard up on mobile need focus from user event such as click
+        setTimeout(() => {
+          const el = document.getElementById('Name_input')
+          if (el) {
+            el.focus()
+          }
+        }, 500)
+      } catch (e) {
+        log.error('Failed to initialize wallet and storage', e.message, e)
+      } finally {
+        store.set('loadingIndicator')({ loading: false })
+      }
+    },
+    [store, torusSDK, showErrorDialog, navigate]
+  )
+
+  const goToManualRegistration = useCallback(() => {
+    navigate('Signup')
+  }, [navigate])
+
+  const goToSignIn = useCallback(() => {
+    navigate('SigninInfo')
+  }, [navigate])
+
+  const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
+
+  const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
 
   // google button settings
-  const googleButtonHandler = asGuest ? signupGoogle : goToW3Site
-  const googleButtonText = asGuest ? (
-    'Continue with Google'
-  ) : (
-    <Text style={styles.buttonText} fontWeight="medium">
-      NEW HERE?
-      <Text style={styles.buttonText} fontWeight="black">
-        {' GET INVITED'}
-      </Text>
-    </Text>
-  )
-  const googleButtonTextStyle = asGuest ? undefined : styles.textBlack
+  const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
+  const googleButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
   // facebook button settings
-  const facebookButtonHandler = asGuest ? signupFacebook : goToW3Site
-  const facebookButtonText = 'Continue with Facebook'
-  const facebookButtonTextStyle = asGuest ? undefined : styles.textBlack
+  const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
+  const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
@@ -198,6 +200,36 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
             </Text>
           </Text>
         )}
+        {config.enableSelfCustody && (
+          <>
+            <Section.Row alignItems="center" justifyContent="center">
+              <TouchableOpacity onPress={goToManualRegistration}>
+                <Section.Text
+                  fontWeight="medium"
+                  style={styles.recoverText}
+                  textDecorationLine="underline"
+                  fontSize={14}
+                  color="primary"
+                >
+                  Create self custody wallet
+                </Section.Text>
+              </TouchableOpacity>
+            </Section.Row>
+            <Section.Row alignItems="center" justifyContent="center" style={styles.signInLink}>
+              <TouchableOpacity onPress={goToSignIn}>
+                <Section.Text
+                  fontWeight="medium"
+                  style={styles.haveIssuesText}
+                  textDecorationLine="underline"
+                  fontSize={14}
+                  color="primary"
+                >
+                  Sign in
+                </Section.Text>
+              </TouchableOpacity>
+            </Section.Row>
+          </>
+        )}
         <CustomButton
           color={mainTheme.colors.googleRed}
           style={styles.buttonLayout}
@@ -205,7 +237,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           onPress={googleButtonHandler}
           disabled={torusSDK === undefined}
         >
-          {googleButtonText}
+          Continue with Google
         </CustomButton>
         <CustomButton
           color={mainTheme.colors.facebookBlue}
@@ -214,7 +246,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           onPress={facebookButtonHandler}
           disabled={torusSDK === undefined}
         >
-          {facebookButtonText}
+          Continue with Facebook
         </CustomButton>
       </Section>
     </Wrapper>
@@ -264,6 +296,10 @@ const getStylesFromProps = ({ theme }) => {
     privacyAndTerms: {
       marginBottom: 20,
     },
+    signInLink: {
+      marginTop: 5,
+      marginBottom: 5,
+    },
   }
 }
 const auth = withStyles(getStylesFromProps)(SimpleStore.withStore(AuthTorus))
@@ -275,6 +311,7 @@ export default createStackNavigator(
   {
     Login: auth,
     PrivacyPolicyAndTerms,
+    PrivacyPolicy,
     Support,
   },
   {

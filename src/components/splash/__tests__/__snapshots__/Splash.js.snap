@@ -85,9 +85,40 @@ exports[`Splash matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
+            "backgroundImage": "url(splashWaves.svg)",
+            "backgroundRepeat": "repeat-y",
             "height": "100%",
+            "opacity": 0.1,
             "position": "absolute",
             "width": "100%",
+          }
+        }
+      />
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "stretch",
+            "WebkitBoxAlign": "stretch",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxFlex": 1,
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "center",
+            "WebkitFlexDirection": "column",
+            "WebkitFlexGrow": 1,
+            "WebkitJustifyContent": "center",
+            "WebkitTransform": "rotateY(180deg)",
+            "alignItems": "stretch",
+            "flexDirection": "column",
+            "flexGrow": 1,
+            "justifyContent": "center",
+            "msFlexAlign": "stretch",
+            "msFlexDirection": "column",
+            "msFlexPack": "center",
+            "msFlexPositive": 1,
+            "overflowX": "hidden",
+            "overflowY": "hidden",
+            "transform": "rotateY(180deg)",
           }
         }
       >
@@ -95,188 +126,58 @@ exports[`Splash matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitFlexBasis": "auto",
-              "bottom": "0px",
-              "flexBasis": "auto",
-              "height": "100%",
-              "left": "0px",
-              "msFlexPreferredSize": "auto",
-              "opacity": 0.1,
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "position": "absolute",
-              "right": "0px",
-              "top": "0px",
-              "width": "100%",
-              "zIndex": -1,
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "backgroundImage": "url(\\"splashWaves.svg\\")",
-                "backgroundPosition": "0 0",
-                "backgroundRepeat": "repeat",
-                "backgroundSize": "auto",
-                "bottom": "0px",
-                "height": "100%",
-                "left": "0px",
-                "position": "absolute",
-                "right": "0px",
-                "top": "0px",
-                "width": "100%",
-                "zIndex": -1,
-              }
-            }
-          />
-          <img
-            alt=""
-            className="css-accessibilityImage-9pa8cd"
-            draggable={false}
-            src="splashWaves.svg"
-          />
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "WebkitBoxDirection": "normal",
-              "WebkitBoxFlex": 1,
               "WebkitBoxOrient": "vertical",
-              "WebkitBoxPack": "center",
+              "WebkitBoxPack": "justify",
               "WebkitFlexDirection": "column",
-              "WebkitFlexGrow": 1,
-              "WebkitJustifyContent": "center",
-              "WebkitTransform": "rotateY(180deg)",
+              "WebkitJustifyContent": "space-between",
               "alignItems": "stretch",
               "flexDirection": "column",
-              "flexGrow": 1,
-              "justifyContent": "center",
+              "justifyContent": "space-between",
               "msFlexAlign": "stretch",
               "msFlexDirection": "column",
-              "msFlexPack": "center",
-              "msFlexPositive": 1,
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "transform": "rotateY(180deg)",
+              "msFlexPack": "justify",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-text-901oao"
+            dir="auto"
+            letterSpacing={0.13}
             style={
               Object {
-                "WebkitAlignItems": "stretch",
-                "WebkitBoxAlign": "stretch",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "vertical",
-                "WebkitBoxPack": "justify",
-                "WebkitFlexDirection": "column",
-                "WebkitJustifyContent": "space-between",
-                "alignItems": "stretch",
-                "flexDirection": "column",
-                "justifyContent": "space-between",
-                "msFlexAlign": "stretch",
-                "msFlexDirection": "column",
-                "msFlexPack": "justify",
+                "borderBottomColor": "rgba(0,0,0,1.00)",
+                "borderBottomStyle": "solid",
+                "borderBottomWidth": "2px",
+                "color": "rgba(255,255,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "26px",
+                "fontWeight": "700",
+                "lineHeight": "32px",
+                "marginBottom": "10px",
+                "marginLeft": "auto",
+                "marginRight": "auto",
+                "paddingBottom": "8px",
+                "paddingLeft": "25px",
+                "paddingRight": "25px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "none",
               }
             }
           >
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              letterSpacing={0.13}
-              style={
-                Object {
-                  "borderBottomColor": "rgba(0,0,0,1.00)",
-                  "borderBottomStyle": "solid",
-                  "borderBottomWidth": "2px",
-                  "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "26px",
-                  "fontWeight": "700",
-                  "lineHeight": "32px",
-                  "marginBottom": "10px",
-                  "marginLeft": "auto",
-                  "marginRight": "auto",
-                  "paddingBottom": "8px",
-                  "paddingLeft": "25px",
-                  "paddingRight": "25px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              GoodDollar Demo
-            </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              letterSpacing={0.24}
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "500",
-                  "lineHeight": "22px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              All G$ coins in the demo
-are for test purposes only.
-Once all feedback is incorporated,
-
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                letterSpacing={0.24}
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "16px",
-                    "fontWeight": "700",
-                    "lineHeight": "22px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                all demo G$ coins will be deleted.
-              </span>
-            </div>
+            GoodDollar Demo
           </div>
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "height": "550px",
-                "marginBottom": "-120px",
-                "marginTop": "-75px",
-                "width": "100%",
-              }
-            }
-          />
           <div
             className="css-text-901oao"
             dir="auto"
+            letterSpacing={0.24}
             style={
               Object {
-                "color": "rgba(12,38,61,1.00)",
+                "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
@@ -288,9 +189,62 @@ Once all feedback is incorporated,
               }
             }
           >
-            Demo V
-            v0
+            All G$ coins in the demo
+are for test purposes only.
+Once all feedback is incorporated,
+
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              letterSpacing={0.24}
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "700",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              all demo G$ coins will be deleted.
+            </span>
           </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "height": "550px",
+              "marginBottom": "-120px",
+              "marginTop": "-75px",
+              "width": "100%",
+            }
+          }
+        />
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(12,38,61,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "500",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
+        >
+          Demo V
+          v0
         </div>
       </div>
     </div>

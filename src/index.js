@@ -8,6 +8,7 @@ import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf
 import App from './App'
 import { initStore, default as SimpleStore } from './lib/undux/SimpleStore'
 import Config from './config/config'
+import { deleteGunDB } from './lib/hooks/useDeleteAccountDialog'
 
 let ErrorBoundary = React.Fragment
 if (Config.bugsnagKey) {
@@ -41,16 +42,7 @@ const upgradeVersion = async () => {
   if (version == null || valid.includes(version)) {
     return
   }
-  const req = new Promise(async (res, rej) => {
-    const databases = await indexedDB.databases()
-    const exists = databases.filter(_ => _.name === 'radata').length > 0
-    if (exists === false) {
-      return res()
-    }
-    const del = indexedDB.deleteDatabase('radata')
-    del.onsuccess = res
-    del.onerror = rej
-  })
+  const req = deleteGunDB()
 
   //remove all local data so its not cached and user will re-login
   await Promise.all([AsyncStorage.clear(), req.catch()])

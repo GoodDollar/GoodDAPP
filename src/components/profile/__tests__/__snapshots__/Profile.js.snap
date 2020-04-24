@@ -221,7 +221,7 @@ exports[`Profile matches snapshot 1`] = `
             }
           }
         >
-          Your Profile
+          My Profile
         </h1>
       </div>
       <div
@@ -520,6 +520,7 @@ exports[`Profile matches snapshot 1`] = `
                     "justifyContent": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
+                    "width": "136px",
                   }
                 }
               >

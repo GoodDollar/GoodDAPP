@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
-import { AppState, NetInfo } from 'react-native'
+import { NetInfo } from 'react-native'
 import Config from '../../config/config'
 import API from '../API/api'
 import { delay } from '../utils/async'
 import logger from '../logger/pino-logger'
 import SimpleStore from '../undux/SimpleStore'
+import useAppState from './useAppState'
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
@@ -26,8 +27,8 @@ let isFirstCheckGun = false
 let needToBindEventsWeb3 = true
 let needToBindEventsGun = true
 export const useConnectionWeb3 = () => {
-  const [isConnection, setIsConnection] = useState(false)
-
+  const [isConnection, setIsConnection] = useState(true)
+  const { appState } = useAppState()
   const store = SimpleStore.useStore()
   const wallet = store.get('wallet')
   const isWeb3Connection = async () => {
@@ -62,6 +63,8 @@ export const useConnectionWeb3 = () => {
         }
         setTimeout(isWeb3Connection, 1000)
       }
+    } else {
+      setIsConnection(true)
     }
   }
 
@@ -83,25 +86,23 @@ export const useConnectionWeb3 = () => {
   }
 
   useEffect(() => {
-    if (wallet) {
-      AppState.addEventListener('change', nextAppState => {
-        if (nextAppState === 'active') {
-          isWeb3Connection()
-        }
-      })
-      if (!isFirstCheckWeb3) {
-        isWeb3Connection()
-      }
+    if (wallet && appState === 'active') {
+      isWeb3Connection()
     }
-  }, [wallet])
+
+    if (wallet && !isFirstCheckWeb3) {
+      isWeb3Connection()
+    }
+  }, [wallet, appState])
 
   return isConnection
 }
 
 export const useConnectionGun = () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const userStorage = store.get('userStorage')
+  const { appState } = useAppState()
   const isGunConnection = () => {
     if (userStorage) {
       if (!isFirstCheckGun) {
@@ -125,6 +126,8 @@ export const useConnectionGun = () => {
         }
         setTimeout(isGunConnection, 1000)
       }
+    } else {
+      setIsConnection(true)
     }
   }
 
@@ -157,17 +160,13 @@ export const useConnectionGun = () => {
   }
 
   useEffect(() => {
-    if (userStorage) {
-      AppState.addEventListener('change', nextAppState => {
-        if (nextAppState === 'active') {
-          isGunConnection()
-        }
-      })
-      if (!isFirstCheckGun) {
-        isGunConnection()
-      }
+    if (userStorage && appState === 'active') {
+      isGunConnection()
     }
-  }, [userStorage])
+    if (userStorage && !isFirstCheckGun) {
+      isGunConnection()
+    }
+  }, [userStorage, appState])
 
   return isConnection
 }

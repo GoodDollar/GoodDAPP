@@ -15,7 +15,7 @@ import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
-import { ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
+import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SurveySend from './SurveySend'
 
 const log = logger.child({ from: 'SendLinkSummary' })
@@ -74,6 +74,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               const desktopShareLink = generateSendShareText(...shareStringSource)
 
               push('TransactionConfirmation', {
+                action: ACTION_SEND,
                 paymentLink: desktopShareLink,
               })
             },
@@ -166,7 +167,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       const desktopShareLink = generateSendShareText(paymentLink, ...shareStringStateDepSource)
 
       // Show confirmation
-      push('TransactionConfirmation', { paymentLink: desktopShareLink })
+      push('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
     }
   }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
 

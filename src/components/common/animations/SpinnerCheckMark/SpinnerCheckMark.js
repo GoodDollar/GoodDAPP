@@ -1,26 +1,25 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
+import AnimationBase from '../Base'
 import animationData from './data.json'
 
-class SpinnerCheckMark extends React.Component {
-  componentDidMount() {
+class SpinnerCheckMark extends AnimationBase {
+  onMount() {
     this.anim.onEnterFrame = e => {
       const { success } = this.props
       if (e.currentTime > 130.5 && !success) {
         this.anim.goToAndPlay(0, true)
       }
     }
+
     this.anim.onComplete = () => {
       const { onFinish } = this.props
       if (typeof onFinish === 'function') {
         onFinish()
       }
     }
-    this.anim.play()
-  }
 
-  setAnim = anim => {
-    this.anim = anim
+    this.anim.play()
   }
 
   componentDidUpdate(prevProps) {

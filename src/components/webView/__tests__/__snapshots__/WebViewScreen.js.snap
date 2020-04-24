@@ -23,7 +23,7 @@ exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://community.gooddollar.org/pp/"
+  src="https://community.gooddollar.org/tou/#privacy-policy"
   style={
     Object {
       "height": 844,
@@ -57,13 +57,13 @@ exports[`WebViewScreen Instances Support matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://community.gooddollar.org/support-iframe/"
+  src="https://support.gooddollar.org"
   style={
     Object {
       "height": 844,
     }
   }
-  title="Feedback & Support"
+  title=" Support & FAQ"
   width="100%"
 />
 `;

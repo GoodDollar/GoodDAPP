@@ -175,9 +175,7 @@ export const inviteFriendsMessage = {
       fullName: 'Invite friends and earn G$',
     },
   },
-  action: `navigation => {
-    navigation.navigate('Rewards')
-  }`,
+  action: `navigate("Rewards")`,
 }
 export const backupMessage = {
   id: '2',

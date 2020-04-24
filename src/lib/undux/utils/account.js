@@ -5,7 +5,7 @@ import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
 import { assertStore } from '../SimpleStore'
 
-const log = logger.child({ from: 'undux/utils/balance' })
+const log = logger.child({ from: 'undux/utils/account' })
 
 const updateAll = async store => {
   let walletOperations

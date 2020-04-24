@@ -36,7 +36,7 @@ export default (macro, fallbackFn = noop) => {
     const [method, args] = parseMacro(macro)
 
     if (method && ALLOWED_METHODS.includes(method)) {
-      navigator[method](...args)
+      navigation[method](...args)
       return
     }
 

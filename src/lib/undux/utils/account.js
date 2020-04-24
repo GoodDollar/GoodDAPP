@@ -3,7 +3,7 @@ import type { Store } from 'undux'
 import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
-import { assertStoreSnapshot } from '../SimpleStore'
+import { assertStore } from '../SimpleStore'
 
 const log = logger.child({ from: 'undux/utils/balance' })
 
@@ -19,7 +19,7 @@ const updateAll = async store => {
     return
   }
 
-  if (!assertStoreSnapshot(store, log, 'updateAll failed')) {
+  if (!assertStore(store, log, 'updateAll failed')) {
     return
   }
 

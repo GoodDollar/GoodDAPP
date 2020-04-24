@@ -11,12 +11,10 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import normalize from '../../lib/utils/normalizeText'
 import { WrapperClaim } from '../common'
 import arrowsDown from '../../assets/arrowsDown.svg'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import Section from '../common/layout/Section'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -260,9 +258,7 @@ const Claim = props => {
 
   return (
     <WrapperClaim>
-      <Section style={styles.mainContainer}>
-        <ClaimContentPhaseOne {...propsForContent} />
-      </Section>
+      <ClaimContentPhaseOne {...propsForContent} />
     </WrapperClaim>
   )
 }
@@ -276,80 +272,15 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: 0,
       justifyContent: 'space-between',
     },
-    mainText: {
-      alignItems: 'center',
-      flexDirection: 'column',
-      height: '45%',
-      zIndex: 1,
-      justifyContent: 'space-around',
-    },
-    amountBlockTitle: {
-      marginTop: 3,
-    },
-    mainTextBorder: {
+    headerContentContainer: {
       position: 'relative',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      marginVertical: getDesignRelativeHeight(20),
     },
-    mainTextToast: {
-      backgroundColor: theme.colors.white,
-      position: 'absolute',
-      top: -getDesignRelativeHeight(13),
-      borderRadius: 5,
-    },
-    learnMoreDialogReadMoreButton: {
-      borderWidth: 1,
-      borderColor: theme.colors.primary,
-      width: '64%',
-      fontSize: normalize(14),
-    },
-    learnMoreDialogOkButton: {
-      width: '34%',
-      fontSize: normalize(14),
-    },
-    blankBottom: {
-      minHeight: getDesignRelativeHeight(4 * theme.sizes.defaultDouble),
-    },
-    extraInfo: {
-      alignItems: 'center',
-      flexDirection: 'column',
-      height: '60%',
-      zIndex: 1,
-    },
-    btnBlock: {
-      alignItems: 'center',
-      flexDirection: 'column',
-      zIndex: 1,
-    },
-    arrowsDown: {
-      height: 25,
-      width: 61,
-    },
-    extraInfoStats: {
-      marginHorizontal: 0,
-      marginBottom: 0,
-      marginTop: theme.sizes.default,
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: theme.sizes.borderRadius,
-      flexGrow: 1,
-    },
-    extraInfoWrapper: {
-      display: 'inline',
-      textAlign: 'center',
-      width: getDesignRelativeWidth(340),
-      marginBottom: getDesignRelativeHeight(10),
-    },
-    inline: {
-      display: 'inline',
-    },
-    countdown: {
-      minHeight: getDesignRelativeHeight(72),
-      borderRadius: 5,
-    },
-    space: {
-      height: theme.sizes.defaultDouble,
+    headerText: {
+      marginBottom: 6,
     },
     amountBlock: {
       borderWidth: 3,
@@ -358,8 +289,40 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: getDesignRelativeWidth(30),
       paddingVertical: getDesignRelativeWidth(10),
     },
+    amountBlockTitle: {
+      marginTop: 3,
+    },
+    mainText: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      zIndex: 1,
+      justifyContent: 'space-around',
+      marginBottom: getDesignRelativeHeight(20),
+    },
     learnMoreLink: {
       cursor: 'pointer',
+    },
+    claimButtonContainer: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      zIndex: 1,
+    },
+    extraInfoAmountDisplay: {
+      display: 'contents',
+    },
+    extraInfoContainer: {
+      marginHorizontal: 0,
+      marginBottom: 0,
+      marginTop: getDesignRelativeHeight(12),
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: theme.sizes.borderRadius,
+    },
+    extraInfoSecondContainer: {
+      display: 'inline',
+      textAlign: 'center',
+      width: getDesignRelativeWidth(340),
+      marginBottom: getDesignRelativeHeight(10),
     },
   }
 }

@@ -27,8 +27,13 @@ export default (props = {}) => {
   const slideIn = useCallback(() => showSidemenu(store), [store])
   const slideOut = useCallback(() => hideSidemenu(store), [store])
 
-  useEffect(() => {
+  const getUserStorageReady = async () => {
+    await userStorage.ready
     userStorage.userProperties.get('regMethod').then(setRegMethod)
+  }
+
+  useEffect(() => {
+    getUserStorageReady()
   }, [])
 
   const bottomItems = useMemo(

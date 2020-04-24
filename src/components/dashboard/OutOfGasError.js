@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
-import _get from 'lodash/get'
+import { View } from 'react-native'
+import { get } from 'lodash'
 import * as web3Utils from 'web3-utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { AwaitButton, CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
 import Text from '../common/view/Text'
-import Oops from '../../assets/oops.svg'
+import OopsSVG from '../../assets/oops.svg'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 
@@ -16,7 +16,7 @@ const log = logger.child({ from: 'OutOfGasError' })
 const OutOfGasError = props => {
   const { styles, theme } = props
   const MIN_BALANCE_VALUE = '100000'
-  const isValid = _get(props, 'screenProps.screenState.isValid', undefined)
+  const isValid = get(props, 'screenProps.screenState.isValid', undefined)
   const ERROR = `In order for transactions to go through,
 you need ‘Gas’ witch is a virtual money.
 Don’t worry, we’ll take care off you.\n`
@@ -66,7 +66,9 @@ Don’t worry, we’ll take care off you.\n`
       <View style={styles.topContainer}>
         <Section style={styles.mainContainer} justifyContent={'space-evenly'}>
           <Section.Title style={styles.mainTitle}>{TITLE}</Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={styles.image} />
+          <View style={styles.image}>
+            <OopsSVG />
+          </View>
           <Section style={styles.mainSection}>
             <Separator style={styles.separator} width={2} />
             {isCheatError ? (

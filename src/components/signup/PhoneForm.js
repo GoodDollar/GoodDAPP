@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import { isMobile } from '../../lib/utils/platform'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'

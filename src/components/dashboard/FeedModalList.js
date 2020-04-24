@@ -2,7 +2,7 @@
 import React, { createRef, useEffect, useState } from 'react'
 import { FlatList, Platform, View } from 'react-native'
 import { Portal } from 'react-native-paper'
-import _once from 'lodash/once'
+import { once } from 'lodash'
 import { isMobileOnly } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getMaxDeviceWidth, getScreenHeight, getScreenWidth } from '../../lib/utils/Orientation'
@@ -93,7 +93,7 @@ const FeedModalList = ({
     </View>
   )
 
-  const slideEvent = _once(() => {
+  const slideEvent = once(() => {
     fireEvent(CARD_SLIDE)
   })
 

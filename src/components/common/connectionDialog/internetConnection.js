@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import Config from '../../../config/config'
 import LoadingIcon from '../modal/LoadingIcon'
 import {

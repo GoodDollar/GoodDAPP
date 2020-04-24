@@ -1,6 +1,9 @@
 /* eslint-disable quote-props, quotes */
 
 module.exports = {
+  moduleNameMapper: {
+    "\\.svg": "<rootDir>/__mocks__/svgMock.js"
+  },
 	coverageDirectory: 'coverageNative',
 	preset: 'react-native',
 	rootDir: '../',

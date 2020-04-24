@@ -9,9 +9,9 @@ import {
   InteractionManager,
   Platform,
   TouchableOpacity,
+  View,
 } from 'react-native'
-import debounce from 'lodash/debounce'
-import _get from 'lodash/get'
+import { debounce, get } from 'lodash'
 import type { Store } from 'undux'
 import { isBrowser } from '../../lib/utils/platform'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -51,7 +51,7 @@ import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
-import unknownProfile from '../../assets/unknownProfile.svg'
+import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
 import Amount from './Amount'
@@ -304,7 +304,7 @@ const Dashboard = props => {
         return
       }
 
-      const width = _get(event, 'nativeEvent.layout.width')
+      const width = get(event, 'nativeEvent.layout.width')
 
       setBalanceBlockWidth(width)
 
@@ -412,15 +412,14 @@ const Dashboard = props => {
    * dont show delayed items such as add to home popup if some other dialog is showing
    */
   useEffect(() => {
-    const showingSomething =
-      _get(currentScreen, 'dialogData.visible') || _get(loadingIndicator, 'loading') || currentFeed
+    const showingSomething = get(currentScreen, 'dialogData.visible') || get(loadingIndicator, 'loading') || currentFeed
 
     if (showDelayedTimer !== true && showDelayedTimer && showingSomething) {
       setShowDelayedTimer(clearTimeout(showDelayedTimer))
     } else if (!showDelayedTimer) {
       showDelayed()
     }
-  }, [_get(currentScreen, 'dialogData.visible'), _get(loadingIndicator, 'loading'), currentFeed])
+  }, [get(currentScreen, 'dialogData.visible'), get(loadingIndicator, 'loading'), currentFeed])
 
   useEffect(() => {
     if (serviceWorkerUpdated) {
@@ -537,8 +536,6 @@ const Dashboard = props => {
     [showDialog, hideDialog, showErrorDialog, store, navigation]
   )
 
-  const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
-
   const onScroll = useCallback(
     ({ nativeEvent }) => {
       const minScrollRequired = 150
@@ -565,7 +562,13 @@ const Dashboard = props => {
           <Section.Stack alignItems="center" style={styles.headerWrapper}>
             <Animated.View style={avatarAnimStyles}>
               <TouchableOpacity onPress={goToProfile} style={styles.avatarWrapper}>
-                <Image source={avatarSource} style={styles.avatar} />
+                {avatar ? (
+                  <Image source={{ uri: avatar }} style={styles.avatar} />
+                ) : (
+                  <View style={styles.avatar}>
+                    <UnknownProfileSVG />
+                  </View>
+                )}
               </TouchableOpacity>
             </Animated.View>
             <Animated.View style={[styles.headerFullName, fullNameAnimateStyles]}>

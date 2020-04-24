@@ -1,5 +1,5 @@
 // @flow
-import _ from 'lodash'
+import { pick } from 'lodash'
 import moment from 'moment'
 import Contracts from '@gooddollar/goodcontracts/releases/deployment.json'
 import gun from '../gundb'
@@ -466,7 +466,7 @@ describe('UserStorage', () => {
     }
     await userStorage.saveSurveyDetails(hash, testSurvey)
     const surveys = await userStorage.getSurveyDetailByHashAndDate(hash, date)
-    const result = _.pick(surveys, ['amount', 'reason', 'survey'])
+    const result = pick(surveys, ['amount', 'reason', 'survey'])
     expect(result).toEqual(testSurvey)
   })
 

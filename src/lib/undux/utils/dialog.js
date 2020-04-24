@@ -44,9 +44,11 @@ export const showDialogForError = (
 
 export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
   log.debug('showDialogWithData', { dialogData })
+
   if (!assertStore(store, log, 'showDialogWithData failed')) {
     return
   }
+
   store.set('currentScreen')({
     ...store.get('currentScreen'),
     dialogData: {
@@ -58,9 +60,11 @@ export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
 
 export const hideDialog = (store: Store) => {
   log.debug('hideDialog')
+
   if (!assertStore(store, log, 'hideDialog failed')) {
     return
   }
+
   store.set('currentScreen')({
     ...store.get('currentScreen'),
     dialogData: {

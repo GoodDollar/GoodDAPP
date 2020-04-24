@@ -1,9 +1,10 @@
 // @flow
 import type { Store } from 'undux'
-import { isNull, throttle } from 'lodash'
+import { throttle } from 'lodash'
 import Config from '../../../config/config'
 import userStorage from '../../gundb/UserStorage'
 import pino from '../../logger/pino-logger'
+import { assertStore } from '../SimpleStore'
 
 const logger = pino.child({ from: 'feeds' })
 
@@ -61,10 +62,10 @@ const getMockFeeds = () => {
 }
 
 const getInitial = async (store: Store) => {
-  logger.debug('getFeed')
-  if (isNull(store)) {
+  if (!assertStore(store, logger, 'getInitial failed')) {
     return
   }
+
   store.set('feedLoading')(true)
   const feeds =
     (await userStorage

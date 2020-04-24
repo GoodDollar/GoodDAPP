@@ -12,9 +12,10 @@ const log = logger.child({ from: '/undux/effects/profile' })
  * @param {Store} store
  */
 const withProfile: Effects<State> = (store: Store) => {
-  if (!assertStore(store, log, 'updateAll failed')) {
+  if (!assertStore(store, log, 'withProfile failed')) {
     return
   }
+
   store.on('isLoggedIn').subscribe(isLoggedIn => {
     if (!isLoggedIn) {
       return

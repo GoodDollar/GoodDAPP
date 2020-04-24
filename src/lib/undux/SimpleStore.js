@@ -130,7 +130,7 @@ const useCurriedSetters = (paths: string[]) => {
 
 const assertStore = (store, logger = unduxLogger, message = 'Operation failed') => {
   let log = logger
-  const storeIsNull = !store
+  const storeIsNull = !store || !store.storeSnapshot
 
   if (isString(logger)) {
     log = pinoLogger.child({ from: logger })

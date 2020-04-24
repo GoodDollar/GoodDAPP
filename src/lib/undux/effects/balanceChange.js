@@ -9,9 +9,10 @@ import { assertStore } from '../SimpleStore'
 const log = logger.child({ from: 'undux/utils/balance' })
 
 const withBalanceChange: Effects<State> = (store: Store) => {
-  if (!assertStore(store, log, 'updateAll failed')) {
+  if (!assertStore(store, log, 'withBalanceChange failed')) {
     return
   }
+
   store.on('isLoggedIn').subscribe(isLoggedIn => {
     const balanceUpdate = store.get('balanceUpdate')
     log.debug('subscribing to balance changes', isLoggedIn, store, balanceUpdate)

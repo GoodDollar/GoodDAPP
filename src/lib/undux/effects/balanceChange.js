@@ -1,22 +1,21 @@
 // @flow
 import type { Effects, Store } from 'undux'
-import { isNull } from 'lodash'
 import { initTransferEvents } from '../utils/account'
 
 import type { State } from '../GDStore'
 import logger from '../../logger/pino-logger'
-import { assertStoreSnapshot } from '../SimpleStore'
+import { assertStore, assertStoreSnapshot } from '../SimpleStore'
 
 const log = logger.child({ from: 'undux/effects/balance' })
 
 const withBalanceChange: Effects<State> = (store: Store) => {
-  if (!assertStoreSnapshot(store, log, 'withBalanceChange failed')) {
+  if (!assertStore(store, log, 'withBalanceChange failed')) {
     return
   }
 
   store.on('isLoggedIn').subscribe(isLoggedIn => {
-    if (isNull(store) || isNull(store.storeSnapshot)) {
-      return log.warn('withBalanceChange failed', 'received store is null')
+    if (!assertStoreSnapshot(store, log, 'withBalanceChange failed')) {
+      return
     }
 
     const balanceUpdate = store.get('balanceUpdate')

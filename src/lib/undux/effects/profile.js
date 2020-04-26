@@ -1,8 +1,8 @@
 // @flow
 import type { Effects, Store } from 'undux'
-import { isNull } from 'lodash'
 import userStorage from '../../gundb/UserStorage'
 import type { State } from '../GDStore'
+import { assertStore, assertStoreSnapshot } from '../SimpleStore'
 import logger from '../../logger/pino-logger'
 
 const log = logger.child({ from: 'undux/effects/profile' })
@@ -12,6 +12,10 @@ const log = logger.child({ from: 'undux/effects/profile' })
  * @param {Store} store
  */
 const withProfile: Effects<State> = (store: Store) => {
+  if (!assertStore(store, log, 'withProfile failed')) {
+    return
+  }
+
   store.on('isLoggedIn').subscribe(isLoggedIn => {
     if (!isLoggedIn) {
       return
@@ -19,9 +23,10 @@ const withProfile: Effects<State> = (store: Store) => {
 
     userStorage.subscribeProfileUpdates(async profile => {
       if (profile) {
-        if (isNull(store) || isNull(store.storeSnapshot)) {
-          return log.warn('withProfile failed', 'received store is null')
+        if (!assertStoreSnapshot(store, log, 'withProfile failed')) {
+          return
         }
+
         store.set('profile')(userStorage.getDisplayProfile(profile))
         store.set('privateProfile')(await userStorage.getPrivateProfile(profile))
       }

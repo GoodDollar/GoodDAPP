@@ -40,7 +40,9 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
   )
 
   const noCreds = !(counterPartyDisplayName || reason)
-  const iconMarginWithoutReason = useMemo(() => (isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds), [styles,])
+  const iconMarginWithoutReason = useMemo(() => {
+    return isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds
+  }, [styles])
   const amountMargin = useMemo(() => (isMobile ? styles.amountBlockMarginMobile : styles.amountBlockMargin), [styles])
 
   return (

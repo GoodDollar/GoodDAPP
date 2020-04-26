@@ -21,7 +21,7 @@ Image.prefetch(IOSWebAppSignInSVG)
 const TITLE = 'EASY ACCESS'
 const log = logger.child({ from: TITLE })
 
-const Mnemonics = ({ screenProps, navigation, styles }) => {
+const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const [code, setCode] = useState()
   const [isRecovering, setRecovering] = useState(false)
@@ -108,7 +108,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   )
 }
 
-Mnemonics.navigationOptions = {
+IOSWebAppSignIn.navigationOptions = {
   title: TITLE,
 }
 
@@ -140,4 +140,4 @@ const mnemonicsStyles = ({ theme }) => ({
   },
 })
 
-export default withStyles(mnemonicsStyles)(Mnemonics)
+export default withStyles(mnemonicsStyles)(IOSWebAppSignIn)

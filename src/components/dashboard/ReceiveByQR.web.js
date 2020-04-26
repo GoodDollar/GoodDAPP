@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
 import logger from '../../lib/logger/pino-logger'
@@ -78,7 +78,9 @@ const ReceiveByQR = ({ screenProps }) => {
   return (
     <>
       <Wrapper>
-        <TopBar hideBalance={true} push={screenProps.push} />
+        <TopBar hideBalance={true} hideProfile={false} profileAsLink={false} push={screenProps.push}>
+          <View />
+        </TopBar>
         <Section style={styles.bottomSection}>
           <Section.Row>
             <QrReader

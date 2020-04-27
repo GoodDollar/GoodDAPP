@@ -49,9 +49,9 @@ exports[`PhaseOne renders without errors and matches snapshot 1`] = `
             "color": "rgba(255,255,255,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto Slab",
-            "fontSize": "30.769230769230766px",
+            "fontSize": "16px",
             "fontWeight": "700",
-            "lineHeight": "36.92307692307692px",
+            "lineHeight": "22px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
@@ -87,7 +87,7 @@ Hours To Go...
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
+            "color": "rgba(255,255,255,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
@@ -99,51 +99,33 @@ Hours To Go...
           }
         }
       >
-        <span
-          className="css-text-901oao css-textHasAncestor-16my406"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(255,255,255,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "13.846153846153845px",
-              "fontWeight": "normal",
-              "lineHeight": "16.615384615384613px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
-        >
-          GoodDollar is the world’s first experiment
+        GoodDollar is the world’s first experiment
 to create a framework to generate
 UBI on a global scale.
 
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
-            data-focusable={true}
-            dir="auto"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "cursor": "pointer",
-                "direction": "ltr",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "13.846153846153845px",
-                "fontWeight": "700",
-                "lineHeight": "16.615384615384613px",
-                "textAlign": "center",
-                "textDecoration": "underline",
-                "textTransform": "none",
-              }
+        <span
+          className="css-text-901oao css-textHasAncestor-16my406"
+          data-focusable={true}
+          dir="auto"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          style={
+            Object {
+              "color": "rgba(255,255,255,1.00)",
+              "cursor": "pointer",
+              "direction": "ltr",
+              "fontFamily": "Roboto Slab",
+              "fontSize": "16px",
+              "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "underline",
+              "textTransform": "none",
             }
-            tabIndex="0"
-          >
-            Learn More
-          </span>
+          }
+          tabIndex="0"
+        >
+          Learn More
         </span>
       </div>
     </div>
@@ -577,9 +559,9 @@ UBI on a global scale.
               "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "12.307692307692307px",
+              "fontSize": "16px",
               "fontWeight": "normal",
-              "lineHeight": "14.769230769230766px",
+              "lineHeight": "22px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -598,9 +580,9 @@ UBI on a global scale.
               "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "12.307692307692307px",
+              "fontSize": "16px",
               "fontWeight": "700",
-              "lineHeight": "14.769230769230766px",
+              "lineHeight": "22px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -649,9 +631,9 @@ UBI on a global scale.
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
-                    "fontSize": "12.307692307692307px",
+                    "fontSize": "14px",
                     "fontWeight": "700",
-                    "lineHeight": "14.769230769230766px",
+                    "lineHeight": "20px",
                     "textAlign": "right",
                     "textDecoration": "none",
                     "textTransform": "none",
@@ -668,9 +650,9 @@ UBI on a global scale.
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
-                    "fontSize": "11.807692307692307px",
+                    "fontSize": "13.5px",
                     "fontWeight": "700",
-                    "lineHeight": "14.169230769230767px",
+                    "lineHeight": "16.2px",
                     "textAlign": "right",
                     "textDecoration": "none",
                     "textTransform": "none",
@@ -688,9 +670,9 @@ UBI on a global scale.
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "13.076923076923077px",
+                  "fontSize": "14px",
                   "fontWeight": "700",
-                  "lineHeight": "15.692307692307692px",
+                  "lineHeight": "20px",
                   "marginRight": "2px",
                   "textAlign": "right",
                   "textDecoration": "none",
@@ -710,9 +692,9 @@ UBI on a global scale.
               "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "12.307692307692307px",
+              "fontSize": "16px",
               "fontWeight": "normal",
-              "lineHeight": "14.769230769230766px",
+              "lineHeight": "22px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -729,9 +711,9 @@ UBI on a global scale.
               "color": "rgba(0,0,0,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "12.307692307692307px",
+              "fontSize": "16px",
               "fontWeight": "700",
-              "lineHeight": "14.769230769230766px",
+              "lineHeight": "22px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -749,9 +731,9 @@ UBI on a global scale.
               "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "12.307692307692307px",
+              "fontSize": "16px",
               "fontWeight": "normal",
-              "lineHeight": "14.769230769230766px",
+              "lineHeight": "22px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",

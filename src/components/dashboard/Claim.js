@@ -277,7 +277,7 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      marginVertical: getDesignRelativeHeight(20),
+      marginBottom: getDesignRelativeHeight(20),
     },
     headerText: {
       marginBottom: 6,

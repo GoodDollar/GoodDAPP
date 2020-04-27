@@ -40,7 +40,7 @@ const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
           {'You can copy and share it\nwith others'}
         </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-        <AnimatedCopyButton style={styles.confirmButton} onPress={handleShare} onPressDone={screenProps.goToRoot} />
+        <AnimatedCopyButton onPress={handleShare} onPressDone={screenProps.goToRoot} />
       </Section>
     </Wrapper>
   )

@@ -1,7 +1,8 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Image, View } from 'react-native'
 import GoodWallet from '../../lib/wallet/GoodWallet'
+import Clipboard from '../../lib/utils/Clipboard'
 import InputText from '../common/form/InputText'
 import { Section, Text, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -9,7 +10,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import illustration from '../../assets/Signup/maginLinkIllustration.svg'
-import CopyButton from '../common/buttons/CopyButton'
+import AnimatedCopyButton from '../common/animations/ShareLinkSendButton/ShareLinkSendButton'
 
 export type TypeProps = {
   screenProps: any,
@@ -19,27 +20,31 @@ export type TypeProps = {
 
 const { account } = GoodWallet
 
-const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => (
-  <Wrapper>
-    <TopBar push={screenProps.push} hideProfile={false}>
-      <View />
-    </TopBar>
-    <Section grow justifyContent="space-between">
-      <Section.Title fontWeight="medium">YOUR WALLET ADDRESS:</Section.Title>
-      <InputText
-        containerStyle={styles.containerInput}
-        style={styles.input}
-        value={address || account}
-        editable={false}
-      />
-      <Text fontSize={24} fontWeight="medium" lineHeight={30}>
-        {'You can copy and share it\nwith others'}
-      </Text>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-      <CopyButton style={styles.confirmButton} toCopy={address || account} onPressDone={screenProps.goToRoot} />
-    </Section>
-  </Wrapper>
-)
+const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
+  const handleShare = useCallback(() => Clipboard.setString(address || account), [])
+
+  return (
+    <Wrapper>
+      <TopBar push={screenProps.push} hideProfile={false}>
+        <View />
+      </TopBar>
+      <Section grow justifyContent="space-between">
+        <Section.Title fontWeight="medium">YOUR WALLET ADDRESS:</Section.Title>
+        <InputText
+          containerStyle={styles.containerInput}
+          style={styles.input}
+          value={address || account}
+          editable={false}
+        />
+        <Text fontSize={24} fontWeight="medium" lineHeight={30}>
+          {'You can copy and share it\nwith others'}
+        </Text>
+        <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+        <AnimatedCopyButton style={styles.confirmButton} onPress={handleShare} onPressDone={screenProps.goToRoot} />
+      </Section>
+    </Wrapper>
+  )
+}
 
 ReceiveToAddress.navigationOptions = {
   title: 'Receive G$',

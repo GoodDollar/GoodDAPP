@@ -18,6 +18,7 @@ import { withStyles } from '../../lib/styles'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
+import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import type { DashboardProps } from './Dashboard'
 import ClaimContent from './Claim/PhaseOne'
 import useClaimCounter from './Claim/useClaimCounter'
@@ -264,6 +265,52 @@ const Claim = props => {
 }
 
 const getStylesFromProps = ({ theme }) => {
+  const bigFontSize = isSmallDevice ? 30 : 40
+
+  const headerText = {
+    marginBottom: getDesignRelativeHeight(10),
+    fontSize: bigFontSize,
+    lineHeight: bigFontSize,
+  }
+
+  const amountBlockTitle = {
+    marginTop: 3,
+    fontSize: bigFontSize,
+    lineHeight: bigFontSize,
+  }
+
+  const amountText = {
+    fontFamily: 'Roboto',
+    fontSize: bigFontSize,
+    color: theme.colors.darkBlue,
+    fontWeight: 'bold',
+    lineHeight: bigFontSize,
+  }
+
+  const amountUnitText = {
+    fontFamily: 'Roboto',
+    fontSize: bigFontSize,
+    color: theme.colors.darkBlue,
+    fontWeight: 'medium',
+    lineHeight: bigFontSize,
+  }
+
+  const fontSize16 = {
+    fontSize: isSmallDevice ? 14 : 16,
+  }
+
+  const learnMoreLink = {
+    cursor: 'pointer',
+    ...fontSize16,
+  }
+
+  const extraInfoAmountText = {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    color: 'black',
+    ...fontSize16,
+  }
+
   return {
     mainContainer: {
       backgroundColor: 'transparent',
@@ -277,11 +324,9 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      marginBottom: getDesignRelativeHeight(20),
+      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
     },
-    headerText: {
-      marginBottom: 6,
-    },
+    headerText,
     amountBlock: {
       borderWidth: 3,
       borderColor: theme.colors.white,
@@ -289,19 +334,17 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: getDesignRelativeWidth(30),
       paddingVertical: getDesignRelativeWidth(10),
     },
-    amountBlockTitle: {
-      marginTop: 3,
-    },
+    amountBlockTitle,
+    amountText,
+    amountUnitText,
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
       justifyContent: 'space-around',
-      marginBottom: getDesignRelativeHeight(20),
+      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
     },
-    learnMoreLink: {
-      cursor: 'pointer',
-    },
+    learnMoreLink,
     claimButtonContainer: {
       alignItems: 'center',
       flexDirection: 'column',
@@ -312,7 +355,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     extraInfoContainer: {
       marginHorizontal: 0,
-      marginBottom: 0,
+      marginBottom: getDesignRelativeHeight(5),
       marginTop: getDesignRelativeHeight(12),
       alignItems: 'center',
       justifyContent: 'center',
@@ -324,6 +367,8 @@ const getStylesFromProps = ({ theme }) => {
       width: getDesignRelativeWidth(340),
       marginBottom: getDesignRelativeHeight(10),
     },
+    extraInfoAmountText,
+    fontSize16,
   }
 }
 

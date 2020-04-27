@@ -54,7 +54,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
 )
 
 export const ButtonCountdown = ({ styles, nextClaim }) => (
-  <View style={isSmallDev ? styles.countdownContainerSmallDev : styles.countdownContainer}>
+  <View style={styles.countdownContainer}>
     {isSmallDev ? (
       <View style={styles.btnTitleSmallDev}>
         <Text style={styles.extraInfoCountdownTitle} fontWeight="bold">
@@ -211,13 +211,14 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: theme.colors.orange,
     flexDirection: 'column',
   },
-  countdownContainer: {
-    flexDirection: 'column',
-  },
-  countdownContainerSmallDev: {
-    flexDirection: 'column',
-    height: getDesignRelativeHeight(180),
-  },
+  countdownContainer: isSmallDev
+    ? {
+        flexDirection: 'column',
+        height: getDesignRelativeHeight(180),
+      }
+    : {
+        flexDirection: 'column',
+      },
   btnTitleSmallDev: {
     position: 'absolute',
     marginLeft: 35,

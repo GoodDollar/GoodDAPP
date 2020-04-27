@@ -114,7 +114,7 @@ const ClaimPhaseZero = ({
           </Section.Text>
           <Section.Text>{` Claimed by `}</Section.Text>
           <Section.Text fontWeight="bold" color="black">
-            {numeral(people).format('0a')}{' '}
+            {numeral(people).format('0a')}
           </Section.Text>
           <Section.Text>{` Good People`}</Section.Text>
         </Text>

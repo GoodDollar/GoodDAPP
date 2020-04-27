@@ -6,7 +6,6 @@ import { isMobileSafari } from 'mobile-device-detect'
 import SimpleStore from '../undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidemenu'
-import userStorage from '../gundb/UserStorage'
 
 import { useWrappedApi } from '../API/useWrappedApi'
 
@@ -19,6 +18,8 @@ export default (props = {}) => {
   const { navigation, theme } = props
   const API = useWrappedApi()
   const store = SimpleStore.useStore()
+  const userStorage = store.get('userStorage')
+  const isLoggedIn = store.get('isLoggedIn')
   const [showDialog] = useErrorDialog()
   const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog, store, theme })
 
@@ -28,13 +29,15 @@ export default (props = {}) => {
   const slideOut = useCallback(() => hideSidemenu(store), [store])
 
   const getUserStorageReady = async () => {
-    await userStorage.ready
-    userStorage.userProperties.get('regMethod').then(setRegMethod)
+    if (userStorage && isLoggedIn) {
+      const regMethod = await userStorage.userProperties.get('regMethod')
+      setRegMethod(regMethod)
+    }
   }
 
   useEffect(() => {
     getUserStorageReady()
-  }, [])
+  }, [userStorage])
 
   const bottomItems = useMemo(
     () => [

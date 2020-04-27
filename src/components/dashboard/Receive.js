@@ -23,12 +23,12 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')
   const { account, networkId } = goodWallet
   const [showErrorDialog] = useErrorDialog()
-  const { canShare, generateCode, generateReceiveShareObject, generateShareLink } = useNativeSharing()
+  const { canShare, generateCode, generateReceiveShareObject } = useNativeSharing()
   const amount = 0
   const reason = ''
   const codeObj = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
   const share = useMemo(() => generateReceiveShareObject(codeObj, amount, '', profile.fullName), [codeObj])
-  const shareLink = useMemo(() => generateShareLink('receive', codeObj), [codeObj])
+  const shareLink = useMemo(() => share.text + ' ' + share.url)
 
   const shareAction = useCallback(async () => {
     try {

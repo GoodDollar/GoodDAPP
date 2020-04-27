@@ -166,7 +166,7 @@ export function generateReceiveShareObject(codeObj: any, amount: number, to: str
     to ? `${to}, ` : '',
     `You've got a request from ${from}`,
     amount > 0 ? ` for ${weiToGd(amount)} G$` : '',
-    `. To Transfer open:`,
+    `. To approve transfer open:`,
   ].join('')
 
   return generateShareObject('Sending G$ via GoodDollar App', text, url)

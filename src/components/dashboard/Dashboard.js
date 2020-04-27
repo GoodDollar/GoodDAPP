@@ -185,6 +185,7 @@ const Dashboard = props => {
           .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
 
       if (res.length === 0) {
+        log.warn('empty feed')
         return
       }
 

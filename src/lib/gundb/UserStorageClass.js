@@ -96,6 +96,7 @@ export type FeedEvent = {
   status?: 'pending' | 'completed' | 'error' | 'cancelled' | 'deleted',
   data: any,
   displayType?: string,
+  action?: string,
 }
 
 /**
@@ -174,6 +175,7 @@ export const inviteFriendsMessage = {
       fullName: 'Invite friends and earn G$',
     },
   },
+  action: `navigate("Rewards")`,
 }
 export const backupMessage = {
   id: '2',
@@ -278,7 +280,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     logs.filter(log => {
       return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
-    'value'
+    log => log.value
   )
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
@@ -1577,7 +1579,7 @@ export class UserStorage {
     logger.debug('formatEvent: incoming event', event.id, { event })
 
     try {
-      const { data, type, date, id, status, createdDate, animationExecuted } = event
+      const { data, type, date, id, status, createdDate, animationExecuted, action } = event
       const { sender, preReasonText, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
@@ -1619,6 +1621,7 @@ export class UserStorage {
         status,
         createdDate,
         animationExecuted,
+        action,
         data: {
           endpoint: {
             address: sender,

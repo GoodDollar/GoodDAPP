@@ -48,12 +48,17 @@ exports[`Receive matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
+          "height": "62px",
+          "justifyContent": "center",
           "marginBottom": "8px",
+          "msFlexPack": "center",
           "paddingBottom": "8px",
           "paddingLeft": "12px",
           "paddingRight": "8px",
@@ -138,12 +143,12 @@ exports[`Receive matches snapshot 1`] = `
                   "borderTopLeftRadius": "21px",
                   "borderTopRightRadius": "21px",
                   "display": "flex",
-                  "height": "42px",
+                  "height": "30px",
                   "justifyContent": "center",
                   "marginBottom": "5px",
                   "msFlexAlign": "center",
                   "msFlexPack": "center",
-                  "width": "42px",
+                  "width": "30px",
                 }
               }
             >
@@ -154,7 +159,7 @@ exports[`Receive matches snapshot 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "fontFamily": "gooddollar",
-                    "fontSize": "28px",
+                    "fontSize": "22px",
                     "fontStyle": "normal",
                     "fontWeight": "normal",
                   }
@@ -241,12 +246,12 @@ exports[`Receive matches snapshot 1`] = `
                   "borderTopLeftRadius": "21px",
                   "borderTopRightRadius": "21px",
                   "display": "flex",
-                  "height": "42px",
+                  "height": "30px",
                   "justifyContent": "center",
                   "marginBottom": "5px",
                   "msFlexAlign": "center",
                   "msFlexPack": "center",
-                  "width": "42px",
+                  "width": "30px",
                 }
               }
             >
@@ -257,7 +262,7 @@ exports[`Receive matches snapshot 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "fontFamily": "gooddollar",
-                    "fontSize": "26px",
+                    "fontSize": "20px",
                     "fontStyle": "normal",
                     "fontWeight": "normal",
                   }

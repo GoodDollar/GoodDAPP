@@ -25,7 +25,7 @@ const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} hideProfile={false}>
+      <TopBar push={screenProps.push} hideProfile={false} profileAsLink={false}>
         <View />
       </TopBar>
       <Section grow justifyContent="space-between">

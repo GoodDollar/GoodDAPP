@@ -11,7 +11,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { fireEvent } from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
-import { SEND_TITLE } from './utils/sendReceiveFlow'
+import { ACTION_RECEIVE, ACTION_SEND, PARAM_ACTION, RECEIVE_TITLE, SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -33,11 +33,11 @@ const instructionsTextNumberProps = {
   fontWeight: 'bold',
 }
 
-const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
+const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { canShare } = useNativeSharing()
   const [screenState] = useScreenState(screenProps)
   const { goToRoot } = screenProps
-  const { paymentLink } = screenState
+  const { paymentLink, action } = screenState
 
   const handlePressConfirm = useCallback(
     () => fireEvent('SEND_CONFIRMATION_SHARE', { type: canShare ? 'share' : 'copy' }),
@@ -45,6 +45,9 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   )
 
   const handlePressDone = useCallback(() => goToRoot(), [goToRoot])
+
+  const secondTextPoint = action === ACTION_SEND ? 'Share it with your recipient' : 'Share it with sender'
+  const thirdTextPoint = action === ACTION_SEND ? 'Recipient approves request' : 'Sender approves request'
 
   return (
     <Wrapper>
@@ -60,11 +63,11 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
             </Section.Text>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'2. '}</Section.Text>
-              Share it with your recipient
+              {secondTextPoint}
             </Section.Text>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'3. '}</Section.Text>
-              Recipient approves request
+              {thirdTextPoint}
             </Section.Text>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'4. '}</Section.Text>
@@ -122,9 +125,13 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-SendConfirmation.navigationOptions = {
-  title: SEND_TITLE,
-  backButtonHidden: true,
+TransactionConfirmation.navigationOptions = ({ navigation }) => {
+  const action = navigation.getParam(PARAM_ACTION)
+
+  return {
+    title: action === ACTION_RECEIVE ? RECEIVE_TITLE : SEND_TITLE,
+    backButtonHidden: true,
+  }
 }
 
-export default withStyles(getStylesFromProps)(SendConfirmation)
+export default withStyles(getStylesFromProps)(TransactionConfirmation)

@@ -21,7 +21,6 @@ import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/anal
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import type { DashboardProps } from './Dashboard'
-import ClaimContentPhaseZero from './Claim/PhaseZero'
 import ClaimContentPhaseOne from './Claim/PhaseOne'
 import useClaimCounter from './Claim/useClaimCounter'
 
@@ -117,8 +116,13 @@ const Claim = props => {
   const getNextClaim = async date => {
     let nextClaimTime = date - new Date().getTime()
     if (nextClaimTime < 0 && state.entitlement <= 0) {
-      const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
-      setState(prev => ({ ...prev, entitlement }))
+      try {
+        const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
+        setState(prev => ({ ...prev, entitlement }))
+      } catch (exception) {
+        const { message } = exception
+        log.warn('getNextClaim failed', message, exception)
+      }
     }
     return new Date(nextClaimTime).toISOString().substr(11, 8)
   }
@@ -261,11 +265,7 @@ const Claim = props => {
   return (
     <WrapperClaim>
       <Section style={styles.mainContainer}>
-        {Config.isPhaseZero ? (
-          <ClaimContentPhaseZero {...propsForContent} />
-        ) : (
-          <ClaimContentPhaseOne {...propsForContent} />
-        )}
+        <ClaimContentPhaseOne {...propsForContent} />
       </Section>
     </WrapperClaim>
   )

@@ -49,7 +49,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
         } else {
           const sortContacts = orderBy(contacts, ['givenName'])
           setContacts(sortContacts)
-          initialList = sortContacts
+          initialList.current = sortContacts
         }
       })
     }
@@ -57,15 +57,16 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
 
   const filterContacts = useCallback(
     memoize(searchQuery => {
+      const allContacts = initialList.current || []
       const query = searchQuery.toLocaleLowerCase()
 
-      return initialList.filter(({ givenName, familyName, phoneNumbers }) => {
+      return allContacts.filter(({ givenName, familyName, phoneNumbers }) => {
         const [phoneNumber] = map(phoneNumbers, 'number')
 
         return [givenName, familyName, phoneNumber].some(field => (field || '').toLocaleLowerCase().includes(query))
       })
     }),
-    [initialList]
+    []
   )
 
   const isStateEmpty = !state

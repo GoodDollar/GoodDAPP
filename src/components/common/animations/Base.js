@@ -5,6 +5,14 @@ class AnimationBase extends React.Component {
     this.initAnimation()
   }
 
+  componentWillUnmount() {
+    if (this.anim) {
+      this.anim.destroy()
+    }
+
+    this.onUnmount && this.onUnmount()
+  }
+
   initAnimation() {
     if (this.anim) {
       this.onMount && this.onMount()

@@ -9,7 +9,7 @@ import animationData from './data.json'
 class SaveButton extends AnimationBase {
   state = {}
 
-  onMount() {
+  onMount = () => {
     if (!isMobileReactNative) {
       this.anim.onEnterFrame = e => {
         const { loading } = this.props

@@ -27,9 +27,12 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const amount = 0
   const reason = ''
   const codeObj = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
-  const share = useMemo(() => generateReceiveShareObject(codeObj, amount, '', profile.fullName), [codeObj])
-  const shareLink = useMemo(() => share.text + ' ' + share.url)
-
+  const share = useMemo(() => generateReceiveShareObject(codeObj, amount, '', profile.fullName), [
+    codeObj,
+    profile.fullName,
+    amount,
+  ])
+  const shareLink = useMemo(() => share.message + ' ' + share.url, [share])
   const shareAction = useCallback(async () => {
     try {
       fireEvent('RECEIVE_DONE', { type: 'wallet' })

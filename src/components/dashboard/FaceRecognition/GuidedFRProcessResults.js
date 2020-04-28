@@ -195,7 +195,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
       'B. Camera is at eye level\n' +
       'C. Light your face evenly'
   } else if (isProcessFailed) {
-    log.error('FR failed', 'Some of the verification steps failed', null, { processStatus })
+    log.error('FR failed', 'Some of the verification steps failed', undefined, { processStatus })
     helpText = 'Something went wrong, please try again...'
   }
   return (

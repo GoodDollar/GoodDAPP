@@ -32,7 +32,7 @@ class Logo extends AnimationBase {
         ref={this.setAnim}
         imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
-        source={animationData}
+        source={this.improveAnimationData(animationData)}
         autoSize={false}
         style={[Platform.select(styles), this.props.style]}
         loop={false}

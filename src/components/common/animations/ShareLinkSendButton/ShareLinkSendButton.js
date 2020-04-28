@@ -47,7 +47,7 @@ class ShareLinkSendButton extends AnimationBase {
         <Lottie
           ref={this.setAnim}
           loop={false}
-          source={animationData}
+          source={this.improveAnimationData(animationData)}
           onAnimationFinish={isMobileReactNative && this.onAnimationFinish}
           style={{
             width: '100%',

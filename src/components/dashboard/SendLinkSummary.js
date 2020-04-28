@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Platform, Share, View } from 'react-native'
+import { Platform, View } from 'react-native'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
@@ -43,47 +43,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const { action } = params
 
   const [isCitizen, setIsCitizen] = useState(gdstore.get('isLoggedInCitizen'))
-  const [shared, setShared] = useState(false)
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
   const [loading, setLoading] = useState('')
 
   const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
-
-  const shareAction = useCallback(
-    async paymentLink => {
-      const shareStringSource = [paymentLink, ...shareStringStateDepSource]
-      const shareString = generateSendShareObject(...shareStringSource)
-
-      try {
-        await Share.share(shareString)
-
-        //on non web we have the send confirmation which is skipped here, so we simulate the events
-        //so we have same funnel for mobile + web
-        fireEvent('SEND_CONFIRMATION', { type: 'link' })
-        fireEvent('SEND_CONFIRMATION_SHARE', { type: 'share' })
-
-        setShared(true)
-      } catch (e) {
-        if (e.name !== 'AbortError') {
-          showDialog({
-            title: 'There was a problem triggering share action.',
-            message: `You can still copy the link by tapping on "Copy link to clipboard".`,
-            dismissText: 'Ok',
-            onDismiss: () => {
-              const desktopShareLink = generateSendShareText(...shareStringSource)
-
-              push('TransactionConfirmation', {
-                action: ACTION_SEND,
-                paymentLink: desktopShareLink,
-              })
-            },
-          })
-        }
-      }
-    },
-    [...shareStringStateDepSource, generateSendShareText, generateSendShareObject, setShared, showDialog, push]
-  )
 
   const faceRecognition = useCallback(() => push('FRIntro', { from: 'SendLinkSummary' }), [push])
 
@@ -161,14 +125,13 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const sendViaLink = useCallback(() => {
     let paymentLink = getLink()
 
-    if (canShare) {
-      shareAction(paymentLink)
-    } else {
-      const desktopShareLink = generateSendShareText(paymentLink, ...shareStringStateDepSource)
+    const desktopShareLink = (canShare ? generateSendShareObject : generateSendShareText)(
+      paymentLink,
+      ...shareStringStateDepSource
+    )
 
-      // Show confirmation
-      push('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
-    }
+    // Go to transaction confirmation screen
+    push('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
   }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
 
   /**
@@ -265,13 +228,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       goodWallet.isCitizen().then(setIsCitizen)
     }
   }, [])
-
-  // Going to root after shared
-  useEffect(() => {
-    if (shared) {
-      goToRoot()
-    }
-  }, [shared])
 
   return (
     <Wrapper>

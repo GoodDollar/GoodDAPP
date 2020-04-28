@@ -959,9 +959,9 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const gunuser = await this.gunuser
+    const gunuser = await this.gunuser.onThen()
     this.profile = this.gunuser.get('profile')
-    const profile = gunuser.profile && (await this.profile)
+    const profile = gunuser.profile && (await this.profile.onThen())
     if (gunuser.profile == null) {
       await this.gunuser.get('profile').putAck({ initialized: true })
       this.profile = this.gunuser.get('profile')

@@ -10,11 +10,23 @@ class FeedInfo extends AnimationBase {
   }
 
   onMount() {
-    const { delay = 0 } = this.props
+    const { delay = 0, showAnim } = this.props
+    const { isWeb } = this.state
 
     this.anim.onComplete = this.onAnimationFinishHandler
 
-    setTimeout(() => this.anim.play(), delay)
+    if (showAnim) {
+      // play animation
+      setTimeout(() => this.anim.play(), delay)
+    } else if (isWeb) {
+      // web show static image
+      const lastFrame = Number(this.animationData.op) - 1
+      this.anim.goToAndStop(lastFrame, true)
+    } else {
+      // react native app show static image
+      const lastFrame = Number(this.animationData.op) - 1
+      this.anim.play(lastFrame - 1, lastFrame)
+    }
   }
 
   onAnimationFinishHandler = () => {

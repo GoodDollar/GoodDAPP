@@ -5,7 +5,7 @@ describe('generateReceiveShareObject', () => {
   it(`should return an object for receipt with code, amount, to and from`, () => {
     // Given
     const title = 'Sending G$ via GoodDollar App'
-    const message = "Joe Bloggs, You've got a request from John Doe for 1 G$. To Transfer open:"
+    const message = "Joe Bloggs, You've got a request from John Doe for 1 G$. To approve transfer open:"
 
     // When
     const shareObject = generateReceiveShareObject({ amount: '123' }, 100, 'Joe Bloggs', 'John Doe')

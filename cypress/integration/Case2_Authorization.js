@@ -2,6 +2,7 @@
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
+import userObject from '../fixtures/userObject.json'
 
 function checkValuesСorrectness(values, isCorrect) {
   LoginPage.recoverWalletButton.should('not.be.enabled')
@@ -19,6 +20,7 @@ function checkValuesСorrectness(values, isCorrect) {
 
 describe('Test case 2: Ability to do authorization', () => {
   beforeEach(() => {
+    localStorage.setItem(JSON.stringify(userObject))
     StartPage.open()
     StartPage.continueOnWebButton.click()
     StartPage.signInButton.should('be.visible')

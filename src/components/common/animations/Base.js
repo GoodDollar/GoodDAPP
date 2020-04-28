@@ -24,6 +24,10 @@ class AnimationBase extends React.Component {
   }
 
   setAnim = anim => (this.anim = anim)
+
+  improveAnimationData = animationData => {
+    return JSON.parse(JSON.stringify(animationData))
+  }
 }
 
 export default AnimationBase

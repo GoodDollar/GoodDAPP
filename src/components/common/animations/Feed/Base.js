@@ -48,7 +48,7 @@ class FeedInfo extends AnimationBase {
     return (
       <Lottie
         ref={this.setAnim}
-        source={this.animationData}
+        source={this.improveAnimationData(this.animationData)}
         style={style}
         loop={false}
         onAnimationFinish={isWeb ? undefined : this.onAnimationFinishHandler}

@@ -12,7 +12,7 @@ class SaveButtonDisabled extends AnimationBase {
         <Lottie
           loop={false}
           play={false}
-          source={JSON.parse(JSON.stringify(animationData))}
+          source={this.improveAnimationData(animationData)}
           style={{
             width: '100%',
           }}

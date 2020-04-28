@@ -76,7 +76,7 @@ class SaveButton extends AnimationBase {
         <Lottie
           ref={this.setAnim}
           loop={false}
-          source={JSON.parse(JSON.stringify(animationData))}
+          source={this.improveAnimationData(animationData)}
           onAnimationFinish={this.handleAnimationFinish}
           style={{
             width: '100%',

@@ -4,7 +4,8 @@ import { Platform, TouchableOpacity } from 'react-native'
 import { set } from 'lodash'
 import AnimationBase from '../Base'
 import { weiToMask } from '../../../../lib/wallet/utils'
-import animationData from './data.json'
+import { getAnimationData } from '../../../../lib/utils/lottie'
+const { animationData } = getAnimationData('ClaimButton', require('./data'))
 
 class ClaimButton extends AnimationBase {
   state = {
@@ -91,7 +92,13 @@ class ClaimButton extends AnimationBase {
   render() {
     return (
       <TouchableOpacity onPress={this.handlePress}>
-        <Lottie ref={this.setAnim} loop={false} source={animationData} resizeMode="cover" style={{ width: '100%' }} />
+        <Lottie
+          ref={this.setAnim}
+          loop={false}
+          source={this.improveAnimationData(animationData)}
+          resizeMode="cover"
+          style={{ width: '100%' }}
+        />
       </TouchableOpacity>
     )
   }

@@ -17,22 +17,22 @@ const styles = StyleSheet.create({
 
 const ButtonWithDoneState = ({ toCopy, children, onPress, onPressDone, iconColor, withoutDone, ...props }) => {
   const mode = props.mode || 'contained'
-  const [state, setState] = useState(NOT_EXECUTED)
+  const [status, setStatus] = useState(NOT_EXECUTED)
 
-  const transitionToState = () => setState(onPressDone ? DONE : EXECUTED)
+  const transitionToState = () => setStatus(onPressDone ? DONE : EXECUTED)
 
   useEffect(() => {
-    if (state === EXECUTED && !withoutDone) {
+    if (status === EXECUTED && !withoutDone) {
       setTimeout(transitionToState, TRANSITION_TIME)
     }
-  }, [state])
+  }, [status])
 
   const handlePressExecute = useCallback(() => {
-    setState(EXECUTED)
+    setStatus(EXECUTED)
     onPress && onPress()
-  }, [setState, onPress])
+  }, [setStatus, onPress])
 
-  switch (state) {
+  switch (status) {
     case DONE: {
       return (
         <CustomButton mode={mode} onPress={onPressDone} {...props}>

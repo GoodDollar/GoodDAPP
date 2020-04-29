@@ -48,12 +48,17 @@ exports[`Receive matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
+          "height": "62px",
+          "justifyContent": "center",
           "marginBottom": "8px",
+          "msFlexPack": "center",
           "paddingBottom": "8px",
           "paddingLeft": "12px",
           "paddingRight": "8px",
@@ -138,12 +143,12 @@ exports[`Receive matches snapshot 1`] = `
                   "borderTopLeftRadius": "21px",
                   "borderTopRightRadius": "21px",
                   "display": "flex",
-                  "height": "42px",
+                  "height": "30px",
                   "justifyContent": "center",
                   "marginBottom": "5px",
                   "msFlexAlign": "center",
                   "msFlexPack": "center",
-                  "width": "42px",
+                  "width": "30px",
                 }
               }
             >
@@ -154,7 +159,7 @@ exports[`Receive matches snapshot 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "fontFamily": "gooddollar",
-                    "fontSize": "28px",
+                    "fontSize": "22px",
                     "fontStyle": "normal",
                     "fontWeight": "normal",
                   }
@@ -241,12 +246,12 @@ exports[`Receive matches snapshot 1`] = `
                   "borderTopLeftRadius": "21px",
                   "borderTopRightRadius": "21px",
                   "display": "flex",
-                  "height": "42px",
+                  "height": "30px",
                   "justifyContent": "center",
                   "marginBottom": "5px",
                   "msFlexAlign": "center",
                   "msFlexPack": "center",
-                  "width": "42px",
+                  "width": "30px",
                 }
               }
             >
@@ -257,7 +262,7 @@ exports[`Receive matches snapshot 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "fontFamily": "gooddollar",
-                    "fontSize": "26px",
+                    "fontSize": "20px",
                     "fontStyle": "normal",
                     "fontWeight": "normal",
                   }
@@ -313,23 +318,27 @@ exports[`Receive matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
+            "height": "25%",
+          }
+        }
+      />
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
             "WebkitAlignItems": "center",
             "WebkitBoxAlign": "center",
             "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 3,
             "WebkitBoxOrient": "vertical",
-            "WebkitBoxPack": "justify",
+            "WebkitBoxPack": "center",
             "WebkitFlexDirection": "column",
-            "WebkitFlexGrow": 3,
-            "WebkitJustifyContent": "space-around",
+            "WebkitJustifyContent": "center",
             "alignItems": "center",
             "flexDirection": "column",
-            "flexGrow": 3,
-            "justifyContent": "space-around",
+            "justifyContent": "center",
             "msFlexAlign": "center",
             "msFlexDirection": "column",
-            "msFlexPack": "distribute",
-            "msFlexPositive": 3,
+            "msFlexPack": "center",
           }
         }
       >
@@ -341,10 +350,10 @@ exports[`Receive matches snapshot 1`] = `
               "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "14px",
-              "fontWeight": "normal",
-              "lineHeight": "20px",
-              "marginBottom": "8px",
+              "fontSize": "16px",
+              "fontWeight": "500",
+              "lineHeight": "22px",
+              "marginBottom": "24px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -504,6 +513,8 @@ exports[`Receive matches snapshot 1`] = `
             "flexDirection": "column",
             "flexGrow": 1,
             "justifyContent": "center",
+            "marginBottom": "20px",
+            "marginTop": "20px",
             "msFlexAlign": "center",
             "msFlexDirection": "column",
             "msFlexPack": "center",
@@ -896,7 +907,7 @@ exports[`Receive matches snapshot 1`] = `
                       }
                     }
                   >
-                    Share your wallet link
+                    Receive via wallet link
                   </span>
                 </div>
               </div>

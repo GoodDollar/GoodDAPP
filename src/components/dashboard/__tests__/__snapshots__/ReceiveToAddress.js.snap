@@ -48,12 +48,17 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
+          "height": "62px",
+          "justifyContent": "center",
           "marginBottom": "8px",
+          "msFlexPack": "center",
           "paddingBottom": "8px",
           "paddingLeft": "12px",
           "paddingRight": "8px",

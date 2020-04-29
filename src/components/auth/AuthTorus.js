@@ -4,6 +4,7 @@ import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent, SIGNIN_TORUS_SUCCESS, SIGNUP_STARTED } from '../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../lib/constants/localStorage'
+import { REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
@@ -79,15 +80,20 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       const redirectTo = 'Phone'
       let torusUser
       let replacing = false
+
       try {
-        switch (provider) {
-          case 'facebook':
-            torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')
-            break
-          default:
-          case 'google':
-            torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
-            break
+        if (config.env === 'test') {
+          torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
+        } else {
+          switch (provider) {
+            case 'facebook':
+              torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')
+              break
+            default:
+            case 'google':
+              torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
+              break
+          }
         }
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
         if (curSeed && curSeed !== torusUser.privateKey) {
@@ -120,7 +126,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         //user doesnt exists start signup
         fireEvent(SIGNUP_STARTED, { source, provider })
-        navigate(redirectTo, { regMethod: 'torus', torusUser })
+        navigate(redirectTo, { regMethod: REGISTRATION_METHOD_TORUS, torusUser })
 
         //Hack to get keyboard up on mobile need focus from user event such as click
         setTimeout(() => {

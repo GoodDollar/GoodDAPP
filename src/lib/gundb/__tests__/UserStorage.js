@@ -10,6 +10,7 @@ import {
   getReceiveDataFromReceipt,
   hanukaBonusStartsMessage,
   inviteFriendsMessage,
+  longUseOfClaims,
   startClaiming,
   startSpending,
   type TransactionEvent,
@@ -18,7 +19,6 @@ import {
 } from '../UserStorageClass'
 import UserPropertiesClass from '../UserPropertiesClass'
 import { getUserModel } from '../UserModel'
-import { longUseOfClaims } from '../../../components/dashboard/Claim/events'
 import update from '../../updates'
 import { addUser } from './__util__/index'
 

@@ -21,7 +21,7 @@ const { account } = GoodWallet
 
 const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => (
   <Wrapper>
-    <TopBar push={screenProps.push} hideProfile={false} profileAsLink={false}>
+    <TopBar push={screenProps.push} hideProfile={false}>
       <View />
     </TopBar>
     <Section grow justifyContent="space-between">

@@ -14,13 +14,13 @@ export const showDialogForError = (
 ) => {
   let message = ''
 
-  if (error === undefined && humanError && typeof humanError !== 'string') {
+  if (error == null && humanError && typeof humanError !== 'string') {
     error = humanError
     humanError = undefined
   }
-  if (error === undefined && humanError === undefined) {
+  if (error == null && humanError === undefined) {
     message = 'Unknown Error'
-  } else if (error === undefined) {
+  } else if (error == null) {
     message = ''
   } else if (typeof error === 'string') {
     message = error

@@ -34,7 +34,7 @@ class SpinnerCheckMark extends AnimationBase {
     return (
       <Lottie
         ref={this.setAnim}
-        source={animationData}
+        source={this.improveAnimationData(animationData)}
         style={{
           marginTop: -height / 2.4,
           width,

@@ -129,15 +129,12 @@ export const welcomeMessage = {
   data: {
     customName: 'Welcome to GoodDollar',
     subtitle: 'Welcome to GoodDollar',
+    readMore: 'Claim free G$ coins daily',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'GoodDollar is a digital coin with built-in\nbasic income. Start collecting your income by claiming GoodDollars every day.\
-      \nAlpha tokens have no real value and will be deleted at the end of this trial.',
-    endpoint: {
-      fullName: 'Welcome to GoodDollar',
-    },
+      'This is where you will claim UBI in\nGoodDollar coins every day.\nThis is a demo version - please note that all\ndemo G$ coins collected have no value\noutside of this pilot, and will be destroyed\nupon completion of the demo period.',
   },
 }
 
@@ -148,14 +145,12 @@ export const welcomeMessageOnlyEtoro = {
   data: {
     customName: 'Welcome to GoodDollar!',
     subtitle: 'Welcome to GoodDollar',
+    readMore: false,
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
       'Start collecting your income by claiming GoodDollars every day. Since this is a test version - all coins are “play” coins and have no value outside of this pilot, you can use them to buy goods during the trail, at the end of it, they will be returned to the system.',
-    endpoint: {
-      fullName: 'Welcome to GoodDollar',
-    },
   },
 }
 
@@ -164,16 +159,14 @@ export const inviteFriendsMessage = {
   type: 'invite',
   status: 'completed',
   data: {
-    customName: 'Invite friends and earn G$',
+    customName: `Invite friends and earn G$'s`,
     subtitle: 'Want to earn more G$ ?',
+    readMore: 'Invite more friends!',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
       'Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.',
-    endpoint: {
-      fullName: 'Invite friends and earn G$',
-    },
   },
   action: `navigate("Rewards")`,
 }
@@ -184,14 +177,12 @@ export const backupMessage = {
   data: {
     customName: 'Backup your wallet. Now.',
     subtitle: 'You need to backup your',
+    readMore: 'wallet pass phrase',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
       'Your pass phrase is the only key to your wallet, this is why our wallet is super secure. Only you have access to your wallet and money. But if you won’t backup your pass phrase or if you lose it — you won’t be able to access your wallet and all your money will be lost forever.',
-    endpoint: {
-      fullName: 'Backup your wallet. Now.',
-    },
   },
 }
 
@@ -202,14 +193,12 @@ export const startSpending = {
   data: {
     customName: 'Go to GoodMarket',
     subtitle: "Start spending your G$'s",
+    readMore: 'here >>>',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
       'Visit GoodMarket, eToro’s exclusive marketplace, where you can buy or sell items in exchange for GoodDollars.',
-    endpoint: {
-      fullName: 'Go to GoodMarket',
-    },
   },
 }
 
@@ -218,17 +207,15 @@ export const startClaiming = {
   type: 'claiming',
   status: 'completed',
   data: {
-    customName: 'Start claiming your free daily G$',
-    subtitle: 'Start claiming your free daily G$',
+    customName: 'Claim your GoodDollars today!', //title in modal
+    subtitle: 'Claim your GoodDollars today!', //title in feed list
+    readMore: false,
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
-    preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
-    reason:
-      'GoodDollar gives every active member a small daily income. Sign in every day, collect free GoodDollars and use them to pay for goods and services.',
-    endpoint: {
-      fullName: 'Start claiming your free daily G$',
-    },
+
+    // preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
+    reason: `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`,
   },
 }
 
@@ -238,6 +225,7 @@ export const hanukaBonusStartsMessage = {
   data: {
     customName: 'Collect extra GoodDollars\non every day of Hannukah',
     subtitle: 'Hannukah Miracle Bonus',
+    readMore: 'Claim today for extra G$$$',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -245,6 +233,24 @@ export const hanukaBonusStartsMessage = {
       'Get an extra GoodDollar, on top of your daily collection, for every candle lit on the menorah today. Claim every day of Hannukah for a total bonus of G$44!\n\nHag Sameach!',
     endpoint: {
       fullName: 'Hannukah Miracle Bonus',
+    },
+  },
+}
+
+export const longUseOfClaims = {
+  id: '5',
+  type: 'claimsThreshold',
+  status: 'completed',
+  data: {
+    customName: 'Woohoo! You’ve made it!', //title in modal
+    subtitle: 'Woohoo! You’ve made it!',
+    readMore: 'Congrats! You claimed G$ for 14 days',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason: `Nice work. You’ve claimed demo G$’s for\n14 days and your spot is now secured for\nGoodDollar’s live launch.\nLive G$ coins are coming your way soon!`,
+    endpoint: {
+      fullName: 'Congrats! You’ve made it!',
     },
   },
 }
@@ -953,9 +959,9 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const gunuser = await this.gunuser
+    const gunuser = await this.gunuser.onThen()
     this.profile = this.gunuser.get('profile')
-    const profile = gunuser.profile && (await this.profile)
+    const profile = gunuser.profile && (await this.profile.onThen())
     if (gunuser.profile == null) {
       await this.gunuser.get('profile').putAck({ initialized: true })
       this.profile = this.gunuser.get('profile')
@@ -966,6 +972,13 @@ export class UserStorage {
     })
 
     logger.debug('init opened profile', { gunRef: this.profile, profile, gunuser })
+  }
+
+  addAllCardsTest() {
+    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
+      m.id = String(Math.random())
+      this.enqueueTX(m)
+    })
   }
 
   /**
@@ -1580,7 +1593,7 @@ export class UserStorage {
 
     try {
       const { data, type, date, id, status, createdDate, animationExecuted, action } = event
-      const { sender, preReasonText, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
+      const { sender, preReasonText, reason, code: withdrawCode, otplStatus, customName, subtitle, readMore } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
       const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
@@ -1633,6 +1646,7 @@ export class UserStorage {
           preMessageText: preReasonText,
           message: reason || message,
           subtitle,
+          readMore,
           withdrawCode,
         },
       }

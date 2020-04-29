@@ -23,7 +23,7 @@ class PeopleFlying extends AnimationBase {
         <Lottie
           enableMergePathsAndroidForKitKatAndAbove={true}
           autoPlay={true}
-          source={animationData}
+          source={this.improveAnimationData(animationData)}
           style={Platform.select(styles)}
           loop={false}
         />

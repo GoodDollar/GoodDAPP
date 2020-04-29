@@ -73,7 +73,7 @@ export default (props = {}) => {
       },
       {
         icon: 'add',
-        name: 'Add App Icon',
+        name: 'Add App To Home',
         hidden: !installPrompt && !isMobileSafari,
         action: () => {
           store.set('addWebApp')({ showAddWebAppDialog: true })

@@ -80,15 +80,20 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       const redirectTo = 'Phone'
       let torusUser
       let replacing = false
+
       try {
-        switch (provider) {
-          case 'facebook':
-            torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')
-            break
-          default:
-          case 'google':
-            torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
-            break
+        if (config.env === 'test') {
+          torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
+        } else {
+          switch (provider) {
+            case 'facebook':
+              torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')
+              break
+            default:
+            case 'google':
+              torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
+              break
+          }
         }
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
         if (curSeed && curSeed !== torusUser.privateKey) {

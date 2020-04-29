@@ -19,6 +19,7 @@ import ProfileDataTable from './ProfileDataTable'
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
 const avatarSize = getDesignRelativeWidth(136)
+const AVATAR_MARGIN = 6
 
 // To remove profile values that are already failing
 function filterObject(obj) {
@@ -167,6 +168,8 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
         <UserAvatar
           profile={profile}
           onPress={handleAvatarPress}
+          size={avatarSize}
+          imageSize={avatarSize - AVATAR_MARGIN}
           style={styles.userAvatar}
           containerStyle={styles.userAvatarWrapper}
         >
@@ -203,37 +206,44 @@ EditProfile.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  animatedSaveButton: {
-    position: 'absolute',
-    width: 120,
-    height: 60,
-    top: -3,
-    right: -24,
-    marginVertical: 0,
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  userDataAndButtonsRow: {
-    display: 'flex',
-    justifyContent: 'center',
-    position: 'relative',
-    zIndex: 1,
-    height: avatarSize / 2,
-  },
-  userAvatarWrapper: {
-    borderColor: theme.colors.white,
-    borderWidth: 3,
-    borderStyle: 'solid',
-    borderRadius: '50%',
-  },
-  userAvatar: {
-    borderWidth: 0,
-  },
-  emptySpace: {
-    height: 74,
-    width: '100%',
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const halfAvatarSize = avatarSize / 2
+  const { white } = theme.colors
+
+  return {
+    animatedSaveButton: {
+      position: 'absolute',
+      width: 120,
+      height: 60,
+      top: -3,
+      right: -24,
+      marginVertical: 0,
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+    userDataAndButtonsRow: {
+      display: 'flex',
+      justifyContent: 'center',
+      position: 'relative',
+      zIndex: 1,
+      height: halfAvatarSize,
+    },
+    userAvatarWrapper: {
+      position: 'absolute',
+      borderColor: white,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: halfAvatarSize,
+    },
+    userAvatar: {
+      borderWidth: 3,
+      borderColor: white,
+    },
+    emptySpace: {
+      height: 74,
+      width: '100%',
+    },
+  }
+}
 
 export default withStyles(getStylesFromProps)(EditProfile)

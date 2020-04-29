@@ -72,7 +72,7 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
                 onPress={handleClosePress}
               />
               <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
-              <UserAvatar profile={profile} size={272} />
+              <UserAvatar profile={profile} style={styles.avatar} size={272} />
             </>
           ) : (
             <>
@@ -85,9 +85,11 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
             </>
           )}
         </Section.Stack>
-        <CustomButton style={styles.doneButton} onPress={navigateBack}>
-          Done
-        </CustomButton>
+        <Section.Stack grow style={styles.buttonsRow}>
+          <CustomButton style={styles.doneButton} onPress={navigateBack}>
+            Done
+          </CustomButton>
+        </Section.Stack>
       </Section>
     </Wrapper>
   )
@@ -97,37 +99,52 @@ ViewOrUploadAvatar.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  section: {
-    flex: 1,
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cameraButton: {
-    left: 'auto',
-    position: 'absolute',
-    top: 1,
-    right: 1,
-    marginRight: getDesignRelativeWidth(-30),
-  },
-  cameraButtonNewImg: {
-    left: 'auto',
-    position: 'absolute',
-    top: 1,
-    right: 1,
-    marginRight: getDesignRelativeWidth(-20),
-  },
-  closeButton: {
-    left: 1,
-    right: 'auto',
-    position: 'absolute',
-    top: 1,
-    marginLeft: getDesignRelativeWidth(-30),
-  },
-  doneButton: {
-    marginTop: 'auto',
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const { defaultDouble, defaultQuadruple } = theme.sizes
+  const buttonGap = getDesignRelativeWidth(-30) / 2
+
+  return {
+    section: {
+      flex: 1,
+      position: 'relative',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    cameraButton: {
+      left: 'auto',
+      position: 'absolute',
+      top: 1,
+      right: 1,
+      marginTop: defaultDouble,
+      marginRight: buttonGap,
+    },
+    cameraButtonNewImg: {
+      left: 'auto',
+      position: 'absolute',
+      top: 1,
+      right: 1,
+      marginRight: buttonGap,
+    },
+    closeButton: {
+      left: 1,
+      right: 'auto',
+      position: 'absolute',
+      top: 1,
+      marginTop: defaultDouble,
+      marginLeft: buttonGap,
+    },
+    avatar: {
+      marginTop: defaultQuadruple,
+    },
+    buttonsRow: {
+      justifyContent: 'flex-end',
+      minHeight: 60,
+      width: '100%',
+    },
+    doneButton: {
+      marginTop: 'auto',
+    },
+  }
+}
 
 export default withStyles(getStylesFromProps)(ViewOrUploadAvatar)

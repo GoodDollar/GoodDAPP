@@ -160,6 +160,8 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
         <UserAvatar
           profile={profile}
           onPress={handleAvatarPress}
+          size={avatarSize}
+          imageSize={avatarSize - 6}
           style={styles.userAvatar}
           containerStyle={styles.userAvatarWrapper}
         >
@@ -215,13 +217,15 @@ const getStylesFromProps = ({ theme }) => ({
     height: avatarSize / 2,
   },
   userAvatarWrapper: {
+    position: 'absolute',
     borderColor: theme.colors.white,
-    borderWidth: 3,
-    borderStyle: 'solid',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: '50%',
   },
   userAvatar: {
-    borderWidth: 0,
+    borderWidth: 3,
+    borderColor: theme.colors.white,
   },
   emptySpace: {
     height: 74,

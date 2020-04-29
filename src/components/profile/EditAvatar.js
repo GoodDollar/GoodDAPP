@@ -74,7 +74,7 @@ const EditAvatar = ({ theme, navigation }) => {
             disabled={!isDirty || processing}
             loading={processing}
             onPress={updateAvatar}
-            color={theme.colors.darkBlue}
+            color={theme.colors.primary}
           >
             Save
           </CustomButton>

@@ -61,7 +61,7 @@ const ViewOrUploadAvatar = props => {
                 onPress={handleClosePress}
               />
               <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
-              <UserAvatar profile={profile} size={272} />
+              <UserAvatar profile={profile} style={styles.avatar} size={272} />
             </>
           ) : (
             <>
@@ -74,9 +74,9 @@ const ViewOrUploadAvatar = props => {
             </>
           )}
         </Section.Stack>
-        <CustomButton style={styles.doneButton} onPress={goToProfile}>
-          Done
-        </CustomButton>
+        <Section.Stack justifyContent="flex-end" grow style={styles.buttonsRow}>
+          <CustomButton onPress={goToProfile}>Done</CustomButton>
+        </Section.Stack>
       </Section>
     </Wrapper>
   )
@@ -98,21 +98,31 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'absolute',
     top: 1,
     right: 1,
-    marginRight: getDesignRelativeWidth(-30),
+    marginTop: 18,
+    marginRight: getDesignRelativeWidth(-30) - getDesignRelativeWidth(-30) / 2,
   },
   cameraButtonNewImg: {
     left: 'auto',
     position: 'absolute',
     top: 1,
     right: 1,
-    marginRight: getDesignRelativeWidth(-20),
+    marginRight: getDesignRelativeWidth(-30) - getDesignRelativeWidth(-30) / 2,
   },
   closeButton: {
     left: 1,
     right: 'auto',
     position: 'absolute',
     top: 1,
-    marginLeft: getDesignRelativeWidth(-30),
+    marginTop: 18,
+    marginLeft: getDesignRelativeWidth(-30) - getDesignRelativeWidth(-30) / 2,
+  },
+  avatar: {
+    marginTop: 36,
+  },
+  buttonsRow: {
+    // paddingHorizontal: theme.sizes.defaultDouble,
+    minHeight: 60,
+    width: '100%',
   },
   doneButton: {
     marginTop: 'auto',

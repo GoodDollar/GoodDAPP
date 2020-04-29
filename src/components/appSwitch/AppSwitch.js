@@ -33,7 +33,9 @@ const showOutOfGasError = debounce(
     const gasResult = await goodWallet.verifyHasGas(goodWallet.wallet.utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
       topWallet: false,
     })
+
     log.debug('outofgaserror:', { gasResult })
+
     if (gasResult.ok === false && gasResult.error !== false) {
       props.navigation.navigate('OutOfGasError')
     }
@@ -103,10 +105,15 @@ const AppSwitch = (props: LoadingProps) => {
     const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
       ([authResult, _]) => authResult
     )
+
     log.debug({ isLoggedIn, isLoggedInCitizen })
+
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
-    isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+
+    if (isLoggedInCitizen) {
+      await API.verifyTopWallet()
+    }
 
     // if (isLoggedIn) {
     //   if (destDetails) {

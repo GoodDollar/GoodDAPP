@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import GDStore from '../../lib/undux/GDStore'
 import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
@@ -15,38 +15,49 @@ import CameraButton from './CameraButton'
 const log = logger.child({ from: 'ViewAvatar' })
 const TITLE = 'My Profile'
 
-const ViewOrUploadAvatar = props => {
-  const { styles } = props
+const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
   const store = GDStore.useStore()
   const profile = store.get('profile')
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
 
-  const handleCameraPress = event => {
-    event.preventDefault()
-    props.navigation.navigate('EditAvatar')
-  }
+  const handleCameraPress = useCallback(
+    event => {
+      event.preventDefault()
+      navigation.navigate('EditAvatar')
+    },
+    [navigation]
+  )
 
-  const handleClosePress = event => {
-    event.preventDefault()
-    wrappedUserStorage.removeAvatar().catch(e => {
-      showErrorDialog('Could not delete image. Please try again.')
-      log.error('delete image failed:', e.message, e)
-    })
-  }
+  const handleClosePress = useCallback(
+    event => {
+      event.preventDefault()
 
-  const handleAddAvatar = avatar => {
-    fireEvent(PROFILE_IMAGE)
-    wrappedUserStorage.setAvatar(avatar).catch(e => {
-      showErrorDialog('Could not save image. Please try again.')
-      log.error('save image failed:', e.message, e)
-    })
-    props.navigation.navigate('EditAvatar')
-  }
+      wrappedUserStorage.removeAvatar().catch(e => {
+        showErrorDialog('Could not delete image. Please try again.')
+        log.error('delete image failed:', e.message, e)
+      })
+    },
+    [wrappedUserStorage]
+  )
 
-  const goToProfile = () => {
-    props.navigation.navigate('EditProfile')
-  }
+  const handleAddAvatar = useCallback(
+    avatar => {
+      fireEvent(PROFILE_IMAGE)
+
+      wrappedUserStorage.setAvatar(avatar).catch(e => {
+        showErrorDialog('Could not save image. Please try again.')
+        log.error('save image failed:', e.message, e)
+      })
+
+      navigation.navigate('EditAvatar')
+    },
+    [navigation, wrappedUserStorage]
+  )
+
+  const navigateBack = useCallback(() => {
+    screenProps.pop()
+  }, [navigation])
 
   return (
     <Wrapper>
@@ -75,7 +86,9 @@ const ViewOrUploadAvatar = props => {
           )}
         </Section.Stack>
         <Section.Stack grow style={styles.buttonsRow}>
-          <CustomButton onPress={goToProfile}>Done</CustomButton>
+          <CustomButton style={styles.doneButton} onPress={navigateBack}>
+            Done
+          </CustomButton>
         </Section.Stack>
       </Section>
     </Wrapper>
@@ -120,7 +133,6 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 36,
   },
   buttonsRow: {
-    // paddingHorizontal: theme.sizes.defaultDouble,
     justifyContent: 'flex-end',
     minHeight: 60,
     width: '100%',

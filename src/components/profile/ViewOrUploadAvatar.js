@@ -74,7 +74,7 @@ const ViewOrUploadAvatar = props => {
             </>
           )}
         </Section.Stack>
-        <Section.Stack justifyContent="flex-end" grow style={styles.buttonsRow}>
+        <Section.Stack grow style={styles.buttonsRow}>
           <CustomButton onPress={goToProfile}>Done</CustomButton>
         </Section.Stack>
       </Section>
@@ -121,6 +121,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   buttonsRow: {
     // paddingHorizontal: theme.sizes.defaultDouble,
+    justifyContent: 'flex-end',
     minHeight: 60,
     width: '100%',
   },

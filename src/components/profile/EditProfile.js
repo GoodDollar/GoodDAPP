@@ -20,6 +20,7 @@ const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
 
 const avatarSize = getDesignRelativeWidth(136)
+const AVATAR_MARGIN = 6
 
 // To remove profile values that are already failing
 function filterObject(obj) {
@@ -161,7 +162,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
           profile={profile}
           onPress={handleAvatarPress}
           size={avatarSize}
-          imageSize={avatarSize - 6}
+          imageSize={avatarSize - AVATAR_MARGIN}
           style={styles.userAvatar}
           containerStyle={styles.userAvatarWrapper}
         >

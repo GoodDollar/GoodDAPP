@@ -23,8 +23,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Installing npm packages
-        run: |
-          rm -rf $HOME/.node-gyp
-          npm i
+        run: npm i
       - name: Running tests
         run: npm run test:web

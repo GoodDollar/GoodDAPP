@@ -20,7 +20,7 @@ function checkValuesСorrectness(values, isCorrect) {
 
 describe('Test case 2: Ability to do authorization', () => {
   beforeEach(() => {
-    localStorage.setItem(JSON.stringify(userObject))
+    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
     StartPage.continueOnWebButton.click()
     StartPage.signInButton.should('be.visible')

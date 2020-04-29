@@ -105,14 +105,15 @@ const AppSwitch = (props: LoadingProps) => {
     const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
       ([authResult, _]) => authResult
     )
+
     log.debug({ isLoggedIn, isLoggedInCitizen })
+
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
-    isLoggedInCitizen
-      ? API.verifyTopWallet().catch(e => {
-          log.error('Init app - API Top wallet request failed', e.message, e)
-        })
-      : Promise.resolve()
+
+    if (isLoggedInCitizen) {
+      await API.verifyTopWallet()
+    }
 
     // if (isLoggedIn) {
     //   if (destDetails) {

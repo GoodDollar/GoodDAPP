@@ -99,47 +99,52 @@ ViewOrUploadAvatar.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  section: {
-    flex: 1,
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cameraButton: {
-    left: 'auto',
-    position: 'absolute',
-    top: 1,
-    right: 1,
-    marginTop: 18,
-    marginRight: getDesignRelativeWidth(-30) - getDesignRelativeWidth(-30) / 2,
-  },
-  cameraButtonNewImg: {
-    left: 'auto',
-    position: 'absolute',
-    top: 1,
-    right: 1,
-    marginRight: getDesignRelativeWidth(-30) - getDesignRelativeWidth(-30) / 2,
-  },
-  closeButton: {
-    left: 1,
-    right: 'auto',
-    position: 'absolute',
-    top: 1,
-    marginTop: 18,
-    marginLeft: getDesignRelativeWidth(-30) - getDesignRelativeWidth(-30) / 2,
-  },
-  avatar: {
-    marginTop: 36,
-  },
-  buttonsRow: {
-    justifyContent: 'flex-end',
-    minHeight: 60,
-    width: '100%',
-  },
-  doneButton: {
-    marginTop: 'auto',
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const { defaultDouble, defaultQuadruple } = theme.sizes
+  const buttonGap = getDesignRelativeWidth(-30) / 2
+
+  return {
+    section: {
+      flex: 1,
+      position: 'relative',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    cameraButton: {
+      left: 'auto',
+      position: 'absolute',
+      top: 1,
+      right: 1,
+      marginTop: defaultDouble,
+      marginRight: buttonGap,
+    },
+    cameraButtonNewImg: {
+      left: 'auto',
+      position: 'absolute',
+      top: 1,
+      right: 1,
+      marginRight: buttonGap,
+    },
+    closeButton: {
+      left: 1,
+      right: 'auto',
+      position: 'absolute',
+      top: 1,
+      marginTop: defaultDouble,
+      marginLeft: buttonGap,
+    },
+    avatar: {
+      marginTop: defaultQuadruple,
+    },
+    buttonsRow: {
+      justifyContent: 'flex-end',
+      minHeight: 60,
+      width: '100%',
+    },
+    doneButton: {
+      marginTop: 'auto',
+    },
+  }
+}
 
 export default withStyles(getStylesFromProps)(ViewOrUploadAvatar)

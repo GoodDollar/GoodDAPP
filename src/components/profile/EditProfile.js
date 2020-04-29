@@ -206,39 +206,44 @@ EditProfile.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  animatedSaveButton: {
-    position: 'absolute',
-    width: 120,
-    height: 60,
-    top: -3,
-    right: -24,
-    marginVertical: 0,
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  userDataAndButtonsRow: {
-    display: 'flex',
-    justifyContent: 'center',
-    position: 'relative',
-    zIndex: 1,
-    height: avatarSize / 2,
-  },
-  userAvatarWrapper: {
-    position: 'absolute',
-    borderColor: theme.colors.white,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: '50%',
-  },
-  userAvatar: {
-    borderWidth: 3,
-    borderColor: theme.colors.white,
-  },
-  emptySpace: {
-    height: 74,
-    width: '100%',
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const halfAvatarSize = avatarSize / 2
+  const { white } = theme.colors
+
+  return {
+    animatedSaveButton: {
+      position: 'absolute',
+      width: 120,
+      height: 60,
+      top: -3,
+      right: -24,
+      marginVertical: 0,
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+    userDataAndButtonsRow: {
+      display: 'flex',
+      justifyContent: 'center',
+      position: 'relative',
+      zIndex: 1,
+      height: halfAvatarSize,
+    },
+    userAvatarWrapper: {
+      position: 'absolute',
+      borderColor: white,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: halfAvatarSize,
+    },
+    userAvatar: {
+      borderWidth: 3,
+      borderColor: white,
+    },
+    emptySpace: {
+      height: 74,
+      width: '100%',
+    },
+  }
+}
 
 export default withStyles(getStylesFromProps)(EditProfile)

@@ -798,10 +798,11 @@ export class GoodWallet {
         log.info('no gas, asking for top wallet', { nativeBalance, required: wei, address: this.account })
         const toppingRes = await API.verifyTopWallet()
         const { data } = toppingRes
-        if (data.ok !== 1) {
+        if (!data || data.ok !== 1) {
           return {
             ok: false,
-            error: (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
+            error:
+              !data || (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
           }
         }
         nativeBalance = await this.balanceOfNative()

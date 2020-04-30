@@ -17,7 +17,7 @@ const ButtonBlock = ({ styles, entitlement, isCitizen, nextClaim, handleClaim, f
   }, [entitlement, isCitizen, faceRecognition, handleClaim])
 
   return (
-    <Section.Stack style={styles.btnBlock}>
+    <Section.Stack style={styles.claimButtonContainer}>
       <ClaimButton isCitizen={isCitizen} entitlement={entitlement} nextClaim={nextClaim} onPress={onPress} {...props} />
     </Section.Stack>
   )

@@ -112,7 +112,7 @@ const AppSwitch = (props: LoadingProps) => {
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
     if (isLoggedInCitizen) {
-      await API.verifyTopWallet()
+      API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
     }
 
     // if (isLoggedIn) {

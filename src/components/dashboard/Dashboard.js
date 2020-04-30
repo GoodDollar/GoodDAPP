@@ -158,7 +158,7 @@ const Dashboard = props => {
               const { route, params } = await routeAndPathForCode('send', code)
               screenProps.push(route, params)
             } catch (e) {
-              showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+              showErrorDialog('Paymnet link is incorrect. Please double check your link.', undefined, {
                 onDismiss: screenProps.goToRoot,
               })
             }

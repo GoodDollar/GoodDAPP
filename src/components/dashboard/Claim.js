@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image } from 'react-native'
 import moment from 'moment'
-import { isBrowser } from 'mobile-device-detect'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -310,13 +309,6 @@ const getStylesFromProps = ({ theme }) => {
     ...fontSize16,
   }
 
-  const sectionsMarginForDesktop = isBrowser
-    ? {
-        marginTop: 30,
-        marginBottom: 30,
-      }
-    : {}
-
   return {
     mainContainer: {
       backgroundColor: 'transparent',
@@ -326,12 +318,12 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'space-between',
     },
     headerContentContainer: {
+      flex: 1,
       position: 'relative',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
-      ...sectionsMarginForDesktop,
       marginTop: getDesignRelativeHeight(22),
     },
     headerText,
@@ -349,27 +341,27 @@ const getStylesFromProps = ({ theme }) => {
       ...fontSize16,
     },
     mainText: {
+      flex: 2.5,
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
-      justifyContent: 'space-around',
+      justifyContent: 'flex-end',
       marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
-      ...sectionsMarginForDesktop,
     },
     learnMoreLink,
     claimButtonContainer: {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
-      ...sectionsMarginForDesktop,
       marginBottom: 0,
     },
     extraInfoAmountDisplay: {
       display: 'contents',
     },
     extraInfoContainer: {
+      flex: 1,
       marginBottom: getDesignRelativeHeight(5),
-      alignItems: 'center',
+      alignItems: 'flex-end',
       justifyContent: 'center',
     },
     extraInfoSecondContainer: {

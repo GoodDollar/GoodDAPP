@@ -87,7 +87,7 @@ const ClaimPhaseOne = ({
     />
     <Section.Row style={styles.extraInfoContainer}>
       <Section.Text style={styles.fontSize16} fontWeight="bold" fontFamily="Roboto">
-        <Section.Text style={styles.fontSize16}>Today {isSmallDevice && '\n'}</Section.Text>
+        <Section.Text style={styles.fontSize16}>Today {isSmallDevice === false && `\n`}</Section.Text>
         <Section.Text fontWeight="bold" style={styles.fontSize16}>
           <BigGoodDollar
             style={styles.extraInfoAmountDisplay}

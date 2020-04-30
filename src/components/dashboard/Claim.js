@@ -309,13 +309,6 @@ const getStylesFromProps = ({ theme }) => {
     ...fontSize16,
   }
 
-  const extraInfoAmountText = {
-    fontFamily: 'Roboto',
-    fontSize: 16,
-    color: 'black',
-    ...fontSize16,
-  }
-
   return {
     mainContainer: {
       backgroundColor: 'transparent',
@@ -329,6 +322,7 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      marginTop: getDesignRelativeHeight(22),
       marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
     },
     headerText,
@@ -342,6 +336,9 @@ const getStylesFromProps = ({ theme }) => {
     amountBlockTitle,
     amountText,
     amountUnitText,
+    mainTextSecondContainer: {
+      ...fontSize16,
+    },
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
@@ -372,7 +369,6 @@ const getStylesFromProps = ({ theme }) => {
       width: getDesignRelativeWidth(340),
       marginBottom: getDesignRelativeHeight(10),
     },
-    extraInfoAmountText,
     fontSize16,
   }
 }

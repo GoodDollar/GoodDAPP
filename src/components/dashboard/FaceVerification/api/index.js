@@ -26,6 +26,7 @@ class FaceVerificationApi {
 
   async performFaceVerification(
     payload: FaceVerificationPayload,
+    enrollmentIdentifier: string,
     progressSubscription?: ({ loaded: number, total: number }) => void
   ): Promise<FaceVerificationResponse> {
     let axiosConfig = {}
@@ -43,11 +44,7 @@ class FaceVerificationApi {
     logger.info('performFaceVerification', { sessionId })
 
     try {
-      const { data: response } = await rootApi.performFaceVerification(
-        payload,
-        this.enrollmentIdentifier(),
-        axiosConfig
-      )
+      const { data: response } = await rootApi.performFaceVerification(payload, enrollmentIdentifier, axiosConfig)
       const { success, error } = response || {}
 
       if (!response) {
@@ -86,15 +83,8 @@ class FaceVerificationApi {
     this.lastCancelToken = null
   }
 
-  enrollmentIdentifier(): string {
-    return this.wallet.getAccountForType('faceVerification').replace('0x', '')
-  }
-
-  async disposeFaceSnapshot(): Promise<void> {
-    const { wallet, rootApi, enrollmentIdentifier } = this
-    const signature = await wallet.sign(enrollmentIdentifier, 'faceVerification')
-
-    await rootApi.disposeFaceSnapshot(enrollmentIdentifier, signature)
+  async disposeFaceSnapshot(enrollmentIdentifier, signature): Promise<void> {
+    await this.rootApi.disposeFaceSnapshot(enrollmentIdentifier, signature)
   }
 }
 

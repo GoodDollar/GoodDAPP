@@ -2153,7 +2153,9 @@ export class UserStorage {
     let deleteAccountResult
 
     try {
-      await FaceVerificationAPI.disposeFaceSnapshot()
+      const signature = await this.wallet.sign(this.getFaceIdentifier(), 'faceVerification')
+
+      await FaceVerificationAPI.disposeFaceSnapshot(this.getFaceIdentifier(), signature)
       deleteAccountResult = await API.deleteAccount()
 
       if (deleteAccountResult.data.ok) {
@@ -2195,5 +2197,9 @@ export class UserStorage {
 
     logger.debug('deleteAccount', { deleteResults })
     return true
+  }
+
+  getFaceIdentifier(): string {
+    return this.wallet.getAccountForType('faceVerification').replace('0x', '')
   }
 }

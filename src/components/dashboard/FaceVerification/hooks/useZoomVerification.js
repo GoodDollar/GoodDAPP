@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from 'react'
 import { first, noop } from 'lodash'
 
 import api from '../api'
+import UserStorage from '../../../../lib/gundb/UserStorage'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import useMountedState from '../../../../lib/hooks/useMountedState'
 
@@ -151,6 +152,7 @@ export default ({ onComplete = noop, onError = noop }) => {
       const { faceMetrics, sessionId } = zoomSessionResult
       const captured = faceMetrics.lowQualityAuditTrailCompressedBase64()
       const capturedHD = faceMetrics.getAuditTrailBase64JPG()
+      const enrollmentIdentifier = UserStorage.getFaceIdentifier()
 
       try {
         // preparing face map
@@ -160,6 +162,7 @@ export default ({ onComplete = noop, onError = noop }) => {
         const payload = {
           sessionId,
           faceMap,
+          enrollmentIdentifier,
           lowQualityAuditTrailImage: first(captured),
           auditTrailImage: first(capturedHD),
         }

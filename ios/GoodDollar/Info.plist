@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>branch_key</key>
-	<string>key_live_ibOUGFCo6HgZzzHZpAJQNnbgBxoABsxI</string>
 	<key>branch_app_domain</key>
 	<string>7mp3q.app.link</string>
 	<key>CFBundleURLTypes</key>

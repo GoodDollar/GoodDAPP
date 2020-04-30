@@ -10,7 +10,7 @@ let needToBindEventsGun = true
 const log = logger.child({ from: 'useHasConnectionGun' })
 
 export default () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const userStorage = store.get('userStorage')
   const connectionCheck = useRef()

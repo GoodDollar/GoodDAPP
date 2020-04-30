@@ -57,8 +57,17 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
-  const _w3UserFromProps = get(navigation, 'state.routes[1].params.w3User', {})
-  const w3Token = get(navigation, 'state.routes[1].params.w3Token')
+  const _w3UserFromProps = get(
+    navigation.state.routes.find(route => get(route, 'params.torusUser')),
+    'params.w3User',
+    {}
+  )
+  const w3Token = get(navigation.state.routes.find(route => get(route, 'params.w3Token')), 'params.w3Token', undefined)
+  const _regMethod = get(
+    navigation.state.routes.find(route => get(route, 'params.regMethod')),
+    'params.regMethod',
+    undefined
+  )
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
   const torusUserFromProps = get(
     navigation.state.routes.find(route => get(route, 'params.torusUser')),
@@ -66,8 +75,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     {}
   )
 
-  const [regMethod, setRegMethod] = useState(REGISTRATION_METHOD_SELF_CUSTODY)
+  const [regMethod, setRegMethod] = useState(_regMethod)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
+  const isW3User = w3UserFromProps.email
+  const skipEmail = isRegMethodSelfCustody === false || isW3User
 
   const initialState: SignupState = {
     ...getUserModel({
@@ -76,9 +87,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       mobile: '',
     }),
     smsValidated: false,
+    isEmailConfirmed: skipEmail,
     jwt: '',
-    skipEmail: !!w3UserFromProps.email || !!torusUserFromProps.email,
-    skipEmailConfirmation: Config.skipEmailVerification || !!w3UserFromProps.email,
+    skipEmail: skipEmail,
+    skipEmailConfirmation: Config.skipEmailVerification || skipEmail,
+    skipMagicLinkInfo: isRegMethodSelfCustody === false,
     w3Token,
   }
 
@@ -189,7 +202,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
   const checkTorusLogin = () => {
     const masterSeed = torusUserFromProps.privateKey
-    if (!isRegMethodSelfCustody && Config.torusEnabled && masterSeed === undefined) {
+    if (!isRegMethodSelfCustody && masterSeed === undefined) {
       log.debug('torus user information missing', { torusUserFromProps })
       return navigation.navigate('Auth')
     }
@@ -224,25 +237,25 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   const onMount = async () => {
-    // Recognize registration method (page refresh case included)
-    const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
-    const _regMethod =
-      initialRegMethod || get(navigation, 'state.routes[1].params.regMethod', REGISTRATION_METHOD_SELF_CUSTODY)
-
-    setRegMethod(_regMethod)
-    await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, _regMethod)
-
-    const skipEmailConfirmOrMagicLink = Config.torusEnabled && _regMethod !== REGISTRATION_METHOD_SELF_CUSTODY
-
-    // set regMethod sensitive variables into state
-    setState({
-      ...state,
-      skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
-      isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
-    })
-
     checkTorusLogin()
     verifyStartRoute()
+
+    // Recognize registration method (page refresh case included)
+    const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
+    if (initialRegMethod != regMethod) {
+      setRegMethod(initialRegMethod)
+      AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
+      const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY
+
+      // set regMethod sensitive variables into state
+      setState({
+        ...state,
+        skipEmail: skipEmailConfirmOrMagicLink,
+        skipEmailConfirmation: Config.skipEmailVerification || skipEmailConfirmOrMagicLink,
+        skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
+        isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
+      })
+    }
 
     //get user country code for phone
     //read user data from w3 if needed
@@ -256,13 +269,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     //lazy login in background
     const ready = (async () => {
+      log.debug('ready: Starting initialization', { w3UserFromProps, isRegMethodSelfCustody, torusUserFromProps })
       if (torusUserFromProps.privateKey) {
         log.debug('skipping ready initialization (already done in AuthTorus)')
         const [, { init }] = await Promise.all([API.ready, retryImport(() => import('../../init'))])
         return init()
       }
 
-      log.debug('ready: Starting initialization')
       const { init } = await retryImport(() => import('../../init'))
       const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
       const { goodWallet, userStorage, source } = await init()
@@ -317,10 +330,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       userStorage.userProperties.set('regMethod', regMethod)
 
       const mnemonic = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || ''
-      await Promise.all([
-        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }).catch(_ => _),
-        userStorage.setProfileField('registered', true, 'public').catch(_ => _),
-      ])
+      await userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }).catch(_ => _)
 
       // Stores creationBlock number into 'lastBlock' feed's node
       goodWallet
@@ -356,6 +366,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           ),
       ])
 
+      userStorage.setProfileField('registered', true, 'public').catch(_ => _)
+      userStorage.gunuser.get('registered').put(true)
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
       AsyncStorage.removeItem('GD_web3Token')
@@ -479,7 +491,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       let ok = await waitForRegistrationToFinish()
       if (ok) {
         const { userStorage } = await ready
-        if (isRegMethodSelfCustody || Config.torusEnabled === false) {
+        if (isRegMethodSelfCustody) {
           API.sendMagicLinkByEmail(userStorage.getMagicLink())
             .then(r => log.info('magiclink sent'))
             .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))

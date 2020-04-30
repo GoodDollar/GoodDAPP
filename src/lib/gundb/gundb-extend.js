@@ -8,7 +8,7 @@ import { delay } from '../utils/async'
  * @module
  */
 const gunExtend = (() => {
-  Gun.chain.onThen = function(cb) {
+  Gun.chain.onThen = function(cb = undefined, opts = { timeout: 2000 }) {
     let gun = this
     const onPromise = new Promise((res, rej) => {
       gun.on((v, k, g, ev) => {
@@ -17,9 +17,9 @@ const gunExtend = (() => {
       })
     })
     let oncePromise = new Promise(function(res, rej) {
-      gun.once(res, { wait: 2000 })
+      gun.once(res, { wait: opts.timeout })
     })
-    const res = Promise.race([onPromise, oncePromise, delay(3000, false)]).catch(_ => undefined)
+    const res = Promise.race([onPromise, oncePromise, delay(opts.timeout, false)]).catch(_ => undefined)
     return cb ? res.then(cb) : res
   }
 

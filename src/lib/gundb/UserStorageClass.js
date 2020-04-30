@@ -900,7 +900,7 @@ export class UserStorage {
     const feed = await this.feed
     logger.debug('init feed', { feed })
 
-    if (feed == null) {
+    if (feed === null) {
       // this.feed.put({ byid: {}, index: {}, queue: {} })
       logger.debug('init empty feed')
     } else {
@@ -962,7 +962,8 @@ export class UserStorage {
     const gunuser = await this.gunuser.onThen()
     this.profile = this.gunuser.get('profile')
     const profile = gunuser.profile && (await this.profile.onThen())
-    if (gunuser.profile == null) {
+    if (gunuser.profile === null) {
+      //in case profile was deleted in the past it will be exactly null
       await this.gunuser.get('profile').putAck({ initialized: true })
       this.profile = this.gunuser.get('profile')
     }
@@ -2131,9 +2132,12 @@ export class UserStorage {
    * @returns {Promise<boolean>|Promise<boolean>}
    */
   async userAlreadyExist(): Promise<boolean> {
-    const profile = await this.profile
-    const exists = get(profile, 'registered', false)
-    logger.debug('userAlreadyExist', { exists, profile })
+    const [isProfileRegistered, isRegistered] = await Promise.all([
+      this.profile.get('registered').onThen(),
+      this.gunuser.get('registered').onThen(),
+    ])
+    const exists = isProfileRegistered.display || isRegistered
+    logger.debug('userAlreadyExist', { exists, isProfileRegistered, isRegistered })
     return exists
   }
 

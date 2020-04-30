@@ -1,17 +1,18 @@
 // @flow
 import React, { useCallback } from 'react'
-import { Image, View } from 'react-native'
+import { Image, Share, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
-import CopyButton from '../common/buttons/CopyButton'
+import ButtonWithDoneState from '../common/buttons/ButtonWithDoneState'
 import Icon from '../common/view/Icon'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { fireEvent } from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
-import { SEND_TITLE } from './utils/sendReceiveFlow'
+import Clipboard from '../../lib/utils/Clipboard'
+import { ACTION_RECEIVE, ACTION_SEND, PARAM_ACTION, RECEIVE_TITLE, SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -33,18 +34,26 @@ const instructionsTextNumberProps = {
   fontWeight: 'bold',
 }
 
-const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
+const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { canShare } = useNativeSharing()
   const [screenState] = useScreenState(screenProps)
-  const { goToRoot } = screenProps
-  const { paymentLink } = screenState
+  const { paymentLink, action } = screenState
 
-  const handlePressConfirm = useCallback(
-    () => fireEvent('SEND_CONFIRMATION_SHARE', { type: canShare ? 'share' : 'copy' }),
-    [canShare]
-  )
+  const handlePressConfirm = useCallback(async () => {
+    let type = 'share'
 
-  const handlePressDone = useCallback(() => goToRoot(), [goToRoot])
+    if (canShare) {
+      await Share.share(paymentLink)
+    } else {
+      type = 'copy'
+      Clipboard.setString(paymentLink)
+    }
+
+    fireEvent('SEND_CONFIRMATION_SHARE', { type })
+  }, [canShare, paymentLink])
+
+  const secondTextPoint = action === ACTION_SEND ? 'Share it with your recipient' : 'Share it with sender'
+  const thirdTextPoint = action === ACTION_SEND ? 'Recipient approves request' : 'Sender approves request'
 
   return (
     <Wrapper>
@@ -60,11 +69,11 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
             </Section.Text>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'2. '}</Section.Text>
-              Share it with your recipient
+              {secondTextPoint}
             </Section.Text>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'3. '}</Section.Text>
-              Recipient approves request
+              {thirdTextPoint}
             </Section.Text>
             <Section.Text {...instructionsTextProps}>
               <Section.Text {...instructionsTextNumberProps}>{'4. '}</Section.Text>
@@ -74,14 +83,14 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
         </Section.Stack>
         <Image style={styles.image} source={ConfirmTransactionSVG} resizeMode="contain" />
         <View style={styles.confirmButtonWrapper}>
-          <CopyButton toCopy={paymentLink} onPress={handlePressConfirm} onPressDone={handlePressDone}>
+          <ButtonWithDoneState onPress={handlePressConfirm} onPressDone={screenProps.goToRoot}>
             <>
               <Icon color="white" name="link" size={25} style={styles.buttonIcon} />
               <Section.Text size={14} color="white" fontWeight="bold">
-                COPY LINK TO CLIPBOARD
+                {canShare ? 'SHARE' : 'COPY LINK TO CLIPBOARD'}
               </Section.Text>
             </>
-          </CopyButton>
+          </ButtonWithDoneState>
         </View>
       </Section>
     </Wrapper>
@@ -122,9 +131,13 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-SendConfirmation.navigationOptions = {
-  title: SEND_TITLE,
-  backButtonHidden: true,
+TransactionConfirmation.navigationOptions = ({ navigation }) => {
+  const action = navigation.getParam(PARAM_ACTION)
+
+  return {
+    title: action === ACTION_RECEIVE ? RECEIVE_TITLE : SEND_TITLE,
+    backButtonHidden: true,
+  }
 }
 
-export default withStyles(getStylesFromProps)(SendConfirmation)
+export default withStyles(getStylesFromProps)(TransactionConfirmation)

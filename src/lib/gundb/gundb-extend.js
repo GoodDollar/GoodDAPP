@@ -1,12 +1,28 @@
 import Gun from 'gun'
 import SEA from 'gun/sea'
 import 'gun/lib/load'
+import { delay } from '../utils/async'
 
 /**
  * extend gundb SEA with decrypt to match ".secret"
  * @module
  */
 const gunExtend = (() => {
+  Gun.chain.onThen = function(cb) {
+    let gun = this
+    const onPromise = new Promise((res, rej) => {
+      gun.on((v, k, g, ev) => {
+        ev.off()
+        res(v)
+      })
+    })
+    let oncePromise = new Promise(function(res, rej) {
+      gun.once(res, { wait: 2000 })
+    })
+    const res = Promise.race([onPromise, oncePromise, delay(3000, false)]).catch(_ => undefined)
+    return cb ? res.then(cb) : res
+  }
+
   /**
    * fix gun issue https://github.com/amark/gun/issues/855
    */

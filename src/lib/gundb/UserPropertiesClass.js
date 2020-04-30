@@ -1,5 +1,7 @@
 //@flow
 
+import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
+
 /**
  * Users gundb to handle user storage.
  * User storage is used to keep the user Self Soverign Profile and his blockchain transcation history
@@ -18,6 +20,7 @@ export default class UserProperties {
     cameFromW3Site: false,
     lastBonusCheckDate: null,
     countClaim: 0,
+    regMethod: REGISTRATION_METHOD_SELF_CUSTODY,
   }
 
   fields = [
@@ -28,6 +31,7 @@ export default class UserProperties {
     'cameFromW3Site',
     'lastBonusCheckDate',
     'countClaim',
+    'regMethod',
   ]
 
   /**

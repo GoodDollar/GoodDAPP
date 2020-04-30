@@ -14,11 +14,12 @@ import {
 import { withStyles } from '../../../lib/styles'
 import addAppIlustration from '../../../assets/addApp.svg'
 import Icon from '../view/Icon'
-import userStorage from '../../../lib/gundb/UserStorage'
-import API from '../../../lib/API/api'
 import Text from '../../common/view/Text'
 import logger from '../../../lib/logger/pino-logger'
 import Config from '../../../config/config'
+
+// import userStorage from '../../../lib/gundb/UserStorage'
+// import API from '../../../lib/API/api'
 
 const log = logger.child({ from: 'AddWebApp' })
 
@@ -107,13 +108,13 @@ const AddWebApp = props => {
   const { show, showAddWebAppDialog } = store.get('addWebApp')
   const installPrompt = store.get('installPrompt')
 
-  const showExplanationDialog = async () => {
-    const magicLinkCode = userStorage.getMagicLink()
-    const mobile = await userStorage.getProfileFieldValue('mobile')
-
-    API.sendMagicCodeBySms(mobile, magicLinkCode).catch(e => {
-      log.error('Failed to send magic link code to user by sms', e.message, e)
-    })
+  const showExplanationDialog = () => {
+    // const magicLinkCode = userStorage.getMagicLink()
+    // const mobile = await userStorage.getProfileFieldValue('mobile')
+    //
+    // API.sendMagicCodeBySms(mobile, magicLinkCode).catch(e => {
+    //   log.error('Failed to send magic link code to user by sms', e.message, e)
+    // })
 
     showDialog({
       content: <ExplanationDialog />,

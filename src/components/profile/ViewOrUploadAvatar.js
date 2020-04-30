@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import GDStore from '../../lib/undux/GDStore'
 import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
@@ -8,44 +8,56 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
 
 const log = logger.child({ from: 'ViewAvatar' })
-const TITLE = 'Your Profile'
+const TITLE = 'My Profile'
 
-const ViewOrUploadAvatar = props => {
-  const { styles } = props
+const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
   const store = GDStore.useStore()
   const profile = store.get('profile')
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
 
-  const handleCameraPress = event => {
-    event.preventDefault()
-    props.navigation.navigate('EditAvatar')
-  }
+  const handleCameraPress = useCallback(
+    event => {
+      event.preventDefault()
+      navigation.navigate('EditAvatar')
+    },
+    [navigation]
+  )
 
-  const handleClosePress = event => {
-    event.preventDefault()
-    wrappedUserStorage.removeAvatar().catch(e => {
-      showErrorDialog('Could not delete image. Please try again.')
-      log.error('delete image failed:', e.message, e)
-    })
-  }
+  const handleClosePress = useCallback(
+    event => {
+      event.preventDefault()
 
-  const handleAddAvatar = avatar => {
-    fireEvent(PROFILE_IMAGE)
-    wrappedUserStorage.setAvatar(avatar).catch(e => {
-      showErrorDialog('Could not save image. Please try again.')
-      log.error('save image failed:', e.message, e)
-    })
-    props.navigation.navigate('EditAvatar')
-  }
+      wrappedUserStorage.removeAvatar().catch(e => {
+        showErrorDialog('Could not delete image. Please try again.')
+        log.error('delete image failed:', e.message, e)
+      })
+    },
+    [wrappedUserStorage]
+  )
 
-  const goToProfile = () => {
-    props.navigation.navigate('EditProfile')
-  }
+  const handleAddAvatar = useCallback(
+    avatar => {
+      fireEvent(PROFILE_IMAGE)
+
+      wrappedUserStorage.setAvatar(avatar).catch(e => {
+        showErrorDialog('Could not save image. Please try again.')
+        log.error('save image failed:', e.message, e)
+      })
+
+      navigation.navigate('EditAvatar')
+    },
+    [navigation, wrappedUserStorage]
+  )
+
+  const navigateBack = useCallback(() => {
+    screenProps.pop()
+  }, [navigation])
 
   return (
     <Wrapper>
@@ -53,7 +65,6 @@ const ViewOrUploadAvatar = props => {
         <Section.Stack>
           {profile.avatar ? (
             <>
-              <UserAvatar profile={profile} size={272} />
               <CircleButtonWrapper
                 style={styles.closeButton}
                 iconName={'trash'}
@@ -61,21 +72,24 @@ const ViewOrUploadAvatar = props => {
                 onPress={handleClosePress}
               />
               <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
+              <UserAvatar profile={profile} style={styles.avatar} size={272} />
             </>
           ) : (
             <>
               <InputFile onChange={handleAddAvatar}>
-                <UserAvatar profile={profile} size={272} />{' '}
+                <CameraButton style={styles.cameraButtonNewImg} />
               </InputFile>
               <InputFile onChange={handleAddAvatar}>
-                <CameraButton style={styles.cameraButton} />
+                <UserAvatar profile={profile} size={272} />{' '}
               </InputFile>
             </>
           )}
         </Section.Stack>
-        <CustomButton style={styles.doneButton} onPress={goToProfile}>
-          Done
-        </CustomButton>
+        <Section.Stack grow style={styles.buttonsRow}>
+          <CustomButton style={styles.doneButton} onPress={navigateBack}>
+            Done
+          </CustomButton>
+        </Section.Stack>
       </Section>
     </Wrapper>
   )
@@ -85,26 +99,52 @@ ViewOrUploadAvatar.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  section: {
-    flex: 1,
-    position: 'relative',
-    justifyContent: 'space-between',
-  },
-  cameraButton: {
-    left: 'auto',
-    position: 'absolute',
-    right: 12,
-    top: theme.sizes.defaultDouble,
-  },
-  closeButton: {
-    left: 12,
-    position: 'absolute',
-    top: theme.sizes.defaultDouble,
-  },
-  doneButton: {
-    marginTop: 'auto',
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const { defaultDouble, defaultQuadruple } = theme.sizes
+  const buttonGap = getDesignRelativeWidth(-30) / 2
+
+  return {
+    section: {
+      flex: 1,
+      position: 'relative',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    cameraButton: {
+      left: 'auto',
+      position: 'absolute',
+      top: 1,
+      right: 1,
+      marginTop: defaultDouble,
+      marginRight: buttonGap,
+    },
+    cameraButtonNewImg: {
+      left: 'auto',
+      position: 'absolute',
+      top: 1,
+      right: 1,
+      marginRight: buttonGap,
+    },
+    closeButton: {
+      left: 1,
+      right: 'auto',
+      position: 'absolute',
+      top: 1,
+      marginTop: defaultDouble,
+      marginLeft: buttonGap,
+    },
+    avatar: {
+      marginTop: defaultQuadruple,
+    },
+    buttonsRow: {
+      justifyContent: 'flex-end',
+      minHeight: 60,
+      width: '100%',
+    },
+    doneButton: {
+      marginTop: 'auto',
+    },
+  }
+}
 
 export default withStyles(getStylesFromProps)(ViewOrUploadAvatar)

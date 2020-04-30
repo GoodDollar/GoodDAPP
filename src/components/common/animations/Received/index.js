@@ -13,7 +13,7 @@ class Received extends AnimationBase {
         imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
         autoPlay={true}
-        source={animationData}
+        source={this.improveAnimationData(animationData)}
         autoSize={false}
         style={{
           height: getDesignRelativeHeight(145),

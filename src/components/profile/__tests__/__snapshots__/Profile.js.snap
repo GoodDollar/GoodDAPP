@@ -221,7 +221,7 @@ exports[`Profile matches snapshot 1`] = `
             }
           }
         >
-          Your Profile
+          My Profile
         </h1>
       </div>
       <div
@@ -503,6 +503,14 @@ exports[`Profile matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexPack": "center",
                   "position": "absolute",
                 }
               }
@@ -520,6 +528,7 @@ exports[`Profile matches snapshot 1`] = `
                     "justifyContent": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
+                    "width": "136px",
                   }
                 }
               >
@@ -565,9 +574,14 @@ exports[`Profile matches snapshot 1`] = `
                       Object {
                         "MozTransitionProperty": "opacity",
                         "MozUserSelect": "none",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
                         "WebkitTransitionDuration": "0.15s",
                         "WebkitTransitionProperty": "opacity",
                         "WebkitUserSelect": "none",
+                        "alignItems": "center",
                         "backgroundColor": "rgba(203,203,203,1.00)",
                         "borderBottomColor": "rgba(255,255,255,1.00)",
                         "borderBottomLeftRadius": "68px",
@@ -583,6 +597,9 @@ exports[`Profile matches snapshot 1`] = `
                         "borderTopWidth": "3px",
                         "cursor": "pointer",
                         "height": "136px",
+                        "justifyContent": "center",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
                         "msTouchAction": "manipulation",
                         "msUserSelect": "none",
                         "touchAction": "manipulation",

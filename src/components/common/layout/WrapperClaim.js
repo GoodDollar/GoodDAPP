@@ -8,7 +8,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 const backgroundGradientStyles = {
   position: 'absolute',
   width: '200%',
-  height: '75%',
+  height: '74%',
   borderBottomLeftRadius: '50%',
   borderBottomRightRadius: '50%',
   right: '-50%',

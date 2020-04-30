@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image } from 'react-native'
 import moment from 'moment'
+import { isBrowser } from 'mobile-device-detect'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -11,18 +12,16 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import normalize from '../../lib/utils/normalizeText'
 import { WrapperClaim } from '../common'
 import arrowsDown from '../../assets/arrowsDown.svg'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import Section from '../common/layout/Section'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
+import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import type { DashboardProps } from './Dashboard'
-import ClaimContentPhaseZero from './Claim/PhaseZero'
-import ClaimContentPhaseOne from './Claim/PhaseOne'
+import ClaimContent from './Claim/PhaseOne'
 import useClaimCounter from './Claim/useClaimCounter'
 
 type ClaimProps = DashboardProps
@@ -40,7 +39,7 @@ Image.prefetch(arrowsDown)
 const log = logger.child({ from: 'Claim' })
 
 const Claim = props => {
-  const { screenProps, styles }: ClaimProps = props
+  const { screenProps, styles, theme }: ClaimProps = props
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
 
@@ -117,8 +116,13 @@ const Claim = props => {
   const getNextClaim = async date => {
     let nextClaimTime = date - new Date().getTime()
     if (nextClaimTime < 0 && state.entitlement <= 0) {
-      const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
-      setState(prev => ({ ...prev, entitlement }))
+      try {
+        const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
+        setState(prev => ({ ...prev, entitlement }))
+      } catch (exception) {
+        const { message } = exception
+        log.warn('getNextClaim failed', message, exception)
+      }
     }
     return new Date(nextClaimTime).toISOString().substr(11, 8)
   }
@@ -250,6 +254,7 @@ const Claim = props => {
 
   const propsForContent = {
     styles,
+    theme,
     isCitizen,
     claimedToday: state.claimedToday,
     entitlement: state.entitlement,
@@ -260,18 +265,58 @@ const Claim = props => {
 
   return (
     <WrapperClaim>
-      <Section style={styles.mainContainer}>
-        {Config.isPhaseZero ? (
-          <ClaimContentPhaseZero {...propsForContent} />
-        ) : (
-          <ClaimContentPhaseOne {...propsForContent} />
-        )}
-      </Section>
+      <ClaimContent {...propsForContent} />
     </WrapperClaim>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
+  const bigFontSize = isSmallDevice ? 30 : 40
+
+  const headerText = {
+    marginBottom: getDesignRelativeHeight(10),
+    fontSize: bigFontSize,
+    lineHeight: bigFontSize,
+  }
+
+  const amountBlockTitle = {
+    marginTop: 3,
+    fontSize: bigFontSize,
+    lineHeight: bigFontSize,
+  }
+
+  const amountText = {
+    fontFamily: 'Roboto',
+    fontSize: bigFontSize,
+    color: theme.colors.darkBlue,
+    fontWeight: 'bold',
+    lineHeight: bigFontSize,
+  }
+
+  const amountUnitText = {
+    fontFamily: 'Roboto',
+    fontSize: bigFontSize,
+    color: theme.colors.darkBlue,
+    fontWeight: 'medium',
+    lineHeight: bigFontSize,
+  }
+
+  const fontSize16 = {
+    fontSize: isSmallDevice ? 14 : 16,
+  }
+
+  const learnMoreLink = {
+    cursor: 'pointer',
+    ...fontSize16,
+  }
+
+  const sectionsMarginForDesktop = isBrowser
+    ? {
+        marginTop: 30,
+        marginBottom: 30,
+      }
+    : {}
+
   return {
     mainContainer: {
       backgroundColor: 'transparent',
@@ -280,106 +325,59 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: 0,
       justifyContent: 'space-between',
     },
-    mainText: {
-      alignItems: 'center',
-      flexDirection: 'column',
-      height: '56%',
-      zIndex: 1,
-      marginBottom: 10,
-    },
-    mainTextTitle: {
-      marginBottom: 12,
-    },
-    mainTextBorder: {
-      marginTop: getDesignRelativeHeight(10),
-      paddingHorizontal: getDesignRelativeWidth(40),
-      paddingVertical: getDesignRelativeHeight(25),
+    headerContentContainer: {
       position: 'relative',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+      ...sectionsMarginForDesktop,
+      marginTop: getDesignRelativeHeight(22),
     },
-    mainTextToast: {
-      paddingHorizontal: getDesignRelativeWidth(30),
-      paddingVertical: getDesignRelativeWidth(2),
-      backgroundColor: theme.colors.white,
-      position: 'absolute',
-      top: -getDesignRelativeHeight(13),
-      borderRadius: 5,
-    },
-    subMainText: {
-      marginTop: getDesignRelativeHeight(10),
-    },
-    learnMore: {
-      marginTop: getDesignRelativeHeight(15),
-    },
-    learnMoreDialogReadMoreButton: {
-      borderWidth: 1,
-      borderColor: theme.colors.primary,
-      width: '64%',
-      fontSize: normalize(14),
-    },
-    learnMoreDialogOkButton: {
-      width: '34%',
-      fontSize: normalize(14),
-    },
-    blankBottom: {
-      minHeight: getDesignRelativeHeight(4 * theme.sizes.defaultDouble),
-    },
-    extraInfo: {
-      alignItems: 'center',
-      flexDirection: 'column',
-      height: '60%',
-      zIndex: 1,
-    },
-    btnBlock: {
-      alignItems: 'center',
-      flexDirection: 'column',
-      zIndex: 1,
-      marginTop: getDesignRelativeHeight(10),
-      marginBottom: getDesignRelativeHeight(10),
-    },
-    arrowsDown: {
-      height: 25,
-      width: 61,
-    },
-    extraInfoStats: {
-      marginHorizontal: 0,
-      marginBottom: 0,
-      marginTop: theme.sizes.default,
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: theme.sizes.borderRadius,
-      paddingTop: 8,
-      flexGrow: 1,
-    },
-    extraInfoWrapper: {
-      display: 'inline',
-      textAlign: 'center',
-      width: getDesignRelativeWidth(340),
-      marginBottom: getDesignRelativeHeight(10),
-    },
-    inline: {
-      display: 'inline',
-    },
-    countdown: {
-      minHeight: getDesignRelativeHeight(72),
-      borderRadius: 5,
-    },
-    space: {
-      height: theme.sizes.defaultDouble,
-    },
+    headerText,
     amountBlock: {
       borderWidth: 3,
       borderColor: theme.colors.white,
       borderRadius: theme.sizes.borderRadius,
       paddingHorizontal: getDesignRelativeWidth(30),
       paddingVertical: getDesignRelativeWidth(10),
-      marginBottom: getDesignRelativeHeight(10),
     },
-    learnMoreLink: {
-      cursor: 'pointer',
+    amountBlockTitle,
+    amountText,
+    amountUnitText,
+    mainTextSecondContainer: {
+      ...fontSize16,
     },
+    mainText: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      zIndex: 1,
+      justifyContent: 'space-around',
+      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+      ...sectionsMarginForDesktop,
+    },
+    learnMoreLink,
+    claimButtonContainer: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      zIndex: 1,
+      ...sectionsMarginForDesktop,
+      marginBottom: 0,
+    },
+    extraInfoAmountDisplay: {
+      display: 'contents',
+    },
+    extraInfoContainer: {
+      marginBottom: getDesignRelativeHeight(5),
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    extraInfoSecondContainer: {
+      display: 'inline',
+      textAlign: 'center',
+      width: getDesignRelativeWidth(340),
+    },
+    fontSize16,
   }
 }
 

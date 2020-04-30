@@ -1,6 +1,6 @@
 // @flow
 import type { Store } from 'undux'
-import SimpleStore from '../SimpleStore'
+import SimpleStore, { assertStore } from '../SimpleStore'
 import { type DialogProps } from '../../../components/common/dialogs/CustomDialog'
 import pino from '../../logger/pino-logger'
 import { fireEvent } from '../../analytics/analytics'
@@ -14,13 +14,13 @@ export const showDialogForError = (
 ) => {
   let message = ''
 
-  if (error === undefined && humanError && typeof humanError !== 'string') {
+  if (error == null && humanError && typeof humanError !== 'string') {
     error = humanError
     humanError = undefined
   }
-  if (error === undefined && humanError === undefined) {
+  if (error == null && humanError === undefined) {
     message = 'Unknown Error'
-  } else if (error === undefined) {
+  } else if (error == null) {
     message = ''
   } else if (typeof error === 'string') {
     message = error
@@ -44,6 +44,11 @@ export const showDialogForError = (
 
 export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
   log.debug('showDialogWithData', { dialogData })
+
+  if (!assertStore(store, log, 'showDialogWithData failed')) {
+    return
+  }
+
   store.set('currentScreen')({
     ...store.get('currentScreen'),
     dialogData: {
@@ -55,6 +60,10 @@ export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
 
 export const hideDialog = (store: Store) => {
   log.debug('hideDialog')
+
+  if (!assertStore(store, log, 'hideDialog failed')) {
+    return
+  }
 
   store.set('currentScreen')({
     ...store.get('currentScreen'),

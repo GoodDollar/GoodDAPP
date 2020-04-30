@@ -1,15 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Animated,
-  AppState,
-  Dimensions,
-  Easing,
-  Image,
-  InteractionManager,
-  Platform,
-  TouchableOpacity,
-} from 'react-native'
+import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
 import { get as _get, debounce } from 'lodash'
 import type { Store } from 'undux'
@@ -41,11 +32,12 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import { FAQ, PrivacyArticle, PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
+import { PrivacyArticle, PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
+import useAppState from '../../lib/hooks/useAppState'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -122,6 +114,7 @@ const Dashboard = props => {
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
+  const { appState } = useAppState()
   const scale = {
     transform: [
       {
@@ -165,7 +158,7 @@ const Dashboard = props => {
               const { route, params } = await routeAndPathForCode('send', code)
               screenProps.push(route, params)
             } catch (e) {
-              showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+              showErrorDialog('Paymnet link is incorrect. Please double check your link.', undefined, {
                 onDismiss: screenProps.goToRoot,
               })
             }
@@ -192,6 +185,7 @@ const Dashboard = props => {
           .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
 
       if (res.length === 0) {
+        log.warn('empty feed')
         return
       }
 
@@ -234,11 +228,11 @@ const Dashboard = props => {
     }
   }
 
-  const handleAppFocus = state => {
-    if (state === 'active') {
+  useEffect(() => {
+    if (appState === 'active') {
       animateClaim()
     }
-  }
+  }, [appState])
 
   const animateClaim = useCallback(() => {
     const { entitlement } = gdstore.get('account')
@@ -411,11 +405,6 @@ const Dashboard = props => {
   useEffect(() => {
     log.debug('Dashboard didmount', navigation)
     initDashboard()
-    AppState.addEventListener('change', handleAppFocus)
-
-    return function() {
-      AppState.removeEventListener('change', handleAppFocus)
-    }
   }, [])
 
   /**
@@ -830,13 +819,16 @@ export default createStackNavigator({
 
   SendQRSummary,
 
-  TransactionConfirmation,
+  TransactionConfirmation: {
+    screen: TransactionConfirmation,
+    path: ':action/TransactionConfirmation',
+    params: { action: ACTION_SEND },
+  },
 
   // PP: PrivacyPolicy,
   PrivacyArticle,
   TOU: PrivacyPolicyAndTerms,
   Support,
-  FAQ,
   Statistics,
   Recover: Mnemonics,
   OutOfGasError,

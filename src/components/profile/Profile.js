@@ -74,7 +74,7 @@ const ProfileWrapper = props => {
 }
 
 ProfileWrapper.navigationOptions = {
-  title: 'Your Profile',
+  title: 'My Profile',
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -99,10 +99,14 @@ const getStylesFromProps = ({ theme }) => ({
   },
   userDataWrapper: {
     position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   userAvatar: {
     borderWidth: 3,
     borderColor: theme.colors.white,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   userDataAndButtonsRow: {
     display: 'flex',

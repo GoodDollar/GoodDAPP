@@ -22,7 +22,7 @@ const DisconnectedSplash = () => <Splash animation={false} />
 
 const SplashOrRouter = memo(({ store }) => {
   const isLoggedIn = !!store.get('isLoggedIn')
-  const [showDesktopSplash, setShowDesktopSplash] = useState(Config.showSplashDesktop || isLoggedIn)
+  const [showDesktopSplash, setShowDesktopSplash] = useState(Config.showSplashDesktop && isLoggedIn === false)
   const dismissDesktopSplash = useCallback(() => setShowDesktopSplash(false), [setShowDesktopSplash])
 
   return (

@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AppState, AsyncStorage } from 'react-native'
+import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'
@@ -14,9 +14,10 @@ import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/gundb/UserStorage'
 import runUpdates from '../../lib/updates'
-
+import useAppState from '../../lib/hooks/useAppState'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
+import { delay } from '../../lib/utils/async'
 
 type LoadingProps = {
   navigation: any,
@@ -32,7 +33,9 @@ const showOutOfGasError = debounce(
     const gasResult = await goodWallet.verifyHasGas(goodWallet.wallet.utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
       topWallet: false,
     })
+
     log.debug('outofgaserror:', { gasResult })
+
     if (gasResult.ok === false && gasResult.error !== false) {
       props.navigation.navigate('OutOfGasError')
     }
@@ -53,6 +56,7 @@ const AppSwitch = (props: LoadingProps) => {
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
+  const { appState } = useAppState()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -101,10 +105,15 @@ const AppSwitch = (props: LoadingProps) => {
     const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
       ([authResult, _]) => authResult
     )
+
     log.debug({ isLoggedIn, isLoggedInCitizen })
+
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
-    isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+
+    if (isLoggedInCitizen) {
+      API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
+    }
 
     // if (isLoggedIn) {
     //   if (destDetails) {
@@ -139,22 +148,23 @@ const AppSwitch = (props: LoadingProps) => {
     // }
   }
 
-  const init = async (retries = 3) => {
+  const init = async () => {
     log.debug('initializing', gdstore)
 
     try {
       await initialize()
-      await Promise.all([runUpdates(), prepareLoginToken(), checkBonusInterval(), showOutOfGasError(props)])
+      checkBonusInterval()
+      prepareLoginToken()
+      await Promise.all([runUpdates(), showOutOfGasError(props)])
 
       setReady(true)
     } catch (e) {
       log.error('failed initializing app', e.message, e)
       unsuccessfulLaunchAttempts += 1
-      if (unsuccessfulLaunchAttempts > 1) {
-        showErrorDialog('Wallet could not be loaded. Please try again later.', '', {
-          onDismiss: init,
-        })
+      if (unsuccessfulLaunchAttempts > 3) {
+        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
+        await delay(500)
         init()
       }
     }
@@ -164,11 +174,11 @@ const AppSwitch = (props: LoadingProps) => {
     if (config.enableInvites !== true) {
       return
     }
-    const loginToken = await userStorage.getProfileFieldValue('loginToken')
-    log.info('Prepare login token process started', loginToken)
 
-    if (!loginToken) {
-      try {
+    try {
+      const loginToken = await userStorage.getProfileFieldValue('loginToken')
+      log.info('Prepare login token process started', loginToken)
+      if (!loginToken) {
         const response = await API.getLoginToken()
 
         const _loginToken = get(response, 'data.loginToken')
@@ -176,9 +186,9 @@ const AppSwitch = (props: LoadingProps) => {
         if (_loginToken) {
           await userStorage.setProfileField('loginToken', _loginToken, 'private')
         }
-      } catch (e) {
-        log.error('prepareLoginToken failed', e.message, e)
       }
+    } catch (e) {
+      log.error('prepareLoginToken failed', e.message, e)
     }
   }
 
@@ -217,25 +227,17 @@ const AppSwitch = (props: LoadingProps) => {
       })
   }
 
-  const handleAppFocus = state => {
-    if (state === 'active') {
-      checkBonusInterval(true)
-      showOutOfGasError(props)
-    }
-  }
-
   useEffect(() => {
     init()
     navigateToUrlAction()
   }, [])
 
   useEffect(() => {
-    AppState.addEventListener('change', handleAppFocus)
-
-    return function() {
-      AppState.removeEventListener('change', handleAppFocus)
+    if (ready && gdstore && appState === 'active') {
+      checkBonusInterval(true)
+      showOutOfGasError(props)
     }
-  }, [gdstore])
+  }, [gdstore, ready, appState])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

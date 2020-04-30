@@ -1,7 +1,6 @@
 // @flow
 
-import { Platform } from 'react-native'
-import { Linking } from 'react-native-web'
+import { Linking, Platform } from 'react-native'
 
 const schemeRe = /(.+?:)\/\//
 

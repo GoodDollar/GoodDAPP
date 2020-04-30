@@ -14,7 +14,7 @@ const Config = {
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
-  web3SiteUrlEconomyEndpoint: process.env.REACT_APP_WEB3_SITE_URL_ECONOMY_ENDPOINT || '/learn/economy',
+  learnMoreEconomyUrl: process.env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
   dashboardUrl: process.env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: process.env.REACT_APP_INFURA_KEY,
@@ -82,8 +82,6 @@ const Config = {
     },
   },
 }
-
-Config.web3SiteUrlEconomyPage = `${Config.web3SiteUrl}${Config.web3SiteUrlEconomyEndpoint}`
 
 global.config = Config
 

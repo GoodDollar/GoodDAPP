@@ -9,10 +9,11 @@ import BigGoodDollar from '../../common/view/BigGoodDollar'
 import { weiToGd } from '../../../lib/wallet/utils'
 import { openLink } from '../../../lib/utils/linking'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import Config from '../../../config/config'
 import ButtonBlock from './ButtonBlock'
 
 // eslint-disable-next-line require-await
-const openLearnMoreLink = async () => openLink('https://w3.gooddollar.org/learn/ubi')
+const openLearnMoreLink = async () => openLink(Config.learnMoreEconomyUrl)
 
 const bigFontSize = isSmallDevice ? 30 : 40
 const regularFontSize = isSmallDevice ? 14 : 16

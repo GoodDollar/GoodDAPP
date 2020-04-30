@@ -68,7 +68,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const [regMethod, setRegMethod] = useState(REGISTRATION_METHOD_SELF_CUSTODY)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
-  const skipEmailOrMagicLink = !isRegMethodSelfCustody && Config.torusEnabled
 
   const initialState: SignupState = {
     ...getUserModel({
@@ -77,11 +76,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       mobile: '',
     }),
     smsValidated: false,
-    isEmailConfirmed: skipEmailOrMagicLink || !!w3UserFromProps.email,
     jwt: '',
     skipEmail: !!w3UserFromProps.email || !!torusUserFromProps.email,
     skipEmailConfirmation: Config.skipEmailVerification || !!w3UserFromProps.email,
-    skipMagicLinkInfo: skipEmailOrMagicLink,
     w3Token,
   }
 
@@ -227,9 +224,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   const onMount = async () => {
-    checkTorusLogin()
-    verifyStartRoute()
-
     // Recognize registration method (page refresh case included)
     const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
     const _regMethod = initialRegMethod
@@ -237,6 +231,17 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       : get(navigation, 'state.routes[1].params.regMethod', REGISTRATION_METHOD_SELF_CUSTODY)
     setRegMethod(_regMethod)
     AsyncStorage.setItem(GD_INITIAL_REG_METHOD, _regMethod)
+    const skipEmailConfirmOrMagicLink = _regMethod !== REGISTRATION_METHOD_SELF_CUSTODY && Config.torusEnabled
+
+    // set regMethod sensitive variables into state
+    setState({
+      ...state,
+      skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
+      isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
+    })
+
+    checkTorusLogin()
+    verifyStartRoute()
 
     //get user country code for phone
     //read user data from w3 if needed
@@ -285,6 +290,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     setReady(ready)
   }
+
   useEffect(() => {
     onMount()
   }, [])
@@ -386,6 +392,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setLoading(false)
     }
   }
+
   function getNextRoute(routes, routeIndex, state) {
     let nextRoute = routes[routeIndex + 1]
 

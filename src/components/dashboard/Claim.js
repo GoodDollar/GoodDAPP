@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image } from 'react-native'
 import moment from 'moment'
+import { isBrowser } from 'mobile-device-detect'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -309,12 +310,12 @@ const getStylesFromProps = ({ theme }) => {
     ...fontSize16,
   }
 
-  const extraInfoAmountText = {
-    fontFamily: 'Roboto',
-    fontSize: 16,
-    color: 'black',
-    ...fontSize16,
-  }
+  const sectionsMarginForDesktop = isBrowser
+    ? {
+        marginTop: 30,
+        marginBottom: 30,
+      }
+    : {}
 
   return {
     mainContainer: {
@@ -330,6 +331,8 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       alignItems: 'center',
       marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+      ...sectionsMarginForDesktop,
+      marginTop: getDesignRelativeHeight(22),
     },
     headerText,
     amountBlock: {
@@ -342,37 +345,38 @@ const getStylesFromProps = ({ theme }) => {
     amountBlockTitle,
     amountText,
     amountUnitText,
+    mainTextSecondContainer: {
+      ...fontSize16,
+    },
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
       justifyContent: 'space-around',
       marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+      ...sectionsMarginForDesktop,
     },
     learnMoreLink,
     claimButtonContainer: {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
+      ...sectionsMarginForDesktop,
+      marginBottom: 0,
     },
     extraInfoAmountDisplay: {
       display: 'contents',
     },
     extraInfoContainer: {
-      marginHorizontal: 0,
       marginBottom: getDesignRelativeHeight(5),
-      marginTop: getDesignRelativeHeight(12),
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: theme.sizes.borderRadius,
     },
     extraInfoSecondContainer: {
       display: 'inline',
       textAlign: 'center',
       width: getDesignRelativeWidth(340),
-      marginBottom: getDesignRelativeHeight(10),
     },
-    extraInfoAmountText,
     fontSize16,
   }
 }

@@ -226,12 +226,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const onMount = async () => {
     // Recognize registration method (page refresh case included)
     const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
-    const _regMethod = initialRegMethod
-      ? initialRegMethod
-      : get(navigation, 'state.routes[1].params.regMethod', REGISTRATION_METHOD_SELF_CUSTODY)
+    const _regMethod =
+      initialRegMethod || get(navigation, 'state.routes[1].params.regMethod', REGISTRATION_METHOD_SELF_CUSTODY)
+
     setRegMethod(_regMethod)
-    AsyncStorage.setItem(GD_INITIAL_REG_METHOD, _regMethod)
-    const skipEmailConfirmOrMagicLink = _regMethod !== REGISTRATION_METHOD_SELF_CUSTODY && Config.torusEnabled
+    await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, _regMethod)
+
+    const skipEmailConfirmOrMagicLink = Config.torusEnabled && _regMethod !== REGISTRATION_METHOD_SELF_CUSTODY
 
     // set regMethod sensitive variables into state
     setState({

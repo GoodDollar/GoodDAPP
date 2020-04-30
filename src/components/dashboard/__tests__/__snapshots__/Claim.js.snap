@@ -105,7 +105,8 @@ exports[`Claim matches snapshot 1`] = `
             "alignItems": "center",
             "display": "flex",
             "flexDirection": "column",
-            "marginBottom": "16px",
+            "marginBottom": "30px",
+            "marginTop": "22px",
             "msFlexAlign": "center",
             "msFlexDirection": "column",
             "position": "relative",
@@ -148,7 +149,8 @@ Hours To Go...
             "alignItems": "center",
             "flexDirection": "column",
             "justifyContent": "space-around",
-            "marginBottom": "16px",
+            "marginBottom": "30px",
+            "marginTop": "30px",
             "msFlexAlign": "center",
             "msFlexDirection": "column",
             "msFlexPack": "distribute",
@@ -164,7 +166,7 @@ Hours To Go...
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "16px",
+              "fontSize": "14px",
               "fontWeight": "normal",
               "lineHeight": "22px",
               "textAlign": "center",
@@ -217,6 +219,8 @@ UBI on a global scale.
             "alignItems": "center",
             "flexDirection": "column",
             "justifyContent": "space-between",
+            "marginBottom": "0px",
+            "marginTop": "30px",
             "msFlexAlign": "center",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
@@ -235,8 +239,8 @@ UBI on a global scale.
               "alignItems": "center",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(255,255,255,1.00)",
-              "borderBottomLeftRadius": "50%",
-              "borderBottomRightRadius": "50%",
+              "borderBottomLeftRadius": "98px",
+              "borderBottomRightRadius": "98px",
               "borderBottomStyle": "solid",
               "borderBottomWidth": "3px",
               "borderLeftColor": "rgba(255,255,255,1.00)",
@@ -246,13 +250,13 @@ UBI on a global scale.
               "borderRightStyle": "solid",
               "borderRightWidth": "3px",
               "borderTopColor": "rgba(255,255,255,1.00)",
-              "borderTopLeftRadius": "50%",
-              "borderTopRightRadius": "50%",
+              "borderTopLeftRadius": "98px",
+              "borderTopRightRadius": "98px",
               "borderTopStyle": "solid",
               "borderTopWidth": "3px",
               "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
               "display": "flex",
-              "height": "190px",
+              "height": "196px",
               "justifyContent": "center",
               "marginBottom": "0px",
               "marginLeft": "0px",
@@ -266,7 +270,7 @@ UBI on a global scale.
               "paddingLeft": "0px",
               "paddingRight": "0px",
               "paddingTop": "0px",
-              "width": "190px",
+              "width": "196px",
             }
           }
         >
@@ -412,16 +416,9 @@ UBI on a global scale.
             "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "center",
             "alignItems": "center",
-            "borderBottomLeftRadius": "5px",
-            "borderBottomRightRadius": "5px",
-            "borderTopLeftRadius": "5px",
-            "borderTopRightRadius": "5px",
             "flexDirection": "row",
             "justifyContent": "center",
             "marginBottom": "5px",
-            "marginLeft": "0px",
-            "marginRight": "0px",
-            "marginTop": "12px",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "center",
@@ -463,8 +460,6 @@ UBI on a global scale.
             }
           >
             Today 
-            
-
           </span>
           <span
             className="css-text-901oao css-textHasAncestor-16my406"

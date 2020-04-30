@@ -17,7 +17,7 @@ const isSmallDev = getScreenWidth() < 350
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles }) => (
   <View style={styles.textBtn}>
     {showLabelOnly ? (
-      <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={40}>
+      <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={isSmallDev ? 30 : 40}>
         {`Claim`}
       </Text>
     ) : (
@@ -69,13 +69,14 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
         Your next daily claim:
       </Text>
     )}
-    <Section.Row grow style={styles.justifyCenter}>
+    {/* for some reason passing styles.countDownTimer doesnt work */}
+    <Section.Row grow style={styles.countDownTimer}>
       {nextClaim &&
         nextClaim.split('').map((value, index) => {
           return (
             <Text
               key={index}
-              fontSize={36}
+              fontSize={isSmallDev ? 30 : 36}
               fontFamily="Roboto Slab"
               fontWeight="bold"
               color="white"
@@ -194,16 +195,16 @@ const getStylesFromProps = ({ theme }) => ({
   },
   cardContainer: {
     alignItems: 'center',
-    width: getDesignRelativeHeight(190),
-    height: getDesignRelativeHeight(190),
+    width: getDesignRelativeHeight(196),
+    height: getDesignRelativeHeight(196),
   },
   minButtonHeight: {
-    borderRadius: '50%',
+    borderRadius: isSmallDev ? 70 : 98,
     borderColor: '#FFFFFF',
     borderWidth: 3,
     borderStyle: 'solid',
-    height: getDesignRelativeHeight(190),
-    width: getDesignRelativeHeight(190),
+    height: isSmallDev ? 140 : 196,
+    width: isSmallDev ? 140 : 196,
     boxShadow: '10px 12px 25px -14px',
     alignItems: 'center',
   },
@@ -211,27 +212,37 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: theme.colors.orange,
     flexDirection: 'column',
   },
+  countDownTimer: {
+    justifyContent: 'center',
+    minHeight: isSmallDev ? 0 : 53,
+    alignItems: isSmallDev ? 'normal' : 'center',
+  },
   countdownContainer: isSmallDev
     ? {
         flexDirection: 'column',
-        height: getDesignRelativeHeight(180),
+        height: 140,
       }
     : {
         flexDirection: 'column',
+        justifyContent: 'center',
+        display: 'flex',
+        alignItems: 'center',
       },
   btnTitleSmallDev: {
-    position: 'absolute',
-    marginLeft: 35,
-    marginTop: 20,
+    position: 'relative',
+    top: 0,
+    left: 0,
+    marginTop: 18,
   },
   tallCountDown: {
-    width: getDesignRelativeWidth(10),
+    width: isSmallDev ? getDesignRelativeWidth(8) : getDesignRelativeWidth(10),
   },
   countdown: {
-    width: getDesignRelativeWidth(25),
+    width: isSmallDev ? getDesignRelativeWidth(18) : getDesignRelativeWidth(25),
   },
   extraInfoCountdownTitle: {
-    letterSpacing: 0.08,
+    letterSpacing: 0.14,
+    fontSize: isSmallDev ? 14 : 16,
   },
   amountInButton: {
     display: 'flex',

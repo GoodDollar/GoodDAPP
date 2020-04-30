@@ -46,7 +46,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
         "borderTopWidth": "3px",
         "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "display": "flex",
-        "height": "196px",
+        "height": "190px",
         "justifyContent": "center",
         "marginBottom": "0px",
         "marginLeft": "0px",
@@ -60,7 +60,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
         "paddingLeft": "0px",
         "paddingRight": "0px",
         "paddingTop": "0px",
-        "width": "196px",
+        "width": "190px",
       }
     }
   >
@@ -365,7 +365,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
         "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "display": "flex",
         "flexDirection": "column",
-        "height": "196px",
+        "height": "190px",
         "justifyContent": "center",
         "marginBottom": "0px",
         "marginLeft": "0px",
@@ -380,7 +380,7 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
         "paddingLeft": "0px",
         "paddingRight": "0px",
         "paddingTop": "0px",
-        "width": "196px",
+        "width": "190px",
       }
     }
   >
@@ -746,7 +746,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
         "borderTopWidth": "3px",
         "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "display": "flex",
-        "height": "196px",
+        "height": "190px",
         "justifyContent": "center",
         "marginBottom": "0px",
         "marginLeft": "0px",
@@ -760,7 +760,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
         "paddingLeft": "0px",
         "paddingRight": "0px",
         "paddingTop": "0px",
-        "width": "196px",
+        "width": "190px",
       }
     }
   >

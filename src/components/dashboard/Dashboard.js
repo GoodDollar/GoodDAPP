@@ -40,6 +40,7 @@ import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import useAppState from '../../lib/hooks/useAppState'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
+import SuccessIcon from '../common/modal/SuccessIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import unknownProfile from '../../assets/unknownProfile.svg'
@@ -495,18 +496,37 @@ const Dashboard = props => {
           title: 'Processing Payment Link...',
           image: <LoadingIcon />,
           message: 'please wait while processing...',
-          buttons: [{ text: 'YAY!', style: styles.disabledButton }],
+          buttons: [
+            {
+              text: 'YAY!',
+              style: styles.disabledButton,
+              disabled: true,
+            },
+          ],
         })
+
         const { status, transactionHash } = await executeWithdraw(
           store,
           paymentParams.paymentCode,
           paymentParams.reason
         )
+
         if (transactionHash) {
           fireEvent('WITHDRAW')
           hideDialog()
+          showDialog({
+            title: 'Payment Link Processed Successfully',
+            image: <SuccessIcon />,
+            message: "You received G$'s!",
+            buttons: [
+              {
+                text: 'YAY!',
+              },
+            ],
+          })
           return
         }
+
         switch (status) {
           case WITHDRAW_STATUS_COMPLETE:
             showErrorDialog('Payment already withdrawn or canceled by sender')

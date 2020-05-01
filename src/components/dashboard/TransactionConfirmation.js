@@ -1,11 +1,12 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Image, Share, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import ButtonWithDoneState from '../common/buttons/ButtonWithDoneState'
+import CustomButton from '../common/buttons/CustomButton'
 import Icon from '../common/view/Icon'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -36,24 +37,28 @@ const instructionsTextNumberProps = {
 
 const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { canShare } = useNativeSharing()
+  const { goToRoot } = screenProps
   const [screenState] = useScreenState(screenProps)
   const { paymentLink, action } = screenState
 
-  const handlePressConfirm = useCallback(async () => {
+  const handlePressConfirm = useCallback(() => {
     let type = 'share'
 
     if (canShare) {
-      await Share.share(paymentLink)
+      Share.share(paymentLink)
+      goToRoot()
     } else {
       type = 'copy'
       Clipboard.setString(paymentLink)
     }
 
     fireEvent('SEND_CONFIRMATION_SHARE', { type })
-  }, [canShare, paymentLink])
+  }, [canShare, paymentLink, goToRoot])
 
   const secondTextPoint = action === ACTION_SEND ? 'Share it with your recipient' : 'Share it with sender'
   const thirdTextPoint = action === ACTION_SEND ? 'Recipient approves request' : 'Sender approves request'
+
+  const ConfirmButton = useMemo(() => (canShare ? CustomButton : ButtonWithDoneState), [canShare])
 
   return (
     <Wrapper>
@@ -83,14 +88,14 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
         </Section.Stack>
         <Image style={styles.image} source={ConfirmTransactionSVG} resizeMode="contain" />
         <View style={styles.confirmButtonWrapper}>
-          <ButtonWithDoneState onPress={handlePressConfirm} onPressDone={screenProps.goToRoot}>
+          <ConfirmButton onPress={handlePressConfirm} onPressDone={goToRoot}>
             <>
               <Icon color="white" name="link" size={25} style={styles.buttonIcon} />
               <Section.Text size={14} color="white" fontWeight="bold">
                 {canShare ? 'SHARE' : 'COPY LINK TO CLIPBOARD'}
               </Section.Text>
             </>
-          </ButtonWithDoneState>
+          </ConfirmButton>
         </View>
       </Section>
     </Wrapper>

@@ -82,7 +82,7 @@ const ProfileDataTable = ({
         </Section.Row>
         <Section.Row>
           {editable ? (
-            <Section.Stack grow style={!errors.mobile && styles.phoneContainer}>
+            <Section.Stack grow>
               <Section.Row>
                 <PhoneInput
                   error={errors.mobile && errors.mobile !== ''}
@@ -92,19 +92,6 @@ const ProfileDataTable = ({
                   onBlur={onPhoneInputBlur}
                   placeholder="Enter phone number"
                   value={profile.mobile}
-                  style={{
-                    borderRadius: 24,
-                    borderWidth: 1,
-                    paddingBottom: 5,
-                    paddingLeft: 0,
-                    paddingRight: 0,
-                    paddingTop: 5,
-                    marginTop: 2,
-                    marginBottom: 2,
-                    position: 'relative',
-                    borderColor: errors.mobile ? theme.colors.red : theme.colors.lightGray,
-                    color: errors.mobile ? theme.colors.red : theme.colors.text,
-                  }}
                 />
                 <Section.Row style={styles.suffixIcon}>
                   <Icon

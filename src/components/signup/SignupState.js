@@ -66,7 +66,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const _regMethod = get(
     navigation.state.routes.find(route => get(route, 'params.regMethod')),
     'params.regMethod',
-    undefined
+    REGISTRATION_METHOD_SELF_CUSTODY
   )
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
   const torusUserFromProps = get(
@@ -242,20 +242,22 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     // Recognize registration method (page refresh case included)
     const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
-    if (initialRegMethod != regMethod) {
-      setRegMethod(initialRegMethod)
-      AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
-      const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY
 
-      // set regMethod sensitive variables into state
-      setState({
-        ...state,
-        skipEmail: skipEmailConfirmOrMagicLink,
-        skipEmailConfirmation: Config.skipEmailVerification || skipEmailConfirmOrMagicLink,
-        skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
-        isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
-      })
+    if (initialRegMethod && initialRegMethod !== regMethod) {
+      setRegMethod(initialRegMethod)
+      await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
     }
+
+    const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY
+
+    // set regMethod sensitive variables into state
+    setState({
+      ...state,
+      skipEmail: skipEmailConfirmOrMagicLink,
+      skipEmailConfirmation: Config.skipEmailVerification || skipEmailConfirmOrMagicLink,
+      skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
+      isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
+    })
 
     //get user country code for phone
     //read user data from w3 if needed

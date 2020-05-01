@@ -21,6 +21,7 @@ export default class UserProperties {
     lastBonusCheckDate: null,
     countClaim: 0,
     regMethod: REGISTRATION_METHOD_SELF_CUSTODY,
+    showQuickActionHint: true,
   }
 
   fields = [
@@ -32,6 +33,7 @@ export default class UserProperties {
     'lastBonusCheckDate',
     'countClaim',
     'regMethod',
+    'showQuickActionHint',
   ]
 
   /**

@@ -1,8 +1,9 @@
 // @flow
-import React, { createRef, useEffect } from 'react'
+import React, { createRef, useCallback, useEffect, useState } from 'react'
 import { Animated, SwipeableFlatList } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { get } from 'lodash'
+import moment from 'moment'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -12,12 +13,11 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
-import useAppState from '../../lib/hooks/useAppState'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 
 const log = logger.child({ from: 'ShareButton' })
-let showBounce = true
+
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
   viewAreaCoveragePercentThreshold: 100,
@@ -61,7 +61,8 @@ const FeedList = ({
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
   const flRef = createRef()
-  useAppState({ onBackground: () => (showBounce = true) }) //show first row bounce on new "session"
+  const [showBounce, setShowBounce] = useState(true)
+  const [displayContent, setDisplayContent] = useState(false)
 
   const scrollToTop = () => {
     if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
@@ -96,61 +97,92 @@ const FeedList = ({
    * @param {FeedEvent} item - feed item
    * @param {object} actions - wether to cancel/delete or any further action required
    */
-  const handleFeedActionPress = ({ id, status }: FeedEvent, actions: {}) => {
-    if (actions.canCancel) {
-      if (status === 'pending') {
-        // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
-        showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
-      } else {
-        try {
-          userStorage.cancelOTPLEvent(id)
-          goodWallet.cancelOTLByTransactionHash(id).catch(e => {
+  const handleFeedActionPress = useCallback(
+    ({ id, status }: FeedEvent, actions: {}) => {
+      if (actions.canCancel) {
+        if (status === 'pending') {
+          // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
+          showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
+        } else {
+          try {
+            userStorage.cancelOTPLEvent(id)
+            goodWallet.cancelOTLByTransactionHash(id).catch(e => {
+              log.error('cancel payment failed - quick actions', e.message, e)
+              userStorage.updateOTPLEventStatus(id, 'pending')
+              showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
+            })
+          } catch (e) {
             log.error('cancel payment failed - quick actions', e.message, e)
             userStorage.updateOTPLEventStatus(id, 'pending')
-            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
-          })
-        } catch (e) {
-          log.error('cancel payment failed - quick actions', e.message, e)
-          userStorage.updateOTPLEventStatus(id, 'pending')
-          showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
+            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
+          }
         }
       }
+
+      if (actions.canDelete) {
+        userStorage.deleteEvent(id).catch(e => log.error('delete event failed:', e.message, e))
+      }
+
+      userStorage.userProperties.set('showQuickActionHint', false)
+      setShowBounce(false)
+    },
+    [showErrorDialog, setShowBounce]
+  )
+
+  const renderQuickActions = useCallback(
+    ({ item }) => {
+      const canCancel = item && item.displayType === 'sendpending'
+      const canDelete = item && item.id && item.id.indexOf('0x') === -1 && feeds.length > 1
+      const hasAction = canCancel || canDelete
+      const actions = { canCancel, canDelete }
+      const props = { item, hasAction }
+
+      // returning null prevents swipe action
+      if (!hasAction) {
+        return null
+      }
+
+      return (
+        <Animatable.View animation="fadeIn" delay={750}>
+          <FeedActions
+            onPress={hasAction && (() => handleFeedActionPress(item, actions))}
+            actionIcon={actionIcon(actions)}
+            {...props}
+          >
+            {actionLabel(actions)}
+          </FeedActions>
+        </Animatable.View>
+      )
+    },
+    [feeds]
+  )
+
+  const manageDisplayQuickActionHint = useCallback(async () => {
+    // Could be string containing date to show quick action hint after - otherwise boolean
+    const showQuickActionHintFlag = await userStorage.userProperties.get('showQuickActionHint')
+
+    const _showBounce =
+      typeof showQuickActionHintFlag === 'string'
+        ? moment(showQuickActionHintFlag).isBefore(moment())
+        : showQuickActionHintFlag
+
+    setShowBounce(_showBounce)
+
+    if (_showBounce) {
+      userStorage.userProperties.set(
+        'showQuickActionHint',
+        moment()
+          .add(20, 'seconds')
+          .format()
+      )
     }
-
-    if (actions.canDelete) {
-      userStorage.deleteEvent(id).catch(e => log.error('delete event failed:', e.message, e))
-    }
-  }
-
-  const renderQuickActions = ({ item }) => {
-    const canCancel = item && item.displayType === 'sendpending'
-    const canDelete = item && item.id && item.id.indexOf('0x') === -1 && feeds.length > 1
-    const hasAction = canCancel || canDelete
-    const actions = { canCancel, canDelete }
-    const props = { item, hasAction }
-
-    // returning null prevents swipe action
-    if (!hasAction) {
-      return null
-    }
-
-    return (
-      <Animatable.View animation="fadeIn" delay={750}>
-        <FeedActions
-          onPress={hasAction && (() => handleFeedActionPress(item, actions))}
-          actionIcon={actionIcon(actions)}
-          {...props}
-        >
-          {actionLabel(actions)}
-        </FeedActions>
-      </Animatable.View>
-    )
-  }
+  }, [setShowBounce])
 
   useEffect(() => {
-    showBounce = false //turn of bounce after first display
+    manageDisplayQuickActionHint().finally(() => setDisplayContent(true))
   }, [])
-  return (
+
+  return displayContent ? (
     <>
       <AnimatedSwipeableFlatList
         bounceFirstRowOnMount={showBounce}
@@ -178,7 +210,7 @@ const FeedList = ({
       />
       {headerLarge ? null : <ScrollToTopButton onPress={scrollToTop} />}
     </>
-  )
+  ) : null
 }
 
 const getStylesFromProps = ({ theme }) => ({

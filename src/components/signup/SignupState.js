@@ -245,7 +245,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     if (initialRegMethod && initialRegMethod !== regMethod) {
       setRegMethod(initialRegMethod)
-      AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
+      await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
     }
 
     const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY

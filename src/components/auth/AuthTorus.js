@@ -4,7 +4,7 @@ import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent, SIGNIN_TORUS_SUCCESS, SIGNUP_STARTED } from '../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import { REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
+import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
@@ -145,7 +145,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   )
 
   const goToManualRegistration = useCallback(() => {
-    navigate('Signup')
+    navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])
 
   const goToSignIn = useCallback(() => {

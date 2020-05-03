@@ -217,7 +217,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
                   fontSize={14}
                   color="primary"
                 >
-                  Create self custody wallet
+                  Agree & Continue with self custody wallet
                 </Section.Text>
               </TouchableOpacity>
             </Section.Row>
@@ -243,7 +243,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           onPress={googleButtonHandler}
           disabled={torusSDK === undefined}
         >
-          Continue with Google
+          Agree & Continue with Google
         </CustomButton>
         <CustomButton
           color={mainTheme.colors.facebookBlue}
@@ -252,7 +252,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           onPress={facebookButtonHandler}
           disabled={torusSDK === undefined}
         >
-          Continue with Facebook
+          Agree & Continue with Facebook
         </CustomButton>
       </Section>
     </Wrapper>

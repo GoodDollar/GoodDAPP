@@ -2208,6 +2208,15 @@ export class UserStorage {
             .catch(r => ({
               properties: 'failed',
             })),
+          this.gunuser
+            .get('registered')
+            .putAck(false)
+            .then(r => ({
+              registered: 'ok',
+            }))
+            .catch(r => ({
+              registered: 'failed',
+            })),
         ])
       }
     } catch (e) {

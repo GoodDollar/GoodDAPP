@@ -333,11 +333,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       const inviteCode = await checkW3InviteCode()
       const { skipEmail, skipEmailConfirmation, ...requestPayload } = state
 
-      requestPayload.email = ''
       ;['email', 'fullName', 'mobile'].forEach(field => {
         if (!requestPayload[field]) {
           const fieldNames = { email: 'Email', fullName: 'Name', mobile: 'Mobile' }
-          throw new Error(`Seems like you didn't fill your ${fieldNames[field]}.`)
+          throw new Error(`Seems like you didn't fill your ${fieldNames[field]}`)
         }
       })
 

@@ -10,7 +10,7 @@ import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidem
 import { useWrappedApi } from '../API/useWrappedApi'
 
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
-import { REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
+import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../lib/constants/localStorage'
 import isWebApp from '../../lib/utils/isWebApp'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
@@ -18,26 +18,26 @@ export default (props = {}) => {
   const { navigation, theme } = props
   const API = useWrappedApi()
   const store = SimpleStore.useStore()
-  const userStorage = store.get('userStorage')
-  const isLoggedIn = store.get('isLoggedIn')
   const [showDialog] = useErrorDialog()
+  const isLoggedIn = store.get('isLoggedIn')
   const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog, store, theme })
 
-  const [regMethod, setRegMethod] = useState()
+  const [isSelfCustody, setIsSelfCustody] = useState(false)
   const slideToggle = useCallback(() => toggleSidemenu(store), [store])
   const slideIn = useCallback(() => showSidemenu(store), [store])
   const slideOut = useCallback(() => hideSidemenu(store), [store])
 
-  const getUserStorageReady = async () => {
-    if (userStorage && isLoggedIn) {
-      const regMethod = await userStorage.userProperties.get('regMethod')
-      setRegMethod(regMethod)
+  const getIsSelfCustody = async () => {
+    if (isLoggedIn) {
+      const hasSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+      const hasMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+      setIsSelfCustody(hasSeed == null && hasMnemonic)
     }
   }
 
   useEffect(() => {
-    getUserStorageReady()
-  }, [userStorage])
+    getIsSelfCustody()
+  }, [isLoggedIn])
 
   const bottomItems = useMemo(
     () => [
@@ -57,7 +57,6 @@ export default (props = {}) => {
 
   const topItems = useMemo(() => {
     const installPrompt = store.get('installPrompt')
-    const isRegMethodTorus = regMethod === REGISTRATION_METHOD_TORUS
 
     let items = [
       {
@@ -83,7 +82,7 @@ export default (props = {}) => {
       {
         icon: 'link',
         name: 'Magic Link',
-        hidden: isRegMethodTorus,
+        hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
             routeName: 'MagicLinkInfo',
@@ -95,7 +94,7 @@ export default (props = {}) => {
       {
         icon: 'lock',
         name: 'Backup Wallet',
-        hidden: isRegMethodTorus,
+        hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
             routeName: 'BackupWallet',
@@ -146,7 +145,7 @@ export default (props = {}) => {
       })
     }
     return items
-  }, [regMethod, slideOut, navigation, store])
+  }, [isSelfCustody, slideOut, navigation, store])
 
   return {
     slideIn,

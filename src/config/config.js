@@ -9,7 +9,7 @@ const Config = {
   contractsVersion,
   isEToro,
   isPhaseZero: 'true' === process.env.REACT_APP_ENV_PHASE_ZERO,
-  newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://gdlr.info/newversion',
+  newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: (forceLogLevel && forceLogLevel[1]) || process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',

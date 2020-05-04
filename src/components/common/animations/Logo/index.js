@@ -18,7 +18,7 @@ const styles = {
 }
 
 class Logo extends AnimationBase {
-  onMount() {
+  onMount = () => {
     if (this.props.animation) {
       this.anim.play()
     } else {

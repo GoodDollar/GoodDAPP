@@ -9,7 +9,7 @@ class FeedInfo extends AnimationBase {
     performCount: 0,
   }
 
-  onMount() {
+  onMount = () => {
     const { delay = 0, showAnim } = this.props
     const { isWeb } = this.state
 
@@ -17,7 +17,12 @@ class FeedInfo extends AnimationBase {
 
     if (showAnim) {
       // play animation
-      setTimeout(() => this.anim.play(), delay)
+      setTimeout(
+        function() {
+          this.anim.play()
+        }.bind(this),
+        delay
+      )
     } else if (isWeb) {
       // web show static image
       const lastFrame = Number(this.animationData.op) - 1

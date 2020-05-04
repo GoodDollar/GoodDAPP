@@ -66,8 +66,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const _regMethod =
     get(navigation, 'state.params.regMethod') ||
     get(navigation.state.routes.find(route => get(route, 'params.regMethod')), 'params.regMethod', undefined)
-  const _provider = get(
-    navigation.state.routes.find(route => get(route, 'params.provider')),
+  const _torusProvider = get(
+    navigation.state.routes.find(route => get(route, 'params.torusProvider')),
     'params.provider',
     undefined
   )
@@ -79,7 +79,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   )
 
   const [regMethod] = useState(_regMethod)
-  const [torusProvider] = useState(_provider)
+  const [torusProvider] = useState(_torusProvider)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const isW3User = w3UserFromProps.email
   const skipEmail = isRegMethodSelfCustody === false || isW3User
@@ -349,7 +349,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
 
       if (regMethod === REGISTRATION_METHOD_TORUS) {
-        requestPayload.provider = torusProvider
+        requestPayload.torusProvider = torusProvider
       }
 
       let w3Token = requestPayload.w3Token

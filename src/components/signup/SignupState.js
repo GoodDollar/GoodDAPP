@@ -63,11 +63,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     {}
   )
   const w3Token = get(navigation.state.routes.find(route => get(route, 'params.w3Token')), 'params.w3Token', undefined)
-  const _regMethod = get(
-    navigation.state.routes.find(route => get(route, 'params.regMethod')),
-    'params.regMethod',
-    undefined
-  )
+  const _regMethod =
+    get(navigation, 'state.params.regMethod') ||
+    get(navigation.state.routes.find(route => get(route, 'params.regMethod')), 'params.regMethod', undefined)
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
   const torusUserFromProps = get(
     navigation.state.routes.find(route => get(route, 'params.torusUser')),

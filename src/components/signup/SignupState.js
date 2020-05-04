@@ -66,6 +66,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const _regMethod =
     get(navigation, 'state.params.regMethod') ||
     get(navigation.state.routes.find(route => get(route, 'params.regMethod')), 'params.regMethod', undefined)
+  const _provider = get(
+    navigation.state.routes.find(route => get(route, 'params.provider')),
+    'params.provider',
+    undefined
+  )
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
   const torusUserFromProps = get(
     navigation.state.routes.find(route => get(route, 'params.torusUser')),
@@ -74,6 +79,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   )
 
   const [regMethod] = useState(_regMethod)
+  const [torusProvider] = useState(_provider)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const isW3User = w3UserFromProps.email
   const skipEmail = isRegMethodSelfCustody === false || isW3User
@@ -329,7 +335,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkW3InviteCode()
-      const { skipEmail, skipEmailConfirmation, ...requestPayload } = state
+      const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
 
       ;['email', 'fullName', 'mobile'].forEach(field => {
         if (!requestPayload[field]) {
@@ -341,13 +347,18 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       if (inviteCode) {
         requestPayload.inviteCode = inviteCode
       }
-      let w3Token = requestPayload.w3Token
 
+      if (regMethod === REGISTRATION_METHOD_TORUS) {
+        requestPayload.provider = torusProvider
+      }
+
+      let w3Token = requestPayload.w3Token
       if (w3Token) {
         userStorage.userProperties.set('cameFromW3Site', true)
       }
 
       userStorage.userProperties.set('regMethod', regMethod)
+      requestPayload.regMethod = regMethod
 
       const mnemonic = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || ''
       await userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }).catch(_ => _)

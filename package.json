@@ -24,7 +24,7 @@
     "test:web": "npm run link && react-app-rewired test",
     "test:native": "npm run test:ios && npm run test:android",
     "test:ios": "npm run animation:assets && ENVFILE=.env.test detox build -c ios.sim.debug && detox test -c ios.sim.debug",
-    "test:android": "npm run animation:assets && ENVFILE=.env.test detox build -c android.emu.release && detox test -c android.emu.release",
+    "test:android": "npm run animation:assets && ENVFILE=.env.test detox build -c android.emu.debug && detox test -c android.emu.debug",
     "coverage": "react-app-rewired test --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "bundlesize:check": "bundlesize",

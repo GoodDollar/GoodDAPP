@@ -2126,6 +2126,10 @@ export class UserStorage {
     return fullProfile
   }
 
+  getFaceIdentifier(): string {
+    return this.wallet.getAccountForType('faceVerification').replace('0x', '')
+  }
+
   /**
    * Checks if the current user was already registered to gunDB
    * @returns {Promise<boolean>|Promise<boolean>}
@@ -2170,9 +2174,10 @@ export class UserStorage {
     let deleteAccountResult
 
     try {
-      const signature = await this.wallet.sign(this.getFaceIdentifier(), 'faceVerification')
+      const faceIdentifier = this.getFaceIdentifier()
+      const signature = await this.wallet.sign(faceIdentifier, 'faceVerification')
 
-      await FaceVerificationAPI.disposeFaceSnapshot(this.getFaceIdentifier(), signature)
+      await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, signature)
       deleteAccountResult = await API.deleteAccount()
 
       if (deleteAccountResult.data.ok) {
@@ -2214,9 +2219,5 @@ export class UserStorage {
 
     logger.debug('deleteAccount', { deleteResults })
     return true
-  }
-
-  getFaceIdentifier(): string {
-    return this.wallet.getAccountForType('faceVerification').replace('0x', '')
   }
 }

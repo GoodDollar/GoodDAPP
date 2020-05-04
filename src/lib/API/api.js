@@ -245,11 +245,12 @@ class API {
    * @param {string} enrollmentIdentifier
    * @param {any} axiosConfig
    */
-  performFaceVerification(payload: any, enrollmentIdentifier: string, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
+  performFaceVerification(payload: any, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
     const { client } = this
+    const { enrollmentIdentifier, ...enrollmentPayload } = payload
     const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
 
-    return client.put(endpoint, payload, axiosConfig)
+    return client.put(endpoint, enrollmentPayload, axiosConfig)
   }
 
   /**

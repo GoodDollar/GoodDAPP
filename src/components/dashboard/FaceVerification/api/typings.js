@@ -9,22 +9,9 @@ export type FaceVerificationResponse = {
 
 export type FaceVerificationPayload = {
   sessionId: string,
-} & (
-  | {
-      images: Array<{
-        width: number,
-        height: number,
-        uri: string,
-        base64?: string,
-        exif?: { [name: string]: any },
-        pictureOrientation: number,
-        deviceOrientation: number,
-      }>,
-    }
-  | {
-      faceMap: string,
-      lowQualityAuditTrailImage: string,
-      auditTrailImage: string,
-      userAgent: string,
-    }
-)
+  enrollmentIdentifier: string,
+  faceMap: string,
+  lowQualityAuditTrailImage: string,
+  auditTrailImage: string,
+  userAgent: string,
+}

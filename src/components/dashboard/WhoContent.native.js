@@ -3,6 +3,7 @@ import { FlatList, PermissionsAndroid } from 'react-native'
 import { promisify } from 'es6-promisify'
 import contacts from 'react-native-contacts'
 import { map, memoize, orderBy, uniq } from 'lodash'
+import logger from '../../lib/logger/pino-logger'
 import { isAndroid } from '../../lib/utils/platform'
 import { Section } from '../common'
 import InputText from '../common/form/InputText'
@@ -12,16 +13,18 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import userStorage from '../../lib/gundb/UserStorage'
 import FeedContactItem from './FeedContactItem'
 import ItemSeparator from './ItemSeparator'
+
 const Contacts = promisify(contacts.getAll)
+const log = logger.child({ from: 'Who' })
 
 const WhoContent = ({ styles, setContact, error, text, value, next, state, showNext, setValue }) => {
   const [contacts, setContacts] = useState([])
   const [recentFeedItems, setRecentFeedItems] = useState([])
   const [recentlyUsedList, setRecentlyUsedList] = useState([])
-  let initialList = useRef()
+  const initialList = useRef()
 
   const getUserFeed = async () => {
-    const userFeed = await userStorage.getFeedPage(5, true)
+    const userFeed = await userStorage.getFeedPage(20, true)
     const recent = userFeed.filter(({ type }) => type === 'send' || type === 'receive')
     setRecentFeedItems(recent)
   }
@@ -45,7 +48,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
       }
       Contacts().then((contacts, err) => {
         if (err === 'denied') {
-          console.warn('permissions denied')
+          log.info('permissions denied')
         } else {
           const sortContacts = orderBy(contacts, ['givenName'])
           setContacts(sortContacts)

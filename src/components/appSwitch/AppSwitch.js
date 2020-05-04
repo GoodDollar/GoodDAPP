@@ -164,7 +164,7 @@ const AppSwitch = (props: LoadingProps) => {
       if (unsuccessfulLaunchAttempts > 3) {
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
-        await delay(500)
+        await delay(1500)
         init()
       }
     }

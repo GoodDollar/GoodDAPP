@@ -107,6 +107,7 @@ const initStore = async () => {
   let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
   initialState.isLoggedIn = isLoggedIn
   SimpleStore = createConnectedStore(initialState, withPinoLogger)
+  global.SimpleStore = SimpleStore
   return SimpleStore
 }
 

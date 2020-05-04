@@ -12,16 +12,21 @@ import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
 import './PhoneInput.css'
 
+const defaultErrors = {}
+const defaultStoredProfile = {}
+const defaultProfile = {}
+const defaultSetLockSubmit = () => {}
+
 const ProfileDataTable = ({
-  profile,
-  storedProfile,
+  profile = defaultProfile,
+  storedProfile = defaultStoredProfile,
   onChange,
-  errors,
+  errors = defaultErrors,
   editable,
   theme,
   styles,
   navigation,
-  setLockSubmit,
+  setLockSubmit = defaultSetLockSubmit,
   showCustomFlag,
 }) => {
   const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)
@@ -137,13 +142,6 @@ const ProfileDataTable = ({
       </KeyboardAwareScrollView>
     </Section.Row>
   )
-}
-
-ProfileDataTable.defaultProps = {
-  errors: {},
-  storedProfile: {},
-  profile: {},
-  setLockSubmit: () => {},
 }
 
 const getStylesFromProps = ({ theme }) => {

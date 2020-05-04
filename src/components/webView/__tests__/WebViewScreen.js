@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import WebViewScreen, { createWebViewScreen } from '../WebViewScreen'
-import { FAQ, PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webViewInstances'
+import { FAQ, PrivacyPolicy, PrivacyPolicyAndTerms, Support, SupportForUnsigned } from '../webViewInstances'
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
 // Note: test renderer must be required after react-native.
@@ -103,6 +103,25 @@ describe('WebViewScreen Instances', () => {
     const component = renderer.create(
       <StoresWrapper>
         <Support />
+      </StoresWrapper>
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('SupportForUnsigned renders without errors', () => {
+    const tree = renderer.create(
+      <StoresWrapper>
+        <SupportForUnsigned />
+      </StoresWrapper>
+    )
+    expect(tree.toJSON()).toBeTruthy()
+  })
+
+  it('SupportForUnsigned matches snapshot', () => {
+    const component = renderer.create(
+      <StoresWrapper>
+        <SupportForUnsigned />
       </StoresWrapper>
     )
     const tree = component.toJSON()

@@ -8,7 +8,7 @@ import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
 
 const wHeight = getMaxDeviceHeight()
 
-export const createIframe = (src, title, backToWallet = false) => {
+export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home') => {
   const IframeTab = props => {
     const store = SimpleStore.useStore()
 
@@ -60,7 +60,7 @@ export const createIframe = (src, title, backToWallet = false) => {
           {title}
         </Section.Text>
         <Appbar.Content />
-        <TouchableOpacity onPress={() => navigate('Home')} style={navBarStyles.walletIcon}>
+        <TouchableOpacity onPress={() => navigate(backToRoute)} style={navBarStyles.walletIcon}>
           <Icon name="wallet" size={36} color="white" />
         </TouchableOpacity>
       </Appbar.Header>

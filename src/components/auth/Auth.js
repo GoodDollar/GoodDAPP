@@ -9,7 +9,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
@@ -271,7 +271,7 @@ const routes = {
   Login: auth,
   PrivacyPolicyAndTerms,
   PrivacyPolicy,
-  Support,
+  Support: SupportForUnsigned,
 }
 
 if (config.enableSelfCustody) {

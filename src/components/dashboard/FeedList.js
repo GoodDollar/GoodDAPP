@@ -172,7 +172,7 @@ const FeedList = ({
       userStorage.userProperties.set(
         'showQuickActionHint',
         moment()
-          .add(20, 'seconds')
+          .add(24, 'hours')
           .format()
       )
     }

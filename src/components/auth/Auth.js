@@ -20,6 +20,7 @@ import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { deleteGunDB } from '../../lib/hooks/useDeleteAccountDialog'
+import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../lib/constants/login'
 
 type Props = {
   navigation: any,
@@ -116,7 +117,7 @@ class Auth extends React.Component<Props> {
       store.set('loadingIndicator')({ loading: false })
     }
 
-    this.props.navigation.navigate(redirectTo, { w3User, w3Token })
+    this.props.navigation.navigate(redirectTo, { regMethod: REGISTRATION_METHOD_SELF_CUSTODY, w3User, w3Token })
 
     //Hack to get keyboard up on mobile need focus from user event such as click
     setTimeout(() => {

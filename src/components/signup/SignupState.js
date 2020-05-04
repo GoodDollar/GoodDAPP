@@ -10,7 +10,7 @@ import {
   GD_USER_MNEMONIC,
   IS_LOGGED_IN,
 } from '../../lib/constants/localStorage'
-import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../lib/constants/login'
+import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
@@ -57,25 +57,27 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
-  const _w3UserFromProps = get(
-    navigation.state.routes.find(route => get(route, 'params.torusUser')),
-    'params.w3User',
-    {}
-  )
-  const w3Token = get(navigation.state.routes.find(route => get(route, 'params.w3Token')), 'params.w3Token', undefined)
-  const _regMethod = get(
-    navigation.state.routes.find(route => get(route, 'params.regMethod')),
-    'params.regMethod',
-    REGISTRATION_METHOD_SELF_CUSTODY
-  )
+  const _w3UserFromProps =
+    get(navigation, 'state.params.w3User') ||
+    get(navigation.state.routes.find(route => get(route, 'params.w3User')), 'params.w3User', {})
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
-  const torusUserFromProps = get(
-    navigation.state.routes.find(route => get(route, 'params.torusUser')),
-    'params.torusUser',
-    {}
-  )
 
-  const [regMethod, setRegMethod] = useState(_regMethod)
+  const w3Token =
+    get(navigation, 'state.params.w3Token') ||
+    get(navigation.state.routes.find(route => get(route, 'params.w3Token')), 'params.w3Token', undefined)
+
+  const torusUserFromProps =
+    get(navigation, 'state.params.torusUser') ||
+    get(navigation.state.routes.find(route => get(route, 'params.torusUser')), 'params.torusUser', {})
+  const _regMethod =
+    get(navigation, 'state.params.regMethod') ||
+    get(navigation.state.routes.find(route => get(route, 'params.regMethod')), 'params.regMethod', undefined)
+  const _torusProvider =
+    get(navigation, 'state.params.torusProvider') ||
+    get(navigation.state.routes.find(route => get(route, 'params.torusProvider')), 'params.torusProvider', undefined)
+
+  const [regMethod] = useState(_regMethod)
+  const [torusProvider] = useState(_torusProvider)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const isW3User = w3UserFromProps.email
   const skipEmail = isRegMethodSelfCustody === false || isW3User
@@ -200,31 +202,42 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   //keep privatekey from torus as master seed before initializing wallet
   //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
+  //this is true in case of refresh
   const checkTorusLogin = () => {
     const masterSeed = torusUserFromProps.privateKey
-    if (!isRegMethodSelfCustody && masterSeed === undefined) {
+    if (regMethod === REGISTRATION_METHOD_TORUS && masterSeed === undefined) {
       log.debug('torus user information missing', { torusUserFromProps })
       return navigation.navigate('Auth')
     }
     return !!masterSeed
   }
 
-  const verifyStartRoute = async () => {
-    // don't allow to start sign up flow not from begining except when w3Token provided
-    //or have info from torus login (ie name)
-    const token = await AsyncStorage.getItem('GD_web3Token')
-
-    log.debug('redirecting to start, got index:', navigation.state.index, { torusUserFromProps })
-
-    if ((torusUserFromProps.name || token) && navigation.state.index > 1) {
-      log.debug('redirecting to Phone skipping name')
-      return navigateWithFocus(navigation.state.routes[1].key)
-    }
-
-    if ((torusUserFromProps.name || token) === false && navigation.state.index > 0) {
-      return navigateWithFocus(navigation.state.routes[0].key)
+  const verifyStartRoute = () => {
+    //we dont support refresh if regMethod param is missing then go back to Auth
+    //if regmethod is missing it means user did refresh on later steps then first 1
+    if (!regMethod) {
+      log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
+      return navigation.navigate('Auth')
     }
   }
+
+  // const verifyStartRoute = async () => {
+  //   // don't allow to start sign up flow not from begining except when w3Token provided
+  //   //or have info from torus login (ie name)
+  //   const token = await AsyncStorage.getItem('GD_web3Token')
+
+  //   log.debug('redirecting to start, got index:', navigation.state.index, { torusUserFromProps })
+
+  //   if ((torusUserFromProps.name || token) && navigation.state.index > 1) {
+  //     log.debug('redirecting to Phone skipping name')
+  //     return navigateWithFocus(navigation.state.routes[1].key)
+  //   }
+
+  //   if (!(torusUserFromProps.name || token) === false && navigation.state.index > 0) {
+
+  //     return navigateWithFocus(navigation.state.routes[0].key)
+  //   }
+  // }
 
   /**
    * if user arrived from w3 with an inviteCode, we forward it to the server
@@ -237,27 +250,28 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   const onMount = async () => {
-    checkTorusLogin()
     verifyStartRoute()
 
-    // Recognize registration method (page refresh case included)
-    const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
+    // // Recognize registration method (page refresh case included)
+    // const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
 
-    if (initialRegMethod && initialRegMethod !== regMethod) {
-      setRegMethod(initialRegMethod)
-      await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
-    }
+    // if (initialRegMethod && initialRegMethod !== regMethod) {
+    //   setRegMethod(initialRegMethod)
+    //   await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
+    //   const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY
 
-    const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY
+    //   // set regMethod sensitive variables into state, they are already initialized only need to re-set if
+    //   //regmethod has changed by refresh
+    //   setState({
+    //     ...state,
+    //     skipEmail: skipEmailConfirmOrMagicLink,
+    //     skipEmailConfirmation: Config.skipEmailVerification || skipEmailConfirmOrMagicLink,
+    //     skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
+    //     isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
+    //   })
+    // }
 
-    // set regMethod sensitive variables into state
-    setState({
-      ...state,
-      skipEmail: skipEmailConfirmOrMagicLink,
-      skipEmailConfirmation: Config.skipEmailVerification || skipEmailConfirmOrMagicLink,
-      skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
-      isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
-    })
+    checkTorusLogin()
 
     //get user country code for phone
     //read user data from w3 if needed
@@ -319,17 +333,30 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkW3InviteCode()
-      const { skipEmail, skipEmailConfirmation, ...requestPayload } = state
+      const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
+
+      ;['email', 'fullName', 'mobile'].forEach(field => {
+        if (!requestPayload[field]) {
+          const fieldNames = { email: 'Email', fullName: 'Name', mobile: 'Mobile' }
+          throw new Error(`Seems like you didn't fill your ${fieldNames[field]}`)
+        }
+      })
+
       if (inviteCode) {
         requestPayload.inviteCode = inviteCode
       }
-      let w3Token = requestPayload.w3Token
 
+      if (regMethod === REGISTRATION_METHOD_TORUS) {
+        requestPayload.torusProvider = torusProvider
+      }
+
+      let w3Token = requestPayload.w3Token
       if (w3Token) {
         userStorage.userProperties.set('cameFromW3Site', true)
       }
 
       userStorage.userProperties.set('regMethod', regMethod)
+      requestPayload.regMethod = regMethod
 
       const mnemonic = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || ''
       await userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }).catch(_ => _)

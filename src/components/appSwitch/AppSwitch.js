@@ -18,6 +18,7 @@ import useAppState from '../../lib/hooks/useAppState'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
+import { assertStore } from '../../lib/undux/SimpleStore'
 
 type LoadingProps = {
   navigation: any,
@@ -196,6 +197,11 @@ const AppSwitch = (props: LoadingProps) => {
     if (config.enableInvites !== true) {
       return
     }
+
+    if (!assertStore(gdstore, log, 'checkBonusInterval failed')) {
+      return
+    }
+
     const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
     const isUserWhitelisted = gdstore.get('isLoggedInCitizen') || (await goodWallet.isCitizen())
 

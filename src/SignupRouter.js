@@ -2,33 +2,17 @@ import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { View } from 'react-native'
 import createAppContainer from './lib/utils/createAppContainer'
-import { isAndroid, isMobileSafari } from './lib/utils/platform'
+import { isAndroid } from './lib/utils/platform'
 import Signup from './components/signup/SignupState'
-import SigninInfo from './components/signin/SigninInfo'
-import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
-import Auth from './components/auth/Auth'
+import signinInfo from './components/signin/SigninInfo'
+import auth from './components/auth/Auth'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
-import isWebApp from './lib/utils/isWebApp'
 import { getOriginalScreenHeight } from './lib/utils/Orientation'
 
-const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
-const router = createSwitchNavigator(
-  {
-    Auth,
-    Signup,
-    InvalidW3TokenError,
-    SigninInfo,
-    IOSWebAppSignIn,
-  },
-  {
-    initialRouteName,
-  }
-)
-
-const RouterWrapper = createAppContainer(router)
+const initialRouteName = 'Auth'
 
 const fullScreenContainer = {
   top: 0,
@@ -42,6 +26,22 @@ const fullScreenContainer = {
 }
 
 const Router = () => {
+  const SigninInfo = signinInfo()
+  const Auth = auth()
+  const router = createSwitchNavigator(
+    {
+      Auth,
+      Signup,
+      InvalidW3TokenError,
+      SigninInfo,
+    },
+    {
+      initialRouteName,
+    }
+  )
+
+  const RouterWrapper = createAppContainer(router)
+
   const store = SimpleStore.useStore()
   const { visible: dialogVisible } = store.get('currentScreen').dialogData
   const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')

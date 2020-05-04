@@ -9,7 +9,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
 import NavBar from '../appNavigation/NavBar'
-import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Auth/torusIllustration.svg'
@@ -318,7 +318,7 @@ export default createStackNavigator(
     Login: auth,
     PrivacyPolicyAndTerms,
     PrivacyPolicy,
-    Support,
+    Support: SupportForUnsigned,
   },
   {
     backRouteName: 'Auth',

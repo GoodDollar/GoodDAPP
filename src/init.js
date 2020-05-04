@@ -30,7 +30,8 @@ export const init = () => {
       // FIXME RN INAPPLINKS
       if (Platform.OS === 'web') {
         const params = extractQueryParams(window.location.href)
-        source = Object.keys(pick(params, ['web3', 'paymentCode', 'code'])).pop() || source
+        source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
+        source = Object.keys(pick(params, ['inviteCode', 'web3Token', 'paymentCode', 'code'])).pop() || source
       }
 
       fireEvent(APP_OPEN, { source, isWebApp })

@@ -44,13 +44,9 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
     setProfile(profile)
   }
 
-  const confirm = async () => {
+  const confirm = () => {
     try {
-      if (await goodWallet.isCitizen()) {
-        sendGD()
-      } else {
-        faceRecognition()
-      }
+      sendGD()
     } catch (e) {
       log.error('Send TX failed:', e.message, e)
       showErrorDialog({
@@ -70,10 +66,6 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
       updateRecepientProfile()
     }
   }, [to])
-
-  const faceRecognition = () => {
-    return screenProps.push('FaceVerificationIntro', { from: 'SendQRSummary' })
-  }
 
   const sendGD = () => {
     try {

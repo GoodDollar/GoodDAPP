@@ -141,6 +141,9 @@ const ProfileDataTable = ({
 
 ProfileDataTable.defaultProps = {
   errors: {},
+  storedProfile: {},
+  profile: {},
+  setLockSubmit: () => {},
 }
 
 const getStylesFromProps = ({ theme }) => {

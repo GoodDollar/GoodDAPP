@@ -247,7 +247,7 @@ const Claim = props => {
     if (Config.isPhaseZero) {
       showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
     } else {
-      screenProps.push('FRIntro', { from: 'Claim' })
+      screenProps.push('FaceVerificationIntro', { from: 'Claim' })
     }
   }
 

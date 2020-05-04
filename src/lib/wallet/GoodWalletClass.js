@@ -100,7 +100,7 @@ export class GoodWallet {
     eth: 2,
     donate: 3,
     login: 4,
-    zoomId: 5,
+    faceVerification: 5,
   }
 
   ready: Promise<Web3>

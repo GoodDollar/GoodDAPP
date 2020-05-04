@@ -1,19 +1,27 @@
 module.exports = function(api) {
   api.cache(true)
+
   return {
-    presets: [['module:metro-react-native-babel-preset'], ['react-app'], ['@babel/preset-env', {
-      modules: false,
-      targets: {
-        node: 4,
-      }
-    }]],
+    presets: [
+      ['module:metro-react-native-babel-preset'],
+      ['react-app'],
+      ['@babel/preset-env', {
+        modules: false,
+        targets: {
+          node: 4,
+        }
+      }]
+    ],
     comments: true,
     env: {
       production: {
         plugins: ['react-native-paper/babel']
       }
     },
-    ignore: ['node_modules/art/core/color.js'],
+    ignore: [
+      'node_modules/art/core/color.js',
+      'src/lib/zoom/ZoomAuthentication.js'
+    ],
     plugins: [
       [
         'module-resolver',

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -48,8 +48,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [loading, setLoading] = useState('')
 
   const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
-
-  const faceRecognition = useCallback(() => push('FRIntro', { from: 'SendLinkSummary' }), [push])
 
   const handleConfirm = useCallback(() => {
     if (action === ACTION_SEND_TO_ADDRESS) {
@@ -221,8 +219,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, setLink, link, goToRoot])
 
-  const onConfirmPressHandler = useMemo(() => (isCitizen ? handleConfirm : faceRecognition), [isCitizen])
-
   useEffect(() => {
     if (isCitizen === false) {
       goodWallet.isCitizen().then(setIsCitizen)
@@ -290,7 +286,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton onPress={onConfirmPressHandler} disabled={isCitizen === undefined} lodaing={loading}>
+            <CustomButton onPress={handleConfirm} disabled={isCitizen === undefined} lodaing={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>

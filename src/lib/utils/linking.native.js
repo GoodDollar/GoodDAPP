@@ -18,7 +18,7 @@ class LinkingNative {
 
   _isFirstRun = true
 
-  params = {
+  linkingParams = {
     web3: '',
     paymentCode: '',
     code: '',
@@ -67,7 +67,7 @@ class LinkingNative {
 
     this.pathname = extractPathname(nonBranchLink || branchLink)
 
-    assign(this.params, pick(queryParams, keys(this.params)))
+    assign(this.linkingParams, pick(queryParams, keys(this.linkingParams)))
 
     over(this.navigationCallbacks)()
   }

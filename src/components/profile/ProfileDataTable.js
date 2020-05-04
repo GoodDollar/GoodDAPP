@@ -2,6 +2,7 @@ import React, { Fragment, useCallback } from 'react'
 import { Image } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PhoneInput from 'react-phone-number-input'
+import { noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import './ProfileDataTablePhoneInput.css'
 import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
@@ -15,7 +16,6 @@ import './PhoneInput.css'
 const defaultErrors = {}
 const defaultStoredProfile = {}
 const defaultProfile = {}
-const defaultSetLockSubmit = () => {}
 
 const ProfileDataTable = ({
   profile = defaultProfile,
@@ -26,7 +26,7 @@ const ProfileDataTable = ({
   theme,
   styles,
   navigation,
-  setLockSubmit = defaultSetLockSubmit,
+  setLockSubmit = noop,
   showCustomFlag,
 }) => {
   const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)

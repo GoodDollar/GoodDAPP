@@ -1,8 +1,11 @@
 import branch from 'react-native-branch'
 import { assign, camelCase, keys, mapKeys, over, pick } from 'lodash'
+import logger from '../logger/pino-logger'
 import { extractQueryParams } from '../share'
 import restart from './restart'
 import extractPathname from './extractPathname'
+
+const log = logger.child({ from: 'linking.native' })
 
 class LinkingNative {
   constructor() {
@@ -45,7 +48,7 @@ class LinkingNative {
 
   _listener = ({ error, params }) => {
     if (error) {
-      console.error('Error from Branch: ' + error)
+      log.error('Error from Branch: ' + error)
       return
     }
 

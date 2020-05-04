@@ -1,9 +1,9 @@
 // @flow
-import { Linking } from 'react-native-web'
+import { Linking } from 'react-native'
 
 const schemeRe = /(.+?:)\/\//
 
-const openLink = async (uri: string, target?: '_blank' | '_self' = '_blank', noopener?: boolean = false) => {
+const openURL = async (uri: string, target?: '_blank' | '_self' = '_blank', noopener?: boolean = false) => {
   const isSchemeSupported = await Linking.canOpenURL(uri)
 
   if (!isSchemeSupported) {
@@ -18,8 +18,7 @@ const openLink = async (uri: string, target?: '_blank' | '_self' = '_blank', noo
   }
 
   window.open(...args)
-
   return Linking.openURL(uri)
 }
 
-export default openLink
+export default { ...Linking, openURL }

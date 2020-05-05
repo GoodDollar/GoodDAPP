@@ -9,7 +9,7 @@ import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
-import SimpleStore, { assertStoreSnapshot } from '../../lib/undux/SimpleStore'
+import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw, prepareDataWithdraw } from '../../lib/undux/utils/withdraw'
@@ -256,7 +256,7 @@ const Dashboard = props => {
   }, [gdstore, animValue])
 
   const showDelayed = useCallback(() => {
-    if (!assertStoreSnapshot(store, log, 'Failed to show AddWebApp modal')) {
+    if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
       return
     }
 

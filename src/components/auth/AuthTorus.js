@@ -9,6 +9,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
 import NavBar from '../appNavigation/NavBar'
+import Recover from '../signin/Mnemonics'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
@@ -317,14 +318,18 @@ auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,
 }
-export default createStackNavigator(
-  {
-    Login: auth,
-    PrivacyPolicyAndTerms,
-    PrivacyPolicy,
-    Support: SupportForUnsigned,
-  },
-  {
-    backRouteName: 'Auth',
-  }
-)
+
+const routes = {
+  Login: auth,
+  PrivacyPolicyAndTerms,
+  PrivacyPolicy,
+  Support: SupportForUnsigned,
+}
+
+if (config.enableSelfCustody) {
+  Object.assign(routes, { Recover })
+}
+
+export default createStackNavigator(routes, {
+  backRouteName: 'Auth',
+})

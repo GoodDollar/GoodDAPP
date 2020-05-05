@@ -17,12 +17,7 @@ class FeedInfo extends AnimationBase {
 
     if (showAnim) {
       // play animation
-      setTimeout(
-        function() {
-          this.anim.play()
-        }.bind(this),
-        delay
-      )
+      setTimeout(() => this.anim.play(), delay)
     } else if (isWeb) {
       // web show static image
       const lastFrame = Number(this.animationData.op) - 1

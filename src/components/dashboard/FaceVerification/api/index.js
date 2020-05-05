@@ -29,7 +29,7 @@ class FaceVerificationApi {
 
     axiosConfig = {
       cancelToken: this.lastCancelToken.token,
-      onProgress: progressSubscription,
+      onUploadProgress: progressSubscription,
     }
 
     logger.info('performFaceVerification', { sessionId, enrollmentIdentifier })

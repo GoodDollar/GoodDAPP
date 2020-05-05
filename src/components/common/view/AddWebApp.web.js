@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
-import SimpleStore from '../../../lib/undux/SimpleStore'
+import SimpleStore, { assertStore } from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import {
   ADDTOHOME,
@@ -105,8 +105,20 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
 const AddWebApp = props => {
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
-  const { show, showAddWebAppDialog } = store.get('addWebApp')
-  const installPrompt = store.get('installPrompt')
+  const [show, setShow] = useState(false)
+  const [showAddWebAppDialog, setShowAddWebAppDialog] = useState(false)
+  const [installPrompt, setInstallPrompt] = useState(false)
+
+  const fetchStoreData = useCallback(() => {
+    if (assertStore(store, log, 'Failed to fetch show status to display AddWebApp modal')) {
+      const { show: _show, showAddWebAppDialog: _showAddWebAppDialog } = store.get('addWebApp')
+      const _installPrompt = store.get('installPrompt')
+
+      setShow(_show)
+      setShowAddWebAppDialog(_showAddWebAppDialog)
+      setInstallPrompt(_installPrompt)
+    }
+  }, [store, setShow, setShowAddWebAppDialog, setInstallPrompt])
 
   const showExplanationDialog = () => {
     // const magicLinkCode = userStorage.getMagicLink()
@@ -228,6 +240,11 @@ const AddWebApp = props => {
       showInitialDialog()
     }
   }
+
+  useEffect(() => {
+    fetchStoreData()
+  }, [store])
+
   useEffect(() => {
     checkShowDialog()
   }, [installPrompt, show])

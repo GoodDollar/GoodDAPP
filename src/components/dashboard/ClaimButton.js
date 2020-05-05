@@ -91,7 +91,9 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
 )
 
 const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnly }) => {
-  if (entitlement || isCitizen === false) {
+  //if user can claim either as whitelisted or new user not whitelisted show claim
+  //otherwise show countdown
+  if (entitlement) {
     return (
       <ButtonAmountToClaim
         styles={styles}

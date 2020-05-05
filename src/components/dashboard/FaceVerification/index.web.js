@@ -1,6 +1,8 @@
 import { useCallback } from 'react'
 import { findKey, mapValues } from 'lodash'
 
+import goodWallet from '../../../lib/wallet/GoodWallet'
+import GDStore from '../../../lib/undux/GDStore'
 import useZoomSDK, { ZoomSDKStatus } from './hooks/useZoomSDK'
 import useZoomVerification, { ZoomSessionStatus } from './hooks/useZoomVerification'
 
@@ -46,6 +48,8 @@ const kindOfCameraIssuesMap = mapValues(
 )
 
 const FaceVerification = ({ screenProps }) => {
+  const gdStore = GDStore.useStore()
+
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
   const showErrorScreen = useCallback(
@@ -57,12 +61,14 @@ const FaceVerification = ({ screenProps }) => {
 
   // ZoomSDK session completition handler
   const completionHandler = useCallback(
-    (isSuccess, { status }, lastMessage) => {
+    async (isSuccess, { status }, lastMessage) => {
       // preparing error object
       const exception = new Error(lastMessage)
 
       // if session was successfull - returning sucess to the caller
       if (isSuccess) {
+        const isCitizen = await goodWallet.isCitizen()
+        gdStore.set('isLoggedInCitizen')(isCitizen)
         screenProps.pop({ isValid: true })
         return
       }

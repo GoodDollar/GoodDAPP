@@ -178,19 +178,20 @@ const Claim = props => {
   const handleClaim = async () => {
     setLoading(true)
 
-    showDialog({
-      image: <LoadingIcon />,
-      loading,
-      message: 'please wait while processing...',
-      showButtons: false,
-      title: `YOUR MONEY\nIS ON ITS WAY...`,
-    })
     try {
       //when we come back from FR entitelment might not be set yet
       const curEntitlement = state.entitlement || (await goodWallet.checkEntitlement().toNumber())
       if (curEntitlement == 0) {
         return
       }
+
+      showDialog({
+        image: <LoadingIcon />,
+        loading,
+        message: 'please wait while processing...',
+        showButtons: false,
+        title: `YOUR MONEY\nIS ON ITS WAY...`,
+      })
 
       let txHash
 

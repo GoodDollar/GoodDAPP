@@ -1,4 +1,5 @@
 // @flow
+import { Share } from 'react-native'
 import { fromPairs, isEmpty } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
@@ -231,4 +232,18 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   }
 
   return encodeURI(`${destination}${queryParams}`)
+}
+
+export function shareAction(shareObj, showErrorDialog, customErrorMessage) {
+  try {
+    Share.share(shareObj)
+  } catch (e) {
+    if (e.name !== 'AbortError') {
+      showErrorDialog(customErrorMessage || 'Sorry, there was an error sharing you link. Please try again later.')
+
+      log.error('Native share failed', e.message, e, {
+        shareObj,
+      })
+    }
+  }
 }

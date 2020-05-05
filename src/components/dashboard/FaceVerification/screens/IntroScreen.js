@@ -46,29 +46,35 @@ const IntroScreen = props => {
             {`${getFirstWord(fullName)},\nLet's make sure you are a real live person`}
           </Section.Title>
           <FaceVerificationSmiley />
-          <Separator width={2} />
-          <Text style={styles.descriptionContainer}>
-            <Text fontWeight="bold" color="primary" style={styles.description}>
-              Since its your first transaction
+          <View>
+            <Separator width={2} />
+            <Text textAlign="center" style={styles.descriptionContainer}>
+              <Text textAlign="center" fontWeight="bold" color="primary">
+                {`Since this is your first G$ Claim\n`}
+              </Text>
+              <Text textAlign="center" color="primary">
+                {`we will take a short video of you\n`}
+              </Text>
+              <Text textAlign="center" color="primary">
+                {`to prevent duplicate accounts.\n`}
+              </Text>
+              <Text
+                textAlign="center"
+                fontWeight="bold"
+                textDecoration="underline"
+                color="primary"
+                style={styles.descriptionUnderline}
+                onPress={gotoPrivacyArticle}
+              >
+                {`Learn more`}
+              </Text>
             </Text>
-            <Text color="primary" style={styles.description}>
-              {`we will take a short video of you\nto prevent duplicate accounts.`}
-            </Text>
-            <Text
-              fontWeight="bold"
-              textDecoration="underline"
-              color="primary"
-              style={[styles.description, styles.descriptionUnderline]}
-              onPress={gotoPrivacyArticle}
-            >
-              Learn more
-            </Text>
-          </Text>
-          <Separator style={[styles.bottomSeparator]} width={2} />
+            <Separator style={[styles.bottomSeparator]} width={2} />
+          </View>
+          <CustomButton style={[styles.button]} onPress={gotoFR}>
+            OK, Verify me
+          </CustomButton>
         </View>
-        <CustomButton style={[styles.button]} onPress={gotoFR}>
-          OK, Verify me
-        </CustomButton>
       </Section>
     </Wrapper>
   )
@@ -94,7 +100,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainContent: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingLeft: getDesignRelativeWidth(theme.sizes.default * 3),
     paddingRight: getDesignRelativeWidth(theme.sizes.default * 3),
     width: '100%',
@@ -113,15 +119,11 @@ const getStylesFromProps = ({ theme }) => ({
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
     paddingVertical: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
-  description: {
-    display: 'flex',
-    paddingTop: 0,
-  },
   descriptionUnderline: {
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    display: 'block',
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
   },
   button: {
-    marginTop: 'auto',
     width: '100%',
   },
   bottomSeparator: {

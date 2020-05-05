@@ -9,7 +9,7 @@ class FeedInfo extends AnimationBase {
     performCount: 0,
   }
 
-  onMount() {
+  onMount = () => {
     const { delay = 0, showAnim } = this.props
     const { isWeb } = this.state
 

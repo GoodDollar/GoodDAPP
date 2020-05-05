@@ -14,7 +14,7 @@ const styles = {
 }
 
 class RocketShip extends AnimationBase {
-  onMount() {
+  onMount = () => {
     if (Platform.OS === 'web') {
       this.anim.onEnterFrame = e => {
         if (e.currentTime >= 195 && this.anim) {

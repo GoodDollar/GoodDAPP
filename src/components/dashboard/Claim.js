@@ -242,10 +242,14 @@ const Claim = props => {
   }
 
   const faceRecognition = () => {
-    //await handleClaim()
-    //temporary solution in the zero phase, for the situation when the user is not in the whitelist.
-    if (Config.isPhaseZero) {
+    //if user is not in whitelist and we do not do faceverification then this is an error
+    if (Config.zoomLicenseKey == null) {
       showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
+      log.error(
+        'User isnt whitelisted by faceverification disabled',
+        'User isnt whitelisted by faceverification disabled',
+        new Error('User isnt whitelisted by faceverification disabled')
+      )
     } else {
       screenProps.push('FaceVerificationIntro', { from: 'Claim' })
     }

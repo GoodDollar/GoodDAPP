@@ -6,6 +6,7 @@ import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { isMobileNative } from '../../lib/utils/platform'
+import logger from '../../lib/logger/pino-logger'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 import WhoContent from './WhoContent'
 
@@ -21,6 +22,8 @@ const getError = value => {
 
   return null
 }
+
+const log = logger.child({ from: 'Who' })
 
 const Who = (props: AmountProps) => {
   const { screenProps } = props
@@ -38,7 +41,7 @@ const Who = (props: AmountProps) => {
     setScreenState({ counterPartyDisplayName: (contact && contact.fullName) || state.value })
   }, [contact, state.value])
 
-  console.info('Component props -> ', { props, params, text, state })
+  log.info('Component props -> ', { props, params, text, state })
 
   const next = useCallback(() => {
     if (state.isValid || contact) {

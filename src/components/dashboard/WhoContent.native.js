@@ -6,7 +6,7 @@ import { map, memoize, orderBy, uniq } from 'lodash'
 import logger from '../../lib/logger/pino-logger'
 import { isAndroid } from '../../lib/utils/platform'
 import { Section } from '../common'
-import InputText from '../common/form/InputText'
+import InputText from '../common/form/InputWithAdornment'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -22,6 +22,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
   const [recentFeedItems, setRecentFeedItems] = useState([])
   const [recentlyUsedList, setRecentlyUsedList] = useState([])
   const initialList = useRef()
+  const inputRef = useRef()
 
   const getUserFeed = async () => {
     const userFeed = await userStorage.getFeedPage(20, true)
@@ -73,6 +74,8 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
   )
 
   const isStateEmpty = !state
+
+  const setFocus = () => inputRef.current.focus()
 
   const handleSearch = useCallback(
     query => {
@@ -131,13 +134,18 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
       <Section.Stack justifyContent="space-around" style={styles.container}>
         <Section.Title fontWeight="medium">{text}</Section.Title>
         <InputText
+          showAdornment
           error={error}
           onChangeText={handleSearch}
           placeholder="Search contact name / phone"
-          style={styles.input}
           value={value}
           enablesReturnKeyAutomatically
-          iconName="search"
+          adornment="search"
+          adornmentSize={28}
+          adornmentStyle={styles.iconPosition}
+          adornmentColor={styles.adornmentColor}
+          adornmentAction={setFocus}
+          getRef={inputRef}
         />
       </Section.Stack>
       {recentlyUsedList.length > 0 && (
@@ -182,6 +190,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
 }
 
 export default withStyles(({ theme }) => ({
+  adornmentColor: theme.colors.gray50Percent,
   sectionTitle: {
     color: theme.colors.primary,
     fontFamily: theme.fonts.default,
@@ -191,6 +200,9 @@ export default withStyles(({ theme }) => ({
   separator: {
     flex: 1,
     opacity: 0.3,
+  },
+  iconPosition: {
+    bottom: 3,
   },
   recentlyUserContainer: {
     flex: 1,

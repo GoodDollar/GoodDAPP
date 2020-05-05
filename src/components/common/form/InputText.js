@@ -9,7 +9,7 @@ import Icon from '../view/Icon'
 import Config from '../../../config/config'
 import ErrorText from './ErrorText'
 
-const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, iconName, ...props }: any) => {
+const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...props }: any) => {
   const simpleStore = SimpleStore.useStore()
 
   const shouldChangeSizeOnKeyboardShown = isMobileSafari && simpleStore.set && Config.safariMobileKeyboardGuidedSize
@@ -66,9 +66,6 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, iconNa
             }
           }}
         />
-        {iconName && (
-          <Icon size={normalize(28)} color={theme.colors.gray50Percent} name={iconName} style={styles.iconPosition} />
-        )}
         {onCleanUpField && error !== '' && (
           <TouchableOpacity style={styles.suffixIcon} onPress={() => onCleanUpField('')}>
             <Icon size={normalize(16)} color={inputColor} name="close" />
@@ -96,10 +93,6 @@ const getStylesFromProps = ({ theme }) => ({
   view: {
     marginBottom: theme.sizes.default,
     width: '100%',
-  },
-  iconPosition: {
-    position: 'absolute',
-    right: 0,
   },
   suffixIcon: {
     paddingTop: theme.paddings.mainContainerPadding,

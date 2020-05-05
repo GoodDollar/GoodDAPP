@@ -13,7 +13,7 @@ class AnimationBase extends React.Component {
     this.onUnmount && this.onUnmount()
   }
 
-  initAnimation() {
+  initAnimation = () => {
     if (this.anim) {
       this.onMount && this.onMount()
     } else {

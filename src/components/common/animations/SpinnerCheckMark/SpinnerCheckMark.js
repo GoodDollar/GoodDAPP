@@ -4,7 +4,7 @@ import AnimationBase from '../Base'
 import animationData from './data.json'
 
 class SpinnerCheckMark extends AnimationBase {
-  onMount() {
+  onMount = () => {
     this.anim.onEnterFrame = e => {
       const { success } = this.props
       if (e.currentTime > 130.5 && !success) {

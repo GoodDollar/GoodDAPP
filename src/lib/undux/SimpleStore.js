@@ -131,7 +131,7 @@ const storeAssertion = (condition, logger, message) => {
   }
 
   if (assertionFailed) {
-    log.warn('updateAll failed', 'Received store is null')
+    log.warn('updateAll failed', 'Received store is null', message)
   }
 
   return !assertionFailed

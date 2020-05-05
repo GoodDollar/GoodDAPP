@@ -101,6 +101,10 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = async () => {
+    if (!assertStore(gdstore, log, 'FAiled to initialize login/citizen status')) {
+      return
+    }
+
     //after dynamic routes update, if user arrived here, then he is already loggedin
     //initialize the citizen status and wallet status
     const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(

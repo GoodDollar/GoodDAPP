@@ -48,22 +48,27 @@ const App = () => {
       })
     }
     const onRegister = reg => {
+      console.log('in to serviceWorkerRegistred onRegister****************************************')
       if (reg.waiting) {
         onUpdate(reg)
       }
     }
     if (serviceWorkerRegistred === false) {
+      console.log('in to serviceWorkerRegistred****************************************')
       log.debug('registering service worker')
       serviceWorker.register({ onRegister, onUpdate })
       serviceWorkerRegistred = true
     }
+    console.log('************isWebAppisWebAppisWebAppisWebAppisWebApp', isWebApp)
     if (isWebApp === false) {
+      console.log('in to isWebApp****************************************')
       log.debug('useEffect, registering beforeinstallprompt')
 
       window.addEventListener('beforeinstallprompt', e => {
         // For older browsers
         e.preventDefault()
         log.debug('Install Prompt fired')
+        console.log('*********************************** installPrompt', e)
         store.set('installPrompt')(e)
       })
     }

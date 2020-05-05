@@ -142,6 +142,7 @@ const AddWebApp = props => {
   }
 
   const installApp = async () => {
+    console.log('************************************* installApp')
     installPrompt.prompt()
     let outcome = await installPrompt.userChoice
     if (outcome.outcome == 'accepted') {
@@ -157,6 +158,7 @@ const AddWebApp = props => {
   }
 
   const handleInstallApp = () => {
+    console.log('*****************************handleInstallApp', installPrompt)
     if (installPrompt) {
       installApp()
     } else if (isMobileSafari) {
@@ -190,6 +192,7 @@ const AddWebApp = props => {
           onPress: dismiss => {
             fireEvent(ADDTOHOME, { skipCount })
             dismiss()
+            console.log('111111111111111111111111111111')
             handleInstallApp()
           },
         },

@@ -101,7 +101,7 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = async () => {
-    if (!assertStore(gdstore, log, 'FAiled to initialize login/citizen status')) {
+    if (!assertStore(gdstore, log, 'Failed to initialize login/citizen status')) {
       return
     }
 

@@ -7,7 +7,7 @@ import extractPathname from './extractPathname'
 
 const log = logger.child({ from: 'linking.native' })
 
-class LinkingNative {
+class DeepLinkingNative {
   constructor() {
     this.subscribe()
   }
@@ -18,7 +18,7 @@ class LinkingNative {
 
   _isFirstRun = true
 
-  linkingParams = {
+  params = {
     web3: '',
     paymentCode: '',
     code: '',
@@ -67,10 +67,10 @@ class LinkingNative {
 
     this.pathname = extractPathname(nonBranchLink || branchLink)
 
-    assign(this.linkingParams, pick(queryParams, keys(this.linkingParams)))
+    assign(this.params, pick(queryParams, keys(this.params)))
 
     over(this.navigationCallbacks)()
   }
 }
 
-export default new LinkingNative()
+export default new DeepLinkingNative()

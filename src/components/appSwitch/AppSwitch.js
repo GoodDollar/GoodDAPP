@@ -14,7 +14,7 @@ import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/gundb/UserStorage'
 import runUpdates from '../../lib/updates'
-import Linking from '../../lib/utils/linking'
+import DeepLinking from '../../lib/utils/deepLinking'
 
 import Splash from '../splash/Splash'
 import config from '../../config/config'
@@ -240,18 +240,18 @@ const AppSwitch = (props: LoadingProps) => {
   }, [])
 
   useEffect(() => {
-    if (isMobileNative && Linking.pathname) {
-      return props.navigation.navigate(Linking.pathname.slice(1))
+    if (isMobileNative && DeepLinking.pathname) {
+      return props.navigation.navigate(DeepLinking.pathname.slice(1))
     }
   }, [])
 
   useEffect(() => {
-    if (isMobileNative && Linking.pathname) {
-      Linking.subscribe(() => {
-        return props.navigation.navigate(Linking.pathname.slice(1))
+    if (isMobileNative && DeepLinking.pathname) {
+      DeepLinking.subscribe(() => {
+        return props.navigation.navigate(DeepLinking.pathname.slice(1))
       })
     }
-  }, [Linking.pathname])
+  }, [DeepLinking.pathname])
 
   useEffect(() => {
     AppState.addEventListener('change', handleAppFocus)

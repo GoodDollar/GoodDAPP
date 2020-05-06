@@ -51,7 +51,7 @@ import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
-import Linking from '../../lib/utils/linking'
+import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
@@ -215,7 +215,7 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    const { params } = Linking
+    const { params } = DeepLinking
 
     log.debug('handle links effect dashboard', { params })
 

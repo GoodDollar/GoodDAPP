@@ -96,7 +96,7 @@ export const useConnectionWeb3 = () => {
     } else if (wallet && appState !== 'active') {
       subscribe('off')
     }
-    return () => wallet && subscribe('off')
+    return () => wallet && subscribe('off') && bindEvents('remove')
   }, [wallet, appState, isWeb3Connection])
 
   return isConnection
@@ -135,26 +135,30 @@ export const useConnectionGun = () => {
     isGunConnection()
   }, [isGunConnection])
 
-  const bindEvents = method => {
-    const connection = get(userStorage, `gun._.opt.peers`, [])[Config.gunPublicUrl] || {}
-    const wire = connection.wire
-    if (wire && websocket.current !== wire) {
-      log.debug('gun binding listeners')
-      websocket.currentProvider = wire
-      const callMethod = method === 'remove' ? 'removeEventListener' : 'addEventListener'
-      log.debug('add gun binding listeners')
+  const bindEvents = useCallback(
+    method => {
+      const connection = get(userStorage, `gun._.opt.peers`, [])[Config.gunPublicUrl] || {}
+      const wire = connection.wire
+      if ((wire && websocket.current !== wire) || method === 'remove') {
+        log.debug('gun binding listeners')
+        websocket.currentProvider = wire
+        const callMethod = method === 'remove' ? 'removeEventListener' : 'addEventListener'
+        log.debug('add gun binding listeners', { method })
 
-      //guns reconnect automatically so no action required on our side
-      wire[callMethod]('close', gunClose)
-      wire[callMethod]('error', gunError)
-    }
-  }
+        //guns reconnect automatically so no action required on our side
+        wire[callMethod]('close', gunClose)
+        wire[callMethod]('error', gunError)
+      }
+    },
+    [userStorage, websocket]
+  )
 
   useEffect(() => {
     if (userStorage && appState === 'active') {
       isGunConnection()
+      return () => bindEvents('remove')
     }
-  }, [userStorage, appState])
+  }, [userStorage, appState, bindEvents])
 
   return isConnection
 }

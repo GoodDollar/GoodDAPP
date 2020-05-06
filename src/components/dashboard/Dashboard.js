@@ -152,7 +152,7 @@ const Dashboard = props => {
     async anyParams => {
       try {
         if (anyParams && anyParams.code) {
-          const code = readCode(decodeURI(anyParams.code))
+          const code = readCode(decodeURIComponent(anyParams.code))
 
           if (isTheSameUser(code) === false) {
             try {
@@ -543,7 +543,7 @@ const Dashboard = props => {
               const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
               if (status === WITHDRAW_STATUS_PENDING) {
                 // eslint-disable-next-line no-await-in-loop
-                return await handleWithdraw()
+                return await handleWithdraw(params)
               }
             }
             showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)

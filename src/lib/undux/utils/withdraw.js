@@ -78,13 +78,13 @@ export const prepareDataWithdraw = params => {
 
   if (paymentCode) {
     try {
-      paymentParams = Buffer.from(decodeURI(paymentCode), 'base64').toString()
+      paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
       paymentParams = JSON.parse(paymentParams)
     } catch (e) {
       log.info('uses old format', { paymentCode, reason })
       paymentParams = {
-        paymentCode: decodeURI(paymentCode),
-        reason: reason ? decodeURI(reason) : null,
+        paymentCode: decodeURIComponent(paymentCode),
+        reason: reason ? decodeURIComponent(reason) : null,
       }
     }
   }

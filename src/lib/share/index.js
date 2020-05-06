@@ -221,7 +221,12 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     throw new Error(`Link couldn't be generated`)
   }
 
-  let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
+  //remove == of base64 not required then uri encode component to encode +/
+  let paramsBase64 = encodeURIComponent(
+    Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .slice(0, -2)
+  )
   let queryParams = ''
 
   if (Config.enableShortUrl) {

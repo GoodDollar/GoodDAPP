@@ -1,6 +1,6 @@
-import { generateReceiveShareObject } from '../'
+import { generateReceiveShareObject, generateShareLink } from '../'
 
-const isReceiveLink = Buffer.from(JSON.stringify({ amount: '123' })).toString('base64')
+const isReceiveLink = generateShareLink('receive', { amount: '123' })
 describe('generateReceiveShareObject', () => {
   it(`should return an object for receipt with code, amount, to and from`, () => {
     // Given

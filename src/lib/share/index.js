@@ -30,12 +30,12 @@ export function generateCode(
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
   const codeObj = {
-    mnid,
-    amount,
-    reason,
+    m: mnid,
+    a: amount,
+    r: reason,
   }
   if (counterPartyDisplayName) {
-    codeObj.counterPartyDisplayName = counterPartyDisplayName
+    codeObj.c = counterPartyDisplayName
   }
 
   return codeObj
@@ -52,10 +52,10 @@ export function readCode(code: string) {
     try {
       let codeParams = Buffer.from(code, 'base64').toString()
       let codeObject = JSON.parse(codeParams)
-      mnid = codeObject.mnid
-      amount = codeObject.amount
-      reason = codeObject.reason
-      counterPartyDisplayName = codeObject.counterPartyDisplayName
+      mnid = codeObject.mnid || codeObject.m
+      amount = codeObject.amount || codeObject.a
+      reason = codeObject.reason || codeObject.r
+      counterPartyDisplayName = codeObject.counterPartyDisplayName || codeObject.c
     } catch (e) {
       ;[mnid, amount, reason, counterPartyDisplayName] = code.split('|')
     }
@@ -76,7 +76,7 @@ export function readCode(code: string) {
       counterPartyDisplayName,
     }
   } catch (e) {
-    log.error('readCode failed', e.message, e)
+    log.error('readCode failed', e.message, e, { code })
     return null
   }
 }
@@ -223,11 +223,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   }
 
   //remove == of base64 not required then uri encode component to encode +/
-  let paramsBase64 = encodeURIComponent(
-    Buffer.from(JSON.stringify(params))
-      .toString('base64')
-      .slice(0, -2)
-  )
+  let paramsBase64 = encodeURIComponent(Buffer.from(JSON.stringify(params)).toString('base64'))
   let queryParams = ''
 
   if (Config.enableShortUrl) {

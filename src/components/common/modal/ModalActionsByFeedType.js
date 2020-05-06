@@ -59,8 +59,8 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
   const getPaymentLink = useMemo(() => {
     const url = generateShareLink('send', {
-      paymentCode: item.data.withdrawCode,
-      reason: item.data.message,
+      p: item.data.withdrawCode,
+      r: item.data.message,
     })
 
     let result

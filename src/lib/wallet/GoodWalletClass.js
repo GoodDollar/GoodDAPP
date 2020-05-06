@@ -614,8 +614,8 @@ export class GoodWallet {
     log.debug('generateLink:', { amount })
 
     const paymentLink = generateShareLink('send', {
-      paymentCode: code,
-      reason,
+      p: code,
+      r: reason,
     })
 
     const txPromise = this.depositToHash(amount, hashedCode, events)

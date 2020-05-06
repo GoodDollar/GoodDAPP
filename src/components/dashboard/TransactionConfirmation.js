@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import { Image, Share, View } from 'react-native'
+import { Image, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import Section from '../common/layout/Section'
@@ -36,7 +36,7 @@ const instructionsTextNumberProps = {
 }
 
 const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
-  const { canShare } = useNativeSharing()
+  const { canShare, shareAction } = useNativeSharing()
   const { goToRoot } = screenProps
   const [screenState] = useScreenState(screenProps)
   const { paymentLink, action } = screenState
@@ -45,7 +45,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     let type = 'share'
 
     if (canShare) {
-      Share.share(paymentLink)
+      shareAction(paymentLink)
       goToRoot()
     } else {
       type = 'copy'
@@ -53,7 +53,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     }
 
     fireEvent('SEND_CONFIRMATION_SHARE', { type })
-  }, [canShare, paymentLink, goToRoot])
+  }, [canShare, paymentLink, goToRoot, shareAction])
 
   const secondTextPoint = action === ACTION_SEND ? 'Share it with your recipient' : 'Share it with sender'
   const thirdTextPoint = action === ACTION_SEND ? 'Recipient approves request' : 'Sender approves request'

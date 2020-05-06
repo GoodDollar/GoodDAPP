@@ -148,6 +148,9 @@ export default ({ onComplete = noop, onError = noop }) => {
       const zoomSessionResult = lastResult
       const zoomFaceMapResultCallback = resultCallback
 
+      // setting initial progress to 0 for freeze progress bar
+      zoomFaceMapResultCallback.uploadProgress(0)
+
       // getting images captured
       const { faceMetrics, sessionId } = zoomSessionResult
       const captured = faceMetrics.lowQualityAuditTrailCompressedBase64()
@@ -167,11 +170,18 @@ export default ({ onComplete = noop, onError = noop }) => {
           auditTrailImage: first(capturedHD),
         }
 
+        // after some preparation notifying Zoom that progress is 10%
+        zoomFaceMapResultCallback.uploadProgress(0.1)
+
         // calling API
         const response = await api.performFaceVerification(payload, ({ loaded, total }) => {
-          // handling XMLHttpRequest upload progress, passing changes to the Zoom UI
-          zoomFaceMapResultCallback.uploadProgress(loaded / total)
+          // handling XMLHttpRequest upload progress from 10 to 80%
+          zoomFaceMapResultCallback.uploadProgress(0.1 + (0.7 * loaded) / total)
         })
+
+        // last 20% progress bar will stuck in 'almost completed' state
+        // white GoodServer will process uploaded FaceMao
+        zoomFaceMapResultCallback.uploadProgress(1)
 
         // if enrolled sucessfully - setting last message from server response
         const { message: successMessage } = response.enrollmentResult
@@ -193,14 +203,14 @@ export default ({ onComplete = noop, onError = noop }) => {
 
         if (response) {
           // if error response was sent
-          const { code, message: zoomMessage } = response.enrollmentResult || {}
+          const { isEnrolled, isLive, code, message: zoomMessage } = response.enrollmentResult || {}
 
           // setting lastMessage from server's response
           lastMessage = zoomMessage
 
           // if code is 200 then we have some client-side issues
           // (e.g. low images quality, glasses weared, too dark etc)
-          if (200 === code) {
+          if (200 === code && (!isLive || !isEnrolled)) {
             // showing reason and asking to retry capturing
             ZoomCustomization.setOverrideResultScreenSuccessMessage(lastMessage)
 

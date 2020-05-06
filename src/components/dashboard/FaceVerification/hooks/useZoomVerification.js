@@ -195,6 +195,8 @@ export default ({ onComplete = noop, onError = noop }) => {
         // marking session as successfull
         zoomFaceMapResultCallback.succeed()
       } catch (exception) {
+        zoomFaceMapResultCallback.uploadProgress(1)
+
         // if call failed - reading http response from exception object
         const { message, response } = exception
 

@@ -12,12 +12,13 @@ const log = logger.child({ from: 'hasConnectionChange' })
 export const useConnection = () => {
   const [isConnection, setIsConnection] = useState(false)
 
-  NetInfo.isConnected.fetch().then(isConnectionNow => setIsConnection(isConnectionNow))
-
   useEffect(() => {
-    NetInfo.isConnected.addEventListener('connectionChange', connection => {
+    const cb = connection => {
       setIsConnection(connection)
-    })
+    }
+    NetInfo.isConnected.fetch().then(isConnectionNow => setIsConnection(isConnectionNow))
+    NetInfo.isConnected.addEventListener('connectionChange', cb)
+    return () => NetInfo.isConnected.removeEventListener('connectionChange', cb)
   }, [])
 
   return isConnection

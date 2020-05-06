@@ -13,27 +13,23 @@ type Props = {
   theme: any,
 }
 
-const ScanQRButton = ({ onPress, styles, theme, direction, ...screenProps }: Props) => {
-  const { disabled, style = {} } = screenProps
+const SendToAddress = ({ onPress, styles, theme, ...screenProps }: Props) => {
+  const { disabled } = screenProps
   return (
-    <TouchableOpacity style={[styles.row, style.row, style]} onPress={disabled ? undefined : onPress}>
-      <Text color="darkBlue" fontSize={14} fontWeight="medium">
-        Scan QR Code
-      </Text>
+    <TouchableOpacity style={styles.alignContent} onPress={disabled ? undefined : onPress}>
       <View style={styles.iconWrapper}>
-        <Icon name="qrcode" color="white" size={28} />
+        <Icon name="send" color="white" size={28} />
       </View>
+      <Text color="darkBlue" fontSize={14} fontWeight="medium">
+        Send to Address
+      </Text>
     </TouchableOpacity>
   )
 }
 
 const mapPropsToStyle = ({ theme }) => ({
-  row: {
-    cursor: 'pointer',
-    flexDirection: 'row',
+  alignContent: {
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: 0,
   },
   iconWrapper: {
     backgroundColor: theme.colors.darkBlue,
@@ -48,9 +44,6 @@ const mapPropsToStyle = ({ theme }) => ({
     width: 42,
     marginLeft: theme.sizes.default,
   },
-  icon: {
-    backgroundColor: 'white',
-  },
 })
 
-export default withStyles(mapPropsToStyle)(ScanQRButton)
+export default withStyles(mapPropsToStyle)(SendToAddress)

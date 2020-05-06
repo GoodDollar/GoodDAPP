@@ -61,7 +61,7 @@ const IntroScreen = props => {
               <Text
                 textAlign="center"
                 fontWeight="bold"
-                textDecoration="underline"
+                textDecorationLine="underline"
                 color="primary"
                 style={styles.descriptionUnderline}
                 onPress={gotoPrivacyArticle}

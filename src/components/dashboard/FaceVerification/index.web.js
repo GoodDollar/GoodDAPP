@@ -35,6 +35,9 @@ const kindOfCameraIssuesMap = mapValues(
       'VideoCaptureStreamNotActive',
     ],
 
+    // Context
+    ContextError: ['ContextSwitch'],
+
     // All Zoom sdk and session result codes could be thrown if device
     // orientation isn't portrait or was changed during the session
     // in this case we're marking error as 'DeviceOrientationError'.

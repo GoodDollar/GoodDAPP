@@ -1,6 +1,5 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import { Share } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
 import Clipboard from '../../lib/utils/Clipboard'
 import GDStore from '../../lib/undux/GDStore'
@@ -14,7 +13,6 @@ import useNativeSharing from '../../lib/hooks/useNativeSharing'
 
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -25,9 +23,15 @@ export type ReceiveProps = {
 
 const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')
-  const [showErrorDialog] = useErrorDialog()
   const [screenState] = useScreenState(screenProps)
-  const { canShare, generateReceiveShareObject, generateReceiveShareText, generateShareLink } = useNativeSharing()
+  const { goToRoot, push } = screenProps
+  const {
+    canShare,
+    shareAction,
+    generateReceiveShareObject,
+    generateReceiveShareText,
+    generateShareLink,
+  } = useNativeSharing()
   const { amount, code, reason, counterPartyDisplayName } = screenState
 
   const share = useMemo(() => {
@@ -41,32 +45,22 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     return generateShareLink('receive', code)
   }, [code, generateShareLink])
 
-  const shareActionPressHandler = useCallback(async () => {
-    let executeShare
-
+  const sharePressHandler = useCallback(() => {
     if (canShare) {
-      executeShare = Share.share
+      shareAction(share)
     } else {
-      executeShare = Clipboard.setString
+      Clipboard.setString(share)
     }
+  }, [canShare, share, shareAction])
 
-    try {
-      await executeShare(share)
-    } catch (e) {
-      if (e.name !== 'AbortError') {
-        showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
-      }
-    }
-  }, [canShare, showErrorDialog])
-
-  const shareActionDonePressHandler = useCallback(() => {
+  const shareDonePressHandler = useCallback(() => {
     fireEvent('RECEIVE_DONE', { type: 'link' })
-    screenProps.goToRoot()
-  }, [screenProps])
+    goToRoot()
+  }, [goToRoot])
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} />
+      <TopBar push={push} />
       <Section justifyContent="space-between" grow>
         <Section.Stack justifyContent="space-evenly" grow>
           <Section.Stack style={styles.qrCode}>
@@ -86,10 +80,7 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
           </Section.Stack>
         </Section.Stack>
         <Section.Stack>
-          <ShareLinkReceiveAnimationButton
-            onPress={shareActionPressHandler}
-            onPressDone={shareActionDonePressHandler}
-          />
+          <ShareLinkReceiveAnimationButton onPress={sharePressHandler} onPressDone={shareDonePressHandler} />
         </Section.Stack>
       </Section>
     </Wrapper>

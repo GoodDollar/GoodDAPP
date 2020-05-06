@@ -1,4 +1,5 @@
 // @flow
+import { Share } from 'react-native'
 import { fromPairs, isEmpty } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
@@ -221,7 +222,12 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     throw new Error(`Link couldn't be generated`)
   }
 
-  let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
+  //remove == of base64 not required then uri encode component to encode +/
+  let paramsBase64 = encodeURIComponent(
+    Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .slice(0, -2)
+  )
   let queryParams = ''
 
   if (Config.enableShortUrl) {
@@ -231,4 +237,18 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   }
 
   return encodeURI(`${destination}${queryParams}`)
+}
+
+export function shareAction(shareObj, showErrorDialog, customErrorMessage) {
+  try {
+    Share.share(shareObj)
+  } catch (e) {
+    if (e.name !== 'AbortError') {
+      showErrorDialog(customErrorMessage || 'Sorry, there was an error sharing you link. Please try again later.')
+
+      log.error('Native share failed', e.message, e, {
+        shareObj,
+      })
+    }
+  }
 }

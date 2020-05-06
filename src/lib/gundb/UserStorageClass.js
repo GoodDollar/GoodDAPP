@@ -127,8 +127,8 @@ export const welcomeMessage = {
   type: 'welcome',
   status: 'completed',
   data: {
-    customName: 'Welcome to GoodDollar',
-    subtitle: 'Welcome to GoodDollar',
+    customName: 'Welcome to GoodDollar!',
+    subtitle: 'Welcome to GoodDollar!',
     readMore: 'Claim free G$ coins daily',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
@@ -144,7 +144,7 @@ export const welcomeMessageOnlyEtoro = {
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar!',
-    subtitle: 'Welcome to GoodDollar',
+    subtitle: 'Welcome to GoodDollar!',
     readMore: false,
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
@@ -160,7 +160,7 @@ export const inviteFriendsMessage = {
   status: 'completed',
   data: {
     customName: `Invite friends and earn G$'s`,
-    subtitle: 'Want to earn more G$ ?',
+    subtitle: `Want to earn more G$'s ?`,
     readMore: 'Invite more friends!',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',

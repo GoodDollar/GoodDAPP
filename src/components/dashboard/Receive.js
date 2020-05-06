@@ -39,15 +39,16 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
 
   const shareLink = useMemo(() => share.message + ' ' + share.url, [share])
 
+  const fireReceiveDoneEvent = useCallback(() => fireEvent('RECEIVE_DONE', { type: 'wallet' }), [])
+
   const shareHandler = useCallback(() => {
     shareAction(share)
+    fireReceiveDoneEvent()
   }, [shareAction, share])
 
   const onPressScanQRButton = useCallback(() => screenProps.push('ReceiveByQR'), [screenProps])
 
   const onPressReceiveToAddressButton = useCallback(() => screenProps.push('ReceiveToAddress'), [screenProps])
-
-  const onPressCopyButton = () => fireEvent('RECEIVE_DONE', { type: 'wallet' })
 
   return (
     <Wrapper>
@@ -90,7 +91,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
             <CopyButton
               style={styles.shareButton}
               toCopy={shareLink}
-              onPress={onPressCopyButton}
+              onPress={fireReceiveDoneEvent}
               onPressDone={screenProps.goToRoot}
             >
               {SHARE_TEXT}

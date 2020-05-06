@@ -6,9 +6,7 @@ import GDStore from '../../../lib/undux/GDStore'
 import useZoomSDK, { ZoomSDKStatus } from './hooks/useZoomSDK'
 import useZoomVerification, { ZoomSessionStatus } from './hooks/useZoomVerification'
 
-const listStatusForRedirectToIntroPage = [10, 11, 12, 13]
-
-const kindOfCameraIssuesMap = mapValues(
+const kindOfSessionIssuesMap = mapValues(
   {
     // All Zoom session result codes could be thrown if the
     // camera isn't available or no camera access was confirmed
@@ -35,7 +33,7 @@ const kindOfCameraIssuesMap = mapValues(
       'VideoCaptureStreamNotActive',
     ],
 
-    // Context
+    // The ZoOm Session was cancelled due to the app being terminated, put to sleep, an OS notification, or the app was placed in the background.
     ContextError: ['ContextSwitch'],
 
     // All Zoom sdk and session result codes could be thrown if device
@@ -48,6 +46,21 @@ const kindOfCameraIssuesMap = mapValues(
       // device is in landscape mode
       'LandscapeModeNotAllowed',
     ],
+    
+    // User has cancelled session by own decision
+    UserCancelled: [
+      // The user pressed the cancel button and did not complete the ZoOm Session.
+      'UserCancelled',
+     
+      // The user pressed the cancel button during New User Guidance.
+      'UserCancelledFromNewUserGuidance',
+      
+      // The user pressed the cancel button during Retry Guidance.
+      'UserCancelledFromRetryGuidance',
+ 
+      // The user cancelled out of the ZoOm experience while attempting to get camera permissions.
+      'UserCancelledWhenAttemptingToGetCameraPermissions',
+    ]
   },
   statusesKeys => statusesKeys.map(key => ZoomSessionStatus[key])
 )
@@ -73,23 +86,26 @@ const FaceVerification = ({ screenProps }) => {
       // if session was successfull - returning sucess to the caller
       if (isSuccess) {
         const isCitizen = await goodWallet.isCitizen()
+        
         gdStore.set('isLoggedInCitizen')(isCitizen)
         screenProps.pop({ isValid: true })
-        return
-      }
-
-      if (listStatusForRedirectToIntroPage.indexOf(status) >= 0) {
-        screenProps.navigateTo('FaceVerificationIntro')
         return
       }
 
       // the following code is needed for ErrorScreen component
       // could display specific error message corresponding to
       // the kind of issue (camera, orientation etc)
-      const errorName = findKey(kindOfCameraIssuesMap, statusCodes => statusCodes.includes(status))
+      const kindOfTheIssue = findKey(kindOfSessionIssuesMap, statusCodes => statusCodes.includes(status))
+      
+      if ('UserCancelled' === kindOfTheIssue) {
+        // If user has cancelled face verification by own 
+        // decision - redirecting back to the into screen
+        screenProps.navigateTo('FaceVerificationIntro')
+        return
+      }
 
-      if (errorName) {
-        exception.name = errorName
+      if (kindOfTheIssue) {
+        exception.name = kindOfTheIssue
       }
 
       // handling error

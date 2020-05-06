@@ -6,6 +6,8 @@ import GDStore from '../../../lib/undux/GDStore'
 import useZoomSDK, { ZoomSDKStatus } from './hooks/useZoomSDK'
 import useZoomVerification, { ZoomSessionStatus } from './hooks/useZoomVerification'
 
+const listStatusForRedirectToIntroPage = [10, 11, 12, 13]
+
 const kindOfCameraIssuesMap = mapValues(
   {
     // All Zoom session result codes could be thrown if the
@@ -70,6 +72,11 @@ const FaceVerification = ({ screenProps }) => {
         const isCitizen = await goodWallet.isCitizen()
         gdStore.set('isLoggedInCitizen')(isCitizen)
         screenProps.pop({ isValid: true })
+        return
+      }
+
+      if (listStatusForRedirectToIntroPage.indexOf(status) >= 0) {
+        screenProps.navigateTo('FaceVerificationIntro')
         return
       }
 

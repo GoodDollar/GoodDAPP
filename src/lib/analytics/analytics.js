@@ -131,7 +131,7 @@ export const reportToSentry = (error, extra = {}, tags = {}) =>
 
     // set tags
     forEach(tags, (value, key) => {
-      scope.setTags(key, value)
+      scope.setTag(key, value)
     })
 
     Sentry.captureException(error)
@@ -186,6 +186,7 @@ const patchLogger = () => {
     }
     if (Config.sentryDSN && Config.env !== 'test') {
       reportToSentry(errorObj && errorObj instanceof Error ? errorObj : new Error(logMessage), {
+        logMessage,
         errorObj,
         logContext,
         eMsg,

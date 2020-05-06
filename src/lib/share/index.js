@@ -75,7 +75,7 @@ export function readCode(code: string) {
       counterPartyDisplayName,
     }
   } catch (e) {
-    log.error('readCode failed', e.message, e)
+    log.error('readCode failed', e.message, e, { code })
     return null
   }
 }

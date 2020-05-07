@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
@@ -57,7 +57,15 @@ const AppSwitch = (props: LoadingProps) => {
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
-  const { appState } = useAppState()
+
+  const recheck = useCallback(() => {
+    if (ready && gdstore) {
+      checkBonusInterval(true)
+      showOutOfGasError(props)
+    }
+  }, [gdstore, ready])
+
+  useAppState({ onForeground: recheck })
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -241,13 +249,6 @@ const AppSwitch = (props: LoadingProps) => {
     init()
     navigateToUrlAction()
   }, [])
-
-  useEffect(() => {
-    if (ready && gdstore && appState === 'active') {
-      checkBonusInterval(true)
-      showOutOfGasError(props)
-    }
-  }, [gdstore, ready, appState])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

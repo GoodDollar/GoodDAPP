@@ -175,7 +175,9 @@ const Claim = props => {
     }
   }
 
-  const handleClaim = async () => {
+  const handleClaim = async e => {
+    e.preventDefault()
+
     setLoading(true)
 
     try {

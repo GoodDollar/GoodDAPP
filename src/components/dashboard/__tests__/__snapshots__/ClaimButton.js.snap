@@ -867,12 +867,17 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                 Object {
                   "WebkitAlignItems": "center",
                   "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "vertical",
                   "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "column",
                   "WebkitJustifyContent": "center",
                   "alignItems": "center",
                   "display": "flex",
+                  "flexDirection": "column",
                   "justifyContent": "center",
                   "msFlexAlign": "center",
+                  "msFlexDirection": "column",
                   "msFlexPack": "center",
                 }
               }
@@ -882,11 +887,12 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(12,38,61,1.00)",
+                    "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
-                    "fontWeight": "500",
+                    "fontWeight": "700",
+                    "letterSpacing": "0.14px",
                     "lineHeight": "22px",
                     "textAlign": "center",
                     "textDecoration": "none",
@@ -894,41 +900,31 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                   }
                 }
               >
-                Get your 
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(12,38,61,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "16px",
-                    "fontWeight": "500",
-                    "lineHeight": "22px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                 free daily share:
+                Your next daily claim:
               </span>
               <div
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "baseline",
-                    "WebkitBoxAlign": "baseline",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
+                    "WebkitBoxFlex": 1,
                     "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "center",
                     "WebkitFlexDirection": "row",
-                    "alignItems": "baseline",
-                    "display": "flex",
+                    "WebkitFlexGrow": 1,
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "inline-flex",
                     "flexDirection": "row",
-                    "msFlexAlign": "baseline",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "minHeight": "53px",
+                    "msFlexAlign": "center",
                     "msFlexDirection": "row",
+                    "msFlexPack": "center",
+                    "msFlexPositive": 1,
                   }
                 }
               >
@@ -939,74 +935,158 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto",
+                      "fontFamily": "Roboto Slab",
                       "fontSize": "36px",
                       "fontWeight": "700",
-                      "lineHeight": "36px",
-                      "marginRight": "2px",
-                      "textAlign": "right",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
+                      "width": "25px",
                     }
                   }
                 >
-                  -.--
+                  0
                 </span>
                 <span
                   className="css-text-901oao css-textHasAncestor-16my406"
                   dir="auto"
                   style={
                     Object {
-                      "color": "rgba(66,69,74,1.00)",
+                      "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "normal",
-                      "lineHeight": "22px",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
+                      "width": "25px",
                     }
                   }
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "lineHeight": "20px",
-                        "textAlign": "right",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "10px",
                     }
-                  >
-                    G
-                  </span>
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "15.5px",
-                        "fontWeight": "500",
-                        "lineHeight": "20px",
-                        "textAlign": "right",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
+                  }
+                >
+                  :
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
                     }
-                  >
-                    $
-                  </span>
+                  }
+                >
+                  1
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "10px",
+                    }
+                  }
+                >
+                  :
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  0
                 </span>
               </div>
             </div>

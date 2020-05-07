@@ -68,6 +68,22 @@ const kindOfSessionIssuesMap = mapValues(
   statusesKeys => statusesKeys.map(key => ZoomSessionStatus[key])
 )
 
+const kindOfSDKIssuesMap = mapValues(
+  {
+    // All Zoom sdk initialization result codes could be thrown
+    // if device orientation isn't portrait
+    // in this case we're marking error as 'DeviceOrientationError'.
+    DeviceOrientationError: [
+      // device is upside down
+      'DeviceInReversePortraitMode',
+
+      // device is in landscape mode
+      'DeviceInLandscapeMode',
+    ],
+  },
+  statusesKeys => statusesKeys.map(key => ZoomSDKStatus[key])
+)
+
 const FaceVerification = ({ screenProps }) => {
   const gdStore = GDStore.useStore()
 
@@ -109,6 +125,8 @@ const FaceVerification = ({ screenProps }) => {
 
       if (kindOfTheIssue) {
         exception.name = kindOfTheIssue
+      } else if (lastMessage.startsWith('Duplicate')) {
+        exception.name = 'DuplicateFoundError'
       }
 
       // handling error
@@ -123,8 +141,10 @@ const FaceVerification = ({ screenProps }) => {
       // the following code is needed for ErrorScreen component
       // could display specific error message corresponding to
       // the kind of issue (camera, orientation etc)
-      if (ZoomSDKStatus.DeviceInLandscapeMode === exception.code) {
-        exception.name = 'DeviceOrientationError'
+      const errorName = findKey(kindOfSDKIssuesMap, statusCodes => statusCodes.includes(exception.code))
+
+      if (errorName) {
+        exception.name = errorName
       }
 
       // handling error

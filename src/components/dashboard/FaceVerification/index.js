@@ -1,10 +1,14 @@
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { findKey, mapValues } from 'lodash'
 
+import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark/SpinnerCheckMark'
+import Section from '../../common/layout/Section'
+
+import { useCurriedSetters } from '../../../lib/undux/GDStore'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import GDStore from '../../../lib/undux/GDStore'
-import useZoomSDK, { ZoomSDKStatus } from './hooks/useZoomSDK'
-import useZoomVerification, { ZoomSessionStatus } from './hooks/useZoomVerification'
+import useZoomSDK from './hooks/useZoomSDK'
+import useZoomVerification from './hooks/useZoomVerification'
+import { ZoomSDKStatus, ZoomSessionStatus } from './sdk'
 
 const kindOfSessionIssuesMap = mapValues(
   {
@@ -85,7 +89,7 @@ const kindOfSDKIssuesMap = mapValues(
 )
 
 const FaceVerification = ({ screenProps }) => {
-  const gdStore = GDStore.useStore()
+  const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -97,24 +101,25 @@ const FaceVerification = ({ screenProps }) => {
   )
 
   // ZoomSDK session completition handler
-  const completionHandler = useCallback(
-    async (isSuccess, { status }, lastMessage) => {
-      // preparing error object
-      const exception = new Error(lastMessage)
+  const completionHandler = useCallback(async () => {
+    const isCitizen = await goodWallet.isCitizen()
 
-      // if session was successfull - returning sucess to the caller
-      if (isSuccess) {
-        const isCitizen = await goodWallet.isCitizen()
+    // if session was successfull - whitelistening user
+    // and returning sucecss to the caller
+    setIsCitizen(isCitizen)
+    screenProps.pop({ isValid: true })
+  }, [screenProps, setIsCitizen])
 
-        gdStore.set('isLoggedInCitizen')(isCitizen)
-        screenProps.pop({ isValid: true })
-        return
-      }
+  // ZoomSDK session exception handler
+  const exceptionHandler = useCallback(
+    exception => {
+      // destructuring error object
+      const { message, code } = exception
 
       // the following code is needed for ErrorScreen component
       // could display specific error message corresponding to
       // the kind of issue (camera, orientation etc)
-      const kindOfTheIssue = findKey(kindOfSessionIssuesMap, statusCodes => statusCodes.includes(status))
+      const kindOfTheIssue = findKey(kindOfSessionIssuesMap, statusCodes => statusCodes.includes(code))
 
       if ('UserCancelled' === kindOfTheIssue) {
         // If user has cancelled face verification by own
@@ -125,7 +130,7 @@ const FaceVerification = ({ screenProps }) => {
 
       if (kindOfTheIssue) {
         exception.name = kindOfTheIssue
-      } else if (lastMessage.startsWith('Duplicate')) {
+      } else if (message.startsWith('Duplicate')) {
         exception.name = 'DuplicateFoundError'
       }
 
@@ -154,19 +159,30 @@ const FaceVerification = ({ screenProps }) => {
   )
 
   // Using zoom verification hook, passing completion callback
-  const { startVerification } = useZoomVerification({
+  const startVerification = useZoomVerification({
     onComplete: completionHandler,
+    onError: exceptionHandler,
   })
 
   // using zoom sdk initialization hook
   // starting verification once sdk sucessfully initializes
   // on error redirecting to the error screen
-  useZoomSDK({
+  const isInitialized = useZoomSDK({
     onInitialized: startVerification,
     onError: sdkExceptionHandler,
   })
 
-  return null
+  if (isInitialized) {
+    return null
+  }
+
+  return (
+    <Section grow justifyContent="flex-start">
+      <Section.Row alignItems="center" justifyContent="center">
+        <SpinnerCheckMark loading success={false} />
+      </Section.Row>
+    </Section>
+  )
 }
 
 FaceVerification.navigationOptions = {

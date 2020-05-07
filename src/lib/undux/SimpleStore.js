@@ -1,5 +1,4 @@
 // @flow
-import { useMemo } from 'react'
 import { createConnectedStore } from 'undux'
 import { AsyncStorage } from 'react-native'
 import { isString } from 'lodash'
@@ -7,6 +6,7 @@ import { isString } from 'lodash'
 import { IS_LOGGED_IN } from '../constants/localStorage'
 import pinoLogger from '../logger/pino-logger'
 import withPinoLogger, { log as unduxLogger } from './plugins/logger'
+import { createUseCurriedSettersHook } from './utils/setter'
 
 /**
  * Dialog data. This is being used to show a dialog across the app
@@ -137,11 +137,7 @@ const storeAssertion = (condition, logger, message) => {
   return !assertionFailed
 }
 
-const useCurriedSetters = (paths: string[]) => {
-  const store = SimpleStore.useStore()
-
-  return useMemo(() => paths.map(path => store.set(path)), [paths, store])
-}
+const useCurriedSetters = createUseCurriedSettersHook(SimpleStore)
 
 const assertStore = (store, logger = unduxLogger, message = 'Operation failed') =>
   storeAssertion(() => !store, logger, message)

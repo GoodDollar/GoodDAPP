@@ -8,6 +8,7 @@ import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import { extractQueryParams } from './lib/share'
 import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 import logger from './lib/logger/pino-logger'
+import { ZoomSDK } from './components/dashboard/FaceVerification/sdk'
 
 const log = logger.child({ from: 'init' })
 
@@ -27,9 +28,13 @@ export const init = () => {
       setUserStorage(userStorage)
       await initAnalytics(goodWallet, userStorage)
 
+      // preloading Zoom (supports web + native)
+      await ZoomSDK.preload()
+
       // FIXME RN INAPPLINKS
       if (Platform.OS === 'web') {
         const params = extractQueryParams(window.location.href)
+
         source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
         source = Object.keys(pick(params, ['inviteCode', 'web3Token', 'paymentCode', 'code'])).pop() || source
       }

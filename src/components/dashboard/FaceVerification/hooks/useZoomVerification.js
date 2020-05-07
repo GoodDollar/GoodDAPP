@@ -174,7 +174,7 @@ export default ({ onComplete = noop, onError = noop }) => {
         zoomFaceMapResultCallback.uploadProgress(0.1)
 
         // calling API
-        const response = await api.performFaceVerification(payload, ({ loaded, total }) => {
+        await api.performFaceVerification(payload, ({ loaded, total }) => {
           // handling XMLHttpRequest upload progress from 10 to 80%
           zoomFaceMapResultCallback.uploadProgress(0.1 + (0.7 * loaded) / total)
         })
@@ -184,7 +184,7 @@ export default ({ onComplete = noop, onError = noop }) => {
         zoomFaceMapResultCallback.uploadProgress(1)
 
         // if enrolled sucessfully - setting last message from server response
-        const { message: successMessage } = response.enrollmentResult
+        const successMessage = 'The FaceMap was successfully enrolled.'
 
         ZoomCustomization.setOverrideResultScreenSuccessMessage(successMessage)
 

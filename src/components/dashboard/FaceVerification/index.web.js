@@ -33,8 +33,11 @@ const kindOfSessionIssuesMap = mapValues(
       'VideoCaptureStreamNotActive',
     ],
 
-    // The ZoOm Session was cancelled due to the app being terminated, put to sleep, an OS notification, or the app was placed in the background.
-    ContextError: ['ContextSwitch'],
+    ForegoundLoosedError: [
+      // The ZoOm Session was cancelled due to the app being terminated, put to sleep, an OS notification,
+      // or the app was placed in the background (for web - tab was switched).
+      'ContextSwitch',
+    ],
 
     // All Zoom sdk and session result codes could be thrown if device
     // orientation isn't portrait or was changed during the session
@@ -46,21 +49,21 @@ const kindOfSessionIssuesMap = mapValues(
       // device is in landscape mode
       'LandscapeModeNotAllowed',
     ],
-    
+
     // User has cancelled session by own decision
     UserCancelled: [
       // The user pressed the cancel button and did not complete the ZoOm Session.
       'UserCancelled',
-     
+
       // The user pressed the cancel button during New User Guidance.
       'UserCancelledFromNewUserGuidance',
-      
+
       // The user pressed the cancel button during Retry Guidance.
       'UserCancelledFromRetryGuidance',
- 
+
       // The user cancelled out of the ZoOm experience while attempting to get camera permissions.
       'UserCancelledWhenAttemptingToGetCameraPermissions',
-    ]
+    ],
   },
   statusesKeys => statusesKeys.map(key => ZoomSessionStatus[key])
 )
@@ -86,7 +89,7 @@ const FaceVerification = ({ screenProps }) => {
       // if session was successfull - returning sucess to the caller
       if (isSuccess) {
         const isCitizen = await goodWallet.isCitizen()
-        
+
         gdStore.set('isLoggedInCitizen')(isCitizen)
         screenProps.pop({ isValid: true })
         return
@@ -96,9 +99,9 @@ const FaceVerification = ({ screenProps }) => {
       // could display specific error message corresponding to
       // the kind of issue (camera, orientation etc)
       const kindOfTheIssue = findKey(kindOfSessionIssuesMap, statusCodes => statusCodes.includes(status))
-      
+
       if ('UserCancelled' === kindOfTheIssue) {
-        // If user has cancelled face verification by own 
+        // If user has cancelled face verification by own
         // decision - redirecting back to the into screen
         screenProps.navigateTo('FaceVerificationIntro')
         return

@@ -1,6 +1,11 @@
 import userStorage from '../../../lib/gundb/UserStorage'
 
 describe('Check W3 Login Token Save', () => {
+  beforeAll(async () => {
+    jest.setTimeout(15000)
+    await userStorage.ready
+  })
+
   it('should save login token', async () => {
     const token = Array(100)
       .fill('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
@@ -8,8 +13,6 @@ describe('Check W3 Login Token Save', () => {
         return x[Math.floor(Math.random() * x.length)]
       })
       .join('')
-
-    await userStorage.ready
 
     userStorage.setProfileField('loginToken', token, 'private')
 

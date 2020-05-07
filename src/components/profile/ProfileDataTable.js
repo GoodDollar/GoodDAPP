@@ -32,17 +32,17 @@ const ProfileDataTable = ({
   const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)
   const countryFlagUrl = useCountryFlagUrl(phoneMeta && phoneMeta.country)
 
-  const verifyEmail = () => {
+  const verifyEmail = useCallback(() => {
     if (profile.email !== storedProfile.email) {
       verifyEdit('email', profile.email)
     }
-  }
+  }, [verifyEdit, profile.email, storedProfile.email])
 
-  const verifyPhone = () => {
+  const verifyPhone = useCallback(() => {
     if (profile.mobile !== storedProfile.mobile) {
       verifyEdit('phone', profile.mobile)
     }
-  }
+  }, [verifyEdit, profile.mobile, storedProfile.mobile])
 
   const verifyEdit = useCallback(
     (field, content) => {
@@ -60,7 +60,7 @@ const ProfileDataTable = ({
   const onPhoneInputBlur = useCallback(() => {
     setLockSubmit(false)
     verifyPhone()
-  }, [setLockSubmit])
+  }, [setLockSubmit, verifyPhone])
 
   // email handlers
   const onEmailFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
@@ -68,7 +68,7 @@ const ProfileDataTable = ({
   const onEmailBlur = useCallback(() => {
     setLockSubmit(false)
     verifyEmail()
-  }, [setLockSubmit])
+  }, [setLockSubmit, verifyEmail])
 
   return (
     <Section.Row alignItems="center" grow={1}>

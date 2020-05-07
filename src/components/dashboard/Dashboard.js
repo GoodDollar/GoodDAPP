@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'

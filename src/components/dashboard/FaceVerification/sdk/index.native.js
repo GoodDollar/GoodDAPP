@@ -39,7 +39,9 @@ export const ZoomSDK = new class {
       // we're passing current JWT to the native code allowing it to call GoodServer for verification
       // unfortunately we couldn't pass callback which could return some data back to the native code
       // so it's only way to integrate Zoom on native - to reimplement all logic about calling server
-      await faceVerification(api.jwt)
+      const verificationStatus = await faceVerification(api.jwt)
+
+      return verificationStatus
     } catch (exception) {
       this._convertCodeAndRethrow(exception)
     }

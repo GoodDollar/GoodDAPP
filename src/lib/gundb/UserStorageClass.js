@@ -14,7 +14,6 @@ import isMobilePhone from '../validators/isMobilePhone'
 import resizeBase64Image from '../utils/resizeBase64Image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
-import { delay } from '../utils/async'
 
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
@@ -436,10 +435,8 @@ export class UserStorage {
 
     //hack to get gun working. these seems to preload data gun needs to login
     //otherwise it get stuck on a clean incognito
-    const usernamePromise = new Promise((res, rej) => {
-      this.gun.get('~@' + username).once(res, { wait: 3000 })
-    })
-    await Promise.race([usernamePromise, delay(3000)])
+    const existingUser = await this.gun.get('~@' + username).onThen(null, { wait: 3000 })
+    logger.debug('getMnemonic:', { existingUser })
     const authUserInGun = (username, password) => {
       return new Promise((res, rej) => {
         gunuser.auth(username, password, user => {
@@ -453,15 +450,15 @@ export class UserStorage {
       })
     }
 
-    if (await authUserInGun(username, password)) {
+    if (existingUser && (await authUserInGun(username, password))) {
       const profile = gunuser.get('profile')
       mnemonic = await profile
         .get('mnemonic')
         .get('value')
         .decrypt()
       logger.debug('getMnemonic', { mnemonic })
+      await gunuser.leave()
     }
-    await gunuser.leave()
 
     return mnemonic
   }
@@ -550,13 +547,8 @@ export class UserStorage {
       //hack to get gun working. these seems to preload data gun needs to login
       //otherwise it get stuck on a clean incognito, either when checking existingusername (if doesnt exists)
       //or in gun auth
-      const usernamePromise = new Promise((res, rej) => {
-        this.gun.get('~@' + username).once(res, { wait: 3000 })
-      })
-      const usernamePromise2 = new Promise((res, rej) => {
-        this.gun.get('~@' + username).on(res)
-      })
-      const existingUsername = await Promise.race([usernamePromise2, usernamePromise, delay(4000, false)])
+      const existingUsername = await this.gun.get('~@' + username).onThen(null, { wait: 3000, default: false })
+
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
@@ -2137,7 +2129,7 @@ export class UserStorage {
    */
   async userAlreadyExist(): Promise<boolean> {
     const [isProfileRegistered, isRegistered] = await Promise.all([
-      this.profile.get('registered').onThen(),
+      this.profile.get('registered').onThen(null, { default: {} }),
       this.gunuser.get('registered').onThen(),
     ])
     const exists = isProfileRegistered.display || isRegistered

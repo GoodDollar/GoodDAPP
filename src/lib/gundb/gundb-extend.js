@@ -8,18 +8,31 @@ import { delay } from '../utils/async'
  * @module
  */
 const gunExtend = (() => {
-  Gun.chain.onThen = function(cb = undefined, opts = { timeout: 2000 }) {
+  Gun.chain.onThen = function(cb = undefined, opts = {}) {
+    opts = Object.assign({ wait: 2000, default: undefined }, opts)
     let gun = this
     const onPromise = new Promise((res, rej) => {
       gun.on((v, k, g, ev) => {
         ev.off()
-        res(v)
+
+        //timeout if value is undefined
+        if (v !== undefined) {
+          res(v)
+        }
       })
     })
     let oncePromise = new Promise(function(res, rej) {
-      gun.once(res, { wait: opts.timeout })
+      gun.once(
+        v => {
+          //timeout if value is undefined
+          if (v !== undefined) {
+            res(v)
+          }
+        },
+        { wait: opts.wait }
+      )
     })
-    const res = Promise.race([onPromise, oncePromise, delay(opts.timeout, false)]).catch(_ => undefined)
+    const res = Promise.race([onPromise, oncePromise, delay(opts.wait + 1000, opts.default)]).catch(_ => undefined)
     return cb ? res.then(cb) : res
   }
 

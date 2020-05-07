@@ -185,7 +185,17 @@ const patchLogger = () => {
       global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
     }
     if (Config.sentryDSN && Config.env !== 'test') {
-      reportToSentry(errorObj && errorObj instanceof Error ? errorObj : new Error(logMessage), {
+      const isValidErrorObject = errorObj && errorObj instanceof Error
+      let errorToPassIntoLog
+
+      if (isValidErrorObject) {
+        errorObj.message = `${logMessage}: ${errorObj.message}`
+        errorToPassIntoLog = errorObj
+      } else {
+        errorToPassIntoLog = new Error(logMessage)
+      }
+
+      reportToSentry(errorToPassIntoLog, {
         logMessage,
         errorObj,
         logContext,

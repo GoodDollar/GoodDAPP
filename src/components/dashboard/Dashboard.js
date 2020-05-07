@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
@@ -89,7 +90,6 @@ export type DashboardProps = {
 }
 const Dashboard = props => {
   const { screenProps, styles, theme, navigation }: DashboardProps = props
-  const [getNextFeedAllowed, setGetNextFeedAllowed] = useState(true)
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
@@ -179,29 +179,29 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    async (reset = false) => {
-      const res =
-        (await userStorage
+    debounce(
+      async (reset = false) => {
+        const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
-          .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
+          .catch(e => logger.error('getInitialFeed -> ', e.message, e))
 
-      if (res.length === 0) {
-        log.warn('empty feed')
-        return
-      }
-
-      if (reset) {
-        // a flag used to show feed load animation only at the first app loading
-        if (!loadAnimShown) {
-          // a time to perform feed load animation till the end
-          await delay(1900)
-          store.set('feedLoadAnimShown')(true)
+        if (reset) {
+          // a flag used to show feed load animation only at the first app loading
+          if (!loadAnimShown) {
+            // a time to perform feed load animation till the end
+            await delay(2500)
+          }
+          const res = (await feedPromise) || []
+          res.length > 0 && loadAnimShown && store.set('feedLoadAnimShown')(true)
+          res.length > 0 && setFeeds(res)
+        } else {
+          const res = (await feedPromise) || []
+          res.length > 0 && setFeeds(feeds.concat(res))
         }
-        setFeeds(res)
-      } else {
-        setFeeds(feeds.concat(res))
-      }
-    },
+      },
+      500,
+      { leading: true }
+    ),
     [loadAnimShown, store, setFeeds, feeds]
   )
 
@@ -281,12 +281,19 @@ const Dashboard = props => {
     Dimensions.addEventListener('change', () => debouncedHandleResize())
   }
 
-  const nextFeed = useCallback(() => {
-    if (getNextFeedAllowed && feeds && feeds.length > 0) {
-      log.debug('getNextFeed called')
-      return getFeedPage()
-    }
-  }, [feeds])
+  const nextFeed = useCallback(
+    debounce(
+      () => {
+        if (feeds && feeds.length > 0) {
+          log.debug('getNextFeed called')
+          return getFeedPage()
+        }
+      },
+      300,
+      { leading: true }
+    ),
+    [feeds, getFeedPage]
+  )
 
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
@@ -402,9 +409,6 @@ const Dashboard = props => {
         }),
       ]).start()
     }
-
-    // needed to allow executing getNextFeed fn after header animation ends
-    setTimeout(() => setGetNextFeedAllowed(true), 300)
   }, [headerLarge])
 
   useEffect(() => {
@@ -488,7 +492,7 @@ const Dashboard = props => {
         })
       }
     },
-    [showDialog]
+    [showDialog, showEventModal]
   )
 
   const handleWithdraw = useCallback(
@@ -575,7 +579,7 @@ const Dashboard = props => {
         !headerLarge && setHeaderLarge(true)
       }
     },
-    [headerLarge, feeds]
+    [headerLarge, feeds, setHeaderLarge]
   )
 
   const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feeds), [currentFeed, feeds])

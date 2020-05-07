@@ -137,7 +137,7 @@ const storeAssertion = (condition, logger, message) => {
   return !assertionFailed
 }
 
-const useCurriedSetters = createUseCurriedSettersHook(SimpleStore)
+const useCurriedSetters = createUseCurriedSettersHook(() => SimpleStore)
 
 const assertStore = (store, logger = unduxLogger, message = 'Operation failed') =>
   storeAssertion(() => !store, logger, message)

@@ -68,6 +68,6 @@ const GDStore: StoreDefinition<State> = createConnectedStore(
   )
 )
 
-export const useCurriedSetters = createUseCurriedSettersHook(GDStore)
+export const useCurriedSetters = createUseCurriedSettersHook(() => GDStore)
 
 export default GDStore

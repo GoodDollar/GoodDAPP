@@ -27,9 +27,12 @@ export const init = () => {
       // set userStorage to simple storage
       setUserStorage(userStorage)
       await initAnalytics(goodWallet, userStorage)
+      log.debug('analytics has been initializing')
 
       // preloading Zoom (supports web + native)
+      log.debug('Pre-loading Zoom SDK')
       await ZoomSDK.preload()
+      log.debug('Zoom SDK is ready')
 
       // FIXME RN INAPPLINKS
       if (Platform.OS === 'web') {

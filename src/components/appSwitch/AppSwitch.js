@@ -1,6 +1,6 @@
 // @flow
-import React, { Platform, useEffect, useState } from 'react'
-import { AppState, AsyncStorage } from 'react-native'
+import React, { Platform, useEffect, useRef, useState } from 'react'
+import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'
@@ -15,7 +15,7 @@ import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatu
 import userStorage from '../../lib/gundb/UserStorage'
 import runUpdates from '../../lib/updates'
 import DeepLinking from '../../lib/utils/deepLinking'
-
+import useAppState from '../../lib/hooks/useAppState'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { isMobileNative } from '../../lib/utils/platform'
@@ -55,6 +55,8 @@ const AppSwitch = (props: LoadingProps) => {
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
+  const { appState } = useAppState()
+  const initSubscribe = useRef(false)
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -227,12 +229,7 @@ const AppSwitch = (props: LoadingProps) => {
       })
   }
 
-  const handleAppFocus = state => {
-    if (state === 'active') {
-      checkBonusInterval()
-      showOutOfGasError(props)
-    }
-  }
+  const deepLinkingNavigation = () => props.navigation.navigate(DeepLinking.pathname.slice(1))
 
   useEffect(() => {
     init()
@@ -241,24 +238,31 @@ const AppSwitch = (props: LoadingProps) => {
 
   useEffect(() => {
     if (isMobileNative && DeepLinking.pathname) {
-      return props.navigation.navigate(DeepLinking.pathname.slice(1))
+      deepLinkingNavigation()
     }
   }, [])
 
   useEffect(() => {
     if (isMobileNative && DeepLinking.pathname) {
       DeepLinking.subscribe(() => {
-        return props.navigation.navigate(DeepLinking.pathname.slice(1))
+        deepLinkingNavigation()
       })
+    }
+    return () => {
+      DeepLinking.unsubscribe()
     }
   }, [DeepLinking.pathname])
 
   useEffect(() => {
-    AppState.addEventListener('change', handleAppFocus)
-    return function() {
-      AppState.removeEventListener('change', handleAppFocus)
+    if (ready && gdstore && appState === 'active') {
+      checkBonusInterval(true)
+      showOutOfGasError(props)
+      if (isMobileNative && !initSubscribe.current) {
+        initSubscribe.current = true
+        DeepLinking.subscribe(deepLinkingNavigation())
+      }
     }
-  }, [gdstore, handleAppFocus])
+  }, [gdstore, ready, appState])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

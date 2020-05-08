@@ -31,11 +31,9 @@ class DeepLinkingNative {
   pathname = ''
 
   subscribe = navigationCallback => {
+    this._unsubscribe = branch.subscribe(this._listener)
     if (navigationCallback) {
       this.navigationCallbacks.push(navigationCallback)
-    }
-    if (!this._unsubscribe) {
-      this._unsubscribe = branch.subscribe(this._listener)
     }
   }
 

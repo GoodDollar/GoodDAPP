@@ -49,15 +49,17 @@ export function generateCode(
 export function readCode(code: string) {
   try {
     let mnid, amount, reason, counterPartyDisplayName
+    const decoded = decodeURIComponent(code)
+
     try {
-      let codeParams = Buffer.from(code, 'base64').toString()
+      let codeParams = Buffer.from(decoded, 'base64').toString()
       let codeObject = JSON.parse(codeParams)
       mnid = codeObject.mnid || codeObject.m
       amount = codeObject.amount || codeObject.a
       reason = codeObject.reason || codeObject.r
       counterPartyDisplayName = codeObject.counterPartyDisplayName || codeObject.c
     } catch (e) {
-      ;[mnid, amount, reason, counterPartyDisplayName] = code.split('|')
+      ;[mnid, amount, reason, counterPartyDisplayName] = decoded.split('|')
     }
 
     if (!isMNID(mnid)) {

@@ -185,7 +185,7 @@ const patchLogger = () => {
       global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
     }
     if (Config.sentryDSN && Config.env !== 'test') {
-      const isValidErrorObject = errorObj && errorObj instanceof Error
+      const isValidErrorObject = errorObj instanceof Error
       let errorToPassIntoLog
 
       if (isValidErrorObject) {

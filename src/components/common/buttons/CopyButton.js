@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Icon from '../view/Icon'
-
-import Clipboard from '../../../lib/utils/Clipboard'
+import useClipboard from '../../../lib/hooks/useClipboard'
 import CustomButton from './CustomButton'
 
 const NOT_COPIED = 'NOT_COPIED'
@@ -13,8 +12,16 @@ const TRANSITION_TIME = 1000
 const CopyButton = ({ toCopy, children, onPress, onPressDone, iconColor, withoutDone, ...props }) => {
   const mode = props.mode || 'contained'
   const [state, setState] = useState(NOT_COPIED)
+  const { setString } = useClipboard()
 
-  const transitionToState = () => setState(onPressDone ? DONE : NOT_COPIED)
+  const transitionToState = useCallback(() => setState(onPressDone ? DONE : NOT_COPIED), [setState, onPressDone])
+
+  const onPressHandler = useCallback(() => {
+    if (setString(toCopy)) {
+      setState(COPIED)
+      onPress && onPress()
+    }
+  }, [setState, onPress])
 
   useEffect(() => {
     if (state === 'COPIED' && !withoutDone) {
@@ -41,16 +48,7 @@ const CopyButton = ({ toCopy, children, onPress, onPressDone, iconColor, without
     }
     default: {
       return (
-        <CustomButton
-          data-gdtype={'copybutton'}
-          mode={mode}
-          onPress={() => {
-            Clipboard.setString(toCopy)
-            setState(COPIED)
-            onPress && onPress()
-          }}
-          {...props}
-        >
+        <CustomButton data-gdtype={'copybutton'} mode={mode} onPress={onPressHandler} {...props}>
           {children || 'Copy to Clipboard'}
         </CustomButton>
       )

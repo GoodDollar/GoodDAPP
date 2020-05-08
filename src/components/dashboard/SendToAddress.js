@@ -10,7 +10,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
-import useClipboardPaste from '../../lib/hooks/useClipboardPaste'
+import { useClipboardPaste } from '../../lib/hooks/useClipboard'
 
 export type TypeProps = {
   screenProps: any,

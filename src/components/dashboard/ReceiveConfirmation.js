@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
-import Clipboard from '../../lib/utils/Clipboard'
+import useClipboard from '../../lib/hooks/useClipboard'
 import GDStore from '../../lib/undux/GDStore'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import QRCode from '../common/view/QrCode/QRCode'
@@ -23,6 +23,7 @@ export type ReceiveProps = {
 
 const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')
+  const { setString } = useClipboard()
   const [screenState] = useScreenState(screenProps)
   const { goToRoot, push } = screenProps
   const {
@@ -49,7 +50,7 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     if (canShare) {
       shareAction(share)
     } else {
-      Clipboard.setString(share)
+      setString(share)
     }
   }, [canShare, share, shareAction])
 

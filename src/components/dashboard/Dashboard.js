@@ -216,7 +216,8 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    const anyParams = extractQueryParams(window.location.href)
+    const decodedHref = decodeURI(window.location.href)
+    const anyParams = extractQueryParams(decodedHref)
 
     log.debug('handle links effect dashboard', { anyParams })
 

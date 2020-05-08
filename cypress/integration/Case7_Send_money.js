@@ -7,7 +7,7 @@ import SendMoneyPage from '../PageObjects/SendMoneyPage'
 describe('Test case 7: Ability to send money', () => {
   it('User is able to send money', () => {
     StartPage.open()
-    StartPage.continueOnWebButton.click()
+    //StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
     LoginPage.pageHeader.should('contain', 'Recover')
@@ -34,7 +34,7 @@ describe('Test case 7: Ability to send money', () => {
       cy.clearLocalStorage()
       cy.clearCookies()
       StartPage.open()
-      StartPage.continueOnWebButton.click()
+      //StartPage.continueOnWebButton.click()
       StartPage.signInButton.click()
       LoginPage.recoverFromPassPhraseLink.click()
       LoginPage.pageHeader.should('contain', 'Recover')

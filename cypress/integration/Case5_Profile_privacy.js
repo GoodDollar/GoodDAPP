@@ -8,7 +8,7 @@ import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 describe('Test case 5: Ability to change profile privacy level', () => {
   it('User should be able to change privacy lvl', () => {
     StartPage.open()
-    StartPage.continueOnWebButton.click()
+    //StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
     LoginPage.pageHeader.should('contain', 'Recover')

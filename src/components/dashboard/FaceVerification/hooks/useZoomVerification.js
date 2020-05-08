@@ -8,13 +8,14 @@ import { ZoomSDK } from '../sdk'
  * ZoomSDK face verification & fecamap enrollment hook
  *
  * @param {object} config Configuration
- * @property {(lastMessage: string) => void} config.onSuccess - Verification completion callback
+ * @property {string} config.enrollmentIdentifier Unique identifier string used for identify enrollment
+ * @property {(lastMessage: string) => void} config.onSuccess Verification completion callback
  * @property @param {string} config.onSuccess.lastMessage Last status message (got from session status, server response or error thrown)
  * @property {(error: Error) => void} config.onError - Verfifcication error callback
  *
  * @return {async () => Promise<void>} Function that starts verification/enrollment process
  */
-export default ({ onCompleted = noop, onError = noop }) => {
+export default ({ enrollmentIdentifier, onCompleted = noop, onError = noop }) => {
   // Zoom session in progress flag to avoid begin
   // a new session until current is in progress
   // Shared via Ref
@@ -34,7 +35,7 @@ export default ({ onCompleted = noop, onError = noop }) => {
 
     // initializing zoom session
     try {
-      const verificationStatus = await ZoomSDK.faceVerification()
+      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier)
 
       onCompleted(verificationStatus)
     } catch (exception) {
@@ -43,7 +44,7 @@ export default ({ onCompleted = noop, onError = noop }) => {
       // setting session is not running flag in the ref
       sessionInProgressRef.current = false
     }
-  }, [onCompleted, onError])
+  }, [enrollmentIdentifier, onCompleted, onError])
 
   // exposing public hook API
   return startVerification

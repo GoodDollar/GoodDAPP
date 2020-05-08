@@ -135,6 +135,11 @@ email again…
       >
         <div
           className="css-view-1dbjc4n"
+          style={
+            Object {
+              "width": "100%",
+            }
+          }
         >
           <div
             className="css-text-901oao"

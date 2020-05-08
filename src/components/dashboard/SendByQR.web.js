@@ -29,7 +29,8 @@ const SendByQR = ({ screenProps }: Props) => {
   const handleScan = async data => {
     if (data) {
       try {
-        let paramsUrl = extractQueryParams(data)
+        const decoded = decodeURI(data)
+        let paramsUrl = extractQueryParams(decoded)
         const code = readCode(paramsUrl.code)
         log.info({ code })
 

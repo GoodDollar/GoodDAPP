@@ -3,11 +3,11 @@
     "defaultCommandTimeout": 60000,
     "env": {   
         "baseUrl": "https://gooddev.netlify.app/",
-        "mainAccountEmail": "gooddollar.test123@gmail.com",
-        "mainAccountUsername": "Andrew Lebowski",
-        "mainAccountPhone": "+380983611320",
+        "mainAccountEmail": "testaccountgd@yahoo.com",
+        "mainAccountUsername": "Automation Test",
+        "mainAccountPhone": "+380988846112",
         "mainAccountMnemonics": 
-            "plunge craft urban short color rule time art recipe monster black essay",
+            "spoon blanket example define water coach doll social core cradle fame alone",
         "wordsForUnsuccessfullLogin": {
             "withChangedWord": "hello craft urban short color rule time art recipe monster black essay",
             "withNumbers": "1plunge craft urban short color rule time art recipe monster black essay",
@@ -24,4 +24,4 @@
         "usernameForRegistration": "Name Surname",
         "numberForCheckingRegistration": "+380673001751"
     }
-}
+} 

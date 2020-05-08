@@ -418,6 +418,10 @@ const Dashboard = props => {
   useEffect(() => {
     log.debug('Dashboard didmount', navigation)
     initDashboard()
+
+    return function() {
+      Dimensions.removeEventListener('change', handleResize)
+    }
   }, [])
 
   /**
@@ -583,7 +587,7 @@ const Dashboard = props => {
           setGetNextFeedAllowed(false)
         }
       } else {
-        if (headerLarge) {
+        if (!headerLarge) {
           setHeaderLarge(true)
           setGetNextFeedAllowed(false)
         }

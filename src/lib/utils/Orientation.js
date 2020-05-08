@@ -21,21 +21,14 @@ export const getScreenHeight = () => Dimensions.get('window').height
 export const getMaxDeviceHeight = () => {
   const height = getScreenHeight()
 
-  if (height > theme.sizes.maxHeightForTabletAndDesktop) {
-    return theme.sizes.maxHeightForTabletAndDesktop
-  }
-
-  return height
+  return Math.min(height, theme.sizes.maxHeightForTabletAndDesktop)
 }
 
 export const getScreenWidth = () => Dimensions.get('window').width
 export const getMaxDeviceWidth = () => {
   const width = getScreenWidth()
-  if (width > theme.sizes.maxWidthForTabletAndDesktop) {
-    return theme.sizes.maxWidthForTabletAndDesktop
-  }
 
-  return width
+  return Math.min(width, theme.sizes.maxWidthForTabletAndDesktop)
 }
 
 export const isPortrait = () => {

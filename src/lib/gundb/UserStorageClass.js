@@ -1,7 +1,7 @@
 //@flow
 import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
-import { find, flatten, get, isEqual, keys, maxBy, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
+import { find, flatten, get, isEqual, keys, maxBy, memoize, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun'
@@ -354,6 +354,8 @@ export class UserStorage {
    */
   feedIndex: Array<[Date, number]>
 
+  feedIds: {} = {}
+
   feedMutex = new Mutex()
 
   /**
@@ -701,6 +703,12 @@ export class UserStorage {
   }
 
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent | void> {
+    //first check to save time if already exists
+    let feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
+    if (get(feedEvent, 'data.receiptData')) {
+      return feedEvent
+    }
+
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
@@ -726,8 +734,8 @@ export class UserStorage {
         .then(_ => new Date(_.timestamp * 1000))
         .catch(_ => new Date())
 
-      //get existing or make a new event
-      const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
+      //get existing or make a new event (calling getFeedItem again because this is after mutex, maybe something changed)
+      feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         createdDate: receiptDate.toString(),
         type: this.getOperationType(data, this.wallet.account),
@@ -842,14 +850,7 @@ export class UserStorage {
    * @returns {object} feed item or null if it doesn't exist
    */
   getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
-    return this.feed
-      .get('byid')
-      .get(transactionHash)
-      .decrypt()
-      .catch(e => {
-        logger.warn('getFeedItemByTransactionHash not found or cant decrypt', { transactionHash })
-        return undefined
-      })
+    return this.feedIds[transactionHash]
   }
 
   /**
@@ -883,11 +884,24 @@ export class UserStorage {
     logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
   }
 
+  writeFeedEvent(event): Promise<FeedEvent> {
+    this.feedIds[event.id] = event
+    AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+    return this.feed
+      .get('byid')
+      .get(event.id)
+      .secretAck(event)
+  }
+
   /**
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
+    //load unencrypted feed from cache
+    const loadFeedCache = AsyncStorage.getItem('GD_feed')
+      .then(JSON.parse)
+      .catch(e => logger.warn('failed parsing feed from cache'))
     this.feed = this.gunuser.get('feed')
     const feed = await this.feed
     logger.debug('init feed', { feed })
@@ -901,6 +915,44 @@ export class UserStorage {
     }
 
     this.feed.get('index').on(this.updateFeedIndex, false)
+    this.feedIds = (await loadFeedCache) || {}
+
+    //verify cache has all items
+    await new Promise((res, rej) => {
+      if (!(feed && feed.byid)) {
+        res()
+      }
+      this.feed.get('byid').onThen(items => {
+        delete items._
+        const ids = Object.entries(items)
+        logger.debug('initFeed got items', { ids })
+        const promises = ids.map(async ([k, v]) => {
+          if (this.feedIds[k] === undefined) {
+            logger.debug('initFeed got missing cache item', { k })
+            const data = await this.feed
+              .get('byid')
+              .get(k)
+              .decrypt()
+              .catch(_ => undefined)
+            if (data != null) {
+              this.feedIds[k] = data
+              return true
+            }
+            return false
+          }
+          return false
+        })
+        Promise.all(promises)
+          .then(_ => {
+            if (_.find(_ => _)) {
+              logger.debug('initFeed updating cache', this.feedIds, _)
+              AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+            }
+          })
+          .catch(e => logger.error('error caching feed items', e.message, e))
+        res()
+      }, true)
+    })
   }
 
   async startSystemFeed() {
@@ -969,8 +1021,8 @@ export class UserStorage {
 
   addAllCardsTest() {
     ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
-      m.id = String(Math.random())
-      this.enqueueTX(m)
+      const copy = Object.assign({}, m, { id: String(Math.random()) })
+      this.enqueueTX(copy)
     })
   }
 
@@ -1390,10 +1442,7 @@ export class UserStorage {
       eventsIndex
         .filter(_ => _.id)
         .map(async eventIndex => {
-          let item = await this.feed
-            .get('byid')
-            .get(eventIndex.id)
-            .decrypt()
+          let item = this.feedIds[eventIndex.id]
 
           if (item === undefined) {
             const receipt = await this.wallet.getReceiptWithLogs(eventIndex.id).catch(e => {
@@ -1581,73 +1630,75 @@ export class UserStorage {
    * @returns {Promise} Promise with StandardFeed object,
    *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
    */
-  async formatEvent(event: FeedEvent): Promise<StandardFeed> {
-    logger.debug('formatEvent: incoming event', event.id, { event })
+  formatEvent = memoize(
+    async (event: FeedEvent): Promise<StandardFeed> => {
+      logger.debug('formatEvent: incoming event', event.id, { event })
 
-    try {
-      const { data, type, date, id, status, createdDate, animationExecuted, action } = event
-      const { sender, preReasonText, reason, code: withdrawCode, otplStatus, customName, subtitle, readMore } = data
+      try {
+        const { data, type, date, id, status, createdDate, animationExecuted, action } = event
+        const { sender, preReasonText, reason, code: withdrawCode, otplStatus, customName, subtitle, readMore } = data
 
-      const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
-      const displayType = this._extractDisplayType(type, withdrawStatus, status)
-      logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
-      const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
-      const [avatar, fullName] = await Promise.all([
-        this._extractAvatar(type, withdrawStatus, profileNode, address).catch(e => {
-          logger.warn('formatEvent: failed extractAvatar', e.message, e, {
-            type,
-            withdrawStatus,
-            profileNode,
-            address,
-          })
-          return undefined
-        }),
-        this._extractFullName(customName, profileNode, initiatorType, initiator, type, address, displayName).catch(
-          e => {
-            logger.warn('formatEvent: failed extractFullName', e.message, e, {
-              customName,
-              profileNode,
-              initiatorType,
-              initiator,
+        const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
+        const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
+        const displayType = this._extractDisplayType(type, withdrawStatus, status)
+        logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
+        const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
+        const [avatar, fullName] = await Promise.all([
+          this._extractAvatar(type, withdrawStatus, profileNode, address).catch(e => {
+            logger.warn('formatEvent: failed extractAvatar', e.message, e, {
               type,
+              withdrawStatus,
+              profileNode,
               address,
-              displayName,
             })
             return undefined
-          }
-        ),
-      ])
+          }),
+          this._extractFullName(customName, profileNode, initiatorType, initiator, type, address, displayName).catch(
+            e => {
+              logger.warn('formatEvent: failed extractFullName', e.message, e, {
+                customName,
+                profileNode,
+                initiatorType,
+                initiator,
+                type,
+                address,
+                displayName,
+              })
+              return undefined
+            }
+          ),
+        ])
 
-      return {
-        id,
-        date: new Date(date).getTime(),
-        type,
-        displayType,
-        status,
-        createdDate,
-        animationExecuted,
-        action,
-        data: {
-          endpoint: {
-            address: sender,
-            fullName,
-            avatar,
-            withdrawStatus,
+        return {
+          id,
+          date: new Date(date).getTime(),
+          type,
+          displayType,
+          status,
+          createdDate,
+          animationExecuted,
+          action,
+          data: {
+            endpoint: {
+              address: sender,
+              fullName,
+              avatar,
+              withdrawStatus,
+            },
+            amount: value,
+            preMessageText: preReasonText,
+            message: reason || message,
+            subtitle,
+            readMore,
+            withdrawCode,
           },
-          amount: value,
-          preMessageText: preReasonText,
-          message: reason || message,
-          subtitle,
-          readMore,
-          withdrawCode,
-        },
+        }
+      } catch (e) {
+        logger.error('formatEvent: failed formatting event:', e.message, e, event)
+        return {}
       }
-    } catch (e) {
-      logger.error('formatEvent: failed formatting event:', e.message, e, event)
-      return {}
     }
-  }
+  )
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
     const { isAddress } = this.wallet.wallet.utils
@@ -1763,10 +1814,8 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
-      const existingEvent = await this.feed
-        .get('byid')
-        .get(event.id)
-        .then()
+      const existingEvent = this.feedIds[event.id]
+
       if (existingEvent) {
         logger.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false
@@ -1830,11 +1879,7 @@ export class UserStorage {
 
     feedEvent.status = status
 
-    return this.feed
-      .get('byid')
-      .get(eventId)
-      .secretAck(feedEvent)
-      .then()
+    return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
         logger.error('updateEventStatus failedEncrypt byId:', e.message, e, feedEvent)
@@ -1853,11 +1898,7 @@ export class UserStorage {
 
     feedEvent.animationExecuted = status
 
-    return this.feed
-      .get('byid')
-      .get(eventId)
-      .secretAck(feedEvent)
-      .then()
+    return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
         logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, feedEvent)
@@ -1876,11 +1917,7 @@ export class UserStorage {
 
     feedEvent.otplStatus = status
 
-    return this.feed
-      .get('byid')
-      .get(eventId)
-      .secretAck(feedEvent)
-      .then()
+    return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
         logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, feedEvent)
@@ -2025,15 +2062,10 @@ export class UserStorage {
     logger.debug('updateFeedEvent starting encrypt')
 
     // Saving eventFeed by id
-    const eventAck = feed
-      .get('byid')
-      .get(eventId)
-      .secretAck(event)
-      .then()
-      .catch(e => {
-        logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
-        return { err: e.message }
-      })
+    const eventAck = this.writeFeedEvent(event).catch(e => {
+      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
+      return { err: e.message }
+    })
     const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
     const saveDaySizePtr = feed
       .get('index')

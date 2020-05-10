@@ -83,9 +83,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       let replacing = false
 
       try {
-        if (config.env === 'test') {
+        if (['development', 'test'].includes(config.env)) {
           torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
-        } else {
+        }
+        if (torusUser == null) {
           switch (provider) {
             case 'facebook':
               torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')

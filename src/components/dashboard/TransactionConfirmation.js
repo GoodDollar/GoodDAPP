@@ -12,7 +12,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { fireEvent } from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
-import Clipboard from '../../lib/utils/Clipboard'
+import useClipboard from '../../lib/hooks/useClipboard'
 import { ACTION_RECEIVE, ACTION_SEND, PARAM_ACTION, RECEIVE_TITLE, SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -40,6 +40,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { goToRoot } = screenProps
   const [screenState] = useScreenState(screenProps)
   const { paymentLink, action } = screenState
+  const { setString } = useClipboard()
 
   const handlePressConfirm = useCallback(() => {
     let type = 'share'
@@ -48,8 +49,12 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
       shareAction(paymentLink)
       goToRoot()
     } else {
+      if (!setString(paymentLink)) {
+        // needed to not fire SEND_CONFIRMATION_SHARE if setString to Clipboard is failed
+        return
+      }
+
       type = 'copy'
-      Clipboard.setString(paymentLink)
     }
 
     fireEvent('SEND_CONFIRMATION_SHARE', { type })

@@ -78,9 +78,10 @@ import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedS
 const log = logger.child({ from: 'Dashboard' })
 
 const screenWidth = getMaxDeviceWidth()
-const headerContentWidth = screenWidth - _theme.sizes.default * 2 * 2
-const avatarCenteredPosition = headerContentWidth / 2 - 34
 let didmount = false
+const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
+const initialAvatarCenteredPosition = initialHeaderContentWidth / 2 - 34
+
 export type DashboardProps = {
   navigation: any,
   screenProps: any,
@@ -91,10 +92,12 @@ const Dashboard = props => {
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
+  const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
-  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(avatarCenteredPosition))
-  const [headerBalanceRightAnimValue] = useState(new Animated.Value(avatarCenteredPosition))
+  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(initialAvatarCenteredPosition))
+  const [headerBalanceRightAnimValue] = useState(new Animated.Value(initialAvatarCenteredPosition))
+  const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(initialAvatarCenteredPosition)
   const [headerBalanceVerticalMarginAnimValue] = useState(new Animated.Value(theme.sizes.defaultDouble))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const [animValue] = useState(new Animated.Value(1))
@@ -142,6 +145,15 @@ const Dashboard = props => {
     right: headerBalanceRightAnimValue,
     marginVertical: headerBalanceVerticalMarginAnimValue,
   }
+
+  const calculateHeaderLayoutSizes = useCallback(() => {
+    const newScreenWidth = getMaxDeviceWidth()
+    const newHeaderContentWidth = newScreenWidth - _theme.sizes.default * 2 * 2
+    const newAvatarCenteredPosition = newHeaderContentWidth / 2 - 34
+
+    setHeaderContentWidth(newHeaderContentWidth)
+    setAvatarCenteredPosition(newAvatarCenteredPosition)
+  }, [setHeaderContentWidth, setAvatarCenteredPosition])
 
   const isTheSameUser = code => {
     return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
@@ -223,7 +235,8 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    const anyParams = extractQueryParams(window.location.href)
+    const decodedHref = decodeURI(window.location.href)
+    const anyParams = extractQueryParams(decodedHref)
 
     log.debug('handle links effect dashboard', { anyParams })
 
@@ -279,14 +292,13 @@ const Dashboard = props => {
   /**
    * rerender on screen size change
    */
-  const handleResize = () => {
-    const debouncedHandleResize = debounce(() => {
-      log.info('update component after resize', update)
+  const handleResize = useCallback(
+    debounce(() => {
       setUpdate(Date.now())
-    }, 100)
-
-    Dimensions.addEventListener('change', () => debouncedHandleResize())
-  }
+      calculateHeaderLayoutSizes()
+    }, 100),
+    [setUpdate]
+  )
 
   const nextFeed = useCallback(
     debounce(
@@ -307,9 +319,10 @@ const Dashboard = props => {
 
     log.debug('initDashboard subscribed to feed')
     handleDeleteRedirect()
-    handleResize()
     animateClaim()
     InteractionManager.runAfterInteractions(handleAppLinks)
+
+    Dimensions.addEventListener('change', handleResize)
   }
 
   // The width of the balance block required to place the balance block at the center of the screen
@@ -320,26 +333,23 @@ const Dashboard = props => {
 
   const saveBalanceBlockWidth = useCallback(
     event => {
-      if (balanceHasBeenCentered.current) {
-        return
-      }
-
       const width = _get(event, 'nativeEvent.layout.width')
 
       setBalanceBlockWidth(width)
 
+      if (balanceHasBeenCentered.current) {
+        return
+      }
+
       const balanceCenteredPosition = headerContentWidth / 2 - width / 2
       Animated.timing(headerBalanceRightAnimValue, {
         toValue: balanceCenteredPosition,
-        duration: 100,
+        duration: 50,
       }).start()
 
-      if (!showBalance) {
-        setShowBalance(true)
-      }
-      balanceHasBeenCentered.current = true
+      setShowBalance(true)
     },
-    [setBalanceBlockWidth, headerBalanceRightAnimValue, showBalance, setShowBalance, balanceHasBeenCentered]
+    [setBalanceBlockWidth]
   )
 
   useEffect(() => {
@@ -416,11 +426,15 @@ const Dashboard = props => {
         }),
       ]).start()
     }
-  }, [headerLarge])
+  }, [headerLarge, balance, update, headerContentWidth, avatarCenteredPosition])
 
   useEffect(() => {
     log.debug('Dashboard didmount', navigation)
     initDashboard()
+
+    return function() {
+      Dimensions.removeEventListener('change', handleResize)
+    }
   }, [])
 
   /**
@@ -581,9 +595,13 @@ const Dashboard = props => {
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
       const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
       if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-        headerLarge && setHeaderLarge(false)
+        if (headerLarge) {
+          setHeaderLarge(false)
+        }
       } else {
-        !headerLarge && setHeaderLarge(true)
+        if (!headerLarge) {
+          setHeaderLarge(true)
+        }
       }
     },
     [headerLarge, feeds, setHeaderLarge]

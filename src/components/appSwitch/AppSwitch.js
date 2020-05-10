@@ -94,7 +94,6 @@ const AppSwitch = (props: LoadingProps) => {
   user completes signup and becomes loggedin which just updates this component
 */
   const navigateToUrlAction = async () => {
-    log.info('didUpdate')
     let destDetails = await getParams()
 
     //once user logs in we can redirect him to saved destinationpath
@@ -168,7 +167,8 @@ const AppSwitch = (props: LoadingProps) => {
       await initialize()
       checkBonusInterval()
       prepareLoginToken()
-      await Promise.all([runUpdates(), showOutOfGasError(props)])
+      runUpdates()
+      showOutOfGasError(props)
 
       setReady(true)
     } catch (e) {

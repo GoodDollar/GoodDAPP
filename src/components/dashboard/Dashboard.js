@@ -80,7 +80,7 @@ const log = logger.child({ from: 'Dashboard' })
 const screenWidth = getMaxDeviceWidth()
 const headerContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const avatarCenteredPosition = headerContentWidth / 2 - 34
-
+let didmount = false
 export type DashboardProps = {
   navigation: any,
   screenProps: any,
@@ -180,18 +180,22 @@ const Dashboard = props => {
   const getFeedPage = useCallback(
     debounce(
       async (reset = false) => {
+        log.debug('getFeedPage:', { feeds, loadAnimShown, didmount })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
           .catch(e => logger.error('getInitialFeed -> ', e.message, e))
 
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
-          if (!loadAnimShown) {
+          //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
+          //so we use a global variable
+          if (!didmount) {
             // a time to perform feed load animation till the end
-            await delay(2500)
+            await delay(2000)
+            didmount = true
           }
           const res = (await feedPromise) || []
-          res.length > 0 && loadAnimShown && store.set('feedLoadAnimShown')(true)
+          res.length > 0 && !didmount && store.set('feedLoadAnimShown')(true)
           res.length > 0 && setFeeds(res)
         } else {
           const res = (await feedPromise) || []
@@ -204,6 +208,10 @@ const Dashboard = props => {
     [loadAnimShown, store, setFeeds, feeds]
   )
 
+  //subscribeToFeed probably should be an effect that updates the feed items
+  //as they come in, currently on each new item it simply reset the feed
+  //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
+  //which would lead to many unwanted subscribe/unsubscribe to gun
   const subscribeToFeed = () => {
     return new Promise((res, rej) => {
       userStorage.feed.get('byid').on(async data => {
@@ -288,7 +296,7 @@ const Dashboard = props => {
           return getFeedPage()
         }
       },
-      300,
+      100,
       { leading: true }
     ),
     [feeds, getFeedPage]

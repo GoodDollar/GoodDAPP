@@ -29,22 +29,17 @@ const {
 
 // sdk class
 export const ZoomSDK = new class {
-  ready = undefined
-
-  async preloadAndInitialize(licenseKey) {
-    await this.preload()
-    await this.initialize(licenseKey)
-  }
-
-  // eslint-disable-next-line require-await
-  async preload() {
+  constructor() {
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory('/zoom/resources')
 
     // setting the directory path for required ZoOm images.
     sdk.setImagesDirectory('/zoom/images')
+  }
 
-    return (this.ready = new Promise(
+  // eslint-disable-next-line require-await
+  async preload() {
+    return new Promise(
       (resolve, reject) =>
         void sdk.preload(status => {
           if (status === ZoomPreloadResult.Success) {
@@ -57,7 +52,7 @@ export const ZoomSDK = new class {
           exception.code = status
           reject(exception)
         })
-    ))
+    )
   }
 
   // eslint-disable-next-line require-await
@@ -72,25 +67,29 @@ export const ZoomSDK = new class {
     return new Promise((resolve, reject) => {
       try {
         // initializing ZoOm and configuring the UI features.
-        sdk.initialize(licenseKey, () => {
-          const sdkStatus = sdk.getStatus()
+        sdk.initialize(
+          licenseKey,
+          () => {
+            const sdkStatus = sdk.getStatus()
 
-          // if Zoom was initialized successfully - resolving
-          if (ZoomSDKStatus.Initialized === sdkStatus) {
-            resolve()
-            return
-          }
+            // if Zoom was initialized successfully - resolving
+            if (ZoomSDKStatus.Initialized === sdkStatus) {
+              resolve()
+              return
+            }
 
-          // retrieving full description from status code
-          const exception = new Error(getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
+            // retrieving full description from status code
+            const exception = new Error(getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
 
-          // adding status code as error's object property
-          exception.code = sdkStatus
-          log.warn('initialize failed', { exception })
+            // adding status code as error's object property
+            exception.code = sdkStatus
+            log.warn('initialize failed', { exception })
 
-          // rejecting with an error
-          reject(exception)
-        })
+            // rejecting with an error
+            reject(exception)
+          },
+          true
+        )
       } catch (exception) {
         // handling initialization exceptions
         // (some of them could be thrown during initialize() call)

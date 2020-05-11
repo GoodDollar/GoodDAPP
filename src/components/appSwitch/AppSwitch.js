@@ -166,7 +166,7 @@ const AppSwitch = (props: LoadingProps) => {
       // preloading Zoom (supports web + native)
       if (isCitizen === false) {
         log.debug('Pre-loading Zoom SDK')
-        ZoomSDK.preloadAndInitialize(config.zoomLicenseKey)
+        ZoomSDK.preload()
           .then(_ => {
             log.debug('Zoom SDK is ready')
           })

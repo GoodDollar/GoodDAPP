@@ -36,7 +36,8 @@ export const ZoomSDK = new class {
     await this.initialize(licenseKey)
   }
 
-  preload() {
+  // eslint-disable-next-line require-await
+  async preload() {
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory('/zoom/resources')
 
@@ -60,7 +61,7 @@ export const ZoomSDK = new class {
   }
 
   // eslint-disable-next-line require-await
-  initialize(licenseKey) {
+  async initialize(licenseKey) {
     // checking the last retrieved status code
     // if Zoom was already initialized successfully,
     // then resolving immediately
@@ -99,7 +100,7 @@ export const ZoomSDK = new class {
   }
 
   // eslint-disable-next-line require-await
-  faceVerification(enrollmentIdentifier) {
+  async faceVerification(enrollmentIdentifier) {
     return new Promise((resolve, reject) => {
       // as now all this stuff is outside React hook
       // we could just implement it like in the demo app

@@ -58,6 +58,12 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
     const initializeSdk = async () => {
       try {
+        if (ZoomSDK.ready) {
+          await ZoomSDK.ready.catch(e => ZoomSDK.preload())
+        } else {
+          await ZoomSDK.preload()
+        }
+
         // Initializing ZoOm
         await ZoomSDK.initialize(Config.zoomLicenseKey)
 

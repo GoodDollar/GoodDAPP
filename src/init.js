@@ -8,7 +8,6 @@ import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import { extractQueryParams } from './lib/share'
 import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 import logger from './lib/logger/pino-logger'
-import { ZoomSDK } from './components/dashboard/FaceVerification/sdk'
 
 const log = logger.child({ from: 'init' })
 
@@ -28,11 +27,6 @@ export const init = () => {
       setUserStorage(userStorage)
       await initAnalytics(goodWallet, userStorage)
       log.debug('analytics has been initializing')
-
-      // preloading Zoom (supports web + native)
-      log.debug('Pre-loading Zoom SDK')
-      await ZoomSDK.preload()
-      log.debug('Zoom SDK is ready')
 
       // FIXME RN INAPPLINKS
       if (Platform.OS === 'web') {

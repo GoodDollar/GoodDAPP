@@ -1,36 +1,48 @@
-import React, { useCallback } from 'react'
-
-import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark/SpinnerCheckMark'
-import Section from '../../common/layout/Section'
+import { useCallback, useEffect } from 'react'
 
 import UserStorage from '../../../lib/gundb/UserStorage'
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useCurriedSetters } from '../../../lib/undux/GDStore'
 import goodWallet from '../../../lib/wallet/GoodWallet'
+import logger from '../../../lib/logger/pino-logger'
 import useZoomSDK from './hooks/useZoomSDK'
 import useZoomVerification from './hooks/useZoomVerification'
 import { kindOfSDKIssue, kindOfSessionIssue } from './utils/kindOfTheIssue'
 
+const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
+  const store = SimpleStore.useStore()
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
+
+  useEffect(() => {
+    store.set('loadingIndicator')({ loading: true })
+    return () => store.set('loadingIndicator')({ loading: false })
+  }, [])
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
   const showErrorScreen = useCallback(
     (error, allowRetry = false) => {
+      log.debug('FaceVerification error', { error })
       screenProps.navigateTo('FaceVerificationError', { error, allowRetry })
     },
     [screenProps]
   )
 
   // ZoomSDK session completition handler
-  const completionHandler = useCallback(async () => {
-    const isCitizen = await goodWallet.isCitizen()
+  const completionHandler = useCallback(
+    async status => {
+      log.debug('FaceVerification completed', { status })
 
-    // if session was successfull - whitelistening user
-    // and returning sucecss to the caller
-    setIsCitizen(isCitizen)
-    screenProps.pop({ isValid: true })
-  }, [screenProps, setIsCitizen])
+      const isCitizen = await goodWallet.isCitizen()
+
+      // if session was successfull - whitelistening user
+      // and returning sucecss to the caller
+      setIsCitizen(isCitizen)
+      screenProps.pop({ isValid: true })
+    },
+    [screenProps, setIsCitizen]
+  )
 
   // ZoomSDK session exception handler
   const exceptionHandler = useCallback(
@@ -87,22 +99,20 @@ const FaceVerification = ({ screenProps }) => {
   // using zoom sdk initialization hook
   // starting verification once sdk sucessfully initializes
   // on error redirecting to the error screen
-  const isInitialized = useZoomSDK({
+  useZoomSDK({
     onInitialized: startVerification,
     onError: sdkExceptionHandler,
   })
 
-  if (isInitialized) {
-    return null
-  }
+  return null
 
-  return (
-    <Section grow justifyContent="flex-start">
-      <Section.Row alignItems="center" justifyContent="center">
-        <SpinnerCheckMark loading success={false} />
-      </Section.Row>
-    </Section>
-  )
+  // return (
+  //   <Section grow justifyContent="flex-start">
+  //     <Section.Row grow alignItems="center" justifyContent="center">
+  //       <SpinnerCheckMark loading success={false} />
+  //     </Section.Row>
+  //   </Section>
+  // )
 }
 
 FaceVerification.navigationOptions = {

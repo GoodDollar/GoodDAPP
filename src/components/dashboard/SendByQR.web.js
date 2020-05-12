@@ -7,6 +7,7 @@ import logger from '../../lib/logger/pino-logger'
 import { extractQueryParams, readCode } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
@@ -23,6 +24,7 @@ type Props = {
 const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const store = SimpleStore.useStore()
+  const [showErrorDialog] = useErrorDialog()
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
@@ -46,7 +48,16 @@ const SendByQR = ({ screenProps }: Props) => {
   }
 
   const handleError = e => {
-    log.error('QR scan send failed', e.message, e)
+    showErrorDialog({
+      visible: true,
+
+      //title: 'Transaction Failed!',
+      message: `GoodDollar can't access your clipboard, please enable clipboard permission`,
+      dismissText: 'OK',
+    })
+
+    //showErrorDialog('GoodDollar can\'t access your clipboard, please enable clipboard permission')
+    log.warn('QR scan send failed', e.message, e)
   }
 
   return (

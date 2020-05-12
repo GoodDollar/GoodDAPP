@@ -244,13 +244,9 @@ const AppSwitch = (props: LoadingProps) => {
 
   useEffect(() => {
     if (isMobileNative && DeepLinking.pathname) {
-      DeepLinking.subscribe(() => {
-        deepLinkingNavigation()
-      })
+      DeepLinking.subscribe(deepLinkingNavigation)
     }
-    return () => {
-      DeepLinking.unsubscribe()
-    }
+    return () => DeepLinking.unsubscribe()
   }, [DeepLinking.pathname])
 
   useEffect(() => {
@@ -259,7 +255,7 @@ const AppSwitch = (props: LoadingProps) => {
       showOutOfGasError(props)
       if (isMobileNative && !initSubscribe.current) {
         initSubscribe.current = true
-        DeepLinking.subscribe(deepLinkingNavigation())
+        DeepLinking.subscribe(deepLinkingNavigation)
       }
     }
   }, [gdstore, ready, appState])

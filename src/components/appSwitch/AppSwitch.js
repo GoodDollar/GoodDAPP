@@ -1,5 +1,5 @@
 // @flow
-import React, { Platform, useEffect, useRef, useState } from 'react'
+import React, { Platform, useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
@@ -56,7 +56,6 @@ const AppSwitch = (props: LoadingProps) => {
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
   const { appState } = useAppState()
-  const initSubscribe = useRef(false)
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -243,20 +242,17 @@ const AppSwitch = (props: LoadingProps) => {
   }, [])
 
   useEffect(() => {
-    if (isMobileNative && DeepLinking.pathname) {
-      DeepLinking.subscribe(deepLinkingNavigation)
+    if (!isMobileNative || !appState === 'active') {
+      return
     }
+    DeepLinking.subscribe(deepLinkingNavigation)
     return () => DeepLinking.unsubscribe()
-  }, [DeepLinking.pathname])
+  }, [DeepLinking.pathname, appState])
 
   useEffect(() => {
     if (ready && gdstore && appState === 'active') {
       checkBonusInterval(true)
       showOutOfGasError(props)
-      if (isMobileNative && !initSubscribe.current) {
-        initSubscribe.current = true
-        DeepLinking.subscribe(deepLinkingNavigation)
-      }
     }
   }, [gdstore, ready, appState])
 

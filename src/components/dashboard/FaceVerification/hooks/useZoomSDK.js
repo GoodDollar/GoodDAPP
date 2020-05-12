@@ -6,7 +6,6 @@ import logger from '../../../../lib/logger/pino-logger'
 import useMountedState from '../../../../lib/hooks/useMountedState'
 import { ZoomSDK } from '../sdk/ZoomSDK'
 
-let preloadException = null
 const log = logger.child({ from: 'useZoomSDK' })
 
 /**
@@ -22,12 +21,10 @@ export const preloadZoomSDK = async (logger = log) => {
   try {
     await ZoomSDK.preload()
 
-    preloadException = null
     logger.debug('Zoom SDK is preloaded')
   } catch (exception) {
     const { message } = exception
 
-    preloadException = exception
     logger.error('preloading zoom failed', message, exception)
   }
 }
@@ -100,13 +97,6 @@ export default ({ onInitialized = noop, onError = noop }) => {
         // handling initialization exceptions
         handleException(exception)
       }
-    }
-
-    // if preload was called and was completed with exception,
-    // don't calling initialize() - just proxying error to the onError callback
-    if (preloadException) {
-      handleException(preloadException)
-      return
     }
 
     // starting initialization

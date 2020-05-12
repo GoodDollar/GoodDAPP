@@ -19,7 +19,7 @@ import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
 import { assertStore } from '../../lib/undux/SimpleStore'
-import { ZoomSDK } from '../dashboard/FaceVerification/sdk'
+import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
 
 type LoadingProps = {
   navigation: any,
@@ -165,13 +165,11 @@ const AppSwitch = (props: LoadingProps) => {
 
       // preloading Zoom (supports web + native)
       if (isCitizen === false) {
-        log.debug('Pre-loading Zoom SDK')
-        ZoomSDK.preload()
-          .then(_ => {
-            log.debug('Zoom SDK is ready')
-          })
-          .catch(e => log.error('preloading zoom failed', e.message, e))
+        // don't awaiting for sdk ready here
+        // initialize() will await if preload hasn't completed yet
+        preloadZoomSDK(log) // eslint-disable-line require-await
       }
+
       await Promise.all([runUpdates(), showOutOfGasError(props)])
 
       setReady(true)

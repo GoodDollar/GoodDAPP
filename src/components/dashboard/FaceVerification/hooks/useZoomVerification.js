@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react'
 import { noop } from 'lodash'
 
 // Zoom SDK reference
-import { ZoomSDK } from '../sdk'
+import { ZoomSDK } from '../sdk/ZoomSDK'
 
 /**
  * ZoomSDK face verification & fecamap enrollment hook

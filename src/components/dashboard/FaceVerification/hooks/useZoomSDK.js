@@ -2,8 +2,32 @@ import { useEffect, useRef, useState } from 'react'
 import { noop } from 'lodash'
 
 import Config from '../../../../config/config'
+import logger from '../../../../lib/logger/pino-logger'
 import useMountedState from '../../../../lib/hooks/useMountedState'
-import { ZoomSDK } from '../sdk'
+import { ZoomSDK } from '../sdk/ZoomSDK'
+
+const log = logger.child({ from: 'useZoomSDK' })
+
+/**
+ * ZoomSDK preloading helper
+ * Preloads SDK and longs success/failiure stage
+ *
+ * @param {Object} logger Custom Pino logger chuld instance to use for logging
+ * @returns {Promise}
+ */
+export const preloadZoomSDK = async (logger = log) => {
+  logger.debug('Pre-loading Zoom SDK')
+
+  try {
+    await ZoomSDK.preload()
+
+    logger.debug('Zoom SDK is preloaded')
+  } catch (exception) {
+    const { message } = exception
+
+    logger.error('preloading zoom failed', message, exception)
+  }
+}
 
 /**
  * ZoomSDK initialization hook
@@ -40,8 +64,11 @@ export default ({ onInitialized = noop, onError = noop }) => {
   useEffect(() => {
     // Helper for handle exceptions
     const handleException = exception => {
+      const { message } = exception
+
       // executing current onError callback
       onErrorRef.current(exception)
+      log.error('Zoom initialization failed', message, exception)
     }
 
     // Helper for handle SDK status code changes
@@ -58,11 +85,14 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
     const initializeSdk = async () => {
       try {
-        // Initializing ZoOm , this also performs preload
+        log.debug('Initializing ZoomSDK')
+
+        // Initializing ZoOm, this also performs preload
         await ZoomSDK.initialize(Config.zoomLicenseKey)
 
         // Setting initialized state
         handleSdkInitialized()
+        log.debug('ZoomSDK is ready')
       } catch (exception) {
         // handling initialization exceptions
         handleException(exception)

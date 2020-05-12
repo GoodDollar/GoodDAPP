@@ -46,7 +46,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [isCitizen, setIsCitizen] = useState(gdstore.get('isLoggedInCitizen'))
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
-  const [loading, setLoading] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
 

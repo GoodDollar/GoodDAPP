@@ -2,20 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { noop } from 'lodash'
 
 import Config from '../../../../config/config'
-import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import useMountedState from '../../../../lib/hooks/useMountedState'
-
-// Zoom SDK reference
-const sdk = ZoomAuthentication.ZoomSDK
-
-export const {
-  // SDK initialization status codes enum
-  ZoomSDKStatus,
-
-  // Helper function, returns full description
-  // for SDK initialization status specified
-  getFriendlyDescriptionForZoomSDKStatus,
-} = sdk
+import { ZoomSDK } from '../sdk'
 
 /**
  * ZoomSDK initialization hook
@@ -24,17 +12,11 @@ export const {
  * @property {() => void} config.onInitialized - SDK initialized callback
  * @property {() => void} config.onError - SDK error callback
  *
- * @return {object} result Public hook API
- * @property {typeof ZoomSDK} result.sdk - ZoomSDK reference
- * @property {boolean} result.isInitialized - Initialization state flag
- * @property {Error | null} result.initError - Initialization error (if happened)
+ * @return {boolean} Initialization state flag
  */
 export default ({ onInitialized = noop, onError = noop }) => {
   // Initialization state flag
   const [isInitialized, setInitialized] = useState(false)
-
-  // Initialization error state variable
-  const [initError, setInitError] = useState(null)
 
   // Component mounted flag ref, it needs to check
   // is component still mounted before update it's state
@@ -56,84 +38,41 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    // current ZoomSDK initialization status code
-    let sdkStatus = sdk.getStatus()
-
     // Helper for handle exceptions
     const handleException = exception => {
       // executing current onError callback
       onErrorRef.current(exception)
-
-      // if component is still mounted -
-      if (mountedStateRef.current) {
-        // updating initError state variable
-        setInitError(exception)
-      }
     }
 
     // Helper for handle SDK status code changes
-    const handleSdkStatus = () => {
-      // Checking is ZoomSDK successfullt initialized
-      const sdkInitialized = ZoomSDKStatus.Initialized === sdkStatus
-
-      // if not initialized - throwing an Error
-      if (!sdkInitialized) {
-        // retrieving full description from status code
-        const exception = new Error(getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
-
-        // adding status code as error's object property
-        exception.code = sdkStatus
-
-        // handling an error
-        handleException(exception)
-        return
-      }
-
-      // otherwise - executing onInitialized callback
+    const handleSdkInitialized = () => {
+      // Executing onInitialized callback
       onInitializedRef.current()
 
       // and updating isInitialized state flag
       // (if component is still mounted)
       if (mountedStateRef.current) {
-        setInitialized(sdkInitialized)
+        setInitialized(true)
       }
     }
 
-    // checking the last retrieved status code
-    // if Zoom was initialized successfully,
-    // then just handling status & executing
-    // onInitialized callback
-    if (ZoomSDKStatus.Initialized === sdkStatus) {
-      handleSdkStatus()
-      return
+    const initializeSdk = async () => {
+      try {
+        // Initializing ZoOm , this also performs preload
+        await ZoomSDK.initialize(Config.zoomLicenseKey)
+
+        // Setting initialized state
+        handleSdkInitialized()
+      } catch (exception) {
+        // handling initialization exceptions
+        handleException(exception)
+      }
     }
 
-    // otherwise, performing initialization:
-
-    // 1. setting a the directory path for other ZoOm Resources.
-    sdk.setResourceDirectory('/zoom/resources')
-
-    // 2. setting the directory path for required ZoOm images.
-    sdk.setImagesDirectory('/zoom/images')
-
-    try {
-      // 3. initializing ZoOm and configuring the UI features.
-      sdk.initialize(Config.zoomLicenseKey, () => {
-        // updating & handling ZoomSDK status code
-        sdkStatus = sdk.getStatus()
-        handleSdkStatus()
-      })
-    } catch (exception) {
-      // handling initialization exceptions
-      // (some of them could be thrown during initialize() call)
-      handleException(exception)
-    }
+    // starting initialization
+    initializeSdk()
   }, [])
 
   // exposing public hook API
-  return {
-    sdk,
-    isInitialized,
-    initError,
-  }
+  return isInitialized
 }

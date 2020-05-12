@@ -1,6 +1,8 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform } from 'react-native'
+import { cloneDeep } from 'lodash'
+
 import AnimationBase from '../Base'
 
 class FeedInfo extends AnimationBase {
@@ -60,7 +62,7 @@ class FeedInfo extends AnimationBase {
     return (
       <Lottie
         ref={this.setAnim}
-        source={this.improveAnimationData(this.animationData)}
+        source={cloneDeep(this.animationData)}
         style={style}
         loop={false}
         onAnimationFinish={isWeb ? undefined : this.onAnimationFinishHandler}

@@ -256,6 +256,7 @@ So, let's give it another shot...
             "paddingLeft": "12px",
             "paddingRight": "12px",
             "paddingTop": "16px",
+            "width": "100%",
           }
         }
       >

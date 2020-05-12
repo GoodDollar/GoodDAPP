@@ -7,7 +7,7 @@ import ReceiveMoneyPage from '../PageObjects/ReceiveMoneyPage'
 describe('Test case 8: Ability to send money request and reseive money', () => {
   it('User is able to send money request', () => {
     StartPage.open()
-    StartPage.continueOnWebButton.click()
+    //StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
     LoginPage.pageHeader.should('contain', 'Recover')
@@ -43,7 +43,7 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
       cy.clearLocalStorage()
       cy.clearCookies()
       StartPage.open()
-      StartPage.continueOnWebButton.click()
+      //StartPage.continueOnWebButton.click()
       StartPage.signInButton.click()
       LoginPage.recoverFromPassPhraseLink.click()
       LoginPage.pageHeader.should('contain', 'Recover')

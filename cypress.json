@@ -4,11 +4,11 @@
     "defaultCommandTimeout": 60000,
     "env": {
         "baseUrl": "https://gooddev.netlify.app/",
-        "mainAccountEmail": "gooddollar.test123@gmail.com",
-        "mainAccountUsername": "Andrew Lebowski",
-        "mainAccountPhone": "+380983611320",
-        "mainAccountMnemonics":
-            "plunge craft urban short color rule time art recipe monster black essay",
+        "mainAccountEmail": "testaccountgd@yahoo.com",
+        "mainAccountUsername": "Automation Test",
+        "mainAccountPhone": "+380988846112",
+        "mainAccountMnemonics": 
+            "spoon blanket example define water coach doll social core cradle fame alone",
         "wordsForUnsuccessfullLogin": {
             "withChangedWord": "hello craft urban short color rule time art recipe monster black essay",
             "withNumbers": "1plunge craft urban short color rule time art recipe monster black essay",
@@ -17,10 +17,10 @@
             "withChangedOrder": "craft plunge urban short color rule time art recipe monster black essay",
             "withCapitalize": "Craft plunge urban short color rule time art recipe monster black essay"
         },
-        "additionalAccountEmail": "gooddollar.2test123@gmail.com",
-        "additionalAccountUsername": "Andrew Second",
-        "additionalAccountPhone": "+529881238235",
-        "additionalAccountMnemonics": "render execute tenant assume palace bullet near choose survey below ranch supreme",
+        "additionalAccountEmail": "testaccountgd@yahoo.com",
+        "additionalAccountUsername": "Automation Test",
+        "additionalAccountPhone": "+380988846112",
+        "additionalAccountMnemonics": "spoon blanket example define water coach doll social core cradle fame alone",
         "emailForCheckingRegistration": "main.test.acc.gooddollar@gmail.com",
         "usernameForRegistration": "Name Surname",
         "numberForCheckingRegistration": "+380673001751"

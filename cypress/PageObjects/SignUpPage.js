@@ -13,7 +13,7 @@ class SignUpPage {
   }
 
   get nextButton() {
-    return cy.get('div[role=button]').eq(2)
+    return cy.get('div[role=button]').eq(1)
   }
 
   get emailInput() {

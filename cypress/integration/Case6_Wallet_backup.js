@@ -7,7 +7,7 @@ import RecoverWalletPage from '../PageObjects/RecoverWalletPage'
 describe('Test case 6: Ability to send recovering email', () => {
   before('authorization', () => {
     StartPage.open()
-    StartPage.continueOnWebButton.click()
+    //StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
     LoginPage.pageHeader.should('contain', 'Recover')

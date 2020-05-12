@@ -4,14 +4,17 @@ import { NativeModules } from 'react-native'
 
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
+import logger from '../../../../lib/logger/pino-logger'
 
-const { ZoomAuthentication } = NativeModules
+const log = logger.child({ from: 'ZoomSDK' })
 
-// added || {} safe stubs as we don't have native module yet
+// added = {} safe stub as we don't have native module yet
+const { ZoomAuthentication = {} } = NativeModules
+
 // eslint-disable-next-line no-unused-vars
-const { preload, initialize, faceVerification } = ZoomAuthentication || {}
+const { preload, initialize, faceVerification } = ZoomAuthentication
 
-export const { ZoomSDKStatus, ZoomSessionStatus } = ZoomAuthentication || {}
+export const { ZoomSDKStatus, ZoomSessionStatus } = ZoomAuthentication
 
 // sdk class
 export const ZoomSDK = new class {
@@ -22,7 +25,7 @@ export const ZoomSDK = new class {
       // so, for app init could pass we skippinh non-existed function call
       // await preload()
     } catch (exception) {
-      this._convertCodeAndRethrow(exception)
+      this._convertCodeAndRethrow(exception, 'Zoom preloading')
     }
   }
 
@@ -30,7 +33,7 @@ export const ZoomSDK = new class {
     try {
       await initialize(licenseKey, Config.serverUrl)
     } catch (exception) {
-      this._convertCodeAndRethrow(exception)
+      this._convertCodeAndRethrow(exception, 'Zoom initialization')
     }
   }
 
@@ -43,7 +46,7 @@ export const ZoomSDK = new class {
 
       return verificationStatus
     } catch (exception) {
-      this._convertCodeAndRethrow(exception)
+      this._convertCodeAndRethrow(exception, 'Face verification')
     }
   }
 
@@ -52,10 +55,12 @@ export const ZoomSDK = new class {
   // also, codes are returning as strings (but actually Zoom statuses are numbers)
   // so we have to use this method to convert codes to numbers
   // and convert error-like shape to the JS Error object
-  _convertCodeAndRethrow({ code, message }) {
+  _convertCodeAndRethrow({ code, message }, logPrefix) {
     const exception = new Error(message)
 
     exception.code = Number(code)
+    log.warn(`${logPrefix} failed`, { exception })
+
     throw exception
   }
 }()

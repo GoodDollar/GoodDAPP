@@ -50,7 +50,7 @@ const SendByQR = ({ screenProps }: Props) => {
   const handleError = e => {
     showErrorDialog({
       visible: true,
-      message: `GoodDollar can't access your clipboard, please enable clipboard permission`,
+      message: `GoodDollar can't access your camera, please enable camera permission`,
       dismissText: 'OK',
     })
 

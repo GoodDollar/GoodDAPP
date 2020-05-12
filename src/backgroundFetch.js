@@ -1,11 +1,13 @@
 import BackgroundFetch from 'react-native-background-fetch'
 import PushNotification from 'react-native-push-notification'
 import { AsyncStorage } from 'react-native'
-import moment from 'moment'
-import Config from './config/config'
+import logger from '../src/lib/logger/pino-logger'
+
+// import Config from './config/config'
 import { IS_LOGGED_IN } from './lib/constants/localStorage'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
+import { useConnectionGun } from './lib/hooks/hasConnectionChange'
 
 const options = {
   minimumFetchInterval: 15,
@@ -21,12 +23,15 @@ const options = {
   periodic: true,
 }
 
+const log = logger.child({ from: 'backgroundFetch' })
+const isGunConnected = useConnectionGun()
+
 const task = async taskId => {
-  console.log('[BackgroundFetch] taskId: ', taskId)
+  log.info('[BackgroundFetch] taskId: ', taskId)
 
   const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
 
-  console.log('isLoggedIn', isLoggedIn)
+  log.info('isLoggedIn', isLoggedIn)
 
   if (!isLoggedIn) {
     return BackgroundFetch.finish(taskId)
@@ -40,12 +45,9 @@ const task = async taskId => {
 
   const lastFeedCheck = await userStorage.feed.get('lastSeenDate')
   const feed = await userStorage.getFeedPage(20, true)
-  const beginningOfDayMillis = moment(lastFeedCheck)
-    .startOf('day')
-    .valueOf()
 
-  console.log('lastFeedCheck', lastFeedCheck)
-  console.log('feed', feed)
+  log.info('lastFeedCheck', lastFeedCheck)
+  log.info('feed', feed)
 
   const hasNewPayment = (type, status) => {
     return type === 'receive' && status === 'completed'
@@ -56,12 +58,8 @@ const task = async taskId => {
   }
 
   const newFeeds = feed.filter(feedItem => {
-    const dayMillis = moment(feedItem.date)
-      .startOf('day')
-      .valueOf()
-    const { type, status } = feedItem
-    const newFeedItem =
-      (hasNewPayment(type, status) || hasNewPaymentWithdraw(type, status)) && dayMillis >= beginningOfDayMillis
+    const { type, status, date } = feedItem
+    const newFeedItem = (hasNewPayment(type, status) || hasNewPaymentWithdraw(type, status)) && lastFeedCheck < date
     return newFeedItem && feedItem
   })
 
@@ -75,19 +73,19 @@ const task = async taskId => {
 
   newFeeds.map(feed =>
     PushNotification.localNotification({
-      title: `${feed.type} operation is ${feed.status}`,
-      message: 'Now get back to work',
+      title: `Payment from/to ${feed.type} received/accepted`,
+      message: `G$ ${feed.amount}`,
     })
   )
 }
 
 const androidHeadlessTask = async ({ taskId }) => {
-  console.log('[BackgroundFetch HeadlessTask] start: ', taskId)
+  log.info('[BackgroundFetch HeadlessTask] start: ', taskId)
   await task(taskId)
 }
 
 const taskManagerErrorHandler = error => {
-  console.log('[js] RNBackgroundFetch failed to start')
+  log.info('[js] RNBackgroundFetch failed to start')
 }
 
 BackgroundFetch.configure(options, task, taskManagerErrorHandler)
@@ -104,7 +102,7 @@ const hasConnection = () => {
       }
 
       stop = true
-      console.log('STOPPED')
+      log.info('STOPPED')
       reject()
     }, 10000)
 
@@ -117,7 +115,7 @@ const hasConnection = () => {
         .then(_ => true)
         .catch(_ => false)
 
-      console.log('isReady', isReady)
+      log.info('isReady', isReady)
 
       if (!isReady) {
         return setTimeout(isConnected, 200)
@@ -125,7 +123,7 @@ const hasConnection = () => {
 
       const isWalletConnected = goodWallet.wallet.currentProvider.connected
 
-      console.log('isWalletConnected', isWalletConnected)
+      log.info('isWalletConnected', isWalletConnected)
 
       if (!isWalletConnected) {
         if (!goodWallet.wallet.currentProvider.reconnecting) {
@@ -140,24 +138,17 @@ const hasConnection = () => {
         .then(_ => true)
         .catch(_ => false)
 
-      console.log('isWalletAvailable', isWalletAvailable)
+      log.info('isWalletAvailable', isWalletAvailable)
 
       if (!isWalletAvailable) {
         return setTimeout(isConnected, 200)
       }
 
-      const instanceGun = userStorage.gun._
-      const connection = instanceGun.opt.peers[Config.gunPublicUrl]
-
-      console.log('gunConnection', connection)
-
-      const isGunConnected = connection && connection.wire && connection.wire.readyState === connection.wire.OPEN
-
       if (!isGunConnected) {
         return setTimeout(isConnected, 200)
       }
 
-      console.log('HAS CONNECTION')
+      log.info('HAS CONNECTION')
       stop = true
       resolve()
     }

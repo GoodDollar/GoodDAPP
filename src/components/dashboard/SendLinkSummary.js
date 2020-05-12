@@ -274,7 +274,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               </Section.Text>
             )}
           </Section.Row>
-          {reason && (
+          {!!reason && (
             <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
               <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
                 For

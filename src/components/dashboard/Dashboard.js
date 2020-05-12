@@ -78,7 +78,7 @@ import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedS
 const log = logger.child({ from: 'Dashboard' })
 
 const screenWidth = getMaxDeviceWidth()
-let didmount = false
+let didRender = false
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarCenteredPosition = initialHeaderContentWidth / 2 - 34
 
@@ -192,7 +192,7 @@ const Dashboard = props => {
   const getFeedPage = useCallback(
     debounce(
       async (reset = false) => {
-        log.debug('getFeedPage:', { feeds, loadAnimShown, didmount })
+        log.debug('getFeedPage:', { feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
           .catch(e => logger.error('getInitialFeed -> ', e.message, e))
@@ -201,13 +201,13 @@ const Dashboard = props => {
           // a flag used to show feed load animation only at the first app loading
           //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
           //so we use a global variable
-          if (!didmount) {
+          if (!didRender) {
             // a time to perform feed load animation till the end
             await delay(2000)
-            didmount = true
+            didRender = true
           }
           const res = (await feedPromise) || []
-          res.length > 0 && !didmount && store.set('feedLoadAnimShown')(true)
+          res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
           res.length > 0 && setFeeds(res)
         } else {
           const res = (await feedPromise) || []

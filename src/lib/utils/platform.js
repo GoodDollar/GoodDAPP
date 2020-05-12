@@ -1,4 +1,5 @@
 import { Platform } from 'react-native'
+import { get } from 'lodash'
 import {
   isAndroid as isAndroidWeb,
   isIOS as isIOSWeb,
@@ -8,10 +9,9 @@ import {
 } from 'mobile-device-detect'
 import isWebApp from './isWebApp'
 
-export const isMobileReactNative = Platform.OS !== 'web'
 export { isMobileSafari, isBrowser } from 'mobile-device-detect'
 
-export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb }
+export const isMobileReactNative = Platform.OS !== 'web'
 
 export const isIOSNative = Platform.OS === 'ios'
 
@@ -31,4 +31,7 @@ export const isIOS = isIOSWeb || isIOSNative
 
 export const isAndroid = isAndroidWeb || isAndroidNative
 
-export { isTablet }
+export const isCypress =
+  !isMobileReactNative && 'undefined' !== typeof window && get(window, 'navigator.userAgent', '').includes('Cypress')
+
+export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet }

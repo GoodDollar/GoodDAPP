@@ -2,12 +2,10 @@ import BackgroundFetch from 'react-native-background-fetch'
 import PushNotification from 'react-native-push-notification'
 import { AsyncStorage } from 'react-native'
 import logger from '../src/lib/logger/pino-logger'
-
-// import Config from './config/config'
+import Config from './config/config'
 import { IS_LOGGED_IN } from './lib/constants/localStorage'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
-import { useConnectionGun } from './lib/hooks/hasConnectionChange'
 
 const options = {
   minimumFetchInterval: 15,
@@ -24,7 +22,6 @@ const options = {
 }
 
 const log = logger.child({ from: 'backgroundFetch' })
-const isGunConnected = useConnectionGun()
 
 const task = async taskId => {
   log.info('[BackgroundFetch] taskId: ', taskId)
@@ -143,6 +140,13 @@ const hasConnection = () => {
       if (!isWalletAvailable) {
         return setTimeout(isConnected, 200)
       }
+
+      const instanceGun = userStorage.gun._
+      const connection = instanceGun.opt.peers[Config.gunPublicUrl]
+
+      log.info('gunConnection', connection)
+
+      const isGunConnected = connection && connection.wire && connection.wire.readyState === connection.wire.OPEN
 
       if (!isGunConnected) {
         return setTimeout(isConnected, 200)

@@ -294,7 +294,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton onPress={handleConfirm} disabled={isCitizen === undefined} lodaing={loading}>
+            <CustomButton onPress={handleConfirm} disabled={isCitizen === undefined} loading={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>

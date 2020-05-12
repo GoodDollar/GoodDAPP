@@ -1,5 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
+import { isUndefined } from 'lodash'
 import { Platform, View } from 'react-native'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -294,7 +295,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton onPress={handleConfirm} disabled={isCitizen === undefined} loading={loading}>
+            <CustomButton onPress={handleConfirm} disabled={isUndefined(isCitizen)} loading={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>

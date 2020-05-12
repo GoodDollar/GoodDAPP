@@ -7,7 +7,7 @@ import HomePage from '../PageObjects/HomePage'
 
 describe('Test case 1: Ability to Sign Up', () => {
     it('User is not able to sign up the wallet with wrong values', () => {
-        cy.visit(Cypress.env('baseUrl') + '?paymentCode=1234567asQ3')
+        cy.visit(Cypress.env('baseUrl'))
         StartPage.createWalletButton.click()
         SignUpPage.pageHeader.should('contain', 'Sign Up')
         SignUpPage.nameInput.should('be.visible')
@@ -30,7 +30,7 @@ describe('Test case 1: Ability to Sign Up', () => {
     })
 
     it('User is able to sign up the wallet with correct values', () => {
-        cy.visit(Cypress.env('baseUrl') + '?paymentCode=123', {
+        cy.visit(Cypress.env('baseUrl'), {
             onBeforeLoad(win) {
                 delete win.navigator.__proto__.serviceWorker
             },

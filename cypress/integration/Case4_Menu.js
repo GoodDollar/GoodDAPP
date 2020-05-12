@@ -112,7 +112,6 @@ describe('Test case 4: Check topbar items functionality', () => {
         cy.get('span')
             .contains('OK')
             .should('be.visible')
-
         cy.get('div')
             .contains('We sent you an email with your Magic Link')
             .should('be.visible')

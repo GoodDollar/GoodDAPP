@@ -21,7 +21,7 @@ class EditProfilePage {
     }
 
     get saveButton() {
-        return cy.xpath('/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]')
+        return cy.xpath('[data-testid="save_button"]')
             //return cy.get('[role="button"]').eq(2)
     }
 

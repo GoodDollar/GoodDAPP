@@ -1,6 +1,6 @@
 import { first } from 'lodash'
 
-import api from '../api'
+import api from '../api/FaceVerificationApi'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 
 const {

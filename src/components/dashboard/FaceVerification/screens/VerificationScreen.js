@@ -1,23 +1,18 @@
 import { useCallback, useEffect } from 'react'
 
-import UserStorage from '../../../lib/gundb/UserStorage'
-import SimpleStore from '../../../lib/undux/SimpleStore'
-import { useCurriedSetters } from '../../../lib/undux/GDStore'
-import goodWallet from '../../../lib/wallet/GoodWallet'
-import logger from '../../../lib/logger/pino-logger'
-import useZoomSDK from './hooks/useZoomSDK'
-import useZoomVerification from './hooks/useZoomVerification'
-import { kindOfSDKIssue, kindOfSessionIssue } from './utils/kindOfTheIssue'
+import UserStorage from '../../../../lib/gundb/UserStorage'
+import { useCurriedSetters } from '../../../../lib/undux/GDStore'
+import goodWallet from '../../../../lib/wallet/GoodWallet'
+import logger from '../../../../lib/logger/pino-logger'
+import useLoadingIndicator from '../../../../lib/hooks/useLoadingIndicator'
+import useZoomSDK from '../hooks/useZoomSDK'
+import useZoomVerification from '../hooks/useZoomVerification'
+import { kindOfSDKIssue, kindOfSessionIssue } from '../utils/kindOfTheIssue'
 
 const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
-  const store = SimpleStore.useStore()
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
-
-  useEffect(() => {
-    store.set('loadingIndicator')({ loading: true })
-    return () => store.set('loadingIndicator')({ loading: false })
-  }, [])
+  const [, hideLoading, toggleLoading] = useLoadingIndicator()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -99,20 +94,17 @@ const FaceVerification = ({ screenProps }) => {
   // using zoom sdk initialization hook
   // starting verification once sdk sucessfully initializes
   // on error redirecting to the error screen
-  useZoomSDK({
+  const isInitialized = useZoomSDK({
     onInitialized: startVerification,
     onError: sdkExceptionHandler,
   })
 
-  return null
+  useEffect(() => {
+    toggleLoading(!isInitialized)
+    return hideLoading
+  }, [isInitialized])
 
-  // return (
-  //   <Section grow justifyContent="flex-start">
-  //     <Section.Row grow alignItems="center" justifyContent="center">
-  //       <SpinnerCheckMark loading success={false} />
-  //     </Section.Row>
-  //   </Section>
-  // )
+  return null
 }
 
 FaceVerification.navigationOptions = {

@@ -1,6 +1,15 @@
 import { findKey, mapValues } from 'lodash'
 import { ZoomSDKStatus, ZoomSessionStatus } from '../sdk/ZoomSDK'
 
+const statusTransformer = statusesEnum => statusesKeys =>
+  statusesKeys.reduce((statuses, key) => {
+    if (key in statusesEnum) {
+      statuses.push(statusesEnum[key])
+    }
+
+    return statuses
+  }, [])
+
 const kindOfSessionIssuesMap = mapValues(
   {
     // All Zoom session result codes could be thrown if the
@@ -24,11 +33,12 @@ const kindOfSessionIssuesMap = mapValues(
 
       // video initialization issues
       'UnmanagedSessionVideoInitializationNotCompleted',
+      'ZoomVideoOrInterfaceDOMElementDoesNotExist',
       'VideoHeightOrWidthZeroOrUninitialized',
       'VideoCaptureStreamNotActive',
     ],
 
-    ForegoundLoosedError: [
+    ForegroundLoosedError: [
       // The ZoOm Session was cancelled due to the app being terminated, put to sleep, an OS notification,
       // or the app was placed in the background (for web - tab was switched).
       'ContextSwitch',
@@ -43,6 +53,9 @@ const kindOfSessionIssuesMap = mapValues(
 
       // device is in landscape mode
       'LandscapeModeNotAllowed',
+
+      // device is in reversed portrait mode (upside down)
+      'ReversePortraitNotAllowed',
     ],
 
     // User has cancelled session by own decision
@@ -55,12 +68,9 @@ const kindOfSessionIssuesMap = mapValues(
 
       // The user pressed the cancel button during Retry Guidance.
       'UserCancelledFromRetryGuidance',
-
-      // The user cancelled out of the ZoOm experience while attempting to get camera permissions.
-      'UserCancelledWhenAttemptingToGetCameraPermissions',
     ],
   },
-  statusesKeys => statusesKeys.map(key => ZoomSessionStatus[key])
+  statusTransformer(ZoomSessionStatus)
 )
 
 const kindOfSDKIssuesMap = mapValues(
@@ -76,7 +86,7 @@ const kindOfSDKIssuesMap = mapValues(
       'DeviceInLandscapeMode',
     ],
   },
-  statusesKeys => statusesKeys.map(key => ZoomSDKStatus[key])
+  statusTransformer(ZoomSDKStatus)
 )
 
 export const kindOfSessionIssue = exception => {

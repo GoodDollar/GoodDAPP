@@ -41,9 +41,9 @@ export const ZoomSDK = new class {
 
   // eslint-disable-next-line require-await
   async preload() {
-    return new Promise(
-      (resolve, reject) =>
-        void sdk.preload(status => {
+    return new Promise((resolve, reject) => {
+      try {
+        sdk.preload(status => {
           if (status === ZoomPreloadResult.Success) {
             resolve()
             return
@@ -55,7 +55,10 @@ export const ZoomSDK = new class {
           exception.code = status
           reject(exception)
         })
-    )
+      } catch (exception) {
+        reject(exception)
+      }
+    })
   }
 
   // eslint-disable-next-line require-await

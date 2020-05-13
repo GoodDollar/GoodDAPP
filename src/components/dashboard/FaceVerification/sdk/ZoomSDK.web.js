@@ -82,7 +82,12 @@ export const ZoomSDK = new class {
             }
 
             // retrieving full description from status code
-            const exception = new Error(getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
+            const exception = new Error(
+              ZoomSDKStatus.NeverInitialized === sdkStatus
+                ? "Initialize wasn't attempted as emulated device has been detected. " +
+                  'FaceTec ZoomSDK could be ran on the real devices only'
+                : getFriendlyDescriptionForZoomSDKStatus(sdkStatus)
+            )
 
             // adding status code as error's object property
             exception.code = sdkStatus

@@ -52,12 +52,19 @@ const SendByQR = ({ screenProps }: Props) => {
       case 'NotAllowedError':
         showErrorDialog({
           visible: true,
+          title: 'QR code scan failed',
           message: `GoodDollar can't access your camera, please enable camera permission`,
           dismissText: 'OK',
         })
         log.warn('QR scan send failed', e.message, e)
         break
       default:
+        showErrorDialog({
+          visible: true,
+          title: 'QR code scan failed',
+          message: e.message,
+          dismissText: 'OK',
+        })
         log.error('QR scan send failed', e.message, e)
         break
     }

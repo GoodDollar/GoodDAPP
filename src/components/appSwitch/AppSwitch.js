@@ -235,6 +235,7 @@ const AppSwitch = (props: LoadingProps) => {
     navigateToUrlAction()
   }, [])
 
+  //Pushing users to the path when signing in.
   useEffect(() => {
     if (isMobileNative && DeepLinking.pathname) {
       deepLinkingNavigation()

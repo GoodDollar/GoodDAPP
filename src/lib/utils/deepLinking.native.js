@@ -30,17 +30,32 @@ class DeepLinkingNative {
 
   pathname = ''
 
-  subscribe = navigationCallback => {
-    this._unsubscribe = branch.subscribe(this._listener)
+  subscribe = navigationCallback => {    
     if (navigationCallback) {
       this.navigationCallbacks.push(navigationCallback)
+      
+      // starting subscription only when first valid callback is passed
+      // and we haven't active subscription yet
+      // if pass this check - we'll have more that one callback invoke per each emit
+      // and will be unable to unsubscribe if will subscribe more that once
+      if (!this._unsubscribe) {
+        // storing unsubscribe fn inside instance var
+        this._unsubscribe = branch.subscribe(this._listener)
+      }
     }
   }
 
   unsubscribe = () => {
+    // if we have active subscription 
     if (this._unsubscribe) {
+      // then calling unsubscribe fn
       this._unsubscribe()
+      // cleaning up unsubscribe fn link
       this._unsubscribe = null
+      // and cleaning callback previously added
+      // if we don't perform this, they will be called
+      // once we'll .subscribe() again
+      this.navigationCallbacks.length = 0
     }
   }
 

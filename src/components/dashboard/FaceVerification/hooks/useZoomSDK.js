@@ -7,6 +7,8 @@ import useMountedState from '../../../../lib/hooks/useMountedState'
 import { ZoomSDK } from '../sdk/ZoomSDK'
 
 const log = logger.child({ from: 'useZoomSDK' })
+let preloadAttempted = false
+let preloadException = null
 
 /**
  * ZoomSDK preloading helper
@@ -25,7 +27,10 @@ export const preloadZoomSDK = async (logger = log) => {
   } catch (exception) {
     const { message } = exception
 
+    preloadException = exception
     logger.error('preloading zoom failed', message, exception)
+  } finally {
+    preloadAttempted = true
   }
 }
 
@@ -87,8 +92,9 @@ export default ({ onInitialized = noop, onError = noop }) => {
       try {
         log.debug('Initializing ZoomSDK')
 
-        // Initializing ZoOm, this also performs preload
-        await ZoomSDK.initialize(Config.zoomLicenseKey)
+        // Initializing ZoOm
+        // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
+        await ZoomSDK.initialize(Config.zoomLicenseKey, !preloadAttempted || preloadException)
 
         // Setting initialized state
         handleSdkInitialized()
@@ -97,6 +103,17 @@ export default ({ onInitialized = noop, onError = noop }) => {
         // handling initialization exceptions
         handleException(exception)
       }
+    }
+
+    // if preload failed it could stuck zoom's up
+    // on the next initialize call. so we won't call
+    // initialize if we've called preload and it was failed
+    // if we'll find a reason of "Zoom core worker exception"
+    // then we could remove this workaround because it would be
+    // good to re-try to preload zoom on initialization
+    if (preloadAttempted && preloadException) {
+      handleException(preloadException)
+      return
     }
 
     // starting initialization

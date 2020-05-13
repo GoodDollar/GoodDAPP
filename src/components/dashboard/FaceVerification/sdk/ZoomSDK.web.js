@@ -62,7 +62,7 @@ export const ZoomSDK = new class {
   }
 
   // eslint-disable-next-line require-await
-  async initialize(licenseKey) {
+  async initialize(licenseKey, preload = true) {
     // checking the last retrieved status code
     // if Zoom was already initialized successfully,
     // then resolving immediately
@@ -99,7 +99,7 @@ export const ZoomSDK = new class {
             // rejecting with an error
             reject(exception)
           },
-          true
+          preload
         )
       } catch (exception) {
         // handling initialization exceptions

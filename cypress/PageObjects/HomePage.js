@@ -70,6 +70,10 @@ class HomePage {
     return cy.get('span').contains('Delete')
   }
 
+  get BackupButton() {
+    return cy.contains('Backup Wallet')
+  }
+
   waitForHomePageDisplayed() {
     cy.contains('Claim').should('be.visible')
   }

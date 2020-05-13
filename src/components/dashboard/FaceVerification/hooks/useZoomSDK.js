@@ -94,7 +94,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
         // Initializing ZoOm
         // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
-        await ZoomSDK.initialize(Config.zoomLicenseKey, !preloadAttempted || preloadException)
+        await ZoomSDK.initialize(Config.zoomLicenseKey, !(preloadAttempted && !preloadException))
 
         // Setting initialized state
         handleSdkInitialized()

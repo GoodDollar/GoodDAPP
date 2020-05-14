@@ -52,7 +52,6 @@ export const ZoomSDK = new class {
           const exception = new Error(`Couldn't preload Zoom SDK`)
 
           log.warn('preload failed', { exception })
-          exception.code = status
           reject(exception)
         })
       } catch (exception) {

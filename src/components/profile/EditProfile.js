@@ -1,8 +1,8 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
+import { isBrowser } from 'mobile-device-detect'
 import { debounce, isEqual, isEqualWith, merge, pickBy } from 'lodash'
-
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
@@ -213,10 +213,10 @@ const getStylesFromProps = ({ theme }) => {
   return {
     animatedSaveButton: {
       position: 'absolute',
-      width: 120,
-      height: 60,
-      top: 0,
-      right: -24,
+      width: isBrowser ? 110 : 100,
+      height: 50,
+      top: 17,
+      right: -10,
       marginVertical: 0,
       display: 'flex',
       justifyContent: 'flex-end',

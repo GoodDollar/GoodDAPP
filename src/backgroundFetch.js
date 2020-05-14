@@ -2,10 +2,14 @@ import BackgroundFetch from 'react-native-background-fetch'
 import PushNotification from 'react-native-push-notification'
 import { AsyncStorage } from 'react-native'
 import logger from '../src/lib/logger/pino-logger'
-import Config from './config/config'
 import { IS_LOGGED_IN } from './lib/constants/localStorage'
-import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
+import {
+  checkGunConnection,
+  checkWalletAvailable,
+  checkWalletConnection,
+  checkWalletReady,
+} from './lib/utils/checkConnections'
 
 const options = {
   minimumFetchInterval: 15,
@@ -107,48 +111,20 @@ const hasConnection = () => {
       return
     }
 
-    const isConnected = async () => {
-      const isReady = await Promise.all([goodWallet.ready, userStorage.ready])
-        .then(_ => true)
-        .catch(_ => false)
-
-      log.info('isReady', isReady)
-
-      if (!isReady) {
+    const isConnected = () => {
+      if (!checkWalletReady) {
         return setTimeout(isConnected, 200)
       }
 
-      const isWalletConnected = goodWallet.wallet.currentProvider.connected
-
-      log.info('isWalletConnected', isWalletConnected)
-
-      if (!isWalletConnected) {
-        if (!goodWallet.wallet.currentProvider.reconnecting) {
-          goodWallet.wallet.currentProvider.reconnect()
-        }
-
+      if (!checkWalletConnection) {
         return setTimeout(isConnected, 200)
       }
 
-      const isWalletAvailable = await goodWallet
-        .balanceOf()
-        .then(_ => true)
-        .catch(_ => false)
-
-      log.info('isWalletAvailable', isWalletAvailable)
-
-      if (!isWalletAvailable) {
+      if (!checkWalletAvailable) {
         return setTimeout(isConnected, 200)
       }
 
-      const instanceGun = userStorage.gun._
-      const connection = instanceGun.opt.peers[Config.gunPublicUrl]
-
-      log.info('gunConnection', connection)
-
-      const isGunConnected = connection && connection.wire && connection.wire.readyState === connection.wire.OPEN
-
-      if (!isGunConnected) {
+      if (!checkGunConnection) {
         return setTimeout(isConnected, 200)
       }
 

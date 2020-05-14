@@ -1,10 +1,12 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, Share, View } from 'react-native'
+import { text } from 'react-native-communications'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import Config from '../../config/config'
+import gun from '../../lib/gundb/gundb'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -36,12 +38,13 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
+  const [loading, setLoading] = useState(false)
 
   const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
-  const { amount, reason = null, counterPartyDisplayName } = screenState
+  const { amount, reason = null, counterPartyDisplayName, contact } = screenState
 
   const faceRecognition = useCallback(() => {
     return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
@@ -92,34 +95,115 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     ]
   )
 
+  const sendPayment = to => {
+    try {
+      setLoading(true)
+      let txhash
+      goodWallet.sendAmount(to, amount, {
+        onTransactionHash: hash => {
+          txhash = hash
+
+          // Save transaction
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            type: 'send',
+            data: {
+              to,
+              reason,
+              amount,
+            },
+          }
+          userStorage.enqueueTX(transactionEvent)
+
+          if (Config.isEToro) {
+            userStorage.saveSurveyDetails(hash, {
+              reason,
+              amount,
+              survey,
+            })
+          }
+
+          fireEvent('SEND_DONE', { type: screenState.params.type })
+          showDialog({
+            visible: true,
+            title: 'SUCCESS!',
+            message: 'The G$ was sent successfully',
+            buttons: [{ text: 'Yay!' }],
+            onDismiss: setShared(true),
+          })
+          setLoading(false)
+          return hash
+        },
+        onError: e => {
+          log.error('Send TX failed:', e.message, e)
+          setLoading(false)
+          userStorage.markWithErrorEvent(txhash)
+        },
+      })
+    } catch (e) {
+      log.error('Send TX failed:', e.message, e)
+      showErrorDialog({
+        visible: true,
+        title: 'Transaction Failed!',
+        message: `There was a problem sending G$. Try again`,
+        dismissText: 'OK',
+      })
+    }
+  }
+
+  const searchWalletAddress = async phoneNumber => {
+    const walletAddress = await gun
+      .get('users/bymobile')
+      .get(phoneNumber)
+      .path('profile.walletAddress.display')
+    return walletAddress
+  }
+
   // Going to root after shared
+
   useEffect(() => {
     if (shared) {
       screenProps.goToRoot()
     }
   }, [shared])
 
-  const handleConfirm = useCallback(() => {
+  const handleConfirm = useCallback(async () => {
     let paymentLink = link
+    let walletAddress
+    const { phoneNumber } = contact
+    if (phoneNumber) {
+      const cleanPhoneNumber = phoneNumber.replace(/\D/g, '')
+      walletAddress = await searchWalletAddress(cleanPhoneNumber)
+    }
 
-    // Prevents calling back `generateLink` as it generates a new transaction every time it's called
-    if (paymentLink === '') {
+    if (!paymentLink) {
       paymentLink = generateLink()
       setLink(paymentLink)
     }
 
-    if (canShare) {
-      shareAction(paymentLink)
+    if (phoneNumber) {
+      if (walletAddress) {
+        sendPayment(walletAddress)
+      } else {
+        text(contact.phoneNumber, paymentLink)
+        setShared(true)
+      }
     } else {
-      const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
+      // Prevents calling back `generateLink` as it generates a new transaction every time it's called
+      if (canShare) {
+        shareAction(paymentLink)
+      } else {
+        const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
 
-      // Show confirmation
-      screenProps.push('SendConfirmation', {
-        paymentLink: desktopShareLink,
-        amount,
-        reason,
-        counterPartyDisplayName,
-      })
+        // Show confirmation
+        screenProps.push('SendConfirmation', {
+          paymentLink: desktopShareLink,
+          amount,
+          reason,
+          counterPartyDisplayName,
+        })
+      }
     }
   }, [
     generateSendShareText,
@@ -160,6 +244,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               amount,
               paymentLink: generateLinkResponse.paymentLink,
               code: generateLinkResponse.code,
+              phoneNumber: contact.phoneNumber || '',
             },
           }
 
@@ -275,7 +360,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton onPress={isCitizen ? handleConfirm : faceRecognition} disabled={isCitizen === undefined}>
+            <CustomButton
+              onPress={isCitizen ? handleConfirm : faceRecognition}
+              disabled={isCitizen === undefined}
+              loading={loading}
+            >
               Confirm
             </CustomButton>
           </Section.Stack>

@@ -2,29 +2,35 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, TouchableOpacity } from 'react-native'
 import { set } from 'lodash'
+import AnimationBase from '../Base'
+import { weiToMask } from '../../../../lib/wallet/utils'
 import animationData from './data.json'
 
-class ClaimButton extends React.Component {
+class ClaimButton extends AnimationBase {
   state = {
     stopOnClaim: true,
   }
 
   constructor(props) {
     super(props)
-    const { amount } = this.props
+    const { amount, formatter } = this.props
+    const numberFormatter = formatter || weiToMask
+    const entitlement = amount === undefined ? '-.--' : numberFormatter(amount)
+    const length = String(entitlement).length
+    const gap = this.getGap(length)
 
     // set amount of G$ text to animation
 
-    set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${amount ? ` - ${amount}` : ''} `)
+    set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${entitlement ? ` - ${entitlement}` : ''} `)
 
     // set x coordinate of G$ text to animation
-    set(animationData, 'layers[4].ks.p.k[0].s[0]', this.getGap())
-    set(animationData, 'layers[4].ks.p.k[1].s[0]', this.getGap())
-    set(animationData, 'layers[4].ks.p.k[2].s[0]', this.getGap())
-    set(animationData, 'layers[4].ks.p.k[3].s[0]', this.getGap())
+    set(animationData, 'layers[4].ks.p.k[0].s[0]', gap)
+    set(animationData, 'layers[4].ks.p.k[1].s[0]', gap)
+    set(animationData, 'layers[4].ks.p.k[2].s[0]', gap)
+    set(animationData, 'layers[4].ks.p.k[3].s[0]', gap)
   }
 
-  componentDidMount() {
+  onMount() {
     if (Platform.OS === 'web') {
       this.anim.onEnterFrame = e => {
         const { stopOnClaim } = this.state
@@ -35,10 +41,6 @@ class ClaimButton extends React.Component {
     }
 
     this.goToClaim()
-  }
-
-  setAnim = anim => {
-    this.anim = anim
   }
 
   goToClaim = () => {

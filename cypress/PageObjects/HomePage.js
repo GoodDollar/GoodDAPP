@@ -70,7 +70,7 @@ class HomePage {
     return cy.get('span').contains('Delete')
   }
 
-  get BackupButton() {
+  get backupButton() {
     return cy.contains('Backup Wallet')
   }
 

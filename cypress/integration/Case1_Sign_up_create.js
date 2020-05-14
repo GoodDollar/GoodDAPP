@@ -31,7 +31,7 @@ describe('Test case 1: Create temporary user', () => {
     SignUpPage.gotItButton.click()
     HomePage.welcomeFeed.should('be.visible')
     HomePage.optionsButton.click()
-    HomePage.BackupButton.click().should(() => {
+    HomePage.backupButton.click().should(() => {
       expect(localStorage.getItem('GD_mnemonic')).to.not.be.null
       cy.writeFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt', localStorage.getItem('GD_mnemonic'))
     })

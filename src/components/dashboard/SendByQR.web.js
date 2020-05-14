@@ -47,22 +47,19 @@ const SendByQR = ({ screenProps }: Props) => {
     }
   }
 
-  const handleError = e => {
-    const title = 'QR code scan failed'
-    switch (e.name) {
-      case 'NotAllowedError':
-        showErrorDialog(`GoodDollar can't access your camera, please enable camera permission`, '', {
-          title,
-          onDismiss: screenProps.goToRoot,
-        })
-        log.warn('QR scan send failed', e.message, e)
-        break
-      default:
-        showErrorDialog(e.message, '', { title })
-        log.error('QR scan send failed', e.message, e)
-        break
+  const handleError = useCallback(exception => {
+    const dialogOptions = { title: 'QR code scan failed' }
+    const { name, message } = exception
+    let errorMessage = message
+    
+    if ('NotAllowedError' === name) {
+      errorMessage = `GoodDollar can't access your camera, please enable camera permission`
+      dialogOptions.onDismiss = screenProps.goToRoot
     }
-  }
+    
+    showErrorDialog(errorMessage, '', dialogOptions)
+    log.error('QR scan send failed', e.message, e)        
+  }, [screenProps, showErrorDialog])
 
   return (
     <Wrapper>

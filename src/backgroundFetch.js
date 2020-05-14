@@ -112,19 +112,19 @@ const hasConnection = () => {
     }
 
     const isConnected = () => {
-      if (!checkWalletReady) {
+      if (!checkWalletReady()) {
         return setTimeout(isConnected, 200)
       }
 
-      if (!checkWalletConnection) {
+      if (!checkWalletConnection()) {
         return setTimeout(isConnected, 200)
       }
 
-      if (!checkWalletAvailable) {
+      if (!checkWalletAvailable()) {
         return setTimeout(isConnected, 200)
       }
 
-      if (!checkGunConnection) {
+      if (!checkGunConnection()) {
         return setTimeout(isConnected, 200)
       }
 

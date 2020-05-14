@@ -74,14 +74,14 @@ export const ZoomSDK = new class {
         // initializing ZoOm and configuring the UI features.
         sdk.initialize(
           licenseKey,
-          () => {
-            const sdkStatus = sdk.getStatus()
-
+          isInitialized => {
             // if Zoom was initialized successfully - resolving
-            if (ZoomSDKStatus.Initialized === sdkStatus) {
+            if (isInitialized) {
               resolve()
               return
             }
+
+            const sdkStatus = sdk.getStatus()
 
             // retrieving full description from status code
             const exception = new Error(

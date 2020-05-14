@@ -8,6 +8,7 @@ const log = logger.child({ from: 'ZoomSDK' })
 
 // Zoom SDK reference
 const { ZoomSDK: sdk } = ZoomAuthentication
+const { ZoomCustomization } = sdk
 
 export const {
   // SDK initialization status codes enum
@@ -37,6 +38,14 @@ export const ZoomSDK = new class {
 
     // setting the directory path for required ZoOm images.
     sdk.setImagesDirectory('/zoom/images')
+
+    // disabling camera permissions help screen
+    // (as we have own ErrorScreen with corresponding message)
+    sdk.setCustomiation(
+      new ZoomCustomization({
+        enableCameraPermissionsHelpScreen: false,
+      })
+    )
   }
 
   // eslint-disable-next-line require-await

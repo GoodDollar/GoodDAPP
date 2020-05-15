@@ -1,5 +1,5 @@
 import { findKey, mapValues } from 'lodash'
-import { ZoomSDKStatus, ZoomSessionStatus } from '../sdk'
+import { ZoomSDKStatus, ZoomSessionStatus } from '../sdk/ZoomSDK'
 
 const kindOfSessionIssuesMap = mapValues(
   {

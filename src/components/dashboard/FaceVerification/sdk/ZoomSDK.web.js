@@ -1,3 +1,5 @@
+import { omit } from 'lodash'
+
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import logger from '../../../../lib/logger/pino-logger'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
@@ -48,6 +50,7 @@ export const ZoomSDK = new class {
           }
 
           const exception = new Error(`Couldn't preload Zoom SDK`)
+
           log.warn('preload failed', { exception })
           exception.code = status
           reject(exception)
@@ -104,7 +107,11 @@ export const ZoomSDK = new class {
       // as now all this stuff is outside React hook
       // we could just implement it like in the demo app
       const processor = new EnrollmentProcessor(enrollmentIdentifier, (isSuccess, lastResult, lastMessage) => {
-        log.warn('processor result:', { isSuccess, lastResult, lastMessage })
+        log[isSuccess ? 'info' : 'warn']('processor result:', {
+          isSuccess,
+          lastMessage,
+          lastResult: omit(lastResult, 'faceMetrics'),
+        })
 
         if (isSuccess) {
           resolve(lastMessage)

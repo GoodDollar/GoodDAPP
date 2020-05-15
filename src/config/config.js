@@ -1,10 +1,15 @@
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
+import { env } from '../lib/utils/env'
+
+// E2E checker utility import
+//import { isE2ERunning } from '../lib/utils/platform'
 
 const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin)
 const isEToro = process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro'
 const forceLogLevel = window && window.location && window.location.search.match(/level=(.*?)($|&)/)
+
 const Config = {
-  env: process.env.REACT_APP_ENV || 'development',
+  env,
   version: process.env.VERSION || 'v0',
   contractsVersion,
   isEToro,
@@ -83,7 +88,11 @@ const Config = {
   },
 }
 
-global.config = Config
+// TODO: wrap all stubs / "backdoors" made for automated testing
+// if (isE2ERunning) {
+  global.config = Config
+
+//}
 
 // Forcing value as number, if not MNID encoder/decoder may fail
 // Config.networkId = Config.ethereum[Config.networkId].network_id

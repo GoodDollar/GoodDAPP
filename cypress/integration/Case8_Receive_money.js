@@ -16,6 +16,7 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
     LoginPage.yayButton.click()
     HomePage.receiveButton.click()
     ReceiveMoneyPage.pageHeader.should('contain', 'Receive G$')
+    ReceiveMoneyPage.qrImage.should('be.visible')
     ReceiveMoneyPage.requestSpecificAmountButton.should('be.visible')
     ReceiveMoneyPage.shareYourWalletLinkButton.should('be.visible')
     ReceiveMoneyPage.requestSpecificAmountButton.click()
@@ -32,8 +33,9 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
     ReceiveMoneyPage.messageInput.type('test lalala')
     ReceiveMoneyPage.nextButton.click()
     ReceiveMoneyPage.nextButton.click()
-    ReceiveMoneyPage.shareLinkButton.click()
-    ReceiveMoneyPage.doneButton.invoke('attr', 'data-url').then(reseiveMoneyUrl => {
+    //ReceiveMoneyPage.shareLinkButton.click()
+    //ReceiveMoneyPage.doneButton.click()
+    ReceiveMoneyPage.shareLinkButton.click().invoke('attr', 'data-url').then(reseiveMoneyUrl => {
       const moneyLink = reseiveMoneyUrl
       const pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
       const validMoneyLnk = moneyLink.match(pattern)

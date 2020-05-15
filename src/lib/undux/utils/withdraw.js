@@ -31,9 +31,12 @@ export const executeWithdraw = async (
   code: string,
   reason: string
 ): Promise<ReceiptType | { status: boolean }> => {
-  log.info('executeWithdraw', code, reason)
   try {
     const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)
+    log.info('executeWithdraw', { code, reason, amount, sender, status, hashedCode })
+    if (sender.toLowerCase() === goodWallet.account.toLowerCase()) {
+      throw new Error('You are trying to withdraw your own payment link.')
+    }
     if (status === WITHDRAW_STATUS_PENDING) {
       let txHash
 

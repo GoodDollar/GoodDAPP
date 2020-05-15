@@ -214,7 +214,7 @@ const getStylesFromProps = ({ theme }) => {
       position: 'absolute',
       width: getDesignRelativeWidth(110),
       height: 50,
-      top: getDesignRelativeHeight(198),
+      top: getDesignRelativeHeight(18),
       right: -10,
       marginVertical: 0,
       display: 'flex',

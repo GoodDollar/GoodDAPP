@@ -84,7 +84,7 @@ describe('Test case 1: Ability to Sign Up', () => {
     //   })
     // })
     HomePage.optionsButton.click()
-    cy.contains('Ok').click()
+    //cy.contains('Ok').click()
     HomePage.deleteAccountButton.click()
     HomePage.confirmDeletionButton.click()
     StartPage.createWalletButton.should('be.visible')

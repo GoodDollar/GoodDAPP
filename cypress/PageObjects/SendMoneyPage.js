@@ -21,11 +21,29 @@ class SendMoneyPage {
   }
 
   get copyLinkButton() {
-    return cy.get('div[role=button]', { timeout: 10000 }).contains('Copy link to clipboard')
+    //return cy.get('div[role=button]', { timeout: 10000 }).contains('Copy link to clipboard')
+    return cy.contains(/copy link to clipboard/i)
   }
 
   get doneButton() {
-    return cy.get('div[data-gdtype="copybutton-done"]')
+    //return cy.get('div[data-gdtype="copybutton-done"]')
+    return cy.contains('Done')
+  }
+
+  get dailyClaimText() {
+    return cy.contains('Daily Share')
+  }
+
+  get claimButton() {
+    return cy.get('[role="button"]').eq(1)
+  }
+
+  get verifyButton() {
+    return cy.contains('OK, Verify me')
+  }
+
+  get readyButton() {
+    return cy.contains('I\'M READY')
   }
 }
 

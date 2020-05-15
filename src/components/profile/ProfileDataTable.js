@@ -58,17 +58,25 @@ const ProfileDataTable = ({
   const onPhoneInputFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
   const onPhoneInputChange = useCallback(value => onChange({ ...profile, mobile: value }), [onChange, profile])
   const onPhoneInputBlur = useCallback(() => {
-    setLockSubmit(false)
-    verifyPhone()
-  }, [setLockSubmit, verifyPhone])
+    const { errors: _errors } = profile.validate()
+
+    if (!_errors.mobile) {
+      setLockSubmit(false)
+      verifyPhone()
+    }
+  }, [setLockSubmit, verifyPhone, errors])
 
   // email handlers
   const onEmailFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
   const onEmailChange = useCallback(email => onChange({ ...profile, email }), [onChange, profile])
   const onEmailBlur = useCallback(() => {
-    setLockSubmit(false)
-    verifyEmail()
-  }, [setLockSubmit, verifyEmail])
+    const { errors: _errors } = profile.validate()
+
+    if (!_errors.email) {
+      setLockSubmit(false)
+      verifyEmail()
+    }
+  }, [setLockSubmit, verifyEmail, errors])
 
   return (
     <Section.Row alignItems="center" grow={1}>

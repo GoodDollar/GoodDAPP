@@ -22,7 +22,6 @@ class EditProfilePage {
 
   get saveButton() {
     return cy.get('[data-testid="save_button"]')
-    //return cy.get('[role="button"]').eq(2)
   }
 
   get saveButtonText() {

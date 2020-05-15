@@ -1426,7 +1426,8 @@ export class UserStorage {
           feedItem =>
             feedItem &&
             feedItem.data &&
-            ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
+            ['deleted', 'cancelled'].includes(feedItem.status) === false &&
+            feedItem.otplStatus !== 'cancelled'
         )
         .map(feedItem => {
           if (!(feedItem.data && feedItem.data.receiptData)) {

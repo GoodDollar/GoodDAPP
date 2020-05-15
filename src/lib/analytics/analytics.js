@@ -172,7 +172,12 @@ const patchLogger = () => {
   global.logger.error = function() {
     let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
     if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
-      debounceFireEvent(ERROR_LOG, { reason: logMessage, logContext })
+      debounceFireEvent(ERROR_LOG, {
+        unique: `${eMsg} ${logMessage} (${logContext})`,
+        $reason: logMessage,
+        logContext,
+        eMsg,
+      })
     }
     if (global.bugsnagClient && Config.env !== 'test') {
       global.bugsnagClient.notify(logMessage, {

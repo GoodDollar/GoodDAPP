@@ -1,31 +1,25 @@
 import React from 'react'
 import { Platform } from 'react-native'
 import Lottie from 'lottie-react-native'
+import { cloneDeep } from 'lodash'
+
 import AnimationBase from '../Base'
-import { getScreenHeight } from '../../../../lib/utils/Orientation'
-import { getAnimationData } from '../../../../lib/utils/lottie'
 
-const { animationData, imageAssetsFolder } = getAnimationData('FaceVerificationSmiley', require('./data'))
-
-const margin = getScreenHeight() > 700 ? 175 : getScreenHeight() / 2.3
+import animationData from './data.json'
 
 const styles = {
   android: {},
   ios: {},
-  web: {
-    marginTop: -margin,
-    marginBottom: -margin,
-  },
+  web: {},
 }
 
 class FaceVerificationSmiley extends AnimationBase {
   render() {
     return (
       <Lottie
-        imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
         autoPlay={true}
-        source={this.improveAnimationData(animationData)}
+        source={cloneDeep(animationData)}
         autoSize={true}
         style={Platform.select(styles)}
         loop={false}

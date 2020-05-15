@@ -72,7 +72,7 @@ const VerifyError = ({
             <Separator width={2} />
           </Section>
         </Section>
-        {action && <Section>{action}</Section>}
+        {action && <Section style={styles.action}>{action}</Section>}
       </View>
     </Wrapper>
   )
@@ -104,6 +104,9 @@ const getStylesFromProps = ({ theme }) => ({
     paddingLeft: getDesignRelativeWidth(theme.sizes.defaultHalf),
     paddingRight: getDesignRelativeWidth(theme.sizes.defaultHalf),
     paddingTop: getDesignRelativeHeight(theme.sizes.default),
+  },
+  action: {
+    width: '100%',
   },
   errorSection: {
     paddingBottom: 0,

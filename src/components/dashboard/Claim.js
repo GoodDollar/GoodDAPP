@@ -231,12 +231,12 @@ const Claim = props => {
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
-        showErrorDialog('Claim request failed', 'CLAIM-1', { boldMessage: 'Try again later.' })
+        showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
       }
     } catch (e) {
-      fireEvent(CLAIM_FAILED, { txError: true })
+      fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
       log.error('claiming failed', e.message, e)
-      showErrorDialog('Claim request failed', 'CLAIM-2', { boldMessage: 'Try again later.' })
+      showErrorDialog('Claim request failed', '', { boldMessage: 'Try again later.' })
     } finally {
       setLoading(false)
     }

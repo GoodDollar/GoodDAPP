@@ -26,10 +26,12 @@ export const init = () => {
       // set userStorage to simple storage
       setUserStorage(userStorage)
       await initAnalytics(goodWallet, userStorage)
+      log.debug('analytics has been initializing')
 
       // FIXME RN INAPPLINKS
       if (Platform.OS === 'web') {
         const params = extractQueryParams(window.location.href)
+
         source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
         source = Object.keys(pick(params, ['inviteCode', 'web3Token', 'paymentCode', 'code'])).pop() || source
       }

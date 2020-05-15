@@ -19,6 +19,7 @@ import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
 import { assertStore } from '../../lib/undux/SimpleStore'
+import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
 
 type LoadingProps = {
   navigation: any,
@@ -119,6 +120,7 @@ const AppSwitch = (props: LoadingProps) => {
     if (isLoggedInCitizen) {
       API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
     }
+    return isLoggedInCitizen
 
     // if (isLoggedIn) {
     //   if (destDetails) {
@@ -157,9 +159,17 @@ const AppSwitch = (props: LoadingProps) => {
     log.debug('initializing', gdstore)
 
     try {
-      await initialize()
+      const isCitizen = await initialize()
       checkBonusInterval()
       prepareLoginToken()
+
+      // preloading Zoom (supports web + native)
+      if (isCitizen === false) {
+        // don't awaiting for sdk ready here
+        // initialize() will await if preload hasn't completed yet
+        preloadZoomSDK(log) // eslint-disable-line require-await
+      }
+
       await Promise.all([runUpdates(), showOutOfGasError(props)])
 
       setReady(true)

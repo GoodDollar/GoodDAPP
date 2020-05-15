@@ -1,7 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
-import { isBrowser } from 'mobile-device-detect'
 import { debounce, isEqual, isEqualWith, merge, pickBy } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -12,7 +11,7 @@ import { Section, UserAvatar, Wrapper } from '../common'
 import SaveButton from '../common/animations/SaveButton/SaveButton'
 import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
-import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
@@ -213,9 +212,9 @@ const getStylesFromProps = ({ theme }) => {
   return {
     animatedSaveButton: {
       position: 'absolute',
-      width: isBrowser ? 110 : 100,
+      width: getDesignRelativeWidth(110),
       height: 50,
-      top: 17,
+      top: getDesignRelativeHeight(198),
       right: -10,
       marginVertical: 0,
       display: 'flex',

@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
@@ -59,7 +59,7 @@ const SendByQR = ({ screenProps }: Props) => {
       }
 
       showErrorDialog(errorMessage, '', dialogOptions)
-      log.error('QR scan send failed', e.message, e)
+      log.error('QR scan send failed', message, exception)
     },
     [screenProps, showErrorDialog]
   )

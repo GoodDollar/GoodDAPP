@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
@@ -7,6 +7,7 @@ import logger from '../../lib/logger/pino-logger'
 import { extractQueryParams, readCode } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
@@ -23,6 +24,7 @@ type Props = {
 const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const store = SimpleStore.useStore()
+  const [showErrorDialog] = useErrorDialog()
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
@@ -45,9 +47,22 @@ const SendByQR = ({ screenProps }: Props) => {
     }
   }
 
-  const handleError = e => {
-    log.error('QR scan send failed', e.message, e)
-  }
+  const handleError = useCallback(
+    exception => {
+      const dialogOptions = { title: 'QR code scan failed' }
+      const { name, message } = exception
+      let errorMessage = message
+
+      if ('NotAllowedError' === name) {
+        errorMessage = `GoodDollar can't access your camera, please enable camera permission`
+        dialogOptions.onDismiss = screenProps.goToRoot
+      }
+
+      showErrorDialog(errorMessage, '', dialogOptions)
+      log.error('QR scan send failed', message, exception)
+    },
+    [screenProps, showErrorDialog]
+  )
 
   return (
     <Wrapper>

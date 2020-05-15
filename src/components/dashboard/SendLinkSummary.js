@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Platform, View } from 'react-native'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -42,10 +42,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
   const { action } = params
 
-  const [isCitizen, setIsCitizen] = useState(gdstore.get('isLoggedInCitizen'))
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
-  const [loading, setLoading] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
 
@@ -122,6 +121,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const sendViaLink = useCallback(async () => {
     try {
+      setLoading(true)
       let paymentLink = await getLink()
 
       const desktopShareLink = (canShare ? generateSendShareObject : generateSendShareText)(
@@ -227,12 +227,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, setLink, link, goToRoot])
 
-  useEffect(() => {
-    if (isCitizen === false) {
-      goodWallet.isCitizen().then(setIsCitizen)
-    }
-  }, [])
-
   return (
     <Wrapper>
       <TopBar push={push} />
@@ -273,7 +267,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               </Section.Text>
             )}
           </Section.Row>
-          {reason && (
+          {!!reason && (
             <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
               <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
                 For
@@ -294,7 +288,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton onPress={handleConfirm} disabled={isCitizen === undefined} loading={loading}>
+            <CustomButton onPress={handleConfirm} loading={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>

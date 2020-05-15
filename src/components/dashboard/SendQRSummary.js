@@ -1,100 +1,182 @@
 // @flow
-import React, { useCallback, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
-import QrReader from 'react-qr-reader'
-
+/**
+ * @file Displays a summary when sending G$ directly to a blockchain address
+ */
+import React, { useEffect, useState } from 'react'
+import { fireEvent } from '../../lib/analytics/analytics'
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import { extractQueryParams, readCode } from '../../lib/share'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { wrapFunction } from '../../lib/undux/utils/wrapper'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { Section, Wrapper } from '../common'
+import { useDialog } from '../../lib/undux/utils/dialog'
+import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
+import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
+import { CustomButton, Section, Wrapper } from '../common'
+import SummaryTable from '../common/view/SummaryTable'
 import TopBar from '../common/view/TopBar'
-import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
-import { routeAndPathForCode } from './utils/routeAndPathForCode'
+import Config from '../../config/config'
+import SurveySend from './SurveySend'
+import { SEND_TITLE } from './utils/sendReceiveFlow'
 
-const QR_DEFAULT_DELAY = 300
-
-const log = logger.child({ from: 'SendByQR.web' })
-
-type Props = {
+export type AmountProps = {
   screenProps: any,
+  navigation: any,
 }
 
-const SendByQR = ({ screenProps }: Props) => {
-  const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
-  const store = SimpleStore.useStore()
-  const [showErrorDialog] = useErrorDialog()
+const log = logger.child({ from: 'SendQRSummary' })
 
-  const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
+/**
+ * Screen that shows transaction summary for a send qr action
+ * @param {AmountProps} props
+ * @param {any} props.screenProps
+ * @param {any} props.styles
+ */
+const SendQRSummary = ({ screenProps }: AmountProps, params) => {
+  const [screenState] = useScreenState(screenProps)
+  const goodWallet = useWrappedGoodWallet()
+  const [showDialog, showErrorDialog] = useDialog()
+  const [survey, setSurvey] = useState('other')
+  const [showSurvey, setShowSurvey] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [isValid, setIsValid] = useState(screenState.isValid)
+  const { amount, reason, to } = screenState
+  const [profile, setProfile] = useState({})
+  const updateRecepientProfile = async () => {
+    const profile = await userStorage.getUserProfile(to)
+    setProfile(profile)
+  }
 
-  const handleScan = async data => {
-    if (data) {
-      try {
-        const decoded = decodeURI(data)
-        let paramsUrl = extractQueryParams(decoded)
-        const code = readCode(paramsUrl.code)
-        log.info({ code })
-
-        const { route, params } = await routeAndPathForCode('sendByQR', code)
-        fireEvent(QR_SCAN, { type: 'send' })
-        screenProps.push(route, params)
-      } catch (e) {
-        log.error('scan send code failed', e.message, e, { data })
-        setQRDelay(false)
-        throw e
-      }
+  const confirm = () => {
+    try {
+      sendGD()
+    } catch (e) {
+      log.error('Send TX failed:', e.message, e)
+      showErrorDialog({
+        visible: true,
+        title: 'Transaction Failed!',
+        message: `There was a problem sending G$. Try again`,
+        dismissText: 'OK',
+        onDismiss: () => {
+          confirm()
+        },
+      })
     }
   }
 
-  const handleError = useCallback(
-    exception => {
-      const dialogOptions = { title: 'QR code scan failed' }
-      const { name, message } = exception
-      let errorMessage = message
+  useEffect(() => {
+    if (to) {
+      updateRecepientProfile()
+    }
+  }, [to])
 
-      if ('NotAllowedError' === name) {
-        errorMessage = `GoodDollar can't access your camera, please enable camera permission`
-        dialogOptions.onDismiss = screenProps.goToRoot
-      }
+  const sendGD = () => {
+    try {
+      setLoading(true)
+      let txhash
+      goodWallet.sendAmount(to, amount, {
+        onTransactionHash: hash => {
+          log.debug({ hash })
+          txhash = hash
 
-      showErrorDialog(errorMessage, '', dialogOptions)
-      log.error('QR scan send failed', message, exception)
-    },
-    [screenProps, showErrorDialog]
-  )
+          // Save transaction
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            type: 'send',
+            data: {
+              to,
+              reason,
+              amount,
+            },
+          }
+          userStorage.enqueueTX(transactionEvent)
+          if (Config.isEToro) {
+            userStorage.saveSurveyDetails(hash, {
+              reason,
+              amount,
+              survey,
+            })
+          }
+
+          fireEvent('SEND_DONE', { type: screenState.params.type })
+          showDialog({
+            visible: true,
+            title: 'SUCCESS!',
+            message: 'The G$ was sent successfully',
+            buttons: [{ text: 'Yay!' }],
+            onDismiss: screenProps.goToRoot,
+          })
+
+          setLoading(false)
+
+          return hash
+        },
+        onError: e => {
+          log.error('Send TX failed:', e.message, e)
+
+          setLoading(false)
+          userStorage.markWithErrorEvent(txhash)
+        },
+      })
+    } catch (e) {
+      log.error('Send TX failed:', e.message, e)
+      showErrorDialog({
+        visible: true,
+        title: 'Transaction Failed!',
+        message: `There was a problem sending G$. Try again`,
+        dismissText: 'OK',
+      })
+    }
+  }
+
+  // continue after valid FR to send G$
+  useEffect(() => {
+    if (isValid === true) {
+      sendGD()
+    } else if (isValid === false) {
+      screenProps.goToRoot()
+    }
+    return () => setIsValid(undefined)
+  }, [isValid])
 
   return (
     <Wrapper>
-      <TopBar hideBalance={true} hideProfile={false} profileAsLink={false} push={screenProps.push}>
-        <View />
-      </TopBar>
-      <Section style={styles.bottomSection}>
+      <TopBar push={screenProps.push} />
+      <Section grow>
+        <Section.Title>Summary</Section.Title>
+        <Section.Row justifyContent="center">
+          <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
+        </Section.Row>
+        <SummaryTable counterPartyDisplayName={profile.name} amount={amount} reason={reason} />
         <Section.Row>
-          <QrReader
-            delay={qrDelay}
-            onError={handleError}
-            onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
-            style={{ width: '100%' }}
-          />
+          <Section.Row grow={1} justifyContent="flex-start">
+            <BackButton mode="text" screenProps={screenProps}>
+              Cancel
+            </BackButton>
+          </Section.Row>
+          <Section.Stack grow={3}>
+            <CustomButton
+              mode="contained"
+              onPress={() => (Config.isEToro ? setShowSurvey(true) : confirm())}
+              loading={loading}
+            >
+              Confirm
+            </CustomButton>
+          </Section.Stack>
         </Section.Row>
       </Section>
+      {showSurvey && <SurveySend handleCheckSurvey={setSurvey} onDismiss={confirm} />}
     </Wrapper>
   )
 }
 
-const styles = StyleSheet.create({
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'baseline',
-  },
-  bottomSection: {
-    flex: 1,
-  },
-})
-
-SendByQR.navigationOptions = {
-  title: 'Scan QR Code',
+SendQRSummary.navigationOptions = {
+  title: SEND_TITLE,
 }
 
-export default SendByQR
+SendQRSummary.shouldNavigateToComponent = props => {
+  const { screenState } = props.screenProps
+
+  // Component shouldn't be loaded if there's no 'amount', nor 'to' fields with data
+  return (!!screenState.amount && !!screenState.to) || screenState.from
+}
+
+export default SendQRSummary

@@ -269,7 +269,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       "flexGrow": 0,
                       "flexShrink": 0,
                       "justifyContent": "center",
-                      "marginBottom": "15px",
+                      "marginBottom": "30px",
                       "marginLeft": "-16px",
                       "marginRight": "-16px",
                       "marginTop": "-16px",
@@ -956,7 +956,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       "flexGrow": 0,
                       "flexShrink": 0,
                       "justifyContent": "center",
-                      "marginBottom": "15px",
+                      "marginBottom": "30px",
                       "marginLeft": "-16px",
                       "marginRight": "-16px",
                       "marginTop": "-16px",
@@ -1774,7 +1774,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       "flexGrow": 0,
                       "flexShrink": 0,
                       "justifyContent": "center",
-                      "marginBottom": "15px",
+                      "marginBottom": "30px",
                       "msFlexDirection": "row",
                       "msFlexNegative": 0,
                       "msFlexPack": "center",
@@ -2710,7 +2710,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       "flexGrow": 0,
                       "flexShrink": 0,
                       "justifyContent": "center",
-                      "marginBottom": "15px",
+                      "marginBottom": "30px",
                       "msFlexDirection": "row",
                       "msFlexNegative": 0,
                       "msFlexPack": "center",
@@ -3647,7 +3647,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       "flexGrow": 0,
                       "flexShrink": 0,
                       "justifyContent": "center",
-                      "marginBottom": "15px",
+                      "marginBottom": "30px",
                       "msFlexDirection": "row",
                       "msFlexNegative": 0,
                       "msFlexPack": "center",
@@ -3659,7 +3659,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "height": "145px",
+                        "height": "160px",
                       }
                     }
                   />

@@ -18,7 +18,7 @@ class Received extends AnimationBase {
         source={cloneDeep(animationData)}
         autoSize={false}
         style={{
-          height: getDesignRelativeHeight(145),
+          height: getDesignRelativeHeight(160),
         }}
         loop={false}
       />

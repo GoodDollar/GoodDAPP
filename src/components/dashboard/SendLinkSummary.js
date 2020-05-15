@@ -211,10 +211,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             goToRoot()
           },
         })
-
-        return {
-          ok: 0,
-        }
       })
 
       setLink(paymentLink)

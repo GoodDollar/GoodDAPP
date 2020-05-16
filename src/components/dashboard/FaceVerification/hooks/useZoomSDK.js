@@ -5,9 +5,14 @@ import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 import useMountedState from '../../../../lib/hooks/useMountedState'
 import { ZoomSDK } from '../sdk/ZoomSDK'
+import { kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
 const log = logger.child({ from: 'useZoomSDK' })
-let zoomSDKPreloaded = false
+
+const ZoomGlobalState = {
+  zoomSDKPreloaded: false,
+  zoomUnrecoverableError: null,
+}
 
 /**
  * ZoomSDK preloading helper
@@ -17,12 +22,22 @@ let zoomSDKPreloaded = false
  * @returns {Promise}
  */
 export const preloadZoomSDK = async (logger = log) => {
+  const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
+
   logger.debug('Pre-loading Zoom SDK')
 
   try {
+    if (zoomSDKPreloaded) {
+      return
+    }
+
+    if (zoomUnrecoverableError) {
+      throw zoomSDKPreloaded
+    }
+
     await ZoomSDK.preload()
 
-    zoomSDKPreloaded = true
+    ZoomGlobalState.zoomSDKPreloaded = true
     logger.debug('Zoom SDK is preloaded')
   } catch (exception) {
     const { message } = exception
@@ -65,8 +80,31 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // to access actual initialization / error callbacks
   useEffect(() => {
     // Helper for handle exceptions
-    const handleException = exception => {
-      const { message } = exception
+    const handleException = async exception => {
+      const { message, name } = exception
+
+      // if name is set - that means error was rethrown
+      // otherwise we should determine kind of the issue
+      if (!name) {
+        // the following code is needed to categorize exceptions
+        // then we could display specific error messages
+        // corresponding to the kind of issue (camera, orientation etc)
+        const kindOfTheIssue = kindOfSDKIssue(exception)
+
+        if (kindOfTheIssue) {
+          exception.name = kindOfTheIssue
+        }
+
+        // if some unrecoverable error happens
+        if ('UnrecoverableError' === kindOfTheIssue) {
+          // setting exception in the global state
+          ZoomGlobalState.zoomUnrecoverableError = exception
+
+          // unloading SDK to free resources
+          await ZoomSDK.unload()
+          ZoomGlobalState.zoomSDKPreloaded = false
+        }
+      }
 
       // executing current onError callback
       onErrorRef.current(exception)
@@ -86,8 +124,14 @@ export default ({ onInitialized = noop, onError = noop }) => {
     }
 
     const initializeSdk = async () => {
+      const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
+
       try {
         log.debug('Initializing ZoomSDK')
+
+        if (zoomUnrecoverableError) {
+          throw zoomUnrecoverableError
+        }
 
         // Initializing ZoOm
         // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
@@ -98,7 +142,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
         log.debug('ZoomSDK is ready')
       } catch (exception) {
         // handling initialization exceptions
-        handleException(exception)
+        await handleException(exception)
       }
     }
 

@@ -85,6 +85,30 @@ const kindOfSDKIssuesMap = mapValues(
       // device is in landscape mode
       'DeviceInLandscapeMode',
     ],
+
+    // All Zoom sdk initialization result codes could be thrown
+    // related to the errors couldn't dissapear in the future calls
+    // For example, orientation errors could disapper if user will
+    // position his device correctly during the next attempt but
+    // if device isn't supported - it's unrecoverable error because
+    // there's no change this could be changed.
+    // Used for handle the case when we should prevent next initialization attempts
+    UnrecoverableError: [
+      // The Device License Key Identifier provided was invalid.
+      'InvalidDeviceLicenseKeyIdentifier',
+
+      // This version of ZoOm SDK is deprecated.
+      'VersionDeprecated',
+
+      //  This device/platform/browser/version combination is not supported by ZoOm.
+      'DeviceNotSupported',
+
+      // License was expired, contained invalid text, or you are attempting to initialize on a domain that is not specified in your license.
+      'LicenseExpiredOrInvalid',
+
+      // The provided public encryption key is missing or invalid.
+      'EncryptionKeyInvalid',
+    ],
   },
   statusTransformer(ZoomSDKStatus)
 )

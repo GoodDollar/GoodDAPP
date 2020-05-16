@@ -7,7 +7,6 @@ import logger from '../../../../lib/logger/pino-logger'
 import useLoadingIndicator from '../../../../lib/hooks/useLoadingIndicator'
 import useZoomSDK from '../hooks/useZoomSDK'
 import useZoomVerification from '../hooks/useZoomVerification'
-import { kindOfSDKIssue, kindOfSessionIssue } from '../utils/kindOfTheIssue'
 
 const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
@@ -42,22 +41,13 @@ const FaceVerification = ({ screenProps }) => {
   // ZoomSDK session exception handler
   const exceptionHandler = useCallback(
     exception => {
-      // the following code is needed for ErrorScreen component
-      // could display specific error message corresponding to
-      // the kind of issue (camera, orientation etc)
-      const kindOfTheIssue = kindOfSessionIssue(exception)
+      const { name } = exception
 
-      if ('UserCancelled' === kindOfTheIssue) {
+      if ('UserCancelled' === name) {
         // If user has cancelled face verification by own
         // decision - redirecting back to the into screen
         screenProps.navigateTo('FaceVerificationIntro')
         return
-      }
-
-      if (kindOfTheIssue) {
-        exception.name = kindOfTheIssue
-      } else if (exception.message.startsWith('Duplicate')) {
-        exception.name = 'DuplicateFoundError'
       }
 
       // handling error
@@ -69,15 +59,6 @@ const FaceVerification = ({ screenProps }) => {
   // ZoomSDK initialization error handler
   const sdkExceptionHandler = useCallback(
     exception => {
-      // the following code is needed for ErrorScreen component
-      // could display specific error message corresponding to
-      // the kind of issue (camera, orientation etc)
-      const kindOfTheIssue = kindOfSDKIssue(exception)
-
-      if (kindOfTheIssue) {
-        exception.name = kindOfTheIssue
-      }
-
       // handling error
       showErrorScreen(exception, false)
     },

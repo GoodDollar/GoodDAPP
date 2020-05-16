@@ -12,7 +12,7 @@ const log = logger.child({ from: 'ZoomSDK' })
 const { ZoomAuthentication = {} } = NativeModules
 
 // eslint-disable-next-line no-unused-vars
-const { preload, initialize, faceVerification } = ZoomAuthentication
+const { preload, initialize, faceVerification, unload } = ZoomAuthentication
 
 export const { ZoomSDKStatus, ZoomSessionStatus } = ZoomAuthentication
 
@@ -22,7 +22,7 @@ export const ZoomSDK = new class {
   async preload() {
     try {
       // preload call commented as we don't have native module yet
-      // so, for app init could pass we skippinh non-existed function call
+      // so, for app init could pass we're skipping non-existed function call
       // await preload()
     } catch (exception) {
       this._convertCodeAndRethrow(exception, 'Zoom preloading')
@@ -47,6 +47,17 @@ export const ZoomSDK = new class {
       return verificationStatus
     } catch (exception) {
       this._convertCodeAndRethrow(exception, 'Face verification')
+    }
+  }
+
+  // eslint-disable-next-line require-await
+  async unload() {
+    try {
+      // preload call commented as we don't have native module yet
+      // so, for app init could pass we skippinh non-existed function call
+      // await preload()
+    } catch (exception) {
+      this._convertCodeAndRethrow(exception, 'Zoom unloading')
     }
   }
 

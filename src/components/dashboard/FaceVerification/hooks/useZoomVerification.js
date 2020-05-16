@@ -4,6 +4,9 @@ import { noop } from 'lodash'
 // Zoom SDK reference
 import { ZoomSDK } from '../sdk/ZoomSDK'
 
+// Zoom exceptions helper
+import { kindOfSessionIssue } from '../utils/kindOfTheIssue'
+
 /**
  * ZoomSDK face verification & fecamap enrollment hook
  *
@@ -38,6 +41,17 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
       const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier)
       onComplete(verificationStatus)
     } catch (exception) {
+      // the following code is needed to categorize exceptions
+      // then we could display specific error messages
+      // corresponding to the kind of issue (camera, orientation, duplicate etc)
+      const kindOfTheIssue = kindOfSessionIssue(exception)
+
+      if (kindOfTheIssue) {
+        exception.name = kindOfTheIssue
+      } else if (exception.message.startsWith('Duplicate')) {
+        exception.name = 'DuplicateFoundError'
+      }
+
       onError(exception)
     } finally {
       // setting session is not running flag in the ref

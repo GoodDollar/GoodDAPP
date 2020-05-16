@@ -8,7 +8,6 @@ const log = logger.child({ from: 'ZoomSDK' })
 
 // Zoom SDK reference
 const { ZoomSDK: sdk } = ZoomAuthentication
-const { ZoomCustomization } = sdk
 
 export const {
   // SDK initialization status codes enum
@@ -16,6 +15,9 @@ export const {
 
   // Zoom session status codes enum
   ZoomSessionStatus,
+
+  // Class which incapsulates all Zoom's customization options
+  ZoomCustomization,
 } = sdk
 
 const {
@@ -140,6 +142,17 @@ export const ZoomSDK = new class {
       })
 
       new ZoomSession(() => processor.handleCompletion(), processor)
+    })
+  }
+
+  // eslint-disable-next-line require-await
+  async unload() {
+    return new Promise((resolve, reject) => {
+      try {
+        sdk.unload(resolve)
+      } catch (exception) {
+        reject(exception)
+      }
     })
   }
 }()

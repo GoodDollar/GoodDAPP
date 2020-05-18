@@ -68,6 +68,9 @@ const kindOfSessionIssuesMap = mapValues(
 
       // The user pressed the cancel button during Retry Guidance.
       'UserCancelledFromRetryGuidance',
+
+      // The ZoOm Session cancelled because user pressed the Get Ready screen subtext message.
+      'UserCancelledViaClickableReadyScreenSubtext',
     ],
   },
   statusTransformer(ZoomSessionStatus)

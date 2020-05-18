@@ -11,7 +11,7 @@ import useZoomVerification from '../hooks/useZoomVerification'
 const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
-  const [, hideLoading, toggleLoading] = useLoadingIndicator()
+  const [showLoading, hideLoading] = useLoadingIndicator()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -75,15 +75,18 @@ const FaceVerification = ({ screenProps }) => {
   // using zoom sdk initialization hook
   // starting verification once sdk sucessfully initializes
   // on error redirecting to the error screen
-  const isInitialized = useZoomSDK({
+  useZoomSDK({
     onInitialized: startVerification,
     onError: sdkExceptionHandler,
   })
 
+  // showing loading indicator during screen is active
+  // it's enough, we could skip initalization/session state checking
+  // as Zoom UI overlaps web UI (or presents in a separate modal VC on native)
   useEffect(() => {
-    toggleLoading(!isInitialized)
+    showLoading()
     return hideLoading
-  }, [isInitialized])
+  }, [])
 
   return null
 }

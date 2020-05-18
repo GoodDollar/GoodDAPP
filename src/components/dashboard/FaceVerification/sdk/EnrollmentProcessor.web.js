@@ -4,6 +4,9 @@ import api from '../api/FaceVerificationApi'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 
 const {
+  // Zoom verification session incapsulation
+  ZoomSession,
+
   // Zoom session status codes enum
   ZoomSessionStatus,
 
@@ -26,11 +29,30 @@ export class EnrollmentProcessor {
 
   lastMessage = null
 
+  enrollmentIdentifier = null
+
   resultCallback = null
 
-  constructor(enrollmentIdentifier, onSessionCompleted = (isSuccess, lastResult, lastMessage) => {}) {
-    this.enrollmentIdentifier = enrollmentIdentifier
+  constructor(onSessionCompleted = (isSuccess, lastResult, lastMessage) => {}) {
     this.onSessionCompleted = onSessionCompleted
+  }
+
+  // should be non-async for not confuse developers
+  // By Zoom's design, EnrollmentProcessor should return session result
+  // only by onSessionCompleted callback passed to its constructor
+  enroll(enrollmentIdentifier) {
+    this.enrollmentIdentifier = enrollmentIdentifier(async () => {
+      try {
+        // trying to retrieve session ID from Zoom server
+        const sessionId = await api.issueSessionToken()
+
+        // if we've got it - strting enrollment session
+        new ZoomSession(() => this.handleCompletion(), this, sessionId)
+      } catch ({ message }) {
+        // otherwise calling completion handler with empty zoomSessionResult
+        this.onSessionCompleted(false, null, message)
+      }
+    })()
   }
 
   // Helper method for handle session completion

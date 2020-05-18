@@ -27,9 +27,6 @@ const {
   // Helper function, returns full description
   // for SDK initialization status specified
   getFriendlyDescriptionForZoomSDKStatus,
-
-  // Zoom verification session incapsulation
-  ZoomSession,
 } = sdk
 
 // sdk class
@@ -124,12 +121,14 @@ export const ZoomSDK = new class {
     return new Promise((resolve, reject) => {
       // as now all this stuff is outside React hook
       // we could just implement it like in the demo app
-      const processor = new EnrollmentProcessor(enrollmentIdentifier, (isSuccess, lastResult, lastMessage) => {
-        log[isSuccess ? 'info' : 'warn']('processor result:', {
-          isSuccess,
-          lastMessage,
-          lastResult: omit(lastResult, 'faceMetrics'),
-        })
+      const processor = new EnrollmentProcessor((isSuccess, lastResult, lastMessage) => {
+        const logRecord = { isSuccess, lastMessage }
+
+        if (lastResult) {
+          logRecord.lastResult = omit(lastResult, 'faceMetrics')
+        }
+
+        log[isSuccess ? 'info' : 'warn']('processor result:', logRecord)
 
         if (isSuccess) {
           resolve(lastMessage)
@@ -137,11 +136,14 @@ export const ZoomSDK = new class {
 
         const exception = new Error(lastMessage)
 
-        exception.code = lastResult.status
+        if (lastResult) {
+          exception.code = lastResult.status
+        }
+
         reject(exception)
       })
 
-      new ZoomSession(() => processor.handleCompletion(), processor)
+      processor.enroll(enrollmentIdentifier)
     })
   }
 

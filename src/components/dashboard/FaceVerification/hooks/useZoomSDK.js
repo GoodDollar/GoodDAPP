@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { noop } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
-import useMountedState from '../../../../lib/hooks/useMountedState'
 import { ZoomSDK } from '../sdk/ZoomSDK'
 import { kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
@@ -53,18 +52,9 @@ export const preloadZoomSDK = async (logger = log) => {
  * @property {() => void} config.onInitialized - SDK initialized callback
  * @property {() => void} config.onError - SDK error callback
  *
- * @return {boolean} Initialization state flag
+ * @return {void}
  */
 export default ({ onInitialized = noop, onError = noop }) => {
-  // Initialization state flag
-  const [isInitialized, setInitialized] = useState(false)
-
-  // Component mounted flag ref, it needs to check
-  // is component still mounted before update it's state
-  // This check is needed as onInitialized/onError could
-  // perform redirects which unmounts component
-  const mountedStateRef = useMountedState()
-
   // Configuration callbacks refs
   const onInitializedRef = useRef(null)
   const onErrorRef = useRef(null)
@@ -111,18 +101,6 @@ export default ({ onInitialized = noop, onError = noop }) => {
       log.error('Zoom initialization failed', message, exception)
     }
 
-    // Helper for handle SDK status code changes
-    const handleSdkInitialized = () => {
-      // Executing onInitialized callback
-      onInitializedRef.current()
-
-      // and updating isInitialized state flag
-      // (if component is still mounted)
-      if (mountedStateRef.current) {
-        setInitialized(true)
-      }
-    }
-
     const initializeSdk = async () => {
       const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
 
@@ -137,8 +115,8 @@ export default ({ onInitialized = noop, onError = noop }) => {
         // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
         await ZoomSDK.initialize(Config.zoomLicenseKey, !zoomSDKPreloaded)
 
-        // Setting initialized state
-        handleSdkInitialized()
+        // Executing onInitialized callback
+        onInitializedRef.current()
         log.debug('ZoomSDK is ready')
       } catch (exception) {
         // handling initialization exceptions
@@ -149,7 +127,4 @@ export default ({ onInitialized = noop, onError = noop }) => {
     // starting initialization
     initializeSdk()
   }, [])
-
-  // exposing public hook API
-  return isInitialized
 }

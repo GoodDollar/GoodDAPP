@@ -31,7 +31,7 @@ export const ZoomSDK = new class {
 
   async initialize(licenseKey, preload) {
     try {
-      await initialize(licenseKey, preload, Config.serverUrl)
+      await initialize(licenseKey, preload, Config.serverUrl, Config.zoomServerUrl)
     } catch (exception) {
       this._convertCodeAndRethrow(exception, 'Zoom initialization')
     }

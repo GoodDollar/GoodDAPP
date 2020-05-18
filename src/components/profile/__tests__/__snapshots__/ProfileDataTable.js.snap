@@ -797,7 +797,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="edit_profile_phone_input edit_profile_phone_input css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitAlignItems": "center",
@@ -2860,7 +2860,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="edit_profile_phone_input edit_profile_phone_input css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitAlignItems": "center",

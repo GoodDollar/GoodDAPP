@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
@@ -47,19 +47,22 @@ const SendByQR = ({ screenProps }: Props) => {
     }
   }
 
-  const handleError = useCallback(exception => {
-    const dialogOptions = { title: 'QR code scan failed' }
-    const { name, message } = exception
-    let errorMessage = message
-    
-    if ('NotAllowedError' === name) {
-      errorMessage = `GoodDollar can't access your camera, please enable camera permission`
-      dialogOptions.onDismiss = screenProps.goToRoot
-    }
-    
-    showErrorDialog(errorMessage, '', dialogOptions)
-    log.error('QR scan send failed', e.message, e)        
-  }, [screenProps, showErrorDialog])
+  const handleError = useCallback(
+    exception => {
+      const dialogOptions = { title: 'QR code scan failed' }
+      const { name, message } = exception
+      let errorMessage = message
+
+      if ('NotAllowedError' === name) {
+        errorMessage = `GoodDollar can't access your camera, please enable camera permission`
+        dialogOptions.onDismiss = screenProps.goToRoot
+      }
+
+      showErrorDialog(errorMessage, '', dialogOptions)
+      log.error('QR scan send failed', message, exception)
+    },
+    [screenProps, showErrorDialog]
+  )
 
   return (
     <Wrapper>

@@ -20,14 +20,16 @@ function makeVerification() {
 
 describe('Test case 3: Ability to change user data', () => {
   beforeEach('authorization', () => {
-    StartPage.open()
-    StartPage.signInButton.click()
-    LoginPage.recoverFromPassPhraseLink.click()
-    LoginPage.pageHeader.should('contain', 'Recover')
-    LoginPage.mnemonicsInput.type(Cypress.env('mainAccountMnemonics'))
-    LoginPage.recoverWalletButton.click()
-    LoginPage.yayButton.click()
-    HomePage.waitForHomePageDisplayed()
+    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+      StartPage.open()
+      StartPage.signInButton.click()
+      LoginPage.recoverFromPassPhraseLink.click()
+      LoginPage.pageHeader.should('contain', 'Recover')
+      LoginPage.mnemonicsInput.type(mnemonic)
+      LoginPage.recoverWalletButton.click()
+      LoginPage.yayButton.click()
+      HomePage.waitForHomePageDisplayed()
+    })
   })
 
   it('Elements are present at user profile', () => {
@@ -46,8 +48,6 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.phoneInput.should('be.visible')
     EditProfilePage.emailInput.should('be.visible')
     EditProfilePage.avatarDiv.should('be.visible')
-    //EditProfilePage.saveButtonText.should('exist')
-    //EditProfilePage.saveButton.should('be.visible')
   })
 
   it('User is able to upload avatar', () => {
@@ -58,10 +58,7 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.uploadedAvatar.should('be.visible')
   })
 
-  it('User is able to edit input fields', () => {
-    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~//
-    // before running make sure current fields values correspond to defaults   //
-    // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~//
+  it.only('User is able to edit input fields', () => {
     HomePage.optionsButton.click({ force: true })
     HomePage.options.eq(0).click({ force: true })
     ProfilePage.openEditProfileButton()
@@ -72,32 +69,29 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.fillUserEmail('test123456@test.com')
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
-    EditProfilePage.fillUserName('AndrewGolenkov1234')
-    //EditProfilePage.saveButton.should('have.attr', 'data-focusable')
+    EditProfilePage.fillUserName('nickName888')
+    cy.wait(1000)
     EditProfilePage.saveButton.click()
-    cy.contains('SAVE').should('not.be.visible')
+    EditProfilePage.saveButtonText.should('not.be.visible')
     ProfilePage.openProfilePage()
 
     //EditProfilePage.backButton.click();
-    ProfilePage.nameInput.should('have.value', 'AndrewGolenkov1234')
+    ProfilePage.nameInput.should('have.value', 'nickName888')
     ProfilePage.phoneInput.should('have.value', '+380983611329')
     ProfilePage.emailInput.should('have.value', 'test123456@test.com')
 
     // ** back to the default values ** //
     ProfilePage.openEditProfileButton()
     EditProfilePage.waitForEditProfilePageDisplayed()
-    EditProfilePage.fillUserPhone('+380983611327')
+    EditProfilePage.fillUserPhone('+380673001757')
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
-    EditProfilePage.fillUserEmail('gooddollar.test123@gmail.com')
+    EditProfilePage.fillUserEmail('main.test.acc.gooddollar@gmail.com')
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
-    EditProfilePage.fillUserName('AndrewLebowski1234')
-    //EditProfilePage.saveButton.should('have.attr', 'data-focusable')
+    EditProfilePage.fillUserName('TestAccount')
     EditProfilePage.saveButton.click()
     cy.contains('SAVE').should('not.be.visible')
-
-    //EditProfilePage.backButton.click();
     ProfilePage.pageHeader.should('contain', 'Profile')
   })
 
@@ -105,25 +99,11 @@ describe('Test case 3: Ability to change user data', () => {
     HomePage.optionsButton.click({ force: true })
     HomePage.options.eq(0).click({ force: true })
     ProfilePage.pageHeader.should('contain', 'Profile')
-
-    // ProfilePage.editProfileButton.click()
     ProfilePage.openEditProfileButton()
-    EditProfilePage.nameInput.invoke('attr', 'value').should('eq', 'AndrewLebowski1234')
-
-    // ProfilePage.editProfileButton.should('be.visible');
-    // ProfilePage.editProfileButton.click();
+    EditProfilePage.nameInput.invoke('attr', 'value').should('eq', 'UserName12345')
     EditProfilePage.nameInput.clear({ timeout: 10000 })
-
-    // EditProfilePage.phoneInput.clear({timeout:10000});
-    // EditProfilePage.emailInput.clear({timeout:10000});
     EditProfilePage.nameInput.type('Random Username')
-
-    // EditProfilePage.phoneInput.type('+999999999999')
-    // EditProfilePage.emailInput.type('incorrect@email')
     cy.contains('Only letters, numbers and underscore')
-
-    // EditProfilePage.phoneInput.should('have.class', 'react-phone-number-input__input--invalid')
-    // EditProfilePage.wrongEmailErrorDiv.should('contain', 'Enter a valid format: yourname@example.com');
     EditProfilePage.saveButton.should('not.be.enabled')
   })
 })

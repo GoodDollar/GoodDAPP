@@ -2,7 +2,6 @@
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
-//import userObject from '../fixtures/userObject.json'
 
 function checkValuesСorrectness(values, isCorrect) {
   LoginPage.recoverWalletButton.should('not.be.enabled')
@@ -20,7 +19,6 @@ function checkValuesСorrectness(values, isCorrect) {
 
 describe('Test case 2: Ability to do authorization', () => {
   beforeEach(() => {
-    //localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
     StartPage.signInButton.should('be.visible')
     StartPage.signInButton.click()
@@ -40,7 +38,9 @@ describe('Test case 2: Ability to do authorization', () => {
   })
 
   it('User is able to login with correct values', () => {
-    const wordsForSuccessfullLogin = Cypress.env('mainAccountMnemonics')
-    checkValuesСorrectness(wordsForSuccessfullLogin, true)
+    localStorage.clear()
+    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+      checkValuesСorrectness(mnemonic, true)
+    })
   })
 })

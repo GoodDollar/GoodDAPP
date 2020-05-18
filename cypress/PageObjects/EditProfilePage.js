@@ -21,12 +21,12 @@ class EditProfilePage {
   }
 
   get saveButton() {
-    return cy.get('[data-testid="save_button"]')
+    return cy.get('svg').get('[aria-label="SAVE"]')
     //return cy.get('[role="button"]').eq(2)
   }
 
   get saveButtonText() {
-    return cy.contains('SAVE')
+    return cy.contains(/SAVE/i)
   }
 
   get pageHeader() {
@@ -71,7 +71,6 @@ class EditProfilePage {
 
   fillUserName(userName) {
     const nameInput = cy.get('input[placeholder="Choose a Username"]', { timeout: 10000 })
-    //.should('contains.value', 'anme')
     nameInput.focus().clear(), { timeout: 1000 }
     nameInput.clear().type(userName), { delay: 400 }
     nameInput.focus().blur()

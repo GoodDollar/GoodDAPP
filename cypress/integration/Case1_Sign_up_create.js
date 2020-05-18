@@ -35,9 +35,5 @@ describe('Test case 1: Create temporary user', () => {
       expect(localStorage.getItem('GD_mnemonic')).to.not.be.null
       cy.writeFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt', localStorage.getItem('GD_mnemonic'))
     })
-
-    // cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonic.txt').then((text) => {
-    //   localStorage.setItem('GD_mnemonic', text)
-    //  })
   })
 })

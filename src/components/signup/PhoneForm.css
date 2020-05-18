@@ -1,23 +1,23 @@
 @import url('~react-phone-number-input/style.css');
 
-.react-phone-number-input {
+.signup_phone_input .react-phone-number-input {
   width: 100% !important;
   border: none !important;
   border-radius: 0 !important;
 }
 
-.react-phone-number-input > .react-phone-number-input__row {
+.signup_phone_input .react-phone-number-input > .react-phone-number-input__row {
   margin-bottom: 8px;
 }
 
-.react-phone-number-input
+.signup_phone_input .react-phone-number-input
   > .react-phone-number-input__row
   > .react-phone-number-input__input.react-phone-number-input__phone {
   border-bottom: 1px solid rgb(0, 0, 0) !important;
   margin-bottom: 8px;
 }
 
-.react-phone-number-input
+.signup_phone_input .react-phone-number-input
   > .react-phone-number-input__row
   > .react-phone-number-input__input.react-phone-number-input__phone.react-phone-number-input__input--invalid {
   border-bottom: 1px solid #fa6c77 !important;
@@ -25,11 +25,11 @@
   border-color: #fa6c77;
 }
 
-.react-phone-number-input.react-phone-number-input--invalid .react-phone-number-input__error {
+.signup_phone_input .react-phone-number-input.react-phone-number-input--invalid .react-phone-number-input__error {
   display: none;
 }
 
-.react-phone-number-input__icon {
+.signup_phone_input .react-phone-number-input__icon {
   border: 0;
   border-radius: 2px;
   width: 1.85em;

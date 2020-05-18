@@ -4,7 +4,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import PhoneInput from 'react-phone-number-input'
 import { noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
-import './ProfileDataTablePhoneInput.css'
 import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
@@ -96,7 +95,7 @@ const ProfileDataTable = ({
         <Section.Row>
           {editable ? (
             <Section.Stack grow>
-              <Section.Row>
+              <Section.Row className="edit_profile_phone_input">
                 <PhoneInput
                   error={errors.mobile && errors.mobile !== ''}
                   id="signup_phone"

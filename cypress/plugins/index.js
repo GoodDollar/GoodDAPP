@@ -17,10 +17,21 @@
 // }
 
 const clipboardy = require('clipboardy')
-module.exports = on => {
+
+module.exports = (on, config) => {
+
   on('task', {
     getClipboard() {
       return clipboardy.readSync()
     },
+  })
+
+  on('before:browser:launch', (browser = {}, args) => {
+    if (browser.name === 'chrome') {
+      args.push('--use-fake-ui-for-media-stream')
+      args.push('--use-fake-device-for-media-stream')
+      args.push('--use-file-for-fake-video-capture=c:\\Users\\Asus\\Documents\\GitHub\\GoodDAPP\\cypress\\fixtures\\face-2.mjpeg')
+    }
+    return args
   })
 }

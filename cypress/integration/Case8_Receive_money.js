@@ -34,8 +34,9 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
     ReceiveMoneyPage.nextButton.click()
     ReceiveMoneyPage.nextButton.click()
     //ReceiveMoneyPage.shareLinkButton.click()
-    //ReceiveMoneyPage.doneButton.click()
-    ReceiveMoneyPage.shareLinkButton.click().invoke('attr', 'data-url').then(reseiveMoneyUrl => {
+    ReceiveMoneyPage.doneButton.should('be.visible')
+    cy.task('getClipboard').then(reseiveMoneyUrl => {
+      cy.log(reseiveMoneyUrl)
       const moneyLink = reseiveMoneyUrl
       const pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
       const validMoneyLnk = moneyLink.match(pattern)

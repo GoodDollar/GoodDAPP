@@ -119,10 +119,9 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [setLoading, address, amount, reason, showDialog, showErrorDialog])
 
-  const sendViaLink = useCallback(async () => {
+  const sendViaLink = useCallback(() => {
     try {
-      setLoading(true)
-      let paymentLink = await getLink()
+      const paymentLink = getLink()
 
       const desktopShareLink = (canShare ? generateSendShareObject : generateSendShareText)(
         paymentLink,
@@ -141,7 +140,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
    * Generates link to send and call send email/sms action
    * @throws Error if link cannot be send
    */
-  const getLink = useCallback(async () => {
+  const getLink = useCallback(() => {
     if (link) {
       return link
     }
@@ -194,38 +193,29 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     if (generateLinkResponse) {
       const { txPromise, paymentLink } = generateLinkResponse
 
-      const promiseRes = await txPromise
-        .then(() => ({ ok: 1 }))
-        .catch(e => {
-          log.error('generateLinkAndSend:', e.message, e)
+      txPromise.catch(e => {
+        log.error('generateLinkAndSend:', e.message, e)
 
-          showErrorDialog('Link generation failed. Please try again', '', {
-            buttons: [
-              {
-                text: 'Try again',
-                onPress: dismiss => {
-                  handleConfirm()
-                  hideDialog()
-                },
+        showErrorDialog('Link generation failed. Please try again', '', {
+          buttons: [
+            {
+              text: 'Try again',
+              onPress: () => {
+                hideDialog()
+                screenProps.navigateTo('SendLinkSummary', { amount, reason, counterPartyDisplayName })
               },
-            ],
-            onDismiss: () => {
-              goToRoot()
             },
-          })
-
-          return {
-            ok: 0,
-          }
+          ],
+          onDismiss: () => {
+            goToRoot()
+          },
         })
+      })
 
-      if (promiseRes && promiseRes.ok) {
-        setLink(paymentLink)
-
-        return paymentLink
-      }
+      setLink(paymentLink)
+      return paymentLink
     }
-  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, setLink, link, goToRoot])
+  }, [screenProps, survey, showErrorDialog, setLink, link, goToRoot])
 
   return (
     <Wrapper>

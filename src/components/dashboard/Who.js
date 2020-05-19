@@ -1,6 +1,8 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
-import { Keyboard } from 'react-native'
+import { Keyboard } from 'react-native-web'
+import { delay } from 'rxjs/operators'
+import { isAndroidNative, isAndroidWeb } from '../../lib/utils/platform'
 import InputText from '../common/form/InputText'
 import { ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -50,7 +52,23 @@ const Who = (props: AmountProps) => {
   )
 
   const canContinue = useCallback(async () => {
-    await Keyboard.dismiss()
+    // =====
+    // await for android keyboard to be closed before redirecting to the next step
+    if (isAndroidNative) {
+      await new Promise(res => {
+        Keyboard.addListener('keyboardDidHide', res)
+        Keyboard.dismiss()
+      })
+    }
+
+    if (isAndroidWeb) {
+      await new Promise(res => {
+        delay(300)
+        res()
+      })
+    }
+
+    // =====
 
     return state.isValid
   }, [state])

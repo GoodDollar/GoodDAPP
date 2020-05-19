@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
-
+import { Keyboard } from 'react-native'
 import InputText from '../common/form/InputText'
 import { ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -49,6 +49,12 @@ const Who = (props: AmountProps) => {
     [screenProps]
   )
 
+  const canContinue = useCallback(async () => {
+    await Keyboard.dismiss()
+
+    return state.isValid
+  }, [state])
+
   return (
     <Wrapper>
       <TopBar push={screenProps.push}>
@@ -79,7 +85,7 @@ const Who = (props: AmountProps) => {
               {...props}
               nextRoutes={screenState.nextRoutes}
               values={{ params, counterPartyDisplayName: state.value }}
-              canContinue={() => state.isValid}
+              canContinue={canContinue}
               label={state.value || !isReceive ? 'Next' : 'Skip'}
               disabled={!state.isValid}
             />

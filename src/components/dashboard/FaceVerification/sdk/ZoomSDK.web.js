@@ -40,7 +40,7 @@ export const ZoomSDK = new class {
 
     // disabling camera permissions help screen
     // (as we have own ErrorScreen with corresponding message)
-    sdk.setCustomiation(
+    sdk.setCustomization(
       new ZoomCustomization({
         enableCameraPermissionsHelpScreen: false,
       })

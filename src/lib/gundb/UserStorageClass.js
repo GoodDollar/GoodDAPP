@@ -850,7 +850,24 @@ export class UserStorage {
    * @returns {object} feed item or null if it doesn't exist
    */
   getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
-    return this.feedIds[transactionHash]
+    const feedItem = this.feedIds[transactionHash]
+    if (feedItem) {
+      return feedItem
+    }
+
+    return this.feed
+      .get('byid')
+      .get(transactionHash)
+      .decrypt()
+      .then(feedItem => {
+        // update feed cache here
+        this.feedIds[transactionHash] = feedItem
+        return feedItem
+      })
+      .catch(e => {
+        // log error here
+        return undefined
+      })
   }
 
   /**

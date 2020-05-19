@@ -1,6 +1,5 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { cloneDeep } from 'lodash'
 
 import AnimationBase from '../Base'
 
@@ -37,7 +36,7 @@ class SpinnerCheckMark extends AnimationBase {
     return (
       <Lottie
         ref={this.setAnim}
-        source={cloneDeep(animationData)}
+        source={this.improveAnimationData(animationData)}
         style={{
           marginTop: -height / 2.4,
           width,

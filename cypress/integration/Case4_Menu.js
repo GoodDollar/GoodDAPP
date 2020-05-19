@@ -113,7 +113,7 @@ describe('Test case 4: Check topbar items functionality', () => {
     HomePage.claimButton.should('be.visible')
   })
 
-  it.only('Check Statistics page', () => {
+  it('Check Statistics page', () => {
     HomePage.optionsButton.should('be.visible')
     HomePage.optionsButton.click()
     cy.contains('Statistics').click()

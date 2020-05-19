@@ -4,24 +4,25 @@ import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
 import SupportPage from '../PageObjects/SupportPage'
 import InvitePage from '../PageObjects/InvitePage'
+import StatisticsPage from '../PageObjects/StatisticsPage'
 
 describe('Test case 4: Check topbar items functionality', () => {
   beforeEach('authorization', () => {
-    StartPage.open()
-    //StartPage.continueOnWebButton.click()
-    StartPage.signInButton.click()
-    LoginPage.recoverFromPassPhraseLink.click()
-    LoginPage.pageHeader.should('contain', 'Recover')
-    LoginPage.mnemonicsInput.type(Cypress.env('mainAccountMnemonics'))
-    LoginPage.recoverWalletButton.click()
-    LoginPage.yayButton.click()
-    HomePage.waitForHomePageDisplayed()
+    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+      StartPage.open()
+      StartPage.signInButton.click()
+      LoginPage.recoverFromPassPhraseLink.click()
+      LoginPage.pageHeader.should('contain', 'Recover')
+      LoginPage.mnemonicsInput.type(mnemonic)
+      LoginPage.recoverWalletButton.click()
+      LoginPage.yayButton.click()
+      HomePage.waitForHomePageDisplayed()
+    })
   })
 
   it('Check is items are displayed at topbar', () => {
     HomePage.inviteTab.should('be.visible')
-    //HomePage.goodmarketTab.should('be.visible')
-    //HomePage.supportTab.should('be.visible')
+    HomePage.optionsButton.should('be.visible')
   })
 
   it('Check "Invite" page', () => {
@@ -33,15 +34,12 @@ describe('Test case 4: Check topbar items functionality', () => {
       .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 8500)))
       .then(iframe => {
         const body = iframe.contents().find('body')
-
         cy.wrap(body.find(InvitePage.centerTextDiv)).should('contain', 'Invite 3 friends to secure')
         cy.wrap(body.find(InvitePage.inviteFriendsDiv)).should('contain', 'Invite Friends')
       })
   })
 
   it('Check support page', () => {
-    //cy.contains('Andrew Second')
-    //HomePage.supportTab.click()
     HomePage.optionsButton.click()
     cy.contains('Support & FAQ').click()
     SupportPage.pageHeader.should('contain', 'Support & FAQ')
@@ -50,14 +48,12 @@ describe('Test case 4: Check topbar items functionality', () => {
       .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
       .then(iframe => {
         const body = iframe.contents().find('body')
-
         cy.wrap(body.find(SupportPage.search)).should('be.visible')
         cy.wrap(body.find(SupportPage.topics)).should('be.visible')
         cy.wrap(body.find(SupportPage.ask)).should('be.visible')
 
         // cy.wrap(body.find(SupportPage.helpFormEmail)).should('be.visible')
         // cy.wrap(body.find(SupportPage.helpFormTextArea)).should('be.visible')
-
         // cy.wrap(body.find(SupportPage.helpFormFirstName)).should('be.visible')
         // cy.wrap(body.find(SupportPage.helpFormLastName)).should('be.visible')
         // cy.wrap(body.find(SupportPage.submitHelpFormButton)).should('be.visible')
@@ -100,10 +96,8 @@ describe('Test case 4: Check topbar items functionality', () => {
 
   it('Check sending Magic Link', () => {
     HomePage.optionsButton.should('be.visible')
-    //cy.contains('Andrew Second')
     HomePage.optionsButton.click()
     cy.contains('Magic Link').click()
-    // HomePage.options.eq(1).click()
     HomePage.magicLink.should('be.visible')
     HomePage.magicLink.click()
     cy.get('span')
@@ -117,5 +111,28 @@ describe('Test case 4: Check topbar items functionality', () => {
       .should('be.visible')
       .click()
     HomePage.claimButton.should('be.visible')
+  })
+
+  it.only('Check Statistics page', () => {
+    HomePage.optionsButton.should('be.visible')
+    HomePage.optionsButton.click()
+    cy.contains('Statistics').click()
+    StatisticsPage.headerPage.should('be.visible').contains(/Statistics/i)
+    StatisticsPage.iframe.should('be.visible')
+    StatisticsPage.iframe
+      .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
+      .then(iframe => {
+        const body = iframe.contents().find('body')
+        cy.wrap(body.find(StatisticsPage.burgerButton)).eq(0).should('be.visible')
+        cy.wrap(body.find(StatisticsPage.burgerButton)).eq(0).click()
+        cy.wrap(body.find(StatisticsPage.dashboardButton)).should('be.visible')
+        cy.wrap(body).type('{esc}')
+        cy.wrap(body.find(StatisticsPage.container)).should('be.visible')
+        cy.wrap(body.find(StatisticsPage.container)).contains('General')
+        cy.wrap(body.find(StatisticsPage.container)).contains('User Accounts Balance')
+        cy.wrap(body.find(StatisticsPage.container)).contains('User Transactions')
+        cy.wrap(body.find(StatisticsPage.container)).contains('Transactions')
+        cy.wrap(body.find(StatisticsPage.container)).contains('Daily G$ usage').click()
+      })
   })
 })

@@ -7,12 +7,12 @@ import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 
 describe('Test case 5: Ability to change profile privacy level', () => {
   it('User should be able to change privacy lvl', () => {
+   cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
     StartPage.open()
-    //StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
     LoginPage.pageHeader.should('contain', 'Recover')
-    LoginPage.mnemonicsInput.type(Cypress.env('additionalAccountMnemonics'))
+    LoginPage.mnemonicsInput.type(mnemonic)
     LoginPage.recoverWalletButton.click()
     LoginPage.yayButton.click()
     HomePage.waitForHomePageDisplayed()
@@ -26,8 +26,8 @@ describe('Test case 5: Ability to change profile privacy level', () => {
     ProfilePrivacyPage.saveButton.click()
     ProfilePrivacyPage.backButton.click()
     HomePage.profileAvatar.click()
-    ProfilePage.phoneInput.should('have.value', '+380983611329')
-    ProfilePage.emailInput.should('have.value', 'test123456@test.com')
+    ProfilePage.phoneInput.should('have.value', '+380673001757')
+    ProfilePage.emailInput.should('have.value', 'main.test.acc.gooddollar@gmail.com')
     ProfilePage.profilePrivacyButton.click()
     ProfilePrivacyPage.pageHeader.should('contain', 'PROFILE PRIVACY')
     ProfilePrivacyPage.muskedNumberButton.click()
@@ -37,8 +37,8 @@ describe('Test case 5: Ability to change profile privacy level', () => {
     ProfilePrivacyPage.saveButton.click()
     ProfilePrivacyPage.backButton.click()
     HomePage.profileAvatar.click()
-    ProfilePage.phoneInput.should('have.value', '*********1329')
-    ProfilePage.emailInput.should('have.value', 't********6@test.com')
+    ProfilePage.phoneInput.should('have.value', '*********1757')
+    ProfilePage.emailInput.should('have.value', 'm**********************r@gmail.com')
     ProfilePage.profilePrivacyButton.click()
     ProfilePrivacyPage.privateNumberButton.click()
     ProfilePrivacyPage.privateEmailButton.click()
@@ -49,5 +49,6 @@ describe('Test case 5: Ability to change profile privacy level', () => {
     HomePage.profileAvatar.click()
     ProfilePage.phoneInput.should('have.value', '******')
     ProfilePage.emailInput.should('have.value', '******')
+   })
   })
 })

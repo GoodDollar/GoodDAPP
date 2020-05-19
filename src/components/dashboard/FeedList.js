@@ -1,5 +1,5 @@
 // @flow
-import React, { createRef, useCallback, useEffect, useState } from 'react'
+import React, { createRef, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, SwipeableFlatList } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { get } from 'lodash'
@@ -61,6 +61,7 @@ const FeedList = ({
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
   const flRef = createRef()
+  const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
 
@@ -103,8 +104,11 @@ const FeedList = ({
         if (status === 'pending') {
           // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
           showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
+        } else if (canceledFeeds.current.includes(id)) {
+          log.info('Already cancelled', id)
         } else {
           try {
+            canceledFeeds.current.push(id)
             userStorage.cancelOTPLEvent(id)
             goodWallet.cancelOTLByTransactionHash(id).catch(e => {
               log.error('cancel payment failed - quick actions', e.message, e)
@@ -113,6 +117,7 @@ const FeedList = ({
             })
           } catch (e) {
             log.error('cancel payment failed - quick actions', e.message, e)
+            canceledFeeds.current.pop()
             userStorage.updateOTPLEventStatus(id, 'pending')
             showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
           }

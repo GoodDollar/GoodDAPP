@@ -1,6 +1,8 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
+import { cloneDeep } from 'lodash'
+
 import AnimationBase from '../Base'
 import { getScreenHeight } from '../../../../lib/utils/Orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
@@ -41,7 +43,7 @@ class RocketShip extends AnimationBase {
           imageAssetsFolder={imageAssetsFolder}
           ref={this.setAnim}
           style={Platform.select(styles)}
-          source={this.improveAnimationData(animationData)}
+          source={cloneDeep(animationData)}
           enableMergePathsAndroidForKitKatAndAbove
         />
       </View>

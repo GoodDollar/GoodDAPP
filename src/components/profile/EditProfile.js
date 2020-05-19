@@ -2,7 +2,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { debounce, isEqual, isEqualWith, merge, pickBy } from 'lodash'
-
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
@@ -12,7 +11,7 @@ import { Section, UserAvatar, Wrapper } from '../common'
 import SaveButton from '../common/animations/SaveButton/SaveButton'
 import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
-import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
@@ -213,10 +212,10 @@ const getStylesFromProps = ({ theme }) => {
   return {
     animatedSaveButton: {
       position: 'absolute',
-      width: 120,
-      height: 60,
-      top: 0,
-      right: -24,
+      width: getDesignRelativeWidth(110),
+      height: 50,
+      top: getDesignRelativeHeight(18),
+      right: -10,
       marginVertical: 0,
       display: 'flex',
       justifyContent: 'flex-end',

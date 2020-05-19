@@ -243,7 +243,7 @@ export const longUseOfClaims = {
   data: {
     customName: 'Woohoo! You’ve made it!', //title in modal
     subtitle: 'Woohoo! You’ve made it!',
-    readMore: 'Congrats! You claimed G$ for 14 days',
+    smallReadMore: 'Congrats! You claimed G$ for 14 days',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -1492,7 +1492,8 @@ export class UserStorage {
           feedItem =>
             feedItem &&
             feedItem.data &&
-            ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
+            ['deleted', 'cancelled'].includes(feedItem.status) === false &&
+            feedItem.otplStatus !== 'cancelled'
         )
         .map(feedItem => {
           if (!(feedItem.data && feedItem.data.receiptData)) {
@@ -1653,7 +1654,17 @@ export class UserStorage {
 
       try {
         const { data, type, date, id, status, createdDate, animationExecuted, action } = event
-        const { sender, preReasonText, reason, code: withdrawCode, otplStatus, customName, subtitle, readMore } = data
+        const {
+          sender,
+          preReasonText,
+          reason,
+          code: withdrawCode,
+          otplStatus,
+          customName,
+          subtitle,
+          readMore,
+          smallReadMore,
+        } = data
 
         const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
         const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
@@ -1704,7 +1715,7 @@ export class UserStorage {
             },
             amount: value,
             preMessageText: preReasonText,
-            message: reason || message,
+            message: smallReadMore || reason || message,
             subtitle,
             readMore,
             withdrawCode,

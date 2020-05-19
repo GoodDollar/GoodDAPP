@@ -1,8 +1,11 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform } from 'react-native'
+import { cloneDeep } from 'lodash'
+
 import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
+
 const { animationData, imageAssetsFolder } = getAnimationData('Logo', require('./data'))
 
 const styles = {
@@ -32,7 +35,7 @@ class Logo extends AnimationBase {
         ref={this.setAnim}
         imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
-        source={this.improveAnimationData(animationData)}
+        source={cloneDeep(animationData)}
         autoSize={false}
         style={[Platform.select(styles), this.props.style]}
         loop={false}

@@ -9,7 +9,7 @@ import SignUpPage from '../PageObjects/SignUpPage'
 function makeVerification() {
   EditProfilePage.waitForEditProfilePageDisplayed()
   cy.get('[role="button"]')
-    .eq(3)
+    .eq(2)
     .click()
   for (let i = 0; i < 6; i++) {
     SignUpPage.codeInputs.eq(i).type(i, { force: true }, { delay: 500 })
@@ -21,7 +21,6 @@ function makeVerification() {
 describe('Test case 3: Ability to change user data', () => {
   beforeEach('authorization', () => {
     StartPage.open()
-    StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
     LoginPage.pageHeader.should('contain', 'Recover')
@@ -47,7 +46,8 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.phoneInput.should('be.visible')
     EditProfilePage.emailInput.should('be.visible')
     EditProfilePage.avatarDiv.should('be.visible')
-    EditProfilePage.saveButton.should('be.visible')
+    //EditProfilePage.saveButtonText.should('exist')
+    //EditProfilePage.saveButton.should('be.visible')
   })
 
   it('User is able to upload avatar', () => {
@@ -73,9 +73,9 @@ describe('Test case 3: Ability to change user data', () => {
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
     EditProfilePage.fillUserName('AndrewGolenkov1234')
-    EditProfilePage.saveButton.should('have.attr', 'data-focusable')
+    //EditProfilePage.saveButton.should('have.attr', 'data-focusable')
     EditProfilePage.saveButton.click()
-    cy.contains('Save').should('not.be.visible')
+    cy.contains('SAVE').should('not.be.visible')
     ProfilePage.openProfilePage()
 
     //EditProfilePage.backButton.click();
@@ -93,9 +93,9 @@ describe('Test case 3: Ability to change user data', () => {
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
     EditProfilePage.fillUserName('AndrewLebowski1234')
-    EditProfilePage.saveButton.should('have.attr', 'data-focusable')
+    //EditProfilePage.saveButton.should('have.attr', 'data-focusable')
     EditProfilePage.saveButton.click()
-    cy.contains('Save').should('not.be.visible')
+    cy.contains('SAVE').should('not.be.visible')
 
     //EditProfilePage.backButton.click();
     ProfilePage.pageHeader.should('contain', 'Profile')

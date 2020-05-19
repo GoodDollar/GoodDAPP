@@ -14,7 +14,7 @@ const MACRO_ARGS_SEPARATOR_REGEXP = /,\s*/
 const parseMacro = memoize(macro => {
   try {
     if (!macro) {
-      throw new Error("Macro couldn't be an empty string, undefined or null!")
+      return []
     }
 
     const [, method, args] = MACRO_REGEXP.exec(macro)

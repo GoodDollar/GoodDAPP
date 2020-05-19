@@ -4,6 +4,7 @@ import { compose } from 'lodash/fp'
 import effects from '../../lib/undux/effects'
 import type { StandardFeed } from '../gundb/UserStorageClass'
 import withPinoLogger from './plugins/logger'
+import { createUseCurriedSettersHook } from './utils/setter'
 
 /**
  * Account data
@@ -66,5 +67,7 @@ const GDStore: StoreDefinition<State> = createConnectedStore(
     withPinoLogger
   )
 )
+
+export const useCurriedSetters = createUseCurriedSettersHook(() => GDStore)
 
 export default GDStore

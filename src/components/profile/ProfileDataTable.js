@@ -4,7 +4,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import PhoneInput from 'react-phone-number-input'
 import { noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
-import './ProfileDataTablePhoneInput.css'
 import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
 import Icon from '../common/view/Icon'
 import InputRounded from '../common/form/InputRounded'
@@ -58,17 +57,25 @@ const ProfileDataTable = ({
   const onPhoneInputFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
   const onPhoneInputChange = useCallback(value => onChange({ ...profile, mobile: value }), [onChange, profile])
   const onPhoneInputBlur = useCallback(() => {
-    setLockSubmit(false)
-    verifyPhone()
-  }, [setLockSubmit, verifyPhone])
+    const { errors: _errors } = profile.validate()
+
+    if (!_errors.mobile) {
+      setLockSubmit(false)
+      verifyPhone()
+    }
+  }, [setLockSubmit, verifyPhone, errors])
 
   // email handlers
   const onEmailFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
   const onEmailChange = useCallback(email => onChange({ ...profile, email }), [onChange, profile])
   const onEmailBlur = useCallback(() => {
-    setLockSubmit(false)
-    verifyEmail()
-  }, [setLockSubmit, verifyEmail])
+    const { errors: _errors } = profile.validate()
+
+    if (!_errors.email) {
+      setLockSubmit(false)
+      verifyEmail()
+    }
+  }, [setLockSubmit, verifyEmail, errors])
 
   return (
     <Section.Row alignItems="center" grow={1}>
@@ -88,7 +95,7 @@ const ProfileDataTable = ({
         <Section.Row>
           {editable ? (
             <Section.Stack grow>
-              <Section.Row>
+              <Section.Row className="edit_profile_phone_input">
                 <PhoneInput
                   error={errors.mobile && errors.mobile !== ''}
                   id="signup_phone"

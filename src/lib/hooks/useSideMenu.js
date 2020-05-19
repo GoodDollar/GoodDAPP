@@ -129,18 +129,18 @@ export default (props = {}) => {
           slideOut()
         },
       },
+      {
+        icon: 'logout',
+        name: 'Logout',
+        action: () => {
+          fireEvent(LOGOUT)
+          AsyncStorage.clear()
+          window.location = '/'
+          slideOut()
+        },
+      },
     ]
 
-    items.push({
-      icon: 'logout',
-      name: 'Logout',
-      action: () => {
-        fireEvent(LOGOUT)
-        AsyncStorage.clear()
-        window.location = '/'
-        slideOut()
-      },
-    })
     return items
   }, [isSelfCustody, slideOut, navigation, store])
 

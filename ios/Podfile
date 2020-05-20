@@ -48,7 +48,8 @@ target 'GoodDollar' do
 
   pod 'lottie-ios', :path => '../node_modules/lottie-ios'
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
-
+  
+  pod 'react-native-branch', path: '../node_modules/react-native-branch'
 
   target 'GoodDollarTests' do
     inherit! :search_paths

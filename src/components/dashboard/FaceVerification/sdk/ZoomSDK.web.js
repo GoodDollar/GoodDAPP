@@ -15,6 +15,9 @@ export const {
 
   // Zoom session status codes enum
   ZoomSessionStatus,
+
+  // Class which incapsulates all Zoom's customization options
+  ZoomCustomization,
 } = sdk
 
 const {
@@ -24,9 +27,6 @@ const {
   // Helper function, returns full description
   // for SDK initialization status specified
   getFriendlyDescriptionForZoomSDKStatus,
-
-  // Zoom verification session incapsulation
-  ZoomSession,
 } = sdk
 
 // sdk class
@@ -37,13 +37,21 @@ export const ZoomSDK = new class {
 
     // setting the directory path for required ZoOm images.
     sdk.setImagesDirectory('/zoom/images')
+
+    // disabling camera permissions help screen
+    // (as we have own ErrorScreen with corresponding message)
+    sdk.setCustomization(
+      new ZoomCustomization({
+        enableCameraPermissionsHelpScreen: false,
+      })
+    )
   }
 
   // eslint-disable-next-line require-await
   async preload() {
-    return new Promise(
-      (resolve, reject) =>
-        void sdk.preload(status => {
+    return new Promise((resolve, reject) => {
+      try {
+        sdk.preload(status => {
           if (status === ZoomPreloadResult.Success) {
             resolve()
             return
@@ -52,14 +60,16 @@ export const ZoomSDK = new class {
           const exception = new Error(`Couldn't preload Zoom SDK`)
 
           log.warn('preload failed', { exception })
-          exception.code = status
           reject(exception)
         })
-    )
+      } catch (exception) {
+        reject(exception)
+      }
+    })
   }
 
   // eslint-disable-next-line require-await
-  async initialize(licenseKey) {
+  async initialize(licenseKey, preload = true) {
     // checking the last retrieved status code
     // if Zoom was already initialized successfully,
     // then resolving immediately
@@ -72,17 +82,22 @@ export const ZoomSDK = new class {
         // initializing ZoOm and configuring the UI features.
         sdk.initialize(
           licenseKey,
-          () => {
-            const sdkStatus = sdk.getStatus()
-
+          isInitialized => {
             // if Zoom was initialized successfully - resolving
-            if (ZoomSDKStatus.Initialized === sdkStatus) {
+            if (isInitialized) {
               resolve()
               return
             }
 
+            const sdkStatus = sdk.getStatus()
+
             // retrieving full description from status code
-            const exception = new Error(getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
+            const exception = new Error(
+              ZoomSDKStatus.NeverInitialized === sdkStatus
+                ? "Initialize wasn't attempted as emulated device has been detected. " +
+                  'FaceTec ZoomSDK could be ran on the real devices only'
+                : getFriendlyDescriptionForZoomSDKStatus(sdkStatus)
+            )
 
             // adding status code as error's object property
             exception.code = sdkStatus
@@ -91,7 +106,7 @@ export const ZoomSDK = new class {
             // rejecting with an error
             reject(exception)
           },
-          true
+          preload
         )
       } catch (exception) {
         // handling initialization exceptions
@@ -106,12 +121,14 @@ export const ZoomSDK = new class {
     return new Promise((resolve, reject) => {
       // as now all this stuff is outside React hook
       // we could just implement it like in the demo app
-      const processor = new EnrollmentProcessor(enrollmentIdentifier, (isSuccess, lastResult, lastMessage) => {
-        log[isSuccess ? 'info' : 'warn']('processor result:', {
-          isSuccess,
-          lastMessage,
-          lastResult: omit(lastResult, 'faceMetrics'),
-        })
+      const processor = new EnrollmentProcessor((isSuccess, lastResult, lastMessage) => {
+        const logRecord = { isSuccess, lastMessage }
+
+        if (lastResult) {
+          logRecord.lastResult = omit(lastResult, 'faceMetrics')
+        }
+
+        log[isSuccess ? 'info' : 'warn']('processor result:', logRecord)
 
         if (isSuccess) {
           resolve(lastMessage)
@@ -119,11 +136,25 @@ export const ZoomSDK = new class {
 
         const exception = new Error(lastMessage)
 
-        exception.code = lastResult.status
+        if (lastResult) {
+          exception.code = lastResult.status
+        }
+
         reject(exception)
       })
 
-      new ZoomSession(() => processor.handleCompletion(), processor)
+      processor.enroll(enrollmentIdentifier)
+    })
+  }
+
+  // eslint-disable-next-line require-await
+  async unload() {
+    return new Promise((resolve, reject) => {
+      try {
+        sdk.unload(resolve)
+      } catch (exception) {
+        reject(exception)
+      }
     })
   }
 }()

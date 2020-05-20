@@ -1,12 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { noop } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
-import useMountedState from '../../../../lib/hooks/useMountedState'
 import { ZoomSDK } from '../sdk/ZoomSDK'
+import { kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
 const log = logger.child({ from: 'useZoomSDK' })
+
+const ZoomGlobalState = {
+  zoomSDKPreloaded: false,
+  zoomUnrecoverableError: null,
+}
 
 /**
  * ZoomSDK preloading helper
@@ -16,11 +21,22 @@ const log = logger.child({ from: 'useZoomSDK' })
  * @returns {Promise}
  */
 export const preloadZoomSDK = async (logger = log) => {
+  const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
+
   logger.debug('Pre-loading Zoom SDK')
 
   try {
+    if (zoomSDKPreloaded) {
+      return
+    }
+
+    if (zoomUnrecoverableError) {
+      throw zoomSDKPreloaded
+    }
+
     await ZoomSDK.preload()
 
+    ZoomGlobalState.zoomSDKPreloaded = true
     logger.debug('Zoom SDK is preloaded')
   } catch (exception) {
     const { message } = exception
@@ -36,18 +52,9 @@ export const preloadZoomSDK = async (logger = log) => {
  * @property {() => void} config.onInitialized - SDK initialized callback
  * @property {() => void} config.onError - SDK error callback
  *
- * @return {boolean} Initialization state flag
+ * @return {void}
  */
 export default ({ onInitialized = noop, onError = noop }) => {
-  // Initialization state flag
-  const [isInitialized, setInitialized] = useState(false)
-
-  // Component mounted flag ref, it needs to check
-  // is component still mounted before update it's state
-  // This check is needed as onInitialized/onError could
-  // perform redirects which unmounts component
-  const mountedStateRef = useMountedState()
-
   // Configuration callbacks refs
   const onInitializedRef = useRef(null)
   const onErrorRef = useRef(null)
@@ -63,46 +70,61 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // to access actual initialization / error callbacks
   useEffect(() => {
     // Helper for handle exceptions
-    const handleException = exception => {
-      const { message } = exception
+    const handleException = async exception => {
+      const { message, name } = exception
+
+      // if name is set - that means error was rethrown
+      // otherwise we should determine kind of the issue
+      if (!name) {
+        // the following code is needed to categorize exceptions
+        // then we could display specific error messages
+        // corresponding to the kind of issue (camera, orientation etc)
+        const kindOfTheIssue = kindOfSDKIssue(exception)
+
+        if (kindOfTheIssue) {
+          exception.name = kindOfTheIssue
+        }
+
+        // if some unrecoverable error happens
+        if ('UnrecoverableError' === kindOfTheIssue) {
+          // setting exception in the global state
+          ZoomGlobalState.zoomUnrecoverableError = exception
+
+          // unloading SDK to free resources
+          await ZoomSDK.unload()
+          ZoomGlobalState.zoomSDKPreloaded = false
+        }
+      }
 
       // executing current onError callback
       onErrorRef.current(exception)
       log.error('Zoom initialization failed', message, exception)
     }
 
-    // Helper for handle SDK status code changes
-    const handleSdkInitialized = () => {
-      // Executing onInitialized callback
-      onInitializedRef.current()
-
-      // and updating isInitialized state flag
-      // (if component is still mounted)
-      if (mountedStateRef.current) {
-        setInitialized(true)
-      }
-    }
-
     const initializeSdk = async () => {
+      const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
+
       try {
         log.debug('Initializing ZoomSDK')
 
-        // Initializing ZoOm, this also performs preload
-        await ZoomSDK.initialize(Config.zoomLicenseKey)
+        if (zoomUnrecoverableError) {
+          throw zoomUnrecoverableError
+        }
 
-        // Setting initialized state
-        handleSdkInitialized()
+        // Initializing ZoOm
+        // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
+        await ZoomSDK.initialize(Config.zoomLicenseKey, !zoomSDKPreloaded)
+
+        // Executing onInitialized callback
+        onInitializedRef.current()
         log.debug('ZoomSDK is ready')
       } catch (exception) {
         // handling initialization exceptions
-        handleException(exception)
+        await handleException(exception)
       }
     }
 
     // starting initialization
     initializeSdk()
   }, [])
-
-  // exposing public hook API
-  return isInitialized
 }

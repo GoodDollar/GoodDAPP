@@ -34,6 +34,7 @@ const Config = {
   showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
+  zoomServerURL: process.env.REACT_APP_ZOOM_SERVER_BASEURL || 'https://api.zoomauth.com/api/v2/biometrics',
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
   rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
   httpWeb3provider: process.env.REACT_APP_WEB3_RPC,

@@ -1,23 +1,17 @@
 import { useCallback, useEffect } from 'react'
 
-import UserStorage from '../../../lib/gundb/UserStorage'
-import SimpleStore from '../../../lib/undux/SimpleStore'
-import { useCurriedSetters } from '../../../lib/undux/GDStore'
-import goodWallet from '../../../lib/wallet/GoodWallet'
-import logger from '../../../lib/logger/pino-logger'
-import useZoomSDK from './hooks/useZoomSDK'
-import useZoomVerification from './hooks/useZoomVerification'
-import { kindOfSDKIssue, kindOfSessionIssue } from './utils/kindOfTheIssue'
+import UserStorage from '../../../../lib/gundb/UserStorage'
+import { useCurriedSetters } from '../../../../lib/undux/GDStore'
+import goodWallet from '../../../../lib/wallet/GoodWallet'
+import logger from '../../../../lib/logger/pino-logger'
+import useLoadingIndicator from '../../../../lib/hooks/useLoadingIndicator'
+import useZoomSDK from '../hooks/useZoomSDK'
+import useZoomVerification from '../hooks/useZoomVerification'
 
 const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
-  const store = SimpleStore.useStore()
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
-
-  useEffect(() => {
-    store.set('loadingIndicator')({ loading: true })
-    return () => store.set('loadingIndicator')({ loading: false })
-  }, [])
+  const [showLoading, hideLoading] = useLoadingIndicator()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -47,22 +41,13 @@ const FaceVerification = ({ screenProps }) => {
   // ZoomSDK session exception handler
   const exceptionHandler = useCallback(
     exception => {
-      // the following code is needed for ErrorScreen component
-      // could display specific error message corresponding to
-      // the kind of issue (camera, orientation etc)
-      const kindOfTheIssue = kindOfSessionIssue(exception)
+      const { name } = exception
 
-      if ('UserCancelled' === kindOfTheIssue) {
+      if ('UserCancelled' === name) {
         // If user has cancelled face verification by own
         // decision - redirecting back to the into screen
         screenProps.navigateTo('FaceVerificationIntro')
         return
-      }
-
-      if (kindOfTheIssue) {
-        exception.name = kindOfTheIssue
-      } else if (exception.message.startsWith('Duplicate')) {
-        exception.name = 'DuplicateFoundError'
       }
 
       // handling error
@@ -74,15 +59,6 @@ const FaceVerification = ({ screenProps }) => {
   // ZoomSDK initialization error handler
   const sdkExceptionHandler = useCallback(
     exception => {
-      // the following code is needed for ErrorScreen component
-      // could display specific error message corresponding to
-      // the kind of issue (camera, orientation etc)
-      const kindOfTheIssue = kindOfSDKIssue(exception)
-
-      if (kindOfTheIssue) {
-        exception.name = kindOfTheIssue
-      }
-
       // handling error
       showErrorScreen(exception, false)
     },
@@ -104,15 +80,15 @@ const FaceVerification = ({ screenProps }) => {
     onError: sdkExceptionHandler,
   })
 
-  return null
+  // showing loading indicator during screen is active
+  // it's enough, we could skip initalization/session state checking
+  // as Zoom UI overlaps web UI (or presents in a separate modal VC on native)
+  useEffect(() => {
+    showLoading()
+    return hideLoading
+  }, [])
 
-  // return (
-  //   <Section grow justifyContent="flex-start">
-  //     <Section.Row grow alignItems="center" justifyContent="center">
-  //       <SpinnerCheckMark loading success={false} />
-  //     </Section.Row>
-  //   </Section>
-  // )
+  return null
 }
 
 FaceVerification.navigationOptions = {

@@ -67,10 +67,7 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
-//import ReceiveConfirmation from './ReceiveConfirmation'
-// import SendConfirmation from './SendConfirmation'
-
-import FaceVerification from './FaceVerification'
+import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedScreen'

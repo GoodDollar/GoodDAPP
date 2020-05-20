@@ -1,9 +1,12 @@
 import { first } from 'lodash'
 
-import api from '../api'
+import api from '../api/FaceVerificationApi'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 
 const {
+  // Zoom verification session incapsulation
+  ZoomSession,
+
   // Zoom session status codes enum
   ZoomSessionStatus,
 
@@ -26,11 +29,22 @@ export class EnrollmentProcessor {
 
   lastMessage = null
 
+  enrollmentIdentifier = null
+
   resultCallback = null
 
-  constructor(enrollmentIdentifier, onSessionCompleted = (isSuccess, lastResult, lastMessage) => {}) {
-    this.enrollmentIdentifier = enrollmentIdentifier
+  constructor(onSessionCompleted = (isSuccess, lastResult, lastMessage) => {}) {
     this.onSessionCompleted = onSessionCompleted
+  }
+
+  // should be non-async for not confuse developers
+  // By Zoom's design, EnrollmentProcessor should return session result
+  // only by onSessionCompleted callback passed to its constructor
+  enroll(enrollmentIdentifier) {
+    this.enrollmentIdentifier = enrollmentIdentifier
+
+    // so we're just proxying call to the async _startEnrollmentSession
+    this._startEnrollmentSession()
   }
 
   // Helper method for handle session completion
@@ -49,18 +63,6 @@ export class EnrollmentProcessor {
     onSessionCompleted(isSuccess, lastResult, latestMessage)
   }
 
-  // Promisified getFaceMapBase64.getFaceMapBase64()
-  // eslint-disable-next-line require-await
-  async getFaceMapBase64() {
-    const { faceMetrics } = this.lastResult
-
-    return new Promise((resolve, reject) =>
-      faceMetrics.getFaceMapBase64(faceMap =>
-        faceMap ? resolve(faceMap) : reject(new Error('Error generating FaceMap !'))
-      )
-    )
-  }
-
   // Helper method that calls verification http API on server
   async performVerification() {
     // reading current session state vars
@@ -76,7 +78,7 @@ export class EnrollmentProcessor {
 
     try {
       // preparing face map
-      const faceMap = await this.getFaceMapBase64()
+      const faceMap = await this._getFaceMapBase64()
 
       // preparing request payload
       const payload = {
@@ -147,6 +149,7 @@ export class EnrollmentProcessor {
   // server call was completed etc). Allows to perform server call ot specify what
   // Zoom should do after server response returned (cancel / retry / succeed session)
   // @see ZoomSDK.ZoomFaceMapProcessor
+  // @private
   processZoomSessionResultWhileZoomWaits(zoomSessionResult, zoomFaceMapResultCallback) {
     const { status, faceMetrics } = zoomSessionResult
     const { faceMap } = faceMetrics
@@ -168,5 +171,35 @@ export class EnrollmentProcessor {
 
     // if no session in progress - performing http server call
     this.performVerification()
+  }
+
+  // generates session ID and starts session
+  // enroll call proxioes here - just for keep non-async
+  // interface with onComplete callback designed by Zoom
+  // @private
+  async _startEnrollmentSession() {
+    try {
+      // trying to retrieve session ID from Zoom server
+      const sessionId = await api.issueSessionToken()
+
+      // if we've got it - strting enrollment session
+      new ZoomSession(() => this.handleCompletion(), this, sessionId)
+    } catch ({ message }) {
+      // otherwise calling completion handler with empty zoomSessionResult
+      this.onSessionCompleted(false, null, message)
+    }
+  }
+
+  // Promisified getFaceMapBase64.getFaceMapBase64()
+  // @private
+  // eslint-disable-next-line require-await
+  async _getFaceMapBase64() {
+    const { faceMetrics } = this.lastResult
+
+    return new Promise((resolve, reject) =>
+      faceMetrics.getFaceMapBase64(faceMap =>
+        faceMap ? resolve(faceMap) : reject(new Error('Error generating FaceMap !'))
+      )
+    )
   }
 }

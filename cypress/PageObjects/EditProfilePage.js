@@ -21,8 +21,7 @@ class EditProfilePage {
   }
 
   get saveButton() {
-    return cy.get('svg').get('[aria-label="SAVE"]')
-    //return cy.get('[role="button"]').eq(2)
+    return cy.get('[data-testid="save_button"]')
   }
 
   get saveButtonText() {

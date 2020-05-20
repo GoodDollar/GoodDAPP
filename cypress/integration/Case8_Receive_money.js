@@ -7,7 +7,6 @@ import ReceiveMoneyPage from '../PageObjects/ReceiveMoneyPage'
 describe('Test case 8: Ability to send money request and reseive money', () => {
   it('User is able to send money request', () => {
     StartPage.open()
-    //StartPage.continueOnWebButton.click()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
     LoginPage.pageHeader.should('contain', 'Recover')
@@ -33,7 +32,7 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
     ReceiveMoneyPage.messageInput.type('test lalala')
     ReceiveMoneyPage.nextButton.click()
     ReceiveMoneyPage.nextButton.click()
-    //ReceiveMoneyPage.shareLinkButton.click()
+    ReceiveMoneyPage.shareLinkButton.click()
     ReceiveMoneyPage.doneButton.should('be.visible')
     cy.task('getClipboard').then(reseiveMoneyUrl => {
       cy.log(reseiveMoneyUrl)
@@ -58,7 +57,6 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
         cy.visit(validMoneyLnk.toString())
         ReceiveMoneyPage.confirmWindowButton.should('be.visible')
         ReceiveMoneyPage.confirmWindowButton.click()
-        //cy.contains('Ok').click()
         LoginPage.yayButton.click()
         HomePage.claimButton.should('be.visible')
         HomePage.moneyAmountDiv.should('not.contain', moneyBeforeSending, { timeout: 20000 })

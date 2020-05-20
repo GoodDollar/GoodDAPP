@@ -74,8 +74,6 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.saveButton.click()
     EditProfilePage.saveButtonText.should('not.be.visible')
     ProfilePage.openProfilePage()
-
-    //EditProfilePage.backButton.click();
     ProfilePage.nameInput.should('have.value', 'nickName888')
     ProfilePage.phoneInput.should('have.value', '+380983611329')
     ProfilePage.emailInput.should('have.value', 'test123456@test.com')
@@ -91,7 +89,7 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.waitForEditProfilePageDisplayed()
     EditProfilePage.fillUserName('TestAccount')
     EditProfilePage.saveButton.click()
-    cy.contains('SAVE').should('not.be.visible')
+    EditProfilePage.saveButtonText.should('not.be.visible')
     ProfilePage.pageHeader.should('contain', 'Profile')
   })
 

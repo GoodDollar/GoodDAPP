@@ -9,22 +9,23 @@ describe('Test case 7: Ability to send money', () => {
     localStorage.clear()
     cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       StartPage.open()
-      //StartPage.continueOnWebButton.click()
       StartPage.signInButton.click()
       LoginPage.recoverFromPassPhraseLink.click()
       LoginPage.pageHeader.should('contain', 'Recover')
-      //LoginPage.mnemonicsInput.type(Cypress.env('mainAccountMnemonics'))
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
+
+      // face verification
       HomePage.claimButton.click()
       SendMoneyPage.dailyClaimText.should('be.visible')
       SendMoneyPage.claimButton.click()
-
-      // SendMoneyPage.verifyButton.click()
-      // cy.wait(3000)
-      // SendMoneyPage.readyButton.click()
+      SendMoneyPage.verifyButton.click()
+      SendMoneyPage.readyButton.should('be.visible')
+      SendMoneyPage.readyButton.click()
       LoginPage.yayButton.click()
+      cy.contains('1G$').should('be.visible')
+
       HomePage.sendButton.click()
       SendMoneyPage.nameInput.type('another person')
       SendMoneyPage.nextButton.click()
@@ -32,9 +33,8 @@ describe('Test case 7: Ability to send money', () => {
       SendMoneyPage.nextButton.click()
       SendMoneyPage.messageInput.type('test message')
       SendMoneyPage.nextButton.click()
-      //cy.contains('Ok').click()
       SendMoneyPage.confirmButton.click()
-      //SendMoneyPage.copyLinkButton.click()
+      SendMoneyPage.copyLinkButton.click()
       SendMoneyPage.doneButton.should('be.visible')
       cy.task('getClipboard').then(sendMoneyUrl => {
         cy.log(sendMoneyUrl)
@@ -46,7 +46,6 @@ describe('Test case 7: Ability to send money', () => {
         cy.clearLocalStorage()
         cy.clearCookies()
         StartPage.open()
-        //StartPage.continueOnWebButton.click()
         StartPage.signInButton.click()
         LoginPage.recoverFromPassPhraseLink.click()
         LoginPage.pageHeader.should('contain', 'Recover')

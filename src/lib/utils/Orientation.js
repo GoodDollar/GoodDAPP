@@ -1,5 +1,5 @@
 import { Dimensions } from 'react-native'
-import { isBrowser, isMobileOnly } from 'mobile-device-detect'
+import { isBrowser } from 'mobile-device-detect'
 import { theme } from '../../components/theme/styles'
 
 let originalScreenHeight = 0
@@ -22,7 +22,7 @@ export const getMaxDeviceHeight = () => {
   const height = getScreenHeight()
   const { maxHeightForTabletAndDesktop } = theme.sizes
 
-  return isMobileOnly ? height : Math.min(height, maxHeightForTabletAndDesktop)
+  return Math.min(height, maxHeightForTabletAndDesktop)
 }
 
 export const getScreenWidth = () => Dimensions.get('window').width
@@ -30,7 +30,7 @@ export const getMaxDeviceWidth = () => {
   const width = getScreenWidth()
   const { maxWidthForTabletAndDesktop } = theme.sizes
 
-  return isMobileOnly ? width : Math.min(width, maxWidthForTabletAndDesktop)
+  return Math.min(width, maxWidthForTabletAndDesktop)
 }
 
 export const isPortrait = () => {

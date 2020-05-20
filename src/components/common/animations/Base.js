@@ -32,7 +32,7 @@ class AnimationBase extends React.Component {
     try {
       result = JSON.parse(JSON.stringify(animationData))
 
-      if (typeof result === undefined) {
+      if (typeof result === 'undefined') {
         throw new Error()
       }
     } catch {

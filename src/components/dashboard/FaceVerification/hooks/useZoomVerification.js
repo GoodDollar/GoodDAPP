@@ -1,11 +1,17 @@
 import { useCallback, useRef } from 'react'
 import { noop } from 'lodash'
 
-// Zoom SDK reference
+// logger
+import logger from '../../../../lib/logger/pino-logger'
+
+// Zoom SDK reference & helpers
 import { ZoomSDK } from '../sdk/ZoomSDK'
+import { kindOfSessionIssue } from '../utils/kindOfTheIssue'
+import { unloadZoomSDK } from './useZoomSDK'
 
 // Zoom exceptions helper
-import { kindOfSessionIssue } from '../utils/kindOfTheIssue'
+
+const log = logger.child({ from: 'useZoomVerification' })
 
 /**
  * ZoomSDK face verification & fecamap enrollment hook
@@ -36,15 +42,22 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
     // setting session is running flag in the ref
     sessionInProgressRef.current = true
 
+    log.debug('Starting Zoom verification', { enrollmentIdentifier })
+
     // initializing zoom session
     try {
       const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier)
+
+      log.debug('Zoom verification successfull', { verificationStatus })
+
+      await unloadZoomSDK(log)
       onComplete(verificationStatus)
     } catch (exception) {
       // the following code is needed to categorize exceptions
       // then we could display specific error messages
       // corresponding to the kind of issue (camera, orientation, duplicate etc)
       const kindOfTheIssue = kindOfSessionIssue(exception)
+      const { message } = exception
 
       if (kindOfTheIssue) {
         exception.name = kindOfTheIssue
@@ -52,6 +65,7 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
         exception.name = 'DuplicateFoundError'
       }
 
+      log.error('Zoom verification failed', message, exception)
       onError(exception)
     } finally {
       // setting session is not running flag in the ref

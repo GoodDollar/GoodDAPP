@@ -1,8 +1,5 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
-import { Keyboard } from 'react-native-web'
-import { delay } from 'rxjs/operators'
-import { isAndroidNative, isAndroidWeb } from '../../lib/utils/platform'
 import InputText from '../common/form/InputText'
 import { ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -28,6 +25,7 @@ const getError = value => {
 const Who = (props: AmountProps) => {
   const { screenProps, styles } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
+  const { push } = screenProps
   const { params } = props.navigation.state
   const isReceive = params && params.action === ACTION_RECEIVE
   const { counterPartyDisplayName } = screenState
@@ -39,43 +37,22 @@ const Who = (props: AmountProps) => {
     setScreenState({ counterPartyDisplayName: state.value })
   }, [state.value])
 
-  const handlePressQR = useCallback(() => screenProps.push('SendByQR'), [screenProps])
+  const handlePressQR = useCallback(() => push('SendByQR'), [push])
 
   const handlePressSendToAddress = useCallback(
     () =>
-      screenProps &&
-      screenProps.push('SendToAddress', {
+      push('SendToAddress', {
         nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
         params: { action: ACTION_SEND_TO_ADDRESS },
       }),
-    [screenProps]
+    [push]
   )
 
-  const canContinue = useCallback(async () => {
-    // =====
-    // await for android keyboard to be closed before redirecting to the next step
-    if (isAndroidNative) {
-      await new Promise(res => {
-        Keyboard.addListener('keyboardDidHide', res)
-        Keyboard.dismiss()
-      })
-    }
-
-    if (isAndroidWeb) {
-      await new Promise(res => {
-        delay(300)
-        res()
-      })
-    }
-
-    // =====
-
-    return state.isValid
-  }, [state])
+  const canContinue = useCallback(() => state.isValid, [state])
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push}>
+      <TopBar push={push}>
         {!isReceive && <ScanQRButton onPress={handlePressQR} />}
         {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />}
       </TopBar>

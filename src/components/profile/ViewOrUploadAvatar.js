@@ -8,7 +8,6 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
-import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
 
@@ -21,18 +20,10 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
 
-  const handleCameraPress = useCallback(
-    event => {
-      event.preventDefault()
-      navigation.navigate('EditAvatar')
-    },
-    [navigation]
-  )
+  const handleCameraPress = useCallback(() => navigation.navigate('EditAvatar'), [navigation])
 
   const handleClosePress = useCallback(
     event => {
-      event.preventDefault()
-
       wrappedUserStorage.removeAvatar().catch(e => {
         showErrorDialog('Could not delete image. Please try again.')
         log.error('delete image failed:', e.message, e)
@@ -101,7 +92,7 @@ ViewOrUploadAvatar.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => {
   const { defaultDouble, defaultQuadruple } = theme.sizes
-  const buttonGap = getDesignRelativeWidth(-30) / 2
+  const buttonGap = -42
 
   return {
     section: {

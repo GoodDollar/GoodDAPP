@@ -1,6 +1,8 @@
 import React, { Fragment, useCallback } from 'react'
 import { Image, Platform } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import PhoneInput from 'react-phone-number-input'
+import { noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
 import Icon from '../common/view/Icon'
@@ -8,41 +10,43 @@ import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
-import PhoneNumberInput from './PhoneNumberInput/PhoneNumberInput'
+
+const defaultErrors = {}
+const defaultStoredProfile = {}
+const defaultProfile = {}
 
 const ProfileDataTable = ({
-  profile,
-  storedProfile,
+  profile = defaultProfile,
+  storedProfile = defaultStoredProfile,
   onChange,
-  errors,
+  errors = defaultErrors,
   editable,
   theme,
   styles,
   navigation,
-  setLockSubmit,
+  setLockSubmit = noop,
   showCustomFlag,
 }) => {
   const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)
   const countryFlagUrl = useCountryFlagUrl(phoneMeta && phoneMeta.country)
-
-  const verifyEmail = () => {
-    if (profile.email !== storedProfile.email) {
-      verifyEdit('email', profile.email)
-    }
-  }
-
-  const verifyPhone = () => {
-    if (profile.mobile !== storedProfile.mobile) {
-      verifyEdit('phone', profile.mobile)
-    }
-  }
-
   const verifyEdit = useCallback(
     (field, content) => {
       navigation.navigate('VerifyEdit', { field, content })
     },
     [navigation]
   )
+
+  const verifyEmail = useCallback(() => {
+    if (profile.email !== storedProfile.email) {
+      verifyEdit('email', profile.email)
+    }
+  }, [verifyEdit, profile.email, storedProfile.email])
+
+  const verifyPhone = useCallback(() => {
+    if (profile.mobile !== storedProfile.mobile) {
+      verifyEdit('phone', profile.mobile)
+    }
+  }, [verifyEdit, profile.mobile, storedProfile.mobile])
 
   // username handlers
   const onUserNameChange = useCallback(username => onChange({ ...profile, username }), [onChange, profile])
@@ -51,17 +55,25 @@ const ProfileDataTable = ({
   const onPhoneInputFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
   const onPhoneInputChange = useCallback(value => onChange({ ...profile, mobile: value }), [onChange, profile])
   const onPhoneInputBlur = useCallback(() => {
-    setLockSubmit(false)
-    verifyPhone()
-  }, [setLockSubmit])
+    const { errors: _errors } = profile.validate()
+
+    if (!_errors.mobile) {
+      setLockSubmit(false)
+      verifyPhone()
+    }
+  }, [setLockSubmit, verifyPhone, errors])
 
   // email handlers
   const onEmailFocus = useCallback(() => setLockSubmit(true), [setLockSubmit])
   const onEmailChange = useCallback(email => onChange({ ...profile, email }), [onChange, profile])
   const onEmailBlur = useCallback(() => {
-    setLockSubmit(false)
-    verifyEmail()
-  }, [setLockSubmit])
+    const { errors: _errors } = profile.validate()
+
+    if (!_errors.email) {
+      setLockSubmit(false)
+      verifyEmail()
+    }
+  }, [setLockSubmit, verifyEmail, errors])
 
   return (
     <Section.Row alignItems="center" grow={1}>
@@ -81,8 +93,8 @@ const ProfileDataTable = ({
         <Section.Row>
           {editable ? (
             <Section.Stack grow>
-              <Section.Row>
-                <PhoneNumberInput
+              <Section.Row className="edit_profile_phone_input">
+                <PhoneInput
                   error={errors.mobile && errors.mobile !== ''}
                   id="signup_phone"
                   onFocus={onPhoneInputFocus}

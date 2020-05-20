@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AsyncStorage, Platform } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
@@ -18,6 +18,8 @@ import useAppState from '../../lib/hooks/useAppState'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
+import { assertStore } from '../../lib/undux/SimpleStore'
+import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
 
 type LoadingProps = {
   navigation: any,
@@ -56,7 +58,15 @@ const AppSwitch = (props: LoadingProps) => {
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
-  const { appState } = useAppState()
+
+  const recheck = useCallback(() => {
+    if (ready && gdstore) {
+      checkBonusInterval(true)
+      showOutOfGasError(props)
+    }
+  }, [gdstore, ready])
+
+  useAppState({ onForeground: recheck })
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -91,7 +101,6 @@ const AppSwitch = (props: LoadingProps) => {
   user completes signup and becomes loggedin which just updates this component
 */
   const navigateToUrlAction = async () => {
-    log.info('didUpdate')
     let destDetails = await getParams()
 
     //once user logs in we can redirect him to saved destinationpath
@@ -106,6 +115,10 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = async () => {
+    if (!assertStore(gdstore, log, 'Failed to initialize login/citizen status')) {
+      return
+    }
+
     //after dynamic routes update, if user arrived here, then he is already loggedin
     //initialize the citizen status and wallet status
     const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
@@ -120,6 +133,7 @@ const AppSwitch = (props: LoadingProps) => {
     if (isLoggedInCitizen) {
       API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
     }
+    return isLoggedInCitizen
 
     // if (isLoggedIn) {
     //   if (destDetails) {
@@ -158,10 +172,18 @@ const AppSwitch = (props: LoadingProps) => {
     log.debug('initializing', gdstore)
 
     try {
-      await initialize()
+      const isCitizen = await initialize()
       checkBonusInterval()
       prepareLoginToken()
-      await Promise.all([runUpdates(), showOutOfGasError(props)])
+      runUpdates()
+      showOutOfGasError(props)
+
+      // preloading Zoom (supports web + native)
+      if (isCitizen === false) {
+        // don't awaiting for sdk ready here
+        // initialize() will await if preload hasn't completed yet
+        preloadZoomSDK(log) // eslint-disable-line require-await
+      }
 
       setReady(true)
     } catch (e) {
@@ -171,7 +193,7 @@ const AppSwitch = (props: LoadingProps) => {
         //TODO: FIX window.location for RN
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
-        await delay(500)
+        await delay(1500)
         init()
       }
     }
@@ -203,6 +225,11 @@ const AppSwitch = (props: LoadingProps) => {
     if (config.enableInvites !== true) {
       return
     }
+
+    if (!assertStore(gdstore, log, 'checkBonusInterval failed')) {
+      return
+    }
+
     const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
     const isUserWhitelisted = gdstore.get('isLoggedInCitizen') || (await goodWallet.isCitizen())
 
@@ -238,13 +265,6 @@ const AppSwitch = (props: LoadingProps) => {
     init()
     navigateToUrlAction()
   }, [])
-
-  useEffect(() => {
-    if (ready && gdstore && appState === 'active') {
-      checkBonusInterval(true)
-      showOutOfGasError(props)
-    }
-  }, [gdstore, ready, appState])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

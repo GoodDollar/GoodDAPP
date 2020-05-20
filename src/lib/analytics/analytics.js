@@ -115,7 +115,7 @@ export const reportToSentry = (error, extra = {}, tags = {}) =>
 
     // set tags
     forEach(tags, (value, key) => {
-      scope.setTags(key, value)
+      scope.setTag(key, value)
     })
 
     Sentry.captureException(error)
@@ -156,7 +156,12 @@ const patchLogger = () => {
   global.logger.error = function() {
     let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
     if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') === -1) {
-      debounceFireEvent(ERROR_LOG, { reason: logMessage, logContext })
+      debounceFireEvent(ERROR_LOG, {
+        unique: `${eMsg} ${logMessage} (${logContext})`,
+        $reason: logMessage,
+        logContext,
+        eMsg,
+      })
     }
     if (bugsnagClient && Config.env !== 'test') {
       bugsnagClient.notify(logMessage, {
@@ -167,7 +172,18 @@ const patchLogger = () => {
     }
 
     if (Config.sentryDSN && Config.env !== 'test') {
-      reportToSentry(errorObj && errorObj instanceof Error ? errorObj : new Error(logMessage), {
+      const isValidErrorObject = errorObj instanceof Error
+      let errorToPassIntoLog
+
+      if (isValidErrorObject) {
+        errorObj.message = `${logMessage}: ${errorObj.message}`
+        errorToPassIntoLog = errorObj
+      } else {
+        errorToPassIntoLog = new Error(logMessage)
+      }
+
+      reportToSentry(errorToPassIntoLog, {
+        logMessage,
         errorObj,
         logContext,
         eMsg,

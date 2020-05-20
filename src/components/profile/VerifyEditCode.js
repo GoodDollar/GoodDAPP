@@ -19,14 +19,14 @@ const VerifyEditCode = props => {
   switch (field) {
     case 'phone':
       fieldToSave = 'mobile'
-      retryFunctionName = 'sendNewOTP'
+      retryFunctionName = 'sendOTP'
       RenderComponent = SmsForm
       break
 
     case 'email':
     default:
       fieldToSave = 'email'
-      retryFunctionName = 'sendVerificationForNewEmail'
+      retryFunctionName = 'sendVerificationEmail'
       RenderComponent = EmailConfirmation
       break
   }

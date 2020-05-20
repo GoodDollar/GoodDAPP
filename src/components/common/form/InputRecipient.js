@@ -6,7 +6,7 @@ import Icon from '../view/Icon'
 
 import logger from '../../../lib/logger/pino-logger'
 
-import useClipboardPaste from '../../../lib/hooks/useClipboardPaste'
+import { useClipboardPaste } from '../../../lib/hooks/useClipboard'
 
 const log = logger.child({ from: 'InputRecipient' })
 

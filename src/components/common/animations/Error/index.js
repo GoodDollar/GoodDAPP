@@ -1,46 +1,29 @@
 import React from 'react'
-import { Platform, View } from 'react-native'
 import Lottie from 'lottie-react-native'
+import { cloneDeep } from 'lodash'
+
 import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
-const { animationData, imageAssetsFolder } = getAnimationData('Error', require('./data'))
 
-const styles = {
-  android: {
-    flex: 1,
-    width: 200,
-    paddingVertical: 50,
-    marginHorizontal: 'auto',
-    marginBottom: 10,
-  },
-  ios: {
-    flex: 1,
-    width: '100%',
-    paddingVertical: 50,
-    marginHorizontal: 'auto',
-    marginBottom: 10,
-  },
-  web: {
-    width: 200,
-    paddingTop: 20,
-    paddingBottom: 20,
-    marginHorizontal: 'auto',
-  },
-}
+const { animationData, imageAssetsFolder } = getAnimationData('Error', require('./data'))
 
 class Error extends AnimationBase {
   render() {
     return (
-      <View style={Platform.select(styles)}>
-        <Lottie
-          imageAssetsFolder={imageAssetsFolder}
-          enableMergePathsAndroidForKitKatAndAbove={true}
-          autoPlay={true}
-          source={this.improveAnimationData(animationData)}
-          autoSize={false}
-          loop={false}
-        />
-      </View>
+      <Lottie
+        imageAssetsFolder={imageAssetsFolder}
+        enableMergePathsAndroidForKitKatAndAbove={true}
+        autoPlay={true}
+        source={cloneDeep(animationData)}
+        autoSize={false}
+        style={{
+          width: 200,
+          marginHorizontal: 'auto',
+          paddingTop: 20,
+          paddingBottom: 20,
+        }}
+        loop={false}
+      />
     )
   }
 }

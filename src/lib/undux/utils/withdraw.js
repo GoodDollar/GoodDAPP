@@ -31,9 +31,12 @@ export const executeWithdraw = async (
   code: string,
   reason: string
 ): Promise<ReceiptType | { status: boolean }> => {
-  log.info('executeWithdraw', code, reason)
   try {
     const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)
+    log.info('executeWithdraw', { code, reason, amount, sender, status, hashedCode })
+    if (sender.toLowerCase() === goodWallet.account.toLowerCase()) {
+      throw new Error('You are trying to withdraw your own payment link.')
+    }
     if (status === WITHDRAW_STATUS_PENDING) {
       let txHash
 
@@ -78,13 +81,17 @@ export const prepareDataWithdraw = params => {
 
   if (paymentCode) {
     try {
-      paymentParams = Buffer.from(decodeURI(paymentCode), 'base64').toString()
-      paymentParams = JSON.parse(paymentParams)
+      paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
+      const { p, r, reason: oldr, paymentCode: oldp } = JSON.parse(paymentParams)
+      paymentParams = {
+        paymentCode: p || oldp,
+        reason: r || oldr,
+      }
     } catch (e) {
       log.info('uses old format', { paymentCode, reason })
       paymentParams = {
-        paymentCode: decodeURI(paymentCode),
-        reason: reason ? decodeURI(reason) : null,
+        paymentCode: decodeURIComponent(paymentCode),
+        reason: reason ? decodeURIComponent(reason) : null,
       }
     }
   }

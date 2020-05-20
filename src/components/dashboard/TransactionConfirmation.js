@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import { Image, Share, View } from 'react-native'
+import { Image, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import Section from '../common/layout/Section'
@@ -12,7 +12,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { fireEvent } from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
-import Clipboard from '../../lib/utils/Clipboard'
+import useClipboard from '../../lib/hooks/useClipboard'
 import { ACTION_RECEIVE, ACTION_SEND, PARAM_ACTION, RECEIVE_TITLE, SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -36,24 +36,29 @@ const instructionsTextNumberProps = {
 }
 
 const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
-  const { canShare } = useNativeSharing()
+  const { canShare, shareAction } = useNativeSharing()
   const { goToRoot } = screenProps
   const [screenState] = useScreenState(screenProps)
   const { paymentLink, action } = screenState
+  const { setString } = useClipboard()
 
   const handlePressConfirm = useCallback(() => {
     let type = 'share'
 
     if (canShare) {
-      Share.share(paymentLink)
+      shareAction(paymentLink)
       goToRoot()
     } else {
+      if (!setString(paymentLink)) {
+        // needed to not fire SEND_CONFIRMATION_SHARE if setString to Clipboard is failed
+        return
+      }
+
       type = 'copy'
-      Clipboard.setString(paymentLink)
     }
 
     fireEvent('SEND_CONFIRMATION_SHARE', { type })
-  }, [canShare, paymentLink, goToRoot])
+  }, [canShare, paymentLink, goToRoot, shareAction])
 
   const secondTextPoint = action === ACTION_SEND ? 'Share it with your recipient' : 'Share it with sender'
   const thirdTextPoint = action === ACTION_SEND ? 'Recipient approves request' : 'Sender approves request'

@@ -5,11 +5,11 @@ class ReceiveMoneyPage {
   }
 
   get requestSpecificAmountButton() {
-    return cy.get('[role=button]', { timeout: 10000 }).eq(2)
+    return cy.get('[role=button]', { timeout: 10000 }).eq(1)
   }
 
   get shareYourWalletLinkButton() {
-    return cy.get('[role=button]', { timeout: 10000 }).eq(3)
+    return cy.get('[role=button]', { timeout: 10000 }).eq(2)
   }
 
   get nameInput() {
@@ -17,7 +17,7 @@ class ReceiveMoneyPage {
   }
 
   get nextButton() {
-    return cy.get('[role=button]', { timeout: 10000 }).eq(3)
+    return cy.get('[role=button]', { timeout: 10000 }).eq(2)
   }
 
   get moneyInput() {
@@ -29,7 +29,8 @@ class ReceiveMoneyPage {
   }
 
   get shareLinkButton() {
-    return cy.get('[data-gdtype]', { timeout: 10000 })
+    //return cy.get('[data-gdtype]', { timeout: 10000 })
+    return cy.contains(/copy link to clipboard/i)
   }
 
   get confirmWindowButton() {
@@ -37,7 +38,12 @@ class ReceiveMoneyPage {
   }
 
   get doneButton() {
-    return cy.get('[data-gdtype="copybutton-done"]', { timeout: 10000 })
+    //return cy.get('[data-gdtype="copybutton-done"]', { timeout: 10000 })
+    return cy.contains('Done')
+  }
+
+  get qrImage() {
+    return cy.get('[theme="[object Object]"]')
   }
 }
 

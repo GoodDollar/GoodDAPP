@@ -20,7 +20,11 @@ describe('SendLinkSummary', () => {
 
   it('matches snapshot', () => {
     const SendLinkSummary = getWebRouterComponentWithMocks('../SendLinkSummary')
-    const component = renderer.create(<SendLinkSummary />)
+    const component = renderer.create(
+      <Container>
+        <SendLinkSummary />
+      </Container>
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

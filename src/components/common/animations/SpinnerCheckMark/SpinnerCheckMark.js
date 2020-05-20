@@ -1,10 +1,13 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
+import { cloneDeep } from 'lodash'
+
 import AnimationBase from '../Base'
+
 import animationData from './data.json'
 
 class SpinnerCheckMark extends AnimationBase {
-  onMount() {
+  onMount = () => {
     this.anim.onEnterFrame = e => {
       const { success } = this.props
       if (e.currentTime > 130.5 && !success) {
@@ -34,7 +37,7 @@ class SpinnerCheckMark extends AnimationBase {
     return (
       <Lottie
         ref={this.setAnim}
-        source={this.improveAnimationData(animationData)}
+        source={cloneDeep(animationData)}
         style={{
           marginTop: -height / 2.4,
           width,

@@ -26,16 +26,20 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
 }
 
 describe('Dashboard', () => {
-  it('renders without errors', async () => {
+  beforeAll(async () => {
+    jest.setTimeout(15000)
+    await userStorage.wallet.ready
     await userStorage.ready
+  })
+
+  it('renders without errors', () => {
     const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
 
     const tree = renderer.create(<WebRouter />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
-  it('matches snapshot', async () => {
-    await userStorage.ready
+  it('matches snapshot', () => {
     const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
 
     const component = renderer.create(<WebRouter />)

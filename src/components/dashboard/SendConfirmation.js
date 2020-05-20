@@ -1,17 +1,20 @@
 // @flow
 import React from 'react'
 import { Platform, View } from 'react-native'
+import { isMobile } from 'mobile-device-detect'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import TopBar from '../common/view/TopBar'
-import Clipboard from '../../lib/utils/Clipboard'
+import useClipboard from '../../lib/hooks/useClipboard'
 import { withStyles } from '../../lib/styles'
 import { Icon } from '../common'
 import AnimatedSendButton from '../common/animations/ShareLinkSendButton/ShareLinkSendButton'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { fireEvent } from '../../lib/analytics/analytics'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -22,11 +25,30 @@ export type ReceiveProps = {
 
 const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
+  const [showErrorDialog] = useErrorDialog()
+  const { setString } = useClipboard()
 
   const { amount, reason, paymentLink } = screenState
 
   const shareAction = async () => {
-    await Clipboard.setString(paymentLink)
+    let type = 'copy'
+    if (isMobile && navigator.share) {
+      try {
+        type = 'share'
+        await navigator.share(paymentLink)
+      } catch (e) {
+        if (e.name !== 'AbortError') {
+          showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
+        }
+      }
+    } else {
+      if (!setString(paymentLink)) {
+        // needed to not fire SEND_CONFIRMATION_SHARE if setString to Clipboard is failed
+        return
+      }
+    }
+
+    fireEvent('SEND_CONFIRMATION_SHARE', { type })
   }
 
   return (
@@ -43,7 +65,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
                 <Icon name="send" size={getDesignRelativeHeight(45)} color="white" />
               </View>
             </Section.Row>
-            <Section.Row fontWeight="medium" style={styles.amountWrapper}>
+            <Section.Title fontWeight="medium" style={styles.amountWrapper}>
               <BigGoodDollar
                 number={amount}
                 color="red"
@@ -55,7 +77,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
                 }}
                 bigNumberUnitProps={{ fontSize: 14 }}
               />
-            </Section.Row>
+            </Section.Title>
           </Section.Stack>
           {reason && (
             <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>

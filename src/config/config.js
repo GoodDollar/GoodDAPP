@@ -1,11 +1,17 @@
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
+import { env as devenv } from '../lib/utils/env'
 import env from './env'
 const publicUrl = env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin)
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
+
+// E2E checker utility import
+//import { isE2ERunning } from '../lib/utils/platform'
+
 const forceLogLevel = window && window.location && window.location.search.match(/level=(.*?)($|&)/)
+
 const Config = {
-  env: env.REACT_APP_ENV || 'development',
-  version: env.VERSION || 'v0',
+  env: devenv,
+  version: process.env.VERSION || 'v0',
   contractsVersion,
   isEToro,
   isPhaseZero: 'true' === env.REACT_APP_ENV_PHASE_ZERO,
@@ -16,23 +22,24 @@ const Config = {
   web3SiteUrl: env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
-  dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
-  infuraKey: env.REACT_APP_INFURA_KEY,
-  network: env.REACT_APP_NETWORK || 'fuse',
-  market: env.REACT_APP_MARKET === 'true' || isEToro,
-  marketUrl: env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
-  torusEnabled: env.REACT_APP_USE_TORUS === 'true',
-  enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
-  googleClientId: env.REACT_APP_GOOGLE_CLIENT_ID,
-  facebookAppId: env.REACT_APP_FACEBOOK_APP_ID,
-  enableInvites: env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
-  showInvite: env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
-  showRewards: env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
-  zoomLicenseKey: env.REACT_APP_ZOOM_LICENSE_KEY,
-  amplitudeKey: env.REACT_APP_AMPLITUDE_API_KEY,
-  rollbarKey: env.REACT_APP_ROLLBAR_API_KEY,
-  httpWeb3provider: env.REACT_APP_WEB3_RPC,
-  web3TransportProvider: env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'WebSocketProvider',
+  dashboardUrl: process.env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
+  infuraKey: process.env.REACT_APP_INFURA_KEY,
+  network: process.env.REACT_APP_NETWORK || 'fuse',
+  market: process.env.REACT_APP_MARKET === 'true' || isEToro,
+  marketUrl: process.env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
+  torusEnabled: process.env.REACT_APP_USE_TORUS === 'true',
+  enableSelfCustody: process.env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
+  googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+  facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,
+  enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
+  showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
+  showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
+  zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
+  zoomServerURL: process.env.REACT_APP_ZOOM_SERVER_BASEURL || 'https://api.zoomauth.com/api/v2/biometrics',
+  amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
+  rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
+  httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
+  web3TransportProvider: process.env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'WebSocketProvider',
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
@@ -84,7 +91,11 @@ const Config = {
   nodeEnv: env.NODE_ENV,
 }
 
-global.config = Config
+// TODO: wrap all stubs / "backdoors" made for automated testing
+// if (isE2ERunning) {
+  global.config = Config
+
+//}
 
 // Forcing value as number, if not MNID encoder/decoder may fail
 // Config.networkId = Config.ethereum[Config.networkId].network_id

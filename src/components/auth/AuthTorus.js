@@ -9,6 +9,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
 import NavBar from '../appNavigation/NavBar'
+import Recover from '../signin/Mnemonics'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
@@ -82,9 +83,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       let replacing = false
 
       try {
-        if (config.env === 'test') {
+        if (['development', 'test'].includes(config.env)) {
           torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
-        } else {
+        }
+        if (torusUser == null) {
           switch (provider) {
             case 'facebook':
               torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')
@@ -106,7 +108,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('torus login success', { torusUser })
       } catch (e) {
         store.set('loadingIndicator')({ loading: false })
-        log.error('torus login failed', e.message, e)
+        if (e.message === 'user closed popup') {
+          log.info(e.message, e)
+        } else {
+          log.error('torus login failed', e.message, e)
+        }
         showErrorDialog('We were unable to complete the login. Please try again.')
         return
       }
@@ -313,14 +319,18 @@ auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,
 }
-export default createStackNavigator(
-  {
-    Login: auth,
-    PrivacyPolicyAndTerms,
-    PrivacyPolicy,
-    Support: SupportForUnsigned,
-  },
-  {
-    backRouteName: 'Auth',
-  }
-)
+
+const routes = {
+  Login: auth,
+  PrivacyPolicyAndTerms,
+  PrivacyPolicy,
+  Support: SupportForUnsigned,
+}
+
+if (config.enableSelfCustody) {
+  Object.assign(routes, { Recover })
+}
+
+export default createStackNavigator(routes, {
+  backRouteName: 'Auth',
+})

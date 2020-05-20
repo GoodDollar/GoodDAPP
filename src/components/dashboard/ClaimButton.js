@@ -91,33 +91,25 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
 )
 
 const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnly }) => {
-  if (isCitizen) {
-    return entitlement ? (
+  //if user can claim either as whitelisted or new user not whitelisted show claim
+  //otherwise show countdown
+  if (entitlement) {
+    return (
       <ButtonAmountToClaim
         styles={styles}
         entitlement={entitlement}
         isCitizen={isCitizen}
         showLabelOnly={showLabelOnly}
       />
-    ) : (
-      <ButtonCountdown styles={styles} nextClaim={nextClaim} />
     )
   }
-  return (
-    <ButtonAmountToClaim
-      styles={styles}
-      entitlement={entitlement}
-      isCitizen={isCitizen}
-      showLabelOnly={showLabelOnly}
-    />
-  )
+  return <ButtonCountdown styles={styles} nextClaim={nextClaim} />
 }
 
 const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly }) => (
   <CustomButton
     testId="claim_button"
     compact={true}
-    disabled={entitlement <= 0}
     mode="contained"
     onPress={onPress}
     style={[styles.minButtonHeight, isCitizen && !entitlement ? styles.buttonCountdown : {}, style]}

@@ -7,13 +7,12 @@ import HomePage from '../PageObjects/HomePage'
 
 describe('Test case 1: Ability to Sign Up', () => {
   it('User is not able to sign up the wallet with wrong values', () => {
-    cy.visit(Cypress.env('baseUrl') + '?paymentCode=1234567asQ3')
-    StartPage.continueOnWebButton.click()
+    cy.visit(Cypress.env('baseUrl'))
     StartPage.createWalletButton.click()
     SignUpPage.pageHeader.should('contain', 'Sign Up')
     SignUpPage.nameInput.should('be.visible')
-    SignUpPage.nextButton.should('be.visible')
-
+    SignUpPage.nextButton.should('not.be.enabled')
+    //SignUpPage.nextButton.should('be.visible')
     SignUpPage.nameInput.type('Name')
     SignUpPage.invalidValueErrorMessage1.should('exist')
     SignUpPage.nameInput.clear()
@@ -31,12 +30,11 @@ describe('Test case 1: Ability to Sign Up', () => {
   })
 
   it('User is able to sign up the wallet with correct values', () => {
-    cy.visit(Cypress.env('baseUrl') + '?paymentCode=123', {
+    cy.visit(Cypress.env('baseUrl'), {
       onBeforeLoad(win) {
         delete win.navigator.__proto__.serviceWorker
       },
     })
-    StartPage.continueOnWebButton.click()
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')
     SignUpPage.nameInput.type(Cypress.env('usernameForRegistration'))
@@ -86,9 +84,9 @@ describe('Test case 1: Ability to Sign Up', () => {
     //   })
     // })
     HomePage.optionsButton.click()
-    cy.contains('Ok').click()
+    //cy.contains('Ok').click()
     HomePage.deleteAccountButton.click()
     HomePage.confirmDeletionButton.click()
-    StartPage.continueOnWebButton.should('be.visible')
+    StartPage.createWalletButton.should('be.visible')
   })
 })

@@ -178,19 +178,20 @@ const Claim = props => {
   const handleClaim = async () => {
     setLoading(true)
 
-    showDialog({
-      image: <LoadingIcon />,
-      loading,
-      message: 'please wait while processing...',
-      showButtons: false,
-      title: `YOUR MONEY\nIS ON ITS WAY...`,
-    })
     try {
       //when we come back from FR entitelment might not be set yet
       const curEntitlement = state.entitlement || (await goodWallet.checkEntitlement().toNumber())
       if (curEntitlement === 0) {
         return
       }
+
+      showDialog({
+        image: <LoadingIcon />,
+        loading,
+        message: 'please wait while processing...',
+        showButtons: false,
+        title: `YOUR MONEY\nIS ON ITS WAY...`,
+      })
 
       let txHash
 
@@ -230,22 +231,26 @@ const Claim = props => {
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
-        showErrorDialog('Claim request failed', 'CLAIM-1', { boldMessage: 'Try again later.' })
+        showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
       }
     } catch (e) {
-      fireEvent(CLAIM_FAILED, { txError: true })
+      fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
       log.error('claiming failed', e.message, e)
-      showErrorDialog('Claim request failed', 'CLAIM-2', { boldMessage: 'Try again later.' })
+      showErrorDialog('Claim request failed', '', { boldMessage: 'Try again later.' })
     } finally {
       setLoading(false)
     }
   }
 
   const faceRecognition = () => {
-    //await handleClaim()
-    //temporary solution in the zero phase, for the situation when the user is not in the whitelist.
-    if (Config.isPhaseZero) {
+    //if user is not in whitelist and we do not do faceverification then this is an error
+    if (Config.zoomLicenseKey == null) {
       showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
+      log.error(
+        'User isnt whitelisted by faceverification disabled',
+        'User isnt whitelisted by faceverification disabled',
+        new Error('User isnt whitelisted by faceverification disabled')
+      )
     } else {
       screenProps.push('FaceVerificationIntro', { from: 'Claim' })
     }

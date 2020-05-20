@@ -78,7 +78,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
           </View>
         </Section.Row>
         <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.descriptionWrap]}>
-          <View style={styles.bottomContainer}>
+          <View style={[styles.bottomContainer, styles.width100p]}>
             <Text fontSize={14} lineHeight={16} fontFamily="Roboto" color="gray80Percent">
               {`A verification code will be sent to this ${sendToText}:`}
             </Text>
@@ -127,6 +127,9 @@ const getStylesFromProps = ({ theme }) => ({
   cancelButton: {
     width: '28%',
     fontSize: normalize(14),
+  },
+  width100p: {
+    width: '100%',
   },
 })
 

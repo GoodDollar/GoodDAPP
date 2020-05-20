@@ -159,11 +159,8 @@ const getStylesFromProps = ({ theme }) => ({
     width: maxScreenWidth,
   },
   flatList: {
-    transform: [
-      {
-        translateY: 1,
-      },
-    ],
+    // transform: 'translateY(1px)', //Do not delete, this repairs horizontal feed scrolling
+    transform: [{ translateY: '1' }], //Do not delete, this repairs horizontal feed scrolling
   },
 })
 

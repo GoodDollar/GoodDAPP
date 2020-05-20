@@ -13,7 +13,7 @@ class AnimationBase extends React.Component {
     this.onUnmount && this.onUnmount()
   }
 
-  initAnimation() {
+  initAnimation = () => {
     if (this.anim) {
       this.onMount && this.onMount()
     } else {
@@ -24,10 +24,6 @@ class AnimationBase extends React.Component {
   }
 
   setAnim = anim => (this.anim = anim)
-
-  improveAnimationData = animationData => {
-    return JSON.parse(JSON.stringify(animationData))
-  }
 }
 
 export default AnimationBase

@@ -80,8 +80,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
-  const isW3User = w3UserFromProps.email
-  const skipEmail = isRegMethodSelfCustody === false || isW3User
+  const skipEmail = !!w3UserFromProps.email || !!torusUserFromProps.email
 
   const initialState: SignupState = {
     ...getUserModel({

@@ -188,7 +188,8 @@ const CodeAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFini
 
 const getStylesFromProps = ({ theme }) => ({
   row: {
-    marginVertical: theme.sizes.defaultDouble,
+    marginTop: theme.sizes.defaultDouble,
+    marginBottom: theme.sizes.defaultDouble,
   },
   errorStyle: {
     borderBottomWidth: 1,

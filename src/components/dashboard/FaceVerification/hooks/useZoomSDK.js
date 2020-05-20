@@ -1,20 +1,77 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { noop } from 'lodash'
 
 import Config from '../../../../config/config'
-import useMountedState from '../../../../lib/hooks/useMountedState'
+import logger from '../../../../lib/logger/pino-logger'
+import { ZoomSDK } from '../sdk/ZoomSDK'
+import { kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
-// Zoom SDK reference
-const sdk = global.ZoomAuthentication.ZoomSDK
+const log = logger.child({ from: 'useZoomSDK' })
 
-export const {
-  // SDK initialization status codes enum
-  ZoomSDKStatus,
+const ZoomGlobalState = {
+  zoomSDKPreloaded: false,
+  zoomUnrecoverableError: null,
+}
 
-  // Helper function, returns full description
-  // for SDK initialization status specified
-  getFriendlyDescriptionForZoomSDKStatus,
-} = sdk
+/**
+ * ZoomSDK preloading helper
+ * Preloads SDK and longs success/failiure state
+ *
+ * @param {Object} logger Custom Pino logger child instance to use for logging
+ * @returns {Promise}
+ */
+export const preloadZoomSDK = async (logger = log) => {
+  const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
+
+  logger.debug('Pre-loading Zoom SDK')
+
+  try {
+    if (zoomSDKPreloaded) {
+      return
+    }
+
+    if (zoomUnrecoverableError) {
+      throw zoomSDKPreloaded
+    }
+
+    await ZoomSDK.preload()
+
+    ZoomGlobalState.zoomSDKPreloaded = true
+    logger.debug('Zoom SDK is preloaded')
+  } catch (exception) {
+    const { message } = exception
+
+    logger.error('preloading zoom failed', message, exception)
+  }
+}
+
+/**
+ * ZoomSDK unloading helper
+ * Unloads SDK and longs success/failiure state
+ *
+ * @param {Object} logger Custom Pino logger child instance to use for logging
+ * @returns {Promise}
+ */
+export const unloadZoomSDK = async (logger = log) => {
+  const { zoomSDKPreloaded } = ZoomGlobalState
+
+  logger.debug('Unloading Zoom SDK')
+
+  try {
+    if (!zoomSDKPreloaded) {
+      return
+    }
+
+    await ZoomSDK.unload()
+
+    ZoomGlobalState.zoomSDKPreloaded = false
+    logger.debug('Zoom SDK is unloaded')
+  } catch (exception) {
+    const { message } = exception
+
+    logger.error('unloading zoom failed', message, exception)
+  }
+}
 
 /**
  * ZoomSDK initialization hook
@@ -23,24 +80,9 @@ export const {
  * @property {() => void} config.onInitialized - SDK initialized callback
  * @property {() => void} config.onError - SDK error callback
  *
- * @return {object} result Public hook API
- * @property {typeof ZoomSDK} result.sdk - ZoomSDK reference
- * @property {boolean} result.isInitialized - Initialization state flag
- * @property {Error | null} result.initError - Initialization error (if happened)
+ * @return {void}
  */
 export default ({ onInitialized = noop, onError = noop }) => {
-  // Initialization state flag
-  const [isInitialized, setInitialized] = useState(false)
-
-  // Initialization error state variable
-  const [initError, setInitError] = useState(null)
-
-  // Component mounted flag ref, it needs to check
-  // is component still mounted before update it's state
-  // This check is needed as onInitialized/onError could
-  // perform redirects which unmounts component
-  const mountedStateRef = useMountedState()
-
   // Configuration callbacks refs
   const onInitializedRef = useRef(null)
   const onErrorRef = useRef(null)
@@ -55,84 +97,61 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    // current ZoomSDK initialization status code
-    let sdkStatus = sdk.getStatus()
-
     // Helper for handle exceptions
-    const handleException = exception => {
+    const handleException = async exception => {
+      const { message, name } = exception
+
+      // if name is set - that means error was rethrown
+      // otherwise we should determine kind of the issue
+      if (!name) {
+        // the following code is needed to categorize exceptions
+        // then we could display specific error messages
+        // corresponding to the kind of issue (camera, orientation etc)
+        const kindOfTheIssue = kindOfSDKIssue(exception)
+
+        if (kindOfTheIssue) {
+          exception.name = kindOfTheIssue
+        }
+
+        // if some unrecoverable error happens
+        if ('UnrecoverableError' === kindOfTheIssue) {
+          // setting exception in the global state
+          ZoomGlobalState.zoomUnrecoverableError = exception
+
+          // unloading SDK to free resources
+          await unloadZoomSDK()
+        }
+      }
+
       // executing current onError callback
       onErrorRef.current(exception)
+      log.error('Zoom initialization failed', message, exception)
+    }
 
-      // if component is still mounted -
-      if (mountedStateRef.current) {
-        // updating initError state variable
-        setInitError(exception)
+    const initializeSdk = async () => {
+      const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
+
+      try {
+        log.debug('Initializing ZoomSDK')
+
+        if (zoomUnrecoverableError) {
+          throw zoomUnrecoverableError
+        }
+
+        // Initializing ZoOm
+        // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
+        await ZoomSDK.initialize(Config.zoomLicenseKey, !zoomSDKPreloaded)
+
+        // Executing onInitialized callback
+        onInitializedRef.current()
+        log.debug('ZoomSDK is ready')
+      } catch (exception) {
+        // handling initialization exceptions
+        await handleException(exception)
       }
     }
 
-    // Helper for handle SDK status code changes
-    const handleSdkStatus = () => {
-      // Checking is ZoomSDK successfullt initialized
-      const sdkInitialized = ZoomSDKStatus.Initialized === sdkStatus
-
-      // if not initialized - throwing an Error
-      if (!sdkInitialized) {
-        // retrieving full description from status code
-        const exception = new Error(getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
-
-        // adding status code as error's object property
-        exception.code = sdkStatus
-
-        // handling an error
-        handleException(exception)
-        return
-      }
-
-      // otherwise - executing onInitialized callback
-      onInitializedRef.current()
-
-      // and updating isInitialized state flag
-      // (if component is still mounted)
-      if (mountedStateRef.current) {
-        setInitialized(sdkInitialized)
-      }
-    }
-
-    // checking the last retrieved status code
-    // if Zoom was initialized successfully,
-    // then just handling status & executing
-    // onInitialized callback
-    if (ZoomSDKStatus.Initialized === sdkStatus) {
-      handleSdkStatus()
-      return
-    }
-
-    // otherwise, performing initialization:
-
-    // 1. setting a the directory path for other ZoOm Resources.
-    sdk.setResourceDirectory('/zoom/resources')
-
-    // 2. setting the directory path for required ZoOm images.
-    sdk.setImagesDirectory('/zoom/images')
-
-    try {
-      // 3. initializing ZoOm and configuring the UI features.
-      sdk.initialize(Config.zoomLicenseKey, () => {
-        // updating & handling ZoomSDK status code
-        sdkStatus = sdk.getStatus()
-        handleSdkStatus()
-      })
-    } catch (exception) {
-      // handling initialization exceptions
-      // (some of them could be thrown during initialize() call)
-      handleException(exception)
-    }
+    // starting initialization
+    initializeSdk()
   }, [])
-
-  // exposing public hook API
-  return {
-    sdk,
-    isInitialized,
-    initError,
-  }
 }

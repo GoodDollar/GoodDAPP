@@ -6,7 +6,6 @@ import { withStyles } from '../../../lib/styles'
 const statusLabel = {
   sendpending: 'Payment Pending...',
   sendcancelled: 'Payment Cancelled',
-  sendcompleted: 'Payment Completed!',
 }
 
 const PaymentStatus = ({ item, styles }) =>

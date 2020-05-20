@@ -32,7 +32,7 @@ const UnsupportedScreen = ({ styles, screenProps }) => {
   useEffect(() => {
     const generateQRCode = async () => {
       const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-      const redirect = encodeURI('/AppNavigation/Dashboard/IntroScreen')
+      const redirect = encodeURIComponent('/AppNavigation/Dashboard/IntroScreen')
       const url = `${Config.publicUrl}/Auth/Recover/?mnemonic=${mnemonic}&redirect=${redirect}`
       const code = encodeURI(url)
 

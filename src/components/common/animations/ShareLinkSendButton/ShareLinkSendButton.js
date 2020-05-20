@@ -1,9 +1,12 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
+import { cloneDeep } from 'lodash'
+
 import AnimationBase from '../Base'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
+
 import animationData from './data.json'
 
 class ShareLinkSendButton extends AnimationBase {
@@ -47,7 +50,7 @@ class ShareLinkSendButton extends AnimationBase {
         <Lottie
           ref={this.setAnim}
           loop={false}
-          source={this.improveAnimationData(animationData)}
+          source={cloneDeep(animationData)}
           onAnimationFinish={isMobileReactNative && this.onAnimationFinish}
           style={{
             width: '100%',

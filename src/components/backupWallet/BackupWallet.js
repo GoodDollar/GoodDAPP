@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import Clipboard from '../../lib/utils/Clipboard'
+import useClipboard from '../../lib/hooks/useClipboard'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -28,6 +28,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   const [showErrorDialog] = useErrorDialog()
   const [mnemonics, setMnemonics] = useState('')
   const API = useWrappedApi()
+  const { setString } = useClipboard()
 
   const getMnemonicsValue = async () => {
     const currentMnemonics = await getMnemonicsObject()
@@ -61,12 +62,14 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
 
   const setClipboard = async () => {
     const currentMnemonics = await getMnemonics()
-    fireEvent(PHRASE_BACKUP, { method: 'copy' })
-    Clipboard.setString(currentMnemonics)
-    showDialogWithData({
-      title: 'Copy all to clipboard',
-      message: 'The backup phrase has been copied to the clipboard',
-    })
+
+    if (setString(currentMnemonics)) {
+      fireEvent(PHRASE_BACKUP, { method: 'copy' })
+      showDialogWithData({
+        title: 'Copy all to clipboard',
+        message: 'The backup phrase has been copied to the clipboard',
+      })
+    }
   }
 
   return (

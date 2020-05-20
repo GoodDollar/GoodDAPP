@@ -293,10 +293,7 @@ const routes = {
   PrivacyPolicyAndTerms,
   PrivacyPolicy,
   Support: SupportForUnsigned,
-}
-
-if (config.enableSelfCustody) {
-  Object.assign(routes, { Recover })
+  Recover,
 }
 
 export default createStackNavigator(routes, { backRouteName: 'Auth' })

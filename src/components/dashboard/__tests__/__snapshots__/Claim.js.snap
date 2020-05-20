@@ -386,12 +386,17 @@ UBI on a global scale.
                       Object {
                         "WebkitAlignItems": "center",
                         "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "vertical",
                         "WebkitBoxPack": "center",
+                        "WebkitFlexDirection": "column",
                         "WebkitJustifyContent": "center",
                         "alignItems": "center",
                         "display": "flex",
+                        "flexDirection": "column",
                         "justifyContent": "center",
                         "msFlexAlign": "center",
+                        "msFlexDirection": "column",
                         "msFlexPack": "center",
                       }
                     }
@@ -401,20 +406,208 @@ UBI on a global scale.
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(255,255,255,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "40px",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
                           "fontWeight": "700",
-                          "lineHeight": "48px",
+                          "letterSpacing": "0.14px",
+                          "lineHeight": "22px",
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
                         }
                       }
                     >
-                      Claim
+                      Your next daily claim:
                     </span>
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxFlex": 1,
+                          "WebkitBoxOrient": "horizontal",
+                          "WebkitBoxPack": "center",
+                          "WebkitFlexDirection": "row",
+                          "WebkitFlexGrow": 1,
+                          "WebkitJustifyContent": "center",
+                          "alignItems": "center",
+                          "display": "inline-flex",
+                          "flexDirection": "row",
+                          "flexGrow": 1,
+                          "justifyContent": "center",
+                          "minHeight": "53px",
+                          "msFlexAlign": "center",
+                          "msFlexDirection": "row",
+                          "msFlexPack": "center",
+                          "msFlexPositive": 1,
+                        }
+                      }
+                    >
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(255,255,255,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "36px",
+                            "fontWeight": "700",
+                            "lineHeight": "30px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                            "width": "25px",
+                          }
+                        }
+                      >
+                        -
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(255,255,255,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "36px",
+                            "fontWeight": "700",
+                            "lineHeight": "30px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                            "width": "25px",
+                          }
+                        }
+                      >
+                        -
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(255,255,255,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "36px",
+                            "fontWeight": "700",
+                            "lineHeight": "30px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                            "width": "10px",
+                          }
+                        }
+                      >
+                        :
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(255,255,255,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "36px",
+                            "fontWeight": "700",
+                            "lineHeight": "30px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                            "width": "25px",
+                          }
+                        }
+                      >
+                        -
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(255,255,255,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "36px",
+                            "fontWeight": "700",
+                            "lineHeight": "30px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                            "width": "25px",
+                          }
+                        }
+                      >
+                        -
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(255,255,255,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "36px",
+                            "fontWeight": "700",
+                            "lineHeight": "30px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                            "width": "10px",
+                          }
+                        }
+                      >
+                        :
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(255,255,255,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "36px",
+                            "fontWeight": "700",
+                            "lineHeight": "30px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                            "width": "25px",
+                          }
+                        }
+                      >
+                        -
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(255,255,255,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "36px",
+                            "fontWeight": "700",
+                            "lineHeight": "30px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                            "width": "25px",
+                          }
+                        }
+                      >
+                        -
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -153,15 +153,11 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
     //if readMore is exactly false we dont show anything
     result = ''
   } else {
-    switch (feed.type) {
-      default:
-        result = (
-          <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
-            {feed.data.message}
-          </Text>
-        )
-        break
-    }
+    result = (
+      <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
+        {feed.data.message}
+      </Text>
+    )
   }
   return result
 })

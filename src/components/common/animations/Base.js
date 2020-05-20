@@ -35,7 +35,7 @@ class AnimationBase extends React.Component {
       if (typeof result === undefined) {
         throw new Error()
       }
-    } catch (e) {
+    } catch {
       result = cloneDeep(animationData)
     }
 

@@ -37,7 +37,6 @@ const SplashOrRouter = memo(({ store }) => {
 })
 
 const App = () => {
-  log.debug({ Config })
   const store = SimpleStore.useStore()
   useEffect(() => {
     const onUpdate = reg => {

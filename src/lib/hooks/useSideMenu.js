@@ -11,7 +11,6 @@ import { useWrappedApi } from '../API/useWrappedApi'
 
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../lib/constants/localStorage'
-import isWebApp from '../../lib/utils/isWebApp'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 export default (props = {}) => {
@@ -130,10 +129,7 @@ export default (props = {}) => {
           slideOut()
         },
       },
-    ]
-
-    if (!isWebApp) {
-      items.push({
+      {
         icon: 'logout',
         name: 'Logout',
         action: () => {
@@ -142,8 +138,9 @@ export default (props = {}) => {
           window.location = '/'
           slideOut()
         },
-      })
-    }
+      },
+    ]
+
     return items
   }, [isSelfCustody, slideOut, navigation, store])
 

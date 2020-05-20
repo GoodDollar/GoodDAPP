@@ -65,7 +65,7 @@ export const unloadZoomSDK = async (logger = log) => {
     await ZoomSDK.unload()
 
     ZoomGlobalState.zoomSDKPreloaded = false
-    logger.debug('Zoom SDK is umloaded')
+    logger.debug('Zoom SDK is unloaded')
   } catch (exception) {
     const { message } = exception
 

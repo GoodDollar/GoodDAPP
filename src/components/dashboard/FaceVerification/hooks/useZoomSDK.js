@@ -15,9 +15,9 @@ const ZoomGlobalState = {
 
 /**
  * ZoomSDK preloading helper
- * Preloads SDK and longs success/failiure stage
+ * Preloads SDK and longs success/failiure state
  *
- * @param {Object} logger Custom Pino logger chuld instance to use for logging
+ * @param {Object} logger Custom Pino logger child instance to use for logging
  * @returns {Promise}
  */
 export const preloadZoomSDK = async (logger = log) => {
@@ -42,6 +42,34 @@ export const preloadZoomSDK = async (logger = log) => {
     const { message } = exception
 
     logger.error('preloading zoom failed', message, exception)
+  }
+}
+
+/**
+ * ZoomSDK unloading helper
+ * Unloads SDK and longs success/failiure state
+ *
+ * @param {Object} logger Custom Pino logger child instance to use for logging
+ * @returns {Promise}
+ */
+export const unloadZoomSDK = async (logger = log) => {
+  const { zoomSDKPreloaded } = ZoomGlobalState
+
+  logger.debug('Unloading Zoom SDK')
+
+  try {
+    if (!zoomSDKPreloaded) {
+      return
+    }
+
+    await ZoomSDK.unload()
+
+    ZoomGlobalState.zoomSDKPreloaded = false
+    logger.debug('Zoom SDK is umloaded')
+  } catch (exception) {
+    const { message } = exception
+
+    logger.error('unloading zoom failed', message, exception)
   }
 }
 
@@ -91,8 +119,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
           ZoomGlobalState.zoomUnrecoverableError = exception
 
           // unloading SDK to free resources
-          await ZoomSDK.unload()
-          ZoomGlobalState.zoomSDKPreloaded = false
+          await unloadZoomSDK()
         }
       }
 

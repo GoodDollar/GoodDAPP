@@ -1,9 +1,13 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { HelperText, TextInput } from 'react-native-paper'
+
 import Icon from '../view/Icon'
-import Clipboard from '../../../lib/utils/Clipboard'
+
 import logger from '../../../lib/logger/pino-logger'
+
+import useClipboardPaste from '../../../lib/hooks/useClipboardPaste'
+
 const log = logger.child({ from: 'InputRecipient' })
 
 /**
@@ -16,14 +20,7 @@ const log = logger.child({ from: 'InputRecipient' })
  */
 const InputRecipient = props => {
   const { onBlur, onChangeText, to, error } = props
-  const pasteToWho = async () => {
-    try {
-      const who = await Clipboard.getString()
-      onChangeText(who)
-    } catch (e) {
-      log.error('Paste action failed', e.message, e)
-    }
-  }
+  const pasteToWho = useClipboardPaste(onChangeText, log)
 
   return (
     <View style={styles.iconInputContainer}>

@@ -1,9 +1,10 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity, View, Platform } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 type Props = {
   disabled?: boolean,
@@ -13,43 +14,37 @@ type Props = {
   theme: any,
 }
 
-const ScanQRButton = ({ onPress, styles, theme, ...screenProps }: Props) => {
-  const { disabled, style = {} } = screenProps
-  return (
-    <TouchableOpacity style={[styles.row, style.row]} onPress={disabled ? undefined : onPress}>
-      <Text color="darkBlue" fontSize={14} fontWeight="medium">
+const ScanQRButton = ({ onPress, styles, theme, disabled, style = {} }: Props) => (
+  <TouchableOpacity style={style.row} onPress={disabled ? undefined : onPress}>
+    <View style={styles.buttonContainer}>
+      <View style={styles.iconWrapper}>
+        <Icon name="qrcode" color="white" size={22} />
+      </View>
+      <Text color="darkBlue" fontSize={10} fontWeight="medium" lineHeight={11} style={styles.text}>
         Scan QR Code
       </Text>
-      <View style={styles.iconWrapper}>
-        <Icon name="qrcode" color="white" size={28} />
-      </View>
-    </TouchableOpacity>
-  )
-}
+    </View>
+  </TouchableOpacity>
+)
 
 const mapPropsToStyle = ({ theme }) => ({
-  row: {
-    cursor: 'pointer',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: 0,
-  },
   iconWrapper: {
     backgroundColor: theme.colors.darkBlue,
     borderRadius: Platform.select({
-      default: 42 / 2,
+      default: 21,
       web: '50%',
     }),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 42,
-    width: 42,
-    marginLeft: theme.sizes.default,
+    height: 30,
+    width: 30,
+    marginBottom: 5,
   },
-  icon: {
-    backgroundColor: 'white',
+  buttonContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: getDesignRelativeWidth(20),
   },
 })
 

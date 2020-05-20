@@ -75,7 +75,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
         <Text grow fontWeight="bold" fontSize={16} style={styles.instructions}>
           {'please save your 12-word pass phrase\n'}
           <Text grow fontSize={16} style={styles.instructions}>
-            {'and keep it in a secure location\n' + 'so you can recover your wallet anytime'}
+            {'and keep it in a secure location\nso you can recover your wallet anytime'}
           </Text>
         </Text>
         <Section.Stack grow justifyContent="space-between" style={styles.inputsContainer}>

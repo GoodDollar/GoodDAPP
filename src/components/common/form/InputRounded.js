@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { TextInput, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
@@ -13,16 +13,20 @@ import ErrorText from './ErrorText'
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
-const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChange, ...inputProps }) => {
-  const handleChange = value => {
-    onChange(value)
-  }
+const InputRounded = ({ styles, containerStyle, theme, icon, iconSize, iconColor, error, onChange, ...inputProps }) => {
+  const handleChange = useCallback(
+    event => {
+      onChange(event.target.value)
+    },
+    [onChange]
+  )
+
   return (
     <View style={styles.inputContainer}>
       <View
         style={[
-          styles.wrapperStyle,
           inputProps.disabled ? styles.inputText : error ? styles.errorInputContainer : styles.iconInputContainer,
+          containerStyle,
         ]}
       >
         <TextInput
@@ -40,7 +44,7 @@ const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChang
           />
         </View>
       </View>
-      {!inputProps.disabled && <ErrorText error={error} style={styles.errorMargin} />}
+      {!inputProps.disabled && !!error && <ErrorText error={error} style={styles.errorMargin} />}
     </View>
   )
 }
@@ -76,6 +80,10 @@ const getStylesFromProps = ({ theme, disabled }) => {
     iconInputContainer: {
       ...defaultInputContainer,
       borderColor: theme.colors.lightGray,
+      marginTop: 2,
+      marginBottom: 2,
+      paddingTop: 2,
+      paddingBottom: 2,
     },
     inputText: {
       ...defaultInputContainer,
@@ -85,6 +93,10 @@ const getStylesFromProps = ({ theme, disabled }) => {
       borderTopColor: theme.colors.lightGray,
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,
+      marginBottom: 2,
+      marginTop: 2,
+      paddingTop: 2,
+      paddingBottom: 2,
     },
     input,
     inputError: {

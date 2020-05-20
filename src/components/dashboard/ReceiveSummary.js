@@ -4,15 +4,15 @@ import { Platform, View } from 'react-native'
 import { isMobile } from '../../lib/utils/platform'
 import { Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { PushButton } from '../appNavigation/PushButton'
-
+import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode } from '../../lib/share'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
+import useNativeSharing from '../../lib/hooks/useNativeSharing'
+import GDStore from '../../lib/undux/GDStore'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -21,24 +21,30 @@ export type ReceiveProps = {
   theme: any,
 }
 
-const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
+const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
+  const gdStore = GDStore.useStore()
   const [screenState] = useScreenState(screenProps)
-  const { params } = props.navigation.state
+  const { canShare, generateReceiveShareObject, generateReceiveShareText } = useNativeSharing()
 
+  const { fullName } = gdStore.get('profile')
+  const { account, networkId } = goodWallet
   const { amount, reason, counterPartyDisplayName } = screenState
 
-  const { account, networkId } = goodWallet
-  const codeObj = useMemo(() => generateCode(account, networkId, amount, reason, counterPartyDisplayName), [
-    account,
-    networkId,
-    amount,
-    reason,
-    counterPartyDisplayName,
-  ])
+  const codeSource = [account, networkId, amount, reason, counterPartyDisplayName]
+  const codeObject = useMemo(() => generateCode(...codeSource), [generateCode, ...codeSource])
+
+  const shareStringSource = [codeObject, amount, counterPartyDisplayName, fullName]
+  const shareString = useMemo(
+    () => (canShare ? generateReceiveShareObject : generateReceiveShareText)(...shareStringSource),
+    [...shareStringSource, canShare, generateReceiveShareObject, generateReceiveShareText]
+  )
+
+  const iconMarginWithoutReason = useMemo(() => {
+    return isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds
+  }, [styles])
+  const amountMargin = useMemo(() => (isMobile ? styles.amountBlockMarginMobile : styles.amountBlockMargin), [styles])
 
   const noCreds = !(counterPartyDisplayName || reason)
-  const iconMarginWithoutReason = isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds
-  const amountMargin = isMobile ? styles.amountBlockMarginMobile : styles.amountBlockMargin
 
   return (
     <Wrapper>
@@ -72,24 +78,24 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
           ) : (
             <Section.Stack style={amountMargin}>
               <Section.Row justifyContent="center">
-                <View style={styles.sendIconWrapper}>
+                <View style={[styles.sendIconWrapper, iconMarginWithoutReason]}>
                   <Icon name="receive" size={getDesignRelativeHeight(45)} color="white" />
                 </View>
               </Section.Row>
               <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
-              <Section.Row justifyContent="center" fontWeight="medium" style={styles.amountWrapper}>
+              <Section.Title fontWeight="medium" style={styles.amountWrapper}>
                 <BigGoodDollar
                   number={amount}
                   color="green"
                   bigNumberProps={{
                     fontSize: 36,
-                    lineHeight: 36,
+                    lineHeight: 24,
                     fontFamily: 'Roboto Slab',
                     fontWeight: 'bold',
                   }}
                   bigNumberUnitProps={{ fontSize: 14 }}
                 />
-              </Section.Row>
+              </Section.Title>
             </Section.Stack>
           )}
           <Section.Stack>
@@ -122,13 +128,12 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <PushButton
-              routeName="ReceiveConfirmation"
+            <NextButton
               screenProps={screenProps}
-              params={{ reason, amount, code: codeObj, counterPartyDisplayName, params }}
-            >
-              Confirm
-            </PushButton>
+              values={{ ...screenState, paymentLink: shareString }}
+              nextRoutes={screenState.nextRoutes}
+              label={'Confirm'}
+            />
           </Section.Stack>
         </Section.Row>
       </Section>

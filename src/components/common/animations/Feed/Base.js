@@ -10,20 +10,22 @@ class FeedInfo extends AnimationBase {
   }
 
   onMount() {
-    const { delay = 0, asImage } = this.props
+    const { delay = 0, showAnim } = this.props
+    const { isWeb } = this.state
 
     this.anim.onComplete = this.onAnimationFinishHandler
 
-    if (asImage) {
-      const lastFrame = Number(this.animationData.op) - 1
-
-      if (this.state.isWeb) {
-        this.anim.goToAndStop(lastFrame, true)
-      } else {
-        this.anim.play(lastFrame - 1, lastFrame)
-      }
-    } else {
+    if (showAnim) {
+      // play animation
       setTimeout(() => this.anim.play(), delay)
+    } else if (isWeb) {
+      // web show static image
+      const lastFrame = Number(this.animationData.op) - 1
+      this.anim.goToAndStop(lastFrame, true)
+    } else {
+      // react native app show static image
+      const lastFrame = Number(this.animationData.op) - 1
+      this.anim.play(lastFrame - 1, lastFrame)
     }
   }
 
@@ -59,7 +61,7 @@ class FeedInfo extends AnimationBase {
       <View style={style}>
         <Lottie
           ref={this.setAnim}
-          source={this.animationData}
+          source={this.improveAnimationData(this.animationData)}
           style={{
             height: '100%',
             width: '100%',

@@ -19,7 +19,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 const TITLE = 'EASY ACCESS'
 const log = logger.child({ from: TITLE })
 
-const Mnemonics = ({ screenProps, navigation, styles }) => {
+const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const [code, setCode] = useState()
   const [isRecovering, setRecovering] = useState(false)
@@ -92,13 +92,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         </Section.Stack>
         <Section.Stack justifyContent="space-between">
           <Section.Row justifyContent="center">
-            <InputText
-              value={code}
-              onChangeText={handleChange}
-              onKeyPress={handleEnter}
-              onCleanUpField={handleChange}
-              autoFocus
-            />
+            <InputText value={code} onChangeText={handleChange} onKeyPress={handleEnter} showCleanAdornment autoFocus />
           </Section.Row>
         </Section.Stack>
         <View style={styles.image}>
@@ -114,7 +108,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   )
 }
 
-Mnemonics.navigationOptions = {
+IOSWebAppSignIn.navigationOptions = {
   title: TITLE,
 }
 
@@ -130,7 +124,8 @@ const mnemonicsStyles = ({ theme }) => ({
     marginTop: getDesignRelativeHeight(10),
   },
   buttonLayout: {
-    marginVertical: getDesignRelativeHeight(20),
+    marginTop: getDesignRelativeHeight(20),
+    marginBottom: getDesignRelativeHeight(20),
   },
   bottomContainer: {
     maxHeight: getDesignRelativeHeight(100),
@@ -145,4 +140,4 @@ const mnemonicsStyles = ({ theme }) => ({
   },
 })
 
-export default withStyles(mnemonicsStyles)(Mnemonics)
+export default withStyles(mnemonicsStyles)(IOSWebAppSignIn)

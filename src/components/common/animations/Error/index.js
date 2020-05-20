@@ -22,7 +22,8 @@ const styles = {
   },
   web: {
     width: 200,
-    paddingVertical: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
     marginHorizontal: 'auto',
   },
 }
@@ -35,7 +36,7 @@ class Error extends AnimationBase {
           imageAssetsFolder={imageAssetsFolder}
           enableMergePathsAndroidForKitKatAndAbove={true}
           autoPlay={true}
-          source={animationData}
+          source={this.improveAnimationData(animationData)}
           autoSize={false}
           loop={false}
         />

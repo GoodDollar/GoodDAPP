@@ -7,27 +7,38 @@ import isWebApp from './lib/utils/isWebApp'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import { extractQueryParams } from './lib/share'
 import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
+import logger from './lib/logger/pino-logger'
+
+const log = logger.child({ from: 'init' })
+
+let initialized = false
 
 export const init = () => {
   return Promise.all([goodWallet.ready, userStorage.ready]).then(async () => {
-    global.wallet = goodWallet
-
-    // set wallet to simple storage so we can use it in InternetConnection
-    setWallet(goodWallet)
-
-    // set userStorage to simple storage
-    setUserStorage(userStorage)
-    await initAnalytics(goodWallet, userStorage)
-
+    log.debug('wallet and storage ready, initializing analytics', { initialized })
     let source = 'none'
+    if (initialized === false) {
+      global.wallet = goodWallet
 
-    // FIXME RN INAPPLINKS
-    if (Platform.OS === 'web') {
-      const params = extractQueryParams(window.location.href)
-      source = Object.keys(pick(params, ['web3', 'paymentCode', 'code'])).pop() || source
+      // set wallet to simple storage so we can use it in InternetConnection
+      setWallet(goodWallet)
+
+      // set userStorage to simple storage
+      setUserStorage(userStorage)
+      await initAnalytics(goodWallet, userStorage)
+
+      let source = 'none'
+
+      // FIXME RN INAPPLINKS
+      if (Platform.OS === 'web') {
+        const params = extractQueryParams(window.location.href)
+        source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
+        source = Object.keys(pick(params, ['inviteCode', 'web3Token', 'paymentCode', 'code'])).pop() || source
+      }
+
+      fireEvent(APP_OPEN, { source, isWebApp })
+      initialized = true
     }
-
-    fireEvent(APP_OPEN, { source, isWebApp })
 
     return { goodWallet, userStorage, source }
   })

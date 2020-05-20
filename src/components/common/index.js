@@ -19,12 +19,15 @@ import NumPadKeyboard from './view/NumPadKeyboard'
 import QRCode from './view/QrCode/QRCode'
 import SaveButton from './buttons/SaveButton'
 import ScanQRButton from './buttons/ScanQRButton'
+import ReceiveToAddressButton from './buttons/ReceiveToAddressButton'
+import SendToAddressButton from './buttons/SendToAddressButton'
 import AwaitButton from './buttons/AwaitButton'
 import Section from './layout/Section'
 import ShareButton from './buttons/ShareButton'
 import Text from './view/Text'
 import UserAvatar from './view/UserAvatar'
 import Wrapper from './layout/Wrapper'
+import WrapperClaim from './layout/WrapperClaim'
 
 export {
   Address,
@@ -46,12 +49,15 @@ export {
   QRCode,
   SaveButton,
   ScanQRButton,
+  ReceiveToAddressButton,
+  SendToAddressButton,
   Section,
   ShareButton,
   Text,
   UserAvatar,
   Wrapper,
   AwaitButton,
+  WrapperClaim,
 }
 
 export type { ButtonProps }

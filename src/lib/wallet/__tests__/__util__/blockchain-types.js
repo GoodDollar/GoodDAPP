@@ -1,4 +1,17 @@
 // @flow
+/**
+ * @type
+ */
+export interface Log {
+  address: string;
+  data: string;
+  topics: string[];
+  logIndex: number;
+  transactionHash: string;
+  transactionIndex: number;
+  blockHash: string;
+  blockNumber: number;
+}
 
 /**
  * @type
@@ -66,20 +79,6 @@ export interface Logs {
   fromBlock?: number;
   address?: string;
   topics?: Array<string | string[]>;
-}
-
-/**
- * @type
- */
-export interface Log {
-  address: string;
-  data: string;
-  topics: string[];
-  logIndex: number;
-  transactionHash: string;
-  transactionIndex: number;
-  blockHash: string;
-  blockNumber: number;
 }
 
 /**

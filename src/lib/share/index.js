@@ -132,7 +132,8 @@ type ShareObject = {
 export function generateShareObject(title: string, message: string, url: string): ShareObject {
   return {
     title,
-    message: `${message} ${url}`,
+    message,
+    url,
   }
 }
 
@@ -165,7 +166,7 @@ export function generateReceiveShareObject(codeObj: any, amount: number, to: str
     to ? `${to}, ` : '',
     `You've got a request from ${from}`,
     amount > 0 ? ` for ${weiToGd(amount)} G$` : '',
-    `. To Transfer open:`,
+    `. To approve transfer open:`,
   ].join('')
 
   return generateShareObject('Sending G$ via GoodDollar App', text, url)
@@ -223,7 +224,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
   let queryParams = ''
 
-  if (Config.network === 'production') {
+  if (Config.enableShortUrl) {
     queryParams = `/${paramsBase64}`
   } else {
     queryParams = action === 'send' ? `?paymentCode=${paramsBase64}` : `?code=${paramsBase64}`

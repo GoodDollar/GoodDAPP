@@ -11,7 +11,7 @@ class Success extends AnimationBase {
         imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
         autoPlay={true}
-        source={animationData}
+        source={this.improveAnimationData(animationData)}
         autoSize={false}
         style={{
           paddingTop: 20,

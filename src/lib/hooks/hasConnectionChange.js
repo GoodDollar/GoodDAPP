@@ -1,4 +1,211 @@
-export { default as useConnectionWeb3 } from './useConnectionWeb3'
-export { default as useConnectionGun } from './useConnectionGun'
-export { default as useConnection } from './useConnection'
-export { default as useAPIConnection } from './useAPIConnection'
+import { useCallback, useEffect, useState } from 'react'
+import { NetInfo } from 'react-native'
+import Config from '../../config/config'
+import API from '../API/api'
+import { delay } from '../utils/async'
+import logger from '../logger/pino-logger'
+import SimpleStore from '../undux/SimpleStore'
+import useAppState from './useAppState'
+const log = logger.child({ from: 'hasConnectionChange' })
+
+export const useConnection = () => {
+  const [isConnection, setIsConnection] = useState(false)
+
+  NetInfo.isConnected.fetch().then(isConnectionNow => setIsConnection(isConnectionNow))
+
+  useEffect(() => {
+    NetInfo.isConnected.addEventListener('connectionChange', connection => {
+      setIsConnection(connection)
+    })
+  }, [])
+
+  return isConnection
+}
+
+let isFirstCheckWeb3 = false
+let isFirstCheckGun = false
+let needToBindEventsWeb3 = true
+let needToBindEventsGun = true
+export const useConnectionWeb3 = () => {
+  const [isConnection, setIsConnection] = useState(true)
+  const { appState } = useAppState()
+  const store = SimpleStore.useStore()
+  const wallet = store.get('wallet')
+  const isWeb3Connection = async () => {
+    if (wallet) {
+      log.debug('isWeb3Connection', isConnection)
+      if (!isFirstCheckWeb3) {
+        isFirstCheckWeb3 = true
+      }
+
+      //verify a blockchain method works ok (balanceOf)
+      if (
+        wallet.wallet.currentProvider.connected &&
+        (await wallet
+          .balanceOf()
+          .then(_ => true)
+          .catch(_ => false))
+      ) {
+        if (needToBindEventsWeb3) {
+          bindEvents('add')
+          needToBindEventsWeb3 = false
+        }
+        setIsConnection(true)
+      } else {
+        //if not connected and not reconnecting than try to force reconnect
+        if (wallet.wallet.currentProvider.reconnecting === false) {
+          wallet.wallet.currentProvider.reconnect()
+        }
+        setIsConnection(false)
+        if (!needToBindEventsWeb3) {
+          needToBindEventsWeb3 = true
+          bindEvents('remove')
+        }
+        setTimeout(isWeb3Connection, 1000)
+      }
+    } else {
+      setIsConnection(true)
+    }
+  }
+
+  const web3Close = useCallback(() => {
+    log.debug('web3 close')
+    isWeb3Connection()
+  }, [])
+
+  const web3Error = useCallback(() => {
+    log.debug('web3 error')
+    isWeb3Connection()
+  }, [])
+
+  const bindEvents = method => {
+    log.debug('web3 binding listeners')
+    const callMethod = method === 'remove' ? 'off' : 'on'
+    wallet.wallet.currentProvider[callMethod]('close', web3Close)
+    wallet.wallet.currentProvider[callMethod]('error', web3Error)
+  }
+
+  useEffect(() => {
+    if (wallet && appState === 'active') {
+      isWeb3Connection()
+    }
+
+    if (wallet && !isFirstCheckWeb3) {
+      isWeb3Connection()
+    }
+  }, [wallet, appState])
+
+  return isConnection
+}
+
+export const useConnectionGun = () => {
+  const [isConnection, setIsConnection] = useState(true)
+  const store = SimpleStore.useStore()
+  const userStorage = store.get('userStorage')
+  const { appState } = useAppState()
+  const isGunConnection = () => {
+    if (userStorage) {
+      if (!isFirstCheckGun) {
+        isFirstCheckGun = true
+      }
+
+      const instanceGun = userStorage.gun._
+      const connection = instanceGun.opt.peers[Config.gunPublicUrl]
+      log.debug('gun connection:', connection)
+      if (connection && connection.wire && connection.wire.readyState === connection.wire.OPEN) {
+        setIsConnection(true)
+        if (needToBindEventsGun) {
+          needToBindEventsGun = false
+          bindEvents('add')
+        }
+      } else {
+        setIsConnection(false)
+        if (!needToBindEventsGun) {
+          bindEvents('remove')
+          needToBindEventsGun = true
+        }
+        setTimeout(isGunConnection, 1000)
+      }
+    } else {
+      setIsConnection(true)
+    }
+  }
+
+  const gunClose = useCallback(() => {
+    log.debug('gun close')
+    isGunConnection()
+  }, [])
+
+  const gunError = useCallback(() => {
+    log.debug('gun error')
+    isGunConnection()
+  }, [])
+
+  const bindEvents = method => {
+    log.debug('gun binding listeners')
+    const instanceGun = userStorage.gun._
+    if (
+      instanceGun.opt.peers &&
+      instanceGun.opt.peers[Config.gunPublicUrl] &&
+      instanceGun.opt.peers[Config.gunPublicUrl].wire
+    ) {
+      const wire = instanceGun.opt.peers[Config.gunPublicUrl].wire
+      const callMethod = method === 'remove' ? 'removeEventListener' : 'addEventListener'
+      log.debug('add gun binding listeners')
+
+      //guns reconnect automatically so no action required on our side
+      wire[callMethod]('close', gunClose)
+      wire[callMethod]('error', gunError)
+    }
+  }
+
+  useEffect(() => {
+    if (userStorage && appState === 'active') {
+      isGunConnection()
+    }
+    if (userStorage && !isFirstCheckGun) {
+      isGunConnection()
+    }
+  }, [userStorage, appState])
+
+  return isConnection
+}
+
+export const useAPIConnection = () => {
+  const [isConnection, setIsConnection] = useState(false)
+
+  /**
+   * Don't start app if server isn't responding
+   */
+  const apiReady = async () => {
+    try {
+      await API.ready
+      const res = await Promise.race([
+        API.ping()
+          .then(_ => true)
+          .catch(_ => 'ping error'),
+        delay(3000).then(_ => 'timeout'),
+      ])
+      log.debug('apiReady:', { res })
+      if (res !== true) {
+        setIsConnection(false)
+        await delay(3000)
+        return apiReady()
+      }
+      setIsConnection(true)
+      return
+    } catch (e) {
+      log.debug('apiReady:', e.message)
+      setIsConnection(false)
+      await delay(3000)
+
+      // return apiReady()
+    }
+  }
+
+  useEffect(() => {
+    apiReady()
+  }, [])
+
+  return isConnection
+}

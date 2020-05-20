@@ -1,0 +1,4 @@
+[[headers]]
+  for = "/torus/redirect"
+  [headers.values]
+    Content-Type = "text/html"

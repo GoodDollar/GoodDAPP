@@ -3,7 +3,7 @@ import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
 import cutLastWords from '../../../lib/utils/cutLastWords'
 
-const EventCounterParty = ({ feedItem, styles, style, subtitle, isSmallDevice }) => {
+const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
   let direction = ''
   let displayText =
     feedItem.data.subtitle && subtitle ? `${feedItem.data.subtitle}` : `${feedItem.data.endpoint.fullName}`
@@ -35,7 +35,7 @@ const EventCounterParty = ({ feedItem, styles, style, subtitle, isSmallDevice })
           {direction}
         </Text>
       )}
-      <Text fontWeight="medium" lineHeight={19}>
+      <Text fontWeight="medium" lineHeight={19} style={[styles.fullName, textStyle]}>
         {displayText}
       </Text>
     </Text>

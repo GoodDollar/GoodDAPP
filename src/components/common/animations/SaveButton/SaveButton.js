@@ -2,15 +2,15 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
 import AnimationBase from '../Base'
-import { isMobileNative } from '../../../../lib/utils/platform'
+import { isMobileReactNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 import animationData from './data.json'
 
 class SaveButton extends AnimationBase {
   state = {}
 
-  onMount() {
-    if (!isMobileNative) {
+  onMount = () => {
+    if (!isMobileReactNative) {
       this.anim.onEnterFrame = e => {
         const { loading } = this.props
         if (e.currentTime >= 101 && loading) {
@@ -26,13 +26,13 @@ class SaveButton extends AnimationBase {
       }
     }
     if (this.props.loading) {
-      if (isMobileNative) {
+      if (isMobileReactNative) {
         this.anim.play(39, 101)
       } else {
         this.anim.goToAndStop(39, true)
       }
     } else {
-      if (isMobileNative) {
+      if (isMobileReactNative) {
         this.anim.play(12, 13)
       } else {
         this.anim.goToAndStop(12, true)
@@ -43,7 +43,7 @@ class SaveButton extends AnimationBase {
   handlePress = () => {
     const { onPress } = this.props
     onPress && onPress()
-    if (isMobileNative) {
+    if (isMobileReactNative) {
       this.setState({ animStep: 1 })
       this.anim.play(12, 101)
     } else {
@@ -54,7 +54,7 @@ class SaveButton extends AnimationBase {
   handleAnimationFinish = () => {
     const { onFinish, loading } = this.props
     const { animStep } = this.state
-    if (isMobileNative) {
+    if (isMobileReactNative) {
       if (onFinish && !loading && animStep === 1) {
         this.anim.play(101, 300)
         this.setState({ animStep: 2 })
@@ -69,14 +69,14 @@ class SaveButton extends AnimationBase {
   }
 
   render() {
-    const { styles, style = {}, loading, disabled } = this.props
+    const { style = {}, loading, disabled } = this.props
 
     return (
-      <TouchableOpacity style={[styles.wrapper, style]} disabled={loading || disabled} onPress={this.handlePress}>
+      <TouchableOpacity style={style} disabled={loading || disabled} onPress={this.handlePress}>
         <Lottie
           ref={this.setAnim}
           loop={false}
-          source={animationData}
+          source={this.improveAnimationData(animationData)}
           onAnimationFinish={this.handleAnimationFinish}
           style={{
             width: '100%',
@@ -88,9 +88,7 @@ class SaveButton extends AnimationBase {
 }
 
 const styles = ({ theme }) => {
-  return {
-    wrapper: {},
-  }
+  return {}
 }
 
 export default withStyles(styles)(SaveButton)

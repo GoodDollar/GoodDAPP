@@ -6,6 +6,7 @@ import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun/gun'
 import SEA from 'gun/sea'
+import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/index.js'
 import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
@@ -14,11 +15,9 @@ import resizeBase64Image from '../utils/resizeBase64Image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
 import { delay } from '../utils/async'
-import { isMobileNative } from '../utils/platform'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
-
 const logger = pino.child({ from: 'UserStorage' })
 
 const EVENT_TYPE_WITHDRAW = 'withdraw'
@@ -31,9 +30,6 @@ const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
 const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
 
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
-
-//gun hack for login
-const GUN_DELAY = isMobileNative ? 3000 : 1000
 
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
@@ -99,6 +95,7 @@ export type FeedEvent = {
   status?: 'pending' | 'completed' | 'error' | 'cancelled' | 'deleted',
   data: any,
   displayType?: string,
+  action?: string,
 }
 
 /**
@@ -131,15 +128,12 @@ export const welcomeMessage = {
   data: {
     customName: 'Welcome to GoodDollar',
     subtitle: 'Welcome to GoodDollar',
+    readMore: 'Claim free G$ coins daily',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'GoodDollar is a digital coin with built-in\nbasic income. Start collecting your income by claiming GoodDollars every day.\
-      \nAlpha tokens have no real value and will be deleted at the end of this trial.',
-    endpoint: {
-      fullName: 'Welcome to GoodDollar',
-    },
+      'This is where you will claim UBI in\nGoodDollar coins every day.\nThis is a demo version - please note that all\ndemo G$ coins collected have no value\noutside of this pilot, and will be destroyed\nupon completion of the demo period.',
   },
 }
 
@@ -150,14 +144,12 @@ export const welcomeMessageOnlyEtoro = {
   data: {
     customName: 'Welcome to GoodDollar!',
     subtitle: 'Welcome to GoodDollar',
+    readMore: false,
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
       'Start collecting your income by claiming GoodDollars every day. Since this is a test version - all coins are “play” coins and have no value outside of this pilot, you can use them to buy goods during the trail, at the end of it, they will be returned to the system.',
-    endpoint: {
-      fullName: 'Welcome to GoodDollar',
-    },
   },
 }
 
@@ -166,17 +158,16 @@ export const inviteFriendsMessage = {
   type: 'invite',
   status: 'completed',
   data: {
-    customName: 'Invite friends and earn G$',
+    customName: `Invite friends and earn G$'s`,
     subtitle: 'Want to earn more G$ ?',
+    readMore: 'Invite more friends!',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
       'Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.',
-    endpoint: {
-      fullName: 'Invite friends and earn G$',
-    },
   },
+  action: `navigate("Rewards")`,
 }
 export const backupMessage = {
   id: '2',
@@ -185,14 +176,12 @@ export const backupMessage = {
   data: {
     customName: 'Backup your wallet. Now.',
     subtitle: 'You need to backup your',
+    readMore: 'wallet pass phrase',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
       'Your pass phrase is the only key to your wallet, this is why our wallet is super secure. Only you have access to your wallet and money. But if you won’t backup your pass phrase or if you lose it — you won’t be able to access your wallet and all your money will be lost forever.',
-    endpoint: {
-      fullName: 'Backup your wallet. Now.',
-    },
   },
 }
 
@@ -203,14 +192,12 @@ export const startSpending = {
   data: {
     customName: 'Go to GoodMarket',
     subtitle: "Start spending your G$'s",
+    readMore: 'here >>>',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
       'Visit GoodMarket, eToro’s exclusive marketplace, where you can buy or sell items in exchange for GoodDollars.',
-    endpoint: {
-      fullName: 'Go to GoodMarket',
-    },
   },
 }
 
@@ -219,16 +206,15 @@ export const startClaiming = {
   type: 'claiming',
   status: 'completed',
   data: {
-    customName: 'Start claiming your free daily G$',
-    subtitle: 'Start claiming your free daily G$',
+    customName: 'Claim your GoodDollars today!', //title in modal
+    subtitle: 'Claim your GoodDollars today!', //title in feed list
+    readMore: false,
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
-    reason:
-      'GoodDollar gives every active member a small daily income. Sign in every day, collect free GoodDollars and use them to pay for goods and services.',
-    endpoint: {
-      fullName: 'Start claiming your free daily G$',
-    },
+
+    // preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
+    reason: `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`,
   },
 }
 
@@ -238,6 +224,7 @@ export const hanukaBonusStartsMessage = {
   data: {
     customName: 'Collect extra GoodDollars\non every day of Hannukah',
     subtitle: 'Hannukah Miracle Bonus',
+    readMore: 'Claim today for extra G$$$',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -245,6 +232,24 @@ export const hanukaBonusStartsMessage = {
       'Get an extra GoodDollar, on top of your daily collection, for every candle lit on the menorah today. Claim every day of Hannukah for a total bonus of G$44!\n\nHag Sameach!',
     endpoint: {
       fullName: 'Hannukah Miracle Bonus',
+    },
+  },
+}
+
+export const longUseOfClaims = {
+  id: '5',
+  type: 'claimsThreshold',
+  status: 'completed',
+  data: {
+    customName: 'Woohoo! You’ve made it!', //title in modal
+    subtitle: 'Woohoo! You’ve made it!',
+    readMore: 'Congrats! You claimed G$ for 14 days',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason: `Nice work. You’ve claimed demo G$’s for\n14 days and your spot is now secured for\nGoodDollar’s live launch.\nLive G$ coins are coming your way soon!`,
+    endpoint: {
+      fullName: 'Congrats! You’ve made it!',
     },
   },
 }
@@ -280,7 +285,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     logs.filter(log => {
       return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
-    'value'
+    log => log.value
   )
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
@@ -430,7 +435,10 @@ export class UserStorage {
 
     //hack to get gun working. these seems to preload data gun needs to login
     //otherwise it get stuck on a clean incognito
-    await Promise.race([gun.get('~@' + username).then(), delay(GUN_DELAY)])
+    const usernamePromise = new Promise((res, rej) => {
+      this.gun.get('~@' + username).once(res, { wait: 3000 })
+    })
+    await Promise.race([usernamePromise, delay(3000)])
     const authUserInGun = (username, password) => {
       return new Promise((res, rej) => {
         gunuser.auth(username, password, user => {
@@ -532,15 +540,23 @@ export class UserStorage {
     let loggedInPromise
 
     let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
+    existingCreds = null
     if (existingCreds == null) {
       //sign with different address so its not connected to main user address and there's no 1-1 link
-      const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
+      const username = await this.wallet.sign('GoodDollarTorusUser', 'gundb').then(r => r.slice(0, 20))
       const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
+      logger.debug('login to gun', { username, password })
 
       //hack to get gun working. these seems to preload data gun needs to login
       //otherwise it get stuck on a clean incognito, either when checking existingusername (if doesnt exists)
       //or in gun auth
-      const existingUsername = await Promise.race([this.gun.get('~@' + username), delay(GUN_DELAY)])
+      const usernamePromise = new Promise((res, rej) => {
+        this.gun.get('~@' + username).once(res, { wait: 3000 })
+      })
+      const usernamePromise2 = new Promise((res, rej) => {
+        this.gun.get('~@' + username).on(res)
+      })
+      const existingUsername = await Promise.race([usernamePromise2, usernamePromise, delay(4000, false)])
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
@@ -562,7 +578,7 @@ export class UserStorage {
     }
 
     let user = await loggedInPromise.catch(e => {
-      logger.warn('gun login failed', e.message, e)
+      logger.warn(e)
       throw e
     })
     logger.debug('init finished gun loggin', user)
@@ -573,25 +589,14 @@ export class UserStorage {
 
     this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
     this.user = this.gunuser.is
-    this.profile = this.gunuser.get('profile')
-    const profile = await this.profile
-    this.profile.open(doc => {
-      this._lastProfileUpdate = doc
-      this.subscribersProfileUpdates.forEach(callback => callback(doc))
-    })
 
-    logger.debug('init opened profile', profile)
-
-    //save ref to user
-    await this.gun
-      .get('users')
-      .get(this.gunuser.is.pub)
-      .putAck(this.gunuser)
+    const gunuser = await this.gun.user()
 
     logger.debug('GunDB logged in', {
       username: existingCreds.username,
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
+      gunuser,
     })
     logger.debug('subscribing')
 
@@ -607,10 +612,24 @@ export class UserStorage {
 
     //for some reason doing init stuff before  causes gun to get stuck
     //this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
-    logger.debug('init Properties + feed')
 
-    await Promise.all([this.initProperties(), this.initFeed()])
-
+    //doing await one by one - Gun hack so it doesnt get stuck
+    // await this.initProfile()
+    // await this.initProperties()
+    // await this.initFeed()
+    // await this.gun
+    //   .get('users')
+    //   .get(this.gunuser.is.pub)
+    //   .putAck(this.gunuser) //save ref to user
+    await Promise.all([
+      this.initProfile(),
+      this.initProperties(),
+      this.initFeed(),
+      this.gun
+        .get('users')
+        .get(this.gunuser.is.pub)
+        .putAck(this.gunuser), //save ref to user
+    ])
     logger.debug('init systemfeed')
 
     await this.startSystemFeed()
@@ -689,7 +708,7 @@ export class UserStorage {
     return EVENT_TYPES[data.name] || operationType
   }
 
-  async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
+  async handleReceiptUpdated(receipt: any): Promise<FeedEvent | void> {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
@@ -698,7 +717,7 @@ export class UserStorage {
       (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
     ) {
       logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
-      return {}
+      return
     }
     const release = await this.feedMutex.lock()
     try {
@@ -757,7 +776,7 @@ export class UserStorage {
     } finally {
       release()
     }
-    return {}
+    return
   }
 
   /**
@@ -773,7 +792,8 @@ export class UserStorage {
       logger.debug('handleOTPLUpdated', { data, receipt })
 
       //get our tx that created the payment link
-      const originalTXHash = await this.getTransactionHashByCode(data.hash)
+      //paymentId is new format, hash is in old beta format
+      const originalTXHash = await this.getTransactionHashByCode(data.hash || data.paymentId)
       if (originalTXHash === undefined) {
         logger.error(
           'handleOTPLUpdated failed',
@@ -875,20 +895,25 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  initFeed() {
+  async initFeed() {
     this.feed = this.gunuser.get('feed')
+    const feed = await this.feed
+    logger.debug('init feed', { feed })
+
+    if (feed === null) {
+      // this.feed.put({ byid: {}, index: {}, queue: {} })
+      logger.debug('init empty feed')
+    } else {
+      const byid = await this.feed.get('byid')
+      logger.debug('init feed byid', { byid })
+    }
+
     this.feed.get('index').on(this.updateFeedIndex, false)
-
-    //preload feed items
-    this.feed.get('byid').map(x => x)
-
-    return Promise.all([this.feed, this.feed.get('byid')])
   }
 
   async startSystemFeed() {
     const userProperties = await this.userProperties.getAll()
     const firstVisitAppDate = userProperties.firstVisitApp
-    const isCameFromW3Site = userProperties.cameFromW3Site
     logger.debug('startSystemFeed', { userProperties, firstVisitAppDate })
     this.addBackupCard()
     this.addStartClaimingCard()
@@ -905,7 +930,7 @@ export class UserStorage {
         this.enqueueTX(welcomeMessage)
       }
 
-      if (!isCameFromW3Site) {
+      if (Config.enableInvites) {
         setTimeout(() => {
           this.enqueueTX(inviteFriendsMessage)
         }, 2 * 60 * 1000) // 2 minutes
@@ -915,6 +940,7 @@ export class UserStorage {
     }
 
     this.addHanukaBonusStartsCard()
+    logger.debug('startSystemFeed: done')
   }
 
   /**
@@ -922,12 +948,38 @@ export class UserStorage {
    */
   async initProperties() {
     this.properties = this.gunuser.get('properties')
+    const props = await this.properties
+    logger.debug('init properties', { props })
 
-    if ((await this.properties) === undefined) {
+    if (props == null) {
       let putRes = await this.properties.putAck(UserProperties.defaultProperties)
       logger.debug('set defaultProperties ok:', { defaultProperties: UserProperties.defaultProperties, putRes })
     }
     this.userProperties = new UserProperties(this.properties)
+  }
+
+  async initProfile() {
+    const gunuser = await this.gunuser.onThen()
+    this.profile = this.gunuser.get('profile')
+    const profile = gunuser.profile && (await this.profile.onThen())
+    if (gunuser.profile === null) {
+      //in case profile was deleted in the past it will be exactly null
+      await this.gunuser.get('profile').putAck({ initialized: true })
+      this.profile = this.gunuser.get('profile')
+    }
+    this.profile.open(doc => {
+      this._lastProfileUpdate = doc
+      this.subscribersProfileUpdates.forEach(callback => callback(doc))
+    })
+
+    logger.debug('init opened profile', { gunRef: this.profile, profile, gunuser })
+  }
+
+  addAllCardsTest() {
+    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
+      m.id = String(Math.random())
+      this.enqueueTX(m)
+    })
   }
 
   /**
@@ -941,7 +993,7 @@ export class UserStorage {
     const displayTimeFilter = 24 * 60 * 60 * 1000 // 24 hours
     const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
 
-    if (!userProperties.isMadeBackup && allowToShowByTimeFilter) {
+    if (Config.torusEnabled === false && !userProperties.isMadeBackup && allowToShowByTimeFilter) {
       await this.enqueueTX(backupMessage)
       await this.userProperties.set('isMadeBackup', true)
     }
@@ -1334,7 +1386,7 @@ export class UserStorage {
     let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
       return this.feed
         .get(day[0])
-        .then()
+        .then(data => (typeof data === 'string' ? JSON.parse(data) : data))
         .catch(e => {
           logger.error('getFeed', e.message, e)
           return []
@@ -1346,7 +1398,7 @@ export class UserStorage {
       eventsIndex
         .filter(_ => _.id)
         .map(async eventIndex => {
-          let item = this.feed
+          let item = await this.feed
             .get('byid')
             .get(eventIndex.id)
             .decrypt()
@@ -1376,7 +1428,6 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-
     return Promise.all(
       feed
         .filter(
@@ -1424,6 +1475,10 @@ export class UserStorage {
 
     //update the event
     let updatedEvent = await this.handleReceiptUpdated(receipt)
+    if (updatedEvent === undefined) {
+      return standardPrevFeedEvent
+    }
+
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
@@ -1538,8 +1593,8 @@ export class UserStorage {
     logger.debug('formatEvent: incoming event', event.id, { event })
 
     try {
-      const { data, type, date, id, status, createdDate, animationExecuted } = event
-      const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
+      const { data, type, date, id, status, createdDate, animationExecuted, action } = event
+      const { sender, preReasonText, reason, code: withdrawCode, otplStatus, customName, subtitle, readMore } = data
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
       const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
@@ -1580,6 +1635,7 @@ export class UserStorage {
         status,
         createdDate,
         animationExecuted,
+        action,
         data: {
           endpoint: {
             address: sender,
@@ -1588,8 +1644,10 @@ export class UserStorage {
             withdrawStatus,
           },
           amount: value,
+          preMessageText: preReasonText,
           message: reason || message,
           subtitle,
+          readMore,
           withdrawCode,
         },
       }
@@ -1897,24 +1955,41 @@ export class UserStorage {
 
     //saving index by onetime code so we can retrieve and update it once withdrawn
     //or skip own withdraw
-    if (event.type === EVENT_TYPE_SEND && event.data.code) {
-      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
-      this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
-    } else if (event.type === 'withdraw' && event.data.code) {
-      //are we withdrawing our own link?
-      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
-      const ownlink = await this.feed.get('codeToTxHash').get(hashedCode)
-      if (ownlink) {
-        logger.debug('updateFeedEvent: skipping own link withdraw', { event })
-        this.feed
-          .get('queue')
-          .get(event.id)
-          .put(null)
-        return event
+    const { wallet, feed } = this
+    const { utils } = wallet.wallet
+    const { id: eventId, type, data } = event
+    let { date } = event
+    const { code, hashedCode } = data
+
+    if (code) {
+      let ownLink
+      const eventHashedCode = hashedCode || utils.sha3(code)
+      const codeToTxHashRef = feed.get('codeToTxHash')
+
+      switch (type) {
+        case EVENT_TYPE_SEND:
+          codeToTxHashRef.put({ [eventHashedCode]: eventId })
+          break
+        case EVENT_TYPE_WITHDRAW:
+          ownLink = await codeToTxHashRef.get(eventHashedCode)
+
+          if (!ownLink) {
+            break
+          }
+
+          logger.debug('updateFeedEvent: skipping own link withdraw', { event })
+
+          feed
+            .get('queue')
+            .get(eventId)
+            .put(null)
+          return event
+        default:
+          break
       }
     }
 
-    let date = new Date(event.date)
+    date = new Date(date)
 
     // force valid dates
     date = isValidDate(date) ? date : new Date()
@@ -1926,12 +2001,13 @@ export class UserStorage {
       prevdate = isValidDate(prevdate) ? prevdate : date
       let prevday = `${prevdate.toISOString().slice(0, 10)}`
       if (day !== prevday) {
-        let dayEventsArr = (await this.feed.get(prevday)) || []
+        let dayEventsArr =
+          (await feed.get(prevday).then(data => (typeof data === 'string' ? JSON.parse(data) : data))) || []
         let removePos = dayEventsArr.findIndex(e => e.id === event.id)
         if (removePos >= 0) {
           dayEventsArr.splice(removePos, 1)
-          this.feed.get(prevday).put(JSON.stringify(dayEventsArr))
-          this.feed
+          feed.get(prevday).put(JSON.stringify(dayEventsArr))
+          feed
             .get('index')
             .get(prevday)
             .put(dayEventsArr.length)
@@ -1940,7 +2016,7 @@ export class UserStorage {
     }
 
     // Update dates index
-    let dayEventsArr = (await this.feed.get(day).then()) || []
+    let dayEventsArr = (await feed.get(day).then(data => (typeof data === 'string' ? JSON.parse(data) : data))) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
     const eventIndexItem = { id: event.id, updateDate: event.date }
     if (toUpd) {
@@ -1957,17 +2033,17 @@ export class UserStorage {
     logger.debug('updateFeedEvent starting encrypt')
 
     // Saving eventFeed by id
-    const eventAck = this.feed
+    const eventAck = feed
       .get('byid')
-      .get(event.id)
+      .get(eventId)
       .secretAck(event)
       .then()
       .catch(e => {
         logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
         return { err: e.message }
       })
-    const saveDayIndexPtr = this.feed.get(day).putAck(JSON.stringify(dayEventsArr))
-    const saveDaySizePtr = this.feed
+    const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
+    const saveDaySizePtr = feed
       .get('index')
       .get(day)
       .putAck(dayEventsArr.length)
@@ -2051,14 +2127,22 @@ export class UserStorage {
     return fullProfile
   }
 
+  getFaceIdentifier(): string {
+    return this.wallet.getAccountForType('faceVerification').replace('0x', '')
+  }
+
   /**
    * Checks if the current user was already registered to gunDB
    * @returns {Promise<boolean>|Promise<boolean>}
    */
   async userAlreadyExist(): Promise<boolean> {
-    const profile = await this.profile
-    logger.debug('userAlreadyExist', this.profile !== undefined && profile !== undefined && profile !== null)
-    return !!profile
+    const [isProfileRegistered, isRegistered] = await Promise.all([
+      this.profile.get('registered').onThen(),
+      this.gunuser.get('registered').onThen(),
+    ])
+    const exists = isProfileRegistered.display || isRegistered
+    logger.debug('userAlreadyExist', { exists, isProfileRegistered, isRegistered })
+    return exists
   }
 
   /**
@@ -2090,13 +2174,15 @@ export class UserStorage {
    * Calling the server to delete their data
    */
   async deleteAccount(): Promise<boolean> {
-    const zoomId = await this.wallet.getAccountForType('zoomId').replace('0x', '')
-    const zoomSignature = await this.wallet.sign(zoomId, 'zoomId')
     let deleteResults = false
     let deleteAccountResult
 
     try {
-      deleteAccountResult = await API.deleteAccount(zoomId, zoomSignature)
+      const faceIdentifier = this.getFaceIdentifier()
+      const signature = await this.wallet.sign(faceIdentifier, 'faceVerification')
+
+      await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, signature)
+      deleteAccountResult = await API.deleteAccount()
 
       if (deleteAccountResult.data.ok) {
         deleteResults = await Promise.all([
@@ -2127,6 +2213,15 @@ export class UserStorage {
             }))
             .catch(r => ({
               properties: 'failed',
+            })),
+          this.gunuser
+            .get('registered')
+            .putAck(false)
+            .then(r => ({
+              registered: 'ok',
+            }))
+            .catch(r => ({
+              registered: 'failed',
             })),
         ])
       }

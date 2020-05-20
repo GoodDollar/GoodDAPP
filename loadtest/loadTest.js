@@ -83,7 +83,7 @@ export const mytest = async i => {
       Timeout(20000).then(x => {
         throw new Error('FR timeout')
       }),
-      createReq(wallet.getAccountForType('zoomId'), creds.jwt).then(r => r.json()),
+      createReq(wallet.getAccountForType('faceVerification'), creds.jwt).then(r => r.json()),
     ])
 
     console.info('/verify/facerecognition:', fr)

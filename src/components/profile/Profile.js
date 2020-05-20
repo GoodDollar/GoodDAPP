@@ -1,10 +1,11 @@
 // @flow
-import React from 'react'
-import { Platform } from 'react-native'
+import React, { useCallback } from 'react'
+import { Platform, View } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { Section, UserAvatar, Wrapper } from '../common'
+import { Section, Text, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -14,55 +15,108 @@ import CircleButtonWrapper from './CircleButtonWrapper'
 import VerifyEdit from './VerifyEdit'
 import VerifyEditCode from './VerifyEditCode'
 
-const TITLE = 'Profile'
+const avatarSize = getDesignRelativeWidth(136)
 
 const ProfileWrapper = props => {
   const store = GDStore.useStore()
   const profile = store.get('profile')
   const { screenProps, styles } = props
 
-  const handleAvatarPress = event => {
-    event.preventDefault()
-    screenProps.push(`ViewAvatar`)
-  }
+  const handleAvatarPress = useCallback(
+    event => {
+      event.preventDefault()
+      screenProps.push(`ViewAvatar`)
+    },
+    [screenProps]
+  )
+
+  const handlePrivacyPress = useCallback(() => screenProps.push(`ProfilePrivacy`), [screenProps])
+
+  const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
 
   return (
     <Wrapper>
-      <Section style={styles.section} grow>
-        <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.content}>
-          <CircleButtonWrapper iconName={'privacy'} iconSize={23} onPress={() => screenProps.push('ProfilePrivacy')} />
-          <UserAvatar profile={profile} onPress={handleAvatarPress} />
-          <CircleButtonWrapper
-            iconName={'edit'}
-            iconSize={25}
-            onPress={() => screenProps.push('EditProfile')}
-            style={[styles.iconRight]}
+      <Section.Row justifyContent="space-between" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
+        <CircleButtonWrapper
+          label={'Privacy'}
+          iconName={'privacy'}
+          iconSize={23}
+          onPress={handlePrivacyPress}
+          containerStyle={styles.iconLeft}
+        />
+        <View style={styles.userDataWrapper}>
+          <UserAvatar
+            style={styles.userAvatar}
+            profile={profile}
+            onPress={handleAvatarPress}
+            size={avatarSize}
+            imageSize={avatarSize - 6}
           />
-        </Section.Row>
-        <ProfileDataTable profile={profile} />
+          <Text fontSize={22} fontFamily="Roboto Slab" lineHeight={29} style={styles.userName}>
+            {!!profile && profile.fullName}
+          </Text>
+        </View>
+        <CircleButtonWrapper
+          label={'Edit'}
+          iconName={'edit'}
+          iconSize={25}
+          onPress={handleEditProfilePress}
+          style={styles.iconRightContainer}
+          containerStyle={styles.iconRight}
+        />
+      </Section.Row>
+      <Section style={styles.section}>
+        <View style={styles.emptySpace} />
+        <ProfileDataTable profile={profile} showCustomFlag />
       </Section>
     </Wrapper>
   )
 }
 
 ProfileWrapper.navigationOptions = {
-  title: TITLE,
+  title: 'My Profile',
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  emptySpace: {
+    height: 75,
+    width: '100%',
+  },
   section: {
     flexGrow: 1,
     padding: theme.sizes.defaultDouble,
   },
-  iconRight: {
+  iconRightContainer: {
     transform: [{ rotateY: '180deg' }],
   },
-  content: {
-    maxWidth: '100%',
-    overflow: Platform.select({
-      web: 'auto',
-      default: 'scroll',
-    }),
+  iconLeft: {
+    position: 'absolute',
+    left: getDesignRelativeWidth(20),
+  },
+  iconRight: {
+    position: 'absolute',
+    right: getDesignRelativeWidth(20),
+  },
+  userDataWrapper: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userAvatar: {
+    borderWidth: 3,
+    borderColor: theme.colors.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userDataAndButtonsRow: {
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'relative',
+    zIndex: 1,
+    height: avatarSize / 2,
+  },
+  userName: {
+    marginTop: theme.sizes.default,
   },
 })
 

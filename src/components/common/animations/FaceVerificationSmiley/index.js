@@ -25,7 +25,7 @@ class FaceVerificationSmiley extends AnimationBase {
         imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
         autoPlay={true}
-        source={animationData}
+        source={this.improveAnimationData(animationData)}
         autoSize={true}
         style={Platform.select(styles)}
         loop={false}

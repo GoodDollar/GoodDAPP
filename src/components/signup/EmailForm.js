@@ -94,7 +94,7 @@ class EmailForm extends React.Component<Props, State> {
                 keyboardType="email-address"
                 onKeyPress={this.handleEnter}
                 error={errorMessage}
-                onCleanUpField={this.handleChange}
+                showCleanAdornment
                 autoFocus
                 onSubmitEditing={this.handleSubmit}
                 enablesReturnKeyAutomatically

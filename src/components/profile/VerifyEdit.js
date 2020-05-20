@@ -61,7 +61,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     } catch (e) {
       log.error('Failed to send code', e.message, e)
 
-      showErrorDialog('Could not send verification code. Please try again', null, { onDismiss: goBack })
+      showErrorDialog('Could not send verification code. Please try again', undefined, { onDismiss: goBack })
     } finally {
       setLoading(false)
     }
@@ -82,13 +82,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
             <Text fontSize={14} lineHeight={16} fontFamily="Roboto" color="gray80Percent">
               {`A verification code will be sent to this ${sendToText}:`}
             </Text>
-            <Text
-              fontSize={24}
-              lineHeight={32}
-              //fontFamily="RobotoSlab"
-              fontFamily="Roboto"
-              style={styles.content}
-            >
+            <Text fontSize={24} lineHeight={32} fontFamily="Roboto" style={styles.content}>
               {content}
             </Text>
           </View>

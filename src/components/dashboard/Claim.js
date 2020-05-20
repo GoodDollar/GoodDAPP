@@ -1,7 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Platform, View } from 'react-native'
-import numeral from 'numeral'
+import { AsyncStorage, Image, Platform } from 'react-native'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -12,19 +11,17 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import normalize from '../../lib/utils/normalizeText'
-import { Wrapper } from '../common'
-import AnimationsJumpingPeople from '../common/animations/JumpingPeople'
-import BigGoodDollar from '../common/view/BigGoodDollar'
-import Text from '../common/view/Text'
+import { WrapperClaim } from '../common'
+import arrowsDown from '../../assets/arrowsDown.svg'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import Section from '../common/layout/Section'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import ClaimAnimatedButton from '../common/animations/ClaimButton/ClaimButton'
+import { showSupportDialog } from '../common/dialogs/showSupportDialog'
+import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import type { DashboardProps } from './Dashboard'
-import ClaimButton from './ClaimButton'
+import ClaimContent from './Claim/PhaseOne'
+import useClaimCounter from './Claim/useClaimCounter'
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -36,17 +33,19 @@ type ClaimState = {
   },
 }
 
+Image.prefetch(arrowsDown)
+
 const log = logger.child({ from: 'Claim' })
 
 const Claim = props => {
-  const { screenProps, styles }: ClaimProps = props
+  const { screenProps, styles, theme }: ClaimProps = props
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
 
   const { entitlement } = gdstore.get('account')
   const isCitizen = gdstore.get('isLoggedInCitizen')
 
-  const [showDialog, , showErrorDialog] = useDialog()
+  const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
   const [state, setState]: [ClaimState, Function] = useState({
@@ -57,7 +56,9 @@ const Claim = props => {
       amount: '--',
     },
   })
+
   const wrappedGoodWallet = wrapper(goodWallet, store)
+  const advanceClaimsCounter = useClaimCounter()
 
   // if we returned from facerecoginition then the isValid param would be set
   // this happens only on first claim
@@ -114,8 +115,13 @@ const Claim = props => {
   const getNextClaim = async date => {
     let nextClaimTime = date - new Date().getTime()
     if (nextClaimTime < 0 && state.entitlement <= 0) {
-      const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
-      setState(prev => ({ ...prev, entitlement }))
+      try {
+        const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
+        setState(prev => ({ ...prev, entitlement }))
+      } catch (exception) {
+        const { message } = exception
+        log.warn('getNextClaim failed', message, exception)
+      }
     }
     return new Date(nextClaimTime).toISOString().substr(11, 8)
   }
@@ -212,7 +218,9 @@ const Claim = props => {
 
       if (receipt.status) {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash })
+        await advanceClaimsCounter()
         checkHanukaBonusDates()
+
         showDialog({
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
@@ -235,83 +243,72 @@ const Claim = props => {
 
   const faceRecognition = () => {
     //await handleClaim()
-    screenProps.push('FRIntro', { from: 'Claim' })
+    //temporary solution in the zero phase, for the situation when the user is not in the whitelist.
+    if (Config.isPhaseZero) {
+      showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
+    } else {
+      screenProps.push('FaceVerificationIntro', { from: 'Claim' })
+    }
+  }
+
+  const propsForContent = {
+    styles,
+    theme,
+    isCitizen,
+    claimedToday: state.claimedToday,
+    entitlement: state.entitlement,
+    nextClaim: state.nextClaim,
+    handleClaim: handleClaim,
+    faceRecognition: faceRecognition,
   }
 
   return (
-    <Wrapper>
-      <Section style={styles.mainContainer}>
-        <Section.Stack style={styles.mainText}>
-          <View style={styles.mainTextBorder}>
-            <Section.Text color="primary" size={16} fontFamily="Roboto" lineHeight={19} style={styles.mainTextToast}>
-              {'YOU CAN GET'}
-            </Section.Text>
-            <Section.Row style={styles.mainTextBigMarginBottom}>
-              <BigGoodDollar
-                number={1}
-                reverse
-                formatter={number => number}
-                bigNumberProps={{ color: 'surface' }}
-                bigNumberUnitProps={{ color: 'surface', fontSize: 20 }}
-                style={styles.inline}
-              />
-              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36} lineHeight={36}>
-                {' Free'}
-              </Section.Text>
-            </Section.Row>
-            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36} lineHeight={36}>
-              Every Day
-            </Section.Text>
-          </View>
-          <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.subMainText]}>
-            <View style={styles.bottomContainer}>
-              <Text color="white" fontSize={16} fontFamily="Roboto">
-                {'Claim & spend it on'}
-              </Text>
-              <Text color="white" fontFamily="Roboto" size={16}>
-                {`things you care about`}
-              </Text>
-            </View>
-          </Section.Row>
-        </Section.Stack>
-        <Section.Stack style={styles.extraInfo}>
-          <AnimationsJumpingPeople isCitizen={isCitizen} />
-          {!isCitizen && (
-            <ClaimButton
-              isCitizen={true}
-              entitlement={0}
-              nextClaim={state.nextClaim}
-              loading={loading}
-              style={styles.countdown}
-            />
-          )}
-          <View style={styles.space} />
-          {isCitizen && state.entitlement > 0 ? (
-            <ClaimAnimatedButton
-              amount={state.entitlement}
-              onPressClaim={() => (isCitizen && state.entitlement ? handleClaim() : !isCitizen && faceRecognition())}
-            />
-          ) : (
-            <ClaimButton
-              isCitizen={isCitizen}
-              entitlement={state.entitlement}
-              nextClaim={state.nextClaim}
-              loading={loading}
-            />
-          )}
-          <Section.Row style={styles.extraInfoStats}>
-            <Text style={styles.extraInfoWrapper}>
-              <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
-              <Section.Text>good people have claimed today!</Section.Text>
-            </Text>
-          </Section.Row>
-        </Section.Stack>
-      </Section>
-    </Wrapper>
+    <WrapperClaim>
+      <ClaimContent {...propsForContent} />
+    </WrapperClaim>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
+  const bigFontSize = isSmallDevice ? 30 : 40
+
+  const headerText = {
+    marginBottom: getDesignRelativeHeight(10),
+    fontSize: bigFontSize,
+    lineHeight: bigFontSize,
+  }
+
+  const amountBlockTitle = {
+    marginTop: 3,
+    fontSize: bigFontSize,
+    lineHeight: bigFontSize,
+  }
+
+  const amountText = {
+    fontFamily: 'Roboto',
+    fontSize: bigFontSize,
+    color: theme.colors.darkBlue,
+    fontWeight: 'bold',
+    lineHeight: bigFontSize,
+  }
+
+  const amountUnitText = {
+    fontFamily: 'Roboto',
+    fontSize: bigFontSize,
+    color: theme.colors.darkBlue,
+    fontWeight: 'medium',
+    lineHeight: bigFontSize,
+  }
+
+  const fontSize16 = {
+    fontSize: isSmallDevice ? 14 : 16,
+  }
+
+  const learnMoreLink = {
+    cursor: 'pointer',
+    ...fontSize16,
+  }
+
   return {
     mainContainer: {
       backgroundColor: 'transparent',
@@ -321,91 +318,54 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'space-between',
       height: '100%',
     },
-    mainText: {
+    headerContentContainer: {
       flex: 1,
-      alignItems: 'center',
-      flexDirection: 'column',
-      marginVertical: 'auto',
-      zIndex: 1,
-      justifyContent: 'center',
-    },
-    mainTextTitle: {
-      marginBottom: 12,
-    },
-    mainTextBorder: {
-      marginTop: getDesignRelativeHeight(10),
-      borderWidth: 2,
-      borderStyle: 'solid',
-      borderColor: theme.colors.white,
-      borderRadius: 5,
-      paddingHorizontal: getDesignRelativeWidth(40),
-      paddingVertical: getDesignRelativeHeight(25),
       position: 'relative',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+      marginTop: getDesignRelativeHeight(22),
     },
-    mainTextToast: {
+    headerText,
+    amountBlock: {
+      borderWidth: 3,
+      borderColor: theme.colors.white,
+      borderRadius: theme.sizes.borderRadius,
       paddingHorizontal: getDesignRelativeWidth(30),
-      paddingVertical: getDesignRelativeWidth(2),
-      backgroundColor: theme.colors.white,
-      position: 'absolute',
-      top: -getDesignRelativeHeight(13),
-      borderRadius: 5,
+      paddingVertical: getDesignRelativeWidth(10),
     },
-    subMainText: {
-      marginTop: getDesignRelativeHeight(10),
+    amountBlockTitle,
+    amountText,
+    amountUnitText,
+    mainTextSecondContainer: {
+      ...fontSize16,
     },
-    learnMore: {
-      marginTop: getDesignRelativeHeight(15),
-    },
-    learnMoreDialogReadMoreButton: {
-      borderWidth: 1,
-      borderColor: theme.colors.primary,
-      width: '64%',
-      fontSize: normalize(14),
-    },
-    learnMoreDialogOkButton: {
-      width: '34%',
-      fontSize: normalize(14),
-    },
-    mainTextBigMarginBottom: {
-      marginBottom: theme.sizes.defaultHalf,
-    },
-    blankBottom: {
-      minHeight: getDesignRelativeHeight(4 * theme.sizes.defaultDouble),
-    },
-    illustration: {
-      flexGrow: 0,
-      flexShrink: 0,
-      marginBottom: theme.sizes.default,
-      width: '100%',
-    },
-    extraInfo: {
-      backgroundColor: theme.colors.surface,
-      borderRadius: theme.sizes.borderRadius,
-      flexShrink: 1,
-      maxHeight: Platform.select({
-        // FIXME: RN
-        web: 'fit-content',
-        default: 'auto',
-      }),
-      width: '100%',
-      paddingVertical: theme.sizes.defaultDouble,
-      paddingHorizontal: theme.sizes.default,
-      marginTop: getDesignRelativeHeight(85),
-    },
-    extraInfoStats: {
-      marginHorizontal: 0,
-      marginBottom: 0,
-      marginTop: theme.sizes.default,
+    mainText: {
+      flex: 2.5,
       alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: theme.sizes.borderRadius,
-      paddingTop: 8,
-      flexGrow: 1,
+      flexDirection: 'column',
+      zIndex: 1,
+      justifyContent: 'flex-end',
+      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
     },
-    extraInfoWrapper: {
+    learnMoreLink,
+    claimButtonContainer: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      zIndex: 1,
+      marginBottom: 0,
+    },
+    extraInfoAmountDisplay: {
+      display: 'contents',
+    },
+    extraInfoContainer: {
+      flex: 1,
+      marginBottom: getDesignRelativeHeight(5),
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+    },
+    extraInfoSecondContainer: {
       display: Platform.select({
         // FIXME: RN
         web: 'inline',
@@ -414,25 +374,12 @@ const getStylesFromProps = ({ theme }) => {
       textAlign: 'center',
       width: getDesignRelativeWidth(340),
     },
-    inline: {
-      display: Platform.select({
-        // FIXME: RN
-        web: 'inline',
-        default: 'flex',
-      }),
-    },
-    countdown: {
-      minHeight: getDesignRelativeHeight(72),
-      borderRadius: 5,
-    },
-    space: {
-      height: theme.sizes.defaultDouble,
-    },
+    fontSize16,
   }
 }
 
 Claim.navigationOptions = {
-  title: 'Claim Daily G$',
+  title: 'Claim',
 }
 
 export default withStyles(getStylesFromProps)(Claim)

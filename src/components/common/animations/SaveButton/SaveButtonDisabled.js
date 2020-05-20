@@ -6,13 +6,13 @@ import animationData from './data.json'
 
 class SaveButtonDisabled extends AnimationBase {
   render() {
-    const { style = {}, onPress } = this.props
+    const { style = {} } = this.props
     return (
-      <TouchableOpacity style={style} disabled={true} onPress={onPress}>
+      <TouchableOpacity style={style} disabled>
         <Lottie
           loop={false}
           play={false}
-          source={animationData}
+          source={this.improveAnimationData(animationData)}
           style={{
             width: '100%',
           }}

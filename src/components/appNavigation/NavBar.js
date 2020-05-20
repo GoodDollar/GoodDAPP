@@ -3,6 +3,7 @@ import React from 'react'
 import { Appbar } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
+import { Icon } from '../common'
 
 /**
  * @type
@@ -22,11 +23,13 @@ class NavBar extends React.Component<NavBarProps> {
     const { styles } = this.props
 
     return (
-      <Appbar.Header dark style={styles.topbarStyles}>
-        {this.props.goBack && <Appbar.BackAction onPress={this.props.goBack} color="white" />}
+      <Appbar dark style={styles.topbarStyles}>
+        {this.props.goBack && (
+          <Icon name="arrow-back" onPress={this.props.goBack} color="white" size={22} style={styles.backButton} />
+        )}
         <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
         {this.props.goBack && <Appbar.Action color="white" />}
-      </Appbar.Header>
+      </Appbar>
     )
   }
 }
@@ -43,6 +46,10 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 0,
     flexShrink: 0,
     boxShadow: 'none',
+  },
+  backButton: {
+    marginLeft: 15,
+    width: 33,
   },
 })
 

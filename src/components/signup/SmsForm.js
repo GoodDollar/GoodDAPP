@@ -79,9 +79,8 @@ class SmsForm extends React.Component<Props, State> {
   }
 
   handleSubmit = async () => {
-    await this.props.screenProps.doneCallback({ smsValidated: true })
-
     this.setState({ loading: false })
+    await this.props.screenProps.doneCallback({ smsValidated: true })
   }
 
   // eslint-disable-next-line class-methods-use-this

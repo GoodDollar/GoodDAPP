@@ -33,7 +33,7 @@ export const executeWithdraw = async (
 ): Promise<ReceiptType | { status: boolean }> => {
   log.info('executeWithdraw', code, reason)
   try {
-    const { amount, sender, status } = await goodWallet.getWithdrawDetails(code)
+    const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)
     if (status === WITHDRAW_STATUS_PENDING) {
       let txHash
 
@@ -50,6 +50,7 @@ export const executeWithdraw = async (
                 from: sender,
                 amount,
                 code,
+                hashedCode,
                 reason,
                 otplStatus: 'completed',
               },

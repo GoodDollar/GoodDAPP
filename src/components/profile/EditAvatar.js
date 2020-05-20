@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { withTheme } from 'react-native-paper'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
@@ -13,43 +13,67 @@ const log = logger.child({ from: 'EditAvatar' })
 
 const TITLE = 'Edit Avatar'
 
-const EditAvatar = ({ screenProps, theme }) => {
+const EditAvatar = ({ theme, navigation }) => {
   const store = GDStore.useStore()
-  const wrappedUserStorage = useWrappedUserStorage()
-  const profile = store.get('profile')
   const [showErrorDialog] = useErrorDialog()
-  const [avatar, setAvatar] = useState()
-  const [changed, setChanged] = useState(false)
-  const [saving, setSaving] = useState(false)
 
-  const saveAvatar = async () => {
-    setSaving(true)
+  const user = useWrappedUserStorage()
+  const profile = store.get('profile')
 
-    await wrappedUserStorage.setAvatar(avatar).catch(e => {
-      log.error('saving image failed:', e.message, e)
+  const [isDirty, markAsDirty] = useState(false)
+  const [processing, setProcessing] = useState(false)
+
+  const [avatar, setAvatar] = useState(profile.avatar)
+  const croppedRef = useRef(avatar)
+
+  const updateAvatar = useCallback(async () => {
+    setProcessing(true)
+
+    try {
+      await user.setAvatar(croppedRef.current)
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('saving image failed:', message, exception)
       showErrorDialog('We could not capture all your beauty. Please try again.')
-    })
+    } finally {
+      setProcessing(false)
+    }
 
-    setSaving(false)
-  }
+    navigation.navigate('ViewAvatar')
+  }, [navigation, markAsDirty, setProcessing, showErrorDialog, user])
 
-  const handleAvatarChange = avatar => {
-    setAvatar(avatar)
-    setChanged(true)
-  }
+  const onCropped = useCallback(
+    cropped => {
+      croppedRef.current = cropped
+      markAsDirty(true)
+    },
+    [markAsDirty]
+  )
+
+  useEffect(() => {
+    if (!processing) {
+      const { avatar } = profile
+
+      setAvatar(avatar)
+      markAsDirty(false)
+
+      croppedRef.current = avatar
+    }
+  }, [profile])
 
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row>
-          <ImageCropper image={profile.avatar} onChange={handleAvatarChange} />
+          <ImageCropper image={avatar} onChange={onCropped} />
         </Section.Row>
         <Section.Stack justifyContent="flex-end" grow>
           <CustomButton
-            disabled={!changed || saving}
-            loading={saving}
-            onPress={saveAvatar}
-            color={theme.colors.darkBlue}
+            disabled={!isDirty || processing}
+            loading={processing}
+            onPress={updateAvatar}
+            color={theme.colors.primary}
           >
             Save
           </CustomButton>

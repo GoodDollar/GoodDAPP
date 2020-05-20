@@ -22,7 +22,7 @@ let SignupRouter = React.lazy(() =>
       Promise.all([
         retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
         handleLinks(),
-        delay(2000),
+        delay(5000),
       ])
     )
     .then(r => r[0])
@@ -72,7 +72,7 @@ const handleLinks = async () => {
         delete params.web3
       }
       let path = window.location.pathname.slice(1)
-      path = path.length === 0 ? 'AppNavigation/Dashboard' : path
+      path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
       if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
         const dest = { path, params }
         log.debug('Saving destination url', dest)
@@ -114,7 +114,7 @@ const RouterSelector = () => {
   }, [isLoggedIn])
 
   return (
-    <React.Suspense fallback={<Splash animation={true} />}>
+    <React.Suspense fallback={<Splash animation />}>
       <Router />
     </React.Suspense>
   )

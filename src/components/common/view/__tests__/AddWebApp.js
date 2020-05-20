@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import AddWebApp from '../AddWebApp.web'
+import AddWebApp from '../AddWebApp'
 import SimpleStore from '../../../../lib/undux/SimpleStore'
 
 // Note: test renderer must be required after react-native.

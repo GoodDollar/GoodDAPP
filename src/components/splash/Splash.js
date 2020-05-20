@@ -1,8 +1,7 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import SplashSVG from '../../assets/Splash/logo.svg'
-import GoodDollarSVG from '../../assets/Splash/goodDollar.svg'
+import { StyleSheet } from 'react-native'
 import AnimationsLogo from '../common/animations/Logo'
+import wavePattern from '../../assets/splashWaves.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
@@ -13,22 +12,30 @@ const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <WavesBackground>
-        {animation ? (
-          <>
-            <AnimationsLogo />
-            <Section.Text style={styles.version} fontSize={22}>{`V${Config.version}`}</Section.Text>
-          </>
-        ) : (
-          <Section.Stack style={styles.content} grow justifyContent="center">
-            <View style={styles.logo}>
-              <SplashSVG widht="100%" height="100%" />
-            </View>
-            <View style={styles.goodDollar}>
-              <GoodDollarSVG widht="100%" height="100%" />
-            </View>
-            <Section.Text fontSize={22}>{`V${Config.version}`}</Section.Text>
+        <Section.Stack style={styles.content} grow justifyContent="center">
+          <Section.Stack>
+            <Section.Text
+              fontSize={26}
+              fontWeight="bold"
+              color="white"
+              letterSpacing={0.13}
+              lineHeight={32}
+              style={styles.title}
+            >
+              GoodDollar Demo
+            </Section.Text>
+            <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="medium">
+              {'All G$ coins in the demo\nare for test purposes only.\nOnce all feedback is incorporated,\n'}
+              <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="bold">
+                all demo G$ coins will be deleted.
+              </Section.Text>
+            </Section.Text>
           </Section.Stack>
-        )}
+          <AnimationsLogo animation={animation} style={styles.animation} />
+          <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
+            Demo V{Config.version}
+          </Section.Text>
+        </Section.Stack>
       </WavesBackground>
     </Section>
   </Wrapper>
@@ -46,30 +53,32 @@ const styles = StyleSheet.create({
     position: 'relative',
     backgroundColor: 'transparent',
     flex: 1,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
+  },
+  waves: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundImage: `url(${wavePattern})`,
+    backgroundRepeat: 'repeat-y',
+    opacity: 0.1,
   },
   content: {
-    marginVertical: '10%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    transform: [{ rotateY: '180deg' }],
+    overflow: 'hidden',
   },
-  version: {
-    zIndex: 100,
+  title: {
+    paddingHorizontal: 25,
+    paddingBottom: getDesignRelativeHeight(8),
+    marginHorizontal: 'auto',
+    marginBottom: getDesignRelativeHeight(10),
+    borderBottomWidth: 2,
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#000',
   },
-  logo: {
-    width: '100%',
-    height: 230,
-    minWidth: 230,
-    marginBottom: getDesignRelativeHeight(64),
-  },
-  goodDollar: {
-    width: '100%',
-    height: 40,
-    minWidth: 310,
-    marginBottom: getDesignRelativeHeight(22),
-    display: 'flex',
-    alignItems: 'center',
+  animation: {
+    marginTop: -getDesignRelativeHeight(75),
+    marginBottom: -getDesignRelativeHeight(120),
+    height: getDesignRelativeHeight(550),
   },
 })
 

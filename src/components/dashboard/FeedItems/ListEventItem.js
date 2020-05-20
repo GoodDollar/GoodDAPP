@@ -145,32 +145,25 @@ const getFeedTextStyles = () => ({
 })
 
 const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice }) => {
-  switch (feed.type) {
-    case 'welcome':
-      return <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
+  let result = ''
 
-    case 'invite':
-      return <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
-
-    case 'backup':
-      return <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
-
-    case 'spending':
-      return <ReadMoreText text="here >>>" buttonText="Read more..." />
-
-    case 'claiming':
-      return isSmallDevice ? <ReadMoreText text="daily G$" /> : null
-
-    case 'hanukaStarts':
-      return <ReadMoreText text="Claim today for extra G$$$" />
-
-    default:
-      return (
-        <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
-          {feed.data.message}
-        </Text>
-      )
+  if (feed.data.readMore) {
+    result = <ReadMoreText text={feed.data.readMore} buttonText="Learn more..." />
+  } else if (feed.data.readMore === false) {
+    //if readMore is exactly false we dont show anything
+    result = ''
+  } else {
+    switch (feed.type) {
+      default:
+        result = (
+          <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
+            {feed.data.message}
+          </Text>
+        )
+        break
+    }
   }
+  return result
 })
 
 const getStylesFromProps = ({ theme }) => ({
@@ -249,6 +242,12 @@ const getStylesFromProps = ({ theme }) => ({
   },
   typeIcon: {
     marginTop: theme.sizes.default,
+    height: normalize(35),
+    width: normalize(35),
+  },
+  typeAnimatedIcon: {
+    marginTop: theme.sizes.default,
+    alignSelf: 'flex-start',
     height: normalize(35),
     width: normalize(35),
   },

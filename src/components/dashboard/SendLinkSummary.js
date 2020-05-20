@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { Platform, Share, View } from 'react-native'
+import { Platform, View } from 'react-native'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
@@ -15,7 +15,7 @@ import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
-import { SEND_TITLE } from './utils/sendReceiveFlow'
+import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SurveySend from './SurveySend'
 
 const log = logger.child({ from: 'SendLinkSummary' })
@@ -32,113 +32,115 @@ export type AmountProps = {
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const gdstore = GDStore.useStore()
-  const profile = gdstore.get('profile')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
 
-  const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
-  const [shared, setShared] = useState(false)
+  const { push, goToRoot } = screenProps
+
+  const { fullName } = gdstore.get('profile')
+  const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
+  const { action } = params
+
+  const [isCitizen, setIsCitizen] = useState(gdstore.get('isLoggedInCitizen'))
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
-  const { amount, reason = null, counterPartyDisplayName } = screenState
+  const [loading, setLoading] = useState('')
 
-  const faceRecognition = useCallback(() => {
-    return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
-  }, [screenProps])
-
-  const shareAction = useCallback(
-    async paymentLink => {
-      const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
-
-      try {
-        await Share.share(share)
-        setShared(true)
-      } catch (e) {
-        if (e.name !== 'AbortError') {
-          showDialog({
-            title: 'There was a problem triggering share action.',
-            message: `You can still copy the link by tapping on "Copy link to clipboard".`,
-            dismissText: 'Ok',
-            onDismiss: () => {
-              const desktopShareLink = generateSendShareText(
-                paymentLink,
-                amount,
-                counterPartyDisplayName,
-                profile.fullName
-              )
-
-              screenProps.push('SendConfirmation', {
-                paymentLink: desktopShareLink,
-                amount,
-                reason,
-                counterPartyDisplayName,
-              })
-            },
-          })
-        }
-      }
-    },
-    [
-      generateSendShareText,
-      generateSendShareObject,
-      amount,
-      reason,
-      counterPartyDisplayName,
-      profile,
-      setShared,
-      showDialog,
-      screenProps,
-    ]
-  )
-
-  // Going to root after shared
-  useEffect(() => {
-    if (shared) {
-      screenProps.goToRoot()
-    }
-  }, [shared])
+  const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
 
   const handleConfirm = useCallback(() => {
-    let paymentLink = link
-
-    // Prevents calling back `generateLink` as it generates a new transaction every time it's called
-    if (paymentLink === '') {
-      paymentLink = generateLink()
-      setLink(paymentLink)
-    }
-
-    if (canShare) {
-      shareAction(paymentLink)
+    if (action === ACTION_SEND_TO_ADDRESS) {
+      sendViaAddress()
     } else {
-      const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
+      sendViaLink()
+    }
+  }, [action])
 
-      // Show confirmation
-      screenProps.push('SendConfirmation', {
-        paymentLink: desktopShareLink,
-        amount,
-        reason,
-        counterPartyDisplayName,
+  const sendViaAddress = useCallback(() => {
+    try {
+      setLoading(true)
+      let txhash
+      goodWallet.sendAmount(address, amount, {
+        onTransactionHash: hash => {
+          log.debug('Send G$ to address', { hash })
+          txhash = hash
+
+          // Save transaction
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            type: 'send',
+            data: {
+              to: address,
+              reason,
+              amount,
+            },
+          }
+
+          userStorage.enqueueTX(transactionEvent)
+
+          if (Config.isEToro) {
+            userStorage.saveSurveyDetails(hash, {
+              amount,
+              survey,
+            })
+          }
+
+          fireEvent('SEND_DONE', { type: 'Address' })
+
+          showDialog({
+            visible: true,
+            title: 'SUCCESS!',
+            message: 'The G$ was sent successfully',
+            buttons: [{ text: 'Yay!' }],
+            onDismiss: screenProps.goToRoot,
+          })
+
+          setLoading(false)
+
+          return hash
+        },
+        onError: e => {
+          log.error('Send TX failed:', e.message, e)
+
+          setLoading(false)
+          userStorage.markWithErrorEvent(txhash)
+        },
+      })
+    } catch (e) {
+      log.error('Send TX failed:', e.message, e)
+
+      showErrorDialog({
+        visible: true,
+        title: 'Transaction Failed!',
+        message: `There was a problem sending G$. Try again`,
+        dismissText: 'OK',
       })
     }
-  }, [
-    generateSendShareText,
-    generateSendShareText,
-    setLink,
-    canShare,
-    link,
-    amount,
-    reason,
-    counterPartyDisplayName,
-    profile,
-    screenProps,
-  ])
+  }, [setLoading, address, amount, reason, showDialog, showErrorDialog])
+
+  const sendViaLink = useCallback(() => {
+    let paymentLink = getLink()
+
+    const desktopShareLink = (canShare ? generateSendShareObject : generateSendShareText)(
+      paymentLink,
+      ...shareStringStateDepSource
+    )
+
+    // Go to transaction confirmation screen
+    push('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
+  }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
 
   /**
    * Generates link to send and call send email/sms action
    * @throws Error if link cannot be send
    */
-  const generateLink = useCallback(() => {
+  const getLink = useCallback(() => {
+    if (link) {
+      return link
+    }
+
     try {
       let txHash
 
@@ -159,6 +161,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               reason,
               amount,
               paymentLink: generateLinkResponse.paymentLink,
+              hashedCode: generateLinkResponse.hashedCode,
               code: generateLinkResponse.code,
             },
           }
@@ -203,7 +206,27 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       log.debug('generateLinkAndSend:', { generateLinkResponse })
 
       if (generateLinkResponse) {
-        const { paymentLink } = generateLinkResponse
+        const { txPromise, paymentLink } = generateLinkResponse
+
+        txPromise.catch(e => {
+          log.error('generateLinkAndSend:', e.message, e)
+          showErrorDialog('Link generation failed. Please try again', '', {
+            buttons: [
+              {
+                text: 'Try again',
+                onPress: () => {
+                  handleConfirm()
+                },
+              },
+            ],
+            onDismiss: () => {
+              goToRoot()
+            },
+          })
+        })
+
+        setLink(paymentLink)
+
         return paymentLink
       }
 
@@ -212,7 +235,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       showErrorDialog('Could not complete transaction. Please try again.')
       log.error('Something went wrong while trying to generate send link', e.message, e)
     }
-  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, screenProps])
+  }, [amount, reason, counterPartyDisplayName, survey, showErrorDialog, setLink, link, goToRoot])
 
   useEffect(() => {
     if (isCitizen === false) {
@@ -222,7 +245,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} />
+      <TopBar push={push} />
       <Section grow style={styles.section}>
         <Section.Stack>
           <Section.Row justifyContent="center">
@@ -231,7 +254,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </View>
           </Section.Row>
           <Section.Title fontWeight="medium">YOU ARE SENDING</Section.Title>
-          <Section.Row fontWeight="medium" style={styles.amountWrapper}>
+          <Section.Title fontWeight="medium" style={styles.amountWrapper}>
             <BigGoodDollar
               number={amount}
               color="red"
@@ -243,16 +266,22 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               }}
               bigNumberUnitProps={{ fontSize: 14 }}
             />
-          </Section.Row>
+          </Section.Title>
         </Section.Stack>
         <Section.Stack>
           <Section.Row style={[styles.credsWrapper, reason ? styles.toTextWrapper : undefined]}>
             <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
               To
             </Section.Text>
-            <Section.Text fontSize={24} fontWeight="medium" lineHeight={24} style={styles.toText}>
-              {counterPartyDisplayName}
-            </Section.Text>
+            {address ? (
+              <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
+                {address}
+              </Section.Text>
+            ) : (
+              <Section.Text fontSize={24} fontWeight="medium" lineHeight={24} style={styles.toText}>
+                {counterPartyDisplayName}
+              </Section.Text>
+            )}
           </Section.Row>
           {reason && (
             <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
@@ -275,7 +304,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton onPress={isCitizen ? handleConfirm : faceRecognition} disabled={isCitizen === undefined}>
+            <CustomButton onPress={handleConfirm} disabled={isCitizen === undefined} lodaing={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>

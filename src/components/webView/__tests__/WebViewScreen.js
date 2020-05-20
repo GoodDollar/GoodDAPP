@@ -1,51 +1,24 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import WebViewScreen, { createWebViewScreen } from '../WebViewScreen'
-import { FAQ, PrivacyPolicy, Support, TermsOfUse } from '../webViewInstances'
+import { FAQ, PrivacyPolicy, PrivacyPolicyAndTerms, Support, SupportForUnsigned } from '../webViewInstances'
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
 // Note: test renderer must be required after react-native.
 
-describe('WebViewScreen', () => {
-  it('renders without errors', () => {
-    const tree = renderer.create(<WebViewScreen source="sourceUrl" />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<WebViewScreen source="sourceUrl" />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-
-  it('renders without errors', () => {
-    const NewWebScreen = createWebViewScreen('https://community.gooddollar.org/terms/', 'Terms of Use')
-    const tree = renderer.create(<NewWebScreen />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const NewWebScreen = createWebViewScreen('https://community.gooddollar.org/terms/', 'Terms of Use')
-    const component = renderer.create(<NewWebScreen />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-})
-
 describe('WebViewScreen Instances', () => {
-  it('they renders without errors', () => {
+  it('PrivacyPolicyAndTerms renders without errors', () => {
     const tree = renderer.create(
       <StoresWrapper>
-        <TermsOfUse />
+        <PrivacyPolicyAndTerms />
       </StoresWrapper>
     )
     expect(tree.toJSON()).toBeTruthy()
   })
 
-  it('TermsOfUse matches snapshot', () => {
+  it('PrivacyPolicyAndTerms matches snapshot', () => {
     const component = renderer.create(
       <StoresWrapper>
-        <TermsOfUse />
+        <PrivacyPolicyAndTerms />
       </StoresWrapper>
     )
     const tree = component.toJSON()
@@ -103,6 +76,25 @@ describe('WebViewScreen Instances', () => {
     const component = renderer.create(
       <StoresWrapper>
         <Support />
+      </StoresWrapper>
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('SupportForUnsigned renders without errors', () => {
+    const tree = renderer.create(
+      <StoresWrapper>
+        <SupportForUnsigned />
+      </StoresWrapper>
+    )
+    expect(tree.toJSON()).toBeTruthy()
+  })
+
+  it('SupportForUnsigned matches snapshot', () => {
+    const component = renderer.create(
+      <StoresWrapper>
+        <SupportForUnsigned />
       </StoresWrapper>
     )
     const tree = component.toJSON()

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'

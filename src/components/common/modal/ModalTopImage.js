@@ -1,34 +1,20 @@
 // @flow
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
-import ReceiveSVG from '../../../assets/Feed/receive.svg'
-import SendSVG from '../../../assets/Feed/send.svg'
-import MessagePNG from '../../../assets/Feed/message.png'
-import InvitePNG from '../../../assets/Feed/invite.png'
-import InviteFriendsPNG from '../../../assets/Feed/inviteFriends.png'
-import BackupPNG from '../../../assets/Feed/backup.png'
-import SpendingSVG from '../../../assets/Feed/spending.svg'
-import ClaimingSVG from '../../../assets/Feed/claiming.svg'
-import HanukaStartsSVG from '../../../assets/Feed/hanukaStarts.svg'
+import { Image, View } from 'react-native'
+import receiveIllustation from '../../../assets/Feed/receive.svg'
+import sendIllustration from '../../../assets/Feed/send.svg'
+import messageIllustration from '../../../assets/Feed/message.png'
+import inviteIllustration from '../../../assets/Feed/invite.png'
+import claimIllustration from '../../../assets/Feed/IllustrationsMenHero.svg' // eslint-disable-line
+import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
+import backupIllustration from '../../../assets/Feed/backup.png'
+import spendingIllustration from '../../../assets/Feed/spending.svg'
+import claimingIllustration from '../../../assets/Feed/claiming.svg'
+import hanukaStartsIllustration from '../../../assets/Feed/hanukaStarts.svg'
 import ReceivedAnimation from '../../common/animations/Received'
 import SendAnimation from '../../common/animations/Send'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-
-const mainPhotoStyles = {
-  web: {
-    height: '20vh',
-    width: '100%',
-  },
-  ios: {
-    height: getDesignRelativeHeight(175, true),
-    width: '100%',
-  },
-  android: {
-    height: getDesignRelativeHeight(175, true),
-    width: '100%',
-  },
-}
 
 export const getImageByType = (type, styles = {}) =>
   ({
@@ -48,7 +34,7 @@ export const getImageByType = (type, styles = {}) =>
       containerStyle: styles.mainImageContainer,
     },
     claiming: {
-      svgSrc: ClaimingSVG,
+      src: claimingIllustration,
       style: styles.claiming,
       containerStyle: styles.mainImageContainer,
     },
@@ -58,60 +44,62 @@ export const getImageByType = (type, styles = {}) =>
       containerStyle: styles.mainImageContainer,
     },
     receive: {
-      svgSrc: ReceiveSVG,
+      src: receiveIllustation,
       style: styles.mainImage,
       containerStyle: styles.mainImageContainer,
     },
     send: {
-      svgSrc: SendSVG,
+      src: sendIllustration,
       style: styles.mainImage,
       containerStyle: styles.mainImageContainer,
     },
     message: {
-      imageSrc: MessagePNG,
+      src: messageIllustration,
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
     invite: {
-      imageSrc: InviteFriendsPNG,
+      src: inviteFriendsIllustration,
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
     welcome: {
-      imageSrc: InvitePNG,
+      src: inviteIllustration,
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
+    claimsThreshold: {
+      src: claimIllustration,
+      style: styles.claimIllustration,
+      containerStyle: styles.mainPhotoContainer,
+    },
     backup: {
-      imageSrc: BackupPNG,
+      src: backupIllustration,
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
     spending: {
-      svgSrc: SpendingSVG,
+      src: spendingIllustration,
       style: styles.spending,
       containerStyle: styles.mainPhotoContainer,
     },
     hanukaStarts: {
-      svgSrc: HanukaStartsSVG,
+      src: hanukaStartsIllustration,
       style: styles.hanukaStarts,
       containerStyle: styles.mainImageContainer,
     },
   }[type] || null)
 
 const TopImage = ({ type, styles }) => {
-  const ImageData = getImageByType(type, styles)
-
-  if (ImageData) {
-    return (
-      <View style={ImageData.containerStyle}>
-        {!!ImageData.animation && <ImageData.animationComponent />}
-        {!!ImageData.imageSrc && <Image style={ImageData.style} source={ImageData.imageSrc} />}
-        {!!ImageData.svgSrc && (
-          <View style={ImageData.style}>
-            <ImageData.svgSrc />
-          </View>
-        )}
+  const image = getImageByType(type, styles)
+  if (image) {
+    return image.animation ? (
+      <View style={image.containerStyle}>
+        <image.animationComponent />
+      </View>
+    ) : (
+      <View style={image.containerStyle}>
+        <Image style={image.style} source={image.src} />
       </View>
     )
   }
@@ -142,7 +130,15 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: -theme.sizes.defaultDouble,
     marginBottom: 15,
   },
-  mainPhoto: Platform.select(mainPhotoStyles),
+  mainPhoto: {
+    height: '20vh',
+    width: '100%',
+  },
+  claimIllustration: {
+    marginTop: getDesignRelativeHeight(30),
+    height: '24vh',
+    width: '60%',
+  },
   spending: {
     width: getDesignRelativeWidth(176),
     height: getDesignRelativeHeight(76),

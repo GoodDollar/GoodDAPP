@@ -41,7 +41,7 @@ class RocketShip extends AnimationBase {
           imageAssetsFolder={imageAssetsFolder}
           ref={this.setAnim}
           style={Platform.select(styles)}
-          source={animationData}
+          source={this.improveAnimationData(animationData)}
           enableMergePathsAndroidForKitKatAndAbove
         />
       </View>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { AsyncStorage, View } from 'react-native'
+import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
-import { isMobileSafari } from '../../../lib/utils/platform'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import {
@@ -14,12 +14,12 @@ import {
 import { withStyles } from '../../../lib/styles'
 import AddAppSVG from '../../../assets/addApp.svg'
 import Icon from '../view/Icon'
-import userStorage from '../../../lib/gundb/UserStorage'
-import API from '../../../lib/API/api'
-
 import Text from '../../common/view/Text'
-
 import logger from '../../../lib/logger/pino-logger'
+import Config from '../../../config/config'
+
+// import userStorage from '../../../lib/gundb/UserStorage'
+// import API from '../../../lib/API/api'
 
 const log = logger.child({ from: 'AddWebApp' })
 
@@ -50,7 +50,7 @@ const mapStylesToProps = ({ theme }) => {
       width: '100%',
       textAlign: 'center',
       lineHeight: 22,
-      fontWeight: 500,
+      fontWeight: '500',
     },
     explanationDialogTextBold: {
       fontWeight: 'bold',
@@ -110,13 +110,13 @@ const AddWebApp = props => {
   const { show, showAddWebAppDialog } = store.get('addWebApp')
   const installPrompt = store.get('installPrompt')
 
-  const showExplanationDialog = async () => {
-    const magicLinkCode = userStorage.getMagicLink()
-    const mobile = await userStorage.getProfileFieldValue('mobile')
-
-    API.sendMagicCodeBySms(mobile, magicLinkCode).catch(e => {
-      log.error('Failed to send magic link code to user by sms', e.message, e)
-    })
+  const showExplanationDialog = () => {
+    // const magicLinkCode = userStorage.getMagicLink()
+    // const mobile = await userStorage.getProfileFieldValue('mobile')
+    //
+    // API.sendMagicCodeBySms(mobile, magicLinkCode).catch(e => {
+    //   log.error('Failed to send magic link code to user by sms', e.message, e)
+    // })
 
     showDialog({
       content: <ExplanationDialog />,
@@ -200,6 +200,10 @@ const AddWebApp = props => {
   }
 
   const checkShowDialog = async () => {
+    //dont show add to home on pure desktop
+    if (isMobile === false && Config.showAddToHomeDesktop === false) {
+      return
+    }
     const [lastCheck, nextCheck, skipCount, lastClaim, iOSAdded] = await Promise.all([
       AsyncStorage.getItem('GD_AddWebAppLastCheck'),
       AsyncStorage.getItem('GD_AddWebAppNextCheck'),

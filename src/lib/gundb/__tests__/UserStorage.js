@@ -10,6 +10,7 @@ import {
   getReceiveDataFromReceipt,
   hanukaBonusStartsMessage,
   inviteFriendsMessage,
+  longUseOfClaims,
   startClaiming,
   startSpending,
   type TransactionEvent,
@@ -425,6 +426,12 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(startClaiming)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(startClaiming)
+  })
+
+  it('events/claimed  for 14 days ', async () => {
+    await userStorage.updateFeedEvent(longUseOfClaims)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(longUseOfClaims)
   })
 
   it('events/add hanuka bonus starts event', async () => {

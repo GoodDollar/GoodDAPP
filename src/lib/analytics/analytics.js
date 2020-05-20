@@ -10,6 +10,8 @@ export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
 export const CLICK_BTN_CARD_ACTION = 'CLICK_BTN_CARD_ACTION'
 export const CLICK_DELETE_WALLET = 'CLICK_DELETE_WALLET'
+export const SIGNUP_STARTED = 'SIGNUP_STARTED'
+export const SIGNIN_TORUS_SUCCESS = 'TORUS_SIGNIN_SUCCESS'
 export const SIGNIN_SUCCESS = 'MAGICLINK_SUCCESS'
 export const SIGNIN_FAILED = 'MAGICLINK_FAILED'
 export const RECOVER_SUCCESS = 'RECOVER_SUCCESS'
@@ -41,6 +43,8 @@ const log = logger.child({ from: 'analytics' })
 export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
   const identifier = goodWallet && goodWallet.getAccountForType('login')
   const email = userStorage && (await userStorage.getProfileFieldValue('email'))
+  log.debug('got identifiers', { identifier, email })
+
   const emailOrId = email || identifier
 
   if (bugsnagClient) {

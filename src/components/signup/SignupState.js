@@ -4,7 +4,13 @@ import { AsyncStorage, Platform, ScrollView, StyleSheet, View } from 'react-nati
 import { createSwitchNavigator } from '@react-navigation/core'
 import { get } from 'lodash'
 import { isMobileSafari } from '../../lib/utils/platform'
-import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
+import {
+  DESTINATION_PATH,
+  GD_INITIAL_REG_METHOD,
+  GD_USER_MNEMONIC,
+  IS_LOGGED_IN,
+} from '../../lib/constants/localStorage'
+import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
@@ -28,43 +34,70 @@ import MagicLinkInfo from './MagicLinkInfo'
 
 const log = logger.child({ from: 'SignupState' })
 
-export type SignupState = UserModel & SMSRecord
+export type SignupState = UserModel & SMSRecord & { invite_code?: string }
+
 type Ready = Promise<{ goodWallet: any, userStorage: any }>
-const SignupWizardNavigator = createSwitchNavigator(
-  {
-    Name: NameForm,
-    Phone: PhoneForm,
-    SMS: SmsForm,
-    Email: EmailForm,
-    EmailConfirmation,
-    SignupCompleted,
-    MagicLinkInfo,
-  },
-  navigationConfig
-)
+
+const routes = {
+  Name: NameForm,
+  Phone: PhoneForm,
+  SMS: SmsForm,
+  Email: EmailForm,
+  EmailConfirmation,
+  SignupCompleted,
+}
+
+if (Config.enableSelfCustody) {
+  Object.assign(routes, { MagicLinkInfo })
+}
+
+const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
-  const _w3UserFromProps = get(navigation, 'state.routes[1].params.w3User', {})
-  const w3Token = get(navigation, 'state.routes[1].params.w3Token')
+  const _w3UserFromProps =
+    get(navigation, 'state.params.w3User') ||
+    get(navigation.state.routes.find(route => get(route, 'params.w3User')), 'params.w3User', {})
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
+
+  const w3Token =
+    get(navigation, 'state.params.w3Token') ||
+    get(navigation.state.routes.find(route => get(route, 'params.w3Token')), 'params.w3Token', undefined)
+
+  const torusUserFromProps =
+    get(navigation, 'state.params.torusUser') ||
+    get(navigation.state.routes.find(route => get(route, 'params.torusUser')), 'params.torusUser', {})
+  const _regMethod =
+    get(navigation, 'state.params.regMethod') ||
+    get(navigation.state.routes.find(route => get(route, 'params.regMethod')), 'params.regMethod', undefined)
+  const _torusProvider =
+    get(navigation, 'state.params.torusProvider') ||
+    get(navigation.state.routes.find(route => get(route, 'params.torusProvider')), 'params.torusProvider', undefined)
+
+  const [regMethod] = useState(_regMethod)
+  const [torusProvider] = useState(_torusProvider)
+  const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
+  const isW3User = w3UserFromProps.email
+  const skipEmail = isRegMethodSelfCustody === false || isW3User
 
   const initialState: SignupState = {
     ...getUserModel({
-      email: w3UserFromProps.email || '',
-      fullName: w3UserFromProps.full_name || '',
+      email: w3UserFromProps.email || torusUserFromProps.email || '',
+      fullName: w3UserFromProps.full_name || torusUserFromProps.name || '',
       mobile: '',
     }),
     smsValidated: false,
-    isEmailConfirmed: false,
+    isEmailConfirmed: skipEmail,
     jwt: '',
-    skipEmail: !!w3UserFromProps.email,
-    skipEmailConfirmation: !!w3UserFromProps.email,
+    skipEmail: skipEmail,
+    skipEmailConfirmation: Config.skipEmailVerification || skipEmail,
+    skipMagicLinkInfo: isRegMethodSelfCustody === false,
     w3Token,
   }
+
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
@@ -120,7 +153,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
   }
 
-  const checkWeb3Token = async () => {
+  /**
+   * fetch user details if not passed via w3UserFromProps
+   * ie in case of page refresh
+   */
+
+  const checkW3Token = async () => {
     let w3Token
     try {
       w3Token = await AsyncStorage.getItem('GD_web3Token')
@@ -130,7 +168,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       let w3User = w3UserFromProps
       log.info('from props:', { w3User })
-      if (w3User.email === undefined) {
+      if (w3User.email == null) {
         store.set('loadingIndicator')({ loading: true })
         await API.ready
 
@@ -144,6 +182,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             email: w3User.email || '',
             fullName: w3User.full_name || '',
             w3Token,
+            isEmailConfirmed: !!w3User.email,
             skipEmail: !!w3User.email,
             skipEmailConfirmation: !!w3User.email,
           }
@@ -163,14 +202,98 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
   }
 
+  //keep privatekey from torus as master seed before initializing wallet
+  //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
+  //this is true in case of refresh
+  const checkTorusLogin = () => {
+    const masterSeed = torusUserFromProps.privateKey
+    if (regMethod === REGISTRATION_METHOD_TORUS && masterSeed === undefined) {
+      log.debug('torus user information missing', { torusUserFromProps })
+      return navigation.navigate('Auth')
+    }
+    return !!masterSeed
+  }
+
+  const verifyStartRoute = () => {
+    //we dont support refresh if regMethod param is missing then go back to Auth
+    //if regmethod is missing it means user did refresh on later steps then first 1
+    if (!regMethod) {
+      log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
+      return navigation.navigate('Auth')
+    }
+  }
+
+  // const verifyStartRoute = async () => {
+  //   // don't allow to start sign up flow not from begining except when w3Token provided
+  //   //or have info from torus login (ie name)
+  //   const token = await AsyncStorage.getItem('GD_web3Token')
+
+  //   log.debug('redirecting to start, got index:', navigation.state.index, { torusUserFromProps })
+
+  //   if ((torusUserFromProps.name || token) && navigation.state.index > 1) {
+  //     log.debug('redirecting to Phone skipping name')
+  //     return navigateWithFocus(navigation.state.routes[1].key)
+  //   }
+
+  //   if (!(torusUserFromProps.name || token) === false && navigation.state.index > 0) {
+
+  //     return navigateWithFocus(navigation.state.routes[0].key)
+  //   }
+  // }
+
+  /**
+   * if user arrived from w3 with an inviteCode, we forward it to the server
+   * which registers the user on w3 with it
+   */
+  const checkW3InviteCode = async () => {
+    const _destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
+    const destinationPath = JSON.parse(_destinationPath)
+    return get(destinationPath, 'params.inviteCode')
+  }
+
   const onMount = async () => {
+    verifyStartRoute()
+
+    // // Recognize registration method (page refresh case included)
+    // const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
+
+    // if (initialRegMethod && initialRegMethod !== regMethod) {
+    //   setRegMethod(initialRegMethod)
+    //   await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
+    //   const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY
+
+    //   // set regMethod sensitive variables into state, they are already initialized only need to re-set if
+    //   //regmethod has changed by refresh
+    //   setState({
+    //     ...state,
+    //     skipEmail: skipEmailConfirmOrMagicLink,
+    //     skipEmailConfirmation: Config.skipEmailVerification || skipEmailConfirmOrMagicLink,
+    //     skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
+    //     isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
+    //   })
+    // }
+
+    checkTorusLogin()
+
     //get user country code for phone
     //read user data from w3 if needed
-    await Promise.all([getCountryCode(), checkWeb3Token()])
+    //read torus seed
+    await Promise.all([getCountryCode(), checkW3Token()])
+
+    //verify web3 email here
+    if (Config.skipEmailVerification === false && state.w3Token && state.email) {
+      verifyW3Email(state.email, state.w3Token)
+    }
 
     //lazy login in background
     const ready = (async () => {
-      log.debug('ready: Starting initialization')
+      log.debug('ready: Starting initialization', { w3UserFromProps, isRegMethodSelfCustody, torusUserFromProps })
+      if (torusUserFromProps.privateKey) {
+        log.debug('skipping ready initialization (already done in AuthTorus)')
+        const [, { init }] = await Promise.all([API.ready, retryImport(() => import('../../init'))])
+        return init()
+      }
+
       const { init } = await retryImport(() => import('../../init'))
       const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
       const { goodWallet, userStorage, source } = await init()
@@ -188,7 +311,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
           // showErrorDialog('Failed authenticating with server', e)
         })
+
       await API.ready
+      log.debug('ready: signupstate ready')
 
       //now that we are loggedin, reload api with JWT
       // await API.init()
@@ -197,22 +322,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     setReady(ready)
   }
+
   useEffect(() => {
-    // don't allow to start sign up flow not from begining except when w3Token provided
-    AsyncStorage.getItem('GD_web3Token').then(token => {
-      log.debug('redirecting to start, got index:', navigation.state.index)
-
-      if (token && navigation.state.index > 1) {
-        setLoading(true)
-        return navigateWithFocus(navigation.state.routes[1].key)
-      }
-
-      if (!token && navigation.state.index > 0) {
-        setLoading(true)
-        return navigateWithFocus(navigation.state.routes[0].key)
-      }
-    })
-
     onMount()
   }, [])
 
@@ -223,30 +334,42 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     log.info('Sending new user data', state)
     try {
       const { goodWallet, userStorage } = await ready
+      const inviteCode = await checkW3InviteCode()
+      const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
 
-      // TODO: this comment is incorrect until we restore email verificaiton requirement
-      // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
-      // user's profile is persisted (`userStorage.setProfile`).
-      // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
-      // saved to the `state`
+      ;['email', 'fullName', 'mobile'].forEach(field => {
+        if (!requestPayload[field]) {
+          const fieldNames = { email: 'Email', fullName: 'Name', mobile: 'Mobile' }
+          throw new Error(`Seems like you didn't fill your ${fieldNames[field]}`)
+        }
+      })
 
-      const { skipEmail, skipEmailConfirmation, ...requestPayload } = state
+      if (inviteCode) {
+        requestPayload.inviteCode = inviteCode
+      }
 
-      //first need to add user to our database
-      // Stores creationBlock number into 'lastBlock' feed's node
+      if (regMethod === REGISTRATION_METHOD_TORUS) {
+        requestPayload.torusProvider = torusProvider
+      }
 
       let w3Token = requestPayload.w3Token
-
       if (w3Token) {
         userStorage.userProperties.set('cameFromW3Site', true)
       }
 
-      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-      await Promise.all([
-        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }).catch(_ => _),
-        userStorage.setProfileField('registered', true, 'public').catch(_ => _),
-      ])
+      userStorage.userProperties.set('regMethod', regMethod)
+      requestPayload.regMethod = regMethod
 
+      const mnemonic = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || ''
+      await userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }).catch(_ => _)
+
+      // Stores creationBlock number into 'lastBlock' feed's node
+      goodWallet
+        .getBlockNumber()
+        .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
+        .catch(e => log.error('save blocknumber failed:', e.message, e))
+
+      //first need to add user to our database
       const addUserAPIPromise = API.addUser(requestPayload).then(res => {
         const data = res.data
 
@@ -266,11 +389,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       await addUserAPIPromise
 
-      goodWallet
-        .getBlockNumber()
-        .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
-        .catch(e => log.error('save blocknumber failed:', e.message, e))
-
       //need to wait for API.addUser but we dont need to wait for it to finish
       Promise.all([
         w3Token &&
@@ -279,19 +397,40 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           ),
       ])
 
-      await AsyncStorage.setItem(IS_LOGGED_IN, 'true')
+      userStorage.setProfileField('registered', true, 'public').catch(_ => _)
+      userStorage.gunuser.get('registered').put(true)
+      await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
       AsyncStorage.removeItem('GD_web3Token')
+      AsyncStorage.removeItem(GD_INITIAL_REG_METHOD)
 
       log.debug('New user created')
       setLoading(false)
       return true
     } catch (e) {
       log.error('New user failure', e.message, e)
-      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate)
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, e.message)
 
       // showErrorDialog('Something went on our side. Please try again')
       setCreateError(true)
+      return false
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const waitForRegistrationToFinish = async () => {
+    try {
+      let ok
+      if (createError) {
+        ok = await finishRegistration()
+      } else {
+        ok = await finishedPromise
+      }
+      log.debug('user registration synced and completed', { ok })
+      return ok
+    } catch (e) {
+      log.error('waiting for user registration failed', e.message, e)
       return false
     } finally {
       setLoading(false)
@@ -306,10 +445,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
 
     return nextRoute
-  }
-
-  function getCurrentRoute(routes, routeIndex) {
-    return routes[routeIndex]
   }
 
   function getPrevRoute(routes, routeIndex, state) {
@@ -333,24 +468,20 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     log.info('signup data:', { data })
 
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
-    let currentRoute = getCurrentRoute(navigation.state.routes, navigation.state.index)
 
     const newState = { ...state, ...data }
     setState(newState)
     log.info('signup data:', { data, nextRoute, newState })
 
-    if (currentRoute.key === 'MagicLinkInfo') {
+    if (nextRoute === undefined) {
+      const ok = await waitForRegistrationToFinish()
+
       //this will cause a re-render and move user to the dashboard route
-      store.set('isLoggedIn')(true)
+      if (ok) {
+        store.set('isLoggedIn')(true)
+      }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {
-        //verify web3 email here
-        if (newState.w3Token && newState.email) {
-          await verifyW3Email(newState.email, newState.w3Token)
-        }
-
-        //we need API to be logged in, so we await for ready
-        await ready
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
           const errorMessage =
@@ -367,16 +498,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
-        if (newState.w3Token) {
-          // Skip EmailConfirmation screen
-          nextRoute = navigation.state.routes[navigation.state.index + 2]
-
-          // Set email as confirmed
-          setState({ ...newState, isEmailConfirmed: true })
-
-          return
-        }
-
+        setLoading(true)
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
           return showErrorDialog('Could not send verification email. Please try again')
@@ -390,10 +512,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
           // Set email as confirmed
           setState({ ...newState, isEmailConfirmed: true })
-        } else {
-          // if email is properly sent, persist current user's information to userStorage
-          // await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
+
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error('email verification failed unexpected:', e.message, e)
@@ -401,22 +521,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       } finally {
         setLoading(false)
       }
-    } else if (nextRoute && nextRoute.key === 'MagicLinkInfo') {
-      setLoading(true)
-      let ok
-      if (createError) {
-        ok = await finishRegistration()
-      } else {
-        ok = await finishedPromise
-      }
-
-      log.debug('user registration synced and completed', { ok })
-
+    } else if (nextRoute.key === 'MagicLinkInfo') {
+      let ok = await waitForRegistrationToFinish()
       if (ok) {
         const { userStorage } = await ready
-        API.sendMagicLinkByEmail(userStorage.getMagicLink())
-          .then(r => log.info('magiclink sent'))
-          .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
+        if (isRegMethodSelfCustody) {
+          API.sendMagicLinkByEmail(userStorage.getMagicLink())
+            .then(r => log.info('magiclink sent'))
+            .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
+        }
         return navigateWithFocus(nextRoute.key)
       }
     } else if (nextRoute) {

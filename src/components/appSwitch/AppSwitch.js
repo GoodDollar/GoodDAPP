@@ -1,6 +1,6 @@
 // @flow
-import React, { Platform, useEffect, useState } from 'react'
-import { AsyncStorage } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { AsyncStorage, Platform } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'

@@ -122,6 +122,11 @@ exports[`ViewAvatar matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n"
+            style={
+              Object {
+                "zIndex": 1,
+              }
+            }
           >
             <div
               className="css-view-1dbjc4n"
@@ -157,7 +162,7 @@ exports[`ViewAvatar matches snapshot 1`] = `
                   "height": "42px",
                   "justifyContent": "center",
                   "left": "auto",
-                  "marginRight": "-42px",
+                  "marginRight": "-42.666666666666664px",
                   "msFlexAlign": "center",
                   "msFlexPack": "center",
                   "msTouchAction": "manipulation",

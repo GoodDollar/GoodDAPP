@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, Platform } from 'react-native'
+import { AsyncStorage, Platform } from 'react-native'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -12,7 +12,6 @@ import wrapper from '../../lib/undux/utils/wrapper'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { WrapperClaim } from '../common'
-import arrowsDown from '../../assets/arrowsDown.svg'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
@@ -32,8 +31,6 @@ type ClaimState = {
     amount: string,
   },
 }
-
-Image.prefetch(arrowsDown)
 
 const log = logger.child({ from: 'Claim' })
 

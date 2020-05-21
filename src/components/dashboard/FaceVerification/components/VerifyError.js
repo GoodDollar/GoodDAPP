@@ -4,7 +4,7 @@
 import React, { useEffect, useMemo } from 'react'
 
 // 2. React Native
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 
 // 3. Libraries components (here're absent)
 
@@ -28,10 +28,6 @@ import { withStyles } from '../../../../lib/styles'
 import Oops from '../../../../assets/oops.svg'
 
 const defaultLogger = logger.child({ from: 'VerifyError' })
-
-if (Platform.OS === 'web') {
-  Image.prefetch(Oops)
-}
 
 const VerifyError = ({
   styles,
@@ -63,7 +59,9 @@ const VerifyError = ({
             {' '}
             {`${firstName},\n${title}`}
           </Section.Title>
-          <Image source={Oops} resizeMode="center" style={styles.errorImage} />
+          <View style={styles.errorImage}>
+            <Oops />
+          </View>
           <Section style={styles.errorSection}>
             <Separator width={2} />
             <Text color="primary" fontWeight="bold" style={styles.description}>

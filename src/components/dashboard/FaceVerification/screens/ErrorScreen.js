@@ -1,18 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
-import { Image, Platform } from 'react-native'
 
 import { CustomButton } from '../../../common'
 import VerifyError from '../components/VerifyError'
 
 import logger from '../../../../lib/logger/pino-logger'
 
-import Oops from '../../../../assets/oops.svg'
-
 const log = logger.child({ from: 'FaceVerificationError' })
-
-if (Platform.OS === 'web') {
-  Image.prefetch(Oops)
-}
 
 const ErrorScreen = ({ styles, screenProps }) => {
   const { screenState } = screenProps

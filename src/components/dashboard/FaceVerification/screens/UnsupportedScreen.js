@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, Platform, View } from 'react-native'
+import { AsyncStorage, View } from 'react-native'
 
 import QRCode from 'qrcode.react'
 
@@ -16,12 +16,7 @@ import { isIOS, isMobile } from '../../../../lib/utils/platform'
 import { GD_USER_MNEMONIC } from '../../../../lib/constants/localStorage'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
-import Oops from '../../../../assets/oops.svg'
 import { withStyles } from '../../../../lib/styles'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(Oops)
-}
 
 const log = logger.child({ from: 'FaceVerificationUnsupported' })
 

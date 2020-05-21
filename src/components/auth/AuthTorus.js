@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
+import { AsyncStorage, TouchableOpacity, View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent, SIGNIN_TORUS_SUCCESS, SIGNUP_STARTED } from '../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../lib/constants/localStorage'
@@ -13,7 +13,7 @@ import Recover from '../signin/Mnemonics'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Auth/torusIllustration.svg'
+import Illustration from '../../assets/Auth/torusIllustration.svg'
 import config from '../../config/config'
 import { theme as mainTheme } from '../theme/styles'
 import Section from '../common/layout/Section'
@@ -23,7 +23,6 @@ import retryImport from '../../lib/utils/retryImport'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { useTorus } from './useTorus'
 
-Image.prefetch(illustration)
 const log = logger.child({ from: 'AuthTorus' })
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const asGuest = true
@@ -186,7 +185,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           {"\nYes, it's that simple."}
         </Text>
       </Text>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+      <View style={styles.illustration}>
+        <Illustration />
+      </View>
       <Section style={styles.bottomContainer}>
         {asGuest && (
           <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>

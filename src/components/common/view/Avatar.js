@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { Avatar } from 'react-native-paper'
 import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 import { withStyles } from '../../../lib/styles'
@@ -22,12 +22,18 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
     style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
     underlayColor="#fff"
   >
-    <Avatar.Image
-      size={imageSize || size - 2}
-      source={{ uri: source || UnknownProfileSVG }}
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
-      {...avatarProps}
-    />
+    {source ? (
+      <Avatar.Image
+        size={imageSize || size - 2}
+        source={{ uri: source }}
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
+        {...avatarProps}
+      />
+    ) : (
+      <View style={{ width: size, height: size, backgroundColor: 'rgba(0, 0, 0, 0)' }} {...avatarProps}>
+        <UnknownProfileSVG />
+      </View>
+    )}
     {children}
   </TouchableOpacity>
 )

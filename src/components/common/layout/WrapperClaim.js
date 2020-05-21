@@ -1,7 +1,7 @@
 // @flow
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
-import { isMobileOnly } from 'mobile-device-detect'
+import { isMobileOnly } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 

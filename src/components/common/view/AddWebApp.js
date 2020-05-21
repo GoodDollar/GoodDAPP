@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { AsyncStorage, View } from 'react-native'
-import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
+import { isMobileSafari, isMobileWeb } from '../../../lib/utils/platform'
 import SimpleStore, { assertStore } from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import {
@@ -222,7 +222,7 @@ const AddWebApp = props => {
 
   const checkShowDialog = async () => {
     //dont show add to home on pure desktop
-    if (isMobile === false && Config.showAddToHomeDesktop === false) {
+    if (isMobileWeb === false && Config.showAddToHomeDesktop === false) {
       return
     }
     const [lastCheck, nextCheck, skipCount, lastClaim, iOSAdded] = await Promise.all([

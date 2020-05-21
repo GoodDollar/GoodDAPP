@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Platform, View } from 'react-native'
-import { isMobile } from 'mobile-device-detect'
+import { isMobileWeb as isMobile } from '../../lib/utils/platform'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'

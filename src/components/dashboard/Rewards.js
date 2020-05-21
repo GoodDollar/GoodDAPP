@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-// import { isIOS } from 'mobile-device-detect'
+// import { isIOSWeb } from '../../lib/utils/platform'
 import { get, toPairs } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
@@ -11,7 +11,7 @@ import { createIframe } from '../webView/iframe'
 
 const log = logger.child({ from: 'RewardsTab' })
 
-const openInNewTab = false //isIOS
+const openInNewTab = false //isIOSWeb
 const RewardsTab = props => {
   const [token, setToken] = useState()
   const store = SimpleStore.useStore()

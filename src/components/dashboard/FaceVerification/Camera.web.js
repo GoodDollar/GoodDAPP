@@ -1,7 +1,7 @@
 // @flow
 import { Dimensions } from 'react-native'
 import React, { createRef, useEffect } from 'react'
-import { isMobile } from 'mobile-device-detect'
+import { isMobileWeb as isMobile } from '../../../lib/utils/platform'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'Camera' })

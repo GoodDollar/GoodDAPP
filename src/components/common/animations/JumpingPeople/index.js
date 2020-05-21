@@ -1,11 +1,11 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
-import { isMobileOnly } from 'mobile-device-detect'
 import { cloneDeep } from 'lodash'
 
 import AnimationBase from '../Base'
 import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
+import { isMobileOnly } from '../../../../lib/utils/platform'
 
 import animationData from './data.json'
 

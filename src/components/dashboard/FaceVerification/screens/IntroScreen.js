@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
-import { isIOS, isMobileSafari } from 'mobile-device-detect'
+import { isIOSWeb as isIOS, isMobileSafari } from '../../../../lib/utils/platform'
 import GDStore from '../../../../lib/undux/GDStore'
 import Separator from '../../../common/layout/Separator'
 import logger from '../../../../lib/logger/pino-logger'

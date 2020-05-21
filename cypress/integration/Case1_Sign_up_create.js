@@ -34,6 +34,12 @@ describe('Test case 1: Create temporary user', () => {
     HomePage.backupButton.click().should(() => {
       expect(localStorage.getItem('GD_mnemonic')).to.not.be.null
       cy.writeFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt', localStorage.getItem('GD_mnemonic'))
+      let LOCAL_STORAGE_MEMORY = {}
+      Object.keys(localStorage).forEach(key => {
+        LOCAL_STORAGE_MEMORY[key] = localStorage[key]
+      })
+      cy.log('ALL: ', LOCAL_STORAGE_MEMORY)
+      cy.writeFile('cypress/fixtures/GDls.json', LOCAL_STORAGE_MEMORY)
     })
   })
 })

@@ -29,7 +29,7 @@ describe('Test case 6: Ability to send recovering email', () => {
         .should('not.be.empty')
     }
     RecoverWalletPage.resendEmailButton.click()
-    cy.contains('Backup Your Wallet')
-    RecoverWalletPage.successMessageDiv.should('contain', 'We sent an email with recovery instructions for your wallet')
+    RecoverWalletPage.successMessageTitle.should('be.visible')
+    RecoverWalletPage.successMessageText.should('be.visible')
   })
 })

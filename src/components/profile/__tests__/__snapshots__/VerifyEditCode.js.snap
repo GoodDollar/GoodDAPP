@@ -174,7 +174,7 @@ exports[`VerifyEditCode matches snapshot 1`] = `
                 }
               >
                 You’ve got mail!
-A second verification code
+A verification code
 was emailed to you
               </div>
             </div>

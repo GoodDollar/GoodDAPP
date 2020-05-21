@@ -129,7 +129,7 @@ class EmailConfirmation extends React.Component<Props, State> {
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
               <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
-                {'You’ve got mail!\nA second verification code\nwas emailed to you'}
+                {`You’ve got mail!\nA verification code\nwas emailed to you`}
               </Section.Title>
             </Section.Row>
             <Section.Stack justifyContent="center" style={styles.bottomContent}>
@@ -203,17 +203,6 @@ const getStylesFromProps = ({ theme }) => ({
   bottomContent: {
     marginTop: 'auto',
     marginBottom: theme.sizes.defaultDouble,
-  },
-  successIconStyle: {
-    borderWidth: 1,
-    borderRadius: '50%',
-    borderColor: theme.colors.primary,
-    position: 'relative',
-    height: 48,
-    width: 48,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 })
 

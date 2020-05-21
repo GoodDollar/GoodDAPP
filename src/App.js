@@ -1,10 +1,10 @@
 // @flow
-import { isMobile } from 'mobile-device-detect'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { AsyncStorage, Platform, SafeAreaView, StyleSheet } from 'react-native'
-import PaperProvider from 'react-native-paper/src/core/Provider'
+import { Provider as PaperProvider } from 'react-native-paper'
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
+import { isMobile } from './lib/utils/platform'
 import './lib/gundb/gundb'
 import { theme } from './components/theme/styles'
 import SimpleStore, { initStore, setInitFunctions } from './lib/undux/SimpleStore'

@@ -3,6 +3,7 @@ import { omit } from 'lodash'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import logger from '../../../../lib/logger/pino-logger'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
+import UICustomization, { ZOOM_PUBLIC_PATH } from './UICustomization'
 
 const log = logger.child({ from: 'ZoomSDK' })
 
@@ -33,18 +34,12 @@ const {
 export const ZoomSDK = new class {
   constructor() {
     // setting a the directory path for other ZoOm Resources.
-    sdk.setResourceDirectory('/zoom/resources')
+    sdk.setResourceDirectory(`${ZOOM_PUBLIC_PATH}/resources`)
 
     // setting the directory path for required ZoOm images.
-    sdk.setImagesDirectory('/zoom/images')
+    sdk.setImagesDirectory(`${ZOOM_PUBLIC_PATH}/images`)
 
-    // disabling camera permissions help screen
-    // (as we have own ErrorScreen with corresponding message)
-    sdk.setCustomization(
-      new ZoomCustomization({
-        enableCameraPermissionsHelpScreen: false,
-      })
-    )
+    sdk.setCustomization(UICustomization)
   }
 
   // eslint-disable-next-line require-await

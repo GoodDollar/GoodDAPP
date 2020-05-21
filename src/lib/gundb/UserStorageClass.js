@@ -294,7 +294,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     logs.filter(log => {
       return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
-    log => log.value // "value" won't work for unknown resons probably some lodash's 4.17.15 bug
+    log => log.value // "value" won't work for unknown reasons probably some lodash's 4.17.15 bug
   )
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
@@ -1373,6 +1373,12 @@ export class UserStorage {
     )
   }
 
+  /**
+   * Returns (and de-stringifies if needed) feed items by the day specified
+   *
+   * @param {string} day
+   * @returns {Array}
+   */
   async getFeedByDay(day) {
     try {
       let dayEvents = await this.feed.get(day)
@@ -1380,7 +1386,10 @@ export class UserStorage {
       if (!isArray(dayEvents)) {
         dayEvents = JSON.parse(dayEvents)
         if (!isArray(dayEvents)) {
-          throw new Error()
+          throw new Error(
+            'Invalid value for feed items collection was stored in the Gun. ' +
+              "Should be an Javascript array or it's JSON representation"
+          )
         }
       }
 

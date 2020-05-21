@@ -50,6 +50,9 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    transform: [{ rotateY: '180deg' }],
     position: 'relative',
     backgroundColor: 'transparent',
     flex: 1,

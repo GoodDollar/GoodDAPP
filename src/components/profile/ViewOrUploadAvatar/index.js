@@ -29,7 +29,7 @@ export const pickerOptions = {
 }
 
 const log = logger.child({ from: 'ViewAvatar' })
-const TITLE = 'Your Profile'
+const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
   const { styles } = props

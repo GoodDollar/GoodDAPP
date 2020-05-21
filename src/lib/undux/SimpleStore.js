@@ -110,8 +110,8 @@ let SimpleStore: UnduxStore = createConnectedStore(initialState, withPinoLogger)
 
 const initStore = async () => {
   let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
-  initialState.isLoggedIn = isLoggedIn
-  SimpleStore = createConnectedStore(initialState, withPinoLogger)
+  const state = { ...initialState, isLoggedIn }
+  SimpleStore = createConnectedStore(state, withPinoLogger)
   return SimpleStore
 }
 

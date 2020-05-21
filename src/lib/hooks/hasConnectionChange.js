@@ -141,7 +141,7 @@ export const useConnectionGun = () => {
       const wire = connection.wire
       if ((wire && websocket.current !== wire) || method === 'remove') {
         log.debug('gun binding listeners')
-        websocket.currentProvider = wire
+        websocket.current = wire
         const callMethod = method === 'remove' ? 'removeEventListener' : 'addEventListener'
         log.debug('add gun binding listeners', { method })
 

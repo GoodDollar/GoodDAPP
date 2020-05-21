@@ -8,6 +8,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
 
@@ -20,10 +21,18 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
 
-  const handleCameraPress = useCallback(() => navigation.navigate('EditAvatar'), [navigation])
+  const handleCameraPress = useCallback(
+    event => {
+      event.preventDefault()
+      navigation.navigate('EditAvatar')
+    },
+    [navigation]
+  )
 
   const handleClosePress = useCallback(
     event => {
+      event.preventDefault()
+
       wrappedUserStorage.removeAvatar().catch(e => {
         showErrorDialog('Could not delete image. Please try again.')
         log.error('delete image failed:', e.message, e)
@@ -57,18 +66,23 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
           {profile.avatar ? (
             <>
               <CircleButtonWrapper
+                containerStyle={styles.closeButtonContainer}
                 style={styles.closeButton}
                 iconName={'trash'}
                 iconSize={22}
                 onPress={handleClosePress}
               />
-              <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
+              <CameraButton
+                containerStyle={styles.cameraButtonContainer}
+                style={styles.cameraButton}
+                handleCameraPress={handleCameraPress}
+              />
               <UserAvatar profile={profile} style={styles.avatar} size={272} />
             </>
           ) : (
             <>
               <InputFile onChange={handleAddAvatar}>
-                <CameraButton style={styles.cameraButtonNewImg} />
+                <CameraButton containerStyle={styles.cameraButtonNewImgContainer} style={styles.cameraButtonNewImg} />
               </InputFile>
               <InputFile onChange={handleAddAvatar}>
                 <UserAvatar profile={profile} size={272} />{' '}
@@ -92,7 +106,7 @@ ViewOrUploadAvatar.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => {
   const { defaultDouble, defaultQuadruple } = theme.sizes
-  const buttonGap = -42
+  const buttonGap = getDesignRelativeWidth(-30) / 2
 
   return {
     section: {
@@ -100,6 +114,9 @@ const getStylesFromProps = ({ theme }) => {
       position: 'relative',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    cameraButtonContainer: {
+      zIndex: 1,
     },
     cameraButton: {
       left: 'auto',
@@ -109,12 +126,18 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: defaultDouble,
       marginRight: buttonGap,
     },
+    cameraButtonNewImgContainer: {
+      zIndex: 1,
+    },
     cameraButtonNewImg: {
       left: 'auto',
       position: 'absolute',
       top: 1,
       right: 1,
       marginRight: buttonGap,
+    },
+    closeButtonContainer: {
+      zIndex: 1,
     },
     closeButton: {
       left: 1,

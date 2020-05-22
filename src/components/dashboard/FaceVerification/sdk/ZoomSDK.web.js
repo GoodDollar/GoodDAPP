@@ -1,8 +1,9 @@
-import { omit } from 'lodash'
+import { noop } from 'lodash'
 
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import logger from '../../../../lib/logger/pino-logger'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
+import { ProcessingSubscriber } from './ProcessingSubscriber'
 import UICustomization, { ZOOM_PUBLIC_PATH } from './UICustomization'
 
 const log = logger.child({ from: 'ZoomSDK' })
@@ -39,6 +40,7 @@ export const ZoomSDK = new class {
     // setting the directory path for required ZoOm images.
     sdk.setImagesDirectory(`${ZOOM_PUBLIC_PATH}/images`)
 
+    // customize UI
     sdk.setCustomization(UICustomization)
   }
 
@@ -112,34 +114,13 @@ export const ZoomSDK = new class {
   }
 
   // eslint-disable-next-line require-await
-  async faceVerification(enrollmentIdentifier) {
-    return new Promise((resolve, reject) => {
-      // as now all this stuff is outside React hook
-      // we could just implement it like in the demo app
-      const processor = new EnrollmentProcessor((isSuccess, lastResult, lastMessage) => {
-        const logRecord = { isSuccess, lastMessage }
+  async faceVerification(enrollmentIdentifier, onUIReady = noop) {
+    const subscriber = new ProcessingSubscriber(onUIReady, log)
+    const processor = new EnrollmentProcessor(subscriber)
 
-        if (lastResult) {
-          logRecord.lastResult = omit(lastResult, 'faceMetrics')
-        }
+    processor.enroll(enrollmentIdentifier)
 
-        log[isSuccess ? 'info' : 'warn']('processor result:', logRecord)
-
-        if (isSuccess) {
-          resolve(lastMessage)
-        }
-
-        const exception = new Error(lastMessage)
-
-        if (lastResult) {
-          exception.code = lastResult.status
-        }
-
-        reject(exception)
-      })
-
-      processor.enroll(enrollmentIdentifier)
-    })
+    return subscriber.asPromise()
   }
 
   // eslint-disable-next-line require-await

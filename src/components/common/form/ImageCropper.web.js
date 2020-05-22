@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import Cropper from 'react-cropper'
 import 'cropperjs/dist/cropper.css'
 import './ImageCropper.css'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 const ImageCropper = props => {
   const cropper = useRef()
@@ -10,7 +11,7 @@ const ImageCropper = props => {
     <Cropper
       ref={cropper}
       src={image}
-      style={{ height: 400, width: '100%' }}
+      style={{ height: getDesignRelativeHeight(400), width: '100%' }}
       dragMode="move"
       aspectRatio={1}
       guides={false}

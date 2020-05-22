@@ -2,7 +2,6 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
-import { cloneDeep } from 'lodash'
 
 import AnimationBase from '../Base'
 import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
@@ -49,7 +48,7 @@ class JumpingPeople extends AnimationBase {
         <Lottie
           enableMergePathsAndroidForKitKatAndAbove={true}
           autoPlay={true}
-          source={cloneDeep(animationData)}
+          source={this.improveAnimationData(animationData)}
           autoSize={true}
           style={Platform.select(styles)}
           loop={false}

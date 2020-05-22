@@ -14,11 +14,11 @@ import { getScreenWidth } from '../../lib/utils/Orientation'
 
 const isSmallDev = getScreenWidth() < 350
 
-const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles }) => (
+const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles, isInQueue }) => (
   <View style={styles.textBtn}>
     {showLabelOnly ? (
       <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={isSmallDev ? 30 : 40}>
-        {`Claim`}
+        {isInQueue ? `In Queue` : `Claim`}
       </Text>
     ) : (
       <>
@@ -90,7 +90,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
   </View>
 )
 
-const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnly }) => {
+const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnly, isInQueue }) => {
   //if user can claim either as whitelisted or new user not whitelisted show claim
   //otherwise show countdown
   if (entitlement) {
@@ -100,19 +100,20 @@ const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnl
         entitlement={entitlement}
         isCitizen={isCitizen}
         showLabelOnly={showLabelOnly}
+        isInQueue={isInQueue}
       />
     )
   }
   return <ButtonCountdown styles={styles} nextClaim={nextClaim} />
 }
 
-const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly }) => (
+const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly, isInQueue }) => (
   <CustomButton
     testId="claim_button"
     compact={true}
     mode="contained"
     onPress={onPress}
-    style={[styles.minButtonHeight, isCitizen && !entitlement ? styles.buttonCountdown : {}, style]}
+    style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
   >
     <ButtonContent
       isCitizen={isCitizen}
@@ -120,11 +121,12 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
       entitlement={entitlement}
       nextClaim={nextClaim}
       styles={styles}
+      isInQueue={isInQueue}
     />
   </CustomButton>
 )
 
-const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, ...buttonProps }) => {
+const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
   const initialEntitlementRef = useRef(entitlement)
 
   const cardRef = useRef()
@@ -145,12 +147,19 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, ..
 
   if (initialEntitlementRef.current) {
     return (
-      <ClaimButton {...buttonProps} styles={styles} entitlement={entitlement} nextClaim={nextClaim} onPress={onPress} />
+      <ClaimButton
+        {...buttonProps}
+        styles={styles}
+        entitlement={entitlement}
+        nextClaim={nextClaim}
+        onPress={onPress}
+        isInQueue={isInQueue}
+      />
     )
   }
 
-  if (!entitlement) {
-    return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} />
+  if (!entitlement || isInQueue) {
+    return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} isInQueue={isInQueue} />
   }
 
   const nextClaimToDisplay = nextClaimOnHold.current || nextClaim

@@ -1,6 +1,6 @@
 // @flow
-
-import { NativeModules } from 'react-native'
+import { noop } from 'lodash'
+import { NativeEventEmitter, NativeModules } from 'react-native'
 
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
@@ -8,22 +8,22 @@ import logger from '../../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'ZoomSDK' })
 
-// added = {} safe stub as we don't have native module yet
-const { ZoomAuthentication = {} } = NativeModules
+const { ZoomAuthentication } = NativeModules
 
-// eslint-disable-next-line no-unused-vars
-const { preload, initialize, faceVerification, unload } = ZoomAuthentication
+const { ZoomUxEvent, preload, initialize, faceVerification, unload } = ZoomAuthentication
 
 export const { ZoomSDKStatus, ZoomSessionStatus } = ZoomAuthentication
 
 // sdk class
 export const ZoomSDK = new class {
+  constructor() {
+    this.eventEmitter = new NativeEventEmitter(ZoomAuthentication)
+  }
+
   // eslint-disable-next-line require-await
   async preload() {
     try {
-      // preload call commented as we don't have native module yet
-      // so, for app init could pass we're skipping non-existed function call
-      // await preload()
+      await preload()
     } catch (exception) {
       this._convertCodeAndRethrow(exception, 'Zoom preloading')
     }
@@ -37,7 +37,10 @@ export const ZoomSDK = new class {
     }
   }
 
-  async faceVerification(enrollmentIdentifier) {
+  async faceVerification(enrollmentIdentifier, onUIReady = noop) {
+    // subscribing to UI_READY native event
+    const unsubscribe = this._subscribeTo(ZoomUxEvent.UI_READY, onUIReady)
+
     try {
       // we're passing current JWT to the native code allowing it to call GoodServer for verification
       // unfortunately we couldn't pass callback which could return some data back to the native code
@@ -47,15 +50,16 @@ export const ZoomSDK = new class {
       return verificationStatus
     } catch (exception) {
       this._convertCodeAndRethrow(exception, 'Face verification')
+    } finally {
+      // don't forgotting to ubsubscribe
+      unsubscribe()
     }
   }
 
   // eslint-disable-next-line require-await
   async unload() {
     try {
-      // preload call commented as we don't have native module yet
-      // so, for app init could pass we skippinh non-existed function call
-      // await preload()
+      await unload()
     } catch (exception) {
       this._convertCodeAndRethrow(exception, 'Zoom unloading')
     }
@@ -73,5 +77,25 @@ export const ZoomSDK = new class {
     log.warn(`${logPrefix} failed`, { exception })
 
     throw exception
+  }
+
+  // helper for subscribing/unsubscring to native events
+  _subscribeTo(event, handler) {
+    let subscription = null
+    const unsubscribe = () => {
+      if (!subscription) {
+        return
+      }
+
+      subscription.remove()
+      subscription = null
+    }
+
+    subscription = this.eventEmitter.addListener(event, () => {
+      unsubscribe()
+      handler()
+    })
+
+    return unsubscribe
   }
 }()

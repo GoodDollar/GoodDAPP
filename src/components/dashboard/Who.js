@@ -1,6 +1,5 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
-
 import InputText from '../common/form/InputText'
 import { ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -26,6 +25,7 @@ const getError = value => {
 const Who = (props: AmountProps) => {
   const { screenProps, styles } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
+  const { push } = screenProps
   const { params } = props.navigation.state
   const isReceive = params && params.action === ACTION_RECEIVE
   const { counterPartyDisplayName } = screenState
@@ -37,21 +37,22 @@ const Who = (props: AmountProps) => {
     setScreenState({ counterPartyDisplayName: state.value })
   }, [state.value])
 
-  const handlePressQR = useCallback(() => screenProps.push('SendByQR'), [screenProps])
+  const handlePressQR = useCallback(() => push('SendByQR'), [push])
 
   const handlePressSendToAddress = useCallback(
     () =>
-      screenProps &&
-      screenProps.push('SendToAddress', {
+      push('SendToAddress', {
         nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
         params: { action: ACTION_SEND_TO_ADDRESS },
       }),
-    [screenProps]
+    [push]
   )
+
+  const canContinue = useCallback(() => state.isValid, [state])
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push}>
+      <TopBar push={push}>
         {!isReceive && <ScanQRButton onPress={handlePressQR} />}
         {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />}
       </TopBar>
@@ -79,7 +80,7 @@ const Who = (props: AmountProps) => {
               {...props}
               nextRoutes={screenState.nextRoutes}
               values={{ params, counterPartyDisplayName: state.value }}
-              canContinue={() => state.isValid}
+              canContinue={canContinue}
               label={state.value || !isReceive ? 'Next' : 'Skip'}
               disabled={!state.isValid}
             />

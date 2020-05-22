@@ -1,6 +1,6 @@
 // @flow
 import React, { useState } from 'react'
-import { KeyboardAvoidingView } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet } from 'react-native'
 import { BN } from 'web3-utils'
 import logger from '../../lib/logger/pino-logger'
 import { AmountInput, Section, Wrapper } from '../common'
@@ -15,6 +15,15 @@ export type AmountProps = {
   screenProps: any,
   navigation: any,
 }
+
+const styles = StyleSheet.create({
+  keyboardAvoidWrapper: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexGrow: 1,
+  },
+})
 
 const log = logger.child({ from: 'Amount' })
 
@@ -69,7 +78,7 @@ const Amount = (props: AmountProps) => {
   }
 
   return (
-    <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'}>
+    <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
       <Wrapper>
         <TopBar push={screenProps.push} />
         <Section grow>

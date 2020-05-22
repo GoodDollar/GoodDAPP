@@ -126,7 +126,7 @@ class EmailConfirmation extends React.Component<Props, State> {
     const { styles } = this.props
 
     return (
-      <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'}>
+      <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
         <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
           <Section grow justifyContent="flex-start">
             <Section.Stack justifyContent="flex-start" style={styles.container}>
@@ -191,6 +191,9 @@ const CodeAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFini
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  keyboardAvoidWrapper: {
+    width: '100%',
+  },
   row: {
     marginTop: theme.sizes.defaultDouble,
     marginBottom: theme.sizes.defaultDouble,

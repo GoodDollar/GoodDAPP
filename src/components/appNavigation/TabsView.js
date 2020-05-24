@@ -126,7 +126,7 @@ const EmptySpaceComponent = ({ style }) => (
   </>
 )
 
-const TabsView = React.memo(({ navigation }) => {
+const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()
   const [token, setToken] = useState(isIOS ? undefined : true)
   const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
@@ -216,11 +216,12 @@ const TabsView = React.memo(({ navigation }) => {
         </>
       )}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
+      {!market && !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
       <TouchableOpacity onPress={slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>
   )
-})
+}
 
 export default TabsView

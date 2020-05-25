@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   Animated,
   AppState,
+  AsyncStorage,
   Dimensions,
   Easing,
   Image,
@@ -35,6 +36,7 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { getMaxDeviceWidth } from '../../lib/utils/Orientation'
 import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
+import useAppState from '../../lib/hooks/useAppState'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
@@ -118,6 +120,7 @@ const Dashboard = props => {
   const { avatar, fullName } = gdstore.get('profile')
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
+  const { appState } = useAppState()
   const scale = {
     transform: [
       {
@@ -460,6 +463,21 @@ const Dashboard = props => {
     },
     [store]
   )
+
+  const getNotifiactionItem = async () => {
+    const notificationOpened = await AsyncStorage.getItem('GD_NOTIFICATION_OPENED')
+    if (notificationOpened) {
+      const item = feeds.find(feed => feed.id === notificationOpened)
+      handleFeedSelection(item, true)
+      return AsyncStorage.removeItem('GD_NOTIFICATION_OPENED')
+    }
+  }
+
+  useEffect(() => {
+    if (feeds.length) {
+      getNotifiactionItem()
+    }
+  }, [feeds, appState])
 
   const handleFeedSelection = (receipt, horizontal) => {
     showEventModal(horizontal ? receipt : null)

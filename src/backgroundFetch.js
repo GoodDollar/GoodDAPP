@@ -1,6 +1,7 @@
 import BackgroundFetch from 'react-native-background-fetch'
 import PushNotification from 'react-native-push-notification'
 import { AsyncStorage } from 'react-native'
+import moment from 'moment'
 import logger from '../src/lib/logger/pino-logger'
 import { IS_LOGGED_IN } from './lib/constants/localStorage'
 import userStorage from './lib/gundb/UserStorage'
@@ -60,7 +61,8 @@ const task = async taskId => {
 
   const newFeeds = feed.filter(feedItem => {
     const { type, status, date } = feedItem
-    const newFeedItem = (hasNewPayment(type, status) || hasNewPaymentWithdraw(type, status)) && lastFeedCheck < date
+    const feedDate = moment(date).valueOf()
+    const newFeedItem = (hasNewPayment(type, status) || hasNewPaymentWithdraw(type, status)) && lastFeedCheck < feedDate
     return newFeedItem && feedItem
   })
 
@@ -68,14 +70,18 @@ const task = async taskId => {
     lastSeenDate: Date.now(),
   })
 
+  log.info('newFeed', newFeeds)
+
   if (!newFeeds) {
     return BackgroundFetch.finish(taskId)
   }
 
   newFeeds.map(feed =>
     PushNotification.localNotification({
-      title: `Payment from/to ${feed.type} received/accepted`,
-      message: `G$ ${feed.amount}`,
+      title: `Payment from/to ${feed.data.counterPartyDisplayName} received/accepted`,
+      message: `G$ ${feed.data.amount}`,
+      id: feed.id,
+      userInfo: { id: feed.id },
     })
   )
 }

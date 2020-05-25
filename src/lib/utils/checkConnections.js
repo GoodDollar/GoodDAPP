@@ -22,9 +22,8 @@ export const checkWalletConnection = () => {
     if (!goodWallet.wallet.currentProvider.reconnecting) {
       goodWallet.wallet.currentProvider.reconnect()
     }
-
-    return isWalletConnected
   }
+  return isWalletConnected
 }
 
 export const checkWalletAvailable = async () => {

@@ -35,7 +35,7 @@ export const routeAndPathForCode = async (
     )
   }
   if (goodWallet.account.toLowerCase() === address.toLowerCase()) {
-    throw new Error("You can't send to G$s to yourself, you already own your G$s")
+    throw new Error("You can't send G$s to yourself, you already own your G$s")
   }
 
   switch (screen) {

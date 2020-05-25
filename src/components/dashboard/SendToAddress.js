@@ -28,7 +28,7 @@ const validate = value => {
   }
 
   if (value.toLowercase() === goodWallet.account.toLowerCase()) {
-    return "You can't send to G$s to yourself, you already own your G$s"
+    return "You can't send G$s to yourself, you already own your G$s"
   }
 
   return null

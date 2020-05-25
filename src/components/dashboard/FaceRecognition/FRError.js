@@ -1,10 +1,10 @@
 import React from 'react'
-import { Image, View, Platform } from 'react-native'
-import get from 'lodash/get'
+import { View } from 'react-native'
+import { get } from 'lodash'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'
-import Oops from '../../../assets/oops.svg'
+import OopsSVG from '../../../assets/oops.svg'
 import Text from '../../common/view/Text'
 import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
@@ -12,10 +12,6 @@ import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 const log = logger.child({ from: 'FRError' })
-
-if (Platform.OS === 'web') {
-  Image.prefetch(Oops)
-}
 
 const FRError = props => {
   const { styles } = props
@@ -58,7 +54,9 @@ const FRError = props => {
             {' '}
             {`${getFirstWord(fullName)},\n${title}`}
           </Section.Title>
-          <Image source={Oops} resizeMode="center" style={styles.errorImage} />
+          <View style={styles.errorImage}>
+            <OopsSVG />
+          </View>
           <Section style={styles.errorSection}>
             <Separator width={2} />
             <Text color="primary" fontWeight="bold" style={styles.description}>

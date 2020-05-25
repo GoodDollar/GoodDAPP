@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity, View, Platform } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -13,10 +13,10 @@ type Props = {
   theme: any,
 }
 
-const ScanQRButton = ({ onPress, styles, theme, ...screenProps }: Props) => {
+const ScanQRButton = ({ onPress, styles, theme, direction, ...screenProps }: Props) => {
   const { disabled, style = {} } = screenProps
   return (
-    <TouchableOpacity style={[styles.row, style.row]} onPress={disabled ? undefined : onPress}>
+    <TouchableOpacity style={[styles.row, style.row, style]} onPress={disabled ? undefined : onPress}>
       <Text color="darkBlue" fontSize={14} fontWeight="medium">
         Scan QR Code
       </Text>

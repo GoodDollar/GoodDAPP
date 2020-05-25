@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import Config from '../../../config/config'
 import LoadingIcon from '../modal/LoadingIcon'
 import {
@@ -38,12 +38,12 @@ const InternetConnection = props => {
 
   useEffect(() => {
     showDialogWindow.cancel()
-    if (
-      isConnection === false ||
-      isAPIConnection === false ||
-      isConnectionWeb3 === false ||
-      isConnectionGun === false
-    ) {
+
+    if (isConnection === false) {
+      return showDialogWindow('Check your internet connection', showDialog, setShowDisconnect)
+    }
+
+    if (isAPIConnection === false || isConnectionWeb3 === false || isConnectionGun === false) {
       log.warn('connection failed:', {
         isAPIConnection,
         isConnection,
@@ -58,21 +58,17 @@ const InternetConnection = props => {
       }
 
       let message
-      if (isConnection === false) {
-        message = 'Check your internet connection'
-      } else {
-        const servers = []
-        if (isAPIConnection === false) {
-          servers.push('API')
-        }
-        if (isConnectionWeb3 === false) {
-          servers.push('Blockchain')
-        }
-        if (isConnectionGun === false) {
-          servers.push('GunDB')
-        }
-        message = `Waiting for GoodDollar's server (${servers.join(', ')})`
+      const servers = []
+      if (isAPIConnection === false) {
+        servers.push('API')
       }
+      if (isConnectionWeb3 === false) {
+        servers.push('Blockchain')
+      }
+      if (isConnectionGun === false) {
+        servers.push('GunDB')
+      }
+      message = `Waiting for GoodDollar's server (${servers.join(', ')})`
 
       showDialogWindow(message, showDialog, setShowDisconnect)
     } else {

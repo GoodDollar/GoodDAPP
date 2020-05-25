@@ -9,7 +9,7 @@ let needToBindEventsWeb3 = true
 const log = logger.child({ from: 'useHasConnectionWeb3' })
 
 export default () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const [isConnection, setIsConnection] = useState(true)
   const store = SimpleStore.useStore()
   const wallet = store.get('wallet')
   const connectionCheck = useRef()

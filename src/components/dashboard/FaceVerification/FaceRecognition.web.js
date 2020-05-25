@@ -1,6 +1,6 @@
 // @flow
 import React, { createRef } from 'react'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'

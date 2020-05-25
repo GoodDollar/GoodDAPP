@@ -1,5 +1,7 @@
 // @flow
 import React from 'react'
+import { KeyboardAvoidingView } from 'react-native'
+import { isIOS } from '../../lib/utils/platform'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
@@ -124,41 +126,43 @@ class EmailConfirmation extends React.Component<Props, State> {
     const { styles } = this.props
 
     return (
-      <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
-        <Section grow justifyContent="flex-start">
-          <Section.Stack justifyContent="flex-start" style={styles.container}>
-            <Section.Row justifyContent="center">
-              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
-                {'You’ve got mail!\nA second verification code\nwas emailed to you'}
-              </Section.Title>
-            </Section.Row>
-            <Section.Stack justifyContent="center" style={styles.bottomContent}>
-              <OtpInput
-                shouldAutoFocus
-                numInputs={NumInputs}
-                onChange={this.handleChange}
-                hasErrored={errorMessage !== ''}
-                errorStyle={styles.errorStyle}
-                value={code}
-                placeholder="*"
-                isInputNum={true}
-                aside={[3]}
-              />
-              <ErrorText error={errorMessage} />
+      <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
+        <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
+          <Section grow justifyContent="flex-start">
+            <Section.Stack justifyContent="flex-start" style={styles.container}>
+              <Section.Row justifyContent="center">
+                <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+                  {'You’ve got mail!\nA second verification code\nwas emailed to you'}
+                </Section.Title>
+              </Section.Row>
+              <Section.Stack justifyContent="center" style={styles.bottomContent}>
+                <OtpInput
+                  shouldAutoFocus
+                  numInputs={NumInputs}
+                  onChange={this.handleChange}
+                  hasErrored={errorMessage !== ''}
+                  errorStyle={styles.errorStyle}
+                  value={code}
+                  placeholder="*"
+                  isInputNum={true}
+                  aside={[3]}
+                />
+                <ErrorText error={errorMessage} />
+              </Section.Stack>
             </Section.Stack>
-          </Section.Stack>
-          <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <CodeAction
-              sendingCode={sendingCode}
-              resentCode={resentCode}
-              renderButton={renderButton}
-              handleRetry={this.handleRetry}
-              onFinish={() => this.setState({ renderButton: false })}
-            />
-          </Section.Row>
-        </Section>
-        <LoadingIndicator force={loading} />
-      </CustomWrapper>
+            <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+              <CodeAction
+                sendingCode={sendingCode}
+                resentCode={resentCode}
+                renderButton={renderButton}
+                handleRetry={this.handleRetry}
+                onFinish={() => this.setState({ renderButton: false })}
+              />
+            </Section.Row>
+          </Section>
+          <LoadingIndicator force={loading} />
+        </CustomWrapper>
+      </KeyboardAvoidingView>
     )
   }
 }
@@ -187,6 +191,9 @@ const CodeAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFini
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  keyboardAvoidWrapper: {
+    width: '100%',
+  },
   row: {
     marginTop: theme.sizes.defaultDouble,
     marginBottom: theme.sizes.defaultDouble,

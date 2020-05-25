@@ -63,7 +63,7 @@ exports[`WebViewScreen Instances Support matches snapshot 1`] = `
       "height": 768,
     }
   }
-  title=" Support & FAQ"
+  title=" Support & Feedback"
   width="100%"
 />
 `;
@@ -80,7 +80,7 @@ exports[`WebViewScreen Instances SupportForUnsigned matches snapshot 1`] = `
       "height": 768,
     }
   }
-  title=" Support & FAQ"
+  title=" Support & Feedback"
   width="100%"
 />
 `;

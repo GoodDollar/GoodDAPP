@@ -1,7 +1,6 @@
 import { Platform, View } from 'react-native'
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { cloneDeep } from 'lodash'
 
 import AnimationBase from '../Base'
 
@@ -26,7 +25,7 @@ class PeopleFlying extends AnimationBase {
         <Lottie
           enableMergePathsAndroidForKitKatAndAbove={true}
           autoPlay={true}
-          source={cloneDeep(animationData)}
+          source={this.improveAnimationData(animationData)}
           style={Platform.select(styles)}
           loop={false}
         />

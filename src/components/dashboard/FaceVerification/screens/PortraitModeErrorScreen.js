@@ -16,14 +16,13 @@ if (Platform.OS === 'web') {
 
 const ErrorScreen = ({ styles, screenProps }) => {
   const { screenState } = screenProps
-  const { error: exception, allowRetry = true } = screenState
+  const { allowRetry = true } = screenState
 
   const retry = noop
 
   return (
     <VerifyError
       log={log}
-      reason={exception}
       action={allowRetry && <CustomButton onPress={retry}>PLEASE TRY AGAIN</CustomButton>}
       title={'please turn your camera\nto portrait mode'}
       description={`It’s a nice landscape,\nbut we need to see\nyour face only in portrait mode`}

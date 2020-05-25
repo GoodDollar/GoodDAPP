@@ -41,17 +41,21 @@ const VerifyError = ({
   action,
   imageSource,
   twoErrorImages,
-
+  titleWithoutUsername,
   title = 'Something went wrong...',
   log = defaultLogger,
 }) => {
   const store = GDStore.useStore()
   const { error, message } = reason || {}
+  const showDescription = Boolean(description || boldDescription || error || message || reason)
+  const displayTitle = useMemo(() => {
+    if (titleWithoutUsername) {
+      return title
+    }
 
-  const firstName = useMemo(() => {
     const { fullName } = store.get('profile')
 
-    return getFirstWord(fullName)
+    return `${getFirstWord(fullName)} ${title}`
   }, [store])
 
   useEffect(() => {
@@ -63,8 +67,7 @@ const VerifyError = ({
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="medium" textTransform="none">
-            {' '}
-            {`${firstName},\n${title}`}
+            {displayTitle}
           </Section.Title>
           {twoErrorImages ? (
             <Section.Row justifyContent="space-evenly">
@@ -74,18 +77,20 @@ const VerifyError = ({
           ) : (
             <Image source={imageSource || Oops} resizeMode="center" style={styles.errorImage} />
           )}
-          <Section style={styles.errorSection}>
-            <Separator width={2} />
-            <View style={styles.descriptionWrapper}>
-              {boldDescription && (
-                <Text color="primary" fontWeight="bold">
-                  {boldDescription}
-                </Text>
-              )}
-              <Text color="primary">{`${description || error || message || reason}`}</Text>
-            </View>
-            <Separator width={2} />
-          </Section>
+          {showDescription && (
+            <Section style={styles.errorSection}>
+              <Separator width={2} />
+              <View style={styles.descriptionWrapper}>
+                {boldDescription && (
+                  <Text color="primary" fontWeight="bold">
+                    {boldDescription}
+                  </Text>
+                )}
+                <Text color="primary">{`${description || error || message || reason}`}</Text>
+              </View>
+              <Separator width={2} />
+            </Section>
+          )}
         </Section>
         {action && <View style={styles.action}>{action}</View>}
       </View>

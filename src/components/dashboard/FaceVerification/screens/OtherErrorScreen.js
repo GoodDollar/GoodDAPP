@@ -26,7 +26,7 @@ const ErrorScreen = ({ screenProps }) => {
   const { screenState } = screenProps
   const { allowRetry = true } = screenState
 
-  const retry = noop // define whatever you need
+  const handler = noop // define whatever you need
 
   return (
     <VerifyError
@@ -34,17 +34,17 @@ const ErrorScreen = ({ screenProps }) => {
       action={
         allowRetry && (
           <View>
-            <CustomButton onPress={retry} mode="outlined" style={styles.actionsSpace}>
+            <CustomButton onPress={handler} style={styles.actionsSpace}>
+              OK
+            </CustomButton>
+            <CustomButton mode="outlined" onPress={handler}>
               CONTACT SUPPORT
             </CustomButton>
-            <CustomButton onPress={retry}>TRY AGAIN</CustomButton>
           </View>
         )
       }
-      twoErrorImages
-      title={'Unfortunately, We found your twin...'}
-      boldDescription={'You can open ONLY ONE account per person.'}
-      description={'If this is your only active account - please contact our support'}
+      titleWithoutUsername
+      title={'Sorry about that…\nWe’re looking in to it,\nplease try again later'}
     />
   )
 }

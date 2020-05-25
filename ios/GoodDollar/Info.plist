@@ -6,6 +6,17 @@
 	<array>
 		<string>org.gooddollar.bgfetch</string>
 	</array>
+	<key>branch_app_domain</key>
+	<string>gooddollar.app.link</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>gooddollar</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

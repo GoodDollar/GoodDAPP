@@ -1,16 +1,16 @@
 import React, { useMemo } from 'react'
-import { AsyncStorage, Platform } from 'react-native'
+import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
-import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
 import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 import Config from './config/config'
 import restart from './lib/utils/restart'
+import DeepLinking from './lib/utils/deepLinking'
 
 const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
@@ -35,17 +35,10 @@ let SignupRouter = React.lazy(() =>
  * @returns {Promise<boolean>}
  */
 const handleLinks = async () => {
-  //FIXME: RN
-
-  if (Platform.OS !== 'web') {
-    return true
-  }
-
-  const params = extractQueryParams(window.location.href)
+  const { params } = DeepLinking
 
   try {
     const { magiclink } = params
-
     if (magiclink) {
       let userNameAndPWD = Buffer.from(decodeURIComponent(magiclink), 'base64').toString()
       let userNameAndPWDArray = userNameAndPWD.split('+')
@@ -71,7 +64,7 @@ const handleLinks = async () => {
         await AsyncStorage.setItem('GD_web3Token', params.web3)
         delete params.web3
       }
-      let path = window.location.pathname.slice(1)
+      let path = DeepLinking.pathname.slice(1)
       path = path.length === 0 ? 'AppNavigation/Dashboard' : path
       if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
         const dest = { path, params }

@@ -45,12 +45,13 @@ import logger from '../../lib/logger/pino-logger'
 import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
-import { extractQueryParams, readCode } from '../../lib/share'
+import { readCode } from '../../lib/share'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
+import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
@@ -214,17 +215,18 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    // FIXME: RN INAPPLINKS
-    const anyParams = Platform.OS === 'web' ? extractQueryParams(window.location.href) : null
+    const { params } = DeepLinking
 
-    log.debug('handle links effect dashboard', { anyParams })
+    log.debug('handle links effect dashboard', { params })
 
-    if (anyParams && anyParams.paymentCode) {
-      handleWithdraw(anyParams)
-    } else if (anyParams && anyParams.event) {
-      showNewFeedEvent(anyParams.event)
+    const { paymentCode, event } = params
+
+    if (paymentCode) {
+      handleWithdraw(params)
+    } else if (event) {
+      showNewFeedEvent(params)
     } else {
-      checkCode(anyParams)
+      checkCode(params)
     }
   }
 

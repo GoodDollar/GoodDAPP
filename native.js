@@ -11,6 +11,7 @@ import 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import './src/backgroundFetch'
 import './src/pushNotifications'
+import './src/lib/utils/deepLinking'
 
 const DeApp  = () => (
   <SafeAreaProvider>

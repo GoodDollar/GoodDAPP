@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AppState, AsyncStorage, Platform } from 'react-native'
+import { AsyncStorage, Platform } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'
@@ -14,9 +14,11 @@ import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/gundb/UserStorage'
 import runUpdates from '../../lib/updates'
-
+import DeepLinking from '../../lib/utils/deepLinking'
+import useAppState from '../../lib/hooks/useAppState'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
+import { isMobileNative } from '../../lib/utils/platform'
 
 type LoadingProps = {
   navigation: any,
@@ -53,6 +55,7 @@ const AppSwitch = (props: LoadingProps) => {
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
+  const { appState } = useAppState()
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -225,25 +228,34 @@ const AppSwitch = (props: LoadingProps) => {
       })
   }
 
-  const handleAppFocus = state => {
-    if (state === 'active') {
-      checkBonusInterval()
-      showOutOfGasError(props)
-    }
-  }
+  const deepLinkingNavigation = () => props.navigation.navigate(DeepLinking.pathname.slice(1))
 
   useEffect(() => {
     init()
     navigateToUrlAction()
   }, [])
 
+  //Pushing users to the path when signing in.
   useEffect(() => {
-    AppState.addEventListener('change', handleAppFocus)
-
-    return function() {
-      AppState.removeEventListener('change', handleAppFocus)
+    if (isMobileNative && DeepLinking.pathname) {
+      deepLinkingNavigation()
     }
-  }, [gdstore, handleAppFocus])
+  }, [])
+
+  useEffect(() => {
+    if (!isMobileNative || !appState === 'active') {
+      return
+    }
+    DeepLinking.subscribe(deepLinkingNavigation)
+    return () => DeepLinking.unsubscribe()
+  }, [DeepLinking.pathname, appState])
+
+  useEffect(() => {
+    if (ready && gdstore && appState === 'active') {
+      checkBonusInterval(true)
+      showOutOfGasError(props)
+    }
+  }, [gdstore, ready, appState])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

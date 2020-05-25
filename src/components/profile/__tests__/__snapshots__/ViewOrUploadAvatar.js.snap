@@ -122,6 +122,11 @@ exports[`ViewAvatar matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n"
+            style={
+              Object {
+                "zIndex": 1,
+              }
+            }
           >
             <div
               className="css-view-1dbjc4n"

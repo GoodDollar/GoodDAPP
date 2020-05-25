@@ -66,18 +66,23 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
           {profile.avatar ? (
             <>
               <CircleButtonWrapper
+                containerStyle={styles.closeButtonContainer}
                 style={styles.closeButton}
                 iconName={'trash'}
                 iconSize={22}
                 onPress={handleClosePress}
               />
-              <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
+              <CameraButton
+                containerStyle={styles.cameraButtonContainer}
+                style={styles.cameraButton}
+                handleCameraPress={handleCameraPress}
+              />
               <UserAvatar profile={profile} style={styles.avatar} size={272} />
             </>
           ) : (
             <>
               <InputFile onChange={handleAddAvatar}>
-                <CameraButton style={styles.cameraButtonNewImg} />
+                <CameraButton containerStyle={styles.cameraButtonNewImgContainer} style={styles.cameraButtonNewImg} />
               </InputFile>
               <InputFile onChange={handleAddAvatar}>
                 <UserAvatar profile={profile} size={272} />{' '}
@@ -110,6 +115,9 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       justifyContent: 'center',
     },
+    cameraButtonContainer: {
+      zIndex: 1,
+    },
     cameraButton: {
       left: 'auto',
       position: 'absolute',
@@ -118,12 +126,18 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: defaultDouble,
       marginRight: buttonGap,
     },
+    cameraButtonNewImgContainer: {
+      zIndex: 1,
+    },
     cameraButtonNewImg: {
       left: 'auto',
       position: 'absolute',
       top: 1,
       right: 1,
       marginRight: buttonGap,
+    },
+    closeButtonContainer: {
+      zIndex: 1,
     },
     closeButton: {
       left: 1,

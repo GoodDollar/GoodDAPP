@@ -1,7 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, TouchableOpacity } from 'react-native'
-import { cloneDeep, set } from 'lodash'
+import { set } from 'lodash'
 import AnimationBase from '../Base'
 import { weiToMask } from '../../../../lib/wallet/utils'
 import { getAnimationData } from '../../../../lib/utils/lottie'
@@ -95,7 +95,7 @@ class ClaimButton extends AnimationBase {
         <Lottie
           ref={this.setAnim}
           loop={false}
-          source={cloneDeep(animationData)}
+          source={this.improveAnimationData(animationData)}
           resizeMode="cover"
           style={{ width: '100%' }}
         />

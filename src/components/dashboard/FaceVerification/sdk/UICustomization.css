@@ -1,9 +1,3 @@
-#zoom-screen-container {
-  background: #fff !important;
-  opacity: 1 !important;
-  filter: blur(24px) brightness(4) opacity(50%);
-}
-
 #zoom-feedback {
   font-weight: bold !important;
 }

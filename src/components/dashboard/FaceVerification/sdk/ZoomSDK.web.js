@@ -40,11 +40,11 @@ export const ZoomSDK = new class {
     // setting the directory path for required ZoOm images.
     sdk.setImagesDirectory(`${ZOOM_PUBLIC_PATH}/images`)
 
-    // customize UI
-    sdk.setCustomization(UICustomization)
-
     // customize texts
     sdk.configureLocalization(UITextStrings.toJSON())
+
+    // customize UI
+    sdk.setCustomization(UICustomization)
   }
 
   // eslint-disable-next-line require-await

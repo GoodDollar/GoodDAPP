@@ -13,8 +13,6 @@ import CustomButton from '../common/buttons/CustomButton'
 import API from '../../lib/API/api'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
-const TITLE = 'Edit Profile'
-
 const log = logger.child({ from: 'Verify edit profile field' })
 
 const EditProfile = ({ screenProps, theme, styles, navigation }) => {
@@ -103,7 +101,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 }
 
 EditProfile.navigationOptions = {
-  title: TITLE,
+  title: 'Edit Profile',
 }
 
 const getStylesFromProps = ({ theme }) => ({

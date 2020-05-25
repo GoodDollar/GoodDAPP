@@ -40,20 +40,22 @@ const IntroScreen = props => {
 
   return (
     <Wrapper>
-      <Section style={styles.topContainer} grow={1} justifyContent="center">
+      <Section style={styles.topContainer} grow>
         <View style={styles.mainContent}>
           <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nLet's make sure you are a real live person`}
+            {`${getFirstWord(fullName)},\nLet's make sure you're\na real live person`}
           </Section.Title>
-          <FaceVerificationSmiley />
+          <View style={styles.illustration}>
+            <FaceVerificationSmiley />
+          </View>
           <View>
             <Separator width={2} />
             <Text textAlign="center" style={styles.descriptionContainer}>
               <Text textAlign="center" fontWeight="bold" color="primary">
-                {`Since this is your first G$ Claim\n`}
+                {`Once in a while\n`}
               </Text>
               <Text textAlign="center" color="primary">
-                {`we will take a short video of you\n`}
+                {`we'll need to take a short video of you\n`}
               </Text>
               <Text textAlign="center" color="primary">
                 {`to prevent duplicate accounts.\n`}
@@ -88,6 +90,7 @@ IntroScreen.navigationOptions = {
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: theme.colors.surface,
     borderRadius: theme.sizes.borderRadius,
     display: 'flex',
@@ -106,14 +109,14 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   mainTitle: {
-    marginBottom: getDesignRelativeHeight(28),
+    marginTop: getDesignRelativeHeight(34),
   },
   illustration: {
-    flexGrow: 0,
-    flexShrink: 0,
-    marginBottom: getDesignRelativeHeight(28),
-    maxWidth: '100%',
-    height: getDesignRelativeHeight(145),
+    marginTop: getDesignRelativeHeight(25),
+    marginBottom: getDesignRelativeHeight(25),
+    width: getDesignRelativeWidth(190, false),
+    marginRight: 'auto',
+    marginLeft: 'auto',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),

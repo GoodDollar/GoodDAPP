@@ -37,8 +37,10 @@ const VerifyError = ({
   styles,
   reason,
   description,
+  boldDescription,
   action,
   imageSource,
+  twoErrorImages,
 
   title = 'Something went wrong...',
   log = defaultLogger,
@@ -64,62 +66,83 @@ const VerifyError = ({
             {' '}
             {`${firstName},\n${title}`}
           </Section.Title>
-          <Image source={imageSource || Oops} resizeMode="center" style={styles.errorImage} />
+          {twoErrorImages ? (
+            <Section.Row justifyContent="space-evenly">
+              <Image source={imageSource || Oops} resizeMode="center" style={styles.halfErrorImage} />
+              <Image source={imageSource || Oops} resizeMode="center" style={styles.halfErrorImage} />
+            </Section.Row>
+          ) : (
+            <Image source={imageSource || Oops} resizeMode="center" style={styles.errorImage} />
+          )}
           <Section style={styles.errorSection}>
             <Separator width={2} />
-            <Text color="primary" style={styles.description}>
-              {`${description || error || message || reason}`}
-            </Text>
+            <View style={styles.descriptionWrapper}>
+              {boldDescription && (
+                <Text color="primary" fontWeight="bold">
+                  {boldDescription}
+                </Text>
+              )}
+              <Text color="primary">{`${description || error || message || reason}`}</Text>
+            </View>
             <Separator width={2} />
           </Section>
         </Section>
-        {action && <Section style={styles.action}>{action}</Section>}
+        {action && <View style={styles.action}>{action}</View>}
       </View>
     </Wrapper>
   )
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  topContainer: {
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    display: 'flex',
-    backgroundColor: theme.colors.surface,
-    height: '100%',
-    flex: 1,
-    flexGrow: 1,
-    flexShrink: 0,
-    paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-    paddingLeft: getDesignRelativeWidth(theme.sizes.default),
-    paddingRight: getDesignRelativeWidth(theme.sizes.default),
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
-    borderRadius: 5,
-  },
-  errorImage: {
+const getStylesFromProps = ({ theme }) => {
+  const errorImage = {
     height: getDesignRelativeHeight(146),
     marginTop: getDesignRelativeHeight(32),
     marginBottom: getDesignRelativeHeight(40),
-  },
-  descriptionContainer: {
-    flex: 1,
-    marginBottom: 0,
-    paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-    paddingLeft: getDesignRelativeWidth(theme.sizes.default),
-    paddingRight: getDesignRelativeWidth(theme.sizes.default),
-    paddingTop: getDesignRelativeHeight(theme.sizes.default),
-    width: '100%',
-  },
-  action: {
-    width: '100%',
-  },
-  errorSection: {
-    paddingBottom: 0,
-    paddingTop: 0,
-    marginBottom: 0,
-  },
-  description: {
-    paddingVertical: getDesignRelativeHeight(25),
-  },
-})
+  }
+
+  return {
+    topContainer: {
+      alignItems: 'center',
+      justifyContent: 'space-evenly',
+      display: 'flex',
+      backgroundColor: theme.colors.surface,
+      height: '100%',
+      flex: 1,
+      flexGrow: 1,
+      flexShrink: 0,
+      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+      paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+      paddingRight: getDesignRelativeWidth(theme.sizes.default),
+      paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+      borderRadius: 5,
+    },
+    errorImage,
+    halfErrorImage: {
+      ...errorImage,
+      width: getDesignRelativeWidth(97, false),
+    },
+    descriptionContainer: {
+      flex: 1,
+      marginBottom: 0,
+      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+      paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+      paddingRight: getDesignRelativeWidth(theme.sizes.default),
+      paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      width: '100%',
+    },
+    action: {
+      width: '100%',
+    },
+    errorSection: {
+      paddingBottom: 0,
+      paddingTop: 0,
+      marginBottom: 0,
+    },
+    descriptionWrapper: {
+      paddingTop: getDesignRelativeHeight(25),
+      paddingBottom: getDesignRelativeHeight(25),
+    },
+  }
+}
 
 export default withStyles(getStylesFromProps)(VerifyError)

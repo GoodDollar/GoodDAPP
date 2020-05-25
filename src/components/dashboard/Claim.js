@@ -14,7 +14,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import { WrapperClaim } from '../common'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
+import { CLAIM_FAILED, CLAIM_QUEUE, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -88,6 +88,10 @@ const Claim = props => {
 
   const checkQueueStatus = useCallback(
     async (addToQueue = false) => {
+      //user already whitelisted
+      if (isCitizen) {
+        return
+      }
       const inQueue = await userStorage.userProperties.get('claimQueueAdded')
       if (inQueue) {
         setQueueStatus(inQueue)
@@ -98,7 +102,13 @@ const Claim = props => {
         const {
           data: { ok, queue },
         } = await API.checkQueueStatus()
-        log.debug('CLAIM', { queue, ok })
+
+        //send event in case user was added to queue or his queue status has changed
+        if (ok === 1 || queue.status !== inQueue.status) {
+          fireEvent(CLAIM_QUEUE, { status: queue.status })
+        }
+
+        log.debug('CLAIM', { queue })
         if (inQueue == null) {
           userStorage.userProperties.set('claimQueueAdded', queue)
         }
@@ -272,6 +282,7 @@ const Claim = props => {
 
       //if user has no queue status, we try to add him to queue
       let { status } = queueStatus || (await checkQueueStatus(true)) || {}
+
       if (status === 'pending') {
         return showDialog({
           title: 'Almost There...',

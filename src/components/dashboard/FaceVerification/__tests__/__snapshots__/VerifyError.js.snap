@@ -105,9 +105,10 @@ exports[`FaceVerificationIntro matches snapshot 1`] = `
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
             "paddingBottom": "16px",
-            "paddingLeft": "4px",
-            "paddingRight": "4px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
             "paddingTop": "8px",
+            "width": "100%",
           }
         }
       >
@@ -130,9 +131,8 @@ exports[`FaceVerificationIntro matches snapshot 1`] = `
             }
           }
         >
-           
-          ,
-Something went wrong on our side...
+           Something went wrong
+on our side...
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -141,6 +141,8 @@ Something went wrong on our side...
               "WebkitFlexBasis": "auto",
               "flexBasis": "auto",
               "height": "146px",
+              "marginBottom": "40px",
+              "marginTop": "32px",
               "msFlexPreferredSize": "auto",
               "overflowX": "hidden",
               "overflowY": "hidden",
@@ -206,27 +208,35 @@ Something went wrong on our side...
             }
           />
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(0,175,255,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
                 "paddingBottom": "25px",
                 "paddingTop": "25px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
               }
             }
           >
-            You see, it's not that easy
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,175,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              You see, it's not that easy
  to capture your beauty :)
 So, let's give it another shot...
+            </div>
           </div>
           <div
             className="css-view-1dbjc4n"
@@ -247,15 +257,6 @@ So, let's give it another shot...
         className="css-view-1dbjc4n"
         style={
           Object {
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "5px",
-            "borderBottomRightRadius": "5px",
-            "borderTopLeftRadius": "5px",
-            "borderTopRightRadius": "5px",
-            "paddingBottom": "16px",
-            "paddingLeft": "12px",
-            "paddingRight": "12px",
-            "paddingTop": "16px",
             "width": "100%",
           }
         }

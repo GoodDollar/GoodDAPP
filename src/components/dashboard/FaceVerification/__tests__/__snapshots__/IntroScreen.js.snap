@@ -110,7 +110,7 @@ exports[`FaceVerificationIntro matches snapshot 1`] = `
               "fontSize": "24px",
               "fontWeight": "500",
               "lineHeight": "30px",
-              "marginBottom": "28px",
+              "marginTop": "34px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -118,11 +118,25 @@ exports[`FaceVerificationIntro matches snapshot 1`] = `
           }
         >
           ,
-Let's make sure you are a real live person
+Let's make sure you're
+a real live person
         </div>
         <div
           className="css-view-1dbjc4n"
-        />
+          style={
+            Object {
+              "marginBottom": "25px",
+              "marginLeft": "auto",
+              "marginRight": "auto",
+              "marginTop": "25px",
+              "width": "540.4444444444445px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
+          />
+        </div>
         <div
           className="css-view-1dbjc4n"
         >
@@ -177,7 +191,7 @@ Let's make sure you are a real live person
                 }
               }
             >
-              Since this is your first G$ Claim
+              Once in a while
 
             </span>
             <span
@@ -197,7 +211,7 @@ Let's make sure you are a real live person
                 }
               }
             >
-              we will take a short video of you
+              we'll need to take a short video of you
 
             </span>
             <span

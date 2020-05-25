@@ -105,9 +105,10 @@ exports[`ResultStep matches snapshot 1`] = `
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
             "paddingBottom": "16px",
-            "paddingLeft": "4px",
-            "paddingRight": "4px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
             "paddingTop": "8px",
+            "width": "100%",
           }
         }
       >
@@ -130,9 +131,7 @@ exports[`ResultStep matches snapshot 1`] = `
             }
           }
         >
-           
-          ,
-We need to talk...
+           We need to talk...
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -141,6 +140,8 @@ We need to talk...
               "WebkitFlexBasis": "auto",
               "flexBasis": "auto",
               "height": "146px",
+              "marginBottom": "40px",
+              "marginTop": "32px",
               "msFlexPreferredSize": "auto",
               "overflowX": "hidden",
               "overflowY": "hidden",
@@ -206,25 +207,33 @@ We need to talk...
             }
           />
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(0,175,255,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
                 "paddingBottom": "25px",
                 "paddingTop": "25px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
               }
             }
           >
-            In order to continue, it's best you switch to your mobile device, also for best experience use Chrome/Safari browser.
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,175,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              In order to continue, it's best you switch to your mobile device, also for best experience use Chrome/Safari browser.
+            </div>
           </div>
           <div
             className="css-view-1dbjc4n"

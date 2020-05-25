@@ -20,6 +20,7 @@ const [showDialog] = useDialog()
 
 showDialog({
   content: <CameraPermissionsDialog />,
+  type: 'error',
   buttons: [
     {
       text: 'OK',

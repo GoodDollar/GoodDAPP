@@ -19,6 +19,7 @@ const [showDialog] = useDialog()
 
 showDialog({
   content: <ClipboardPermissionsDialog />,
+  type: 'error',
   buttons: [
     {
       text: 'OK',

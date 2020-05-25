@@ -40,9 +40,6 @@ export const ZoomSDK = new class {
     // setting the directory path for required ZoOm images.
     sdk.setImagesDirectory(`${ZOOM_PUBLIC_PATH}/images`)
 
-    // customize texts
-    sdk.configureLocalization(UITextStrings.toJSON())
-
     // customize UI
     sdk.setCustomization(UICustomization)
   }
@@ -83,8 +80,16 @@ export const ZoomSDK = new class {
         sdk.initialize(
           licenseKey,
           isInitialized => {
-            // if Zoom was initialized successfully - resolving
+            // if Zoom was initialized successfully
             if (isInitialized) {
+              // customizing UI texts. Doing it here, according the docs:
+              //
+              // Note: configureLocalization() MUST BE called after initialize() or initializeWithLicense().
+              // @see https://dev.facetec.com/#/string-customization-guide?link=overriding-system-settings (scroll back one paragraph)
+              //
+              sdk.configureLocalization(UITextStrings.toJSON())
+
+              // resolving
               resolve()
               return
             }

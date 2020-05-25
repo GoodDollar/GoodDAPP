@@ -1,7 +1,9 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
 import hexToRgba from 'hex-to-rgba'
-import { Colors } from 'react-native-paper'
 import { assignIn, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 
+import { Spinner } from '../../../common/view/LoadingIndicator'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 
 import { theme } from '../../../theme/styles'
@@ -15,14 +17,14 @@ const ZoomImage = filename => `${ZOOM_PUBLIC_PATH}/images/${filename}`
 const ZoomColor = memoize(hexToRgba)
 const ZoomFont = family => `'${family}', sans-serif`
 
-//const ZoomWideTextSpacing = '30px' looks weird, temporary disabled
-const ZoomWideTextSpacing = 'normal'
+const ZoomWideTextSpacing = 'normal' // '30px' looks weird, temporary disabled
 const ZoomDefaultCorderRadius = '5px'
 
 const { primary, green, white, darkGray } = theme.colors
 const { default: defaultFont } = theme.fonts
 
 export const UITextStrings = {
+  zoomInitializingCamera: null, // setting empty "Starting camera..." text
   zoomResultSuccessMessage: 'You are an<br>amazing unicorn!',
   zoomResultFacemapUploadMessage: "Verifying you're<br>one of a kind",
   zoomResultIdscanUploadMessage: "Verifying you're<br>one of a kind",
@@ -45,9 +47,23 @@ const {
   resultScreenCustomization,
 } = UICustomization
 
+const { element } = initialLoadingAnimationCustomization
+
 // disabling camera permissions help screen
 // (as we have own ErrorScreen with corresponding message)
 UICustomization.enableCameraPermissionsHelpScreen = false
+
+// customizing 'Camera initializing' indicator
+// rendering our animated loading spinner inside Zoom's spinner
+ReactDOM.render(<Spinner loading />, element)
+
+// Zoom's spinner is rendered via CSS border
+// Setting the same background & foreground color to hide it
+// Default Zoom's animation is disabled in UICustomization.css
+assignIn(initialLoadingAnimationCustomization, {
+  foregroundColor: ZoomColor(white),
+  backgroundColor: ZoomColor(white),
+})
 
 // removing branding image from overlay
 assignIn(overlayCustomization, {
@@ -62,6 +78,7 @@ assignIn(cancelButtonCustomization, {
 })
 
 // configuring feedback bar typography & border radius
+// bold font style is set in UICustomization.css
 assignIn(feedbackCustomization, {
   backgroundColor: ZoomColor(primary),
   cornerRadius: ZoomDefaultCorderRadius,
@@ -91,13 +108,6 @@ assignIn(frameCustomization, {
   backgroundColor: ZoomColor(white),
 })
 
-// customizing 'Camera initializing' loaind indicator to look like the ours one
-assignIn(initialLoadingAnimationCustomization, {
-  foregroundColor: ZoomColor(Colors.lightBlue800),
-  backgroundColor: ZoomColor(white),
-  messageTextColor: ZoomColor(white),
-})
-
 // guidance screens ("frame your face", "retry" etc) customizations
 assignIn(guidanceCustomization, {
   // setting setting Zoom UI default text color
@@ -112,9 +122,12 @@ assignIn(guidanceCustomization, {
   buttonTextDisabledColor: ZoomColor(white),
 
   // customizing header / subtext
+  // medium font style is set in UICustomization.css
   headerFont: ZoomFont(defaultFont),
   headerTextSize: '24px',
   headerTextSpacing: ZoomWideTextSpacing,
+
+  // subtext
   subtextFont: ZoomFont(defaultFont),
   subtextTextSize: '14px',
   subtextTextSpacing: ZoomWideTextSpacing,

@@ -4,7 +4,7 @@ import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import logger from '../../../../lib/logger/pino-logger'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
-import UICustomization, { ZOOM_PUBLIC_PATH } from './UICustomization'
+import { UICustomization, UITextStrings, ZOOM_PUBLIC_PATH } from './UICustomization'
 
 const log = logger.child({ from: 'ZoomSDK' })
 
@@ -42,6 +42,9 @@ export const ZoomSDK = new class {
 
     // customize UI
     sdk.setCustomization(UICustomization)
+
+    // customize texts
+    sdk.configureLocalization(UITextStrings.toJSON())
   }
 
   // eslint-disable-next-line require-await

@@ -2,6 +2,7 @@ import { first, noop } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
+import { UITextStrings } from './UICustomization'
 
 const {
   // Zoom verification session incapsulation
@@ -105,13 +106,13 @@ export class EnrollmentProcessor {
         })
 
       // if enrolled sucessfully - setting last message from server response
-      const successMessage = 'The FaceMap was successfully enrolled.'
+      const { zoomResultSuccessMessage } = UITextStrings
 
-      ZoomCustomization.setOverrideResultScreenSuccessMessage(successMessage)
+      ZoomCustomization.setOverrideResultScreenSuccessMessage(zoomResultSuccessMessage)
 
       // updating session state vars
       this.isSuccess = true
-      this.lastMessage = successMessage
+      this.lastMessage = zoomResultSuccessMessage
 
       // marking session as successfull
       resultCallback.succeed()

@@ -3,3 +3,12 @@
   opacity: 1 !important;
   filter: blur(24px) brightness(4) opacity(50%);
 }
+
+#zoom-feedback {
+  font-weight: bold !important;
+}
+
+.zoom-user-helper h2 {
+  /* There's no font-weight enum value corresponding to the OpenType's FW_MEDIUM */
+  font-weight: 500 !important
+}

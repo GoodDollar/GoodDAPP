@@ -50,10 +50,10 @@ const IntroScreen = props => {
             <Separator width={2} />
             <Text textAlign="center" style={styles.descriptionContainer}>
               <Text textAlign="center" fontWeight="bold" color="primary">
-                {`Since this is your first G$ Claim\n`}
+                {`Once in a while\n`}
               </Text>
               <Text textAlign="center" color="primary">
-                {`we will take a short video of you\n`}
+                {`we'll need to take a short video of you\n`}
               </Text>
               <Text textAlign="center" color="primary">
                 {`to prevent duplicate accounts.\n`}

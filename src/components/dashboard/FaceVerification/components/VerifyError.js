@@ -38,6 +38,7 @@ const VerifyError = ({
   reason,
   description,
   action,
+  imageSource,
 
   title = 'Something went wrong...',
   log = defaultLogger,
@@ -63,10 +64,10 @@ const VerifyError = ({
             {' '}
             {`${firstName},\n${title}`}
           </Section.Title>
-          <Image source={Oops} resizeMode="center" style={styles.errorImage} />
+          <Image source={imageSource || Oops} resizeMode="center" style={styles.errorImage} />
           <Section style={styles.errorSection}>
             <Separator width={2} />
-            <Text color="primary" fontWeight="bold" style={styles.description}>
+            <Text color="primary" style={styles.description}>
               {`${description || error || message || reason}`}
             </Text>
             <Separator width={2} />
@@ -96,14 +97,17 @@ const getStylesFromProps = ({ theme }) => ({
   },
   errorImage: {
     height: getDesignRelativeHeight(146),
+    marginTop: getDesignRelativeHeight(32),
+    marginBottom: getDesignRelativeHeight(40),
   },
   descriptionContainer: {
     flex: 1,
     marginBottom: 0,
     paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-    paddingLeft: getDesignRelativeWidth(theme.sizes.defaultHalf),
-    paddingRight: getDesignRelativeWidth(theme.sizes.defaultHalf),
+    paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+    paddingRight: getDesignRelativeWidth(theme.sizes.default),
     paddingTop: getDesignRelativeHeight(theme.sizes.default),
+    width: '100%',
   },
   action: {
     width: '100%',

@@ -34,6 +34,9 @@ export const routeAndPathForCode = async (
       `Invalid network. Code is meant to be used in ${networkName} network, not on ${getNetworkName(currentNetworkId)}`
     )
   }
+  if (goodWallet.account.toLowerCase() === address.toLowerCase()) {
+    throw new Error("You can't send to G$s to yourself, you already own your G$s")
+  }
 
   switch (screen) {
     case 'sendByQR':

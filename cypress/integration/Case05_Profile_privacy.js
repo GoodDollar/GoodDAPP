@@ -1,0 +1,54 @@
+/* eslint-disable no-undef */
+import StartPage from '../PageObjects/StartPage'
+import LoginPage from '../PageObjects/LoginPage'
+import HomePage from '../PageObjects/HomePage'
+import ProfilePage from '../PageObjects/ProfilePage'
+import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
+
+describe('Test case 5: Ability to change profile privacy level', () => {
+  it('User should be able to change privacy lvl', () => {
+   cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+    StartPage.open()
+    StartPage.signInButton.click()
+    LoginPage.recoverFromPassPhraseLink.click()
+    LoginPage.pageHeader.should('contain', 'Recover')
+    LoginPage.mnemonicsInput.type(mnemonic)
+    LoginPage.recoverWalletButton.click()
+    LoginPage.yayButton.click()
+    HomePage.waitForHomePageDisplayed()
+    HomePage.profileAvatar.should('be.visible')
+    HomePage.profileAvatar.click()
+    ProfilePage.profilePrivacyButton.click()
+    ProfilePrivacyPage.publicNumberButton.click()
+    ProfilePrivacyPage.publicEmailButton.click()
+    ProfilePrivacyPage.publicNumberButton.click()
+    ProfilePrivacyPage.publicEmailButton.click()
+    ProfilePrivacyPage.saveButton.click()
+    ProfilePrivacyPage.backButton.click()
+    HomePage.profileAvatar.click()
+    ProfilePage.phoneInput.should('have.value', '+380673001757')
+    ProfilePage.emailInput.should('have.value', 'main.test.acc.gooddollar@gmail.com')
+    ProfilePage.profilePrivacyButton.click()
+    ProfilePrivacyPage.pageHeader.should('contain', 'PROFILE PRIVACY')
+    ProfilePrivacyPage.muskedNumberButton.click()
+    ProfilePrivacyPage.muskedEmailButton.click()
+    ProfilePrivacyPage.muskedNumberButton.click()
+    ProfilePrivacyPage.muskedEmailButton.click()
+    ProfilePrivacyPage.saveButton.click()
+    ProfilePrivacyPage.backButton.click()
+    HomePage.profileAvatar.click()
+    ProfilePage.phoneInput.should('have.value', '*********1757')
+    ProfilePage.emailInput.should('have.value', 'm**********************r@gmail.com')
+    ProfilePage.profilePrivacyButton.click()
+    ProfilePrivacyPage.privateNumberButton.click()
+    ProfilePrivacyPage.privateEmailButton.click()
+    ProfilePrivacyPage.privateNumberButton.click()
+    ProfilePrivacyPage.privateEmailButton.click()
+    ProfilePrivacyPage.saveButton.click()
+    ProfilePrivacyPage.backButton.click()
+    HomePage.profileAvatar.click()
+    ProfilePage.phoneInput.should('have.value', '******')
+    ProfilePage.emailInput.should('have.value', '******')
+   })
+  })
+})

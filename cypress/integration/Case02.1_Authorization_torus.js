@@ -1,27 +1,35 @@
 /* eslint-disable no-undef */
 import StartPage from '../PageObjects/StartPage'
+import SocialLoginPage from '../PageObjects/SocialLoginPage'
 import HomePage from '../PageObjects/HomePage'
-import SignUpPage from '../PageObjects/SignUpPage'
-import GDls from '../fixtures/GDls.json'
+import userObject from '../fixtures/userObject.json'
+//import SignUpPage from '../PageObjects/SignUpPage'
 
-describe('Test case 2.1: Torus user', () => {
-  beforeEach('load localStorage', () => {
-    Object.keys(GDls).forEach(key => {
-      localStorage.setItem(key, GDls[key])
-    })
+describe('Login Torus', () => {
+  beforeEach(() => {
+    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
   })
 
-  it('login with localStorage value', () => {
+  it('login via TorusTestUser', () => {
     StartPage.open()
-    HomePage.waitForHomePageDisplayed()
-    HomePage.optionsButton.click()
-    HomePage.logoutButton.click()
-  })
-
-  it('login with localStorage value again', () => {
-    StartPage.open()
-    SignUpPage.nameInput.should('not.be.visible')
-    HomePage.waitForHomePageDisplayed()
+    expect(localStorage.getItem('TorusTestUser')).to.not.be.null
+    SocialLoginPage.googleLink.should('be.visible')
+    SocialLoginPage.googleLink.click()
+    cy.contains('Good Dollar')
     HomePage.sendButton.should('be.visible')
+
+    /*
+    if (cy.contains('enter your phone number')) {
+      SignUpPage.phoneInput.type(Cypress.env('numberForTorus'), { delay: 300 })
+      SignUpPage.nextButton.should('have.attr', 'data-focusable')
+      SignUpPage.nextButton.click()
+      for (let i = 0; i < 6; i++) {
+        SignUpPage.waitForSignUpPageDisplayed()
+        SignUpPage.codeInputs
+          .eq(i)
+          .type(i, { force: true }, { delay: 500 })
+          .should('be.visible')
+        SignUpPage.letStartButton.click()
+      }*/
   })
 })

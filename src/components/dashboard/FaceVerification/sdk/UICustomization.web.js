@@ -17,10 +17,12 @@ const ZoomImage = filename => `${ZOOM_PUBLIC_PATH}/images/${filename}`
 const ZoomColor = memoize(hexToRgba)
 const ZoomFont = family => `'${family}', sans-serif`
 
-const ZoomWideTextSpacing = 'normal' // '30px' looks weird, temporary disabled
+const ZoomHeaderTextSize = '24px'
+const ZoomWideTextSpacing = '4px' // '30px' looks weird, temporary set to 6 = 30 - 24
+const ZoomNormalTextSpacing = '2px' // '18px' looks weird, temporary set to 4 = 18 - 14
 const ZoomDefaultCorderRadius = '5px'
 
-const { primary, green, white, darkGray } = theme.colors
+const { primary, green, white, darkGray, gray50Percent } = theme.colors
 const { default: defaultFont } = theme.fonts
 
 export const UITextStrings = {
@@ -120,17 +122,20 @@ assignIn(guidanceCustomization, {
   buttonTextNormalColor: ZoomColor(white),
   buttonTextHighlightColor: ZoomColor(white),
   buttonTextDisabledColor: ZoomColor(white),
+  buttonBackgroundNormalColor: ZoomColor(primary),
+  buttonBackgroundHighlightColor: ZoomColor(green),
+  buttonBackgroundDisabledColor: ZoomColor(gray50Percent),
 
   // customizing header / subtext
   // medium font style is set in UICustomization.css
   headerFont: ZoomFont(defaultFont),
-  headerTextSize: '24px',
+  headerTextSize: ZoomHeaderTextSize,
   headerTextSpacing: ZoomWideTextSpacing,
 
   // subtext
   subtextFont: ZoomFont(defaultFont),
   subtextTextSize: '14px',
-  subtextTextSpacing: ZoomWideTextSpacing,
+  subtextTextSpacing: ZoomNormalTextSpacing,
 
   // enabling additional instructions on retry screen
   enableRetryScreenBulletedInstructions: true,

@@ -55,7 +55,7 @@ const VerifyError = ({
 
     const { fullName } = store.get('profile')
 
-    return `${getFirstWord(fullName)} ${title}`
+    return `${getFirstWord(fullName)},\n${title}`
   }, [store])
 
   useEffect(() => {

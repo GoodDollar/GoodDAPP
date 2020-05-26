@@ -4,12 +4,12 @@ import { noop } from 'lodash'
 import { CustomButton } from '../../../common'
 import ErrorBase from '../components/ErrorBaseWithImage'
 import logger from '../../../../lib/logger/pino-logger'
-import FRPortraitModeError from '../../../../assets/FRPortraitModeError.svg'
+import illustration from '../../../../assets/FRPortraitModeError.svg'
 
 const log = logger.child({ from: 'FaceVerificationError' })
 
 if (Platform.OS === 'web') {
-  Image.prefetch(FRPortraitModeError)
+  Image.prefetch(illustration)
 }
 
 const ErrorScreen = ({ styles, screenProps }) => {
@@ -22,7 +22,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
     <ErrorBase
       log={log}
       action={allowRetry && <CustomButton onPress={retry}>PLEASE TRY AGAIN</CustomButton>}
-      imageSource={FRPortraitModeError}
+      imageSource={illustration}
       title={'please turn your camera\nto portrait mode'}
       description={`It’s a nice landscape,\nbut we need to see\nyour face only in portrait mode`}
     />

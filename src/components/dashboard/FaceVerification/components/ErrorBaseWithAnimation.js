@@ -27,6 +27,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 // 8. styles & assets
 import { withStyles } from '../../../../lib/styles'
 import Oops from '../../../../assets/oops.svg'
+import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
 
 const defaultLogger = logger.child({ from: 'VerifyError' })
 
@@ -40,8 +41,7 @@ const ErrorBaseWithImage = ({
   description,
   boldDescription,
   action,
-  imageSource,
-  imageStyle,
+  twoErrorImages,
   titleWithoutUsername,
   title = 'Something went wrong...',
   log = defaultLogger,
@@ -70,7 +70,20 @@ const ErrorBaseWithImage = ({
           <Section.Title fontWeight="medium" textTransform="none">
             {displayTitle}
           </Section.Title>
-          <Image source={imageSource || Oops} resizeMode="contain" style={[styles.errorImage, imageStyle]} />
+          {twoErrorImages ? (
+            <Section.Row justifyContent="space-evenly">
+              <View style={styles.halfIllustration}>
+                <FaceVerificationErrorSmiley />
+              </View>
+              <View style={styles.halfIllustration}>
+                <FaceVerificationErrorSmiley />
+              </View>
+            </Section.Row>
+          ) : (
+            <View style={styles.illustration}>
+              <FaceVerificationErrorSmiley />
+            </View>
+          )}
           {showDescription && (
             <Section style={styles.errorSection}>
               <Separator width={2} />
@@ -93,6 +106,14 @@ const ErrorBaseWithImage = ({
 }
 
 const getStylesFromProps = ({ theme }) => {
+  const illustration = {
+    width: getDesignRelativeWidth(190, false),
+    marginTop: isMobileOnly ? getDesignRelativeHeight(32) : 0,
+    marginBottom: isMobileOnly ? getDesignRelativeHeight(40) : 0,
+    marginRight: 'auto',
+    marginLeft: 'auto',
+  }
+
   return {
     topContainer: {
       alignItems: 'center',
@@ -109,10 +130,12 @@ const getStylesFromProps = ({ theme }) => {
       paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
       borderRadius: 5,
     },
-    errorImage: {
-      height: getDesignRelativeHeight(146, false),
-      marginTop: isMobileOnly ? getDesignRelativeHeight(32) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(40) : 0,
+    illustration,
+    halfIllustration: {
+      ...illustration,
+      width: getDesignRelativeWidth(97, false),
+      marginRight: 0,
+      marginLeft: 0,
     },
     descriptionContainer: {
       flex: 1,

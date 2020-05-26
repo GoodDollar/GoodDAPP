@@ -1,13 +1,12 @@
 import React from 'react'
-import { Image, Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { noop } from 'lodash'
 
 import { CustomButton } from '../../../common'
-import ErrorBase from '../components/ErrorBaseWithImage'
+import ErrorBase from '../components/ErrorBaseWithAnimation'
 
 import logger from '../../../../lib/logger/pino-logger'
 
-import Oops from '../../../../assets/oops.svg'
 import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 
 const log = logger.child({ from: 'FaceVerificationError' })
@@ -17,10 +16,6 @@ const styles = StyleSheet.create({
     marginBottom: getDesignRelativeHeight(16),
   },
 })
-
-if (Platform.OS === 'web') {
-  Image.prefetch(Oops)
-}
 
 const ErrorScreen = ({ screenProps }) => {
   const { screenState } = screenProps

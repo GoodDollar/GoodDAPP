@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { CustomButton } from '../../../common'
-import ErrorBase from '../components/ErrorBaseWithImage'
+import ErrorBase from '../components/ErrorBaseWithAnimation'
 import logger from '../../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'FaceVerificationError' })

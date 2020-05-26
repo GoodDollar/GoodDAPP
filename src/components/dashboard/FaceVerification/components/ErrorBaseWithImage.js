@@ -34,13 +34,14 @@ if (Platform.OS === 'web') {
   Image.prefetch(Oops)
 }
 
-const VerifyError = ({
+const ErrorBaseWithImage = ({
   styles,
   reason,
   description,
   boldDescription,
   action,
   imageSource,
+  imageStyle,
   twoErrorImages,
   titleWithoutUsername,
   title = 'Something went wrong...',
@@ -72,11 +73,11 @@ const VerifyError = ({
           </Section.Title>
           {twoErrorImages ? (
             <Section.Row justifyContent="space-evenly">
-              <Image source={imageSource || Oops} resizeMode="contain" style={styles.halfErrorImage} />
-              <Image source={imageSource || Oops} resizeMode="contain" style={styles.halfErrorImage} />
+              <Image source={imageSource || Oops} resizeMode="contain" style={[styles.halfErrorImage, imageStyle]} />
+              <Image source={imageSource || Oops} resizeMode="contain" style={[styles.halfErrorImage, imageStyle]} />
             </Section.Row>
           ) : (
-            <Image source={imageSource || Oops} resizeMode="contain" style={styles.errorImage} />
+            <Image source={imageSource || Oops} resizeMode="contain" style={[styles.errorImage, imageStyle]} />
           )}
           {showDescription && (
             <Section style={styles.errorSection}>
@@ -151,4 +152,4 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-export default withStyles(getStylesFromProps)(VerifyError)
+export default withStyles(getStylesFromProps)(ErrorBaseWithImage)

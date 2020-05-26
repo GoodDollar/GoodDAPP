@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedOtherErrorScreen from '../screens/OtherErrorScreen'
+import ImportedUnrecoverableErrorScreen from '../screens/UnrecoverableErrorScreen'
 
-const ErrorScreen = withThemeProvider(ImportedOtherErrorScreen)
+const ErrorScreen = withThemeProvider(ImportedUnrecoverableErrorScreen)
 
 const screenState = {
   isValid: false,

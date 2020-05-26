@@ -3,7 +3,7 @@ import { Image, Platform, StyleSheet, View } from 'react-native'
 import { noop } from 'lodash'
 
 import { CustomButton } from '../../../common'
-import VerifyError from '../components/VerifyError'
+import ErrorBase from '../components/ErrorBaseWithImage'
 
 import logger from '../../../../lib/logger/pino-logger'
 
@@ -29,7 +29,7 @@ const ErrorScreen = ({ screenProps }) => {
   const retry = noop // define whatever you need
 
   return (
-    <VerifyError
+    <ErrorBase
       log={log}
       action={
         allowRetry && (

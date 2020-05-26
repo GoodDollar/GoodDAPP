@@ -8,7 +8,7 @@ import Config from '../../../../config/config'
 import { CopyButton } from '../../../common'
 import Text from '../../../common/view/Text'
 
-import VerifyError from '../components/VerifyError'
+import ErrorBase from '../components/ErrorBaseWithImage'
 
 import logger from '../../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../../lib/analytics/analytics'
@@ -45,7 +45,7 @@ const UnsupportedScreen = ({ styles, screenProps }) => {
   }, [])
 
   return (
-    <VerifyError
+    <ErrorBase
       log={log}
       reason={reason}
       action={

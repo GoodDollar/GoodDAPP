@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import { Image, Platform } from 'react-native'
 
 import { CustomButton } from '../../../common'
-import VerifyError from '../components/VerifyError'
+import ErrorBase from '../components/ErrorBaseWithImage'
 
 import logger from '../../../../lib/logger/pino-logger'
 
@@ -29,7 +29,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
   }, [screenProps])
 
   return (
-    <VerifyError
+    <ErrorBase
       log={log}
       reason={exception}
       action={allowRetry && <CustomButton onPress={retry}>PLEASE TRY AGAIN</CustomButton>}

@@ -2,15 +2,14 @@ import React from 'react'
 import { Image, Platform } from 'react-native'
 import { noop } from 'lodash'
 import { CustomButton } from '../../../common'
-import VerifyError from '../components/VerifyError'
+import ErrorBase from '../components/ErrorBaseWithImage'
 import logger from '../../../../lib/logger/pino-logger'
-import Oops from '../../../../assets/oops.svg'
 import FRPortraitModeError from '../../../../assets/FRPortraitModeError.svg'
 
 const log = logger.child({ from: 'FaceVerificationError' })
 
 if (Platform.OS === 'web') {
-  Image.prefetch(Oops)
+  Image.prefetch(FRPortraitModeError)
 }
 
 const ErrorScreen = ({ styles, screenProps }) => {
@@ -20,7 +19,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const retry = noop
 
   return (
-    <VerifyError
+    <ErrorBase
       log={log}
       action={allowRetry && <CustomButton onPress={retry}>PLEASE TRY AGAIN</CustomButton>}
       imageSource={FRPortraitModeError}

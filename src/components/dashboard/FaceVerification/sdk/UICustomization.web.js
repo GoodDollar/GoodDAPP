@@ -22,7 +22,7 @@ const ZoomWideTextSpacing = '4px' // '30px' looks weird, temporary set to 6 = (3
 const ZoomNormalTextSpacing = '2px' // '18px' looks weird, temporary set to 4 = (18 - 14) / 2
 const ZoomDefaultCorderRadius = '5px'
 
-const { primary, green, white, darkGray, gray50Percent } = theme.colors
+const { primary, green, white, lightGray, darkGray, gray50Percent } = theme.colors
 const { default: defaultFont } = theme.fonts
 
 export const UITextStrings = {
@@ -153,7 +153,7 @@ assignIn(resultScreenCustomization, {
   messageFont: ZoomFont(defaultFont),
   showUploadProgressBar: true,
   uploadProgressFillColor: ZoomColor(primary),
-  uploadProgressTrackColor: ZoomColor('#EEEEEE'),
+  uploadProgressTrackColor: ZoomColor(lightGray),
   resultAnimationBackgroundColor: ZoomColor(white),
   resultAnimationForegroundColor: ZoomColor(primary),
   customActivityIndicatorImage: ZoomImage('zoom_activity_indicator.gif'),

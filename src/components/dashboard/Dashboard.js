@@ -71,7 +71,6 @@ import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedScreen'
-import FaceVerificationUnrecoverableError from './FaceVerification/screens/UnrecoverableErrorScreen'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -858,7 +857,6 @@ export default createStackNavigator({
   FaceVerificationIntro,
   FaceVerificationError,
   FaceVerificationUnsupported,
-  FaceVerificationUnrecoverableError,
 
   SendQRSummary,
 

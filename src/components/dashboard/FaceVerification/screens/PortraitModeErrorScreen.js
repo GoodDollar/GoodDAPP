@@ -32,7 +32,7 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const ErrorBaseWithImage = ({ styles, action }) => {
+const ErrorBaseWithImage = ({ styles }) => {
   const store = GDStore.useStore()
 
   const displayTitle = useMemo(() => {

@@ -1,62 +1,96 @@
+// Please follow those imports order (need to add eslint rule for that)
+
+// 1. React
 import React from 'react'
-import { Image, Platform, StyleSheet, View } from 'react-native'
+
+// 2. React Native
+import { Image, Platform, View } from 'react-native'
+
+// 3. Libraries components (here're absent)
 import { noop } from 'lodash'
 
-import { CustomButton } from '../../../common'
-import ErrorBase from '../components/ErrorBaseWithImage'
+// 4. common components
+import { CustomButton, Section, Wrapper } from '../../../common'
+import { isMobileOnly } from '../../../../lib/utils/platform'
 
-import logger from '../../../../lib/logger/pino-logger'
+// 5. local components like ResultStep, GuidedResults and others from FaceVerification (here're absent)
 
+// 6. FLUX imports: store, reducers, actions
+
+// 7. Utilities
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+
+// 8. styles & assets
+import { withStyles } from '../../../../lib/styles'
 import illustration from '../../../../assets/FRUnrecoverableError.svg'
-import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
-
-const log = logger.child({ from: 'FaceVerificationError' })
-
-const styles = StyleSheet.create({
-  actionsSpace: {
-    marginBottom: getDesignRelativeHeight(16),
-  },
-  imageStyle: {
-    height: getDesignRelativeHeight(230, false),
-  },
-})
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const UnrecoverableErrorScreen = ({ screenProps }) => {
-  const { screenState } = screenProps
-  const { allowRetry = true } = screenState
-
-  const handler = noop // define whatever you need
+const ErrorBaseWithImage = ({ styles }) => {
+  const handler = noop
 
   return (
-    <ErrorBase
-      log={log}
-      action={
-        allowRetry && (
-          <View>
-            <CustomButton onPress={handler} style={styles.actionsSpace}>
-              OK
-            </CustomButton>
-            <CustomButton mode="outlined" onPress={handler}>
-              CONTACT SUPPORT
-            </CustomButton>
-          </View>
-        )
-      }
-      titleWithoutUsername
-      title={'Sorry about that…\nWe’re looking in to it,\nplease try again later'}
-      imageSource={illustration}
-      imageStyle={styles.imageStyle}
-    />
+    <Wrapper>
+      <View style={styles.topContainer}>
+        <Section style={styles.descriptionContainer} justifyContent="space-evenly">
+          <Section.Title fontWeight="medium" textTransform="none">
+            {'Sorry about that…\nWe’re looking in to it,\nplease try again later'}
+          </Section.Title>
+          <Image source={illustration} resizeMode="contain" style={styles.errorImage} />
+        </Section>
+        <View style={styles.action}>
+          <CustomButton onPress={handler} style={styles.actionsSpace}>
+            OK
+          </CustomButton>
+          <CustomButton mode="outlined" onPress={handler}>
+            CONTACT SUPPORT
+          </CustomButton>
+        </View>
+      </View>
+    </Wrapper>
   )
 }
 
-UnrecoverableErrorScreen.navigationOptions = {
-  title: 'Face Verification',
-  navigationBarHidden: false,
+const getStylesFromProps = ({ theme }) => {
+  return {
+    topContainer: {
+      alignItems: 'center',
+      justifyContent: 'space-evenly',
+      display: 'flex',
+      backgroundColor: theme.colors.surface,
+      height: '100%',
+      flex: 1,
+      flexGrow: 1,
+      flexShrink: 0,
+      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+      paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+      paddingRight: getDesignRelativeWidth(theme.sizes.default),
+      paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+      borderRadius: 5,
+    },
+    errorImage: {
+      height: getDesignRelativeHeight(230, false),
+      marginTop: isMobileOnly ? getDesignRelativeHeight(32) : 0,
+      marginBottom: isMobileOnly ? getDesignRelativeHeight(40) : 0,
+    },
+    descriptionContainer: {
+      flex: 1,
+      marginBottom: 0,
+      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+      paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+      paddingRight: getDesignRelativeWidth(theme.sizes.default),
+      paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      width: '100%',
+    },
+    action: {
+      width: '100%',
+    },
+    actionsSpace: {
+      marginBottom: getDesignRelativeHeight(16),
+    },
+  }
 }
 
-export default UnrecoverableErrorScreen
+export default withStyles(getStylesFromProps)(ErrorBaseWithImage)

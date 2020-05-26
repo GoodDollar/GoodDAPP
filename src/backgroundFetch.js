@@ -94,11 +94,17 @@ BackgroundFetch.configure(options, task, taskManagerErrorHandler)
 BackgroundFetch.registerHeadlessTask(androidHeadlessTask)
 BackgroundFetch.scheduleTask({ taskId: 'org.gooddollar.bgfetch' })
 
-const hasConnection = async () => {
-  await Promise.race([
-    Promise.all(
-      [goodWallet.ready, userStorage.ready],
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Timed out')), 10000))
-    ),
+// eslint-disable-next-line require-await
+const waitUntil = async ms => new Promise(
+  (_, reject) => setTimeout(() => reject(new Error('Timed out')), ms)
+)
+
+// eslint-disable-next-line require-await
+const hasConnection = async () => 
+  Promise.race([
+    Promise.all([
+      goodWallet.ready, 
+      userStorage.ready
+    ]),
+    waitUntil(10000),
   ])
-}

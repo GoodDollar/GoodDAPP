@@ -28,7 +28,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 import { withStyles } from '../../../../lib/styles'
 import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
 
-const DuplicateErrroScreen = ({ styles }) => {
+const DuplicateErrorScreen = ({ styles }) => {
   const store = GDStore.useStore()
 
   const displayTitle = useMemo(() => {
@@ -127,4 +127,4 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-export default withStyles(getStylesFromProps)(DuplicateErrroScreen)
+export default withStyles(getStylesFromProps)(DuplicateErrorScreen)

@@ -12,6 +12,7 @@ import { Image, Platform, View } from 'react-native'
 import Text from '../../../common/view/Text'
 import Separator from '../../../common/layout/Separator'
 import { Section, Wrapper } from '../../../common'
+import { isMobileOnly } from '../../../../lib/utils/platform'
 
 // 5. local components like ResultStep, GuidedResults and others from FaceVerification (here're absent)
 
@@ -71,11 +72,11 @@ const VerifyError = ({
           </Section.Title>
           {twoErrorImages ? (
             <Section.Row justifyContent="space-evenly">
-              <Image source={imageSource || Oops} resizeMode="center" style={styles.halfErrorImage} />
-              <Image source={imageSource || Oops} resizeMode="center" style={styles.halfErrorImage} />
+              <Image source={imageSource || Oops} resizeMode="contain" style={styles.halfErrorImage} />
+              <Image source={imageSource || Oops} resizeMode="contain" style={styles.halfErrorImage} />
             </Section.Row>
           ) : (
-            <Image source={imageSource || Oops} resizeMode="center" style={styles.errorImage} />
+            <Image source={imageSource || Oops} resizeMode="contain" style={styles.errorImage} />
           )}
           {showDescription && (
             <Section style={styles.errorSection}>
@@ -100,9 +101,9 @@ const VerifyError = ({
 
 const getStylesFromProps = ({ theme }) => {
   const errorImage = {
-    height: getDesignRelativeHeight(146),
-    marginTop: getDesignRelativeHeight(32),
-    marginBottom: getDesignRelativeHeight(40),
+    height: getDesignRelativeHeight(146, false),
+    marginTop: isMobileOnly ? getDesignRelativeHeight(32) : 0,
+    marginBottom: isMobileOnly ? getDesignRelativeHeight(40) : 0,
   }
 
   return {

@@ -1,12 +1,12 @@
 import React from 'react'
-import addAppIllustration from '../../../../assets/addApp.svg'
+import illustration from '../../../../assets/FRAllowCameraPermissions.svg'
 import Base from './PermissionDialogBase'
 
 const CameraPermissionsDialog = ({ styles }) => (
   <Base
     title="Please allow access to your camera"
     text="In order to complete the verification"
-    imageSource={addAppIllustration}
+    imageSource={illustration}
   />
 )
 

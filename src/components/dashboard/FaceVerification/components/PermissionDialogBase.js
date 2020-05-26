@@ -33,7 +33,7 @@ const mapStylesToProps = () => ({
   },
   image: {
     width: '100%',
-    height: getDesignRelativeHeight(120),
+    height: getDesignRelativeHeight(120, false),
     marginBottom: getDesignRelativeHeight(16),
   },
   title: {

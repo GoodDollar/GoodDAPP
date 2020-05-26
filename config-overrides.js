@@ -84,10 +84,11 @@ module.exports = {
       path.resolve('node_modules/@react-navigation'),
       path.resolve('node_modules/react-native-paper'),
       path.resolve('node_modules/react-native-safe-area-view'),
-      path.resolve('node_modules/react-native-vector-icons'),
+      path.resolve('node_modules/react-native-vector-icons/lib'),
       path.resolve('node_modules/react-native-gesture-handler'),
       path.resolve('node_modules/react-native-keyboard-aware-scroll-view'),
       path.resolve('node_modules/react-native-animatable'),
+      path.resolve('node_modules/react-native-card-flip'),
     ]),
 
     babelExclude([

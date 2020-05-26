@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { Platform, View } from 'react-native'
-import { withStyles } from '../../lib/styles'
-import { weiToGd } from '../../lib/wallet/utils'
+import CardFlip from 'react-native-card-flip'
+
 import { CustomButton } from '../common'
-import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
-import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import Section from '../common/layout/Section'
+import BigGoodDollar from '../common/view/BigGoodDollar'
+
+import { weiToGd } from '../../lib/wallet/utils'
+import { withStyles } from '../../lib/styles'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 
 const ButtonAmountToClaim = ({ entitlement, isCitizen, styles }) => (
   <View style={styles.countdownContainer}>
@@ -50,7 +53,6 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
               key={index}
               fontSize={36}
               lineHeight={36}
-              //fontFamily="RobotoSlab"
               fontFamily="Roboto"
               fontWeight="bold"
               color="white"
@@ -88,6 +90,60 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styl
     <ButtonContent isCitizen={isCitizen} entitlement={entitlement} nextClaim={nextClaim} styles={styles} />
   </CustomButton>
 )
+
+const ClaimAnimation = memo(({ styles, entitlement, nextClaim, onPress, ...buttonProps }) => {
+  const initialEntitlementRef = useRef(entitlement)
+
+  const cardRef = useRef(null)
+  const setCardRef = useCallback(ref => (cardRef.current = ref), [])
+
+  const nextClaimOnHold = useRef(null)
+  const suspendRendering = useCallback(() => (nextClaimOnHold.current = nextClaim), [nextClaim])
+
+  const restoreRendering = useCallback(() => (nextClaimOnHold.current = null), [])
+
+  useEffect(() => {
+    const card = cardRef.current
+
+    if (card && entitlement) {
+      card.flip()
+    }
+  }, [entitlement])
+
+  if (initialEntitlementRef.current) {
+    return (
+      <ClaimButton {...buttonProps} styles={styles} entitlement={entitlement} nextClaim={nextClaim} onPress={onPress} />
+    )
+  }
+
+  if (!entitlement) {
+    return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} />
+  }
+
+  const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
+
+  return (
+    <CardFlip
+      style={styles.cardContainer}
+      ref={setCardRef}
+      flipDirection="x"
+      duration={1000}
+      flipZoom={0}
+      perspective={0}
+      onFlipStart={suspendRendering}
+      onFlipEnd={restoreRendering}
+    >
+      <ClaimButton {...buttonProps} styles={styles} entitlement={0} nextClaim={nextClaimToDisplay} />
+      <ClaimButton
+        {...buttonProps}
+        styles={styles}
+        entitlement={entitlement}
+        nextClaim={nextClaimToDisplay}
+        onPress={onPress}
+      />
+    </CardFlip>
+  )
+})
 
 const getStylesFromProps = ({ theme }) => ({
   justifyCenter: {
@@ -133,5 +189,7 @@ const getStylesFromProps = ({ theme }) => ({
     lineHeight: 36,
   },
 })
+
+export const AnimatedClaimButton = withStyles(getStylesFromProps)(ClaimAnimation)
 
 export default withStyles(getStylesFromProps)(ClaimButton)

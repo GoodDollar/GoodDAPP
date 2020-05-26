@@ -27,6 +27,8 @@ exports[`FaceVerificationDuplicateError matches snapshot 1`] = `
         "display": "flex",
         "height": "100%",
         "justifyContent": "center",
+        "marginBottom": "auto",
+        "marginTop": "auto",
         "msFlexPack": "center",
       }
     }
@@ -37,7 +39,7 @@ exports[`FaceVerificationDuplicateError matches snapshot 1`] = `
         Object {
           "WebkitFlexBasis": "auto",
           "flexBasis": "auto",
-          "height": "120px",
+          "height": "149.61038961038963px",
           "marginBottom": "16px",
           "msFlexPreferredSize": "auto",
           "overflowX": "hidden",
@@ -52,7 +54,7 @@ exports[`FaceVerificationDuplicateError matches snapshot 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "backgroundImage": "url(\\"addApp.svg\\")",
+            "backgroundImage": "url(\\"FRAllowCameraPermissions.svg\\")",
             "backgroundPosition": "center",
             "backgroundRepeat": "no-repeat",
             "backgroundSize": "contain",
@@ -71,7 +73,7 @@ exports[`FaceVerificationDuplicateError matches snapshot 1`] = `
         alt=""
         className="css-accessibilityImage-9pa8cd"
         draggable={false}
-        src="addApp.svg"
+        src="FRAllowCameraPermissions.svg"
       />
     </div>
     <div

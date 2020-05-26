@@ -131,7 +131,8 @@ exports[`ResultStep matches snapshot 1`] = `
             }
           }
         >
-           We need to talk...
+          ,
+We need to talk...
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -139,9 +140,9 @@ exports[`ResultStep matches snapshot 1`] = `
             Object {
               "WebkitFlexBasis": "auto",
               "flexBasis": "auto",
-              "height": "146px",
-              "marginBottom": "40px",
-              "marginTop": "32px",
+              "height": "182.02597402597402px",
+              "marginBottom": "0px",
+              "marginTop": "0px",
               "msFlexPreferredSize": "auto",
               "overflowX": "hidden",
               "overflowY": "hidden",
@@ -157,7 +158,7 @@ exports[`ResultStep matches snapshot 1`] = `
                 "backgroundImage": "url(\\"oops.svg\\")",
                 "backgroundPosition": "center",
                 "backgroundRepeat": "no-repeat",
-                "backgroundSize": "auto",
+                "backgroundSize": "contain",
                 "bottom": "0px",
                 "height": "100%",
                 "left": "0px",

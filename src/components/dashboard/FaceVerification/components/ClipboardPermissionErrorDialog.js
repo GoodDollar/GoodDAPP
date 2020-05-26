@@ -20,6 +20,7 @@ const [showDialog] = useDialog()
 showDialog({
   content: <ClipboardPermissionsDialog />,
   type: 'error',
+  isMinHeight: false,
   buttons: [
     {
       text: 'OK',

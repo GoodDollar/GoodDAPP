@@ -26,6 +26,8 @@ const mapStylesToProps = () => ({
     display: 'flex',
     justifyContent: 'center',
     height: '100%',
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
   error: {
     marginTop: getDesignRelativeHeight(15),

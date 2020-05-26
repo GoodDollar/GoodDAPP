@@ -19,6 +19,7 @@ const [showDialog] = useDialog()
 
 showDialog({
   content: <CameraPermissionsDialog />,
+  isMinHeight: false,
   buttons: [
     {
       text: 'OK',

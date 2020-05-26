@@ -18,8 +18,8 @@ const ZoomColor = memoize(hexToRgba)
 const ZoomFont = family => `'${family}', sans-serif`
 
 const ZoomHeaderTextSize = '24px'
-const ZoomWideTextSpacing = '4px' // '30px' looks weird, temporary set to 6 = 30 - 24
-const ZoomNormalTextSpacing = '2px' // '18px' looks weird, temporary set to 4 = 18 - 14
+const ZoomWideTextSpacing = '4px' // '30px' looks weird, temporary set to 6 = (30 - 24) / 2
+const ZoomNormalTextSpacing = '2px' // '18px' looks weird, temporary set to 4 = (18 - 14) / 2
 const ZoomDefaultCorderRadius = '5px'
 
 const { primary, green, white, darkGray, gray50Percent } = theme.colors
@@ -150,7 +150,7 @@ assignIn(guidanceCustomization, {
 
 // customizing result screen - progress bar & success animation
 assignIn(resultScreenCustomization, {
-  messageFont: ZoomFont('Roboto'),
+  messageFont: ZoomFont(defaultFont),
   showUploadProgressBar: true,
   uploadProgressFillColor: ZoomColor(primary),
   uploadProgressTrackColor: ZoomColor('#EEEEEE'),

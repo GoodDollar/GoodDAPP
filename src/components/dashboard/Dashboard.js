@@ -71,7 +71,6 @@ import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedScreen'
-import FaceVerificationPortraitModeError from './FaceVerification/screens/PortraitModeErrorScreen'
 import FaceVerificationUnrecoverableError from './FaceVerification/screens/UnrecoverableErrorScreen'
 
 const log = logger.child({ from: 'Dashboard' })
@@ -86,6 +85,7 @@ export type DashboardProps = {
   store: Store,
   styles?: any,
 }
+
 const Dashboard = props => {
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [getNextFeedAllowed, setGetNextFeedAllowed] = useState(true)
@@ -858,7 +858,6 @@ export default createStackNavigator({
   FaceVerificationIntro,
   FaceVerificationError,
   FaceVerificationUnsupported,
-  FaceVerificationPortraitModeError,
   FaceVerificationUnrecoverableError,
 
   SendQRSummary,

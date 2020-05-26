@@ -71,7 +71,6 @@ import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedScreen'
-import FaceVerificationDuplicateError from './FaceVerification/screens/DuplicateErrorScreen'
 import FaceVerificationPortraitModeError from './FaceVerification/screens/PortraitModeErrorScreen'
 import FaceVerificationUnrecoverableError from './FaceVerification/screens/UnrecoverableErrorScreen'
 
@@ -859,7 +858,6 @@ export default createStackNavigator({
   FaceVerificationIntro,
   FaceVerificationError,
   FaceVerificationUnsupported,
-  FaceVerificationDuplicateError,
   FaceVerificationPortraitModeError,
   FaceVerificationUnrecoverableError,
 

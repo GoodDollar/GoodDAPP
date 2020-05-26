@@ -1,5 +1,5 @@
 import React from 'react'
-import addAppIllustration from '../../../../assets/addApp.svg'
+import illustration from '../../../../assets/FRCameraPrmissionError.svg'
 import Base from './PermissionDialogBase'
 
 const CameraPermissionsDialog = ({ styles }) => (
@@ -7,7 +7,7 @@ const CameraPermissionsDialog = ({ styles }) => (
     errorMessage="We can’t access you camera..."
     title="Please enable camera permission"
     text="Change it via your device settings"
-    imageSource={addAppIllustration}
+    imageSource={illustration}
   />
 )
 

@@ -464,7 +464,7 @@ const Dashboard = props => {
     [store]
   )
 
-  const getNotifiactionItem = async () => {
+  const getNotificationItem = async () => {
     const notificationOpened = await AsyncStorage.getItem('GD_NOTIFICATION_OPENED')
     if (notificationOpened) {
       const item = feeds.find(feed => feed.id === notificationOpened)
@@ -475,7 +475,7 @@ const Dashboard = props => {
 
   useEffect(() => {
     if (feeds.length) {
-      getNotifiactionItem()
+      getNotificationItem()
     }
   }, [feeds, appState])
 

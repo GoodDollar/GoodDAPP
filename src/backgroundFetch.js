@@ -5,12 +5,7 @@ import moment from 'moment'
 import logger from '../src/lib/logger/pino-logger'
 import { IS_LOGGED_IN } from './lib/constants/localStorage'
 import userStorage from './lib/gundb/UserStorage'
-import {
-  checkGunConnection,
-  checkWalletAvailable,
-  checkWalletConnection,
-  checkWalletReady,
-} from './lib/utils/checkConnections'
+import goodWallet from './lib/wallet/GoodWallet'
 
 const options = {
   minimumFetchInterval: 15,
@@ -99,46 +94,11 @@ BackgroundFetch.configure(options, task, taskManagerErrorHandler)
 BackgroundFetch.registerHeadlessTask(androidHeadlessTask)
 BackgroundFetch.scheduleTask({ taskId: 'org.gooddollar.bgfetch' })
 
-const hasConnection = () => {
-  let stop = false
-
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (stop) {
-        return
-      }
-
-      stop = true
-      log.info('STOPPED')
-      reject()
-    }, 10000)
-
-    if (stop) {
-      return
-    }
-
-    const isConnected = () => {
-      if (!checkWalletReady()) {
-        return setTimeout(isConnected, 200)
-      }
-
-      if (!checkWalletConnection()) {
-        return setTimeout(isConnected, 200)
-      }
-
-      if (!checkWalletAvailable()) {
-        return setTimeout(isConnected, 200)
-      }
-
-      if (!checkGunConnection()) {
-        return setTimeout(isConnected, 200)
-      }
-
-      log.info('HAS CONNECTION')
-      stop = true
-      resolve()
-    }
-
-    isConnected()
-  })
+const hasConnection = async () => {
+  await Promise.race([
+    Promise.all(
+      [goodWallet.ready, userStorage.ready],
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Timed out')), 10000))
+    ),
+  ])
 }

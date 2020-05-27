@@ -10,6 +10,8 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <TSBackgroundFetch/TSBackgroundFetch.h>
+#import <UserNotifications/UserNotifications.h>
 #import <RNBranch/RNBranch.h>
 
 @implementation AppDelegate
@@ -31,7 +33,12 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-    
+  
+  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
+  
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  center.delegate = self;
+  
   return YES;
 }
 

@@ -205,7 +205,7 @@ PODS:
   - React-jsinspector (0.61.5)
   - react-native-blur (0.8.0):
     - React
-  - react-native-branch (4.3.0):
+  - react-native-branch (4.4.0):
     - Branch (= 0.31.3)
     - React
   - react-native-camera (3.18.0):
@@ -267,7 +267,11 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
+  - RNBackgroundFetch (3.0.3):
+    - React
   - RNCAsyncStorage (1.8.0):
+    - React
+  - RNCPushNotificationIOS (1.2.0):
     - React
   - RNDeviceInfo (5.5.3):
     - React
@@ -350,7 +354,9 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -459,8 +465,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNBackgroundFetch:
+    :path: "../node_modules/react-native-background-fetch"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFS:
@@ -514,7 +524,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-branch: df34ffd1ff1f592b42455c717e55b4b01a1d17d3
+  react-native-branch: a15b8ecb55c08139e06e7ea15bcadabc81a51e64
   react-native-camera: 36536dd86a41261622967ccf3e19fb63d7dd09e3
   react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-contacts: be6cde1ffc9c0196fbb57d987b9d40f12b85989c
@@ -534,7 +544,9 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
+  RNBackgroundFetch: 8098740c9fa1419cd96cfecab942c132dda8c140
   RNCAsyncStorage: 455b48eb552543bad4e3099e180e1700700771f3
+  RNCPushNotificationIOS: 9aa40ed0ff0e53f8ecf3baaaa7e5ccbaa5ba3894
   RNDeviceInfo: 67607dfe9cfbed105838144c40187a8392aa404d
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a

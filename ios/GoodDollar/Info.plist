@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>org.gooddollar.bgfetch</string>
+	</array>
 	<key>branch_app_domain</key>
 	<string>gooddollar.app.link</string>
 	<key>CFBundleURLTypes</key>
@@ -92,6 +96,11 @@
 		<string>RobotoSlab-Bold.ttf</string>
 		<string>RobotoSlab-Medium.ttf</string>
 		<string>RobotoSlab-Regular.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

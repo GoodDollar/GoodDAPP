@@ -18,6 +18,8 @@
 		2D937317297B4E47B382219E /* RobotoSlab-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 606D706266A94D118D223001 /* RobotoSlab-Medium.ttf */; };
 		2FF5A9749E634C41B5508DCD /* RobotoSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77E20F18A1D644E28CD22FBA /* RobotoSlab-Regular.ttf */; };
 		477F7AF867B84C89B5DD55C3 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E177BA7F034F44F4A748FB5F /* Roboto-BoldItalic.ttf */; };
+		5453E5E92409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5E82409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m */; };
+    5453E5EB2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */; };
 		5453E5ED240AA27E00E3DC92 /* DeepLink+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */; };
 		5453E5F0240ABC1400E3DC92 /* branch.json in Resources */ = {isa = PBXBuildFile; fileRef = 5453E5EF240ABC1400E3DC92 /* branch.json */; };
 		5453E5F1240AD05900E3DC92 /* GoodDollar.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */; };
@@ -81,6 +83,8 @@
 		4DD3B67B684149EA91ADA521 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		503435BD5C8549679380F2C6 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		539FABBEB0951E48A3BDC28F /* libPods-GoodDollar-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoodDollar-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5453E5E82409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
+    5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "RNPushNotificationIOS+AppDelegate.m"; path = "GoodDollar/RNPushNotificationIOS+AppDelegate.m"; sourceTree = "<group>"; };
 		5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "DeepLink+AppDelegate.m"; path = "GoodDollar/DeepLink+AppDelegate.m"; sourceTree = "<group>"; };
 		5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = GoodDollar.entitlements; path = GoodDollar/GoodDollar.entitlements; sourceTree = "<group>"; };
 		5453E5EF240ABC1400E3DC92 /* branch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = branch.json; path = ../branch.json; sourceTree = "<group>"; };
@@ -171,6 +175,7 @@
 		13B07FAE1A68108700A75B9A /* GoodDollar */ = {
 			isa = PBXGroup;
 			children = (
+				5453E5E82409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m */,
 				5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -179,6 +184,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */,
 				5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */,
 			);
 			name = GoodDollar;
@@ -618,9 +624,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				5453E5EB2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m in Sources */,
 				E621C99C23E83AC30047715D /* File.swift in Sources */,
 				5453E5ED240AA27E00E3DC92 /* DeepLink+AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				5453E5E92409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

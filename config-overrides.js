@@ -85,7 +85,7 @@ module.exports = {
       path.resolve('node_modules/@react-navigation'),
       path.resolve('node_modules/react-native-paper'),
       path.resolve('node_modules/react-native-safe-area-view'),
-      path.resolve('node_modules/react-native-vector-icons'),
+      path.resolve('node_modules/react-native-vector-icons/lib'),
       path.resolve('node_modules/react-native-gesture-handler'),
       path.resolve('node_modules/react-native-keyboard-aware-scroll-view'),
       path.resolve('node_modules/react-native-animatable'),
@@ -96,6 +96,7 @@ module.exports = {
       path.resolve('node_modules/@react-navigation/core/lib/module/utils'),
       path.resolve('node_modules/@react-navigation/native/dist/utils'),
       path.resolve('node_modules/@react-navigation/web'),
+      path.resolve('node_modules/react-native-card-flip/node_modules'),
       path.resolve('src/lib/zoom'),
     ]),
 

@@ -25,6 +25,7 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { getMaxDeviceWidth } from '../../lib/utils/Orientation'
 import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
+import useAppState from '../../lib/hooks/useAppState'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
 import BigGoodDollar from '../common/view/BigGoodDollar'
@@ -35,14 +36,14 @@ import logger from '../../lib/logger/pino-logger'
 import { PrivacyArticle, PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
-import { extractQueryParams, readCode } from '../../lib/share'
+import { readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
-import useAppState from '../../lib/hooks/useAppState'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
+import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
@@ -232,17 +233,18 @@ const Dashboard = props => {
   }
 
   const handleAppLinks = () => {
-    // FIXME: RN INAPPLINKS
-    const anyParams = Platform.OS === 'web' ? extractQueryParams(decodeURI(window.location.href)) : null
+    const { params } = DeepLinking
 
-    log.debug('handle links effect dashboard', { anyParams })
+    log.debug('handle links effect dashboard', { params })
 
-    if (anyParams && anyParams.paymentCode) {
-      handleWithdraw(anyParams)
-    } else if (anyParams && anyParams.event) {
-      showNewFeedEvent(anyParams.event)
+    const { paymentCode, event } = params
+
+    if (paymentCode) {
+      handleWithdraw(params)
+    } else if (event) {
+      showNewFeedEvent(params)
     } else {
-      checkCode(anyParams)
+      checkCode(params)
     }
   }
 
@@ -484,6 +486,21 @@ const Dashboard = props => {
     },
     [store]
   )
+
+  const getNotificationItem = async () => {
+    const notificationOpened = await AsyncStorage.getItem('GD_NOTIFICATION_OPENED')
+    if (notificationOpened) {
+      const item = feeds.find(feed => feed.id === notificationOpened)
+      handleFeedSelection(item, true)
+      return AsyncStorage.removeItem('GD_NOTIFICATION_OPENED')
+    }
+  }
+
+  useEffect(() => {
+    if (feeds.length) {
+      getNotificationItem()
+    }
+  }, [feeds, appState])
 
   const handleFeedSelection = (receipt, horizontal) => {
     showEventModal(horizontal ? receipt : null)

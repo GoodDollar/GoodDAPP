@@ -1,7 +1,22 @@
 //@flow
 import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
-import { find, flatten, get, isEqual, keys, maxBy, memoize, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
+import {
+  find,
+  flatten,
+  get,
+  identity,
+  isArray,
+  isEqual,
+  keys,
+  maxBy,
+  memoize,
+  merge,
+  orderBy,
+  takeWhile,
+  toPairs,
+  values,
+} from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun/gun'
@@ -931,6 +946,9 @@ export class UserStorage {
       logger.debug('init feed byid', { byid })
     }
 
+    //preload feed items
+    this.feed.get('byid').map(identity)
+
     this.feed.get('index').on(this.updateFeedIndex, false)
     this.feedIds = (await loadFeedCache) || {}
 
@@ -1442,19 +1460,9 @@ export class UserStorage {
     })
     this.cursor += daysToTake.length
 
-    //TODO: WTF does this work?!?! if we JSON.stringify teh day index content how come we don't need to JSON.parse it?
-    //this works in the unit tests also
-    let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
-      return this.feed
-        .get(day[0])
-        .then(data => (typeof data === 'string' ? JSON.parse(data) : data))
-        .catch(e => {
-          logger.error('getFeed', e.message, e)
-          return []
-        })
-    })
+    let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => this.getFeedByDay(day[0]))
+    const eventsIndex = await Promise.all(promises).then(flatten)
 
-    const eventsIndex = flatten(await Promise.all(promises))
     return Promise.all(
       eventsIndex
         .filter(_ => _.id)
@@ -1477,6 +1485,35 @@ export class UserStorage {
           return item
         })
     )
+  }
+
+  /**
+   * Returns (and de-stringifies if needed) feed items by the day specified
+   *
+   * @param {string} day
+   * @returns {Array}
+   */
+  async getFeedByDay(day) {
+    try {
+      let dayEvents = await this.feed.get(day)
+
+      if (!isArray(dayEvents)) {
+        dayEvents = JSON.parse(dayEvents)
+        if (!isArray(dayEvents)) {
+          throw new Error(
+            'Invalid value for feed items collection was stored in the Gun. ' +
+              "Should be an Javascript array or it's JSON representation"
+          )
+        }
+      }
+
+      return dayEvents
+    } catch (exception) {
+      const { message } = exception
+
+      logger.error('getFeed', message, exception)
+      return []
+    }
   }
 
   /**
@@ -2058,32 +2095,34 @@ export class UserStorage {
       prevdate = isValidDate(prevdate) ? prevdate : date
       let prevday = `${prevdate.toISOString().slice(0, 10)}`
       if (day !== prevday) {
-        let dayEventsArr =
-          (await feed.get(prevday).then(data => (typeof data === 'string' ? JSON.parse(data) : data))) || []
-        let removePos = dayEventsArr.findIndex(e => e.id === event.id)
-        if (removePos >= 0) {
-          dayEventsArr.splice(removePos, 1)
-          feed.get(prevday).put(JSON.stringify(dayEventsArr))
+        const dayEventsArray = await this.getFeedByDay(prevday)
+        const removeAt = dayEventsArray.findIndex(e => e.id === event.id)
+
+        if (removeAt >= 0) {
+          dayEventsArray.splice(removeAt, 1)
+          feed.get(prevday).put(JSON.stringify(dayEventsArray))
           feed
             .get('index')
             .get(prevday)
-            .put(dayEventsArr.length)
+            .put(dayEventsArray.length)
         }
       }
     }
 
     // Update dates index
-    let dayEventsArr = (await feed.get(day).then(data => (typeof data === 'string' ? JSON.parse(data) : data))) || []
-    let toUpd = find(dayEventsArr, e => e.id === event.id)
+    const dayEventsArray = await this.getFeedByDay(day)
+    const eventToUpdate = find(dayEventsArray, e => e.id === event.id)
     const eventIndexItem = { id: event.id, updateDate: event.date }
-    if (toUpd) {
-      merge(toUpd, eventIndexItem)
+
+    if (eventToUpdate) {
+      merge(eventToUpdate, eventIndexItem)
     } else {
-      let insertPos = dayEventsArr.findIndex(e => date > new Date(e.updateDate))
+      let insertPos = dayEventsArray.findIndex(e => date > new Date(e.updateDate))
+
       if (insertPos >= 0) {
-        dayEventsArr.splice(insertPos, 0, eventIndexItem)
+        dayEventsArray.splice(insertPos, 0, eventIndexItem)
       } else {
-        dayEventsArr.unshift(eventIndexItem)
+        dayEventsArray.unshift(eventIndexItem)
       }
     }
 
@@ -2094,11 +2133,11 @@ export class UserStorage {
       logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
       return { err: e.message }
     })
-    const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
+    const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArray))
     const saveDaySizePtr = feed
       .get('index')
       .get(day)
-      .putAck(dayEventsArr.length)
+      .putAck(dayEventsArray.length)
 
     const saveAck =
       saveDayIndexPtr && saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, e))

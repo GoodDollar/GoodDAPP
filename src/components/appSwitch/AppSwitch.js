@@ -20,6 +20,8 @@ import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
 import { assertStore } from '../../lib/undux/SimpleStore'
 import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
+import DeepLinking from '../../lib/utils/deepLinking'
+import { isMobileNative } from '../../lib/utils/platform'
 
 type LoadingProps = {
   navigation: any,
@@ -58,6 +60,7 @@ const AppSwitch = (props: LoadingProps) => {
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
+  const { appState } = useAppState()
 
   const recheck = useCallback(() => {
     if (ready && gdstore) {
@@ -261,10 +264,34 @@ const AppSwitch = (props: LoadingProps) => {
       })
   }
 
+  const deepLinkingNavigation = () => props.navigation.navigate(DeepLinking.pathname.slice(1))
+
   useEffect(() => {
     init()
     navigateToUrlAction()
   }, [])
+
+  //Pushing users to the path when signing in.
+  useEffect(() => {
+    if (isMobileNative && DeepLinking.pathname) {
+      deepLinkingNavigation()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isMobileNative || !appState === 'active') {
+      return
+    }
+    DeepLinking.subscribe(deepLinkingNavigation)
+    return () => DeepLinking.unsubscribe()
+  }, [DeepLinking.pathname, appState])
+
+  useEffect(() => {
+    if (ready && gdstore && appState === 'active') {
+      checkBonusInterval(true)
+      showOutOfGasError(props)
+    }
+  }, [gdstore, ready, appState])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

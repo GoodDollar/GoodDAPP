@@ -1,11 +1,15 @@
 /* eslint-disable no-undef */
 class SocialLoginPage {
   get googleLink() {
-    return cy.contains('Agree & Continue with Google')
+    return this._socialLink('google')
   }
 
   get facebookLink() {
-    return cy.contains(/Agree & Continue with Facebook/i)
+    return this._socialLink('facebook')
+  }
+  
+  _socialLink(network) {
+    return cy.get(`[data-testid="login_with_${network}"]`, { timeout: 10000 })
   }
 }
 

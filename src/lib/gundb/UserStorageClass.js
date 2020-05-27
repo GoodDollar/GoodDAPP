@@ -1261,7 +1261,7 @@ export class UserStorage {
    * @param {string} privacy
    * @returns {boolean}
    */
-  static async isValidValue(field: string, value: string, trusted: boolean = false) {
+  static isValidValue(field: string, value: string, trusted: boolean = false) {
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
 
     if (!cleanValue) {
@@ -1273,17 +1273,20 @@ export class UserStorage {
       return false
     }
 
-    try {
-      //get from trust node soul id or from the global writable index (old way)
-      const indexValue = await global.gun
-        .get(trusted && this.trust ? this.trust[`by${field}`] : `users/by${field}`)
-        .get(cleanValue)
-        .then()
-      return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
-    } catch (e) {
-      logger.error('indexProfileField', e.message, e)
-      return true
-    }
+    return true
+
+    //we no longer enforce uniqueness on email/mobile
+    // try {
+    //   //get from trust node soul id or from the global writable index (old way)
+    //   const indexValue = await global.gun
+    //     .get(trusted && this.trust ? this.trust[`by${field}`] : `users/by${field}`)
+    //     .get(cleanValue)
+    //     .then()
+    //   return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
+    // } catch (e) {
+    //   logger.error('indexProfileField', e.message, e)
+    //   return true
+    // }
   }
 
   async validateProfile(profile: any) {

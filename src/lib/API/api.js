@@ -335,6 +335,13 @@ class API {
   checkHanukaBonus() {
     return this.client.get('/verify/hanuka-bonus')
   }
+
+  /**
+   * `/trust` get api call
+   */
+  getTrust() {
+    return this.client.get('/trust')
+  }
 }
 
 const api = new API()

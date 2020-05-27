@@ -6,6 +6,7 @@ import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun'
 import SEA from 'gun/sea'
+import { sha3 } from 'web3-utils'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
@@ -396,14 +397,14 @@ export class UserStorage {
    * @param {string} value - Field value
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
-  static cleanFieldForIndex = (field: string, value: string): string => {
+  static cleanHashedFieldForIndex = (field: string, value: string): string => {
     if (value === undefined) {
       return value
     }
     if (field === 'mobile' || field === 'phone') {
       return value.replace(/[_+-\s]+/g, '')
     }
-    return `${value}`.toLowerCase()
+    return sha3(`${value}`.toLowerCase())
   }
 
   /**
@@ -516,6 +517,15 @@ export class UserStorage {
   async init() {
     logger.debug('Initializing GunDB UserStorage')
 
+    //get trusted GoodDollar indexes and pub key
+    let trustPromise = API.getTrust()
+      .then(_ => {
+        AsyncStorage.setItem('GD_trust', JSON.stringify(_.data))
+        this.trust = _.data
+      })
+      .catch(e => {
+        logger.error('Could not fetch /trust', e.message, e)
+      })
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
@@ -616,6 +626,10 @@ export class UserStorage {
     //   .get(this.gunuser.is.pub)
     //   .putAck(this.gunuser) //save ref to user
     await Promise.all([
+      trustPromise,
+      AsyncStorage.getItem('GD_trust')
+        .then(JSON.parse)
+        .then(_ => (this.trust = _ || {})),
       this.initProfile(),
       this.initProperties(),
       this.initFeed(),
@@ -1247,8 +1261,8 @@ export class UserStorage {
    * @param {string} privacy
    * @returns {boolean}
    */
-  static async isValidValue(field: string, value: string) {
-    const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+  static async isValidValue(field: string, value: string, trusted: boolean = false) {
+    const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
 
     if (!cleanValue) {
       logger.error(
@@ -1260,8 +1274,9 @@ export class UserStorage {
     }
 
     try {
+      //get from trust node soul id or from the global writable index (old way)
       const indexValue = await global.gun
-        .get(`users/by${field}`)
+        .get(trusted && this.trust ? this.trust[`by${field}`] : `users/by${field}`)
         .get(cleanValue)
         .then()
       return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
@@ -1278,7 +1293,7 @@ export class UserStorage {
     const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
 
     const validatedFields = await Promise.all(
-      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field]) }))
+      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field], true) }))
     )
     const errors = validatedFields.reduce((accErrors, curr) => {
       if (!curr.valid) {
@@ -1369,13 +1384,13 @@ export class UserStorage {
     if (!UserStorage.indexableFields[field]) {
       return Promise.resolve({ err: 'Not indexable field', ok: 0 })
     }
-    const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+    const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
     if (!cleanValue) {
       return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
     }
 
     try {
-      if (field === 'username' && !(await UserStorage.isValidValue(field, value))) {
+      if (field === 'username' && !(await UserStorage.isValidValue(field, value, false))) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
       const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
@@ -1389,9 +1404,10 @@ export class UserStorage {
         currentUser: this.gunuser.is.pub,
       })
 
-      if (privacy !== 'public' && indexValue !== undefined) {
-        return indexNode.putAck(null)
-      }
+      //now that we use the hash of the email/mobile there's no privacy issue
+      // if (privacy !== 'public' && indexValue !== undefined) {
+      //   return indexNode.putAck(null)
+      // }
 
       return indexNode.putAck(this.gunuser)
     } catch (e) {
@@ -1607,10 +1623,10 @@ export class UserStorage {
       return this.wallet.wallet.utils.isAddress(field) ? field : undefined
     }
 
-    const value = UserStorage.cleanFieldForIndex(attr, field)
+    const value = UserStorage.cleanHashedFieldForIndex(attr, field)
 
     return this.gun
-      .get(`users/by${attr}`)
+      .get(this.trust[`by${attr}`] || `users/by${attr}`)
       .get(value)
       .get('profile')
       .get('walletAddress')
@@ -1626,10 +1642,10 @@ export class UserStorage {
    */
   async getUserProfile(field: string = '') {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
-    const value = UserStorage.cleanFieldForIndex(attr, field)
+    const value = UserStorage.cleanHashedFieldForIndex(attr, field)
 
     const profileToShow = this.gun
-      .get(`users/by${attr}`)
+      .get(this.trust[`by${attr}`] || `users/by${attr}`)
       .get(value)
       .get('profile')
 
@@ -1743,7 +1759,7 @@ export class UserStorage {
     }
 
     data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
-    data.address = data.address && UserStorage.cleanFieldForIndex('walletAddress', data.address)
+    data.address = data.address && UserStorage.cleanHashedFieldForIndex('walletAddress', data.address)
     data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
     data.displayName = counterPartyDisplayName || 'Unknown'
 
@@ -1785,8 +1801,8 @@ export class UserStorage {
         .get('profile')
 
     const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && getProfile(`users/${searchField}`, initiator)
-    const byAddress = address && getProfile(`users/bywalletAddress`, address)
+    const byIndex = searchField && getProfile(this.trust[searchField] || `users/${searchField}`, initiator)
+    const byAddress = address && getProfile(this.trust.bywalletAddress || `users/bywalletAddress`, address)
 
     // const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
 

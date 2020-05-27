@@ -248,6 +248,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           textStyle={googleButtonTextStyle}
           onPress={googleButtonHandler}
           disabled={torusSDK === undefined}
+          testID="login_with_google"
         >
           Agree & Continue with Google
         </CustomButton>
@@ -257,6 +258,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           textStyle={facebookButtonTextStyle}
           onPress={facebookButtonHandler}
           disabled={torusSDK === undefined}
+          testID="login_with_facebook"
         >
           Agree & Continue with Facebook
         </CustomButton>

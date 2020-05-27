@@ -1,12 +1,7 @@
 /* eslint-disable no-undef */
 class StartPage {
-  /*get continueOnWebButton() {
-    return cy.contains('Continue on Web')
-  }*/
-
   get createWalletButton() {
     return cy.contains('Agree & Continue with self custody wallet')
-    //return cy.get('div[role=button]').contains('Create a wallet')
   }
 
   get signInButton() {

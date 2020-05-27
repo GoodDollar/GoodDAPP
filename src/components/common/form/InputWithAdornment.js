@@ -17,6 +17,7 @@ const InputText = ({
   adornmentAction,
   adornmentSize = 16,
   adornmentStyle,
+  adornmentColor,
   error,
   styles,
   theme,
@@ -81,7 +82,7 @@ const InputText = ({
         />
         {showAdornment && error !== '' && (
           <TouchableOpacity style={[styles.adornment, adornmentStyle]} onPress={adornmentAction}>
-            <Icon size={normalize(adornmentSize)} color={inputColor} name={adornment} />
+            <Icon size={normalize(adornmentSize)} color={adornmentColor || inputColor} name={adornment} />
           </TouchableOpacity>
         )}
       </View>
@@ -104,6 +105,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   view: {
     flex: 1,
+    width: '100%',
     marginBottom: theme.sizes.default,
   },
   adornment: {

@@ -73,13 +73,13 @@ Don’t worry, we’ll take care off you.\n`
             <Separator style={styles.separator} width={2} />
             {isCheatError ? (
               <Text style={styles.description} fontSize={13} fontWeight={'bold'} color={theme.colors.primary}>
-                <Text fontWeight={'normal'} color={theme.colors.primary}>
+                <Text fontWeight={'regular'} color={theme.colors.primary}>
                   {ERROR_CHEAT}
                 </Text>
               </Text>
             ) : (
               <Text style={styles.description} fontSize={13} fontWeight={'bold'} color={theme.colors.primary}>
-                <Text fontWeight={'normal'} fontSize={13} color={theme.colors.primary}>
+                <Text fontWeight={'regular'} fontSize={13} color={theme.colors.primary}>
                   {ERROR}
                 </Text>
                 <Text fontWeight={'bold'} fontSize={13} color={theme.colors.primary}>

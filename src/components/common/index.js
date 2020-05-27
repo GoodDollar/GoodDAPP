@@ -21,6 +21,7 @@ import SaveButton from './buttons/SaveButton'
 import ScanQRButton from './buttons/ScanQRButton'
 import ReceiveToAddressButton from './buttons/ReceiveToAddressButton'
 import SendToAddressButton from './buttons/SendToAddressButton'
+import SendToAddress from './buttons/SendToAddress'
 import AwaitButton from './buttons/AwaitButton'
 import Section from './layout/Section'
 import ShareButton from './buttons/ShareButton'
@@ -51,6 +52,7 @@ export {
   ScanQRButton,
   ReceiveToAddressButton,
   SendToAddressButton,
+  SendToAddress,
   Section,
   ShareButton,
   Text,

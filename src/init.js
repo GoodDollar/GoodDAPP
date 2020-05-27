@@ -1,12 +1,11 @@
 //@flow
 import { pick } from 'lodash'
-import { Platform } from 'react-native'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import isWebApp from './lib/utils/isWebApp'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
-import { extractQueryParams } from './lib/share'
 import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
+import DeepLinking from './lib/utils/deepLinking'
 import logger from './lib/logger/pino-logger'
 
 const log = logger.child({ from: 'init' })
@@ -28,15 +27,8 @@ export const init = () => {
       await initAnalytics(goodWallet, userStorage)
       log.debug('analytics has been initializing')
 
-      let source = 'none'
-
-      // FIXME RN INAPPLINKS
-      if (Platform.OS === 'web') {
-        const params = extractQueryParams(window.location.href)
-
-        source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
-        source = Object.keys(pick(params, ['inviteCode', 'web3Token', 'paymentCode', 'code'])).pop() || source
-      }
+      const source =
+        Object.keys(pick(DeepLinking.params, ['inviteCode', 'web3', 'paymentCode', 'code'])).pop() || 'none'
 
       fireEvent(APP_OPEN, { source, isWebApp })
       initialized = true

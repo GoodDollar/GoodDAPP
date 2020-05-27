@@ -24,7 +24,7 @@ const log = logger.child({ from: 'useZoomVerification' })
  *
  * @return {async () => Promise<void>} Function that starts verification/enrollment process
  */
-export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => {
+export default ({ enrollmentIdentifier, onUIReady = noop, onComplete = noop, onError = noop }) => {
   // Zoom session in progress flag to avoid begin
   // a new session until current is in progress
   // Shared via Ref
@@ -46,7 +46,7 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
 
     // initializing zoom session
     try {
-      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier)
+      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier, onUIReady)
 
       log.debug('Zoom verification successfull', { verificationStatus })
 
@@ -71,7 +71,7 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
       // setting session is not running flag in the ref
       sessionInProgressRef.current = false
     }
-  }, [enrollmentIdentifier, onComplete, onError])
+  }, [enrollmentIdentifier, onUIReady, onComplete, onError])
 
   // exposing public hook API
   return startVerification

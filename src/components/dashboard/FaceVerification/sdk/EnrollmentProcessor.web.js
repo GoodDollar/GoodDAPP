@@ -1,7 +1,8 @@
-import { first } from 'lodash'
+import { first, noop } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
+import { UITextStrings } from './UICustomization'
 
 const {
   // Zoom verification session incapsulation
@@ -33,13 +34,13 @@ export class EnrollmentProcessor {
 
   resultCallback = null
 
-  constructor(onSessionCompleted = (isSuccess, lastResult, lastMessage) => {}) {
-    this.onSessionCompleted = onSessionCompleted
+  constructor(subscriber = { onSessionCompleted: noop, onUIReady: noop }) {
+    this.subscriber = subscriber
   }
 
   // should be non-async for not confuse developers
-  // By Zoom's design, EnrollmentProcessor should return session result
-  // only by onSessionCompleted callback passed to its constructor
+  // By Zoom's design, EnrollmentProcessor should return
+  // session result only via callbacks / subscriptions
   enroll(enrollmentIdentifier) {
     this.enrollmentIdentifier = enrollmentIdentifier
 
@@ -49,7 +50,7 @@ export class EnrollmentProcessor {
 
   // Helper method for handle session completion
   handleCompletion() {
-    const { onSessionCompleted, isSuccess, lastMessage, lastResult } = this
+    const { subscriber, isSuccess, lastMessage, lastResult } = this
     let latestMessage = lastMessage
     const { status } = lastResult
 
@@ -60,7 +61,7 @@ export class EnrollmentProcessor {
     }
 
     // calling completion callback
-    onSessionCompleted(isSuccess, lastResult, latestMessage)
+    subscriber.onSessionCompleted(isSuccess, lastResult, latestMessage)
   }
 
   // Helper method that calls verification http API on server
@@ -105,13 +106,13 @@ export class EnrollmentProcessor {
         })
 
       // if enrolled sucessfully - setting last message from server response
-      const successMessage = 'The FaceMap was successfully enrolled.'
+      const { zoomResultSuccessMessage } = UITextStrings
 
-      ZoomCustomization.setOverrideResultScreenSuccessMessage(successMessage)
+      ZoomCustomization.setOverrideResultScreenSuccessMessage(zoomResultSuccessMessage)
 
       // updating session state vars
       this.isSuccess = true
-      this.lastMessage = successMessage
+      this.lastMessage = zoomResultSuccessMessage
 
       // marking session as successfull
       resultCallback.succeed()
@@ -178,15 +179,20 @@ export class EnrollmentProcessor {
   // interface with onComplete callback designed by Zoom
   // @private
   async _startEnrollmentSession() {
+    const { subscriber } = this
+
     try {
       // trying to retrieve session ID from Zoom server
       const sessionId = await api.issueSessionToken()
 
       // if we've got it - strting enrollment session
       new ZoomSession(() => this.handleCompletion(), this, sessionId)
+
+      // notifying subscriber that UI is ready
+      subscriber.onUIReady()
     } catch ({ message }) {
       // otherwise calling completion handler with empty zoomSessionResult
-      this.onSessionCompleted(false, null, message)
+      subscriber.onSessionCompleted(false, null, message)
     }
   }
 

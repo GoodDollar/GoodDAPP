@@ -1,121 +1,48 @@
-// Please follow those imports order (need to add eslint rule for that)
+import { createElement, useCallback, useMemo } from 'react'
+import { get } from 'lodash'
 
-// 1. React
-import React, { useMemo } from 'react'
+import CameraNotAllowedError from '../components/CameraNotAllowedError'
+import DeviceOrientationError from '../components/DeviceOrientationError'
+import DuplicateFoundError from '../components/DuplicateFoundError'
+import GeneralError from '../components/GeneralError'
+import UnrecoverableError from '../components/UnrecoverableError'
 
-// 2. React Native
-import { View } from 'react-native'
-
-// 3. Libraries components
-import { noop } from 'lodash'
-
-// 4. common components
-import Text from '../../../common/view/Text'
-import Separator from '../../../common/layout/Separator'
-import { CustomButton, Section, Wrapper } from '../../../common'
-import { isMobileOnly } from '../../../../lib/utils/platform'
-
-// 5. local components like ResultStep, GuidedResults and others from FaceVerification (here're absent)
-
-// 6. FLUX imports: store, reducers, actions
 import GDStore from '../../../../lib/undux/GDStore'
-
-// 7. Utilities
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
-// 8. styles & assets
-import { withStyles } from '../../../../lib/styles'
-import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
-
-const ErrorScreen = ({ styles }) => {
+const ErrorScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
+  const kindOfTheIssue = get(screenProps, 'screenState.error.name')
 
   const displayTitle = useMemo(() => {
     const { fullName } = store.get('profile')
 
-    return `${getFirstWord(fullName)},\nSomething went wrong\non our side...`
+    return `${getFirstWord(fullName)}`
   }, [store])
 
-  const retry = noop
+  const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])
 
-  return (
-    <Wrapper>
-      <View style={styles.topContainer}>
-        <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none">
-            {displayTitle}
-          </Section.Title>
-          <View style={styles.illustration}>
-            <FaceVerificationErrorSmiley />
-          </View>
-          <Section style={styles.errorSection}>
-            <Separator width={2} />
-            <View style={styles.descriptionWrapper}>
-              <Text color="primary">
-                {"You see, it's not that easy\nto capture your beauty :)\nSo, let's give it another shot..."}
-              </Text>
-            </View>
-            <Separator width={2} />
-          </Section>
-        </Section>
-        <View style={styles.action}>
-          <CustomButton onPress={retry}>PLEASE TRY AGAIN</CustomButton>
-        </View>
-      </View>
-    </Wrapper>
-  )
+  const errorViewComponent = useMemo(() => {
+    if (!kindOfTheIssue || !(kindOfTheIssue in ErrorScreen.kindOfTheIssue)) {
+      return GeneralError
+    }
+
+    return ErrorScreen.kindOfTheIssue[kindOfTheIssue]
+  }, [kindOfTheIssue])
+
+  return createElement(errorViewComponent, { onRetry, displayTitle, screenProps })
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    topContainer: {
-      alignItems: 'center',
-      justifyContent: 'space-evenly',
-      display: 'flex',
-      backgroundColor: theme.colors.surface,
-      height: '100%',
-      flex: 1,
-      flexGrow: 1,
-      flexShrink: 0,
-      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-      paddingLeft: getDesignRelativeWidth(theme.sizes.default),
-      paddingRight: getDesignRelativeWidth(theme.sizes.default),
-      paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
-      borderRadius: 5,
-    },
-    illustration: {
-      width: getDesignRelativeWidth(190, false),
-      marginTop: isMobileOnly ? getDesignRelativeHeight(32) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(40) : 0,
-      marginRight: 'auto',
-      marginLeft: 'auto',
-    },
-    descriptionContainer: {
-      flex: 1,
-      marginBottom: 0,
-      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-      paddingLeft: getDesignRelativeWidth(theme.sizes.default),
-      paddingRight: getDesignRelativeWidth(theme.sizes.default),
-      paddingTop: getDesignRelativeHeight(theme.sizes.default),
-      width: '100%',
-    },
-    action: {
-      width: '100%',
-    },
-    actionsSpace: {
-      marginBottom: getDesignRelativeHeight(16),
-    },
-    errorSection: {
-      paddingBottom: 0,
-      paddingTop: 0,
-      marginBottom: 0,
-    },
-    descriptionWrapper: {
-      paddingTop: getDesignRelativeHeight(25),
-      paddingBottom: getDesignRelativeHeight(25),
-    },
-  }
+ErrorScreen.navigationOptions = {
+  title: 'Face Verification',
+  navigationBarHidden: false,
 }
 
-export default withStyles(getStylesFromProps)(ErrorScreen)
+ErrorScreen.kindOfTheIssue = {
+  NotAllowedError: CameraNotAllowedError,
+  DeviceOrientationError,
+  DuplicateFoundError,
+  UnrecoverableError,
+}
+
+export default ErrorScreen

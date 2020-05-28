@@ -1,15 +1,16 @@
 import React from 'react'
-import illustration from '../../../../assets/FRCameraPrmissionError.svg'
-import Base from './PermissionDialogBase'
+import Illustration from '../../../../assets/FRAllowCameraPermissions.svg'
+import ExplanationDialog from '../../dialogs/ExplanationDialog'
 
 const CameraPermissionsDialog = ({ styles }) => (
-  <Base
-    errorMessage="We can’t access you camera..."
-    title="Please enable camera permission"
-    text="Change it via your device settings"
-    imageSource={illustration}
+  <ExplanationDialog
+    title="Please allow access to your camera"
+    text="In order to scan the QR code"
+    image={Illustration}
   />
 )
+
+// clipboard permissions dialog also would be in this folder
 
 export default CameraPermissionsDialog
 
@@ -20,7 +21,6 @@ const [showDialog] = useDialog()
 
 showDialog({
   content: <CameraPermissionsDialog />,
-  type: 'error',
   isMinHeight: false,
   buttons: [
     {

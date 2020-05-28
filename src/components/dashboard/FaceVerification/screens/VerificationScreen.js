@@ -16,9 +16,9 @@ const FaceVerification = ({ screenProps }) => {
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
   const showErrorScreen = useCallback(
-    (error, allowRetry = false) => {
+    error => {
       log.debug('FaceVerification error', { error })
-      screenProps.navigateTo('FaceVerificationError', { error, allowRetry })
+      screenProps.navigateTo('FaceVerificationError', { error })
     },
     [screenProps]
   )
@@ -43,7 +43,7 @@ const FaceVerification = ({ screenProps }) => {
     exception => {
       const { name } = exception
 
-      if ('UserCancelled' === name) {
+      if (['UserCancelled', 'ForegroundLoosedError'].includes(name)) {
         // If user has cancelled face verification by own
         // decision - redirecting back to the into screen
         screenProps.navigateTo('FaceVerificationIntro')
@@ -51,18 +51,9 @@ const FaceVerification = ({ screenProps }) => {
       }
 
       // handling error
-      showErrorScreen(exception, true)
+      showErrorScreen(exception)
     },
     [screenProps, showErrorScreen]
-  )
-
-  // ZoomSDK initialization error handler
-  const sdkExceptionHandler = useCallback(
-    exception => {
-      // handling error
-      showErrorScreen(exception, false)
-    },
-    [showErrorScreen]
   )
 
   // Using zoom verification hook, passing completion callback
@@ -77,7 +68,7 @@ const FaceVerification = ({ screenProps }) => {
   // on error redirecting to the error screen
   useZoomSDK({
     onInitialized: startVerification,
-    onError: sdkExceptionHandler,
+    onError: showErrorScreen,
   })
 
   // showing loading indicator during screen is active

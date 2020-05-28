@@ -1,35 +1,17 @@
-// Please follow those imports order (need to add eslint rule for that)
+import React, { useCallback } from 'react'
 
-// 1. React
-import React from 'react'
+import { View } from 'react-native'
 
-// 2. React Native
-import { Image, Platform, View } from 'react-native'
-
-// 3. Libraries components (here're absent)
-import { noop } from 'lodash'
-
-// 4. common components
 import { CustomButton, Section, Wrapper } from '../../../common'
+
 import { isMobileOnly } from '../../../../lib/utils/platform'
-
-// 5. local components like ResultStep, GuidedResults and others from FaceVerification (here're absent)
-
-// 6. FLUX imports: store, reducers, actions
-
-// 7. Utilities
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
-
-// 8. styles & assets
 import { withStyles } from '../../../../lib/styles'
-import illustration from '../../../../assets/FRUnrecoverableError.svg'
+import Illustration from '../../../../assets/FRUnrecoverableError.svg'
 
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
-
-const ErrorBaseWithImage = ({ styles }) => {
-  const handler = noop
+const UnrecoverableError = ({ styles, screenProps }) => {
+  const onContactSupport = useCallback(() => screenProps.navigateTo('Support'), [screenProps])
+  const onDismiss = useCallback(() => screenProps.goToRoot(), [screenProps])
 
   return (
     <Wrapper>
@@ -38,13 +20,13 @@ const ErrorBaseWithImage = ({ styles }) => {
           <Section.Title fontWeight="medium" textTransform="none">
             {'Sorry about that…\nWe’re looking in to it,\nplease try again later'}
           </Section.Title>
-          <Image source={illustration} resizeMode="contain" style={styles.errorImage} />
+          <Illustration resizeMode="contain" style={styles.errorImage} />
         </Section>
         <View style={styles.action}>
-          <CustomButton onPress={handler} style={styles.actionsSpace}>
+          <CustomButton onPress={onDismiss} style={styles.actionsSpace}>
             OK
           </CustomButton>
-          <CustomButton mode="outlined" onPress={handler}>
+          <CustomButton mode="outlined" onPress={onContactSupport}>
             CONTACT SUPPORT
           </CustomButton>
         </View>
@@ -93,4 +75,4 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-export default withStyles(getStylesFromProps)(ErrorBaseWithImage)
+export default withStyles(getStylesFromProps)(UnrecoverableError)

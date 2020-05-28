@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import { Image, View } from 'react-native'
-import { withStyles } from '../../../../lib/styles'
-import Text from '../../../common/view/Text'
-import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
+import { withStyles } from '../../../lib/styles'
+import Text from '../view/Text'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
-const ExplanationDialog = ({ styles, theme, errorMessage, title, text, imageSource }) => {
+const ExplanationDialog = ({ styles, theme, errorMessage, title, text, imageSource, image }) => {
+  const imageProps = { style: styles.image, resizeMode: 'contain' }
+
   return (
     <View style={styles.container}>
       {errorMessage && (
@@ -12,7 +14,8 @@ const ExplanationDialog = ({ styles, theme, errorMessage, title, text, imageSour
           {errorMessage}
         </Text>
       )}
-      <Image style={styles.image} source={imageSource} resizeMode="contain" />
+      {image && createElement(image, imageProps)}
+      {imageSource && <Image source={imageSource} {...imageProps} />}
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
         {title}
       </Text>

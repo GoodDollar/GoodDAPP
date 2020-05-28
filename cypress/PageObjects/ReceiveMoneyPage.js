@@ -29,7 +29,7 @@ class ReceiveMoneyPage {
   }
 
   get shareLinkButton() {
-    return cy.contains(/copy link to clipboard/i)
+    return cy.contains('COPY LINK TO CLIPBOARD')
   }
 
   get confirmWindowButton() {

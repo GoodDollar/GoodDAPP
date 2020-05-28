@@ -21,11 +21,11 @@ describe('Test case 4: Check topbar items functionality', () => {
   })
 
   it('Check is items are displayed at topbar', () => {
-    HomePage.inviteTab.should('be.visible')
+    //HomePage.inviteTab.should('be.visible')
     HomePage.optionsButton.should('be.visible')
   })
 
-  it('Check "Invite" page', () => {
+  /*it('Check "Invite" page', () => {
     HomePage.inviteTab.should('be.visible')
     HomePage.inviteTab.click()
     InvitePage.pageHeader.should('contain', 'Invite')
@@ -37,12 +37,12 @@ describe('Test case 4: Check topbar items functionality', () => {
         cy.wrap(body.find(InvitePage.centerTextDiv)).should('contain', 'Invite 3 friends to secure')
         cy.wrap(body.find(InvitePage.inviteFriendsDiv)).should('contain', 'Invite Friends')
       })
-  })
+  })*/
 
   it('Check support page', () => {
     HomePage.optionsButton.click()
-    cy.contains('Support & FAQ').click()
-    SupportPage.pageHeader.should('contain', 'Support & FAQ')
+    cy.contains('Support & Feedback').click()
+    SupportPage.pageHeader.should('contain', 'Support & Feedback')
     SupportPage.iframe.should('be.visible')
     SupportPage.iframe
       .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
@@ -117,7 +117,7 @@ describe('Test case 4: Check topbar items functionality', () => {
     HomePage.optionsButton.should('be.visible')
     HomePage.optionsButton.click()
     cy.contains('Statistics').click()
-    StatisticsPage.headerPage.should('be.visible').contains(/Statistics/i)
+    StatisticsPage.headerPage.should('be.visible').contains('Statistics')
     StatisticsPage.iframe.should('be.visible')
     StatisticsPage.iframe
       .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))

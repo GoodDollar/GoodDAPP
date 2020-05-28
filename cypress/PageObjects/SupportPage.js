@@ -5,8 +5,7 @@ class SupportPage {
   }
 
   get iframe() {
-    return cy.get('iframe[title=" Support & FAQ"]')
-    //return cy.get('iframe[src="https://community.gooddollar.org/support-iframe/"]', { timeout: 10000 })
+    return cy.get('iframe[title=" Support & Feedback"]')
   }
 
   get search() {

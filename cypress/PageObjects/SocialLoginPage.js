@@ -9,7 +9,7 @@ class SocialLoginPage {
   }
   
   _socialLink(network) {
-    return cy.get(`[data-testid="login_with_${network}"]`, { timeout: 10000 })
+    return cy.get(`[data-testid="login_with_${network}"]`)
   }
 }
 

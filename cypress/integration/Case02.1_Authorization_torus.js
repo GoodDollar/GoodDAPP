@@ -5,18 +5,21 @@ import HomePage from '../PageObjects/HomePage'
 import userObject from '../fixtures/userObject.json'
 //import SignUpPage from '../PageObjects/SignUpPage'
 
-describe('Login Torus', () => {
+describe('Test 2.1: login via TorusTestUser', () => {
   beforeEach(() => {
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
   })
 
-  it('login via TorusTestUser', () => {
+  it('login via google', () => {
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.googleLink.should('be.visible')
+    cy.wait(10000)
     SocialLoginPage.googleLink.click()
     cy.contains('Good Dollar')
     HomePage.sendButton.should('be.visible')
+    HomePage.optionsButton.click()
+    HomePage.logoutButton.click()
 
     /*
     if (cy.contains('enter your phone number')) {
@@ -31,5 +34,15 @@ describe('Login Torus', () => {
           .should('be.visible')
         SignUpPage.letStartButton.click()
       }*/
+  })
+
+  it('login via facebook', () => {
+    StartPage.open()
+    expect(localStorage.getItem('TorusTestUser')).to.not.be.null
+    SocialLoginPage.facebookLink.should('be.visible')
+    cy.wait(10000)
+    SocialLoginPage.facebookLink.click()
+    cy.contains('Good Dollar')
+    HomePage.sendButton.should('be.visible')
   })
 })

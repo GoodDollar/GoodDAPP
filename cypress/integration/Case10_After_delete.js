@@ -5,18 +5,18 @@ import LoginPage from '../PageObjects/LoginPage'
 import GDls from '../fixtures/GDls.json'
 
 describe('Test after delete wallet', () => {
-  before('load localStorage', () => {
-    Object.keys(GDls).forEach(key => {
-      localStorage.setItem(key, GDls[key])
-    })
-  })
+  // before('load localStorage', () => {
+  //   Object.keys(GDls).forEach(key => {
+  //     localStorage.setItem(key, GDls[key])
+  //   })
+  // })
 
-  it('try to login with localStorage value', () => {
-    StartPage.open()
-    HomePage.waitForHomePageDisplayed()
-    HomePage.sendButton.should('not.be.visible')
-    StartPage.signInButton.should('be.visible')
-  })
+  // it('try to login with localStorage value', () => {
+  //   StartPage.open()
+  //   HomePage.waitForHomePageDisplayed()
+  //   HomePage.sendButton.should('not.be.visible')
+  //   StartPage.signInButton.should('be.visible')
+  // })
 
   it('try to login with pass phrase', () => {
     cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {

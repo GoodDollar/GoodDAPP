@@ -41,8 +41,7 @@ class HomePage {
   }
 
   get profileAvatar() {
-    return cy.get('img[alt]', { timeout: 10000 })
-    //return cy.get('img[alt]', { timeout: 10000 }).eq(0)
+    return cy.get('img[alt]', { timeout: 10000 }).eq(0)
   }
 
   get closeOptionsButton() {

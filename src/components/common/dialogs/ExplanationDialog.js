@@ -14,8 +14,11 @@ const ExplanationDialog = ({ styles, theme, errorMessage, title, text, imageSour
           {errorMessage}
         </Text>
       )}
-      {ImageComponent && createElement(ImageComponent, imageProps)}
-      {imageSource && <Image source={imageSource} {...imageProps} />}
+      {ImageComponent ? (
+        <ImageComponent {...imageProps} />
+      ) : imageSource ? (
+        <Image source={imageSource} {...imageProps} />
+      ) : null}
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
         {title}
       </Text>

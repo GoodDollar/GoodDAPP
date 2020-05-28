@@ -5,7 +5,7 @@ import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 
-const CameraPermissionsDialog = ({ onRetry }) => {
+const CameraNotAllowedError = ({ onRetry }) => {
   const [showDialog] = useDialog()
 
   const onDismiss = useCallback(
@@ -40,4 +40,4 @@ const CameraPermissionsDialog = ({ onRetry }) => {
   return null
 }
 
-export default CameraPermissionsDialog
+export default CameraNotAllowedError

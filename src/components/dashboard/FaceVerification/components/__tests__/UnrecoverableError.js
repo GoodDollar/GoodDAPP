@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedUnrecoverableError from '../components/UnrecoverableError'
+import { withThemeProvider } from '../../../../../__tests__/__util__'
+import ImportedUnrecoverableError from '../UnrecoverableError'
 
-const ErrorScreen = withThemeProvider(ImportedUnrecoverableError)
+const UnrecoverableError = withThemeProvider(ImportedUnrecoverableError)
 
 const screenState = {
   isValid: false,
@@ -17,12 +17,12 @@ const screenState = {
 
 describe('FaceVerification UnrecoverableError', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<ErrorScreen screenProps={{ screenState }} />)
+    const tree = renderer.create(<UnrecoverableError screenProps={{ screenState }} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<ErrorScreen screenProps={{ screenState }} />)
+    const component = renderer.create(<UnrecoverableError screenProps={{ screenState }} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

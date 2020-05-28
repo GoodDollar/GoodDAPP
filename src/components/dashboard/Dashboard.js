@@ -74,6 +74,7 @@ import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 const log = logger.child({ from: 'Dashboard' })
 
 const screenWidth = getMaxDeviceWidth()
+let didRender = false
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarCenteredPosition = initialHeaderContentWidth / 2 - 34
 
@@ -86,7 +87,6 @@ export type DashboardProps = {
 
 const Dashboard = props => {
   const { screenProps, styles, theme, navigation }: DashboardProps = props
-  const [getNextFeedAllowed, setGetNextFeedAllowed] = useState(true)
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
   const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
@@ -187,32 +187,40 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    async (reset = false) => {
-      const res =
-        (await userStorage
+    debounce(
+      async (reset = false) => {
+        log.debug('getFeedPage:', { feeds, loadAnimShown, didRender })
+        const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
-          .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
+          .catch(e => logger.error('getInitialFeed -> ', e.message, e))
 
-      if (res.length === 0) {
-        log.warn('empty feed')
-        return
-      }
-
-      if (reset) {
-        // a flag used to show feed load animation only at the first app loading
-        if (!loadAnimShown) {
-          // a time to perform feed load animation till the end
-          await delay(1900)
-          store.set('feedLoadAnimShown')(true)
+        if (reset) {
+          // a flag used to show feed load animation only at the first app loading
+          //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
+          //so we use a global variable
+          if (!didRender) {
+            // a time to perform feed load animation till the end
+            await delay(2000)
+            didRender = true
+          }
+          const res = (await feedPromise) || []
+          res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
+          res.length > 0 && setFeeds(res)
+        } else {
+          const res = (await feedPromise) || []
+          res.length > 0 && setFeeds(feeds.concat(res))
         }
-        setFeeds(res)
-      } else {
-        setFeeds(feeds.concat(res))
-      }
-    },
+      },
+      500,
+      { leading: true }
+    ),
     [loadAnimShown, store, setFeeds, feeds]
   )
 
+  //subscribeToFeed probably should be an effect that updates the feed items
+  //as they come in, currently on each new item it simply reset the feed
+  //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
+  //which would lead to many unwanted subscribe/unsubscribe to gun
   const subscribeToFeed = () => {
     return new Promise((res, rej) => {
       userStorage.feed.get('byid').on(async data => {
@@ -289,12 +297,19 @@ const Dashboard = props => {
     [setUpdate]
   )
 
-  const nextFeed = useCallback(() => {
-    if (getNextFeedAllowed && feeds && feeds.length > 0) {
-      log.debug('getNextFeed called')
-      return getFeedPage()
-    }
-  }, [feeds])
+  const nextFeed = useCallback(
+    debounce(
+      () => {
+        if (feeds && feeds.length > 0) {
+          log.debug('getNextFeed called')
+          return getFeedPage()
+        }
+      },
+      100,
+      { leading: true }
+    ),
+    [feeds, getFeedPage]
+  )
 
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
@@ -408,9 +423,6 @@ const Dashboard = props => {
         }),
       ]).start()
     }
-
-    // needed to allow executing getNextFeed fn after header animation ends
-    setTimeout(() => setGetNextFeedAllowed(true), 300)
   }, [headerLarge, balance, update, headerContentWidth, avatarCenteredPosition])
 
   useEffect(() => {
@@ -498,7 +510,7 @@ const Dashboard = props => {
         })
       }
     },
-    [showDialog]
+    [showDialog, showEventModal]
   )
 
   const handleWithdraw = useCallback(
@@ -582,16 +594,14 @@ const Dashboard = props => {
       if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
         if (headerLarge) {
           setHeaderLarge(false)
-          setGetNextFeedAllowed(false)
         }
       } else {
         if (!headerLarge) {
           setHeaderLarge(true)
-          setGetNextFeedAllowed(false)
         }
       }
     },
-    [headerLarge, feeds]
+    [headerLarge, feeds, setHeaderLarge]
   )
 
   const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feeds), [currentFeed, feeds])

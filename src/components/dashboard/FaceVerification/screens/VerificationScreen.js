@@ -59,6 +59,11 @@ const FaceVerification = ({ screenProps }) => {
   // Using zoom verification hook, passing completion callback
   const startVerification = useZoomVerification({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
+
+    // hiding loading indicator once Zoom UI is ready
+    // this is needed for prevent Zoom's backdrop
+    // to be overlapped with spinner's backdrop
+    onUIReady: hideLoading,
     onComplete: completionHandler,
     onError: exceptionHandler,
   })
@@ -71,9 +76,10 @@ const FaceVerification = ({ screenProps }) => {
     onError: showErrorScreen,
   })
 
-  // showing loading indicator during screen is active
-  // it's enough, we could skip initalization/session state checking
-  // as Zoom UI overlaps web UI (or presents in a separate modal VC on native)
+  // showing loading indicator once component rendered
+  // and initialization started, returning cancel hook
+  // to make sure we'll hide the indicator once we'll
+  // start nativating to another screen
   useEffect(() => {
     showLoading()
     return hideLoading

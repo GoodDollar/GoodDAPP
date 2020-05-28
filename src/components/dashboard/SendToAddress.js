@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
 import { isAddress } from 'web3-utils'
-
+import goodWallet from '../../lib/wallet/GoodWallet'
 import InputWithAdornment from '../common/form/InputWithAdornment'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -25,6 +25,10 @@ const validate = value => {
 
   if (!isAddress(value)) {
     return 'Invalid wallet address'
+  }
+
+  if (value.toLowerCase() === goodWallet.account.toLowerCase()) {
+    return "You can't send G$s to yourself, you already own your G$s"
   }
 
   return null

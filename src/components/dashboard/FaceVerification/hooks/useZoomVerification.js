@@ -1,11 +1,17 @@
 import { useCallback, useRef } from 'react'
 import { noop } from 'lodash'
 
-// Zoom SDK reference
+// logger
+import logger from '../../../../lib/logger/pino-logger'
+
+// Zoom SDK reference & helpers
 import { ZoomSDK } from '../sdk/ZoomSDK'
+import { kindOfSessionIssue } from '../utils/kindOfTheIssue'
+import { unloadZoomSDK } from './useZoomSDK'
 
 // Zoom exceptions helper
-import { kindOfSessionIssue } from '../utils/kindOfTheIssue'
+
+const log = logger.child({ from: 'useZoomVerification' })
 
 /**
  * ZoomSDK face verification & fecamap enrollment hook
@@ -18,7 +24,7 @@ import { kindOfSessionIssue } from '../utils/kindOfTheIssue'
  *
  * @return {async () => Promise<void>} Function that starts verification/enrollment process
  */
-export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => {
+export default ({ enrollmentIdentifier, onUIReady = noop, onComplete = noop, onError = noop }) => {
   // Zoom session in progress flag to avoid begin
   // a new session until current is in progress
   // Shared via Ref
@@ -36,15 +42,22 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
     // setting session is running flag in the ref
     sessionInProgressRef.current = true
 
+    log.debug('Starting Zoom verification', { enrollmentIdentifier })
+
     // initializing zoom session
     try {
-      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier)
+      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier, onUIReady)
+
+      log.debug('Zoom verification successfull', { verificationStatus })
+
+      await unloadZoomSDK(log)
       onComplete(verificationStatus)
     } catch (exception) {
       // the following code is needed to categorize exceptions
       // then we could display specific error messages
       // corresponding to the kind of issue (camera, orientation, duplicate etc)
       const kindOfTheIssue = kindOfSessionIssue(exception)
+      const { message } = exception
 
       if (kindOfTheIssue) {
         exception.name = kindOfTheIssue
@@ -52,12 +65,13 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
         exception.name = 'DuplicateFoundError'
       }
 
+      log.error('Zoom verification failed', message, exception)
       onError(exception)
     } finally {
       // setting session is not running flag in the ref
       sessionInProgressRef.current = false
     }
-  }, [enrollmentIdentifier, onComplete, onError])
+  }, [enrollmentIdentifier, onUIReady, onComplete, onError])
 
   // exposing public hook API
   return startVerification

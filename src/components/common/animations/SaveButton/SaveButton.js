@@ -1,7 +1,6 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
-import { cloneDeep } from 'lodash'
 
 import AnimationBase from '../Base'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
@@ -79,7 +78,7 @@ class SaveButton extends AnimationBase {
         <Lottie
           ref={this.setAnim}
           loop={false}
-          source={cloneDeep(animationData)}
+          source={this.improveAnimationData(animationData)}
           onAnimationFinish={this.handleAnimationFinish}
           style={{
             width: '100%',

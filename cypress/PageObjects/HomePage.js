@@ -59,7 +59,6 @@ class HomePage {
 
   get welcomeFeed() {
     return cy.contains('Claim free G$ coins daily')
-    //return cy.contains('Start claiming free G$')
   }
 
   get deleteAccountButton() {
@@ -72,6 +71,10 @@ class HomePage {
 
   get backupButton() {
     return cy.contains('Backup Wallet')
+  }
+
+  get logoutButton() {
+    return cy.contains('Logout')
   }
 
   waitForHomePageDisplayed() {

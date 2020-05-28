@@ -8,7 +8,7 @@ const screenState = {
   isValid: true,
 }
 
-describe('FaceVerificationIntro', () => {
+describe('FaceVerification IntroScreen', () => {
   it('renders without errors', () => {
     const tree = renderer.create(<IntroScreen screenProps={{ pop: () => {}, screenState }} />)
     expect(tree.toJSON()).toBeTruthy()

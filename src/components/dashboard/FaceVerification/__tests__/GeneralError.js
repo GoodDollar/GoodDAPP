@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedAllowCameraPermissionDialog from '../components/AllowCameraPermissionDialog'
+import ImportedGeneralError from '../components/GeneralError'
 
-const ErrorScreen = withThemeProvider(ImportedAllowCameraPermissionDialog)
+const VerifyError = withThemeProvider(ImportedGeneralError)
 
 const screenState = {
   isValid: false,
@@ -15,14 +15,14 @@ const screenState = {
   allowRetry: true,
 }
 
-describe('FaceVerificationDuplicateError', () => {
+describe('FaceVerification GeneralError', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<ErrorScreen screenProps={{ screenState }} />)
+    const tree = renderer.create(<VerifyError screenProps={{ screenState }} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<ErrorScreen screenProps={{ screenState }} />)
+    const component = renderer.create(<VerifyError screenProps={{ screenState }} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

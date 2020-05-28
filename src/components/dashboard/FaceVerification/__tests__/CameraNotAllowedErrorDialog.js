@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedUnrecoverableErrorScreen from '../screens/UnrecoverableErrorScreen'
+import ImportedCameraNotAllowedError from '../components/CameraNotAllowedError'
 
-const ErrorScreen = withThemeProvider(ImportedUnrecoverableErrorScreen)
+const ErrorScreen = withThemeProvider(ImportedCameraNotAllowedError)
 
 const screenState = {
   isValid: false,
@@ -15,7 +15,7 @@ const screenState = {
   allowRetry: true,
 }
 
-describe('FaceVerificationDuplicateError', () => {
+describe('FaceVerification CameraNotAllowedErrorDialog', () => {
   it('renders without errors', () => {
     const tree = renderer.create(<ErrorScreen screenProps={{ screenState }} />)
     expect(tree.toJSON()).toBeTruthy()

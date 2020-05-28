@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedErrorScreen from '../screens/ErrorScreen'
+import ImportedDeviceOrientationError from '../components/DeviceOrientationError'
 
-const VerifyError = withThemeProvider(ImportedErrorScreen)
+const ErrorScreen = withThemeProvider(ImportedDeviceOrientationError)
 
 const screenState = {
   isValid: false,
@@ -15,14 +15,14 @@ const screenState = {
   allowRetry: true,
 }
 
-describe('FaceVerificationError', () => {
+describe('FaceVerification DeviceOrientationError', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<VerifyError screenProps={{ screenState }} />)
+    const tree = renderer.create(<ErrorScreen screenProps={{ screenState }} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<VerifyError screenProps={{ screenState }} />)
+    const component = renderer.create(<ErrorScreen screenProps={{ screenState }} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

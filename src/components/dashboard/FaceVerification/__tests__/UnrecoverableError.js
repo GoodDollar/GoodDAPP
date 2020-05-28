@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedPortraitModeErrorScreen from '../screens/PortraitModeErrorScreen'
+import ImportedUnrecoverableError from '../components/UnrecoverableError'
 
-const ErrorScreen = withThemeProvider(ImportedPortraitModeErrorScreen)
+const ErrorScreen = withThemeProvider(ImportedUnrecoverableError)
 
 const screenState = {
   isValid: false,
@@ -15,7 +15,7 @@ const screenState = {
   allowRetry: true,
 }
 
-describe('FaceVerificationDuplicateError', () => {
+describe('FaceVerification UnrecoverableError', () => {
   it('renders without errors', () => {
     const tree = renderer.create(<ErrorScreen screenProps={{ screenState }} />)
     expect(tree.toJSON()).toBeTruthy()

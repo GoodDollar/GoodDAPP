@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedDuplicateErrorScreen from '../screens/DuplicateErrorScreen'
+import ImportedDuplicateFoundError from '../components/DuplicateFoundError'
 
-const ErrorScreen = withThemeProvider(ImportedDuplicateErrorScreen)
+const ErrorScreen = withThemeProvider(ImportedDuplicateFoundError)
 
 const screenState = {
   isValid: false,
@@ -15,7 +15,7 @@ const screenState = {
   allowRetry: true,
 }
 
-describe('FaceVerificationDuplicateError', () => {
+describe('FaceVerification DuplicateFoundError', () => {
   it('renders without errors', () => {
     const tree = renderer.create(<ErrorScreen screenProps={{ screenState }} />)
     expect(tree.toJSON()).toBeTruthy()

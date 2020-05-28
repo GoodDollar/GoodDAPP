@@ -110,7 +110,7 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
               "fontSize": "24px",
               "fontWeight": "500",
               "lineHeight": "30px",
-              "marginTop": "34px",
+              "marginTop": "30px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -125,16 +125,20 @@ a real live person
           className="css-view-1dbjc4n"
           style={
             Object {
-              "marginBottom": "25px",
-              "marginLeft": "auto",
-              "marginRight": "auto",
-              "marginTop": "25px",
-              "width": "540.4444444444445px",
+              "height": "369.77777777777777px",
+              "marginBottom": "18px",
+              "marginTop": "18px",
+              "width": "100%",
             }
           }
         >
           <div
             className="css-view-1dbjc4n"
+            style={
+              Object {
+                "height": "100%",
+              }
+            }
           />
         </div>
         <div
@@ -271,7 +275,7 @@ a real live person
                 "borderTopLeftRadius": "1px",
                 "borderTopRightRadius": "1px",
                 "height": "2px",
-                "marginBottom": "28px",
+                "marginBottom": "25px",
               }
             }
           />

@@ -18,8 +18,6 @@ const ZoomColor = memoize(hexToRgba)
 const ZoomFont = family => `'${family}', sans-serif`
 
 const ZoomHeaderTextSize = '24px'
-const ZoomWideTextSpacing = '4px' // '30px' looks weird, temporary set to 6 = (30 - 24) / 2
-const ZoomNormalTextSpacing = '2px' // '18px' looks weird, temporary set to 4 = (18 - 14) / 2
 const ZoomDefaultCorderRadius = '5px'
 
 const { primary, green, white, lightGray, darkGray, gray50Percent } = theme.colors
@@ -87,7 +85,6 @@ assignIn(feedbackCustomization, {
   textColor: ZoomColor(white),
   textFont: ZoomFont(defaultFont),
   textSize: '24px',
-  textSpacing: ZoomWideTextSpacing,
 })
 
 // setting oval border color & width
@@ -130,12 +127,10 @@ assignIn(guidanceCustomization, {
   // medium font style is set in UICustomization.css
   headerFont: ZoomFont(defaultFont),
   headerTextSize: ZoomHeaderTextSize,
-  headerTextSpacing: ZoomWideTextSpacing,
 
   // subtext
   subtextFont: ZoomFont(defaultFont),
   subtextTextSize: '14px',
-  subtextTextSpacing: ZoomNormalTextSpacing,
 
   // enabling additional instructions on retry screen
   enableRetryScreenBulletedInstructions: true,

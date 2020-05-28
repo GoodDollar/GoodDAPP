@@ -1,14 +1,18 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 
 import Text from '../../../common/view/Text'
 import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import Illustration from '../../../../assets/FRPortraitModeError.svg'
+import illustration from '../../../../assets/FRPortraitModeError.svg'
 
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
+
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => (
   <Wrapper>
@@ -18,7 +22,7 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => (
           {displayTitle}
           {',\nplease turn your camera\nto portrait mode'}
         </Section.Title>
-        <Illustration resizeMode="contain" style={styles.errorImage} />
+        <Image source={illustration} resizeMode="contain" style={styles.errorImage} />
         <Section style={styles.errorSection}>
           <Separator width={2} />
           <View style={styles.descriptionWrapper}>

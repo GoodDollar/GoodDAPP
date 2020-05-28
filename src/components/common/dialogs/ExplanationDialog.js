@@ -4,7 +4,7 @@ import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
-const ExplanationDialog = ({ styles, theme, errorMessage, title, text, imageSource, image }) => {
+const ExplanationDialog = ({ styles, theme, errorMessage, title, text, imageSource, image: ImageComponent }) => {
   const imageProps = { style: styles.image, resizeMode: 'contain' }
 
   return (
@@ -14,7 +14,7 @@ const ExplanationDialog = ({ styles, theme, errorMessage, title, text, imageSour
           {errorMessage}
         </Text>
       )}
-      {image && createElement(image, imageProps)}
+      {ImageComponent && createElement(ImageComponent, imageProps)}
       {imageSource && <Image source={imageSource} {...imageProps} />}
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
         {title}

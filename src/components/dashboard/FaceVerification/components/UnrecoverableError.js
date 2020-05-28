@@ -1,13 +1,17 @@
 import React, { useCallback } from 'react'
 
-import { View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
 
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import Illustration from '../../../../assets/FRUnrecoverableError.svg'
+import illustration from '../../../../assets/FRUnrecoverableError.svg'
+
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 const UnrecoverableError = ({ styles, screenProps }) => {
   const onContactSupport = useCallback(() => screenProps.navigateTo('Support'), [screenProps])
@@ -20,7 +24,7 @@ const UnrecoverableError = ({ styles, screenProps }) => {
           <Section.Title fontWeight="medium" textTransform="none">
             {'Sorry about that…\nWe’re looking in to it,\nplease try again later'}
           </Section.Title>
-          <Illustration resizeMode="contain" style={styles.errorImage} />
+          <Image source={illustration} resizeMode="contain" style={styles.errorImage} />
         </Section>
         <View style={styles.action}>
           <CustomButton onPress={onDismiss} style={styles.actionsSpace}>

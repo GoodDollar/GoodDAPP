@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
 
-import Illustration from '../../../../assets/FRCameraPrmissionError.svg'
+import illustration from '../../../../assets/FRCameraPrmissionError.svg'
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 
-const CameraPermissionsDialog = ({ styles, onRetry }) => {
+const CameraPermissionsDialog = ({ onRetry }) => {
   const [showDialog] = useDialog()
 
   const onDismiss = useCallback(
@@ -23,7 +23,7 @@ const CameraPermissionsDialog = ({ styles, onRetry }) => {
           errorMessage="We can’t access you camera..."
           title="Please enable camera permission"
           text="Change it via your device settings"
-          image={Illustration}
+          imageSource={illustration}
         />
       ),
       type: 'error',

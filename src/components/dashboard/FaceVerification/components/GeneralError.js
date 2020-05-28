@@ -7,7 +7,7 @@ import { CustomButton, Section, Wrapper } from '../../../common'
 import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
 
 import { withStyles } from '../../../../lib/styles'
-import { isMobileOnly } from '../../../../lib/utils/platform'
+import { isBrowser, isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
 const GeneralError = ({ styles, displayTitle, onRetry }) => (
@@ -56,9 +56,10 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 5,
     },
     illustration: {
-      width: getDesignRelativeWidth(190, false),
-      marginTop: isMobileOnly ? getDesignRelativeHeight(32) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(40) : 0,
+      height: getDesignRelativeWidth(isBrowser ? 220 : 130),
+      width: '100%',
+      marginTop: isMobileOnly ? getDesignRelativeHeight(27) : 0,
+      marginBottom: isMobileOnly ? getDesignRelativeHeight(35) : 0,
       marginRight: 'auto',
       marginLeft: 'auto',
     },

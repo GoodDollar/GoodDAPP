@@ -115,7 +115,7 @@ const getStylesFromProps = ({ theme }) => ({
   illustration: {
     marginTop: getDesignRelativeHeight(18),
     marginBottom: getDesignRelativeHeight(18),
-    height: getDesignRelativeWidth(130, false),
+    height: getDesignRelativeWidth(isBrowser ? 220 : 130),
     width: '100%',
   },
   descriptionContainer: {

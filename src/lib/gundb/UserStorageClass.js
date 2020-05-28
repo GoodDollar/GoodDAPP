@@ -940,7 +940,9 @@ export class UserStorage {
         res()
       }
       this.feed.get('byid').onThen(items => {
-        delete items._
+        if (items && items._) {
+          delete items._
+        }
         const ids = Object.entries(items)
         logger.debug('initFeed got items', { ids })
         const promises = ids.map(async ([k, v]) => {

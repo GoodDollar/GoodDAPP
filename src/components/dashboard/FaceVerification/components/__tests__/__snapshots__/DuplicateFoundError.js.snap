@@ -169,6 +169,11 @@ We found your twin...
           >
             <div
               className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
             />
           </div>
           <div
@@ -185,6 +190,11 @@ We found your twin...
           >
             <div
               className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
             />
           </div>
         </div>

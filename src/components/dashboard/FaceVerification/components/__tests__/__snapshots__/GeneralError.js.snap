@@ -139,16 +139,22 @@ on our side...
           className="css-view-1dbjc4n"
           style={
             Object {
+              "height": "220px",
               "marginBottom": "0px",
               "marginLeft": "auto",
               "marginRight": "auto",
               "marginTop": "0px",
-              "width": "540.4444444444445px",
+              "width": "100%",
             }
           }
         >
           <div
             className="css-view-1dbjc4n"
+            style={
+              Object {
+                "height": "100%",
+              }
+            }
           />
         </div>
         <div

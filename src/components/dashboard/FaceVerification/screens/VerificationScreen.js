@@ -4,14 +4,17 @@ import UserStorage from '../../../../lib/gundb/UserStorage'
 import { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
 import logger from '../../../../lib/logger/pino-logger'
+
 import useLoadingIndicator from '../../../../lib/hooks/useLoadingIndicator'
 import useZoomSDK from '../hooks/useZoomSDK'
 import useZoomVerification from '../hooks/useZoomVerification'
+import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
-  const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
   const [showLoading, hideLoading] = useLoadingIndicator()
+  const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
+  const [, , resetAttempts] = useVerificationAttempts()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -32,10 +35,11 @@ const FaceVerification = ({ screenProps }) => {
 
       // if session was successfull - whitelistening user
       // and returning sucecss to the caller
+      resetAttempts()
       setIsCitizen(isCitizen)
       screenProps.pop({ isValid: true })
     },
-    [screenProps, setIsCitizen]
+    [screenProps, setIsCitizen, resetAttempts]
   )
 
   // ZoomSDK session exception handler

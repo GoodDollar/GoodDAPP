@@ -1,4 +1,4 @@
-import { createElement, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { get } from 'lodash'
 
 import CameraNotAllowedError from '../components/CameraNotAllowedError'
@@ -22,7 +22,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
 
   const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])
 
-  const errorViewComponent = useMemo(() => {
+  const ErrorViewComponent = useMemo(() => {
     if (!kindOfTheIssue || !(kindOfTheIssue in ErrorScreen.kindOfTheIssue)) {
       return GeneralError
     }
@@ -30,7 +30,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
     return ErrorScreen.kindOfTheIssue[kindOfTheIssue]
   }, [kindOfTheIssue])
 
-  return createElement(errorViewComponent, { onRetry, displayTitle, screenProps })
+  return <ErrorViewComponent onRetry={onRetry} displayTitle={displayTitle} screenProps={screenProps} />
 }
 
 ErrorScreen.navigationOptions = {

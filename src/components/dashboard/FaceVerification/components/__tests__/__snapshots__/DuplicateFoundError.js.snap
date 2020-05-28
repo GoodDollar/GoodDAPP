@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FaceVerificationError matches snapshot 1`] = `
+exports[`FaceVerification DuplicateFoundError matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -105,9 +105,10 @@ exports[`FaceVerificationError matches snapshot 1`] = `
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
             "paddingBottom": "16px",
-            "paddingLeft": "4px",
-            "paddingRight": "4px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
             "paddingTop": "8px",
+            "width": "100%",
           }
         }
       >
@@ -130,21 +131,27 @@ exports[`FaceVerificationError matches snapshot 1`] = `
             }
           }
         >
-           
           ,
-Something went wrong on our side...
+Unfortunately,
+We found your twin...
         </div>
         <div
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitFlexBasis": "auto",
-              "flexBasis": "auto",
-              "height": "146px",
-              "msFlexPreferredSize": "auto",
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "zIndex": 0,
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "space-evenly",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-evenly",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-evenly",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "space-evenly",
             }
           }
         >
@@ -152,28 +159,44 @@ Something went wrong on our side...
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "backgroundImage": "url(\\"oops.svg\\")",
-                "backgroundPosition": "center",
-                "backgroundRepeat": "no-repeat",
-                "backgroundSize": "auto",
-                "bottom": "0px",
-                "height": "100%",
-                "left": "0px",
-                "position": "absolute",
-                "right": "0px",
-                "top": "0px",
-                "width": "100%",
-                "zIndex": -1,
+                "marginBottom": "0px",
+                "marginLeft": "0px",
+                "marginRight": "0px",
+                "marginTop": "0px",
+                "width": "284.44444444444446px",
               }
             }
-          />
-          <img
-            alt=""
-            className="css-accessibilityImage-9pa8cd"
-            draggable={false}
-            src="oops.svg"
-          />
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
+            />
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "marginBottom": "0px",
+                "marginLeft": "0px",
+                "marginRight": "0px",
+                "marginTop": "0px",
+                "width": "284.44444444444446px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "height": "100%",
+                }
+              }
+            />
+          </div>
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -206,27 +229,52 @@ Something went wrong on our side...
             }
           />
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(0,175,255,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
                 "paddingBottom": "25px",
                 "paddingTop": "25px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
               }
             }
           >
-            You see, it's not that easy
- to capture your beauty :)
-So, let's give it another shot...
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,175,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "700",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              You can open ONLY ONE account per person.
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,175,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              If this is your only active account - please contact our support
+            </div>
           </div>
           <div
             className="css-view-1dbjc4n"
@@ -247,19 +295,175 @@ So, let's give it another shot...
         className="css-view-1dbjc4n"
         style={
           Object {
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "5px",
-            "borderBottomRightRadius": "5px",
-            "borderTopLeftRadius": "5px",
-            "borderTopRightRadius": "5px",
-            "paddingBottom": "16px",
-            "paddingLeft": "12px",
-            "paddingRight": "12px",
-            "paddingTop": "16px",
             "width": "100%",
           }
         }
       >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "alignItems": "stretch",
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomColor": "rgba(0,175,255,1.00)",
+              "borderBottomLeftRadius": "50px",
+              "borderBottomRightRadius": "50px",
+              "borderBottomStyle": "solid",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(0,175,255,1.00)",
+              "borderLeftStyle": "solid",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(0,175,255,1.00)",
+              "borderRightStyle": "solid",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(0,175,255,1.00)",
+              "borderTopLeftRadius": "50px",
+              "borderTopRightRadius": "50px",
+              "borderTopStyle": "solid",
+              "borderTopWidth": "1px",
+              "display": "flex",
+              "justifyContent": "center",
+              "marginBottom": "16px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
+              "minHeight": "44px",
+              "minWidth": "64px",
+              "msFlexAlign": "stretch",
+              "msFlexPack": "center",
+              "paddingBottom": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "paddingTop": "0px",
+            }
+          }
+        >
+          <div
+            aria-disabled={true}
+            className="css-view-1dbjc4n"
+            disabled={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            role="button"
+            style={
+              Object {
+                "borderBottomLeftRadius": "50px",
+                "borderBottomRightRadius": "50px",
+                "borderTopLeftRadius": "50px",
+                "borderTopRightRadius": "50px",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "position": "relative",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "row",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
+                  "msFlexPack": "center",
+                }
+              }
+            >
+              <div
+                className="css-text-901oao css-textOneLine-bfa6kz"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(0,175,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "letterSpacing": "1px",
+                    "marginBottom": "9px",
+                    "marginLeft": "16px",
+                    "marginRight": "16px",
+                    "marginTop": "9px",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "center",
+                        "color": "rgba(0,175,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "justifyContent": "center",
+                        "letterSpacing": "0px",
+                        "lineHeight": "22px",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
+                        "paddingTop": "1px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "uppercase",
+                      }
+                    }
+                  >
+                    CONTACT SUPPORT
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           className="css-view-1dbjc4n"
           style={
@@ -305,15 +509,13 @@ So, let's give it another shot...
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            data-focusable={true}
-            disabled={false}
+            aria-disabled={true}
+            className="css-view-1dbjc4n"
+            disabled={true}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
-            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -324,15 +526,11 @@ So, let's give it another shot...
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
-                "touchAction": "manipulation",
               }
             }
-            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -425,7 +623,7 @@ So, let's give it another shot...
                       }
                     }
                   >
-                    PLEASE TRY AGAIN
+                    TRY AGAIN
                   </span>
                 </div>
               </div>

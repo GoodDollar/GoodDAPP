@@ -11,6 +11,7 @@ import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
+import { isBrowser } from '../../../../lib/utils/platform'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -40,12 +41,14 @@ const IntroScreen = props => {
 
   return (
     <Wrapper>
-      <Section style={styles.topContainer} grow={1} justifyContent="center">
+      <Section style={styles.topContainer} grow>
         <View style={styles.mainContent}>
           <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nLet's make sure you are a real live person`}
+            {`${getFirstWord(fullName)},\nLet's make sure you're\na real live person`}
           </Section.Title>
-          <FaceVerificationSmiley />
+          <View style={styles.illustration}>
+            <FaceVerificationSmiley />
+          </View>
           <View>
             <Separator width={2} />
             <Text textAlign="center" style={styles.descriptionContainer}>
@@ -88,6 +91,7 @@ IntroScreen.navigationOptions = {
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: theme.colors.surface,
     borderRadius: theme.sizes.borderRadius,
     display: 'flex',
@@ -106,28 +110,27 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   mainTitle: {
-    marginBottom: getDesignRelativeHeight(28),
+    marginTop: getDesignRelativeHeight(isBrowser ? 30 : 15),
   },
   illustration: {
-    flexGrow: 0,
-    flexShrink: 0,
-    marginBottom: getDesignRelativeHeight(28),
-    maxWidth: '100%',
-    height: getDesignRelativeHeight(145),
+    marginTop: getDesignRelativeHeight(18),
+    marginBottom: getDesignRelativeHeight(18),
+    height: getDesignRelativeWidth(isBrowser ? 220 : 130),
+    width: '100%',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
-    paddingVertical: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingVertical: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : 14),
   },
   descriptionUnderline: {
     display: 'block',
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
+    paddingTop: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
   },
   button: {
     width: '100%',
   },
   bottomSeparator: {
-    marginBottom: getDesignRelativeHeight(28),
+    marginBottom: getDesignRelativeHeight(25),
   },
 })
 

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FaceVerification IntroScreen matches snapshot 1`] = `
+exports[`FaceVerification DeviceOrientationError matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -50,14 +50,12 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
         Object {
           "WebkitAlignItems": "center",
           "WebkitBoxAlign": "center",
-          "WebkitBoxDirection": "normal",
           "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitBoxPack": "center",
-          "WebkitFlexDirection": "column",
+          "WebkitBoxPack": "space-evenly",
+          "WebkitFlexBasis": "0%",
           "WebkitFlexGrow": 1,
           "WebkitFlexShrink": 0,
-          "WebkitJustifyContent": "center",
+          "WebkitJustifyContent": "space-evenly",
           "alignItems": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
@@ -65,15 +63,16 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "display": "flex",
-          "flexDirection": "column",
+          "flexBasis": "0%",
           "flexGrow": 1,
           "flexShrink": 0,
-          "justifyContent": "center",
+          "height": "100%",
+          "justifyContent": "space-evenly",
           "msFlexAlign": "center",
-          "msFlexDirection": "column",
           "msFlexNegative": 0,
-          "msFlexPack": "center",
+          "msFlexPack": "space-evenly",
           "msFlexPositive": 1,
+          "msFlexPreferredSize": "0%",
           "paddingBottom": "16px",
           "paddingLeft": "8px",
           "paddingRight": "8px",
@@ -86,15 +85,29 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
         style={
           Object {
             "WebkitBoxFlex": 1,
-            "WebkitBoxPack": "justify",
+            "WebkitBoxPack": "space-evenly",
+            "WebkitFlexBasis": "0%",
             "WebkitFlexGrow": 1,
-            "WebkitJustifyContent": "space-between",
+            "WebkitFlexShrink": 1,
+            "WebkitJustifyContent": "space-evenly",
+            "backgroundColor": "rgba(255,255,255,1.00)",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "flexBasis": "0%",
             "flexGrow": 1,
-            "justifyContent": "space-between",
-            "msFlexPack": "justify",
+            "flexShrink": 1,
+            "justifyContent": "space-evenly",
+            "marginBottom": "0px",
+            "msFlexNegative": 1,
+            "msFlexPack": "space-evenly",
             "msFlexPositive": 1,
-            "paddingLeft": "24px",
-            "paddingRight": "24px",
+            "msFlexPreferredSize": "0%",
+            "paddingBottom": "16px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
+            "paddingTop": "8px",
             "width": "100%",
           }
         }
@@ -110,7 +123,8 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
               "fontSize": "24px",
               "fontWeight": "500",
               "lineHeight": "30px",
-              "marginTop": "30px",
+              "marginBottom": "8px",
+              "marginTop": "8px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -118,17 +132,22 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
           }
         >
           ,
-Let's make sure you're
-a real live person
+please turn your camera
+to portrait mode
         </div>
         <div
           className="css-view-1dbjc4n"
           style={
             Object {
-              "height": "220px",
-              "marginBottom": "18px",
-              "marginTop": "18px",
-              "width": "100%",
+              "WebkitFlexBasis": "auto",
+              "flexBasis": "auto",
+              "height": "182.02597402597402px",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "msFlexPreferredSize": "auto",
+              "overflowX": "hidden",
+              "overflowY": "hidden",
+              "zIndex": 0,
             }
           }
         >
@@ -136,13 +155,45 @@ a real live person
             className="css-view-1dbjc4n"
             style={
               Object {
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "backgroundImage": "url(\\"FRPortraitModeError.svg\\")",
+                "backgroundPosition": "center",
+                "backgroundRepeat": "no-repeat",
+                "backgroundSize": "contain",
+                "bottom": "0px",
                 "height": "100%",
+                "left": "0px",
+                "position": "absolute",
+                "right": "0px",
+                "top": "0px",
+                "width": "100%",
+                "zIndex": -1,
               }
             }
+          />
+          <img
+            alt=""
+            className="css-accessibilityImage-9pa8cd"
+            draggable={false}
+            src="FRPortraitModeError.svg"
           />
         </div>
         <div
           className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(255,255,255,1.00)",
+              "borderBottomLeftRadius": "5px",
+              "borderBottomRightRadius": "5px",
+              "borderTopLeftRadius": "5px",
+              "borderTopRightRadius": "5px",
+              "marginBottom": "0px",
+              "paddingBottom": "0px",
+              "paddingLeft": "12px",
+              "paddingRight": "12px",
+              "paddingTop": "0px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n"
@@ -158,48 +209,16 @@ a real live person
             }
           />
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
-                "lineHeight": "22px",
-                "paddingBottom": "16px",
-                "paddingLeft": "4px",
-                "paddingRight": "4px",
-                "paddingTop": "16px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "paddingBottom": "25px",
+                "paddingTop": "25px",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(0,175,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "700",
-                  "lineHeight": "22px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              Once in a while
-
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -215,55 +234,10 @@ a real live person
                 }
               }
             >
-              we'll need to take a short video of you
-
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(0,175,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "normal",
-                  "lineHeight": "22px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              to prevent duplicate accounts.
-
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              data-focusable={true}
-              dir="auto"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              style={
-                Object {
-                  "color": "rgba(0,175,255,1.00)",
-                  "cursor": "pointer",
-                  "direction": "ltr",
-                  "display": "block",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "700",
-                  "lineHeight": "22px",
-                  "paddingTop": "32px",
-                  "textAlign": "center",
-                  "textDecoration": "underline",
-                  "textTransform": "none",
-                }
-              }
-              tabIndex="0"
-            >
-              Learn more
-            </span>
+              It’s a nice landscape,
+but we need to see
+your face only in portrait mode
+            </div>
           </div>
           <div
             className="css-view-1dbjc4n"
@@ -275,11 +249,19 @@ a real live person
                 "borderTopLeftRadius": "1px",
                 "borderTopRightRadius": "1px",
                 "height": "2px",
-                "marginBottom": "25px",
               }
             }
           />
         </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
+      >
         <div
           className="css-view-1dbjc4n"
           style={
@@ -321,20 +303,17 @@ a real live person
               "paddingLeft": "0px",
               "paddingRight": "0px",
               "paddingTop": "0px",
-              "width": "100%",
             }
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            data-focusable={true}
-            disabled={false}
+            aria-disabled={true}
+            className="css-view-1dbjc4n"
+            disabled={true}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
-            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -345,15 +324,11 @@ a real live person
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
-                "touchAction": "manipulation",
               }
             }
-            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -446,7 +421,7 @@ a real live person
                       }
                     }
                   >
-                    OK, Verify me
+                    PLEASE TRY AGAIN
                   </span>
                 </div>
               </div>

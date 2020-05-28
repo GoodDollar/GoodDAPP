@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../../__tests__/__util__'
-import ImportedGeneralError from '../components/GeneralError'
+import { withThemeProvider } from '../../../../../__tests__/__util__'
+import ImportedGeneralError from '../GeneralError'
 
-const VerifyError = withThemeProvider(ImportedGeneralError)
+const GeneralError = withThemeProvider(ImportedGeneralError)
 
 const screenState = {
   isValid: false,
@@ -17,12 +17,12 @@ const screenState = {
 
 describe('FaceVerification GeneralError', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<VerifyError screenProps={{ screenState }} />)
+    const tree = renderer.create(<GeneralError screenProps={{ screenState }} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<VerifyError screenProps={{ screenState }} />)
+    const component = renderer.create(<GeneralError screenProps={{ screenState }} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

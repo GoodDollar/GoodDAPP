@@ -17,7 +17,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const displayTitle = useMemo(() => {
     const { fullName } = store.get('profile')
 
-    return `${getFirstWord(fullName)}`
+    return getFirstWord(fullName)
   }, [store])
 
   const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])

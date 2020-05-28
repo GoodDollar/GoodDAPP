@@ -11,6 +11,7 @@ import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
+import { isBrowser } from '../../../../lib/utils/platform'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -109,28 +110,27 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   mainTitle: {
-    marginTop: getDesignRelativeHeight(34),
+    marginTop: getDesignRelativeHeight(isBrowser ? 30 : 15),
   },
   illustration: {
-    marginTop: getDesignRelativeHeight(25),
-    marginBottom: getDesignRelativeHeight(25),
-    width: getDesignRelativeWidth(190, false),
-    marginRight: 'auto',
-    marginLeft: 'auto',
+    marginTop: getDesignRelativeHeight(18),
+    marginBottom: getDesignRelativeHeight(18),
+    height: getDesignRelativeWidth(130, false),
+    width: '100%',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
-    paddingVertical: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingVertical: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : 14),
   },
   descriptionUnderline: {
     display: 'block',
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
+    paddingTop: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
   },
   button: {
     width: '100%',
   },
   bottomSeparator: {
-    marginBottom: getDesignRelativeHeight(28),
+    marginBottom: getDesignRelativeHeight(25),
   },
 })
 

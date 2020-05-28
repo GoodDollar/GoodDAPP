@@ -101,9 +101,9 @@ export default ({ onInitialized = noop, onError = noop }) => {
     const handleException = async exception => {
       const { message, name } = exception
 
-      // if name is set - that means error was rethrown
+      // if name is set or it doesn't equals default error name: 'Error' - that means error was rethrown
       // otherwise we should determine kind of the issue
-      if (!name) {
+      if (!name || name === 'Error') {
         // the following code is needed to categorize exceptions
         // then we could display specific error messages
         // corresponding to the kind of issue (camera, orientation etc)

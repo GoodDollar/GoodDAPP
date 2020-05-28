@@ -1,7 +1,6 @@
 import React from 'react'
 import { Platform } from 'react-native'
 import Lottie from 'lottie-react-native'
-import { cloneDeep } from 'lodash'
 import AnimationBase from '../Base'
 import animationData from './data.json'
 
@@ -22,7 +21,7 @@ class FaceVerificationSmiley extends AnimationBase {
         loop
         autoSize
         style={Platform.select(styles)}
-        source={cloneDeep(animationData)}
+        source={this.improveAnimationData(animationData)}
       />
     )
   }

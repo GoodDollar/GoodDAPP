@@ -21,7 +21,7 @@
 }
 
 #zoom-wrapper-container {
-  /* Move frame a bit lower
+  /* Align frame vertically
    * Cant be done by UICustomization due to documentation
    * https://dev.facetec.com/#/ui-customization?link=move-facetec-frame-down
    */

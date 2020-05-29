@@ -25,5 +25,6 @@
    * Cant be done by UICustomization due to documentation
    * https://dev.facetec.com/#/ui-customization?link=move-facetec-frame-down
    */
-  margin-top: 65px !important;
+  margin-top: 50% !important;
+  margin-bottom: 50% !important;
 }

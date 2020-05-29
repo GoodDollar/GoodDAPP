@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
 import GDStore from '../../../../lib/undux/GDStore'
@@ -11,33 +11,38 @@ import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
+import useMountedState from '../../../../lib/hooks/useMountedState'
 import { isBrowser } from '../../../../lib/utils/platform'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
-const IntroScreen = props => {
+const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
+  const mountedStateRef = useMountedState()
   const { fullName } = store.get('profile')
-  const { styles } = props
 
-  const isUnsupported = isIOS && isMobileSafari === false
-  const isValid = props.screenProps.screenState && props.screenProps.screenState.isValid
+  const isValid = screenProps.screenState && screenProps.screenState.isValid
   log.debug({ isIOS, isMobileSafari })
-
-  if (isUnsupported) {
-    props.screenProps.navigateTo('FaceVerificationUnsupported', { reason: 'isNotMobileSafari' })
-  }
 
   useEffect(() => {
     if (isValid) {
-      props.screenProps.pop({ isValid: true })
+      screenProps.pop({ isValid: true })
     } else {
       fireEvent('FR_Intro')
     }
   }, [isValid])
 
-  const gotoPrivacyArticle = () => props.screenProps.push('PrivacyArticle')
-  const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
+  const gotoPrivacyArticle = useCallback(() => {
+    if (mountedStateRef.current) {
+      screenProps.push('PrivacyArticle')
+    }
+  }, [screenProps])
+
+  const gotoFR = useCallback(() => {
+    if (mountedStateRef.current) {
+      screenProps.navigateTo('FaceVerification')
+    }
+  }, [screenProps])
 
   return (
     <Wrapper>

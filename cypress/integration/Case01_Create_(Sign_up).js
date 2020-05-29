@@ -16,11 +16,11 @@ describe('Test case 1: Create temporary user', () => {
     SignUpPage.phoneInput.type(Cypress.env('numberForCheckingRegistration'), { delay: 300 })
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
+    SignUpPage.waitForSignUpPageDisplayed()
     for (let i = 0; i < 6; i++) {
-      SignUpPage.waitForSignUpPageDisplayed()
       SignUpPage.codeInputs
         .eq(i)
-        .type(i, { force: true }, { delay: 500 })
+        .type(i, { delay: 500 })
         .should('be.visible')
     }
     SignUpPage.emailInput.should('be.visible')

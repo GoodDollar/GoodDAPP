@@ -3,7 +3,7 @@ import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
 import SupportPage from '../PageObjects/SupportPage'
-import InvitePage from '../PageObjects/InvitePage'
+//import InvitePage from '../PageObjects/InvitePage'
 import StatisticsPage from '../PageObjects/StatisticsPage'
 
 describe('Test case 4: Check topbar items functionality', () => {

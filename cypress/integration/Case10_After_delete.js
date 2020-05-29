@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 import StartPage from '../PageObjects/StartPage'
-import HomePage from '../PageObjects/HomePage'
 import LoginPage from '../PageObjects/LoginPage'
-import GDls from '../fixtures/GDls.json'
+//import HomePage from '../PageObjects/HomePage'
+//import GDls from '../fixtures/GDls.json'
 
 describe('Test after delete wallet', () => {
   // before('load localStorage', () => {

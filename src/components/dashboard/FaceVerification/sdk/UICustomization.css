@@ -19,3 +19,11 @@
   width: 192px;
   height: 192px;
 }
+
+#zoom-wrapper-container {
+  /* Move frame a bit lower
+   * Cant be done by UICustomization due to documentation
+   * https://dev.facetec.com/#/ui-customization?link=move-facetec-frame-down
+   */
+  margin-top: 65px !important;
+}

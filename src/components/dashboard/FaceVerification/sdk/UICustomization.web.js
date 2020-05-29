@@ -49,9 +49,16 @@ const {
 
 const { element } = initialLoadingAnimationCustomization
 
-// disabling camera permissions help screen
-// (as we have own ErrorScreen with corresponding message)
-UICustomization.enableCameraPermissionsHelpScreen = false
+assignIn(UICustomization, {
+  // disabling camera permissions help screen
+  // (as we have own ErrorScreen with corresponding message)
+  enableCameraPermissionsHelpScreen: false,
+
+  // making Zoom a bit tolerant to the user actions during verification
+  // now any keyboard / focus event won't cancel session due to the context switch
+  // the session should cancels only when app/browser tab switched
+  enableHotKeyProtection: false,
+})
 
 // customizing 'Camera initializing' indicator
 // rendering our animated loading spinner inside Zoom's spinner

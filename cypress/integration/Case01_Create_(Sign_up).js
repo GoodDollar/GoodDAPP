@@ -18,10 +18,8 @@ describe('Test case 1: Create temporary user', () => {
     SignUpPage.nextButton.click()
     SignUpPage.waitForSignUpPageDisplayed()
     for (let i = 0; i < 6; i++) {
-      SignUpPage.codeInputs
-        .eq(i)
-        .type(i, { delay: 500 })
-        .should('be.visible')
+      SignUpPage.codeInputs.eq(i).type(i, { delay: 500 })
+      //.should('be.visible')
     }
     SignUpPage.emailInput.should('be.visible')
     SignUpPage.emailInput.type(Cypress.env('emailForCheckingRegistration'))

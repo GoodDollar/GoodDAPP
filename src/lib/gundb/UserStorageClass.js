@@ -1261,7 +1261,7 @@ export class UserStorage {
    * @param {string} privacy
    * @returns {boolean}
    */
-  static isValidValue(field: string, value: string, trusted: boolean = false) {
+  static async isValidValue(field: string, value: string, trusted: boolean = false) {
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
 
     if (!cleanValue) {
@@ -1273,20 +1273,21 @@ export class UserStorage {
       return false
     }
 
-    return true
+    //we no longer enforce uniqueness on email/mobile only on username
+    try {
+      if (field === 'username') {
+        const indexValue = await global.gun
+          .get(`users/by${field}`)
+          .get(cleanValue)
+          .then()
+        return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
+      }
 
-    //we no longer enforce uniqueness on email/mobile
-    // try {
-    //   //get from trust node soul id or from the global writable index (old way)
-    //   const indexValue = await global.gun
-    //     .get(trusted && this.trust ? this.trust[`by${field}`] : `users/by${field}`)
-    //     .get(cleanValue)
-    //     .then()
-    //   return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
-    // } catch (e) {
-    //   logger.error('indexProfileField', e.message, e)
-    //   return true
-    // }
+      return true
+    } catch (e) {
+      logger.error('indexProfileField', e.message, e)
+      return true
+    }
   }
 
   async validateProfile(profile: any) {
@@ -1647,8 +1648,9 @@ export class UserStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const value = UserStorage.cleanHashedFieldForIndex(attr, field)
 
+    const index = this.trust[`by${attr}`] || `users/by${attr}`
     const profileToShow = this.gun
-      .get(this.trust[`by${attr}`] || `users/by${attr}`)
+      .get(index)
       .get(value)
       .get('profile')
 

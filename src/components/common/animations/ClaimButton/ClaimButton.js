@@ -67,9 +67,11 @@ class ClaimButton extends AnimationBase {
     this.setState({ stopOnClaim: false }, cb)
   }
 
-  handlePress = () => {
+  handlePress = event => {
     const { onPressClaim } = this.props
     const { stopOnClaim } = this.state
+
+    event.preventDefault()
 
     if (onPressClaim && stopOnClaim) {
       onPressClaim()

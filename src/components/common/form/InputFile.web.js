@@ -153,6 +153,7 @@ const InputFile = props => {
         accept="image/*"
         onChange={async event => {
           event.preventDefault()
+
           const [file] = inputRef.current.files
           const dataUrl = await getReducedFileAsDataUrl(file)
           props.onChange(dataUrl)

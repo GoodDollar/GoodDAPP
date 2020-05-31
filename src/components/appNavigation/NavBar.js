@@ -19,16 +19,23 @@ type NavBarProps = {
  * @param {NavBarProps} props
  */
 class NavBar extends React.Component<NavBarProps> {
+  handleIconPress = event => {
+    const { goBack } = this.props
+
+    event.preventDefault()
+    return goBack()
+  }
+
   render() {
-    const { styles } = this.props
+    const { styles, goBack } = this.props
 
     return (
       <Appbar dark style={styles.topbarStyles}>
-        {this.props.goBack && (
-          <Icon name="arrow-back" onPress={this.props.goBack} color="white" size={22} style={styles.backButton} />
+        {goBack && (
+          <Icon name="arrow-back" onPress={this.handleIconPress} color="white" size={22} style={styles.backButton} />
         )}
         <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
-        {this.props.goBack && <Appbar.Action color="white" />}
+        {goBack && <Appbar.Action color="white" />}
       </Appbar>
     )
   }

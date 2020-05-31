@@ -7,8 +7,11 @@ import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
 import logger from '../../lib/logger/pino-logger'
+
 import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import useOnPress from '../../lib/hooks/useOnPress'
+
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
 
@@ -21,25 +24,18 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
 
-  const handleCameraPress = useCallback(
-    event => {
-      event.preventDefault()
-      navigation.navigate('EditAvatar')
-    },
-    [navigation]
-  )
+  const handleCameraPress = useOnPress(navigation.navigate('EditAvatar'), [navigation])
 
-  const handleClosePress = useCallback(
-    event => {
-      event.preventDefault()
+  const handleClosePress = useOnPress(async () => {
+    try {
+      await wrappedUserStorage.removeAvatar()
+    } catch (exception) {
+      const { message } = exception
 
-      wrappedUserStorage.removeAvatar().catch(e => {
-        showErrorDialog('Could not delete image. Please try again.')
-        log.error('delete image failed:', e.message, e)
-      })
-    },
-    [wrappedUserStorage]
-  )
+      showErrorDialog('Could not delete image. Please try again.')
+      log.error('delete image failed:', message, exception)
+    }
+  }, [wrappedUserStorage])
 
   const handleAddAvatar = useCallback(
     avatar => {

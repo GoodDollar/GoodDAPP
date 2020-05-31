@@ -12,6 +12,8 @@ import SaveButton from '../common/animations/SaveButton/SaveButton'
 import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import useOnPress from '../../lib/hooks/useOnPress'
+
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
@@ -145,21 +147,8 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
     push(`Dashboard`)
   }, [push])
 
-  const handleAvatarPress = useCallback(
-    event => {
-      event.preventDefault()
-      push(`ViewAvatar`)
-    },
-    [push]
-  )
-
-  const handleCameraPress = useCallback(
-    event => {
-      event.preventDefault()
-      push(`ViewAvatar`)
-    },
-    [push]
-  )
+  const handleAvatarPress = useOnPress(() => push(`ViewAvatar`), [push])
+  const handleCameraPress = useOnPress(() => push(`ViewAvatar`), [push])
 
   return (
     <Wrapper>

@@ -1,11 +1,13 @@
 // @flow
-import React, { useCallback } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, Text, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
+import useOnPress from '../../lib/hooks/useOnPress'
+
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -22,17 +24,9 @@ const ProfileWrapper = props => {
   const profile = store.get('profile')
   const { screenProps, styles } = props
 
-  const handleAvatarPress = useCallback(
-    event => {
-      event.preventDefault()
-      screenProps.push(`ViewAvatar`)
-    },
-    [screenProps]
-  )
-
-  const handlePrivacyPress = useCallback(() => screenProps.push(`ProfilePrivacy`), [screenProps])
-
-  const handleEditProfilePress = useCallback(() => screenProps.push(`EditProfile`), [screenProps])
+  const handleAvatarPress = useOnPress(() => screenProps.push(`ViewAvatar`), [screenProps])
+  const handlePrivacyPress = useOnPress(() => screenProps.push(`ProfilePrivacy`), [screenProps])
+  const handleEditProfilePress = useOnPress(() => screenProps.push(`EditProfile`), [screenProps])
 
   return (
     <Wrapper>

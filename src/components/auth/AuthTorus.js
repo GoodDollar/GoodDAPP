@@ -21,6 +21,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import retryImport from '../../lib/utils/retryImport'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { useTorus } from './useTorus'
 
 Image.prefetch(illustration)
@@ -32,10 +33,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const { navigate } = navigation
   const { push } = screenProps
 
-  const goToW3Site = () => {
+  const goToW3Site = useCallback(() => {
     fireEvent(CLICK_BTN_GETINVITED)
     window.location = config.web3SiteUrl
-  }
+  }, [])
 
   //login so we can check if user exists
   const ready = async replacing => {
@@ -71,9 +72,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
     return { goodWallet, userStorage, source }
   }
-
-  const signupGoogle = () => handleSignUp('google')
-  const signupFacebook = () => handleSignUp('facebook')
 
   const handleSignUp = useCallback(
     async (provider: 'facebook' | 'google') => {
@@ -150,25 +148,35 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     [store, torusSDK, showErrorDialog, navigate]
   )
 
-  const goToManualRegistration = useCallback(() => {
+  const goToManualRegistration = useOnPress(() => {
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])
 
-  const goToSignIn = useCallback(() => {
-    navigate('SigninInfo')
-  }, [navigate])
-
-  const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
-
-  const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
+  const goToSignIn = useOnPress(() => navigate('SigninInfo'), [navigate])
+  const handleNavigateTermsOfUse = useOnPress(() => push('PrivacyPolicyAndTerms'), [push])
+  const handleNavigatePrivacyPolicy = useOnPress(() => push('PrivacyPolicy'), [push])
 
   // google button settings
-  const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
   const googleButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
+  const googleButtonHandler = useOnPress(() => {
+    if (asGuest) {
+      handleSignUp('google')
+      return
+    }
+
+    goToW3Site()
+  }, [asGuest, handleSignUp, goToW3Site])
 
   // facebook button settings
-  const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
+  const facebookButtonHandler = useOnPress(() => {
+    if (asGuest) {
+      handleSignUp('facebook')
+      return
+    }
+
+    goToW3Site()
+  }, [asGuest, handleSignUp, goToW3Site])
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>

@@ -100,7 +100,8 @@ class Auth extends React.Component<Props> {
     }
   }
 
-  handleSignUp = async () => {
+  handleSignUp = async event => {
+    event.preventDefault()
     const { store } = this.props
     store.set('loadingIndicator')({ loading: true })
     const { w3User, w3Token } = this.state
@@ -137,11 +138,18 @@ class Auth extends React.Component<Props> {
     this.props.navigation.navigate('SigninInfo')
   }
 
-  handleNavigateTermsOfUse = () => this.props.screenProps.push('PrivacyPolicyAndTerms')
+  handleNavigateTermsOfUse = event => {
+    event.preventDefault()
+    this.props.screenProps.push('PrivacyPolicyAndTerms')
+  }
 
-  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
+  handleNavigatePrivacyPolicy = event => {
+    event.preventDefault()
+    this.props.screenProps.push('PrivacyPolicy')
+  }
 
-  goToW3Site = () => {
+  goToW3Site = event => {
+    event.preventDefault()
     fireEvent(CLICK_BTN_GETINVITED)
     window.location = config.web3SiteUrl
   }

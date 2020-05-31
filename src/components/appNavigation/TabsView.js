@@ -11,7 +11,9 @@ import userStorage from '../../lib/gundb/UserStorage'
 import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
+
 import useSideMenu from '../../lib/hooks/useSideMenu'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const { isEToro, market, marketUrl, showInvite, showRewards } = config
 
@@ -172,23 +174,19 @@ const TabsView = ({ navigation }) => {
     fetchTokens()
   }, [])
 
-  const goToRewards = useCallback(
-    event => {
-      // if (isIOS) {
-      //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
-      //   return window.open(src, '_blank')
-      // }
-      event.preventDefault()
-      navigation.navigate('Rewards')
-    },
-    [navigation, token]
-  )
+  const goToRewards = useOnPress(() => {
+    // if (isIOS) {
+    //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
+    //   return window.open(src, '_blank')
+    // }
+    navigation.navigate('Rewards')
+  }, [navigation, token])
 
-  /*const goToSupport = useCallback(() => {
+  /*const goToSupport = useOnPress(() => {
     navigation.navigate('Support')
   }, [navigation])*/
 
-  const goToMarketplace = useCallback(() => {
+  const goToMarketplace = useOnPress(() => {
     if (isIOS) {
       const src = `${marketUrl}?jwt=${marketToken}&nofooter=true`
       window.open(src, '_blank')

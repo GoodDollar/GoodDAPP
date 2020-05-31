@@ -5,7 +5,6 @@ import LoginPage from '../PageObjects/LoginPage'
 
 describe('Test case 9: Delete temporary user', () => {
   it('User to sign up and delete', () => {
-    localStorage.clear()
     cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       StartPage.open()
       StartPage.signInButton.click()

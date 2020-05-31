@@ -17,16 +17,15 @@ describe('Test after delete wallet', () => {
   //   HomePage.sendButton.should('not.be.visible')
   //   StartPage.signInButton.should('be.visible')
   // })
-
   it('try to login with pass phrase', () => {
-    cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
-      StartPage.open()
-      StartPage.signInButton.click()
-      LoginPage.recoverFromPassPhraseLink.click()
-      LoginPage.pageHeader.should('contain', 'Recover')
-      LoginPage.mnemonicsInput.type(mnemonic)
-      LoginPage.recoverWalletButton.click()
-      LoginPage.errorWindow.should('be.visible')
-    })
-  })
+   cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+     StartPage.open()
+     StartPage.signInButton.click()
+     LoginPage.recoverFromPassPhraseLink.click()
+     LoginPage.pageHeader.should('contain', 'Recover')
+     LoginPage.mnemonicsInput.type(mnemonic)
+     LoginPage.recoverWalletButton.click()
+     LoginPage.errorWindow.should('be.visible')
+   })
+ })
 })

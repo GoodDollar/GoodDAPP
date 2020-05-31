@@ -5,7 +5,20 @@ import HomePage from '../PageObjects/HomePage'
 import RecoverWalletPage from '../PageObjects/RecoverWalletPage'
 
 describe('Test case 6: Ability to send recovering email', () => {
-  before('authorization', () => {
+  // before('authorization', () => {
+  //   cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+  //     StartPage.open()
+  //     StartPage.signInButton.click()
+  //     LoginPage.recoverFromPassPhraseLink.click()
+  //     LoginPage.pageHeader.should('contain', 'Recover')
+  //     LoginPage.mnemonicsInput.type(mnemonic)
+  //     LoginPage.recoverWalletButton.click()
+  //     LoginPage.yayButton.click()
+  //     HomePage.waitForHomePageDisplayed()
+  //   })
+  // })
+
+  it('User is able to recover mnemonics by email', () => {
     cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       StartPage.open()
       StartPage.signInButton.click()
@@ -16,9 +29,6 @@ describe('Test case 6: Ability to send recovering email', () => {
       LoginPage.yayButton.click()
       HomePage.waitForHomePageDisplayed()
     })
-  })
-
-  it('User is able to recover mnemonics by email', () => {
     HomePage.optionsButton.click()
     HomePage.options.eq(2).click()
     for (let i = 0; i < 12; i++) {

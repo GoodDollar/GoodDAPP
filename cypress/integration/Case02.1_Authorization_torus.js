@@ -6,15 +6,16 @@ import userObject from '../fixtures/userObject.json'
 //import SignUpPage from '../PageObjects/SignUpPage'
 
 describe('Test 2.1: login via TorusTestUser', () => {
-  beforeEach(() => {
-    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
-  })
+  // beforeEach(() => {
+  //   localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
+  // })
 
   it('login via google', () => {
+    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.googleLink.should('be.visible')
-    cy.wait(10000)
+    cy.wait(15000)
     SocialLoginPage.googleLink.click()
     HomePage.profileAvatar.should('be.visible')
     HomePage.sendButton.should('be.visible')
@@ -37,10 +38,11 @@ describe('Test 2.1: login via TorusTestUser', () => {
   })
 
   it('login via facebook', () => {
+    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.facebookLink.should('be.visible')
-    cy.wait(10000)
+    cy.wait(15000)
     SocialLoginPage.facebookLink.click()
     HomePage.profileAvatar.should('be.visible')
     HomePage.sendButton.should('be.visible')

@@ -20,7 +20,7 @@ function makeVerification() {
 
 describe('Test case 5: Ability to change user data', () => {
   beforeEach('authorization', () => {
-    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+    cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       StartPage.open()
       StartPage.signInButton.click()
       LoginPage.recoverFromPassPhraseLink.click()

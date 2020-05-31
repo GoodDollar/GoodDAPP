@@ -44,7 +44,7 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
       HomePage.claimButton.should('be.visible')
       cy.clearLocalStorage()
       cy.clearCookies()
-      cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+      cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
        StartPage.open()
        StartPage.signInButton.click()
        LoginPage.recoverFromPassPhraseLink.click()

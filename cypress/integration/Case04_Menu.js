@@ -8,7 +8,7 @@ import StatisticsPage from '../PageObjects/StatisticsPage'
 
 describe('Test case 4: Check topbar items functionality', () => {
   beforeEach('authorization', () => {
-    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+    cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       StartPage.open()
       StartPage.signInButton.click()
       LoginPage.recoverFromPassPhraseLink.click()

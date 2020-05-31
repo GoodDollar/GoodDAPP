@@ -19,7 +19,7 @@ describe('Test after delete wallet', () => {
   // })
 
   it('try to login with pass phrase', () => {
-    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+    cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       StartPage.open()
       StartPage.signInButton.click()
       LoginPage.recoverFromPassPhraseLink.click()

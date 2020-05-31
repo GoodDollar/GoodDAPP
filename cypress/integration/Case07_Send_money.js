@@ -34,7 +34,7 @@ describe('Test case 7: Ability to send money', () => {
       SendMoneyPage.doneButton.click()
       cy.clearLocalStorage()
       cy.clearCookies()
-      cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+      cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
         StartPage.open()
         StartPage.signInButton.click()
         LoginPage.recoverFromPassPhraseLink.click()

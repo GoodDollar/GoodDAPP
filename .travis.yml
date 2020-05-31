@@ -27,7 +27,7 @@ env:
 
 matrix:
   include:
-    - if: branch IN (autotests_hotfix)
+    - if: branch IN (master, staging, production, beta, autotests_hotfix) AND env(DEPLOY_VERSION) IS NOT present
       script:
         - npm run build
         - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json

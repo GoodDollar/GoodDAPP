@@ -72,6 +72,10 @@ class HomePage {
     return cy.contains('Backup Wallet')
   }
 
+  get clipboardButton() {
+    return cy.contains('Copy all to clipboard')
+  }
+
   get logoutButton() {
     return cy.contains('Logout')
   }

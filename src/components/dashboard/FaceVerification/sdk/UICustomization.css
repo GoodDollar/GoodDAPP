@@ -1,0 +1,34 @@
+#zoom-feedback {
+  /* There's no way to specify font weight on ZoomCustomization */
+  font-weight: bold !important;
+}
+
+.zoom-user-helper h2 {
+  /* There's no font-weight enum value corresponding to the OpenType's FW_MEDIUM */
+  font-weight: 500 !important
+}
+
+#zoom-internal-loading-spinner,
+#custom-activity-indicator-image {
+  /* Disabling default Zoom's spinner animation to use own */
+  animation: none !important;
+}
+
+#zoom-upload-progress-wrapper .loading {
+  /* Changing custom upload progress image size */
+  width: 192px;
+  height: 192px;
+}
+
+#zoom-wrapper-container {
+  /* Align frame vertically
+   * Cant be done by UICustomization due to documentation
+   * https://dev.facetec.com/#/ui-customization?link=move-facetec-frame-down
+   */
+  margin-top: 50% !important;
+  margin-bottom: 50% !important;
+}
+
+#get-ready-for-video-screen > div > div {
+  margin-top: 10px;
+}

@@ -1,7 +1,21 @@
 //@flow
 import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
-import { find, flatten, get, isEqual, keys, maxBy, memoize, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
+import {
+  find,
+  flatten,
+  get,
+  isEqual,
+  isNull,
+  keys,
+  maxBy,
+  memoize,
+  merge,
+  orderBy,
+  takeWhile,
+  toPairs,
+  values,
+} from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun'
@@ -954,7 +968,9 @@ export class UserStorage {
         res()
       }
       this.feed.get('byid').onThen(items => {
-        delete items._
+        if (items && items._) {
+          delete items._
+        }
         const ids = Object.entries(items)
         logger.debug('initFeed got items', { ids })
         const promises = ids.map(async ([k, v]) => {
@@ -1690,10 +1706,10 @@ export class UserStorage {
         const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
         const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
-        logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
-        const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
+        logger.debug('formatEvent: initiator data', event.id, { initiatorType, initiator, address })
+        const profileNode = (await this._extractProfileToShow(initiatorType, initiator, address)) || {}
         const [avatar, fullName] = await Promise.all([
-          this._extractAvatar(type, withdrawStatus, profileNode, address).catch(e => {
+          this._extractAvatar(type, withdrawStatus, profileNode.gunProfile, address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
               type,
               withdrawStatus,
@@ -1702,20 +1718,26 @@ export class UserStorage {
             })
             return undefined
           }),
-          this._extractFullName(customName, profileNode, initiatorType, initiator, type, address, displayName).catch(
-            e => {
-              logger.warn('formatEvent: failed extractFullName', e.message, e, {
-                customName,
-                profileNode,
-                initiatorType,
-                initiator,
-                type,
-                address,
-                displayName,
-              })
-              return undefined
-            }
-          ),
+          this._extractFullName(
+            customName,
+            profileNode.gunProfile,
+            initiatorType,
+            initiator,
+            type,
+            address,
+            displayName
+          ).catch(e => {
+            logger.warn('formatEvent: failed extractFullName', e.message, e, {
+              customName,
+              profileNode: profileNode.gunProfile,
+              initiatorType,
+              initiator,
+              type,
+              address,
+              displayName,
+            })
+            return undefined
+          }),
         ])
 
         return {
@@ -1798,20 +1820,27 @@ export class UserStorage {
     return `${type}${sufix}`
   }
 
-  _extractProfileToShow(initiatorType, initiator, address): Gun {
-    const getProfile = (group, value) =>
-      this.gun
-        .get(group)
-        .get(value)
-        .get('profile')
+  async _extractProfileToShow(initiatorType, initiator, address): Gun {
+    const getProfile = async (group, value) => {
+      // Need to verify if user deleted, otherwise the gun will stuck here and feed wont be displayed
+      // The group will contain null value in case user was deleted
+      const gunGroupIndexValue = this.gun.get(group).get(value)
+      const groupValue = await gunGroupIndexValue.then()
+
+      if (!isNull(groupValue)) {
+        return {
+          gunProfile: gunGroupIndexValue.get('profile'),
+        }
+      }
+    }
 
     const searchField = initiatorType && `by${initiatorType}`
     const byIndex = searchField && getProfile(this.trust[searchField] || `users/${searchField}`, initiator)
     const byAddress = address && getProfile(this.trust.bywalletAddress || `users/bywalletAddress`, address)
 
-    // const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
+    const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
 
-    return byIndex || byAddress
+    return profileByIndex || profileByAddress
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {

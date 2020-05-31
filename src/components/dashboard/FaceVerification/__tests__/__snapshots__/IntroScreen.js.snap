@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FaceVerificationIntro matches snapshot 1`] = `
+exports[`FaceVerification IntroScreen matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -110,7 +110,7 @@ exports[`FaceVerificationIntro matches snapshot 1`] = `
               "fontSize": "24px",
               "fontWeight": "500",
               "lineHeight": "30px",
-              "marginBottom": "28px",
+              "marginTop": "30px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -118,11 +118,29 @@ exports[`FaceVerificationIntro matches snapshot 1`] = `
           }
         >
           ,
-Let's make sure you are a real live person
+Let's make sure you're
+a real live person
         </div>
         <div
           className="css-view-1dbjc4n"
-        />
+          style={
+            Object {
+              "height": "220px",
+              "marginBottom": "18px",
+              "marginTop": "18px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "height": "100%",
+              }
+            }
+          />
+        </div>
         <div
           className="css-view-1dbjc4n"
         >
@@ -177,7 +195,7 @@ Let's make sure you are a real live person
                 }
               }
             >
-              Since this is your first G$ Claim
+              Once in a while
 
             </span>
             <span
@@ -197,7 +215,7 @@ Let's make sure you are a real live person
                 }
               }
             >
-              we will take a short video of you
+              we'll need to take a short video of you
 
             </span>
             <span
@@ -257,7 +275,7 @@ Let's make sure you are a real live person
                 "borderTopLeftRadius": "1px",
                 "borderTopRightRadius": "1px",
                 "height": "2px",
-                "marginBottom": "28px",
+                "marginBottom": "25px",
               }
             }
           />

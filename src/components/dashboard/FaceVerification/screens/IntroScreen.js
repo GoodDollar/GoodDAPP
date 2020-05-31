@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
 import GDStore from '../../../../lib/undux/GDStore'
@@ -11,49 +11,57 @@ import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
+import useMountedState from '../../../../lib/hooks/useMountedState'
+import { isBrowser } from '../../../../lib/utils/platform'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
-const IntroScreen = props => {
+const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
+  const mountedStateRef = useMountedState()
   const { fullName } = store.get('profile')
-  const { styles } = props
 
-  const isUnsupported = isIOS && isMobileSafari === false
-  const isValid = props.screenProps.screenState && props.screenProps.screenState.isValid
+  const isValid = screenProps.screenState && screenProps.screenState.isValid
   log.debug({ isIOS, isMobileSafari })
-
-  if (isUnsupported) {
-    props.screenProps.navigateTo('FaceVerificationUnsupported', { reason: 'isNotMobileSafari' })
-  }
 
   useEffect(() => {
     if (isValid) {
-      props.screenProps.pop({ isValid: true })
+      screenProps.pop({ isValid: true })
     } else {
       fireEvent('FR_Intro')
     }
   }, [isValid])
 
-  const gotoPrivacyArticle = () => props.screenProps.push('PrivacyArticle')
-  const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
+  const gotoPrivacyArticle = useCallback(() => {
+    if (mountedStateRef.current) {
+      screenProps.push('PrivacyArticle')
+    }
+  }, [screenProps])
+
+  const gotoFR = useCallback(() => {
+    if (mountedStateRef.current) {
+      screenProps.navigateTo('FaceVerification')
+    }
+  }, [screenProps])
 
   return (
     <Wrapper>
-      <Section style={styles.topContainer} grow={1} justifyContent="center">
+      <Section style={styles.topContainer} grow>
         <View style={styles.mainContent}>
           <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nLet's make sure you are a real live person`}
+            {`${getFirstWord(fullName)},\nLet's make sure you're\na real live person`}
           </Section.Title>
-          <FaceVerificationSmiley />
+          <View style={styles.illustration}>
+            <FaceVerificationSmiley />
+          </View>
           <View>
             <Separator width={2} />
             <Text textAlign="center" style={styles.descriptionContainer}>
               <Text textAlign="center" fontWeight="bold" color="primary">
-                {`Since this is your first G$ Claim\n`}
+                {`Once in a while\n`}
               </Text>
               <Text textAlign="center" color="primary">
-                {`we will take a short video of you\n`}
+                {`we'll need to take a short video of you\n`}
               </Text>
               <Text textAlign="center" color="primary">
                 {`to prevent duplicate accounts.\n`}
@@ -88,6 +96,7 @@ IntroScreen.navigationOptions = {
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: theme.colors.surface,
     borderRadius: theme.sizes.borderRadius,
     display: 'flex',
@@ -106,28 +115,27 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   mainTitle: {
-    marginBottom: getDesignRelativeHeight(28),
+    marginTop: getDesignRelativeHeight(isBrowser ? 30 : 15),
   },
   illustration: {
-    flexGrow: 0,
-    flexShrink: 0,
-    marginBottom: getDesignRelativeHeight(28),
-    maxWidth: '100%',
-    height: getDesignRelativeHeight(145),
+    marginTop: getDesignRelativeHeight(18),
+    marginBottom: getDesignRelativeHeight(18),
+    height: getDesignRelativeWidth(isBrowser ? 220 : 130),
+    width: '100%',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
-    paddingVertical: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingVertical: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : 14),
   },
   descriptionUnderline: {
     display: 'block',
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
+    paddingTop: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
   },
   button: {
     width: '100%',
   },
   bottomSeparator: {
-    marginBottom: getDesignRelativeHeight(28),
+    marginBottom: getDesignRelativeHeight(25),
   },
 })
 

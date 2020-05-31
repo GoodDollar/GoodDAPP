@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
 import GDStore from '../../../../lib/undux/GDStore'
@@ -11,14 +11,13 @@ import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
-import useMountedState from '../../../../lib/hooks/useMountedState'
 import { isBrowser } from '../../../../lib/utils/platform'
+import useOnPress from '../../../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
-  const mountedStateRef = useMountedState()
   const { fullName } = store.get('profile')
 
   const isValid = screenProps.screenState && screenProps.screenState.isValid
@@ -32,17 +31,8 @@ const IntroScreen = ({ styles, screenProps }) => {
     }
   }, [isValid])
 
-  const gotoPrivacyArticle = useCallback(() => {
-    if (mountedStateRef.current) {
-      screenProps.push('PrivacyArticle')
-    }
-  }, [screenProps])
-
-  const gotoFR = useCallback(() => {
-    if (mountedStateRef.current) {
-      screenProps.navigateTo('FaceVerification')
-    }
-  }, [screenProps])
+  const gotoPrivacyArticle = useOnPress(() => screenProps.push('PrivacyArticle'), [screenProps])
+  const gotoFR = useOnPress(() => screenProps.navigateTo('FaceVerification'), [screenProps])
 
   return (
     <Wrapper>

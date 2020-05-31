@@ -16,17 +16,8 @@
 
 #zoom-upload-progress-wrapper .loading {
   /* Changing custom upload progress image size */
-  width: 192px;
-  height: 192px;
-}
-
-#xxx-zoom-wrapper-container {
-  /* Align frame vertically disabled, remove prefix xxx- to enable
-   * Cant be done by UICustomization due to documentation
-   * https://dev.facetec.com/#/ui-customization?link=move-facetec-frame-down
-   */
-  margin-top: 50% !important;
-  margin-bottom: 50% !important;
+  width: 134px;
+  height: 134px;
 }
 
 #get-ready-for-video-screen > div > div {

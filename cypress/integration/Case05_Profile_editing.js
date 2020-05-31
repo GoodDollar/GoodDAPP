@@ -18,7 +18,7 @@ function makeVerification() {
   ProfilePage.openEditProfileButton()
 }
 
-describe('Test case 3: Ability to change user data', () => {
+describe('Test case 5: Ability to change user data', () => {
   beforeEach('authorization', () => {
     cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       StartPage.open()

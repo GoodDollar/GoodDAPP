@@ -5,7 +5,7 @@ import HomePage from '../PageObjects/HomePage'
 import ProfilePage from '../PageObjects/ProfilePage'
 import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 
-describe('Test case 5: Ability to change profile privacy level', () => {
+describe('Test case 3: Ability to change profile privacy level', () => {
   it('User should be able to change privacy lvl', () => {
    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
     StartPage.open()

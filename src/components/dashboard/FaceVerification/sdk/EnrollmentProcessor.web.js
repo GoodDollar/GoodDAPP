@@ -125,10 +125,11 @@ export class EnrollmentProcessor {
 
       if (response) {
         // if error response was sent
-        const { isEnrolled, isLive, code, message: zoomMessage } = response.enrollmentResult || {}
+        const { enrollmentResult, error } = response
+        const { isEnrolled, isLive, code, message: zoomMessage } = enrollmentResult || {}
 
         // setting lastMessage from server's response
-        this.lastMessage = zoomMessage
+        this.lastMessage = error
 
         // if code is 200 then we have some client-side issues
         // (e.g. low images quality, glasses weared, too dark etc)

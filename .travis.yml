@@ -30,7 +30,7 @@ matrix:
     - if: branch =~ /^(master|(autotests.*))$/ AND env(DEPLOY_VERSION) IS NOT present
       script:
         - npm run build
-        - npx netlify deploy --prod --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
+        - npx netlify deploy --prod --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN -d build > test.json
         - URL=`grep -i 'deploy_url' test.json | cut -c18-70`
         - echo "$(cat test.json)"
         - echo "Cypress test site deployed $URL. W3 $W3_LINK"

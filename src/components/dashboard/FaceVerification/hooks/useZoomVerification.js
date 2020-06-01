@@ -53,16 +53,22 @@ export default ({ enrollmentIdentifier, onUIReady = noop, onComplete = noop, onE
       await unloadZoomSDK(log)
       onComplete(verificationStatus)
     } catch (exception) {
-      // the following code is needed to categorize exceptions
-      // then we could display specific error messages
-      // corresponding to the kind of issue (camera, orientation, duplicate etc)
-      const kindOfTheIssue = kindOfSessionIssue(exception)
       const { message } = exception
 
-      if (kindOfTheIssue) {
-        exception.name = kindOfTheIssue
-      } else if (exception.message.startsWith('Duplicate')) {
+      // checking for duplicate case firstly because on any server error
+      // we're calling zoomResultCallback.cancel() which returns us
+      // an 'ProgrammaticallyCancelled' status which fills kindOfTheIssue
+      // so check for duplicates case never performs
+      if (message.startsWith('Duplicate')) {
         exception.name = 'DuplicateFoundError'
+      } else {
+        // the following code is needed to categorize exceptions
+        // then we could display specific error messages
+        // corresponding to the kind of issue (camera, orientation, duplicate etc)
+        const kindOfTheIssue = kindOfSessionIssue(exception)
+        if (kindOfTheIssue) {
+          exception.name = kindOfTheIssue
+        }
       }
 
       log.error('Zoom verification failed', message, exception)

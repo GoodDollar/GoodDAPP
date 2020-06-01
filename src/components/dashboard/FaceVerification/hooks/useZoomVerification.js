@@ -66,6 +66,7 @@ export default ({ enrollmentIdentifier, onUIReady = noop, onComplete = noop, onE
         // then we could display specific error messages
         // corresponding to the kind of issue (camera, orientation, duplicate etc)
         const kindOfTheIssue = kindOfSessionIssue(exception)
+        
         if (kindOfTheIssue) {
           exception.name = kindOfTheIssue
         }

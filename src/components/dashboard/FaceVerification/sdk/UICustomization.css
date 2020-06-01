@@ -21,5 +21,6 @@
 }
 
 #get-ready-for-video-screen > div > div {
+  /* Move the header text a bit higher to make space between oval and header text */
   margin-top: 10px !important;
 }

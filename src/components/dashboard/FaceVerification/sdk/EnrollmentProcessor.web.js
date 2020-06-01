@@ -126,7 +126,7 @@ export class EnrollmentProcessor {
       if (response) {
         // if error response was sent
         const { enrollmentResult, error } = response
-        const { isEnrolled, isLive, code, message: zoomMessage } = enrollmentResult || {}
+        const { isEnrolled, isLive, code } = enrollmentResult || {}
 
         // setting lastMessage from server's response
         this.lastMessage = error
@@ -135,7 +135,7 @@ export class EnrollmentProcessor {
         // (e.g. low images quality, glasses weared, too dark etc)
         if (200 === code && (!isLive || !isEnrolled)) {
           // showing reason and asking to retry capturing
-          ZoomCustomization.setOverrideResultScreenSuccessMessage(zoomMessage)
+          ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
 
           resultCallback.retry()
           return

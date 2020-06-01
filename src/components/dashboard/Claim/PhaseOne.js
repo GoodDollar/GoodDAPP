@@ -20,13 +20,14 @@ const regularFontSize = isSmallDevice ? 14 : 16
 
 const ClaimPhaseOne = ({
   handleClaim,
-  faceRecognition,
+  handleNonCitizen,
   styles,
   isCitizen,
   entitlement,
   nextClaim,
   theme,
   claimedToday: { amount, people },
+  queueStatus,
 }) => (
   <Section.Stack style={styles.mainContainer}>
     <View style={styles.headerContentContainer}>
@@ -82,8 +83,9 @@ const ClaimPhaseOne = ({
       entitlement={entitlement}
       isCitizen={isCitizen}
       nextClaim={nextClaim}
+      isInQueue={queueStatus === 'pending'}
       handleClaim={handleClaim}
-      faceRecognition={faceRecognition}
+      handleNonCitizen={handleNonCitizen}
       showLabelOnly
     />
     <Section.Row style={styles.extraInfoContainer}>

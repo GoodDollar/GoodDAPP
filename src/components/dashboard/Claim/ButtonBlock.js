@@ -4,26 +4,39 @@ import Section from '../../common/layout/Section'
 
 import ClaimButton from '../ClaimButton'
 
-const ButtonBlock = ({ styles, entitlement, isCitizen, nextClaim, handleClaim, faceRecognition, ...props }) => {
-  const onPress = useCallback(
-    e => {
-      e.preventDefault()
+const ButtonBlock = ({
+  styles,
+  entitlement,
+  isCitizen,
+  nextClaim,
+  handleClaim,
+  handleNonCitizen,
+  isInQueue,
+  ...props
+}) => {
+  const onPress = useCallback(e => {
+    e.preventDefault()
 
-      if (!isCitizen) {
-        faceRecognition()
-        return
-      }
+    if (!isCitizen) {
+      handleNonCitizen()
+      return
+    }
 
-      if (entitlement) {
-        handleClaim()
-      }
-    },
-    [entitlement, isCitizen, faceRecognition, handleClaim]
-  )
+    if (entitlement) {
+      handleClaim()
+    }
+  }, [entitlement, isCitizen, handleNonCitizen, handleClaim])
 
   return (
     <Section.Stack style={styles.claimButtonContainer}>
-      <ClaimButton isCitizen={isCitizen} entitlement={entitlement} nextClaim={nextClaim} onPress={onPress} {...props} />
+      <ClaimButton
+        isInQueue={isInQueue}
+        isCitizen={isCitizen}
+        entitlement={entitlement}
+        nextClaim={nextClaim}
+        onPress={onPress}
+        {...props}
+      />
     </Section.Stack>
   )
 }

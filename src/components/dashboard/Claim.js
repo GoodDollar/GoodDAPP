@@ -1,6 +1,6 @@
 // @flow
-import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { AsyncStorage } from 'react-native'
 import moment from 'moment'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -12,10 +12,10 @@ import wrapper from '../../lib/undux/utils/wrapper'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { WrapperClaim } from '../common'
-import arrowsDown from '../../assets/arrowsDown.svg'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
+import { CLAIM_FAILED, CLAIM_QUEUE, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
+import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
@@ -32,8 +32,6 @@ type ClaimState = {
     amount: string,
   },
 }
-
-Image.prefetch(arrowsDown)
 
 const log = logger.child({ from: 'Claim' })
 
@@ -56,6 +54,8 @@ const Claim = props => {
       amount: '--',
     },
   })
+  const [queueStatus, setQueueStatus] = useState(undefined)
+  const [showLoading, hideLoading] = useLoadingIndicator()
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
@@ -86,25 +86,59 @@ const Claim = props => {
     }
   }
 
+  const checkQueueStatus = useCallback(
+    async (addToQueue = false) => {
+      //user already whitelisted
+      if (isCitizen) {
+        return
+      }
+      const inQueue = await userStorage.userProperties.get('claimQueueAdded')
+      if (inQueue) {
+        setQueueStatus(inQueue)
+      }
+
+      log.debug('CLAIM', { inQueue })
+      if (inQueue || addToQueue) {
+        const {
+          data: { ok, queue },
+        } = await API.checkQueueStatus()
+
+        //send event in case user was added to queue or his queue status has changed
+        if (ok === 1 || queue.status !== inQueue.status) {
+          fireEvent(CLAIM_QUEUE, { status: queue.status })
+        }
+
+        log.debug('CLAIM', { queue })
+        if (inQueue == null) {
+          userStorage.userProperties.set('claimQueueAdded', queue)
+        }
+        setQueueStatus(queue)
+        return queue
+      }
+    },
+    [setQueueStatus]
+  )
+
   const init = async () => {
     //hack to make unit test pass, activityindicator in claim button cuasing
     if (process.env.NODE_ENV !== 'test') {
       setLoading(true)
     }
-    await goodWallet
-      .checkEntitlement()
-      .then(entitlement => setState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
-      .catch(e => {
-        log.error('gatherStats failed', e.message, e)
-        showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
-          onDismiss: () => {
-            screenProps.goToRoot()
-          },
-        })
-      })
-
-    // FR Evaluation
-    await evaluateFRValidity()
+    await Promise.all([
+      checkQueueStatus(),
+      goodWallet
+        .checkEntitlement()
+        .then(entitlement => setState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
+        .catch(e => {
+          log.error('gatherStats failed', e.message, e)
+          showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
+            onDismiss: () => {
+              screenProps.goToRoot()
+            },
+          })
+        }),
+      evaluateFRValidity(),
+    ])
     setLoading(false)
   }
 
@@ -242,18 +276,55 @@ const Claim = props => {
     }
   }
 
-  const faceRecognition = () => {
+  const handleClaimQueue = async () => {
+    try {
+      showLoading(true)
+
+      //if user has no queue status, we try to add him to queue
+      let { status } = queueStatus || (await checkQueueStatus(true)) || {}
+
+      if (status === 'pending') {
+        return showDialog({
+          title: 'Almost There...',
+          message: 'You are now in the queue, once you have been approved we will notify you by email.',
+        })
+      }
+      if (status === 'approved') {
+        return showDialog({
+          title: 'SUCCESS!',
+          message: 'Congratulations you have been approved to Claim',
+          onDismiss: handleFaceVerification,
+        })
+      }
+      hideLoading()
+
+      //in case he already did whitelisting once or something unexpected, we continue as usuall,
+      //maybe he is doing re-authentication
+      handleFaceVerification()
+    } catch (e) {
+      log.error('handleClaimQueue failed', e.message, e)
+      showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status')
+    } finally {
+      hideLoading()
+      setLoading(false)
+    }
+  }
+
+  const handleFaceVerification = () => {
     //if user is not in whitelist and we do not do faceverification then this is an error
     if (Config.zoomLicenseKey == null) {
-      showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
-      log.error(
-        'User isnt whitelisted by faceverification disabled',
-        'User isnt whitelisted by faceverification disabled',
-        new Error('User isnt whitelisted by faceverification disabled')
-      )
+      showSupportDialog(showErrorDialog, hideDialog, screenProps.push, 'Faceverification disabled')
+      log.error('handleFaceVerification failed', '', new Error('Zoom licensekey missing'))
     } else {
       screenProps.push('FaceVerificationIntro', { from: 'Claim' })
     }
+  }
+  const handleNonCitizen = () => {
+    if (Config.claimQueue) {
+      handleClaimQueue()
+      return
+    }
+    handleFaceVerification()
   }
 
   const propsForContent = {
@@ -264,7 +335,8 @@ const Claim = props => {
     entitlement: state.entitlement,
     nextClaim: state.nextClaim,
     handleClaim: handleClaim,
-    faceRecognition: faceRecognition,
+    handleNonCitizen: handleNonCitizen,
+    queueStatus: queueStatus && queueStatus.status,
   }
 
   return (

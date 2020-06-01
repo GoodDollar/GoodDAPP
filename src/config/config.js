@@ -60,6 +60,7 @@ const Config = {
   showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: process.env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
+  claimQueue: process.env.REACT_APP_CLAIM_QUEUE_ENABLED || false,
   ethereum: {
     '42': {
       network_id: 42,
@@ -91,7 +92,7 @@ const Config = {
 
 // TODO: wrap all stubs / "backdoors" made for automated testing
 // if (isE2ERunning) {
-  global.config = Config
+global.config = Config
 
 //}
 

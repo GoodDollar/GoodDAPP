@@ -1,18 +1,18 @@
 /* eslint-disable */
 function getScope() {
-  return self.registration.scope;
+  return self.registration.scope
 }
 
-self.addEventListener("message", function (event) {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
+self.addEventListener('message', function(event) {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting()
   }
-});
+})
 
-self.addEventListener("fetch", function (event) {
+self.addEventListener('fetch', function(event) {
   try {
-    const url = new URL(event.request.url);
-    if (url.pathname.includes("redirect") && url.href.includes(getScope())) {
+    const url = new URL(event.request.url)
+    if (url.pathname.includes('redirect') && url.href.includes(getScope())) {
       event.respondWith(
         new Response(
           new Blob(
@@ -24,6 +24,7 @@ self.addEventListener("fetch", function (event) {
       * {
         box-sizing: border-box;
       }
+
       html,
       body {
         background: #fcfcfc;
@@ -31,14 +32,17 @@ self.addEventListener("fetch", function (event) {
         padding: 0;
         margin: 0;
       }
+
       .container {
         width: 100%;
         height: 100%;
+
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
       }
+
       h1.title {
         font-size: 14px;
         color: #0f1222;
@@ -92,6 +96,7 @@ self.addEventListener("fetch", function (event) {
           opacity: 1;
         }
       }
+
       @media (min-width: 768px) {
         h1.title {
           font-size: 14px;
@@ -99,6 +104,7 @@ self.addEventListener("fetch", function (event) {
         p.info {
           font-size: 28px;
         }
+
         .spinner .beat {
           height: 12px;
           width: 12px;
@@ -150,6 +156,7 @@ self.addEventListener("fetch", function (event) {
           theme = torusTheme.split('-')[0]
         }
       }
+
       if (theme === 'dark') {
         document.querySelector('h1.title').style.color = '#d3d3d4'
         document.querySelector('body').style.backgroundColor = '#24252A'
@@ -196,12 +203,15 @@ self.addEventListener("fetch", function (event) {
             function(require, module, exports) {
               // shim for using process in browser
               var process = (module.exports = {})
+
               // cached from whatever global is present so that test runners that stub it
               // don't break things.  But we need to wrap it in a try catch in case it is
               // wrapped in strict mode code which doesn't define any globals.  It's inside a
               // function because try/catches deoptimize in certain engines.
+
               var cachedSetTimeout
               var cachedClearTimeout
+
               function defaultSetTimout() {
                 throw new Error('setTimeout has not been defined')
               }
@@ -279,6 +289,7 @@ self.addEventListener("fetch", function (event) {
               var draining = false
               var currentQueue
               var queueIndex = -1
+
               function cleanUpNextTick() {
                 if (!draining || !currentQueue) {
                   return
@@ -293,12 +304,14 @@ self.addEventListener("fetch", function (event) {
                   drainQueue()
                 }
               }
+
               function drainQueue() {
                 if (draining) {
                   return
                 }
                 var timeout = runTimeout(cleanUpNextTick)
                 draining = true
+
                 var len = queue.length
                 while (len) {
                   currentQueue = queue
@@ -315,6 +328,7 @@ self.addEventListener("fetch", function (event) {
                 draining = false
                 runClearTimeout(timeout)
               }
+
               process.nextTick = function(fun) {
                 var args = new Array(arguments.length - 1)
                 if (arguments.length > 1) {
@@ -327,6 +341,7 @@ self.addEventListener("fetch", function (event) {
                   runTimeout(drainQueue)
                 }
               }
+
               // v8 likes predictible objects
               function Item(fun, array) {
                 this.fun = fun
@@ -341,7 +356,9 @@ self.addEventListener("fetch", function (event) {
               process.argv = []
               process.version = '' // empty string to avoid regexp issues
               process.versions = {}
+
               function noop() {}
+
               process.on = noop
               process.addListener = noop
               process.once = noop
@@ -351,12 +368,15 @@ self.addEventListener("fetch", function (event) {
               process.emit = noop
               process.prependListener = noop
               process.prependOnceListener = noop
+
               process.listeners = function(name) {
                 return []
               }
+
               process.binding = function(name) {
                 throw new Error('process.binding is not supported')
               }
+
               process.cwd = function() {
                 return '/'
               }
@@ -378,6 +398,7 @@ self.addEventListener("fetch", function (event) {
                       default: obj
                     }
               }
+
               module.exports = _interopRequireDefault
             },
             {}
@@ -385,32 +406,42 @@ self.addEventListener("fetch", function (event) {
           4: [
             function(require, module, exports) {
               'use strict'
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
               exports.clearNodeFolder = clearNodeFolder
               exports.enforceOptions = enforceOptions
               exports.BroadcastChannel = void 0
+
               var _util = require('./util.js')
+
               var _methodChooser = require('./method-chooser.js')
+
               var _options = require('./options.js')
+
               var BroadcastChannel = function BroadcastChannel(name, options) {
                 this.name = name
+
                 if (ENFORCED_OPTIONS) {
                   options = ENFORCED_OPTIONS
                 }
+
                 this.options = (0, _options.fillOptionsWithDefaults)(options)
                 this.method = (0, _methodChooser.chooseMethod)(this.options) // isListening
+
                 this._iL = false
                 /**
                  * _onMessageListener
                  * setting onmessage twice,
                  * will overwrite the first listener
                  */
+
                 this._onML = null
                 /**
                  * _addEventListeners
                  */
+
                 this._addEL = {
                   message: [],
                   internal: []
@@ -420,27 +451,34 @@ self.addEventListener("fetch", function (event) {
                  * array of promises that will be awaited
                  * before the channel is closed
                  */
+
                 this._befC = []
                 /**
                  * _preparePromise
                  */
+
                 this._prepP = null
+
                 _prepareChannel(this)
               } // STATICS
+
               /**
                * used to identify if someone overwrites
                * window.BroadcastChannel with this
                * See methods/native.js
                */
+
               exports.BroadcastChannel = BroadcastChannel
               BroadcastChannel._pubkey = true
               /**
                * clears the tmp-folder if is node
                * @return {Promise<boolean>} true if has run, false if not node
                */
+
               function clearNodeFolder(options) {
                 options = (0, _options.fillOptionsWithDefaults)(options)
                 var method = (0, _methodChooser.chooseMethod)(options)
+
                 if (method.type === 'node') {
                   return method.clearNodeFolder().then(function() {
                     return true
@@ -453,50 +491,62 @@ self.addEventListener("fetch", function (event) {
                * if set, this method is enforced,
                * no mather what the options are
                */
+
               var ENFORCED_OPTIONS
+
               function enforceOptions(options) {
                 ENFORCED_OPTIONS = options
               } // PROTOTYPE
+
               BroadcastChannel.prototype = {
                 postMessage: function postMessage(msg) {
                   if (this.closed) {
                     throw new Error('BroadcastChannel.postMessage(): ' + 'Cannot post message after channel has closed')
                   }
+
                   return _post(this, 'message', msg)
                 },
                 postInternal: function postInternal(msg) {
                   return _post(this, 'internal', msg)
                 },
+
                 set onmessage(fn) {
                   var time = this.method.microSeconds()
                   var listenObj = {
                     time: time,
                     fn: fn
                   }
+
                   _removeListenerObject(this, 'message', this._onML)
+
                   if (fn && typeof fn === 'function') {
                     this._onML = listenObj
+
                     _addListenerObject(this, 'message', listenObj)
                   } else {
                     this._onML = null
                   }
                 },
+
                 addEventListener: function addEventListener(type, fn) {
                   var time = this.method.microSeconds()
                   var listenObj = {
                     time: time,
                     fn: fn
                   }
+
                   _addListenerObject(this, type, listenObj)
                 },
                 removeEventListener: function removeEventListener(type, fn) {
                   var obj = this._addEL[type].find(function(obj) {
                     return obj.fn === fn
                   })
+
                   _removeListenerObject(this, type, obj)
                 },
                 close: function close() {
                   var _this = this
+
                   if (this.closed) return
                   this.closed = true
                   var awaitPrepare = this._prepP ? this._prepP : Promise.resolve()
@@ -514,10 +564,12 @@ self.addEventListener("fetch", function (event) {
                       return _this.method.close(_this._state)
                     })
                 },
+
                 get type() {
                   return this.method.type
                 }
               }
+
               function _post(broadcastChannel, type, msg) {
                 var time = broadcastChannel.method.microSeconds()
                 var msgObj = {
@@ -530,12 +582,15 @@ self.addEventListener("fetch", function (event) {
                   return broadcastChannel.method.postMessage(broadcastChannel._state, msgObj)
                 })
               }
+
               function _prepareChannel(channel) {
                 var maybePromise = channel.method.create(channel.name, channel.options)
+
                 if ((0, _util.isPromise)(maybePromise)) {
                   channel._prepP = maybePromise
                   maybePromise.then(function(s) {
                     // used in tests to simulate slow runtime
+
                     /*if (channel.options.prepareDelay) {
            await new Promise(res => setTimeout(res, this.options.prepareDelay));
       }*/
@@ -545,21 +600,27 @@ self.addEventListener("fetch", function (event) {
                   channel._state = maybePromise
                 }
               }
+
               function _hasMessageListeners(channel) {
                 if (channel._addEL.message.length > 0) return true
                 if (channel._addEL.internal.length > 0) return true
                 return false
               }
+
               function _addListenerObject(channel, type, obj) {
                 channel._addEL[type].push(obj)
+
                 _startListening(channel)
               }
+
               function _removeListenerObject(channel, type, obj) {
                 channel._addEL[type] = channel._addEL[type].filter(function(o) {
                   return o !== obj
                 })
+
                 _stopListening(channel)
               }
+
               function _startListening(channel) {
                 if (!channel._iL && _hasMessageListeners(channel)) {
                   // someone is listening, start subscribing
@@ -570,7 +631,9 @@ self.addEventListener("fetch", function (event) {
                       }
                     })
                   }
+
                   var time = channel.method.microSeconds()
+
                   if (channel._prepP) {
                     channel._prepP.then(function() {
                       channel._iL = true
@@ -582,6 +645,7 @@ self.addEventListener("fetch", function (event) {
                   }
                 }
               }
+
               function _stopListening(channel) {
                 if (channel._iL && !_hasMessageListeners(channel)) {
                   // noone is listening, stop subscribing
@@ -596,7 +660,9 @@ self.addEventListener("fetch", function (event) {
           5: [
             function(require, module, exports) {
               'use strict'
+
               var _index = require('./index.js')
+
               /**
                * because babel can only export on default-attribute,
                * we use this for the non-module-build
@@ -617,6 +683,7 @@ self.addEventListener("fetch", function (event) {
           6: [
             function(require, module, exports) {
               'use strict'
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
@@ -644,7 +711,9 @@ self.addEventListener("fetch", function (event) {
                   return _leaderElection.createLeaderElection
                 }
               })
+
               var _broadcastChannel = require('./broadcast-channel')
+
               var _leaderElection = require('./leader-election')
             },
             { './broadcast-channel': 4, './leader-election': 7 }
@@ -652,13 +721,18 @@ self.addEventListener("fetch", function (event) {
           7: [
             function(require, module, exports) {
               'use strict'
+
               var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault')
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
               exports.createLeaderElection = createLeaderElection
+
               var _util = require('./util.js')
+
               var _unload = _interopRequireDefault(require('unload'))
+
               var LeaderElection = function LeaderElection(channel, options) {
                 this._channel = channel
                 this._options = options
@@ -666,26 +740,36 @@ self.addEventListener("fetch", function (event) {
                 this.isDead = false
                 this.token = (0, _util.randomToken)()
                 this._isApl = false // _isApplying
+
                 this._reApply = false // things to clean up
+
                 this._unl = [] // _unloads
+
                 this._lstns = [] // _listeners
+
                 this._invs = [] // _intervals
               }
+
               LeaderElection.prototype = {
                 applyOnce: function applyOnce() {
                   var _this = this
+
                   if (this.isLeader) return Promise.resolve(false)
                   if (this.isDead) return Promise.resolve(false) // do nothing if already running
+
                   if (this._isApl) {
                     this._reApply = true
                     return Promise.resolve(false)
                   }
+
                   this._isApl = true
                   var stopCriteria = false
                   var recieved = []
+
                   var handleMessage = function handleMessage(msg) {
                     if (msg.context === 'leader' && msg.token != _this.token) {
                       recieved.push(msg)
+
                       if (msg.action === 'apply') {
                         // other is applying
                         if (msg.token > _this.token) {
@@ -693,13 +777,16 @@ self.addEventListener("fetch", function (event) {
                           stopCriteria = true
                         }
                       }
+
                       if (msg.action === 'tell') {
                         // other is already leader
                         stopCriteria = true
                       }
                     }
                   }
+
                   this._channel.addEventListener('internal', handleMessage)
+
                   var ret = _sendMessage(this, 'apply') // send out that this one is applying
                     .then(function() {
                       return (0, _util.sleep)(_this._options.responseTime)
@@ -726,12 +813,15 @@ self.addEventListener("fetch", function (event) {
                     }) // apply not successfull
                     .then(function(success) {
                       _this._channel.removeEventListener('internal', handleMessage)
+
                       _this._isApl = false
+
                       if (!success && _this._reApply) {
                         _this._reApply = false
                         return _this.applyOnce()
                       } else return success
                     })
+
                   return ret
                 },
                 awaitLeadership: function awaitLeadership() {
@@ -741,44 +831,58 @@ self.addEventListener("fetch", function (event) {
                   ) {
                     this._aLP = _awaitLeadershipOnce(this)
                   }
+
                   return this._aLP
                 },
                 die: function die() {
                   var _this2 = this
+
                   if (this.isDead) return
                   this.isDead = true
+
                   this._lstns.forEach(function(listener) {
                     return _this2._channel.removeEventListener('internal', listener)
                   })
+
                   this._invs.forEach(function(interval) {
                     return clearInterval(interval)
                   })
+
                   this._unl.forEach(function(uFn) {
                     uFn.remove()
                   })
+
                   return _sendMessage(this, 'death')
                 }
               }
+
               function _awaitLeadershipOnce(leaderElector) {
                 if (leaderElector.isLeader) return Promise.resolve()
                 return new Promise(function(res) {
                   var resolved = false
+
                   var finish = function finish() {
                     if (resolved) return
                     resolved = true
                     clearInterval(interval)
+
                     leaderElector._channel.removeEventListener('internal', whenDeathListener)
+
                     res(true)
                   } // try once now
+
                   leaderElector.applyOnce().then(function() {
                     if (leaderElector.isLeader) finish()
                   }) // try on fallbackInterval
+
                   var interval = setInterval(function() {
                     leaderElector.applyOnce().then(function() {
                       if (leaderElector.isLeader) finish()
                     })
                   }, leaderElector._options.fallbackInterval)
+
                   leaderElector._invs.push(interval) // try when other leader dies
+
                   var whenDeathListener = function whenDeathListener(msg) {
                     if (msg.context === 'leader' && msg.action === 'death') {
                       leaderElector.applyOnce().then(function() {
@@ -786,13 +890,16 @@ self.addEventListener("fetch", function (event) {
                       })
                     }
                   }
+
                   leaderElector._channel.addEventListener('internal', whenDeathListener)
+
                   leaderElector._lstns.push(whenDeathListener)
                 })
               }
               /**
                * sends and internal message over the broadcast-channel
                */
+
               function _sendMessage(leaderElector, action) {
                 var msgJson = {
                   context: 'leader',
@@ -801,41 +908,56 @@ self.addEventListener("fetch", function (event) {
                 }
                 return leaderElector._channel.postInternal(msgJson)
               }
+
               function _beLeader(leaderElector) {
                 leaderElector.isLeader = true
+
                 var unloadFn = _unload['default'].add(function() {
                   return leaderElector.die()
                 })
+
                 leaderElector._unl.push(unloadFn)
+
                 var isLeaderListener = function isLeaderListener(msg) {
                   if (msg.context === 'leader' && msg.action === 'apply') {
                     _sendMessage(leaderElector, 'tell')
                   }
                 }
+
                 leaderElector._channel.addEventListener('internal', isLeaderListener)
+
                 leaderElector._lstns.push(isLeaderListener)
+
                 return _sendMessage(leaderElector, 'tell')
               }
+
               function fillOptionsWithDefaults(options, channel) {
                 if (!options) options = {}
                 options = JSON.parse(JSON.stringify(options))
+
                 if (!options.fallbackInterval) {
                   options.fallbackInterval = 3000
                 }
+
                 if (!options.responseTime) {
                   options.responseTime = channel.method.averageResponseTime(channel.options)
                 }
+
                 return options
               }
+
               function createLeaderElection(channel, options) {
                 if (channel._leaderElector) {
                   throw new Error('BroadcastChannel already has a leader-elector')
                 }
+
                 options = fillOptionsWithDefaults(options, channel)
                 var elector = new LeaderElection(channel, options)
+
                 channel._befC.push(function() {
                   return elector.die()
                 })
+
                 channel._leaderElector = elector
                 return elector
               }
@@ -845,16 +967,24 @@ self.addEventListener("fetch", function (event) {
           8: [
             function(require, module, exports) {
               'use strict'
+
               var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault')
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
               exports.chooseMethod = chooseMethod
+
               var _native = _interopRequireDefault(require('./methods/native.js'))
+
               var _indexedDb = _interopRequireDefault(require('./methods/indexed-db.js'))
+
               var _localstorage = _interopRequireDefault(require('./methods/localstorage.js'))
+
               var _simulate = _interopRequireDefault(require('./methods/simulate.js'))
+
               var _util = require('./util')
+
               // order is important
               var METHODS = [
                 _native['default'], // fastest
@@ -865,6 +995,7 @@ self.addEventListener("fetch", function (event) {
                * The NodeMethod is loaded lazy
                * so it will not get bundled in browser-builds
                */
+
               if (_util.isNode) {
                 /**
                  * we use the non-transpiled code for nodejs
@@ -878,17 +1009,21 @@ self.addEventListener("fetch", function (event) {
                  * this will be false for webpackbuilds
                  * which will shim the node-method with an empty object {}
                  */
+
                 if (typeof NodeMethod.canBeUsed === 'function') {
                   METHODS.push(NodeMethod)
                 }
               }
+
               function chooseMethod(options) {
                 var chooseMethods = [].concat(options.methods, METHODS).filter(Boolean) // directly chosen
+
                 if (options.type) {
                   if (options.type === 'simulate') {
                     // only use simulate-method if directly chosen
                     return _simulate['default']
                   }
+
                   var ret = chooseMethods.find(function(m) {
                     return m.type === options.type
                   })
@@ -899,11 +1034,13 @@ self.addEventListener("fetch", function (event) {
                  * if no webworker support is needed,
                  * remove idb from the list so that localstorage is been chosen
                  */
+
                 if (!options.webWorkerSupport && !_util.isNode) {
                   chooseMethods = chooseMethods.filter(function(m) {
                     return m.type !== 'idb'
                   })
                 }
+
                 var useMethod = chooseMethods.find(function(method) {
                   return method.canBeUsed()
                 })
@@ -931,7 +1068,9 @@ self.addEventListener("fetch", function (event) {
           9: [
             function(require, module, exports) {
               'use strict'
+
               var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault')
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
@@ -950,9 +1089,13 @@ self.addEventListener("fetch", function (event) {
               exports.canBeUsed = canBeUsed
               exports.averageResponseTime = averageResponseTime
               exports['default'] = exports.type = exports.microSeconds = void 0
+
               var _util = require('../util.js')
+
               var _obliviousSet = _interopRequireDefault(require('../oblivious-set'))
+
               var _options = require('../options')
+
               /**
                * this method uses indexeddb to store the messages
                * There is currently no observerAPI for idb
@@ -964,6 +1107,7 @@ self.addEventListener("fetch", function (event) {
               var OBJECT_STORE_ID = 'messages'
               var type = 'idb'
               exports.type = type
+
               function getIdb() {
                 if (typeof indexedDB !== 'undefined') return indexedDB
                 if (typeof window.mozIndexedDB !== 'undefined') return window.mozIndexedDB
@@ -971,10 +1115,13 @@ self.addEventListener("fetch", function (event) {
                 if (typeof window.msIndexedDB !== 'undefined') return window.msIndexedDB
                 return false
               }
+
               function createDatabase(channelName) {
                 var IndexedDB = getIdb() // create table
+
                 var dbName = DB_PREFIX + channelName
                 var openRequest = IndexedDB.open(dbName, 1)
+
                 openRequest.onupgradeneeded = function(ev) {
                   var db = ev.target.result
                   db.createObjectStore(OBJECT_STORE_ID, {
@@ -982,10 +1129,12 @@ self.addEventListener("fetch", function (event) {
                     autoIncrement: true
                   })
                 }
+
                 var dbPromise = new Promise(function(res, rej) {
                   openRequest.onerror = function(ev) {
                     return rej(ev)
                   }
+
                   openRequest.onsuccess = function() {
                     res(openRequest.result)
                   }
@@ -996,6 +1145,7 @@ self.addEventListener("fetch", function (event) {
                * writes the new message to the database
                * so other readers can find it
                */
+
               function writeMessage(db, readerUuid, messageJson) {
                 var time = new Date().getTime()
                 var writeObject = {
@@ -1008,21 +1158,26 @@ self.addEventListener("fetch", function (event) {
                   transaction.oncomplete = function() {
                     return res()
                   }
+
                   transaction.onerror = function(ev) {
                     return rej(ev)
                   }
+
                   var objectStore = transaction.objectStore(OBJECT_STORE_ID)
                   objectStore.add(writeObject)
                 })
               }
+
               function getAllMessages(db) {
                 var objectStore = db.transaction(OBJECT_STORE_ID).objectStore(OBJECT_STORE_ID)
                 var ret = []
                 return new Promise(function(res) {
                   objectStore.openCursor().onsuccess = function(ev) {
                     var cursor = ev.target.result
+
                     if (cursor) {
                       ret.push(cursor.value) //alert("Name for SSN " + cursor.key + " is " + cursor.value.name);
+
                       cursor['continue']()
                     } else {
                       res(ret)
@@ -1030,6 +1185,7 @@ self.addEventListener("fetch", function (event) {
                   }
                 })
               }
+
               function getMessagesHigherThen(db, lastCursorId) {
                 var objectStore = db.transaction(OBJECT_STORE_ID).objectStore(OBJECT_STORE_ID)
                 var ret = []
@@ -1037,6 +1193,7 @@ self.addEventListener("fetch", function (event) {
                 return new Promise(function(res) {
                   objectStore.openCursor(keyRangeValue).onsuccess = function(ev) {
                     var cursor = ev.target.result
+
                     if (cursor) {
                       ret.push(cursor.value)
                       cursor['continue']()
@@ -1046,6 +1203,7 @@ self.addEventListener("fetch", function (event) {
                   }
                 })
               }
+
               function removeMessageById(db, id) {
                 var request = db
                   .transaction([OBJECT_STORE_ID], 'readwrite')
@@ -1057,6 +1215,7 @@ self.addEventListener("fetch", function (event) {
                   }
                 })
               }
+
               function getOldMessages(db, ttl) {
                 var olderThen = new Date().getTime() - ttl
                 var objectStore = db.transaction(OBJECT_STORE_ID).objectStore(OBJECT_STORE_ID)
@@ -1064,10 +1223,13 @@ self.addEventListener("fetch", function (event) {
                 return new Promise(function(res) {
                   objectStore.openCursor().onsuccess = function(ev) {
                     var cursor = ev.target.result
+
                     if (cursor) {
                       var msgObk = cursor.value
+
                       if (msgObk.time < olderThen) {
                         ret.push(msgObk) //alert("Name for SSN " + cursor.key + " is " + cursor.value.name);
+
                         cursor['continue']()
                       } else {
                         // no more old messages,
@@ -1080,6 +1242,7 @@ self.addEventListener("fetch", function (event) {
                   }
                 })
               }
+
               function cleanOldMessages(db, ttl) {
                 return getOldMessages(db, ttl).then(function(tooOld) {
                   return Promise.all(
@@ -1089,6 +1252,7 @@ self.addEventListener("fetch", function (event) {
                   )
                 })
               }
+
               function create(channelName, options) {
                 options = (0, _options.fillOptionsWithDefaults)(options)
                 return createDatabase(channelName).then(function(db) {
@@ -1098,6 +1262,7 @@ self.addEventListener("fetch", function (event) {
                     channelName: channelName,
                     options: options,
                     uuid: (0, _util.randomToken)(),
+
                     /**
                      * emittedMessagesIds
                      * contains all messages that have been emitted before
@@ -1115,10 +1280,13 @@ self.addEventListener("fetch", function (event) {
                    * we have no 'storage'-event if they post a message,
                    * therefore we also have to set an interval
                    */
+
                   _readLoop(state)
+
                   return state
                 })
               }
+
               function _readLoop(state) {
                 if (state.closed) return
                 return readNewMessages(state)
@@ -1129,18 +1297,24 @@ self.addEventListener("fetch", function (event) {
                     return _readLoop(state)
                   })
               }
+
               function _filterMessage(msgObj, state) {
                 if (msgObj.uuid === state.uuid) return false // send by own
+
                 if (state.eMIs.has(msgObj.id)) return false // already emitted
+
                 if (msgObj.data.time < state.messagesCallbackTime) return false // older then onMessageCallback
+
                 return true
               }
               /**
                * reads all new messages from the database and emits them
                */
+
               function readNewMessages(state) {
                 // channel already closed
                 if (state.closed) return Promise.resolve() // if no one is listening, we do not need to scan for new messages
+
                 if (!state.messagesCallback) return Promise.resolve()
                 return getMessagesHigherThen(state.db, state.lastCursorId).then(function(newerMessages) {
                   var useMessages = newerMessages
@@ -1156,6 +1330,7 @@ self.addEventListener("fetch", function (event) {
                       if (msgObj.id > state.lastCursorId) {
                         state.lastCursorId = msgObj.id
                       }
+
                       return msgObj
                     })
                     .filter(function(msgObj) {
@@ -1164,6 +1339,7 @@ self.addEventListener("fetch", function (event) {
                     .sort(function(msgObjA, msgObjB) {
                       return msgObjA.time - msgObjB.time
                     }) // sort by time
+
                   useMessages.forEach(function(msgObj) {
                     if (state.messagesCallback) {
                       state.eMIs.add(msgObj.id)
@@ -1173,10 +1349,12 @@ self.addEventListener("fetch", function (event) {
                   return Promise.resolve()
                 })
               }
+
               function close(channelState) {
                 channelState.closed = true
                 channelState.db.close()
               }
+
               function postMessage(channelState, messageJson) {
                 channelState.writeBlockPromise = channelState.writeBlockPromise
                   .then(function() {
@@ -1190,20 +1368,24 @@ self.addEventListener("fetch", function (event) {
                   })
                 return channelState.writeBlockPromise
               }
+
               function onMessage(channelState, fn, time) {
                 channelState.messagesCallbackTime = time
                 channelState.messagesCallback = fn
                 readNewMessages(channelState)
               }
+
               function canBeUsed() {
                 if (_util.isNode) return false
                 var idb = getIdb()
                 if (!idb) return false
                 return true
               }
+
               function averageResponseTime(options) {
                 return options.idb.fallbackInterval * 2
               }
+
               var _default = {
                 create: create,
                 close: close,
@@ -1221,7 +1403,9 @@ self.addEventListener("fetch", function (event) {
           10: [
             function(require, module, exports) {
               'use strict'
+
               var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault')
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
@@ -1236,9 +1420,13 @@ self.addEventListener("fetch", function (event) {
               exports.canBeUsed = canBeUsed
               exports.averageResponseTime = averageResponseTime
               exports['default'] = exports.type = exports.microSeconds = void 0
+
               var _obliviousSet = _interopRequireDefault(require('../oblivious-set'))
+
               var _options = require('../options')
+
               var _util = require('../util')
+
               /**
                * A localStorage-only method which uses localstorage and its 'storage'-event
                * This does not work inside of webworkers because they have no access to locastorage
@@ -1254,10 +1442,13 @@ self.addEventListener("fetch", function (event) {
                * copied from crosstab
                * @link https://github.com/tejacques/crosstab/blob/master/src/crosstab.js#L32
                */
+
               exports.type = type
+
               function getLocalStorage() {
                 var localStorage
                 if (typeof window === 'undefined') return null
+
                 try {
                   localStorage = window.localStorage
                   localStorage = window['ie8-eventlistener/storage'] || window.localStorage
@@ -1266,8 +1457,10 @@ self.addEventListener("fetch", function (event) {
                   // if cookies are disabled. See
                   // https://bugzilla.mozilla.org/show_bug.cgi?id=1028153
                 }
+
                 return localStorage
               }
+
               function storageKey(channelName) {
                 return KEY_PREFIX + channelName
               }
@@ -1275,6 +1468,7 @@ self.addEventListener("fetch", function (event) {
                * writes the new message to the storage
                * and fires the storage-event so other readers can find it
                */
+
               function postMessage(channelState, messageJson) {
                 return new Promise(function(res) {
                   ;(0, _util.sleep)().then(function() {
@@ -1292,6 +1486,7 @@ self.addEventListener("fetch", function (event) {
                      * in the window that changes the state of the local storage.
                      * So we fire it manually
                      */
+
                     var ev = document.createEvent('Event')
                     ev.initEvent('storage', true, true)
                     ev.key = key
@@ -1301,30 +1496,38 @@ self.addEventListener("fetch", function (event) {
                   })
                 })
               }
+
               function addStorageEventListener(channelName, fn) {
                 var key = storageKey(channelName)
+
                 var listener = function listener(ev) {
                   if (ev.key === key) {
                     fn(JSON.parse(ev.newValue))
                   }
                 }
+
                 window.addEventListener('storage', listener)
                 return listener
               }
+
               function removeStorageEventListener(listener) {
                 window.removeEventListener('storage', listener)
               }
+
               function create(channelName, options) {
                 options = (0, _options.fillOptionsWithDefaults)(options)
+
                 if (!canBeUsed()) {
                   throw new Error('BroadcastChannel: localstorage cannot be used')
                 }
+
                 var uuid = (0, _util.randomToken)()
                 /**
                  * eMIs
                  * contains all messages that have been emitted before
                  * @type {ObliviousSet}
                  */
+
                 var eMIs = new _obliviousSet['default'](options.localstorage.removeTimeout)
                 var state = {
                   channelName: channelName,
@@ -1333,25 +1536,33 @@ self.addEventListener("fetch", function (event) {
                 }
                 state.listener = addStorageEventListener(channelName, function(msgObj) {
                   if (!state.messagesCallback) return // no listener
+
                   if (msgObj.uuid === uuid) return // own message
+
                   if (!msgObj.token || eMIs.has(msgObj.token)) return // already emitted
+
                   if (msgObj.data.time && msgObj.data.time < state.messagesCallbackTime) return // too old
+
                   eMIs.add(msgObj.token)
                   state.messagesCallback(msgObj.data)
                 })
                 return state
               }
+
               function close(channelState) {
                 removeStorageEventListener(channelState.listener)
               }
+
               function onMessage(channelState, fn, time) {
                 channelState.messagesCallbackTime = time
                 channelState.messagesCallback = fn
               }
+
               function canBeUsed() {
                 if (_util.isNode) return false
                 var ls = getLocalStorage()
                 if (!ls) return false
+
                 try {
                   var key = '__broadcastchannel_check'
                   ls.setItem(key, 'works')
@@ -1362,17 +1573,22 @@ self.addEventListener("fetch", function (event) {
                   // https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API#Private_Browsing_Incognito_modes
                   return false
                 }
+
                 return true
               }
+
               function averageResponseTime() {
                 var defaultTime = 120
                 var userAgent = navigator.userAgent.toLowerCase()
+
                 if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
                   // safari is much slower so this time is higher
                   return defaultTime * 2
                 }
+
                 return defaultTime
               }
+
               var _default = {
                 create: create,
                 close: close,
@@ -1390,6 +1606,7 @@ self.addEventListener("fetch", function (event) {
           11: [
             function(require, module, exports) {
               'use strict'
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
@@ -1400,50 +1617,63 @@ self.addEventListener("fetch", function (event) {
               exports.canBeUsed = canBeUsed
               exports.averageResponseTime = averageResponseTime
               exports['default'] = exports.type = exports.microSeconds = void 0
+
               var _util = require('../util')
+
               var microSeconds = _util.microSeconds
               exports.microSeconds = microSeconds
               var type = 'native'
               exports.type = type
+
               function create(channelName) {
                 var state = {
                   messagesCallback: null,
                   bc: new BroadcastChannel(channelName),
                   subFns: [] // subscriberFunctions
                 }
+
                 state.bc.onmessage = function(msg) {
                   if (state.messagesCallback) {
                     state.messagesCallback(msg.data)
                   }
                 }
+
                 return state
               }
+
               function close(channelState) {
                 channelState.bc.close()
                 channelState.subFns = []
               }
+
               function postMessage(channelState, messageJson) {
                 channelState.bc.postMessage(messageJson, false)
               }
+
               function onMessage(channelState, fn) {
                 channelState.messagesCallback = fn
               }
+
               function canBeUsed() {
                 /**
                  * in the electron-renderer, isNode will be true even if we are in browser-context
                  * so we also check if window is undefined
                  */
                 if (_util.isNode && typeof window === 'undefined') return false
+
                 if (typeof BroadcastChannel === 'function') {
                   if (BroadcastChannel._pubkey) {
                     throw new Error('BroadcastChannel: Do not overwrite window.BroadcastChannel with this module, this is not a polyfill')
                   }
+
                   return true
                 } else return false
               }
+
               function averageResponseTime() {
                 return 150
               }
+
               var _default = {
                 create: create,
                 close: close,
@@ -1461,6 +1691,7 @@ self.addEventListener("fetch", function (event) {
           12: [
             function(require, module, exports) {
               'use strict'
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
@@ -1471,12 +1702,15 @@ self.addEventListener("fetch", function (event) {
               exports.canBeUsed = canBeUsed
               exports.averageResponseTime = averageResponseTime
               exports['default'] = exports.type = exports.microSeconds = void 0
+
               var _util = require('../util')
+
               var microSeconds = _util.microSeconds
               exports.microSeconds = microSeconds
               var type = 'simulate'
               exports.type = type
               var SIMULATE_CHANNELS = new Set()
+
               function create(channelName) {
                 var state = {
                   name: channelName,
@@ -1485,9 +1719,11 @@ self.addEventListener("fetch", function (event) {
                 SIMULATE_CHANNELS.add(state)
                 return state
               }
+
               function close(channelState) {
                 SIMULATE_CHANNELS['delete'](channelState)
               }
+
               function postMessage(channelState, messageJson) {
                 return new Promise(function(res) {
                   return setTimeout(function() {
@@ -1509,15 +1745,19 @@ self.addEventListener("fetch", function (event) {
                   }, 5)
                 })
               }
+
               function onMessage(channelState, fn) {
                 channelState.messagesCallback = fn
               }
+
               function canBeUsed() {
                 return true
               }
+
               function averageResponseTime() {
                 return 5
               }
+
               var _default = {
                 create: create,
                 close: close,
@@ -1535,10 +1775,12 @@ self.addEventListener("fetch", function (event) {
           13: [
             function(require, module, exports) {
               'use strict'
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
               exports['default'] = void 0
+
               /**
                * this is a set which automatically forgets
                * a given entry when a new entry is set and the ttl
@@ -1549,22 +1791,29 @@ self.addEventListener("fetch", function (event) {
                 var set = new Set()
                 var timeMap = new Map()
                 this.has = set.has.bind(set)
+
                 this.add = function(value) {
                   timeMap.set(value, now())
                   set.add(value)
+
                   _removeTooOldValues()
                 }
+
                 this.clear = function() {
                   set.clear()
                   timeMap.clear()
                 }
+
                 function _removeTooOldValues() {
                   var olderThen = now() - ttl
                   var iterator = set[Symbol.iterator]()
+
                   while (true) {
                     var value = iterator.next().value
                     if (!value) return // no more elements
+
                     var time = timeMap.get(value)
+
                     if (time < olderThen) {
                       timeMap['delete'](value)
                       set['delete'](value)
@@ -1575,9 +1824,11 @@ self.addEventListener("fetch", function (event) {
                   }
                 }
               }
+
               function now() {
                 return new Date().getTime()
               }
+
               var _default = ObliviousSet
               exports['default'] = _default
             },
@@ -1586,22 +1837,31 @@ self.addEventListener("fetch", function (event) {
           14: [
             function(require, module, exports) {
               'use strict'
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
               exports.fillOptionsWithDefaults = fillOptionsWithDefaults
+
               function fillOptionsWithDefaults() {
                 var originalOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
                 var options = JSON.parse(JSON.stringify(originalOptions)) // main
+
                 if (typeof options.webWorkerSupport === 'undefined') options.webWorkerSupport = true // indexed-db
+
                 if (!options.idb) options.idb = {} //  after this time the messages get deleted
+
                 if (!options.idb.ttl) options.idb.ttl = 1000 * 45
                 if (!options.idb.fallbackInterval) options.idb.fallbackInterval = 150 // localstorage
+
                 if (!options.localstorage) options.localstorage = {}
                 if (!options.localstorage.removeTimeout) options.localstorage.removeTimeout = 1000 * 60 // custom methods
+
                 if (originalOptions.methods) options.methods = originalOptions.methods // node
+
                 if (!options.node) options.node = {}
                 if (!options.node.ttl) options.node.ttl = 1000 * 60 * 2 // 2 minutes;
+
                 if (typeof options.node.useFastPath === 'undefined') options.node.useFastPath = true
                 return options
               }
@@ -1612,6 +1872,7 @@ self.addEventListener("fetch", function (event) {
             function(require, module, exports) {
               ;(function(process) {
                 'use strict'
+
                 Object.defineProperty(exports, '__esModule', {
                   value: true
                 })
@@ -1621,6 +1882,7 @@ self.addEventListener("fetch", function (event) {
                 exports.randomToken = randomToken
                 exports.microSeconds = microSeconds
                 exports.isNode = void 0
+
                 /**
                  * returns true if the given object is a promise
                  */
@@ -1631,23 +1893,27 @@ self.addEventListener("fetch", function (event) {
                     return false
                   }
                 }
+
                 function sleep(time) {
                   if (!time) time = 0
                   return new Promise(function(res) {
                     return setTimeout(res, time)
                   })
                 }
+
                 function randomInt(min, max) {
                   return Math.floor(Math.random() * (max - min + 1) + min)
                 }
                 /**
                  * https://stackoverflow.com/a/8084248
                  */
+
                 function randomToken() {
                   return Math.random()
                     .toString(36)
                     .substring(2)
                 }
+
                 var lastMs = 0
                 var additional = 0
                 /**
@@ -1657,8 +1923,10 @@ self.addEventListener("fetch", function (event) {
                  * This is enough in browsers, and this function will not be used in nodejs.
                  * The main reason for this hack is to ensure that BroadcastChannel behaves equal to production when it is used in fast-running unit tests.
                  */
+
                 function microSeconds() {
                   var ms = new Date().getTime()
+
                   if (ms === lastMs) {
                     additional++
                     return ms * 1000 + additional
@@ -1673,6 +1941,7 @@ self.addEventListener("fetch", function (event) {
                  * We cannot use the module directly because it causes problems with rollup
                  * @link https://github.com/iliakan/detect-node/blob/master/index.js
                  */
+
                 var isNode = Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]'
                 exports.isNode = isNode
               }.call(this, require('_process')))
@@ -1688,10 +1957,12 @@ self.addEventListener("fetch", function (event) {
           17: [
             function(require, module, exports) {
               'use strict'
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
               exports['default'] = void 0
+
               /* global WorkerGlobalScope */
               function add(fn) {
                 if (typeof WorkerGlobalScope === 'function' && self instanceof WorkerGlobalScope) {
@@ -1705,6 +1976,7 @@ self.addEventListener("fetch", function (event) {
                   /**
                    * for normal browser-windows, we use the beforeunload-event
                    */
+
                   window.addEventListener(
                     'beforeunload',
                     function() {
@@ -1716,6 +1988,7 @@ self.addEventListener("fetch", function (event) {
                    * for iframes, we have to use the unload-event
                    * @link https://stackoverflow.com/q/47533670/3443137
                    */
+
                   window.addEventListener(
                     'unload',
                     function() {
@@ -1729,6 +2002,7 @@ self.addEventListener("fetch", function (event) {
                  * @link https://stackoverflow.com/a/26193516/3443137
                  */
               }
+
               var _default = {
                 add: add
               }
@@ -1739,7 +2013,9 @@ self.addEventListener("fetch", function (event) {
           18: [
             function(require, module, exports) {
               'use strict'
+
               var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault')
+
               Object.defineProperty(exports, '__esModule', {
                 value: true
               })
@@ -1748,17 +2024,23 @@ self.addEventListener("fetch", function (event) {
               exports.removeAll = removeAll
               exports.getSize = getSize
               exports['default'] = void 0
+
               var _detectNode = _interopRequireDefault(require('detect-node'))
+
               var _browser = _interopRequireDefault(require('./browser.js'))
+
               var _node = _interopRequireDefault(require('./node.js'))
+
               var USE_METHOD = _detectNode['default'] ? _node['default'] : _browser['default']
               var LISTENERS = new Set()
               var startedListening = false
+
               function startListening() {
                 if (startedListening) return
                 startedListening = true
                 USE_METHOD.add(runAll)
               }
+
               function add(fn) {
                 startListening()
                 if (typeof fn !== 'function') throw new Error('Listener is no function')
@@ -1774,6 +2056,7 @@ self.addEventListener("fetch", function (event) {
                 }
                 return addReturn
               }
+
               function runAll() {
                 var promises = []
                 LISTENERS.forEach(function(fn) {
@@ -1782,12 +2065,15 @@ self.addEventListener("fetch", function (event) {
                 })
                 return Promise.all(promises)
               }
+
               function removeAll() {
                 LISTENERS.clear()
               }
+
               function getSize() {
                 return LISTENERS.size
               }
+
               var _default = {
                 add: add,
                 runAll: runAll,
@@ -1839,21 +2125,33 @@ self.addEventListener("fetch", function (event) {
             instanceParams = JSON.parse(window.atob(decodeURIComponent(decodeURIComponent(queryParams.state)))) || {}
             if (queryParams.error) error = queryParams.error
           }
-          bc = new broadcastChannelLib.BroadcastChannel('redirect_channel_' + instanceParams.instanceId, broadcastChannelOptions)
-          bc.postMessage({
-            data: {
-              instanceParams: instanceParams,
-              hashParams: hashParams,
-              queryParams: queryParams
-            },
-            error: error
-          }).then(function() {
-            bc.close()
-            console.log('posted', { queryParams, instanceParams, hashParams })
-            setTimeout(function() {
-              window.close()
-            }, 30000)
-          })
+          if (instanceParams.redirectToOpener) {
+            window.opener.postMessage({
+              channel: 'redirect_channel_' + instanceParams.instanceId,
+              data: {
+                instanceParams: instanceParams,
+                hashParams: hashParams,
+                queryParams: queryParams
+              },
+              error: error
+            }, '*')
+          } else {
+            bc = new broadcastChannelLib.BroadcastChannel('redirect_channel_' + instanceParams.instanceId, broadcastChannelOptions)
+            bc.postMessage({
+              data: {
+                instanceParams: instanceParams,
+                hashParams: hashParams,
+                queryParams: queryParams
+              },
+              error: error
+            }).then(function() {
+              bc.close()
+              console.log('posted', { queryParams, instanceParams, hashParams })
+              setTimeout(function() {
+                window.close()
+              }, 30000)
+            })
+          }
         } catch (err) {
           console.error(err, 'service worker error in redirect')
           bc && bc.close()
@@ -1889,15 +2187,15 @@ self.addEventListener("fetch", function (event) {
     </script>
   </body>
 </html>
-${""}
+${''}
   `,
             ],
-            { type: "text/html" }
+            { type: 'text/html' }
           )
         )
-      );
+      )
     }
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-});
+})

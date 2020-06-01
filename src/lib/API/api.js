@@ -342,6 +342,14 @@ class API {
   getTrust() {
     return this.client.get('/trust')
   }
+
+  /**
+   * `/user/enqueue` post api call
+   * adds user to queue or return queue status
+   */
+  checkQueueStatus() {
+    return this.client.post('/user/enqueue')
+  }
 }
 
 const api = new API()

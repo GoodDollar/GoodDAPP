@@ -16,6 +16,7 @@ export const RECOVER_SUCCESS = 'RECOVER_SUCCESS'
 export const RECOVER_FAILED = 'RECOVER_FAILED'
 export const CLAIM_SUCCESS = 'CLAIM_SUCCESS'
 export const CLAIM_FAILED = 'CLAIM_FAILED'
+export const CLAIM_QUEUE = 'CLAIM_QUEUE_UPDATED'
 export const CARD_OPEN = 'CARD_OPEN'
 export const PROFILE_PRIVACY = 'PROFILE_PRIVACY'
 export const PROFILE_IMAGE = 'PROFILE_IMAGE'
@@ -173,8 +174,8 @@ const patchLogger = () => {
     let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
     if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
       debounceFireEvent(ERROR_LOG, {
-        unique: `${eMsg} ${logMessage} (${logContext})`,
-        $reason: logMessage,
+        unique: `${eMsg} ${logMessage} (${logContext.from})`,
+        reason: logMessage,
         logContext,
         eMsg,
       })

@@ -27,12 +27,14 @@ env:
 
 matrix:
   include:
-    - if: branch IN (master, staging, production, beta, autotests_hotfix) AND env(DEPLOY_VERSION) IS NOT present
+    - if: branch =~ /^(master|(autotests.*))$/ AND env(DEPLOY_VERSION) IS NOT present
       script:
         - npm run build
-        - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
+        - npx netlify deploy --prod --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
         - URL=`grep -i 'deploy_url' test.json | cut -c18-70`
-        - export CYPRESS_baseUrl=$URL
+        - echo "$(cat test.json)"
+        - echo "Cypress test site deployed: $URL. W3: $W3_LINK"
+        #- export CYPRESS_baseUrl=$URL // this is now fixed to goodtest.netlify.app
         - export CYPRESS_w3Link=$W3_LINK
         - cypress run
         - npm run bundlesize:check

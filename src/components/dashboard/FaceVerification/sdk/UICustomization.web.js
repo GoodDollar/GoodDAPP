@@ -25,9 +25,9 @@ const { default: defaultFont } = theme.fonts
 
 export const UITextStrings = {
   zoomInitializingCamera: null, // setting empty "Starting camera..." text
-  zoomResultSuccessMessage: 'You are an<br>amazing unicorn!',
-  zoomResultFacemapUploadMessage: "Verifying you're<br>one of a kind",
-  zoomResultIdscanUploadMessage: "Verifying you're<br>one of a kind",
+  zoomResultSuccessMessage: `You are an\namazing unicorn!`,
+  zoomResultFacemapUploadMessage: `Verifying you're\none of a kind`,
+  zoomResultIdscanUploadMessage: `Verifying you're\none of a kind`,
 
   toJSON() {
     return mapKeys(pickBy(this, isString), (_, i18nString) => snakeCase(i18nString))

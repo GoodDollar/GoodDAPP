@@ -4,21 +4,24 @@ import UserStorage from '../../../../lib/gundb/UserStorage'
 import { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
 import logger from '../../../../lib/logger/pino-logger'
+
 import useLoadingIndicator from '../../../../lib/hooks/useLoadingIndicator'
 import useZoomSDK from '../hooks/useZoomSDK'
 import useZoomVerification from '../hooks/useZoomVerification'
+import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
-  const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
   const [showLoading, hideLoading] = useLoadingIndicator()
+  const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
+  const [, , resetAttempts] = useVerificationAttempts()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
   const showErrorScreen = useCallback(
-    (error, allowRetry = false) => {
+    error => {
       log.debug('FaceVerification error', { error })
-      screenProps.navigateTo('FaceVerificationError', { error, allowRetry })
+      screenProps.navigateTo('FaceVerificationError', { error })
     },
     [screenProps]
   )
@@ -32,10 +35,11 @@ const FaceVerification = ({ screenProps }) => {
 
       // if session was successfull - whitelistening user
       // and returning sucecss to the caller
+      resetAttempts()
       setIsCitizen(isCitizen)
       screenProps.pop({ isValid: true })
     },
-    [screenProps, setIsCitizen]
+    [screenProps, setIsCitizen, resetAttempts]
   )
 
   // ZoomSDK session exception handler
@@ -43,7 +47,7 @@ const FaceVerification = ({ screenProps }) => {
     exception => {
       const { name } = exception
 
-      if ('UserCancelled' === name) {
+      if (['UserCancelled', 'ForegroundLoosedError'].includes(name)) {
         // If user has cancelled face verification by own
         // decision - redirecting back to the into screen
         screenProps.navigateTo('FaceVerificationIntro')
@@ -51,23 +55,19 @@ const FaceVerification = ({ screenProps }) => {
       }
 
       // handling error
-      showErrorScreen(exception, true)
+      showErrorScreen(exception)
     },
     [screenProps, showErrorScreen]
-  )
-
-  // ZoomSDK initialization error handler
-  const sdkExceptionHandler = useCallback(
-    exception => {
-      // handling error
-      showErrorScreen(exception, false)
-    },
-    [showErrorScreen]
   )
 
   // Using zoom verification hook, passing completion callback
   const startVerification = useZoomVerification({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
+
+    // hiding loading indicator once Zoom UI is ready
+    // this is needed for prevent Zoom's backdrop
+    // to be overlapped with spinner's backdrop
+    onUIReady: hideLoading,
     onComplete: completionHandler,
     onError: exceptionHandler,
   })
@@ -77,12 +77,13 @@ const FaceVerification = ({ screenProps }) => {
   // on error redirecting to the error screen
   useZoomSDK({
     onInitialized: startVerification,
-    onError: sdkExceptionHandler,
+    onError: showErrorScreen,
   })
 
-  // showing loading indicator during screen is active
-  // it's enough, we could skip initalization/session state checking
-  // as Zoom UI overlaps web UI (or presents in a separate modal VC on native)
+  // showing loading indicator once component rendered
+  // and initialization started, returning cancel hook
+  // to make sure we'll hide the indicator once we'll
+  // start nativating to another screen
   useEffect(() => {
     showLoading()
     return hideLoading

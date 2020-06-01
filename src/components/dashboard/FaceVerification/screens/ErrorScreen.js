@@ -1,57 +1,74 @@
-import React, { useCallback, useEffect } from 'react'
-import { Image, Platform } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import { get } from 'lodash'
 
-import { CustomButton } from '../../../common'
-import VerifyError from '../components/VerifyError'
+import CameraNotAllowedError from '../components/CameraNotAllowedError'
+import DeviceOrientationError from '../components/DeviceOrientationError'
+import DuplicateFoundError from '../components/DuplicateFoundError'
+import GeneralError from '../components/GeneralError'
+import UnrecoverableError from '../components/UnrecoverableError'
 
-import logger from '../../../../lib/logger/pino-logger'
+import GDStore from '../../../../lib/undux/GDStore'
+import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
-import Oops from '../../../../assets/oops.svg'
+import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 
-const log = logger.child({ from: 'FaceVerificationError' })
-
-if (Platform.OS === 'web') {
-  Image.prefetch(Oops)
-}
+const MAX_RETRIES_ALLOWED = 2
 
 const ErrorScreen = ({ styles, screenProps }) => {
-  const { screenState } = screenProps
-  const { isValid, error: exception, allowRetry = true } = screenState
-  const { name, error, message } = exception
+  const store = GDStore.useStore()
+  const kindOfTheIssue = get(screenProps, 'screenState.error.name')
+  const isGeneralError = !kindOfTheIssue || !(kindOfTheIssue in ErrorScreen.kindOfTheIssue)
 
-  const isCameraNotAllowed = name === 'NotAllowedError'
-  const isRelevantError = isCameraNotAllowed || (error || message) === 'Permission denied'
+  const [verificationAttempts, trackNewAttempt] = useVerificationAttempts()
+
+  // storing first received attempts count into the ref to avoid component re-updated after attempt tracked
+  const verificationAttemptsRef = useRef(verificationAttempts)
+
+  const displayTitle = useMemo(() => {
+    const { fullName } = store.get('profile')
+
+    return getFirstWord(fullName)
+  }, [store])
+
+  const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])
+
+  const ErrorViewComponent = useMemo(() => {
+    if (!isGeneralError) {
+      return ErrorScreen.kindOfTheIssue[kindOfTheIssue]
+    }
+
+    if (verificationAttemptsRef.current >= MAX_RETRIES_ALLOWED) {
+      return UnrecoverableError
+    }
+
+    return GeneralError
+
+    // isGeneralError depends from kindOfTheIssue so we could omit it in the deps list
+  }, [kindOfTheIssue])
 
   useEffect(() => {
-    if (isValid) {
-      screenProps.pop({ isValid })
+    if (!isGeneralError) {
+      return
     }
-  }, [isValid])
 
-  const retry = useCallback(() => {
-    screenProps.navigateTo('FaceVerification', { showHelper: true })
-  }, [screenProps])
+    // tracking attempt here as we should track only "general" error
+    // (when "something went wrong on our side")
+    trackNewAttempt()
+  }, [])
 
-  return (
-    <VerifyError
-      log={log}
-      reason={exception}
-      action={allowRetry && <CustomButton onPress={retry}>PLEASE TRY AGAIN</CustomButton>}
-      title={isRelevantError ? 'Something went wrong...' : 'Something went wrong on our side...'}
-      description={
-        isRelevantError
-          ? isCameraNotAllowed
-            ? `Looks like GoodDollar doesn't have access to your camera. Please provide access and try again`
-            : null
-          : `You see, it's not that easy\n to capture your beauty :)\nSo, let's give it another shot...`
-      }
-    />
-  )
+  return <ErrorViewComponent onRetry={onRetry} displayTitle={displayTitle} screenProps={screenProps} />
 }
 
 ErrorScreen.navigationOptions = {
   title: 'Face Verification',
   navigationBarHidden: false,
+}
+
+ErrorScreen.kindOfTheIssue = {
+  NotAllowedError: CameraNotAllowedError,
+  DeviceOrientationError,
+  DuplicateFoundError,
+  UnrecoverableError,
 }
 
 export default ErrorScreen

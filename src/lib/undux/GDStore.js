@@ -27,6 +27,7 @@ type Account = {
   }
  */
 export type State = {
+  verificationAttempts: number,
   balanceUpdate: boolean,
   account: Account,
   destinationPath: string,
@@ -46,6 +47,7 @@ const initialState: State = {
     entitlement: undefined,
     ready: false,
   },
+  verificationAttempts: 0,
   isLoggedInCitizen: false,
   isLoggedIn: false,
   profile: {},

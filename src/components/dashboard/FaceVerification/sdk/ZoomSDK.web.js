@@ -1,8 +1,10 @@
-import { omit } from 'lodash'
+import { noop } from 'lodash'
 
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import logger from '../../../../lib/logger/pino-logger'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
+import { ProcessingSubscriber } from './ProcessingSubscriber'
+import { UICustomization, UITextStrings, ZOOM_PUBLIC_PATH } from './UICustomization'
 
 const log = logger.child({ from: 'ZoomSDK' })
 
@@ -33,18 +35,13 @@ const {
 export const ZoomSDK = new class {
   constructor() {
     // setting a the directory path for other ZoOm Resources.
-    sdk.setResourceDirectory('/zoom/resources')
+    sdk.setResourceDirectory(`${ZOOM_PUBLIC_PATH}/resources`)
 
     // setting the directory path for required ZoOm images.
-    sdk.setImagesDirectory('/zoom/images')
+    sdk.setImagesDirectory(`${ZOOM_PUBLIC_PATH}/images`)
 
-    // disabling camera permissions help screen
-    // (as we have own ErrorScreen with corresponding message)
-    sdk.setCustomization(
-      new ZoomCustomization({
-        enableCameraPermissionsHelpScreen: false,
-      })
-    )
+    // customize UI
+    sdk.setCustomization(UICustomization)
   }
 
   // eslint-disable-next-line require-await
@@ -83,8 +80,16 @@ export const ZoomSDK = new class {
         sdk.initialize(
           licenseKey,
           isInitialized => {
-            // if Zoom was initialized successfully - resolving
+            // if Zoom was initialized successfully
             if (isInitialized) {
+              // customizing UI texts. Doing it here, according the docs:
+              //
+              // Note: configureLocalization() MUST BE called after initialize() or initializeWithLicense().
+              // @see https://dev.facetec.com/#/string-customization-guide?link=overriding-system-settings (scroll back one paragraph)
+              //
+              sdk.configureLocalization(UITextStrings.toJSON())
+
+              // resolving
               resolve()
               return
             }
@@ -117,34 +122,13 @@ export const ZoomSDK = new class {
   }
 
   // eslint-disable-next-line require-await
-  async faceVerification(enrollmentIdentifier) {
-    return new Promise((resolve, reject) => {
-      // as now all this stuff is outside React hook
-      // we could just implement it like in the demo app
-      const processor = new EnrollmentProcessor((isSuccess, lastResult, lastMessage) => {
-        const logRecord = { isSuccess, lastMessage }
+  async faceVerification(enrollmentIdentifier, onUIReady = noop) {
+    const subscriber = new ProcessingSubscriber(onUIReady, log)
+    const processor = new EnrollmentProcessor(subscriber)
 
-        if (lastResult) {
-          logRecord.lastResult = omit(lastResult, 'faceMetrics')
-        }
+    processor.enroll(enrollmentIdentifier)
 
-        log[isSuccess ? 'info' : 'warn']('processor result:', logRecord)
-
-        if (isSuccess) {
-          resolve(lastMessage)
-        }
-
-        const exception = new Error(lastMessage)
-
-        if (lastResult) {
-          exception.code = lastResult.status
-        }
-
-        reject(exception)
-      })
-
-      processor.enroll(enrollmentIdentifier)
-    })
+    return subscriber.asPromise()
   }
 
   // eslint-disable-next-line require-await

@@ -97,13 +97,29 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    // Helper for handle exceptions
-    const handleException = async exception => {
-      const { message, name } = exception
+    const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
 
-      // if name is set - that means error was rethrown
-      // otherwise we should determine kind of the issue
-      if (!name) {
+    // Helper for handle exceptions
+    const handleException = exception => {
+      const { message } = exception
+
+      // executing current onError callback
+      onErrorRef.current(exception)
+      log.error('Zoom initialization failed', message, exception)
+    }
+
+    const initializeSdk = async () => {
+      try {
+        log.debug('Initializing ZoomSDK')
+
+        // Initializing ZoOm
+        // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
+        await ZoomSDK.initialize(Config.zoomLicenseKey, !zoomSDKPreloaded)
+
+        // Executing onInitialized callback
+        onInitializedRef.current()
+        log.debug('ZoomSDK is ready')
+      } catch (exception) {
         // the following code is needed to categorize exceptions
         // then we could display specific error messages
         // corresponding to the kind of issue (camera, orientation etc)
@@ -121,34 +137,17 @@ export default ({ onInitialized = noop, onError = noop }) => {
           // unloading SDK to free resources
           await unloadZoomSDK()
         }
-      }
 
-      // executing current onError callback
-      onErrorRef.current(exception)
-      log.error('Zoom initialization failed', message, exception)
+        // handling initialization exceptions
+        handleException(exception)
+      }
     }
 
-    const initializeSdk = async () => {
-      const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
-
-      try {
-        log.debug('Initializing ZoomSDK')
-
-        if (zoomUnrecoverableError) {
-          throw zoomUnrecoverableError
-        }
-
-        // Initializing ZoOm
-        // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
-        await ZoomSDK.initialize(Config.zoomLicenseKey, !zoomSDKPreloaded)
-
-        // Executing onInitialized callback
-        onInitializedRef.current()
-        log.debug('ZoomSDK is ready')
-      } catch (exception) {
-        // handling initialization exceptions
-        await handleException(exception)
-      }
+    // skipping initialization attempt is some
+    // unrecoverable error happened last try
+    if (zoomUnrecoverableError) {
+      handleException(zoomUnrecoverableError)
+      return
     }
 
     // starting initialization

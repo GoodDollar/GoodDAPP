@@ -14,7 +14,9 @@ const ButtonBlock = ({
   isInQueue,
   ...props
 }) => {
-  const onPress = useCallback(() => {
+  const onPress = useCallback(e => {
+    e.preventDefault()
+
     if (!isCitizen) {
       handleNonCitizen()
       return

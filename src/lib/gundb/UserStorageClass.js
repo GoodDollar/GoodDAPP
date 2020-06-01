@@ -651,7 +651,10 @@ export class UserStorage {
         .get('users')
         .get(this.gunuser.is.pub)
         .putAck(this.gunuser), //save ref to user
-    ])
+    ]).catch(e => {
+      logger.error('failed init step in userstorage', e.message, e)
+      throw e
+    })
     logger.debug('init systemfeed')
 
     await this.startSystemFeed()

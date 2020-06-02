@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-export default (callback, deps) => {
+export default (callback, deps = []) => {
   const memoizedCallback = useCallback(callback, deps)
 
   return useCallback(

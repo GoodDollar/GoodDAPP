@@ -16,9 +16,6 @@ import { openLink } from '../../../../lib/utils/linking'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import Config from '../../../../config/config'
 
-// eslint-disable-next-line require-await
-const openLearnMoreLink = async () => openLink(Config.FVLearnMoreUrl)
-
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const IntroScreen = ({ styles, screenProps }) => {
@@ -36,6 +33,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     }
   }, [isValid])
 
+  const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
   const gotoFR = useOnPress(() => screenProps.navigateTo('FaceVerification'), [screenProps])
 
   return (
@@ -66,7 +64,7 @@ const IntroScreen = ({ styles, screenProps }) => {
                 textDecorationLine="underline"
                 color="primary"
                 style={styles.descriptionUnderline}
-                onPress={openLearnMoreLink}
+                onPress={openPrivacy}
               >
                 {`Learn more`}
               </Text>

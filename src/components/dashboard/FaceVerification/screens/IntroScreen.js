@@ -12,7 +12,9 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 import { withStyles } from '../../../../lib/styles'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
 import { isBrowser } from '../../../../lib/utils/platform'
+import { openLink } from '../../../../lib/utils/linking'
 import useOnPress from '../../../../lib/hooks/useOnPress'
+import Config from '../../../../config/config'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
@@ -31,7 +33,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     }
   }, [isValid])
 
-  const gotoPrivacyArticle = useOnPress(() => screenProps.push('PrivacyArticle'), [screenProps])
+  const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
   const gotoFR = useOnPress(() => screenProps.navigateTo('FaceVerification'), [screenProps])
 
   return (
@@ -62,7 +64,7 @@ const IntroScreen = ({ styles, screenProps }) => {
                 textDecorationLine="underline"
                 color="primary"
                 style={styles.descriptionUnderline}
-                onPress={gotoPrivacyArticle}
+                onPress={openPrivacy}
               >
                 {`Learn more`}
               </Text>

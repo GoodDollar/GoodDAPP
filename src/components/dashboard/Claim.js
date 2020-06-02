@@ -1,7 +1,9 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
-import { AsyncStorage } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { AsyncStorage, View } from 'react-native'
 import moment from 'moment'
+import { get } from 'lodash'
+import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -9,7 +11,9 @@ import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
+import { openLink } from '../../lib/utils/linking'
 import API from '../../lib/API/api'
+import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { WrapperClaim } from '../common'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -19,9 +23,11 @@ import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import Section from '../common/layout/Section'
+import BigGoodDollar from '../common/view/BigGoodDollar'
 import type { DashboardProps } from './Dashboard'
-import ClaimContent from './Claim/PhaseOne'
 import useClaimCounter from './Claim/useClaimCounter'
+import ButtonBlock from './Claim/ButtonBlock'
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -34,6 +40,12 @@ type ClaimState = {
 }
 
 const log = logger.child({ from: 'Claim' })
+
+// eslint-disable-next-line require-await
+const openLearnMoreLink = async () => openLink(Config.learnMoreEconomyUrl)
+
+const bigFontSize = isSmallDevice ? 30 : 40
+const regularFontSize = isSmallDevice ? 14 : 16
 
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
@@ -59,6 +71,12 @@ const Claim = props => {
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
+
+  // calculate and format number of people who did claim today
+  const peopleClaimedToday = useMemo(() => {
+    const people = get(state, 'claimedToday.amount', 0)
+    return numeral(people).format('0a')
+  }, [state])
 
   // if we returned from facerecoginition then the isValid param would be set
   // this happens only on first claim
@@ -327,21 +345,98 @@ const Claim = props => {
     handleFaceVerification()
   }
 
-  const propsForContent = {
-    styles,
-    theme,
-    isCitizen,
-    claimedToday: state.claimedToday,
-    entitlement: state.entitlement,
-    nextClaim: state.nextClaim,
-    handleClaim: handleClaim,
-    handleNonCitizen: handleNonCitizen,
-    queueStatus: queueStatus && queueStatus.status,
-  }
-
   return (
     <WrapperClaim>
-      <ClaimContent {...propsForContent} />
+      <Section.Stack style={styles.mainContainer}>
+        <View style={styles.headerContentContainer}>
+          <Section.Text color="surface" fontFamily="slab" fontWeight="bold" style={styles.headerText}>
+            {entitlement ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
+          </Section.Text>
+          {entitlement > 0 ? (
+            <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+              <View style={styles.amountBlock}>
+                <Section.Text color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
+                  <BigGoodDollar
+                    reverse
+                    number={entitlement}
+                    formatter={weiToGd}
+                    fontFamily="Roboto"
+                    bigNumberProps={{
+                      fontFamily: 'Roboto',
+                      fontSize: bigFontSize,
+                      color: theme.colors.darkBlue,
+                      fontWeight: 'bold',
+                      lineHeight: bigFontSize,
+                    }}
+                    bigNumberUnitProps={{
+                      fontFamily: 'Roboto',
+                      fontSize: bigFontSize,
+                      color: theme.colors.darkBlue,
+                      fontWeight: 'medium',
+                      lineHeight: bigFontSize,
+                    }}
+                  />
+                </Section.Text>
+              </View>
+            </Section.Row>
+          ) : null}
+        </View>
+        <Section.Stack style={styles.mainText}>
+          <Section.Text color="surface" fontFamily="Roboto" style={styles.mainTextSecondContainer}>
+            {`GoodDollar is the world’s first experiment\nto create a framework to generate\nUBI on a global scale.\n`}
+            <Section.Text
+              color="surface"
+              style={styles.learnMoreLink}
+              textDecorationLine="underline"
+              fontWeight="bold"
+              fontFamily="slab"
+              onPress={openLearnMoreLink}
+            >
+              Learn More
+            </Section.Text>
+          </Section.Text>
+        </Section.Stack>
+        <ButtonBlock
+          styles={styles}
+          entitlement={entitlement}
+          isCitizen={isCitizen}
+          nextClaim={state.nextClaim}
+          isInQueue={queueStatus === 'pending'}
+          handleClaim={handleClaim}
+          handleNonCitizen={handleNonCitizen}
+          showLabelOnly
+        />
+        <Section.Row style={styles.extraInfoContainer}>
+          <Section.Text style={styles.fontSize16} fontWeight="bold" fontFamily="Roboto">
+            <Section.Text style={styles.fontSize16}>Today {isSmallDevice === false && `\n`}</Section.Text>
+            <Section.Text fontWeight="bold" style={styles.fontSize16}>
+              <BigGoodDollar
+                style={styles.extraInfoAmountDisplay}
+                reverse
+                number={get(state, 'claimedToday.amount', 0)}
+                spaceBetween={false}
+                formatter={weiToGd}
+                fontFamily="Roboto"
+                bigNumberProps={{
+                  fontFamily: 'Roboto',
+                  fontSize: regularFontSize,
+                  color: 'black',
+                }}
+                bigNumberUnitProps={{
+                  fontFamily: 'Roboto',
+                  fontSize: regularFontSize,
+                  color: 'black',
+                }}
+              />
+            </Section.Text>
+            <Section.Text style={styles.fontSize16}>{`Claimed by `}</Section.Text>
+            <Section.Text fontWeight="bold" color="black" style={styles.fontSize16}>
+              {peopleClaimedToday}{' '}
+            </Section.Text>
+            <Section.Text style={styles.fontSize16}>Good People</Section.Text>
+          </Section.Text>
+        </Section.Row>
+      </Section.Stack>
     </WrapperClaim>
   )
 }
@@ -418,7 +513,6 @@ const getStylesFromProps = ({ theme }) => {
       ...fontSize16,
     },
     mainText: {
-      flex: 2.5,
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,

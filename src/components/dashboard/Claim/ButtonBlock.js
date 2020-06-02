@@ -14,18 +14,21 @@ const ButtonBlock = ({
   isInQueue,
   ...props
 }) => {
-  const onPress = useCallback(e => {
-    e.preventDefault()
+  const onPress = useCallback(
+    e => {
+      e.preventDefault()
 
-    if (!isCitizen) {
-      handleNonCitizen()
-      return
-    }
+      if (!isCitizen) {
+        handleNonCitizen()
+        return
+      }
 
-    if (entitlement) {
-      handleClaim()
-    }
-  }, [entitlement, isCitizen, handleNonCitizen, handleClaim])
+      if (entitlement) {
+        handleClaim()
+      }
+    },
+    [entitlement, isCitizen, handleNonCitizen, handleClaim]
+  )
 
   return (
     <Section.Stack style={styles.claimButtonContainer}>

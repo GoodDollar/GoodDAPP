@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { AsyncStorage, View } from 'react-native'
+import { isBrowser } from 'mobile-device-detect'
 import moment from 'moment'
 import { get } from 'lodash'
 import numeral from 'numeral'
@@ -347,7 +348,7 @@ const Claim = props => {
 
   return (
     <WrapperClaim>
-      <Section.Stack style={styles.mainContainer}>
+      <Section.Stack style={styles.mainContainer} justifyContent="space-between">
         <View style={styles.headerContentContainer}>
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" style={styles.headerText}>
             {entitlement ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
@@ -396,6 +397,7 @@ const Claim = props => {
             </Section.Text>
           </Section.Text>
         </Section.Stack>
+        <View style={styles.fakeClaimButton} />
         <ButtonBlock
           styles={styles}
           entitlement={entitlement}
@@ -490,13 +492,12 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'space-between',
     },
     headerContentContainer: {
-      flex: 1,
       position: 'relative',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
-      marginTop: getDesignRelativeHeight(22),
+      marginTop: getDesignRelativeHeight(isBrowser ? 70 : 20),
     },
     headerText,
     amountBlock: {
@@ -524,13 +525,18 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       flexDirection: 'column',
       zIndex: 1,
-      marginBottom: 0,
+      width: '100%',
+      position: 'absolute',
+      bottom: isBrowser ? '15%' : `${getDesignRelativeHeight(13)}%`,
+    },
+    fakeClaimButton: {
+      width: getDesignRelativeHeight(196),
+      height: getDesignRelativeHeight(196),
     },
     extraInfoAmountDisplay: {
       display: 'contents',
     },
     extraInfoContainer: {
-      flex: 1,
       marginBottom: getDesignRelativeHeight(5),
       alignItems: 'flex-end',
       justifyContent: 'center',

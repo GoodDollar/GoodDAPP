@@ -20,7 +20,7 @@ const CameraNotAllowedError = ({ onRetry }) => {
     showDialog({
       content: (
         <ExplanationDialog
-          errorMessage="We can’t access you camera..."
+          errorMessage="We can’t access your camera..."
           title="Please enable camera permission"
           text="Change it via your device settings"
           imageSource={illustration}

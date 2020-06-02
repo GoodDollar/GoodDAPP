@@ -20,6 +20,7 @@ const Config = {
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
   learnMoreEconomyUrl: process.env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
+  FVLearnMoreUrl: process.env.REACT_APP_FV_LEARN_MORE_URL || 'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   publicUrl,
   dashboardUrl: process.env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: process.env.REACT_APP_INFURA_KEY,

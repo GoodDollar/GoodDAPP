@@ -511,6 +511,21 @@ export class GoodWallet {
     }
   }
 
+  lastVerified(): Promise<Date> {
+    try {
+      return this.identityContract.methods
+        .dateAdded(this.account)
+        .call()
+        .then(_ => _.toNumber())
+        .then(_ => new Date(_ * 1000))
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('lastVerified failed', message, exception)
+      throw exception
+    }
+  }
+
   /**
    * Determines if current user is verified in the blockchain
    * @returns {Promise<boolean>}

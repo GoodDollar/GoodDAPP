@@ -343,13 +343,15 @@ We found your twin...
           }
         >
           <div
-            aria-disabled={true}
-            className="css-view-1dbjc4n"
-            disabled={true}
+            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            data-focusable={true}
+            disabled={false}
             onKeyDown={[Function]}
+            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
+            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -360,11 +362,15 @@ We found your twin...
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
+                "cursor": "pointer",
+                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
+                "touchAction": "manipulation",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -509,13 +515,15 @@ We found your twin...
           }
         >
           <div
-            aria-disabled={true}
-            className="css-view-1dbjc4n"
-            disabled={true}
+            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            data-focusable={true}
+            disabled={false}
             onKeyDown={[Function]}
+            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
+            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -526,11 +534,15 @@ We found your twin...
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
+                "cursor": "pointer",
+                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
+                "touchAction": "manipulation",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"

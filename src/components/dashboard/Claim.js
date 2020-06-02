@@ -497,7 +497,7 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       alignItems: 'center',
       marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
-      marginTop: getDesignRelativeHeight(isBrowser ? 70 : 20),
+      marginTop: getDesignRelativeHeight(isBrowser ? 70 : 18),
     },
     headerText,
     amountBlock: {
@@ -527,7 +527,7 @@ const getStylesFromProps = ({ theme }) => {
       zIndex: 1,
       width: '100%',
       position: 'absolute',
-      bottom: isBrowser ? '16%' : `${getDesignRelativeHeight(13)}%`,
+      bottom: isBrowser ? '16%' : `${getDesignRelativeHeight(12)}%`,
     },
     fakeClaimButton: {
       width: getDesignRelativeHeight(196),

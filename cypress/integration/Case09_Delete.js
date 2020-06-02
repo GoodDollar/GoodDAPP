@@ -5,11 +5,11 @@ import LoginPage from '../PageObjects/LoginPage'
 
 describe('Test case 9: Delete temporary user', () => {
   it('User to sign up and delete', () => {
-    cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
-      StartPage.open()
-      StartPage.signInButton.click()
-      LoginPage.recoverFromPassPhraseLink.click()
-      LoginPage.pageHeader.should('contain', 'Recover')
+    StartPage.open()
+    StartPage.signInButton.click()
+    LoginPage.recoverFromPassPhraseLink.click()
+    LoginPage.pageHeader.should('contain', 'Recover')
+    cy.readFile('cypress/fixtures/userMnemonicSave.txt', { timeout: 10000 }).then(mnemonic => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()

@@ -58,7 +58,7 @@ describe('Test case 5: Ability to change user data', () => {
     EditProfilePage.uploadedAvatar.should('be.visible')
   })
 
-  it.only('User is able to edit input fields', () => {
+  it('User is able to edit input fields', () => {
     HomePage.optionsButton.click({ force: true })
     HomePage.options.eq(0).click({ force: true })
     ProfilePage.openEditProfileButton()
@@ -99,7 +99,7 @@ describe('Test case 5: Ability to change user data', () => {
     HomePage.options.eq(0).click({ force: true })
     ProfilePage.pageHeader.should('contain', 'Profile')
     ProfilePage.openEditProfileButton()
-    EditProfilePage.nameInput.invoke('attr', 'value').should('eq', 'UserName12345')
+    //EditProfilePage.nameInput.invoke('attr', 'value').should('eq', 'nickName888')
     EditProfilePage.nameInput.clear({ timeout: 10000 })
     EditProfilePage.nameInput.type('Random Username')
     cy.contains('Only letters, numbers and underscore')

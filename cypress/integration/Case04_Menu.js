@@ -8,11 +8,11 @@ import StatisticsPage from '../PageObjects/StatisticsPage'
 
 describe('Test case 4: Check topbar items functionality', () => {
   beforeEach('authorization', () => {
-    cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
-      StartPage.open()
-      StartPage.signInButton.click()
-      LoginPage.recoverFromPassPhraseLink.click()
-      LoginPage.pageHeader.should('contain', 'Recover')
+    StartPage.open()
+    StartPage.signInButton.click()
+    LoginPage.recoverFromPassPhraseLink.click()
+    LoginPage.pageHeader.should('contain', 'Recover')
+    cy.readFile('cypress/fixtures/userMnemonicSave.txt', { timeout: 10000 }).then(mnemonic => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
@@ -118,6 +118,7 @@ describe('Test case 4: Check topbar items functionality', () => {
     HomePage.optionsButton.click()
     cy.contains('Statistics').click()
     StatisticsPage.headerPage.should('be.visible').contains('Statistics')
+    cy.wait(25000)
     StatisticsPage.iframe.should('be.visible')
     StatisticsPage.iframe
       .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))

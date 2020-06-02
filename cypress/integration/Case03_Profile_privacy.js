@@ -7,7 +7,7 @@ import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 
 describe('Test case 3: Ability to change profile privacy level', () => {
   it('User should be able to change privacy lvl', () => {
-   cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+   cy.readFile('cypress/fixtures/userMnemonicSave.txt', { timeout: 10000 }).then(mnemonic => {
     StartPage.open()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()

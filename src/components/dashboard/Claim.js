@@ -351,9 +351,9 @@ const Claim = props => {
       <Section.Stack style={styles.mainContainer} justifyContent="space-between">
         <View style={styles.headerContentContainer}>
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" style={styles.headerText}>
-            {entitlement ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
+            {state.entitlement ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
           </Section.Text>
-          {entitlement > 0 ? (
+          {state.entitlement > 0 ? (
             <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
               <View style={styles.amountBlock}>
                 <Section.Text color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
@@ -400,7 +400,7 @@ const Claim = props => {
         <View style={styles.fakeClaimButton} />
         <ButtonBlock
           styles={styles}
-          entitlement={entitlement}
+          entitlement={state.entitlement}
           isCitizen={isCitizen}
           nextClaim={state.nextClaim}
           isInQueue={queueStatus === 'pending'}
@@ -527,7 +527,7 @@ const getStylesFromProps = ({ theme }) => {
       zIndex: 1,
       width: '100%',
       position: 'absolute',
-      bottom: isBrowser ? '15%' : `${getDesignRelativeHeight(13)}%`,
+      bottom: isBrowser ? '16%' : `${getDesignRelativeHeight(13)}%`,
     },
     fakeClaimButton: {
       width: getDesignRelativeHeight(196),

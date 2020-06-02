@@ -167,6 +167,14 @@ const AppSwitch = (props: LoadingProps) => {
 
     try {
       const isCitizen = await initialize()
+
+      //patch to fore phase0 users to go through face recognition
+      if (config.isPhaseZero && isCitizen) {
+        const [lastVerified, isWhitelisted] = await Promise.all([goodWallet.lastVerified(), goodWallet.isCitizen()])
+        if (isWhitelisted && lastVerified < new Date('06/02/2020')) {
+          await goodWallet.deleteAccount()
+        }
+      }
       checkBonusInterval()
       prepareLoginToken()
       runUpdates()

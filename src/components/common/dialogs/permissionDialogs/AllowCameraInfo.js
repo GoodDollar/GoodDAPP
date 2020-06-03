@@ -2,17 +2,13 @@ import React from 'react'
 import Illustration from '../../../../assets/FRAllowCameraPermissions.svg'
 import ExplanationDialog from '../../dialogs/ExplanationDialog'
 
-const CameraPermissionsDialog = ({ styles }) => (
+export default () => (
   <ExplanationDialog
     title="Please allow access to your camera"
-    text="In order to scan the QR code"
+    text="In order to complete the QR code scan"
     image={Illustration}
   />
 )
-
-// clipboard permissions dialog also would be in this folder
-
-export default CameraPermissionsDialog
 
 /*
  - Usage example
@@ -20,7 +16,7 @@ export default CameraPermissionsDialog
 const [showDialog] = useDialog()
 
 showDialog({
-  content: <CameraPermissionsDialog />,
+  content: <AllowCameraPermissionInfoDialog />,
   isMinHeight: false,
   buttons: [
     {

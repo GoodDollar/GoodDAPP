@@ -28,24 +28,24 @@ describe('Test case 1: Create temporary user', () => {
     SignUpPage.gotItButton.click()
     HomePage.welcomeFeed.should('be.visible')
     HomePage.optionsButton.click()
-    HomePage.backupButton.click() //.should(() => {
-    HomePage.clipboardButton.click()
+    HomePage.backupButton.click().should(() => {
 
-    // get mnemonic from clipboard
-    cy.task('getClipboard').then(mnemonic => {
-      cy.log(mnemonic)
-      cy.writeFile('cypress/fixtures/userMnemonicSave.txt', mnemonic, { timeout: 10000 })
-    })
+      // get mnemonic from clipboard
+      // HomePage.clipboardButton.click()
+      // cy.task('getClipboard').then(mnemonic => {
+      //   cy.log(mnemonic)
+      //   cy.writeFile('cypress/fixtures/userMnemonicSave.txt', mnemonic, { timeout: 10000 })
+      // })
 
       //get mnemonic from localStorage
-      //expect(localStorage.getItem('GD_mnemonic')).to.not.be.null
-      // cy.writeFile('cypress/fixtures/userMnemonicSave.txt', localStorage.getItem('GD_mnemonic'))
-      // let LOCAL_STORAGE_MEMORY = {}
-      // Object.keys(localStorage).forEach(key => {
-      //   LOCAL_STORAGE_MEMORY[key] = localStorage[key]
-      // })
-      // cy.log('ALL: ', LOCAL_STORAGE_MEMORY)
-      // cy.writeFile('cypress/fixtures/GDls.json', LOCAL_STORAGE_MEMORY)
-    //})
+      expect(localStorage.getItem('GD_mnemonic')).to.not.be.null
+      cy.writeFile('cypress/fixtures/userMnemonicSave.txt', localStorage.getItem('GD_mnemonic'))
+      let LOCAL_STORAGE_MEMORY = {}
+      Object.keys(localStorage).forEach(key => {
+        LOCAL_STORAGE_MEMORY[key] = localStorage[key]
+      })
+      cy.log('ALL: ', LOCAL_STORAGE_MEMORY)
+      cy.writeFile('cypress/fixtures/GDls.json', LOCAL_STORAGE_MEMORY)
+    })
   })
 })

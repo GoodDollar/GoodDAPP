@@ -27,12 +27,12 @@ module.exports = (on, config) => {
     },
   })
 
-  on('before:browser:launch', (browser = {}, args) => {
+  on('before:browser:launch', (browser = {}, options) => {
     if (browser.name === 'chrome') {
-      args.push('--use-fake-ui-for-media-stream')
-      args.push('--use-fake-device-for-media-stream')
-      args.push('--use-file-for-fake-video-capture=' + fakeCameraPath)
+      options.args.push('--use-fake-ui-for-media-stream')
+      options.args.push('--use-fake-device-for-media-stream')
+      options.args.push('--use-file-for-fake-video-capture=' + fakeCameraPath)
     }
-    return args
+    return options
   })
 }

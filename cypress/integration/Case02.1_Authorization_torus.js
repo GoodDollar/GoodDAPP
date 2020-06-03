@@ -14,7 +14,6 @@ describe('Test 2.1: login via TorusTestUser', () => {
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
-    cy.wait(25000)
     SocialLoginPage.googleLink.should('be.visible')
     SocialLoginPage.googleLink.click()
     HomePage.profileAvatar.should('be.visible')
@@ -41,7 +40,6 @@ describe('Test 2.1: login via TorusTestUser', () => {
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
-    cy.wait(25000)
     SocialLoginPage.facebookLink.should('be.visible')
     SocialLoginPage.facebookLink.click()
     HomePage.profileAvatar.should('be.visible')

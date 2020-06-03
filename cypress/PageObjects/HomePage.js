@@ -80,6 +80,10 @@ class HomePage {
     return cy.contains('Logout')
   }
 
+  get backArrow() {
+    return cy.get('div[style*="gooddollar"]')
+  }
+
   waitForHomePageDisplayed() {
     cy.contains('Claim').should('be.visible')
   }

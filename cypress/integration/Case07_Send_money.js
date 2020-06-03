@@ -6,6 +6,8 @@ import SendMoneyPage from '../PageObjects/SendMoneyPage'
 
 describe('Test case 7: Ability to send money', () => {
   it('Send test money to new acc', () => {
+    cy.clearLocalStorage()
+    cy.clearCookies()
     StartPage.open()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()

@@ -4,7 +4,7 @@ import LoginPage from '../PageObjects/LoginPage'
 //import HomePage from '../PageObjects/HomePage'
 //import GDls from '../fixtures/GDls.json'
 
-describe('Test after delete wallet', () => {
+describe('Test case 10: Test after delete wallet', () => {
   // before('load localStorage', () => {
   //   Object.keys(GDls).forEach(key => {
   //     localStorage.setItem(key, GDls[key])

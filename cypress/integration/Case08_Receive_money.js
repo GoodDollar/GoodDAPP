@@ -6,6 +6,8 @@ import ReceiveMoneyPage from '../PageObjects/ReceiveMoneyPage'
 
 describe('Test case 8: Ability to send money request and reseive money', () => {
   it('User is able to send money request', () => {
+    cy.clearLocalStorage()
+    cy.clearCookies()
     StartPage.open()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
@@ -60,7 +62,7 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
         LoginPage.yayButton.click()
         HomePage.claimButton.should('be.visible')
         HomePage.moneyAmountDiv.should('not.contain', moneyBeforeSending, { timeout: 20000 })
-        HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBeforeSending) - 0.01))
+        HomePage.moneyAmountDiv.invoke('text').should('eq', moneyBeforeSending)
        })
       })
     })

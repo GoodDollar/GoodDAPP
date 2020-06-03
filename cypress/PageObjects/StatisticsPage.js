@@ -5,7 +5,7 @@ class StatisticsPage {
   }
 
   get iframe() {
-    return cy.get('iframe[title="Statistics"]')
+    return cy.getIframeBody('iframe[title="Statistics"]')
   }
 
   get burgerButton() {

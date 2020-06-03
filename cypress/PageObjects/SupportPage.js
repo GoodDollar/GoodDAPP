@@ -5,7 +5,7 @@ class SupportPage {
   }
 
   get iframe() {
-    return cy.get('iframe[title=" Support & Feedback"]')
+    return cy.getIframeBody('iframe[title=" Support & Feedback"]')
   }
 
   get search() {

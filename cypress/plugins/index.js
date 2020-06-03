@@ -35,4 +35,6 @@ module.exports = (on, config) => {
     }
     return options
   })
+
+  require('cypress-terminal-report').installPlugin(on)
 }

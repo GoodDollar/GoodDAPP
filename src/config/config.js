@@ -61,7 +61,7 @@ const Config = {
   showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: process.env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
-  claimQueue: process.env.REACT_APP_CLAIM_QUEUE_ENABLED || false,
+  claimQueue: process.env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
   ethereum: {
     '42': {
       network_id: 42,

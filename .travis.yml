@@ -38,7 +38,7 @@ matrix:
         - echo "Cypress test site deployed $URL. W3 $W3_LINK"
         #- export CYPRESS_baseUrl=$URL // this is now fixed to goodtest.netlify.app
         - export CYPRESS_w3Link=$W3_LINK
-        - cypress run --record
+        - cypress run --record --browser chrome
         - npm run bundlesize:check
     - if: env(DEPLOY_VERSION) IS NOT present
       script:

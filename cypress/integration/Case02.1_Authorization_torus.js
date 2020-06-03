@@ -15,6 +15,7 @@ describe('Test 2.1: login via TorusTestUser', () => {
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.googleLink.should('be.visible')
+    cy.wait(1000) //wait for button to be enabled torus sdk ready
     SocialLoginPage.googleLink.click()
     HomePage.profileAvatar.should('be.visible')
     HomePage.sendButton.should('be.visible')
@@ -41,6 +42,7 @@ describe('Test 2.1: login via TorusTestUser', () => {
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.facebookLink.should('be.visible')
+    cy.wait(1000) //wait for button to be enabled torus sdk ready
     SocialLoginPage.facebookLink.click()
     HomePage.profileAvatar.should('be.visible')
     HomePage.sendButton.should('be.visible')

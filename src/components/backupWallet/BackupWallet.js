@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import useClipboard from '../../lib/hooks/useClipboard'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
@@ -11,6 +11,7 @@ import MnemonicInput from '../signin/MnemonicInput'
 import userStorage from '../../lib/gundb/UserStorage'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
 
@@ -23,26 +24,28 @@ type BackupWalletProps = {
   screenProps: any,
 }
 
-const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
+const BackupWallet = ({ screenProps, styles }: BackupWalletProps) => {
   const [showDialogWithData] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const [mnemonics, setMnemonics] = useState('')
   const API = useWrappedApi()
   const { setString } = useClipboard()
+  const { pop } = screenProps
 
-  const getMnemonicsValue = async () => {
+  const getMnemonicsValue = useCallback(async () => {
     const currentMnemonics = await getMnemonicsObject()
     setMnemonics(currentMnemonics)
-  }
+  }, [setMnemonics])
 
   useEffect(() => {
     getMnemonicsValue()
   }, [])
 
-  const sendRecoveryEmail = async () => {
+  const sendRecoveryEmail = useOnPress(async () => {
     try {
       const currentMnemonics = await getMnemonics()
       await API.sendRecoveryInstructionByEmail(currentMnemonics)
+
       fireEvent(PHRASE_BACKUP, { method: 'email' })
       showDialogWithData({
         title: 'Backup Your Wallet',
@@ -52,15 +55,16 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
       log.error('backup email failed:', e.message, e)
       showErrorDialog('Could not send backup email. Please try again.')
     }
+
     const userProperties = await userStorage.userProperties.getAll()
     if (userProperties.isMadeBackup) {
       userStorage.deleteEvent(backupMessage.id).catch(e => log.error('delete backup message failed', e.message, e))
     } else {
       await userStorage.userProperties.set('isMadeBackup', true)
     }
-  }
+  }, [showDialogWithData, showErrorDialog])
 
-  const setClipboard = async () => {
+  const setClipboard = useOnPress(async () => {
     const currentMnemonics = await getMnemonics()
 
     if (setString(currentMnemonics)) {
@@ -70,7 +74,9 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
         message: 'The backup phrase has been copied to the clipboard',
       })
     }
-  }
+  }, [setString, showDialogWithData])
+
+  const doneHandler = useOnPress(() => pop(), [pop])
 
   return (
     <Wrapper style={styles.mainWrapper}>
@@ -92,7 +98,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
             Send me a backup email
           </CustomButton>
         </Section.Stack>
-        <CustomButton onPress={screenProps.pop}>Done</CustomButton>
+        <CustomButton onPress={doneHandler}>Done</CustomButton>
       </Section>
     </Wrapper>
   )

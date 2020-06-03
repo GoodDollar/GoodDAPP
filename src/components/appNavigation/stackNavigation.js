@@ -5,6 +5,7 @@ import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import useOnPress from '../../lib/hooks/useOnPress'
 import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
@@ -348,6 +349,10 @@ type BackButtonProps = {
  */
 const backButton = (props: BackButtonProps) => {
   const { disabled, screenProps, children, mode, color, styles, textStyle = {} } = props
+  const { goToParent } = screenProps
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const onPress = useOnPress(() => goToParent(), [goToParent])
 
   return (
     <CustomButton
@@ -356,7 +361,7 @@ const backButton = (props: BackButtonProps) => {
       mode={mode || 'text'}
       color={color || '#A3A3A3'}
       disabled={disabled}
-      onPress={screenProps.goToParent}
+      onPress={onPress}
       textStyle={[styles.cancelButton, textStyle]}
     >
       {children}

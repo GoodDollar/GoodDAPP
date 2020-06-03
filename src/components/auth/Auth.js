@@ -134,7 +134,8 @@ class Auth extends React.Component<Props> {
     log.warn('3rd Party login not available yet')
   }
 
-  handleSignIn = () => {
+  handleSignIn = event => {
+    event.preventDefault()
     this.props.navigation.navigate('SigninInfo')
   }
 

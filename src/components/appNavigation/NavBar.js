@@ -3,6 +3,7 @@ import React from 'react'
 import { Appbar } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { Icon } from '../common'
 
 /**
@@ -18,27 +19,16 @@ type NavBarProps = {
  * @name NavBar
  * @param {NavBarProps} props
  */
-class NavBar extends React.Component<NavBarProps> {
-  handleIconPress = event => {
-    const { goBack } = this.props
+const NavBar = ({ styles, goBack }: NavBarProps) => {
+  const handleIconPress = useOnPress(() => goBack, [goBack])
 
-    event.preventDefault()
-    return goBack()
-  }
-
-  render() {
-    const { styles, goBack } = this.props
-
-    return (
-      <Appbar dark style={styles.topbarStyles}>
-        {goBack && (
-          <Icon name="arrow-back" onPress={this.handleIconPress} color="white" size={22} style={styles.backButton} />
-        )}
-        <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
-        {goBack && <Appbar.Action color="white" />}
-      </Appbar>
-    )
-  }
+  return (
+    <Appbar dark style={styles.topbarStyles}>
+      {goBack && <Icon name="arrow-back" onPress={handleIconPress} color="white" size={22} style={styles.backButton} />}
+      <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
+      {goBack && <Appbar.Action color="white" />}
+    </Appbar>
+  )
 }
 
 const getStylesFromProps = ({ theme }) => ({

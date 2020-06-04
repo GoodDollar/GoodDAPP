@@ -6,46 +6,52 @@ import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
 import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
 
+import useOnPress from '../../../../lib/hooks/useOnPress'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 
-const DuplicateFoundError = ({ styles, displayTitle, onRetry }) => (
-  <Wrapper>
-    <View style={styles.topContainer}>
-      <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-        <Section.Title fontWeight="medium" textTransform="none">
-          {displayTitle}
-          {',\nUnfortunately,\nWe found your twin...'}
-        </Section.Title>
-        <Section.Row justifyContent="space-evenly">
-          <View style={styles.halfIllustration}>
-            <FaceVerificationErrorSmiley />
-          </View>
-          <View style={styles.halfIllustration}>
-            <FaceVerificationErrorSmiley />
-          </View>
-        </Section.Row>
-        <Section style={styles.errorSection}>
-          <Separator width={2} />
-          <View style={styles.descriptionWrapper}>
-            <Text color="primary" fontWeight="bold">
-              You can open ONLY ONE account per person.
-            </Text>
-            <Text color="primary">If this is your only active account - please contact our support</Text>
-          </View>
-          <Separator width={2} />
+const DuplicateFoundError = ({ styles, displayTitle, onRetry, screenProps }) => {
+  const onRetryPress = useOnPress(onRetry)
+  const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
+
+  return (
+    <Wrapper>
+      <View style={styles.topContainer}>
+        <Section style={styles.descriptionContainer} justifyContent="space-evenly">
+          <Section.Title fontWeight="medium" textTransform="none">
+            {displayTitle}
+            {',\nUnfortunately,\nWe found your twin...'}
+          </Section.Title>
+          <Section.Row justifyContent="space-evenly">
+            <View style={styles.halfIllustration}>
+              <FaceVerificationErrorSmiley />
+            </View>
+            <View style={styles.halfIllustration}>
+              <FaceVerificationErrorSmiley />
+            </View>
+          </Section.Row>
+          <Section style={styles.errorSection}>
+            <Separator width={2} />
+            <View style={styles.descriptionWrapper}>
+              <Text color="primary" fontWeight="bold">
+                You can open ONLY ONE account per person.
+              </Text>
+              <Text color="primary">If this is your only active account - please contact our support</Text>
+            </View>
+            <Separator width={2} />
+          </Section>
         </Section>
-      </Section>
-      <View style={styles.action}>
-        <CustomButton onPress={onRetry} mode="outlined" style={styles.actionsSpace}>
-          CONTACT SUPPORT
-        </CustomButton>
-        <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
+        <View style={styles.action}>
+          <CustomButton onPress={onContactSupport} mode="outlined" style={styles.actionsSpace}>
+            CONTACT SUPPORT
+          </CustomButton>
+          <CustomButton onPress={onRetryPress}>TRY AGAIN</CustomButton>
+        </View>
       </View>
-    </View>
-  </Wrapper>
-)
+    </Wrapper>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => {
   return {

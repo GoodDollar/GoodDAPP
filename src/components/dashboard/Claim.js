@@ -65,6 +65,9 @@ const Claim = props => {
       amount: '--',
     },
   })
+
+  // get the number of people who did claim today. Default - 0
+  const numberOfPeopleClaimedToday = get(pageState, 'claimedToday.amount', 0)
   const [queueStatus, setQueueStatus] = useState(undefined)
   const [showLoading, hideLoading] = useLoadingIndicator()
 
@@ -74,11 +77,8 @@ const Claim = props => {
   // A function which will open 'learn more' page in a new tab
   const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
 
-  // calculate and format number of people who did claim today
-  const peopleClaimedToday = useMemo(() => {
-    const people = get(pageState, 'claimedToday.amount', 0)
-    return numeral(people).format('0a')
-  }, [pageState])
+  // format number of people who did claim today
+  const formattedNumberOfPeopleClaimedToday = useMemo(() => numeral(numberOfPeopleClaimedToday).format('0a'), [numberOfPeopleClaimedToday,])
 
   // if we returned from facerecoginition then the isValid param would be set
   // this happens only on first claim
@@ -434,7 +434,7 @@ const Claim = props => {
             </Section.Text>
             <Section.Text style={styles.fontSize16}>{`Claimed by `}</Section.Text>
             <Section.Text fontWeight="bold" color="black" style={styles.fontSize16}>
-              {peopleClaimedToday}{' '}
+              {formattedNumberOfPeopleClaimedToday}{' '}
             </Section.Text>
             <Section.Text style={styles.fontSize16}>Good People</Section.Text>
           </Section.Text>

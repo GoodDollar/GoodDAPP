@@ -78,7 +78,12 @@ const Claim = props => {
   const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
 
   // format number of people who did claim today
-  const formattedNumberOfPeopleClaimedToday = useMemo(() => numeral(numberOfPeopleClaimedToday).format('0a'), [numberOfPeopleClaimedToday,])
+  /*eslint-disable */
+  const formattedNumberOfPeopleClaimedToday = useMemo(
+    () => numeral(numberOfPeopleClaimedToday).format('0a'),
+    [numberOfPeopleClaimedToday]
+  )
+  /*eslint-enable */
 
   // if we returned from facerecoginition then the isValid param would be set
   // this happens only on first claim
@@ -411,7 +416,7 @@ const Claim = props => {
         />
         <Section.Row style={styles.extraInfoContainer}>
           <Section.Text style={styles.fontSize16} fontWeight="bold" fontFamily="Roboto">
-            <Section.Text style={styles.fontSize16}>Today {isSmallDevice === false && `\n`}</Section.Text>
+            <Section.Text style={styles.fontSize16}>{'Today '}</Section.Text>
             <Section.Text fontWeight="bold" style={styles.fontSize16}>
               <BigGoodDollar
                 style={styles.extraInfoAmountDisplay}

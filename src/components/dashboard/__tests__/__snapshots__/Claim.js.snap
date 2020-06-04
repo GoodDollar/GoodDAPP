@@ -637,20 +637,31 @@ UBI on a global scale.
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "flex-end",
-            "WebkitBoxAlign": "end",
+            "height": "45px",
+          }
+        }
+      />
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "center",
+            "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "center",
-            "alignItems": "flex-end",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "center",
             "flexDirection": "row",
-            "justifyContent": "center",
-            "marginBottom": "5px",
-            "msFlexAlign": "end",
+            "height": "16%",
+            "justifyContent": "space-between",
+            "msFlexAlign": "center",
             "msFlexDirection": "row",
-            "msFlexPack": "center",
+            "msFlexPack": "justify",
+            "position": "absolute",
+            "top": "84%",
+            "width": "100%",
           }
         }
       >
@@ -668,6 +679,7 @@ UBI on a global scale.
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
+              "width": "100%",
             }
           }
         >

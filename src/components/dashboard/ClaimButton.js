@@ -10,15 +10,15 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isMediumDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 
-const labelSize = isSmallDevice ? 30 : 40
-const timerSize = isSmallDevice ? 30 : 36
+const buttonLabelFontSize = isSmallDevice ? 30 : 40
+const timerFontSize = isSmallDevice ? 30 : 36
 
 const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles, isInQueue }) => (
   <View style={styles.textBtn}>
     {showLabelOnly ? (
-      <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={labelSize}>
+      <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={buttonLabelFontSize}>
         {isInQueue ? `In Queue` : `Claim`}
       </Text>
     ) : (
@@ -77,7 +77,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
           return (
             <Text
               key={index}
-              fontSize={timerSize}
+              fontSize={timerFontSize}
               fontFamily="Roboto Slab"
               fontWeight="bold"
               color="white"
@@ -234,17 +234,22 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'relative',
     top: 0,
     left: 0,
-    marginTop: 18,
+    marginTop: 20,
+    marginBottom: 10,
   },
   tallCountDown: {
     width: isSmallDevice ? getDesignRelativeWidth(8) : getDesignRelativeWidth(10),
   },
   countdown: {
-    width: isSmallDevice ? getDesignRelativeWidth(18) : getDesignRelativeWidth(25),
+    width: isSmallDevice
+      ? getDesignRelativeWidth(18)
+      : isMediumDevice
+      ? getDesignRelativeWidth(22)
+      : getDesignRelativeWidth(25),
   },
   extraInfoCountdownTitle: {
     letterSpacing: 0.14,
-    fontSize: isSmallDevice ? 14 : 16,
+    fontSize: isMediumDevice || isSmallDevice ? 14 : 16,
   },
   amountInButton: {
     display: 'flex',

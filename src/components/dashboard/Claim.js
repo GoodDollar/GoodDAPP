@@ -21,6 +21,7 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import { CLAIM_FAILED, CLAIM_QUEUE, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
+import useOnPress from '../../lib/hooks/useOnPress'
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
@@ -41,9 +42,6 @@ type ClaimState = {
 }
 
 const log = logger.child({ from: 'Claim' })
-
-// eslint-disable-next-line require-await
-const openLearnMoreLink = async () => openLink(Config.learnMoreEconomyUrl)
 
 const bigFontSize = isSmallDevice ? 30 : 40
 const regularFontSize = isSmallDevice ? 14 : 16
@@ -72,6 +70,9 @@ const Claim = props => {
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
+
+  // A function which will open 'learn more' page in a new tab
+  const openLearnMoreLink = useOnPress(() => openLink(Config.learnMoreEconomyUrl), [])
 
   // calculate and format number of people who did claim today
   const peopleClaimedToday = useMemo(() => {

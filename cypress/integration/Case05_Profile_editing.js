@@ -12,7 +12,7 @@ function makeVerification() {
     .eq(2)
     .click()
   for (let i = 0; i < 6; i++) {
-    SignUpPage.codeInputs.eq(i).type(i, { force: true }, { delay: 500 })
+    SignUpPage.codeInputs.eq(i).type(i, { delay: 500 })
   }
   cy.contains('verification code').should('not.be.visible')
   ProfilePage.openEditProfileButton()
@@ -100,8 +100,9 @@ describe('Test case 5: Ability to change user data', () => {
     ProfilePage.pageHeader.should('contain', 'Profile')
     ProfilePage.openEditProfileButton()
     //EditProfilePage.nameInput.invoke('attr', 'value').should('eq', 'nickName888')
-    EditProfilePage.nameInput.clear({ timeout: 10000 })
+    //EditProfilePage.nameInput.clear({ timeout: 10000 })
     EditProfilePage.nameInput.type('Random Username')
+    EditProfilePage.emailInput.click()
     cy.contains('Only letters, numbers and underscore')
     EditProfilePage.saveButton.should('not.be.enabled')
   })

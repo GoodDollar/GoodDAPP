@@ -14,7 +14,7 @@ type Props = {
   theme: any,
 }
 
-const ScanQRButton = ({ onPress, styles, theme, disabled, style = {} }: Props) => (
+const ScanQRButton = ({ onPress, styles, disabled, style = {} }: Props) => (
   <TouchableOpacity style={style.row} onPress={disabled ? undefined : onPress}>
     <View style={styles.buttonContainer}>
       <View style={styles.iconWrapper}>

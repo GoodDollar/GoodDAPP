@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Icon from '../view/Icon'
 import useClipboard from '../../../lib/hooks/useClipboard'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import CustomButton from './CustomButton'
 
 const NOT_COPIED = 'NOT_COPIED'
@@ -16,7 +17,7 @@ const CopyButton = ({ toCopy, children, onPress, onPressDone, iconColor, without
 
   const transitionToState = useCallback(() => setState(onPressDone ? DONE : NOT_COPIED), [setState, onPressDone])
 
-  const onPressHandler = useCallback(() => {
+  const onPressHandler = useOnPress(() => {
     if (setString(toCopy)) {
       setState(COPIED)
       onPress && onPress()

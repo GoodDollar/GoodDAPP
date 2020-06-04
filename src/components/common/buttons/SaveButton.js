@@ -1,9 +1,11 @@
 // @flow
 import React, { useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import { noop } from 'lodash'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 import Icon from '../view/Icon'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import CustomButton from './CustomButton'
 
 const NOT_SAVED = 'NOT_SAVED'
@@ -23,9 +25,20 @@ type SaveButtonProps = {
   color?: string,
 }
 
-const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, ...props }: SaveButtonProps) => {
+const SaveButton = ({
+  children,
+  onPress,
+  onPressDone = noop,
+  doneDelay = TRANSITION_TIME,
+  styles,
+  theme,
+  mode = 'contained',
+  ...props
+}: SaveButtonProps) => {
   const [state, setState] = useState(NOT_SAVED)
-  const pressAndNextState = async () => {
+  const backgroundColor = theme.colors.darkBlue
+
+  const pressAndNextState = useOnPress(async () => {
     setState(SAVING)
 
     const result = await onPress()
@@ -36,9 +49,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
       setState(DONE)
       setTimeout(onPressDone, doneDelay)
     }
-  }
-
-  const backgroundColor = theme.colors.darkBlue
+  }, [setState, onPressDone, doneDelay])
 
   return (
     <View style={styles.wrapper}>
@@ -49,6 +60,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
       ) : (
         <CustomButton
           {...props}
+          mode={mode}
           color={backgroundColor}
           loading={state === SAVING}
           compact={true}
@@ -70,12 +82,6 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
       )}
     </View>
   )
-}
-
-SaveButton.defaultProps = {
-  mode: 'contained',
-  doneDelay: TRANSITION_TIME,
-  onPressDone: () => {},
 }
 
 const getStylesFromProps = ({ theme }) => ({

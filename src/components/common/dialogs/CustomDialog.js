@@ -10,6 +10,7 @@ import SuccessIcon from '../modal/SuccessIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 import Text from '../view/Text'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
@@ -97,18 +98,7 @@ const CustomDialog = ({
           {showButtons ? (
             <View style={buttonsContainerStyle || styles.buttonsContainer}>
               {buttons ? (
-                buttons.map(({ onPress = dismiss => dismiss(), style, disabled, ...buttonProps }, index) => (
-                  <CustomButton
-                    {...buttonProps}
-                    onPress={() => onPress(onDismiss)}
-                    style={[{ marginLeft: 10 }, style]}
-                    disabled={disabled || loading}
-                    loading={loading}
-                    key={index}
-                  >
-                    {buttonProps.text}
-                  </CustomButton>
-                ))
+                renderButtons({ buttons, onDismiss, loading })
               ) : (
                 <CustomButton disabled={loading} loading={loading} onPress={onDismiss} style={[styles.buttonOK]}>
                   Ok
@@ -120,6 +110,27 @@ const CustomDialog = ({
       </ModalWrapper>
     </Portal>
   ) : null
+}
+
+const renderButtons = ({ buttons, onDismiss, loading }) => {
+  return buttons.map((props, index) => {
+    const { onPress = dismiss => dismiss(), style, disabled, text, ...buttonProps } = props
+
+    const onPressHandler = useOnPress(() => onPress(onDismiss), [onPress, onDismiss])
+
+    return (
+      <CustomButton
+        key={index}
+        {...buttonProps}
+        onPress={onPressHandler}
+        style={[styles.buttonDefault, style]}
+        disabled={disabled || loading}
+        loading={loading}
+      >
+        {text}
+      </CustomButton>
+    )
+  })
 }
 
 const getColorFromType = (type: string) => {
@@ -134,16 +145,15 @@ const getColorFromType = (type: string) => {
 const SimpleStoreDialog = () => {
   const store = SimpleStore.useStore()
   const { dialogData } = store.get('currentScreen')
-  return (
-    <CustomDialog
-      {...dialogData}
-      onDismiss={(...args) => {
-        const currentDialogData = { ...dialogData }
-        store.set('currentScreen')({ dialogData: { visible: false } })
-        currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
-      }}
-    />
-  )
+
+  const onDismiss = useOnPress(() => {
+    const currentDialogData = { ...dialogData }
+
+    store.set('currentScreen')({ dialogData: { visible: false } })
+    currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
+  }, [dialogData, store])
+
+  return <CustomDialog {...dialogData} onDismiss={onDismiss} />
 }
 
 const styles = StyleSheet.create({
@@ -173,6 +183,9 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     paddingRight: 0,
     paddingTop: theme.sizes.defaultDouble,
+  },
+  buttonDefault: {
+    marginLeft: 10,
   },
   buttonCancel: {
     minWidth: 80,

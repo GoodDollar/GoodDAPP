@@ -1,5 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { noop } from 'lodash'
 
 import GDStore from '../../../../lib/undux/GDStore'
 import ImportedScanQRButton from '../ScanQRButton'
@@ -13,7 +14,7 @@ describe('ScanQRButton', () => {
     // Given
     const component = renderer.create(
       <Container>
-        <ScanQRButton onPress={() => {}} />
+        <ScanQRButton onPress={noop} />
       </Container>
     )
 
@@ -28,7 +29,7 @@ describe('ScanQRButton', () => {
     // Given
     const component = renderer.create(
       <Container>
-        <ScanQRButton onPress={() => {}} />
+        <ScanQRButton onPress={noop} />
       </Container>
     )
 

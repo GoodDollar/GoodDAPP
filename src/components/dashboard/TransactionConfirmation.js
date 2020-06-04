@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Image, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
@@ -13,6 +13,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import { fireEvent } from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
 import useClipboard from '../../lib/hooks/useClipboard'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { ACTION_RECEIVE, ACTION_SEND, PARAM_ACTION, RECEIVE_TITLE, SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -42,7 +43,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { paymentLink, action } = screenState
   const { setString } = useClipboard()
 
-  const handlePressConfirm = useCallback(() => {
+  const handlePressConfirm = useOnPress(() => {
     let type = 'share'
 
     if (canShare) {
@@ -59,6 +60,8 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
 
     fireEvent('SEND_CONFIRMATION_SHARE', { type })
   }, [canShare, paymentLink, goToRoot, shareAction])
+
+  const handleDoneClick = useOnPress(() => goToRoot(), [goToRoot])
 
   const secondTextPoint = action === ACTION_SEND ? 'Share it with your recipient' : 'Share it with sender'
   const thirdTextPoint = action === ACTION_SEND ? 'Recipient approves request' : 'Sender approves request'
@@ -93,7 +96,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
         </Section.Stack>
         <Image style={styles.image} source={ConfirmTransactionSVG} resizeMode="contain" />
         <View style={styles.confirmButtonWrapper}>
-          <ConfirmButton onPress={handlePressConfirm} onPressDone={goToRoot}>
+          <ConfirmButton onPress={handlePressConfirm} onPressDone={handleDoneClick}>
             <>
               <Icon color="white" name="link" size={25} style={styles.buttonIcon} />
               <Section.Text size={14} color="white" fontWeight="bold">

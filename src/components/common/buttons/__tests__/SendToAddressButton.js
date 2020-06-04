@@ -1,5 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { noop } from 'lodash'
 
 import GDStore from '../../../../lib/undux/GDStore'
 import ImportedSendToAddressButton from '../SendToAddressButton'
@@ -13,7 +14,7 @@ describe('SendToAddressButton', () => {
     // Given
     const component = renderer.create(
       <Container>
-        <SendToAddressButton onPress={() => {}} />
+        <SendToAddressButton onPress={noop} />
       </Container>
     )
 
@@ -28,7 +29,7 @@ describe('SendToAddressButton', () => {
     // Given
     const component = renderer.create(
       <Container>
-        <SendToAddressButton onPress={() => {}} />
+        <SendToAddressButton onPress={noop} />
       </Container>
     )
 

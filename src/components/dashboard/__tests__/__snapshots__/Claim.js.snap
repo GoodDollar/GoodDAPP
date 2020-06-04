@@ -391,7 +391,8 @@ UBI on a global scale.
                         Object {
                           "display": "inline-flex",
                           "left": "0px",
-                          "marginTop": "18px",
+                          "marginBottom": "10px",
+                          "marginTop": "20px",
                           "position": "relative",
                           "top": "0px",
                         }

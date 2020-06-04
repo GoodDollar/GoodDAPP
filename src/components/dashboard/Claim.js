@@ -414,8 +414,13 @@ const Claim = props => {
           handleNonCitizen={handleNonCitizen}
           showLabelOnly
         />
+        <View style={styles.fakeExtraInfoContainer} />
         <Section.Row style={styles.extraInfoContainer}>
-          <Section.Text style={styles.fontSize16} fontWeight="bold" fontFamily="Roboto">
+          <Section.Text
+            style={[styles.fontSize16, styles.extraInfoSecondContainer]}
+            fontWeight="bold"
+            fontFamily="Roboto"
+          >
             <Section.Text style={styles.fontSize16}>{'Today '}</Section.Text>
             <Section.Text fontWeight="bold" style={styles.fontSize16}>
               <BigGoodDollar
@@ -489,6 +494,9 @@ const getStylesFromProps = ({ theme }) => {
     ...fontSize16,
   }
 
+  const claimButtonBottomPosition = isBrowser ? 16 : getDesignRelativeHeight(12)
+  const extraInfoTopPosition = 100 - Number(claimButtonBottomPosition)
+
   return {
     mainContainer: {
       backgroundColor: 'transparent',
@@ -533,7 +541,7 @@ const getStylesFromProps = ({ theme }) => {
       zIndex: 1,
       width: '100%',
       position: 'absolute',
-      bottom: isBrowser ? '16%' : `${getDesignRelativeHeight(12)}%`,
+      bottom: `${claimButtonBottomPosition}%`,
     },
     fakeClaimButton: {
       width: getDesignRelativeHeight(196),
@@ -543,14 +551,16 @@ const getStylesFromProps = ({ theme }) => {
       display: 'contents',
     },
     extraInfoContainer: {
-      marginBottom: getDesignRelativeHeight(5),
-      alignItems: 'flex-end',
-      justifyContent: 'center',
+      position: 'absolute',
+      top: `${extraInfoTopPosition}%`,
+      height: `${claimButtonBottomPosition}%`,
+      width: '100%',
     },
     extraInfoSecondContainer: {
-      display: 'inline',
-      textAlign: 'center',
-      width: getDesignRelativeWidth(340),
+      width: '100%',
+    },
+    fakeExtraInfoContainer: {
+      height: getDesignRelativeHeight(45),
     },
     fontSize16,
   }

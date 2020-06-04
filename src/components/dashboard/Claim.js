@@ -57,7 +57,7 @@ const Claim = props => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
-  const [pageState, setPageState]: [ClaimState, Function] = useState({
+  const [claimState, setClaimState]: [ClaimState, Function] = useState({
     nextClaim: '--:--:--',
     entitlement: (entitlement && entitlement.toNumber()) || 0,
     claimedToday: {
@@ -67,7 +67,7 @@ const Claim = props => {
   })
 
   // get the number of people who did claim today. Default - 0
-  const numberOfPeopleClaimedToday = get(pageState, 'claimedToday.amount', 0)
+  const numberOfPeopleClaimedToday = get(claimState, 'claimedToday.amount', 0)
   const [queueStatus, setQueueStatus] = useState(undefined)
   const [showLoading, hideLoading] = useLoadingIndicator()
 
@@ -153,7 +153,7 @@ const Claim = props => {
       checkQueueStatus(),
       goodWallet
         .checkEntitlement()
-        .then(entitlement => setPageState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
+        .then(entitlement => setClaimState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
         .catch(e => {
           log.error('gatherStats failed', e.message, e)
           showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
@@ -173,10 +173,10 @@ const Claim = props => {
 
   const getNextClaim = async date => {
     let nextClaimTime = date - new Date().getTime()
-    if (nextClaimTime < 0 && pageState.entitlement <= 0) {
+    if (nextClaimTime < 0 && claimState.entitlement <= 0) {
       try {
         const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
-        setPageState(prev => ({ ...prev, entitlement }))
+        setClaimState(prev => ({ ...prev, entitlement }))
       } catch (exception) {
         const { message } = exception
         log.warn('getNextClaim failed', message, exception)
@@ -202,11 +202,11 @@ const Claim = props => {
 
     if (claimedToday && nextClaimDate) {
       const nextClaim = await getNextClaim(nextClaimDate)
-      setPageState(prevState => ({ ...prevState, claimedToday, nextClaim }))
+      setClaimState(prevState => ({ ...prevState, claimedToday, nextClaim }))
       setClaimInterval(
         setInterval(async () => {
           const nextClaim = await getNextClaim(nextClaimDate)
-          setPageState(prevState => ({ ...prevState, nextClaim }))
+          setClaimState(prevState => ({ ...prevState, nextClaim }))
         }, 1000)
       )
     }
@@ -239,7 +239,7 @@ const Claim = props => {
 
     try {
       //when we come back from FR entitelment might not be set yet
-      const curEntitlement = pageState.entitlement || (await goodWallet.checkEntitlement().toNumber())
+      const curEntitlement = claimState.entitlement || (await goodWallet.checkEntitlement().toNumber())
       if (curEntitlement == 0) {
         return
       }
@@ -357,9 +357,9 @@ const Claim = props => {
       <Section.Stack style={styles.mainContainer} justifyContent="space-between">
         <View style={styles.headerContentContainer}>
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" style={styles.headerText}>
-            {pageState.entitlement ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
+            {claimState.entitlement ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
           </Section.Text>
-          {pageState.entitlement > 0 ? (
+          {claimState.entitlement > 0 ? (
             <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
               <View style={styles.amountBlock}>
                 <Section.Text color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
@@ -406,9 +406,9 @@ const Claim = props => {
         <View style={styles.fakeClaimButton} />
         <ButtonBlock
           styles={styles}
-          entitlement={pageState.entitlement}
+          entitlement={claimState.entitlement}
           isCitizen={isCitizen}
-          nextClaim={pageState.nextClaim}
+          nextClaim={claimState.nextClaim}
           isInQueue={queueStatus === 'pending'}
           handleClaim={handleClaim}
           handleNonCitizen={handleNonCitizen}
@@ -421,7 +421,7 @@ const Claim = props => {
               <BigGoodDollar
                 style={styles.extraInfoAmountDisplay}
                 reverse
-                number={get(pageState, 'claimedToday.amount', 0)}
+                number={get(claimState, 'claimedToday.amount', 0)}
                 spaceBetween={false}
                 formatter={weiToGd}
                 fontFamily="Roboto"

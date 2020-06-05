@@ -18,7 +18,7 @@ const usePermissions = (permission: Permission, callbacks = {}) => {
   const [allowed, setAllowed] = useState(false)
 
   useEffect(() => {
-    const PopupComponent = usePermissions[permission]
+    const PopupComponent = usePermissions.popups[permission]
 
     const showPermissionsPopup = showDialog({
       content: <PopupComponent />,
@@ -56,8 +56,8 @@ const usePermissions = (permission: Permission, callbacks = {}) => {
 }
 
 usePermissions.popups = {
-  [Permissions.Camera]: CameraPermissionsDialog,
-  [Permissions.Clipboard]: ClipboardPermissionsDialog,
+  [Permissions.CAMERA]: CameraPermissionsDialog,
+  [Permissions.CLIPBOARD]: ClipboardPermissionsDialog,
 }
 
 export default usePermissions

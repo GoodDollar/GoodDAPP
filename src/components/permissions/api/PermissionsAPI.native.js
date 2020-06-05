@@ -23,10 +23,11 @@ export default new class {
   async check(permission: Permission): Promise<PermissionStatus> {
     const { api, platformPermissions } = this
     const platformPermission = platformPermissions[permission]
+    const { Granted, Denied, Prompt, Undetermined } = PermissionStatuses
 
     // no platform permission found - that means feature doesn't requires permissions on this platform
     if (!platformPermission) {
-      return PermissionStatuses.Granted
+      return Granted
     }
 
     const result = await api.check(platformPermission)
@@ -34,13 +35,13 @@ export default new class {
     switch (result) {
       case RESULTS.UNAVAILABLE:
       case RESULTS.BLOCKED:
-        return PermissionStatuses.Denied
+        return Denied
       case RESULTS.GRANTED:
-        return PermissionStatuses.Granted
+        return Granted
       case RESULTS.DENIED:
-        return PermissionStatuses.Prompt
+        return Prompt
       default:
-        return PermissionStatuses.Undetermined
+        return Undetermined
     }
   }
 
@@ -50,7 +51,7 @@ export default new class {
 
     // no platform permission found - that means feature doesn't requires permissions on this platform
     if (!platformPermission) {
-      return PermissionStatuses.Granted
+      return true
     }
 
     const result = await api.request(platformPermission)

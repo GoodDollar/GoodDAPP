@@ -1,124 +1,170 @@
 // @flow
 
 import logger from '../../../lib/logger/pino-logger'
-import { Permissions, PermissionStatuses } from '../types'
+import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
 
 const log = logger.child({ from: 'PermissionsAPI' })
 
-export default new class PermissionsAPIWeb {
+class PermissionsAPI {
   // permissions enum to platform permissions map
   platformPermissions = {
     [Permissions.Camera]: 'camera',
     [Permissions.Clipboard]: 'clipboard-write',
   }
 
+  constructor(api, clipboardApi, mediaApi) {
+    this.api = api
+    this.clipboardApi = clipboardApi
+    this.mediaApi = mediaApi
+  }
+
   /*
-   * The main method which should be used to get status of specific permission kind
-   * @param {string} kind
-   * @return Promise<string> - one of PermissionStatusesEnum
+   * Retrieves status of permission
+   *
+   * @param {Permission} Permission needs to be checked
+   * @return Promise<PermissionStatus> Status of the permission
    */
-  query(kind) {
-    switch (kind) {
-      case Permissions.Camera:
-        return this._getCameraPermissionStatus()
+  async check(permission: Permission): Promise<PermissionStatus> {
+    const { api, platformPermissions } = this
+    const { Granted, Denied, Prompt, Undetermined } = PermissionStatuses
+    const platformPermission = platformPermissions[permission]
 
-      case Permissions.Clipboard:
-        return this._getClipboardPermissionStatus()
+    // no platform permission found - that means feature doesn't requires permissions on this platform
+    if (!platformPermission) {
+      return Granted
+    }
 
+    // Permissions API not available - returnin undetermined status
+    if (!api) {
+      return Undetermined
+    }
+
+    const { state, status } = await api.query({ name: platformPermission })
+
+    // could be changed/extended so we need this switch to map them to platform-independed statuses
+    switch (status || state) {
+      case 'granted':
+        return Granted
+      case 'prompt':
+        return Prompt
+      case 'denied':
+        return Denied
       default:
-        return false
+        return Undetermined
     }
   }
 
   /*
-   * Private method used to verify if Browser's PermissionAPI is available and get permission status by provided kind
-   * @private
-   * @param {string} kind
-   * @return (undefined - Browser's PermissionAPI is not available) or (Promise<string> - one of PermissionStatusesEnum)
+   * Requests for permission
+   *
+   * @param {Permission} Permission we're requesting
+   * @return Promise<boolean> Was permission granted or nor
    */
-  async _getStatusByBrowsersPermissionAPI(kind) {
-    // get Browser's PermissionAPI object
-    const permissionsApi = navigator.permissions
+  async request(permission: Permission): Promise<PermissionStatus> {
+    const platformPermission = this.platformPermissions[permission]
+    const { Clipboard, Camera } = Permissions
 
-    // check if Browser's PermissionsAPI is available in current browser
-    if (permissionsApi) {
-      // if Browser's PermissionsAPI i available then fetch permission status by received kind
-      // query method will return PermissionStatus object
-      const permissionStatusObj = await permissionsApi.query({ name: this.platformPermissions[kind] })
+    // no platform permission found - that means feature doesn't requires permissions on this platform
+    if (!platformPermission) {
+      return true
+    }
 
-      // fetch and return permission status from 'PermissionStatus.state' field
-      return permissionStatusObj.state
+    try {
+      // requesting permissions by direct calling corresponding APIs
+      // as permissions API doesn't supports yet requesting for permissions
+      switch (permission) {
+        case Camera:
+          await this._requestCameraPermission()
+          break
+        case Clipboard:
+          await this._requestClipboardPermissions()
+          break
+      }
+
+      return true
+    } catch {
+      return false
     }
   }
 
   /*
-   * Private method used to get camera permission status
+   * Requests camera permissions by manually requesting for a video stream
+
+   * @return {Promise<void>}
+   * @throws {Error} If permission wasn't granted
    * @private
-   * @return Promise<string> - one of PermissionStatusesEnum
    */
-  async _getCameraPermissionStatus() {
-    // get camera permission status by Browser's PermissionsAPI
-    const browserPermissionStatus = await this._getStatusByBrowsersPermissionAPI('camera')
-
-    // check if value exists
-    if (browserPermissionStatus) {
-      // return if exists
-      return browserPermissionStatus
-    }
-
-    // get camera status by requesting a video stream manually
-    return this._getCameraPermissionStatusByRequestingStream()
-  }
-
-  /*
-   * Private method used to get camera permission status by manually request video stream
-   * Used when Browser's PermissionsAPI is not available in current browser
-   * @private
-   * @return Promise<string> - one of [PermissionStatusesEnum.DENIED, PermissionStatusesEnum.GRANTED]
-   */
-  async _getCameraPermissionStatusByRequestingStream() {
+  async _requestCameraPermission(): Promise<void> {
     // fetching the getUserMedia method from navigator
-    const getUserMedia = navigator.mediaDevices.getUserMedia
+    const { getUserMedia } = this.mediaApi || {}
 
     // verify if getUserMedia is available
     if (!getUserMedia) {
-      // make log - getUserMedia is not supported
-      log.warn('getUserMedia() is not supported by this browser')
+      const message = 'getUserMedia() is not supported by this browser'
 
-      // return denied as local video stream is not supported in this browser
-      return PermissionStatuses.Denied
+      // make log - getUserMedia is not supported
+      log.warn(message)
+
+      // thow exception that local video stream is not supported in this browser
+      throw new Error(message)
     }
 
     try {
       // requesting video stream to verify its available
-      await getUserMedia({
-        video: true,
-      })
-    } catch (e) {
-      // make log of failed video stream request
-      log.warn('getUserMedia failed:', e.message, e)
+      await getUserMedia({ video: true })
+    } catch (exception) {
+      const { message } = exception
 
-      // return denied for failure cases
-      return PermissionStatuses.Denied
+      // make log of failed video stream request
+      log.warn('getUserMedia failed:', message, exception)
+
+      // rethrow exception for failure case
+      throw exception
     }
 
-    // if the code reached this lines - it mean that video stream request is successful and permission is allowed
-    // return granted status
-    return PermissionStatuses.Granted
+    // if the code reached end of the function's body - it mean that
+    // video stream request was successful and permission was allowed
   }
 
-  async _getClipboardPermissionStatus() {
+  /**
+   * Requests clipboard permissions by manually reading clipboard text
+   *
+   * @returns {Promise<void>}
+   */
+  async _requestClipboardPermissions(): Promise<void> {
+    const { clipboardApi } = this
+
+    // verify if clipboard API is available
+    if (!clipboardApi) {
+      const message = 'navigator.clipboard is not supported by this browser'
+
+      // make log - ckipboard is not supported
+      log.warn(message)
+
+      // throw exception that clipboard is not supported in this browser
+      throw new Error(message)
+    }
+
     try {
       // trying to read data from clipboard
-      await navigator.clipboard.read()
-    } catch (e) {
+      await clipboardApi.readText()
+    } catch (exception) {
+      const { name, message } = exception
+
+      // make log of failed video stream request
+      log.warn('clipboard.readText*() failed:', message, exception)
+
       // if clipboard access is denied then NotAllowedError will occur
-      if (e.name === 'NotAllowedError') {
-        return false
+      if ('NotAllowedError' == name) {
+        // rethrow exception for failure case
+        throw exception
       }
     }
 
     // in case error did not appear - clipboard access granted
-    return true
   }
-}()
+}
+
+const { permissions, clipboard, mediaDevices } = navigator
+
+export default new PermissionsAPI(permissions, clipboard, mediaDevices)

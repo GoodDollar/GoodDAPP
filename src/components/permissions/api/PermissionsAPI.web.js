@@ -20,7 +20,7 @@ export default new class PermissionsAPIWeb {
       case Permissions.CAMERA:
         return this._getCameraPermissionStatus()
 
-      case Permissions.CLIPBOARD:
+      case Permissions.CLIPBOARD_WRITE:
         return this._getClipboardPermissionStatus()
 
       default:

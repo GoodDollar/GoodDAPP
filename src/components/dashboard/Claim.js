@@ -4,7 +4,6 @@ import { AsyncStorage, View } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
 import moment from 'moment'
 import { get } from 'lodash'
-import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -13,6 +12,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { openLink } from '../../lib/utils/linking'
+import { formatNumberToBeWithAbbreviations } from '../../lib/utils/formatNumber'
 import API from '../../lib/API/api'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -80,7 +80,7 @@ const Claim = props => {
   // format number of people who did claim today
   /*eslint-disable */
   const formattedNumberOfPeopleClaimedToday = useMemo(
-    () => numeral(numberOfPeopleClaimedToday).format('0a').toUpperCase(),
+    () => formatNumberToBeWithAbbreviations(numberOfPeopleClaimedToday),
     [numberOfPeopleClaimedToday]
   )
   /*eslint-enable */
@@ -90,10 +90,8 @@ const Claim = props => {
     // first transform wei to G$
     const G$ = weiToGd(number)
 
-    // format the number with numeral
-    return numeral(G$)
-      .format('0a')
-      .toUpperCase()
+    // format the number to be with the abbreviations
+    return formatNumberToBeWithAbbreviations(G$)
   }, [])
 
   // if we returned from facerecoginition then the isValid param would be set

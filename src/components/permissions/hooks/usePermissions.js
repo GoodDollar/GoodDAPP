@@ -1,51 +1,82 @@
 // @flow
+
+import { useEffect, useState } from 'react'
+
 import { noop } from 'lodash'
-import React, { useEffect, useState } from 'react'
-import { type Permission, Permissions } from '../types'
+
+import { type Permission, Permissions, PermissionStatuses } from '../types'
 
 import CameraPermissionsDialog from '../components/CameraPermissionsDialog'
 import ClipboardPermissionsDialog from '../components/ClipboardPermissionsDialog'
 
 import { useDialog } from '../../../lib/undux/utils/dialog'
-import useMountedState from '../../../lib/hooks/useMountedState'
 
 import api from '../api/PermissionsAPI'
 
 const usePermissions = (permission: Permission, callbacks = {}) => {
   const [showDialog] = useDialog()
-  const mountedState = useMountedState()
   const { onAllowed = noop, onDenied = noop } = callbacks
   const [allowed, setAllowed] = useState(false)
 
   useEffect(() => {
-    const PopupComponent = usePermissions.popups[permission]
-
-    const showPermissionsPopup = showDialog({
-      content: <PopupComponent />,
-      isMinHeight: false,
-      buttons: [
-        {
-          text: 'OK',
-          onPress: dismiss => {
-            dismiss()
-            onDenied()
+    const showPermissionsPopup = ({ onConfirm = noop, ...props }) =>
+      showDialog({
+        ...props,
+        isMinHeight: false,
+        buttons: [
+          {
+            text: 'OK',
+            onPress: dismiss => {
+              dismiss()
+              onConfirm()
+            },
           },
-        },
-      ],
-    })
+        ],
+      })
 
-    const queryPermissions = async () => {
-      const isAllowed = await api.query(permission)
+    const requestPermission = async () => {
+      const isAllowed = await api.request(permission)
+
+      setAllowed(isAllowed)
 
       if (!isAllowed) {
-        showPermissionsPopup()
-        return
+        showPermissionsPopup({
+          content: usePermissions.popups[`${permission}_${PermissionStatuses.DENIED}`],
+        })
+
+        return onDenied()
       }
 
       onAllowed()
+    }
 
-      if (mountedState.current) {
-        setAllowed(isAllowed)
+    const queryPermissions = async () => {
+      const status = await api.check(permission)
+
+      switch (status) {
+        case PermissionStatuses.GRANTED:
+          setAllowed(true)
+          onAllowed()
+          break
+
+        case PermissionStatuses.DENIED:
+          showPermissionsPopup({
+            content: usePermissions.popups[`${permission}_${PermissionStatuses.DENIED}`],
+          })
+          setAllowed(false)
+          onDenied()
+          break
+
+        case PermissionStatuses.PROMPT:
+          showPermissionsPopup({
+            content: usePermissions.popups[`${permission}_${PermissionStatuses.PROMPT}`],
+            onConfirm: requestPermission,
+          })
+          break
+
+        case PermissionStatuses.UNDETERMINED:
+          requestPermission()
+          break
       }
     }
 
@@ -56,8 +87,10 @@ const usePermissions = (permission: Permission, callbacks = {}) => {
 }
 
 usePermissions.popups = {
-  [Permissions.CAMERA]: CameraPermissionsDialog,
-  [Permissions.CLIPBOARD]: ClipboardPermissionsDialog,
+  [`${Permissions.CAMERA}_${PermissionStatuses.DENIED}`]: CameraPermissionsDialog, // todo paste error dialog
+  [`${Permissions.CAMERA}_${PermissionStatuses.PROMPT}`]: CameraPermissionsDialog, // todo paste info dialog
+  [`${Permissions.CLIPBOARD_WRITE}_${PermissionStatuses.DENIED}`]: ClipboardPermissionsDialog, // todo paste error dialog
+  [`${Permissions.CLIPBOARD_WRITE}_${PermissionStatuses.PROMPT}`]: ClipboardPermissionsDialog, // todo paste info dialog
 }
 
 export default usePermissions

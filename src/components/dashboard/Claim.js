@@ -80,10 +80,21 @@ const Claim = props => {
   // format number of people who did claim today
   /*eslint-disable */
   const formattedNumberOfPeopleClaimedToday = useMemo(
-    () => numeral(numberOfPeopleClaimedToday).format('0a'),
+    () => numeral(numberOfPeopleClaimedToday).format('0a').toUpperCase(),
     [numberOfPeopleClaimedToday]
   )
   /*eslint-enable */
+
+  // Format transformer function for claimed G$ amount
+  const extraInfoAmountFormatter = useCallback(number => {
+    // first transform wei to G$
+    const G$ = weiToGd(number)
+
+    // format the number with numeral
+    return numeral(G$)
+      .format('0a')
+      .toUpperCase()
+  }, [])
 
   // if we returned from facerecoginition then the isValid param would be set
   // this happens only on first claim
@@ -344,6 +355,7 @@ const Claim = props => {
       screenProps.push('FaceVerificationIntro', { from: 'Claim' })
     }
   }
+
   const handleNonCitizen = () => {
     if (Config.claimQueue) {
       handleClaimQueue()
@@ -428,7 +440,7 @@ const Claim = props => {
                 reverse
                 number={get(claimState, 'claimedToday.amount', 0)}
                 spaceBetween={false}
-                formatter={weiToGd}
+                formatter={extraInfoAmountFormatter}
                 fontFamily="Roboto"
                 bigNumberProps={{
                   fontFamily: 'Roboto',

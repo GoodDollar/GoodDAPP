@@ -2,7 +2,7 @@
 
 export const Permissions = Object.freeze({
   CAMERA: 'camera',
-  CLIPBOARD_WRITE: 'clipboard-write',
+  CLIPBOARD: 'clipboard',
 })
 
 export const PermissionStatuses = Object.freeze({

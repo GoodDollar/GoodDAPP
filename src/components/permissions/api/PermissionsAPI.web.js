@@ -1,15 +1,17 @@
+// @flow
+
 import logger from '../../../lib/logger/pino-logger'
-import { Permissions } from '../types'
+import { Permissions, PermissionStatuses } from '../types'
 
 const log = logger.child({ from: 'PermissionsAPI' })
 
-const PermissionStatus = {
-  GRANTED: 'granted',
-  DENIED: 'denied',
-  PROMPT: 'prompt', // denied, but means that browser will ask for permission when user will try to use its functionality
-}
-
 export default new class PermissionsAPIWeb {
+  // permissions enum to platform permissions map
+  platformPermissions = {
+    [Permissions.CAMERA]: 'camera',
+    [Permissions.CLIPBOARD]: 'clipboard-write',
+  }
+
   /*
    * The main method which should be used to get status of specific permission kind
    * @param {string} kind
@@ -20,7 +22,7 @@ export default new class PermissionsAPIWeb {
       case Permissions.CAMERA:
         return this._getCameraPermissionStatus()
 
-      case Permissions.CLIPBOARD_WRITE:
+      case Permissions.CLIPBOARD:
         return this._getClipboardPermissionStatus()
 
       default:
@@ -42,7 +44,7 @@ export default new class PermissionsAPIWeb {
     if (permissionsApi) {
       // if Browser's PermissionsAPI i available then fetch permission status by received kind
       // query method will return PermissionStatus object
-      const permissionStatusObj = await permissionsApi.query({ name: kind })
+      const permissionStatusObj = await permissionsApi.query({ name: this.platformPermissions[kind] })
 
       // fetch and return permission status from 'PermissionStatus.state' field
       return permissionStatusObj.state
@@ -84,7 +86,7 @@ export default new class PermissionsAPIWeb {
       log.warn('getUserMedia() is not supported by this browser')
 
       // return denied as local video stream is not supported in this browser
-      return PermissionStatus.DENIED
+      return PermissionStatuses.DENIED
     }
 
     try {
@@ -95,12 +97,12 @@ export default new class PermissionsAPIWeb {
       log.warn('getUserMedia failed:', e.message, e)
 
       // return denied for failure cases
-      return PermissionStatus.DENIED
+      return PermissionStatuses.DENIED
     }
 
     // if the code reached this lines - it mean that video stream request is successful and permission is allowed
     // return granted status
-    return PermissionStatus.GRANTED
+    return PermissionStatuses.GRANTED
   }
 
   async _getClipboardPermissionStatus() {

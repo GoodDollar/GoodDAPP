@@ -1,15 +1,15 @@
 // @flow
 
 export const Permissions = Object.freeze({
-  CAMERA: 'camera',
-  CLIPBOARD: 'clipboard',
+  Camera: 'camera',
+  Clipboard: 'clipboard',
 })
 
 export const PermissionStatuses = Object.freeze({
-  GRANTED: 'granted',
-  DENIED: 'denied',
-  PROMPT: 'propmt',
-  UNDETERMINED: 'undetermined',
+  Granted: 'granted',
+  Denied: 'denied',
+  Prompt: 'propmt',
+  Undetermined: 'undetermined',
 })
 
 export type Permission = $Values<typeof Permissions>

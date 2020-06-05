@@ -42,6 +42,7 @@ const usePermissions = (permission: Permission, callbacks = {}) => {
       if (!isAllowed) {
         showPermissionsPopup({
           content: usePermissions.popups[`${permission}_${PermissionStatuses.DENIED}`],
+          type: 'error',
         })
 
         return onDenied()
@@ -62,6 +63,7 @@ const usePermissions = (permission: Permission, callbacks = {}) => {
         case PermissionStatuses.DENIED:
           showPermissionsPopup({
             content: usePermissions.popups[`${permission}_${PermissionStatuses.DENIED}`],
+            type: 'error',
           })
           setAllowed(false)
           onDenied()

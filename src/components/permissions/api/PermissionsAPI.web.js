@@ -8,8 +8,8 @@ const log = logger.child({ from: 'PermissionsAPI' })
 export default new class PermissionsAPIWeb {
   // permissions enum to platform permissions map
   platformPermissions = {
-    [Permissions.CAMERA]: 'camera',
-    [Permissions.CLIPBOARD]: 'clipboard-write',
+    [Permissions.Camera]: 'camera',
+    [Permissions.Clipboard]: 'clipboard-write',
   }
 
   /*
@@ -19,10 +19,10 @@ export default new class PermissionsAPIWeb {
    */
   query(kind) {
     switch (kind) {
-      case Permissions.CAMERA:
+      case Permissions.Camera:
         return this._getCameraPermissionStatus()
 
-      case Permissions.CLIPBOARD:
+      case Permissions.Clipboard:
         return this._getClipboardPermissionStatus()
 
       default:
@@ -86,7 +86,7 @@ export default new class PermissionsAPIWeb {
       log.warn('getUserMedia() is not supported by this browser')
 
       // return denied as local video stream is not supported in this browser
-      return PermissionStatuses.DENIED
+      return PermissionStatuses.Denied
     }
 
     try {
@@ -97,12 +97,12 @@ export default new class PermissionsAPIWeb {
       log.warn('getUserMedia failed:', e.message, e)
 
       // return denied for failure cases
-      return PermissionStatuses.DENIED
+      return PermissionStatuses.Denied
     }
 
     // if the code reached this lines - it mean that video stream request is successful and permission is allowed
     // return granted status
-    return PermissionStatuses.GRANTED
+    return PermissionStatuses.Granted
   }
 
   async _getClipboardPermissionStatus() {

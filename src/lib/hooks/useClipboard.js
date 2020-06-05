@@ -1,40 +1,48 @@
 import { useCallback } from 'react'
 import Clipboard from '../utils/Clipboard'
 import logger from '../logger/pino-logger'
-import { useErrorDialog } from '../undux/utils/dialog'
 
 const log = logger.child({ from: 'useClipboard Hook' })
 
+const logPermissionsDenied = (exception, content = null) => {
+  const { name, message } = exception
+
+  if ('NotAllowedError' === name) {
+    const logPayload = content ? { content } : {}
+
+    log.warn('No clipboard permission', message, exception, logPayload)
+  }
+}
+
 export default () => {
-  const [showErrorDialog] = useErrorDialog()
+  const setString = useCallback(async content => {
+    try {
+      await Clipboard.setString(content)
+      return true
+    } catch (exception) {
+      logPermissionsDenied(exception, content)
 
-  const setString = useCallback(
-    content => {
-      try {
-        Clipboard.setString(content)
-        return true
-      } catch (e) {
-        if (e.name === 'NotAllowedError') {
-          showErrorDialog("GoodDollar can't access your clipboard, please enable clipboard permission")
+      return false
+    }
+  }, [])
 
-          log.warn('No clipboard permission', e.message, e, {
-            content,
-          })
-        }
+  // eslint-disable-next-line require-await
+  const getString = useCallback(async () => {
+    try {
+      return Clipboard.getString()
+    } catch (exception) {
+      logPermissionsDenied(exception)
+    }
+  }, [])
 
-        return false
-      }
-    },
-    [showErrorDialog]
-  )
-
-  return { setString }
+  return [getString, setString]
 }
 
 export const useClipboardPaste = (onPaste, logger = log) =>
   useCallback(async () => {
     try {
       const clipboardContents = await Clipboard.getString()
+
       onPaste(clipboardContents)
     } catch (exception) {
       const { message } = exception

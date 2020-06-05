@@ -1,12 +1,9 @@
-import logger from '../logger/pino-logger'
+import logger from '../../../lib/logger/pino-logger'
+import { Permissions } from '../types'
 
 const log = logger.child({ from: 'PermissionsAPI' })
 
-const PermissionsEnum = {
-  CAMERA: 'camera',
-  CLIPBOARD: 'clipboard',
-}
-const PermissionStatusesEnum = {
+const PermissionStatus = {
   GRANTED: 'granted',
   DENIED: 'denied',
   PROMPT: 'prompt', // denied, but means that browser will ask for permission when user will try to use its functionality
@@ -20,10 +17,10 @@ export default new class PermissionsAPIWeb {
    */
   query(kind) {
     switch (kind) {
-      case PermissionsEnum.CAMERA:
+      case Permissions.CAMERA:
         return this._getCameraPermissionStatus()
 
-      case PermissionsEnum.CLIPBOARD:
+      case Permissions.CLIPBOARD:
         return this._getClipboardPermissionStatus()
 
       default:
@@ -87,7 +84,7 @@ export default new class PermissionsAPIWeb {
       log.warn('getUserMedia() is not supported by this browser')
 
       // return denied as local video stream is not supported in this browser
-      return PermissionStatusesEnum.DENIED
+      return PermissionStatus.DENIED
     }
 
     try {
@@ -98,12 +95,12 @@ export default new class PermissionsAPIWeb {
       log.warn('getUserMedia failed:', e.message, e)
 
       // return denied for failure cases
-      return PermissionStatusesEnum.DENIED
+      return PermissionStatus.DENIED
     }
 
     // if the code reached this lines - it mean that video stream request is successful and permission is allowed
     // return granted status
-    return PermissionStatusesEnum.GRANTED
+    return PermissionStatus.GRANTED
   }
 
   async _getClipboardPermissionStatus() {

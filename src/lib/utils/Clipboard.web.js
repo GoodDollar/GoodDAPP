@@ -5,7 +5,7 @@ const log = logger.child({ from: 'Clipboard' })
 
 export default new class {
   constructor(api) {
-    this.api
+    this.api = api
   }
 
   async getString(): Promise<string> {

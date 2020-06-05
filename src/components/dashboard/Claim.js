@@ -12,7 +12,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { openLink } from '../../lib/utils/linking'
-import { formatNumberToBeWithAbbreviations } from '../../lib/utils/formatNumber'
+import { formatWithSIPrefix } from '../../lib/utils/formatNumber'
 import API from '../../lib/API/api'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -80,7 +80,7 @@ const Claim = props => {
   // format number of people who did claim today
   /*eslint-disable */
   const formattedNumberOfPeopleClaimedToday = useMemo(
-    () => formatNumberToBeWithAbbreviations(numberOfPeopleClaimedToday),
+    () => formatWithSIPrefix(numberOfPeopleClaimedToday),
     [numberOfPeopleClaimedToday]
   )
   /*eslint-enable */
@@ -91,7 +91,7 @@ const Claim = props => {
     const G$ = weiToGd(number)
 
     // format the number to be with the abbreviations
-    return formatNumberToBeWithAbbreviations(G$)
+    return formatWithSIPrefix(G$)
   }, [])
 
   // if we returned from facerecoginition then the isValid param would be set

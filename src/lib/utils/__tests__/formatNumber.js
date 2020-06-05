@@ -1,4 +1,4 @@
-import { formatNumberToBeWithAbbreviations } from '../formatNumber'
+import { formatWithSIPrefix } from '../formatNumber'
 
 describe('Number formatting test', () => {
   const fixture = {
@@ -41,7 +41,7 @@ describe('Number formatting test', () => {
 
   it('should successfully transform all of the numbers to be with abbreviation', () => {
     for (let [number, formatted] of Object.entries(fixture)) {
-      expect(formatNumberToBeWithAbbreviations(number)).toBe(formatted)
+      expect(formatWithSIPrefix(number)).toBe(formatted)
     }
   })
 })

@@ -1,13 +1,18 @@
 import React from 'react'
+import { Image, Platform } from 'react-native'
 
-import Illustration from '../../../assets/ClipboardPermission.svg'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+import illustration from '../../../assets/ClipboardPermission.svg'
+
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 export default () => (
   <ExplanationDialog
     title="Please allow access to your clipboard"
     text={`In order to paste inside the wallet`}
-    image={Illustration}
+    imageSource={illustration}
   />
 )
 

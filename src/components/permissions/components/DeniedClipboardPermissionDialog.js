@@ -1,15 +1,20 @@
 import React from 'react'
+import { Image, Platform } from 'react-native'
 
 import { isMobile } from '../../../lib/utils/platform'
 
-import Illustration from '../../../assets/ClipboardPermissionError.svg'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+import illustration from '../../../assets/ClipboardPermissionError.svg'
+
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 export default () => (
   <ExplanationDialog
     title="Please enable clipboard permission"
     text={`Change it via your ${isMobile ? 'device' : 'browser'} settings`}
-    image={Illustration}
+    imageSource={illustration}
   />
 )
 

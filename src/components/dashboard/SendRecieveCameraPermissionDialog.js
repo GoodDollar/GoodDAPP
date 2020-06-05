@@ -1,13 +1,18 @@
 import React from 'react'
+import { Image, Platform } from 'react-native'
 
-import Illustration from '../../assets/QRCamerraPermission.svg'
 import ExplanationDialog from '../common/dialogs/ExplanationDialog'
+import illustration from '../../assets/QRCamerraPermission.svg'
+
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 export default () => (
   <ExplanationDialog
     title="Please allow access to your camera"
     text={`In order to complete the QR code scan`}
-    image={Illustration}
+    imageSource={illustration}
   />
 )
 

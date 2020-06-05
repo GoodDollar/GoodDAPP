@@ -1,13 +1,18 @@
 import React from 'react'
+import { Image, Platform } from 'react-native'
 
-import Illustration from '../../../assets/CameraPermission.svg'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+import illustration from '../../../assets/CameraPermission.svg'
+
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
+}
 
 export default () => (
   <ExplanationDialog
     title="Please allow access to your camera"
     text={`In order to complete the verification`}
-    image={Illustration}
+    imageSource={illustration}
   />
 )
 

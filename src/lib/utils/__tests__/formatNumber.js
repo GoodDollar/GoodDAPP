@@ -39,7 +39,7 @@ describe('Number formatting test', () => {
     999000000: '999M',
   }
 
-  it('should successfully transform all of the numbers to be with abbreviation', () => {
+  it('should successfully transform all of the numbers to be with SI prefixes', () => {
     for (let [number, formatted] of Object.entries(fixture)) {
       expect(formatWithSIPrefix(number)).toBe(formatted)
     }

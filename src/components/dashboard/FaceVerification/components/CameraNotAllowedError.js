@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 
-import illustration from '../../../../assets/FRCameraPrmissionError.svg'
+import illustration from '../../../../assets/CameraPermissionError.svg'
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 
 import { useDialog } from '../../../../lib/undux/utils/dialog'

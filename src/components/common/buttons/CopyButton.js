@@ -12,12 +12,12 @@ const TRANSITION_TIME = 1000
 const CopyButton = ({ toCopy, children, onPress, onPressDone, iconColor, withoutDone, ...props }) => {
   const mode = props.mode || 'contained'
   const [state, setState] = useState(NOT_COPIED)
-  const { setString } = useClipboard()
+  const [, setString] = useClipboard()
 
   const transitionToState = useCallback(() => setState(onPressDone ? DONE : NOT_COPIED), [setState, onPressDone])
 
-  const onPressHandler = useCallback(() => {
-    if (setString(toCopy)) {
+  const onPressHandler = useCallback(async () => {
+    if (await setString(toCopy)) {
       setState(COPIED)
       onPress && onPress()
     }

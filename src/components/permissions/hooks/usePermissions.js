@@ -1,25 +1,36 @@
 // @flow
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { noop } from 'lodash'
 
 import { type Permission, Permissions, PermissionStatuses } from '../types'
 
-import CameraPermissionsDialog from '../components/CameraPermissionsDialog'
-import ClipboardPermissionsDialog from '../components/ClipboardPermissionsDialog'
+import CameraPermissionDialog from '../components/CameraPermissionDialog'
+import ClipboardPermissionDialog from '../components/ClipboardPermissionDialog'
+import DeniedCameraPermissionDialog from '../components/DeniedCameraPermissionDialog'
+import DeniedClipboardPermissionDialog from '../components/DeniedClipboardPermissionDialog'
 
 import { useDialog } from '../../../lib/undux/utils/dialog'
+import useMountedState from '../../../lib/hooks/useMountedState'
 
 import api from '../api/PermissionsAPI'
 
-const usePermissions = (permission: Permission, callbacks = {}) => {
+const { Clipboard, Camera } = Permissions
+const { Undetermined, Granted, Denied, Prompt } = PermissionStatuses
+
+const usePermissions = (permission: Permission, options = {}) => {
   const [showDialog] = useDialog()
-  const { onAllowed = noop, onDenied = noop } = callbacks
+  const mountedState = useMountedState()
   const [allowed, setAllowed] = useState(false)
 
   useEffect(() => {
-    const showPermissionsPopup = ({ onConfirm = noop, ...props }) =>
+    const { promptPopups, deniedPopups } = usePermissions
+    const { onAllowed = noop, onDenied = noop, promptPopup, deniedPopup } = options
+    const PromptPopup = promptPopup || promptPopups[permission]
+    const DeniedPopup = deniedPopup || deniedPopups[permission]
+
+    const showPopup = ({ onDismissed = noop, ...props }) =>
       showDialog({
         ...props,
         isMinHeight: false,
@@ -28,71 +39,70 @@ const usePermissions = (permission: Permission, callbacks = {}) => {
             text: 'OK',
             onPress: dismiss => {
               dismiss()
-              onConfirm()
+              onDismissed()
             },
           },
         ],
       })
 
+    const handleAllowed = () => {
+      onAllowed()
+
+      if (mountedState.current) {
+        setAllowed(true)
+      }
+    }
+
+    const handleDenied = () =>
+      showPopup({
+        type: 'error',
+        content: <DeniedPopup />,
+        onDismissed: onDenied,
+      })
+
     const requestPermission = async () => {
       const isAllowed = await api.request(permission)
 
-      setAllowed(isAllowed)
-
       if (!isAllowed) {
-        showPermissionsPopup({
-          content: usePermissions.popups[`${permission}_${PermissionStatuses.DENIED}`],
-          type: 'error',
-        })
-
-        return onDenied()
+        handleDenied()
+        return
       }
 
-      onAllowed()
+      handleAllowed()
     }
 
-    const queryPermissions = async () => {
-      const status = await api.check(permission)
-
+    api.check(permission).then(status => {
       switch (status) {
-        case PermissionStatuses.GRANTED:
-          setAllowed(true)
-          onAllowed()
-          break
-
-        case PermissionStatuses.DENIED:
-          showPermissionsPopup({
-            content: usePermissions.popups[`${permission}_${PermissionStatuses.DENIED}`],
-            type: 'error',
-          })
-          setAllowed(false)
-          onDenied()
-          break
-
-        case PermissionStatuses.PROMPT:
-          showPermissionsPopup({
-            content: usePermissions.popups[`${permission}_${PermissionStatuses.PROMPT}`],
-            onConfirm: requestPermission,
+        case Prompt:
+          showPopup({
+            content: <PromptPopup />,
+            onDismissed: requestPermission,
           })
           break
-
-        case PermissionStatuses.UNDETERMINED:
+        case Granted:
+          handleAllowed()
+          break
+        case Denied:
+          handleDenied()
+          break
+        case Undetermined:
           requestPermission()
           break
       }
-    }
-
-    queryPermissions()
+    })
   }, [])
 
   return allowed
 }
 
-usePermissions.popups = {
-  [`${Permissions.CAMERA}_${PermissionStatuses.DENIED}`]: CameraPermissionsDialog, // todo paste error dialog
-  [`${Permissions.CAMERA}_${PermissionStatuses.PROMPT}`]: CameraPermissionsDialog, // todo paste info dialog
-  [`${Permissions.CLIPBOARD_WRITE}_${PermissionStatuses.DENIED}`]: ClipboardPermissionsDialog, // todo paste error dialog
-  [`${Permissions.CLIPBOARD_WRITE}_${PermissionStatuses.PROMPT}`]: ClipboardPermissionsDialog, // todo paste info dialog
+usePermissions.promptPopups = {
+  [Camera]: CameraPermissionDialog,
+  [Clipboard]: ClipboardPermissionDialog,
+}
+
+usePermissions.deniedPopups = {
+  [Camera]: DeniedCameraPermissionDialog,
+  [Clipboard]: DeniedClipboardPermissionDialog,
 }
 
 export default usePermissions

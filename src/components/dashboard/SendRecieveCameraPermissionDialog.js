@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Illustration from '../../../assets/QRCamerraPermission.svg'
-import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+import Illustration from '../../assets/QRCamerraPermission.svg'
+import ExplanationDialog from '../common/dialogs/ExplanationDialog'
 
 export default () => (
   <ExplanationDialog

@@ -13,3 +13,5 @@ account.data.txt
 .gradle
 .png-cache
 .DS_Store
+cypress/videos/
+cypress/screenshots/

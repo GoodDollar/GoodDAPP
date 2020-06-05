@@ -19,6 +19,7 @@
 const clipboardy = require('clipboardy')
 const path = require('path')
 const fakeCameraPath = path.join(__dirname, '/../fixtures/face.mjpeg')
+//const extensionPath = path.join(__dirname, '/../fixtures/ipbhneeanpgkaleihlknhjiaamobkceh/0.4_0/')
 
 module.exports = (on, config) => {
   on('task', {
@@ -32,6 +33,8 @@ module.exports = (on, config) => {
       options.args.push('--use-fake-ui-for-media-stream')
       options.args.push('--use-fake-device-for-media-stream')
       options.args.push('--use-file-for-fake-video-capture=' + fakeCameraPath)
+
+      //options.extensions.push(extensionPath)
     }
     return options
   })

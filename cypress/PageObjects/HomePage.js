@@ -61,7 +61,7 @@ class HomePage {
   }
 
   get deleteAccountButton() {
-    return cy.contains('Delete wallet')
+    return cy.contains('Delete Account')
   }
 
   get confirmDeletionButton() {

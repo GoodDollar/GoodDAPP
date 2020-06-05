@@ -1,14 +1,12 @@
 import React from 'react'
 
-import { isMobile } from '../../../lib/utils/platform'
-
-import Illustration from '../../../assets/FRAllowCameraPermissions.svg'
+import Illustration from '../../../assets/QRCamerraPermission.svg'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 export default () => (
   <ExplanationDialog
     title="Please allow access to your camera"
-    text={`Change it via your ${isMobile ? 'device' : 'browser'} settings`}
+    text={`In order to complete the QR code scan`}
     image={Illustration}
   />
 )
@@ -19,7 +17,7 @@ export default () => (
 const [showDialog] = useDialog()
 
 showDialog({
-  content: <CameraPermissionDialog />,
+  content: <CameraPermissionDialogTypeQR />,
   isMinHeight: false,
   buttons: [
     {

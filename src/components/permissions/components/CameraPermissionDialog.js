@@ -1,14 +1,12 @@
 import React from 'react'
 
-import { isMobile } from '../../../lib/utils/platform'
-
-import Illustration from '../../../assets/FRAllowCameraPermissions.svg'
+import Illustration from '../../../assets/CameraPermission.svg'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 export default () => (
   <ExplanationDialog
-    title="Please enable clipboard permissions"
-    text={`Change it via your ${isMobile ? 'device' : 'browser'} settings`}
+    title="Please allow access to your camera"
+    text={`In order to complete the verification`}
     image={Illustration}
   />
 )
@@ -19,9 +17,8 @@ export default () => (
 const [showDialog] = useDialog()
 
 showDialog({
-  content: <ClipboardPermissionDialog />,
+  content: <CameraPermissionDialog />,
   isMinHeight: false,
-  type: 'error',
   buttons: [
     {
       text: 'OK',

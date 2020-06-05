@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import Clipboard from '../utils/Clipboard'
 import logger from '../logger/pino-logger'
 import { useErrorDialog } from '../undux/utils/dialog'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'useClipboard Hook' })
 
@@ -32,7 +33,7 @@ export default () => {
 }
 
 export const useClipboardPaste = (onPaste, logger = log) =>
-  useCallback(async () => {
+  useOnPress(async () => {
     try {
       const clipboardContents = await Clipboard.getString()
       onPaste(clipboardContents)

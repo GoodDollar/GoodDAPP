@@ -7,6 +7,7 @@ import { useCurriedSetters } from '../../../lib/undux/SimpleStore'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import Config from '../../../config/config'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import ErrorText from './ErrorText'
 
 const shouldChangeSizeOnKeyboardShown = isMobileSafari && Config.safariMobileKeyboardGuidedSize
@@ -31,7 +32,7 @@ const InputText = ({
     'isMobileKeyboardShown',
   ])
 
-  const onTouchStart = useCallback(() => {
+  const onTouchStart = useOnPress(() => {
     if (shouldChangeSizeOnKeyboardShown) {
       window.scrollTo(0, 0)
       document.body.scrollTop = 0

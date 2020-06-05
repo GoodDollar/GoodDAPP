@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { View } from 'react-native'
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import CustomButton from '../buttons/CustomButton'
@@ -12,6 +12,7 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 import GDStore from '../../../lib/undux/GDStore'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
@@ -27,7 +28,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
   }
 
-  const cancelPayment = useCallback(async () => {
+  const cancelPayment = useOnPress(async () => {
     log.info({ item, action: 'cancelPayment' })
     fireEventAnalytics('cancelPayment')
     if (item.status === 'pending') {
@@ -83,37 +84,37 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     }
   }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject])
 
-  const readMore = useCallback(() => {
+  const readMore = useOnPress(() => {
     fireEventAnalytics('readMore')
     log.info({ item, action: 'readMore' })
     handleModalClose()
   }, [handleModalClose, item])
 
-  const shareMessage = useCallback(() => {
+  const shareMessage = useOnPress(() => {
     fireEventAnalytics('shareMessage')
     log.info({ item, action: 'shareMessage' })
     handleModalClose()
   }, [handleModalClose, item])
 
-  const invitePeople = useCallback(() => {
+  const invitePeople = useOnPress(() => {
     fireEventAnalytics('Rewards')
     navigation.navigate('Rewards')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const Marketplace = useCallback(() => {
+  const Marketplace = useOnPress(() => {
     fireEventAnalytics('Marketplace')
     navigation.navigate('Marketplace')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const backupPage = useCallback(() => {
+  const backupPage = useOnPress(() => {
     fireEventAnalytics('BackupWallet')
     navigation.navigate('BackupWallet')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const goToClaimPage = useCallback(() => {
+  const goToClaimPage = useOnPress(() => {
     fireEventAnalytics('Claim')
     navigation.navigate('Claim')
     handleModalClose()

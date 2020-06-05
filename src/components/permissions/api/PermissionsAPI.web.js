@@ -91,7 +91,9 @@ export default new class PermissionsAPIWeb {
 
     try {
       // requesting video stream to verify its available
-      await getUserMedia()
+      await getUserMedia({
+        video: true,
+      })
     } catch (e) {
       // make log of failed video stream request
       log.warn('getUserMedia failed:', e.message, e)

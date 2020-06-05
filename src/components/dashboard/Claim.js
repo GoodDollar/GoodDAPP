@@ -86,13 +86,7 @@ const Claim = props => {
   /*eslint-enable */
 
   // Format transformer function for claimed G$ amount
-  const extraInfoAmountFormatter = useCallback(number => {
-    // first transform wei to G$
-    const G$ = weiToGd(number)
-
-    // format the number to be with the abbreviations
-    return formatWithSIPrefix(G$)
-  }, [])
+  const extraInfoAmountFormatter = useCallback(number => formatWithSIPrefix(weiToGd(number)), [])
 
   // if we returned from facerecoginition then the isValid param would be set
   // this happens only on first claim

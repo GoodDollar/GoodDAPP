@@ -162,11 +162,12 @@ signin.navigationOptions = {
   navigationBarHidden: false,
 }
 
-export default createStackNavigator(
-  {
-    signin,
-  },
-  {
-    backRouteName: 'Auth',
-  }
-)
+export default () =>
+  createStackNavigator(
+    {
+      signin,
+    },
+    {
+      backRouteName: 'Auth',
+    }
+  )

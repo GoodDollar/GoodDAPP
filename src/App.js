@@ -55,6 +55,7 @@ const App = () => {
 
 const AppHolder = () => {
   const [ready, setReady] = useState(false)
+  const [InitStore, setStore] = useState(undefined)
 
   useEffect(() => {
     /**
@@ -76,7 +77,8 @@ const AppHolder = () => {
         await upgradeVersion()
       }
 
-      await initStore()
+      const InitializedStore = await initStore()
+      setStore(InitializedStore)
       setReady(true)
     })()
   }, [])
@@ -88,9 +90,9 @@ const AppHolder = () => {
   return (
     <ActionSheetProvider>
       <ErrorBoundary>
-        <SimpleStore.Container>
+        <InitStore.Container>
           <App />
-        </SimpleStore.Container>
+        </InitStore.Container>
       </ErrorBoundary>
     </ActionSheetProvider>
   )

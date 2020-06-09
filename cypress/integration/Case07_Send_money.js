@@ -27,7 +27,11 @@ describe('Test case 7: Ability to send money', () => {
     SendMoneyPage.confirmButton.click()
     SendMoneyPage.copyLinkButton.click()
     SendMoneyPage.doneButton.should('be.visible')
-    cy.task('getClipboard').then(sendMoneyUrl => {
+
+    //get link from clipboard
+    //cy.task('getClipboard').then(sendMoneyUrl => {
+
+    SendMoneyPage.doneButton.invoke('attr', 'data-testid').then(sendMoneyUrl => {
       cy.log(sendMoneyUrl)
       const moneyLink = sendMoneyUrl
       const pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim

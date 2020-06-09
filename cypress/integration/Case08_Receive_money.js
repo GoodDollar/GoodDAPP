@@ -36,7 +36,11 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
     ReceiveMoneyPage.nextButton.click()
     ReceiveMoneyPage.shareLinkButton.click()
     ReceiveMoneyPage.doneButton.should('be.visible')
-    cy.task('getClipboard').then(reseiveMoneyUrl => {
+
+    //get link from clipboard
+    //cy.task('getClipboard').then(reseiveMoneyUrl => {
+
+    ReceiveMoneyPage.doneButton.invoke('attr', 'data-testid').then(reseiveMoneyUrl => {
       cy.log(reseiveMoneyUrl)
       const moneyLink = reseiveMoneyUrl
       const pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
@@ -63,7 +67,7 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
         HomePage.claimButton.should('be.visible')
         HomePage.moneyAmountDiv.should('not.contain', moneyBeforeSending, { timeout: 20000 })
         HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBeforeSending) - 0.01).toFixed(0))
-       })
+        })
       })
     })
   })

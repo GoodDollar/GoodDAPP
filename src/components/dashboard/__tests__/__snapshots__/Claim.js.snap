@@ -721,6 +721,26 @@ UBI on a global scale.
                 dir="auto"
                 style={
                   Object {
+                    "color": "rgba(0,0,0,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "14px",
+                    "fontWeight": "700",
+                    "lineHeight": "20px",
+                    "marginRight": "2px",
+                    "textAlign": "right",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                NaN
+              </span>
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
@@ -772,26 +792,6 @@ UBI on a global scale.
                   $
                 </span>
               </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,0,0,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "700",
-                    "lineHeight": "20px",
-                    "marginRight": "2px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                NaN
-              </span>
             </div>
           </span>
           <span
@@ -811,7 +811,7 @@ UBI on a global scale.
               }
             }
           >
-            Claimed by 
+             Claimed by 
           </span>
           <span
             className="css-text-901oao css-textHasAncestor-16my406"

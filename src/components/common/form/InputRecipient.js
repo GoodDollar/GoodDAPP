@@ -7,6 +7,9 @@ import Icon from '../view/Icon'
 import logger from '../../../lib/logger/pino-logger'
 
 import { useClipboardPaste } from '../../../lib/hooks/useClipboard'
+import usePermissions from '../../permissions/hooks/usePermissions'
+
+import { Permissions } from '../../permissions/types'
 
 const log = logger.child({ from: 'InputRecipient' })
 
@@ -21,6 +24,9 @@ const log = logger.child({ from: 'InputRecipient' })
 const InputRecipient = props => {
   const { onBlur, onChangeText, to, error } = props
   const pasteToWho = useClipboardPaste(onChangeText, log)
+
+  // check clipboard permission an show dialog is not allowed
+  usePermissions(Permissions.Clipboard)
 
   return (
     <View style={styles.iconInputContainer}>

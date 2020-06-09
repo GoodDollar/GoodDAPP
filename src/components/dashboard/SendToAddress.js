@@ -8,9 +8,11 @@ import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { Permissions } from '../permissions/types'
 
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { useClipboardPaste } from '../../lib/hooks/useClipboard'
+import usePermissions from '../permissions/hooks/usePermissions'
 
 export type TypeProps = {
   screenProps: any,
@@ -40,6 +42,9 @@ const SendToAddress = (props: TypeProps) => {
   const { params } = navigation.state
   const { address } = screenState
   const [state, setValue] = useValidatedValueState(address, validate)
+
+  // check clipboard permission an show dialog is not allowed
+  usePermissions(Permissions.Clipboard)
 
   useEffect(() => {
     setScreenState({ address: state.value })

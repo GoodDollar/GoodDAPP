@@ -26,6 +26,7 @@ export default () => {
     }
   }, [])
 
+  // Please use usePermissionsHook in placves where this method will be used to check permissions first
   // eslint-disable-next-line require-await
   const getString = useCallback(async () => {
     try {

@@ -9,7 +9,7 @@ class PermissionsAPI {
   // permissions enum to platform permissions map
   platformPermissions = {
     [Permissions.Camera]: 'camera',
-    [Permissions.Clipboard]: 'clipboard-write',
+    [Permissions.Clipboard]: 'clipboard-read',
   }
 
   constructor(api, clipboardApi, mediaApi) {
@@ -34,7 +34,7 @@ class PermissionsAPI {
       return Granted
     }
 
-    // Permissions API not available - returnin undetermined status
+    // Permissions API not available - return undetermined status
     if (!api) {
       return Undetermined
     }
@@ -138,7 +138,7 @@ class PermissionsAPI {
     if (!clipboardApi) {
       const message = 'navigator.clipboard is not supported by this browser'
 
-      // make log - ckipboard is not supported
+      // make log - clipboard is not supported
       log.warn(message)
 
       // throw exception that clipboard is not supported in this browser

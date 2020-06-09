@@ -9,6 +9,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import usePermissions from '../permissions/hooks/usePermissions'
+import { Permissions } from '../permissions/types'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
@@ -28,7 +29,8 @@ const SendByQR = ({ screenProps }: Props) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
 
-  usePermissions('camera', {
+  // check camera permission and show dialog if not allowed
+  usePermissions(Permissions.Camera, {
     promptPopups: QRCameraPermissionDialog,
     requestPermissionIfNotAllowed: false,
   })

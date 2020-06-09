@@ -13,7 +13,7 @@ import {
 import { env } from './env'
 import isWebApp from './isWebApp'
 
-export { isMobileSafari, isBrowser } from 'mobile-device-detect'
+export { isBrowser } from 'mobile-device-detect'
 
 export const isSafari = isMobileSafari || isSafariWeb
 
@@ -42,4 +42,4 @@ export const isCypress =
 
 export const isE2ERunning = isCypress && 'development' === env
 
-export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet }
+export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet, isMobileSafari }

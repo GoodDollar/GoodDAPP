@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
 import logger from '../../lib/logger/pino-logger'
@@ -26,7 +26,7 @@ const ReceiveByQR = ({ screenProps }) => {
   const [showErrorDialog] = useErrorDialog()
 
   // check camera permission and show dialog if not allowed
-  usePermissions(Permissions.Camera, {
+  const hasCameraAccess = usePermissions(Permissions.Camera, {
     promptPopup: QRCameraPermissionDialog,
   })
 
@@ -79,9 +79,22 @@ const ReceiveByQR = ({ screenProps }) => {
     runWithdraw()
   }, [withdrawParams])
 
-  const handleError = e => {
-    log.error('QR reader receive error', e.message, e)
-  }
+  const handleError = useCallback(
+    exception => {
+      const dialogOptions = { title: 'QR code scan failed' }
+      const { name, message } = exception
+      let errorMessage = message
+
+      if ('NotAllowedError' === name) {
+        // exit the function and do nothing as we already displayed error popup via usePermission hook
+        return
+      }
+
+      showErrorDialog(errorMessage, '', dialogOptions)
+      log.error('QR scan send failed', message, exception)
+    },
+    [screenProps, showErrorDialog]
+  )
 
   return (
     <>
@@ -91,12 +104,16 @@ const ReceiveByQR = ({ screenProps }) => {
         </TopBar>
         <Section style={styles.bottomSection}>
           <Section.Row>
-            <QrReader
-              delay={qrDelay}
-              onError={handleError}
-              onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
-              style={{ width: '100%' }}
-            />
+            {hasCameraAccess ? (
+              <QrReader
+                delay={qrDelay}
+                onError={handleError}
+                onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
+                style={{ width: '100%' }}
+              />
+            ) : (
+              <Text>show light gray (disabled-style) placeholder with camera icon here</Text>
+            )}
           </Section.Row>
         </Section>
       </Wrapper>

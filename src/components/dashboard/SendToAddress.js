@@ -44,7 +44,7 @@ const SendToAddress = (props: TypeProps) => {
   const [state, setValue] = useValidatedValueState(address, validate)
 
   // check clipboard permission an show dialog is not allowed
-  usePermissions(Permissions.Clipboard)
+  const hasClipboardAccess = usePermissions(Permissions.Clipboard)
 
   useEffect(() => {
     setScreenState({ address: state.value })
@@ -68,6 +68,7 @@ const SendToAddress = (props: TypeProps) => {
             value={state.value}
             showAdornment
             adornment="paste"
+            adornmentDisabled={!hasClipboardAccess}
             adornmentAction={pasteValueFromClipboard}
             adornmentSize={32}
             adornmentStyle={styles.adornmentStyle}

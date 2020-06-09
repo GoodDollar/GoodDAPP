@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
 import logger from '../../lib/logger/pino-logger'
@@ -30,7 +30,7 @@ const SendByQR = ({ screenProps }: Props) => {
   const [showErrorDialog] = useErrorDialog()
 
   // check camera permission and show dialog if not allowed
-  usePermissions(Permissions.Camera, {
+  const hasCameraAccess = usePermissions(Permissions.Camera, {
     promptPopup: QRCameraPermissionDialog,
   })
 
@@ -62,7 +62,7 @@ const SendByQR = ({ screenProps }: Props) => {
       let errorMessage = message
 
       if ('NotAllowedError' === name) {
-        // exit hte function and do nothing as we already display error permission dialog via usePermission hook
+        // exit the function and do nothing as we already displayed error popup via usePermission hook
         return
       }
 
@@ -79,12 +79,16 @@ const SendByQR = ({ screenProps }: Props) => {
       </TopBar>
       <Section style={styles.bottomSection}>
         <Section.Row>
-          <QrReader
-            delay={qrDelay}
-            onError={handleError}
-            onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
-            style={{ width: '100%' }}
-          />
+          {hasCameraAccess ? (
+            <QrReader
+              delay={qrDelay}
+              onError={handleError}
+              onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
+              style={{ width: '100%' }}
+            />
+          ) : (
+            <Text>show light gray (disabled-style) placeholder with camera icon here</Text>
+          )}
         </Section.Row>
       </Section>
     </Wrapper>

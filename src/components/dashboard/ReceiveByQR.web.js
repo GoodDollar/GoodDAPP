@@ -27,8 +27,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
   // check camera permission and show dialog if not allowed
   usePermissions(Permissions.Camera, {
-    promptPopups: QRCameraPermissionDialog,
-    requestPermissionIfNotAllowed: false,
+    promptPopup: QRCameraPermissionDialog,
   })
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)

@@ -25,14 +25,14 @@ const usePermissions = (permission: Permission, options = {}) => {
   const [allowed, setAllowed] = useState(false)
 
   useEffect(() => {
+    // re-checking mounted state after each delayed / async operation as send link
+    // screen could call redirect back if error happers during processing transaction
+    if (!mountedState.current) {
+      return
+    }
+
     const { promptPopups, deniedPopups } = usePermissions
-    const {
-      onAllowed = noop,
-      onDenied = noop,
-      promptPopup,
-      deniedPopup,
-      requestPermissionIfNotAllowed = true,
-    } = options
+    const { onAllowed = noop, onDenied = noop, promptPopup, deniedPopup } = options
     const PromptPopup = promptPopup || promptPopups[permission]
     const DeniedPopup = deniedPopup || deniedPopups[permission]
 
@@ -67,12 +67,13 @@ const usePermissions = (permission: Permission, options = {}) => {
       })
 
     const requestPermission = async () => {
-      if (!requestPermissionIfNotAllowed) {
-        // do not request for permission depends on option value received
+      const isAllowed = await api.request(permission)
+
+      // re-checking mounted state after each delayed / async operation as send link
+      // screen could call redirect back if error happers during processing transaction
+      if (!mountedState.current) {
         return
       }
-
-      const isAllowed = await api.request(permission)
 
       if (!isAllowed) {
         handleDenied()
@@ -83,6 +84,12 @@ const usePermissions = (permission: Permission, options = {}) => {
     }
 
     api.check(permission).then(status => {
+      // re-checking mounted state after each delayed / async operation as send link
+      // screen could call redirect back if error happers during processing transaction
+      if (!mountedState.current) {
+        return
+      }
+
       switch (status) {
         case Prompt:
           showPopup({

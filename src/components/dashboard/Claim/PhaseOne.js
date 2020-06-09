@@ -39,7 +39,6 @@ const ClaimPhaseOne = ({
           <View style={styles.amountBlock}>
             <Section.Text color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
               <BigGoodDollar
-                reverse
                 number={entitlement}
                 formatter={weiToGd}
                 fontFamily="Roboto"
@@ -94,7 +93,6 @@ const ClaimPhaseOne = ({
         <Section.Text fontWeight="bold" style={styles.fontSize16}>
           <BigGoodDollar
             style={styles.extraInfoAmountDisplay}
-            reverse
             number={amount}
             spaceBetween={false}
             formatter={weiToGd}
@@ -111,7 +109,7 @@ const ClaimPhaseOne = ({
             }}
           />
         </Section.Text>
-        <Section.Text style={styles.fontSize16}>{`Claimed by `}</Section.Text>
+        <Section.Text style={styles.fontSize16}>{` Claimed by `}</Section.Text>
         <Section.Text fontWeight="bold" color="black" style={styles.fontSize16}>
           {numeral(people).format('0a')}{' '}
         </Section.Text>

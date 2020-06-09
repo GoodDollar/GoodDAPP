@@ -8,9 +8,11 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import usePermissions from '../permissions/hooks/usePermissions'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
+import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 
 const QR_DEFAULT_DELAY = 300
 
@@ -21,6 +23,11 @@ const ReceiveByQR = ({ screenProps }) => {
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
+
+  usePermissions('camera', {
+    promptPopups: QRCameraPermissionDialog,
+    requestPermissionIfNotAllowed: false,
+  })
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 

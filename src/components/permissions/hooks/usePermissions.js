@@ -26,7 +26,13 @@ const usePermissions = (permission: Permission, options = {}) => {
 
   useEffect(() => {
     const { promptPopups, deniedPopups } = usePermissions
-    const { onAllowed = noop, onDenied = noop, promptPopup, deniedPopup } = options
+    const {
+      onAllowed = noop,
+      onDenied = noop,
+      promptPopup,
+      deniedPopup,
+      requestPermissionIfNotAllowed = true,
+    } = options
     const PromptPopup = promptPopup || promptPopups[permission]
     const DeniedPopup = deniedPopup || deniedPopups[permission]
 
@@ -61,6 +67,11 @@ const usePermissions = (permission: Permission, options = {}) => {
       })
 
     const requestPermission = async () => {
+      if (!requestPermissionIfNotAllowed) {
+        // do not request for permission depends on option value received
+        return
+      }
+
       const isAllowed = await api.request(permission)
 
       if (!isAllowed) {

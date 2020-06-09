@@ -8,10 +8,12 @@ import { extractQueryParams, readCode } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import usePermissions from '../permissions/hooks/usePermissions'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
+import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 
 const QR_DEFAULT_DELAY = 300
 
@@ -25,6 +27,11 @@ const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
+
+  usePermissions('camera', {
+    promptPopups: QRCameraPermissionDialog,
+    requestPermissionIfNotAllowed: false,
+  })
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
@@ -54,8 +61,8 @@ const SendByQR = ({ screenProps }: Props) => {
       let errorMessage = message
 
       if ('NotAllowedError' === name) {
-        errorMessage = `GoodDollar can't access your camera, please enable camera permission`
-        dialogOptions.onDismiss = screenProps.goToRoot
+        // exit hte function and do nothing as we already display error permission dialog via usePermission hook
+        return
       }
 
       showErrorDialog(errorMessage, '', dialogOptions)

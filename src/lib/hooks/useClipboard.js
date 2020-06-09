@@ -43,7 +43,7 @@ const useClipboard = (logger = log) => {
   // eslint-disable-next-line require-await
   const getString = useCallback(async () => {
     try {
-      return Clipboard.getString()
+      return await Clipboard.getString()
     } catch (exception) {
       const { name, message } = exception
 

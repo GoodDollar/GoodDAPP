@@ -15,6 +15,7 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 import useMountedState from '../../../lib/hooks/useMountedState'
 
 import api from '../api/PermissionsAPI'
+import { isSafari } from '../../../lib/utils/platform'
 
 const { Clipboard, Camera } = Permissions
 const { Undetermined, Granted, Denied, Prompt } = PermissionStatuses
@@ -104,6 +105,13 @@ const usePermissions = (permission: Permission, options = {}) => {
           handleDenied()
           break
         case Undetermined:
+          // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
+          // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appers when you're calling readText()
+          if (Clipboard === permission && isSafari) {
+            handleAllowed()
+            break
+          }
+
           requestPermission()
           break
       }

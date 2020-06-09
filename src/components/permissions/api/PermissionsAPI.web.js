@@ -152,7 +152,7 @@ class PermissionsAPI {
       const { name, message } = exception
 
       // make log of failed video stream request
-      log.warn('clipboard.readText*() failed:', message, exception)
+      log.warn('clipboard.readText() failed:', message, exception)
 
       // if clipboard access is denied then NotAllowedError will occur
       if ('NotAllowedError' == name) {

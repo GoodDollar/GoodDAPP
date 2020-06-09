@@ -112,6 +112,7 @@
     "react-native-web": "^0.11.4",
     "react-native-web-lottie": "^1.2.0",
     "react-native-web-webview": "^0.2.8",
+    "react-native-zoom": "GoodDollar/ReactNativeZoom#master",
     "react-phone-number-input": "^2.3.18",
     "react-qr-reader": "^2.2.1",
     "recaptcha-v3-react": "^3.0.3",

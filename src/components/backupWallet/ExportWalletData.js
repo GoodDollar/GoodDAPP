@@ -22,6 +22,7 @@ import config from '../../config/config'
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'
 
+// getting the privateKey of GD wallet address - which index is 0
 const privateKey = GoodWallet.wallet.eth.accounts.wallet[0].privateKey
 const web3ProviderUrl = config.ethereum[GoodWallet.networkId].httpWeb3provider
 

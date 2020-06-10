@@ -1,7 +1,7 @@
 // @flow
 import { createConnectedStore } from 'undux'
 import { AsyncStorage } from 'react-native'
-import { isString } from 'lodash'
+import { flow as compose, isString } from 'lodash'
 
 import { IS_LOGGED_IN } from '../constants/localStorage'
 import pinoLogger from '../logger/pino-logger'
@@ -102,16 +102,35 @@ const initialState: State = {
   serviceWorkerUpdated: null,
 }
 
+// keeping current snapshot in private module variable
+// it could be accessed via getCurrentSnapshot
+// we need it to habe show dialog outside components/hooks
+// sometimes it's needed for example in the web-only Zoom sdk wrapper
+// we have to show 'reload app' dialog on 65391 exception
+let currentSnapshot = null
+
+const storeEffects = compose([
+  withPinoLogger,
+  storeDefinition => {
+    // effect which updates currentSnapshot
+    storeDefinition.onAll().subscribe(() => {
+      currentSnapshot = storeDefinition.getCurrentSnapshot()
+    })
+
+    return storeDefinition
+  },
+])
+
 /**
  * default exported instance of our global Undux Store
  * @module
  */
-let SimpleStore: UnduxStore = createConnectedStore(initialState, withPinoLogger) // default value for tests
+let SimpleStore: UnduxStore = createConnectedStore(initialState, storeEffects) // default value for tests
 
 const initStore = async () => {
   let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
   const newState = { ...initialState, isLoggedIn }
-  SimpleStore = createConnectedStore(newState, withPinoLogger)
+  SimpleStore = createConnectedStore(newState, storeEffects)
   return SimpleStore
 }
 
@@ -145,11 +164,14 @@ const assertStore = (store, logger = unduxLogger, message = 'Operation failed') 
 const assertStoreSnapshot = (store, logger = unduxLogger, message = 'Operation failed') =>
   storeAssertion(() => !store || !store.storeSnapshot, logger, message)
 
+const getCurrentSnapshot = () => currentSnapshot
+
 export {
   initStore,
   assertStore,
   assertStoreSnapshot,
   SimpleStore as default,
+  getCurrentSnapshot,
   setInitFunctions,
   setWallet,
   setUserStorage,

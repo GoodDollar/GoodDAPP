@@ -31,7 +31,7 @@ export const preloadZoomSDK = async (logger = log) => {
     }
 
     if (zoomUnrecoverableError) {
-      throw zoomSDKPreloaded
+      throw zoomUnrecoverableError
     }
 
     await ZoomSDK.preload()
@@ -130,7 +130,8 @@ export default ({ onInitialized = noop, onError = noop }) => {
         }
 
         // if some unrecoverable error happens
-        if ('UnrecoverableError' === kindOfTheIssue) {
+        // checking exception.name as 'UnrecoverableError' coiud be thrown from ZoomSDK
+        if ('UnrecoverableError' === exception.name) {
           // setting exception in the global state
           ZoomGlobalState.zoomUnrecoverableError = exception
 

@@ -11,6 +11,7 @@ import NavBar from '../appNavigation/NavBar'
 
 // hooks
 import useOnPress from '../../lib/hooks/useOnPress'
+import useClipboard from '../../lib/hooks/useClipboard'
 
 // utils
 import { withStyles } from '../../lib/styles'
@@ -32,7 +33,10 @@ type BackupWalletProps = {
   screenProps: any,
 }
 
-const BorderedBox = ({ styles, theme, avatarSource, title, subTitle, copyButtonText }) => {
+const BorderedBox = ({ styles, theme, avatarSource, title, content, copyButtonText }) => {
+  const { setString } = useClipboard()
+  const copyToClipboard = useOnPress(() => setString(content), [setString, content])
+
   return (
     <View style={styles.borderedBox}>
       <View style={styles.boxAvatarContainer}>
@@ -42,9 +46,9 @@ const BorderedBox = ({ styles, theme, avatarSource, title, subTitle, copyButtonT
         {title}
       </Section.Text>
       <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
-        {subTitle}
+        {content}
       </Section.Text>
-      <TouchableOpacity activeOpacity={1} style={styles.boxCopyIconWrapper}>
+      <TouchableOpacity onPress={copyToClipboard} activeOpacity={1} style={styles.boxCopyIconWrapper}>
         <View style={styles.copyIconContainer}>
           <Icon name="copy" size={32} color={theme.colors.surface} />
         </View>
@@ -72,7 +76,7 @@ const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
           styles={styles}
           theme={theme}
           title="My Wallet Private Key"
-          subTitle={privateKey}
+          content={privateKey}
           avatarSource={avatarSource}
           copyButtonText="Copy Key"
         />
@@ -80,7 +84,7 @@ const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
           styles={styles}
           theme={theme}
           title="Fuse Network RPC Address"
-          subTitle={web3ProviderUrl}
+          content={web3ProviderUrl}
           avatarSource={avatarSource}
           copyButtonText="Copy Address"
         />

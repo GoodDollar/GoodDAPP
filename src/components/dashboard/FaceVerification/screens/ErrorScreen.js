@@ -19,7 +19,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const kindOfTheIssue = get(screenProps, 'screenState.error.name')
   const isGeneralError = !kindOfTheIssue || !(kindOfTheIssue in ErrorScreen.kindOfTheIssue)
 
-  const [verificationAttempts, trackNewAttempt] = useVerificationAttempts()
+  const [verificationAttempts, trackNewAttempt, resetAttempts] = useVerificationAttempts()
 
   // storing first received attempts count into the ref to avoid component re-updated after attempt tracked
   const verificationAttemptsRef = useRef(verificationAttempts)
@@ -38,13 +38,14 @@ const ErrorScreen = ({ styles, screenProps }) => {
     }
 
     if (verificationAttemptsRef.current >= MAX_RETRIES_ALLOWED) {
+      resetAttempts()
       return UnrecoverableError
     }
 
     return GeneralError
 
     // isGeneralError depends from kindOfTheIssue so we could omit it in the deps list
-  }, [kindOfTheIssue])
+  }, [kindOfTheIssue, resetAttempts])
 
   useEffect(() => {
     if (!isGeneralError) {

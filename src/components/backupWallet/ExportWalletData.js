@@ -14,6 +14,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 
 // utils
 import { withStyles } from '../../lib/styles'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 // import logger from '../../lib/logger/pino-logger'
 
@@ -33,9 +34,9 @@ const ExportWalletData = ({ navigation, styles }: BackupWalletProps) => {
   return (
     <Wrapper style={styles.wrapper}>
       <NavBar title="EXPORT MY WALLET" goBack={handleGoBack} />
-      <Section grow justifyContent="space-between">
+      <Section grow justifyContent="space-around">
         <View style={styles.borderedBox} />
-        <View />
+        <View style={styles.borderedBox} />
       </Section>
       <CustomButton onPress={() => {}}>Done</CustomButton>
     </Wrapper>
@@ -48,7 +49,12 @@ const styles = ({ theme }) => ({
     backgroundColor: 'none',
     padding: 0,
   },
-  borderedBox: {},
+  borderedBox: {
+    borderWidth: 1,
+    borerStyle: 'solid',
+    borderColor: theme.colors.lighterGray,
+    height: getDesignRelativeHeight(123, false),
+  },
 })
 
 export default withStyles(styles)(ExportWalletData)

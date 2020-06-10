@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
+import { get } from 'lodash'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
+
 import GDStore from '../../../../lib/undux/GDStore'
 import Separator from '../../../common/layout/Separator'
 import logger from '../../../../lib/logger/pino-logger'
@@ -15,15 +17,27 @@ import { isBrowser } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import Config from '../../../../config/config'
+import usePermissions from '../../../permissions/hooks/usePermissions'
+import { Permissions } from '../../../permissions/types'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
+  const isValid = get(screenProps, 'screenState.isValid', false)
 
-  const isValid = screenProps.screenState && screenProps.screenState.isValid
-  log.debug({ isIOS, isMobileSafari })
+  const goToFR = useCallback(() => screenProps.navigateTo('FaceVerification'), [screenProps])
+
+  const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
+    requestOnMounted: false,
+    onAllowed: goToFR,
+  })
+
+  const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
+  const handleVerifyClick = useOnPress(requestCameraPermissions, [])
+
+  useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
 
   useEffect(() => {
     if (isValid) {
@@ -32,9 +46,6 @@ const IntroScreen = ({ styles, screenProps }) => {
       fireEvent('FR_Intro')
     }
   }, [isValid])
-
-  const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
-  const gotoFR = useOnPress(() => screenProps.navigateTo('FaceVerification'), [screenProps])
 
   return (
     <Wrapper>
@@ -71,7 +82,7 @@ const IntroScreen = ({ styles, screenProps }) => {
             </Text>
             <Separator style={[styles.bottomSeparator]} width={2} />
           </View>
-          <CustomButton style={[styles.button]} onPress={gotoFR}>
+          <CustomButton style={[styles.button]} onPress={handleVerifyClick}>
             OK, Verify me
           </CustomButton>
         </View>

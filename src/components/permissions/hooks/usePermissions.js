@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { noop } from 'lodash'
 
@@ -21,96 +21,115 @@ const { Clipboard, Camera } = Permissions
 const { Undetermined, Granted, Denied, Prompt } = PermissionStatuses
 
 const usePermissions = (permission: Permission, options = {}) => {
+  const { promptPopups, deniedPopups } = usePermissions
+  const { onAllowed = noop, onDenied = noop, requestOnMounted = true, promptPopup, deniedPopup } = options
+
   const [showDialog] = useDialog()
   const mountedState = useMountedState()
   const [allowed, setAllowed] = useState(false)
 
-  useEffect(() => {
+  const PromptPopup = promptPopup || promptPopups[permission]
+  const DeniedPopup = deniedPopup || deniedPopups[permission]
+
+  const showPopup = useCallback(
+    ({ onDismiss = noop, ...props }) =>
+      showDialog({
+        isMinHeight: false,
+        onDismiss,
+        ...props,
+      }),
+    [showDialog]
+  )
+
+  const handleAllowed = useCallback(() => {
+    onAllowed()
+
+    if (mountedState.current) {
+      setAllowed(true)
+    }
+  }, [onAllowed, setAllowed])
+
+  const handleDenied = useCallback(
+    () =>
+      showPopup({
+        type: 'error',
+        content: <DeniedPopup />,
+        onDismiss: onDenied,
+      }),
+    [onDenied, showPopup, DeniedPopup]
+  )
+
+  const handleRequest = useCallback(async () => {
+    const isAllowed = await api.request(permission)
+
     // re-checking mounted state after each delayed / async operation as send link
     // screen could call redirect back if error happers during processing transaction
     if (!mountedState.current) {
       return
     }
 
-    const { promptPopups, deniedPopups } = usePermissions
-    const { onAllowed = noop, onDenied = noop, promptPopup, deniedPopup } = options
-    const PromptPopup = promptPopup || promptPopups[permission]
-    const DeniedPopup = deniedPopup || deniedPopups[permission]
-
-    const showPopup = ({ onDismiss = noop, ...props }) =>
-      showDialog({
-        isMinHeight: false,
-        onDismiss,
-        ...props,
-      })
-
-    const handleAllowed = () => {
-      onAllowed()
-
-      if (mountedState.current) {
-        setAllowed(true)
-      }
+    if (!isAllowed) {
+      handleDenied()
+      return
     }
 
-    const handleDenied = () =>
-      showPopup({
-        type: 'error',
-        content: <DeniedPopup />,
-        onDismiss: onDenied,
-      })
+    handleAllowed()
+  }, [permission, handleAllowed, handleDenied])
 
-    const requestPermission = async () => {
-      const isAllowed = await api.request(permission)
+  const handleRequestFlow = useCallback(async () => {
+    // re-checking mounted state after each delayed / async operation as send link
+    // screen could call redirect back if error happers during processing transaction
+    if (!mountedState.current) {
+      return
+    }
 
-      // re-checking mounted state after each delayed / async operation as send link
-      // screen could call redirect back if error happers during processing transaction
-      if (!mountedState.current) {
-        return
-      }
+    const status = await api.check(permission)
 
-      if (!isAllowed) {
+    // re-checking mounted state after each delayed / async operation as send link
+    // screen could call redirect back if error happers during processing transaction
+    if (!mountedState.current) {
+      return
+    }
+
+    switch (status) {
+      case Prompt:
+        showPopup({
+          content: <PromptPopup />,
+          onDismiss: handleRequest,
+        })
+        break
+      case Granted:
+        handleAllowed()
+        break
+      case Denied:
         handleDenied()
-        return
-      }
-
-      handleAllowed()
-    }
-
-    api.check(permission).then(status => {
-      // re-checking mounted state after each delayed / async operation as send link
-      // screen could call redirect back if error happers during processing transaction
-      if (!mountedState.current) {
-        return
-      }
-
-      switch (status) {
-        case Prompt:
-          showPopup({
-            content: <PromptPopup />,
-            onDismiss: requestPermission,
-          })
-          break
-        case Granted:
+        break
+      case Undetermined:
+        // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
+        // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appers when you're calling readText()
+        if (Clipboard === permission && isSafari) {
           handleAllowed()
           break
-        case Denied:
-          handleDenied()
-          break
-        case Undetermined:
-          // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
-          // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appers when you're calling readText()
-          if (Clipboard === permission && isSafari) {
-            handleAllowed()
-            break
-          }
+        }
 
-          requestPermission()
-          break
-      }
-    })
+        handleRequest()
+        break
+    }
+  }, [PromptPopup, handleRequest])
+
+  const requestPermission = useCallback(() => {
+    if (!requestOnMounted) {
+      handleRequestFlow()
+    }
+  }, [handleRequestFlow, requestOnMounted])
+
+  useEffect(() => {
+    if (requestOnMounted) {
+      handleRequestFlow()
+    }
   }, [])
 
-  return allowed
+  return [allowed, requestPermission]
 }
 
 usePermissions.promptPopups = {

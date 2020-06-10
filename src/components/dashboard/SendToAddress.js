@@ -13,6 +13,7 @@ import { Permissions } from '../permissions/types'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { useClipboardPaste } from '../../lib/hooks/useClipboard'
 import usePermissions from '../permissions/hooks/usePermissions'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 export type TypeProps = {
   screenProps: any,
@@ -43,15 +44,20 @@ const SendToAddress = (props: TypeProps) => {
   const { address } = screenState
   const [state, setValue] = useValidatedValueState(address, validate)
 
-  // check clipboard permission an show dialog is not allowed
-  const hasClipboardAccess = usePermissions(Permissions.Clipboard)
-
   useEffect(() => {
     setScreenState({ address: state.value })
   }, [state.value])
 
   const canContinue = useCallback(() => state.isValid, [state])
   const pasteValueFromClipboard = useClipboardPaste(setValue)
+
+  // check clipboard permission an show dialog is not allowed
+  const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
+    requestOnMounted: false,
+    onAllowed: pasteValueFromClipboard,
+  })
+
+  const handleAdornmentAction = useOnPress(requestClipboardPermissions, [])
 
   return (
     <Wrapper>
@@ -68,8 +74,7 @@ const SendToAddress = (props: TypeProps) => {
             value={state.value}
             showAdornment
             adornment="paste"
-            adornmentDisabled={!hasClipboardAccess}
-            adornmentAction={pasteValueFromClipboard}
+            adornmentAction={handleAdornmentAction}
             adornmentSize={32}
             adornmentStyle={styles.adornmentStyle}
             autoFocus

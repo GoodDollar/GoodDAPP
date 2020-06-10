@@ -1,4 +1,5 @@
 // @flow
+import { invokeMap } from 'lodash'
 
 import logger from '../../../lib/logger/pino-logger'
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
@@ -113,9 +114,8 @@ class PermissionsAPI {
       // requesting video stream to verify its available
       const stream = await getUserMedia({ video: true })
 
-      stream.getTracks().forEach(track => {
-        track.stop()
-      })
+      // releasing tracks on success
+      invokeMap(stream.getTracks(), 'stop')
     } catch (exception) {
       const { message } = exception
 

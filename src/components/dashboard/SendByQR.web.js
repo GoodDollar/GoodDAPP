@@ -29,7 +29,6 @@ const SendByQR = ({ screenProps }: Props) => {
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const { pop, push } = screenProps
-  log.info('qqq', screenProps)
 
   const handlePermissionDenied = useCallback(() => pop(), [pop])
 

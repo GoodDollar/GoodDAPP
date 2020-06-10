@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import Icon from '../view/Icon'
 import useClipboard from '../../../lib/hooks/useClipboard'
 import usePermissions from '../../permissions/hooks/usePermissions'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import CustomButton from './CustomButton'
 
 const NOT_COPIED = 'NOT_COPIED'
@@ -16,19 +17,26 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
   const [copyState, setCopyState] = useState(NOT_COPIED)
   const [, setString] = useClipboard()
 
-  const hasClipboardAccess = usePermissions(Permissions.Clipboard)
-
   const transitionToState = useCallback(() => setCopyState(onPressDone ? DONE : NOT_COPIED), [
     setCopyState,
     onPressDone,
   ])
 
-  const onPressHandler = useCallback(async () => {
+  const copyToClipboard = useCallback(async () => {
     if (await setString(toCopy)) {
       setCopyState(COPIED)
-      onPress()
     }
-  }, [setCopyState, onPress])
+  }, [setCopyState, setString, toCopy])
+
+  const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
+    requestOnMounted: false,
+    onAllowed: copyToClipboard,
+  })
+
+  const onPressHandler = useOnPress(() => {
+    requestClipboardPermissions()
+    onPress()
+  }, [copyToClipboard, onPress])
 
   useEffect(() => {
     if (copyState === 'COPIED' && !withoutDone) {
@@ -55,13 +63,7 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
     }
     default: {
       return (
-        <CustomButton
-          data-gdtype={'copybutton'}
-          disabled={!hasClipboardAccess}
-          mode={mode}
-          onPress={onPressHandler}
-          {...props}
-        >
+        <CustomButton data-gdtype={'copybutton'} mode={mode} onPress={onPressHandler} {...props}>
           {children || 'Copy to Clipboard'}
         </CustomButton>
       )

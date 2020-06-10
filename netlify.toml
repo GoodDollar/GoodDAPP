@@ -1,7 +1,16 @@
 [build.environment]
   GENERATE_SOURCEMAP = "true"
-  
+
 [[headers]]
   for = "/torus/redirect"
   [headers.values]
     Content-Type = "text/html"
+
+[[headers]]
+  for = "/zoom/resources/*"
+  [headers.values]
+    cache-control = '''
+    max-age=0,
+    no-cache,
+    no-store,
+    must-revalidate'''

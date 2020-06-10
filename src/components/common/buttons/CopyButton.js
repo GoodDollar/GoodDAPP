@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import Icon from '../view/Icon'
 import useClipboard from '../../../lib/hooks/useClipboard'
 import usePermissions from '../../permissions/hooks/usePermissions'
+import { Permissions } from '../../permissions/types'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import CustomButton from './CustomButton'
 

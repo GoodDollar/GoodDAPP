@@ -1,12 +1,7 @@
 // @flow
-<<<<<<< HEAD
-import React, { useCallback, useState } from 'react'
-import { Platform, View } from 'react-native'
-=======
 import React, { useCallback, useEffect, useState } from 'react'
-import { Platform, Share, View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { text } from 'react-native-communications'
->>>>>>> origin/react-native
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
@@ -44,73 +39,33 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
   const [loading, setLoading] = useState(false)
 
-<<<<<<< HEAD
   const { push, goToRoot } = screenProps
-=======
-  const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
-  const { amount, reason = null, counterPartyDisplayName, contact } = screenState
->>>>>>> origin/react-native
+  const { amount, reason = null, counterPartyDisplayName, contact, address, params = {} } = screenState
 
   const { fullName } = gdstore.get('profile')
-  const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
   const { action } = params
 
-  const [survey, setSurvey] = useState('other')
-  const [link, setLink] = useState('')
-  const [loading, setLoading] = useState(false)
-
-<<<<<<< HEAD
   const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
 
   const handleConfirm = useCallback(() => {
     if (action === ACTION_SEND_TO_ADDRESS) {
       sendViaAddress()
     } else {
-      sendViaLink()
-=======
-      try {
-        await Share.share(share)
-        setShared(true)
-      } catch (e) {
-        if (e.name !== 'AbortError') {
-          showDialog({
-            title: 'There was a problem triggering share action.',
-            message: `You can still copy the link by tapping on "Copy link to clipboard".`,
-            dismissText: 'Ok',
-            onDismiss: () => {
-              const desktopShareLink = generateSendShareText(
-                paymentLink,
-                amount,
-                counterPartyDisplayName,
-                profile.fullName
-              )
-
-              screenProps.push('SendConfirmation', {
-                paymentLink: desktopShareLink,
-                amount,
-                reason,
-                counterPartyDisplayName,
-              })
-            },
-          })
-        }
-      }
-    },
-    [
-      generateSendShareText,
-      generateSendShareObject,
-      amount,
-      reason,
-      counterPartyDisplayName,
-      profile,
-      setShared,
-      showDialog,
-      screenProps,
-    ]
-  )
+      handlePayment()
+    }
+  }, [
+    generateSendShareText,
+    generateSendShareObject,
+    amount,
+    reason,
+    counterPartyDisplayName,
+    setShared,
+    showDialog,
+    screenProps,
+  ])
 
   const sendPayment = to => {
     try {
@@ -185,18 +140,13 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [shared])
 
-  const handleConfirm = useCallback(async () => {
+  const handlePayment = useCallback(async () => {
     let paymentLink = link
     let walletAddress
     const { phoneNumber } = contact
     if (phoneNumber) {
       const cleanPhoneNumber = phoneNumber.replace(/\D/g, '')
       walletAddress = await searchWalletAddress(cleanPhoneNumber)
-    }
-
-    if (!paymentLink) {
-      paymentLink = generateLink()
-      setLink(paymentLink)
     }
 
     if (phoneNumber) {
@@ -207,21 +157,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         setShared(true)
       }
     } else {
-      // Prevents calling back `generateLink` as it generates a new transaction every time it's called
-      if (canShare) {
-        shareAction(paymentLink)
-      } else {
-        const desktopShareLink = generateSendShareText(paymentLink, amount, counterPartyDisplayName, profile.fullName)
-
-        // Show confirmation
-        screenProps.push('SendConfirmation', {
-          paymentLink: desktopShareLink,
-          amount,
-          reason,
-          counterPartyDisplayName,
-        })
-      }
->>>>>>> origin/react-native
+      sendViaLink()
     }
   }, [action])
 
@@ -243,12 +179,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               to: address,
               reason,
               amount,
-<<<<<<< HEAD
-=======
-              paymentLink: generateLinkResponse.paymentLink,
-              code: generateLinkResponse.code,
-              phoneNumber: contact.phoneNumber || '',
->>>>>>> origin/react-native
             },
           }
 
@@ -453,15 +383,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-<<<<<<< HEAD
             <CustomButton onPress={handleConfirm} loading={loading}>
-=======
-            <CustomButton
-              onPress={isCitizen ? handleConfirm : faceRecognition}
-              disabled={isCitizen === undefined}
-              loading={loading}
-            >
->>>>>>> origin/react-native
               Confirm
             </CustomButton>
           </Section.Stack>

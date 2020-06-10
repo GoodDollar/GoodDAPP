@@ -37,19 +37,11 @@ const usePermissions = (permission: Permission, options = {}) => {
     const PromptPopup = promptPopup || promptPopups[permission]
     const DeniedPopup = deniedPopup || deniedPopups[permission]
 
-    const showPopup = ({ onDismissed = noop, ...props }) =>
+    const showPopup = ({ onDismiss = noop, ...props }) =>
       showDialog({
-        ...props,
         isMinHeight: false,
-        buttons: [
-          {
-            text: 'OK',
-            onPress: dismiss => {
-              dismiss()
-              onDismissed()
-            },
-          },
-        ],
+        onDismiss,
+        ...props,
       })
 
     const handleAllowed = () => {
@@ -64,7 +56,7 @@ const usePermissions = (permission: Permission, options = {}) => {
       showPopup({
         type: 'error',
         content: <DeniedPopup />,
-        onDismissed: onDenied,
+        onDismiss: onDenied,
       })
 
     const requestPermission = async () => {
@@ -95,7 +87,7 @@ const usePermissions = (permission: Permission, options = {}) => {
         case Prompt:
           showPopup({
             content: <PromptPopup />,
-            onDismissed: requestPermission,
+            onDismiss: requestPermission,
           })
           break
         case Granted:

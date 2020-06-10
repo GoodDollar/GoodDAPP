@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
 import logger from '../../lib/logger/pino-logger'
@@ -24,10 +24,14 @@ const ReceiveByQR = ({ screenProps }) => {
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
+  const { navigateTo, push } = screenProps
+
+  const handlePermissionDenied = useCallback(() => navigateTo('Receive'), [navigateTo])
 
   // check camera permission and show dialog if not allowed
   const hasCameraAccess = usePermissions(Permissions.Camera, {
     promptPopup: QRCameraPermissionDialog,
+    onDenied: handlePermissionDenied,
   })
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
@@ -60,11 +64,11 @@ const ReceiveByQR = ({ screenProps }) => {
     }
   }
 
-  const runWithdraw = async () => {
+  const runWithdraw = useCallback(async () => {
     if (withdrawParams.receiveLink) {
       try {
         const receipt = await executeWithdraw(store, withdrawParams.receiveLink)
-        screenProps.navigateTo('Home', {
+        navigateTo('Home', {
           event: receipt.transactionHash,
           receiveLink: undefined,
           reason: undefined,
@@ -73,7 +77,7 @@ const ReceiveByQR = ({ screenProps }) => {
         showErrorDialog('Something has gone wrong. Please try again later.')
       }
     }
-  }
+  }, [navigateTo, withdrawParams, store, showErrorDialog])
 
   useEffect(() => {
     runWithdraw()
@@ -93,26 +97,24 @@ const ReceiveByQR = ({ screenProps }) => {
       showErrorDialog(errorMessage, '', dialogOptions)
       log.error('QR scan send failed', message, exception)
     },
-    [screenProps, showErrorDialog]
+    [showErrorDialog]
   )
 
   return (
     <>
       <Wrapper>
-        <TopBar hideBalance={true} hideProfile={false} profileAsLink={false} push={screenProps.push}>
+        <TopBar hideBalance={true} hideProfile={false} profileAsLink={false} push={push}>
           <View />
         </TopBar>
         <Section style={styles.bottomSection}>
           <Section.Row>
-            {hasCameraAccess ? (
+            {hasCameraAccess && (
               <QrReader
                 delay={qrDelay}
                 onError={handleError}
                 onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
                 style={{ width: '100%' }}
               />
-            ) : (
-              <Text>show light gray (disabled-style) placeholder with camera icon here</Text>
             )}
           </Section.Row>
         </Section>

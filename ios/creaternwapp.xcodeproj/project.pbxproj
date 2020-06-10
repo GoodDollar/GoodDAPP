@@ -57,14 +57,8 @@
 		5982C45D2DCC4C4BB4BC738E /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB7D6D77B23A4BAF9DCDC488 /* libRNCamera.a */; };
 		63BDBB47BAAC49659D445A9A /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF55F771856D4CBBB318BD84 /* Entypo.ttf */; };
 		640213230666486CB44E9FD7 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D432921332D54E48B53C21FD /* Octicons.ttf */; };
-		68625DB22485144B00C28263 /* ZoomAuthenticationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68625DA62485144A00C28263 /* ZoomAuthenticationModule.swift */; };
-		68625DB32485144B00C28263 /* ZoomAuthenticationModuleBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 68625DA72485144B00C28263 /* ZoomAuthenticationModuleBridge.m */; };
-		68625DB42485144B00C28263 /* RCTUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68625DAA2485144B00C28263 /* RCTUtils.swift */; };
-		68625DB52485144B00C28263 /* EventEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68625DAB2485144B00C28263 /* EventEmitter.swift */; };
 		68625DB62485144B00C28263 /* ZoomGlobalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68625DAC2485144B00C28263 /* ZoomGlobalState.swift */; };
 		68625DB72485144B00C28263 /* EnrollmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68625DAD2485144B00C28263 /* EnrollmentProcessor.swift */; };
-		68625DB82485144B00C28263 /* ProcesingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68625DAF2485144B00C28263 /* ProcesingDelegate.swift */; };
-		68625DB92485144B00C28263 /* NetworkingHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68625DB12485144B00C28263 /* NetworkingHelpers.swift */; };
 		6C338BAA3E314E508527A0CE /* RobotoSlabBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 095830F1065C4DBCA14D1909 /* RobotoSlabBold.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		867099352FDF4EA7AABB3625 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1049CD51DAAF40E2B2EAA755 /* Roboto-Bold.ttf */; };
@@ -413,15 +407,8 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		643C7BD5306947D097CFE155 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		67D86F661A3E40C49FA630D6 /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = ../src/assets/fonts/Roboto.ttf; sourceTree = "<group>"; };
-		68625DA52485144A00C28263 /* creaternwapp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "creaternwapp-Bridging-Header.h"; sourceTree = "<group>"; };
-		68625DA62485144A00C28263 /* ZoomAuthenticationModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZoomAuthenticationModule.swift; path = creaternwapp/ZoomAuthenticationModule.swift; sourceTree = "<group>"; };
-		68625DA72485144B00C28263 /* ZoomAuthenticationModuleBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoomAuthenticationModuleBridge.m; path = creaternwapp/ZoomAuthenticationModuleBridge.m; sourceTree = "<group>"; };
-		68625DAA2485144B00C28263 /* RCTUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RCTUtils.swift; sourceTree = "<group>"; };
-		68625DAB2485144B00C28263 /* EventEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEmitter.swift; sourceTree = "<group>"; };
 		68625DAC2485144B00C28263 /* ZoomGlobalState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomGlobalState.swift; sourceTree = "<group>"; };
 		68625DAD2485144B00C28263 /* EnrollmentProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrollmentProcessor.swift; sourceTree = "<group>"; };
-		68625DAF2485144B00C28263 /* ProcesingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcesingDelegate.swift; sourceTree = "<group>"; };
-		68625DB12485144B00C28263 /* NetworkingHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingHelpers.swift; sourceTree = "<group>"; };
 		707FB96783E347F2B285B5B4 /* RobotoSlab-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RobotoSlab-Regular.ttf"; path = "../src/assets/fonts/RobotoSlab-Regular.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		794D5279930E4748A0A14C86 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
@@ -590,15 +577,12 @@
 			isa = PBXGroup;
 			children = (
 				68625DA82485144B00C28263 /* ZoomAuthenticationModule */,
-				68625DA62485144A00C28263 /* ZoomAuthenticationModule.swift */,
-				68625DA72485144B00C28263 /* ZoomAuthenticationModuleBridge.m */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				68625DA52485144A00C28263 /* creaternwapp-Bridging-Header.h */,
 			);
 			name = creaternwapp;
 			sourceTree = "<group>";
@@ -708,39 +692,11 @@
 		68625DA82485144B00C28263 /* ZoomAuthenticationModule */ = {
 			isa = PBXGroup;
 			children = (
-				68625DA92485144B00C28263 /* Utils */,
 				68625DAC2485144B00C28263 /* ZoomGlobalState.swift */,
 				68625DAD2485144B00C28263 /* EnrollmentProcessor.swift */,
-				68625DAE2485144B00C28263 /* Protocols */,
-				68625DB02485144B00C28263 /* Helpers */,
 			);
 			name = ZoomAuthenticationModule;
 			path = creaternwapp/ZoomAuthenticationModule;
-			sourceTree = "<group>";
-		};
-		68625DA92485144B00C28263 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				68625DAA2485144B00C28263 /* RCTUtils.swift */,
-				68625DAB2485144B00C28263 /* EventEmitter.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		68625DAE2485144B00C28263 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				68625DAF2485144B00C28263 /* ProcesingDelegate.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		68625DB02485144B00C28263 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				68625DB12485144B00C28263 /* NetworkingHelpers.swift */,
-			);
-			path = Helpers;
 			sourceTree = "<group>";
 		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
@@ -1390,16 +1346,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68625DB42485144B00C28263 /* RCTUtils.swift in Sources */,
-				68625DB52485144B00C28263 /* EventEmitter.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				68625DB92485144B00C28263 /* NetworkingHelpers.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				68625DB72485144B00C28263 /* EnrollmentProcessor.swift in Sources */,
-				68625DB32485144B00C28263 /* ZoomAuthenticationModuleBridge.m in Sources */,
 				68625DB62485144B00C28263 /* ZoomGlobalState.swift in Sources */,
-				68625DB22485144B00C28263 /* ZoomAuthenticationModule.swift in Sources */,
-				68625DB82485144B00C28263 /* ProcesingDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1543,7 +1493,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = creaternwapp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "creaternwapp-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1577,7 +1527,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = creaternwapp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "creaternwapp-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";

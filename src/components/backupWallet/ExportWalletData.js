@@ -120,6 +120,7 @@ const styles = ({ theme }) => ({
   avatar: {
     height: getDesignRelativeHeight(68, false),
     width: getDesignRelativeHeight(68, false),
+    borderRadius: '50%',
   },
   boxCopyIconWrapper: {
     height: getDesignRelativeHeight(52, false),

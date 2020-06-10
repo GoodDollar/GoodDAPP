@@ -42,7 +42,7 @@ export default (props = {}) => {
     () => [
       {
         icon: 'trash',
-        name: 'Delete wallet',
+        name: 'Delete Account',
         color: 'red',
         action: () => {
           fireEvent(CLICK_DELETE_WALLET)

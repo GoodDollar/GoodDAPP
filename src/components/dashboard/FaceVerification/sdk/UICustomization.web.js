@@ -17,7 +17,7 @@ const ZoomImage = filename => `${ZOOM_PUBLIC_PATH}/images/${filename}`
 const ZoomColor = memoize(hexToRgba)
 const ZoomFont = family => `'${family}', sans-serif`
 
-const ZoomHeaderTextSize = '24px'
+const ZoomHeaderTextSize = '22px'
 const ZoomDefaultCorderRadius = '5px'
 
 const { primary, green, white, lightGray, darkGray, gray50Percent } = theme.colors
@@ -137,7 +137,7 @@ assignIn(guidanceCustomization, {
 
   // subtext
   subtextFont: ZoomFont(defaultFont),
-  subtextTextSize: '14px',
+  subtextTextSize: '12px',
 
   // enabling additional instructions on retry screen
   enableRetryScreenBulletedInstructions: true,

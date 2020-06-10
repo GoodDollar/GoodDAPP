@@ -38,7 +38,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>UILaunchStoryboardName</key>
@@ -85,6 +85,6 @@
 		<string>Roboto-Bold.ttf</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>GDWallet needs to access your camera to be able to scan the QR codes</string>
+	<string>GDWallet needs to access your camera to be able to scan the QR codes and check your identity using face verification</string>
 </dict>
 </plist>

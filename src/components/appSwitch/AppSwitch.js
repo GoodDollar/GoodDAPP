@@ -173,6 +173,7 @@ const AppSwitch = (props: LoadingProps) => {
         const [lastVerified, isWhitelisted] = await Promise.all([goodWallet.lastVerified(), goodWallet.isCitizen()])
         if (isWhitelisted && lastVerified < new Date('06/02/2020')) {
           await goodWallet.deleteAccount()
+          gdstore.set('isLoggedInCitizen')(false)
         }
       }
       checkBonusInterval()

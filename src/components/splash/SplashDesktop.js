@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import GoodDollarImageSVG from '../../assets/Splash/goodDollar.svg'
-import wavePattern from '../../assets/splashWaves.svg'
+
+// import wavePattern from '../../assets/splashWaves.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
@@ -51,8 +52,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundImage: `url(${wavePattern})`,
-    backgroundRepeat: 'repeat-y',
+
+    //FIXME: RN
+    // backgroundImage: `url(${wavePattern})`,
+    // backgroundRepeat: 'repeat-y',
     opacity: 0.1,
   },
   content: {

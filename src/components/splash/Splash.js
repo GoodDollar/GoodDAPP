@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import AnimationsLogo from '../common/animations/Logo'
-import wavePattern from '../../assets/splashWaves.svg'
+
+// import wavePattern from '../../assets/splashWaves.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
@@ -61,8 +62,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundImage: `url(${wavePattern})`,
-    backgroundRepeat: 'repeat-y',
+
+    //FIXME: RN
+    // backgroundImage: `url(${wavePattern})`,
+    // backgroundRepeat: 'repeat-y',
     opacity: 0.1,
   },
   content: {
@@ -75,7 +78,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 'auto',
     marginBottom: getDesignRelativeHeight(10),
     borderBottomWidth: 2,
-    borderBottomStyle: 'solid',
+
+    //FIXME: RN
+    // borderBottomStyle: 'solid',
     borderBottomColor: '#000',
   },
   animation: {

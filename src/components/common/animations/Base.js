@@ -7,7 +7,8 @@ class AnimationBase extends React.Component {
 
   componentWillUnmount() {
     if (this.anim) {
-      this.anim.destroy()
+      //FIXME: RN
+      // this.anim.destroy()
     }
 
     this.onUnmount && this.onUnmount()

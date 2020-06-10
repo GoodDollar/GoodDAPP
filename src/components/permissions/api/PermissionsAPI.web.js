@@ -111,7 +111,11 @@ class PermissionsAPI {
 
     try {
       // requesting video stream to verify its available
-      await getUserMedia({ video: true })
+      const stream = await getUserMedia({ video: true })
+
+      stream.getTracks().forEach(track => {
+        track.stop()
+      })
     } catch (exception) {
       const { message } = exception
 

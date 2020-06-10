@@ -2,14 +2,36 @@
 import React from 'react'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
+import useClaimQueue from '../../dashboard/Claim/useClaimQueue'
 
-const ClaimButton = ({ screenProps, styles }) => (
-  <PushButton routeName="Claim" testID="claim_button" screenProps={screenProps} style={styles.claimButton}>
-    Claim
-  </PushButton>
-)
+const ClaimButton = ({ screenProps, styles }) => {
+  const { queueStatus, handleClaim } = useClaimQueue()
+  const isPending = queueStatus && queueStatus.status === 'pending'
+  const canContinue = () => {
+    if (queueStatus === undefined) {
+      return handleClaim()
+    }
+    return true
+  }
+
+  return (
+    <PushButton
+      disabled={isPending}
+      canContinue={canContinue}
+      routeName="Claim"
+      testID="claim_button"
+      screenProps={screenProps}
+      style={[styles.claimButton, isPending ? styles.inQueue : undefined]}
+    >
+      {isPending ? 'Queue' : 'Claim'}
+    </PushButton>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => ({
+  inQueue: {
+    backgroundColor: theme.colors.orange,
+  },
   claimButton: {
     alignItems: 'center',
     backgroundColor: theme.colors.green,

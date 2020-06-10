@@ -252,7 +252,11 @@ const Dashboard = props => {
     }
   }, [appState])
 
-  const animateClaim = useCallback(() => {
+  const animateClaim = useCallback(async () => {
+    const inQueue = await userStorage.userProperties.get('claimQueueAdded').onThen()
+    if (inQueue && inQueue.status === 'pending') {
+      return
+    }
     const { entitlement } = gdstore.get('account')
 
     if (Number(entitlement)) {

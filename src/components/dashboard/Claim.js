@@ -368,7 +368,6 @@ const Claim = props => {
               <View style={styles.amountBlock}>
                 <Section.Text color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
                   <BigGoodDollar
-                    reverse
                     number={entitlement}
                     formatter={weiToGd}
                     fontFamily="Roboto"
@@ -429,7 +428,6 @@ const Claim = props => {
             <Section.Text fontWeight="bold" style={styles.fontSize16}>
               <BigGoodDollar
                 style={styles.extraInfoAmountDisplay}
-                reverse
                 number={get(claimState, 'claimedToday.amount', 0)}
                 spaceBetween={false}
                 formatter={extraInfoAmountFormatter}
@@ -446,7 +444,7 @@ const Claim = props => {
                 }}
               />
             </Section.Text>
-            <Section.Text style={styles.fontSize16}>{`Claimed by `}</Section.Text>
+            <Section.Text style={styles.fontSize16}>{` Claimed by `}</Section.Text>
             <Section.Text fontWeight="bold" color="black" style={styles.fontSize16}>
               {formattedNumberOfPeopleClaimedToday}{' '}
             </Section.Text>

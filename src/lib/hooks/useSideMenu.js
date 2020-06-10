@@ -92,11 +92,11 @@ export default (props = {}) => {
       },
       {
         icon: 'lock',
-        name: 'Backup Wallet',
+        name: 'Export Wallet',
         hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
-            routeName: 'BackupWallet',
+            routeName: 'ExportWallet',
             type: 'Navigation/NAVIGATE',
           })
           slideOut()

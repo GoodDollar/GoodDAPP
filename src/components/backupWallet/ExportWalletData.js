@@ -61,11 +61,11 @@ const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
   const { avatar } = gdstore.get('profile')
   const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
 
-  const handleGoBack = useOnPress(() => navigate('Home'), [navigate])
+  const handleGoHome = useOnPress(() => navigate('Home'), [navigate])
 
   return (
     <Wrapper style={styles.wrapper}>
-      <NavBar title="EXPORT MY WALLET" goBack={handleGoBack} />
+      <NavBar title="EXPORT MY WALLET" goBack={handleGoHome} />
       <Section grow justifyContent="space-around">
         <BorderedBox
           styles={styles}
@@ -84,7 +84,7 @@ const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
           copyButtonText="Copy Address"
         />
       </Section>
-      <CustomButton onPress={() => {}}>Done</CustomButton>
+      <CustomButton onPress={handleGoHome}>Done</CustomButton>
     </Wrapper>
   )
 }

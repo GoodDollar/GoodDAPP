@@ -1,13 +1,15 @@
+import { get } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { env as devenv } from '../lib/utils/env'
 import env from './env'
-const publicUrl = env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin)
+
+const publicUrl = env.REACT_APP_PUBLIC_URL || get(window, 'location.origin')
 const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'etoro'
 
 // E2E checker utility import
 //import { isE2ERunning } from '../lib/utils/platform'
 
-const forceLogLevel = window && window.location && window.location.search.match(/level=(.*?)($|&)/)
+const forceLogLevel = get(window, 'location.search', '').match(/level=(.*?)($|&)/)
 
 const Config = {
   env: devenv,

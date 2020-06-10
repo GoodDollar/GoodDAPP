@@ -15,19 +15,44 @@ import useOnPress from '../../lib/hooks/useOnPress'
 // utils
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import GoodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
+import config from '../../config/config'
 
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'
 
-// import logger from '../../lib/logger/pino-logger'
-
-// const log = logger.child({ from: 'ExportWalletData' })
+const privateKey = GoodWallet.wallet.eth.accounts.wallet[0].privateKey
+const web3ProviderUrl = config.ethereum[GoodWallet.networkId].httpWeb3provider
 
 type BackupWalletProps = {
   styles: {},
   theme: {},
   screenProps: any,
+}
+
+const BorderedBox = ({ styles, theme, avatarSource, title, subTitle, copyButtonText }) => {
+  return (
+    <View style={styles.borderedBox}>
+      <View style={styles.boxAvatarContainer}>
+        <Image source={avatarSource} style={styles.avatar} />
+      </View>
+      <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
+        {title}
+      </Section.Text>
+      <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
+        {subTitle}
+      </Section.Text>
+      <TouchableOpacity activeOpacity={1} style={styles.boxCopyIconWrapper}>
+        <View style={styles.copyIconContainer}>
+          <Icon name="copy" size={32} color={theme.colors.surface} />
+        </View>
+        <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
+          {copyButtonText}
+        </Section.Text>
+      </TouchableOpacity>
+    </View>
+  )
 }
 
 const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
@@ -42,26 +67,22 @@ const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
     <Wrapper style={styles.wrapper}>
       <NavBar title="EXPORT MY WALLET" goBack={handleGoBack} />
       <Section grow justifyContent="space-around">
-        <View style={styles.borderedBox}>
-          <View style={styles.boxAvatarContainer}>
-            <Image source={avatarSource} style={styles.avatar} />
-          </View>
-          <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
-            My Wallet Private Key
-          </Section.Text>
-          <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
-            325425342t324
-          </Section.Text>
-          <TouchableOpacity activeOpacity={1} style={styles.boxCopyIconWrapper}>
-            <View style={styles.copyIconContainer}>
-              <Icon name="copy" size={32} color={theme.colors.surface} />
-            </View>
-            <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
-              Copy Key
-            </Section.Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.borderedBox} />
+        <BorderedBox
+          styles={styles}
+          theme={theme}
+          title="My Wallet Private Key"
+          subTitle={privateKey}
+          avatarSource={avatarSource}
+          copyButtonText="Copy Key"
+        />
+        <BorderedBox
+          styles={styles}
+          theme={theme}
+          title="Fuse Network RPC Address"
+          subTitle={web3ProviderUrl}
+          avatarSource={avatarSource}
+          copyButtonText="Copy Address"
+        />
       </Section>
       <CustomButton onPress={() => {}}>Done</CustomButton>
     </Wrapper>

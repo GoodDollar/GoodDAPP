@@ -34,10 +34,6 @@ target 'ZoomVerificationNative' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  system("rm -rf ./ZoomAuthentication && unzip ZoomAuthentication.zip")
-
-  pod 'ZoomAuthentication', :path => './ZoomAuthentication'
-
   target 'ZoomVerificationNativeTests' do
     inherit! :search_paths
     # Pods for testing

@@ -10,7 +10,16 @@ import useZoomSDK from '../hooks/useZoomSDK'
 import useZoomVerification from '../hooks/useZoomVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
+import {
+  fireEvent,
+  FV_GETREADY_ZOOM,
+  FV_PROGRESS_ZOOM,
+  FV_SUCCESS_ZOOM,
+  FV_ZOOMFAILED,
+} from '../../../../lib/analytics/analytics'
+
 const log = logger.child({ from: 'FaceVerification' })
+
 const FaceVerification = ({ screenProps }) => {
   const [showLoading, hideLoading] = useLoadingIndicator()
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
@@ -26,6 +35,20 @@ const FaceVerification = ({ screenProps }) => {
     [screenProps]
   )
 
+  const uiReadyHandler = useCallback(() => {
+    // hiding loading indicator once Zoom UI is ready
+    // this is needed for prevent Zoom's backdrop
+    // to be overlapped with spinner's backdrop
+    hideLoading()
+
+    // firing event
+    fireEvent(FV_GETREADY_ZOOM)
+  }, [hideLoading])
+
+  const captureDoneHandler = useCallback(() => {
+    fireEvent(FV_PROGRESS_ZOOM)
+  }, [])
+
   // ZoomSDK session completition handler
   const completionHandler = useCallback(
     async status => {
@@ -38,6 +61,7 @@ const FaceVerification = ({ screenProps }) => {
       resetAttempts()
       setIsCitizen(isCitizen)
       screenProps.pop({ isValid: true })
+      fireEvent(FV_SUCCESS_ZOOM)
     },
     [screenProps, setIsCitizen, resetAttempts]
   )
@@ -63,21 +87,27 @@ const FaceVerification = ({ screenProps }) => {
   // Using zoom verification hook, passing completion callback
   const startVerification = useZoomVerification({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
-
-    // hiding loading indicator once Zoom UI is ready
-    // this is needed for prevent Zoom's backdrop
-    // to be overlapped with spinner's backdrop
-    onUIReady: hideLoading,
+    onUIReady: uiReadyHandler,
+    onCaptureDone: captureDoneHandler,
     onComplete: completionHandler,
     onError: exceptionHandler,
   })
+
+  // SDK exception handler
+  const sdkExceptionHandler = useCallback(
+    exception => {
+      fireEvent(FV_ZOOMFAILED)
+      showErrorScreen(exception)
+    },
+    [showErrorScreen]
+  )
 
   // using zoom sdk initialization hook
   // starting verification once sdk sucessfully initializes
   // on error redirecting to the error screen
   useZoomSDK({
     onInitialized: startVerification,
-    onError: showErrorScreen,
+    onError: sdkExceptionHandler,
   })
 
   // showing loading indicator once component rendered

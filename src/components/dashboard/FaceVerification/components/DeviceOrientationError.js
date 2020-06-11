@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, Platform, View } from 'react-native'
 
 import Text from '../../../common/view/Text'
@@ -11,12 +11,16 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 
+import { fireEvent, FV_WRONGORIENTATION } from '../../../../lib/analytics/analytics'
+
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
 const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => {
   const onRetryPress = useOnPress(onRetry)
+
+  useEffect(() => void fireEvent(FV_WRONGORIENTATION), [])
 
   return (
     <Wrapper>

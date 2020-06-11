@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
 
 import Text from '../../../common/view/Text'
@@ -11,8 +11,12 @@ import { withStyles } from '../../../../lib/styles'
 import { isBrowser, isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
+import { fireEvent, FV_GENERALERROR } from '../../../../lib/analytics/analytics'
+
 const GeneralError = ({ styles, displayTitle, onRetry }) => {
   const onRetryPress = useOnPress(onRetry)
+
+  useEffect(() => void fireEvent(FV_GENERALERROR), [])
 
   return (
     <Wrapper>

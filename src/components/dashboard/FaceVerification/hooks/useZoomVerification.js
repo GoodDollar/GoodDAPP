@@ -28,6 +28,7 @@ export default ({
   enrollmentIdentifier,
   onUIReady = noop,
   onCaptureDone = noop,
+  onRetry = noop,
   onComplete = noop,
   onError = noop,
 }) => {
@@ -52,7 +53,7 @@ export default ({
 
     // initializing zoom session
     try {
-      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier, onUIReady, onCaptureDone)
+      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier, onUIReady, onCaptureDone, onRetry)
 
       log.debug('Zoom verification successfull', { verificationStatus })
 

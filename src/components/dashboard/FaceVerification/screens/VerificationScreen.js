@@ -15,6 +15,7 @@ import {
   FV_GETREADY_ZOOM,
   FV_PROGRESS_ZOOM,
   FV_SUCCESS_ZOOM,
+  FV_TRYAGAIN_ZOOM,
   FV_ZOOMFAILED,
 } from '../../../../lib/analytics/analytics'
 
@@ -47,6 +48,10 @@ const FaceVerification = ({ screenProps }) => {
 
   const captureDoneHandler = useCallback(() => {
     fireEvent(FV_PROGRESS_ZOOM)
+  }, [])
+
+  const retryHandler = useCallback(() => {
+    fireEvent(FV_TRYAGAIN_ZOOM)
   }, [])
 
   // ZoomSDK session completition handler
@@ -89,6 +94,7 @@ const FaceVerification = ({ screenProps }) => {
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
     onUIReady: uiReadyHandler,
     onCaptureDone: captureDoneHandler,
+    onRetry: retryHandler,
     onComplete: completionHandler,
     onError: exceptionHandler,
   })

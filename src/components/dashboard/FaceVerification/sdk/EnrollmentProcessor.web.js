@@ -67,7 +67,7 @@ export class EnrollmentProcessor {
   // Helper method that calls verification http API on server
   async performVerification() {
     // reading current session state vars
-    const { lastResult, resultCallback, enrollmentIdentifier } = this
+    const { lastResult, resultCallback, enrollmentIdentifier, subscriber } = this
 
     // setting initial progress to 0 for freeze progress bar
     resultCallback.uploadProgress(0)
@@ -138,6 +138,7 @@ export class EnrollmentProcessor {
           ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
 
           resultCallback.retry()
+          subscriber.onRetry()
           return
         }
       }

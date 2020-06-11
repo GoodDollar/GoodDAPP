@@ -1,8 +1,9 @@
 import { omit } from 'lodash'
 
 export class ProcessingSubscriber {
-  constructor(onUIReady, onCaptureDone, logger) {
+  constructor(onUIReady, onCaptureDone, onRetry, logger) {
     this.logger = logger
+    this.onRetry = onRetry
     this.onUIReady = onUIReady
     this.onCaptureDone = onCaptureDone
 

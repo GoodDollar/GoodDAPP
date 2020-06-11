@@ -42,15 +42,16 @@ export const ZoomSDK = new class {
     }
   }
 
-  async faceVerification(enrollmentIdentifier, onUIReady = noop, onCaptureDone = noop) {
+  async faceVerification(enrollmentIdentifier, onUIReady = noop, onCaptureDone = noop, onRetry = noop) {
     const { sdk, logger } = this
-    const { UI_READY, CAPTURE_DONE } = ZoomUxEvent
+    const { UI_READY, CAPTURE_DONE, FV_RETRY } = ZoomUxEvent
 
     // addListener calls returns unsubscibe functions we're storing in this array
     const subscriptions = [
       // subscribing to the native events
       sdk.addListener(UI_READY, onUIReady),
       sdk.addListener(CAPTURE_DONE, onCaptureDone),
+      sdk.addListener(FV_RETRY, onRetry),
     ]
 
     try {

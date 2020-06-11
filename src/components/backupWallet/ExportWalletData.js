@@ -3,6 +3,7 @@
 // libraries
 import React, { useMemo } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
+import { get } from 'lodash'
 
 // components
 import Wrapper from '../common/layout/Wrapper'
@@ -29,7 +30,7 @@ import FuseLogo from '../../assets/ExportWallet/FuseLogo.svg'
 const web3ProviderUrl = GoodWallet.networkId && config.ethereum[GoodWallet.networkId].httpWeb3provider
 
 // getting the privateKey of GD wallet address - which index is 0
-const fullPrivateKey = GoodWallet.wallet.eth.accounts.wallet[0].privateKey
+const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')
 const amountOfChars = isBrowser ? 24 : 18
 const shortenPrivateKey = `${fullPrivateKey.slice(0, amountOfChars)}...${fullPrivateKey.slice(-amountOfChars)}`
 

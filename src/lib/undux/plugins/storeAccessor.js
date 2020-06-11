@@ -14,6 +14,11 @@ export default () => {
   const storeAccessor = new Proxy(noop, {
     get(target, property, receiver) {
       if (!currentStore) {
+        // do not throw error if it called from HMR wrapper on the app startup
+        if (module.hot && new Error().stack.includes('react-hot-loader')) {
+          return
+        }
+
         throw new Error("Store isn't initialized")
       }
 

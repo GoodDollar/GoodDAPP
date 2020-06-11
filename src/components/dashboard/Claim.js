@@ -19,7 +19,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import { WrapperClaim } from '../common'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import { CLAIM_FAILED, CLAIM_QUEUE, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
+import { CLAIM_FAILED, CLAIM_QUEUE, CLAIM_SUCCESS, fireEvent, fireMauticEvent } from '../../lib/analytics/analytics'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 import useOnPress from '../../lib/hooks/useOnPress'
 import Config from '../../config/config'
@@ -79,10 +79,9 @@ const Claim = props => {
 
   // format number of people who did claim today
   /*eslint-disable */
-  const formattedNumberOfPeopleClaimedToday = useMemo(
-    () => formatWithSIPrefix(numberOfPeopleClaimedToday),
-    [numberOfPeopleClaimedToday]
-  )
+  const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(numberOfPeopleClaimedToday), [
+    numberOfPeopleClaimedToday,
+  ])
   /*eslint-enable */
 
   // Format transformer function for claimed G$ amount
@@ -281,7 +280,8 @@ const Claim = props => {
 
       if (receipt.status) {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash })
-        await advanceClaimsCounter()
+        const claimsSoFar = await advanceClaimsCounter()
+        fireMauticEvent({ claim: claimsSoFar })
         checkHanukaBonusDates()
 
         showDialog({

@@ -1,4 +1,5 @@
-import { noop } from 'lodash'
+import { isString, noop } from 'lodash'
+import ConsoleSubscriber from 'console-subscriber'
 
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
@@ -44,41 +45,31 @@ export const ZoomSDK = new class {
 
   // eslint-disable-next-line require-await
   async preload() {
-    const { sdk } = this
+    const { sdk, criticalPreloadException } = this
     const { ZoomPreloadResult } = sdk
 
-    try {
-      const preloadResult = await this.promisifyCall(resolver => sdk.preload(resolver))
+    // re-throw critical exception (e.g.65391) if happened during last preload
+    if (criticalPreloadException) {
+      throw criticalPreloadException
+    }
 
-      /* replace line above with this to emulate 65391
+    const preloadResult = await this.wrapCall(resolver => sdk.preload(resolver))
 
-        const preloadResult = await this.promisifyCall(resolver => {
-          setTimeout(() => {
-            const exception = new Error('65391 Failed to load resource ZoOm core worker.')
+    /* replace line above with this to emulate 65391
+      const preloadResult = await this.wrapCall(resolver => {
+        setTimeout(() => console.error('ZoOm Error: 65391 Failed to load resource ZoOm core worker.'))
+        return sdk.preload(resolver)
+      })
+    */
 
-            exception.name = 'ZoOm Error'
-            throw exception
-          })
-
-          return sdk.preload(resolver)
-        })
-      */
-
-      if (preloadResult !== ZoomPreloadResult.Success) {
-        throw new Error(`Couldn't preload Zoom SDK`)
-      }
-    } catch (exception) {
-      if (this.shouldReloadOn(exception)) {
-        this.criticalPreloadException = exception
-      }
-
-      throw exception
+    if (preloadResult !== ZoomPreloadResult.Success) {
+      throw new Error(`Couldn't preload Zoom SDK`)
     }
   }
 
   // eslint-disable-next-line require-await
   async initialize(licenseKey, preload = true) {
-    const { sdk, store, logger, criticalPreloadException } = this
+    const { sdk, logger, criticalPreloadException } = this
 
     // checking the last retrieved status code
     // if Zoom was already initialized successfully,
@@ -89,26 +80,22 @@ export const ZoomSDK = new class {
 
     try {
       // re-throw critical exception (e.g.65391) if happened during preload
+      // to immediately jump onto catch block
       if (criticalPreloadException) {
         throw criticalPreloadException
       }
 
       // aslo there's possibility to this exception will be throwing during initialize() call
       // so we'll wrap this bock onto try...catch
-      const isInitialized = await this.promisifyCall(resolver => sdk.initialize(licenseKey, resolver, preload))
+      const isInitialized = await this.wrapCall(resolver => sdk.initialize(licenseKey, resolver, preload))
 
       /* replace line above with this to emulate 65391
-
-        const isInitialized = await this.promisifyCall(resolver => {
-          setTimeout(() => {
-            const exception = new Error('65391 Failed to load resource ZoOm core worker.')
-
-            exception.name = 'ZoOm Error'
-            throw exception
-          })
-
+        const isInitialized = await this.wrapCall(resolver => {
+          setTimeout(() => console.error('ZoOm Error: 65391 Failed to load resource ZoOm core worker.'))
           return sdk.initialize(licenseKey, resolver, preload)
         })
+        also should catch:
+
       */
 
       // if Zoom was initialized successfully
@@ -127,22 +114,13 @@ export const ZoomSDK = new class {
       // here we handling possible critical exception
       // we'll getting here if exception appers on initialize()
       // or it was rethrown as happened during preload()
-      if (this.shouldReloadOn(exception)) {
-        const currentStore = store.getCurrentSnapshot()
+      // we're re-reading exception from this (not the destructured)
+      // for handle case when no critical exception was on preload()
+      // but it appears on initialize()
+      if (this.criticalPreloadException) {
+        this.showReloadPopup()
 
-        showDialogWithData(currentStore, {
-          type: 'error',
-          isMinHeight: false,
-          message: "We couldn't start face verification,\nplease reload the app.",
-          onDismiss: () => window.location.reload(true),
-          buttons: [
-            {
-              text: 'REFRESH',
-            },
-          ],
-        })
-
-        return
+        return false
       }
 
       throw exception
@@ -177,7 +155,34 @@ export const ZoomSDK = new class {
   }
 
   async unload() {
-    await this.promisifyCall(resolver => this.sdk.unload(resolver))
+    const { sdk, criticalPreloadException } = this
+
+    if (criticalPreloadException) {
+      return
+    }
+
+    await this.wrapCall(resolver => sdk.unload(resolver))
+  }
+
+  /**
+   * Shows reload popup
+   *
+   * @private
+   */
+  showReloadPopup() {
+    const store = this.store.getCurrentSnapshot()
+
+    showDialogWithData(store, {
+      type: 'error',
+      isMinHeight: false,
+      message: "We couldn't start face verification,\nplease reload the app.",
+      onDismiss: () => window.location.reload(true),
+      buttons: [
+        {
+          text: 'REFRESH',
+        },
+      ],
+    })
   }
 
   /**
@@ -189,47 +194,98 @@ export const ZoomSDK = new class {
    * @private
    */
   // eslint-disable-next-line require-await
-  async promisifyCall(zoomCall) {
-    let unexpectedError = null
+  async wrapCall(zoomCall) {
+    const subscription = this.subscribeToZoomExceptions()
 
-    const errorHandler = ({ error }) => {
-      const { name, message } = error
-
-      if (name === 'ZoOm Error') {
-        unexpectedError = new Error(message)
-        unexpectedError.name = 'UnrecoverableError'
-      }
-    }
-
-    const removeHandler = () => window.removeEventListener('error', errorHandler)
-
-    window.addEventListener('error', errorHandler, { capture: true })
-
-    return new Promise((resolve, reject) => {
-      const resolver = resolvedValue => {
-        removeHandler()
-
-        unexpectedError ? reject(unexpectedError) : resolve(resolvedValue)
-      }
-
-      try {
-        zoomCall(resolver)
-      } catch (exception) {
-        removeHandler()
-        reject(exception)
-      }
-    })
+    return Promise.race([subscription.asPromise(), this.promisifyCall(zoomCall)]).finally(() =>
+      subscription.unsubscrbe()
+    )
   }
 
   /**
-   * Checks if exception is so critical that requires webapp to be reloaded (e.g. 65391)
+   * Subscriibes to unexpected ZoOm errors
    *
-   * @param {Error} exception
+   * @returns {Object} result
    * @private
    */
-  shouldReloadOn(exception) {
-    const { name, message } = exception
+  subscribeToZoomExceptions() {
+    let rejecter
 
-    return 'UnrecoverableError' === name && message.startsWith('65391')
+    const errorHandler = errorEvent => {
+      let isCriticalError
+      const { error, filename } = errorEvent
+      const { name, message } = error
+
+      switch (name) {
+        case 'ZoOm Error':
+          isCriticalError = message.startsWith('65391')
+          break
+        case 'TypeError':
+          isCriticalError = filename.includes('zoom/resources')
+          break
+        default:
+          isCriticalError = false
+      }
+
+      if (isCriticalError) {
+        this.criticalPreloadException = error
+        rejecter(error)
+      }
+    }
+
+    const consoleHandler = (category, [exception]) => {
+      if ('error' !== category || !exception) {
+        return
+      }
+
+      if (exception instanceof ErrorEvent) {
+        errorHandler(exception)
+        return
+      }
+
+      if (isString(exception)) {
+        const [name, message] = exception.split(':')
+
+        if (!message) {
+          return
+        }
+
+        errorHandler({ error: { name, message } })
+      }
+    }
+
+    const subscriptionPromise = new Promise((_, reject) => {
+      rejecter = reject
+
+      window.addEventListener('error', errorHandler)
+      ConsoleSubscriber.bind(consoleHandler)
+    })
+
+    return {
+      asPromise: () => subscriptionPromise,
+      unsubscrbe: () => {
+        window.removeEventListener('error', errorHandler)
+        ConsoleSubscriber.unbind()
+      },
+    }
+  }
+
+  /**
+   * Promisifies SDK call.
+   * @param {String} method
+   * @param  {...any} args
+   * @returns {Promise<any>}
+   *
+   * @private
+   */
+  // eslint-disable-next-line require-await
+  async promisifyCall(zoomCall) {
+    return new Promise((resolve, reject) => {
+      try {
+        zoomCall(resolve)
+      } catch (exception) {
+        reject(exception)
+      }
+    })
   }
 }(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK' }))

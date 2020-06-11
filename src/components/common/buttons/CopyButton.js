@@ -3,9 +3,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Icon from '../view/Icon'
 import useClipboard from '../../../lib/hooks/useClipboard'
-import usePermissions from '../../permissions/hooks/usePermissions'
-import { Permissions } from '../../permissions/types'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import CustomButton from './CustomButton'
 
 const NOT_COPIED = 'NOT_COPIED'
@@ -23,21 +20,12 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
     onPressDone,
   ])
 
-  const copyToClipboard = useCallback(async () => {
+  const onPressHandler = useCallback(async () => {
     if (await setString(toCopy)) {
       setCopyState(COPIED)
+      onPress()
     }
-  }, [setCopyState, setString, toCopy])
-
-  const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
-    requestOnMounted: false,
-    onAllowed: copyToClipboard,
-  })
-
-  const onPressHandler = useOnPress(() => {
-    requestClipboardPermissions()
-    onPress()
-  }, [copyToClipboard, onPress])
+  }, [setCopyState, onPress])
 
   useEffect(() => {
     if (copyState === 'COPIED' && !withoutDone) {

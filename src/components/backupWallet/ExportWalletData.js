@@ -46,7 +46,7 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonTex
   const copyToClipboard = useOnPress(() => setString(content), [setString, content])
 
   return (
-    <View style={styles.borderedBox}>
+    <Section style={styles.borderedBox}>
       <View style={styles.boxAvatarContainer}>
         <Image source={imageSource} style={styles.avatar} />
       </View>
@@ -64,7 +64,7 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonTex
           {copyButtonText}
         </Section.Text>
       </TouchableOpacity>
-    </View>
+    </Section>
   )
 }
 

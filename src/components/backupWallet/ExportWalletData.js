@@ -35,7 +35,7 @@ const shortenPrivateKey = `${fullPrivateKey.slice(0, amountOfChars)}...${fullPri
 
 const copyIconSize = isBrowser ? 34 : normalize(24)
 
-type BackupWalletProps = {
+type ExportWalletProps = {
   styles: {},
   theme: {},
   screenProps: any,
@@ -68,7 +68,7 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonTex
   )
 }
 
-const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
+const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { navigate } = navigation
   const gdstore = GDStore.useStore()
   const { avatar } = gdstore.get('profile')

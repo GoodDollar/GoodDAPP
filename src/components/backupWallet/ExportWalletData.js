@@ -22,6 +22,7 @@ import config from '../../config/config'
 
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'
+import RPCImage from '../../assets/ExportWallet/RPCBlockImage.png'
 
 // getting the privateKey of GD wallet address - which index is 0
 const privateKey = GoodWallet.wallet.eth.accounts.wallet[0].privateKey
@@ -33,14 +34,14 @@ type BackupWalletProps = {
   screenProps: any,
 }
 
-const BorderedBox = ({ styles, theme, avatarSource, title, content, copyButtonText }) => {
+const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonText }) => {
   const { setString } = useClipboard()
   const copyToClipboard = useOnPress(() => setString(content), [setString, content])
 
   return (
     <View style={styles.borderedBox}>
       <View style={styles.boxAvatarContainer}>
-        <Image source={avatarSource} style={styles.avatar} />
+        <Image source={imageSource} style={styles.avatar} />
       </View>
       <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
         {title}
@@ -65,6 +66,7 @@ const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
   const gdstore = GDStore.useStore()
   const { avatar } = gdstore.get('profile')
   const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
+  const rpcImageSource = { uri: RPCImage }
 
   const handleGoHome = useOnPress(() => navigate('Home'), [navigate])
 
@@ -77,7 +79,7 @@ const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
           theme={theme}
           title="My Wallet Private Key"
           content={privateKey}
-          avatarSource={avatarSource}
+          imageSource={avatarSource}
           copyButtonText="Copy Key"
         />
         <BorderedBox
@@ -85,7 +87,7 @@ const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
           theme={theme}
           title="Fuse Network RPC Address"
           content={web3ProviderUrl}
-          avatarSource={avatarSource}
+          imageSource={rpcImageSource}
           copyButtonText="Copy Address"
         />
       </Section>

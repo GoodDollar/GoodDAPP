@@ -16,17 +16,24 @@ import useClipboard from '../../lib/hooks/useClipboard'
 // utils
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import normalize from '../../lib/utils/normalizeText'
 import GoodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import config from '../../config/config'
+import { isBrowser } from '../../lib/utils/platform'
 
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'
 import RPCImage from '../../assets/ExportWallet/RPCBlockImage.png'
 
-// getting the privateKey of GD wallet address - which index is 0
-const privateKey = GoodWallet.wallet.eth.accounts.wallet[0].privateKey
 const web3ProviderUrl = config.ethereum[GoodWallet.networkId].httpWeb3provider
+
+// getting the privateKey of GD wallet address - which index is 0
+const fullPrivateKey = GoodWallet.wallet.eth.accounts.wallet[0].privateKey
+const amountOfChars = isBrowser ? 24 : 18
+const shortenPrivateKey = `${fullPrivateKey.slice(0, amountOfChars)}...${fullPrivateKey.slice(-amountOfChars)}`
+
+const copyIconSize = isBrowser ? 34 : normalize(24)
 
 type BackupWalletProps = {
   styles: {},
@@ -51,7 +58,7 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonTex
       </Section.Text>
       <TouchableOpacity onPress={copyToClipboard} activeOpacity={1} style={styles.boxCopyIconWrapper}>
         <View style={styles.copyIconContainer}>
-          <Icon name="copy" size={32} color={theme.colors.surface} />
+          <Icon name="copy" size={copyIconSize} color={theme.colors.surface} />
         </View>
         <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
           {copyButtonText}
@@ -73,25 +80,27 @@ const ExportWalletData = ({ navigation, styles, theme }: BackupWalletProps) => {
   return (
     <Wrapper style={styles.wrapper}>
       <NavBar title="EXPORT MY WALLET" goBack={handleGoHome} />
-      <Section grow justifyContent="space-around">
-        <BorderedBox
-          styles={styles}
-          theme={theme}
-          title="My Wallet Private Key"
-          content={privateKey}
-          imageSource={avatarSource}
-          copyButtonText="Copy Key"
-        />
-        <BorderedBox
-          styles={styles}
-          theme={theme}
-          title="Fuse Network RPC Address"
-          content={web3ProviderUrl}
-          imageSource={rpcImageSource}
-          copyButtonText="Copy Address"
-        />
+      <Section grow>
+        <Section grow justifyContent="space-around">
+          <BorderedBox
+            styles={styles}
+            theme={theme}
+            title="My Wallet Private Key"
+            content={shortenPrivateKey}
+            imageSource={avatarSource}
+            copyButtonText="Copy Key"
+          />
+          <BorderedBox
+            styles={styles}
+            theme={theme}
+            title="Fuse Network RPC Address"
+            content={web3ProviderUrl}
+            imageSource={rpcImageSource}
+            copyButtonText="Copy Address"
+          />
+        </Section>
+        <CustomButton onPress={handleGoHome}>Done</CustomButton>
       </Section>
-      <CustomButton onPress={handleGoHome}>Done</CustomButton>
     </Wrapper>
   )
 }

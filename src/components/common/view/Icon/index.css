@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'gooddollar';
-    src: url('../font/gooddollar.svg?23219720#gooddollar') format('svg');
+    src: url('../font/gooddollar.svg?72942276#gooddollar') format('svg');
   }
 }
 */
@@ -64,7 +64,6 @@
 .icon-cake:before { content: '\e806'; } /* '' */
 .icon-camera:before { content: '\e807'; } /* '' */
 .icon-ios-share:before { content: '\e808'; } /* '' */
-.icon-logout:before { content: '\e809'; } /* '' */
 .icon-bonus-reward:before { content: '\e80a'; } /* '' */
 .icon-paste:before { content: '\e80b'; } /* '' */
 .icon-close:before { content: '\e80c'; } /* '' */
@@ -121,6 +120,8 @@
 .icon-send-to-address:before { content: '\e842'; } /* '' */
 .icon-receive-to-address:before { content: '\e843'; } /* '' */
 .icon-copy:before { content: '\e844'; } /* '' */
+.icon-logout:before { content: '\e845'; } /* '' */
+.icon-export-wallet:before { content: '\e846'; } /* '' */
 .icon-add:before { content: '\e882'; } /* '' */
 .icon-privacy-policy:before { content: '\e883'; } /* '' */
 .icon-terms-of-use:before { content: '\e89f'; } /* '' */

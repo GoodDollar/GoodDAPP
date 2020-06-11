@@ -122,8 +122,8 @@ export const ZoomSDK = new class {
   }
 
   // eslint-disable-next-line require-await
-  async faceVerification(enrollmentIdentifier, onUIReady = noop) {
-    const subscriber = new ProcessingSubscriber(onUIReady, log)
+  async faceVerification(enrollmentIdentifier, onUIReady = noop, onCaptureDone = noop) {
+    const subscriber = new ProcessingSubscriber(onUIReady, onCaptureDone, log)
     const processor = new EnrollmentProcessor(subscriber)
 
     processor.enroll(enrollmentIdentifier)

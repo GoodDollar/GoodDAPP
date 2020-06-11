@@ -153,6 +153,7 @@ export class EnrollmentProcessor {
   // @see ZoomSDK.ZoomFaceMapProcessor
   // @private
   processZoomSessionResultWhileZoomWaits(zoomSessionResult, zoomFaceMapResultCallback) {
+    const { subscriber } = this
     const { status, faceMetrics } = zoomSessionResult
     const { faceMap } = faceMetrics
 
@@ -171,7 +172,10 @@ export class EnrollmentProcessor {
       return
     }
 
-    // if no session in progress - performing http server call
+    // if no session in progress - notifying that caturing is done
+    subscriber.onCaptureDone()
+
+    // and performing http server call
     this.performVerification()
   }
 

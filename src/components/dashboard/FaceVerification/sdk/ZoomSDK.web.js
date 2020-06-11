@@ -1,7 +1,4 @@
-import React from 'react'
 import { noop } from 'lodash'
-
-import ReloadDialog from '../components/ReloadDialog'
 
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
@@ -136,8 +133,13 @@ export const ZoomSDK = new class {
         showDialogWithData(currentStore, {
           type: 'error',
           isMinHeight: false,
-          content: <ReloadDialog />,
+          message: "We couldn't start face verification,\nplease reload the app.",
           onDismiss: () => window.location.reload(true),
+          buttons: [
+            {
+              text: 'REFRESH',
+            },
+          ],
         })
       }
 

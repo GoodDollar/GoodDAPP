@@ -26,7 +26,7 @@ import { isBrowser } from '../../lib/utils/platform'
 import unknownProfile from '../../assets/unknownProfile.svg'
 import FuseLogo from '../../assets/ExportWallet/FuseLogo.svg'
 
-const web3ProviderUrl = config.ethereum[GoodWallet.networkId].httpWeb3provider
+const web3ProviderUrl = GoodWallet.networkId && config.ethereum[GoodWallet.networkId].httpWeb3provider
 
 // getting the privateKey of GD wallet address - which index is 0
 const fullPrivateKey = GoodWallet.wallet.eth.accounts.wallet[0].privateKey

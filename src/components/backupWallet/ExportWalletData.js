@@ -24,7 +24,7 @@ import { isBrowser } from '../../lib/utils/platform'
 
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'
-import RPCImage from '../../assets/ExportWallet/RPCBlockImage.png'
+import FuseLogo from '../../assets/ExportWallet/FuseLogo.svg'
 
 const web3ProviderUrl = config.ethereum[GoodWallet.networkId].httpWeb3provider
 
@@ -73,7 +73,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const gdstore = GDStore.useStore()
   const { avatar } = gdstore.get('profile')
   const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
-  const rpcImageSource = { uri: RPCImage }
+  const rpcImageSource = { uri: FuseLogo }
 
   const handleGoHome = useOnPress(() => navigate('Home'), [navigate])
 

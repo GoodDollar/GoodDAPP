@@ -691,7 +691,6 @@ const Dashboard = props => {
         <FeedModalList
           data={modalListData}
           handleFeedSelection={handleFeedSelection}
-          initialNumToRender={PAGE_SIZE}
           onEndReached={nextFeed}
           selectedFeed={currentFeed}
           navigation={navigation}

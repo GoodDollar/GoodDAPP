@@ -8,9 +8,12 @@ import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { Permissions } from '../permissions/types'
 
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { useClipboardPaste } from '../../lib/hooks/useClipboard'
+import usePermissions from '../permissions/hooks/usePermissions'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 export type TypeProps = {
   screenProps: any,
@@ -48,6 +51,14 @@ const SendToAddress = (props: TypeProps) => {
   const canContinue = useCallback(() => state.isValid, [state])
   const pasteValueFromClipboard = useClipboardPaste(setValue)
 
+  // check clipboard permission an show dialog is not allowed
+  const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
+    requestOnMounted: false,
+    onAllowed: pasteValueFromClipboard,
+  })
+
+  const handleAdornmentAction = useOnPress(requestClipboardPermissions, [])
+
   return (
     <Wrapper>
       <TopBar push={screenProps.push} hideProfile={false} />
@@ -63,7 +74,7 @@ const SendToAddress = (props: TypeProps) => {
             value={state.value}
             showAdornment
             adornment="paste"
-            adornmentAction={pasteValueFromClipboard}
+            adornmentAction={handleAdornmentAction}
             adornmentSize={32}
             adornmentStyle={styles.adornmentStyle}
             autoFocus

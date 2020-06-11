@@ -28,7 +28,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   const [showErrorDialog] = useErrorDialog()
   const [mnemonics, setMnemonics] = useState('')
   const API = useWrappedApi()
-  const { setString } = useClipboard()
+  const [, setString] = useClipboard()
 
   const getMnemonicsValue = async () => {
     const currentMnemonics = await getMnemonicsObject()
@@ -63,7 +63,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   const setClipboard = async () => {
     const currentMnemonics = await getMnemonics()
 
-    if (setString(currentMnemonics)) {
+    if (await setString(currentMnemonics)) {
       fireEvent(PHRASE_BACKUP, { method: 'copy' })
       showDialogWithData({
         title: 'Copy all to clipboard',

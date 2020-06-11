@@ -40,7 +40,7 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
     //get link from clipboard
     //cy.task('getClipboard').then(reseiveMoneyUrl => {
 
-    ReceiveMoneyPage.doneButton.invoke('attr', 'data-testid').then(reseiveMoneyUrl => {
+    cy.get('[data-gdtype="copy-link"]').invoke('attr', 'data-testid').then(reseiveMoneyUrl => {
       cy.log(reseiveMoneyUrl)
       const moneyLink = reseiveMoneyUrl
       const pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim

@@ -136,7 +136,7 @@ const styles = ({ theme }) => ({
   avatar: {
     height: getDesignRelativeHeight(68, false),
     width: getDesignRelativeHeight(68, false),
-    borderRadius: '50%',
+    borderRadius: getDesignRelativeHeight(34, false), // half of height/width
   },
   boxCopyIconWrapper: {
     height: getDesignRelativeHeight(52, false),
@@ -148,7 +148,7 @@ const styles = ({ theme }) => ({
   copyIconContainer: {
     height: getDesignRelativeHeight(38, false),
     width: getDesignRelativeHeight(38, false),
-    borderRadius: '50%',
+    borderRadius: getDesignRelativeHeight(19, false),
     backgroundColor: theme.colors.primary,
     display: 'flex',
     justifyContent: 'center',

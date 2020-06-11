@@ -63,7 +63,7 @@ export const ZoomSDK = new class {
             throw exception
           })
 
-          sdk.preload(resolver)
+          return sdk.preload(resolver)
         })
       */
 
@@ -99,6 +99,20 @@ export const ZoomSDK = new class {
       // aslo there's possibility to this exception will be throwing during initialize() call
       // so we'll wrap this bock onto try...catch
       const isInitialized = await this.promisifyCall(resolver => sdk.initialize(licenseKey, resolver, preload))
+
+      /* replace line above with this to emulate 65391
+
+        const isInitialized = await this.promisifyCall(resolver => {
+          setTimeout(() => {
+            const exception = new Error('65391 Failed to load resource ZoOm core worker.')
+
+            exception.name = 'ZoOm Error'
+            throw exception
+          })
+
+          return sdk.initialize(licenseKey, resolver, preload)
+        })
+      */
 
       // if Zoom was initialized successfully
       if (isInitialized) {

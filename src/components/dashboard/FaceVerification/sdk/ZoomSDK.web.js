@@ -121,7 +121,7 @@ export const ZoomSDK = new class {
         sdk.configureLocalization(UITextStrings.toJSON())
 
         // resolving
-        return
+        return isInitialized
       }
     } catch (exception) {
       // here we handling possible critical exception
@@ -141,6 +141,8 @@ export const ZoomSDK = new class {
             },
           ],
         })
+
+        return
       }
 
       throw exception

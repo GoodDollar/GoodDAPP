@@ -114,11 +114,13 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
         // Initializing ZoOm
         // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
-        await ZoomSDK.initialize(Config.zoomLicenseKey, !zoomSDKPreloaded)
+        const isInitialized = await ZoomSDK.initialize(Config.zoomLicenseKey, !zoomSDKPreloaded)
 
-        // Executing onInitialized callback
-        onInitializedRef.current()
-        log.debug('ZoomSDK is ready')
+        if (isInitialized) {
+          // Executing onInitialized callback
+          onInitializedRef.current()
+          log.debug('ZoomSDK is ready')
+        }
       } catch (exception) {
         // the following code is needed to categorize exceptions
         // then we could display specific error messages

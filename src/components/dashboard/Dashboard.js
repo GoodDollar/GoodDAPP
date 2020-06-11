@@ -1,6 +1,16 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
+import {
+  Animated,
+  AsyncStorage,
+  Dimensions,
+  Easing,
+  Image,
+  InteractionManager,
+  Platform,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { debounce, get } from 'lodash'
 import type { Store } from 'undux'
 import { isBrowser } from '../../lib/utils/platform'

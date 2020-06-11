@@ -1,5 +1,5 @@
 // @flow
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { AsyncStorage, Platform, SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
@@ -51,15 +51,17 @@ const App = () => {
   //   userStorage.setProfileField('recaptcha', token, 'private')
   // }
 
+  const AppWrapper = isMobile ? Fragment : SafeAreaView
+
   return (
     <PaperProvider theme={theme}>
-      <SafeAreaView style={styles.safeAreaView}>
-        <React.Fragment>
+      <AppWrapper style={styles.safeAreaView}>
+        <Fragment>
           <SimpleStoreDialog />
           <LoadingIndicator />
           <SplashOrRouter store={store} />
-        </React.Fragment>
-      </SafeAreaView>
+        </Fragment>
+      </AppWrapper>
     </PaperProvider>
   )
 }

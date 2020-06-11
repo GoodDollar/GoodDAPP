@@ -104,7 +104,6 @@ const getStylesFromProps = ({ theme }) => ({
     paddingVertical: theme.sizes.defaultHalf,
   },
   view: {
-    flex: 1,
     width: '100%',
     marginBottom: theme.sizes.default,
   },

@@ -19,14 +19,15 @@ export default () => {
     if (!Config.isPhaseZero) {
       return
     }
-
-    if (++current === claimDaysThreshold) {
+    current++
+    if (Config.isPhaseZero && current === claimDaysThreshold) {
       fireEvent(CLAIM_TASK_COMPLETED)
       await userStorage.enqueueTX(longUseOfClaims)
     }
 
     await userProperties.set(claimDaysProperty, current)
     claimsCountRef.current++
+    return claimsCountRef.current
   }, [])
 
   useEffect(() => {

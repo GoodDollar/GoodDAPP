@@ -1,11 +1,11 @@
 // @flow
 import { createConnectedStore } from 'undux'
 import { AsyncStorage } from 'react-native'
-import { flow as compose, isString } from 'lodash'
+import { isString } from 'lodash'
 
 import { IS_LOGGED_IN } from '../constants/localStorage'
 import pinoLogger from '../logger/pino-logger'
-import withPinoLogger, { log as unduxLogger } from './plugins/logger'
+import createStoreEffects, { unduxLogger } from './plugins'
 import { createUseCurriedSettersHook } from './utils/setter'
 
 /**
@@ -102,24 +102,7 @@ const initialState: State = {
   serviceWorkerUpdated: null,
 }
 
-// keeping current snapshot in private module variable
-// it could be accessed via getCurrentSnapshot
-// we need it to habe show dialog outside components/hooks
-// sometimes it's needed for example in the web-only Zoom sdk wrapper
-// we have to show 'reload app' dialog on 65391 exception
-let currentSnapshot = null
-
-const storeEffects = compose([
-  withPinoLogger,
-  storeDefinition => {
-    // effect which updates currentSnapshot
-    storeDefinition.onAll().subscribe(() => {
-      currentSnapshot = storeDefinition.getCurrentSnapshot()
-    })
-
-    return storeDefinition
-  },
-])
+const { storeAccessor, storeEffects } = createStoreEffects()
 
 /**
  * default exported instance of our global Undux Store
@@ -164,14 +147,12 @@ const assertStore = (store, logger = unduxLogger, message = 'Operation failed') 
 const assertStoreSnapshot = (store, logger = unduxLogger, message = 'Operation failed') =>
   storeAssertion(() => !store || !store.storeSnapshot, logger, message)
 
-const getCurrentSnapshot = () => currentSnapshot
-
 export {
+  storeAccessor as store,
   initStore,
   assertStore,
   assertStoreSnapshot,
   SimpleStore as default,
-  getCurrentSnapshot,
   setInitFunctions,
   setWallet,
   setUserStorage,

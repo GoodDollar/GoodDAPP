@@ -57,7 +57,7 @@ export const ZoomSDK = new class {
 
     /* replace line above with this to emulate 65391
       const preloadResult = await this.wrapCall(resolver => {
-        setTimeout(() => console.error('ZoOm Error: 65391 Failed to load resource ZoOm core worker.'))
+        setTimeout(() => console.error('ZoOm Error:65391 Failed to load resource ZoOm core worker.'))
         return sdk.preload(resolver)
       })
     */

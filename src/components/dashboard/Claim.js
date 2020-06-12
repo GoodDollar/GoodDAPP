@@ -279,7 +279,9 @@ const Claim = props => {
       })
 
       if (receipt.status) {
-        fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash })
+        fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash, claimValue: curEntitlement })
+
+        //fireGTMEvent({ event: 'claim-geo', claimValue: curEntitlement })
         const claimsSoFar = await advanceClaimsCounter()
         fireMauticEvent({ claim: claimsSoFar })
         checkHanukaBonusDates()

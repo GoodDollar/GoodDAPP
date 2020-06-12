@@ -1,5 +1,5 @@
 //@flow
-import { debounce, forEach } from 'lodash'
+import { debounce, forEach, get, invoke, isEmpty, isString, mapValues, negate } from 'lodash'
 import * as Sentry from '@sentry/browser'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
@@ -35,33 +35,38 @@ export const APP_OPEN = 'APP_OPEN'
 export const LOGOUT = 'LOGOUT'
 export const CARD_SLIDE = 'CARD_SLIDE'
 
-let Amplitude, FS, Rollbar
+const FS = global.FS
+const BugSnag = global.bugsnagClient
+const Mautic = global.mt
+const Rollbar = global.Rollbar
+const Amplitude = invoke(global, 'amplitude.getInstance')
 
 const log = logger.child({ from: 'analytics' })
+const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
 
 export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
   const identifier = goodWallet && goodWallet.getAccountForType('login')
   const email = userStorage && (await userStorage.getProfileFieldValue('email'))
+
   log.debug('got identifiers', { identifier, email })
 
   const emailOrId = email || identifier
 
-  if (global.bugsnagClient) {
-    global.bugsnagClient.user = {
+  if (BugSnag) {
+    BugSnag.user = {
       id: identifier,
       email: emailOrId,
     }
   }
 
-  if (global.Rollbar && Config.rollbarKey) {
-    Rollbar = global.Rollbar
-    global.Rollbar.configure({
-      accessToken: Config.rollbarKey,
+  if (Rollbar && rollbarKey) {
+    Rollbar.configure({
+      accessToken: rollbarKey,
       captureUncaught: true,
       captureUnhandledRejections: true,
       payload: {
-        environment: Config.env + Config.network,
-        codeVersion: Config.version,
+        environment: env + network,
+        codeVersion: version,
         person: {
           id: emailOrId,
           identifier,
@@ -70,35 +75,33 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     })
   }
 
-  if (global.amplitude && Config.amplitudeKey) {
-    Amplitude = global.amplitude.getInstance()
-    Amplitude.init(Config.amplitudeKey)
-    Amplitude.setVersionName(Config.version)
-    if (Amplitude) {
-      const created = new global.amplitude.Identify().setOnce('first_open_date', new Date().toString())
-      if (email) {
-        Amplitude.setUserId(email)
-      }
-      Amplitude.identify(created)
-      if (identifier) {
-        Amplitude.setUserProperties({ identifier })
-      }
+  if (Amplitude && amplitudeKey) {
+    Amplitude.init(amplitudeKey)
+    Amplitude.setVersionName(version)
+
+    const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
+
+    Amplitude.identify(identity)
+
+    if (email) {
+      Amplitude.setUserId(email)
+    }
+
+    if (identifier) {
+      Amplitude.setUserProperties({ identifier })
     }
   }
 
-  if (global.FS) {
-    FS = global.FS
-    if (emailOrId) {
-      FS.identify(emailOrId, {
-        appVersion: Config.version,
-      })
-    }
+  if (FS && emailOrId) {
+    FS.identify(emailOrId, {
+      appVersion: version,
+    })
   }
 
-  if (Config.sentryDSN) {
+  if (sentryDSN) {
     Sentry.init({
-      dsn: Config.sentryDSN,
-      environment: Config.env,
+      dsn: sentryDSN,
+      environment: env,
     })
 
     Sentry.configureScope(scope => {
@@ -109,16 +112,29 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
         })
       }
 
-      scope.setTag('appVersion', Config.version)
-      scope.setTag('networkUsed', Config.network)
+      scope.setTag('appVersion', version)
+      scope.setTag('networkUsed', network)
     })
   }
 
-  log.debug('Initialized analytics:', {
-    Amplitude: Amplitude !== undefined,
-    FS: FS !== undefined,
-    Rollbar: Rollbar !== undefined,
-  })
+  if (Mautic && email) {
+    Mautic.userId = email
+  }
+
+  log.debug(
+    'Initialized analytics:',
+    mapValues(
+      {
+        BugSnag,
+        FS: emailOrId,
+        Mautic: email,
+        Sentry: sentryDSN,
+        Rollbar: rollbarKey,
+        Amplitude: amplitudeKey,
+      },
+      negate(isEmpty)
+    )
+  )
 
   patchLogger()
 }
@@ -139,17 +155,32 @@ export const reportToSentry = (error, extra = {}, tags = {}) =>
   })
 
 export const fireEvent = (event: string, data: any = {}) => {
-  if (Amplitude === undefined) {
+  if (!Amplitude) {
     return
   }
 
-  let res = Amplitude.logEvent(event, data)
-
-  if (res === undefined) {
+  if (!Amplitude.logEvent(event, data)) {
     log.warn('Amplitude event not sent', { event, data })
-  } else {
-    log.debug('fired event', { event, data })
+    return
   }
+
+  log.debug('fired event', { event, data })
+}
+
+export const fireMauticEvent = (data: any = {}) => {
+  if (!Mautic) {
+    return
+  }
+
+  const { userId } = Mautic
+  let eventData = data
+
+  if (userId) {
+    // do not mutate source params
+    eventData = { ...data, email: userId }
+  }
+
+  Mautic('send', 'pageview', eventData)
 }
 
 /**
@@ -157,9 +188,8 @@ export const fireEvent = (event: string, data: any = {}) => {
  * @param {object} route
  */
 export const fireEventFromNavigation = route => {
-  const key = route.routeName
-  const action = route.params && route.params.action ? `${route.params.action}` : 'GOTO'
-
+  const { routeName: key, params } = route
+  const action = get(params, 'action', 'GOTO')
   const code = `${action}_${key}`.toUpperCase()
 
   fireEvent(code)
@@ -169,10 +199,13 @@ export const fireEventFromNavigation = route => {
 const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
 const patchLogger = () => {
-  let error = global.logger.error
-  global.logger.error = function() {
-    let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
-    if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
+  const { logger } = global
+  const logError = logError.error.bind(logger)
+
+  logger.error = (...args) => {
+    const [logContext, logMessage, eMsg, errorObj, ...rest] = args
+
+    if (isString(logMessage) && !logMessage.includes('axios')) {
       debounceFireEvent(ERROR_LOG, {
         unique: `${eMsg} ${logMessage} (${logContext.from})`,
         reason: logMessage,
@@ -180,23 +213,30 @@ const patchLogger = () => {
         eMsg,
       })
     }
-    if (global.bugsnagClient && Config.env !== 'test') {
-      global.bugsnagClient.notify(logMessage, {
-        context: logContext && logContext.from,
+
+    if (env === 'test') {
+      return
+    }
+
+    if (BugSnag) {
+      const { from } = logContext || {}
+
+      BugSnag.notify(logMessage, {
+        context: from,
+        groupingHash: from,
         metaData: { logMessage, eMsg, errorObj, rest },
-        groupingHash: logContext && logContext.from,
       })
     }
-    if (global.Rollbar && Config.env !== 'test') {
-      global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
-    }
-    if (Config.sentryDSN && Config.env !== 'test') {
-      const isValidErrorObject = errorObj instanceof Error
-      let errorToPassIntoLog
 
-      if (isValidErrorObject) {
-        errorObj.message = `${logMessage}: ${errorObj.message}`
-        errorToPassIntoLog = errorObj
+    if (Rollbar) {
+      Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
+    }
+
+    if (sentryDSN) {
+      let errorToPassIntoLog = errorObj
+
+      if (errorObj instanceof Error) {
+        errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
       } else {
         errorToPassIntoLog = new Error(logMessage)
       }
@@ -209,6 +249,7 @@ const patchLogger = () => {
         rest,
       })
     }
-    return error.apply(global.logger, arguments)
+
+    return logError(...args)
   }
 }

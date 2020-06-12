@@ -55,13 +55,6 @@ export const ZoomSDK = new class {
 
     const preloadResult = await this.wrapCall(resolver => sdk.preload(resolver))
 
-    /* replace line above with this to emulate 65391
-      const preloadResult = await this.wrapCall(resolver => {
-        setTimeout(() => console.error('ZoOm Error:65391 Failed to load resource ZoOm core worker.'))
-        return sdk.preload(resolver)
-      })
-    */
-
     if (preloadResult !== ZoomPreloadResult.Success) {
       throw new Error(`Couldn't preload Zoom SDK`)
     }
@@ -88,15 +81,6 @@ export const ZoomSDK = new class {
       // aslo there's possibility to this exception will be throwing during initialize() call
       // so we'll wrap this bock onto try...catch
       const isInitialized = await this.wrapCall(resolver => sdk.initialize(licenseKey, resolver, preload))
-
-      /* replace line above with this to emulate 65391
-        const isInitialized = await this.wrapCall(resolver => {
-          setTimeout(() => console.error('ZoOm Error: 65391 Failed to load resource ZoOm core worker.'))
-          return sdk.initialize(licenseKey, resolver, preload)
-        })
-        also should catch:
-
-      */
 
       // if Zoom was initialized successfully
       if (isInitialized) {

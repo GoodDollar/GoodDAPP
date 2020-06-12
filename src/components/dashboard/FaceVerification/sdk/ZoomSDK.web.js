@@ -228,7 +228,7 @@ export const ZoomSDK = new class {
       }
 
       if (isString(exception)) {
-        const [name, message] = exception.split(':')
+        const [name, message] = exception.split(': ')
 
         if (!message) {
           return

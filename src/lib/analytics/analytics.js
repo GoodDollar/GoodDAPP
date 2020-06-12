@@ -1,8 +1,9 @@
 //@flow
-import { debounce, forEach, get, invoke, isEmpty, isString, mapValues, negate } from 'lodash'
 import * as Sentry from '@sentry/browser'
-import logger from '../../lib/logger/pino-logger'
+import { debounce, forEach, get, invoke, isString } from 'lodash'
+
 import Config from '../../config/config'
+import logger from '../../lib/logger/pino-logger'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -24,9 +25,7 @@ export const PROFILE_UPDATE = 'PROFILE_UPDATE'
 export const PHRASE_BACKUP = 'PHRASE_BACKUP'
 export const PHRASE_BACKUP_COPY = 'PHRASE_BACKUP_COPY'
 export const ADDTOHOME = 'ADDTOHOME'
-export const ADDTOHOME_LATER = 'ADDTOHOME_LATER'
-
-//desktop/chrome did user accept or reject the install prompt
+export const ADDTOHOME_LATER = 'ADDTOHOME_LATER' // desktop/chrome did user accept or reject the install prompt
 export const ADDTOHOME_OK = 'ADDTOHOME_OK'
 export const ADDTOHOME_REJECTED = 'ADDTOHOME_REJECTED'
 export const ERROR_LOG = 'ERROR'
@@ -44,12 +43,53 @@ const Amplitude = invoke(global, 'amplitude.getInstance')
 const log = logger.child({ from: 'analytics' })
 const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
 
-export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
-  const identifier = goodWallet && goodWallet.getAccountForType('login')
-  const email = userStorage && (await userStorage.getProfileFieldValue('email'))
+const isSentryEnabled = !!sentryDSN
+const isRollbarEnabled = !!(Rollbar && rollbarKey)
+const isAmplitudeEnabled = !!(Amplitude && amplitudeKey)
 
-  log.debug('got identifiers', { identifier, email })
+export const initAnalytics = () => {
+  if (isRollbarEnabled) {
+    Rollbar.configure({
+      accessToken: rollbarKey,
+      captureUncaught: true,
+      captureUnhandledRejections: true,
+      payload: {
+        environment: env + network,
+        codeVersion: version,
+      },
+    })
+  }
 
+  if (isAmplitudeEnabled) {
+    const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
+
+    Amplitude.init(amplitudeKey)
+    Amplitude.setVersionName(version)
+    Amplitude.identify(identity)
+  }
+
+  if (isSentryEnabled) {
+    Sentry.init({
+      dsn: sentryDSN,
+      environment: env,
+    })
+
+    Sentry.configureScope(scope => {
+      scope.setTag('appVersion', version)
+      scope.setTag('networkUsed', network)
+    })
+  }
+
+  log.debug('Initialized analytics:', {
+    Sentry: isSentryEnabled,
+    Rollbar: isRollbarEnabled,
+    Amplitude: isAmplitudeEnabled,
+  })
+
+  patchLogger()
+}
+
+export const identifyWith = (email, identifier = null) => {
   const emailOrId = email || identifier
 
   if (BugSnag) {
@@ -59,14 +99,9 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     }
   }
 
-  if (Rollbar && rollbarKey) {
+  if (isRollbarEnabled) {
     Rollbar.configure({
-      accessToken: rollbarKey,
-      captureUncaught: true,
-      captureUnhandledRejections: true,
       payload: {
-        environment: env + network,
-        codeVersion: version,
         person: {
           id: emailOrId,
           identifier,
@@ -75,14 +110,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     })
   }
 
-  if (Amplitude && amplitudeKey) {
-    Amplitude.init(amplitudeKey)
-    Amplitude.setVersionName(version)
-
-    const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
-
-    Amplitude.identify(identity)
-
+  if (isAmplitudeEnabled) {
     if (email) {
       Amplitude.setUserId(email)
     }
@@ -92,29 +120,19 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     }
   }
 
-  if (FS && emailOrId) {
+  if (FS) {
     FS.identify(emailOrId, {
       appVersion: version,
     })
   }
 
-  if (sentryDSN) {
-    Sentry.init({
-      dsn: sentryDSN,
-      environment: env,
-    })
-
-    Sentry.configureScope(scope => {
-      if (email || identifier) {
-        scope.setUser({
-          id: identifier,
-          email: email,
-        })
-      }
-
-      scope.setTag('appVersion', version)
-      scope.setTag('networkUsed', network)
-    })
+  if (isSentryEnabled) {
+    Sentry.configureScope(scope =>
+      scope.setUser({
+        id: identifier,
+        email: email,
+      })
+    )
   }
 
   if (Mautic && email) {
@@ -122,24 +140,33 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   }
 
   log.debug(
-    'Initialized analytics:',
-    mapValues(
-      {
-        BugSnag,
-        FS: emailOrId,
-        Mautic: email,
-        Sentry: sentryDSN,
-        Rollbar: rollbarKey,
-        Amplitude: amplitudeKey,
-      },
-      negate(isEmpty)
-    )
+    'Analytics services identified with:',
+    { email, identifier },
+    {
+      FS: !!FS,
+      Mautic: !!email,
+      BugSnag: !!BugSnag,
+      Sentry: isSentryEnabled,
+      Rollbar: isRollbarEnabled,
+      Amplitude: isAmplitudeEnabled,
+    }
   )
-
-  patchLogger()
 }
 
-export const reportToSentry = (error, extra = {}, tags = {}) =>
+export const identifyWithCurrentUser = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
+  const identifier = goodWallet.getAccountForType('login')
+  const email = await userStorage.getProfileFieldValue('email')
+
+  log.debug('got identifiers', { identifier, email })
+
+  return identifyWith(email, identifier)
+}
+
+export const reportToSentry = (error, extra = {}, tags = {}) => {
+  if (!isSentryEnabled) {
+    return
+  }
+
   Sentry.configureScope(scope => {
     // set extra
     forEach(extra, (value, key) => {
@@ -153,9 +180,10 @@ export const reportToSentry = (error, extra = {}, tags = {}) =>
 
     Sentry.captureException(error)
   })
+}
 
 export const fireEvent = (event: string, data: any = {}) => {
-  if (!Amplitude) {
+  if (!isAmplitudeEnabled) {
     return
   }
 
@@ -195,12 +223,11 @@ export const fireEventFromNavigation = route => {
   fireEvent(code)
 }
 
-//for error logs if they happen frequently only log one
-const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
-
 const patchLogger = () => {
-  const { logger } = global
   const logError = logError.error.bind(logger)
+
+  // for error logs if they happen frequently only log one
+  const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
   logger.error = (...args) => {
     const [logContext, logMessage, eMsg, errorObj, ...rest] = args
@@ -228,27 +255,25 @@ const patchLogger = () => {
       })
     }
 
-    if (Rollbar) {
+    if (isRollbarEnabled) {
       Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
     }
 
-    if (sentryDSN) {
-      let errorToPassIntoLog = errorObj
+    let errorToPassIntoLog = errorObj
 
-      if (errorObj instanceof Error) {
-        errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
-      } else {
-        errorToPassIntoLog = new Error(logMessage)
-      }
-
-      reportToSentry(errorToPassIntoLog, {
-        logMessage,
-        errorObj,
-        logContext,
-        eMsg,
-        rest,
-      })
+    if (errorObj instanceof Error) {
+      errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
+    } else {
+      errorToPassIntoLog = new Error(logMessage)
     }
+
+    reportToSentry(errorToPassIntoLog, {
+      logMessage,
+      errorObj,
+      logContext,
+      eMsg,
+      rest,
+    })
 
     return logError(...args)
   }

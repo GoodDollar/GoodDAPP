@@ -2,7 +2,13 @@
 import React, { useCallback, useMemo } from 'react'
 import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
-import { CLICK_BTN_GETINVITED, fireEvent, SIGNIN_TORUS_SUCCESS, SIGNUP_STARTED } from '../../lib/analytics/analytics'
+import {
+  CLICK_BTN_GETINVITED,
+  fireEvent,
+  identifyWith,
+  SIGNIN_TORUS_SUCCESS,
+  SIGNUP_STARTED,
+} from '../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import CustomButton from '../common/buttons/CustomButton'
@@ -96,8 +102,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
               break
           }
+
+          // once we've got user info from torus - identifying analytics with its email
+          identifyWith(torusUser.email)
         }
+
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+
         if (curSeed && curSeed !== torusUser.privateKey) {
           await AsyncStorage.clear()
           replacing = true

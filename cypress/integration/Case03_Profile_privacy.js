@@ -5,9 +5,9 @@ import HomePage from '../PageObjects/HomePage'
 import ProfilePage from '../PageObjects/ProfilePage'
 import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 
-describe('Test case 5: Ability to change profile privacy level', () => {
+describe('Test case 3: Ability to change profile privacy level', () => {
   it('User should be able to change privacy lvl', () => {
-   cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+   cy.readFile('cypress/fixtures/userMnemonicSave.txt', { timeout: 10000 }).then(mnemonic => {
     StartPage.open()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
@@ -18,16 +18,6 @@ describe('Test case 5: Ability to change profile privacy level', () => {
     HomePage.waitForHomePageDisplayed()
     HomePage.profileAvatar.should('be.visible')
     HomePage.profileAvatar.click()
-    ProfilePage.profilePrivacyButton.click()
-    ProfilePrivacyPage.publicNumberButton.click()
-    ProfilePrivacyPage.publicEmailButton.click()
-    ProfilePrivacyPage.publicNumberButton.click()
-    ProfilePrivacyPage.publicEmailButton.click()
-    ProfilePrivacyPage.saveButton.click()
-    ProfilePrivacyPage.backButton.click()
-    HomePage.profileAvatar.click()
-    ProfilePage.phoneInput.should('have.value', '+380673001757')
-    ProfilePage.emailInput.should('have.value', 'main.test.acc.gooddollar@gmail.com')
     ProfilePage.profilePrivacyButton.click()
     ProfilePrivacyPage.pageHeader.should('contain', 'PROFILE PRIVACY')
     ProfilePrivacyPage.muskedNumberButton.click()
@@ -49,6 +39,16 @@ describe('Test case 5: Ability to change profile privacy level', () => {
     HomePage.profileAvatar.click()
     ProfilePage.phoneInput.should('have.value', '******')
     ProfilePage.emailInput.should('have.value', '******')
+    ProfilePage.profilePrivacyButton.click()
+    ProfilePrivacyPage.publicNumberButton.click()
+    ProfilePrivacyPage.publicEmailButton.click()
+    ProfilePrivacyPage.publicNumberButton.click()
+    ProfilePrivacyPage.publicEmailButton.click()
+    ProfilePrivacyPage.saveButton.click()
+    ProfilePrivacyPage.backButton.click()
+    HomePage.profileAvatar.click()
+    ProfilePage.phoneInput.should('have.value', '+380673001757')
+    ProfilePage.emailInput.should('have.value', 'main.test.acc.gooddollar@gmail.com')
    })
   })
 })

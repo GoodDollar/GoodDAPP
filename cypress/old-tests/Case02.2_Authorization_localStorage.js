@@ -4,7 +4,7 @@ import HomePage from '../PageObjects/HomePage'
 import SignUpPage from '../PageObjects/SignUpPage'
 import GDls from '../fixtures/GDls.json'
 
-describe('Test case 2.1: Torus user', () => {
+describe('Test case 2.2: using localStorage', () => {
   beforeEach('load localStorage', () => {
     Object.keys(GDls).forEach(key => {
       localStorage.setItem(key, GDls[key])

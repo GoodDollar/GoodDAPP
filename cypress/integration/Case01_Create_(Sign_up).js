@@ -16,12 +16,9 @@ describe('Test case 1: Create temporary user', () => {
     SignUpPage.phoneInput.type(Cypress.env('numberForCheckingRegistration'), { delay: 300 })
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
+    SignUpPage.waitForSignUpPageDisplayed()
     for (let i = 0; i < 6; i++) {
-      SignUpPage.waitForSignUpPageDisplayed()
-      SignUpPage.codeInputs
-        .eq(i)
-        .type(i, { force: true }, { delay: 500 })
-        .should('be.visible')
+      SignUpPage.codeInputs.eq(i).type(i, { delay: 500 }) //.should('be.visible')
     }
     SignUpPage.emailInput.should('be.visible')
     SignUpPage.emailInput.type(Cypress.env('emailForCheckingRegistration'))
@@ -32,8 +29,17 @@ describe('Test case 1: Create temporary user', () => {
     HomePage.welcomeFeed.should('be.visible')
     HomePage.optionsButton.click()
     HomePage.backupButton.click().should(() => {
+
+      // get mnemonic from clipboard
+      // HomePage.clipboardButton.click()
+      // cy.task('getClipboard').then(mnemonic => {
+      //   cy.log(mnemonic)
+      //   cy.writeFile('cypress/fixtures/userMnemonicSave.txt', mnemonic, { timeout: 10000 })
+      // })
+
+      //get mnemonic from localStorage
       expect(localStorage.getItem('GD_mnemonic')).to.not.be.null
-      cy.writeFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt', localStorage.getItem('GD_mnemonic'))
+      cy.writeFile('cypress/fixtures/userMnemonicSave.txt', localStorage.getItem('GD_mnemonic'))
       let LOCAL_STORAGE_MEMORY = {}
       Object.keys(localStorage).forEach(key => {
         LOCAL_STORAGE_MEMORY[key] = localStorage[key]

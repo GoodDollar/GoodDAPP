@@ -5,7 +5,7 @@ class StartPage {
   }
 
   get signInButton() {
-    return cy.contains('Sign in')
+    return cy.contains(/Sign in/i, { timeout: 20000 })
     //return cy.contains('SIGN IN')
   }
 

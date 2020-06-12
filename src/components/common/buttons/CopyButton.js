@@ -36,7 +36,7 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
   switch (copyState) {
     case DONE: {
       return (
-        <CustomButton data-gdtype={'copybutton-done'} data-url={toCopy} mode={mode} onPress={onPressDone} {...props}>
+        <CustomButton data-gdtype={'copybutton-done'} testID={toCopy} mode={mode} onPress={onPressDone} {...props}>
           Done
         </CustomButton>
       )

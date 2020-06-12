@@ -46,7 +46,6 @@ class EditProfilePage {
 
   get wrongEmailErrorDiv() {
     return contains('Enter a valid format: yourname@example.com')
-    //return cy.xpath('//*[@id="root"]/div[1]/div/div/div/div[2]/div/div/div/div[2]/div/div/div[1]/div/div[2]', { timeout: 10000 })
   }
 
   waitForEditProfilePageDisplayed() {

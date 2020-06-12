@@ -27,7 +27,8 @@ export class ProcessingSubscriber {
     logger[isSuccess ? 'info' : 'warn']('processor result:', logRecord)
 
     if (isSuccess) {
-      return _resolve(lastMessage)
+      _resolve(lastMessage)
+      return
     }
 
     const exception = new Error(lastMessage)

@@ -50,8 +50,8 @@ const FaceVerification = ({ screenProps }) => {
     fireEvent(FV_PROGRESS_ZOOM)
   }, [])
 
-  const retryHandler = useCallback(() => {
-    fireEvent(FV_TRYAGAIN_ZOOM)
+  const retryHandler = useCallback(eventData => {
+    fireEvent(FV_TRYAGAIN_ZOOM, eventData)
   }, [])
 
   // ZoomSDK session completition handler

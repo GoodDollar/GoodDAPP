@@ -138,7 +138,7 @@ export class EnrollmentProcessor {
           ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
 
           resultCallback.retry()
-          subscriber.onRetry()
+          subscriber.onRetry({ reason: error, liveness: isLive, enrolled: isEnrolled })
           return
         }
       }

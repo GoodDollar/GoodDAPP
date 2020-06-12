@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
+import { get } from 'lodash'
 
 import Text from '../../../common/view/Text'
 import Separator from '../../../common/layout/Separator'
@@ -13,10 +14,11 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 
 import { fireEvent, FV_GENERALERROR } from '../../../../lib/analytics/analytics'
 
-const GeneralError = ({ styles, displayTitle, onRetry }) => {
+const GeneralError = ({ styles, displayTitle, onRetry, screenProps }) => {
   const onRetryPress = useOnPress(onRetry)
+  const reason = get(screenProps, 'screenState.error.message')
 
-  useEffect(() => void fireEvent(FV_GENERALERROR), [])
+  useEffect(() => void fireEvent(FV_GENERALERROR, { reason }), [])
 
   return (
     <Wrapper>

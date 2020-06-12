@@ -8,6 +8,9 @@ const ClaimButton = ({ screenProps, styles }) => {
   const { queueStatus, handleClaim } = useClaimQueue()
   const isPending = queueStatus && queueStatus.status === 'pending'
   const canContinue = () => {
+    //if there's no status the first time then get it
+    //otherwise just return true.
+    //in case we already have status then button is disabled if pending so its ok to return true here.
     if (queueStatus === undefined) {
       return handleClaim()
     }

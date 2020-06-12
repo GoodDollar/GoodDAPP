@@ -2,8 +2,36 @@
 import StartPage from '../PageObjects/StartPage'
 import SignUpPage from '../PageObjects/SignUpPage'
 import HomePage from '../PageObjects/HomePage'
+import SocialLoginPage from '../PageObjects/SocialLoginPage'
+import userObject from '../fixtures/userObject.json'
 
-describe('Test case 1: Create temporary user', () => {
+describe('Test case 1: login via TorusTestUser and Create temporary user', () => {
+  it('login via google', () => {
+    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
+    StartPage.open()
+    expect(localStorage.getItem('TorusTestUser')).to.not.be.null
+    SocialLoginPage.googleLink.should('be.visible')
+    cy.wait(1000)
+    SocialLoginPage.googleLink.click()
+    HomePage.profileAvatar.should('be.visible')
+    HomePage.sendButton.should('be.visible')
+    HomePage.optionsButton.click()
+    HomePage.logoutButton.click()
+  })
+
+  it('login via facebook', () => {
+    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
+    StartPage.open()
+    expect(localStorage.getItem('TorusTestUser')).to.not.be.null
+    SocialLoginPage.facebookLink.should('be.visible')
+    cy.wait(1000)
+    SocialLoginPage.facebookLink.click()
+    HomePage.profileAvatar.should('be.visible')
+    HomePage.sendButton.should('be.visible')
+    HomePage.optionsButton.click()
+    HomePage.logoutButton.click()
+  })
+
   it('User to sign up the wallet with correct values', () => {
     cy.visit(Cypress.env('baseUrl'))
     localStorage.clear()

@@ -28,6 +28,7 @@ export class ProcessingSubscriber {
 
     if (isSuccess) {
       _resolve(lastMessage)
+      return
     }
 
     const exception = new Error(lastMessage)

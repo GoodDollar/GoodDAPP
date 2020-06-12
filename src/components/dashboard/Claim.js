@@ -276,8 +276,6 @@ const Claim = props => {
     }
   }
 
-  const handleNonCitizen = () => handleFaceVerification()
-
   return (
     <WrapperClaim>
       <Section.Stack style={styles.mainContainer} justifyContent="space-between">
@@ -335,7 +333,7 @@ const Claim = props => {
           isCitizen={isCitizen}
           nextClaim={claimState.nextClaim}
           handleClaim={handleClaim}
-          handleNonCitizen={handleNonCitizen}
+          handleNonCitizen={handleFaceVerification}
           showLabelOnly
         />
         <View style={styles.fakeExtraInfoContainer} />

@@ -5,6 +5,8 @@ import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 
+import { fireEvent, FV_CANTACCESSCAMERA } from '../../../../lib/analytics/analytics'
+
 const CameraNotAllowedError = ({ onRetry }) => {
   const [showDialog] = useDialog()
 
@@ -35,6 +37,8 @@ const CameraNotAllowedError = ({ onRetry }) => {
         },
       ],
     })
+
+    fireEvent(FV_CANTACCESSCAMERA)
   }, [])
 
   return null

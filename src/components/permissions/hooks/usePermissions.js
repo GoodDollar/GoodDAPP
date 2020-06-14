@@ -22,7 +22,14 @@ const { Undetermined, Granted, Denied, Prompt } = PermissionStatuses
 
 const usePermissions = (permission: Permission, options = {}) => {
   const { promptPopups, deniedPopups } = usePermissions
-  const { onAllowed = noop, onDenied = noop, requestOnMounted = true, promptPopup, deniedPopup } = options
+  const {
+    onAllowed = noop,
+    onPrompt = noop,
+    onDenied = noop,
+    requestOnMounted = true,
+    promptPopup,
+    deniedPopup,
+  } = options
 
   const [showDialog] = useDialog()
   const mountedState = useMountedState()
@@ -97,6 +104,8 @@ const usePermissions = (permission: Permission, options = {}) => {
           content: <PromptPopup />,
           onDismiss: handleRequest,
         })
+
+        onPrompt()
         break
       case Granted:
         handleAllowed()
@@ -112,10 +121,11 @@ const usePermissions = (permission: Permission, options = {}) => {
           break
         }
 
+        onPrompt()
         handleRequest()
         break
     }
-  }, [PromptPopup, handleRequest])
+  }, [PromptPopup, onPrompt, handleRequest])
 
   const requestPermission = useCallback(() => {
     if (!requestOnMounted) {

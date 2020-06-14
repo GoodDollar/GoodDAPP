@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
@@ -8,7 +8,6 @@ import Separator from '../../../common/layout/Separator'
 import logger from '../../../../lib/logger/pino-logger'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import { fireEvent } from '../../../../lib/analytics/analytics'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
@@ -20,6 +19,8 @@ import Config from '../../../../config/config'
 import usePermissions from '../../../permissions/hooks/usePermissions'
 import { Permissions } from '../../../permissions/types'
 
+import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
+
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const IntroScreen = ({ styles, screenProps }) => {
@@ -27,11 +28,11 @@ const IntroScreen = ({ styles, screenProps }) => {
   const { fullName } = store.get('profile')
   const isValid = get(screenProps, 'screenState.isValid', false)
 
-  const goToFR = useCallback(() => screenProps.navigateTo('FaceVerification'), [screenProps])
-
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
-    onAllowed: goToFR,
+    onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
+    onAllowed: () => screenProps.navigateTo('FaceVerification'),
+    onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
   })
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
@@ -43,7 +44,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     if (isValid) {
       screenProps.pop({ isValid: true })
     } else {
-      fireEvent('FR_Intro')
+      fireEvent(FV_INTRO)
     }
   }, [isValid])
 

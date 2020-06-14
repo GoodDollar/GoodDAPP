@@ -552,6 +552,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setTitle('Magic Link')
       setShowNavBarGoBackButton(false)
     }
+
     if (curRoute && curRoute.key === 'SignupCompleted') {
       const finishedPromise = finishRegistration()
       setFinishedPromise(finishedPromise)

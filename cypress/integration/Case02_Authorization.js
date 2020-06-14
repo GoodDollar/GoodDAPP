@@ -38,9 +38,13 @@ describe('Test case 2: Ability to do authorization', () => {
   })
 
   it('User is able to login with correct values', () => {
-    localStorage.clear()
-    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+    //localStorage.clear()
+    cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+      cy.log('read mnemonic from file', mnemonic)
       checkValuesСorrectness(mnemonic, true)
     })
+    // cy.task('readFileMaybe', 'cypress/fixtures/userMnemonicSave.txt').then(textOrNull => {
+    //   cy.log(textOrNull)
+    // })
   })
 })

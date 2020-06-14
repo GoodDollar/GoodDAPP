@@ -53,6 +53,9 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   const identifier = goodWallet && goodWallet.getAccountForType('login')
   const email = userStorage && (await userStorage.getProfileFieldValue('email'))
   log.debug('got identifiers', { identifier, email })
+  if (email && global.mt) {
+    global.mt.userId = email
+  }
 
   const emailOrId = email || identifier
 
@@ -160,6 +163,18 @@ export const fireEvent = (event: string, data: any = {}) => {
   } else {
     log.debug('fired event', { event, data })
   }
+}
+
+export const fireMauticEvent = (data: any = {}) => {
+  const { mt } = global
+  if (mt === undefined) {
+    return
+  }
+  if (mt.userId) {
+    data.email = mt.userId
+  }
+
+  mt('send', 'pageview', data)
 }
 
 /**

@@ -33,7 +33,9 @@ export const ZoomSDK = new class {
     const { sdk, logger } = this
 
     try {
-      await sdk.initialize(licenseKey, preload, Config.serverUrl, Config.zoomServerUrl)
+      const isInitialized = await sdk.initialize(licenseKey, preload, Config.serverUrl, Config.zoomServerUrl)
+
+      return isInitialized
     } catch (exception) {
       const { message } = exception
 

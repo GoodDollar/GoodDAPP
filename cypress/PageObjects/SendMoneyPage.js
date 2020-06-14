@@ -21,7 +21,7 @@ class SendMoneyPage {
   }
 
   get copyLinkButton() {
-    return cy.contains(/copy link to clipboard/i)
+    return cy.contains('COPY LINK TO CLIPBOARD')
   }
 
   get doneButton() {
@@ -42,6 +42,10 @@ class SendMoneyPage {
 
   get readyButton() {
     return cy.contains('I\'M READY')
+  }
+
+  get yayButton() {
+    return cy.contains('YAY!')
   }
 }
 

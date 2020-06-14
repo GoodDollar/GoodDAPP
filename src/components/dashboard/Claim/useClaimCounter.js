@@ -14,21 +14,16 @@ export default () => {
 
   const advanceClaimsCounter = useCallback(async () => {
     const { userProperties } = userStorage
-    let { current } = claimsCountRef
 
-    if (!Config.isPhaseZero) {
-      return
-    }
-
-    if (++current === claimDaysThreshold) {
+    claimsCountRef.current += 1
+    if (Config.isPhaseZero && claimsCountRef.current === claimDaysThreshold) {
       fireEvent(CLAIM_TASK_COMPLETED)
       await userStorage.enqueueTX(longUseOfClaims)
     }
 
-    await userProperties.set(claimDaysProperty, current)
-    claimsCountRef.current++
-    
-    return current
+    await userProperties.set(claimDaysProperty, claimsCountRef.current)
+
+    return claimsCountRef.current
   }, [])
 
   useEffect(() => {

@@ -21,7 +21,7 @@ import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
-import { fireEvent, identifyWith } from '../../lib/analytics/analytics'
+import { fireEvent, identifyNewUserEmail } from '../../lib/analytics/analytics'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -337,7 +337,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     // once email appears in the state - identifying and setting 'identified' flag
     if (email) {
-      identifyWith(email)
+      identifyNewUserEmail(email)
       isAnalyticsIdentified.current = true
     }
   }, [state.email])

@@ -5,7 +5,7 @@ import logger from '../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
   fireEvent,
-  identifyWith,
+  identifyNewUserEmail,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_STARTED,
 } from '../../lib/analytics/analytics'
@@ -104,7 +104,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           }
 
           // once we've got user info from torus - identifying analytics with its email
-          identifyWith(torusUser.email)
+          identifyNewUserEmail(torusUser.email)
         }
 
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)

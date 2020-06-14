@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
 
 import Text from '../../../common/view/Text'
@@ -11,9 +11,13 @@ import { isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 
+import { fireEvent, FV_DUPLICATEERROR } from '../../../../lib/analytics/analytics'
+
 const DuplicateFoundError = ({ styles, displayTitle, onRetry, screenProps }) => {
   const onRetryPress = useOnPress(onRetry)
   const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
+
+  useEffect(() => void fireEvent(FV_DUPLICATEERROR), [])
 
   return (
     <Wrapper>

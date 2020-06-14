@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Image, Platform, View } from 'react-native'
 
@@ -10,6 +10,8 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 import { withStyles } from '../../../../lib/styles'
 import illustration from '../../../../assets/FRUnrecoverableError.svg'
 
+import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
+
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
@@ -17,6 +19,8 @@ if (Platform.OS === 'web') {
 const UnrecoverableError = ({ styles, screenProps }) => {
   const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
   const onDismiss = useOnPress(() => screenProps.goToRoot(), [screenProps])
+
+  useEffect(() => fireEvent(FV_TRYAGAINLATER), [])
 
   return (
     <Wrapper>

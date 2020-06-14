@@ -1,5 +1,5 @@
 // @flow
-import { noop } from 'lodash'
+import { noop, over } from 'lodash'
 import Zoom, { ZoomUxEvent } from 'react-native-zoom' // eslint-disable-line
 
 import api from '../../../../lib/API/api'
@@ -44,12 +44,17 @@ export const ZoomSDK = new class {
     }
   }
 
-  async faceVerification(enrollmentIdentifier, onUIReady = noop) {
+  async faceVerification(enrollmentIdentifier, onUIReady = noop, onCaptureDone = noop, onRetry = noop) {
     const { sdk, logger } = this
-    const { UI_READY } = ZoomUxEvent
+    const { UI_READY, CAPTURE_DONE, FV_RETRY } = ZoomUxEvent
 
-    // subscribing to UI_READY native event
-    sdk.addListener(UI_READY, onUIReady)
+    // addListener calls returns unsubscibe functions we're storing in this array
+    const subscriptions = [
+      // subscribing to the native events
+      sdk.addListener(UI_READY, onUIReady),
+      sdk.addListener(CAPTURE_DONE, onCaptureDone),
+      sdk.addListener(FV_RETRY, onRetry),
+    ]
 
     try {
       // we're passing current JWT to the native code allowing it to call GoodServer for verification
@@ -65,7 +70,8 @@ export const ZoomSDK = new class {
       throw exception
     } finally {
       // don't forgetting to unsubscribe
-      sdk.removeListener(UI_READY, onUIReady)
+      // just going over unsubscribe functions stored in subscriptions array and calling them
+      over(subscriptions)()
     }
   }
 
@@ -82,5 +88,4 @@ export const ZoomSDK = new class {
       throw exception
     }
   }
-  // eslint-disable-next-line
-}(Zoom.sdk, logger.child({ from: 'ZoomSDK' }))
+}(Zoom.sdk, logger.child({ from: 'ZoomSDK' })) // eslint-disable-line

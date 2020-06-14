@@ -20,7 +20,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import { WrapperClaim } from '../common'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
+import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent, fireMauticEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
@@ -242,8 +242,11 @@ const Claim = props => {
       })
 
       if (receipt.status) {
-        fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash })
-        await advanceClaimsCounter()
+        fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash, claimValue: curEntitlement })
+
+        //fireGTMEvent({ event: 'claim-geo', claimValue: curEntitlement })
+        const claimsSoFar = await advanceClaimsCounter()
+        fireMauticEvent({ claim: claimsSoFar })
         checkHanukaBonusDates()
 
         showDialog({

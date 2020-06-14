@@ -1,9 +1,10 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { AsyncStorage, View } from 'react-native'
-import { isBrowser } from 'mobile-device-detect'
 import moment from 'moment'
 import { get } from 'lodash'
+import useOnPress from '../../lib/hooks/useOnPress'
+import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -19,9 +20,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import { WrapperClaim } from '../common'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import { CLAIM_FAILED, CLAIM_QUEUE, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
-import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
-import useOnPress from '../../lib/hooks/useOnPress'
+import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
@@ -68,8 +67,6 @@ const Claim = props => {
 
   // get the number of people who did claim today. Default - 0
   const numberOfPeopleClaimedToday = get(claimState, 'claimedToday.amount', 0)
-  const [queueStatus, setQueueStatus] = useState(undefined)
-  const [showLoading, hideLoading] = useLoadingIndicator()
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
@@ -79,10 +76,9 @@ const Claim = props => {
 
   // format number of people who did claim today
   /*eslint-disable */
-  const formattedNumberOfPeopleClaimedToday = useMemo(
-    () => formatWithSIPrefix(numberOfPeopleClaimedToday),
-    [numberOfPeopleClaimedToday]
-  )
+  const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(numberOfPeopleClaimedToday), [
+    numberOfPeopleClaimedToday,
+  ])
   /*eslint-enable */
 
   // Format transformer function for claimed G$ amount
@@ -114,46 +110,12 @@ const Claim = props => {
     }
   }
 
-  const checkQueueStatus = useCallback(
-    async (addToQueue = false) => {
-      //user already whitelisted
-      if (isCitizen) {
-        return
-      }
-      const inQueue = await userStorage.userProperties.get('claimQueueAdded')
-      if (inQueue) {
-        setQueueStatus(inQueue)
-      }
-
-      log.debug('CLAIM', { inQueue })
-      if (inQueue || addToQueue) {
-        const {
-          data: { ok, queue },
-        } = await API.checkQueueStatus()
-
-        //send event in case user was added to queue or his queue status has changed
-        if (ok === 1 || queue.status !== inQueue.status) {
-          fireEvent(CLAIM_QUEUE, { status: queue.status })
-        }
-
-        log.debug('CLAIM', { queue })
-        if (inQueue == null) {
-          userStorage.userProperties.set('claimQueueAdded', queue)
-        }
-        setQueueStatus(queue)
-        return queue
-      }
-    },
-    [setQueueStatus]
-  )
-
   const init = async () => {
     //hack to make unit test pass, activityindicator in claim button cuasing
     if (process.env.NODE_ENV !== 'test') {
       setLoading(true)
     }
     await Promise.all([
-      checkQueueStatus(),
       goodWallet
         .checkEntitlement()
         .then(entitlement => setClaimState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
@@ -304,40 +266,6 @@ const Claim = props => {
     }
   }
 
-  const handleClaimQueue = async () => {
-    try {
-      showLoading(true)
-
-      //if user has no queue status, we try to add him to queue
-      let { status } = queueStatus || (await checkQueueStatus(true)) || {}
-
-      if (status === 'pending') {
-        return showDialog({
-          title: 'Almost There...',
-          message: 'You are now in the queue, once you have been approved we will notify you by email.',
-        })
-      }
-      if (status === 'approved') {
-        return showDialog({
-          title: 'SUCCESS!',
-          message: 'Congratulations you have been approved to Claim',
-          onDismiss: handleFaceVerification,
-        })
-      }
-      hideLoading()
-
-      //in case he already did whitelisting once or something unexpected, we continue as usuall,
-      //maybe he is doing re-authentication
-      handleFaceVerification()
-    } catch (e) {
-      log.error('handleClaimQueue failed', e.message, e)
-      showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status')
-    } finally {
-      hideLoading()
-      setLoading(false)
-    }
-  }
-
   const handleFaceVerification = () => {
     //if user is not in whitelist and we do not do faceverification then this is an error
     if (Config.zoomLicenseKey == null) {
@@ -346,14 +274,6 @@ const Claim = props => {
     } else {
       screenProps.push('FaceVerificationIntro', { from: 'Claim' })
     }
-  }
-
-  const handleNonCitizen = () => {
-    if (Config.claimQueue) {
-      handleClaimQueue()
-      return
-    }
-    handleFaceVerification()
   }
 
   return (
@@ -412,9 +332,8 @@ const Claim = props => {
           entitlement={claimState.entitlement}
           isCitizen={isCitizen}
           nextClaim={claimState.nextClaim}
-          isInQueue={queueStatus === 'pending'}
           handleClaim={handleClaim}
-          handleNonCitizen={handleNonCitizen}
+          handleNonCitizen={handleFaceVerification}
           showLabelOnly
         />
         <View style={styles.fakeExtraInfoContainer} />

@@ -1,7 +1,7 @@
 //@flow
 import * as Sentry from '@sentry/browser'
 import { debounce, forEach, get, invoke, isString } from 'lodash'
-
+import API from '../../lib/API/api'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 
@@ -89,13 +89,11 @@ export const initAnalytics = () => {
   patchLogger()
 }
 
-export const identifyWith = (email, identifier = null) => {
-  const emailOrId = email || identifier
-
+const identifyWith = (email, identifier = null) => {
   if (BugSnag) {
     BugSnag.user = {
       id: identifier,
-      email: emailOrId,
+      email,
     }
   }
 
@@ -103,26 +101,27 @@ export const identifyWith = (email, identifier = null) => {
     Rollbar.configure({
       payload: {
         person: {
-          id: emailOrId,
-          identifier,
+          id: identifier,
+          email,
         },
       },
     })
   }
 
   if (isAmplitudeEnabled) {
-    if (email) {
-      Amplitude.setUserId(email)
+    if (identifier) {
+      Amplitude.setUserId(identifier)
     }
 
-    if (identifier) {
-      Amplitude.setUserProperties({ identifier })
+    if (email) {
+      Amplitude.setUserProperties({ email })
     }
   }
 
   if (FS) {
-    FS.identify(emailOrId, {
+    FS.identify(identifier, {
       appVersion: version,
+      email,
     })
   }
 
@@ -130,7 +129,7 @@ export const identifyWith = (email, identifier = null) => {
     Sentry.configureScope(scope =>
       scope.setUser({
         id: identifier,
-        email: email,
+        email,
       })
     )
   }
@@ -142,6 +141,43 @@ export const identifyWith = (email, identifier = null) => {
   log.debug(
     'Analytics services identified with:',
     { email, identifier },
+    {
+      FS: !!FS,
+      Mautic: !!email,
+      BugSnag: !!BugSnag,
+      Sentry: isSentryEnabled,
+      Rollbar: isRollbarEnabled,
+      Amplitude: isAmplitudeEnabled,
+    }
+  )
+}
+
+export const identifyNewUserEmail = email => {
+  if (!email) {
+    return
+  }
+  if (isAmplitudeEnabled) {
+    Amplitude.setUserProperties({ email })
+  }
+
+  if (FS) {
+    FS.setUserVars({
+      email,
+    })
+  }
+
+  if (isSentryEnabled) {
+    Sentry.configureScope(scope => scope.setUser({ ...scope._user, email }))
+  }
+
+  if (Mautic) {
+    Mautic.userId = email
+    API.addMauticContact({ email })
+  }
+
+  log.debug(
+    'Analytics services identified new user with:',
+    { email },
     {
       FS: !!FS,
       Mautic: !!email,

@@ -26,7 +26,7 @@ export type ReceiveProps = {
 const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
   const [showErrorDialog] = useErrorDialog()
-  const { setString } = useClipboard()
+  const [, setString] = useClipboard()
 
   const { amount, reason, paymentLink } = screenState
 
@@ -42,7 +42,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
         }
       }
     } else {
-      if (!setString(paymentLink)) {
+      if (!(await setString(paymentLink))) {
         // needed to not fire SEND_CONFIRMATION_SHARE if setString to Clipboard is failed
         return
       }

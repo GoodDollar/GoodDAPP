@@ -41,8 +41,7 @@ class HomePage {
   }
 
   get profileAvatar() {
-    return cy.get('img[alt]', { timeout: 10000 })
-    //return cy.get('img[alt]', { timeout: 10000 }).eq(0)
+    return cy.get('img[alt]', { timeout: 10000 }).eq(0)
   }
 
   get closeOptionsButton() {
@@ -62,7 +61,7 @@ class HomePage {
   }
 
   get deleteAccountButton() {
-    return cy.contains('Delete wallet')
+    return cy.contains('Delete Account')
   }
 
   get confirmDeletionButton() {
@@ -73,8 +72,16 @@ class HomePage {
     return cy.contains('Backup Wallet')
   }
 
+  get clipboardButton() {
+    return cy.contains('Copy all to clipboard')
+  }
+
   get logoutButton() {
     return cy.contains('Logout')
+  }
+
+  get backArrow() {
+    return cy.get('div[style*="gooddollar"]')
   }
 
   waitForHomePageDisplayed() {

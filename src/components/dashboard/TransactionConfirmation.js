@@ -40,16 +40,16 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { goToRoot } = screenProps
   const [screenState] = useScreenState(screenProps)
   const { paymentLink, action } = screenState
-  const { setString } = useClipboard()
+  const [, setString] = useClipboard()
 
-  const handlePressConfirm = useCallback(() => {
+  const handlePressConfirm = useCallback(async () => {
     let type = 'share'
 
     if (canShare) {
       shareAction(paymentLink)
       goToRoot()
     } else {
-      if (!setString(paymentLink)) {
+      if (!(await setString(paymentLink))) {
         // needed to not fire SEND_CONFIRMATION_SHARE if setString to Clipboard is failed
         return
       }
@@ -93,7 +93,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
         </Section.Stack>
         <Image style={styles.image} source={ConfirmTransactionSVG} resizeMode="contain" />
         <View style={styles.confirmButtonWrapper}>
-          <ConfirmButton onPress={handlePressConfirm} onPressDone={goToRoot}>
+          <ConfirmButton testID={paymentLink} onPress={handlePressConfirm} onPressDone={goToRoot}>
             <>
               <Icon color="white" name="link" size={25} style={styles.buttonIcon} />
               <Section.Text size={14} color="white" fontWeight="bold">

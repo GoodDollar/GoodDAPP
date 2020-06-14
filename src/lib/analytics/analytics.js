@@ -172,7 +172,9 @@ export const identifyNewUserEmail = email => {
 
   if (Mautic) {
     Mautic.userId = email
-    API.addMauticContact({ email })
+    if (Config.env === 'production') {
+      API.addMauticContact({ email })
+    }
   }
 
   log.debug(

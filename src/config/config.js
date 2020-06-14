@@ -35,7 +35,9 @@ const Config = {
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   zoomServerURL: process.env.REACT_APP_ZOOM_SERVER_BASEURL || 'https://api.zoomauth.com/api/v2/biometrics',
-  faceVerificationPrivacyUrl: process.env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL || 'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
+  faceVerificationPrivacyUrl:
+    process.env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
+    'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
   rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
   httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
@@ -62,6 +64,8 @@ const Config = {
   showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: process.env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
   claimQueue: process.env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
+  mauticUrl: process.env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
+  mauticAddContractFormID: process.env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
   ethereum: {
     '42': {
       network_id: 42,

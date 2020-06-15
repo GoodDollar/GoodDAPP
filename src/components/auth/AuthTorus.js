@@ -190,7 +190,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       <Section style={styles.bottomContainer}>
         {asGuest && (
           <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
-            {`By Signing up you are accepting our`}
+            {`By Signing up you are accepting our \n`}
             <Text
               fontSize={12}
               color="gray80Percent"

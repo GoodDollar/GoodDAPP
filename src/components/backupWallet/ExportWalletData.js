@@ -56,6 +56,7 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonTex
       <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
         {content}
       </Section.Text>
+      <View style={styles.copyIconLineSeparator} />
       <TouchableOpacity onPress={copyToClipboard} activeOpacity={1} style={styles.boxCopyIconWrapper}>
         <View style={styles.copyIconContainer}>
           <Icon name="copy" size={copyIconSize} color={theme.colors.surface} />
@@ -142,9 +143,16 @@ const styles = ({ theme }) => ({
   },
   boxCopyIconWrapper: {
     height: getDesignRelativeHeight(52, false),
+    width: getDesignRelativeHeight(88, false),
+    position: 'absolute',
+    bottom: -getDesignRelativeHeight(26, false), // half of height
+    zIndex: 1,
+  },
+  copyIconLineSeparator: {
+    height: getDesignRelativeHeight(5, false),
     width: getDesignRelativeHeight(52, false),
     position: 'absolute',
-    bottom: -getDesignRelativeHeight(29, false), // half of height
+    bottom: -getDesignRelativeHeight(2.5, false), // half of height
     backgroundColor: theme.colors.surface,
   },
   copyIconContainer: {

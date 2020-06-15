@@ -31,7 +31,7 @@ const web3ProviderUrl = GoodWallet.networkId && config.ethereum[GoodWallet.netwo
 
 // getting the privateKey of GD wallet address - which index is 0
 const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')
-const amountOfChars = isBrowser ? 24 : 18
+const amountOfChars = isBrowser ? 24 : 16
 const shortenPrivateKey = `${fullPrivateKey.slice(0, amountOfChars)}...${fullPrivateKey.slice(-amountOfChars)}`
 
 const copyIconSize = isBrowser ? 34 : normalize(24)
@@ -48,9 +48,8 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonTex
 
   return (
     <Section style={styles.borderedBox}>
-      <View style={styles.boxAvatarContainer}>
-        <Image source={imageSource} style={styles.avatar} />
-      </View>
+      <View style={styles.avatarLineSeparator} />
+      <Image source={imageSource} style={styles.avatar} />
       <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
         {title}
       </Section.Text>
@@ -126,18 +125,20 @@ const styles = ({ theme }) => ({
   boxTitle: {
     marginBottom: getDesignRelativeHeight(10, false),
   },
-  boxAvatarContainer: {
-    height: getDesignRelativeHeight(88, false),
+  avatarLineSeparator: {
+    height: getDesignRelativeHeight(5, false),
     width: getDesignRelativeHeight(88, false),
     position: 'absolute',
-    top: -getDesignRelativeHeight(44, false), // half of height
-    padding: getDesignRelativeHeight(10, false),
+    top: -getDesignRelativeHeight(2.5, false), // half of height
     backgroundColor: theme.colors.surface,
   },
   avatar: {
     height: getDesignRelativeHeight(68, false),
     width: getDesignRelativeHeight(68, false),
     borderRadius: getDesignRelativeHeight(34, false), // half of height/width
+    top: -getDesignRelativeHeight(34, false), // half of height
+    position: 'absolute',
+    zIndex: 1,
   },
   boxCopyIconWrapper: {
     height: getDesignRelativeHeight(52, false),

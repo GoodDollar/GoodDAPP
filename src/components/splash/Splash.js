@@ -8,6 +8,7 @@ import Section from '../common/layout/Section'
 import Config from '../../config/config'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import WavesBackground from '../common/view/WavesBackground'
+import { isMobile } from '../../lib/utils/platform'
 
 const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>
@@ -15,16 +16,11 @@ const Splash = ({ animation }) => (
       <WavesBackground>
         <Section.Stack style={styles.content} grow justifyContent="center">
           <Section.Stack>
-            <Section.Text
-              fontSize={26}
-              fontWeight="bold"
-              color="white"
-              letterSpacing={0.13}
-              lineHeight={32}
-              style={styles.title}
-            >
-              GoodDollar Demo
-            </Section.Text>
+            <Section.Stack style={styles.title}>
+              <Section.Text fontSize={26} fontWeight="bold" color="white" letterSpacing={0.13} lineHeight={32}>
+                GoodDollar Demo
+              </Section.Text>
+            </Section.Stack>
             <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="medium">
               {'All G$ coins in the demo\nare for test purposes only.\nOnce all feedback is incorporated,\n'}
               <Section.Text fontSize={16} color="white" letterSpacing={0.24} lineHeight={22} fontWeight="bold">
@@ -32,7 +28,7 @@ const Splash = ({ animation }) => (
               </Section.Text>
             </Section.Text>
           </Section.Stack>
-          <AnimationsLogo animation={animation} style={styles.animation} />
+          <AnimationsLogo animation={animation} style={isMobile ? styles.mobileAnimation : styles.animation} />
           <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
             Demo V{Config.version}
           </Section.Text>
@@ -58,16 +54,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
   },
-  waves: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-
-    //FIXME: RN
-    // backgroundImage: `url(${wavePattern})`,
-    // backgroundRepeat: 'repeat-y',
-    opacity: 0.1,
-  },
   content: {
     transform: [{ rotateY: '180deg' }],
     overflow: 'hidden',
@@ -75,17 +61,21 @@ const styles = StyleSheet.create({
   title: {
     paddingHorizontal: 25,
     paddingBottom: getDesignRelativeHeight(8),
-    marginHorizontal: 'auto',
     marginBottom: getDesignRelativeHeight(10),
     borderBottomWidth: 2,
-
-    //FIXME: RN
-    // borderBottomStyle: 'solid',
+    borderStyle: 'solid',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     borderBottomColor: '#000',
   },
   animation: {
     marginTop: -getDesignRelativeHeight(75),
     marginBottom: -getDesignRelativeHeight(120),
+    height: getDesignRelativeHeight(550),
+  },
+  mobileAnimation: {
+    marginTop: -getDesignRelativeHeight(40),
+    marginBottom: -getDesignRelativeHeight(200),
     height: getDesignRelativeHeight(550),
   },
 })

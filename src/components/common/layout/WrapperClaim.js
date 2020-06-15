@@ -23,9 +23,7 @@ const backgroundLineStyles = {
   top: -5,
   borderBottomWidth: 3,
   borderBottomColor: 'white',
-
-  //FIXME: RN
-  // borderBottomStyle: 'solid',
+  borderStyle: 'solid',
   borderBottomLeftRadius: '50%',
   borderBottomRightRadius: '50%',
 }

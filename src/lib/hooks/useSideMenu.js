@@ -92,7 +92,7 @@ export default (props = {}) => {
       },
       {
         icon: 'export-wallet',
-        size: 20,
+        size: 19,
         name: 'Export Wallet',
         hidden: isSelfCustody === false,
         action: () => {

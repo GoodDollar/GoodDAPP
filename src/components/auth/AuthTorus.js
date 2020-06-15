@@ -72,13 +72,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     return { goodWallet, userStorage, source }
   }
 
-  const signupGoogle = () => handleSignUp('google')
+  const signupGoogle = () => handleSignUp(config.isPhaseZero ? 'google-old' : 'google')
   const signupFacebook = () => handleSignUp('facebook')
+  const signupAuth0 = () => handleSignUp('auth0-pwdless-email')
 
   const handleSignUp = useCallback(
-    async (provider: 'facebook' | 'google') => {
+    async (provider: 'facebook' | 'google' | 'google-old' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
       store.set('loadingIndicator')({ loading: true })
-      const redirectTo = 'Phone'
+      const redirectTo = 'Name'
       let torusUser
       let replacing = false
 
@@ -87,15 +88,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
         }
         if (torusUser == null) {
-          switch (provider) {
-            case 'facebook':
-              torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')
-              break
-            default:
-            case 'google':
-              torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
-              break
-          }
+          torusUser = await torusSDK.triggerLogin(provider)
         }
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
         if (curSeed && curSeed !== torusUser.privateKey) {
@@ -132,7 +125,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         //user doesnt exists start signup
         fireEvent(SIGNUP_STARTED, { source, provider })
-        navigate(redirectTo, { regMethod: REGISTRATION_METHOD_TORUS, torusUser, torusProvider: provider })
+        navigate(redirectTo, {
+          regMethod: REGISTRATION_METHOD_TORUS,
+          torusUser,
+          torusProvider: provider,
+        })
 
         //Hack to get keyboard up on mobile need focus from user event such as click
         setTimeout(() => {
@@ -169,6 +166,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   // facebook button settings
   const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
+
+  const auth0ButtonHandler = useMemo(() => (asGuest ? signupAuth0 : goToW3Site), [asGuest, signupAuth0])
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
@@ -261,6 +260,15 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           testID="login_with_facebook"
         >
           Agree & Continue with Facebook
+        </CustomButton>
+        <CustomButton
+          color={mainTheme.colors.darkGray}
+          style={styles.buttonLayout}
+          onPress={auth0ButtonHandler}
+          disabled={torusSDK === undefined}
+          testID="login_with_email"
+        >
+          Agree & Continue with E-Mail
         </CustomButton>
       </Section>
     </Wrapper>

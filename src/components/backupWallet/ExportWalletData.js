@@ -82,7 +82,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
     <Wrapper style={styles.wrapper}>
       <NavBar title="EXPORT MY WALLET" goBack={handleGoHome} />
       <Section grow>
-        <Section grow justifyContent="space-around">
+        <View style={styles.containerForBoxes}>
           <BorderedBox
             styles={styles}
             theme={theme}
@@ -99,7 +99,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
             imageSource={rpcImageSource}
             copyButtonText="Copy Address"
           />
-        </Section>
+        </View>
         <CustomButton onPress={handleGoHome}>Done</CustomButton>
       </Section>
     </Wrapper>
@@ -112,12 +112,18 @@ const styles = ({ theme }) => ({
     backgroundColor: 'none',
     padding: 0,
   },
+  containerForBoxes: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexGrow: 1,
+    marginBottom: getDesignRelativeHeight(10, false),
+  },
   borderedBox: {
     borderWidth: 1,
     borerStyle: 'solid',
     borderColor: theme.colors.lighterGray,
     borderRadius: 5,
-    height: getDesignRelativeHeight(123, false),
+    height: getDesignRelativeHeight(isBrowser ? 123 : 130, false),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

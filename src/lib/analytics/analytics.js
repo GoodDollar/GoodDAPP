@@ -89,10 +89,17 @@ export const initAnalytics = () => {
   patchLogger()
 }
 
-const identifyWith = (email, identifier = null) => {
+/** @private */
+const setUserEmail = email => {
+  if (!email) {
+    return
+  }
+
   if (BugSnag) {
+    const { user } = BugSnag
+
     BugSnag.user = {
-      id: identifier,
+      ...(user || {}),
       email,
     }
   }
@@ -101,7 +108,6 @@ const identifyWith = (email, identifier = null) => {
     Rollbar.configure({
       payload: {
         person: {
-          id: identifier,
           email,
         },
       },
@@ -109,19 +115,55 @@ const identifyWith = (email, identifier = null) => {
   }
 
   if (isAmplitudeEnabled) {
-    if (identifier) {
-      Amplitude.setUserId(identifier)
-    }
+    Amplitude.setUserProperties({ email })
+  }
 
-    if (email) {
-      Amplitude.setUserProperties({ email })
+  if (FS) {
+    FS.setUserVars({
+      email,
+    })
+  }
+
+  if (isSentryEnabled) {
+    Sentry.configureScope(scope => {
+      const { _user } = scope
+
+      scope.setUser({
+        ...(_user || {}),
+        email,
+      })
+    })
+  }
+
+  if (Mautic) {
+    Mautic.userId = email
+  }
+}
+
+const identifyWith = (email, identifier = null) => {
+  if (BugSnag) {
+    BugSnag.user = {
+      id: identifier,
     }
+  }
+
+  if (isRollbarEnabled) {
+    Rollbar.configure({
+      payload: {
+        person: {
+          id: identifier,
+        },
+      },
+    })
+  }
+
+  if (isAmplitudeEnabled && identifier) {
+    Amplitude.setUserId(identifier)
   }
 
   if (FS) {
     FS.identify(identifier, {
       appVersion: version,
-      email,
     })
   }
 
@@ -129,14 +171,11 @@ const identifyWith = (email, identifier = null) => {
     Sentry.configureScope(scope =>
       scope.setUser({
         id: identifier,
-        email,
       })
     )
   }
 
-  if (Mautic && email) {
-    Mautic.userId = email
-  }
+  setUserEmail(email)
 
   log.debug(
     'Analytics services identified with:',
@@ -152,33 +191,15 @@ const identifyWith = (email, identifier = null) => {
   )
 }
 
-export const identifyNewUserEmail = email => {
-  if (!email) {
-    return
-  }
-  if (isAmplitudeEnabled) {
-    Amplitude.setUserProperties({ email })
-  }
+export const identifyOnUserSignup = async email => {
+  setUserEmail(email)
 
-  if (FS) {
-    FS.setUserVars({
-      email,
-    })
-  }
-
-  if (isSentryEnabled) {
-    Sentry.configureScope(scope => scope.setUser({ ...scope._user, email }))
-  }
-
-  if (Mautic) {
-    Mautic.userId = email
-    if (Config.env === 'production') {
-      API.addMauticContact({ email })
-    }
+  if (Mautic && email && 'production' === env) {
+    await API.addMauticContact({ email })
   }
 
   log.debug(
-    'Analytics services identified new user with:',
+    'Analytics services identified during new user signup:',
     { email },
     {
       FS: !!FS,
@@ -191,13 +212,13 @@ export const identifyNewUserEmail = email => {
   )
 }
 
-export const identifyWithCurrentUser = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
+export const identifyWithSignedInUser = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
   const identifier = goodWallet.getAccountForType('login')
   const email = await userStorage.getProfileFieldValue('email')
 
   log.debug('got identifiers', { identifier, email })
 
-  return identifyWith(email, identifier)
+  identifyWith(email, identifier)
 }
 
 export const reportToSentry = (error, extra = {}, tags = {}) => {

@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import isWebApp from './lib/utils/isWebApp'
-import { APP_OPEN, fireEvent, identifyWithCurrentUser, initAnalytics } from './lib/analytics/analytics'
+import { APP_OPEN, fireEvent, identifyWithSignedInUser, initAnalytics } from './lib/analytics/analytics'
 import { extractQueryParams } from './lib/share'
 import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 import logger from './lib/logger/pino-logger'
@@ -28,7 +28,7 @@ export const init = () => {
 
       initAnalytics()
       log.debug('analytics has been initialized')
-      await identifyWithCurrentUser(goodWallet, userStorage)
+      await identifyWithSignedInUser(goodWallet, userStorage)
       log.debug('analytics has been identified with the user signed in')
 
       // FIXME RN INAPPLINKS

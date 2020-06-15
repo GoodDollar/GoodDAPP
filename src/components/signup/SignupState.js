@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
@@ -21,7 +21,7 @@ import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
-import { fireEvent, identifyNewUserEmail } from '../../lib/analytics/analytics'
+import { fireEvent, identifyOnUserSignup } from '../../lib/analytics/analytics'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -106,7 +106,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [title, setTitle] = useState('Sign Up')
   const [, hideDialog, showErrorDialog] = useDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
-  const isAnalyticsIdentified = useRef(false)
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
@@ -329,17 +328,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   useEffect(() => {
     const { email } = state
 
-    // if torus used - skipping as we already identified once got torusUser
-    // is already identified analytics - skipping too
-    if (!isRegMethodSelfCustody || isAnalyticsIdentified.current) {
+    // if signup was performed via torus, skipping (as email is already set)
+    if (!isRegMethodSelfCustody || !email) {
       return
     }
 
     // once email appears in the state - identifying and setting 'identified' flag
-    if (email) {
-      identifyNewUserEmail(email)
-      isAnalyticsIdentified.current = true
-    }
+    identifyOnUserSignup(email)
   }, [state.email])
 
   const finishRegistration = async () => {

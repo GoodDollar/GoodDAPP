@@ -11,18 +11,24 @@ const claimDaysProperty = 'countClaim'
 
 export default () => {
   const claimsCountRef = useRef(0)
+  const claimsCountInitialized = useRef(null)
+  const claimsCountInitializing = useRef(new Promise(resolve => (claimsCountInitialized.current = resolve)))
 
   const advanceClaimsCounter = useCallback(async () => {
     const { userProperties } = userStorage
 
+    if (claimsCountInitializing.current) {
+      return claimsCountInitializing.current.then(advanceClaimsCounter)
+    }
+
     claimsCountRef.current += 1
+
     if (Config.isPhaseZero && claimsCountRef.current === claimDaysThreshold) {
       fireEvent(CLAIM_TASK_COMPLETED)
       await userStorage.enqueueTX(longUseOfClaims)
     }
 
     await userProperties.set(claimDaysProperty, claimsCountRef.current)
-
     return claimsCountRef.current
   }, [])
 
@@ -32,10 +38,10 @@ export default () => {
       const count = await userProperties.get(claimDaysProperty)
 
       claimsCountRef.current = count
-    }
+      claimsCountInitialized.current()
 
-    if (!Config.isPhaseZero) {
-      return
+      claimsCountInitializing.current = null
+      claimsCountInitialized.current = null
     }
 
     initializeClaimsCount()

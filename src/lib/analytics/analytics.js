@@ -262,7 +262,7 @@ export const fireEventFromNavigation = route => {
 }
 
 const patchLogger = () => {
-  const logError = logError.error.bind(logger)
+  const logError = logger.error.bind(logger)
 
   // for error logs if they happen frequently only log one
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })

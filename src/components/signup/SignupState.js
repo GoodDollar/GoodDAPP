@@ -80,17 +80,20 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [torusProvider] = useState(_torusProvider)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!w3UserFromProps.email || !!torusUserFromProps.email
+  const skipMobile = !!torusUserFromProps.mobile
 
   const initialState: SignupState = {
     ...getUserModel({
       email: w3UserFromProps.email || torusUserFromProps.email || '',
       fullName: w3UserFromProps.full_name || torusUserFromProps.name || '',
-      mobile: '',
+      mobile: torusUserFromProps.mobile || '',
     }),
     smsValidated: false,
     isEmailConfirmed: skipEmail,
     jwt: '',
     skipEmail: skipEmail,
+    skipPhone: skipMobile,
+    skipSMS: skipMobile,
     skipEmailConfirmation: Config.skipEmailVerification || skipEmail,
     skipMagicLinkInfo: isRegMethodSelfCustody === false,
     w3Token,
@@ -217,6 +220,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     if (!regMethod) {
       log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
       return navigation.navigate('Auth')
+    }
+
+    //if we have name from web3/torus we skip to phone
+    if (state.fullName) {
+      return navigation.navigate('Phone')
     }
   }
 

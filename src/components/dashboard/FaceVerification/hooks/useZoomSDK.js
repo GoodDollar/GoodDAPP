@@ -31,7 +31,7 @@ export const preloadZoomSDK = async (logger = log) => {
     }
 
     if (zoomUnrecoverableError) {
-      throw zoomSDKPreloaded
+      throw zoomUnrecoverableError
     }
 
     await ZoomSDK.preload()
@@ -114,11 +114,13 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
         // Initializing ZoOm
         // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
-        await ZoomSDK.initialize(Config.zoomLicenseKey, !zoomSDKPreloaded)
+        const isInitialized = await ZoomSDK.initialize(Config.zoomLicenseKey, !zoomSDKPreloaded)
 
-        // Executing onInitialized callback
-        onInitializedRef.current()
-        log.debug('ZoomSDK is ready')
+        if (isInitialized) {
+          // Executing onInitialized callback
+          onInitializedRef.current()
+          log.debug('ZoomSDK is ready')
+        }
       } catch (exception) {
         // the following code is needed to categorize exceptions
         // then we could display specific error messages
@@ -130,7 +132,8 @@ export default ({ onInitialized = noop, onError = noop }) => {
         }
 
         // if some unrecoverable error happens
-        if ('UnrecoverableError' === kindOfTheIssue) {
+        // checking exception.name as 'UnrecoverableError' coiud be thrown from ZoomSDK
+        if ('UnrecoverableError' === exception.name) {
           // setting exception in the global state
           ZoomGlobalState.zoomUnrecoverableError = exception
 

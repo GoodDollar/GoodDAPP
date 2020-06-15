@@ -67,7 +67,7 @@ export class EnrollmentProcessor {
   // Helper method that calls verification http API on server
   async performVerification() {
     // reading current session state vars
-    const { lastResult, resultCallback, enrollmentIdentifier } = this
+    const { lastResult, resultCallback, enrollmentIdentifier, subscriber } = this
 
     // setting initial progress to 0 for freeze progress bar
     resultCallback.uploadProgress(0)
@@ -138,6 +138,7 @@ export class EnrollmentProcessor {
           ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
 
           resultCallback.retry()
+          subscriber.onRetry({ reason: error, liveness: isLive, enrolled: isEnrolled })
           return
         }
       }
@@ -153,6 +154,7 @@ export class EnrollmentProcessor {
   // @see ZoomSDK.ZoomFaceMapProcessor
   // @private
   processZoomSessionResultWhileZoomWaits(zoomSessionResult, zoomFaceMapResultCallback) {
+    const { subscriber } = this
     const { status, faceMetrics } = zoomSessionResult
     const { faceMap } = faceMetrics
 
@@ -171,7 +173,10 @@ export class EnrollmentProcessor {
       return
     }
 
-    // if no session in progress - performing http server call
+    // if no session in progress - notifying that caturing is done
+    subscriber.onCaptureDone()
+
+    // and performing http server call
     this.performVerification()
   }
 

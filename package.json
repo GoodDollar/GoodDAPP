@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.23.1-0",
+  "version": "0.24.0",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -74,6 +74,7 @@
     "await-mutex": "^1.0.2",
     "axios": "^0.19.0",
     "bip39-light": "^1.0.7",
+    "console-subscriber": "^1.0.2",
     "ethereumjs-util": "^6.1.0",
     "ethereumjs-wallet": "^0.6.3",
     "gun": "^0.2019.1228",

@@ -43,9 +43,13 @@ class TorusLogin {
     switch (verifier) {
       default:
       case 'facebook':
-        return this.sdk.triggerLogin('facebook', 'facebook-gooddollar').then(this.cleanUser)
+        return this.sdk
+          .triggerLogin({ typeOfLogin: 'facebook', verifier: 'facebook-gooddollar', clientId: config.facebookAppId })
+          .then(this.cleanUser)
       case 'google-old':
-        return this.sdk.triggerLogin('google', 'google-gooddollar').then(this.cleanUser)
+        return this.sdk
+          .triggerLogin({ typeOfLoing: 'google', verifier: 'google-gooddollar', clientId: config.googleClientId })
+          .then(this.cleanUser)
       case 'google':
         return this.sdk
           .triggerAggregateLogin({

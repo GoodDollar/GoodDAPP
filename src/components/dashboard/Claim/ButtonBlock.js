@@ -19,7 +19,6 @@ const ButtonBlock = ({
       handleNonCitizen()
       return
     }
-
     if (entitlement) {
       handleClaim()
     }

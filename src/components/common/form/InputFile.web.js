@@ -1,51 +1,16 @@
-import React, { useRef } from 'react'
+// libraries
+import React, { useCallback, useRef } from 'react'
+
+// hooks
+import useOnPress from '../../../lib/hooks/useOnPress'
+
+// utils
 import logger from '../../../lib/logger/pino-logger'
+
 const log = logger.child({ from: 'InputFile' })
 
 const MAX_WIDTH = 600
 const MAX_HEIGHT = 600
-
-function getOrientation(file) {
-  return new Promise(resolve => {
-    var reader = new FileReader()
-    reader.onload = function(e) {
-      var view = new DataView(e.target.result)
-      if (view.getUint16(0, false) != 0xffd8) {
-        resolve(-2)
-      }
-      var length = view.byteLength,
-        offset = 2
-      while (offset < length) {
-        if (view.getUint16(offset + 2, false) <= 8) {
-          resolve(-1)
-        }
-        const marker = view.getUint16(offset, false)
-        offset += 2
-        if (marker == 0xffe1) {
-          if (view.getUint32((offset += 2), false) != 0x45786966) {
-            resolve(-1)
-          }
-
-          const little = view.getUint16((offset += 6), false) == 0x4949
-          offset += view.getUint32(offset + 4, little)
-          const tags = view.getUint16(offset, little)
-          offset += 2
-          for (let i = 0; i < tags; i++) {
-            if (view.getUint16(offset + i * 12, little) == 0x0112) {
-              resolve(view.getUint16(offset + i * 12 + 8, little))
-            }
-          }
-        } else if ((marker & 0xff00) == 0xff00) {
-          offset += view.getUint16(offset, false)
-        } else {
-          break
-        }
-      }
-      resolve(-1)
-    }
-    reader.readAsArrayBuffer(file)
-  })
-}
 
 const toBase64 = file =>
   new Promise((resolve, reject) => {
@@ -56,83 +21,55 @@ const toBase64 = file =>
   })
 
 const InputFile = props => {
+  const { children, onChange } = props
   const inputRef = useRef(null)
 
-  const getReducedFileAsDataUrl = async (file, maxWidth = MAX_WIDTH, maxHeight = MAX_HEIGHT) => {
+  const getReducedFileAsDataUrl = useCallback(async (file, maxWidth = MAX_WIDTH, maxHeight = MAX_HEIGHT) => {
     const data64 = await toBase64(file)
     const img = await getImageWithSrc(data64)
-    const orientation = await getOrientation(file)
 
-    const dataUrl = getReducedDataUrlWithImage(img, orientation, maxWidth, maxHeight)
-    getOrientation(file, orientation => alert(orientation))
+    // standard orientation
+    const orientation = 1
+
+    // getting the reduces data url
+    const dataUrl = getReducedDataUrlFromImage(img, orientation, maxWidth, maxHeight)
+
     log.debug('getReducedFileAsDataUrl', { data64, img, dataUrl, orientation })
-    return dataUrl
-  }
 
-  const getReducedDataUrlWithImage = (image, srcOrientation, maxWidth, maxHeight) => {
+    return dataUrl
+  }, [])
+
+  const getReducedDataUrlFromImage = useCallback((image, srcOrientation, maxWidth, maxHeight) => {
     const canvas = document.createElement('canvas')
 
     let width = image.width
     let height = image.height
 
-    if (width > height) {
-      if (width > maxWidth) {
-        height *= maxWidth / width
-        width = maxWidth
-      }
-    } else {
-      if (height > maxHeight) {
-        width *= maxHeight / height
-        height = maxHeight
-      }
+    if (width > height && width > maxWidth) {
+      height *= maxWidth / width
+      width = maxWidth
+    } else if (height > maxHeight) {
+      width *= maxHeight / height
+      height = maxHeight
     }
 
     // set proper canvas dimensions before transform & export
-    if (4 < srcOrientation && srcOrientation < 9) {
-      canvas.width = height
-      canvas.height = width
-    } else {
-      canvas.width = width
-      canvas.height = height
-    }
-    var ctx = canvas.getContext('2d')
+    canvas.width = width
+    canvas.height = height
 
-    // transform context before drawing image
-    switch (srcOrientation) {
-      case 2:
-        ctx.transform(-1, 0, 0, 1, width, 0)
-        break
-      case 3:
-        ctx.transform(-1, 0, 0, -1, width, height)
-        break
-      case 4:
-        ctx.transform(1, 0, 0, -1, 0, height)
-        break
-      case 5:
-        ctx.transform(0, 1, 1, 0, 0, 0)
-        break
-      case 6:
-        ctx.transform(0, 1, -1, 0, height, 0)
-        break
-      case 7:
-        ctx.transform(0, -1, -1, 0, height, width)
-        break
-      case 8:
-        ctx.transform(0, -1, 1, 0, 0, width)
-        break
-      default:
-        break
-    }
-
+    // draw image to the canvas
+    const ctx = canvas.getContext('2d')
     ctx.drawImage(image, 0, 0, width, height)
 
+    // get the reduces data url from canvas and return it
     const dataUrl = canvas.toDataURL('image/png')
+
     log.debug('getReducedDataUrlWithImage', { ctx, canvas, dataUrl })
 
     return dataUrl
-  }
+  }, [])
 
-  const getImageWithSrc = src => {
+  const getImageWithSrc = useCallback(src => {
     return new Promise((resolve, reject) => {
       const img = new Image()
       img.onload = function() {
@@ -140,7 +77,15 @@ const InputFile = props => {
       }
       img.src = src
     })
-  }
+  }, [])
+
+  // need to prevent default event - useOnPress does it
+  const handleInputChange = useOnPress(async () => {
+    const [file] = inputRef.current.files
+    const dataUrl = await getReducedFileAsDataUrl(file)
+
+    onChange(dataUrl)
+  }, [onChange])
 
   return (
     <>
@@ -151,15 +96,10 @@ const InputFile = props => {
         name="file"
         style={styles.input}
         accept="image/*"
-        onChange={async event => {
-          event.preventDefault()
-          const [file] = inputRef.current.files
-          const dataUrl = await getReducedFileAsDataUrl(file)
-          props.onChange(dataUrl)
-        }}
+        onChange={handleInputChange}
       />
       <label htmlFor="file" style={styles.label}>
-        {props.children}
+        {children}
       </label>
     </>
   )
@@ -174,4 +114,5 @@ const styles = {
     cursor: 'pointer',
   },
 }
+
 export default InputFile

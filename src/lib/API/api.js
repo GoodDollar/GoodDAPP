@@ -37,6 +37,8 @@ class API {
 
   client: AxiosInstance
 
+  mauticClient: AxiosInstance
+
   constructor() {
     this.ready = this.init()
   }
@@ -95,6 +97,11 @@ class API {
         }
       )
       this.w3Client = await w3Instance
+      let mauticInstance: AxiosInstance = axios.create({
+        baseURL: Config.mauticUrl,
+        timeout: 30000,
+      })
+      this.mauticClient = await mauticInstance
     }))
   }
 
@@ -337,11 +344,26 @@ class API {
   }
 
   /**
+   * `/trust` get api call
+   */
+  getTrust() {
+    return this.client.get('/trust')
+  }
+
+  /**
    * `/user/enqueue` post api call
    * adds user to queue or return queue status
    */
   checkQueueStatus() {
     return this.client.post('/user/enqueue')
+  }
+
+  /**
+   * adds a first time registering user to mautic
+   * @param {*} userData usually just {email}
+   */
+  addMauticContact(userData) {
+    return this.mauticClient.post('/form/submit', { ...userData, formId: Config.mauticAddContactFormID })
   }
 }
 

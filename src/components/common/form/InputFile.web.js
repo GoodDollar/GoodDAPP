@@ -1,16 +1,17 @@
 // libraries
-import React, { useCallback, useRef } from 'react'
+import React, { useRef } from 'react'
 
 // hooks
 import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
 import logger from '../../../lib/logger/pino-logger'
+import getReducedDataUrlFromImage from '../../../lib/utils/getReducedDataUrlFromImage'
 
 const log = logger.child({ from: 'InputFile' })
 
-const MAX_WIDTH = 600
-const MAX_HEIGHT = 600
+const MAX_AVATAR_WIDTH = 600
+const MAX_AVATAR_HEIGHT = 600
 
 const toBase64 = file =>
   new Promise((resolve, reject) => {
@@ -20,69 +21,31 @@ const toBase64 = file =>
     reader.onerror = error => reject(error)
   })
 
+const getImageWithSrc = src => {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = function() {
+      resolve(img)
+    }
+    img.onerror = reject
+    img.src = src
+  })
+}
+
 const InputFile = props => {
   const { children, onChange } = props
   const inputRef = useRef(null)
 
-  const getReducedFileAsDataUrl = useCallback(async (file, maxWidth = MAX_WIDTH, maxHeight = MAX_HEIGHT) => {
-    const data64 = await toBase64(file)
-    const img = await getImageWithSrc(data64)
-
-    // standard orientation
-    const orientation = 1
-
-    // getting the reduces data url
-    const dataUrl = getReducedDataUrlFromImage(img, orientation, maxWidth, maxHeight)
-
-    log.debug('getReducedFileAsDataUrl', { data64, img, dataUrl, orientation })
-
-    return dataUrl
-  }, [])
-
-  const getReducedDataUrlFromImage = useCallback((image, srcOrientation, maxWidth, maxHeight) => {
-    const canvas = document.createElement('canvas')
-
-    let width = image.width
-    let height = image.height
-
-    if (width > height && width > maxWidth) {
-      height *= maxWidth / width
-      width = maxWidth
-    } else if (height > maxHeight) {
-      width *= maxHeight / height
-      height = maxHeight
-    }
-
-    // set proper canvas dimensions before transform & export
-    canvas.width = width
-    canvas.height = height
-
-    // draw image to the canvas
-    const ctx = canvas.getContext('2d')
-    ctx.drawImage(image, 0, 0, width, height)
-
-    // get the reduces data url from canvas and return it
-    const dataUrl = canvas.toDataURL('image/png')
-
-    log.debug('getReducedDataUrlWithImage', { ctx, canvas, dataUrl })
-
-    return dataUrl
-  }, [])
-
-  const getImageWithSrc = useCallback(src => {
-    return new Promise((resolve, reject) => {
-      const img = new Image()
-      img.onload = function() {
-        resolve(img)
-      }
-      img.src = src
-    })
-  }, [])
-
   // need to prevent default event - useOnPress does it
   const handleInputChange = useOnPress(async () => {
     const [file] = inputRef.current.files
-    const dataUrl = await getReducedFileAsDataUrl(file)
+    const data64 = await toBase64(file)
+    const image = await getImageWithSrc(data64)
+
+    log.debug('Uploaded file to use as avatar', { file })
+
+    // getting the reduces data url
+    const dataUrl = await getReducedDataUrlFromImage(image, MAX_AVATAR_WIDTH, MAX_AVATAR_HEIGHT)
 
     onChange(dataUrl)
   }, [onChange])

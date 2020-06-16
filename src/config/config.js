@@ -67,6 +67,8 @@ const Config = {
   showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: process.env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
   claimQueue: process.env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
+  mauticUrl: process.env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
+  mauticAddContractFormID: process.env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
   ethereum: {
     '42': {
       network_id: 42,

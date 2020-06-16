@@ -328,7 +328,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   useEffect(() => {
     const { email } = state
 
-    // if signup was performed via torus, skipping (as email is already set)
+    // perform this again for torus and on email change. torus has also mobile verification that doesnt set email
     if (!isRegMethodSelfCustody || !email) {
       return
     }

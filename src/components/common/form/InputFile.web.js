@@ -6,12 +6,9 @@ import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
 import logger from '../../../lib/logger/pino-logger'
-import { getReducedDataUrlFromImage } from '../../../lib/utils/imageResize'
+import { getReducedDataUrlFromImage, MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from '../../../lib/utils/imageResize'
 
 const log = logger.child({ from: 'InputFile' })
-
-const MAX_AVATAR_WIDTH = 600
-const MAX_AVATAR_HEIGHT = 600
 
 const toBase64 = file =>
   new Promise((resolve, reject) => {

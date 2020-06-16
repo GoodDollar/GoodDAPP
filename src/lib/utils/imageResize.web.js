@@ -1,3 +1,6 @@
+export const MAX_AVATAR_WIDTH = 600
+export const MAX_AVATAR_HEIGHT = 600
+
 const _getReducedDataUrl = (image, width, height) => {
   // create canvas element
   const canvas = document.createElement('canvas')

@@ -1,38 +1,52 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
+import { get } from 'lodash'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
+
 import GDStore from '../../../../lib/undux/GDStore'
 import Separator from '../../../common/layout/Separator'
 import logger from '../../../../lib/logger/pino-logger'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import { fireEvent } from '../../../../lib/analytics/analytics'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
 import { isBrowser } from '../../../../lib/utils/platform'
+import { openLink } from '../../../../lib/utils/linking'
 import useOnPress from '../../../../lib/hooks/useOnPress'
+import Config from '../../../../config/config'
+import usePermissions from '../../../permissions/hooks/usePermissions'
+import { Permissions } from '../../../permissions/types'
+
+import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
+  const isValid = get(screenProps, 'screenState.isValid', false)
 
-  const isValid = screenProps.screenState && screenProps.screenState.isValid
-  log.debug({ isIOS, isMobileSafari })
+  const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
+    requestOnMounted: false,
+    onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
+    onAllowed: () => screenProps.navigateTo('FaceVerification'),
+    onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
+  })
+
+  const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
+  const handleVerifyClick = useOnPress(requestCameraPermissions, [])
+
+  useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
 
   useEffect(() => {
     if (isValid) {
       screenProps.pop({ isValid: true })
     } else {
-      fireEvent('FR_Intro')
+      fireEvent(FV_INTRO)
     }
   }, [isValid])
-
-  const gotoPrivacyArticle = useOnPress(() => screenProps.push('PrivacyArticle'), [screenProps])
-  const gotoFR = useOnPress(() => screenProps.navigateTo('FaceVerification'), [screenProps])
 
   return (
     <Wrapper>
@@ -62,14 +76,14 @@ const IntroScreen = ({ styles, screenProps }) => {
                 textDecorationLine="underline"
                 color="primary"
                 style={styles.descriptionUnderline}
-                onPress={gotoPrivacyArticle}
+                onPress={openPrivacy}
               >
                 {`Learn more`}
               </Text>
             </Text>
             <Separator style={[styles.bottomSeparator]} width={2} />
           </View>
-          <CustomButton style={[styles.button]} onPress={gotoFR}>
+          <CustomButton style={[styles.button]} onPress={handleVerifyClick}>
             OK, Verify me
           </CustomButton>
         </View>

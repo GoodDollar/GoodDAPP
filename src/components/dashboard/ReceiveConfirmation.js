@@ -23,7 +23,7 @@ export type ReceiveProps = {
 
 const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')
-  const { setString } = useClipboard()
+  const [, setString] = useClipboard()
   const [screenState] = useScreenState(screenProps)
   const { goToRoot, push } = screenProps
   const {

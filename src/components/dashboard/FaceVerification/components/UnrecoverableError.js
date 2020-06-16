@@ -1,21 +1,26 @@
-import React, { useCallback } from 'react'
+import React, { useEffect } from 'react'
 
 import { Image, Platform, View } from 'react-native'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
 
+import useOnPress from '../../../../lib/hooks/useOnPress'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import illustration from '../../../../assets/FRUnrecoverableError.svg'
+
+import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
 const UnrecoverableError = ({ styles, screenProps }) => {
-  const onContactSupport = useCallback(() => screenProps.navigateTo('Support'), [screenProps])
-  const onDismiss = useCallback(() => screenProps.goToRoot(), [screenProps])
+  const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
+  const onDismiss = useOnPress(() => screenProps.goToRoot(), [screenProps])
+
+  useEffect(() => fireEvent(FV_TRYAGAINLATER), [])
 
   return (
     <Wrapper>

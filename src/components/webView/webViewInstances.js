@@ -6,10 +6,11 @@ export const PrivacyPolicyAndTerms = createIframe(
   'Privacy Policy & Terms'
 )
 export const PrivacyPolicy = createIframe('https://community.gooddollar.org/tou/#privacy-policy', 'Privacy Policy')
-export const PrivacyArticle = createIframe(
-  'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
-  'Privacy And Identity'
-)
+
+// export const PrivacyArticle = createIframe(
+//   'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
+//   'Privacy And Identity'
+// )
 
 export const Support = createIframe('https://support.gooddollar.org', ' Support & Feedback', true)
 export const SupportForUnsigned = createIframe('https://support.gooddollar.org', ' Support & Feedback', true, 'Login')

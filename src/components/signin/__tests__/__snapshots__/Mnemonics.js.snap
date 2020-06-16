@@ -229,6 +229,7 @@ exports[`SignIn - Mnemonics matches snapshot 1`] = `
               <div
                 className="css-view-1dbjc4n"
                 data-focusable={true}
+                disabled={false}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
                 onResponderGrant={[Function]}

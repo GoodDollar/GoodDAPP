@@ -7,9 +7,9 @@ class SocialLoginPage {
   get facebookLink() {
     return this._socialLink('facebook')
   }
-  
+
   _socialLink(network) {
-    return cy.get(`[data-testid="login_with_${network}"]`, { timeout: 10000 })
+    return cy.get(`[data-testid="login_with_${network}"]`)
   }
 }
 

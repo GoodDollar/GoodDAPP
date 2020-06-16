@@ -25,15 +25,25 @@ export const PHRASE_BACKUP = 'PHRASE_BACKUP'
 export const PHRASE_BACKUP_COPY = 'PHRASE_BACKUP_COPY'
 export const ADDTOHOME = 'ADDTOHOME'
 export const ADDTOHOME_LATER = 'ADDTOHOME_LATER'
-
-//desktop/chrome did user accept or reject the install prompt
-export const ADDTOHOME_OK = 'ADDTOHOME_OK'
+export const ADDTOHOME_OK = 'ADDTOHOME_OK' //desktop/chrome did user accept or reject the install prompt
 export const ADDTOHOME_REJECTED = 'ADDTOHOME_REJECTED'
 export const ERROR_LOG = 'ERROR'
 export const QR_SCAN = 'QR_SCAN'
 export const APP_OPEN = 'APP_OPEN'
 export const LOGOUT = 'LOGOUT'
 export const CARD_SLIDE = 'CARD_SLIDE'
+export const FV_INTRO = 'FV_INTRO'
+export const FV_CAMERAPERMISSION = 'FV_CAMERAPERMISSION'
+export const FV_GETREADY_ZOOM = 'FV_GETREADY_ZOOM'
+export const FV_PROGRESS_ZOOM = 'FV_PROGRESS_ZOOM'
+export const FV_ZOOMFAILED = 'FV_ZOOMFAILED'
+export const FV_SUCCESS_ZOOM = 'FV_SUCCESS_ZOOM'
+export const FV_TRYAGAIN_ZOOM = 'FV_TRYAGAIN_ZOOM'
+export const FV_GENERALERROR = 'FV_GENERALERROR'
+export const FV_WRONGORIENTATION = 'FV_WRONGORIENTATION'
+export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
+export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
+export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
 let Amplitude, FS, Rollbar
 
@@ -43,6 +53,9 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   const identifier = goodWallet && goodWallet.getAccountForType('login')
   const email = userStorage && (await userStorage.getProfileFieldValue('email'))
   log.debug('got identifiers', { identifier, email })
+  if (email && global.mt) {
+    global.mt.userId = email
+  }
 
   const emailOrId = email || identifier
 
@@ -150,6 +163,18 @@ export const fireEvent = (event: string, data: any = {}) => {
   } else {
     log.debug('fired event', { event, data })
   }
+}
+
+export const fireMauticEvent = (data: any = {}) => {
+  const { mt } = global
+  if (mt === undefined) {
+    return
+  }
+  if (mt.userId) {
+    data.email = mt.userId
+  }
+
+  mt('send', 'pageview', data)
 }
 
 /**

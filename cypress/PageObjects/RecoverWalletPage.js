@@ -5,7 +5,7 @@ class RecoverWalletPage {
   }
 
   get resendEmailButton() {
-    return cy.get('[role="button"]', { timeout: 10000 }).contains(/Send me a backup email/i)
+    return cy.get('[role="button"]', { timeout: 10000 }).contains('Send me a backup email')
   }
 
   get successMessageTitle() {
@@ -14,7 +14,6 @@ class RecoverWalletPage {
 
   get successMessageText() {
     return cy.contains('We sent an email with recovery instructions for your wallet')
-    //return cy.xpath('//*[@id="root"]/div[3]/div/div/div/div/div/div[2]/div[2]/div[2]/div[2]', { timeout: 10000 })
   }
 }
 

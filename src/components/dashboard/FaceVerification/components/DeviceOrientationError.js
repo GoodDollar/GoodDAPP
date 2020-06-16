@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, Platform, View } from 'react-native'
 
 import Text from '../../../common/view/Text'
@@ -6,37 +6,48 @@ import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
 import illustration from '../../../../assets/FRPortraitModeError.svg'
 
+import useOnPress from '../../../../lib/hooks/useOnPress'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
+
+import { fireEvent, FV_WRONGORIENTATION } from '../../../../lib/analytics/analytics'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => (
-  <Wrapper>
-    <View style={styles.topContainer}>
-      <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-        <Section.Title fontWeight="medium" textTransform="none">
-          {displayTitle}
-          {',\nplease turn your camera\nto portrait mode'}
-        </Section.Title>
-        <Image source={illustration} resizeMode="contain" style={styles.errorImage} />
-        <Section style={styles.errorSection}>
-          <Separator width={2} />
-          <View style={styles.descriptionWrapper}>
-            <Text color="primary">{'It’s a nice landscape,\nbut we need to see\nyour face only in portrait mode'}</Text>
-          </View>
-          <Separator width={2} />
+const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => {
+  const onRetryPress = useOnPress(onRetry)
+
+  useEffect(() => void fireEvent(FV_WRONGORIENTATION), [])
+
+  return (
+    <Wrapper>
+      <View style={styles.topContainer}>
+        <Section style={styles.descriptionContainer} justifyContent="space-evenly">
+          <Section.Title fontWeight="medium" textTransform="none">
+            {displayTitle}
+            {',\nplease turn your camera\nto portrait mode'}
+          </Section.Title>
+          <Image source={illustration} resizeMode="contain" style={styles.errorImage} />
+          <Section style={styles.errorSection}>
+            <Separator width={2} />
+            <View style={styles.descriptionWrapper}>
+              <Text color="primary">
+                {'It’s a nice landscape,\nbut we need to see\nyour face only in portrait mode'}
+              </Text>
+            </View>
+            <Separator width={2} />
+          </Section>
         </Section>
-      </Section>
-      <View style={styles.action}>
-        <CustomButton onPress={onRetry}>PLEASE TRY AGAIN</CustomButton>
+        <View style={styles.action}>
+          <CustomButton onPress={onRetryPress}>PLEASE TRY AGAIN</CustomButton>
+        </View>
       </View>
-    </View>
-  </Wrapper>
-)
+    </Wrapper>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => {
   return {

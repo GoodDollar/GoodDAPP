@@ -172,7 +172,7 @@ class Auth extends React.Component<Props> {
         <Section style={styles.bottomContainer}>
           {asGuest && (
             <Text fontSize={12} color="gray80Percent">
-              {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+              {`By clicking the 'Create a wallet' button,\nyou are accepting our`}
               <Text
                 fontSize={12}
                 color="gray80Percent"

@@ -1,42 +1,53 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
+import { get } from 'lodash'
 
 import Text from '../../../common/view/Text'
 import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
 import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
 
+import useOnPress from '../../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../../lib/styles'
 import { isBrowser, isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
-const GeneralError = ({ styles, displayTitle, onRetry }) => (
-  <Wrapper>
-    <View style={styles.topContainer}>
-      <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-        <Section.Title fontWeight="medium" textTransform="none">
-          {displayTitle}
-          {',\nSomething went wrong\non our side...'}
-        </Section.Title>
-        <View style={styles.illustration}>
-          <FaceVerificationErrorSmiley />
-        </View>
-        <Section style={styles.errorSection}>
-          <Separator width={2} />
-          <View style={styles.descriptionWrapper}>
-            <Text color="primary">
-              {"You see, it's not that easy\nto capture your beauty :)\nSo, let's give it another shot..."}
-            </Text>
+import { fireEvent, FV_GENERALERROR } from '../../../../lib/analytics/analytics'
+
+const GeneralError = ({ styles, displayTitle, onRetry, screenProps }) => {
+  const onRetryPress = useOnPress(onRetry)
+  const reason = get(screenProps, 'screenState.error.message')
+
+  useEffect(() => void fireEvent(FV_GENERALERROR, { reason }), [])
+
+  return (
+    <Wrapper>
+      <View style={styles.topContainer}>
+        <Section style={styles.descriptionContainer} justifyContent="space-evenly">
+          <Section.Title fontWeight="medium" textTransform="none">
+            {displayTitle}
+            {',\nSomething went wrong\non our side...'}
+          </Section.Title>
+          <View style={styles.illustration}>
+            <FaceVerificationErrorSmiley />
           </View>
-          <Separator width={2} />
+          <Section style={styles.errorSection}>
+            <Separator width={2} />
+            <View style={styles.descriptionWrapper}>
+              <Text color="primary">
+                {"You see, it's not that easy\nto capture your beauty :)\nSo, let's give it another shot..."}
+              </Text>
+            </View>
+            <Separator width={2} />
+          </Section>
         </Section>
-      </Section>
-      <View style={styles.action}>
-        <CustomButton onPress={onRetry}>PLEASE TRY AGAIN</CustomButton>
+        <View style={styles.action}>
+          <CustomButton onPress={onRetryPress}>PLEASE TRY AGAIN</CustomButton>
+        </View>
       </View>
-    </View>
-  </Wrapper>
-)
+    </Wrapper>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => {
   return {

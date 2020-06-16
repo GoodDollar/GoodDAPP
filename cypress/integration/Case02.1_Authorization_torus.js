@@ -5,18 +5,22 @@ import HomePage from '../PageObjects/HomePage'
 import userObject from '../fixtures/userObject.json'
 //import SignUpPage from '../PageObjects/SignUpPage'
 
-describe('Login Torus', () => {
-  beforeEach(() => {
-    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
-  })
+describe('Test 2.1: login via TorusTestUser', () => {
+  // beforeEach(() => {
+  //   localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
+  // })
 
-  it('login via TorusTestUser', () => {
+  it('login via google', () => {
+    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.googleLink.should('be.visible')
+    cy.wait(1000) //wait for button to be enabled torus sdk ready
     SocialLoginPage.googleLink.click()
-    cy.contains('Good Dollar')
+    HomePage.profileAvatar.should('be.visible')
     HomePage.sendButton.should('be.visible')
+    HomePage.optionsButton.click()
+    HomePage.logoutButton.click()
 
     /*
     if (cy.contains('enter your phone number')) {
@@ -31,5 +35,16 @@ describe('Login Torus', () => {
           .should('be.visible')
         SignUpPage.letStartButton.click()
       }*/
+  })
+
+  it('login via facebook', () => {
+    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
+    StartPage.open()
+    expect(localStorage.getItem('TorusTestUser')).to.not.be.null
+    SocialLoginPage.facebookLink.should('be.visible')
+    cy.wait(1000) //wait for button to be enabled torus sdk ready
+    SocialLoginPage.facebookLink.click()
+    HomePage.profileAvatar.should('be.visible')
+    HomePage.sendButton.should('be.visible')
   })
 })

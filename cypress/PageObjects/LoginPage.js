@@ -21,7 +21,7 @@ class LoginPage {
   }
 
   get yayButton() {
-    return cy.contains(/Yay!/i)
+    return cy.contains('Yay!')
   }
 }
 

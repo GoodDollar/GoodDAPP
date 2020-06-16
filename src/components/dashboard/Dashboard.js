@@ -32,7 +32,7 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import { PrivacyArticle, PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
+import { PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
@@ -252,7 +252,11 @@ const Dashboard = props => {
     }
   }, [appState])
 
-  const animateClaim = useCallback(() => {
+  const animateClaim = useCallback(async () => {
+    const inQueue = await userStorage.userProperties.get('claimQueueAdded').onThen()
+    if (inQueue && inQueue.status === 'pending') {
+      return
+    }
     const { entitlement } = gdstore.get('account')
 
     if (Number(entitlement)) {
@@ -691,7 +695,6 @@ const Dashboard = props => {
         <FeedModalList
           data={modalListData}
           handleFeedSelection={handleFeedSelection}
-          initialNumToRender={PAGE_SIZE}
           onEndReached={nextFeed}
           selectedFeed={currentFeed}
           navigation={navigation}
@@ -875,7 +878,7 @@ export default createStackNavigator({
   },
 
   // PP: PrivacyPolicy,
-  PrivacyArticle,
+  // PrivacyArticle,
   TOU: PrivacyPolicyAndTerms,
   Support,
   Statistics,

@@ -329,7 +329,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const { email } = state
 
     // perform this again for torus and on email change. torus has also mobile verification that doesnt set email
-    if (!isRegMethodSelfCustody || !email) {
+    if (!email) {
       return
     }
 

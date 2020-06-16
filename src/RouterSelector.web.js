@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'
+
 import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
@@ -15,17 +16,17 @@ const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
 
 // import Router from './SignupRouter'
-let SignupRouter = React.lazy(() =>
+let SignupRouter = React.lazy(async () => {
   initAnalytics()
-    .then(_ =>
-      Promise.all([
-        retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
-        handleLinks(),
-        delay(5000),
-      ])
-    )
-    .then(r => r[0])
-)
+
+  const [module] = await Promise.all([
+    retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
+    handleLinks(),
+    delay(5000),
+  ])
+
+  return module
+})
 
 /**
  * handle in-app links for unsigned users such as magiclink and paymentlinks

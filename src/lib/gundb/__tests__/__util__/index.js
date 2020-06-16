@@ -1,6 +1,6 @@
 //@flow
+import { sha3 } from 'web3-utils'
 import gun from '../../gundb'
-
 type UserRecord = {
   identifier: string,
   fullName?: string,
@@ -50,7 +50,7 @@ export const setProfileFieldIndex = async (usersCol: any, userId: string, attr: 
   if (value) {
     ack = await gun
       .get(`users/by${attr}`)
-      .get(value)
+      .get(sha3(value))
       .putAck(userId)
   }
   return ack

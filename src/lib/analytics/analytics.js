@@ -1,8 +1,9 @@
 //@flow
-import { debounce, forEach } from 'lodash'
 import * as Sentry from '@sentry/browser'
-import logger from '../../lib/logger/pino-logger'
+import { debounce, forEach, get, invoke, isString } from 'lodash'
+import API from '../../lib/API/api'
 import Config from '../../config/config'
+import logger from '../../lib/logger/pino-logger'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -24,8 +25,8 @@ export const PROFILE_UPDATE = 'PROFILE_UPDATE'
 export const PHRASE_BACKUP = 'PHRASE_BACKUP'
 export const PHRASE_BACKUP_COPY = 'PHRASE_BACKUP_COPY'
 export const ADDTOHOME = 'ADDTOHOME'
-export const ADDTOHOME_LATER = 'ADDTOHOME_LATER'
-export const ADDTOHOME_OK = 'ADDTOHOME_OK' //desktop/chrome did user accept or reject the install prompt
+export const ADDTOHOME_LATER = 'ADDTOHOME_LATER' // desktop/chrome did user accept or reject the install prompt
+export const ADDTOHOME_OK = 'ADDTOHOME_OK'
 export const ADDTOHOME_REJECTED = 'ADDTOHOME_REJECTED'
 export const ERROR_LOG = 'ERROR'
 export const QR_SCAN = 'QR_SCAN'
@@ -45,98 +46,198 @@ export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
-let Amplitude, FS, Rollbar
+const FS = global.FS
+const BugSnag = global.bugsnagClient
+const Mautic = global.mt
+const Rollbar = global.Rollbar
+const Amplitude = invoke(global, 'amplitude.getInstance')
 
 const log = logger.child({ from: 'analytics' })
+const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
 
-export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
-  const identifier = goodWallet && goodWallet.getAccountForType('login')
-  const email = userStorage && (await userStorage.getProfileFieldValue('email'))
-  log.debug('got identifiers', { identifier, email })
-  if (email && global.mt) {
-    global.mt.userId = email
-  }
+const isSentryEnabled = !!sentryDSN
+const isRollbarEnabled = !!(Rollbar && rollbarKey)
+const isAmplitudeEnabled = !!(Amplitude && amplitudeKey)
 
-  const emailOrId = email || identifier
-
-  if (global.bugsnagClient) {
-    global.bugsnagClient.user = {
-      id: identifier,
-      email: emailOrId,
-    }
-  }
-
-  if (global.Rollbar && Config.rollbarKey) {
-    Rollbar = global.Rollbar
-    global.Rollbar.configure({
-      accessToken: Config.rollbarKey,
+export const initAnalytics = () => {
+  if (isRollbarEnabled) {
+    Rollbar.configure({
+      accessToken: rollbarKey,
       captureUncaught: true,
       captureUnhandledRejections: true,
       payload: {
-        environment: Config.env + Config.network,
-        codeVersion: Config.version,
-        person: {
-          id: emailOrId,
-          identifier,
-        },
+        environment: env + network,
+        codeVersion: version,
       },
     })
   }
 
-  if (global.amplitude && Config.amplitudeKey) {
-    Amplitude = global.amplitude.getInstance()
-    Amplitude.init(Config.amplitudeKey)
-    Amplitude.setVersionName(Config.version)
-    if (Amplitude) {
-      const created = new global.amplitude.Identify().setOnce('first_open_date', new Date().toString())
-      if (email) {
-        Amplitude.setUserId(email)
-      }
-      Amplitude.identify(created)
-      if (identifier) {
-        Amplitude.setUserProperties({ identifier })
-      }
-    }
+  if (isAmplitudeEnabled) {
+    const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
+
+    Amplitude.init(amplitudeKey)
+    Amplitude.setVersionName(version)
+    Amplitude.identify(identity)
   }
 
-  if (global.FS) {
-    FS = global.FS
-    if (emailOrId) {
-      FS.identify(emailOrId, {
-        appVersion: Config.version,
-      })
-    }
-  }
-
-  if (Config.sentryDSN) {
+  if (isSentryEnabled) {
     Sentry.init({
-      dsn: Config.sentryDSN,
-      environment: Config.env,
+      dsn: sentryDSN,
+      environment: env,
     })
 
     Sentry.configureScope(scope => {
-      if (email || identifier) {
-        scope.setUser({
-          id: identifier,
-          email: email,
-        })
-      }
-
-      scope.setTag('appVersion', Config.version)
-      scope.setTag('networkUsed', Config.network)
+      scope.setTag('appVersion', version)
+      scope.setTag('networkUsed', network)
     })
   }
 
   log.debug('Initialized analytics:', {
-    Amplitude: Amplitude !== undefined,
-    FS: FS !== undefined,
-    Rollbar: Rollbar !== undefined,
+    Sentry: isSentryEnabled,
+    Rollbar: isRollbarEnabled,
+    Amplitude: isAmplitudeEnabled,
   })
 
   patchLogger()
 }
 
-export const reportToSentry = (error, extra = {}, tags = {}) =>
+/** @private */
+const setUserEmail = email => {
+  if (!email) {
+    return
+  }
+
+  if (BugSnag) {
+    const { user } = BugSnag
+
+    BugSnag.user = {
+      ...(user || {}),
+      email,
+    }
+  }
+
+  if (isRollbarEnabled) {
+    Rollbar.configure({
+      payload: {
+        person: {
+          email,
+        },
+      },
+    })
+  }
+
+  if (isAmplitudeEnabled) {
+    Amplitude.setUserProperties({ email })
+  }
+
+  if (FS) {
+    FS.setUserVars({
+      email,
+    })
+  }
+
+  if (isSentryEnabled) {
+    Sentry.configureScope(scope => {
+      const { _user } = scope
+
+      scope.setUser({
+        ...(_user || {}),
+        email,
+      })
+    })
+  }
+
+  if (Mautic) {
+    Mautic.userId = email
+  }
+}
+
+const identifyWith = (email, identifier = null) => {
+  if (BugSnag) {
+    BugSnag.user = {
+      id: identifier,
+    }
+  }
+
+  if (isRollbarEnabled) {
+    Rollbar.configure({
+      payload: {
+        person: {
+          id: identifier,
+        },
+      },
+    })
+  }
+
+  if (isAmplitudeEnabled && identifier) {
+    Amplitude.setUserId(identifier)
+  }
+
+  if (FS) {
+    FS.identify(identifier, {
+      appVersion: version,
+    })
+  }
+
+  if (isSentryEnabled) {
+    Sentry.configureScope(scope =>
+      scope.setUser({
+        id: identifier,
+      })
+    )
+  }
+
+  setUserEmail(email)
+
+  log.debug(
+    'Analytics services identified with:',
+    { email, identifier },
+    {
+      FS: !!FS,
+      Mautic: !!email,
+      BugSnag: !!BugSnag,
+      Sentry: isSentryEnabled,
+      Rollbar: isRollbarEnabled,
+      Amplitude: isAmplitudeEnabled,
+    }
+  )
+}
+
+export const identifyOnUserSignup = async email => {
+  setUserEmail(email)
+
+  if (Mautic && email && 'production' === env) {
+    await API.addMauticContact({ email })
+  }
+
+  log.debug(
+    'Analytics services identified during new user signup:',
+    { email },
+    {
+      FS: !!FS,
+      Mautic: !!email,
+      BugSnag: !!BugSnag,
+      Sentry: isSentryEnabled,
+      Rollbar: isRollbarEnabled,
+      Amplitude: isAmplitudeEnabled,
+    }
+  )
+}
+
+export const identifyWithSignedInUser = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
+  const identifier = goodWallet.getAccountForType('login')
+  const email = await userStorage.getProfileFieldValue('email')
+
+  log.debug('got identifiers', { identifier, email })
+
+  identifyWith(email, identifier)
+}
+
+export const reportToSentry = (error, extra = {}, tags = {}) => {
+  if (!isSentryEnabled) {
+    return
+  }
+
   Sentry.configureScope(scope => {
     // set extra
     forEach(extra, (value, key) => {
@@ -150,31 +251,35 @@ export const reportToSentry = (error, extra = {}, tags = {}) =>
 
     Sentry.captureException(error)
   })
+}
 
 export const fireEvent = (event: string, data: any = {}) => {
-  if (Amplitude === undefined) {
+  if (!isAmplitudeEnabled) {
     return
   }
 
-  let res = Amplitude.logEvent(event, data)
-
-  if (res === undefined) {
+  if (!Amplitude.logEvent(event, data)) {
     log.warn('Amplitude event not sent', { event, data })
-  } else {
-    log.debug('fired event', { event, data })
+    return
   }
+
+  log.debug('fired event', { event, data })
 }
 
 export const fireMauticEvent = (data: any = {}) => {
-  const { mt } = global
-  if (mt === undefined) {
+  if (!Mautic) {
     return
   }
-  if (mt.userId) {
-    data.email = mt.userId
+
+  const { userId } = Mautic
+  let eventData = data
+
+  if (userId) {
+    // do not mutate source params
+    eventData = { ...data, email: userId }
   }
 
-  mt('send', 'pageview', data)
+  Mautic('send', 'pageview', eventData)
 }
 
 /**
@@ -182,22 +287,23 @@ export const fireMauticEvent = (data: any = {}) => {
  * @param {object} route
  */
 export const fireEventFromNavigation = route => {
-  const key = route.routeName
-  const action = route.params && route.params.action ? `${route.params.action}` : 'GOTO'
-
+  const { routeName: key, params } = route
+  const action = get(params, 'action', 'GOTO')
   const code = `${action}_${key}`.toUpperCase()
 
   fireEvent(code)
 }
 
-//for error logs if they happen frequently only log one
-const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
-
 const patchLogger = () => {
-  let error = global.logger.error
-  global.logger.error = function() {
-    let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
-    if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') == -1) {
+  const logError = logger.error.bind(logger)
+
+  // for error logs if they happen frequently only log one
+  const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
+
+  logger.error = (...args) => {
+    const [logContext, logMessage, eMsg, errorObj, ...rest] = args
+
+    if (isString(logMessage) && !logMessage.includes('axios')) {
       debounceFireEvent(ERROR_LOG, {
         unique: `${eMsg} ${logMessage} (${logContext.from})`,
         reason: logMessage,
@@ -205,35 +311,41 @@ const patchLogger = () => {
         eMsg,
       })
     }
-    if (global.bugsnagClient && Config.env !== 'test') {
-      global.bugsnagClient.notify(logMessage, {
-        context: logContext && logContext.from,
+
+    if (env === 'test') {
+      return
+    }
+
+    if (BugSnag) {
+      const { from } = logContext || {}
+
+      BugSnag.notify(logMessage, {
+        context: from,
+        groupingHash: from,
         metaData: { logMessage, eMsg, errorObj, rest },
-        groupingHash: logContext && logContext.from,
       })
     }
-    if (global.Rollbar && Config.env !== 'test') {
-      global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
-    }
-    if (Config.sentryDSN && Config.env !== 'test') {
-      const isValidErrorObject = errorObj instanceof Error
-      let errorToPassIntoLog
 
-      if (isValidErrorObject) {
-        errorObj.message = `${logMessage}: ${errorObj.message}`
-        errorToPassIntoLog = errorObj
-      } else {
-        errorToPassIntoLog = new Error(logMessage)
-      }
-
-      reportToSentry(errorToPassIntoLog, {
-        logMessage,
-        errorObj,
-        logContext,
-        eMsg,
-        rest,
-      })
+    if (isRollbarEnabled) {
+      Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
     }
-    return error.apply(global.logger, arguments)
+
+    let errorToPassIntoLog = errorObj
+
+    if (errorObj instanceof Error) {
+      errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
+    } else {
+      errorToPassIntoLog = new Error(logMessage)
+    }
+
+    reportToSentry(errorToPassIntoLog, {
+      logMessage,
+      errorObj,
+      logContext,
+      eMsg,
+      rest,
+    })
+
+    return logError(...args)
   }
 }

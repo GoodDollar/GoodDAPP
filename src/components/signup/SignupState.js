@@ -78,6 +78,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
+  const [torusUser] = useState(torusUserFromProps)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!w3UserFromProps.email || !!torusUserFromProps.email
   const skipMobile = !!torusUserFromProps.mobile
@@ -354,7 +355,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
 
       if (regMethod === REGISTRATION_METHOD_TORUS) {
+        //create proof that email/mobile is the same one verified by torus
         requestPayload.torusProvider = torusProvider
+        requestPayload.torusProofNonce = String(Date.now())
+        const msg = get(torusUser, 'mobile', torusUser.email) + requestPayload.torusProofNonce
+        const proof = goodWallet.wallet.eth.accounts.sign(msg, torusUser.privateKey)
+        requestPayload.torusProof = proof.signature
       }
 
       let w3Token = requestPayload.w3Token

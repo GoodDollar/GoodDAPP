@@ -19,12 +19,10 @@ const ButtonBlock = ({
       handleNonCitizen()
       return
     }
-      if (entitlement) {
-        handleClaim()
-      }
-    },
-    [entitlement, isCitizen, handleNonCitizen, handleClaim]
-  )
+    if (entitlement) {
+      handleClaim()
+    }
+  }, [entitlement, isCitizen, handleNonCitizen, handleClaim])
 
   return (
     <Section.Stack style={styles.claimButtonContainer}>

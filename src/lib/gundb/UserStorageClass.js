@@ -25,7 +25,7 @@ import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
-import resizeBase64Image from '../utils/resizeBase64Image'
+import { resizeBase64Image } from '../utils/imageResize'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
 

@@ -6,7 +6,7 @@ import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
 import logger from '../../../lib/logger/pino-logger'
-import getReducedDataUrlFromImage from '../../../lib/utils/getReducedDataUrlFromImage'
+import { getReducedDataUrlFromImage } from '../../../lib/utils/imageResize'
 
 const log = logger.child({ from: 'InputFile' })
 
@@ -42,7 +42,7 @@ const InputFile = props => {
     const data64 = await toBase64(file)
     const image = await getImageWithSrc(data64)
 
-    log.debug('Uploaded file to use as avatar', { file })
+    log.debug('Uploaded file to use as avatar', { file, image })
 
     // getting the reduces data url
     const dataUrl = await getReducedDataUrlFromImage(image, MAX_AVATAR_WIDTH, MAX_AVATAR_HEIGHT)

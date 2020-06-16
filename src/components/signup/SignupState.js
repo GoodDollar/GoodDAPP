@@ -21,7 +21,7 @@ import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, identifyOnUserSignup } from '../../lib/analytics/analytics'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -323,6 +323,19 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   useEffect(() => {
     onMount()
   }, [])
+
+  // listening to the email changes in the state
+  useEffect(() => {
+    const { email } = state
+
+    // perform this again for torus and on email change. torus has also mobile verification that doesnt set email
+    if (!email) {
+      return
+    }
+
+    // once email appears in the state - identifying and setting 'identified' flag
+    identifyOnUserSignup(email)
+  }, [state.email])
 
   const finishRegistration = async () => {
     setCreateError(false)

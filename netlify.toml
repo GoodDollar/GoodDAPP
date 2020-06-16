@@ -1,6 +1,6 @@
 [build.environment]
   GENERATE_SOURCEMAP = "true"
-  CI = "false"
+  CI = ""
 
 [[headers]]
   for = "/torus/redirect"

@@ -51,7 +51,7 @@ export const resizeImage = async (imageSource, targetWidth, targetHeight = null)
  * @param {number?} maxHeight Maximum image height constrain to (optional)
  */
 export const constrainImage = (imageSource, maxWidth, maxHeight = null) => {
-  const image = createImage(imageSource)
+  const image = await createImage(imageSource)
   let { width, height } = image
 
   if ((width > height || !maxHeight) && width > maxWidth) {

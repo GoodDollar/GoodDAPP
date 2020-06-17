@@ -1,3 +1,5 @@
+import { Image as NativeImage } from 'react-native'
+
 export const MAX_AVATAR_WIDTH = 600
 export const MAX_AVATAR_HEIGHT = 600
 
@@ -17,25 +19,22 @@ const _getReducedDataUrl = (image, width, height) => {
   return canvas.toDataURL('image/png')
 }
 
-export const resizeBase64Image = (base64, sizeByWidth) =>
-  new Promise(resolve => {
-    const image = new Image()
+export const resizeBase64Image = async (base64, sizeByWidth) => {
+  // caching received image to upload immediately when applying it as image source
+  await NativeImage.prefetch(base64)
 
-    image.onload = function() {
-      const width = sizeByWidth
-      const scaleFactor = width / image.width
-      const height = image.height * scaleFactor
-      const result = _getReducedDataUrl(image, width, height)
+  // initialize image Object and pass received base64 as source
+  const image = new Image()
+  image.src = base64
 
-      resolve(result)
-    }
+  // prepare resize scale factor properties
+  const width = sizeByWidth
+  const scaleFactor = width / image.width
+  const height = image.height * scaleFactor
 
-    image.onerror = () => {
-      resolve(null)
-    }
-
-    image.src = base64
-  })
+  // get reduced data url and return the result
+  return _getReducedDataUrl(image, width, height)
+}
 
 export const getReducedDataUrlFromImage = (image, maxWidth, maxHeight) => {
   let { width, height } = image

@@ -1,5 +1,6 @@
 // libraries
 import React, { useRef } from 'react'
+import { Image as NativeImage } from 'react-native'
 
 // hooks
 import useOnPress from '../../../lib/hooks/useOnPress'
@@ -18,15 +19,13 @@ const toBase64 = file =>
     reader.onerror = error => reject(error)
   })
 
-const getImageWithSrc = src => {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.onload = function() {
-      resolve(img)
-    }
-    img.onerror = reject
-    img.src = src
-  })
+const getImageWithSrc = async src => {
+  const image = new Image()
+
+  await NativeImage.prefetch(src)
+  image.src = src
+
+  return image
 }
 
 const InputFile = props => {

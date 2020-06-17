@@ -7,7 +7,7 @@ import { CustomButton, Section, Wrapper } from '../../../common'
 import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
 
 import useOnPress from '../../../../lib/hooks/useOnPress'
-import { isMobileOnly } from '../../../../lib/utils/platform'
+import { isBrowser, isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 
@@ -77,7 +77,7 @@ const getStylesFromProps = ({ theme }) => {
     halfIllustration: {
       marginTop: isMobileOnly ? getDesignRelativeHeight(32) : 0,
       marginBottom: isMobileOnly ? getDesignRelativeHeight(40) : 0,
-      width: getDesignRelativeWidth(100, false),
+      width: getDesignRelativeWidth(isBrowser ? 200 : 100),
       marginRight: 0,
       marginLeft: 0,
     },

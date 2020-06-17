@@ -62,6 +62,12 @@ const isAmplitudeEnabled = !!(Amplitude && amplitudeKey)
 /** @private */
 const analyticsLoaded = () =>
   new Promise(resolve => {
+    log.info('Amplitude.Identify 1', {
+      amplitude: global.amplitude,
+      isAmplitudeEnabled,
+      Amplitude,
+      identify: Amplitude && Amplitude.Identify,
+    })
     const nextTick = window.requestIdleCallback || setTimeout
     const checkAvailability = () => {
       log.info('Amplitude.Identify', {
@@ -70,12 +76,18 @@ const analyticsLoaded = () =>
         Amplitude,
         identify: Amplitude && Amplitude.Identify,
       })
-      if (!isAmplitudeEnabled && isFunction(Amplitude.Identify)) {
+      if (!isAmplitudeEnabled || isFunction(Amplitude.Identify)) {
         resolve()
         return
       }
       nextTick(checkAvailability)
     }
+    log.info('Amplitude.Identify 2', {
+      amplitude: global.amplitude,
+      isAmplitudeEnabled,
+      Amplitude,
+      identify: Amplitude && Amplitude.Identify,
+    })
     checkAvailability()
   })
 

@@ -71,6 +71,7 @@ export default (props = {}) => {
       },
       {
         icon: 'add',
+        size: 18,
         name: 'Add App To Home',
         hidden: !installPrompt && !isMobileSafari,
         action: () => {
@@ -81,6 +82,7 @@ export default (props = {}) => {
       {
         icon: 'link',
         name: 'Magic Link',
+        size: 18,
         hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
@@ -92,7 +94,7 @@ export default (props = {}) => {
       },
       {
         icon: 'export-wallet',
-        size: 19,
+        size: 18,
         name: 'Export Wallet',
         hidden: isSelfCustody === false,
         action: () => {
@@ -105,6 +107,7 @@ export default (props = {}) => {
       },
       {
         icon: 'statistics',
+        centered: true,
         name: 'Statistics',
         action: () => {
           navigation.navigate({
@@ -116,6 +119,7 @@ export default (props = {}) => {
       },
       {
         icon: 'faq',
+        size: 18,
         name: 'Support & Feedback',
         action: () => {
           navigation.navigate('Support')

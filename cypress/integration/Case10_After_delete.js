@@ -18,6 +18,7 @@ describe('Test case 10: Test after delete wallet', () => {
   //   StartPage.signInButton.should('be.visible')
   // })
   it('try to login with pass phrase', () => {
+   localStorage.clear()
    cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
      StartPage.open()
      StartPage.signInButton.click()

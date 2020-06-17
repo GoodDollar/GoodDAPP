@@ -20,6 +20,10 @@ class ProfilePage {
     return cy.get('[data-focusable]', { timeout: 10000 }).eq(2)
   }
 
+  get editButton() {
+    return cy.get('[data-focusable]', { timeout: 10000 }).eq(4)
+  }
+
   get avatarDiv() {
     return cy.get('img[alt]', { timeout: 10000 }).eq(0)
   }
@@ -31,14 +35,14 @@ class ProfilePage {
   //     .find('[style="font-family: gooddollar; font-size: 25px; font-style: normal;"]', { timeout: 10000 })
   // }
 
-  openEditProfileButton() {
-    cy.visit(Cypress.env('baseUrl') + 'AppNavigation/Profile/EditProfile')
-    cy.contains('Profile').should('be.visible')
-  }
+  // openEditProfileButton() {
+  //   cy.visit(Cypress.env('baseUrl') + 'AppNavigation/Profile/EditProfile')
+  //   cy.contains('Profile').should('be.visible')
+  // }
 
-  openProfilePage() {
-    cy.visit(Cypress.env('baseUrl') + 'AppNavigation/Profile/Profile')
-  }
+  // openProfilePage() {
+  //   cy.visit(Cypress.env('baseUrl') + 'AppNavigation/Profile/Profile')
+  // }
 
   uploadUserAvatar() {
     cy.get('body').then($bodys => {

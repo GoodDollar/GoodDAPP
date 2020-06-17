@@ -5,17 +5,44 @@ import HomePage from '../PageObjects/HomePage'
 import SocialLoginPage from '../PageObjects/SocialLoginPage'
 import userObject from '../fixtures/userObject.json'
 
+let phomeNumber = false
+
+function inputPhoneNumber(isVisible) {
+  if (isVisible) {
+    cy.contains('enter your phone number')
+    SignUpPage.phoneInput.type(Cypress.env('numberForTorus'), { delay: 300 })
+    SignUpPage.nextButton.should('have.attr', 'data-focusable')
+    SignUpPage.nextButton.click()
+    SignUpPage.waitForSignUpPageDisplayed()
+    for (let i = 0; i < 6; i++) {
+      SignUpPage.codeInputs.eq(i).type(i, { delay: 500 })
+    }
+    SignUpPage.letStartButton.click()
+  }
+}
+
 describe('Test case 1: login via TorusTestUser and Create temporary user', () => {
   it('login via google', () => {
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.googleLink.should('be.visible')
-    cy.wait(1000)
+    SocialLoginPage.googleLink.get('[role="button"]').should('have.attr', 'data-focusable', 'true')
+    // cy.wait(1000) //wait for button to be enabled torus sdk ready
     SocialLoginPage.googleLink.click()
-    HomePage.profileAvatar.should('be.visible')
+
+    cy.contains('Welcome').should('not.be.visible')
+    cy.get('#root').find('[data-focusable="true"]').its('length').then(res => {
+        cy.log(res)
+        if (res == 2) {
+          phomeNumber = true
+          inputPhoneNumber(phomeNumber)
+        }
+      })
+
     HomePage.sendButton.should('be.visible')
-    HomePage.optionsButton.click()
+    HomePage.optionsButton.should('be.visible')
+    HomePage.optionsButton.click({ force: true })
     HomePage.logoutButton.click()
   })
 
@@ -24,11 +51,12 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.facebookLink.should('be.visible')
-    cy.wait(1000)
+    SocialLoginPage.facebookLink.get('[role="button"]').should('have.attr', 'data-focusable', 'true')
+    // cy.wait(1000) //wait for button to be enabled torus sdk ready
     SocialLoginPage.facebookLink.click()
-    HomePage.profileAvatar.should('be.visible')
     HomePage.sendButton.should('be.visible')
-    HomePage.optionsButton.click()
+    HomePage.optionsButton.should('be.visible')
+    HomePage.optionsButton.click({ force: true })
     HomePage.logoutButton.click()
   })
 
@@ -57,7 +85,6 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     HomePage.welcomeFeed.should('be.visible')
     HomePage.optionsButton.click()
     HomePage.backupButton.click().should(() => {
-
       // get mnemonic from clipboard
       // HomePage.clipboardButton.click()
       // cy.task('getClipboard').then(mnemonic => {

@@ -304,7 +304,10 @@ const patchLogger = () => {
     const [logContext, logMessage, eMsg, errorObj, ...rest] = args
 
     if (isString(logMessage) && !logMessage.includes('axios')) {
+      const { pathname, search, hash } = window.location
+
       debounceFireEvent(ERROR_LOG, {
+        url: pathname + search + hash,
         unique: `${eMsg} ${logMessage} (${logContext.from})`,
         reason: logMessage,
         logContext,

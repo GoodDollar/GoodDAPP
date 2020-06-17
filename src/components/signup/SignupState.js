@@ -78,19 +78,23 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
+  const [torusUser] = useState(torusUserFromProps)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!w3UserFromProps.email || !!torusUserFromProps.email
+  const skipMobile = !!torusUserFromProps.mobile
 
   const initialState: SignupState = {
     ...getUserModel({
       email: w3UserFromProps.email || torusUserFromProps.email || '',
       fullName: w3UserFromProps.full_name || torusUserFromProps.name || '',
-      mobile: '',
+      mobile: torusUserFromProps.mobile || '',
     }),
     smsValidated: false,
     isEmailConfirmed: skipEmail,
     jwt: '',
     skipEmail: skipEmail,
+    skipPhone: skipMobile,
+    skipSMS: skipMobile,
     skipEmailConfirmation: Config.skipEmailVerification || skipEmail,
     skipMagicLinkInfo: isRegMethodSelfCustody === false,
     w3Token,
@@ -217,6 +221,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     if (!regMethod) {
       log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
       return navigation.navigate('Auth')
+    }
+
+    //if we have name from web3/torus we skip to phone
+    if (state.fullName) {
+      return navigation.navigate('Phone')
     }
   }
 
@@ -359,7 +368,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
 
       if (regMethod === REGISTRATION_METHOD_TORUS) {
+        //create proof that email/mobile is the same one verified by torus
         requestPayload.torusProvider = torusProvider
+        requestPayload.torusProofNonce = String(Date.now())
+        const msg = get(torusUser, 'mobile', torusUser.email) + requestPayload.torusProofNonce
+        const proof = goodWallet.wallet.eth.accounts.sign(msg, torusUser.privateKey)
+        requestPayload.torusProof = proof.signature
       }
 
       let w3Token = requestPayload.w3Token

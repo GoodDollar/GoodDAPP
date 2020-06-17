@@ -30,6 +30,9 @@ const Config = {
   enableSelfCustody: process.env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,
+  auth0ClientId: process.env.REACT_APP_AUTH0_CLIENT_ID,
+  auth0SMSClientId: process.env.REACT_APP_AUTH0_SMS_CLIENT_ID,
+  auth0Domain: process.env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',

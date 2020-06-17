@@ -1,6 +1,6 @@
 //@flow
 import * as Sentry from '@sentry/browser'
-import { debounce, forEach, get, invoke, isString } from 'lodash'
+import { debounce, forEach, get, invoke, isFunction, isString } from 'lodash'
 import API from '../../lib/API/api'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -59,7 +59,22 @@ const isSentryEnabled = !!sentryDSN
 const isRollbarEnabled = !!(Rollbar && rollbarKey)
 const isAmplitudeEnabled = !!(Amplitude && amplitudeKey)
 
-export const initAnalytics = () => {
+/** @private */
+const analyticsLoaded = async () => {
+  const nextTick = window.requestIdleCallback || setTimeout
+
+  // we could add other conditions here
+  if (!isAmplitudeEnabled || isFunction(Amplitude.Identify)) {
+    return
+  }
+
+  await new Promise(resolve => nextTick(resolve))
+  await analyticsLoaded()
+}
+
+export const initAnalytics = async () => {
+  await analyticsLoaded()
+
   if (isRollbarEnabled) {
     Rollbar.configure({
       accessToken: rollbarKey,
@@ -152,6 +167,7 @@ const setUserEmail = email => {
   }
 }
 
+/** @private */
 const identifyWith = (email, identifier = null) => {
   if (BugSnag) {
     BugSnag.user = {

@@ -60,17 +60,24 @@ const isRollbarEnabled = !!(Rollbar && rollbarKey)
 const isAmplitudeEnabled = !!(Amplitude && amplitudeKey)
 
 /** @private */
-const analyticsLoaded = async () => {
-  const nextTick = window.requestIdleCallback || setTimeout
-
-  // we could add other conditions here
-  if (!isAmplitudeEnabled || isFunction(Amplitude.Identify)) {
-    return
-  }
-
-  await new Promise(resolve => nextTick(resolve))
-  await analyticsLoaded()
-}
+const analyticsLoaded = () =>
+  new Promise(resolve => {
+    const nextTick = window.requestIdleCallback || setTimeout
+    const checkAvailability = () => {
+      log.info('Amplitude.Identify', {
+        amplitude: global.amplitude,
+        isAmplitudeEnabled,
+        Amplitude,
+        identify: Amplitude && Amplitude.Identify,
+      })
+      if (!isAmplitudeEnabled && isFunction(Amplitude.Identify)) {
+        resolve()
+        return
+      }
+      nextTick(checkAvailability)
+    }
+    checkAvailability()
+  })
 
 export const initAnalytics = async () => {
   await analyticsLoaded()

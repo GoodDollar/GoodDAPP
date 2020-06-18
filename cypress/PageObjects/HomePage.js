@@ -69,7 +69,7 @@ class HomePage {
   }
 
   get backupButton() {
-    return cy.contains('Backup Wallet')
+    return cy.contains('Export Wallet')
   }
 
   get clipboardButton() {

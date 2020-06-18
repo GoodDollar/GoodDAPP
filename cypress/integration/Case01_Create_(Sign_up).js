@@ -48,7 +48,8 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
 
   it('login via facebook', () => {
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
-    StartPage.open()
+    // StartPage.open()
+    StartPage.headerPage.contains('Welcome').should('be.visible')
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.facebookLink.should('be.visible')
     SocialLoginPage.facebookLink.get('[role="button"]').should('have.attr', 'data-focusable', 'true')
@@ -61,9 +62,8 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
   })
 
   it('User to sign up the wallet with correct values', () => {
-    cy.visit(Cypress.env('baseUrl'))
-    localStorage.clear()
-
+    // cy.visit(Cypress.env('baseUrl'))
+    StartPage.headerPage.contains('Welcome').should('be.visible')
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')
     SignUpPage.nameInput.type(Cypress.env('usernameForRegistration'))

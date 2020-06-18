@@ -10,10 +10,10 @@ import useOnPress from '../../../lib/hooks/useOnPress'
 import { isBrowser } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 // custom components
 import { Icon, Section } from '../index'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 const copyIconSize = isBrowser ? 34 : normalize(24)
 

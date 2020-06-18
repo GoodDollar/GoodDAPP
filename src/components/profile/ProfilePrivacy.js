@@ -22,6 +22,8 @@ import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'
@@ -135,7 +137,7 @@ const ProfilePrivacy = props => {
     <Wrapper style={styles.mainWrapper}>
       <Section grow style={styles.wrapper}>
         <Section.Stack grow justifyContent="flex-start">
-          <Section.Row grow justifyContent="center" style={styles.subtitleRow}>
+          <Section.Row justifyContent="center" style={styles.subtitleRow}>
             <Section.Text fontWeight="bold" color="gray">
               Manage your privacy settings
             </Section.Text>
@@ -156,14 +158,16 @@ const ProfilePrivacy = props => {
               </RadioButton.Group>
             ))}
           </Section.Stack>
-          <BorderedBox
-            imageSource={avatarSource}
-            title="My Face Record ID"
-            content={enrollmentIdentifier}
-            copyButtonText="Copy ID"
-          />
+          <Section grow justifyContent="center" style={styles.borderedBoxWrapper}>
+            <BorderedBox
+              imageSource={avatarSource}
+              title="My Face Record ID"
+              content={enrollmentIdentifier}
+              copyButtonText="Copy ID"
+            />
+          </Section>
         </Section.Stack>
-        <Section.Row grow alignItems="flex-end" style={styles.buttonsRow}>
+        <Section.Row alignItems="flex-end" style={styles.buttonsRow}>
           <BackButton mode="text" screenProps={screenProps} style={styles.growOne}>
             Cancel
           </BackButton>
@@ -198,18 +202,25 @@ const InfoIcon = ({ color, onPress, size, style }) => (
 )
 
 const getStylesFromProps = ({ theme }) => {
+  const wrapper = {
+    borderRadius: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: getDesignRelativeHeight(10),
+  }
+
+  if (isSmallDevice) {
+    wrapper.paddingBottom = getDesignRelativeHeight(3)
+    wrapper.paddingTop = getDesignRelativeHeight(5)
+  }
+
   return {
-    wrapper: {
-      borderRadius: 0,
-      paddingLeft: 0,
-      paddingRight: 0,
-    },
+    wrapper,
     infoIcon: {
       marginLeft: '0.5em',
     },
     optionsRowContainer: {
       padding: 0,
-      height: '70%',
     },
     growOne: {
       flexGrow: 1,
@@ -219,11 +230,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     subtitleRow: {
       maxHeight: '16%',
-      marginBottom: theme.sizes.defaultDouble,
+      marginBottom: getDesignRelativeHeight(isSmallDevice ? 20 : 30),
     },
     buttonsRow: {
       paddingHorizontal: theme.sizes.defaultDouble,
-      minHeight: 60,
     },
     dialogTipItem: {
       marginBottom: 20,
@@ -232,6 +242,7 @@ const getStylesFromProps = ({ theme }) => {
       backgroundImage: 'none',
       backgroundColor: 'none',
     },
+    borderedBoxWrapper: {},
   }
 }
 

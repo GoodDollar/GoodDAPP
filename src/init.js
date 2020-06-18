@@ -26,7 +26,7 @@ export const init = () => {
       // set userStorage to simple storage
       setUserStorage(userStorage)
 
-      initAnalytics()
+      await initAnalytics()
       log.debug('analytics has been initialized')
       await identifyWithSignedInUser(goodWallet, userStorage)
       log.debug('analytics has been identified with the user signed in')

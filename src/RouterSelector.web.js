@@ -17,7 +17,7 @@ log.debug({ Config })
 
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(async () => {
-  initAnalytics()
+  await initAnalytics()
 
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),

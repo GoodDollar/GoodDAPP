@@ -62,17 +62,11 @@ const isAmplitudeEnabled = !!(Amplitude && amplitudeKey)
 /** @private */
 const analyticsLoaded = async () => {
   const nextTick = window.requestIdleCallback || setTimeout
-
   const updatedInstance = invoke(global, 'amplitude.getInstance')
 
-  log.info('test amplitude', {
-    amplitude: global.amplitude,
-    amplitudeInstance: global.amplitude.getInstance(),
-    updatedInstance,
-    isAmplitudeEnabled,
-  })
+  // add another verifications if required
 
-  // we could add other conditions here
+  // checking whether the amplitude is loaded
   if (!isAmplitudeEnabled || (updatedInstance && updatedInstance.Identify)) {
     Amplitude = updatedInstance
     return

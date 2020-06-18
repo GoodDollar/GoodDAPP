@@ -50,23 +50,23 @@ const FS = global.FS
 const BugSnag = global.bugsnagClient
 const Mautic = global.mt
 const Rollbar = global.Rollbar
-let Amplitude = invoke(global, 'amplitude.getInstance')
+let Amplitude
 
 const log = logger.child({ from: 'analytics' })
 const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
 
 const isSentryEnabled = !!sentryDSN
 const isRollbarEnabled = !!(Rollbar && rollbarKey)
-const isAmplitudeEnabled = !!(Amplitude && amplitudeKey)
+const isAmplitudeEnabled = !!(global.amplitude && amplitudeKey)
 
 /** @private */
 const analyticsLoaded = async () => {
   const nextTick = window.requestIdleCallback || setTimeout
-  const updatedInstance = invoke(global, 'amplitude.getInstance')
 
   // add another verifications if required
 
   // checking whether the amplitude is loaded
+  const updatedInstance = invoke(global, 'amplitude.getInstance')
   if (!isAmplitudeEnabled || (updatedInstance && updatedInstance.Identify)) {
     Amplitude = updatedInstance
     return

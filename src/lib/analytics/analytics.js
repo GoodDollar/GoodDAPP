@@ -59,7 +59,31 @@ const isSentryEnabled = !!sentryDSN
 const isRollbarEnabled = !!(Rollbar && rollbarKey)
 const isAmplitudeEnabled = !!(Amplitude && amplitudeKey)
 
+/** @private */
+const analyticsLoaded = async () => {
+  const nextTick = window.requestIdleCallback || setTimeout
+
+  const updatedInstance = invoke(global, 'amplitude.getInstance')
+
+  log.info('test amplitude', {
+    amplitude: global.amplitude,
+    amplitudeInstance: global.amplitude.getInstance(),
+    updatedInstance,
+    isAmplitudeEnabled,
+  })
+
+  // we could add other conditions here
+  if (!isAmplitudeEnabled || (updatedInstance && updatedInstance.Identify)) {
+    return
+  }
+
+  await new Promise(resolve => nextTick(resolve))
+  await analyticsLoaded()
+}
+
 export const initAnalytics = async () => {
+  await analyticsLoaded()
+
   if (isRollbarEnabled) {
     Rollbar.configure({
       accessToken: rollbarKey,
@@ -73,15 +97,9 @@ export const initAnalytics = async () => {
   }
 
   if (isAmplitudeEnabled) {
-    // await for success initialize of Amplitude instance
-    // some of the required constructors will be available only after initialization
-    // such as Identify
-    await new Promise(resolve => {
-      Amplitude.init(amplitudeKey, undefined, undefined, resolve)
-    })
-
     const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
 
+    Amplitude.init(amplitudeKey)
     Amplitude.setVersionName(version)
     Amplitude.identify(identity)
   }

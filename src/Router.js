@@ -5,7 +5,9 @@ import { Platform } from 'react-native'
 import { Portal } from 'react-native-paper'
 import { navigationConfig } from './components/appNavigation/navigationConfig'
 import About from './components/about/AboutState'
-import BackupWallet from './components/backupWallet/BackupWalletState'
+
+//import BackupWallet from './components/backupWallet/BackupWalletState'
+import ExportWallet from './components/backupWallet/ExportWalletData'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
 import GDStore from './lib/undux/GDStore'
@@ -18,7 +20,9 @@ const AppNavigator = createNavigator(
   SwitchRouter(
     {
       About,
-      BackupWallet,
+
+      //BackupWallet,
+      ExportWallet,
       AppNavigation,
     },
     {

@@ -32,6 +32,10 @@ import OptionsRow from './OptionsRow'
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
 
+// get face record ID from userStorage and make shorter if small device
+const faceRecordId = userStorage.getFaceIdentifier()
+const displayFaceRecordId = isSmallDevice ? `${faceRecordId.slice(0, 16)}...${faceRecordId.slice(-16)}` : faceRecordId
+
 // privacy options
 const privacyOptions = ['private', 'masked', 'public']
 const tips = {
@@ -55,8 +59,6 @@ const ProfilePrivacy = props => {
   const gdstore = GDStore.useStore()
   const { avatar } = gdstore.get('profile')
 
-  // border box required data
-  const enrollmentIdentifier = userStorage.getFaceIdentifier() // face record ID
   const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
 
   useEffect(() => {
@@ -162,7 +164,7 @@ const ProfilePrivacy = props => {
             <BorderedBox
               imageSource={avatarSource}
               title="My Face Record ID"
-              content={enrollmentIdentifier}
+              content={displayFaceRecordId}
               copyButtonText="Copy ID"
             />
           </Section>

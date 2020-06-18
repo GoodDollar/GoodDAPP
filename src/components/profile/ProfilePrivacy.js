@@ -160,7 +160,7 @@ const ProfilePrivacy = props => {
               </RadioButton.Group>
             ))}
           </Section.Stack>
-          <Section grow justifyContent="center" style={styles.borderedBoxWrapper}>
+          <Section grow justifyContent="center">
             <BorderedBox
               imageSource={avatarSource}
               title="My Face Record ID"
@@ -244,7 +244,6 @@ const getStylesFromProps = ({ theme }) => {
       backgroundImage: 'none',
       backgroundColor: 'none',
     },
-    borderedBoxWrapper: {},
   }
 }
 

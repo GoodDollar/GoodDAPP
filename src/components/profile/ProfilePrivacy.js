@@ -1,19 +1,28 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+
+// libraries
+import React, { useEffect, useMemo, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
 import { startCase } from 'lodash'
+
+// custom components
+import Wrapper from '../common/layout/Wrapper'
+import { CustomButton, Icon, Section, Text } from '../common'
+import { BackButton } from '../appNavigation/stackNavigation'
+
+// hooks
+import useOnPress from '../../lib/hooks/useOnPress'
+import { useDialog } from '../../lib/undux/utils/dialog'
+
+// utils
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import { BackButton } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import { CustomButton, Icon, Section, Text } from '../common'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
-import { useDialog } from '../../lib/undux/utils/dialog'
-import Wrapper from '../common/layout/Wrapper'
 import OptionsRow from './OptionsRow'
 
-const TITLE = 'PROFILE PRIVACY'
+// initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
 
 // privacy options
@@ -53,7 +62,7 @@ const ProfilePrivacy = props => {
     privacyGatherer()
   }, [])
 
-  const handleSaveShowTips = () => {
+  const handleSaveShowTips = useOnPress(() => {
     showDialog({
       title: 'SETTINGS',
       content: (
@@ -77,21 +86,24 @@ const ProfilePrivacy = props => {
         },
       ],
     })
-  }
+  }, [showDialog])
 
   /**
    * filters the fields to be updated
    */
-  const updatableValues = () => profileFields.filter(field => privacy[field] !== initialPrivacy[field])
+  const valuesToBeUpdated = useMemo(() => profileFields.filter(field => privacy[field] !== initialPrivacy[field]), [
+    privacy,
+    initialPrivacy,
+  ])
 
-  const handleSave = async () => {
+  const handleSave = useOnPress(async () => {
     setLoading(true)
 
     fireEvent(PROFILE_PRIVACY, { privacy: privacy[field], field })
 
     try {
       // filters out fields to be updated
-      const toUpdate = updatableValues().map(field => ({
+      const toUpdate = valuesToBeUpdated.map(field => ({
         update: userStorage.setProfileFieldPrivacy(field, privacy[field]),
         field,
       }))
@@ -106,7 +118,7 @@ const ProfilePrivacy = props => {
     }
 
     setLoading(false)
-  }
+  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy])
 
   return (
     <Wrapper style={styles.mainWrapper}>
@@ -116,12 +128,10 @@ const ProfilePrivacy = props => {
             <Section.Text fontWeight="bold" color="gray">
               Manage your privacy settings
             </Section.Text>
-            <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => handleSaveShowTips()} />
+            <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={handleSaveShowTips} />
           </Section.Row>
-
           <Section.Stack justifyContent="flex-start" style={styles.optionsRowContainer}>
             <OptionsRow />
-
             {profileFields.map(field => (
               <RadioButton.Group
                 onValueChange={value => {
@@ -136,7 +146,6 @@ const ProfilePrivacy = props => {
             ))}
           </Section.Stack>
         </Section.Stack>
-
         <Section.Row grow alignItems="flex-end" style={styles.buttonsRow}>
           <BackButton mode="text" screenProps={screenProps} style={styles.growOne}>
             Cancel
@@ -145,7 +154,7 @@ const ProfilePrivacy = props => {
             onPress={handleSave}
             mode="contained"
             loading={loading}
-            disabled={updatableValues().length === 0}
+            disabled={!valuesToBeUpdated.length}
             style={styles.growTen}
           >
             Save
@@ -212,7 +221,7 @@ const getStylesFromProps = ({ theme }) => {
 const profilePrivacy = withStyles(getStylesFromProps)(ProfilePrivacy)
 
 profilePrivacy.navigationOptions = {
-  title: TITLE,
+  title: 'PROFILE PRIVACY',
 }
 
 export default profilePrivacy

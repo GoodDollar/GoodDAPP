@@ -18,7 +18,7 @@ import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 const copyIconSize = isBrowser ? 34 : normalize(24)
 
 const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonText }) => {
-  const { setString } = useClipboard()
+  const [, setString] = useClipboard()
   const copyToClipboard = useOnPress(() => setString(content), [setString, content])
 
   return (

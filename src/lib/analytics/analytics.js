@@ -1,6 +1,6 @@
 //@flow
 import * as Sentry from '@sentry/browser'
-import { debounce, forEach, get, invoke, isString } from 'lodash'
+import { debounce, forEach, get, invoke, isFunction, isString } from 'lodash'
 import API from '../../lib/API/api'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -46,20 +46,55 @@ export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
-const FS = global.FS
-const BugSnag = global.bugsnagClient
-const Mautic = global.mt
-const Rollbar = global.Rollbar
-const Amplitude = invoke(global, 'amplitude.getInstance')
+let Amplitude
+const { bugsnagClient: BugSnag, mt: Mautic, Rollbar, FS } = global
 
 const log = logger.child({ from: 'analytics' })
 const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
 
+const isFSEnabled = !!FS
 const isSentryEnabled = !!sentryDSN
 const isRollbarEnabled = !!(Rollbar && rollbarKey)
-const isAmplitudeEnabled = !!(Amplitude && amplitudeKey)
+const isAmplitudeEnabled = 'amplitude' in global && !!amplitudeKey
 
-export const initAnalytics = () => {
+/** @private */
+// eslint-disable-next-line require-await
+const initAmplitude = async () => {
+  const amp = () => invoke(global, 'amplitude.getInstance')
+
+  if (!isAmplitudeEnabled) {
+    return
+  }
+
+  return new Promise(resolve =>
+    amp().init(amplitudeKey, null, null, () => {
+      Amplitude = amp()
+      resolve()
+    })
+  )
+}
+
+/** @private */
+// eslint-disable-next-line require-await
+const initFullStory = async () =>
+  new Promise(resolve => {
+    const { _fs_ready } = window
+
+    Object.assign(window, {
+      _fs_ready: () => {
+        if (isFunction(_fs_ready)) {
+          _fs_ready()
+        }
+
+        resolve()
+      },
+    })
+  })
+
+export const initAnalytics = async () => {
+  // pre-initializing & preloading FS & Amplitude
+  await Promise.all([isFSEnabled && initFullStory(), isAmplitudeEnabled && initAmplitude(amplitudeKey)])
+
   if (isRollbarEnabled) {
     Rollbar.configure({
       accessToken: rollbarKey,
@@ -75,9 +110,15 @@ export const initAnalytics = () => {
   if (isAmplitudeEnabled) {
     const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
 
-    Amplitude.init(amplitudeKey)
     Amplitude.setVersionName(version)
     Amplitude.identify(identity)
+
+    if (isFSEnabled) {
+      const sessionUrl = FS.getCurrentSessionURL()
+
+      // set session URL to user props once FS & Amplitude both initialized
+      Amplitude.setUserProperties({ sessionUrl })
+    }
   }
 
   if (isSentryEnabled) {
@@ -93,6 +134,7 @@ export const initAnalytics = () => {
   }
 
   log.debug('Initialized analytics:', {
+    FS: isFSEnabled,
     Sentry: isSentryEnabled,
     Rollbar: isRollbarEnabled,
     Amplitude: isAmplitudeEnabled,
@@ -152,6 +194,7 @@ const setUserEmail = email => {
   }
 }
 
+/** @private */
 const identifyWith = (email, identifier = null) => {
   if (BugSnag) {
     BugSnag.user = {
@@ -193,7 +236,7 @@ const identifyWith = (email, identifier = null) => {
     'Analytics services identified with:',
     { email, identifier },
     {
-      FS: !!FS,
+      FS: isFSEnabled,
       Mautic: !!email,
       BugSnag: !!BugSnag,
       Sentry: isSentryEnabled,
@@ -214,7 +257,7 @@ export const identifyOnUserSignup = async email => {
     'Analytics services identified during new user signup:',
     { email },
     {
-      FS: !!FS,
+      FS: isFSEnabled,
       Mautic: !!email,
       BugSnag: !!BugSnag,
       Sentry: isSentryEnabled,
@@ -304,15 +347,20 @@ const patchLogger = () => {
     const [logContext, logMessage, eMsg, errorObj, ...rest] = args
 
     if (isString(logMessage) && !logMessage.includes('axios')) {
-      const { pathname, search, hash } = window.location
-
-      debounceFireEvent(ERROR_LOG, {
-        url: pathname + search + hash,
+      const logPayload = {
         unique: `${eMsg} ${logMessage} (${logContext.from})`,
         reason: logMessage,
         logContext,
         eMsg,
-      })
+      }
+
+      if (isFSEnabled) {
+        const sessionUrlAtTime = FS.getCurrentSessionURL(true)
+
+        Object.assign(logPayload, { sessionUrlAtTime })
+      }
+
+      debounceFireEvent(ERROR_LOG, logPayload)
     }
 
     if (env === 'test') {

@@ -10,6 +10,7 @@ import { startCase } from 'lodash'
 import Wrapper from '../common/layout/Wrapper'
 import { CustomButton, Icon, Section, Text } from '../common'
 import { BackButton } from '../appNavigation/stackNavigation'
+import BorderedBox from '../common/view/BorderedBox'
 
 // hooks
 import useOnPress from '../../lib/hooks/useOnPress'
@@ -20,6 +21,10 @@ import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
+import GDStore from '../../lib/undux/GDStore'
+
+// assets
+import unknownProfile from '../../assets/unknownProfile.svg'
 import OptionsRow from './OptionsRow'
 
 // initialize child logger
@@ -45,6 +50,12 @@ const ProfilePrivacy = props => {
   const [field, setField] = useState(false)
   const { screenProps, styles, theme } = props
   const [showDialog] = useDialog()
+  const gdstore = GDStore.useStore()
+  const { avatar } = gdstore.get('profile')
+
+  // border box required data
+  const enrollmentIdentifier = userStorage.getFaceIdentifier() // face record ID
+  const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
 
   useEffect(() => {
     // looks for the users fields' privacy
@@ -145,6 +156,12 @@ const ProfilePrivacy = props => {
               </RadioButton.Group>
             ))}
           </Section.Stack>
+          <BorderedBox
+            imageSource={avatarSource}
+            title="My Face Record ID"
+            content={enrollmentIdentifier}
+            copyButtonText="Copy ID"
+          />
         </Section.Stack>
         <Section.Row grow alignItems="flex-end" style={styles.buttonsRow}>
           <BackButton mode="text" screenProps={screenProps} style={styles.growOne}>

@@ -48,7 +48,7 @@ class TorusLogin {
           .then(this.cleanUser)
       case 'google-old':
         return this.sdk
-          .triggerLogin({ typeOfLoing: 'google', verifier: 'google-gooddollar', clientId: config.googleClientId })
+          .triggerLogin({ typeOfLogin: 'google', verifier: 'google-gooddollar', clientId: config.googleClientId })
           .then(this.cleanUser)
       case 'google':
         return this.sdk

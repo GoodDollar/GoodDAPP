@@ -195,7 +195,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               style={[styles.buttonLayout, { flex: 1 }]}
               onPress={signupAuth0Email}
               disabled={torusSDK === undefined}
-              testID="login_with_email"
+              testID="login_via_email"
             >
               Via Email
             </CustomButton>
@@ -204,7 +204,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               style={[styles.buttonLayout, { flex: 1 }]}
               onPress={signupAuth0Mobile}
               disabled={torusSDK === undefined}
-              testID="login_with_email"
+              testID="login_via_mobile"
             >
               Via Mobile
             </CustomButton>
@@ -217,7 +217,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           style={styles.buttonLayout}
           onPress={auth0ButtonHandler}
           disabled={torusSDK === undefined}
-          testID="login_with_email"
+          testID="login_with_auth0"
         >
           Agree & Continue with Passwordless
         </CustomButton>

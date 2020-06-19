@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.24.1-1",
+  "version": "0.24.1-2",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -92,6 +92,7 @@
     "numeral": "^2.0.6",
     "pino": "^5.12.6",
     "pn": "^1.1.0",
+    "promisify-file-reader": "^4.0.0",
     "qrcode.react": "^0.9.3",
     "qs": "^6.8.0",
     "react": "^16.8.1",

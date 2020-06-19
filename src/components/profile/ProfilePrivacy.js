@@ -24,7 +24,7 @@ import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
-import { truncateStringInMiddle } from '../../lib/utils/truncateString'
+import { truncateMiddle } from '../../lib/utils/string'
 
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'
@@ -57,10 +57,13 @@ const ProfilePrivacy = props => {
 
   // bordered box required data
   const { avatar } = gdstore.get('profile')
+
   const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
+
   const faceRecordId = useMemo(() => {
     const enrollmentIdentifier = userStorage.getFaceIdentifier()
-    return isSmallDevice ? truncateStringInMiddle(enrollmentIdentifier, 16) : enrollmentIdentifier
+
+    return truncateMiddle(enrollmentIdentifier, isSmallDevice ? 16 : null)
   }, [])
 
   useEffect(() => {

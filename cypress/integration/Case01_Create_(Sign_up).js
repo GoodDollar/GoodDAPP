@@ -20,6 +20,7 @@ function inputPhoneNumber(isVisible) {
     SignUpPage.letStartButton.click()
   }
 }
+<<<<<<< Updated upstream
 
 describe('Test case 1: login via TorusTestUser and Create temporary user', () => {
   it('login via google', () => {
@@ -33,6 +34,24 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
 
     cy.contains('Welcome').should('not.be.visible')
     cy.get('#root').find('[data-focusable="true"]').its('length').then(res => {
+=======
+
+describe('Test case 1: login via TorusTestUser and Create temporary user', () => {
+  it('login via google', () => {
+    localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
+    StartPage.open()
+    expect(localStorage.getItem('TorusTestUser')).to.not.be.null
+    SocialLoginPage.googleLink.should('be.visible')
+    SocialLoginPage.googleLink.get('[role="button"]').should('have.attr', 'data-focusable', 'true')
+    // cy.wait(1000) //wait for button to be enabled torus sdk ready
+    SocialLoginPage.googleLink.click()
+
+    cy.contains('Welcome').should('not.be.visible')
+    cy.get('#root')
+      .find('[data-focusable="true"]')
+      .its('length')
+      .then(res => {
+>>>>>>> Stashed changes
         cy.log(res)
         if (res == 2) {
           phomeNumber = true
@@ -48,7 +67,10 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
 
   it('login via facebook', () => {
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
+<<<<<<< Updated upstream
     // StartPage.open()
+=======
+>>>>>>> Stashed changes
     StartPage.headerPage.contains('Welcome').should('be.visible')
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.facebookLink.should('be.visible')
@@ -62,7 +84,10 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
   })
 
   it('User to sign up the wallet with correct values', () => {
+<<<<<<< Updated upstream
     // cy.visit(Cypress.env('baseUrl'))
+=======
+>>>>>>> Stashed changes
     StartPage.headerPage.contains('Welcome').should('be.visible')
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')
@@ -83,6 +108,7 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     SignUpPage.letStartButton.click()
     SignUpPage.gotItButton.click()
     HomePage.welcomeFeed.should('be.visible')
+<<<<<<< Updated upstream
     HomePage.optionsButton.click()
     HomePage.backupButton.click().should(() => {
       // get mnemonic from clipboard
@@ -91,8 +117,21 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
       //   cy.log(mnemonic)
       //   cy.writeFile('cypress/fixtures/userMnemonicSave.txt', mnemonic, { timeout: 10000 })
       // })
+=======
 
-      //get mnemonic from localStorage
+    //get mnemonic from clipboard
+    // HomePage.optionsButton.click()
+    // HomePage.backupButton.click().should(() => {
+    //   HomePage.clipboardButton.click()
+    //   cy.task('getClipboard').then(mnemonic => {
+    //     cy.log(mnemonic)
+    //     cy.writeFile('cypress/fixtures/userMnemonicSave.txt', mnemonic, { timeout: 10000 })
+    //   })
+    // })
+>>>>>>> Stashed changes
+
+    //get mnemonic from localStorage
+    HomePage.sendButton.should(() => {
       expect(localStorage.getItem('GD_mnemonic')).to.not.be.null
       cy.writeFile('cypress/fixtures/userMnemonicSave.txt', localStorage.getItem('GD_mnemonic'))
       let LOCAL_STORAGE_MEMORY = {}

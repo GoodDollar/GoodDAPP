@@ -13,8 +13,8 @@ class HomePage {
   }
 
   /*get supportTab() {
-      return cy.get('[data-testid="support_tab"]')
-    }*/
+        return cy.get('[data-testid="support_tab"]')
+      }*/
 
   get optionsButton() {
     return cy.get('[data-testid="burger_button"]')
@@ -69,6 +69,10 @@ class HomePage {
   }
 
   get backupButton() {
+    return cy.contains('Export Wallet')
+  }
+
+  get exportWalletButton() {
     return cy.contains('Export Wallet')
   }
 

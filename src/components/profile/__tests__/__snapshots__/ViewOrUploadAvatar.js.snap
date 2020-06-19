@@ -162,7 +162,7 @@ exports[`ViewAvatar matches snapshot 1`] = `
                   "height": "42px",
                   "justifyContent": "center",
                   "left": "auto",
-                  "marginRight": "-42.666666666666664px",
+                  "marginRight": "-19.791666666666664px",
                   "msFlexAlign": "center",
                   "msFlexPack": "center",
                   "msTouchAction": "manipulation",

@@ -22,7 +22,7 @@ import GoodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import config from '../../config/config'
 import { isBrowser } from '../../lib/utils/platform'
-import { truncateStringInMiddle } from '../../lib/utils/truncateString'
+import { truncateMiddle } from '../../lib/utils/string'
 
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'
@@ -32,8 +32,7 @@ const web3ProviderUrl = GoodWallet.networkId && config.ethereum[GoodWallet.netwo
 
 // getting the privateKey of GD wallet address - which index is 0
 const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')
-const amountOfChars = isBrowser ? 24 : 16
-const shortenPrivateKey = truncateStringInMiddle(fullPrivateKey, amountOfChars)
+const shortenPrivateKey = truncateMiddle(fullPrivateKey, isBrowser ? 24 : 16)
 
 const copyIconSize = isBrowser ? 34 : normalize(24)
 

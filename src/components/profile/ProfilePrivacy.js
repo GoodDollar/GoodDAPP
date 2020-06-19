@@ -32,14 +32,6 @@ import OptionsRow from './OptionsRow'
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
 
-// get face record ID from userStorage and make it shorter if small device detected
-let faceRecordId = ''
-try {
-  // try-catch hack to pass tests
-  faceRecordId = userStorage.getFaceIdentifier()
-} catch {} // eslint-disable-line no-empty
-const displayFaceRecordId = isSmallDevice ? `${faceRecordId.slice(0, 16)}...${faceRecordId.slice(-16)}` : faceRecordId
-
 // privacy options
 const privacyOptions = ['private', 'masked', 'public']
 const tips = {
@@ -61,9 +53,16 @@ const ProfilePrivacy = props => {
   const { screenProps, styles, theme } = props
   const [showDialog] = useDialog()
   const gdstore = GDStore.useStore()
-  const { avatar } = gdstore.get('profile')
 
+  // bordered box required data
+  const { avatar } = gdstore.get('profile')
   const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
+  const faceRecordId = useMemo(() => {
+    const enrollmentIdentifier = userStorage.getFaceIdentifier()
+    return isSmallDevice
+      ? `${enrollmentIdentifier.slice(0, 16)}...${enrollmentIdentifier.slice(-16)}`
+      : enrollmentIdentifier
+  }, [])
 
   useEffect(() => {
     // looks for the users fields' privacy
@@ -168,7 +167,7 @@ const ProfilePrivacy = props => {
             <BorderedBox
               imageSource={avatarSource}
               title="My Face Record ID"
-              content={displayFaceRecordId}
+              content={faceRecordId}
               copyButtonText="Copy ID"
             />
           </Section>

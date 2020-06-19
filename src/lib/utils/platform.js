@@ -12,6 +12,8 @@ import { env } from './env'
 
 export { isMobileSafari, isBrowser } from 'mobile-device-detect'
 
+export const isWeb = Platform.OS === 'web'
+
 export const isMobileReactNative = Platform.OS !== 'web'
 
 export const isIOSNative = Platform.OS === 'ios'

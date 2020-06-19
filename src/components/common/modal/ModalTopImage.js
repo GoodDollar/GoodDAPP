@@ -1,58 +1,90 @@
 // @flow
+
+// libraries
 import React from 'react'
 import { Image, View } from 'react-native'
+
+// utils
+import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { isWeb } from '../../../lib/utils/platform'
+
+// animated illustrations (animations)
+import ReceivedAnimation from '../../common/animations/Received'
+import SendAnimation from '../../common/animations/Send'
+
+// assets
+// svg illustrations
 import receiveIllustation from '../../../assets/Feed/receive.svg'
 import sendIllustration from '../../../assets/Feed/send.svg'
-import messageIllustration from '../../../assets/Feed/message.png'
-import inviteIllustration from '../../../assets/Feed/invite.png'
 import claimIllustration from '../../../assets/Feed/IllustrationsMenHero.svg' // eslint-disable-line
-import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
-import backupIllustration from '../../../assets/Feed/backup.png'
 import spendingIllustration from '../../../assets/Feed/spending.svg'
 import claimingIllustration from '../../../assets/Feed/claiming.svg'
 import hanukaStartsIllustration from '../../../assets/Feed/hanukaStarts.svg'
-import ReceivedAnimation from '../../common/animations/Received'
-import SendAnimation from '../../common/animations/Send'
-import { withStyles } from '../../../lib/styles'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+
+// png illustrations
+import messageIllustration from '../../../assets/Feed/message.png'
+import inviteIllustration from '../../../assets/Feed/invite.png'
+import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
+import backupIllustration from '../../../assets/Feed/backup.png'
+
+if (isWeb) {
+  Image.prefetch(messageIllustration)
+  Image.prefetch(inviteIllustration)
+  Image.prefetch(inviteFriendsIllustration)
+  Image.prefetch(backupIllustration)
+}
 
 export const getImageByType = (type, styles = {}) =>
   ({
     withdraw: {
-      animationComponent: ReceivedAnimation,
-      animation: true,
+      Component: ReceivedAnimation,
       containerStyle: styles.mainImageContainer,
     },
     sendcompleted: {
-      animationComponent: SendAnimation,
-      animation: true,
+      Component: SendAnimation,
       containerStyle: styles.mainImageContainer,
     },
     claim: {
-      animationComponent: ReceivedAnimation,
-      animation: true,
+      Component: ReceivedAnimation,
       containerStyle: styles.mainImageContainer,
     },
     claiming: {
-      src: claimingIllustration,
+      Component: claimingIllustration,
       style: styles.claiming,
       containerStyle: styles.mainImageContainer,
     },
     bonuscompleted: {
-      animationComponent: ReceivedAnimation,
-      animation: true,
+      Component: ReceivedAnimation,
       containerStyle: styles.mainImageContainer,
     },
     receive: {
-      src: receiveIllustation,
+      Component: receiveIllustation,
       style: styles.mainImage,
       containerStyle: styles.mainImageContainer,
     },
     send: {
-      src: sendIllustration,
+      Component: sendIllustration,
       style: styles.mainImage,
       containerStyle: styles.mainImageContainer,
     },
+    claimsThreshold: {
+      Component: claimIllustration,
+      style: styles.claimIllustration,
+      containerStyle: styles.mainPhotoContainer,
+    },
+    spending: {
+      Component: spendingIllustration,
+      style: styles.spending,
+      containerStyle: styles.mainPhotoContainer,
+    },
+    hanukaStarts: {
+      Component: hanukaStartsIllustration,
+      style: styles.hanukaStarts,
+      containerStyle: styles.mainImageContainer,
+    },
+
+    // below illustrations is a png images and should be rendered with Image component
     message: {
       src: messageIllustration,
       style: styles.mainPhoto,
@@ -68,38 +100,26 @@ export const getImageByType = (type, styles = {}) =>
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
-    claimsThreshold: {
-      src: claimIllustration,
-      style: styles.claimIllustration,
-      containerStyle: styles.mainPhotoContainer,
-    },
     backup: {
       src: backupIllustration,
       style: styles.mainPhoto,
       containerStyle: styles.mainPhotoContainer,
     },
-    spending: {
-      src: spendingIllustration,
-      style: styles.spending,
-      containerStyle: styles.mainPhotoContainer,
-    },
-    hanukaStarts: {
-      src: hanukaStartsIllustration,
-      style: styles.hanukaStarts,
-      containerStyle: styles.mainImageContainer,
-    },
   }[type] || null)
 
 const TopImage = ({ type, styles }) => {
   const image = getImageByType(type, styles)
+
   if (image) {
-    return image.animation ? (
-      <View style={image.containerStyle}>
-        <image.animationComponent />
+    const { Component, src, containerStyle, style } = image
+
+    return Component ? (
+      <View style={containerStyle}>
+        <Component style={style} />
       </View>
     ) : (
-      <View style={image.containerStyle}>
-        <Image style={image.style} source={image.src} />
+      <View style={containerStyle}>
+        <Image style={style} source={src} />
       </View>
     )
   }

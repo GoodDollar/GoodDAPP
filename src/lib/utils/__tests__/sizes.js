@@ -2,8 +2,8 @@ const sizesWithMock = args => {
   const { screenHeight, screenWidth, isPortrait } = args || {}
   jest.doMock('../Orientation', () => {
     return {
-      getScreenHeight: () => screenHeight || 616,
-      getScreenWidth: () => screenWidth || 360,
+      getMaxDeviceHeight: () => screenHeight || 616,
+      getMaxDeviceWidth: () => screenWidth || 360,
       isPortrait: () => (isPortrait === undefined ? true : isPortrait),
     }
   })

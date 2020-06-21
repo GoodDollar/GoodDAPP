@@ -6,11 +6,12 @@ import RecoverWalletPage from '../PageObjects/RecoverWalletPage'
 
 describe('Test case 6: Ability to send recovering email', () => {
   it('User is able to recover mnemonics by email', () => {
+    localStorage.clear()
     StartPage.open()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
     LoginPage.pageHeader.should('contain', 'Recover')
-    cy.readFile('cypress/fixtures/userMnemonicSave.txt', { timeout: 10000 }).then(mnemonic => {
+    cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()

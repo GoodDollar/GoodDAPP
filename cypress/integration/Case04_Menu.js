@@ -8,6 +8,7 @@ import StatisticsPage from '../PageObjects/StatisticsPage'
 
 describe('Test case 4: Check menu items functionality', () => {
   before('authorization', () => {
+    localStorage.clear()
     StartPage.open()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()
@@ -71,11 +72,11 @@ describe('Test case 4: Check menu items functionality', () => {
       .find('.MuiGrid-item')
       .should('be.visible')
 
-    StatisticsPage.iframe.contains('General')
+    //StatisticsPage.iframe.contains('General')
     StatisticsPage.iframe.contains('User Accounts Balance')
     StatisticsPage.iframe.contains('User Transactions')
     StatisticsPage.iframe.contains('Transactions')
-    StatisticsPage.iframe.contains('Daily G$ usage').click()
+    StatisticsPage.iframe.contains('Daily G$ Usage').click()
     HomePage.backArrow.click()
 
     // StatisticsPage.iframe.should('be.visible')

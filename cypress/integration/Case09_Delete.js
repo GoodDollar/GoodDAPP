@@ -5,6 +5,7 @@ import LoginPage from '../PageObjects/LoginPage'
 
 describe('Test case 9: Delete temporary user', () => {
   it('User to sign up and delete', () => {
+    localStorage.clear()
     StartPage.open()
     StartPage.signInButton.click()
     LoginPage.recoverFromPassPhraseLink.click()

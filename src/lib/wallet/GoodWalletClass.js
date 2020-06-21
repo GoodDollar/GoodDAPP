@@ -4,11 +4,12 @@ import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
-import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.min.json'
+import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import { get, invokeMap, values } from 'lodash'
+import moment from 'moment'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
@@ -17,8 +18,6 @@ import WalletFactory from './WalletFactory'
 
 const log = logger.child({ from: 'GoodWallet' })
 
-const DAY_IN_SECONDS = window.nextTimeClaim ? Number(window.nextTimeClaim) : Number(Config.nextTimeClaim)
-const MILLISECONDS = 1000
 const ZERO = new BN('0')
 
 //17280 = 24hours seconds divided by 5 seconds blocktime
@@ -358,12 +357,18 @@ export class GoodWallet {
 
   async getNextClaimTime(): Promise<any> {
     try {
-      let lastClaim = await this.UBIContract.methods.lastClaimed(this.account).call()
+      const hasClaim = await this.checkEntitlement().then(_ => _.toNumber())
 
-      if (!lastClaim) {
-        lastClaim = ZERO
+      //if has current available amount to claim then he can claim  immediatly
+      if (hasClaim > 0) {
+        return 0
       }
-      return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
+
+      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000))
+      const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
+      startRef.add(curDay + 1, 'days')
+      const millisToClaim = startRef.diff(moment(), 'millis')
+      return millisToClaim >= 0 ? millisToClaim : 0
     } catch (e) {
       log.error('getNextClaimTime failed', e.message, e)
       return Promise.reject(e)

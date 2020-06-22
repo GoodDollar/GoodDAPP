@@ -56,6 +56,7 @@ const isFSEnabled = !!FS
 const isSentryEnabled = !!sentryDSN
 const isRollbarEnabled = !!(Rollbar && rollbarKey)
 const isAmplitudeEnabled = 'amplitude' in global && !!amplitudeKey
+const googleTagManager = global.dataLayer
 
 /** @private */
 // eslint-disable-next-line require-await
@@ -335,6 +336,24 @@ export const fireEventFromNavigation = route => {
   const code = `${action}_${key}`.toUpperCase()
 
   fireEvent(code)
+}
+
+/**
+ * fire claim-geo event to google tag manager
+ *
+ * @param {number} claimValue
+ *
+ * @return {void}
+ */
+export const fireClaimGeoEvent = claimValue => {
+  if (!googleTagManager) {
+    return
+  }
+
+  googleTagManager.push({
+    event: 'claim-geo',
+    claimValue,
+  })
 }
 
 const patchLogger = () => {

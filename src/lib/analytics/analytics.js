@@ -47,7 +47,7 @@ export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
 let Amplitude
-const { bugsnagClient: BugSnag, mt: Mautic, Rollbar, FS, dataLayer } = global
+const { bugsnagClient: BugSnag, mt: Mautic, Rollbar, FS, dataLayer: GoogleAnalytics } = global
 
 const log = logger.child({ from: 'analytics' })
 const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
@@ -56,7 +56,7 @@ const isFSEnabled = !!FS
 const isSentryEnabled = !!sentryDSN
 const isRollbarEnabled = !!(Rollbar && rollbarKey)
 const isAmplitudeEnabled = 'amplitude' in global && !!amplitudeKey
-const isGTMEnabled = !!dataLayer // GTM - Google Tag Manager
+const isGoogleAnalyticsEnabled = !!GoogleAnalytics
 
 /** @private */
 // eslint-disable-next-line require-await
@@ -339,21 +339,18 @@ export const fireEventFromNavigation = route => {
 }
 
 /**
- * fire claim-geo event to google tag manager
+ * fire event to google tag manager
  *
- * @param {number} claimValue
- *
+ * @param {string} event Event name
+ * @param {object} data Event properties (optional)
  * @return {void}
  */
-export const fireClaimGeoEvent = claimValue => {
-  if (!isGTMEnabled) {
+export const fireGoogleAnalyticsEvent = (event, data = {}) => {
+  if (!isGoogleAnalyticsEnabled) {
     return
   }
 
-  dataLayer.push({
-    event: 'claim-geo',
-    claimValue,
-  })
+  GoogleAnalytics.push({ event, ...data })
 }
 
 const patchLogger = () => {

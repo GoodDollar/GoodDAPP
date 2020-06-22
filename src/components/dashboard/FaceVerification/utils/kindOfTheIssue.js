@@ -3,7 +3,7 @@ import { ZoomSDKStatus, ZoomSessionStatus } from '../sdk/ZoomSDK'
 
 const statusTransformer = statusesEnum => statusesKeys =>
   statusesKeys.reduce((statuses, key) => {
-    if (key in statusesEnum) {
+    if (statusesEnum && key in statusesEnum) {
       statuses.push(statusesEnum[key])
     }
 

@@ -124,7 +124,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         //user exists reload with dashboard route
         if (userExists) {
           fireEvent(SIGNIN_TORUS_SUCCESS)
-          await AsyncStorage.setItem(IS_LOGGED_IN, true)
+          await AsyncStorage.setItem(IS_LOGGED_IN, JSON.stringify(true))
           store.set('isLoggedIn')(true)
           return
         }

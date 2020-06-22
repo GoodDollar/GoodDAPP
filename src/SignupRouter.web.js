@@ -12,13 +12,13 @@ import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import { getOriginalScreenHeight } from './lib/utils/Orientation'
+import AuthTorus from './components/auth/AuthTorus'
 
-// import AuthTorus from './components/auth/AuthTorus'
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 
 const initialRouteName = 'Auth' // isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
-//FIXME: RN: Error: Can't autodetect provider for "ropsten/"
-const AuthType = /*Config.torusEnabled ? AuthTorus : */ Auth
+
+const AuthType = Config.torusEnabled ? AuthTorus : Auth
 
 const routes = {
   Auth: AuthType,

@@ -60,19 +60,19 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
               </Section.Row>
               <Section.Stack style={amountMargin}>
                 <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
-                <Section.Title fontWeight="medium" style={styles.amountWrapper}>
+                <Section.Row justifyContent="center" fontWeight="medium" style={styles.amountWrapper}>
                   <BigGoodDollar
                     number={amount}
                     color="green"
                     bigNumberProps={{
                       fontSize: 36,
-                      lineHeight: 24,
+                      lineHeight: 36,
                       fontFamily: 'Roboto Slab',
                       fontWeight: 'bold',
                     }}
                     bigNumberUnitProps={{ fontSize: 14 }}
                   />
-                </Section.Title>
+                </Section.Row>
               </Section.Stack>
             </>
           ) : (
@@ -83,19 +83,19 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
                 </View>
               </Section.Row>
               <Section.Title fontWeight="medium">YOU ARE REQUESTING</Section.Title>
-              <Section.Title fontWeight="medium" style={styles.amountWrapper}>
+              <Section.Row justifyContent="center" fontWeight="medium" style={styles.amountWrapper}>
                 <BigGoodDollar
                   number={amount}
                   color="green"
                   bigNumberProps={{
                     fontSize: 36,
-                    lineHeight: 24,
+                    lineHeight: 36,
                     fontFamily: 'Roboto Slab',
                     fontWeight: 'bold',
                   }}
                   bigNumberUnitProps={{ fontSize: 14 }}
                 />
-              </Section.Title>
+              </Section.Row>
             </Section.Stack>
           )}
           <Section.Stack>

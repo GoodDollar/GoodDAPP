@@ -340,7 +340,7 @@ export const fireEventFromNavigation = route => {
 }
 
 /**
- * fire event to google tag manager
+ * fire event to google analytics
  *
  * @param {string} event Event name
  * @param {object} data Event properties (optional)

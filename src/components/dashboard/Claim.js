@@ -22,10 +22,10 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import {
   CLAIM_FAILED,
-  CLAIM_SUCCESS,
   CLAIM_GEO,
-  fireGoogleAnalyticsEvent,
+  CLAIM_SUCCESS,
   fireEvent,
+  fireGoogleAnalyticsEvent,
   fireMauticEvent,
 } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
@@ -256,7 +256,7 @@ const Claim = props => {
         fireMauticEvent({ claim: claimsSoFar })
         checkHanukaBonusDates()
 
-        fireGoogleAnalyticsEvent(CLAIM_GEO, { claimValue: curEntitlement})
+        fireGoogleAnalyticsEvent(CLAIM_GEO, { claimValue: curEntitlement })
 
         showDialog({
           buttons: [{ text: 'Yay!' }],

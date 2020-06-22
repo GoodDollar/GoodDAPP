@@ -18,6 +18,7 @@ export const RECOVER_FAILED = 'RECOVER_FAILED'
 export const CLAIM_SUCCESS = 'CLAIM_SUCCESS'
 export const CLAIM_FAILED = 'CLAIM_FAILED'
 export const CLAIM_QUEUE = 'CLAIM_QUEUE_UPDATED'
+export const CLAIM_GEO = 'claim-geo'
 export const CARD_OPEN = 'CARD_OPEN'
 export const PROFILE_PRIVACY = 'PROFILE_PRIVACY'
 export const PROFILE_IMAGE = 'PROFILE_IMAGE'
@@ -47,7 +48,7 @@ export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
 let Amplitude
-const { bugsnagClient: BugSnag, mt: Mautic, Rollbar, FS } = global
+const { bugsnagClient: BugSnag, mt: Mautic, Rollbar, FS, dataLayer: GoogleAnalytics } = global
 
 const log = logger.child({ from: 'analytics' })
 const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
@@ -56,6 +57,7 @@ const isFSEnabled = !!FS
 const isSentryEnabled = !!sentryDSN
 const isRollbarEnabled = !!(Rollbar && rollbarKey)
 const isAmplitudeEnabled = 'amplitude' in global && !!amplitudeKey
+const isGoogleAnalyticsEnabled = !!GoogleAnalytics
 
 /** @private */
 // eslint-disable-next-line require-await
@@ -335,6 +337,21 @@ export const fireEventFromNavigation = route => {
   const code = `${action}_${key}`.toUpperCase()
 
   fireEvent(code)
+}
+
+/**
+ * fire event to google analytics
+ *
+ * @param {string} event Event name
+ * @param {object} data Event properties (optional)
+ * @return {void}
+ */
+export const fireGoogleAnalyticsEvent = (event, data = {}) => {
+  if (!isGoogleAnalyticsEnabled) {
+    return
+  }
+
+  GoogleAnalytics.push({ event, ...data })
 }
 
 const patchLogger = () => {

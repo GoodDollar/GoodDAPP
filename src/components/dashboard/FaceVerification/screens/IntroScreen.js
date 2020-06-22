@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { get } from 'lodash'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
 
+import UserStorage from '../../../../lib/gundb/UserStorage'
 import GDStore from '../../../../lib/undux/GDStore'
 import Separator from '../../../common/layout/Separator'
 import logger from '../../../../lib/logger/pino-logger'
@@ -16,17 +17,42 @@ import { isBrowser } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import Config from '../../../../config/config'
-import usePermissions from '../../../permissions/hooks/usePermissions'
 import { Permissions } from '../../../permissions/types'
+import { useQueueDialog } from '../../../common/dialogs/showQueueDialog'
+import usePermissions from '../../../permissions/hooks/usePermissions'
+import useDisposingState from '../hooks/useDisposingState'
 
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
+const WalletDeletedPopupText = ({ styles, textStyles }) => (
+  <View style={styles.paddingVertical20}>
+    <Text {...textStyles} fontSize={14}>
+      <Text {...textStyles} fontSize={14} fontWeight="bold" style={styles.paddingTop20}>
+        {'Since you’ve just deleted your wallet, '}
+      </Text>
+      you will have to wait 24 hours until you can claim.
+    </Text>
+    <Text {...textStyles} fontSize={14} style={styles.paddingTop20}>
+      {'This is to prevent fraud and misuse.\nSorry for the inconvenience.'}
+    </Text>
+  </View>
+)
+
 const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
   const isValid = get(screenProps, 'screenState.isValid', false)
+
+  const [showDisposalQueueDialog] = useQueueDialog(WalletDeletedPopupText, {
+    onDismiss: () => screenProps.goToRoot(),
+  })
+
+  const [checkingForDisposal, disposing] = useDisposingState({
+    enrollmentIdentifier: UserStorage.getFaceIdentifier(),
+    onComplete: isDisposing => isDisposing && showDisposalQueueDialog(),
+  })
 
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
@@ -83,7 +109,11 @@ const IntroScreen = ({ styles, screenProps }) => {
             </Text>
             <Separator style={[styles.bottomSeparator]} width={2} />
           </View>
-          <CustomButton style={[styles.button]} onPress={handleVerifyClick}>
+          <CustomButton
+            style={[styles.button]}
+            onPress={handleVerifyClick}
+            disabled={checkingForDisposal || false !== disposing}
+          >
             OK, Verify me
           </CustomButton>
         </View>

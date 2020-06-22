@@ -247,7 +247,7 @@ class API {
   }
 
   /**
-   * `/verify/facerecognition` post api call
+   * `/verify/facerecognition/:enrollmentIdentifier` put api call
    * @param {any} payload
    * @param {string} enrollmentIdentifier
    * @param {any} axiosConfig
@@ -261,7 +261,7 @@ class API {
   }
 
   /**
-   * `/verify/facerecognition` post api call
+   * `/verify/facerecognition/:enrollmentIdentifier` delete api call
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
@@ -270,6 +270,18 @@ class API {
     const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
 
     return client.delete(endpoint, { params: { signature } })
+  }
+
+  /**
+   * `/verify/facerecognition/:enrollmentIdentifier` delete api call
+   * @param {string} enrollmentIdentifier
+   * @param {string} signature
+   */
+  checkFaceSnapshotDisposalState(enrollmentIdentifier: string): Promise<$AxiosXHR<any>> {
+    const { client } = this
+    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+
+    return client.get(endpoint)
   }
 
   /**

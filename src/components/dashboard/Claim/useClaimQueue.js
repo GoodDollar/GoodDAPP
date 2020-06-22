@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Text, View } from 'react-native'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import API from '../../../lib/API/api'
@@ -6,12 +7,24 @@ import { CLAIM_QUEUE, fireEvent } from '../../../lib/analytics/analytics'
 import useLoadingIndicator from '../../../lib/hooks/useLoadingIndicator'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
-import showQueueDialog from '../../common/dialogs/queueDialog'
+import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
 
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'useClaimQueue' })
+
+const ClaimQueuePopupText = ({ styles, textStyles }) => (
+  <View style={styles.paddingVertical20}>
+    <Text {...textStyles}>
+      {`We’re still making sure our magic works as expected, which means there is a slight queue before you can start claiming G$’s.`}
+    </Text>
+    <Text {...textStyles} fontWeight="bold" style={styles.paddingTop20}>
+      We’ll email you as soon as it’s your turn to claim.
+    </Text>
+  </View>
+)
+
 export default () => {
   const [queueStatus, setQueueStatus] = useState(undefined)
   const [showLoading, hideLoading] = useLoadingIndicator()
@@ -61,7 +74,7 @@ export default () => {
       let { status } = queueStatus || (await checkQueueStatus(true)) || {}
 
       if (status === 'pending') {
-        showQueueDialog(showDialog)
+        showQueueDialog(showDialog, ClaimQueuePopupText)
         return false
       }
       return true

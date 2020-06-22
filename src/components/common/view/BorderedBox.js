@@ -1,49 +1,24 @@
-// @flow
-
 // libraries
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
-import { get } from 'lodash'
-
-// components
-import Wrapper from '../common/layout/Wrapper'
-import { CustomButton, Icon, Section } from '../common'
-import NavBar from '../appNavigation/NavBar'
 
 // hooks
-import useOnPress from '../../lib/hooks/useOnPress'
-import useClipboard from '../../lib/hooks/useClipboard'
+import useClipboard from '../../../lib/hooks/useClipboard'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
-import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import normalize from '../../lib/utils/normalizeText'
-import GoodWallet from '../../lib/wallet/GoodWallet'
-import GDStore from '../../lib/undux/GDStore'
-import config from '../../config/config'
-import { isBrowser } from '../../lib/utils/platform'
-import { truncateMiddle } from '../../lib/utils/string'
+import { isBrowser } from '../../../lib/utils/platform'
+import normalize from '../../../lib/utils/normalizeText'
+import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
-// assets
-import unknownProfile from '../../assets/unknownProfile.svg'
-import FuseLogo from '../../assets/ExportWallet/FuseLogo.svg'
-
-const web3ProviderUrl = GoodWallet.networkId && config.ethereum[GoodWallet.networkId].httpWeb3provider
-
-// getting the privateKey of GD wallet address - which index is 0
-const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')
-const shortenPrivateKey = truncateMiddle(fullPrivateKey, isBrowser ? 24 : 16)
+// custom components
+import { Icon, Section } from '../index'
 
 const copyIconSize = isBrowser ? 34 : normalize(24)
 
-type ExportWalletProps = {
-  styles: {},
-  theme: {},
-  screenProps: any,
-}
-
 const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonText }) => {
-  const { setString } = useClipboard()
+  const [, setString] = useClipboard()
   const copyToClipboard = useOnPress(() => setString(content), [setString, content])
 
   return (
@@ -69,55 +44,7 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonTex
   )
 }
 
-const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
-  const { navigate } = navigation
-  const gdstore = GDStore.useStore()
-  const { avatar } = gdstore.get('profile')
-  const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
-  const rpcImageSource = { uri: FuseLogo }
-
-  const handleGoHome = useOnPress(() => navigate('Home'), [navigate])
-
-  return (
-    <Wrapper style={styles.wrapper}>
-      <NavBar title="EXPORT MY WALLET" goBack={handleGoHome} />
-      <Section grow>
-        <View style={styles.containerForBoxes}>
-          <BorderedBox
-            styles={styles}
-            theme={theme}
-            title="My Wallet Private Key"
-            content={shortenPrivateKey}
-            imageSource={avatarSource}
-            copyButtonText="Copy Key"
-          />
-          <BorderedBox
-            styles={styles}
-            theme={theme}
-            title="Fuse Network RPC Address"
-            content={web3ProviderUrl}
-            imageSource={rpcImageSource}
-            copyButtonText="Copy Address"
-          />
-        </View>
-        <CustomButton onPress={handleGoHome}>Done</CustomButton>
-      </Section>
-    </Wrapper>
-  )
-}
-
 const styles = ({ theme }) => ({
-  wrapper: {
-    backgroundImage: 'none',
-    backgroundColor: 'none',
-    padding: 0,
-  },
-  containerForBoxes: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    flexGrow: 1,
-    marginBottom: getDesignRelativeHeight(10, false),
-  },
   borderedBox: {
     borderWidth: 1,
     borerStyle: 'solid',
@@ -175,4 +102,4 @@ const styles = ({ theme }) => ({
   },
 })
 
-export default withStyles(styles)(ExportWalletData)
+export default withStyles(styles)(BorderedBox)

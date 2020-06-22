@@ -73,7 +73,7 @@ const Claim = props => {
   })
 
   // get the number of people who did claim today. Default - 0
-  const numberOfPeopleClaimedToday = get(claimState, 'claimedToday.amount', 0)
+  const numberOfPeopleClaimedToday = get(claimState, 'claimedToday.people', 0)
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()

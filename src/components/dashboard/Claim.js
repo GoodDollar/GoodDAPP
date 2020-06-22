@@ -23,7 +23,8 @@ import { withStyles } from '../../lib/styles'
 import {
   CLAIM_FAILED,
   CLAIM_SUCCESS,
-  fireClaimGeoEvent,
+  CLAIM_GEO,
+  fireGoogleAnalyticsEvent,
   fireEvent,
   fireMauticEvent,
 } from '../../lib/analytics/analytics'
@@ -255,7 +256,7 @@ const Claim = props => {
         fireMauticEvent({ claim: claimsSoFar })
         checkHanukaBonusDates()
 
-        fireClaimGeoEvent(curEntitlement)
+        fireGoogleAnalyticsEvent(CLAIM_GEO, { claimValue: curEntitlement})
 
         showDialog({
           buttons: [{ text: 'Yay!' }],

@@ -1,6 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
-import Text from '../../common/view/Text'
+import { useCallback, useEffect, useState } from 'react'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import API from '../../../lib/API/api'
@@ -8,41 +6,11 @@ import { CLAIM_QUEUE, fireEvent } from '../../../lib/analytics/analytics'
 import useLoadingIndicator from '../../../lib/hooks/useLoadingIndicator'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
-import illustration from '../../../assets/Claim/claimQueue.svg'
-import { withStyles } from '../../../lib/styles'
+import showQueueDialog from '../../common/dialogs/queueDialog'
 
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/pino-logger'
 
-const getStyles = ({ theme }) => ({
-  title: {
-    borderColor: 'orange',
-    borderBottomWidth: 2,
-    borderTopWidth: 2,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-})
-
-const ClaimQueuePopup = ({ styles }) => (
-  <View style={{ flex: 1 }}>
-    <View style={styles.title}>
-      <Text lineHeight={28} textAlign={'left'} fontWeight={'medium'} fontSize={22}>
-        Good things come to those who wait...
-      </Text>
-    </View>
-    <View style={{ paddingTop: 20, paddingBottom: 20 }}>
-      <Text
-        textAlign={'left'}
-        lineHeight={22}
-      >{`We’re still making sure our magic works as expected, which means there is a slight queue before you can start claiming G$’s.`}</Text>
-      <Text lineHeight={22} style={{ paddingTop: 20 }} fontWeight={'bold'} textAlign={'left'}>
-        We’ll email you as soon as it’s your turn to claim.
-      </Text>
-    </View>
-  </View>
-)
-const ClaimQueuePopupThemed = withStyles(getStyles)(ClaimQueuePopup)
 const log = logger.child({ from: 'useClaimQueue' })
 export default () => {
   const [queueStatus, setQueueStatus] = useState(undefined)
@@ -93,23 +61,7 @@ export default () => {
       let { status } = queueStatus || (await checkQueueStatus(true)) || {}
 
       if (status === 'pending') {
-        showDialog({
-          type: 'queue',
-          isMinHeight: true,
-          image: (
-            <Image
-              source={illustration}
-              style={{ marginRight: 'auto', marginLeft: 'auto', width: '33vh', height: '28vh' }}
-              resizeMode="contain"
-            />
-          ),
-          buttons: [
-            {
-              text: 'OK, Got it',
-            },
-          ],
-          message: <ClaimQueuePopupThemed />,
-        })
+        showQueueDialog(showDialog)
         return false
       }
       return true

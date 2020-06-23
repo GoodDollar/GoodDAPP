@@ -1,41 +1,43 @@
 // @flow
 import React, { useCallback, useMemo, useState } from 'react'
 import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
   fireEvent,
   identifyOnUserSignup,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_STARTED,
-} from '../../lib/analytics/analytics'
-import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
-import CustomButton from '../common/buttons/CustomButton'
-import Wrapper from '../common/layout/Wrapper'
-import Text from '../common/view/Text'
-import NavBar from '../appNavigation/NavBar'
-import Recover from '../signin/Mnemonics'
-import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../webView/webViewInstances'
-import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Auth/torusIllustration.svg'
-import config from '../../config/config'
-import { theme as mainTheme } from '../theme/styles'
-import Section from '../common/layout/Section'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import retryImport from '../../lib/utils/retryImport'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { useTorus } from './useTorus'
+} from '../../../lib/analytics/analytics'
+import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
+import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
+import CustomButton from '../../common/buttons/CustomButton'
+import Wrapper from '../../common/layout/Wrapper'
+import Text from '../../common/view/Text'
+import NavBar from '../../appNavigation/NavBar'
+import Recover from '../../signin/Mnemonics'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../webView/webViewInstances'
+import { createStackNavigator } from '../../appNavigation/stackNavigation'
+import { withStyles } from '../../../lib/styles'
+import illustration from '../../../assets/Auth/torusIllustration.svg'
+import config from '../../../config/config'
+import { theme as mainTheme } from '../../theme/styles'
+import Section from '../../common/layout/Section'
+import SimpleStore from '../../../lib/undux/SimpleStore'
+import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+import retryImport from '../../../lib/utils/retryImport'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import useTorus from './hooks/useTorus'
 
 Image.prefetch(illustration)
+
 const log = logger.child({ from: 'AuthTorus' })
+
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const asGuest = true
   const [isPasswordless, setPasswordless] = useState(false)
   const [showErrorDialog] = useErrorDialog()
-  const torusSDK = useTorus()
+  const [torusSDK, sdkInitialized] = useTorus()
   const { navigate } = navigation
   const { push } = screenProps
 
@@ -47,9 +49,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   //login so we can check if user exists
   const ready = async replacing => {
     log.debug('ready: Starting initialization', { replacing })
-    const { init } = await retryImport(() => import('../../init'))
+    const { init } = await retryImport(() => import('../../../init'))
     log.debug('ready: got init', init)
-    const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
+    const login = retryImport(() => import('../../../lib/login/GoodWalletLogin'))
     log.debug('ready: got login', login)
     const { goodWallet, userStorage, source } = await init()
     log.debug('ready: done init')
@@ -194,7 +196,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               color={mainTheme.colors.darkGray}
               style={[styles.buttonLayout, { flex: 1 }]}
               onPress={signupAuth0Email}
-              disabled={torusSDK === undefined}
+              disabled={!sdkInitialized}
               testID="login_via_email"
             >
               Via Email
@@ -203,7 +205,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               color={mainTheme.colors.darkGray}
               style={[styles.buttonLayout, { flex: 1 }]}
               onPress={signupAuth0Mobile}
-              disabled={torusSDK === undefined}
+              disabled={!sdkInitialized}
               testID="login_via_mobile"
             >
               Via Mobile
@@ -216,7 +218,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           color={mainTheme.colors.darkGray}
           style={styles.buttonLayout}
           onPress={auth0ButtonHandler}
-          disabled={torusSDK === undefined}
+          disabled={!sdkInitialized}
           testID="login_with_auth0"
         >
           Agree & Continue with Passwordless
@@ -302,7 +304,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           style={styles.buttonLayout}
           textStyle={googleButtonTextStyle}
           onPress={googleButtonHandler}
-          disabled={torusSDK === undefined}
+          disabled={!sdkInitialized}
           testID="login_with_google"
         >
           Agree & Continue with Google
@@ -312,7 +314,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           style={styles.buttonLayout}
           textStyle={facebookButtonTextStyle}
           onPress={facebookButtonHandler}
-          disabled={torusSDK === undefined}
+          disabled={!sdkInitialized}
           testID="login_with_facebook"
         >
           Agree & Continue with Facebook

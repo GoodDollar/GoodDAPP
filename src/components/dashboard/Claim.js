@@ -20,7 +20,14 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import { WrapperClaim } from '../common'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent, fireMauticEvent } from '../../lib/analytics/analytics'
+import {
+  CLAIM_FAILED,
+  CLAIM_GEO,
+  CLAIM_SUCCESS,
+  fireEvent,
+  fireGoogleAnalyticsEvent,
+  fireMauticEvent,
+} from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
@@ -66,7 +73,7 @@ const Claim = props => {
   })
 
   // get the number of people who did claim today. Default - 0
-  const numberOfPeopleClaimedToday = get(claimState, 'claimedToday.amount', 0)
+  const numberOfPeopleClaimedToday = get(claimState, 'claimedToday.people', 0)
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
@@ -248,6 +255,8 @@ const Claim = props => {
         const claimsSoFar = await advanceClaimsCounter()
         fireMauticEvent({ claim: claimsSoFar })
         checkHanukaBonusDates()
+
+        fireGoogleAnalyticsEvent(CLAIM_GEO, { claimValue: curEntitlement })
 
         showDialog({
           buttons: [{ text: 'Yay!' }],

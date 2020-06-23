@@ -7,7 +7,7 @@ import Section from '../common/layout/Section'
 import Config from '../../config/config'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
-const isDemo = Config.isPhaseZero === 'false'
+const isDemo = Config.isPhaseZero === 'true'
 
 const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>

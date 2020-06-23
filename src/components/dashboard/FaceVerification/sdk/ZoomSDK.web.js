@@ -68,7 +68,7 @@ export const ZoomSDK = new class {
     // if Zoom was already initialized successfully,
     // then resolving immediately
     if (ZoomSDKStatus.Initialized === sdk.getStatus()) {
-      return
+      return true
     }
 
     try {

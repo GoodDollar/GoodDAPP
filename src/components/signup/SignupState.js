@@ -368,14 +368,17 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
 
       if (regMethod === REGISTRATION_METHOD_TORUS) {
-        const { mobile, email, privateKey, accessToken } = torusUser
+        const { mobile, email, privateKey, accessToken, idToken } = torusUser
 
         // create proof that email/mobile is the same one verified by torus
         assign(requestPayload, { torusProvider })
 
         if (torusProvider === 'facebook') {
           // if logged in via facebook - just sending FB access token received from OAuth
-          requestPayload.torusAccessToken = accessToken
+          assign(requestPayload, {
+            torusAccessToken: accessToken,
+            torusIdToken: idToken,
+          })
         } else {
           const torusProofNonce = String(Date.now()) // otherwise generating & signing proof
           const msg = (mobile || email) + torusProofNonce

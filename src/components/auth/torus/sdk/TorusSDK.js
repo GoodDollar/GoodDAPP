@@ -1,8 +1,8 @@
+import DirectWebSDK from '@toruslabs/torus-direct-web-sdk'
 import { first, omit } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
-import DirectWebSDK from '../../../../lib/torus/DirectWebSDK'
 
 import {
   Auth0Strategy,
@@ -63,12 +63,12 @@ class TorusSDK {
 
   fetchTorusUser(response) {
     let torusUser = response
-    let { userInfo } = torusUser
+    let { userInfo, ...otherResponse } = torusUser
 
     if (userInfo) {
       // aggregate login returns an array with user info
       userInfo = first(userInfo) || userInfo
-      torusUser = { ...torusUser, userInfo }
+      torusUser = { ...otherResponse, ...userInfo }
     }
 
     const { name, email } = torusUser

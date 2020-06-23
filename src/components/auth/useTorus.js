@@ -23,6 +23,8 @@ class TorusLogin {
   }
 
   cleanUser(torusUser) {
+    log.debug('got user', torusUser)
+    
     //aggregate login returns an array with user info
     if (torusUser.userInfo) {
       torusUser = { ...torusUser, ...(torusUser.userInfo[0] || torusUser.userInfo) }
@@ -34,6 +36,8 @@ class TorusLogin {
       torusUser.mobile = torusUser.name
       delete torusUser.name
     }
+    
+    log.debug('cleaned user', torusUser)
     return torusUser
   }
 

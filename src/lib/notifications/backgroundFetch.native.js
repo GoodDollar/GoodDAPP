@@ -2,10 +2,10 @@ import BackgroundFetch from 'react-native-background-fetch'
 import PushNotification from 'react-native-push-notification'
 import { AsyncStorage } from 'react-native'
 import moment from 'moment'
-import logger from '../src/lib/logger/pino-logger'
-import { IS_LOGGED_IN } from './lib/constants/localStorage'
-import userStorage from './lib/gundb/UserStorage'
-import goodWallet from './lib/wallet/GoodWallet'
+import logger from '../logger/pino-logger'
+import { IS_LOGGED_IN } from '../constants/localStorage'
+import userStorage from '../gundb/UserStorage'
+import goodWallet from '../wallet/GoodWallet'
 
 const options = {
   minimumFetchInterval: 15,

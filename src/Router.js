@@ -14,6 +14,7 @@ import GDStore from './lib/undux/GDStore'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import AddWebApp from './components/common/view/AddWebApp'
 import { isInstalledApp } from './lib/utils/platform'
+import './lib/notifications/backgroundFetch'
 
 const AppNavigator = createNavigator(
   AppSwitch,

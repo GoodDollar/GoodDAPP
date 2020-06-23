@@ -36,7 +36,7 @@ const Splash = ({ animation }) => (
         )}
         <AnimationsLogo animation={animation} style={styles.animation} />
         <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
-          {isDemo && 'Demo'} V{Config.version}
+          {isDemo && 'Demo '}V{Config.version}
         </Section.Text>
       </Section.Stack>
     </Section>

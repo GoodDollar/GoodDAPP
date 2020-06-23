@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
@@ -18,7 +19,7 @@ import { openLink } from '../../../../lib/utils/linking'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
-import { useQueueDialog } from '../../../common/dialogs/showQueueDialog'
+import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
@@ -26,15 +27,15 @@ import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '.
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
-const WalletDeletedPopupText = ({ styles, textStyles }) => (
+const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.paddingVertical20}>
-    <Text {...textStyles} fontSize={14}>
-      <Text {...textStyles} fontSize={14} fontWeight="bold" style={styles.paddingTop20}>
+    <Text style={styles.textStyle} fontSize={14}>
+      <Text style={[styles.textStyle, styles.paddingTop20]} fontSize={14} fontWeight="bold">
         {'Since you’ve just deleted your wallet, '}
       </Text>
       you will have to wait 24 hours until you can claim.
     </Text>
-    <Text {...textStyles} fontSize={14} style={styles.paddingTop20}>
+    <Text style={[styles.textStyle, styles.paddingTop20]} fontSize={14}>
       {'This is to prevent fraud and misuse.\nSorry for the inconvenience.'}
     </Text>
   </View>
@@ -45,13 +46,17 @@ const IntroScreen = ({ styles, screenProps }) => {
   const { fullName } = store.get('profile')
   const isValid = get(screenProps, 'screenState.isValid', false)
 
-  const [showDisposalQueueDialog] = useQueueDialog(WalletDeletedPopupText, {
-    onDismiss: () => screenProps.goToRoot(),
-  })
-
-  const [checkingForDisposal, disposing] = useDisposingState({
+  const disposing = useDisposingState({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
-    onComplete: isDisposing => isDisposing && showDisposalQueueDialog(),
+    onComplete: isDisposing => {
+      if (!isDisposing) {
+        return;
+      }
+
+      showQueueDialog(WalletDeletedPopupText, {
+        onDismiss: () => screenProps.goToRoot(),
+      })
+    }
   })
 
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
@@ -109,11 +114,7 @@ const IntroScreen = ({ styles, screenProps }) => {
             </Text>
             <Separator style={[styles.bottomSeparator]} width={2} />
           </View>
-          <CustomButton
-            style={[styles.button]}
-            onPress={handleVerifyClick}
-            disabled={checkingForDisposal || false !== disposing}
-          >
+          <CustomButton style={[styles.button]} onPress={handleVerifyClick} disabled={false !== disposing}>
             OK, Verify me
           </CustomButton>
         </View>

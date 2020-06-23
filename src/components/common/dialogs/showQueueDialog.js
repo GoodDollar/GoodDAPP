@@ -1,13 +1,14 @@
 //@flow
 
 // libraries
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Image, View } from 'react-native'
 
 // custom components
 import Text from '../view/Text'
 
-import { useDialog } from '../../../lib/undux/utils/dialog'
+import { store } from '../../../lib/undux/SimpleStore'
+import { showDialogWithData } from '../../../lib/undux/utils/dialog'
 
 // utils
 import { withStyles } from '../../../lib/styles'
@@ -33,12 +34,11 @@ const styles = () => ({
     paddingTop: 20,
     paddingBottom: 20,
   },
+  textStyle: {
+    textAlign: 'left',
+    lineHeight: 22,
+  },
 })
-
-const textStyles = {
-  textAlign: 'left',
-  lineHeight: 22,
-}
 
 const QueuePopup = withStyles(styles)(({ styles, textComponent }) => {
   const TextComponent = textComponent
@@ -50,15 +50,15 @@ const QueuePopup = withStyles(styles)(({ styles, textComponent }) => {
           Good things come to those who wait...
         </Text>
       </View>
-      <TextComponent styles={styles} textStyle={textStyles} />
+      <TextComponent styles={styles} />
     </View>
   )
 })
 
-export const showQueueDialog = (showDialog, textComponent, dialogOptions = {}) => {
+export const showQueueDialog = (textComponent, dialogOptions = {}) => {
   const imageStyle = { marginRight: 'auto', marginLeft: 'auto', width: '33vh', height: '28vh' }
 
-  showDialog({
+  showDialogWithData(store.getCurrentSnapshot(), {
     type: 'queue',
     isMinHeight: true,
     image: <Image source={illustration} style={imageStyle} resizeMode="contain" />,
@@ -70,10 +70,4 @@ export const showQueueDialog = (showDialog, textComponent, dialogOptions = {}) =
     ],
     ...dialogOptions,
   })
-}
-
-export const useQueueDialog = (textComponent, dialogOptions = {}) => {
-  const [showDialog] = useDialog()
-
-  return useCallback(() => showQueueDialog(showDialog, textComponent, dialogOptions), [showDialog, dialogOptions])
 }

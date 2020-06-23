@@ -124,7 +124,7 @@ class FaceVerificationApi {
     try {
       const { isDisposing } = await this.wrapApiCall(rootApi.checkFaceSnapshotDisposalState(enrollmentIdentifier))
 
-      logger.info('Got face snapshot disposal stage', { enrollmentIdentifier, isDisposing })
+      logger.info('Got face snapshot disposal state', { enrollmentIdentifier, isDisposing })
       return isDisposing
     } catch (exception) {
       const { message, response } = exception

@@ -14,12 +14,12 @@ import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'useClaimQueue' })
 
-const ClaimQueuePopupText = ({ styles, textStyles }) => (
+const ClaimQueuePopupText = ({ styles }) => (
   <View style={styles.paddingVertical20}>
-    <Text {...textStyles}>
+    <Text style={styles.textStyle}>
       {`We’re still making sure our magic works as expected, which means there is a slight queue before you can start claiming G$’s.`}
     </Text>
-    <Text {...textStyles} fontWeight="bold" style={styles.paddingTop20}>
+    <Text style={[styles.textStyle, styles.paddingTop20]} fontWeight="bold">
       We’ll email you as soon as it’s your turn to claim.
     </Text>
   </View>
@@ -28,7 +28,7 @@ const ClaimQueuePopupText = ({ styles, textStyles }) => (
 export default () => {
   const [queueStatus, setQueueStatus] = useState(undefined)
   const [showLoading, hideLoading] = useLoadingIndicator()
-  const [showDialog, hideDialog, showErrorDialog] = useDialog()
+  const [, hideDialog, showErrorDialog] = useDialog()
 
   const checkQueueStatus = useCallback(
     async (addToQueue = false) => {
@@ -74,7 +74,7 @@ export default () => {
       let { status } = queueStatus || (await checkQueueStatus(true)) || {}
 
       if (status === 'pending') {
-        showQueueDialog(showDialog, ClaimQueuePopupText)
+        showQueueDialog(ClaimQueuePopupText)
         return false
       }
       return true

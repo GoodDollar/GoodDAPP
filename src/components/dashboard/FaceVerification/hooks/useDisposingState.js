@@ -10,8 +10,6 @@ const log = logger.child({ from: 'useZoomVerification' })
 export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => {
   const mountedStateRef = useMountedState()
 
-  const [error, setError] = useState(null)
-  const [completed, setCompleted] = useState(false)
   const [disposing, setDisposing] = useState(null)
 
   const onCompleteRef = useRef(onComplete)
@@ -29,27 +27,22 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
       try {
         const isDisposing = await api.isFaceSnapshotDisposing(enrollmentIdentifier)
 
-        onCompleteRef.current(isDisposing)
         log.debug('Got disposal state', { isDisposing, enrollmentIdentifier })
+        onCompleteRef.current(isDisposing)
 
         if (mountedStateRef.current) {
           setDisposing(isDisposing)
-          setCompleted(true)
         }
       } catch (exception) {
         const { message } = exception
 
         log.error('Error checking disposal state', message, exception)
         onErrorRef.current(exception)
-
-        if (mountedStateRef.current) {
-          setError(exception)
-        }
       }
     }
 
     checkDisposalState()
   }, [])
 
-  return [completed, disposing, error]
+  return disposing
 }

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
-import { get } from 'lodash'
+import { assign, get } from 'lodash'
 import {
   DESTINATION_PATH,
   GD_INITIAL_REG_METHOD,
@@ -368,15 +368,28 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
 
       if (regMethod === REGISTRATION_METHOD_TORUS) {
-        //create proof that email/mobile is the same one verified by torus
-        requestPayload.torusProvider = torusProvider
-        requestPayload.torusProofNonce = String(Date.now())
-        const msg = get(torusUser, 'mobile', torusUser.email) + requestPayload.torusProofNonce
-        const proof = goodWallet.wallet.eth.accounts.sign(msg, torusUser.privateKey)
-        requestPayload.torusProof = proof.signature
+        const { mobile, email, privateKey, accessToken } = torusUser
+
+        // create proof that email/mobile is the same one verified by torus
+        assign(requestPayload, { torusProvider })
+
+        if (torusProvider === 'facebook') {
+          // if logged in via facebook - just sending FB access token received from OAuth
+          requestPayload.torusAccessToken = accessToken
+        } else {
+          const torusProofNonce = String(Date.now()) // otherwise generating & signing proof
+          const msg = (mobile || email) + torusProofNonce
+          const proof = goodWallet.wallet.eth.accounts.sign(msg, privateKey)
+
+          assign(requestPayload, {
+            torusProof: proof.signature,
+            torusProofNonce,
+          })
+        }
       }
 
       let w3Token = requestPayload.w3Token
+
       if (w3Token) {
         userStorage.userProperties.set('cameFromW3Site', true)
       }

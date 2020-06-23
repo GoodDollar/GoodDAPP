@@ -1,8 +1,8 @@
-import TorusSdk from '@toruslabs/torus-direct-web-sdk'
 import { first, omit } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
+import DirectWebSDK from '../../../../lib/torus/DirectWebSDK'
 
 import {
   Auth0Strategy,
@@ -19,10 +19,7 @@ class TorusSDK {
   constructor(config, logger) {
     const { env, publicUrl, googleClientId, facebookAppId } = config
 
-    this.config = config
-    this.logger = logger
-
-    this.torus = new TorusSdk({
+    this.torus = new DirectWebSDK({
       GOOGLE_CLIENT_ID: googleClientId,
       FACEBOOK_CLIENT_ID: facebookAppId,
       proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
@@ -30,6 +27,9 @@ class TorusSDK {
       baseUrl: `${publicUrl}/torus/`,
       enableLogging: env === 'development',
     })
+
+    this.config = config
+    this.logger = logger
   }
 
   // eslint-disable-next-line require-await

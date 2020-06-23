@@ -273,7 +273,7 @@ class API {
   }
 
   /**
-   * `/verify/facerecognition/:enrollmentIdentifier` delete api call
+   * `/verify/facerecognition/:enrollmentIdentifier` get api call
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */

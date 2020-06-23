@@ -235,7 +235,7 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: halfAvatarSize,
     },
     userAvatar: {
-      borderWidth: 3,
+      borderWidth: -1,
       borderColor: white,
     },
     emptySpace: {

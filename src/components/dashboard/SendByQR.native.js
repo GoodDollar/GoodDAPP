@@ -43,7 +43,7 @@ const SendByQR = ({ screenProps }: Props) => {
       <TopBar hideProfile={false} profileAsLink={false} hideBalance={true} push={screenProps.push} />
       <Section style={styles.bottomSection}>
         <Section.Row>
-          <QRCodeScanner onRead={wrapFunction(handleScan, store)} />
+          <QRCodeScanner onRead={wrapFunction(handleScan, store)} cameraStyle={styles.centeredCamera} />
         </Section.Row>
       </Section>
     </Wrapper>
@@ -57,6 +57,9 @@ const styles = StyleSheet.create({
   },
   bottomSection: {
     flex: 1,
+  },
+  centeredCamera: {
+    maxWidth: '100%',
   },
 })
 

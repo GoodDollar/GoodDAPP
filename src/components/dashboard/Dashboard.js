@@ -745,8 +745,11 @@ const getStylesFromProps = ({ theme }) => ({
     top: 0,
     bottom: 0,
     marginVertical: 'auto',
-    height: 'fit-content',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingTop: getDesignRelativeHeight(10),
+    zIndex: -1,
   },
   dashboardWrapper: {
     backgroundColor: theme.colors.lightGray,

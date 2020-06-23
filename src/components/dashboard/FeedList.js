@@ -1,6 +1,7 @@
 // @flow
 import React, { createRef, useCallback, useEffect, useRef, useState } from 'react'
-import { Animated, SwipeableFlatList } from 'react-native'
+import { Animated } from 'react-native'
+import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import * as Animatable from 'react-native-animatable'
 import { get } from 'lodash'
 import moment from 'moment'

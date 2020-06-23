@@ -15,8 +15,8 @@ import ErrorText from './ErrorText'
  */
 const InputRounded = ({ styles, containerStyle, theme, icon, iconSize, iconColor, error, onChange, ...inputProps }) => {
   const handleChange = useCallback(
-    event => {
-      onChange(event.target.value)
+    value => {
+      onChange(value)
     },
     [onChange]
   )

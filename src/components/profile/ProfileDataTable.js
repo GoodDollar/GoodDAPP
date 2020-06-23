@@ -1,7 +1,6 @@
 import React, { Fragment, useCallback } from 'react'
 import { Image, Platform } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import PhoneInput from 'react-phone-number-input'
 import { noop } from 'lodash'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import useCountryFlagUrl from '../../lib/hooks/useCountryFlagUrl'
@@ -10,6 +9,7 @@ import InputRounded from '../common/form/InputRounded'
 import ErrorText from '../common/form/ErrorText'
 import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
+import PhoneInput from './PhoneNumberInput/PhoneNumberInput'
 
 const defaultErrors = {}
 const defaultStoredProfile = {}

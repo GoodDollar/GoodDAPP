@@ -25,7 +25,7 @@ const CircleButtonWrapper = ({
       <Icon color={iconColor} size={iconSize} name={iconName} />
     </TouchableOpacity>
     {!!label && (
-      <Text fontSize={10} fontWeight="500" lineHeight={11} color="white" style={[styles.label, labelStyles]}>
+      <Text fontSize={10} fontWeight="medium" lineHeight={11} color="white" style={[styles.label, labelStyles]}>
         {label}
       </Text>
     )}

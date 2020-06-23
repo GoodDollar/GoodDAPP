@@ -8,7 +8,7 @@
     Content-Type = "text/html"
 
 [[headers]]
-  for = "/zoom/resources/*"
+  for = "/zoom/resources/*_cache.wasm"
   [headers.values]
     cache-control = '''
     max-age=0,

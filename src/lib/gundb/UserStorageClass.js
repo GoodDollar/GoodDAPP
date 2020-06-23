@@ -1495,7 +1495,7 @@ export class UserStorage {
    */
   async getFeedByDay(day) {
     try {
-      let dayEvents = await this.feed.get(day)
+      let dayEvents = (await this.feed.get(day)) || []
 
       if (!isArray(dayEvents)) {
         dayEvents = JSON.parse(dayEvents)

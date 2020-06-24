@@ -53,27 +53,27 @@ export const ZoomSDK = new class {
    * Start zoom sdk preloading and save promise object to the class property
    *
    */
-  preload() {
+  async preload() {
     const { sdk, criticalPreloadException } = this
     const { ZoomPreloadResult } = sdk
-    
+
     // re-throw critical exception (e.g.65391) if happened during last preload
     if (criticalPreloadException) {
       throw criticalPreloadException
     }
-    
+
     if (!this.preloadCall) {
       const sdkCall = this.wrapCall(resolver => sdk.preload(resolver))
-      
-      this.preloadCall = sdkCall.finally(() => this.preloadCall = null)      
+
+      this.preloadCall = sdkCall.finally(() => (this.preloadCall = null))
     }
 
     const preloadResult = await this.preloadCall
-    
+
     if (preloadResult !== ZoomPreloadResult.Success) {
       throw new Error(`Couldn't preload Zoom SDK`)
     }
-  }  
+  }
 
   async initialize(licenseKey, preload = true) {
     const { sdk, logger, criticalPreloadException } = this
@@ -299,11 +299,11 @@ export const ZoomSDK = new class {
   // eslint-disable-next-line require-await
   async ensureZoomIsntPreloading() {
     const { preloadCall } = this
-    
+
     if (!preloadCall) {
       return
     }
-    
+
     return preloadCall.catch(noop)
   }
 }(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK' }))

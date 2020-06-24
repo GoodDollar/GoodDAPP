@@ -206,7 +206,7 @@ export const ZoomSDK = new class {
           isCriticalError = message.startsWith('65391')
           break
         case 'TypeError':
-          isCriticalError = filename.includes('zoom/resources')
+          isCriticalError = filename.includes('zoom/resources') || filename.includes('lib/zoom')
           break
         default:
           isCriticalError = false

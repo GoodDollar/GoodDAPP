@@ -28,6 +28,12 @@ export const ZoomSDK = new class {
    */
   criticalPreloadException = null
 
+  /**
+   * @var {Promise}
+   * @private
+   */
+  preloadPromise = null
+
   constructor(sdk, store, logger) {
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory(`${ZOOM_PUBLIC_PATH}/resources`)
@@ -43,8 +49,23 @@ export const ZoomSDK = new class {
     this.logger = logger
   }
 
-  // eslint-disable-next-line require-await
-  async preload() {
+  /**
+   * Start zoom sdk preloading and save promise object to the class property
+   *
+   * @private
+   */
+  preload() {
+    this.preloadPromise = this._preloadCore()
+
+    return this.preloadPromise
+  }
+
+  /**
+   * The preload functionality
+   *
+   * @private
+   */
+  async _preloadCore() {
     const { sdk, criticalPreloadException } = this
     const { ZoomPreloadResult } = sdk
 
@@ -60,9 +81,13 @@ export const ZoomSDK = new class {
     }
   }
 
-  // eslint-disable-next-line require-await
   async initialize(licenseKey, preload = true) {
-    const { sdk, logger, criticalPreloadException } = this
+    const { sdk, logger, criticalPreloadException, preloadPromise } = this
+
+    // waiting for Zoom preload to be finished before starting initialization
+    if (preloadPromise) {
+      await preloadPromise
+    }
 
     // checking the last retrieved status code
     // if Zoom was already initialized successfully,

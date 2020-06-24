@@ -32,7 +32,7 @@ export const ZoomSDK = new class {
    * @var {Promise}
    * @private
    */
-  preloadPromise = null
+  preloadCall = null
 
   constructor(sdk, store, logger) {
     // setting a the directory path for other ZoOm Resources.
@@ -52,42 +52,34 @@ export const ZoomSDK = new class {
   /**
    * Start zoom sdk preloading and save promise object to the class property
    *
-   * @private
    */
   preload() {
-    this.preloadPromise = this._preloadCore()
-
-    return this.preloadPromise
-  }
-
-  /**
-   * The preload functionality
-   *
-   * @private
-   */
-  async _preloadCore() {
     const { sdk, criticalPreloadException } = this
     const { ZoomPreloadResult } = sdk
-
+    
     // re-throw critical exception (e.g.65391) if happened during last preload
     if (criticalPreloadException) {
       throw criticalPreloadException
     }
+    
+    if (!this.preloadCall) {
+      const sdkCall = this.wrapCall(resolver => sdk.preload(resolver))
+      
+      this.preloadCall = sdkCall.finally(() => this.preloadCall = null)      
+    }
 
-    const preloadResult = await this.wrapCall(resolver => sdk.preload(resolver))
-
+    const preloadResult = await this.preloadCall
+    
     if (preloadResult !== ZoomPreloadResult.Success) {
       throw new Error(`Couldn't preload Zoom SDK`)
     }
-  }
+  }  
 
   async initialize(licenseKey, preload = true) {
-    const { sdk, logger, criticalPreloadException, preloadPromise } = this
+    const { sdk, logger, criticalPreloadException } = this
 
     // waiting for Zoom preload to be finished before starting initialization
-    if (preloadPromise) {
-      await preloadPromise
-    }
+    await this.ensureZoomIsntPreloading()
 
     // checking the last retrieved status code
     // if Zoom was already initialized successfully,
@@ -297,5 +289,21 @@ export const ZoomSDK = new class {
         reject(exception)
       }
     })
+  }
+
+  /**
+   * Ensures Zoom isn't preloading or finished preload
+   *
+   * @returns {Promise<void>}
+   */
+  // eslint-disable-next-line require-await
+  async ensureZoomIsntPreloading() {
+    const { preloadCall } = this
+    
+    if (!preloadCall) {
+      return
+    }
+    
+    return preloadCall.catch(noop)
   }
 }(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK' }))

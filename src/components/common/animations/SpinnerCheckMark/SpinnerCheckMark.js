@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { View } from 'react-native'
+import { View } from 'react-native-animatable'
 import { cloneDeep } from 'lodash'
 import AnimationBase from '../Base'
 import { isMobileNative } from '../../../../lib/utils/platform'
@@ -13,7 +13,7 @@ class SpinnerCheckMark extends AnimationBase {
   }
 
   onMount = () => {
-    if (isMobileNative === false) {
+    if (!isMobileNative) {
       this.anim.onEnterFrame = e => {
         const { success } = this.props
         if (e.currentTime > 130.5 && !success) {

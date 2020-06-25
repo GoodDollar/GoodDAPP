@@ -24,7 +24,6 @@ import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
-import { truncateMiddle } from '../../lib/utils/string'
 
 // assets
 import unknownProfile from '../../assets/unknownProfile.svg'
@@ -60,11 +59,7 @@ const ProfilePrivacy = props => {
 
   const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
 
-  const faceRecordId = useMemo(() => {
-    const enrollmentIdentifier = userStorage.getFaceIdentifier()
-
-    return truncateMiddle(enrollmentIdentifier, isSmallDevice ? 16 : null)
-  }, [])
+  const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])
 
   useEffect(() => {
     // looks for the users fields' privacy
@@ -170,6 +165,7 @@ const ProfilePrivacy = props => {
               imageSource={avatarSource}
               title="My Face Record ID"
               content={faceRecordId}
+              truncateContent
               copyButtonText="Copy ID"
             />
           </Section>

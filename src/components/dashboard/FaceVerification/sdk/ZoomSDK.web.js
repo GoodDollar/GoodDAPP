@@ -4,7 +4,7 @@ import ConsoleSubscriber from 'console-subscriber'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
 import { store } from '../../../../lib/undux/SimpleStore'
-import logger from '../../../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../../../lib/logger/pino-logger'
 import { UICustomization, UITextStrings, ZOOM_PUBLIC_PATH } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
@@ -40,7 +40,7 @@ export const ZoomSDK = new class {
 
     this.sdk = sdk
     this.store = store
-    this.logger = logger
+    this.logger = logger.child({ from: 'ZoomSDK.web' })
   }
 
   // eslint-disable-next-line require-await
@@ -156,6 +156,10 @@ export const ZoomSDK = new class {
    */
   showReloadPopup() {
     const store = this.store.getCurrentSnapshot()
+    const { criticalPreloadException } = this
+    const { message } = criticalPreloadException
+
+    logErrorWithDialogShown(this.logger, 'Failed to preload ZoOm SDK', message, criticalPreloadException)
 
     showDialogWithData(store, {
       type: 'error',

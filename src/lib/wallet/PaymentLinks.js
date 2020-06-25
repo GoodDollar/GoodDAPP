@@ -32,8 +32,8 @@ if (Config.contractsVersion >= '1.0.0') {
     log.debug('generateLink:', { amount, code, hashedCode })
 
     const paymentLink = generateShareLink('send', {
-      paymentCode: code,
-      reason,
+      p: code,
+      r: reason,
     })
 
     const asParam = this.wallet.eth.abi.encodeParameter('address', hashedCode)

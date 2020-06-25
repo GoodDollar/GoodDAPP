@@ -1,6 +1,6 @@
 // @flow
-import React, { useEffect, useState } from 'react'
-import { AppState, AsyncStorage } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'
@@ -14,10 +14,12 @@ import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/gundb/UserStorage'
 import runUpdates from '../../lib/updates'
-
+import useAppState from '../../lib/hooks/useAppState'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
+import { assertStore } from '../../lib/undux/SimpleStore'
+import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
 
 type LoadingProps = {
   navigation: any,
@@ -33,7 +35,9 @@ const showOutOfGasError = debounce(
     const gasResult = await goodWallet.verifyHasGas(goodWallet.wallet.utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
       topWallet: false,
     })
+
     log.debug('outofgaserror:', { gasResult })
+
     if (gasResult.ok === false && gasResult.error !== false) {
       props.navigation.navigate('OutOfGasError')
     }
@@ -54,6 +58,15 @@ const AppSwitch = (props: LoadingProps) => {
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
+
+  const recheck = useCallback(() => {
+    if (ready && gdstore) {
+      checkBonusInterval(true)
+      showOutOfGasError(props)
+    }
+  }, [gdstore, ready])
+
+  useAppState({ onForeground: recheck })
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -82,7 +95,6 @@ const AppSwitch = (props: LoadingProps) => {
   user completes signup and becomes loggedin which just updates this component
 */
   const navigateToUrlAction = async () => {
-    log.info('didUpdate')
     let destDetails = await getParams()
 
     //once user logs in we can redirect him to saved destinationpath
@@ -97,15 +109,25 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = async () => {
+    if (!assertStore(gdstore, log, 'Failed to initialize login/citizen status')) {
+      return
+    }
+
     //after dynamic routes update, if user arrived here, then he is already loggedin
     //initialize the citizen status and wallet status
     const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
       ([authResult, _]) => authResult
     )
+
     log.debug({ isLoggedIn, isLoggedInCitizen })
+
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
-    isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+
+    if (isLoggedInCitizen) {
+      API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
+    }
+    return isLoggedInCitizen
 
     // if (isLoggedIn) {
     //   if (destDetails) {
@@ -144,10 +166,27 @@ const AppSwitch = (props: LoadingProps) => {
     log.debug('initializing', gdstore)
 
     try {
-      await initialize()
+      const isCitizen = await initialize()
+
+      //patch to fore phase0 users to go through face recognition
+      if (config.isPhaseZero && isCitizen) {
+        const [lastVerified, isWhitelisted] = await Promise.all([goodWallet.lastVerified(), goodWallet.isCitizen()])
+        if (isWhitelisted && lastVerified < new Date('06/02/2020')) {
+          await goodWallet.deleteAccount()
+          gdstore.set('isLoggedInCitizen')(false)
+        }
+      }
       checkBonusInterval()
       prepareLoginToken()
-      await Promise.all([runUpdates(), showOutOfGasError(props)])
+      runUpdates()
+      showOutOfGasError(props)
+
+      // preloading Zoom (supports web + native)
+      if (isCitizen === false) {
+        // don't awaiting for sdk ready here
+        // initialize() will await if preload hasn't completed yet
+        preloadZoomSDK(log) // eslint-disable-line require-await
+      }
 
       setReady(true)
     } catch (e) {
@@ -156,7 +195,7 @@ const AppSwitch = (props: LoadingProps) => {
       if (unsuccessfulLaunchAttempts > 3) {
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
-        await delay(500)
+        await delay(1500)
         init()
       }
     }
@@ -188,6 +227,11 @@ const AppSwitch = (props: LoadingProps) => {
     if (config.enableInvites !== true) {
       return
     }
+
+    if (!assertStore(gdstore, log, 'checkBonusInterval failed')) {
+      return
+    }
+
     const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
     const isUserWhitelisted = gdstore.get('isLoggedInCitizen') || (await goodWallet.isCitizen())
 
@@ -219,25 +263,10 @@ const AppSwitch = (props: LoadingProps) => {
       })
   }
 
-  const handleAppFocus = state => {
-    if (state === 'active') {
-      checkBonusInterval(true)
-      showOutOfGasError(props)
-    }
-  }
-
   useEffect(() => {
     init()
     navigateToUrlAction()
   }, [])
-
-  useEffect(() => {
-    AppState.addEventListener('change', handleAppFocus)
-
-    return function() {
-      AppState.removeEventListener('change', handleAppFocus)
-    }
-  }, [gdstore])
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

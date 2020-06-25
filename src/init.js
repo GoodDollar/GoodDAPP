@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import isWebApp from './lib/utils/isWebApp'
-import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
+import { APP_OPEN, fireEvent, identifyWithSignedInUser, initAnalytics } from './lib/analytics/analytics'
 import { extractQueryParams } from './lib/share'
 import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 import logger from './lib/logger/pino-logger'
@@ -25,12 +25,18 @@ export const init = () => {
 
       // set userStorage to simple storage
       setUserStorage(userStorage)
-      await initAnalytics(goodWallet, userStorage)
+
+      await initAnalytics()
+      log.debug('analytics has been initialized')
+      await identifyWithSignedInUser(goodWallet, userStorage)
+      log.debug('analytics has been identified with the user signed in')
 
       // FIXME RN INAPPLINKS
       if (Platform.OS === 'web') {
         const params = extractQueryParams(window.location.href)
-        source = Object.keys(pick(params, ['web3', 'paymentCode', 'code'])).pop() || source
+
+        source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
+        source = Object.keys(pick(params, ['inviteCode', 'web3Token', 'paymentCode', 'code'])).pop() || source
       }
 
       fireEvent(APP_OPEN, { source, isWebApp })

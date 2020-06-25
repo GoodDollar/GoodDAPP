@@ -1,15 +1,17 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import { Share, View } from 'react-native'
+import { PixelRatio, View } from 'react-native'
+import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
+import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
-import { CopyButton, CustomButton, QRCode, ReceiveToAddressButton, ScanQRButton, Section, Wrapper } from '../common'
+import { CopyButton, CustomButton, QRCode, ReceiveToAddressButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -17,50 +19,54 @@ export type ReceiveProps = {
   styles: any,
 }
 
-const SHARE_TEXT = 'Share your wallet link'
+// This condition recognizes the devices which resolution is higher than Iphone 6/7/8 Plus
+const useTopSpaceForMobile = isMobileOnlyWeb && PixelRatio.get() >= 2 && getMaxDeviceHeight() >= 622
+
+const SHARE_TEXT = 'Receive via wallet link'
 
 const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')
   const { account, networkId } = goodWallet
-  const [showErrorDialog] = useErrorDialog()
-  const { canShare, generateCode, generateReceiveShareObject, generateShareLink } = useNativeSharing()
+  const { canShare, generateCode, generateReceiveShareObject, shareAction } = useNativeSharing()
   const amount = 0
   const reason = ''
   const codeObj = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
-  const share = useMemo(() => generateReceiveShareObject(codeObj, amount, '', profile.fullName), [codeObj])
-  const shareLink = useMemo(() => generateShareLink('receive', codeObj), [codeObj])
+  const share = useMemo(() => generateReceiveShareObject(codeObj, amount, '', profile.fullName), [
+    codeObj,
+    profile.fullName,
+    amount,
+  ])
 
-  const shareAction = useCallback(async () => {
-    try {
-      fireEvent('RECEIVE_DONE', { type: 'wallet' })
-      await Share.share(share)
-    } catch (e) {
-      if (e.name !== 'AbortError') {
-        showErrorDialog(e)
-      }
-    }
-  }, [showErrorDialog, share])
+  const shareLink = useMemo(() => share.message + ' ' + share.url, [share])
 
-  const onPressScanQRButton = useCallback(() => screenProps.push('ReceiveByQR'), [screenProps])
+  const fireReceiveDoneEvent = useCallback(() => fireEvent('RECEIVE_DONE', { type: 'wallet' }), [])
+
+  const shareHandler = useCallback(() => {
+    shareAction(share)
+    fireReceiveDoneEvent()
+  }, [shareAction, share])
 
   const onPressReceiveToAddressButton = useCallback(() => screenProps.push('ReceiveToAddress'), [screenProps])
-
-  const onPressCopyButton = () => fireEvent('RECEIVE_DONE', { type: 'wallet' })
 
   return (
     <Wrapper>
       <TopBar hideBalance={false} push={screenProps.push}>
-        <ScanQRButton onPress={onPressScanQRButton} />
+        <View />
         <ReceiveToAddressButton onPress={onPressReceiveToAddressButton} />
       </TopBar>
       <Section grow>
-        <Section.Stack grow={3} justifyContent="space-around" alignItems="center">
-          <Section.Text fontSize={14} style={styles.mainText}>
+        {isBrowser && <View style={styles.emptySpace} />}
+        <Section.Stack
+          alignItems="center"
+          justifyContent="center"
+          style={useTopSpaceForMobile ? styles.emptySpaceMobile : undefined}
+        >
+          <Section.Text fontSize={16} fontWeight="medium" style={styles.mainText}>
             Let someone scan your wallet address
           </Section.Text>
           <QRCode value={shareLink} />
         </Section.Stack>
-        <Section.Stack grow={1} justifyContent="center" alignItems="center">
+        <Section.Stack grow justifyContent="center" alignItems="center" style={styles.orText}>
           <Section.Text fontSize={14}>- OR -</Section.Text>
         </Section.Stack>
         <Section.Stack alignItems="stretch">
@@ -78,12 +84,12 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
           </PushButton>
           <View style={styles.space} />
           {canShare ? (
-            <CustomButton onPress={shareAction}>{SHARE_TEXT}</CustomButton>
+            <CustomButton onPress={shareHandler}>{SHARE_TEXT}</CustomButton>
           ) : (
             <CopyButton
               style={styles.shareButton}
               toCopy={shareLink}
-              onPress={onPressCopyButton}
+              onPress={fireReceiveDoneEvent}
               onPressDone={screenProps.goToRoot}
             >
               {SHARE_TEXT}
@@ -100,11 +106,20 @@ Receive.navigationOptions = {
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  emptySpace: {
+    height: '25%',
+  },
+  emptySpaceMobile: {
+    marginTop: getDesignRelativeHeight(55),
+  },
   space: {
     height: theme.sizes.defaultDouble,
   },
+  orText: {
+    marginVertical: 20,
+  },
   mainText: {
-    marginBottom: theme.sizes.default,
+    marginBottom: getDesignRelativeHeight(24),
   },
 })
 

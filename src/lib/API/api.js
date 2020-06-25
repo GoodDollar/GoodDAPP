@@ -37,6 +37,8 @@ class API {
 
   client: AxiosInstance
 
+  mauticClient: AxiosInstance
+
   constructor() {
     this.ready = this.init()
   }
@@ -83,10 +85,7 @@ class API {
         baseURL: Config.web3SiteUrl,
         timeout: 30000,
       })
-      w3Instance.interceptors.request.use(
-        req => req,
-        error => Promise.reject(error)
-      )
+      w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
       w3Instance.interceptors.response.use(
         response => response.data,
         error => {
@@ -98,6 +97,11 @@ class API {
         }
       )
       this.w3Client = await w3Instance
+      let mauticInstance: AxiosInstance = axios.create({
+        baseURL: Config.mauticUrl,
+        timeout: 30000,
+      })
+      this.mauticClient = await mauticInstance
     }))
   }
 
@@ -127,11 +131,9 @@ class API {
 
   /**
    * `/user/delete` post api call
-   * @param {string} zoomId
-   * @param {string} zoomSignature
    */
-  deleteAccount(zoomId: string, zoomSignature: string): AxiosPromise<any> {
-    return this.client.post('/user/delete', { zoomId, zoomSignature })
+  deleteAccount(): AxiosPromise<any> {
+    return this.client.post('/user/delete')
   }
 
   /**
@@ -231,9 +233,9 @@ class API {
    * @param {string} mobile
    * @param {string} magicCode
    */
-  sendMagicCodeBySms(mobile: string, magicCode: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/magiccode', { to: mobile, magicCode })
-  }
+  // sendMagicCodeBySms(mobile: string, magicCode: string): Promise<$AxiosXHR<any>> {
+  //   return this.client.post('/send/magiccode', { to: mobile, magicCode })
+  // }
 
   /**
    * `/send/linksms` post api call
@@ -246,22 +248,28 @@ class API {
 
   /**
    * `/verify/facerecognition` post api call
-   * @param {Credentials} creds
+   * @param {any} payload
+   * @param {string} enrollmentIdentifier
+   * @param {any} axiosConfig
    */
-  performFaceRecognition(req: FormData): Promise<$AxiosXHR<any>> {
-    //return { data: { ok: 1, livenessPassed: true, duplicates: false, zoomEnrollmentId:-1 } } //TODO: // REMOVE!!!!!!!!!!
-    return this.client
-      .post('/verify/facerecognition', req, {
-        headers: {
-          'Content-Type': `multipart/form-data;`,
-        },
-      })
-      .then(r => {
-        if (r.data.onlyInEnv) {
-          return { data: { ok: 1, enrollResult: { alreadyEnrolled: true } } }
-        }
-        return r
-      })
+  performFaceVerification(payload: any, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
+    const { client } = this
+    const { enrollmentIdentifier, ...enrollmentPayload } = payload
+    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+
+    return client.put(endpoint, enrollmentPayload, axiosConfig)
+  }
+
+  /**
+   * `/verify/facerecognition` post api call
+   * @param {string} enrollmentIdentifier
+   * @param {string} signature
+   */
+  disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
+    const { client } = this
+    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+
+    return client.delete(endpoint, { params: { signature } })
   }
 
   /**
@@ -333,6 +341,29 @@ class API {
    */
   checkHanukaBonus() {
     return this.client.get('/verify/hanuka-bonus')
+  }
+
+  /**
+   * `/trust` get api call
+   */
+  getTrust() {
+    return this.client.get('/trust')
+  }
+
+  /**
+   * `/user/enqueue` post api call
+   * adds user to queue or return queue status
+   */
+  checkQueueStatus() {
+    return this.client.post('/user/enqueue')
+  }
+
+  /**
+   * adds a first time registering user to mautic
+   * @param {*} userData usually just {email}
+   */
+  addMauticContact(userData) {
+    return this.mauticClient.post('/form/submit', { ...userData, formId: Config.mauticAddContactFormID })
   }
 }
 

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
-import SimpleStore from '../../../lib/undux/SimpleStore'
+import SimpleStore, { assertStore } from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import {
   ADDTOHOME,
@@ -14,11 +14,12 @@ import {
 import { withStyles } from '../../../lib/styles'
 import addAppIlustration from '../../../assets/addApp.svg'
 import Icon from '../view/Icon'
-import userStorage from '../../../lib/gundb/UserStorage'
-import API from '../../../lib/API/api'
 import Text from '../../common/view/Text'
 import logger from '../../../lib/logger/pino-logger'
 import Config from '../../../config/config'
+
+// import userStorage from '../../../lib/gundb/UserStorage'
+// import API from '../../../lib/API/api'
 
 const log = logger.child({ from: 'AddWebApp' })
 
@@ -104,16 +105,28 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
 const AddWebApp = props => {
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
-  const { show, showAddWebAppDialog } = store.get('addWebApp')
-  const installPrompt = store.get('installPrompt')
+  const [show, setShow] = useState(false)
+  const [showAddWebAppDialog, setShowAddWebAppDialog] = useState(false)
+  const [installPrompt, setInstallPrompt] = useState(false)
 
-  const showExplanationDialog = async () => {
-    const magicLinkCode = userStorage.getMagicLink()
-    const mobile = await userStorage.getProfileFieldValue('mobile')
+  const fetchStoreData = useCallback(() => {
+    if (assertStore(store, log, 'Failed to fetch show status to display AddWebApp modal')) {
+      const { show: _show, showAddWebAppDialog: _showAddWebAppDialog } = store.get('addWebApp')
+      const _installPrompt = store.get('installPrompt')
 
-    API.sendMagicCodeBySms(mobile, magicLinkCode).catch(e => {
-      log.error('Failed to send magic link code to user by sms', e.message, e)
-    })
+      setShow(_show)
+      setShowAddWebAppDialog(_showAddWebAppDialog)
+      setInstallPrompt(_installPrompt)
+    }
+  }, [store, setShow, setShowAddWebAppDialog, setInstallPrompt])
+
+  const showExplanationDialog = () => {
+    // const magicLinkCode = userStorage.getMagicLink()
+    // const mobile = await userStorage.getProfileFieldValue('mobile')
+    //
+    // API.sendMagicCodeBySms(mobile, magicLinkCode).catch(e => {
+    //   log.error('Failed to send magic link code to user by sms', e.message, e)
+    // })
 
     showDialog({
       content: <ExplanationDialog />,
@@ -140,15 +153,18 @@ const AddWebApp = props => {
     ])
   }
 
-  const installApp = async () => {
-    installPrompt.prompt()
-    let outcome = await installPrompt.userChoice
-    if (outcome.outcome == 'accepted') {
-      fireEvent(ADDTOHOME_OK)
-      log.debug('App Installed')
-    } else {
-      fireEvent(ADDTOHOME_REJECTED)
-      log.debug('App not installed')
+  const handleUserPromptChoice = async () => {
+    try {
+      let outcome = await installPrompt.userChoice
+      if (outcome.outcome == 'accepted') {
+        fireEvent(ADDTOHOME_OK)
+        log.debug('App Installed')
+      } else {
+        fireEvent(ADDTOHOME_REJECTED)
+        log.debug('App not installed')
+      }
+    } catch (e) {
+      log.error('prompt user choice failed', e.message, e)
     }
 
     // Remove the event reference
@@ -157,7 +173,13 @@ const AddWebApp = props => {
 
   const handleInstallApp = () => {
     if (installPrompt) {
-      installApp()
+      //calling prompt from a non async context, async may happen to cause browser to say its not from user gesture
+      installPrompt
+        .prompt()
+        .then(_ => handleUserPromptChoice())
+        .catch(e => {
+          log.error('prompt display failed', e.message, e)
+        })
     } else if (isMobileSafari) {
       AsyncStorage.setItem('GD_AddWebAppIOSAdded', true)
       showExplanationDialog()
@@ -227,6 +249,11 @@ const AddWebApp = props => {
       showInitialDialog()
     }
   }
+
+  useEffect(() => {
+    fetchStoreData()
+  }, [store])
+
   useEffect(() => {
     checkShowDialog()
   }, [installPrompt, show])

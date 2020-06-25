@@ -6,11 +6,12 @@ import getEventSettingsByType from './EventSettingsByType'
 const EventIcon = ({ onAnimationFinish, showAnim = true, delay, type, theme, styles, style, animStyle, size = 34 }) => {
   const meta = getEventSettingsByType(theme, type)
 
-  if (showAnim && meta.component) {
+  if (meta.component) {
     const AnimComponent = meta.component
 
-    return <AnimComponent style={animStyle} delay={delay} onFinish={onAnimationFinish} />
+    return <AnimComponent style={animStyle} showAnim={showAnim} delay={delay} onFinish={onAnimationFinish} />
   }
+
   return <Icon color={meta.color} size={size} name={meta.name} style={[styles.eventIcon, style ? style : {}]} />
 }
 

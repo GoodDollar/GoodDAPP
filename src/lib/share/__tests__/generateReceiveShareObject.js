@@ -1,11 +1,11 @@
-import { generateReceiveShareObject } from '../'
+import { generateReceiveShareObject, generateShareLink } from '../'
 
-const isReceiveLink = Buffer.from(JSON.stringify({ amount: '123' })).toString('base64')
+const isReceiveLink = generateShareLink('receive', { amount: '123' })
 describe('generateReceiveShareObject', () => {
   it(`should return an object for receipt with code, amount, to and from`, () => {
     // Given
     const title = 'Sending G$ via GoodDollar App'
-    const message = "Joe Bloggs, You've got a request from John Doe for 1 G$. To Transfer open:"
+    const message = "Joe Bloggs, You've got a request from John Doe for 1 G$. To approve transfer open:"
 
     // When
     const shareObject = generateReceiveShareObject({ amount: '123' }, 100, 'Joe Bloggs', 'John Doe')
@@ -19,7 +19,7 @@ describe('generateReceiveShareObject', () => {
   it(`should return an object for receipt with code, to and from`, () => {
     // Given
     const title = 'Sending G$ via GoodDollar App'
-    const message = "Joe Bloggs, You've got a request from John Doe. To Transfer open:"
+    const message = "Joe Bloggs, You've got a request from John Doe. To approve transfer open:"
 
     // When
     const shareObject = generateReceiveShareObject({ amount: '123' }, 0, 'Joe Bloggs', 'John Doe')
@@ -33,7 +33,7 @@ describe('generateReceiveShareObject', () => {
   it(`should return an object for receipt with code, amount and from`, () => {
     // Given
     const title = 'Sending G$ via GoodDollar App'
-    const message = "You've got a request from John Doe for 1 G$. To Transfer open:"
+    const message = "You've got a request from John Doe for 1 G$. To approve transfer open:"
 
     // When
     const shareObject = generateReceiveShareObject({ amount: '123' }, '100', '', 'John Doe')
@@ -47,7 +47,7 @@ describe('generateReceiveShareObject', () => {
   it(`should return an object for receipt with code and from`, () => {
     // Given
     const title = 'Sending G$ via GoodDollar App'
-    const message = "You've got a request from John Doe. To Transfer open:"
+    const message = "You've got a request from John Doe. To approve transfer open:"
 
     // When
     const shareObject = generateReceiveShareObject({ amount: '123' }, 0, '', 'John Doe')

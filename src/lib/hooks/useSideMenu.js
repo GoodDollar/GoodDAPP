@@ -1,5 +1,5 @@
 // @flow
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 
@@ -10,8 +10,7 @@ import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidem
 import { useWrappedApi } from '../API/useWrappedApi'
 
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
-import isWebApp from '../../lib/utils/isWebApp'
-import Config from '../../config/config'
+import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../lib/constants/localStorage'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 export default (props = {}) => {
@@ -19,17 +18,31 @@ export default (props = {}) => {
   const API = useWrappedApi()
   const store = SimpleStore.useStore()
   const [showDialog] = useErrorDialog()
+  const isLoggedIn = store.get('isLoggedIn')
   const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog, store, theme })
 
+  const [isSelfCustody, setIsSelfCustody] = useState(false)
   const slideToggle = useCallback(() => toggleSidemenu(store), [store])
   const slideIn = useCallback(() => showSidemenu(store), [store])
   const slideOut = useCallback(() => hideSidemenu(store), [store])
+
+  const getIsSelfCustody = async () => {
+    if (isLoggedIn) {
+      const hasSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+      const hasMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+      setIsSelfCustody(hasSeed == null && hasMnemonic)
+    }
+  }
+
+  useEffect(() => {
+    getIsSelfCustody()
+  }, [isLoggedIn])
 
   const bottomItems = useMemo(
     () => [
       {
         icon: 'trash',
-        name: 'Delete wallet',
+        name: 'Delete Account',
         color: 'red',
         action: () => {
           fireEvent(CLICK_DELETE_WALLET)
@@ -43,6 +56,7 @@ export default (props = {}) => {
 
   const topItems = useMemo(() => {
     const installPrompt = store.get('installPrompt')
+
     let items = [
       {
         icon: 'profile',
@@ -57,7 +71,8 @@ export default (props = {}) => {
       },
       {
         icon: 'add',
-        name: 'Add App Icon',
+        size: 18,
+        name: 'Add App To Home',
         hidden: !installPrompt && !isMobileSafari,
         action: () => {
           store.set('addWebApp')({ showAddWebAppDialog: true })
@@ -67,6 +82,8 @@ export default (props = {}) => {
       {
         icon: 'link',
         name: 'Magic Link',
+        size: 18,
+        hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
             routeName: 'MagicLinkInfo',
@@ -76,11 +93,13 @@ export default (props = {}) => {
         },
       },
       {
-        icon: 'lock',
-        name: 'Backup Wallet',
+        icon: 'export-wallet',
+        size: 18,
+        name: 'Export Wallet',
+        hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
-            routeName: 'BackupWallet',
+            routeName: 'ExportWallet',
             type: 'Navigation/NAVIGATE',
           })
           slideOut()
@@ -88,6 +107,7 @@ export default (props = {}) => {
       },
       {
         icon: 'statistics',
+        centered: true,
         name: 'Statistics',
         action: () => {
           navigation.navigate({
@@ -99,7 +119,8 @@ export default (props = {}) => {
       },
       {
         icon: 'faq',
-        name: 'Support & FAQ',
+        size: 18,
+        name: 'Support & Feedback',
         action: () => {
           navigation.navigate('Support')
           slideOut()
@@ -113,10 +134,7 @@ export default (props = {}) => {
           slideOut()
         },
       },
-    ]
-
-    if (!isWebApp) {
-      items.push({
+      {
         icon: 'logout',
         name: 'Logout',
         action: () => {
@@ -125,13 +143,11 @@ export default (props = {}) => {
           window.location = '/'
           slideOut()
         },
-      })
-    }
-    if (Config.torusEnabled) {
-      items = items.filter(i => ['Magic Link', 'Backup Wallet'].includes(i.name) === false)
-    }
+      },
+    ]
+
     return items
-  }, [slideOut, navigation, store])
+  }, [isSelfCustody, slideOut, navigation, store])
 
   return {
     slideIn,

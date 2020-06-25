@@ -1,4 +1,4 @@
-import { getScreenHeight, getScreenWidth, isPortrait } from './Orientation'
+import { getMaxDeviceHeight, getMaxDeviceWidth, isPortrait } from './Orientation'
 
 /**
  * Receives a size matching the designs baseSize and converts to dp on the current device
@@ -22,7 +22,7 @@ const DESIGN_WIDTH = 360
  * @param {boolean} isMax: should or shouldnt use Math.min
  */
 export const getDesignRelativeWidth = (width, isMax = true) => {
-  const screenWidth = isPortrait() ? getScreenWidth() : getScreenHeight()
+  const screenWidth = isPortrait() ? getMaxDeviceWidth() : getMaxDeviceHeight()
   return getDesignRelativeSize(width, isMax, DESIGN_WIDTH, screenWidth)
 }
 
@@ -34,6 +34,6 @@ const DESIGN_HEIGHT = 640 - 24
  * @param {boolean} isMax: should or shouldnt use Math.min
  */
 export const getDesignRelativeHeight = (height, isMax = true) => {
-  const screenHeight = isPortrait() ? getScreenHeight() : getScreenWidth()
+  const screenHeight = isPortrait() ? getMaxDeviceHeight() : getMaxDeviceWidth()
   return getDesignRelativeSize(height, isMax, DESIGN_HEIGHT, screenHeight)
 }

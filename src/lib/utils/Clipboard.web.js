@@ -1,29 +1,25 @@
 // @flow
-import { Clipboard as NativeClipboard } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'Clipboard' })
 
-/**
- * Uses Native clipboard to set the clipboard and navigator.clipboard to read
- */
-const Clipboard = {
-  /**
-   * @returns {string}
-   */
-  getString: () => {
-    const text = navigator.clipboard.readText()
+export default new class {
+  constructor(api) {
+    this.api = api
+  }
+
+  async getString(): Promise<string> {
+    const { api } = this
+    const text = await api.readText()
+
     log.debug('getString', text)
     return text
-  },
+  }
 
-  /**
-   * @param {string} text
-   */
-  setString: (text: string) => {
+  async setString(text: string): Promise<void> {
+    const { api } = this
+
+    await api.writeText(text)
     log.debug('setString', text)
-    NativeClipboard.setString(text)
-  },
-}
-
-export default Clipboard
+  }
+}(navigator.clipboard)

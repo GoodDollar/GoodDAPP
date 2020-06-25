@@ -797,7 +797,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="edit_profile_phone_input edit_profile_phone_input css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitAlignItems": "center",
@@ -818,21 +818,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
             >
               <div
                 className="react-phone-number-input"
-                style={
-                  Object {
-                    "borderColor": "#EEE",
-                    "borderRadius": 24,
-                    "borderWidth": 1,
-                    "color": "#222",
-                    "marginBottom": 2,
-                    "marginTop": 2,
-                    "paddingBottom": 5,
-                    "paddingLeft": 0,
-                    "paddingRight": 0,
-                    "paddingTop": 5,
-                    "position": "relative",
-                  }
-                }
               >
                 <div
                   className="react-phone-number-input__row"
@@ -2875,7 +2860,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="edit_profile_phone_input edit_profile_phone_input css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitAlignItems": "center",
@@ -2896,21 +2881,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
             >
               <div
                 className="react-phone-number-input react-phone-number-input--invalid"
-                style={
-                  Object {
-                    "borderColor": "#FA6C77",
-                    "borderRadius": 24,
-                    "borderWidth": 1,
-                    "color": "#FA6C77",
-                    "marginBottom": 2,
-                    "marginTop": 2,
-                    "paddingBottom": 5,
-                    "paddingLeft": 0,
-                    "paddingRight": 0,
-                    "paddingTop": 5,
-                    "position": "relative",
-                  }
-                }
               >
                 <div
                   className="react-phone-number-input__row"

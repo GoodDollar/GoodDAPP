@@ -1,8 +1,10 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform } from 'react-native'
+
 import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
+
 const { animationData, imageAssetsFolder } = getAnimationData('Logo', require('./data'))
 
 const styles = {
@@ -18,7 +20,7 @@ const styles = {
 }
 
 class Logo extends AnimationBase {
-  onMount() {
+  onMount = () => {
     if (this.props.animation) {
       this.anim.play()
     } else {
@@ -32,7 +34,7 @@ class Logo extends AnimationBase {
         ref={this.setAnim}
         imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
-        source={animationData}
+        source={this.improveAnimationData(animationData)}
         autoSize={false}
         style={[Platform.select(styles), this.props.style]}
         loop={false}

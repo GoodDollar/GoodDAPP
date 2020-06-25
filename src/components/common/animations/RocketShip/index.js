@@ -1,6 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
+
 import AnimationBase from '../Base'
 import { getScreenHeight } from '../../../../lib/utils/Orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
@@ -14,7 +15,7 @@ const styles = {
 }
 
 class RocketShip extends AnimationBase {
-  onMount() {
+  onMount = () => {
     if (Platform.OS === 'web') {
       this.anim.onEnterFrame = e => {
         if (e.currentTime >= 195 && this.anim) {
@@ -41,7 +42,7 @@ class RocketShip extends AnimationBase {
           imageAssetsFolder={imageAssetsFolder}
           ref={this.setAnim}
           style={Platform.select(styles)}
-          source={animationData}
+          source={this.improveAnimationData(animationData)}
           enableMergePathsAndroidForKitKatAndAbove
         />
       </View>

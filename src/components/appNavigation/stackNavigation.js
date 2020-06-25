@@ -147,19 +147,21 @@ class AppView extends Component<AppViewProps, AppViewState> {
   goToRoot = () => {
     const { navigation } = this.props
     this.trans = true
-    this.setState({
-      stack: [],
-      currentState: {},
-    })
-
-    const route = navigation.state.routes[0]
-    route.params = {
-      ...route.params,
-      ...DEFAULT_PARAMS,
-    }
-
-    navigation.navigate(route)
-    this.trans = false
+    this.setState(
+      {
+        stack: [],
+        currentState: {},
+      },
+      () => {
+        const route = navigation.state.routes[0]
+        route.params = {
+          ...route.params,
+          ...DEFAULT_PARAMS,
+        }
+        navigation.navigate(route)
+        this.trans = false
+      }
+    )
   }
 
   /**
@@ -191,9 +193,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
     if (navigationConfig.backRouteName) {
       this.trans = true
-      this.setState({ currentState: {}, stack: [] })
-      navigation.navigate(navigationConfig.backRouteName)
-      this.trans = false
+      this.setState({ currentState: {}, stack: [] }, () => {
+        navigation.navigate(navigationConfig.backRouteName)
+        this.trans = false
+      })
     }
   }
 

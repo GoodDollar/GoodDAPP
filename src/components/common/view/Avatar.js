@@ -16,7 +16,7 @@ import { withStyles } from '../../../lib/styles'
  */
 const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, children, ...avatarProps }) => (
   <TouchableOpacity
-    activeOpacity={0.5}
+    activeOpacity={1}
     disabled={!onPress}
     onPress={onPress}
     style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}

@@ -13,8 +13,6 @@ import CustomButton from '../common/buttons/CustomButton'
 import API from '../../lib/API/api'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
-const TITLE = 'Edit Profile'
-
 const log = logger.child({ from: 'Verify edit profile field' })
 
 const EditProfile = ({ screenProps, theme, styles, navigation }) => {
@@ -61,7 +59,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     } catch (e) {
       log.error('Failed to send code', e.message, e)
 
-      showErrorDialog('Could not send verification code. Please try again', null, { onDismiss: goBack })
+      showErrorDialog('Could not send verification code. Please try again', undefined, { onDismiss: goBack })
     } finally {
       setLoading(false)
     }
@@ -78,7 +76,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
           </View>
         </Section.Row>
         <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.descriptionWrap]}>
-          <View style={styles.bottomContainer}>
+          <View style={[styles.bottomContainer, styles.width100p]}>
             <Text fontSize={14} lineHeight={16} fontFamily="Roboto" color="gray80Percent">
               {`A verification code will be sent to this ${sendToText}:`}
             </Text>
@@ -103,7 +101,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 }
 
 EditProfile.navigationOptions = {
-  title: TITLE,
+  title: 'Edit Profile',
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -127,6 +125,9 @@ const getStylesFromProps = ({ theme }) => ({
   cancelButton: {
     width: '28%',
     fontSize: normalize(14),
+  },
+  width100p: {
+    width: '100%',
   },
 })
 

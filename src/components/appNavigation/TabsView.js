@@ -126,7 +126,7 @@ const EmptySpaceComponent = ({ style }) => (
   </>
 )
 
-const TabsView = React.memo(({ navigation }) => {
+const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()
   const [token, setToken] = useState(isIOS ? undefined : true)
   const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
@@ -172,13 +172,17 @@ const TabsView = React.memo(({ navigation }) => {
     fetchTokens()
   }, [])
 
-  const goToRewards = useCallback(() => {
-    // if (isIOS) {
-    //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
-    //   return window.open(src, '_blank')
-    // }
-    navigation.navigate('Rewards')
-  }, [navigation, token])
+  const goToRewards = useCallback(
+    event => {
+      // if (isIOS) {
+      //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
+      //   return window.open(src, '_blank')
+      // }
+      event.preventDefault()
+      navigation.navigate('Rewards')
+    },
+    [navigation, token]
+  )
 
   /*const goToSupport = useCallback(() => {
     navigation.navigate('Support')
@@ -212,11 +216,12 @@ const TabsView = React.memo(({ navigation }) => {
         </>
       )}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
+      {!market && !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
       <TouchableOpacity onPress={slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>
   )
-})
+}
 
 export default TabsView

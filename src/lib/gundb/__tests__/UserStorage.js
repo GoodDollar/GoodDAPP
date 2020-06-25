@@ -10,6 +10,7 @@ import {
   getReceiveDataFromReceipt,
   hanukaBonusStartsMessage,
   inviteFriendsMessage,
+  longUseOfClaims,
   startClaiming,
   startSpending,
   type TransactionEvent,
@@ -18,9 +19,8 @@ import {
 } from '../UserStorageClass'
 import UserPropertiesClass from '../UserPropertiesClass'
 import { getUserModel } from '../UserModel'
-import { longUseOfClaims } from '../../../components/dashboard/Claim/events'
 import update from '../../updates'
-import { addUser } from './__util__/index'
+import { addUser, setProfileFieldIndex } from './__util__/index'
 
 welcomeMessage.date = '2019-01-01'
 
@@ -652,23 +652,19 @@ describe('UserStorage', () => {
       mobile: '+22222222222',
       username: 'notTaken',
     })
-    await gun
-      .get(`users/byusername`)
-      .get('taken')
-      .putAck('taken')
+    await setProfileFieldIndex(null, 'taken', 'username', 'taken')
     const result = await userStorage.setProfile(profileModel)
     expect(result).toBe(true)
 
-    try {
-      await userStorage.setProfile({
+    const e = await userStorage
+      .setProfile({
         ...profileModel,
         username: 'taken',
         email: 'diferent@email.com',
         mobile: '+22222222221',
       })
-    } catch (e) {
-      expect(e).toEqual(['Existing index on field username'])
-    }
+      .catch(e => e)
+    expect(e).toEqual(['Existing index on field username'])
     await delay(350)
     const updated = await userStorage.getProfile()
     expect(updated.username).toBe('notTaken')
@@ -677,10 +673,8 @@ describe('UserStorage', () => {
 
   it(`update username with used username should fail`, async () => {
     //take a username
-    await gun
-      .get(`users/byusername`)
-      .get('taken')
-      .putAck('taken')
+    await setProfileFieldIndex(null, 'taken', 'username', 'taken')
+
     const newResult = await userStorage.setProfileField('username', 'taken', 'public')
     expect(newResult).toMatchObject({ err: 'Existing index on field username', ok: 0 })
     const updatedUsername = await userStorage.getProfileFieldValue('username')
@@ -887,19 +881,9 @@ describe('users index', () => {
     gunUser.create('fakeuser', 'fakeuser', () => {
       gunUser.auth('fakeuser', 'fakeuser', async () => {
         await gunUser.get('profile').putAck(unavailableProfile)
-        await gun
-          .get('users/byemail')
-          .get(unavailableProfile.email)
-          .putAck(gunUser.get('profile'))
-        await gun
-          .get('users/bymobile')
-          .get(unavailableProfile.mobile)
-          .putAck(gunUser.get('profile'))
-        await gun
-          .get('users/byusername')
-          .get(unavailableProfile.username)
-          .putAck(gunUser.get('profile'))
-
+        await setProfileFieldIndex(null, gunUser.get('profile'), 'email', unavailableProfile.email)
+        await setProfileFieldIndex(null, gunUser.get('profile'), 'mobile', unavailableProfile.mobile)
+        await setProfileFieldIndex(null, gunUser.get('profile'), 'username', unavailableProfile.username)
         await userStorage.init()
         done()
       })
@@ -931,19 +915,19 @@ describe('users index', () => {
     expect(errors).toEqual({})
   })
 
-  it('validateProfile should return isValid=false when field is being used', async () => {
-    expect(await userStorage.constructor.isValidValue('email', unavailableProfile.email)).toBeFalsy()
-    expect(await userStorage.constructor.isValidValue('mobile', unavailableProfile.mobile)).toBeFalsy()
+  it('validateProfile should return isValid=false only on username when field is being used', async () => {
+    expect(await userStorage.constructor.isValidValue('email', unavailableProfile.email)).toBeTruthy()
+    expect(await userStorage.constructor.isValidValue('mobile', unavailableProfile.mobile)).toBeTruthy()
     expect(await userStorage.constructor.isValidValue('username', unavailableProfile.username)).toBeFalsy()
   })
 
   it('validateProfile should return isValid=false when field is being used and error only in that field', async () => {
     const { isValid, errors } = await userStorage.validateProfile({
       email: unavailableProfile.email,
-      username: 'newUsername',
+      username: unavailableProfile.username,
     })
     expect(isValid).toBeFalsy()
-    expect(errors).toEqual({ email: 'Unavailable email' })
+    expect(errors).toEqual({ username: 'Unavailable username' })
   })
 
   it('events/doesnt enqueue existing event', async () => {

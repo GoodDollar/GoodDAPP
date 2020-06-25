@@ -69,7 +69,7 @@ const mapPropsToStyles = ({ theme }) => {
       flex: 1,
     },
     section: {
-      marginTop: 'auto',
+      marginTop: getDesignRelativeHeight(34, false),
     },
     container: {
       minHeight: getDesignRelativeHeight(180),

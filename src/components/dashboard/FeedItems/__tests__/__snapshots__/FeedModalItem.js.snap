@@ -64,7 +64,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "844px",
+            "height": "768px",
             "msFlexItemAlign": "start",
             "width": "100%",
           }
@@ -269,7 +269,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       "flexGrow": 0,
                       "flexShrink": 0,
                       "justifyContent": "center",
-                      "marginBottom": "15px",
+                      "marginBottom": "30px",
                       "marginLeft": "-16px",
                       "marginRight": "-16px",
                       "marginTop": "-16px",
@@ -407,6 +407,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "22px",
+                        "marginRight": "auto",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -750,7 +751,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "844px",
+            "height": "768px",
             "msFlexItemAlign": "start",
             "width": "100%",
           }
@@ -955,7 +956,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       "flexGrow": 0,
                       "flexShrink": 0,
                       "justifyContent": "center",
-                      "marginBottom": "15px",
+                      "marginBottom": "30px",
                       "marginLeft": "-16px",
                       "marginRight": "-16px",
                       "marginTop": "-16px",
@@ -1197,6 +1198,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "22px",
+                        "marginRight": "auto",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -1227,21 +1229,31 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "color": "rgba(159,106,157,1.00)",
-                        "fontFamily": "gooddollar",
-                        "fontSize": "34px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
+                        "height": "36px",
                         "marginLeft": "auto",
-                        "marginRight": "1px",
+                        "width": "36px",
                       }
                     }
                   >
-                    
+                    <div
+                      className="css-text-901oao"
+                      dir="auto"
+                      style={
+                        Object {
+                          "color": "rgba(159,106,157,1.00)",
+                          "fontFamily": "gooddollar",
+                          "fontSize": "34px",
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                          "marginRight": "1px",
+                        }
+                      }
+                    >
+                      
+                    </div>
                   </div>
                 </div>
                 <div
@@ -1557,7 +1569,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "844px",
+            "height": "768px",
             "msFlexItemAlign": "start",
             "width": "100%",
           }
@@ -1762,7 +1774,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       "flexGrow": 0,
                       "flexShrink": 0,
                       "justifyContent": "center",
-                      "marginBottom": "15px",
+                      "marginBottom": "30px",
                       "msFlexDirection": "row",
                       "msFlexNegative": 0,
                       "msFlexPack": "center",
@@ -2115,6 +2127,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "22px",
+                        "marginRight": "auto",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -2165,21 +2178,18 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "color": "rgba(250,108,119,1.00)",
-                        "fontFamily": "gooddollar",
-                        "fontSize": "34px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
+                        "height": "36px",
                         "marginLeft": "auto",
-                        "marginRight": "1px",
+                        "width": "36px",
                       }
                     }
                   >
-                    
+                    <div
+                      className="css-view-1dbjc4n"
+                    />
                   </div>
                 </div>
                 <div
@@ -2495,7 +2505,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "844px",
+            "height": "768px",
             "msFlexItemAlign": "start",
             "width": "100%",
           }
@@ -2700,7 +2710,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       "flexGrow": 0,
                       "flexShrink": 0,
                       "justifyContent": "center",
-                      "marginBottom": "15px",
+                      "marginBottom": "30px",
                       "msFlexDirection": "row",
                       "msFlexNegative": 0,
                       "msFlexPack": "center",
@@ -3053,6 +3063,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "22px",
+                        "marginRight": "auto",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -3103,21 +3114,18 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "color": "rgba(250,108,119,1.00)",
-                        "fontFamily": "gooddollar",
-                        "fontSize": "34px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
+                        "height": "36px",
                         "marginLeft": "auto",
-                        "marginRight": "1px",
+                        "width": "36px",
                       }
                     }
                   >
-                    
+                    <div
+                      className="css-view-1dbjc4n"
+                    />
                   </div>
                 </div>
                 <div
@@ -3433,7 +3441,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "844px",
+            "height": "768px",
             "msFlexItemAlign": "start",
             "width": "100%",
           }
@@ -3639,7 +3647,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       "flexGrow": 0,
                       "flexShrink": 0,
                       "justifyContent": "center",
-                      "marginBottom": "15px",
+                      "marginBottom": "30px",
                       "msFlexDirection": "row",
                       "msFlexNegative": 0,
                       "msFlexPack": "center",
@@ -3651,7 +3659,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "height": "145px",
+                        "height": "160px",
                       }
                     }
                   />
@@ -3958,6 +3966,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "22px",
+                        "marginRight": "auto",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -4008,21 +4017,18 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "color": "rgba(0,195,174,1.00)",
-                        "fontFamily": "gooddollar",
-                        "fontSize": "34px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
+                        "height": "36px",
                         "marginLeft": "auto",
-                        "marginRight": "1px",
+                        "width": "36px",
                       }
                     }
                   >
-                    
+                    <div
+                      className="css-view-1dbjc4n"
+                    />
                   </div>
                 </div>
                 <div

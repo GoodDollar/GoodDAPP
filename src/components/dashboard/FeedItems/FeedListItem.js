@@ -1,9 +1,10 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
+import useNavigationMacro from '../../../lib/hooks/useNavigationMacro'
 import wavePattern from '../../../assets/feedListItemPattern.svg'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import Config from '../../../config/config'
@@ -28,15 +29,20 @@ type FeedListItemProps = {
  */
 const FeedListItem = (props: FeedListItemProps) => {
   const { theme, item, onPress, styles } = props
-  const itemType = item.displayType || item.type
+  const { id, type, displayType, action } = item
+
+  const itemType = displayType || type
   const isItemEmpty = itemType === 'empty'
   const itemStyle = getEventSettingsByType(theme, itemType)
+  const disableAnimForTests = Config.env === 'test'
+  const easing = 'ease-in'
+
   const imageStyle = {
     backgroundColor: itemStyle.color,
     backgroundImage: `url(${wavePattern})`,
   }
-  const disableAnimForTests = Config.env === 'test'
-  const easing = 'ease-in'
+
+  const onItemPress = useNavigationMacro(action, useCallback(() => onPress(id), [id, onPress]))
 
   if (isItemEmpty) {
     const simpleStore = SimpleStore.useStore()
@@ -108,7 +114,7 @@ const FeedListItem = (props: FeedListItemProps) => {
     <Animatable.View animation={disableAnimForTests ? '' : 'fadeIn'} easing={easing} useNativeDriver>
       <TouchableHighlight
         activeOpacity={0.5}
-        onPress={() => onPress(item.id)}
+        onPress={onItemPress}
         style={styles.row}
         tvParallaxProperties={{ pressMagnification: 1.1 }}
         underlayColor={theme.colors.lightGray}

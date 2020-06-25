@@ -116,10 +116,10 @@ class PhoneForm extends React.Component<Props, State> {
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
               <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
-                {`${getFirstWord(fullName)},\nenter your phone number\nso we could verify you`}
+                {`${getFirstWord(fullName)},\nenter your phone number\nso we can verify its you`}
               </Section.Title>
             </Section.Row>
-            <Section.Stack justifyContent="center" style={styles.column}>
+            <Section.Stack className="signup_phone_input" justifyContent="center" style={styles.column}>
               <PhoneInput
                 id={key + '_input'}
                 value={this.state.mobile}

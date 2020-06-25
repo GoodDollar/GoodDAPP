@@ -55,6 +55,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
           iconSize={16}
           style={[styles.saveButton, props.style]}
           onPress={pressAndNextState}
+          testID="save_button"
         >
           <Text
             color="surface"

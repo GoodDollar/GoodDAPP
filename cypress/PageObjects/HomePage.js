@@ -12,9 +12,9 @@ class HomePage {
     return cy.get('[data-testid="goodmarket_tab"]')
   }
 
-  get supportTab() {
-    return cy.get('[data-testid="support_tab"]')
-  }
+  /*get supportTab() {
+        return cy.get('[data-testid="support_tab"]')
+      }*/
 
   get optionsButton() {
     return cy.get('[data-testid="burger_button"]')
@@ -57,15 +57,35 @@ class HomePage {
   // }
 
   get welcomeFeed() {
-    return cy.contains('Start claiming free G$')
+    return cy.contains('Claim free G$ coins daily')
   }
 
   get deleteAccountButton() {
-    return cy.contains('Delete wallet')
+    return cy.contains('Delete Account')
   }
 
   get confirmDeletionButton() {
     return cy.get('span').contains('Delete')
+  }
+
+  get backupButton() {
+    return cy.contains('Export Wallet')
+  }
+
+  get exportWalletButton() {
+    return cy.contains('Export Wallet')
+  }
+
+  get clipboardButton() {
+    return cy.contains('Copy all to clipboard')
+  }
+
+  get logoutButton() {
+    return cy.contains('Logout')
+  }
+
+  get backArrow() {
+    return cy.get('div[style*="gooddollar"]')
   }
 
   waitForHomePageDisplayed() {

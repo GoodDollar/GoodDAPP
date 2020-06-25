@@ -1,9 +1,12 @@
 // @flow
-import { useMemo } from 'react'
 import { createConnectedStore } from 'undux'
 import { AsyncStorage } from 'react-native'
+import { isString } from 'lodash'
+
 import { IS_LOGGED_IN } from '../constants/localStorage'
-import withPinoLogger from './plugins/logger'
+import pinoLogger from '../logger/pino-logger'
+import createStoreEffects, { unduxLogger } from './plugins'
+import { createUseCurriedSettersHook } from './utils/setter'
 
 /**
  * Dialog data. This is being used to show a dialog across the app
@@ -99,16 +102,18 @@ const initialState: State = {
   serviceWorkerUpdated: null,
 }
 
+const { storeAccessor, storeEffects } = createStoreEffects()
+
 /**
  * default exported instance of our global Undux Store
  * @module
  */
-let SimpleStore: UnduxStore = createConnectedStore(initialState, withPinoLogger) // default value for tests
+let SimpleStore: UnduxStore = createConnectedStore(initialState, storeEffects) // default value for tests
 
 const initStore = async () => {
   let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
-  initialState.isLoggedIn = isLoggedIn
-  SimpleStore = createConnectedStore(initialState, withPinoLogger)
+  const newState = { ...initialState, isLoggedIn }
+  SimpleStore = createConnectedStore(newState, storeEffects)
   return SimpleStore
 }
 
@@ -119,10 +124,37 @@ const setInitFunctions = (_setWallet, _setUserStorage) => {
   setUserStorage = _setUserStorage
 }
 
-const useCurriedSetters = (paths: string[]) => {
-  const store = SimpleStore.useStore()
+const storeAssertion = (condition, logger, message) => {
+  let log = logger
+  const assertionFailed = condition()
 
-  return useMemo(() => paths.map(path => store.set(path)), [paths, store])
+  if (isString(logger)) {
+    log = pinoLogger.child({ from: logger })
+  }
+
+  if (assertionFailed) {
+    log.warn(message, 'Received store is null')
+  }
+
+  return !assertionFailed
 }
 
-export { initStore, SimpleStore as default, setInitFunctions, setWallet, setUserStorage, useCurriedSetters }
+const useCurriedSetters = createUseCurriedSettersHook(() => SimpleStore)
+
+const assertStore = (store, logger = unduxLogger, message = 'Operation failed') =>
+  storeAssertion(() => !store, logger, message)
+
+const assertStoreSnapshot = (store, logger = unduxLogger, message = 'Operation failed') =>
+  storeAssertion(() => !store || !store.storeSnapshot, logger, message)
+
+export {
+  storeAccessor as store,
+  initStore,
+  assertStore,
+  assertStoreSnapshot,
+  SimpleStore as default,
+  setInitFunctions,
+  setWallet,
+  setUserStorage,
+  useCurriedSetters,
+}

@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import canShare from '../../lib/utils/canShare'
 import {
   generateCode,
@@ -6,11 +7,22 @@ import {
   generateSendShareObject,
   generateSendShareText,
   generateShareLink,
-} from '../../lib/share'
+  shareAction as importedShareAction,
+} from '../../lib/share/index'
+import { useErrorDialog } from '../undux/utils/dialog'
 
 const _canShare = canShare()
 
 export default () => {
+  const [showErrorDialog] = useErrorDialog()
+
+  const _shareAction = useCallback(
+    (shareObj, customErrorMessage) => {
+      importedShareAction(shareObj, showErrorDialog, customErrorMessage)
+    },
+    [showErrorDialog]
+  )
+
   return {
     canShare: _canShare,
     generateReceiveShareObject,
@@ -19,5 +31,6 @@ export default () => {
     generateSendShareObject,
     generateSendShareText,
     generateShareLink,
+    shareAction: _shareAction,
   }
 }

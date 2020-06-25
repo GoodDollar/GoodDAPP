@@ -10,7 +10,6 @@ import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
 import userStorage from '../../../lib/gundb/UserStorage'
-import ClaimsThresholdFeedItem from '../Claim/ClaimsThresholdFeedItem'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -147,42 +146,17 @@ const getFeedTextStyles = ({ theme }) => ({
 const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice }) => {
   let result = ''
 
-  switch (feed.type) {
-    case 'welcome':
-      result = <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
-      break
-
-    case 'invite':
-      result = <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
-      break
-
-    case 'claimsThreshold':
-      result = <ClaimsThresholdFeedItem styles={styles} />
-      break
-
-    case 'backup':
-      result = <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
-      break
-
-    case 'spending':
-      result = <ReadMoreText text="here >>>" buttonText="Read more..." />
-      break
-
-    case 'claiming':
-      result = isSmallDevice ? <ReadMoreText text="daily G$" /> : ''
-      break
-
-    case 'hanukaStarts':
-      result = <ReadMoreText text="Claim today for extra G$$$" />
-      break
-
-    default:
-      result = (
-        <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
-          {feed.data.message}
-        </Text>
-      )
-      break
+  if (feed.data.readMore) {
+    result = <ReadMoreText text={feed.data.readMore} buttonText="Learn more..." />
+  } else if (feed.data.readMore === false) {
+    //if readMore is exactly false we dont show anything
+    result = ''
+  } else {
+    result = (
+      <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
+        {feed.data.message}
+      </Text>
+    )
   }
 
   return result

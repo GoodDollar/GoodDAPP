@@ -1,16 +1,19 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
 import { isAddress } from 'web3-utils'
-
+import goodWallet from '../../lib/wallet/GoodWallet'
 import InputWithAdornment from '../common/form/InputWithAdornment'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { Permissions } from '../permissions/types'
 
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
-import useClipboardPaste from '../../lib/hooks/useClipboardPaste'
+import { useClipboardPaste } from '../../lib/hooks/useClipboard'
+import usePermissions from '../permissions/hooks/usePermissions'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 export type TypeProps = {
   screenProps: any,
@@ -25,6 +28,10 @@ const validate = value => {
 
   if (!isAddress(value)) {
     return 'Invalid wallet address'
+  }
+
+  if (value.toLowerCase() === goodWallet.account.toLowerCase()) {
+    return "You can't send G$s to yourself, you already own your G$s"
   }
 
   return null
@@ -44,6 +51,14 @@ const SendToAddress = (props: TypeProps) => {
   const canContinue = useCallback(() => state.isValid, [state])
   const pasteValueFromClipboard = useClipboardPaste(setValue)
 
+  // check clipboard permission an show dialog is not allowed
+  const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
+    requestOnMounted: false,
+    onAllowed: pasteValueFromClipboard,
+  })
+
+  const handleAdornmentAction = useOnPress(requestClipboardPermissions, [])
+
   return (
     <Wrapper>
       <TopBar push={screenProps.push} hideProfile={false} />
@@ -59,7 +74,7 @@ const SendToAddress = (props: TypeProps) => {
             value={state.value}
             showAdornment
             adornment="paste"
-            adornmentAction={pasteValueFromClipboard}
+            adornmentAction={handleAdornmentAction}
             adornmentSize={32}
             adornmentStyle={styles.adornmentStyle}
             autoFocus

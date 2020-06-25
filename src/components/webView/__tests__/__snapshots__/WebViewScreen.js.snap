@@ -9,7 +9,7 @@ exports[`WebViewScreen Instances FAQ matches snapshot 1`] = `
   src="https://community.gooddollar.org/faq"
   style={
     Object {
-      "height": 844,
+      "height": 768,
     }
   }
   title="FAQ"
@@ -26,7 +26,7 @@ exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
   src="https://community.gooddollar.org/tou/#privacy-policy"
   style={
     Object {
-      "height": 844,
+      "height": 768,
     }
   }
   title="Privacy Policy"
@@ -43,7 +43,7 @@ exports[`WebViewScreen Instances PrivacyPolicyAndTerms matches snapshot 1`] = `
   src="https://community.gooddollar.org/tou/"
   style={
     Object {
-      "height": 844,
+      "height": 768,
     }
   }
   title="Privacy Policy & Terms"
@@ -60,10 +60,27 @@ exports[`WebViewScreen Instances Support matches snapshot 1`] = `
   src="https://support.gooddollar.org"
   style={
     Object {
-      "height": 844,
+      "height": 768,
     }
   }
-  title=" Support & FAQ"
+  title=" Support & Feedback"
+  width="100%"
+/>
+`;
+
+exports[`WebViewScreen Instances SupportForUnsigned matches snapshot 1`] = `
+<iframe
+  frameBorder="0"
+  height="100%"
+  onLoad={[Function]}
+  seamless={true}
+  src="https://support.gooddollar.org"
+  style={
+    Object {
+      "height": 768,
+    }
+  }
+  title=" Support & Feedback"
   width="100%"
 />
 `;

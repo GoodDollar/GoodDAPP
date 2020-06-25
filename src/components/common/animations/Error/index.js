@@ -1,7 +1,9 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
+
 import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
+
 const { animationData, imageAssetsFolder } = getAnimationData('Error', require('./data'))
 
 class Error extends AnimationBase {
@@ -11,7 +13,7 @@ class Error extends AnimationBase {
         imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
         autoPlay={true}
-        source={animationData}
+        source={this.improveAnimationData(animationData)}
         autoSize={false}
         style={{
           width: 200,

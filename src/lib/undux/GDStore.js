@@ -4,6 +4,7 @@ import { compose } from 'lodash/fp'
 import effects from '../../lib/undux/effects'
 import type { StandardFeed } from '../gundb/UserStorageClass'
 import withPinoLogger from './plugins/logger'
+import { createUseCurriedSettersHook } from './utils/setter'
 
 /**
  * Account data
@@ -26,6 +27,7 @@ type Account = {
   }
  */
 export type State = {
+  verificationAttempts: number,
   balanceUpdate: boolean,
   account: Account,
   destinationPath: string,
@@ -45,6 +47,7 @@ const initialState: State = {
     entitlement: undefined,
     ready: false,
   },
+  verificationAttempts: 0,
   isLoggedInCitizen: false,
   isLoggedIn: false,
   profile: {},
@@ -59,6 +62,14 @@ const initialState: State = {
  * default exported instance of our global Undux Store
  * @module
  */
-const GDStore: StoreDefinition<State> = createConnectedStore(initialState, compose(effects, withPinoLogger))
+const GDStore: StoreDefinition<State> = createConnectedStore(
+  initialState,
+  compose(
+    effects,
+    withPinoLogger
+  )
+)
+
+export const useCurriedSetters = createUseCurriedSettersHook(() => GDStore)
 
 export default GDStore

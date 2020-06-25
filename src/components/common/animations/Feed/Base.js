@@ -1,6 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform } from 'react-native'
+
 import AnimationBase from '../Base'
 
 class FeedInfo extends AnimationBase {
@@ -9,12 +10,24 @@ class FeedInfo extends AnimationBase {
     performCount: 0,
   }
 
-  onMount() {
-    const { delay = 0 } = this.props
+  onMount = () => {
+    const { delay = 0, showAnim } = this.props
+    const { isWeb } = this.state
 
     this.anim.onComplete = this.onAnimationFinishHandler
 
-    setTimeout(() => this.anim.play(), delay)
+    if (showAnim) {
+      // play animation
+      setTimeout(() => this.anim && this.anim.play(), delay)
+    } else if (isWeb) {
+      // web show static image
+      const lastFrame = Number(this.animationData.op) - 1
+      this.anim.goToAndStop(lastFrame, true)
+    } else {
+      // react native app show static image
+      const lastFrame = Number(this.animationData.op) - 1
+      this.anim.play(lastFrame - 1, lastFrame)
+    }
   }
 
   onAnimationFinishHandler = () => {
@@ -48,7 +61,7 @@ class FeedInfo extends AnimationBase {
     return (
       <Lottie
         ref={this.setAnim}
-        source={this.animationData}
+        source={this.improveAnimationData(this.animationData)}
         style={style}
         loop={false}
         onAnimationFinish={isWeb ? undefined : this.onAnimationFinishHandler}

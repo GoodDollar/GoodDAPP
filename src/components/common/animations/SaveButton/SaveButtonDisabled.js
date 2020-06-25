@@ -1,7 +1,9 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { TouchableOpacity } from 'react-native'
+
 import AnimationBase from '../Base'
+
 import animationData from './data.json'
 
 class SaveButtonDisabled extends AnimationBase {
@@ -12,7 +14,7 @@ class SaveButtonDisabled extends AnimationBase {
         <Lottie
           loop={false}
           play={false}
-          source={animationData}
+          source={this.improveAnimationData(animationData)}
           style={{
             width: '100%',
           }}

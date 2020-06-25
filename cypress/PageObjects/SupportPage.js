@@ -1,11 +1,23 @@
 /* eslint-disable no-undef */
 class SupportPage {
   get pageHeader() {
-    return cy.get('h1[role=heading]', { timeout: 10000 })
+    return cy.get('[data-testid="rewards_header"]', { timeout: 10000 })
   }
 
   get iframe() {
-    return cy.get('iframe[src="https://community.gooddollar.org/support-iframe/"]', { timeout: 10000 })
+    return cy.getIframeBody('iframe[title=" Support & Feedback"]')
+  }
+
+  get search() {
+    return '#search'
+  }
+
+  get topics() {
+    return '#topics'
+  }
+
+  get ask() {
+    return '#ask-a-question'
   }
 
   get helpFormFirstName() {

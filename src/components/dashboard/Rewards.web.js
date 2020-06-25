@@ -43,6 +43,7 @@ const RewardsTab = props => {
   useEffect(() => {
     store.set('loadingIndicator')({ loading: true })
     getToken()
+    return () => store.set('loadingIndicator')({ loading: false })
   }, [])
 
   useEffect(() => {

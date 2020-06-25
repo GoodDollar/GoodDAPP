@@ -6,7 +6,7 @@ import { useScreenState } from '../appNavigation/stackNavigation'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import TopBar from '../common/view/TopBar'
-import Clipboard from '../../lib/utils/Clipboard'
+import useClipboard from '../../lib/hooks/useClipboard'
 import { withStyles } from '../../lib/styles'
 import { Icon } from '../common'
 import AnimatedSendButton from '../common/animations/ShareLinkSendButton/ShareLinkSendButton'
@@ -26,6 +26,7 @@ export type ReceiveProps = {
 const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
   const [showErrorDialog] = useErrorDialog()
+  const [, setString] = useClipboard()
 
   const { amount, reason, paymentLink } = screenState
 
@@ -41,8 +42,12 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
         }
       }
     } else {
-      Clipboard.setString(paymentLink)
+      if (!(await setString(paymentLink))) {
+        // needed to not fire SEND_CONFIRMATION_SHARE if setString to Clipboard is failed
+        return
+      }
     }
+
     fireEvent('SEND_CONFIRMATION_SHARE', { type })
   }
 

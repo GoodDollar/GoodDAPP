@@ -1,20 +1,25 @@
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
+import { env } from '../lib/utils/env'
+
+// E2E checker utility import
+//import { isE2ERunning } from '../lib/utils/platform'
 
 const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin)
 const isEToro = process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro'
+const forceLogLevel = window && window.location && window.location.search.match(/level=(.*?)($|&)/)
 
 const Config = {
-  env: process.env.REACT_APP_ENV || 'development',
+  env,
   version: process.env.VERSION || 'v0',
   contractsVersion,
   isEToro,
   isPhaseZero: 'true' === process.env.REACT_APP_ENV_PHASE_ZERO,
-  newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://gdlr.info/newversion',
-  logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
+  newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
+  logLevel: (forceLogLevel && forceLogLevel[1]) || process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
-  web3SiteUrlEconomyEndpoint: process.env.REACT_APP_WEB3_SITE_URL_ECONOMY_ENDPOINT || '/learn/economy',
+  learnMoreEconomyUrl: process.env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
   dashboardUrl: process.env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: process.env.REACT_APP_INFURA_KEY,
@@ -25,10 +30,17 @@ const Config = {
   enableSelfCustody: process.env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,
+  auth0ClientId: process.env.REACT_APP_AUTH0_CLIENT_ID,
+  auth0SMSClientId: process.env.REACT_APP_AUTH0_SMS_CLIENT_ID,
+  auth0Domain: process.env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
+  zoomServerURL: process.env.REACT_APP_ZOOM_SERVER_BASEURL || 'https://api.zoomauth.com/api/v2/biometrics',
+  faceVerificationPrivacyUrl:
+    process.env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
+    'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
   rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
   httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
@@ -54,6 +66,9 @@ const Config = {
   showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: process.env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
+  claimQueue: process.env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
+  mauticUrl: process.env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
+  mauticAddContractFormID: process.env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
   ethereum: {
     '42': {
       network_id: 42,
@@ -83,9 +98,11 @@ const Config = {
   },
 }
 
-Config.web3SiteUrlEconomyPage = `${Config.web3SiteUrl}${Config.web3SiteUrlEconomyEndpoint}`
-
+// TODO: wrap all stubs / "backdoors" made for automated testing
+// if (isE2ERunning) {
 global.config = Config
+
+//}
 
 // Forcing value as number, if not MNID encoder/decoder may fail
 // Config.networkId = Config.ethereum[Config.networkId].network_id

@@ -1,12 +1,18 @@
-.react-phone-number-input {
+@import url('~react-phone-number-input/style.css');
+
+.edit_profile_phone_input .react-phone-number-input {
   width: 100% !important;
   padding: 2px !important;
   border-radius: 24px;
-  border: 1px solid #cbcbcb;
+  border: 1px solid #EEE;
   flex-grow: 1;
 }
 
-.react-phone-number-input__input {
+.edit_profile_phone_input .react-phone-number-input--invalid {
+  border-color: #fa6c77;
+}
+
+.edit_profile_phone_input .react-phone-number-input__input {
   height: 36px;
   background: transparent;
   border-width: 0;
@@ -16,27 +22,27 @@
   color: #000;
 }
 
-.react-phone-number-input__input.react-phone-number-input__input--invalid {
+.edit_profile_phone_input .react-phone-number-input__input.react-phone-number-input__input--invalid {
   color: #fa6c77;
 }
 
-.react-phone-number-input__icon {
+.edit_profile_phone_input .react-phone-number-input__icon {
   border-radius: 2px;
 }
 
-.react-phone-number-input__country--native {
+.edit_profile_phone_input .react-phone-number-input__country--native {
   margin: auto 3px;
 }
 
-.react-phone-number-input__row .react-phone-number-input__input {
+.edit_profile_phone_input .react-phone-number-input__row .react-phone-number-input__input {
   border-bottom: 0 !important;
 }
 
-.react-phone-number-input__input:-webkit-autofill {
+.edit_profile_phone_input .react-phone-number-input__input:-webkit-autofill {
   box-shadow: none;
 }
 
-.react-phone-number-input.react-phone-number-input--invalid .react-phone-number-input__error,
-.react-phone-number-input__error {
+.edit_profile_phone_input .react-phone-number-input.react-phone-number-input--invalid .react-phone-number-input__error,
+.edit_profile_phone_input .react-phone-number-input__error {
   display: none !important;
 }

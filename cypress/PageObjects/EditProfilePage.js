@@ -21,7 +21,11 @@ class EditProfilePage {
   }
 
   get saveButton() {
-    return cy.get('[role="button"]').eq(2)
+    return cy.get('[data-testid="save_button"]')
+  }
+
+  get saveButtonText() {
+    return cy.contains(/SAVE/i)
   }
 
   get pageHeader() {
@@ -41,9 +45,7 @@ class EditProfilePage {
   }
 
   get wrongEmailErrorDiv() {
-    return cy.xpath('//*[@id="root"]/div[1]/div/div/div/div[2]/div/div/div/div[2]/div/div/div[1]/div/div[2]', {
-      timeout: 10000,
-    })
+    return contains('Enter a valid format: yourname@example.com')
   }
 
   waitForEditProfilePageDisplayed() {
@@ -65,9 +67,7 @@ class EditProfilePage {
   }
 
   fillUserName(userName) {
-    const nameInput = cy
-      .get('input[placeholder="Choose a Username"]', { timeout: 10000 })
-      .should('contains.value', 'And')
+    const nameInput = cy.get('input[placeholder="Choose a Username"]', { timeout: 10000 })
     nameInput.focus().clear(), { timeout: 1000 }
     nameInput.clear().type(userName), { delay: 400 }
     nameInput.focus().blur()

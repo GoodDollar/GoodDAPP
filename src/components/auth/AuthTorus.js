@@ -1,14 +1,22 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
-import { CLICK_BTN_GETINVITED, fireEvent, SIGNIN_TORUS_SUCCESS, SIGNUP_STARTED } from '../../lib/analytics/analytics'
+import {
+  CLICK_BTN_GETINVITED,
+  fireEvent,
+  identifyOnUserSignup,
+  SIGNIN_TORUS_SUCCESS,
+  SIGNUP_STARTED,
+} from '../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../lib/constants/localStorage'
+import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
 import NavBar from '../appNavigation/NavBar'
-import { PrivacyPolicy, PrivacyPolicyAndTerms, Support } from '../webView/webViewInstances'
+import Recover from '../signin/Mnemonics'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Auth/torusIllustration.svg'
@@ -25,6 +33,7 @@ Image.prefetch(illustration)
 const log = logger.child({ from: 'AuthTorus' })
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const asGuest = true
+  const [isPasswordless, setPasswordless] = useState(false)
   const [showErrorDialog] = useErrorDialog()
   const torusSDK = useTorus()
   const { navigate } = navigation
@@ -70,26 +79,27 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     return { goodWallet, userStorage, source }
   }
 
-  const signupGoogle = () => handleSignUp('google')
+  const signupGoogle = () => handleSignUp(config.isPhaseZero ? 'google-old' : 'google')
   const signupFacebook = () => handleSignUp('facebook')
+  const signupAuth0 = loginType => handleSignUp(loginType === 'email' ? 'auth0-pwdless-email' : 'auth0-pwdless-sms')
 
   const handleSignUp = useCallback(
-    async (provider: 'facebook' | 'google') => {
+    async (provider: 'facebook' | 'google' | 'google-old' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
       store.set('loadingIndicator')({ loading: true })
-      const redirectTo = 'Phone'
+      const redirectTo = 'Name'
       let torusUser
       let replacing = false
+
       try {
-        switch (provider) {
-          case 'facebook':
-            torusUser = await torusSDK.triggerLogin('facebook', 'facebook-gooddollar')
-            break
-          default:
-          case 'google':
-            torusUser = await torusSDK.triggerLogin('google', 'google-gooddollar')
-            break
+        if (['development', 'test'].includes(config.env)) {
+          torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
         }
+        if (torusUser == null) {
+          torusUser = await torusSDK.triggerLogin(provider)
+        }
+        identifyOnUserSignup(torusUser.email)
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+
         if (curSeed && curSeed !== torusUser.privateKey) {
           await AsyncStorage.clear()
           replacing = true
@@ -100,7 +110,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('torus login success', { torusUser })
       } catch (e) {
         store.set('loadingIndicator')({ loading: false })
-        log.error('torus login failed', e.message, e)
+        if (e.message === 'user closed popup') {
+          log.info(e.message, e)
+        } else {
+          log.error('torus login failed', e.message, e)
+        }
         showErrorDialog('We were unable to complete the login. Please try again.')
         return
       }
@@ -120,7 +134,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         //user doesnt exists start signup
         fireEvent(SIGNUP_STARTED, { source, provider })
-        navigate(redirectTo, { regMethod: 'torus', torusUser })
+        navigate(redirectTo, {
+          regMethod: REGISTRATION_METHOD_TORUS,
+          torusUser,
+          torusProvider: provider,
+        })
 
         //Hack to get keyboard up on mobile need focus from user event such as click
         setTimeout(() => {
@@ -139,7 +157,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   )
 
   const goToManualRegistration = useCallback(() => {
-    navigate('Signup')
+    navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])
 
   const goToSignIn = useCallback(() => {
@@ -158,6 +176,55 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
+  const auth0ButtonHandler = useMemo(() => (asGuest ? () => setPasswordless(true) : goToW3Site), [
+    asGuest,
+    signupAuth0,
+    setPasswordless,
+  ])
+
+  const signupAuth0Email = () => signupAuth0('email')
+  const signupAuth0Mobile = () => signupAuth0('mobile')
+
+  const ShowPasswordless = useMemo(
+    () => () => {
+      if (isPasswordless) {
+        return (
+          <Section.Row>
+            <CustomButton
+              color={mainTheme.colors.darkGray}
+              style={[styles.buttonLayout, { flex: 1 }]}
+              onPress={signupAuth0Email}
+              disabled={torusSDK === undefined}
+              testID="login_via_email"
+            >
+              Via Email
+            </CustomButton>
+            <CustomButton
+              color={mainTheme.colors.darkGray}
+              style={[styles.buttonLayout, { flex: 1 }]}
+              onPress={signupAuth0Mobile}
+              disabled={torusSDK === undefined}
+              testID="login_via_mobile"
+            >
+              Via Mobile
+            </CustomButton>
+          </Section.Row>
+        )
+      }
+      return (
+        <CustomButton
+          color={mainTheme.colors.darkGray}
+          style={styles.buttonLayout}
+          onPress={auth0ButtonHandler}
+          disabled={torusSDK === undefined}
+          testID="login_with_auth0"
+        >
+          Agree & Continue with Passwordless
+        </CustomButton>
+      )
+    },
+    [isPasswordless, torusSDK, auth0ButtonHandler]
+  )
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
       <NavBar title="Welcome to gooddollar!" />
@@ -178,7 +245,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       <Section style={styles.bottomContainer}>
         {asGuest && (
           <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
-            {'By Signing up you are accepting our\n'}
+            {`By Signing up you are accepting our \n`}
             <Text
               fontSize={12}
               color="gray80Percent"
@@ -211,7 +278,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
                   fontSize={14}
                   color="primary"
                 >
-                  Create self custody wallet
+                  Agree & Continue with self custody wallet
                 </Section.Text>
               </TouchableOpacity>
             </Section.Row>
@@ -236,8 +303,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           textStyle={googleButtonTextStyle}
           onPress={googleButtonHandler}
           disabled={torusSDK === undefined}
+          testID="login_with_google"
         >
-          Continue with Google
+          Agree & Continue with Google
         </CustomButton>
         <CustomButton
           color={mainTheme.colors.facebookBlue}
@@ -245,9 +313,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           textStyle={facebookButtonTextStyle}
           onPress={facebookButtonHandler}
           disabled={torusSDK === undefined}
+          testID="login_with_facebook"
         >
-          Continue with Facebook
+          Agree & Continue with Facebook
         </CustomButton>
+        <ShowPasswordless />
       </Section>
     </Wrapper>
   )
@@ -307,14 +377,18 @@ auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,
 }
-export default createStackNavigator(
-  {
-    Login: auth,
-    PrivacyPolicyAndTerms,
-    PrivacyPolicy,
-    Support,
-  },
-  {
-    backRouteName: 'Auth',
-  }
-)
+
+const routes = {
+  Login: auth,
+  PrivacyPolicyAndTerms,
+  PrivacyPolicy,
+  Support: SupportForUnsigned,
+}
+
+if (config.enableSelfCustody) {
+  Object.assign(routes, { Recover })
+}
+
+export default createStackNavigator(routes, {
+  backRouteName: 'Auth',
+})

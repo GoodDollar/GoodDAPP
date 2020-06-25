@@ -11,16 +11,16 @@ const sdkOptions = {
   baseUrl: `${config.publicUrl}/torus/`,
   enableLogging: config.env === 'development',
 }
-export const torus = new TorusSdk({
-  GOOGLE_CLIENT_ID: config.googleClientId,
-  FACEBOOK_CLIENT_ID: config.facebookAppId,
-  ...sdkOptions,
-})
 
 export const useTorus = () => {
   const [sdk, setSDK] = useState(undefined)
 
   const registerTorusWorker = async () => {
+    const torus = new TorusSdk({
+      GOOGLE_CLIENT_ID: config.googleClientId,
+      FACEBOOK_CLIENT_ID: config.facebookAppId,
+      ...sdkOptions,
+    })
     try {
       const res = await torus.init()
       log.debug('torus service initialized', { res })

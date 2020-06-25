@@ -128,7 +128,10 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     const walletAddress = await gun
       .get('users/bymobile')
       .get(phoneNumber)
-      .path('profile.walletAddress.display')
+      .get('profile')
+      .get('walletAddress')
+      .get('display')
+
     return walletAddress
   }
 
@@ -143,7 +146,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const handlePayment = useCallback(async () => {
     let paymentLink = link
     let walletAddress
-    const { phoneNumber } = contact
+    const { phoneNumber } = contact || ''
     if (phoneNumber) {
       const cleanPhoneNumber = phoneNumber.replace(/\D/g, '')
       walletAddress = await searchWalletAddress(cleanPhoneNumber)
@@ -153,7 +156,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       if (walletAddress) {
         sendPayment(walletAddress)
       } else {
-        text(contact.phoneNumber, paymentLink)
+        const link = paymentLink ? paymentLink : getLink()
+        text(contact.phoneNumber, link)
         setShared(true)
       }
     } else {

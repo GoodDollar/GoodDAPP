@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import NetInfo from '@react-native-community/netinfo'
+import { useNetInfo } from '@react-native-community/netinfo'
 import { get } from 'lodash'
 import Config from '../../config/config'
 import API from '../API/api'
@@ -10,18 +10,9 @@ import useAppState from './useAppState'
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const { isConnected = false } = useNetInfo() || {}
 
-  useEffect(() => {
-    const cb = connection => {
-      setIsConnection(connection)
-    }
-    NetInfo.fetch().then(isConnectionNow => setIsConnection(isConnectionNow.isConnected))
-    NetInfo.addEventListener('connectionChange', cb)
-    return () => NetInfo.removeEventListener('connectionChange', cb)
-  }, [])
-
-  return isConnection
+  return isConnected
 }
 
 export const useConnectionWeb3 = () => {

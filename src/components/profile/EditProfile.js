@@ -171,6 +171,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           imageSize={avatarSize - AVATAR_MARGIN}
           style={styles.userAvatar}
           containerStyle={styles.userAvatarWrapper}
+          uknowStyle={styles.uknowStyles}
         >
           <CameraButton handleCameraPress={handleCameraPress} />
         </UserAvatar>
@@ -235,8 +236,17 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: halfAvatarSize,
     },
     userAvatar: {
-      borderWidth: -1,
-      borderColor: white,
+      borderWidth: 3,
+      borderColor: theme.colors.white,
+      justifyContent: 'center',
+      flexDirection: 'row-reverse',
+      alignItems: 'flex-end',
+      borderRadius: halfAvatarSize,
+    },
+    uknowStyles: {
+      borderWidth: 3,
+      borderColor: theme.colors.white,
+      borderRadius: halfAvatarSize,
     },
     emptySpace: {
       height: 74,

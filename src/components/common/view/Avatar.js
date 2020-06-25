@@ -14,7 +14,7 @@ import { withStyles } from '../../../lib/styles'
  * @param {Number} [props.size=34]
  * @returns {React.Node}
  */
-const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, children, ...avatarProps }) => (
+const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, children, uknowStyle, ...avatarProps }) => (
   <TouchableOpacity
     activeOpacity={1}
     disabled={!onPress}
@@ -30,7 +30,7 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
         {...avatarProps}
       />
     ) : (
-      <View style={{ width: size, height: size, backgroundColor: 'rgba(0, 0, 0, 0)' }} {...avatarProps}>
+      <View style={[{ width: size, height: size, backgroundColor: 'rgba(0, 0, 0, 0)' }, uknowStyle]} {...avatarProps}>
         <UnknownProfileSVG />
       </View>
     )}

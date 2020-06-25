@@ -151,7 +151,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 30,
   },
   mainPhoto: {
-    height: '20vh',
+    height: '20%',
     width: '100%',
   },
   claimIllustration: {

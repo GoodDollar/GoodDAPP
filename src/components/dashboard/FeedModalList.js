@@ -160,7 +160,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   flatList: {
     // transform: 'translateY(1px)', //Do not delete, this repairs horizontal feed scrolling
-    transform: [{ translateY: '1' }], //Do not delete, this repairs horizontal feed scrolling
+    transform: [{ translateY: 1 }], //Do not delete, this repairs horizontal feed scrolling
   },
 })
 

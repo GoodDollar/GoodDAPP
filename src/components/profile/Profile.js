@@ -51,6 +51,7 @@ const ProfileWrapper = props => {
             onPress={handleAvatarPress}
             size={avatarSize}
             imageSize={avatarSize - 6}
+            uknowStyle={styles.userAvatar}
           />
           <Text fontSize={22} fontFamily="Roboto Slab" lineHeight={29} style={styles.userName}>
             {!!profile && profile.fullName}
@@ -77,48 +78,52 @@ ProfileWrapper.navigationOptions = {
   title: 'My Profile',
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  emptySpace: {
-    height: 75,
-    width: '100%',
-  },
-  section: {
-    flexGrow: 1,
-    padding: theme.sizes.defaultDouble,
-  },
-  iconRightContainer: {
-    transform: [{ rotateY: '180deg' }],
-  },
-  iconLeft: {
-    position: 'absolute',
-    left: getDesignRelativeWidth(20),
-  },
-  iconRight: {
-    position: 'absolute',
-    right: getDesignRelativeWidth(20),
-  },
-  userDataWrapper: {
-    position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  userAvatar: {
-    borderWidth: 3,
-    borderColor: theme.colors.white,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  userDataAndButtonsRow: {
-    display: 'flex',
-    justifyContent: 'center',
-    position: 'relative',
-    zIndex: 1,
-    height: avatarSize / 2,
-  },
-  userName: {
-    marginTop: theme.sizes.default,
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const halfAvatarSize = avatarSize / 2
+  return {
+    emptySpace: {
+      height: 75,
+      width: '100%',
+    },
+    section: {
+      flexGrow: 1,
+      padding: theme.sizes.defaultDouble,
+    },
+    iconRightContainer: {
+      transform: [{ rotateY: '180deg' }],
+    },
+    iconLeft: {
+      position: 'absolute',
+      left: getDesignRelativeWidth(20),
+    },
+    iconRight: {
+      position: 'absolute',
+      right: getDesignRelativeWidth(20),
+    },
+    userDataWrapper: {
+      position: 'absolute',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    userAvatar: {
+      borderWidth: 3,
+      borderColor: theme.colors.white,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: halfAvatarSize,
+    },
+    userDataAndButtonsRow: {
+      display: 'flex',
+      justifyContent: 'center',
+      position: 'relative',
+      zIndex: 1,
+      height: avatarSize / 2,
+    },
+    userName: {
+      marginTop: theme.sizes.default,
+    },
+  }
+}
 
 const Profile = withStyles(getStylesFromProps)(ProfileWrapper)
 

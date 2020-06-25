@@ -371,16 +371,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         const { mobile, email, privateKey, accessToken, idToken } = torusUser
 
         // create proof that email/mobile is the same one verified by torus
-        assign(requestPayload, { torusProvider })
+        assign(requestPayload, {
+          torusProvider,
+          torusAccessToken: accessToken,
+          torusIdToken: idToken,
+        })
 
-        if (torusProvider === 'facebook') {
-          // if logged in via facebook - just sending FB access token received from OAuth
-          assign(requestPayload, {
-            torusAccessToken: accessToken,
-            torusIdToken: idToken,
-          })
-        } else {
-          const torusProofNonce = String(Date.now()) // otherwise generating & signing proof
+        if (torusProvider !== 'facebook') {
+          // if logged in via other provider that facebook - generating & signing proof
+          const torusProofNonce = String(Date.now())
           const msg = (mobile || email) + torusProofNonce
           const proof = goodWallet.wallet.eth.accounts.sign(msg, privateKey)
 

@@ -10,9 +10,8 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import illustration from '../../../assets/Claim/claimQueue.svg'
 import { withStyles } from '../../../lib/styles'
-
 import Config from '../../../config/config'
-import logger from '../../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../../lib/logger/pino-logger'
 
 const getStyles = ({ theme }) => ({
   title: {
@@ -43,7 +42,9 @@ const ClaimQueuePopup = ({ styles }) => (
   </View>
 )
 const ClaimQueuePopupThemed = withStyles(getStyles)(ClaimQueuePopup)
+
 const log = logger.child({ from: 'useClaimQueue' })
+
 export default () => {
   const [queueStatus, setQueueStatus] = useState(undefined)
   const [showLoading, hideLoading] = useLoadingIndicator()
@@ -114,7 +115,7 @@ export default () => {
       }
       return true
     } catch (e) {
-      log.error('handleClaimQueue failed', e.message, e)
+      logErrorWithDialogShown(log, 'handleClaimQueue failed', e.message, e)
       showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status')
       return false
     } finally {

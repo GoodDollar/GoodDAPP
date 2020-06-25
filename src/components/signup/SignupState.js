@@ -13,7 +13,7 @@ import {
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -432,7 +432,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setLoading(false)
       return true
     } catch (e) {
-      log.error('New user failure', e.message, e)
+      logErrorWithDialogShown(log, 'New user failure', e.message, e)
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, e.message)
 
       // showErrorDialog('Something went on our side. Please try again')
@@ -512,7 +512,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error('Send mobile code failed', e.message, e)
+        logErrorWithDialogShown(log, 'Send mobile code failed', e.message, e)
         return showErrorDialog('Could not send verification code. Please try again')
       } finally {
         setLoading(false)
@@ -524,6 +524,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         if (data.ok === 0) {
           return showErrorDialog('Could not send verification email. Please try again')
         }
+
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
         if (Config.skipEmailVerification || data.onlyInEnv) {
           // Server is using onlyInEnv middleware (probably dev mode), email verification is not sent.
@@ -537,7 +538,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error('email verification failed unexpected:', e.message, e)
+        logErrorWithDialogShown(log, 'email verification failed unexpected:', e.message, e)
         return showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
       } finally {
         setLoading(false)

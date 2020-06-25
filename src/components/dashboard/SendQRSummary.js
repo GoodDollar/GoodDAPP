@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -32,7 +32,7 @@ const log = logger.child({ from: 'SendQRSummary' })
 const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
-  const [showDialog, showErrorDialog] = useDialog()
+  const [showDialog, , showErrorDialog] = useDialog()
   const [survey, setSurvey] = useState('other')
   const [showSurvey, setShowSurvey] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -48,7 +48,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
     try {
       sendGD()
     } catch (e) {
-      log.error('Send TX failed:', e.message, e)
+      logErrorWithDialogShown(log, 'Send TX failed:', e.message, e)
       showErrorDialog({
         visible: true,
         title: 'Transaction Failed!',
@@ -117,7 +117,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
         },
       })
     } catch (e) {
-      log.error('Send TX failed:', e.message, e)
+      logErrorWithDialogShown(log, 'Send TX failed:', e.message, e)
       showErrorDialog({
         visible: true,
         title: 'Transaction Failed!',

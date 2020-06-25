@@ -6,7 +6,7 @@ import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import Config from '../../config/config'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -108,7 +108,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         },
       })
     } catch (e) {
-      log.error('Send TX failed:', e.message, e)
+      logErrorWithDialogShown(log, 'Send TX failed:', e.message, e)
 
       showErrorDialog({
         visible: true,
@@ -131,8 +131,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       // Go to transaction confirmation screen
       push('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
     } catch (e) {
+      logErrorWithDialogShown(log, 'Something went wrong while trying to generate send link', e.message, e)
       showErrorDialog('Could not complete transaction. Please try again.')
-      log.error('Something went wrong while trying to generate send link', e.message, e)
     }
   }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
 
@@ -194,7 +194,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       const { txPromise, paymentLink } = generateLinkResponse
 
       txPromise.catch(e => {
-        log.error('generateLinkAndSend:', e.message, e)
+        logErrorWithDialogShown(log, 'generateLinkAndSend:', e.message, e)
 
         showErrorDialog('Link generation failed. Please try again', '', {
           buttons: [

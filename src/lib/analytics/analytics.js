@@ -361,7 +361,7 @@ const patchLogger = () => {
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
   logger.error = (...args) => {
-    const [logContext, logMessage, eMsg, errorObj, ...rest] = args
+    const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
 
     if (isString(logMessage) && !logMessage.includes('axios')) {
       const logPayload = {
@@ -369,6 +369,7 @@ const patchLogger = () => {
         reason: logMessage,
         logContext,
         eMsg,
+        dialogShown: extra.dialogShown,
       }
 
       if (isFSEnabled) {
@@ -390,12 +391,12 @@ const patchLogger = () => {
       BugSnag.notify(logMessage, {
         context: from,
         groupingHash: from,
-        metaData: { logMessage, eMsg, errorObj, rest },
+        metaData: { logMessage, eMsg, errorObj, extra },
       })
     }
 
     if (isRollbarEnabled) {
-      Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
+      Rollbar.error(logMessage, errorObj, { logContext, eMsg, extra })
     }
 
     let errorToPassIntoLog = errorObj
@@ -411,7 +412,8 @@ const patchLogger = () => {
       errorObj,
       logContext,
       eMsg,
-      rest,
+      extra,
+      dialogShown: extra.dialogShown,
     })
 
     return logError(...args)

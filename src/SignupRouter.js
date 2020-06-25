@@ -2,7 +2,7 @@ import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { View } from 'react-native'
 import createAppContainer from './lib/utils/createAppContainer'
-import { isAndroid } from './lib/utils/platform'
+import { isAndroid, isWeb } from './lib/utils/platform'
 import Config from './config/config'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
@@ -18,7 +18,7 @@ import AuthTorus from './components/auth/AuthTorus'
 
 const initialRouteName = 'Auth' // isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 
-const AuthType = Config.torusEnabled ? AuthTorus : Auth
+const AuthType = isWeb && Config.torusEnabled ? AuthTorus : Auth
 
 const routes = {
   Auth: AuthType,

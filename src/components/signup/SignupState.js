@@ -508,6 +508,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           const errorMessage =
             data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
 
+          logErrorWithDialogShown(log, errorMessage, '', null, { data })
           return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
         }
         return navigateWithFocus(nextRoute.key)
@@ -522,6 +523,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         setLoading(true)
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
+          logErrorWithDialogShown(log, 'Send verification code failed', '', null, { data })
           return showErrorDialog('Could not send verification email. Please try again')
         }
 

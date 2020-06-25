@@ -362,6 +362,13 @@ const patchLogger = () => {
 
   logger.error = (...args) => {
     const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
+    let errorToPassIntoLog = errorObj
+
+    if (errorObj instanceof Error) {
+      errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
+    } else {
+      errorToPassIntoLog = new Error(logMessage)
+    }
 
     if (isString(logMessage) && !logMessage.includes('axios')) {
       const logPayload = {
@@ -391,20 +398,12 @@ const patchLogger = () => {
       BugSnag.notify(logMessage, {
         context: from,
         groupingHash: from,
-        metaData: { logMessage, eMsg, errorObj, extra },
+        metaData: { logMessage, eMsg, errorObj: errorToPassIntoLog, extra },
       })
     }
 
     if (isRollbarEnabled) {
-      Rollbar.error(logMessage, errorObj, { logContext, eMsg, extra })
-    }
-
-    let errorToPassIntoLog = errorObj
-
-    if (errorObj instanceof Error) {
-      errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
-    } else {
-      errorToPassIntoLog = new Error(logMessage)
+      Rollbar.error(logMessage, errorToPassIntoLog, { logContext, eMsg, extra })
     }
 
     reportToSentry(errorToPassIntoLog, {

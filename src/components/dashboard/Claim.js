@@ -267,6 +267,11 @@ const Claim = props => {
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
+        logErrorWithDialogShown(log, 'Claim transaction failed', '', null, {
+          txHash: receipt.transactionHash,
+          entitlement: curEntitlement,
+          status: receipt.status,
+        })
         showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
       }
     } catch (e) {
@@ -281,8 +286,8 @@ const Claim = props => {
   const handleFaceVerification = () => {
     //if user is not in whitelist and we do not do faceverification then this is an error
     if (Config.zoomLicenseKey == null) {
-      showSupportDialog(showErrorDialog, hideDialog, screenProps.push, 'Faceverification disabled')
       logErrorWithDialogShown(log, 'handleFaceVerification failed', '', new Error('Zoom licensekey missing'))
+      showSupportDialog(showErrorDialog, hideDialog, screenProps.push, 'Faceverification disabled')
     } else {
       screenProps.push('FaceVerificationIntro', { from: 'Claim' })
     }

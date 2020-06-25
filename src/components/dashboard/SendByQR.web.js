@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import { extractQueryParams, readCode } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
@@ -73,8 +73,8 @@ const SendByQR = ({ screenProps }: Props) => {
         return
       }
 
+      logErrorWithDialogShown(log, 'QR scan send failed', message, exception)
       showErrorDialog(errorMessage, '', dialogOptions)
-      log.error('QR scan send failed', message, exception)
     },
     [showErrorDialog]
   )

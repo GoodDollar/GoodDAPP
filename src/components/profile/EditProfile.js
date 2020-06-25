@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { debounce, isEqual, isEqualWith, merge, pickBy } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
@@ -134,7 +134,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
     return userStorage
       .setProfile(toupdate, true)
       .catch(e => {
-        log.error('Error saving profile', { toupdate }, e.message, e)
+        logErrorWithDialogShown(log, 'Error saving profile', { toupdate }, e.message, e)
         showErrorDialog('Could not save profile. Please try again.')
         return false
       })

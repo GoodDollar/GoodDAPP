@@ -10,7 +10,7 @@ import { CustomButton, Section, Text } from '../common'
 import MnemonicInput from '../signin/MnemonicInput'
 import userStorage from '../../lib/gundb/UserStorage'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
 
@@ -49,7 +49,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
         message: 'We sent an email with recovery instructions for your wallet',
       })
     } catch (e) {
-      log.error('backup email failed:', e.message, e)
+      logErrorWithDialogShown(log, 'backup email failed:', e.message, e)
       showErrorDialog('Could not send backup email. Please try again.')
     }
     const userProperties = await userStorage.userProperties.getAll()

@@ -6,7 +6,7 @@ import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import retryImport from '../../lib/utils/retryImport'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
@@ -56,10 +56,15 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)
-    const showError = () =>
+
+    const showError = () => {
+      logErrorWithDialogShown(log, 'Incorrect pass phrase - wallet recover failed', '', null, {
+        mnemonics,
+      })
       showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
         boldMessage: 'Please check it and try again.',
       })
+    }
 
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
       fireEvent(RECOVER_FAILED, { invalidMnemonics: true })

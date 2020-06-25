@@ -5,7 +5,7 @@ import { withTheme } from 'react-native-paper'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 
 import ImageCropper from '../common/form/ImageCropper'
@@ -35,7 +35,7 @@ const EditAvatar = ({ theme, navigation }) => {
     } catch (exception) {
       const { message } = exception
 
-      log.error('saving image failed:', message, exception)
+      logErrorWithDialogShown(log, 'saving image failed:', message, exception)
       showErrorDialog('We could not capture all your beauty. Please try again.')
     } finally {
       setProcessing(false)

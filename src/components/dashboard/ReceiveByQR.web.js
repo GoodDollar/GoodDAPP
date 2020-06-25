@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
@@ -46,11 +46,17 @@ const ReceiveByQR = ({ screenProps }) => {
         log.debug({ url })
 
         if (url === null) {
+          logErrorWithDialogShown(log, 'Invalid QR Code. Probably this QR code is for sending GD', '', null, { url })
           showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
         } else {
           const { receiveLink, reason } = extractQueryParams(url)
 
           if (!receiveLink) {
+            logErrorWithDialogShown(log, 'Invalid QR Code. Probably this QR code is for sending GD', '', null, {
+              url,
+              receiveLink,
+              reason,
+            })
             showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
           }
           fireEvent(QR_SCAN, { type: 'receive' })
@@ -65,15 +71,20 @@ const ReceiveByQR = ({ screenProps }) => {
   }
 
   const runWithdraw = useCallback(async () => {
-    if (withdrawParams.receiveLink) {
+    const { receiveLink } = withdrawParams
+
+    if (receiveLink) {
       try {
-        const receipt = await executeWithdraw(store, withdrawParams.receiveLink)
+        const receipt = await executeWithdraw(store, receiveLink)
         navigateTo('Home', {
           event: receipt.transactionHash,
           receiveLink: undefined,
           reason: undefined,
         })
       } catch (e) {
+        logErrorWithDialogShown(log, 'Executing withdraw failed', e.message, e, {
+          receiveLink,
+        })
         showErrorDialog('Something has gone wrong. Please try again later.')
       }
     }
@@ -94,8 +105,8 @@ const ReceiveByQR = ({ screenProps }) => {
         return
       }
 
+      logErrorWithDialogShown(log, 'QR scan receive failed', message, exception)
       showErrorDialog(errorMessage, '', dialogOptions)
-      log.error('QR scan send failed', message, exception)
     },
     [showErrorDialog]
   )

@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useMemo, useState } from 'react'
 import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
   fireEvent,
@@ -30,7 +30,9 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { useTorus } from './useTorus'
 
 Image.prefetch(illustration)
+
 const log = logger.child({ from: 'AuthTorus' })
+
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const asGuest = true
   const [isPasswordless, setPasswordless] = useState(false)
@@ -110,11 +112,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('torus login success', { torusUser })
       } catch (e) {
         store.set('loadingIndicator')({ loading: false })
+
         if (e.message === 'user closed popup') {
           log.info(e.message, e)
         } else {
-          log.error('torus login failed', e.message, e)
+          logErrorWithDialogShown(log, 'torus login failed', e.message, e)
         }
+
         showErrorDialog('We were unable to complete the login. Please try again.')
         return
       }

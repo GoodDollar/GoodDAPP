@@ -5,7 +5,7 @@ import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from 'validator/lib/isEmail'
 import Config from '../../config/config'
-import logger from '../logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import { weiToGd } from '../wallet/utils'
 
@@ -242,11 +242,11 @@ export function shareAction(shareObj, showErrorDialog, customErrorMessage) {
     Share.share(shareObj)
   } catch (e) {
     if (e.name !== 'AbortError') {
-      showErrorDialog(customErrorMessage || 'Sorry, there was an error sharing you link. Please try again later.')
-
-      log.error('Native share failed', e.message, e, {
+      logErrorWithDialogShown(log, 'Native share failed', e.message, e, {
         shareObj,
       })
+
+      showErrorDialog(customErrorMessage || 'Sorry, there was an error sharing you link. Please try again later.')
     }
   }
 }

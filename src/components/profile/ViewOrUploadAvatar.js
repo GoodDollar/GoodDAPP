@@ -6,7 +6,7 @@ import { withStyles } from '../../lib/styles'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
-import logger from '../../lib/logger/pino-logger'
+import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 import CircleButtonWrapper from './CircleButtonWrapper'
@@ -34,8 +34,8 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
       event.preventDefault()
 
       wrappedUserStorage.removeAvatar().catch(e => {
+        logErrorWithDialogShown(log, 'delete image failed:', e.message, e)
         showErrorDialog('Could not delete image. Please try again.')
-        log.error('delete image failed:', e.message, e)
       })
     },
     [wrappedUserStorage]
@@ -46,8 +46,8 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
       fireEvent(PROFILE_IMAGE)
 
       wrappedUserStorage.setAvatar(avatar).catch(e => {
+        logErrorWithDialogShown(log, 'save image failed:', e.message, e)
         showErrorDialog('Could not save image. Please try again.')
-        log.error('save image failed:', e.message, e)
       })
 
       navigation.navigate('EditAvatar')

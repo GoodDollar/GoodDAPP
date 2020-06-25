@@ -421,7 +421,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           ),
       ])
 
-      userStorage.setProfileField('registered', true, 'public').catch(_ => _)
       userStorage.gunuser.get('registered').put(true)
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
 

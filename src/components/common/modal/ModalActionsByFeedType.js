@@ -13,6 +13,7 @@ import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 import GDStore from '../../../lib/undux/GDStore'
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
+import config from '../../../config/config'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -120,6 +121,19 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   }, [handleModalClose, navigation])
 
   switch (item.displayType) {
+    case 'welcome':
+      return (
+        <View style={styles.buttonsView}>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.button} onPress={handleModalClose}>
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                {config.isPhaseZero ? 'OK' : 'LET`S DO IT'}
+              </Text>
+            </CustomButton>
+          </View>
+        </View>
+      )
+
     case 'sendpending':
       return (
         <>
@@ -152,6 +166,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
         </>
       )
+
     case 'message':
       return (
         <View style={styles.buttonsView}>
@@ -167,6 +182,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
         </View>
       )
+
     case 'invite':
       return (
         <View style={styles.buttonsView}>
@@ -194,6 +210,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
         </View>
       )
+
     case 'spending':
       return (
         <View style={styles.buttonsView}>
@@ -213,6 +230,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
         </View>
       )
+
     case 'backup':
       return (
         <View style={styles.buttonsView}>

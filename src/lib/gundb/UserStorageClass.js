@@ -147,8 +147,9 @@ export const welcomeMessage = {
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
-    reason:
-      'This is where you will claim UBI in\nGoodDollar coins every day.\nThis is a demo version - please note that all\ndemo G$ coins collected have no value\noutside of this pilot, and will be destroyed\nupon completion of the demo period.',
+    reason: Config.isPhaseZero
+      ? 'This is where you will claim UBI in\nGoodDollar coins every day.\nThis is a demo version - please note that all\ndemo G$ coins collected have no value\noutside of this pilot, and will be destroyed\nupon completion of the demo period.'
+      : 'This is where you will claim your basic income in GoodDollar coins every day.\n\nTogether, we will build a better financial future for all of us!',
   },
 }
 

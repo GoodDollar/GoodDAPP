@@ -47,6 +47,8 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: theme.colors.gray50Percent,
     borderWidth: 1,
     borderColor: theme.colors.gray80Percent,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 

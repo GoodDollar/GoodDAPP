@@ -62,6 +62,8 @@ class TorusSDK {
   }
 
   fetchTorusUser(response) {
+    const { env } = this.config
+
     let torusUser = response
     let { userInfo, ...otherResponse } = torusUser
 
@@ -80,6 +82,10 @@ class TorusSDK {
 
     if (isLoginPhoneNumber || name === email) {
       torusUser = omit(torusUser, 'name')
+    }
+
+    if ('production' !== env) {
+      logger.debug('Receiver torusUser:', torusUser)
     }
 
     return torusUser

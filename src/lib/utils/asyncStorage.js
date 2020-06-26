@@ -1,8 +1,8 @@
-import AsyncStorage from 'react-native'
+import { AsyncStorage } from 'react-native'
 
 export default new class {
   constructor(storageApi) {
-    this.storageApi = storageApi.AsyncStorage
+    this.storageApi = storageApi
   }
 
   async setItem(key, value) {

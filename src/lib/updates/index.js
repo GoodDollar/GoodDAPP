@@ -26,7 +26,10 @@ const update = async () => {
         })
         .catch(e => {
           doneUpdates[updateKey] = false
-          log.error('update failed:', e.message, e, { updKey: upd.key })
+          log.error('update failed:', e.message, e, {
+            updKey: upd.key,
+            dialogShown: false,
+          })
         })
         .then(_ => true)
     }

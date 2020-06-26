@@ -4,7 +4,7 @@ import { View } from 'react-native'
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
-import logger from '../../../lib/logger/pino-logger'
+import logger, { ERROR_CATEGORY_BLOCKCHAIN } from '../../../lib/logger/pino-logger'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
@@ -40,7 +40,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .cancelOTLByTransactionHash(item.id)
           .catch(e => {
             userStorage.updateOTPLEventStatus(item.id, 'pending')
-            log.error('cancel payment failed', e.message, e)
+            log.error('cancel payment failed', e.message, e, {
+              category: ERROR_CATEGORY_BLOCKCHAIN,
+            })
             showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
           })
           .finally(() => {
@@ -79,6 +81,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       log.error('getPaymentLink Failed', e.message, {
         item,
         canShare,
+        dialogShown: false,
       })
     }
   }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject])

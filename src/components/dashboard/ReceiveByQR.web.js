@@ -67,7 +67,7 @@ const ReceiveByQR = ({ screenProps }) => {
           setWithdrawParams({ receiveLink, reason })
         }
       } catch (e) {
-        log.error('scan receive failed', e.message, e)
+        log.error('scan receive failed', e.message, e, { dialogShown: false })
         setQRDelay(false)
         throw e
       }

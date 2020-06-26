@@ -24,7 +24,7 @@ import { sha3 } from 'web3-utils'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
-import pino from '../logger/pino-logger'
+import pino, { ERROR_CATEGORY_HUMAN } from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
@@ -33,6 +33,7 @@ import delUndefValNested from '../utils/delUndefValNested'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
+
 const logger = pino.child({ from: 'UserStorage' })
 
 const EVENT_TYPE_WITHDRAW = 'withdraw'
@@ -459,7 +460,7 @@ export class UserStorage {
         gunuser.auth(username, password, user => {
           logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnemonic UserStorage', user.err)
+            logger.error('Error getMnemonic UserStorage', user.err, null, { dialogShown: false })
             return rej(false)
           }
           res(true)
@@ -493,7 +494,11 @@ export class UserStorage {
           logLevel = 'warn'
         }
 
-        logger[logLevel]('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
+        logger[logLevel]('Error initializing UserStorage', e.message, e, {
+          account: this.wallet.account,
+          dialogShown: false,
+        })
+
         return false
       })
   }
@@ -538,7 +543,7 @@ export class UserStorage {
         this.trust = _.data
       })
       .catch(e => {
-        logger.error('Could not fetch /trust', e.message, e)
+        logger.error('Could not fetch /trust', e.message, e, { dialogShown: false })
       })
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
@@ -652,7 +657,7 @@ export class UserStorage {
         .get(this.gunuser.is.pub)
         .putAck(this.gunuser), //save ref to user
     ]).catch(e => {
-      logger.error('failed init step in userstorage', e.message, e)
+      logger.error('failed init step in userstorage', e.message, e, { dialogShown: false })
       throw e
     })
     logger.debug('init systemfeed')
@@ -803,7 +808,7 @@ export class UserStorage {
 
       return updatedFeedEvent
     } catch (e) {
-      logger.error('handleReceiptUpdated failed', e.message, e)
+      logger.error('handleReceiptUpdated failed', e.message, e, { dialogShown: false })
     } finally {
       release()
     }
@@ -830,7 +835,10 @@ export class UserStorage {
           'handleOTPLUpdated failed',
           'Original payment link TX not found',
           new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
-          data
+          {
+            data,
+            dialogShown: false,
+          }
         )
         return
       }
@@ -863,7 +871,7 @@ export class UserStorage {
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
     } catch (e) {
-      logger.error('handleOTPLUpdated', e.message, e)
+      logger.error('handleOTPLUpdated', e.message, e, { dialogShown: false })
     } finally {
       release()
     }
@@ -999,7 +1007,7 @@ export class UserStorage {
               AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
             }
           })
-          .catch(e => logger.error('error caching feed items', e.message, e))
+          .catch(e => logger.error('error caching feed items', e.message, e, { dialogShown: false }))
         res()
       }, true)
     })
@@ -1229,7 +1237,11 @@ export class UserStorage {
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
-        { errors }
+        {
+          errors,
+          dialogShown: false,
+          category: ERROR_CATEGORY_HUMAN,
+        }
       )
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
@@ -1245,7 +1257,11 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', e.message, e, { field })
+            logger.error('setProfile field failed:', e.message, e, {
+              field,
+              dialogShown: false,
+            })
+
             return { err: `failed saving field ${field}` }
           })
         })
@@ -1261,6 +1277,7 @@ export class UserStorage {
             errCount: errors.length,
             errors,
             strErrors: JSON.stringify(errors),
+            dialogShown: false,
           }
         )
 
@@ -1287,7 +1304,11 @@ export class UserStorage {
       logger.error(
         `indexProfileField - field ${field} value is empty (value: ${value})`,
         cleanValue,
-        new Error('isValidValue failed')
+        new Error('isValidValue failed'),
+        {
+          dialogShown: false,
+          category: ERROR_CATEGORY_HUMAN,
+        }
       )
       return false
     }
@@ -1304,7 +1325,7 @@ export class UserStorage {
 
       return true
     } catch (e) {
-      logger.error('indexProfileField', e.message, e)
+      logger.error('Validate IndexProfileField failed', e.message, e, { dialogShown: false })
       return true
     }
   }
@@ -1434,7 +1455,7 @@ export class UserStorage {
 
       return indexNode.putAck(this.gunuser)
     } catch (e) {
-      logger.error('indexProfileField', e.message, e)
+      logger.error('indexProfileField failed', e.message, e, { dialogShown: false })
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
@@ -1488,7 +1509,7 @@ export class UserStorage {
         .get(day[0])
         .then(data => (typeof data === 'string' ? JSON.parse(data) : data))
         .catch(e => {
-          logger.error('getFeed', e.message, e)
+          logger.error('getFeed', e.message, e, { dialogShown: false })
           return []
         })
     })
@@ -1540,7 +1561,10 @@ export class UserStorage {
           }
 
           return this.formatEvent(feedItem).catch(e => {
-            logger.error('getFormattedEvents Failed formatting event:', e.message, e, { feedItem })
+            logger.error('getFormattedEvents Failed formatting event:', e.message, e, {
+              feedItem,
+              dialogShown: false,
+            })
             return {}
           })
         })
@@ -1550,7 +1574,11 @@ export class UserStorage {
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, {
+        id,
+        dialogShown: false,
+      })
+
       return undefined
     })
     if (!prevFeedEvent) {
@@ -1579,7 +1607,11 @@ export class UserStorage {
 
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
-      logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
+      logger.error('getFormatedEventById Failed formatting event:', e.message, e, {
+        id,
+        dialogShown: false,
+      })
+
       return {}
     })
   }
@@ -1609,7 +1641,11 @@ export class UserStorage {
         .putAck({ [hash]: details })
       return true
     } catch (e) {
-      logger.error('saveSurveyDetails :', e.message, e, details)
+      logger.error('saveSurveyDetails :', e.message, e, {
+        details,
+        dialogShown: false,
+      })
+
       return false
     }
   }
@@ -1768,7 +1804,11 @@ export class UserStorage {
           },
         }
       } catch (e) {
-        logger.error('formatEvent: failed formatting event:', e.message, e, event)
+        logger.error('formatEvent: failed formatting event:', e.message, e, {
+          event,
+          dialogShown: false,
+        })
+
         return {}
       }
     }
@@ -1912,7 +1952,11 @@ export class UserStorage {
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
-      logger.error('enqueueTX failed: ', e.message, e, event)
+      logger.error('enqueueTX failed: ', e.message, e, {
+        event,
+        dialogShown: false,
+      })
+
       return false
     } finally {
       release()
@@ -1936,7 +1980,7 @@ export class UserStorage {
         return feedItem
       }
     } catch (e) {
-      logger.error('dequeueTX failed:', e.message, e)
+      logger.error('dequeueTX failed:', e.message, e, { dialogShown: false })
     }
   }
 
@@ -1963,7 +2007,11 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, {
+          feedEvent,
+          dialogShown: false,
+        })
+
         return {}
       })
   }
@@ -1982,7 +2030,11 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, feedEvent)
+        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, {
+          feedEvent,
+          dialogShown: false,
+        })
+
         return {}
       })
   }
@@ -2001,7 +2053,11 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, {
+          feedEvent,
+          dialogShown: false,
+        })
+
         return {}
       })
   }
@@ -2015,12 +2071,13 @@ export class UserStorage {
     if (txHash === undefined) {
       return
     }
+
     const release = await this.feedMutex.lock()
 
     try {
       await this.updateEventStatus(txHash, 'error')
     } catch (e) {
-      logger.error('Failed to set error status for feed event', e.message, e)
+      logger.error('Failed to set error status for feed event', e.message, e, { dialogShown: false })
     } finally {
       release()
     }
@@ -2144,7 +2201,11 @@ export class UserStorage {
 
     // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {
-      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
+      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, {
+        event,
+        dialogShown: false,
+      })
+
       return { err: e.message }
     })
     const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
@@ -2154,9 +2215,11 @@ export class UserStorage {
       .putAck(dayEventsArr.length)
 
     const saveAck =
-      saveDayIndexPtr && saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, e))
+      saveDayIndexPtr &&
+      saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, e, { dialogShown: false }))
     const ack =
-      saveDaySizePtr && saveDaySizePtr.then().catch(e => logger.error('updateFeedEvent daySize', e.message, e))
+      saveDaySizePtr &&
+      saveDaySizePtr.then().catch(e => logger.error('updateFeedEvent daySize', e.message, e, { dialogShown: false }))
 
     if (saveDayIndexPtr || saveDaySizePtr) {
       logger.info('updateFeedEvent: Gun drain in process', { saveDayIndexPtr, saveDaySizePtr })
@@ -2164,7 +2227,7 @@ export class UserStorage {
 
     return Promise.all([saveAck, ack, eventAck])
       .then(() => event)
-      .catch(e => logger.error('savingIndex', e.message, e))
+      .catch(e => logger.error('Save Indexes failed', e.message, e, { dialogShown: false }))
   }
 
   /**
@@ -2200,12 +2263,14 @@ export class UserStorage {
 
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+
     if (encryptedProfile === undefined) {
-      logger.error('getProfile: profile node undefined')
+      logger.error('getProfile: profile node undefined', '', null, { dialogShown: false })
+
       return {}
     }
-    const fullProfile = this.getPrivateProfile(encryptedProfile)
-    return fullProfile
+
+    return this.getPrivateProfile(encryptedProfile)
   }
 
   loadGunField(gunNode): Promise<any> {
@@ -2224,12 +2289,14 @@ export class UserStorage {
 
   async getPublicProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+
     if (encryptedProfile === undefined) {
-      logger.error('getPublicProfile: profile node undefined')
+      logger.error('getPublicProfile: profile node undefined', '', null, { dialogShown: false })
+
       return {}
     }
-    const fullProfile = this.getDisplayProfile(encryptedProfile)
-    return fullProfile
+
+    return this.getDisplayProfile(encryptedProfile)
   }
 
   getFaceIdentifier(): string {
@@ -2262,7 +2329,10 @@ export class UserStorage {
             'Deleting profile field failed',
             err.message || 'Some error occurred during setting the privacy to the field',
             err || new Error('Deleting profile field failed'),
-            { index: k }
+            {
+              index: k,
+              dialogShown: false,
+            }
           )
         })
       })
@@ -2331,7 +2401,7 @@ export class UserStorage {
         ])
       }
     } catch (e) {
-      logger.error('deleteAccount unexpected error', e.message, e)
+      logger.error('deleteAccount unexpected error', e.message, e, { dialogShown: false })
       return false
     }
 

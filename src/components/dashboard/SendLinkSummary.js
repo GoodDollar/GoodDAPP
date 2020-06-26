@@ -101,14 +101,19 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           return hash
         },
         onError: e => {
-          log.error('Send TX failed:', e.message, e)
+          log.error('Send TX failed:', e.message, e, {
+            dialogShown: false,
+            category: ERROR_CATEGORY_BLOCKCHAIN,
+          })
 
           setLoading(false)
           userStorage.markWithErrorEvent(txhash)
         },
       })
     } catch (e) {
-      log.error('Send TX failed:', e.message, e)
+      log.error('Send TX failed:', e.message, e, {
+        category: ERROR_CATEGORY_BLOCKCHAIN,
+      })
 
       showErrorDialog({
         visible: true,

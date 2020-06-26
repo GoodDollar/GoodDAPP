@@ -125,7 +125,9 @@ export default () => {
 
   useEffect(() => {
     if (Config.claimQueue) {
-      checkQueueStatus().catch(e => log.error('checkQueueStatus API request failed', e.message, e))
+      checkQueueStatus().catch(e =>
+        log.error('checkQueueStatus API request failed', e.message, e, { dialogShown: false })
+      )
     } else {
       setQueueStatus({ status: 'approved' })
     }

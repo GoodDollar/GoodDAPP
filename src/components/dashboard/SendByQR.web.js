@@ -53,7 +53,10 @@ const SendByQR = ({ screenProps }: Props) => {
           fireEvent(QR_SCAN, { type: 'send' })
           push(route, params)
         } catch (e) {
-          log.error('scan send code failed', e.message, e, { data })
+          log.error('scan send code failed', e.message, e, {
+            data,
+            dialogShown: false,
+          })
           setQRDelay(false)
           throw e
         }

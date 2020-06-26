@@ -82,7 +82,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
 
           return valid
         } catch (e) {
-          log.error('validate profile failed', e.message, e)
+          log.error('validate profile failed', e.message, e, { dialogShown: false })
 
           // showErrorDialog('Unexpected error while validating profile', e)
           return false

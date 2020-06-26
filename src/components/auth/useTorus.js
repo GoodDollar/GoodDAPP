@@ -131,7 +131,7 @@ export const useTorus = () => {
       log.debug('torus service initialized', { res, sdkInstance })
       setSDK(sdkInstance)
     } catch (e) {
-      log.error('failed initializing torus', e.message, e)
+      log.error('failed initializing torus', e.message, e, { dialogShown: false })
     }
   }
   useEffect(() => {

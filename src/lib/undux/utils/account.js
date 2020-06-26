@@ -1,6 +1,6 @@
 // @flow
 import type { Store } from 'undux'
-import logger from '../../logger/pino-logger'
+import logger, { ERROR_CATEGORY_BLOCKCHAIN } from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
 import { assertStore } from '../SimpleStore'
@@ -15,7 +15,11 @@ const updateAll = async store => {
   } catch (exception) {
     const { message } = exception
 
-    log.error('updateAll failed', message, exception)
+    log.error('update balance and entitlement failed', message, exception, {
+      dialogShown: false,
+      category: ERROR_CATEGORY_BLOCKCHAIN,
+    })
+
     return
   }
 

@@ -31,7 +31,7 @@ const SendByQR = ({ screenProps }: Props) => {
 
         screenProps.push(route, params)
       } catch (e) {
-        log.error('QR reader send error', e.message, e)
+        log.error('QR reader send error', e.message, e, { dialogShown: false })
         throw e
       }
     }

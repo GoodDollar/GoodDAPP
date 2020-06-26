@@ -137,7 +137,7 @@ const FeedList = ({
       }
 
       if (actions.canDelete) {
-        userStorage.deleteEvent(id).catch(e => log.error('delete event failed:', e.message, e))
+        userStorage.deleteEvent(id).catch(e => log.error('delete event failed:', e.message, e, { dialogShown: false }))
       }
 
       userStorage.userProperties.set('showQuickActionHint', false)

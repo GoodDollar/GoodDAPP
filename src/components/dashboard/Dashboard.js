@@ -178,7 +178,7 @@ const Dashboard = props => {
           }
         }
       } catch (e) {
-        log.error('checkCode unexpected error:', e.message, e)
+        log.error('checkCode unexpected error:', e.message, e, { dialogShown: false })
       }
     },
     [screenProps, showErrorDialog]
@@ -196,7 +196,7 @@ const Dashboard = props => {
         log.debug('getFeedPage:', { feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
-          .catch(e => logger.error('getInitialFeed -> ', e.message, e))
+          .catch(e => logger.error('getInitialFeed failed:', e.message, e, { dialogShown: false }))
 
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
@@ -320,7 +320,7 @@ const Dashboard = props => {
   )
 
   const initDashboard = async () => {
-    await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+    await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e, { dialogShown: false }))
 
     log.debug('initDashboard subscribed to feed')
     handleDeleteRedirect()

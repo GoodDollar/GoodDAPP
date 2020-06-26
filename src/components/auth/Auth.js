@@ -112,7 +112,7 @@ class Auth extends React.Component<Props> {
 
       log.info('indexedDb successfully cleared')
     } catch (e) {
-      log.error('Failed to clear indexedDb', e.message, e)
+      log.error('Failed to clear indexedDb', e.message, e, { dialogShown: false })
     } finally {
       store.set('loadingIndicator')({ loading: false })
     }

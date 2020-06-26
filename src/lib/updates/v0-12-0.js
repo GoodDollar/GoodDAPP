@@ -1,12 +1,15 @@
 import { get } from 'lodash'
 import userStorage from '../gundb/UserStorage'
+import pinoLogger from '../logger/pino-logger.js'
+
+const log = pinoLogger.child({ from: 'v0-12-0.js' })
 const fromDate = new Date('2019/12/26')
 
 /**
  * set status to broken send feed
  * @returns {Promise<void>}
  */
-const fixSendFeedStatus = async (lastUpdate, prevVersion, logger) => {
+const fixSendFeedStatus = async (lastUpdate, prevVersion, logger = log) => {
   try {
     const feeds = await userStorage.getAllFeed()
     const promises = []
@@ -25,7 +28,7 @@ const fixSendFeedStatus = async (lastUpdate, prevVersion, logger) => {
     }
     logger.info('fixSendFeedStatus: done fixing. total items:', promises.length)
   } catch (e) {
-    logger.error('fixSendFeedStatus error', e.message, e)
+    logger.error('fixSendFeedStatus error', e.message, e, { dialogShown: false })
   }
 }
 

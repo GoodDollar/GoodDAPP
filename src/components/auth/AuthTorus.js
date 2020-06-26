@@ -72,7 +72,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     login
       .then(l => l.default.auth())
       .catch(e => {
-        log.error('failed auth:', e.message, e)
+        log.error('failed auth:', e.message, e, { dialogShown: false })
 
         // showErrorDialog('Failed authenticating with server', e)
       })
@@ -154,7 +154,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           }
         }, 500)
       } catch (e) {
-        log.error('Failed to initialize wallet and storage', e.message, e)
+        log.error('Failed to initialize wallet and storage', e.message, e, { dialogShown: false })
       } finally {
         store.set('loadingIndicator')({ loading: false })
       }

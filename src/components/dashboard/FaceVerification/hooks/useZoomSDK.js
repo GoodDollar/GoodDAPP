@@ -41,7 +41,7 @@ export const preloadZoomSDK = async (logger = log) => {
   } catch (exception) {
     const { message } = exception
 
-    logger.error('preloading zoom failed', message, exception)
+    logger.error('preloading zoom failed', message, exception, { dialogShown: false })
   }
 }
 
@@ -69,7 +69,7 @@ export const unloadZoomSDK = async (logger = log) => {
   } catch (exception) {
     const { message } = exception
 
-    logger.error('unloading zoom failed', message, exception)
+    logger.error('unloading zoom failed', message, exception, { dialogShown: false })
   }
 }
 
@@ -105,7 +105,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
       // executing current onError callback
       onErrorRef.current(exception)
-      log.error('Zoom initialization failed', message, exception)
+      log.error('Zoom initialization failed', message, exception, { dialogShown: false })
     }
 
     const initializeSdk = async () => {

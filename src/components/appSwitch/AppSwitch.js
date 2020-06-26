@@ -125,7 +125,7 @@ const AppSwitch = (props: LoadingProps) => {
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
     if (isLoggedInCitizen) {
-      API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
+      API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e, { dialogShown: false }))
     }
     return isLoggedInCitizen
 
@@ -223,7 +223,7 @@ const AppSwitch = (props: LoadingProps) => {
         }
       }
     } catch (e) {
-      log.error('prepareLoginToken failed', e.message, e)
+      log.error('prepareLoginToken failed', e.message, e, { dialogShown: false })
     }
   }
 
@@ -261,7 +261,7 @@ const AppSwitch = (props: LoadingProps) => {
         log.info('redeemBonuses', { resData: res && res.data })
       })
       .catch(err => {
-        log.error('Failed to redeem bonuses', err.message, err)
+        log.error('Failed to redeem bonuses', err.message, err, { dialogShown: false })
 
         // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })

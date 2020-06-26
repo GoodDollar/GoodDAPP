@@ -126,7 +126,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="contained" style={styles.button} onPress={handleModalClose}>
-              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto" fontWeight="medium">
                 {config.isPhaseZero ? 'OK' : 'LET`S DO IT'}
               </Text>
             </CustomButton>

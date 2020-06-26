@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, View } from 'react-native'
+import { View } from 'react-native'
 
 import QRCode from 'qrcode.react'
 
 import Config from '../../../../config/config'
+
+import AsyncStorage from '../../../../lib/utils/asyncStorage'
 
 import { CopyButton } from '../../../common'
 import Text from '../../../common/view/Text'

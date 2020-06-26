@@ -1,8 +1,9 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { get } from 'lodash'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
 import {
   DESTINATION_PATH,
@@ -245,8 +246,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
    * which registers the user on w3 with it
    */
   const checkW3InviteCode = async () => {
-    const _destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
-    const destinationPath = JSON.parse(_destinationPath)
+    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     return get(destinationPath, 'params.inviteCode')
   }
 
@@ -398,7 +398,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       userStorage.setProfileField('registered', true, 'public').catch(_ => _)
       userStorage.gunuser.get('registered').put(true)
-      await AsyncStorage.setItem(IS_LOGGED_IN, JSON.stringify(true))
+      await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
       AsyncStorage.removeItem('GD_web3Token')
       AsyncStorage.removeItem(GD_INITIAL_REG_METHOD)

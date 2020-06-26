@@ -1,7 +1,7 @@
 // @flow
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'

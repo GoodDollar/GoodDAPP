@@ -1,11 +1,11 @@
-import { AsyncStorage } from 'react-native'
 import Gun from 'gun/gun'
+import asyncStore from 'gun/lib/ras.js'
+import AsyncStorage from '../utils/asyncStorage'
 import 'gun/sea'
 import './gundb-extend'
 import 'gun/lib/radix.js'
 import 'gun/lib/radisk.js'
 import 'gun/lib/store.js'
-import asyncStore from 'gun/lib/ras.js'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 

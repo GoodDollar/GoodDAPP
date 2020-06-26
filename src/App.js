@@ -1,8 +1,9 @@
 // @flow
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
-import { AsyncStorage, Platform, SafeAreaView, StyleSheet } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
+import AsyncStorage from './lib/utils/asyncStorage'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import { isMobile } from './lib/utils/platform'
 import './lib/gundb/gundb'

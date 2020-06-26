@@ -1,6 +1,6 @@
 // @flow
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '../utils/asyncStorage'
 import { isMobileSafari } from '../utils/platform'
 import restart from '../utils/restart'
 import SimpleStore from '../undux/SimpleStore'

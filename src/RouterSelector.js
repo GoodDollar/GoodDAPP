@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
-import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'
+import AsyncStorage from './lib/utils/asyncStorage'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
@@ -69,7 +69,7 @@ const handleLinks = async () => {
       if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
         const dest = { path, params }
         log.debug('Saving destination url', dest)
-        await AsyncStorage.setItem(DESTINATION_PATH, JSON.stringify(dest))
+        await AsyncStorage.setItem(DESTINATION_PATH, dest)
       }
     }
   } catch (e) {

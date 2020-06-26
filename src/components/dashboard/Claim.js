@@ -1,7 +1,8 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import moment from 'moment'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'

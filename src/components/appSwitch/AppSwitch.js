@@ -1,9 +1,10 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { AsyncStorage, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
@@ -76,7 +77,7 @@ const AppSwitch = (props: LoadingProps) => {
   */
   const getParams = async () => {
     // const navInfo = router.getPathAndParamsForState(state)
-    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
+    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     AsyncStorage.removeItem(DESTINATION_PATH)
 
     // FIXME: RN INAPPLINKS

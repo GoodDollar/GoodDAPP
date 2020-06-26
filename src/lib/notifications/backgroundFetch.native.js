@@ -1,7 +1,7 @@
 import BackgroundFetch from 'react-native-background-fetch'
 import PushNotification from 'react-native-push-notification'
-import { AsyncStorage } from 'react-native'
 import moment from 'moment'
+import AsyncStorage from '../utils/asyncStorage'
 import logger from '../logger/pino-logger'
 import { IS_LOGGED_IN } from '../constants/localStorage'
 import userStorage from '../gundb/UserStorage'
@@ -26,7 +26,7 @@ const log = logger.child({ from: 'backgroundFetch' })
 const task = async taskId => {
   log.info('[BackgroundFetch] taskId: ', taskId)
 
-  const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
+  const isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
 
   log.info('isLoggedIn', isLoggedIn)
 

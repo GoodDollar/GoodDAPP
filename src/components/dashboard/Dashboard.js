@@ -1,18 +1,9 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Animated,
-  AsyncStorage,
-  Dimensions,
-  Easing,
-  Image,
-  InteractionManager,
-  Platform,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
 import { debounce, get } from 'lodash'
 import type { Store } from 'undux'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isBrowser } from '../../lib/utils/platform'
 import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'

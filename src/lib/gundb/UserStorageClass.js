@@ -1,5 +1,4 @@
 //@flow
-import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
 import {
   find,
@@ -22,6 +21,7 @@ import moment from 'moment'
 import Gun from 'gun/gun'
 import SEA from 'gun/sea'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
+import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
@@ -553,7 +553,7 @@ export class UserStorage {
 
     let loggedInPromise
 
-    let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
+    let existingCreds = await AsyncStorage.getItem(GD_GUN_CREDENTIALS)
     existingCreds = null
     if (existingCreds == null) {
       //sign with different address so its not connected to main user address and there's no 1-1 link
@@ -576,7 +576,7 @@ export class UserStorage {
       }
       loggedInPromise = loggedInPromise.then(_ => {
         existingCreds = { sea: this.gunuser.pair(), is: this.gunuser.is, username, password }
-        AsyncStorage.setItem('GD_GunCredentials', JSON.stringify(existingCreds))
+        AsyncStorage.setItem('GD_GunCredentials', existingCreds)
         return _
       })
     } else {
@@ -918,7 +918,7 @@ export class UserStorage {
 
   writeFeedEvent(event): Promise<FeedEvent> {
     this.feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+    AsyncStorage.setItem('GD_feed', this.feedIds)
     return this.feed
       .get('byid')
       .get(event.id)
@@ -989,7 +989,7 @@ export class UserStorage {
     const updates = await Promise.all(promises)
     if (updates.find(_ => _)) {
       logger.debug('initFeed updating cache', this.feedIds, updates)
-      AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+      AsyncStorage.setItem('GD_feed', this.feedIds)
     }
   }
 

@@ -1,6 +1,7 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import { AsyncStorage, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent, SIGNIN_TORUS_SUCCESS, SIGNUP_STARTED } from '../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../lib/constants/localStorage'
@@ -83,7 +84,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       try {
         if (['development', 'test'].includes(config.env)) {
-          torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
+          torusUser = await AsyncStorage.getItem('TorusTestUser')
         }
         if (torusUser == null) {
           switch (provider) {
@@ -124,7 +125,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         //user exists reload with dashboard route
         if (userExists) {
           fireEvent(SIGNIN_TORUS_SUCCESS)
-          await AsyncStorage.setItem(IS_LOGGED_IN, JSON.stringify(true))
+          await AsyncStorage.setItem(IS_LOGGED_IN, true)
           store.set('isLoggedIn')(true)
           return
         }

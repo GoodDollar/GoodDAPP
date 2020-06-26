@@ -378,6 +378,7 @@ const patchLogger = () => {
         logContext,
         eMsg,
         dialogShown: extra.dialogShown,
+        category,
       }
 
       if (isFSEnabled) {

@@ -10,10 +10,7 @@ global.logger = logger
 
 export default logger
 
-export const logErrorWithDialogShown = (logInstance, ...args) => {
-  const extra = args[3] || {}
-
-  extra.dialogShown = true
-
-  logInstance.error(...args)
-}
+export const ERROR_CATEGORY_HUMAN = 'human'
+export const ERROR_CATEGORY_NETWORK = 'network'
+export const ERROR_CATEGORY_BLOCKCHAIN = 'blockchain'
+export const ERROR_CATEGORY_UNEXPECTED = 'unexpected'

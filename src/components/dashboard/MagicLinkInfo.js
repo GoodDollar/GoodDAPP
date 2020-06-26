@@ -4,7 +4,7 @@ import { Image, View } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
 import API from '../../lib/API/api'
 import userStorage from '../../lib/gundb/UserStorage'
-import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
@@ -34,7 +34,7 @@ const MagicLinkInfoComponent = props => {
         })
       })
       .catch(e => {
-        logErrorWithDialogShown(log, 'failed Resending magiclink', e.message, e)
+        log.error('failed Resending magiclink', e.message, e)
         showErrorDialog('Could not send magiclink email. Please try again.')
       })
   }

@@ -5,7 +5,7 @@ import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
-import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
@@ -192,10 +192,12 @@ const AppSwitch = (props: LoadingProps) => {
     } catch (e) {
       unsuccessfulLaunchAttempts += 1
       if (unsuccessfulLaunchAttempts > 3) {
-        logErrorWithDialogShown(log, 'failed initializing app', e.message, e)
+        log.error('failed initializing app', e.message, e)
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
-        log.error('failed initializing app', e.message, e)
+        log.error('failed initializing app', e.message, e, {
+          dialogShown: false,
+        })
 
         await delay(1500)
         init()

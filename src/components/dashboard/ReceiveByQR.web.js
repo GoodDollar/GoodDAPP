@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
-import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
+import logger, { ERROR_CATEGORY_HUMAN } from '../../lib/logger/pino-logger'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
@@ -46,16 +46,20 @@ const ReceiveByQR = ({ screenProps }) => {
         log.debug({ url })
 
         if (url === null) {
-          logErrorWithDialogShown(log, 'Invalid QR Code. Probably this QR code is for sending GD', '', null, { url })
+          log.error('Invalid QR Code. Probably this QR code is for sending GD', '', null, {
+            url,
+            category: ERROR_CATEGORY_HUMAN,
+          })
           showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
         } else {
           const { receiveLink, reason } = extractQueryParams(url)
 
           if (!receiveLink) {
-            logErrorWithDialogShown(log, 'Invalid QR Code. Probably this QR code is for sending GD', '', null, {
+            log.error('Invalid QR Code. Probably this QR code is for sending GD', '', null, {
               url,
               receiveLink,
               reason,
+              category: ERROR_CATEGORY_HUMAN,
             })
             showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
           }
@@ -82,7 +86,7 @@ const ReceiveByQR = ({ screenProps }) => {
           reason: undefined,
         })
       } catch (e) {
-        logErrorWithDialogShown(log, 'Executing withdraw failed', e.message, e, {
+        log.error('Executing withdraw failed', e.message, e, {
           receiveLink,
         })
         showErrorDialog('Something has gone wrong. Please try again later.')
@@ -105,7 +109,7 @@ const ReceiveByQR = ({ screenProps }) => {
         return
       }
 
-      logErrorWithDialogShown(log, 'QR scan receive failed', message, exception)
+      log.error('QR scan receive failed', message, exception)
       showErrorDialog(errorMessage, '', dialogOptions)
     },
     [showErrorDialog]

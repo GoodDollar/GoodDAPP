@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser'
 import { debounce, forEach, get, invoke, isFunction, isString } from 'lodash'
 import API from '../../lib/API/api'
 import Config from '../../config/config'
-import logger from '../../lib/logger/pino-logger'
+import logger, { ERROR_CATEGORY_HUMAN, ERROR_CATEGORY_UNEXPECTED } from '../../lib/logger/pino-logger'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -361,7 +361,8 @@ const patchLogger = () => {
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
   logger.error = (...args) => {
-    const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
+    const [logContext, logMessage, eMsg, errorObj, _extra = {}] = args
+    const { dialogShown = true, category = ERROR_CATEGORY_UNEXPECTED, ...extra } = _extra
     let errorToPassIntoLog = errorObj
 
     if (errorObj instanceof Error) {
@@ -406,14 +407,21 @@ const patchLogger = () => {
       Rollbar.error(logMessage, errorToPassIntoLog, { logContext, eMsg, extra })
     }
 
-    reportToSentry(errorToPassIntoLog, {
-      logMessage,
-      errorObj,
-      logContext,
-      eMsg,
-      extra,
-      dialogShown: extra.dialogShown,
-    })
+    reportToSentry(
+      errorToPassIntoLog,
+      {
+        logMessage,
+        errorObj,
+        logContext,
+        eMsg,
+        extra,
+      },
+      {
+        dialogShown,
+        category,
+        level: category === ERROR_CATEGORY_HUMAN ? 'info' : undefined,
+      }
+    )
 
     return logError(...args)
   }

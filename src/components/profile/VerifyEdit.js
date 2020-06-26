@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
-import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { Section, Wrapper } from '../common'
@@ -57,7 +57,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
       navigation.navigate('VerifyEditCode', { field, content })
     } catch (e) {
-      logErrorWithDialogShown(log, 'Failed to send code', e.message, e)
+      log.error('Failed to send code', e.message, e)
 
       showErrorDialog('Could not send verification code. Please try again', undefined, { onDismiss: goBack })
     } finally {

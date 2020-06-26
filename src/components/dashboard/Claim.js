@@ -7,7 +7,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
+import logger, { ERROR_CATEGORY_BLOCKCHAIN } from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -108,7 +108,7 @@ const Claim = props => {
         }
       }
     } catch (e) {
-      logErrorWithDialogShown(log, 'evaluateFRValidity failed', e.message, e)
+      log.error('evaluateFRValidity failed', e.message, e)
       showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
         onDismiss: () => {
           screenProps.goToRoot()
@@ -127,7 +127,9 @@ const Claim = props => {
         .checkEntitlement()
         .then(entitlement => setClaimState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
         .catch(e => {
-          logErrorWithDialogShown(log, 'gatherStats failed', e.message, e)
+          log.error('gatherStats failed', e.message, e, {
+            category: ERROR_CATEGORY_BLOCKCHAIN,
+          })
           showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
             onDismiss: () => {
               screenProps.goToRoot()
@@ -162,7 +164,9 @@ const Claim = props => {
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
     ]).catch(e => {
-      logErrorWithDialogShown(log, 'gatherStats failed', e.message, e)
+      log.error('gatherStats failed', e.message, e, {
+        category: ERROR_CATEGORY_BLOCKCHAIN,
+      })
       showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
         onDismiss: () => {
           screenProps.goToRoot()
@@ -267,16 +271,17 @@ const Claim = props => {
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
-        logErrorWithDialogShown(log, 'Claim transaction failed', '', null, {
+        log.error('Claim transaction failed', '', null, {
           txHash: receipt.transactionHash,
           entitlement: curEntitlement,
           status: receipt.status,
+          category: ERROR_CATEGORY_BLOCKCHAIN,
         })
         showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
       }
     } catch (e) {
       fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
-      logErrorWithDialogShown(log, 'claiming failed', e.message, e)
+      log.error('claiming failed', e.message, e)
       showErrorDialog('Claim request failed', '', { boldMessage: 'Try again later.' })
     } finally {
       setLoading(false)
@@ -286,7 +291,7 @@ const Claim = props => {
   const handleFaceVerification = () => {
     //if user is not in whitelist and we do not do faceverification then this is an error
     if (Config.zoomLicenseKey == null) {
-      logErrorWithDialogShown(log, 'handleFaceVerification failed', '', new Error('Zoom licensekey missing'))
+      log.error('handleFaceVerification failed', '', new Error('Zoom licensekey missing'))
       showSupportDialog(showErrorDialog, hideDialog, screenProps.push, 'Faceverification disabled')
     } else {
       screenProps.push('FaceVerificationIntro', { from: 'Claim' })

@@ -11,7 +11,7 @@ import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import illustration from '../../../assets/Claim/claimQueue.svg'
 import { withStyles } from '../../../lib/styles'
 import Config from '../../../config/config'
-import logger, { logErrorWithDialogShown } from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/pino-logger'
 
 const getStyles = ({ theme }) => ({
   title: {
@@ -115,7 +115,7 @@ export default () => {
       }
       return true
     } catch (e) {
-      logErrorWithDialogShown(log, 'handleClaimQueue failed', e.message, e)
+      log.error('handleClaimQueue failed', e.message, e)
       showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status')
       return false
     } finally {

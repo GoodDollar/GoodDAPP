@@ -1,12 +1,13 @@
 // @flow
 //eslint-disable-next-line
+
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import retryImport from '../../lib/utils/retryImport'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
+import logger, { ERROR_CATEGORY_HUMAN } from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
@@ -58,8 +59,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     fireEvent(CLICK_BTN_RECOVER_WALLET)
 
     const showError = () => {
-      logErrorWithDialogShown(log, 'Incorrect pass phrase - wallet recover failed', '', null, {
+      log.error('Incorrect pass phrase - wallet recover failed', '', null, {
         mnemonics,
+        category: ERROR_CATEGORY_HUMAN,
       })
       showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
         boldMessage: 'Please check it and try again.',

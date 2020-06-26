@@ -13,7 +13,7 @@ import {
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
-import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -432,7 +432,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setLoading(false)
       return true
     } catch (e) {
-      logErrorWithDialogShown(log, 'New user failure', e.message, e)
+      log.error('New user failure', e.message, e)
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, e.message)
 
       // showErrorDialog('Something went on our side. Please try again')
@@ -508,12 +508,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           const errorMessage =
             data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
 
-          logErrorWithDialogShown(log, errorMessage, '', null, { data })
+          log.error(errorMessage, '', null, { data })
           return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        logErrorWithDialogShown(log, 'Send mobile code failed', e.message, e)
+        log.error('Send mobile code failed', e.message, e)
         return showErrorDialog('Could not send verification code. Please try again')
       } finally {
         setLoading(false)
@@ -523,7 +523,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         setLoading(true)
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          logErrorWithDialogShown(log, 'Send verification code failed', '', null, { data })
+          log.error('Send verification code failed', '', null, { data })
           return showErrorDialog('Could not send verification email. Please try again')
         }
 
@@ -540,7 +540,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        logErrorWithDialogShown(log, 'email verification failed unexpected:', e.message, e)
+        log.error('email verification failed unexpected:', e.message, e)
         return showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
       } finally {
         setLoading(false)

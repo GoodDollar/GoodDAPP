@@ -11,7 +11,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
-import logger, { logErrorWithDialogShown } from '../../lib/logger/pino-logger'
+import logger, { ERROR_CATEGORY_BLOCKCHAIN, ERROR_CATEGORY_HUMAN } from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
@@ -103,14 +103,14 @@ const FeedList = ({
       if (actions.canCancel) {
         if (status === 'pending') {
           // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
-          logErrorWithDialogShown(
-            log,
+          log.error(
             "Current transaction is still pending, it can't be cancelled right now",
             'Pending - can`t be cancelled right now',
             null,
             {
               id,
               status,
+              category: ERROR_CATEGORY_HUMAN,
             }
           )
           showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
@@ -121,12 +121,14 @@ const FeedList = ({
             canceledFeeds.current.push(id)
             userStorage.cancelOTPLEvent(id)
             goodWallet.cancelOTLByTransactionHash(id).catch(e => {
-              logErrorWithDialogShown(log, 'cancel payment failed - quick actions', e.message, e)
+              log.error('cancel payment failed - quick actions', e.message, e, {
+                category: ERROR_CATEGORY_BLOCKCHAIN,
+              })
               userStorage.updateOTPLEventStatus(id, 'pending')
               showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
             })
           } catch (e) {
-            logErrorWithDialogShown(log, 'cancel payment failed - quick actions', e.message, e)
+            log.error('cancel payment failed - quick actions', e.message, e)
             canceledFeeds.current.pop()
             userStorage.updateOTPLEventStatus(id, 'pending')
             showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')

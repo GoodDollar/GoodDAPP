@@ -12,8 +12,9 @@ export const truncateMiddle = (string, maxLength = null, ellipsis = '...') => {
     return string
   }
 
-  const firstHalf = string.slice(0, maxLength)
-  const lastHalf = string.slice(-maxLength)
+  const halfLength = Math.floor((maxLength - ellipsis.length) / 2)
+  const firstHalf = string.slice(0, halfLength)
+  const lastHalf = string.slice(-halfLength)
 
   return firstHalf + ellipsis + lastHalf
 }

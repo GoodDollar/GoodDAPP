@@ -21,7 +21,7 @@ const copyIconSize = isBrowser ? 34 : normalize(24)
 const BorderedBox = ({ styles, theme, imageSource, title, content, truncateContent = false, copyButtonText }) => {
   const [, setString] = useClipboard()
   const copyToClipboard = useOnPress(() => setString(content), [setString, content])
-  const displayContent = truncateContent ? truncateMiddle(content, 13) : content
+  const displayContent = truncateContent ? truncateMiddle(content, 29) : content  // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
 
   return (
     <Section style={styles.borderedBox}>

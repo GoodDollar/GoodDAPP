@@ -85,7 +85,7 @@ class TorusSDK {
     }
 
     if ('production' !== env) {
-      logger.debug('Receiver torusUser:', torusUser)
+      logger.debug('Received torusUser:', torusUser)
     }
 
     return torusUser

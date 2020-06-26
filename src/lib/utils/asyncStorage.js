@@ -39,7 +39,7 @@ export default new class {
     try {
       await this.storageApi.clear()
     } catch (err) {
-      return Error
+      return err
     }
   }
 }(AsyncStorage)

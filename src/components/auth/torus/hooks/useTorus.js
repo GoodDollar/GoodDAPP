@@ -32,7 +32,7 @@ export default (onInitialized = noop) => {
       } catch (exception) {
         const { message } = exception
 
-        log.error('failed initializing torus', message, exception)
+        log.error('failed initializing torus', message, exception, { dialogShown: false })
       }
     }
 

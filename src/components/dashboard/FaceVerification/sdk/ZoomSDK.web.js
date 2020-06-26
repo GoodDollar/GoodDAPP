@@ -28,6 +28,12 @@ export const ZoomSDK = new class {
    */
   criticalPreloadException = null
 
+  /**
+   * @var {Promise}
+   * @private
+   */
+  preloadCall = null
+
   constructor(sdk, store, logger) {
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory(`${ZOOM_PUBLIC_PATH}/resources`)
@@ -43,7 +49,10 @@ export const ZoomSDK = new class {
     this.logger = logger.child({ from: 'ZoomSDK.web' })
   }
 
-  // eslint-disable-next-line require-await
+  /**
+   * Start zoom sdk preloading and save promise object to the class property
+   *
+   */
   async preload() {
     const { sdk, criticalPreloadException } = this
     const { ZoomPreloadResult } = sdk
@@ -53,22 +62,30 @@ export const ZoomSDK = new class {
       throw criticalPreloadException
     }
 
-    const preloadResult = await this.wrapCall(resolver => sdk.preload(resolver))
+    if (!this.preloadCall) {
+      const sdkCall = this.wrapCall(resolver => sdk.preload(resolver))
+
+      this.preloadCall = sdkCall.finally(() => (this.preloadCall = null))
+    }
+
+    const preloadResult = await this.preloadCall
 
     if (preloadResult !== ZoomPreloadResult.Success) {
       throw new Error(`Couldn't preload Zoom SDK`)
     }
   }
 
-  // eslint-disable-next-line require-await
   async initialize(licenseKey, preload = true) {
     const { sdk, logger, criticalPreloadException } = this
+
+    // waiting for Zoom preload to be finished before starting initialization
+    await this.ensureZoomIsntPreloading()
 
     // checking the last retrieved status code
     // if Zoom was already initialized successfully,
     // then resolving immediately
     if (ZoomSDKStatus.Initialized === sdk.getStatus()) {
-      return
+      return true
     }
 
     try {
@@ -210,7 +227,7 @@ export const ZoomSDK = new class {
           isCriticalError = message.startsWith('65391')
           break
         case 'TypeError':
-          isCriticalError = filename.includes('zoom/resources')
+          isCriticalError = ['zoom/resources', 'lib/zoom'].some(path => filename.includes(path))
           break
         default:
           isCriticalError = false
@@ -276,5 +293,21 @@ export const ZoomSDK = new class {
         reject(exception)
       }
     })
+  }
+
+  /**
+   * Ensures Zoom isn't preloading or finished preload
+   *
+   * @returns {Promise<void>}
+   */
+  // eslint-disable-next-line require-await
+  async ensureZoomIsntPreloading() {
+    const { preloadCall } = this
+
+    if (!preloadCall) {
+      return
+    }
+
+    return preloadCall.catch(noop)
   }
 }(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK' }))

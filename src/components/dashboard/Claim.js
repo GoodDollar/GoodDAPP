@@ -260,7 +260,7 @@ const Claim = props => {
         fireMauticEvent({ claim: claimsSoFar })
         checkHanukaBonusDates()
 
-        fireGoogleAnalyticsEvent(CLAIM_GEO, { claimValue: curEntitlement })
+        fireGoogleAnalyticsEvent(CLAIM_GEO, { claimValue: weiToGd(curEntitlement) })
 
         showDialog({
           buttons: [{ text: 'Yay!' }],

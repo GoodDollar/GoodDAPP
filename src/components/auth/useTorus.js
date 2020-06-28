@@ -34,6 +34,8 @@ class TorusLogin {
       torusUser.mobile = torusUser.name
       delete torusUser.name
     }
+
+    log.debug('got user', torusUser)
     return torusUser
   }
 

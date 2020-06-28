@@ -39,9 +39,8 @@ for = "/torus/redirect"
     Content-Type = "text/html"
 
 [[headers]]
-for = "/zoom/resources/*"
-
-    [headers.values]
+  for = "/zoom/resources/*_cache.wasm"
+  [headers.values]
     cache-control = '''
         max-age=0,
         no-cache,

@@ -605,7 +605,12 @@ describe('UserStorage', () => {
       username: 'hadar2',
     }
     const profile = getUserModel(profileData)
-    const result = await userStorage.setProfile(profile)
+    const fieldsPrivacy = await Promise.all([
+      userStorage.getFieldPrivacy('mobile'),
+      userStorage.getFieldPrivacy('email'),
+    ])
+    expect(fieldsPrivacy).toEqual(['masked', 'masked'])
+    const result = await userStorage.setProfile(profile, true)
     expect(result).toBe(true)
     await delay(350)
     userStorage.subscribeProfileUpdates(async updatedProfile => {
@@ -627,10 +632,21 @@ describe('UserStorage', () => {
   it(`update profile doesn't change privacy settings`, async done => {
     const email = 'johndoe@blah.com'
     await userStorage.setProfileField('email', email, 'public')
-    await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }))
+    await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }), true)
     userStorage.subscribeProfileUpdates(updatedProfile => {
       const result = userStorage.getDisplayProfile(updatedProfile)
       expect(result.email).toBe(email)
+      done()
+    })
+  })
+
+  it(`setting profile changes privacy settings`, async done => {
+    const email = 'johndoe@blah.com'
+    await userStorage.setProfileField('email', email, 'public')
+    await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }))
+    userStorage.subscribeProfileUpdates(updatedProfile => {
+      const result = userStorage.getDisplayProfile(updatedProfile)
+      expect(result.email).toBe('******')
       done()
     })
   })

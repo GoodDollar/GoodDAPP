@@ -3,6 +3,7 @@ import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
+import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
 import type Web3 from 'web3'
@@ -175,7 +176,7 @@ export class GoodWallet {
         // UBI Contract
         this.UBIContract = new this.wallet.eth.Contract(
           UBIABI.abi,
-          get(ContractsAddress, `${this.network}.UBI` /*UBIABI.networks[this.networkId].address*/),
+          get(StakingModelAddress, `${this.network}.UBIScheme` /*UBIABI.networks[this.networkId].address*/),
           { from: this.account }
         )
         abiDecoder.addABI(UBIABI.abi)

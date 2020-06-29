@@ -378,7 +378,18 @@ export class GoodWallet {
 
   async getAmountAndQuantityClaimedToday(): Promise<any> {
     try {
-      const stats = await this.UBIContract.methods.getDailyStats().call()
+      const ubiStart = await this.UBIContract.methods
+        .periodStart()
+        .call()
+        .then(_ => _.toNumber() * 1000)
+      const today = moment().diff(ubiStart, 'days')
+
+      //we dont use getDailyStats because it returns stats for last day where claim happened
+      //if user is the first the stats he says are incorrect and will reset once he claims
+      const stats = await Promise.all([
+        this.UBIContract.methods.getClaimerCount(today).call(),
+        this.UBIContract.methods.getClaimAmount(today).call(),
+      ])
       const [people, amount] = invokeMap(stats || [ZERO, ZERO], 'toNumber')
 
       return { amount, people }

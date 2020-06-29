@@ -360,7 +360,7 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: 0,
     },
     extraInfoAmountDisplay: {
-      display: 'contents',
+      display: Platform.select({ web: 'contents', default: 'none' }),
     },
     extraInfoContainer: {
       flex: 1,

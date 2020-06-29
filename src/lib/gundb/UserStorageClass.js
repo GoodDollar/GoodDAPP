@@ -736,7 +736,7 @@ export class UserStorage {
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent | void> {
     //first check to save time if already exists
     let feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
-    if (get(feedEvent, 'data.receiptData', feedEvent.receiptReceived)) {
+    if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
       return feedEvent
     }
 
@@ -773,7 +773,7 @@ export class UserStorage {
         type: this.getOperationType(data, this.wallet.account),
       }
 
-      if (get(feedEvent, 'data.receiptData', feedEvent.receiptReceived)) {
+      if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
         logger.debug('handleReceiptUpdated skipping event with existed receipt data', feedEvent, receipt)
         return feedEvent
       }
@@ -1537,7 +1537,7 @@ export class UserStorage {
             feedItem.otplStatus !== 'cancelled'
         )
         .map(feedItem => {
-          if (false == get(feedItem, 'data.receiptData', feedItem.receiptReceived)) {
+          if (false == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
             return this.getFormatedEventById(feedItem.id)
           }
 
@@ -1558,7 +1558,7 @@ export class UserStorage {
     if (!prevFeedEvent) {
       return standardPrevFeedEvent
     }
-    if (get(prevFeedEvent, 'data.receiptData', prevFeedEvent.receiptReceived)) {
+    if (get(prevFeedEvent, 'data.receiptData', prevFeedEvent && prevFeedEvent.receiptReceived)) {
       return standardPrevFeedEvent
     }
 

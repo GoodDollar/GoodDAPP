@@ -381,7 +381,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           // if logged in via other provider that facebook - generating & signing proof
           const torusProofNonce = Date.now()
           const msg = (mobile || email) + String(torusProofNonce)
-          const proof = goodWallet.wallet.eth.accounts.sign(msg, privateKey)
+          const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
 
           assign(requestPayload, {
             torusProof: proof.signature,

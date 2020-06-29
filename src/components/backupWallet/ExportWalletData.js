@@ -27,9 +27,6 @@ import FuseLogo from '../../assets/ExportWallet/FuseLogo.svg'
 
 const web3ProviderUrl = GoodWallet.networkId && config.ethereum[GoodWallet.networkId].httpWeb3provider
 
-// getting the privateKey of GD wallet address - which index is 0
-const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')
-
 type ExportWalletProps = {
   styles: {},
   theme: {},
@@ -43,6 +40,8 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
   const rpcImageSource = { uri: FuseLogo }
 
+  // getting the privateKey of GD wallet address - which index is 0
+  const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')
   const handleGoHome = useOnPress(() => navigate('Home'), [navigate])
 
   return (

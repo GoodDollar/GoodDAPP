@@ -113,7 +113,7 @@ const getStylesFromProps = ({
       lineHeight: normalize(calculatedLineHeight),
       textTransform: textTransform || 'none',
       textDecorationLine: textDecorationLine || 'none',
-      letterSpacing: letterSpacing || 0,
+      letterSpacing,
     },
   }
 }

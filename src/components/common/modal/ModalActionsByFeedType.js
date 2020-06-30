@@ -126,7 +126,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="contained" style={styles.button} onPress={handleModalClose}>
-              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto" fontWeight="medium">
+              <Text fontSize={14} letterSpacing={0} color="#FFFFFF" fontFamily="Roboto" fontWeight="medium">
                 {config.isPhaseZero ? 'OK' : 'LET`S DO IT'}
               </Text>
             </CustomButton>
@@ -159,7 +159,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
-              <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
+              <CustomButton
+                mode="contained"
+                style={styles.rightButton}
+                textStyle={styles.letterSpacing0}
+                onPress={handleModalClose}
+              >
                 Ok
               </CustomButton>
             </View>
@@ -171,12 +176,17 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <CustomButton mode="outlined" style={styles.button} onPress={readMore}>
+            <CustomButton mode="outlined" style={styles.button} textStyle={styles.letterSpacing0} onPress={readMore}>
               Read more
             </CustomButton>
           </View>
           <View style={styles.rightButtonContainer}>
-            <CustomButton mode="contained" style={styles.rightButton} onPress={shareMessage}>
+            <CustomButton
+              mode="contained"
+              style={styles.rightButton}
+              textStyle={styles.letterSpacing0}
+              onPress={shareMessage}
+            >
               Share
             </CustomButton>
           </View>
@@ -188,7 +198,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
-              <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
+              <Text fontSize={14} letterSpacing={0} color="gray80Percent" fontFamily="Roboto">
                 LATER
               </Text>
             </CustomButton>
@@ -203,7 +213,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               icon="invite"
               iconStyle={styles.iconStyle}
             >
-              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+              <Text fontSize={14} letterSpacing={0} color="#FFFFFF" fontFamily="Roboto">
                 INVITE
               </Text>
             </CustomButton>
@@ -216,14 +226,14 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
-              <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
+              <Text fontSize={14} letterSpacing={0} color="gray80Percent" fontFamily="Roboto">
                 LATER
               </Text>
             </CustomButton>
           </View>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="contained" style={styles.button} onPress={Marketplace} iconAlignment="right">
-              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+              <Text fontSize={14} letterSpacing={0} color="#FFFFFF" fontFamily="Roboto">
                 {"LET'S GO"}
               </Text>
             </CustomButton>
@@ -236,7 +246,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="contained" style={styles.button} onPress={backupPage}>
-              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+              <Text fontSize={14} letterSpacing={0} color="#FFFFFF" fontFamily="Roboto">
                 {"LET'S BACKUP"}
               </Text>
             </CustomButton>
@@ -249,7 +259,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="contained" style={styles.button} onPress={goToClaimPage}>
-              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+              <Text fontSize={14} letterSpacing={0} color="#FFFFFF" fontFamily="Roboto">
                 CLAIM G$
               </Text>
             </CustomButton>
@@ -262,7 +272,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="contained" style={styles.button} onPress={goToClaimPage}>
-              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+              <Text fontSize={14} letterSpacing={0} color="#FFFFFF" fontFamily="Roboto">
                 CLAIM NOW
               </Text>
             </CustomButton>
@@ -273,7 +283,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     case 'feedback':
       return (
         <View style={styles.buttonsView}>
-          <CustomButton mode="contained" style={styles.button} onPress={handleModalClose}>
+          <CustomButton
+            mode="contained"
+            style={styles.button}
+            textStyle={styles.letterSpacing0}
+            onPress={handleModalClose}
+          >
             Later
           </CustomButton>
         </View>
@@ -284,7 +299,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       // claim / receive / withdraw / notification / sendcancelled / sendcompleted
       return (
         <View style={styles.buttonsView}>
-          <CustomButton mode="contained" style={styles.button} onPress={handleModalClose}>
+          <CustomButton
+            mode="contained"
+            style={styles.button}
+            textStyle={styles.letterSpacing0}
+            onPress={handleModalClose}
+          >
             Ok
           </CustomButton>
         </View>
@@ -331,6 +351,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   buttonTextStyle: {
     fontSize: normalize(14),
+    letterSpacing: 0,
+  },
+  letterSpacing0: {
     letterSpacing: 0,
   },
 })

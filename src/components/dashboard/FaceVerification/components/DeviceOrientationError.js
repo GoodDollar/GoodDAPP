@@ -26,7 +26,7 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => {
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none">
+          <Section.Title fontWeight="medium" textTransform="none" color="red">
             {displayTitle}
             {',\nplease turn your camera\nto portrait mode'}
           </Section.Title>

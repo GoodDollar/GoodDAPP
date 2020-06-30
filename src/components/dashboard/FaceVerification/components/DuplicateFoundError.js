@@ -23,7 +23,7 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, screenProps }) => 
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none">
+          <Section.Title fontWeight="medium" textTransform="none" color="red">
             {displayTitle}
             {',\nUnfortunately,\nWe found your twin...'}
           </Section.Title>

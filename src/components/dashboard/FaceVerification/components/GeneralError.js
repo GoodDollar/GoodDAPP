@@ -24,7 +24,7 @@ const GeneralError = ({ styles, displayTitle, onRetry, screenProps }) => {
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none">
+          <Section.Title fontWeight="medium" textTransform="none" color="red">
             {displayTitle}
             {',\nSomething went wrong\non our side...'}
           </Section.Title>

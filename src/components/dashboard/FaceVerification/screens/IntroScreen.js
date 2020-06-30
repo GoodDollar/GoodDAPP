@@ -76,6 +76,13 @@ const IntroScreen = ({ styles, screenProps }) => {
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
   const handleVerifyClick = useOnPress(requestCameraPermissions, [])
 
+  const commonTextStyles = {
+    textAlign: 'center',
+    color: 'primary',
+    fontSize: 18,
+    lineHeight: 25,
+  }
+
   useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
 
   useEffect(() => {
@@ -99,20 +106,15 @@ const IntroScreen = ({ styles, screenProps }) => {
           <View>
             <Separator width={2} />
             <Text textAlign="center" style={styles.descriptionContainer}>
-              <Text textAlign="center" fontWeight="bold" color="primary">
+              <Text {...commonTextStyles} fontWeight="bold">
                 {`Once in a while\n`}
               </Text>
-              <Text textAlign="center" color="primary">
-                {`we'll need to take a short video of you\n`}
-              </Text>
-              <Text textAlign="center" color="primary">
-                {`to prevent duplicate accounts.\n`}
-              </Text>
+              <Text {...commonTextStyles}>{`we'll need to take a short video of you\n`}</Text>
+              <Text {...commonTextStyles}>{`to prevent duplicate accounts.\n`}</Text>
               <Text
-                textAlign="center"
+                {...commonTextStyles}
                 fontWeight="bold"
                 textDecorationLine="underline"
-                color="primary"
                 style={styles.descriptionUnderline}
                 onPress={openPrivacy}
               >

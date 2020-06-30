@@ -2,7 +2,7 @@
 
 // libraries
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 
 // utils
 import { withStyles } from '../../../lib/styles'
@@ -151,7 +151,10 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 30,
   },
   mainPhoto: {
-    height: '20%',
+    height: Platform.select({
+      default: getDesignRelativeHeight(175, true),
+      web: '20vh',
+    }),
     width: '100%',
   },
   claimIllustration: {

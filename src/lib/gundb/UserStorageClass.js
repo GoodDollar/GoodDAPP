@@ -174,8 +174,8 @@ export const inviteFriendsMessage = {
   status: 'completed',
   data: {
     customName: `Invite friends and earn G$'s`,
-    subtitle: `Want to earn more G$'s ?`,
-    readMore: 'Invite more friends!',
+    subtitle: Config.isPhaseZero ? 'Want to earn more G$`s ?' : 'Invite Your friends now',
+    readMore: Config.isPhaseZero ? 'Invite more friends!' : 'and let them also claim free G$`s',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },

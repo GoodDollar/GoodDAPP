@@ -45,7 +45,7 @@ const GeneralError = ({ styles, displayTitle, onRetry, screenProps }) => {
           </Section>
         </Section>
         <View style={styles.action}>
-          <CustomButton onPress={onRetryPress}>PLEASE TRY AGAIN</CustomButton>
+          <CustomButton onPress={onRetryPress}>TRY AGAIN</CustomButton>
         </View>
       </View>
     </Wrapper>

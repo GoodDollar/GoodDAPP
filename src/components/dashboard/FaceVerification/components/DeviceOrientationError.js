@@ -34,8 +34,11 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => {
           <Section style={styles.errorSection}>
             <Separator width={2} />
             <View style={styles.descriptionWrapper}>
-              <Text color="primary">
-                {'It’s a nice landscape,\nbut we need to see\nyour face only in portrait mode'}
+              <Text color="primary" fontSize={18} lineHeight={25}>
+                {'It’s a nice landscape,\nbut we need to see your face'}
+              </Text>
+              <Text color="primary" fontWeight="bold" fontSize={18} lineHeight={25}>
+                only in portrait mode
               </Text>
             </View>
             <Separator width={2} />

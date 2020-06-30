@@ -117,7 +117,7 @@ exports[`FaceVerification DuplicateFoundError matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
+              "color": "rgba(250,108,119,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "24px",
@@ -245,9 +245,9 @@ We found your twin...
                   "color": "rgba(0,175,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "700",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -264,9 +264,9 @@ We found your twin...
                   "color": "rgba(0,175,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",

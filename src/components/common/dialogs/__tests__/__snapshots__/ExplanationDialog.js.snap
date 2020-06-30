@@ -42,9 +42,9 @@ exports[`ExplanationDialog matches snapshot 1`] = `
       Object {
         "direction": "ltr",
         "fontFamily": "Roboto",
-        "fontSize": "16px",
+        "fontSize": "24px",
         "fontWeight": "normal",
-        "lineHeight": "22px",
+        "lineHeight": "30px",
         "textAlign": "center",
         "textDecoration": "none",
         "textTransform": "none",

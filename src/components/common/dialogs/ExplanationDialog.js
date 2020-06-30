@@ -22,7 +22,7 @@ const ExplanationDialog = ({ styles, theme, errorMessage, title, text, imageSour
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
         {title}
       </Text>
-      <Text fontSize={16}>{text}</Text>
+      <Text fontSize={24}>{text}</Text>
     </View>
   )
 }

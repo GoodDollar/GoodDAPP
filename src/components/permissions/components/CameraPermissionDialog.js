@@ -8,13 +8,17 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-export default () => (
+const CameraPermissionDialog = () => (
   <ExplanationDialog
-    title="Please allow access to your camera"
-    text={`In order to complete the verification`}
+    title="You must allow access to your camera"
+    text="In order to claim G$'s"
     imageSource={illustration}
   />
 )
+
+CameraPermissionDialog.dismissButtonText = 'I UNDERSTAND'
+
+export default CameraPermissionDialog
 
 /*
  - Usage example

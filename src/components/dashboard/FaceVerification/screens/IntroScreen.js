@@ -84,7 +84,7 @@ const IntroScreen = ({ styles, screenProps }) => {
       <Section style={styles.topContainer} grow>
         <View style={styles.mainContent}>
           <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nLet's make sure you're\na real live person`}
+            {`${getFirstWord(fullName)},\nOnly a real live person\ncan claim G$’s`}
           </Section.Title>
           <View style={styles.illustration}>
             <FaceVerificationSmiley />
@@ -115,7 +115,7 @@ const IntroScreen = ({ styles, screenProps }) => {
             <Separator style={[styles.bottomSeparator]} width={2} />
           </View>
           <CustomButton style={[styles.button]} onPress={handleVerifyClick} disabled={false !== disposing}>
-            OK, Verify me
+            OK, VERIFY ME
           </CustomButton>
         </View>
       </Section>

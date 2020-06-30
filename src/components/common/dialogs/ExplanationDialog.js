@@ -19,7 +19,11 @@ const ExplanationDialog = ({
   imageSource,
   image: ImageComponent,
 }) => {
-  const imageProps = { style: styles.image, resizeMode: 'contain' }
+  const imageProps = {
+    style: styles.image,
+    resizeMode: 'contain',
+    marginTop: errorMessage ? undefined : getDesignRelativeHeight(16),
+  }
 
   return (
     <View style={styles.container}>
@@ -57,7 +61,7 @@ const mapStylesToProps = () => ({
     marginBottom: 'auto',
   },
   error: {
-    marginTop: getDesignRelativeHeight(15),
+    marginTop: getDesignRelativeHeight(16),
     marginBottom: getDesignRelativeHeight(25),
   },
   image: {

@@ -175,6 +175,7 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'flex-end',
       minHeight: 60,
       width: '100%',
+      zIndex: -1,
     },
     doneButton: {
       marginTop: 'auto',

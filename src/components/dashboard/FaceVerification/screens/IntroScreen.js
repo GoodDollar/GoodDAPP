@@ -1,28 +1,32 @@
-/* eslint-disable */
+// libraries
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
 
-import UserStorage from '../../../../lib/gundb/UserStorage'
-import GDStore from '../../../../lib/undux/GDStore'
+//components
 import Separator from '../../../common/layout/Separator'
-import logger from '../../../../lib/logger/pino-logger'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import { getFirstWord } from '../../../../lib/utils/getFirstWord'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
-import { withStyles } from '../../../../lib/styles'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
-import { isBrowser } from '../../../../lib/utils/platform'
-import { openLink } from '../../../../lib/utils/linking'
+
+// hooks
 import useOnPress from '../../../../lib/hooks/useOnPress'
-import Config from '../../../../config/config'
-import { Permissions } from '../../../permissions/types'
-import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
+// utils
+import UserStorage from '../../../../lib/gundb/UserStorage'
+import GDStore from '../../../../lib/undux/GDStore'
+import logger from '../../../../lib/logger/pino-logger'
+import { getFirstWord } from '../../../../lib/utils/getFirstWord'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+import { withStyles } from '../../../../lib/styles'
+import { isBrowser } from '../../../../lib/utils/platform'
+import { openLink } from '../../../../lib/utils/linking'
+import Config from '../../../../config/config'
+import { Permissions } from '../../../permissions/types'
+import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
@@ -44,26 +48,29 @@ const WalletDeletedPopupText = ({ styles }) => (
 const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
-  const isValid = get(screenProps, 'screenState.isValid', false)
+  const { screenState, goToRoot, navigateTo, pop } = screenProps
+  const isValid = get(screenState, 'isValid', false)
 
   const disposing = useDisposingState({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
     onComplete: isDisposing => {
       if (!isDisposing) {
-        return;
+        return
       }
 
       showQueueDialog(WalletDeletedPopupText, {
-        onDismiss: () => screenProps.goToRoot(),
+        onDismiss: goToRoot,
       })
-    }
+    },
   })
 
+  const onGetInstructions = useOnPress(() => navigateTo('Support'), [navigateTo])
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
     onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
-    onAllowed: () => screenProps.navigateTo('FaceVerification'),
+    onAllowed: () => navigateTo('FaceVerification'),
     onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
+    onGetInstructions,
   })
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
@@ -73,7 +80,7 @@ const IntroScreen = ({ styles, screenProps }) => {
 
   useEffect(() => {
     if (isValid) {
-      screenProps.pop({ isValid: true })
+      pop({ isValid: true })
     } else {
       fireEvent(FV_INTRO)
     }

@@ -26,12 +26,13 @@ const usePermissions = (permission: Permission, options = {}) => {
     onAllowed = noop,
     onPrompt = noop,
     onDenied = noop,
+    onGetInstructions = noop,
     requestOnMounted = true,
     promptPopup,
     deniedPopup,
   } = options
 
-  const [showDialog] = useDialog()
+  const [showDialog, hideDialog] = useDialog()
   const mountedState = useMountedState()
   const [allowed, setAllowed] = useState(false)
 
@@ -42,9 +43,20 @@ const usePermissions = (permission: Permission, options = {}) => {
     ({ onDismiss = noop, Content, ...props }) =>
       showDialog({
         isMinHeight: false,
-        onDismiss,
+        onDismiss: () => {
+          onDismiss()
+          hideDialog()
+        },
+        showButtons: !Content.hideDissmissButton,
         buttons: [{ text: Content.dismissButtonText || 'OK' }],
-        content: <Content />,
+        content: (
+          <Content
+            bottomLinkAction={e => {
+              onGetInstructions(e)
+              hideDialog()
+            }}
+          />
+        ),
         ...props,
       }),
     [showDialog]

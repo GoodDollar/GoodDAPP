@@ -1,22 +1,31 @@
+// libraries
 import React from 'react'
 import { Image, Platform } from 'react-native'
 
-import { isMobile } from '../../../lib/utils/platform'
-
+// components
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+
+// assets
 import illustration from '../../../assets/ClipboardPermissionError.svg'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-export default () => (
+const DeniedClipboardPermissionDialog = ({ bottomLinkAction }) => (
   <ExplanationDialog
-    title="Please enable clipboard permission"
-    text={`Change it via your ${isMobile ? 'device' : 'browser'} settings`}
+    title="Go to your device settings & enable clipboard permission"
     imageSource={illustration}
+    bottomLink={{
+      text: 'How to do that?',
+      action: bottomLinkAction,
+    }}
   />
 )
+
+DeniedClipboardPermissionDialog.hideDissmissButton = true
+
+export default DeniedClipboardPermissionDialog
 
 /*
  - Usage example

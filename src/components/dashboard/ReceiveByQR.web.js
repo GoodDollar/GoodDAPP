@@ -1,17 +1,24 @@
+// libraries
 import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
-import logger from '../../lib/logger/pino-logger'
-import { extractQueryParams, readReceiveLink } from '../../lib/share'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { wrapFunction } from '../../lib/undux/utils/wrapper'
-import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import usePermissions from '../permissions/hooks/usePermissions'
-import { Permissions } from '../permissions/types'
+// components
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
+
+// hooks
+import useOnPress from '../../lib/hooks/useOnPress'
+import usePermissions from '../permissions/hooks/usePermissions'
+import SimpleStore from '../../lib/undux/SimpleStore'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
+
+// utils
+import logger from '../../lib/logger/pino-logger'
+import { extractQueryParams, readReceiveLink } from '../../lib/share'
+import { wrapFunction } from '../../lib/undux/utils/wrapper'
+import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 
@@ -29,9 +36,11 @@ const ReceiveByQR = ({ screenProps }) => {
   const handlePermissionDenied = useCallback(() => navigateTo('Receive'), [navigateTo])
 
   // check camera permission and show dialog if not allowed
+  const onGetInstructions = useOnPress(() => navigateTo('Support'), [navigateTo])
   const hasCameraAccess = usePermissions(Permissions.Camera, {
     promptPopup: QRCameraPermissionDialog,
     onDenied: handlePermissionDenied,
+    onGetInstructions,
   })
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)

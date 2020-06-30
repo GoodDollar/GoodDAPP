@@ -1,10 +1,24 @@
+// libraries
 import React from 'react'
-import { Image, View } from 'react-native'
-import { withStyles } from '../../../lib/styles'
+import { Image, TouchableOpacity, View } from 'react-native'
+
+// components
 import Text from '../view/Text'
+
+// utils
+import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
-const ExplanationDialog = ({ styles, theme, errorMessage, title, text, imageSource, image: ImageComponent }) => {
+const ExplanationDialog = ({
+  styles,
+  theme,
+  errorMessage,
+  title,
+  text,
+  bottomLink,
+  imageSource,
+  image: ImageComponent,
+}) => {
   const imageProps = { style: styles.image, resizeMode: 'contain' }
 
   return (
@@ -22,7 +36,14 @@ const ExplanationDialog = ({ styles, theme, errorMessage, title, text, imageSour
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
         {title}
       </Text>
-      <Text fontSize={24}>{text}</Text>
+      {text && <Text fontSize={24}>{text}</Text>}
+      {bottomLink && (
+        <TouchableOpacity style={styles.bottomLink} onPress={bottomLink.action}>
+          <Text color="primary" lineHeight={19} textDecorationLine="underline">
+            {bottomLink.text}
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   )
 }
@@ -46,6 +67,9 @@ const mapStylesToProps = () => ({
   },
   title: {
     marginBottom: getDesignRelativeHeight(8),
+  },
+  bottomLink: {
+    marginTop: getDesignRelativeHeight(24),
   },
 })
 

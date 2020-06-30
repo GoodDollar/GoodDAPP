@@ -131,7 +131,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       .get('profile')
       .get('walletAddress')
       .get('display')
-
     return walletAddress
   }
 

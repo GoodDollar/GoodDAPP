@@ -103,6 +103,7 @@ const ProfileDataTable = ({
                   placeholder="Enter phone number"
                   value={profile.mobile}
                   style={styles.phoneInput}
+                  textStyle={{ color: errors.mobile && theme.colors.red }}
                 />
                 <Section.Row style={styles.suffixIcon}>
                   <Icon

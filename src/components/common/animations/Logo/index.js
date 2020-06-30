@@ -2,6 +2,7 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform } from 'react-native'
 import { cloneDeep } from 'lodash'
+import { isMobileNative } from '../../../../lib/utils/platform'
 
 import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
@@ -25,7 +26,12 @@ class Logo extends AnimationBase {
     if (this.props.animation) {
       this.anim.play()
     } else {
-      this.anim.goToAndStop(5200)
+      if (isMobileNative) {
+        const lastFrame = Number(animationData.op) - 1
+        this.anim.play(lastFrame, 5200)
+      } else {
+        this.anim.goToAndStop(5200)
+      }
     }
   }
 

@@ -101,10 +101,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           return hash
         },
         onError: e => {
-          log.error('Send TX failed:', e.message, e, {
-            dialogShown: false,
-            category: ExceptionCategory.Blockhain,
-          })
+          log.error('Send TX failed:', e.message, e, { category: ExceptionCategory.Blockhain })
 
           setLoading(false)
           userStorage.markWithErrorEvent(txhash)
@@ -113,6 +110,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     } catch (e) {
       log.error('Send TX failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
+        dialogShown: true,
       })
 
       showErrorDialog({
@@ -136,7 +134,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       // Go to transaction confirmation screen
       push('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
     } catch (e) {
-      log.error('Something went wrong while trying to generate send link', e.message, e)
+      log.error('Something went wrong while trying to generate send link', e.message, e, { dialogShown: true })
       showErrorDialog('Could not complete transaction. Please try again.')
     }
   }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
@@ -201,6 +199,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       txPromise.catch(e => {
         log.error('generateLinkAndSend:', e.message, e, {
           category: ExceptionCategory.Blockhain,
+          dialogShown: true,
         })
 
         showErrorDialog('Link generation failed. Please try again', '', {

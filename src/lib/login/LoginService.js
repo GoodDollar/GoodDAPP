@@ -73,7 +73,7 @@ class LoginService {
         throw new Error(res.statusText)
       })
       .catch((e: Error) => {
-        log.error('Login service auth failed:', e.message, e, { dialogShown: false })
+        log.error('Login service auth failed:', e.message, e)
         throw e
       })
   }

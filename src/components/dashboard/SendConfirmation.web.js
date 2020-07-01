@@ -43,6 +43,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
         if (e.name !== 'AbortError') {
           log.error('Share link failed', e.message, e, {
             paymentLink,
+            dialogShown: true,
           })
           showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
         }

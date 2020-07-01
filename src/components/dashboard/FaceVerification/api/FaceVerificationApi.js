@@ -47,7 +47,7 @@ class FaceVerificationApi {
     } catch (exception) {
       const { message } = exception
 
-      logger.error('Session session token issue failed: ', message, exception, { dialogShown: false })
+      logger.error('Session session token issue failed: ', message, exception)
       throw new Error('Session could not be started due to an unexpected issue during the network request.')
     }
   }
@@ -92,7 +92,7 @@ class FaceVerificationApi {
       const { message, response } = exception
       const { error } = response || {}
 
-      logger.error('Face recognition failed', error || message, exception, { dialogShown: false })
+      logger.error('Face recognition failed', error || message, exception)
       throw exception
     } finally {
       this.lastCancelToken = null

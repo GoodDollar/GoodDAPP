@@ -73,7 +73,7 @@ class EmailConfirmation extends React.Component<Props, State> {
         await this.verifyCode(codeValue)
         this.handleSubmit()
       } catch (e) {
-        log.error('Submit email verification code failed', e.message, e, { dialogShown: false })
+        log.error('Submit email verification code failed', e.message, e)
 
         this.setState({
           errorMessage: e.message || e,
@@ -112,7 +112,7 @@ class EmailConfirmation extends React.Component<Props, State> {
       //turn checkmark back into regular resend text
       setTimeout(() => this.setState({ ...this.state, resentCode: false }, this.displayDelayedRenderButton), 2000)
     } catch (e) {
-      log.error('resend email code failed', e.message, e, { dialogShown: false })
+      log.error('resend email code failed', e.message, e)
       this.setState({
         errorMessage: e.message || e,
         sendingCode: false,

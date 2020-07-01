@@ -115,7 +115,7 @@ export default () => {
       }
       return true
     } catch (e) {
-      log.error('handleClaimQueue failed', e.message, e)
+      log.error('handleClaimQueue failed', e.message, e, { dialogShown: true })
       showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status')
       return false
     } finally {
@@ -125,9 +125,7 @@ export default () => {
 
   useEffect(() => {
     if (Config.claimQueue) {
-      checkQueueStatus().catch(e =>
-        log.error('checkQueueStatus API request failed', e.message, e, { dialogShown: false })
-      )
+      checkQueueStatus().catch(e => log.error('checkQueueStatus API request failed', e.message, e))
     } else {
       setQueueStatus({ status: 'approved' })
     }

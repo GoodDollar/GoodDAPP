@@ -64,7 +64,7 @@ class SmsForm extends React.Component<Props, State> {
         if (e.ok === 0) {
           log.warn('Verify otp failed', e.message, e)
         } else {
-          log.error('Verify otp failed', e.message, e, { dialogShown: false })
+          log.error('Verify otp failed', e.message, e)
         }
 
         this.setState({
@@ -100,7 +100,7 @@ class SmsForm extends React.Component<Props, State> {
       await API[retryFunctionName]({ ...this.props.screenProps.data })
       this.setState({ sendingCode: false, resentCode: true })
     } catch (e) {
-      log.error('Resend sms code failed', e.message, e, { dialogShown: false })
+      log.error('Resend sms code failed', e.message, e)
       this.setState({
         errorMessage: e.message || e,
         sendingCode: false,

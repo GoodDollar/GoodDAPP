@@ -49,6 +49,7 @@ const ReceiveByQR = ({ screenProps }) => {
           log.error('Invalid QR Code. Probably this QR code is for sending GD', '', null, {
             url,
             category: ExceptionCategory.Human,
+            dialogShown: true,
           })
           showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
         } else {
@@ -60,6 +61,7 @@ const ReceiveByQR = ({ screenProps }) => {
               receiveLink,
               reason,
               category: ExceptionCategory.Human,
+              dialogShown: true,
             })
             showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
           }
@@ -67,7 +69,7 @@ const ReceiveByQR = ({ screenProps }) => {
           setWithdrawParams({ receiveLink, reason })
         }
       } catch (e) {
-        log.error('scan receive failed', e.message, e, { dialogShown: false })
+        log.error('scan receive failed', e.message, e)
         setQRDelay(false)
         throw e
       }
@@ -88,6 +90,7 @@ const ReceiveByQR = ({ screenProps }) => {
       } catch (e) {
         log.error('Executing withdraw failed', e.message, e, {
           receiveLink,
+          dialogShown: true,
         })
         showErrorDialog('Something has gone wrong. Please try again later.')
       }
@@ -109,7 +112,7 @@ const ReceiveByQR = ({ screenProps }) => {
         return
       }
 
-      log.error('QR scan receive failed', message, exception)
+      log.error('QR scan receive failed', message, exception, { dialogShown: true })
       showErrorDialog(errorMessage, '', dialogOptions)
     },
     [showErrorDialog]

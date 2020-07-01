@@ -79,7 +79,7 @@ export default ({
         }
       }
 
-      log.error('Zoom verification failed', message, exception)
+      log.error('Zoom verification failed', message, exception, { dialogShown: true })
       onError(exception)
     } finally {
       // setting session is not running flag in the ref

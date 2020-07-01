@@ -135,7 +135,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       const { data } = await API.getLocation()
       data && setCountryCode(data.country)
     } catch (e) {
-      log.error('Could not get user location', e.message, e, { dialogShown: false })
+      log.error('Could not get user location', e.message, e)
     }
   }
 
@@ -147,7 +147,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       })
       log.debug('verified w3 email', res)
     } catch (e) {
-      log.error('W3 Email verification failed', e.message, e, { dialogShown: false })
+      log.error('W3 Email verification failed', e.message, e)
       return navigation.navigate('InvalidW3TokenError')
 
       // showErrorDialog('Email verification failed', e)
@@ -197,10 +197,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         }
       }
     } catch (e) {
-      log.error('unexpected error in checkWeb3Token', e.message, e, {
-        w3Token,
-        dialogShown: false,
-      })
+      log.error('unexpected error in checkWeb3Token', e.message, e, { w3Token })
     } finally {
       store.set('loadingIndicator')({ loading: false })
     }
@@ -316,7 +313,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       await login
         .then(l => l.default.auth())
         .catch(e => {
-          log.error('failed auth:', e.message, e, { dialogShown: false })
+          log.error('failed auth:', e.message, e)
 
           // showErrorDialog('Failed authenticating with server', e)
         })
@@ -409,12 +406,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       goodWallet
         .getBlockNumber()
         .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
-        .catch(e =>
-          log.error('save blocknumber failed:', e.message, e, {
-            dialogShown: false,
-            category: ExceptionCategory.Blockhain,
-          })
-        )
+        .catch(e => log.error('save blocknumber failed:', e.message, e, { category: ExceptionCategory.Blockhain }))
 
       //first need to add user to our database
       const addUserAPIPromise = API.addUser(requestPayload).then(res => {
@@ -440,7 +432,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       Promise.all([
         w3Token &&
           API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
-            log.error('failed updateW3UserWithWallet', e.message, e, { dialogShown: false })
+            log.error('failed updateW3UserWithWallet', e.message, e)
           ),
       ])
 
@@ -455,7 +447,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setLoading(false)
       return true
     } catch (e) {
-      log.error('New user failure', e.message, e)
+      log.error('New user failure', e.message, e, { dialogShown: true })
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, e.message)
 
       // showErrorDialog('Something went on our side. Please try again')
@@ -477,7 +469,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       log.debug('user registration synced and completed', { ok })
       return ok
     } catch (e) {
-      log.error('waiting for user registration failed', e.message, e, { dialogShown: false })
+      log.error('waiting for user registration failed', e.message, e)
       return false
     } finally {
       setLoading(false)
@@ -531,12 +523,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           const errorMessage =
             data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
 
-          log.error(errorMessage, '', null, { data })
+          log.error(errorMessage, '', null, {
+            data,
+            dialogShown: true,
+          })
           return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error('Send mobile code failed', e.message, e)
+        log.error('Send mobile code failed', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification code. Please try again')
       } finally {
         setLoading(false)
@@ -546,7 +541,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         setLoading(true)
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          log.error('Send verification code failed', '', null, { data })
+          log.error('Send verification code failed', '', null, {
+            data,
+            dialogShown: true,
+          })
           return showErrorDialog('Could not send verification email. Please try again')
         }
 
@@ -563,7 +561,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error('email verification failed unexpected:', e.message, e)
+        log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
       } finally {
         setLoading(false)
@@ -575,7 +573,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         if (isRegMethodSelfCustody) {
           API.sendMagicLinkByEmail(userStorage.getMagicLink())
             .then(r => log.info('magiclink sent'))
-            .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e, { dialogShown: false }))
+            .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
         }
         return navigateWithFocus(nextRoute.key)
       }

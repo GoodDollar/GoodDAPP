@@ -164,7 +164,7 @@ const AddWebApp = props => {
         log.debug('App not installed')
       }
     } catch (e) {
-      log.error('prompt user choice failed', e.message, e, { dialogShown: false })
+      log.error('prompt user choice failed', e.message, e)
     }
 
     // Remove the event reference
@@ -178,7 +178,7 @@ const AddWebApp = props => {
         .prompt()
         .then(_ => handleUserPromptChoice())
         .catch(e => {
-          log.error('prompt display failed', e.message, e, { dialogShown: false })
+          log.error('prompt display failed', e.message, e)
         })
     } else if (isMobileSafari) {
       AsyncStorage.setItem('GD_AddWebAppIOSAdded', true)

@@ -125,7 +125,7 @@ const AppSwitch = (props: LoadingProps) => {
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
     if (isLoggedInCitizen) {
-      API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e, { dialogShown: false }))
+      API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
     }
     return isLoggedInCitizen
 
@@ -192,12 +192,10 @@ const AppSwitch = (props: LoadingProps) => {
     } catch (e) {
       unsuccessfulLaunchAttempts += 1
       if (unsuccessfulLaunchAttempts > 3) {
-        log.error('failed initializing app', e.message, e)
+        log.error('failed initializing app', e.message, e, { dialogShown: true })
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
-        log.error('failed initializing app', e.message, e, {
-          dialogShown: false,
-        })
+        log.error('failed initializing app', e.message, e)
 
         await delay(1500)
         init()
@@ -223,7 +221,7 @@ const AppSwitch = (props: LoadingProps) => {
         }
       }
     } catch (e) {
-      log.error('prepareLoginToken failed', e.message, e, { dialogShown: false })
+      log.error('prepareLoginToken failed', e.message, e)
     }
   }
 
@@ -261,7 +259,7 @@ const AppSwitch = (props: LoadingProps) => {
         log.info('redeemBonuses', { resData: res && res.data })
       })
       .catch(err => {
-        log.error('Failed to redeem bonuses', err.message, err, { dialogShown: false })
+        log.error('Failed to redeem bonuses', err.message, err)
 
         // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })

@@ -78,7 +78,6 @@ export const executeWithdraw = async (
 
     log.error('code withdraw failed', message, e, {
       code,
-      dialogShown: false,
       category: message.endsWith('your own payment link.') ? ExceptionCategory.Human : ExceptionCategory.Blockhain,
     })
 

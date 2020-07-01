@@ -28,7 +28,7 @@ const fixSendFeedStatus = async (lastUpdate, prevVersion, logger = log) => {
     }
     logger.info('fixSendFeedStatus: done fixing. total items:', promises.length)
   } catch (e) {
-    logger.error('fixSendFeedStatus error', e.message, e, { dialogShown: false })
+    logger.error('fixSendFeedStatus error', e.message, e)
   }
 }
 

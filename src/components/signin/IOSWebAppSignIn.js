@@ -69,6 +69,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
         log.error(errorText, '', null, {
           code,
           category: ExceptionCategory.Human,
+          dialogShown: true,
         })
         showErrorDialog(errorText)
       }
@@ -76,6 +77,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
       log.error(errorText, '', null, {
         code,
         category: ExceptionCategory.Human,
+        dialogShown: true,
       })
       showErrorDialog(errorText)
     }

@@ -41,6 +41,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .catch(e => {
             userStorage.updateOTPLEventStatus(item.id, 'pending')
             log.error('cancel payment failed', e.message, e, {
+              dialogShown: true,
               category: ExceptionCategory.Blockhain,
             })
             showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
@@ -50,7 +51,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           })
         await userStorage.cancelOTPLEvent(item.id)
       } catch (e) {
-        log.error('cancel payment failed', e.message, e)
+        log.error('cancel payment failed', e.message, e, { dialogShown: true })
         userStorage.updateOTPLEventStatus(item.id, 'pending')
         setState({ ...state, cancelPaymentLoading: false })
         showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
@@ -78,11 +79,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       fireEventAnalytics('Sharelink')
       return result
     } catch (e) {
-      log.error('getPaymentLink Failed', e.message, {
-        item,
-        canShare,
-        dialogShown: false,
-      })
+      log.error('getPaymentLink Failed', e.message, { item, canShare })
     }
   }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject])
 

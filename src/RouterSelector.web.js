@@ -73,15 +73,10 @@ const handleLinks = async () => {
     }
   } catch (e) {
     if (params.magiclink) {
-      log.error('Magiclink signin failed', e.message, e, {
-        dialogShown: false,
-      })
+      log.error('Magiclink signin failed', e.message, e)
       fireEvent(SIGNIN_FAILED)
     } else {
-      log.error('parsing in-app link failed', e.message, e, {
-        dialogShown: false,
-        ...params,
-      })
+      log.error('parsing in-app link failed', e.message, e, params)
     }
   }
 }

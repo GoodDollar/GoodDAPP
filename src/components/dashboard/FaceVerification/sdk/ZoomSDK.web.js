@@ -176,7 +176,7 @@ export const ZoomSDK = new class {
     const { criticalPreloadException } = this
     const { message } = criticalPreloadException
 
-    this.logger.error('Failed to preload ZoOm SDK', message, criticalPreloadException)
+    this.logger.error('Failed to preload ZoOm SDK', message, criticalPreloadException, { dialogShown: true })
 
     showDialogWithData(store, {
       type: 'error',

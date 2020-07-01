@@ -48,7 +48,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
     try {
       sendGD()
     } catch (e) {
-      log.error('Send TX failed:', e.message, e)
+      log.error('Send TX failed:', e.message, e, { dialogShown: true })
       showErrorDialog({
         visible: true,
         title: 'Transaction Failed!',
@@ -112,10 +112,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
         return hash
       },
       onError: e => {
-        log.error('Send TX failed:', e.message, e, {
-          dialogShown: false,
-          category: ExceptionCategory.Blockhain,
-        })
+        log.error('Send TX failed:', e.message, e, { category: ExceptionCategory.Blockhain })
 
         setLoading(false)
         userStorage.markWithErrorEvent(txhash)

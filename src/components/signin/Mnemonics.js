@@ -62,6 +62,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       log.error('Incorrect pass phrase - wallet recover failed', '', null, {
         mnemonics,
         category: ExceptionCategory.Human,
+        dialogShown: true,
       })
       showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
         boldMessage: 'Please check it and try again.',
@@ -108,7 +109,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       }
     } catch (e) {
       fireEvent(RECOVER_FAILED, { unexpected: true })
-      log.error('recover mnemonics failed', e.message, e)
+      log.error('recover mnemonics failed', e.message, e, { dialogShown: true })
       saveMnemonics(prevMnemonics)
       showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
     } finally {

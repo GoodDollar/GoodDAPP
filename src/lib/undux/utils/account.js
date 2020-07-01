@@ -15,10 +15,7 @@ const updateAll = async store => {
   } catch (exception) {
     const { message } = exception
 
-    log.error('update balance and entitlement failed', message, exception, {
-      dialogShown: false,
-      category: ExceptionCategory.Blockhain,
-    })
+    log.error('update balance and entitlement failed', message, exception, { category: ExceptionCategory.Blockhain })
 
     return
   }

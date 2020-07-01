@@ -74,7 +74,7 @@ export default ({ API, showErrorDialog, store, theme }) =>
                   showErrorDialog('There was a problem deleting your account. Try again later.')
                 }
               } catch (e) {
-                log.error('Error deleting account', e.message, e)
+                log.error('Error deleting account', e.message, e, { dialogShown: true })
                 showErrorDialog('There was a problem deleting your account. Try again later.')
               }
             },

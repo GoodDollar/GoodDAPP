@@ -71,7 +71,7 @@ const getInitial = async (store: Store) => {
   const feeds =
     (await userStorage
       .getFormattedEvents(PAGE_SIZE, true)
-      .catch(e => logger.error('getInitialFeed failed:', e.message, e, { dialogShown: false }))) || []
+      .catch(e => logger.error('getInitialFeed failed:', e.message, e))) || []
 
   logger.info({ feeds })
 

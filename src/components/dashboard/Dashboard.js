@@ -170,6 +170,7 @@ const Dashboard = props => {
               log.error('Payment link is incorrect', e.message, e, {
                 code,
                 category: ExceptionCategory.Human,
+                dialogShown: true,
               })
               showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
                 onDismiss: screenProps.goToRoot,
@@ -178,7 +179,7 @@ const Dashboard = props => {
           }
         }
       } catch (e) {
-        log.error('checkCode unexpected error:', e.message, e, { dialogShown: false })
+        log.error('checkCode unexpected error:', e.message, e)
       }
     },
     [screenProps, showErrorDialog]
@@ -196,7 +197,7 @@ const Dashboard = props => {
         log.debug('getFeedPage:', { feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
-          .catch(e => logger.error('getInitialFeed failed:', e.message, e, { dialogShown: false }))
+          .catch(e => logger.error('getInitialFeed failed:', e.message, e))
 
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
@@ -320,7 +321,7 @@ const Dashboard = props => {
   )
 
   const initDashboard = async () => {
-    await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e, { dialogShown: false }))
+    await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
 
     log.debug('initDashboard subscribed to feed')
     handleDeleteRedirect()
@@ -568,6 +569,7 @@ const Dashboard = props => {
               transactionHash,
               paymentParams,
               category: ExceptionCategory.Human,
+              dialogShown: true,
             })
             showErrorDialog('Payment already withdrawn or canceled by sender')
             break
@@ -587,6 +589,7 @@ const Dashboard = props => {
               transactionHash,
               paymentParams,
               category: ExceptionCategory.Human,
+              dialogShown: true,
             })
             showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
             break
@@ -594,7 +597,10 @@ const Dashboard = props => {
             break
         }
       } catch (e) {
-        log.error('withdraw failed:', e.message, e, { errCode: e.code })
+        log.error('withdraw failed:', e.message, e, {
+          errCode: e.code,
+          dialogShown: true,
+        })
         showErrorDialog(e.message)
       } finally {
         navigation.setParams({ paymentCode: undefined })

@@ -111,6 +111,7 @@ const FeedList = ({
               id,
               status,
               category: ExceptionCategory.Human,
+              dialogShown: true,
             }
           )
           showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
@@ -123,12 +124,13 @@ const FeedList = ({
             goodWallet.cancelOTLByTransactionHash(id).catch(e => {
               log.error('cancel payment failed - quick actions', e.message, e, {
                 category: ExceptionCategory.Blockhain,
+                dialogShown: true,
               })
               userStorage.updateOTPLEventStatus(id, 'pending')
               showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
             })
           } catch (e) {
-            log.error('cancel payment failed - quick actions', e.message, e)
+            log.error('cancel payment failed - quick actions', e.message, e, { dialogShown: true })
             canceledFeeds.current.pop()
             userStorage.updateOTPLEventStatus(id, 'pending')
             showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
@@ -137,7 +139,7 @@ const FeedList = ({
       }
 
       if (actions.canDelete) {
-        userStorage.deleteEvent(id).catch(e => log.error('delete event failed:', e.message, e, { dialogShown: false }))
+        userStorage.deleteEvent(id).catch(e => log.error('delete event failed:', e.message, e))
       }
 
       userStorage.userProperties.set('showQuickActionHint', false)

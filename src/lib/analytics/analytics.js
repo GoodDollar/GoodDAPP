@@ -365,16 +365,17 @@ const patchLogger = () => {
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
   logger.error = (...args) => {
+    const { Unexpected, Network } = category
     const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
     let { dialogShown, category = ExceptionCategory.Unexpected } = extra
     let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category
 
     if (
-      categoryToPassIntoLog === ExceptionCategory.Unexpected &&
+      categoryToPassIntoLog === Unexpected &&
       ['connection', 'webSocket', 'network'].some(str => eMsg.includes(str))
     ) {
-      categoryToPassIntoLog = ExceptionCategory.Network
+      categoryToPassIntoLog = Network
     }
 
     if (errorObj instanceof Error) {

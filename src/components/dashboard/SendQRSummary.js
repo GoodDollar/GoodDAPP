@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import logger, { ERROR_CATEGORY_BLOCKCHAIN } from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -114,7 +114,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
       onError: e => {
         log.error('Send TX failed:', e.message, e, {
           dialogShown: false,
-          category: ERROR_CATEGORY_BLOCKCHAIN,
+          category: ExceptionCategory.Blockhain,
         })
 
         setLoading(false)

@@ -1,7 +1,7 @@
 // @flow
 import type { Store } from 'undux'
 import goodWallet from '../../wallet/GoodWallet'
-import pino, { ERROR_CATEGORY_BLOCKCHAIN, ERROR_CATEGORY_HUMAN } from '../../logger/pino-logger'
+import pino, { ExceptionCategory } from '../../logger/pino-logger'
 import userStorage from '../../gundb/UserStorage'
 import type { TransactionEvent } from '../../gundb/UserStorage'
 import { WITHDRAW_STATUS_PENDING } from '../../wallet/GoodWalletClass'
@@ -79,7 +79,7 @@ export const executeWithdraw = async (
     log.error('code withdraw failed', message, e, {
       code,
       dialogShown: false,
-      category: message.endsWith('your own payment link.') ? ERROR_CATEGORY_HUMAN : ERROR_CATEGORY_BLOCKCHAIN,
+      category: message.endsWith('your own payment link.') ? ExceptionCategory.Human : ExceptionCategory.Blockhain,
     })
 
     throw e

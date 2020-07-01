@@ -46,7 +46,7 @@ export const ZoomSDK = new class {
 
     this.sdk = sdk
     this.store = store
-    this.logger = logger.child({ from: 'ZoomSDK.web' })
+    this.logger = logger
   }
 
   /**
@@ -310,4 +310,4 @@ export const ZoomSDK = new class {
 
     return preloadCall.catch(noop)
   }
-}(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK' }))
+}(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK.web' }))

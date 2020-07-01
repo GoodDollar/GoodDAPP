@@ -10,7 +10,7 @@ import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import { get, invokeMap, values } from 'lodash'
 import Config from '../../config/config'
-import logger, { ERROR_CATEGORY_BLOCKCHAIN } from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
@@ -198,7 +198,7 @@ export class GoodWallet {
       .catch(e => {
         log.error('Failed initializing GoodWallet', e.message, e, {
           dialogShown: false,
-          category: ERROR_CATEGORY_BLOCKCHAIN,
+          category: ExceptionCategory.Blockhain,
         })
         throw e
       })
@@ -237,7 +237,7 @@ export class GoodWallet {
         if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
           log.error('listenTxUpdates fromEventsPromise failed:', error.message, error, {
             dialogShown: false,
-            category: ERROR_CATEGORY_BLOCKCHAIN,
+            category: ExceptionCategory.Blockhain,
           })
         } else {
           log.warn('listenTxUpdates fromEventsPromise failed:', error.message, error)
@@ -250,7 +250,7 @@ export class GoodWallet {
           .catch(err =>
             log.error('send event get/send receipt failed:', err.message, err, {
               dialogShown: false,
-              category: ERROR_CATEGORY_BLOCKCHAIN,
+              category: ExceptionCategory.Blockhain,
             })
           )
 
@@ -276,7 +276,7 @@ export class GoodWallet {
         if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
           log.error('listenTxUpdates toEventsPromise failed:', error.message, error, {
             dialogShown: false,
-            category: ERROR_CATEGORY_BLOCKCHAIN,
+            category: ExceptionCategory.Blockhain,
           })
         } else {
           log.warn('listenTxUpdates toEventsPromise failed:', error.message, error)
@@ -289,7 +289,7 @@ export class GoodWallet {
           .catch(err =>
             log.error('receive event get/send receipt failed:', err.message, err, {
               dialogShown: false,
-              category: ERROR_CATEGORY_BLOCKCHAIN,
+              category: ExceptionCategory.Blockhain,
             })
           )
 
@@ -312,7 +312,7 @@ export class GoodWallet {
         if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
           log.error('listenTxUpdates fromEventsPromise unexpected error:', error.message, error, {
             dialogShown: false,
-            category: ERROR_CATEGORY_BLOCKCHAIN,
+            category: ExceptionCategory.Blockhain,
           })
         } else {
           log.warn('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
@@ -326,7 +326,7 @@ export class GoodWallet {
             .catch(err =>
               log.error('send event get/send receipt failed:', err.message, err, {
                 dialogShown: false,
-                category: ERROR_CATEGORY_BLOCKCHAIN,
+                category: ExceptionCategory.Blockhain,
               })
             )
         }
@@ -380,7 +380,7 @@ export class GoodWallet {
     } catch (e) {
       log.error('claim failed', e.message, e, {
         dialogShown: false,
-        category: ERROR_CATEGORY_BLOCKCHAIN,
+        category: ExceptionCategory.Blockhain,
       })
 
       return Promise.reject(e)
@@ -398,7 +398,7 @@ export class GoodWallet {
     } catch (e) {
       log.error('getNextClaimTime failed', e.message, e, {
         dialogShown: false,
-        category: ERROR_CATEGORY_BLOCKCHAIN,
+        category: ExceptionCategory.Blockhain,
       })
 
       return Promise.reject(e)
@@ -414,7 +414,7 @@ export class GoodWallet {
     } catch (e) {
       log.error('getAmountAndQuantityClaimedToday failed', e.message, e, {
         dialogShown: false,
-        category: ERROR_CATEGORY_BLOCKCHAIN,
+        category: ExceptionCategory.Blockhain,
       })
 
       return Promise.reject(e)
@@ -799,7 +799,7 @@ export class GoodWallet {
   handleError(e: Error) {
     log.error('handleError', e.message, e, {
       dialogShown: false,
-      category: ERROR_CATEGORY_BLOCKCHAIN,
+      category: ExceptionCategory.Blockhain,
     })
 
     throw e
@@ -817,7 +817,7 @@ export class GoodWallet {
     } catch (e) {
       log.error('failed to retrieve gas price from network', e.message, e, {
         dialogShown: false,
-        category: ERROR_CATEGORY_BLOCKCHAIN,
+        category: ExceptionCategory.Blockhain,
       })
     }
 
@@ -932,7 +932,7 @@ export class GoodWallet {
           log.error('sendTransaction error:', e.message, e, {
             tx,
             dialogShown: false,
-            category: ERROR_CATEGORY_BLOCKCHAIN,
+            category: ExceptionCategory.Blockhain,
           })
           rej(e)
           onError && onError(e)

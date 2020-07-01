@@ -1,13 +1,13 @@
 //@flow
+
+// libraries
 import * as Sentry from '@sentry/browser'
 import { debounce, forEach, get, invoke, isFunction, isString } from 'lodash'
+
+// utils
 import API from '../../lib/API/api'
 import Config from '../../config/config'
-import logger, {
-  ERROR_CATEGORY_HUMAN,
-  ERROR_CATEGORY_NETWORK,
-  ERROR_CATEGORY_UNEXPECTED,
-} from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -365,15 +365,16 @@ const patchLogger = () => {
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
   logger.error = (...args) => {
-    const [logContext, logMessage, eMsg, errorObj, _extra = {}] = args
-    let { dialogShown = true, category = ERROR_CATEGORY_UNEXPECTED, ...extra } = _extra
+    const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
+    let { dialogShown, category = ExceptionCategory.Unexpected } = extra
     let errorToPassIntoLog = errorObj
+    let categoryToPassIntoLog = category
 
     if (
-      category === ERROR_CATEGORY_UNEXPECTED &&
-      ['connection', 'webSocket', 'network'].filter(str => eMsg.includes(str))
+      categoryToPassIntoLog === ExceptionCategory.Unexpected &&
+      ['connection', 'webSocket', 'network'].some(str => eMsg.includes(str))
     ) {
-      category = ERROR_CATEGORY_NETWORK
+      categoryToPassIntoLog = ExceptionCategory.Network
     }
 
     if (errorObj instanceof Error) {
@@ -388,8 +389,8 @@ const patchLogger = () => {
         reason: logMessage,
         logContext,
         eMsg,
-        dialogShown: extra.dialogShown,
-        category,
+        dialogShown,
+        category: categoryToPassIntoLog,
       }
 
       if (isFSEnabled) {
@@ -430,8 +431,8 @@ const patchLogger = () => {
       },
       {
         dialogShown,
-        category,
-        level: category === ERROR_CATEGORY_HUMAN ? 'info' : undefined,
+        category: categoryToPassIntoLog,
+        level: categoryToPassIntoLog === ExceptionCategory.Human ? 'info' : undefined,
       }
     )
 

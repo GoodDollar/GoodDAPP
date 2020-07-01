@@ -54,7 +54,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     }
     const userProperties = await userStorage.userProperties.getAll()
     if (userProperties.isMadeBackup) {
-      userStorage
+      await userStorage
         .deleteEvent(backupMessage.id)
         .catch(e => log.error('delete backup message failed', e.message, e, { dialogShown: false }))
     } else {

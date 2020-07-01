@@ -11,7 +11,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
-import logger, { ERROR_CATEGORY_BLOCKCHAIN, ERROR_CATEGORY_HUMAN } from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
@@ -110,7 +110,7 @@ const FeedList = ({
             {
               id,
               status,
-              category: ERROR_CATEGORY_HUMAN,
+              category: ExceptionCategory.Human,
             }
           )
           showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
@@ -122,7 +122,7 @@ const FeedList = ({
             userStorage.cancelOTPLEvent(id)
             goodWallet.cancelOTLByTransactionHash(id).catch(e => {
               log.error('cancel payment failed - quick actions', e.message, e, {
-                category: ERROR_CATEGORY_BLOCKCHAIN,
+                category: ExceptionCategory.Blockhain,
               })
               userStorage.updateOTPLEventStatus(id, 'pending')
               showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')

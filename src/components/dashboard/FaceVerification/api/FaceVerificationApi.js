@@ -29,7 +29,7 @@ class FaceVerificationApi {
   constructor(rootApi: typeof API, zoomApi: Axios, logger: any) {
     this.rootApi = rootApi
     this.zoomApi = zoomApi
-    this.logger = logger.child({ from: 'FaceVerificationAPI' })
+    this.logger = logger
   }
 
   async issueSessionToken(): Promise<string> {

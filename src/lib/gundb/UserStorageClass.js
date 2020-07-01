@@ -24,7 +24,7 @@ import { sha3 } from 'web3-utils'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
-import pino, { ERROR_CATEGORY_HUMAN } from '../logger/pino-logger'
+import pino, { ExceptionCategory } from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
@@ -1240,7 +1240,7 @@ export class UserStorage {
         {
           errors,
           dialogShown: false,
-          category: ERROR_CATEGORY_HUMAN,
+          category: ExceptionCategory.Human,
         }
       )
       if (Config.throwSaveProfileErrors) {
@@ -1307,7 +1307,7 @@ export class UserStorage {
         new Error('isValidValue failed'),
         {
           dialogShown: false,
-          category: ERROR_CATEGORY_HUMAN,
+          category: ExceptionCategory.Human,
         }
       )
       return false

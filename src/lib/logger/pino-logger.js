@@ -10,7 +10,9 @@ global.logger = logger
 
 export default logger
 
-export const ERROR_CATEGORY_HUMAN = 'human'
-export const ERROR_CATEGORY_NETWORK = 'network'
-export const ERROR_CATEGORY_BLOCKCHAIN = 'blockchain'
-export const ERROR_CATEGORY_UNEXPECTED = 'unexpected'
+export const ExceptionCategory = {
+  Human: 'human',
+  Blockhain: 'blockchain',
+  Network: 'network',
+  Unexpected: 'unexpected',
+}

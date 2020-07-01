@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
-import logger, { ERROR_CATEGORY_HUMAN } from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
@@ -48,7 +48,7 @@ const ReceiveByQR = ({ screenProps }) => {
         if (url === null) {
           log.error('Invalid QR Code. Probably this QR code is for sending GD', '', null, {
             url,
-            category: ERROR_CATEGORY_HUMAN,
+            category: ExceptionCategory.Human,
           })
           showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
         } else {
@@ -59,7 +59,7 @@ const ReceiveByQR = ({ screenProps }) => {
               url,
               receiveLink,
               reason,
-              category: ERROR_CATEGORY_HUMAN,
+              category: ExceptionCategory.Human,
             })
             showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
           }

@@ -7,7 +7,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import logger, { ERROR_CATEGORY_BLOCKCHAIN } from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -128,7 +128,7 @@ const Claim = props => {
         .then(entitlement => setClaimState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
         .catch(e => {
           log.error('gatherStats failed', e.message, e, {
-            category: ERROR_CATEGORY_BLOCKCHAIN,
+            category: ExceptionCategory.Blockhain,
           })
           showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
             onDismiss: () => {
@@ -165,7 +165,7 @@ const Claim = props => {
       wrappedGoodWallet.getNextClaimTime(),
     ]).catch(e => {
       log.error('gatherStats failed', e.message, e, {
-        category: ERROR_CATEGORY_BLOCKCHAIN,
+        category: ExceptionCategory.Blockhain,
       })
       showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
         onDismiss: () => {
@@ -275,7 +275,7 @@ const Claim = props => {
           txHash: receipt.transactionHash,
           entitlement: curEntitlement,
           status: receipt.status,
-          category: ERROR_CATEGORY_BLOCKCHAIN,
+          category: ExceptionCategory.Blockhain,
         })
         showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
       }

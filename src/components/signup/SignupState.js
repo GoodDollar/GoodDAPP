@@ -13,7 +13,7 @@ import {
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
-import logger, { ERROR_CATEGORY_BLOCKCHAIN } from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -412,7 +412,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         .catch(e =>
           log.error('save blocknumber failed:', e.message, e, {
             dialogShown: false,
-            category: ERROR_CATEGORY_BLOCKCHAIN,
+            category: ExceptionCategory.Blockhain,
           })
         )
 

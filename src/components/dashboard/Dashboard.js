@@ -31,7 +31,7 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
-import logger, { ERROR_CATEGORY_HUMAN } from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
@@ -169,7 +169,7 @@ const Dashboard = props => {
             } catch (e) {
               log.error('Payment link is incorrect', e.message, e, {
                 code,
-                category: ERROR_CATEGORY_HUMAN,
+                category: ExceptionCategory.Human,
               })
               showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
                 onDismiss: screenProps.goToRoot,
@@ -567,7 +567,7 @@ const Dashboard = props => {
               status,
               transactionHash,
               paymentParams,
-              category: ERROR_CATEGORY_HUMAN,
+              category: ExceptionCategory.Human,
             })
             showErrorDialog('Payment already withdrawn or canceled by sender')
             break
@@ -586,7 +586,7 @@ const Dashboard = props => {
               status,
               transactionHash,
               paymentParams,
-              category: ERROR_CATEGORY_HUMAN,
+              category: ExceptionCategory.Human,
             })
             showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
             break

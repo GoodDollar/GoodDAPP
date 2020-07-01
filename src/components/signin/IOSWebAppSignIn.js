@@ -5,7 +5,7 @@ import bip39 from 'bip39-light'
 import React, { Fragment, useState } from 'react'
 import { AsyncStorage, Image } from 'react-native'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import logger, { ERROR_CATEGORY_HUMAN } from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import retryImport from '../../lib/utils/retryImport'
@@ -68,14 +68,14 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
       } else {
         log.error(errorText, '', null, {
           code,
-          category: ERROR_CATEGORY_HUMAN,
+          category: ExceptionCategory.Human,
         })
         showErrorDialog(errorText)
       }
     } else {
       log.error(errorText, '', null, {
         code,
-        category: ERROR_CATEGORY_HUMAN,
+        category: ExceptionCategory.Human,
       })
       showErrorDialog(errorText)
     }

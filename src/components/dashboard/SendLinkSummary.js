@@ -6,7 +6,7 @@ import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import Config from '../../config/config'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import logger, { ERROR_CATEGORY_BLOCKCHAIN } from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -103,7 +103,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         onError: e => {
           log.error('Send TX failed:', e.message, e, {
             dialogShown: false,
-            category: ERROR_CATEGORY_BLOCKCHAIN,
+            category: ExceptionCategory.Blockhain,
           })
 
           setLoading(false)
@@ -112,7 +112,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       })
     } catch (e) {
       log.error('Send TX failed:', e.message, e, {
-        category: ERROR_CATEGORY_BLOCKCHAIN,
+        category: ExceptionCategory.Blockhain,
       })
 
       showErrorDialog({
@@ -200,7 +200,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
       txPromise.catch(e => {
         log.error('generateLinkAndSend:', e.message, e, {
-          category: ERROR_CATEGORY_BLOCKCHAIN,
+          category: ExceptionCategory.Blockhain,
         })
 
         showErrorDialog('Link generation failed. Please try again', '', {

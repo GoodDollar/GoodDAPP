@@ -4,7 +4,7 @@ import { View } from 'react-native'
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
-import logger, { ERROR_CATEGORY_BLOCKCHAIN } from '../../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../../lib/logger/pino-logger'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
@@ -41,7 +41,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .catch(e => {
             userStorage.updateOTPLEventStatus(item.id, 'pending')
             log.error('cancel payment failed', e.message, e, {
-              category: ERROR_CATEGORY_BLOCKCHAIN,
+              category: ExceptionCategory.Blockhain,
             })
             showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
           })

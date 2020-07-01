@@ -27,6 +27,8 @@ const Config = {
   market: process.env.REACT_APP_MARKET === 'true' || isEToro,
   marketUrl: process.env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
   torusEnabled: process.env.REACT_APP_USE_TORUS === 'true',
+  torusNetwork: process.env.REACT_APP_TORUS_NETWORK || 'ropsten',
+  torusProxyContract: process.env.REACT_APP_TORUS_PROXY_CONTRACT,
   enableSelfCustody: process.env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,

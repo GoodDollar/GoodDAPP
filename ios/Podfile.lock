@@ -37,7 +37,6 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (2.0.9):
     - RNPermissions
-  - QBImagePickerController (3.4.0)
   - RCTRequired (0.61.5)
   - RCTRestart (0.0.13):
     - React
@@ -269,7 +268,7 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - RNBackgroundFetch (3.0.3):
     - React
-  - RNCAsyncStorage (1.8.0):
+  - RNCAsyncStorage (1.11.0):
     - React
   - RNCPushNotificationIOS (1.2.0):
     - React
@@ -279,11 +278,15 @@ PODS:
     - React
   - RNGestureHandler (1.6.0):
     - React
-  - RNImageCropPicker (0.27.0):
-    - QBImagePickerController
+  - RNImageCropPicker (0.32.0):
     - React-Core
     - React-RCTImage
-    - RSKImageCropper
+    - RNImageCropPicker/QBImagePickerController (= 0.32.0)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.32.0):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNOS (1.2.6):
     - React
   - RNPermissions (2.0.9):
@@ -299,12 +302,12 @@ PODS:
     - React
   - RNVectorIcons (6.6.0):
     - React
-  - RSKImageCropper (2.2.3)
   - Sentry (4.4.3):
     - Sentry/Core (= 4.4.3)
   - Sentry/Core (4.4.3)
   - TcpSockets (3.3.2):
     - React
+  - TOCropViewController (2.5.3)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -319,7 +322,6 @@ DEPENDENCIES:
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary.podspec`)
-  - QBImagePickerController (from `../node_modules/react-native-image-crop-picker/ios/QBImagePicker/QBImagePickerController.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTRestart (from `../node_modules/react-native-restart/ios`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -375,8 +377,8 @@ SPEC REPOS:
   trunk:
     - boost-for-react-native
     - Branch
-    - RSKImageCropper
     - Sentry
+    - TOCropViewController
 
 EXTERNAL SOURCES:
   BugsnagReactNative:
@@ -401,8 +403,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/Camera.podspec"
   Permission-PhotoLibrary:
     :path: "../node_modules/react-native-permissions/ios/PhotoLibrary.podspec"
-  QBImagePickerController:
-    :path: "../node_modules/react-native-image-crop-picker/ios/QBImagePicker/QBImagePickerController.podspec"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTRestart:
@@ -512,7 +512,6 @@ SPEC CHECKSUMS:
   lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
   Permission-Camera: b0fec577b27488314a885f9c74433e02f3585b9b
   Permission-PhotoLibrary: 51718ddf8c0baf1cebf323c68cedcb2ff0cf304a
-  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTRestart: e8e3868a71dbec2cf8055fc2c0635db23c8c4479
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
@@ -545,12 +544,12 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNBackgroundFetch: 8098740c9fa1419cd96cfecab942c132dda8c140
-  RNCAsyncStorage: 455b48eb552543bad4e3099e180e1700700771f3
+  RNCAsyncStorage: db711e29e5e0500d9bd21aa0c2e397efa45302b1
   RNCPushNotificationIOS: 9aa40ed0ff0e53f8ecf3baaaa7e5ccbaa5ba3894
   RNDeviceInfo: 67607dfe9cfbed105838144c40187a8392aa404d
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
-  RNImageCropPicker: fcdbbbef2f0ea869c6d9ce39b8e4fd67e94009f4
+  RNImageCropPicker: fc4b4d2a4d7176eeb6442fa191ba56493c14b6d6
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: 6db7e0a4d94c9c02390d11020b1d3d187aaf77e5
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
@@ -558,11 +557,11 @@ SPEC CHECKSUMS:
   RNSentry: 86baf0c87120cd5eb491d073989f8cbc1a2174c6
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
-  RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
   TcpSockets: 8d839b9b14f6f344d98e4642ded13ab3112b462d
+  TOCropViewController: 20a14b6a7a098308bf369e7c8d700dc983a974e6
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: c0956b1960bdf8712309d0b777a00b33e1e56622
+PODFILE CHECKSUM: b638de64a37c958ca5f32a63244a1923677d3df2
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

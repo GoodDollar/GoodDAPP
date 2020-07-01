@@ -42,7 +42,7 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, screenProps }) => 
                 You can open ONLY ONE account per person.
               </Text>
               <Text color="primary" fontSize={18} lineHeight={25}>
-                If this is your only active account - please contact our support
+                {'If this is your only active account\nplease contact our support'}
               </Text>
             </View>
             <Separator width={2} />

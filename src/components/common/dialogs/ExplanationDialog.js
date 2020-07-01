@@ -20,9 +20,8 @@ const ExplanationDialog = ({
   image: ImageComponent,
 }) => {
   const imageProps = {
-    style: styles.image,
+    style: [styles.image, { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) }],
     resizeMode: 'contain',
-    marginTop: errorMessage ? undefined : getDesignRelativeHeight(16),
   }
 
   return (
@@ -66,7 +65,7 @@ const mapStylesToProps = () => ({
   },
   image: {
     width: '100%',
-    height: getDesignRelativeHeight(120, false),
+    height: getDesignRelativeHeight(74, false),
     marginBottom: getDesignRelativeHeight(16),
   },
   title: {
@@ -74,6 +73,7 @@ const mapStylesToProps = () => ({
   },
   bottomLink: {
     marginTop: getDesignRelativeHeight(24),
+    marginBottom: getDesignRelativeHeight(8),
   },
 })
 

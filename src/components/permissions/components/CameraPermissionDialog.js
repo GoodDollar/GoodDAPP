@@ -10,7 +10,7 @@ if (Platform.OS === 'web') {
 
 const CameraPermissionDialog = () => (
   <ExplanationDialog
-    title="You must allow access to your camera"
+    title={'You must allow access\nto your camera'}
     text="In order to claim G$'s"
     imageSource={illustration}
   />

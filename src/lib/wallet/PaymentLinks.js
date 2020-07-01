@@ -22,19 +22,23 @@ if (Config.contractsVersion >= '1.0.0') {
    * @param {PromiEvents} events - used to subscribe to onTransactionHash event
    * @returns {{code, hashedCode, paymentLink}}
    */
-  GoodWalletClass.prototype.generateLink = function(
+  GoodWalletClass.prototype.generatePaymentLink = function(
     amount: number,
     reason: string = '',
-    events: PromiEvents = defaultPromiEvents
+    inviteCode: string,
+    events: PromiEvents = defaultPromiEvents,
   ): { code: string, hashedCode: string, paymentLink: string } {
     const { privateKey: code, address: hashedCode } = this.wallet.eth.accounts.create()
 
-    log.debug('generateLink:', { amount, code, hashedCode })
+    log.debug('generatePaymentLink:', { amount, code, hashedCode })
 
-    const paymentLink = generateShareLink('send', {
+    const params = {
       p: code,
       r: reason,
-    })
+    }
+
+    inviteCode && (params.i = inviteCode)
+    const paymentLink = generateShareLink('send', params)
 
     const asParam = this.wallet.eth.abi.encodeParameter('address', hashedCode)
 
@@ -90,7 +94,7 @@ if (Config.contractsVersion >= '1.0.0') {
    */
   GoodWalletClass.prototype.cancelOTLByTransactionHash = async function(
     transactionHash: string,
-    txCallbacks: {} = {}
+    txCallbacks: {} = {},
   ): Promise<TransactionReceipt> {
     const { logs } = await this.getReceiptWithLogs(transactionHash)
     const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposit')[0]

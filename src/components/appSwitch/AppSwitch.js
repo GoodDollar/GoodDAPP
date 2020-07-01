@@ -45,7 +45,7 @@ const showOutOfGasError = debounce(
   GAS_CHECK_DEBOUNCE_TIME,
   {
     leading: true,
-  }
+  },
 )
 
 let unsuccessfulLaunchAttempts = 0
@@ -115,15 +115,17 @@ const AppSwitch = (props: LoadingProps) => {
 
     //after dynamic routes update, if user arrived here, then he is already loggedin
     //initialize the citizen status and wallet status
-    const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
-      ([authResult, _]) => authResult
-    )
+    const [{ isLoggedInCitizen, isLoggedIn }, , inviteCode] = await Promise.all([
+      getLoginState(),
+      updateWalletStatus(gdstore),
+      userStorage.getProfileFieldValue('inviteCode'),
+    ])
 
-    log.debug({ isLoggedIn, isLoggedInCitizen })
+    log.debug({ isLoggedIn, isLoggedInCitizen, inviteCode })
 
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
-
+    gdstore.set('inviteCode')(inviteCode)
     if (isLoggedInCitizen) {
       API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
     }

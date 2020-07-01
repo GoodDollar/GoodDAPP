@@ -32,6 +32,7 @@ export type AmountProps = {
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const gdstore = GDStore.useStore()
+  const inviteCode = gdstore.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
@@ -125,7 +126,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
       const desktopShareLink = (canShare ? generateSendShareObject : generateSendShareText)(
         paymentLink,
-        ...shareStringStateDepSource
+        ...shareStringStateDepSource,
       )
 
       // Go to transaction confirmation screen
@@ -148,7 +149,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     let txHash
 
     // Generate link deposit
-    const generateLinkResponse = goodWallet.generateLink(amount, reason, {
+    const generatePaymentLinkResponse = goodWallet.generatePaymentLink(amount, reason, inviteCode, {
       onTransactionHash: hash => {
         txHash = hash
 
@@ -163,15 +164,15 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             counterPartyDisplayName,
             reason,
             amount,
-            paymentLink: generateLinkResponse.paymentLink,
-            hashedCode: generateLinkResponse.hashedCode,
-            code: generateLinkResponse.code,
+            paymentLink: generatePaymentLinkResponse.paymentLink,
+            hashedCode: generatePaymentLinkResponse.hashedCode,
+            code: generatePaymentLinkResponse.code,
           },
         }
 
         fireEvent('SEND_DONE', { type: 'link' })
 
-        log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
+        log.debug('generatePaymentLinkAndSend: enqueueTX', { transactionEvent })
 
         userStorage.enqueueTX(transactionEvent)
 
@@ -188,13 +189,13 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       },
     })
 
-    log.debug('generateLinkAndSend:', { generateLinkResponse })
+    log.debug('generatePaymentLinkAndSend:', { generatePaymentLinkResponse })
 
-    if (generateLinkResponse) {
-      const { txPromise, paymentLink } = generateLinkResponse
+    if (generatePaymentLinkResponse) {
+      const { txPromise, paymentLink } = generatePaymentLinkResponse
 
       txPromise.catch(e => {
-        log.error('generateLinkAndSend:', e.message, e)
+        log.error('generatePaymentLinkAndSend:', e.message, e)
 
         showErrorDialog('Link generation failed. Please try again', '', {
           buttons: [

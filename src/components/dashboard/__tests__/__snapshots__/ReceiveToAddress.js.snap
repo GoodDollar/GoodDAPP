@@ -311,6 +311,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               }
             }
             type="text"
+            value="face-account-wallet-address"
           />
         </div>
         <div

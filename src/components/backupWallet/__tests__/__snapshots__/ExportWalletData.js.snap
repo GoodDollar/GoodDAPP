@@ -401,7 +401,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               }
             }
           >
-            ...
+            fake-wallet-p...t-private-key
           </div>
           <div
             className="css-view-1dbjc4n"

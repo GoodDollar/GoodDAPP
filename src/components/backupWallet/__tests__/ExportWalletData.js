@@ -9,7 +9,13 @@ import GoodWallet from '../../../lib/wallet/GoodWallet'
 
 
 describe('ReceiveToAddress', () => {
+  const { wallet } = GoodWallet
   const ExportWalletData = getWebRouterComponentWithMocks('../ExportWalletData')
+  const privateKey = 'fake-wallet-private-key'
+  
+  beforeAll(() => GoodWallet.wallet = { eth: { accounts: { wallet: [{ privateKey }] } } })
+  
+  afterAll(() => Object.assign(GoodWallet, { wallet }))
 
   it('renders without errors', () => {
     const tree = renderer.create(<ExportWalletData />)

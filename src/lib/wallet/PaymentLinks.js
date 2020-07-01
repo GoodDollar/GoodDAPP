@@ -36,8 +36,8 @@ if (Config.contractsVersion >= '1.0.0') {
       p: code,
       r: reason,
     }
-
     inviteCode && (params.i = inviteCode)
+
     const paymentLink = generateShareLink('send', params)
 
     const asParam = this.wallet.eth.abi.encodeParameter('address', hashedCode)

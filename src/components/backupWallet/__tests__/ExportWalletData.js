@@ -7,7 +7,6 @@ import renderer from 'react-test-renderer'
 import { getWebRouterComponentWithMocks } from './__util__'
 import GoodWallet from '../../../lib/wallet/GoodWallet'
 
-jest.doMock('../../../lib/wallet/GoodWallet')
 
 describe('ReceiveToAddress', () => {
   const ExportWalletData = getWebRouterComponentWithMocks('../ExportWalletData')

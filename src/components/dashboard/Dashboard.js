@@ -347,7 +347,10 @@ const Dashboard = props => {
         duration: 50,
       }).start()
 
-      setShowBalance(true)
+      if (!showBalance) {
+        setShowBalance(true)
+      }
+      balanceHasBeenCentered.current = true
     },
     [setBalanceBlockWidth]
   )

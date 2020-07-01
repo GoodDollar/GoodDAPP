@@ -33,7 +33,7 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
   const codeSource = [account, networkId, amount, reason, counterPartyDisplayName]
   const codeObject = useMemo(() => generateCode(...codeSource), [generateCode, ...codeSource])
 
-  const shareStringSource = [codeObject, amount, counterPartyDisplayName, fullName]
+  const shareStringSource = [codeObject, amount, counterPartyDisplayName, fullName, canShare]
   const shareString = useMemo(
     () => (canShare ? generateReceiveShareObject : generateReceiveShareText)(...shareStringSource),
     [...shareStringSource, canShare, generateReceiveShareObject, generateReceiveShareText]

@@ -37,7 +37,7 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
 
   const share = useMemo(() => {
     if (canShare) {
-      return generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName)
+      return generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName, canShare)
     }
     return generateReceiveShareText(code, amount, counterPartyDisplayName, profile.fullName)
   }, [code, canShare, generateReceiveShareObject, generateReceiveShareText])

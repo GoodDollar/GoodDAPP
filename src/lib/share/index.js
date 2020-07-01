@@ -140,12 +140,18 @@ export function generateShareObject(title: string, message: string, url: string)
   }
 }
 
-export function generateSendShareObject(url: string, amount: number, to: string, from: string): ShareObject {
+export function generateSendShareObject(
+  url: string,
+  amount: number,
+  to: string,
+  from: string,
+  canShare: boolean
+): ShareObject {
   return generateShareObject(
     'Sending G$ via GoodDollar App',
     to
-      ? `${to}, You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open:`
-      : `You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open:`,
+      ? `${to}, You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`
+      : `You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`,
     url
   )
 }
@@ -163,13 +169,19 @@ export function generateSendShareText(...args): ShareObject {
  * @param {string} from - current user's fullName
  * @returns {string} - URL to use to share/receive GDs
  */
-export function generateReceiveShareObject(codeObj: any, amount: number, to: string, from: string): ShareObject {
+export function generateReceiveShareObject(
+  codeObj: any,
+  amount: number,
+  to: string,
+  from: string,
+  canShare: boolean
+): ShareObject {
   const url = generateShareLink('receive', codeObj)
   const text = [
     to ? `${to}, ` : '',
     `You've got a request from ${from}`,
     amount > 0 ? ` for ${weiToGd(amount)} G$` : '',
-    `. To approve transfer open:`,
+    `. To approve transfer open: ${canShare ? url : ''}`,
   ].join('')
 
   return generateShareObject('Sending G$ via GoodDollar App', text, url)

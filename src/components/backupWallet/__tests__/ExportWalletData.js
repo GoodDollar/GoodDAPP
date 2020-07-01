@@ -5,6 +5,7 @@ import renderer from 'react-test-renderer'
 
 // utils
 import { getWebRouterComponentWithMocks } from './__util__'
+import GoodWallet from '../../../lib/wallet/GoodWallet'
 
 jest.doMock('../../../lib/wallet/GoodWallet')
 

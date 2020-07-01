@@ -400,7 +400,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               }
             }
           >
-            0xbcf1b630918...7dbfce662d2c6
+            ...
           </div>
           <div
             className="css-view-1dbjc4n"

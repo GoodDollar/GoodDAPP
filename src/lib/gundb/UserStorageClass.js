@@ -148,8 +148,9 @@ export const welcomeMessage = {
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
-    reason:
-      'This is where you will claim UBI in\nGoodDollar coins every day.\nThis is a demo version - please note that all\ndemo G$ coins collected have no value\noutside of this pilot, and will be destroyed\nupon completion of the demo period.',
+    reason: Config.isPhaseZero
+      ? 'This is where you will claim UBI in\nGoodDollar coins every day.\nThis is a demo version - please note that all\ndemo G$ coins collected have no value\noutside of this pilot, and will be destroyed\nupon completion of the demo period.'
+      : 'This is where you will claim your basic income in GoodDollar coins every day.\n\nTogether, we will build a better financial future for all of us!',
   },
 }
 
@@ -741,7 +742,7 @@ export class UserStorage {
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent | void> {
     //first check to save time if already exists
     let feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
-    if (get(feedEvent, 'data.receiptData')) {
+    if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
       return feedEvent
     }
 
@@ -749,8 +750,9 @@ export class UserStorage {
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
     if (
-      data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
-      (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
+      data &&
+      (data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
+        (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to))
     ) {
       logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
       return
@@ -777,7 +779,7 @@ export class UserStorage {
         type: this.getOperationType(data, this.wallet.account),
       }
 
-      if (get(feedEvent, 'data.receiptData')) {
+      if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
         logger.debug('handleReceiptUpdated skipping event with existed receipt data', feedEvent, receipt)
         return feedEvent
       }
@@ -787,6 +789,7 @@ export class UserStorage {
         ...feedEvent,
         ...initialEvent,
         status: feedEvent.otplStatus === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
+        receiptReceived: true,
         date: receiptDate.toString(),
         data: {
           ...feedEvent.data,
@@ -1545,7 +1548,7 @@ export class UserStorage {
             feedItem.otplStatus !== 'cancelled'
         )
         .map(feedItem => {
-          if (!(feedItem.data && feedItem.data.receiptData)) {
+          if (false == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
             return this.getFormatedEventById(feedItem.id)
           }
 
@@ -1567,7 +1570,7 @@ export class UserStorage {
     if (!prevFeedEvent) {
       return standardPrevFeedEvent
     }
-    if (prevFeedEvent.data && prevFeedEvent.data.receiptData) {
+    if (get(prevFeedEvent, 'data.receiptData', prevFeedEvent && prevFeedEvent.receiptReceived)) {
       return standardPrevFeedEvent
     }
 

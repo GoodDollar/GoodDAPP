@@ -11,15 +11,17 @@ import { isBrowser } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { truncateMiddle } from '../../../lib/utils/string'
 
 // custom components
 import { Icon, Section } from '../index'
 
 const copyIconSize = isBrowser ? 34 : normalize(24)
 
-const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonText }) => {
+const BorderedBox = ({ styles, theme, imageSource, title, content, truncateContent = false, copyButtonText }) => {
   const [, setString] = useClipboard()
   const copyToClipboard = useOnPress(() => setString(content), [setString, content])
+  const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
 
   return (
     <Section style={styles.borderedBox}>
@@ -29,7 +31,7 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, copyButtonTex
         {title}
       </Section.Text>
       <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
-        {content}
+        {displayContent}
       </Section.Text>
       <View style={styles.copyIconLineSeparator} />
       <TouchableOpacity onPress={copyToClipboard} activeOpacity={1} style={styles.boxCopyIconWrapper}>

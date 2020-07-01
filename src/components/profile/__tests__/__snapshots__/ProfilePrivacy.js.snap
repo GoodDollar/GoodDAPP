@@ -1020,6 +1020,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "13px",
                   "fontWeight": "normal",
+                  "letterSpacing": "0.07px",
                   "lineHeight": "15.6px",
                   "textAlign": "center",
                   "textDecoration": "none",
@@ -1027,7 +1028,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 }
               }
             >
-              fake-fa...ntifier
+              fake-face-ide...ce-identifier
             </div>
             <div
               className="css-view-1dbjc4n"

@@ -350,7 +350,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     setCreateError(false)
     setLoading(true)
 
-    log.info('Sending new user data', state)
+    log.info('Sending new user data', { state, regMethod, torusProvider })
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkW3InviteCode()
@@ -379,9 +379,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         if (torusProvider !== 'facebook') {
           // if logged in via other provider that facebook - generating & signing proof
-          const torusProofNonce = String(Date.now())
-          const msg = (mobile || email) + torusProofNonce
-          const proof = goodWallet.wallet.eth.accounts.sign(msg, privateKey)
+          const torusProofNonce = Date.now()
+          const msg = (mobile || email) + String(torusProofNonce)
+          const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
 
           assign(requestPayload, {
             torusProof: proof.signature,

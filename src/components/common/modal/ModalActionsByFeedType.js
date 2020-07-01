@@ -66,7 +66,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       })
 
       if (canShare) {
-        result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
+        result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName, canShare)
       } else {
         result = {
           url: generateSendShareText(url, item.data.amount, item.data.endpoint.fullName, currentUserName),

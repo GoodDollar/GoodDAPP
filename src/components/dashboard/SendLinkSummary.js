@@ -156,7 +156,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         sendPayment(walletAddress)
       } else {
         const link = paymentLink ? paymentLink : getLink()
-        text(contact.phoneNumber, link)
+        const shareLink = generateSendShareText(link, ...shareStringStateDepSource)
+        text(contact.phoneNumber, shareLink)
         setShared(true)
       }
     } else {

@@ -25,7 +25,9 @@ describe('readCode', () => {
 
   it(`(base64) should generate an string with an MNID valid code`, () => {
     // Given
-    const code = Buffer.from(JSON.stringify({ mnid: '3cvdwVrcFXaMDBpkeJdrFKnfCyxQ1PDx6TG' })).toString('base64')
+    const code = Buffer.from(JSON.stringify({ mnid: '3cvdwVrcFXaMDBpkeJdrFKnfCyxQ1PDx6TG' }))
+      .toString('base64')
+      .replace(/==$/, '')
 
     // When
     const decoded = readCode(code)
@@ -37,7 +39,7 @@ describe('readCode', () => {
   it(`(base64) should return an string with the structure MNID|amount`, () => {
     // Given
     const code = Buffer.from(JSON.stringify({ mnid: '3cvdwVrcFXaMDBpkeJdrFKnfCyxQ1PDx6TG', amount: '1000' })).toString(
-      'base64'
+      'base64',
     )
 
     // When

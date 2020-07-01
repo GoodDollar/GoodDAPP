@@ -8,11 +8,16 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-export default () => (
+export default ({ onDismiss }) => (
   <ExplanationDialog
     title="Please allow access to your clipboard"
     text={`In order to paste inside the wallet`}
     imageSource={illustration}
+    buttons={[
+      {
+        action: onDismiss,
+      },
+    ]}
   />
 )
 

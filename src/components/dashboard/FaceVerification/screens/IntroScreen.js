@@ -64,13 +64,12 @@ const IntroScreen = ({ styles, screenProps }) => {
     },
   })
 
-  const onGetInstructions = useOnPress(() => navigateTo('Support'), [navigateTo])
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
     onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
     onAllowed: () => navigateTo('FaceVerification'),
     onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
-    onGetInstructions,
+    navigate: navigateTo,
   })
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])

@@ -30,11 +30,10 @@ const InputRecipient = props => {
   const pasteToWho = useClipboardPaste(onChangeText, log)
 
   // check clipboard permission an show dialog is not allowed
-  const onGetInstructions = useOnPress(() => navigate('Support'), [navigate])
   const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
     requestOnMounted: false,
     onAllowed: pasteToWho,
-    onGetInstructions,
+    navigate,
   })
 
   const handlePastePress = useOnPress(requestClipboardPermissions, [])

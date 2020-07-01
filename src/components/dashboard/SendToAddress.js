@@ -60,11 +60,10 @@ const SendToAddress = (props: TypeProps) => {
   const pasteValueFromClipboard = useClipboardPaste(setValue)
 
   // check clipboard permission an show dialog is not allowed
-  const onGetInstructions = useOnPress(() => navigateTo('Support'), [navigateTo])
   const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
     requestOnMounted: false,
     onAllowed: pasteValueFromClipboard,
-    onGetInstructions,
+    navigate: navigateTo,
   })
 
   const handleAdornmentAction = useOnPress(requestClipboardPermissions, [])

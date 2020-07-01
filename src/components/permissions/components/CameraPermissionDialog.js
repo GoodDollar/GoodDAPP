@@ -8,17 +8,19 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const CameraPermissionDialog = () => (
+export default ({ onDismiss }) => (
   <ExplanationDialog
     title={'You must allow access\nto your camera'}
     text="In order to claim G$'s"
     imageSource={illustration}
+    buttons={[
+      {
+        text: 'I UNDERSTAND',
+        action: onDismiss,
+      },
+    ]}
   />
 )
-
-CameraPermissionDialog.dismissButtonText = 'I UNDERSTAND'
-
-export default CameraPermissionDialog
 
 /*
  - Usage example
@@ -28,6 +30,7 @@ const [showDialog] = useDialog()
 showDialog({
   content: <CameraPermissionDialog />,
   isMinHeight: false,
+  showButtons: false,
   buttons: [
     {
       text: 'OK',

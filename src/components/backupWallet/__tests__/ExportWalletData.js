@@ -2,19 +2,18 @@ import React from 'react'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+import GoodWallet from '../../../lib/wallet/GoodWallet'
 
 // utils
 import { getWebRouterComponentWithMocks } from './__util__'
-import GoodWallet from '../../../lib/wallet/GoodWallet'
-
 
 describe('ReceiveToAddress', () => {
   const { wallet } = GoodWallet
   const ExportWalletData = getWebRouterComponentWithMocks('../ExportWalletData')
   const privateKey = 'fake-wallet-private-key'
-  
-  beforeAll(() => GoodWallet.wallet = { eth: { accounts: { wallet: [{ privateKey }] } } })
-  
+
+  beforeAll(() => (GoodWallet.wallet = { eth: { accounts: { wallet: [{ privateKey }] } } }))
+
   afterAll(() => Object.assign(GoodWallet, { wallet }))
 
   it('renders without errors', () => {

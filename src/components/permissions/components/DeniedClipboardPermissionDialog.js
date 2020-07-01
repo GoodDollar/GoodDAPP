@@ -12,14 +12,20 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const DeniedClipboardPermissionDialog = ({ bottomLinkAction }) => (
+const DeniedClipboardPermissionDialog = ({ onDismiss, navigate }) => (
   <ExplanationDialog
     title="Go to your device settings & enable clipboard permission"
     imageSource={illustration}
-    bottomLink={{
-      text: 'How to do that?',
-      action: bottomLinkAction,
-    }}
+    buttons={[
+      {
+        text: 'How to do that?',
+        action: () => {
+          onDismiss()
+          navigate('Support')
+        },
+        mode: 'text',
+      },
+    ]}
   />
 )
 

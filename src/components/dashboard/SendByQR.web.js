@@ -11,7 +11,6 @@ import TopBar from '../common/view/TopBar'
 
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
-import useOnPress from '../../lib/hooks/useOnPress'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
@@ -41,11 +40,10 @@ const SendByQR = ({ screenProps }: Props) => {
   const handlePermissionDenied = useCallback(() => pop(), [pop])
 
   // check camera permission and show dialog if not allowed
-  const onGetInstructions = useOnPress(() => navigateTo('Support'), [navigateTo])
   const hasCameraAccess = usePermissions(Permissions.Camera, {
     promptPopup: QRCameraPermissionDialog,
     onDenied: handlePermissionDenied,
-    onGetInstructions,
+    navigate: navigateTo,
   })
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)

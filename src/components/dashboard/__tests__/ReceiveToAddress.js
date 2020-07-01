@@ -7,12 +7,14 @@ import { getWebRouterComponentWithMocks } from './__util__'
 
 jest.doMock('../../../lib/wallet/GoodWallet', () => {
   return {
-    account: '0x00',
+    account: 'face-account-wallet-address',
   }
 })
 
 describe('ReceiveToAddress', () => {
   const ReceiveToAddress = getWebRouterComponentWithMocks('../ReceiveToAddress')
+
+  afterAll(() => jest.dontMock('../../../lib/wallet/GoodWallet'))
 
   it('renders without errors', () => {
     const tree = renderer.create(<ReceiveToAddress />)

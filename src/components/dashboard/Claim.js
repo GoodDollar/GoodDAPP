@@ -29,7 +29,6 @@ import {
   fireMauticEvent,
 } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
@@ -60,7 +59,7 @@ const Claim = props => {
   const { entitlement } = gdstore.get('account')
   const isCitizen = gdstore.get('isLoggedInCitizen')
 
-  const [showDialog, hideDialog, showErrorDialog] = useDialog()
+  const [showDialog, , showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
   const [claimState, setClaimState]: [ClaimState, Function] = useState({
@@ -291,15 +290,7 @@ const Claim = props => {
     }
   }
 
-  const handleFaceVerification = () => {
-    //if user is not in whitelist and we do not do faceverification then this is an error
-    if (Config.zoomLicenseKey == null) {
-      log.error('handleFaceVerification failed', '', new Error('Zoom licensekey missing'), { dialogShown: true })
-      showSupportDialog(showErrorDialog, hideDialog, screenProps.push, 'Faceverification disabled')
-    } else {
-      screenProps.push('FaceVerificationIntro', { from: 'Claim' })
-    }
-  }
+  const handleFaceVerification = () => screenProps.push('FaceVerificationIntro', { from: 'Claim' })
 
   return (
     <WrapperClaim>

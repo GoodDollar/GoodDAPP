@@ -231,7 +231,9 @@ export const startClaiming = {
     },
 
     // preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
-    reason: `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`,
+    reason: Config.isPhaseZero
+      ? `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
+      : `GoodDollar gives every active member a small daily income.\n\nSign in every day, collect free GoodDollars and use them to pay for goods and services.`,
   },
 }
 
@@ -1078,7 +1080,7 @@ export class UserStorage {
   }
 
   addAllCardsTest() {
-    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
+    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims, startSpending].forEach(m => {
       const copy = Object.assign({}, m, { id: String(Math.random()) })
       this.enqueueTX(copy)
     })
@@ -1777,9 +1779,10 @@ export class UserStorage {
             },
             amount: value,
             preMessageText: preReasonText,
-            message: smallReadMore || reason || message,
+            message: reason || message,
             subtitle,
             readMore,
+            smallReadMore,
             withdrawCode,
           },
         }

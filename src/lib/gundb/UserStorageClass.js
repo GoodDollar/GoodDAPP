@@ -1598,7 +1598,8 @@ export class UserStorage {
    * @param {string} username
    */
   async isUsername(username: string) {
-    const profile = await this.gun.get('users/byusername').get(username)
+    const cleanValue = UserStorage.cleanHashedFieldForIndex('username', username)
+    const profile = await this.gun.get('users/byusername').get(cleanValue)
     return profile !== undefined
   }
 

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
-import { get } from 'lodash'
+import { assign, get } from 'lodash'
 import {
   DESTINATION_PATH,
   GD_INITIAL_REG_METHOD,
@@ -350,7 +350,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     setCreateError(false)
     setLoading(true)
 
-    log.info('Sending new user data', state)
+    log.info('Sending new user data', { state, regMethod, torusProvider })
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkW3InviteCode()
@@ -368,15 +368,30 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
 
       if (regMethod === REGISTRATION_METHOD_TORUS) {
-        //create proof that email/mobile is the same one verified by torus
-        requestPayload.torusProvider = torusProvider
-        requestPayload.torusProofNonce = String(Date.now())
-        const msg = get(torusUser, 'mobile', torusUser.email) + requestPayload.torusProofNonce
-        const proof = goodWallet.wallet.eth.accounts.sign(msg, torusUser.privateKey)
-        requestPayload.torusProof = proof.signature
+        const { mobile, email, privateKey, accessToken, idToken } = torusUser
+
+        // create proof that email/mobile is the same one verified by torus
+        assign(requestPayload, {
+          torusProvider,
+          torusAccessToken: accessToken,
+          torusIdToken: idToken,
+        })
+
+        if (torusProvider !== 'facebook') {
+          // if logged in via other provider that facebook - generating & signing proof
+          const torusProofNonce = Date.now()
+          const msg = (mobile || email) + String(torusProofNonce)
+          const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
+
+          assign(requestPayload, {
+            torusProof: proof.signature,
+            torusProofNonce,
+          })
+        }
       }
 
       let w3Token = requestPayload.w3Token
+
       if (w3Token) {
         userStorage.userProperties.set('cameFromW3Site', true)
       }

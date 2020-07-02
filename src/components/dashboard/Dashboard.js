@@ -192,7 +192,7 @@ const Dashboard = props => {
         log.debug('getFeedPage:', { feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
-          .catch(e => logger.error('getInitialFeed -> ', e.message, e))
+          .catch(e => log.error('getInitialFeed -> ', e.message, e))
 
         if (reset) {
           // a flag used to show feed load animation only at the first app loading

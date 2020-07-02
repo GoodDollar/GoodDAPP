@@ -1,7 +1,10 @@
 import React from 'react'
 import { Image, Platform } from 'react-native'
 
+// components
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+
+// assets
 import illustration from '../../../assets/ClipboardPermission.svg'
 
 if (Platform.OS === 'web') {

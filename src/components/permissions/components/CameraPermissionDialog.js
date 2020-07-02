@@ -13,6 +13,7 @@ export default ({ onDismiss }) => (
     title={'You must allow access\nto your camera'}
     text="In order to claim G$'s"
     imageSource={illustration}
+    imageHeight={128}
     buttons={[
       {
         text: 'I UNDERSTAND',

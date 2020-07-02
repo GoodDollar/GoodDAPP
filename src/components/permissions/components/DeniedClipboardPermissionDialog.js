@@ -16,6 +16,7 @@ const DeniedClipboardPermissionDialog = ({ onDismiss, navigate }) => (
   <ExplanationDialog
     title="Go to your device settings & enable clipboard permission"
     imageSource={illustration}
+    imageHeight={119}
     buttons={[
       {
         text: 'How to do that?',

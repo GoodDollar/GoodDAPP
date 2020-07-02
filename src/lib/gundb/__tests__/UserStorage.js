@@ -43,9 +43,9 @@ let event4 = {
   data: { foo: 'bar', unchanged: 'zar' },
 }
 
+jest.setTimeout(30000)
 describe('UserStorage', () => {
   beforeAll(async () => {
-    jest.setTimeout(30000)
     await userStorage.wallet.ready
     await userStorage.ready
   })
@@ -163,7 +163,12 @@ describe('UserStorage', () => {
       .get('id')
       .get('value')
       .then()
-    expect(Object.keys(res)).toEqual(['ct', 'iv', 's'])
+    expect(res).toMatch(/SEA{.*/)
+    expect(JSON.parse(res.substring(3))).toMatchObject({
+      ct: expect.anything(),
+      iv: expect.anything(),
+      s: expect.anything(),
+    })
   })
 
   it('gets profile field private (decrypted)', async () => {
@@ -351,11 +356,8 @@ describe('UserStorage', () => {
 
   it('events/keeps event index sorted', async () => {
     await userStorage.updateFeedEvent(event4)
-    const index = await userStorage.feed
-      .get('index')
-      .once()
-      .then()
-    const events = await userStorage.feed.get('2019-01-02').then()
+    const index = await userStorage.feed.get('index').then()
+    const events = await userStorage.feed.get('2019-01-02').then(JSON.parse)
     expect(index['2019-01-02']).toEqual(1)
     expect(events.map(event => event.id)).toEqual([event4.id])
   })
@@ -910,7 +912,9 @@ describe('users index', () => {
     let wallet = userStorage.wallet.account
     await userStorage.setProfileField('walletAddress', wallet)
     await userStorage.setProfileField('email', 'test@test.com', 'public')
+    await delay(500)
     let addr = await userStorage.getUserAddress('test@test.com')
+    await delay(500)
     expect(addr).toBe(wallet)
   })
 

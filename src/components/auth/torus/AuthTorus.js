@@ -88,7 +88,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleSignUp = useCallback(
     async (provider: 'facebook' | 'google' | 'google-old' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
       store.set('loadingIndicator')({ loading: true })
-      const redirectTo = 'Name'
       let torusUser
       let replacing = false
 
@@ -140,7 +139,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         //user doesnt exists start signup
         fireEvent(SIGNUP_STARTED, { source, provider })
-        navigate(redirectTo, {
+        navigate('Signup', {
           regMethod: REGISTRATION_METHOD_TORUS,
           torusUser,
           torusProvider: provider,

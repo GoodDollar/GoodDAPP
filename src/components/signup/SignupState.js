@@ -218,7 +218,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const verifyStartRoute = () => {
     //we dont support refresh if regMethod param is missing then go back to Auth
     //if regmethod is missing it means user did refresh on later steps then first 1
-    if (!regMethod) {
+    if (!regMethod || (navigation.state.index > 0 && state.lastStep !== navigation.state.index)) {
       log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
       return navigation.navigate('Auth')
     }
@@ -505,7 +505,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
 
-    const newState = { ...state, ...data }
+    const newState = { ...state, ...data, lastStep: navigation.state.index }
     setState(newState)
     log.info('signup data:', { data, nextRoute, newState })
 

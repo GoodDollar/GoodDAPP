@@ -69,6 +69,7 @@ const Config = {
   claimQueue: process.env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
   mauticUrl: process.env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
   mauticAddContractFormID: process.env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
+  apiTimeout: process.env.REACT_APP_API_REQUEST_TIMEOUT || 30000,
   ethereum: {
     '42': {
       network_id: 42,

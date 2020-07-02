@@ -1,9 +1,13 @@
 //@flow
+
+// libraries
 import * as Sentry from '@sentry/browser'
 import { debounce, forEach, get, invoke, isFunction, isString } from 'lodash'
+
+// utils
 import API from '../../lib/API/api'
 import Config from '../../config/config'
-import logger from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -361,7 +365,24 @@ const patchLogger = () => {
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
   logger.error = (...args) => {
-    const [logContext, logMessage, eMsg, errorObj, ...rest] = args
+    const { Unexpected, Network, Human } = ExceptionCategory
+    const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
+    let { dialogShown, category = Unexpected } = extra
+    let errorToPassIntoLog = errorObj
+    let categoryToPassIntoLog = category
+
+    if (
+      categoryToPassIntoLog === Unexpected &&
+      ['connection', 'websocket', 'network'].some(str => eMsg.toLowerCase().includes(str))
+    ) {
+      categoryToPassIntoLog = Network
+    }
+
+    if (errorObj instanceof Error) {
+      errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
+    } else {
+      errorToPassIntoLog = new Error(logMessage)
+    }
 
     if (isString(logMessage) && !logMessage.includes('axios')) {
       const logPayload = {
@@ -369,6 +390,8 @@ const patchLogger = () => {
         reason: logMessage,
         logContext,
         eMsg,
+        dialogShown,
+        category: categoryToPassIntoLog,
       }
 
       if (isFSEnabled) {
@@ -390,29 +413,29 @@ const patchLogger = () => {
       BugSnag.notify(logMessage, {
         context: from,
         groupingHash: from,
-        metaData: { logMessage, eMsg, errorObj, rest },
+        metaData: { logMessage, eMsg, errorObj: errorToPassIntoLog, extra },
       })
     }
 
     if (isRollbarEnabled) {
-      Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
+      Rollbar.error(logMessage, errorToPassIntoLog, { logContext, eMsg, extra })
     }
 
-    let errorToPassIntoLog = errorObj
-
-    if (errorObj instanceof Error) {
-      errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
-    } else {
-      errorToPassIntoLog = new Error(logMessage)
-    }
-
-    reportToSentry(errorToPassIntoLog, {
-      logMessage,
-      errorObj,
-      logContext,
-      eMsg,
-      rest,
-    })
+    reportToSentry(
+      errorToPassIntoLog,
+      {
+        logMessage,
+        errorObj,
+        logContext,
+        eMsg,
+        extra,
+      },
+      {
+        dialogShown,
+        category: categoryToPassIntoLog,
+        level: categoryToPassIntoLog === Human ? 'info' : undefined,
+      }
+    )
 
     return logError(...args)
   }

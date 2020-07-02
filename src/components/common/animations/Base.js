@@ -1,4 +1,5 @@
 import React from 'react'
+import { isMobileNative } from '../../../lib/utils/platform'
 
 class AnimationBase extends React.Component {
   componentDidMount() {
@@ -7,8 +8,9 @@ class AnimationBase extends React.Component {
 
   componentWillUnmount() {
     if (this.anim) {
-      //FIXME: RN
-      // this.anim.destroy()
+      if (!isMobileNative) {
+        this.anim.destroy()
+      }
     }
 
     this.onUnmount && this.onUnmount()

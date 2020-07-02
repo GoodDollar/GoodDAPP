@@ -16,7 +16,8 @@ const MAX_RETRIES_ALLOWED = 2
 
 const ErrorScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
-  const kindOfTheIssue = get(screenProps, 'screenState.error.name')
+  const exception = get(screenProps, 'screenState.error')
+  const kindOfTheIssue = get(exception, 'name')
   const isGeneralError = !kindOfTheIssue || !(kindOfTheIssue in ErrorScreen.kindOfTheIssue)
 
   const [verificationAttempts, trackNewAttempt, resetAttempts] = useVerificationAttempts()
@@ -57,7 +58,9 @@ const ErrorScreen = ({ styles, screenProps }) => {
     trackNewAttempt()
   }, [])
 
-  return <ErrorViewComponent onRetry={onRetry} displayTitle={displayTitle} screenProps={screenProps} />
+  return (
+    <ErrorViewComponent onRetry={onRetry} displayTitle={displayTitle} screenProps={screenProps} exception={exception} />
+  )
 }
 
 ErrorScreen.navigationOptions = {

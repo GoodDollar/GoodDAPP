@@ -968,43 +968,48 @@ export class UserStorage {
     this.feedIds = (await loadFeedCache) || {}
 
     //verify cache has all items
-    await new Promise((res, rej) => {
-      if (!(feed && feed.byid)) {
-        res()
-      }
-      this.feed.get('byid').onThen(items => {
-        if (items && items._) {
-          delete items._
+    if (!(feed && feed.byid)) {
+      return
+    }
+    const items = await this.feed
+      .get('byid')
+      .onThen()
+      .catch(e => {
+        logger.warn('fetch byid onthen failed', { e })
+      })
+
+    if (!items) {
+      return
+    }
+    if (items && items._) {
+      delete items._
+    }
+    const ids = Object.entries(items)
+    logger.debug('initFeed got items', { ids })
+    const promises = ids.map(async ([k, v]) => {
+      if (this.feedIds[k] === undefined) {
+        logger.debug('initFeed got missing cache item', { k })
+        const data = await this.feed
+          .get('byid')
+          .get(k)
+          .decrypt()
+          .catch(_ => undefined)
+        if (data != null) {
+          this.feedIds[k] = data
+          return true
         }
-        const ids = Object.entries(items)
-        logger.debug('initFeed got items', { ids })
-        const promises = ids.map(async ([k, v]) => {
-          if (this.feedIds[k] === undefined) {
-            logger.debug('initFeed got missing cache item', { k })
-            const data = await this.feed
-              .get('byid')
-              .get(k)
-              .decrypt()
-              .catch(_ => undefined)
-            if (data != null) {
-              this.feedIds[k] = data
-              return true
-            }
-            return false
-          }
-          return false
-        })
-        Promise.all(promises)
-          .then(_ => {
-            if (_.find(_ => _)) {
-              logger.debug('initFeed updating cache', this.feedIds, _)
-              AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
-            }
-          })
-          .catch(e => logger.error('error caching feed items', e.message, e))
-        res()
-      }, true)
+        return false
+      }
+      return false
     })
+    Promise.all(promises)
+      .then(_ => {
+        if (_.find(_ => _)) {
+          logger.debug('initFeed updating cache', this.feedIds, _)
+          AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+        }
+      })
+      .catch(e => logger.error('error caching feed items', e.message, e))
   }
 
   async startSystemFeed() {

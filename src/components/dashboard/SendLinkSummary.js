@@ -6,7 +6,7 @@ import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import Config from '../../config/config'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -101,14 +101,17 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           return hash
         },
         onError: e => {
-          log.error('Send TX failed:', e.message, e)
+          log.error('Send TX failed:', e.message, e, { category: ExceptionCategory.Blockhain })
 
           setLoading(false)
           userStorage.markWithErrorEvent(txhash)
         },
       })
     } catch (e) {
-      log.error('Send TX failed:', e.message, e)
+      log.error('Send TX failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+        dialogShown: true,
+      })
 
       showErrorDialog({
         visible: true,
@@ -131,8 +134,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       // Go to transaction confirmation screen
       push('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
     } catch (e) {
+      log.error('Something went wrong while trying to generate send link', e.message, e, { dialogShown: true })
       showErrorDialog('Could not complete transaction. Please try again.')
-      log.error('Something went wrong while trying to generate send link', e.message, e)
     }
   }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
 
@@ -194,7 +197,10 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       const { txPromise, paymentLink } = generateLinkResponse
 
       txPromise.catch(e => {
-        log.error('generateLinkAndSend:', e.message, e)
+        log.error('generateLinkAndSend:', e.message, e, {
+          category: ExceptionCategory.Blockhain,
+          dialogShown: true,
+        })
 
         showErrorDialog('Link generation failed. Please try again', '', {
           buttons: [

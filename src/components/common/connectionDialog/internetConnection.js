@@ -76,7 +76,7 @@ const InternetConnection = props => {
 
       showDialogWindow(message, showDialog, setShowDisconnect)
     } else {
-      log.debug('connection back hiding dialog')
+      log.debug('connection back - hiding dialog')
 
       //first time that connection is ok, from now on we will start showing the connection dialog on error
       setFirstLoadError(false)

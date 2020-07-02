@@ -1,6 +1,8 @@
+import { isError, isObjectLike, isPlainObject } from 'lodash'
 import pino from 'pino'
 import redaction from 'pino/lib/redaction'
 import { redactFmtSym } from 'pino/lib/symbols'
+import { stringify } from 'pino/lib/tools'
 
 import { isE2ERunning } from '../utils/platform'
 import Config from '../../config/config'
@@ -12,16 +14,20 @@ const pinoProxyHandler = new class {
 
   methodsMap = new WeakMap()
 
-  // 'debug' is excluded as it's redirected to the 'info'
+  // debug is excluded as it's redirected to info
   censorLevels = ['error', 'fatal', 'warn', 'info', 'trace']
 
-  censor = redaction(
-    {
-      paths: logSecureKeys.split(','),
-      censor: '[CONFIDENTIAL]',
-    },
-    false
-  )
+  get censor() {
+    const { redactionApi } = this
+
+    return redactionApi[redactFmtSym]
+  }
+
+  constructor(Config) {
+    const { logsCensorshipPaths: paths, logCensorshipPlaceholder: censor } = Config
+
+    this.redactionApi = redaction({ paths, censor }, stringify)
+  }
 
   get(target, property) {
     if (!target.hasOwnProperty(property)) {
@@ -61,14 +67,9 @@ const pinoProxyHandler = new class {
     if (!methodsMap.has(target)) {
       methodsMap.set(
         target,
-        // eslint-disable-next-line no-negated-condition
-        !censorLevels.includes(methodName)
-          ? methodFunction.bind(target)
-          : (...args) => {
-              this.applyConfidentialCensorship(args)
-
-              return methodFunction.apply(target, args)
-            }
+        censorLevels.includes(methodName)
+          ? (...loggingArgs) => methodFunction.apply(target, this.applyConfidentialCensorship(loggingArgs))
+          : methodFunction.bind(target)
       )
     }
 
@@ -76,11 +77,22 @@ const pinoProxyHandler = new class {
   }
 
   applyConfidentialCensorship(loggingArgs) {
-    for (const argument of loggingArgs) {
-      this.censor[redactFmtSym](argument)
-    }
+    const { censor } = this
+
+    return loggingArgs.map(loggingArgument => {
+      // pino has different output fot errors only on the browser
+      // also we won't call redaction on non-object args
+      if (isError(loggingArgument) || (!isPlainObject(loggingArgument) && !isObjectLike(loggingArgument))) {
+        return loggingArgument
+      }
+
+      return censor(loggingArgument)
+    })
   }
-}()
+}({
+  logsCensorshipPaths: logSecureKeys.split(','),
+  logCensorshipPlaceholder: '[CONFIDENTIAL]',
+})
 
 let logger
 

@@ -13,7 +13,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
-import logger from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
@@ -53,11 +53,23 @@ const ReceiveByQR = ({ screenProps }) => {
         log.debug({ url })
 
         if (url === null) {
+          log.error('Invalid QR Code. Probably this QR code is for sending GD', '', null, {
+            url,
+            category: ExceptionCategory.Human,
+            dialogShown: true,
+          })
           showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
         } else {
           const { receiveLink, reason } = extractQueryParams(url)
 
           if (!receiveLink) {
+            log.error('Invalid QR Code. Probably this QR code is for sending GD', '', null, {
+              url,
+              receiveLink,
+              reason,
+              category: ExceptionCategory.Human,
+              dialogShown: true,
+            })
             showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
           }
           fireEvent(QR_SCAN, { type: 'receive' })
@@ -72,15 +84,21 @@ const ReceiveByQR = ({ screenProps }) => {
   }
 
   const runWithdraw = useCallback(async () => {
-    if (withdrawParams.receiveLink) {
+    const { receiveLink } = withdrawParams
+
+    if (receiveLink) {
       try {
-        const receipt = await executeWithdraw(store, withdrawParams.receiveLink)
+        const receipt = await executeWithdraw(store, receiveLink)
         navigateTo('Home', {
           event: receipt.transactionHash,
           receiveLink: undefined,
           reason: undefined,
         })
       } catch (e) {
+        log.error('Executing withdraw failed', e.message, e, {
+          receiveLink,
+          dialogShown: true,
+        })
         showErrorDialog('Something has gone wrong. Please try again later.')
       }
     }
@@ -101,8 +119,8 @@ const ReceiveByQR = ({ screenProps }) => {
         return
       }
 
+      log.error('QR scan receive failed', message, exception, { dialogShown: true })
       showErrorDialog(errorMessage, '', dialogOptions)
-      log.error('QR scan send failed', message, exception)
     },
     [showErrorDialog]
   )

@@ -1,15 +1,20 @@
-import { isError, isObjectLike, isPlainObject } from 'lodash'
 import pino from 'pino'
 import redaction from 'pino/lib/redaction'
 import { redactFmtSym } from 'pino/lib/symbols'
 import { stringify } from 'pino/lib/tools'
+import { flatten, isError, isObjectLike, isPlainObject } from 'lodash'
 
 import { isE2ERunning } from '../utils/platform'
 import Config from '../../config/config'
 
-const { logLevel, logSecureKeys, env } = Config
+export const ExceptionCategory = {
+  Human: 'human',
+  Blockhain: 'blockchain',
+  Network: 'network',
+  Unexpected: 'unexpected',
+}
 
-const pinoProxyHandler = new class {
+class SecureLogger {
   childrenMap = new WeakMap()
 
   methodsMap = new WeakMap()
@@ -24,9 +29,32 @@ const pinoProxyHandler = new class {
   }
 
   constructor(Config) {
-    const { logsCensorshipPaths: paths, logCensorshipPlaceholder: censor } = Config
+    const { secureLog, secureLogKeys, secureLogCensor, logLevel } = Config
+    const logger = pino({ level: logLevel })
+
+    // if secure logs disabled - return pino instance
+    if (!secureLog) {
+      return logger
+    }
+
+    // otherwise read config, prepare redaction paths
+    const censor = secureLogCensor
+    const paths = flatten(
+      secureLogKeys.split(',').map(key => {
+        const secureKey = key.trim()
+
+        if (!secureKey) {
+          return []
+        }
+
+        return [secureKey, `*.${secureKey}`]
+      })
+    )
 
     this.redactionApi = redaction({ paths, censor }, stringify)
+
+    // and return proxy-wrapped
+    return new Proxy(logger, this)
   }
 
   get(target, property) {
@@ -55,7 +83,7 @@ const pinoProxyHandler = new class {
     const { childrenMap } = this
 
     if (!childrenMap.has(target)) {
-      childrenMap.set(target, (...args) => new Proxy(target.child(...args), pinoProxyHandler))
+      childrenMap.set(target, (...args) => new Proxy(target.child(...args), this))
     }
 
     return childrenMap.get(target)
@@ -89,35 +117,12 @@ const pinoProxyHandler = new class {
       return censor(loggingArgument)
     })
   }
-}({
-  logsCensorshipPaths: logSecureKeys.split(','),
-  logCensorshipPlaceholder: '[CONFIDENTIAL]',
-})
-
-let logger
-
-if (env === 'production') {
-  logger = new Proxy(
-    pino({
-      level: logLevel,
-    }),
-    pinoProxyHandler
-  )
-} else {
-  logger = pino({
-    level: logLevel,
-  })
 }
+
+const logger = new SecureLogger(Config)
 
 if (isE2ERunning) {
   Object.assign(global, { logger })
 }
 
 export default logger
-
-export const ExceptionCategory = {
-  Human: 'human',
-  Blockhain: 'blockchain',
-  Network: 'network',
-  Unexpected: 'unexpected',
-}

@@ -86,10 +86,11 @@ const ExplanationDialog = ({
 const mapStylesToProps = () => ({
   container: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     height: '100%',
     marginTop: 'auto',
     marginBottom: 'auto',
+    minHeight: getDesignRelativeHeight(310),
   },
   error: {
     marginTop: getDesignRelativeHeight(16),

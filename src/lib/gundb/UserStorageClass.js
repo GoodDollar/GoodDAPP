@@ -699,7 +699,8 @@ export class UserStorage {
 
     if (!inviteCode) {
       const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
-        logger.warn('failed fetching w3 user')
+        logger.warn('failed fetching w3 user', { e })
+        return {}
       })
       logger.debug('w3 user result', { data })
       inviteCode = get(data, 'invite_code')

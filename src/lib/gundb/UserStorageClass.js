@@ -24,7 +24,7 @@ import { sha3 } from 'web3-utils'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
-import pino from '../logger/pino-logger'
+import pino, { ExceptionCategory } from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
@@ -33,6 +33,7 @@ import delUndefValNested from '../utils/delUndefValNested'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
+
 const logger = pino.child({ from: 'UserStorage' })
 
 const EVENT_TYPE_WITHDRAW = 'withdraw'
@@ -460,7 +461,7 @@ export class UserStorage {
         gunuser.auth(username, password, user => {
           logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnemonic UserStorage', user.err)
+            logger.error('Error getMnemonic UserStorage', user.err, null)
             return rej(false)
           }
           res(true)
@@ -494,7 +495,11 @@ export class UserStorage {
           logLevel = 'warn'
         }
 
-        logger[logLevel]('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
+        logger[logLevel]('Error initializing UserStorage', e.message, e, {
+          account: this.wallet.account,
+          dialogShown: false,
+        })
+
         return false
       })
   }
@@ -833,7 +838,7 @@ export class UserStorage {
           'handleOTPLUpdated failed',
           'Original payment link TX not found',
           new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
-          data
+          { data }
         )
         return
       }
@@ -1232,7 +1237,10 @@ export class UserStorage {
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
-        { errors }
+        {
+          errors,
+          category: ExceptionCategory.Human,
+        }
       )
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
@@ -1249,6 +1257,7 @@ export class UserStorage {
         .map(async field => {
           return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
             logger.error('setProfile field failed:', e.message, e, { field })
+
             return { err: `failed saving field ${field}` }
           })
         })
@@ -1290,7 +1299,8 @@ export class UserStorage {
       logger.error(
         `indexProfileField - field ${field} value is empty (value: ${value})`,
         cleanValue,
-        new Error('isValidValue failed')
+        new Error('isValidValue failed'),
+        { category: ExceptionCategory.Human }
       )
       return false
     }
@@ -1307,7 +1317,7 @@ export class UserStorage {
 
       return true
     } catch (e) {
-      logger.error('indexProfileField', e.message, e)
+      logger.error('Validate IndexProfileField failed', e.message, e)
       return true
     }
   }
@@ -1437,7 +1447,7 @@ export class UserStorage {
 
       return indexNode.putAck(this.gunuser)
     } catch (e) {
-      logger.error('indexProfileField', e.message, e)
+      logger.error('indexProfileField failed', e.message, e)
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
@@ -1554,6 +1564,7 @@ export class UserStorage {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
+
       return undefined
     })
     if (!prevFeedEvent) {
@@ -1583,6 +1594,7 @@ export class UserStorage {
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
+
       return {}
     })
   }
@@ -1612,7 +1624,8 @@ export class UserStorage {
         .putAck({ [hash]: details })
       return true
     } catch (e) {
-      logger.error('saveSurveyDetails :', e.message, e, details)
+      logger.error('saveSurveyDetails :', e.message, e, { details })
+
       return false
     }
   }
@@ -1771,7 +1784,8 @@ export class UserStorage {
           },
         }
       } catch (e) {
-        logger.error('formatEvent: failed formatting event:', e.message, e, event)
+        logger.error('formatEvent: failed formatting event:', e.message, e, { event })
+
         return {}
       }
     }
@@ -1915,7 +1929,8 @@ export class UserStorage {
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
-      logger.error('enqueueTX failed: ', e.message, e, event)
+      logger.error('enqueueTX failed: ', e.message, e, { event })
+
       return false
     } finally {
       release()
@@ -1966,7 +1981,8 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, { feedEvent })
+
         return {}
       })
   }
@@ -1985,7 +2001,8 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, feedEvent)
+        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, { feedEvent })
+
         return {}
       })
   }
@@ -2004,7 +2021,8 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, { feedEvent })
+
         return {}
       })
   }
@@ -2018,6 +2036,7 @@ export class UserStorage {
     if (txHash === undefined) {
       return
     }
+
     const release = await this.feedMutex.lock()
 
     try {
@@ -2147,7 +2166,8 @@ export class UserStorage {
 
     // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {
-      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
+      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, { event })
+
       return { err: e.message }
     })
     const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
@@ -2167,7 +2187,7 @@ export class UserStorage {
 
     return Promise.all([saveAck, ack, eventAck])
       .then(() => event)
-      .catch(e => logger.error('savingIndex', e.message, e))
+      .catch(e => logger.error('Save Indexes failed', e.message, e))
   }
 
   /**
@@ -2203,12 +2223,14 @@ export class UserStorage {
 
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+
     if (encryptedProfile === undefined) {
-      logger.error('getProfile: profile node undefined')
+      logger.error('getProfile: profile node undefined', '', null)
+
       return {}
     }
-    const fullProfile = this.getPrivateProfile(encryptedProfile)
-    return fullProfile
+
+    return this.getPrivateProfile(encryptedProfile)
   }
 
   loadGunField(gunNode): Promise<any> {
@@ -2227,12 +2249,14 @@ export class UserStorage {
 
   async getPublicProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+
     if (encryptedProfile === undefined) {
-      logger.error('getPublicProfile: profile node undefined')
+      logger.error('getPublicProfile: profile node undefined', '', null)
+
       return {}
     }
-    const fullProfile = this.getDisplayProfile(encryptedProfile)
-    return fullProfile
+
+    return this.getDisplayProfile(encryptedProfile)
   }
 
   getFaceIdentifier(): string {

@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
-import { isIOS, isMobileSafari } from 'mobile-device-detect'
 
 import UserStorage from '../../../../lib/gundb/UserStorage'
 import GDStore from '../../../../lib/undux/GDStore'
@@ -68,8 +67,6 @@ const IntroScreen = ({ styles, screenProps }) => {
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
   const handleVerifyClick = useOnPress(requestCameraPermissions, [])
-
-  useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
 
   useEffect(() => {
     if (isValid) {

@@ -13,11 +13,13 @@ import {
   PaswordlessSMSStrategy,
 } from './strategies'
 
+const log = logger.child({ from: 'TorusSDK' })
+
 class TorusSDK {
   strategies = {}
 
   static factory() {
-    const sdk = new TorusSDK(Config, logger.child({ from: 'TorusSDK' }))
+    const sdk = new TorusSDK(Config, log)
 
     sdk.addStrategy('facebook', FacebookStrategy)
     sdk.addStrategy('google-old', GoogleLegacyStrategy)
@@ -98,7 +100,7 @@ class TorusSDK {
     }
 
     if ('production' !== env) {
-      logger.debug('Received torusUser:', torusUser)
+      log.debug('Received torusUser:', torusUser)
     }
 
     return torusUser

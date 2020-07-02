@@ -11,6 +11,7 @@ import logger from '../logger/pino-logger'
 
 const initGunDB = () => {
   let gun
+
   if (!global.gun) {
     if (process.env.NODE_ENV === 'test') {
       gun = Gun()
@@ -20,9 +21,12 @@ const initGunDB = () => {
         peers: [Config.gunPublicUrl],
       })
     }
-    logger.debug('Initialized gundb', Config.gunPublicUrl)
+
+    logger.child({ from: 'gundb' }).debug('Initialized gundb', Config.gunPublicUrl)
   }
+
   global.gun = gun
+
   return gun
 }
 export default initGunDB()

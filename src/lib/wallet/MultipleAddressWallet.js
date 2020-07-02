@@ -9,6 +9,8 @@ type WalletsCollection = {
   [key: string]: Wallet, // Associative array
 }
 
+const log = logger.child({ from: 'MultipleAddressWallet' })
+
 class MultipleAddressWallet {
   ready: Promise<Web3>
 
@@ -25,7 +27,8 @@ class MultipleAddressWallet {
   numOfAccounts: number = 10
 
   constructor(mnemonic: string, numOfAccounts: number) {
-    logger.debug('MultipleAddressWallet ', { mnemonic }, { numOfAccounts })
+    log.debug('MultipleAddressWallet ', { mnemonic }, { numOfAccounts })
+
     this.numOfAccounts = numOfAccounts
 
     //for torus login we use the private key as seed not a mnemonic phrase

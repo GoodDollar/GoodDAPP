@@ -1,7 +1,7 @@
 // @flow
 import logger from '../../lib/logger/pino-logger'
 
-const log = logger.child({ from: 'Clipboard' })
+const log = logger.child({ from: 'Clipboard.web' })
 
 export default new class {
   constructor(api) {

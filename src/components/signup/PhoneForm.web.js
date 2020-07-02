@@ -10,7 +10,6 @@ import { getScreenHeight } from '../../lib/utils/Orientation'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { withStyles } from '../../lib/styles'
-import Config from '../../config/config'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
@@ -95,7 +94,7 @@ class PhoneForm extends React.Component<Props, State> {
   checkErrors = () => {
     const modelErrorMessage = this.validateField()
     const errorMessage = modelErrorMessage
-    log.debug({ modelErrorMessage, errorMessage, Config })
+    log.debug({ modelErrorMessage, errorMessage })
     this.setState({ errorMessage, isValid: errorMessage === '' })
     return errorMessage === ''
   }

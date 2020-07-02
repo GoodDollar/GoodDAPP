@@ -67,7 +67,6 @@ const MnemonicInput = ({ onChange, recoveryMode, styles, seed }: Props) => {
       const newState = { ...state }
       for (let i = 0; i < words.length; i++) {
         if (i + index < MAX_WORDS) {
-          log.info(newState[i + index], words[i])
           newState[i + index] = words[i]
         }
       }

@@ -34,7 +34,8 @@ class FaceVerificationApi {
 
   async issueSessionToken(): Promise<string> {
     try {
-      const issuerResponse = await this.zoomApi.get('/session-token')
+      const { zoomApi, logger } = this
+      const issuerResponse = await zoomApi.get('/session-token')
       const sessionId = get(issuerResponse, 'data.sessionToken')
 
       if (!sessionId) {
@@ -99,7 +100,7 @@ class FaceVerificationApi {
   }
 
   async disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
-    const { rootApi } = this
+    const { rootApi, logger } = this
 
     logger.info('Disposing face snapshot', { enrollmentIdentifier })
 

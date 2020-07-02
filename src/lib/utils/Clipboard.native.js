@@ -2,7 +2,7 @@
 import Clipboard from '@react-native-community/clipboard'
 import logger from '../../lib/logger/pino-logger'
 
-const log = logger.child({ from: 'Clipboard' })
+const log = logger.child({ from: 'Clipboard.native' })
 
 export default new class {
   constructor(api) {

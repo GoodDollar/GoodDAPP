@@ -134,7 +134,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
     return userStorage
       .setProfile(toupdate, true)
       .catch(e => {
-        log.error('Error saving profile', { toupdate }, e.message, e, { dialogShown: true })
+        log.error('Error saving profile', e.message, e, { toupdate, dialogShown: true })
         showErrorDialog('Could not save profile. Please try again.')
         return false
       })

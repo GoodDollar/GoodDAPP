@@ -501,12 +501,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     fireSignupEvent()
     await ready
 
-    log.info('signup data:', { data })
-
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
 
     const newState = { ...state, ...data }
     setState(newState)
+
     log.info('signup data:', { data, nextRoute, newState })
 
     if (nextRoute === undefined) {

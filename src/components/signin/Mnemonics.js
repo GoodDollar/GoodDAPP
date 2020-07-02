@@ -37,9 +37,10 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
   AsyncStorage.removeItem('GD_web3Token')
 
-  const handleChange = (mnemonics: string) => {
-    log.info({ mnemonics })
-    const splitted = mnemonics.split(' ').filter(o => o)
+  const handleChange = (mnemonic: string) => {
+    log.info({ mnemonic })
+
+    const splitted = mnemonic.split(' ').filter(o => o)
     if (splitted.length > MAX_WORDS) {
       setErrorMessage('Your pass phrase appears to be incorrect.')
     } else {
@@ -50,7 +51,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } else {
       setSubmitBlocked(true)
     }
-    setMnemonics(mnemonics)
+    setMnemonics(mnemonic)
   }
 
   const recover = async () => {
@@ -60,7 +61,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
     const showError = () => {
       log.error('Incorrect pass phrase - wallet recover failed', '', null, {
-        mnemonics,
+        mnemonic: mnemonics,
         category: ExceptionCategory.Human,
         dialogShown: true,
       })

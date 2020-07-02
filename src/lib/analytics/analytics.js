@@ -373,7 +373,7 @@ const patchLogger = () => {
 
     if (
       categoryToPassIntoLog === Unexpected &&
-      ['connection', 'webSocket', 'network'].some(str => eMsg.includes(str))
+      ['connection', 'websocket', 'network'].some(str => eMsg.toLowerCase().includes(str))
     ) {
       categoryToPassIntoLog = Network
     }

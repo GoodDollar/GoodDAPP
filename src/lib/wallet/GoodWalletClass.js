@@ -557,9 +557,8 @@ export class GoodWallet {
    */
   async getTxFee(): Promise<number> {
     try {
-      const fee = await this.tokenContract.methods.getFees(1).call()
-
-      return toBN(fee)
+      const { 0: fee, 1: senderPays } = await this.tokenContract.methods.getFees(1).call()
+      return senderPays ? toBN(fee) : ZERO
     } catch (exception) {
       const { message } = exception
 
@@ -573,10 +572,15 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   async calculateTxFee(amount): Promise<boolean> {
-    // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
-    const percents = await this.getTxFee()
+    try {
+      const { 0: fee, 1: senderPays } = await this.tokenContract.methods.getFees(amount).call()
+      return senderPays ? toBN(fee) : ZERO
+    } catch (exception) {
+      const { message } = exception
 
-    return new BN(amount).mul(percents).div(new BN('1000000'))
+      log.warn('getTxFee failed', message, exception)
+      throw exception
+    }
   }
 
   /**

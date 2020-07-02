@@ -1,10 +1,11 @@
 // @flow
 import React, { useMemo } from 'react'
-import { Dimensions, Platform, View } from 'react-native'
+import { Platform, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { isMobileNative, isMobileOnly } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
+import { getScreenWidth } from '../../../lib/utils/Orientation'
 
 const gradientColors = [
   '#00AFFF',
@@ -21,12 +22,14 @@ const gradientColors = [
   '#00C3AF',
 ]
 
+const borderSize = Platform.select({ web: '50%', default: getScreenWidth() * 2 })
+
 const backgroundGradientStyles = {
   position: 'absolute',
   width: '200%',
   height: '74%',
-  borderBottomLeftRadius: Platform.select({ web: '50%', default: Dimensions.get('window').width * 2 }),
-  borderBottomRightRadius: Platform.select({ web: '50%', default: Dimensions.get('window').width * 2 }),
+  borderBottomLeftRadius: borderSize,
+  borderBottomRightRadius: borderSize,
   right: '-50%',
   backgroundImage: `linear-gradient(to bottom, ${gradientColors.join(', ')})`,
 }
@@ -39,8 +42,8 @@ const backgroundLineStyles = {
   borderBottomWidth: 3,
   borderBottomColor: 'white',
   borderStyle: 'solid',
-  borderBottomLeftRadius: Platform.select({ web: '50%', ios: 50, android: 50 }),
-  borderBottomRightRadius: Platform.select({ web: '50%', ios: 50, android: 50 }),
+  borderBottomLeftRadius: borderSize,
+  borderBottomRightRadius: borderSize,
 }
 
 const WrapperClaim = ({ backgroundColor, children, style, styles, ...props }) => {

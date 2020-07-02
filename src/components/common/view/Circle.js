@@ -73,6 +73,7 @@ const getStylesFromProps = ({ theme }) => {
           shadowOffset: { width: 6, height: 1 },
           shadowRadius: 0,
           shadowColor: shadowColor,
+          elevation: 2,
         },
       }),
       marginTop: theme.sizes.default,

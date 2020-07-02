@@ -237,12 +237,12 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'flex-end',
   },
   typeIcon: {
-    marginTop: isMobile ? theme.sizes.default / 2 : theme.sizes.default,
+    marginTop: Platform.select({ web: theme.sizes.default, default: theme.sizes.default / 2 }),
     height: normalize(35),
     width: normalize(35),
   },
   typeAnimatedIcon: {
-    marginTop: isMobile ? theme.sizes.default / 2 : theme.sizes.default,
+    marginTop: Platform.select({ web: theme.sizes.default, default: theme.sizes.default / 2 }),
     alignSelf: 'flex-start',
     height: normalize(35),
     width: normalize(35),

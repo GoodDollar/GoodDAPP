@@ -5,7 +5,7 @@ import { redactFmtSym } from 'pino/lib/symbols'
 import { isE2ERunning } from '../utils/platform'
 import Config from '../../config/config'
 
-const { logLevel, logSecureKeys } = Config
+const { logLevel, logSecureKeys, env } = Config
 
 const pinoProxyHandler = new class {
   childrenMap = new WeakMap()
@@ -82,12 +82,20 @@ const pinoProxyHandler = new class {
   }
 }()
 
-const logger = new Proxy(
-  pino({
+let logger
+
+if (env === 'production') {
+  logger = new Proxy(
+    pino({
+      level: logLevel,
+    }),
+    pinoProxyHandler
+  )
+} else {
+  logger = pino({
     level: logLevel,
-  }),
-  pinoProxyHandler
-)
+  })
+}
 
 if (isE2ERunning) {
   Object.assign(global, { logger })

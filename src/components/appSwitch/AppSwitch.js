@@ -226,7 +226,7 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const checkBonusInterval = async force => {
-    if (config.enableInvites !== true) {
+    if (config.enableInvites !== true || config.isPhaseOne) {
       return
     }
 

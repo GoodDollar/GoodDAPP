@@ -16,6 +16,7 @@ const Config = {
   isPhaseZero: 'true' === process.env.REACT_APP_ENV_PHASE_ZERO,
   newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: (forceLogLevel && forceLogLevel[1]) || process.env.REACT_APP_LOG_LEVEL || 'debug',
+  logSecureKeys: process.env.REACT_APP_LOG_SECURE_KEYS || '*.mnemonic,*.password,*.pass,*.privateKey,*.pkey,*.mobile,*.email,*.seed',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',

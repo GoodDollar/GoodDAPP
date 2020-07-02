@@ -144,7 +144,7 @@ export const welcomeMessage = {
   data: {
     customName: 'Welcome to GoodDollar!',
     subtitle: 'Welcome to GoodDollar!',
-    readMore: 'Claim free G$ coins daily',
+    readMore: 'Claim free G$ coins daily.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -176,8 +176,8 @@ export const inviteFriendsMessage = {
   status: 'completed',
   data: {
     customName: `Invite friends and earn G$'s`,
-    subtitle: Config.isPhaseZero ? 'Want to earn more G$`s ?' : 'Invite Your friends now',
-    readMore: Config.isPhaseZero ? 'Invite more friends!' : 'and let them also claim free G$`s',
+    subtitle: Config.isPhaseZero ? 'Want to earn more G$`s ?' : 'Invite Your friends now.',
+    readMore: Config.isPhaseZero ? 'Invite more friends!' : 'and let them also claim free G$`s.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -193,7 +193,7 @@ export const backupMessage = {
   data: {
     customName: 'Backup your wallet. Now.',
     subtitle: 'You need to backup your',
-    readMore: 'wallet pass phrase',
+    readMore: 'wallet pass phrase.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -243,7 +243,7 @@ export const hanukaBonusStartsMessage = {
   data: {
     customName: 'Collect extra GoodDollars\non every day of Hannukah',
     subtitle: 'Hannukah Miracle Bonus',
-    readMore: 'Claim today for extra G$$$',
+    readMore: 'Claim today for extra G$$$.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -262,7 +262,7 @@ export const longUseOfClaims = {
   data: {
     customName: 'Woohoo! You’ve made it!', //title in modal
     subtitle: 'Woohoo! You’ve made it!',
-    smallReadMore: 'Congrats! You claimed G$ for 14 days',
+    smallReadMore: 'Congrats! You claimed G$ for 14 days.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },

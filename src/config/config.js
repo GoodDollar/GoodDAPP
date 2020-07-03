@@ -37,7 +37,6 @@ const Config = {
   enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
-  zoomServerURL: process.env.REACT_APP_ZOOM_SERVER_BASEURL || 'https://api.zoomauth.com/api/v2/biometrics',
   faceVerificationPrivacyUrl:
     process.env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',

@@ -6,7 +6,7 @@ import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 
-export { ZoomSDKStatus, ZoomSessionStatus } from 'react-native-zoom'
+export { ZoomSDKStatus, ZoomSessionStatus } from 'react-native-zoom'  // eslint-disable-line
 
 // sdk class
 export const ZoomSDK = new class {
@@ -33,7 +33,8 @@ export const ZoomSDK = new class {
     const { sdk, logger } = this
 
     try {
-      const isInitialized = await sdk.initialize(licenseKey, preload, Config.serverUrl, Config.zoomServerUrl)
+      // TODO: update native implementation to use GoodServer for issue session token
+      const isInitialized = await sdk.initialize(licenseKey, preload, Config.serverUrl)
 
       return isInitialized
     } catch (exception) {

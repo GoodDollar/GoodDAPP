@@ -43,7 +43,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
   return (
     <View style={styles.wrapper}>
       {state === DONE ? (
-        <TouchableOpacity cursor="inherit" style={[styles.iconButton, { backgroundColor }]} testID="save_button">
+        <TouchableOpacity cursor="inherit" style={[styles.iconButton, { backgroundColor }]}>
           <Icon size={16} name="success" color={theme.colors.surface} />
         </TouchableOpacity>
       ) : (
@@ -55,6 +55,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
           iconSize={16}
           style={[styles.saveButton, props.style]}
           onPress={pressAndNextState}
+          testID="save_button"
         >
           <Text
             color="surface"

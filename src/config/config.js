@@ -17,6 +17,7 @@ const Config = {
   contractsVersion,
   isEToro,
   isPhaseZero: 'true' === env.REACT_APP_ENV_PHASE_ZERO,
+  isPhaseOne: 'true' === process.env.REACT_APP_ENV_PHASE_ONE,
   newVersionUrl: env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
@@ -33,11 +34,16 @@ const Config = {
   enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,
+  auth0ClientId: process.env.REACT_APP_AUTH0_CLIENT_ID,
+  auth0SMSClientId: process.env.REACT_APP_AUTH0_SMS_CLIENT_ID,
+  auth0Domain: process.env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
-  showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   zoomServerURL: process.env.REACT_APP_ZOOM_SERVER_BASEURL || 'https://api.zoomauth.com/api/v2/biometrics',
+  faceVerificationPrivacyUrl:
+    process.env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
+    'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
   rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
   httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
@@ -46,23 +52,26 @@ const Config = {
   skipEmailVerification: env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
   throwSaveProfileErrors:
-    !env.REACT_APP_THROW_SAVE_PROFILE_ERRORS || env.REACT_APP_THROW_SAVE_PROFILE_ERRORS === 'true',
-  withMockedFeeds: env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
-  safariMobileKeyboardGuidedSize: env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
-  receiveUrl: env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
-  enableShortUrl: env.REACT_APP_ENABLE_SHORTURL === 'true',
-  sendUrl: env.REACT_APP_SEND_URL || `${publicUrl}`,
-  nextTimeClaim: env.REACT_APP_NEXT_TIME_CLAIM || 86400,
-  displayStartClaimingCardTime: env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
-  bugsnagKey: env.REACT_APP_BUGSNAG_API_KEY,
-  backgroundReqsInterval: env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, // minutes
-  sentryDSN: env.REACT_APP_SENTRY_DSN,
-  hanukaStartDate: env.REACT_APP_HANUKA_START_DATE, // date
-  hanukaEndDate: env.REACT_APP_HANUKA_END_DATE, // date
-  delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 3000,
-  showSplashDesktop: env.REACT_APP_SPLASH_DESKTOP === 'true',
-  showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
-  flagsUrl: env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
+    !process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS || process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS === 'true',
+  withMockedFeeds: process.env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
+  safariMobileKeyboardGuidedSize: process.env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
+  receiveUrl: process.env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
+  enableShortUrl: process.env.REACT_APP_ENABLE_SHORTURL === 'true',
+  sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}`,
+  nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
+  displayStartClaimingCardTime: process.env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
+  bugsnagKey: process.env.REACT_APP_BUGSNAG_API_KEY,
+  backgroundReqsInterval: process.env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, // minutes
+  sentryDSN: process.env.REACT_APP_SENTRY_DSN,
+  hanukaStartDate: process.env.REACT_APP_HANUKA_START_DATE, // date
+  hanukaEndDate: process.env.REACT_APP_HANUKA_END_DATE, // date
+  delayMessageNetworkDisconnection: process.env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 3000,
+  showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
+  showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
+  flagsUrl: process.env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',
+  claimQueue: process.env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
+  mauticUrl: process.env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
+  mauticAddContractFormID: process.env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
   ethereum: {
     '42': {
       network_id: 42,
@@ -95,7 +104,7 @@ const Config = {
 
 // TODO: wrap all stubs / "backdoors" made for automated testing
 // if (isE2ERunning) {
-  global.config = Config
+global.config = Config
 
 //}
 

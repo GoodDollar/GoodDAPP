@@ -1,10 +1,22 @@
 //@flow
+<<<<<<< HEAD
 import { debounce, forEach } from 'lodash'
 import amplitude from 'amplitude-js'
 import logger from '../logger/pino-logger'
 import Config from '../../config/config'
 import Sentry from './sentry'
 import bugsnagClient from './bugsnag'
+=======
+
+// libraries
+import * as Sentry from '@sentry/browser'
+import { debounce, forEach, get, invoke, isFunction, isString } from 'lodash'
+
+// utils
+import API from '../../lib/API/api'
+import Config from '../../config/config'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+>>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -18,6 +30,8 @@ export const RECOVER_SUCCESS = 'RECOVER_SUCCESS'
 export const RECOVER_FAILED = 'RECOVER_FAILED'
 export const CLAIM_SUCCESS = 'CLAIM_SUCCESS'
 export const CLAIM_FAILED = 'CLAIM_FAILED'
+export const CLAIM_QUEUE = 'CLAIM_QUEUE_UPDATED'
+export const CLAIM_GEO = 'claim-geo'
 export const CARD_OPEN = 'CARD_OPEN'
 export const PROFILE_PRIVACY = 'PROFILE_PRIVACY'
 export const PROFILE_IMAGE = 'PROFILE_IMAGE'
@@ -25,9 +39,7 @@ export const PROFILE_UPDATE = 'PROFILE_UPDATE'
 export const PHRASE_BACKUP = 'PHRASE_BACKUP'
 export const PHRASE_BACKUP_COPY = 'PHRASE_BACKUP_COPY'
 export const ADDTOHOME = 'ADDTOHOME'
-export const ADDTOHOME_LATER = 'ADDTOHOME_LATER'
-
-//desktop/chrome did user accept or reject the install prompt
+export const ADDTOHOME_LATER = 'ADDTOHOME_LATER' // desktop/chrome did user accept or reject the install prompt
 export const ADDTOHOME_OK = 'ADDTOHOME_OK'
 export const ADDTOHOME_REJECTED = 'ADDTOHOME_REJECTED'
 export const ERROR_LOG = 'ERROR'
@@ -35,18 +47,41 @@ export const QR_SCAN = 'QR_SCAN'
 export const APP_OPEN = 'APP_OPEN'
 export const LOGOUT = 'LOGOUT'
 export const CARD_SLIDE = 'CARD_SLIDE'
+export const FV_INTRO = 'FV_INTRO'
+export const FV_CAMERAPERMISSION = 'FV_CAMERAPERMISSION'
+export const FV_GETREADY_ZOOM = 'FV_GETREADY_ZOOM'
+export const FV_PROGRESS_ZOOM = 'FV_PROGRESS_ZOOM'
+export const FV_ZOOMFAILED = 'FV_ZOOMFAILED'
+export const FV_SUCCESS_ZOOM = 'FV_SUCCESS_ZOOM'
+export const FV_TRYAGAIN_ZOOM = 'FV_TRYAGAIN_ZOOM'
+export const FV_GENERALERROR = 'FV_GENERALERROR'
+export const FV_WRONGORIENTATION = 'FV_WRONGORIENTATION'
+export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
+export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
+export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
+<<<<<<< HEAD
 let Amplitude, FS
+=======
+let Amplitude
+const { bugsnagClient: BugSnag, mt: Mautic, Rollbar, FS, dataLayer: GoogleAnalytics } = global
+>>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
 
 const log = logger.child({ from: 'analytics' })
+const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
 
-export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
-  const identifier = goodWallet && goodWallet.getAccountForType('login')
-  const email = userStorage && (await userStorage.getProfileFieldValue('email'))
-  log.debug('got identifiers', { identifier, email })
+const isFSEnabled = !!FS
+const isSentryEnabled = !!sentryDSN
+const isRollbarEnabled = !!(Rollbar && rollbarKey)
+const isAmplitudeEnabled = 'amplitude' in global && !!amplitudeKey
+const isGoogleAnalyticsEnabled = !!GoogleAnalytics
 
-  const emailOrId = email || identifier
+/** @private */
+// eslint-disable-next-line require-await
+const initAmplitude = async () => {
+  const amp = () => invoke(global, 'amplitude.getInstance')
 
+<<<<<<< HEAD
   if (bugsnagClient) {
     bugsnagClient.user = {
       id: identifier,
@@ -69,44 +104,232 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
       }
     }
   }
+=======
+  if (!isAmplitudeEnabled) {
+    return
+  }
 
-  if (global.FS) {
-    FS = global.FS
-    if (emailOrId) {
-      FS.identify(emailOrId, {
-        appVersion: Config.version,
-      })
+  return new Promise(resolve =>
+    amp().init(amplitudeKey, null, null, () => {
+      Amplitude = amp()
+      resolve()
+    })
+  )
+}
+
+/** @private */
+// eslint-disable-next-line require-await
+const initFullStory = async () =>
+  new Promise(resolve => {
+    const { _fs_ready } = window
+
+    Object.assign(window, {
+      _fs_ready: () => {
+        if (isFunction(_fs_ready)) {
+          _fs_ready()
+        }
+
+        resolve()
+      },
+    })
+  })
+
+export const initAnalytics = async () => {
+  // pre-initializing & preloading FS & Amplitude
+  await Promise.all([isFSEnabled && initFullStory(), isAmplitudeEnabled && initAmplitude(amplitudeKey)])
+
+  if (isRollbarEnabled) {
+    Rollbar.configure({
+      accessToken: rollbarKey,
+      captureUncaught: true,
+      captureUnhandledRejections: true,
+      payload: {
+        environment: env + network,
+        codeVersion: version,
+      },
+    })
+  }
+
+  if (isAmplitudeEnabled) {
+    const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
+>>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
+
+    Amplitude.setVersionName(version)
+    Amplitude.identify(identity)
+
+    if (isFSEnabled) {
+      const sessionUrl = FS.getCurrentSessionURL()
+
+      // set session URL to user props once FS & Amplitude both initialized
+      Amplitude.setUserProperties({ sessionUrl })
     }
   }
 
-  if (Config.sentryDSN) {
+  if (isSentryEnabled) {
     Sentry.init({
-      dsn: Config.sentryDSN,
-      environment: Config.env,
+      dsn: sentryDSN,
+      environment: env,
     })
 
     Sentry.configureScope(scope => {
-      if (email || identifier) {
-        scope.setUser({
-          id: identifier,
-          email: email,
-        })
-      }
-
-      scope.setTag('appVersion', Config.version)
-      scope.setTag('networkUsed', Config.network)
+      scope.setTag('appVersion', version)
+      scope.setTag('networkUsed', network)
     })
   }
 
   log.debug('Initialized analytics:', {
+<<<<<<< HEAD
     Amplitude: Amplitude !== undefined,
     FS: FS !== undefined,
+=======
+    FS: isFSEnabled,
+    Sentry: isSentryEnabled,
+    Rollbar: isRollbarEnabled,
+    Amplitude: isAmplitudeEnabled,
+>>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
   })
 
   patchLogger()
 }
 
-export const reportToSentry = (error, extra = {}, tags = {}) =>
+/** @private */
+const setUserEmail = email => {
+  if (!email) {
+    return
+  }
+
+  if (BugSnag) {
+    const { user } = BugSnag
+
+    BugSnag.user = {
+      ...(user || {}),
+      email,
+    }
+  }
+
+  if (isRollbarEnabled) {
+    Rollbar.configure({
+      payload: {
+        person: {
+          email,
+        },
+      },
+    })
+  }
+
+  if (isAmplitudeEnabled) {
+    Amplitude.setUserProperties({ email })
+  }
+
+  if (FS) {
+    FS.setUserVars({
+      email,
+    })
+  }
+
+  if (isSentryEnabled) {
+    Sentry.configureScope(scope => {
+      const { _user } = scope
+
+      scope.setUser({
+        ...(_user || {}),
+        email,
+      })
+    })
+  }
+
+  if (Mautic) {
+    Mautic.userId = email
+  }
+}
+
+/** @private */
+const identifyWith = (email, identifier = null) => {
+  if (BugSnag) {
+    BugSnag.user = {
+      id: identifier,
+    }
+  }
+
+  if (isRollbarEnabled) {
+    Rollbar.configure({
+      payload: {
+        person: {
+          id: identifier,
+        },
+      },
+    })
+  }
+
+  if (isAmplitudeEnabled && identifier) {
+    Amplitude.setUserId(identifier)
+  }
+
+  if (FS) {
+    FS.identify(identifier, {
+      appVersion: version,
+    })
+  }
+
+  if (isSentryEnabled) {
+    Sentry.configureScope(scope =>
+      scope.setUser({
+        id: identifier,
+      })
+    )
+  }
+
+  setUserEmail(email)
+
+  log.debug(
+    'Analytics services identified with:',
+    { email, identifier },
+    {
+      FS: isFSEnabled,
+      Mautic: !!email,
+      BugSnag: !!BugSnag,
+      Sentry: isSentryEnabled,
+      Rollbar: isRollbarEnabled,
+      Amplitude: isAmplitudeEnabled,
+    }
+  )
+}
+
+export const identifyOnUserSignup = async email => {
+  setUserEmail(email)
+
+  if (Mautic && email && 'production' === env) {
+    await API.addMauticContact({ email })
+  }
+
+  log.debug(
+    'Analytics services identified during new user signup:',
+    { email },
+    {
+      FS: isFSEnabled,
+      Mautic: !!email,
+      BugSnag: !!BugSnag,
+      Sentry: isSentryEnabled,
+      Rollbar: isRollbarEnabled,
+      Amplitude: isAmplitudeEnabled,
+    }
+  )
+}
+
+export const identifyWithSignedInUser = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
+  const identifier = goodWallet.getAccountForType('login')
+  const email = await userStorage.getProfileFieldValue('email')
+
+  log.debug('got identifiers', { identifier, email })
+
+  identifyWith(email, identifier)
+}
+
+export const reportToSentry = (error, extra = {}, tags = {}) => {
+  if (!isSentryEnabled) {
+    return
+  }
+
   Sentry.configureScope(scope => {
     // set extra
     forEach(extra, (value, key) => {
@@ -120,19 +343,35 @@ export const reportToSentry = (error, extra = {}, tags = {}) =>
 
     Sentry.captureException(error)
   })
+}
 
 export const fireEvent = (event: string, data: any = {}) => {
-  if (Amplitude === undefined) {
+  if (!isAmplitudeEnabled) {
     return
   }
 
-  let res = Amplitude.logEvent(event, data)
-
-  if (res === undefined) {
+  if (!Amplitude.logEvent(event, data)) {
     log.warn('Amplitude event not sent', { event, data })
-  } else {
-    log.debug('fired event', { event, data })
+    return
   }
+
+  log.debug('fired event', { event, data })
+}
+
+export const fireMauticEvent = (data: any = {}) => {
+  if (!Mautic) {
+    return
+  }
+
+  const { userId } = Mautic
+  let eventData = data
+
+  if (userId) {
+    // do not mutate source params
+    eventData = { ...data, email: userId }
+  }
+
+  Mautic('send', 'pageview', eventData)
 }
 
 /**
@@ -140,18 +379,30 @@ export const fireEvent = (event: string, data: any = {}) => {
  * @param {object} route
  */
 export const fireEventFromNavigation = route => {
-  const key = route.routeName
-  const action = route.params && route.params.action ? `${route.params.action}` : 'GOTO'
-
+  const { routeName: key, params } = route
+  const action = get(params, 'action', 'GOTO')
   const code = `${action}_${key}`.toUpperCase()
 
   fireEvent(code)
 }
 
-//for error logs if they happen frequently only log one
-const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
+/**
+ * fire event to google analytics
+ *
+ * @param {string} event Event name
+ * @param {object} data Event properties (optional)
+ * @return {void}
+ */
+export const fireGoogleAnalyticsEvent = (event, data = {}) => {
+  if (!isGoogleAnalyticsEnabled) {
+    return
+  }
+
+  GoogleAnalytics.push({ event, ...data })
+}
 
 const patchLogger = () => {
+<<<<<<< HEAD
   let error = global.logger.error
   global.logger.error = function() {
     let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
@@ -159,10 +410,56 @@ const patchLogger = () => {
       debounceFireEvent(ERROR_LOG, {
         unique: `${eMsg} ${logMessage} (${logContext})`,
         $reason: logMessage,
+=======
+  const logError = logger.error.bind(logger)
+
+  // for error logs if they happen frequently only log one
+  const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
+
+  logger.error = (...args) => {
+    const { Unexpected, Network, Human } = ExceptionCategory
+    const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
+    let { dialogShown, category = Unexpected } = extra
+    let errorToPassIntoLog = errorObj
+    let categoryToPassIntoLog = category
+
+    if (
+      categoryToPassIntoLog === Unexpected &&
+      ['connection', 'websocket', 'network'].some(str => eMsg.toLowerCase().includes(str))
+    ) {
+      categoryToPassIntoLog = Network
+    }
+
+    if (errorObj instanceof Error) {
+      errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
+    } else {
+      errorToPassIntoLog = new Error(logMessage)
+    }
+
+    if (isString(logMessage) && !logMessage.includes('axios')) {
+      const logPayload = {
+        unique: `${eMsg} ${logMessage} (${logContext.from})`,
+        reason: logMessage,
+>>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
         logContext,
         eMsg,
-      })
+        dialogShown,
+        category: categoryToPassIntoLog,
+      }
+
+      if (isFSEnabled) {
+        const sessionUrlAtTime = FS.getCurrentSessionURL(true)
+
+        Object.assign(logPayload, { sessionUrlAtTime })
+      }
+
+      debounceFireEvent(ERROR_LOG, logPayload)
     }
+
+    if (env === 'test') {
+      return
+    }
+<<<<<<< HEAD
     if (bugsnagClient && Config.env !== 'test') {
       bugsnagClient.notify(logMessage, {
         context: logContext && logContext.from,
@@ -181,15 +478,39 @@ const patchLogger = () => {
       } else {
         errorToPassIntoLog = new Error(logMessage)
       }
+=======
 
-      reportToSentry(errorToPassIntoLog, {
+    if (BugSnag) {
+      const { from } = logContext || {}
+
+      BugSnag.notify(logMessage, {
+        context: from,
+        groupingHash: from,
+        metaData: { logMessage, eMsg, errorObj: errorToPassIntoLog, extra },
+      })
+    }
+
+    if (isRollbarEnabled) {
+      Rollbar.error(logMessage, errorToPassIntoLog, { logContext, eMsg, extra })
+    }
+>>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
+
+    reportToSentry(
+      errorToPassIntoLog,
+      {
         logMessage,
         errorObj,
         logContext,
         eMsg,
-        rest,
-      })
-    }
-    return error.apply(global.logger, arguments)
+        extra,
+      },
+      {
+        dialogShown,
+        category: categoryToPassIntoLog,
+        level: categoryToPassIntoLog === Human ? 'info' : undefined,
+      }
+    )
+
+    return logError(...args)
   }
 }

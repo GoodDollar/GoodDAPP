@@ -16,17 +16,17 @@ const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })
 
 // import Router from './SignupRouter'
-let SignupRouter = React.lazy(() =>
-  initAnalytics()
-    .then(_ =>
-      Promise.all([
-        retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
-        handleLinks(),
-        delay(5000),
-      ])
-    )
-    .then(r => r[0])
-)
+let SignupRouter = React.lazy(async () => {
+  await initAnalytics()
+
+  const [module] = await Promise.all([
+    retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
+    handleLinks(),
+    delay(5000),
+  ])
+
+  return module
+})
 
 /**
  * handle in-app links for unsigned users such as magiclink and paymentlinks

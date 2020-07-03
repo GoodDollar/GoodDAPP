@@ -5,9 +5,8 @@ import AmountInput from './view/AmountInput'
 import Avatar from './view/Avatar'
 import BigGoodDollar from './view/BigGoodDollar'
 import BigNumber from './view/BigNumber'
-import ClaimButton from './buttons/ClaimButton'
 import CopyButton from './buttons/CopyButton'
-import CustomButton, { type ButtonProps } from './buttons/CustomButton'
+import CustomButton, { ButtonProps } from './buttons/CustomButton'
 import CustomDialog from './dialogs/CustomDialog'
 import Icon from './view/Icon'
 import IconButton from './buttons/IconButton'
@@ -36,6 +35,7 @@ export {
   Avatar,
   BigGoodDollar,
   BigNumber,
+  ButtonProps,
   ClaimButton,
   CopyButton,
   CustomButton,
@@ -61,5 +61,3 @@ export {
   AwaitButton,
   WrapperClaim,
 }
-
-export type { ButtonProps }

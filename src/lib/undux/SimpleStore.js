@@ -5,7 +5,7 @@ import AsyncStorage from '../utils/asyncStorage'
 
 import { IS_LOGGED_IN } from '../constants/localStorage'
 import pinoLogger from '../logger/pino-logger'
-import withPinoLogger, { log as unduxLogger } from './plugins/logger'
+import createStoreEffects, { unduxLogger } from './plugins'
 import { createUseCurriedSettersHook } from './utils/setter'
 
 /**
@@ -102,16 +102,18 @@ const initialState: State = {
   serviceWorkerUpdated: null,
 }
 
+const { storeAccessor, storeEffects } = createStoreEffects()
+
 /**
  * default exported instance of our global Undux Store
  * @module
  */
-let SimpleStore: UnduxStore = createConnectedStore(initialState, withPinoLogger) // default value for tests
+let SimpleStore: UnduxStore = createConnectedStore(initialState, storeEffects) // default value for tests
 
 const initStore = async () => {
   let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
-  const state = { ...initialState, isLoggedIn }
-  SimpleStore = createConnectedStore(state, withPinoLogger)
+  const newState = { ...initialState, isLoggedIn }
+  SimpleStore = createConnectedStore(newState, storeEffects)
   return SimpleStore
 }
 
@@ -146,6 +148,7 @@ const assertStoreSnapshot = (store, logger = unduxLogger, message = 'Operation f
   storeAssertion(() => !store || !store.storeSnapshot, logger, message)
 
 export {
+  storeAccessor as store,
   initStore,
   assertStore,
   assertStoreSnapshot,

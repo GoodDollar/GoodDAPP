@@ -1,45 +1,41 @@
 // @flow
-import React, { useCallback } from 'react'
-import { Animated, Platform, View } from 'react-native'
+import React from 'react'
+import { Platform } from 'react-native'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
+import useClaimQueue from '../../dashboard/Claim/useClaimQueue'
 
-const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
-  const [pushButtonTranslate, setPushButtonTranslate] = React.useState({})
+const ClaimButton = ({ screenProps, styles }) => {
+  const { queueStatus, handleClaim } = useClaimQueue()
+  const isPending = queueStatus && queueStatus.status === 'pending'
+  const canContinue = () => {
+    //if there's no status the first time then get it
+    //otherwise just return true.
+    //in case we already have status then button is disabled if pending so its ok to return true here.
+    if (queueStatus === undefined) {
+      return handleClaim()
+    }
+    return true
+  }
 
-  const Button = (
+  return (
     <PushButton
+      disabled={isPending}
+      canContinue={canContinue}
       routeName="Claim"
       testID="claim_button"
       screenProps={screenProps}
-      style={[
-        styles.claimButton,
-        {
-          transform: [
-            { translateY: pushButtonTranslate.translateY || 0 },
-            { translateX: pushButtonTranslate.translateX || 0 },
-          ],
-        },
-      ]}
-      contentStyle={styles.removeMargin}
+      style={[styles.claimButton, isPending ? styles.inQueue : undefined]}
     >
-      Claim
+      {isPending ? 'Queue' : 'Claim'}
     </PushButton>
-  )
-
-  const handleLayout = useCallback(event => {
-    const { width, height } = event.nativeEvent.layout
-    setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
-  })
-
-  return (
-    <View style={styles.wrapper} onLayout={handleLayout}>
-      {animated ? <Animated.View style={[animatedScale, styles.animatedWrapper]}>{Button}</Animated.View> : Button}
-    </View>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  inQueue: {
+    backgroundColor: theme.colors.orange,
+  },
   claimButton: {
     alignItems: 'center',
     backgroundColor: theme.colors.green,

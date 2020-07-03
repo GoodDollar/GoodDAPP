@@ -1,16 +1,21 @@
 import { Platform } from 'react-native'
 import { get } from 'lodash'
+
 import {
   isAndroid as isAndroidWeb,
   isIOS as isIOSWeb,
   isMobileOnly as isMobileOnlyWeb,
+  isMobileSafari,
   isMobile as isMobileWeb,
+  isSafari as isSafariWeb,
+  isTablet,
 } from 'mobile-device-detect'
-import isWebApp from './isWebApp'
-import isTablet from './isTablet'
 import { env } from './env'
+import isWebApp from './isWebApp'
 
-export { isMobileSafari, isBrowser } from 'mobile-device-detect'
+export { isBrowser } from 'mobile-device-detect'
+
+export const isSafari = isMobileSafari || isSafariWeb
 
 export const isWeb = Platform.OS === 'web'
 
@@ -39,4 +44,4 @@ export const isCypress =
 
 export const isE2ERunning = isCypress && 'development' === env
 
-export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet }
+export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet, isMobileSafari }

@@ -298,6 +298,7 @@ sent to you by text message:
             <div
               className="css-view-1dbjc4n"
               data-focusable={true}
+              disabled={false}
               onKeyDown={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}

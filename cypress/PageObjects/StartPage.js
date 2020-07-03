@@ -1,17 +1,11 @@
 /* eslint-disable no-undef */
 class StartPage {
-  /*get continueOnWebButton() {
-    return cy.contains('Continue on Web')
-  }*/
-
   get createWalletButton() {
     return cy.contains('Agree & Continue with self custody wallet')
-    //return cy.get('div[role=button]').contains('Create a wallet')
   }
 
   get signInButton() {
-    return cy.contains('Sign in')
-    //return cy.contains('SIGN IN')
+    return cy.contains(/Sign in/i, { timeout: 20000 })
   }
 
   open() {
@@ -20,6 +14,34 @@ class StartPage {
         delete win.navigator.__proto__.serviceWorker
       },
     })
+  }
+
+  get headerPage() {
+    return cy.get('[role="heading"]')
+  }
+
+  get backArrow() {
+    return cy.get('div[style*="gooddollar"]')
+  }
+
+  get termsOfUseLink() {
+    return cy.contains('Terms of Use')
+  }
+
+  get privacyPolicyLink() {
+    return cy.contains('Privacy Policy')
+  }
+
+  get iframePPT() {
+    return cy.getIframeBody('iframe[title="Privacy Policy & Terms"]')
+  }
+
+  get iframePP() {
+    return cy.getIframeBody('iframe[title="Privacy Policy"]')
+  }
+
+  get main() {
+    return '#main'
   }
 }
 

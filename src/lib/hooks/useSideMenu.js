@@ -42,7 +42,7 @@ export default (props = {}) => {
     () => [
       {
         icon: 'trash',
-        name: 'Delete wallet',
+        name: 'Delete Account',
         color: 'red',
         action: () => {
           fireEvent(CLICK_DELETE_WALLET)
@@ -71,6 +71,7 @@ export default (props = {}) => {
       },
       {
         icon: 'add',
+        size: 18,
         name: 'Add App To Home',
         hidden: !installPrompt && !isMobileSafari,
         action: () => {
@@ -81,6 +82,7 @@ export default (props = {}) => {
       {
         icon: 'link',
         name: 'Magic Link',
+        size: 18,
         hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
@@ -91,12 +93,13 @@ export default (props = {}) => {
         },
       },
       {
-        icon: 'lock',
-        name: 'Backup Wallet',
+        icon: 'export-wallet',
+        size: 18,
+        name: 'Export Wallet',
         hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
-            routeName: 'BackupWallet',
+            routeName: 'ExportWallet',
             type: 'Navigation/NAVIGATE',
           })
           slideOut()
@@ -104,6 +107,7 @@ export default (props = {}) => {
       },
       {
         icon: 'statistics',
+        centered: true,
         name: 'Statistics',
         action: () => {
           navigation.navigate({
@@ -115,7 +119,8 @@ export default (props = {}) => {
       },
       {
         icon: 'faq',
-        name: 'Support & FAQ',
+        size: 18,
+        name: 'Support & Feedback',
         action: () => {
           navigation.navigate('Support')
           slideOut()

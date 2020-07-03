@@ -35,8 +35,8 @@ export default ({ API, showDialog, store, theme }) =>
     () =>
       showDialog('', '', {
         title: 'ARE YOU SURE?',
-        message: 'If you delete your wallet',
-        boldMessage: 'all your G$ will be lost forever!',
+        message: 'If you delete your account',
+        boldMessage: 'you might lose access to your G$!',
         image: <IconWrapper iconName="trash" color={theme.colors.error} size={50} />,
         buttons: [
           { text: 'Cancel', onPress: dismiss => dismiss(), mode: 'text', color: theme.colors.lighterGray },
@@ -46,8 +46,8 @@ export default ({ API, showDialog, store, theme }) =>
             onPress: async () => {
               showDialog('', '', {
                 title: 'ARE YOU SURE?',
-                message: 'If you delete your wallet',
-                boldMessage: 'all your G$ will be lost forever!',
+                message: 'If you delete your account',
+                boldMessage: 'you might lose access to your G$!',
                 image: <LoadingIcon />,
                 showButtons: false,
               })

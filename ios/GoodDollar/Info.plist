@@ -53,7 +53,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>GDWallet needs to access your camera to be able to scan the QR codes and check your identity using face verification</string>
 	<key>NSContactsUsageDescription</key>
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>

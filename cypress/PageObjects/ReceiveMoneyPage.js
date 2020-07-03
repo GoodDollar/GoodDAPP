@@ -29,8 +29,7 @@ class ReceiveMoneyPage {
   }
 
   get shareLinkButton() {
-    //return cy.get('[data-gdtype]', { timeout: 10000 })
-    return cy.contains(/copy link to clipboard/i)
+    return cy.contains('COPY LINK TO CLIPBOARD')
   }
 
   get confirmWindowButton() {
@@ -38,7 +37,6 @@ class ReceiveMoneyPage {
   }
 
   get doneButton() {
-    //return cy.get('[data-gdtype="copybutton-done"]', { timeout: 10000 })
     return cy.contains('Done')
   }
 

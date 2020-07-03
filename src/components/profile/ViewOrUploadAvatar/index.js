@@ -93,6 +93,7 @@ const ViewOrUploadAvatar = props => {
             <>
               <UserAvatar profile={profile} size={272} onPress={onPressFix(handleCameraPress)} />
               <CircleButtonWrapper
+                containerStyle={styles.closeButtonContainer}
                 style={styles.closeButton}
                 iconName={'trash'}
                 iconSize={22}

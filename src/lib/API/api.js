@@ -37,6 +37,8 @@ class API {
 
   client: AxiosInstance
 
+  mauticClient: AxiosInstance
+
   constructor() {
     this.ready = this.init()
   }
@@ -95,6 +97,11 @@ class API {
         }
       )
       this.w3Client = await w3Instance
+      let mauticInstance: AxiosInstance = axios.create({
+        baseURL: Config.mauticUrl,
+        timeout: 30000,
+      })
+      this.mauticClient = await mauticInstance
     }))
   }
 
@@ -240,7 +247,7 @@ class API {
   }
 
   /**
-   * `/verify/facerecognition` post api call
+   * `/verify/facerecognition/:enrollmentIdentifier` put api call
    * @param {any} payload
    * @param {string} enrollmentIdentifier
    * @param {any} axiosConfig
@@ -254,7 +261,7 @@ class API {
   }
 
   /**
-   * `/verify/facerecognition` post api call
+   * `/verify/facerecognition/:enrollmentIdentifier` delete api call
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
@@ -263,6 +270,18 @@ class API {
     const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
 
     return client.delete(endpoint, { params: { signature } })
+  }
+
+  /**
+   * `/verify/facerecognition/:enrollmentIdentifier` get api call
+   * @param {string} enrollmentIdentifier
+   * @param {string} signature
+   */
+  checkFaceSnapshotDisposalState(enrollmentIdentifier: string): Promise<$AxiosXHR<any>> {
+    const { client } = this
+    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+
+    return client.get(endpoint)
   }
 
   /**
@@ -334,6 +353,29 @@ class API {
    */
   checkHanukaBonus() {
     return this.client.get('/verify/hanuka-bonus')
+  }
+
+  /**
+   * `/trust` get api call
+   */
+  getTrust() {
+    return this.client.get('/trust')
+  }
+
+  /**
+   * `/user/enqueue` post api call
+   * adds user to queue or return queue status
+   */
+  checkQueueStatus() {
+    return this.client.post('/user/enqueue')
+  }
+
+  /**
+   * adds a first time registering user to mautic
+   * @param {*} userData usually just {email}
+   */
+  addMauticContact(userData) {
+    return this.mauticClient.post('/form/submit', { ...userData, formId: Config.mauticAddContactFormID })
   }
 }
 

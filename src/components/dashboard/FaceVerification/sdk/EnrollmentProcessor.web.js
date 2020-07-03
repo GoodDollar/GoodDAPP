@@ -1,7 +1,8 @@
-import { first } from 'lodash'
+import { first, noop } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
+import { UITextStrings } from './UICustomization'
 
 const {
   // Zoom verification session incapsulation
@@ -33,13 +34,13 @@ export class EnrollmentProcessor {
 
   resultCallback = null
 
-  constructor(onSessionCompleted = (isSuccess, lastResult, lastMessage) => {}) {
-    this.onSessionCompleted = onSessionCompleted
+  constructor(subscriber = { onSessionCompleted: noop, onUIReady: noop }) {
+    this.subscriber = subscriber
   }
 
   // should be non-async for not confuse developers
-  // By Zoom's design, EnrollmentProcessor should return session result
-  // only by onSessionCompleted callback passed to its constructor
+  // By Zoom's design, EnrollmentProcessor should return
+  // session result only via callbacks / subscriptions
   enroll(enrollmentIdentifier) {
     this.enrollmentIdentifier = enrollmentIdentifier
 
@@ -49,7 +50,7 @@ export class EnrollmentProcessor {
 
   // Helper method for handle session completion
   handleCompletion() {
-    const { onSessionCompleted, isSuccess, lastMessage, lastResult } = this
+    const { subscriber, isSuccess, lastMessage, lastResult } = this
     let latestMessage = lastMessage
     const { status } = lastResult
 
@@ -60,13 +61,13 @@ export class EnrollmentProcessor {
     }
 
     // calling completion callback
-    onSessionCompleted(isSuccess, lastResult, latestMessage)
+    subscriber.onSessionCompleted(isSuccess, lastResult, latestMessage)
   }
 
   // Helper method that calls verification http API on server
   async performVerification() {
     // reading current session state vars
-    const { lastResult, resultCallback, enrollmentIdentifier } = this
+    const { lastResult, resultCallback, enrollmentIdentifier, subscriber } = this
 
     // setting initial progress to 0 for freeze progress bar
     resultCallback.uploadProgress(0)
@@ -105,13 +106,13 @@ export class EnrollmentProcessor {
         })
 
       // if enrolled sucessfully - setting last message from server response
-      const successMessage = 'The FaceMap was successfully enrolled.'
+      const { zoomResultSuccessMessage } = UITextStrings
 
-      ZoomCustomization.setOverrideResultScreenSuccessMessage(successMessage)
+      ZoomCustomization.setOverrideResultScreenSuccessMessage(zoomResultSuccessMessage)
 
       // updating session state vars
       this.isSuccess = true
-      this.lastMessage = successMessage
+      this.lastMessage = zoomResultSuccessMessage
 
       // marking session as successfull
       resultCallback.succeed()
@@ -124,18 +125,20 @@ export class EnrollmentProcessor {
 
       if (response) {
         // if error response was sent
-        const { isEnrolled, isLive, code, message: zoomMessage } = response.enrollmentResult || {}
+        const { enrollmentResult, error } = response
+        const { isEnrolled, isLive, code } = enrollmentResult || {}
 
         // setting lastMessage from server's response
-        this.lastMessage = zoomMessage
+        this.lastMessage = error
 
         // if code is 200 then we have some client-side issues
         // (e.g. low images quality, glasses weared, too dark etc)
         if (200 === code && (!isLive || !isEnrolled)) {
           // showing reason and asking to retry capturing
-          ZoomCustomization.setOverrideResultScreenSuccessMessage(zoomMessage)
+          ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
 
           resultCallback.retry()
+          subscriber.onRetry({ reason: error, liveness: isLive, enrolled: isEnrolled })
           return
         }
       }
@@ -151,6 +154,7 @@ export class EnrollmentProcessor {
   // @see ZoomSDK.ZoomFaceMapProcessor
   // @private
   processZoomSessionResultWhileZoomWaits(zoomSessionResult, zoomFaceMapResultCallback) {
+    const { subscriber } = this
     const { status, faceMetrics } = zoomSessionResult
     const { faceMap } = faceMetrics
 
@@ -169,7 +173,10 @@ export class EnrollmentProcessor {
       return
     }
 
-    // if no session in progress - performing http server call
+    // if no session in progress - notifying that caturing is done
+    subscriber.onCaptureDone()
+
+    // and performing http server call
     this.performVerification()
   }
 
@@ -178,15 +185,20 @@ export class EnrollmentProcessor {
   // interface with onComplete callback designed by Zoom
   // @private
   async _startEnrollmentSession() {
+    const { subscriber } = this
+
     try {
       // trying to retrieve session ID from Zoom server
       const sessionId = await api.issueSessionToken()
 
       // if we've got it - strting enrollment session
       new ZoomSession(() => this.handleCompletion(), this, sessionId)
+
+      // notifying subscriber that UI is ready
+      subscriber.onUIReady()
     } catch ({ message }) {
       // otherwise calling completion handler with empty zoomSessionResult
-      this.onSessionCompleted(false, null, message)
+      subscriber.onSessionCompleted(false, null, message)
     }
   }
 

@@ -34,7 +34,7 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import { PrivacyArticle, PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
+import { PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { readCode } from '../../lib/share'
@@ -72,7 +72,6 @@ import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
-import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedScreen'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -87,6 +86,7 @@ export type DashboardProps = {
   store: Store,
   styles?: any,
 }
+
 const Dashboard = props => {
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
@@ -194,7 +194,7 @@ const Dashboard = props => {
         log.debug('getFeedPage:', { feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
-          .catch(e => logger.error('getInitialFeed -> ', e.message, e))
+          .catch(e => log.error('getInitialFeed -> ', e.message, e))
 
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
@@ -255,7 +255,11 @@ const Dashboard = props => {
     }
   }, [appState])
 
-  const animateClaim = useCallback(() => {
+  const animateClaim = useCallback(async () => {
+    const inQueue = await userStorage.userProperties.get('claimQueueAdded').onThen()
+    if (inQueue && inQueue.status === 'pending') {
+      return
+    }
     const { entitlement } = gdstore.get('account')
 
     if (Number(entitlement)) {
@@ -720,7 +724,6 @@ const Dashboard = props => {
         <FeedModalList
           data={modalListData}
           handleFeedSelection={handleFeedSelection}
-          initialNumToRender={PAGE_SIZE}
           onEndReached={nextFeed}
           selectedFeed={currentFeed}
           navigation={navigation}
@@ -901,7 +904,6 @@ export default createStackNavigator({
   FaceVerification,
   FaceVerificationIntro,
   FaceVerificationError,
-  FaceVerificationUnsupported,
 
   SendQRSummary,
 
@@ -912,7 +914,7 @@ export default createStackNavigator({
   },
 
   // PP: PrivacyPolicy,
-  PrivacyArticle,
+  // PrivacyArticle,
   TOU: PrivacyPolicyAndTerms,
   Support,
   Statistics,

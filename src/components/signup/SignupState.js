@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { get } from 'lodash'
+import { assign, get } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
 import {
@@ -23,7 +23,7 @@ import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, identifyOnUserSignup } from '../../lib/analytics/analytics'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -80,19 +80,23 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
+  const [torusUser] = useState(torusUserFromProps)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!w3UserFromProps.email || !!torusUserFromProps.email
+  const skipMobile = !!torusUserFromProps.mobile
 
   const initialState: SignupState = {
     ...getUserModel({
       email: w3UserFromProps.email || torusUserFromProps.email || '',
       fullName: w3UserFromProps.full_name || torusUserFromProps.name || '',
-      mobile: '',
+      mobile: torusUserFromProps.mobile || '',
     }),
     smsValidated: false,
     isEmailConfirmed: skipEmail,
     jwt: '',
     skipEmail: skipEmail,
+    skipPhone: skipMobile,
+    skipSMS: skipMobile,
     skipEmailConfirmation: Config.skipEmailVerification || skipEmail,
     skipMagicLinkInfo: isRegMethodSelfCustody === false,
     w3Token,
@@ -217,9 +221,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const verifyStartRoute = () => {
     //we dont support refresh if regMethod param is missing then go back to Auth
     //if regmethod is missing it means user did refresh on later steps then first 1
-    if (!regMethod) {
+    if (!regMethod || (navigation.state.index > 0 && state.lastStep !== navigation.state.index)) {
       log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
       return navigation.navigate('Auth')
+    }
+
+    //if we have name from web3/torus we skip to phone
+    if (state.fullName) {
+      return navigation.navigate('Phone')
     }
   }
 
@@ -326,11 +335,24 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     onMount()
   }, [])
 
+  // listening to the email changes in the state
+  useEffect(() => {
+    const { email } = state
+
+    // perform this again for torus and on email change. torus has also mobile verification that doesnt set email
+    if (!email) {
+      return
+    }
+
+    // once email appears in the state - identifying and setting 'identified' flag
+    identifyOnUserSignup(email)
+  }, [state.email])
+
   const finishRegistration = async () => {
     setCreateError(false)
     setLoading(true)
 
-    log.info('Sending new user data', state)
+    log.info('Sending new user data', { state, regMethod, torusProvider })
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkW3InviteCode()
@@ -348,10 +370,30 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
 
       if (regMethod === REGISTRATION_METHOD_TORUS) {
-        requestPayload.torusProvider = torusProvider
+        const { mobile, email, privateKey, accessToken, idToken } = torusUser
+
+        // create proof that email/mobile is the same one verified by torus
+        assign(requestPayload, {
+          torusProvider,
+          torusAccessToken: accessToken,
+          torusIdToken: idToken,
+        })
+
+        if (torusProvider !== 'facebook') {
+          // if logged in via other provider that facebook - generating & signing proof
+          const torusProofNonce = Date.now()
+          const msg = (mobile || email) + String(torusProofNonce)
+          const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
+
+          assign(requestPayload, {
+            torusProof: proof.signature,
+            torusProofNonce,
+          })
+        }
       }
 
       let w3Token = requestPayload.w3Token
+
       if (w3Token) {
         userStorage.userProperties.set('cameFromW3Site', true)
       }
@@ -468,7 +510,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
 
-    const newState = { ...state, ...data }
+    const newState = { ...state, ...data, lastStep: navigation.state.index }
     setState(newState)
     log.info('signup data:', { data, nextRoute, newState })
 
@@ -557,6 +599,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setTitle('Magic Link')
       setShowNavBarGoBackButton(false)
     }
+
     if (curRoute && curRoute.key === 'SignupCompleted') {
       const finishedPromise = finishRegistration()
       setFinishedPromise(finishedPromise)

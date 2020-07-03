@@ -9,6 +9,7 @@ import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import { get, invokeMap, values } from 'lodash'
+import moment from 'moment'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import API from '../API/api'
@@ -374,7 +375,18 @@ export class GoodWallet {
 
   async getAmountAndQuantityClaimedToday(): Promise<any> {
     try {
-      const stats = await this.UBIContract.methods.getDailyStats().call()
+      const ubiStart = await this.UBIContract.methods
+        .periodStart()
+        .call()
+        .then(_ => _.toNumber() * 1000)
+      const today = moment().diff(ubiStart, 'days')
+
+      //we dont use getDailyStats because it returns stats for last day where claim happened
+      //if user is the first the stats he says are incorrect and will reset once he claims
+      const stats = await Promise.all([
+        this.UBIContract.methods.getClaimerCount(today).call(),
+        this.UBIContract.methods.getClaimAmount(today).call(),
+      ])
       const [people, amount] = invokeMap(stats || [ZERO, ZERO], 'toNumber')
 
       return { amount, people }
@@ -509,6 +521,21 @@ export class GoodWallet {
       const { message } = exception
 
       log.warn('isVerified failed', message, exception)
+      throw exception
+    }
+  }
+
+  lastVerified(): Promise<Date> {
+    try {
+      return this.identityContract.methods
+        .dateAdded(this.account)
+        .call()
+        .then(_ => _.toNumber())
+        .then(_ => new Date(_ * 1000))
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('lastVerified failed', message, exception)
       throw exception
     }
   }

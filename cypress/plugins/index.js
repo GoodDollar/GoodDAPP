@@ -17,10 +17,24 @@
 // }
 
 const clipboardy = require('clipboardy')
-module.exports = on => {
+const path = require('path')
+const fakeCameraPath = path.join(__dirname, '/../fixtures/face.mjpeg')
+
+module.exports = (on, config) => {
   on('task', {
     getClipboard() {
       return clipboardy.readSync()
     },
   })
+
+  on('before:browser:launch', (browser = {}, options) => {
+    if (browser.name === 'chrome') {
+      options.args.push('--use-fake-ui-for-media-stream')
+      options.args.push('--use-fake-device-for-media-stream')
+      options.args.push('--use-file-for-fake-video-capture=' + fakeCameraPath)
+    }
+    return options
+  })
+
+  require('cypress-terminal-report').installPlugin(on)
 }

@@ -1,5 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import { KeyboardAvoidingView } from 'react-native'
+import { isIOS } from '../../lib/utils/platform'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -112,43 +114,45 @@ class SmsForm extends React.Component<Props, State> {
     const { styles } = this.props
 
     return (
-      <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
-        <Section grow justifyContent="flex-start">
-          <Section.Stack justifyContent="flex-start" style={styles.container}>
-            <Section.Row justifyContent="center">
-              <Section.Title color="darkGray" fontSize={22} fontWeight="medium" textTransform="none">
-                {'Enter the verification code\nsent to your phone'}
-              </Section.Title>
-            </Section.Row>
-            <Section.Stack justifyContent="center" style={styles.bottomContent}>
-              <OtpInput
-                shouldAutoFocus
-                numInputs={NumInputs}
-                onChange={this.handleChange}
-                hasErrored={errorMessage !== ''}
-                errorStyle={styles.errorStyle}
-                value={otp}
-                placeholder="*"
-                isInputNum={true}
-                aside={[3]}
-              />
-              <ErrorText error={errorMessage} />
+      <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
+        <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
+          <Section grow justifyContent="flex-start">
+            <Section.Stack justifyContent="flex-start" style={styles.container}>
+              <Section.Row justifyContent="center">
+                <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+                  {'Enter the verification code\nsent to your phone'}
+                </Section.Title>
+              </Section.Row>
+              <Section.Stack justifyContent="center" style={styles.bottomContent}>
+                <OtpInput
+                  shouldAutoFocus
+                  numInputs={NumInputs}
+                  onChange={this.handleChange}
+                  hasErrored={errorMessage !== ''}
+                  errorStyle={styles.errorStyle}
+                  value={otp}
+                  placeholder="*"
+                  isInputNum={true}
+                  aside={[3]}
+                />
+                <ErrorText error={errorMessage} />
+              </Section.Stack>
             </Section.Stack>
-          </Section.Stack>
-          <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <SMSAction
-              sendingCode={sendingCode}
-              resentCode={resentCode}
-              renderButton={renderButton}
-              handleRetry={this.handleRetry}
-              onFinish={() => {
-                //reset smsaction state
-                this.setState({ resentCode: false })
-              }}
-            />
-          </Section.Row>
-        </Section>
-      </CustomWrapper>
+            <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+              <SMSAction
+                sendingCode={sendingCode}
+                resentCode={resentCode}
+                renderButton={renderButton}
+                handleRetry={this.handleRetry}
+                onFinish={() => {
+                  //reset smsaction state
+                  this.setState({ resentCode: false })
+                }}
+              />
+            </Section.Row>
+          </Section>
+        </CustomWrapper>
+      </KeyboardAvoidingView>
     )
   }
 }
@@ -195,6 +199,23 @@ const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  keyboardAvoidWrapper: {
+    width: '100%',
+  },
+  informativeParagraph: {
+    margin: '1em',
+  },
+  buttonWrapper: {
+    alignContent: 'stretch',
+    flexDirection: 'column',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  button: {
+    justifyContent: 'center',
+    width: '100%',
+    height: 60,
+  },
   row: {
     marginVertical: theme.sizes.defaultDouble,
   },

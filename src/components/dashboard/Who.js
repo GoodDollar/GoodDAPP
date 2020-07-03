@@ -1,11 +1,13 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { ScrollView } from 'react-native'
+import { KeyboardAvoidingView, ScrollView } from 'react-native'
 import { ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
+import { withStyles } from '../../lib/styles'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
-import { isMobileNative } from '../../lib/utils/platform'
+import { isMobileNative, isIOS } from '../../lib/utils/platform'
 import { ACTION_RECEIVE, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 import WhoContent from './WhoContent'
 
@@ -25,6 +27,7 @@ const getError = value => {
 const Who = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
+  const { push } = screenProps
   const { params } = props.navigation.state
   const isReceive = params && params.action === ACTION_RECEIVE
   const { counterPartyDisplayName } = screenState
@@ -38,16 +41,15 @@ const Who = (props: AmountProps) => {
     setScreenState({ counterPartyDisplayName: (contact && contact.fullName) || state.value })
   }, [contact, state.value])
 
-  const handlePressQR = useCallback(() => screenProps.push('SendByQR'), [screenProps])
+  const handlePressQR = useCallback(() => push('SendByQR'), [push])
 
   const handlePressSendToAddress = useCallback(
     () =>
-      screenProps &&
-      screenProps.push('SendToAddress', {
+      push('SendToAddress', {
         nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
         params: { action: ACTION_SEND_TO_ADDRESS },
       }),
-    [screenProps]
+    [push]
   )
 
   const next = useCallback(() => {
@@ -70,48 +72,51 @@ const Who = (props: AmountProps) => {
   }, [contact])
 
   const Scroll = isMobileNative ? ScrollView : React.Fragment
+  const canContinue = useCallback(() => state.isValid, [state])
 
   return (
-    <Wrapper>
-      <TopBar push={screenProps.push} hideProfile={!isReceive}>
-        {!isReceive && <ScanQRButton onPress={handlePressQR} />}
-        {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />}
-      </TopBar>
-      <Scroll>
-        <Section grow>
-          <WhoContent
-            setName={setValue}
-            error={state.error}
-            state={state}
-            text={text}
-            value={state.value}
-            next={next}
-            showNext={setShowNext}
-            setContact={setContact}
-            setValue={setValue}
-          />
-          {showNext && (
-            <Section.Row grow alignItems="flex-end">
-              <Section.Row grow={1} justifyContent="flex-start">
-                <BackButton mode="text" screenProps={screenProps}>
-                  Cancel
-                </BackButton>
+    <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
+      <Wrapper>
+        <TopBar push={screenProps.push} hideProfile={!isReceive}>
+          {!isReceive && <ScanQRButton onPress={handlePressQR} />}
+          {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />}
+        </TopBar>
+        <Scroll>
+          <Section grow>
+            <WhoContent
+              setName={setValue}
+              error={state.error}
+              state={state}
+              text={text}
+              value={state.value}
+              next={next}
+              showNext={setShowNext}
+              setContact={setContact}
+              setValue={setValue}
+            />
+            {showNext && (
+              <Section.Row grow alignItems="flex-end">
+                <Section.Row grow={1} justifyContent="flex-start">
+                  <BackButton mode="text" screenProps={screenProps}>
+                    Cancel
+                  </BackButton>
+                </Section.Row>
+                <Section.Stack grow={3}>
+                  <NextButton
+                    {...props}
+                    nextRoutes={screenState.nextRoutes}
+                    values={{ params, counterPartyDisplayName: state.value }}
+                    canContinue={canContinue}
+                    label={state.value || !isReceive ? 'Next' : 'Skip'}
+                    disabled={!state.isValid}
+                  />
+                </Section.Stack>
               </Section.Row>
-              <Section.Stack grow={3}>
-                <NextButton
-                  {...props}
-                  nextRoutes={screenState.nextRoutes}
-                  values={{ params, counterPartyDisplayName: state.value }}
-                  canContinue={() => state.isValid}
-                  label={state.value || !isReceive ? 'Next' : 'Skip'}
-                  disabled={!state.isValid}
-                />
-              </Section.Stack>
-            </Section.Row>
-          )}
-        </Section>
-      </Scroll>
-    </Wrapper>
+            )}
+          </Section>
+        </Scroll>
+      </Wrapper>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -122,4 +127,18 @@ Who.shouldNavigateToComponent = props => {
   return screenState.nextRoutes
 }
 
-export default Who
+export default withStyles(({ theme }) => ({
+  keyboardAvoidWrapper: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexGrow: 1,
+  },
+  input: {
+    marginTop: 'auto',
+  },
+  container: {
+    minHeight: getDesignRelativeHeight(180),
+    height: getDesignRelativeHeight(180),
+  },
+}))(Who)

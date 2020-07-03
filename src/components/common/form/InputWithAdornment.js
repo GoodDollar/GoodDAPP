@@ -18,6 +18,7 @@ const InputText = ({
   adornmentSize = 16,
   adornmentStyle,
   adornmentColor,
+  adornmentDisabled = false,
   error,
   styles,
   theme,
@@ -81,7 +82,11 @@ const InputText = ({
           onBlur={onBlurHandler}
         />
         {showAdornment && error !== '' && (
-          <TouchableOpacity style={[styles.adornment, adornmentStyle]} onPress={adornmentAction}>
+          <TouchableOpacity
+            style={[styles.adornment, adornmentStyle]}
+            disabled={adornmentDisabled}
+            onPress={adornmentAction}
+          >
             <Icon size={normalize(adornmentSize)} color={adornmentColor || inputColor} name={adornment} />
           </TouchableOpacity>
         )}

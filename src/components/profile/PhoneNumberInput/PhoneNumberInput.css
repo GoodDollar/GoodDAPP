@@ -8,6 +8,10 @@
   flex-grow: 1;
 }
 
+.edit_profile_phone_input .react-phone-number-input--invalid {
+  border-color: #fa6c77;
+}
+
 .edit_profile_phone_input .react-phone-number-input__input {
   height: 36px;
   background: transparent;

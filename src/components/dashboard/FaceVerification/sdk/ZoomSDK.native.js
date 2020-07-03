@@ -1,77 +1,91 @@
 // @flow
-
-import { NativeModules } from 'react-native'
+import { noop, over } from 'lodash'
+import Zoom, { ZoomUxEvent } from 'react-native-zoom' // eslint-disable-line
 
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 
-const log = logger.child({ from: 'ZoomSDK' })
-
-// added = {} safe stub as we don't have native module yet
-const { ZoomAuthentication = {} } = NativeModules
-
-// eslint-disable-next-line no-unused-vars
-const { preload, initialize, faceVerification, unload } = ZoomAuthentication
-
-export const { ZoomSDKStatus, ZoomSessionStatus } = ZoomAuthentication
+export { ZoomSDKStatus, ZoomSessionStatus } from 'react-native-zoom'
 
 // sdk class
 export const ZoomSDK = new class {
+  constructor(sdk, logger) {
+    this.sdk = sdk
+    this.logger = logger
+  }
+
   // eslint-disable-next-line require-await
   async preload() {
+    const { sdk, logger } = this
+
     try {
-      // preload call commented as we don't have native module yet
-      // so, for app init could pass we're skipping non-existed function call
-      // await preload()
+      await sdk.preload()
     } catch (exception) {
-      this._convertCodeAndRethrow(exception, 'Zoom preloading')
+      const { message } = exception
+
+      logger.warn(`Zoom preloading failed`, message, exception)
+      throw exception
     }
   }
 
   async initialize(licenseKey, preload) {
+    const { sdk, logger } = this
+
     try {
-      await initialize(licenseKey, preload, Config.serverUrl, Config.zoomServerUrl)
+      const isInitialized = await sdk.initialize(licenseKey, preload, Config.serverUrl, Config.zoomServerUrl)
+
+      return isInitialized
     } catch (exception) {
-      this._convertCodeAndRethrow(exception, 'Zoom initialization')
+      const { message } = exception
+
+      logger.warn(`Zoom initialization failed`, message, exception)
+      throw exception
     }
   }
 
-  async faceVerification(enrollmentIdentifier) {
+  async faceVerification(enrollmentIdentifier, onUIReady = noop, onCaptureDone = noop, onRetry = noop) {
+    const { sdk, logger } = this
+    const { UI_READY, CAPTURE_DONE, FV_RETRY } = ZoomUxEvent
+
+    // addListener calls returns unsubscibe functions we're storing in this array
+    const subscriptions = [
+      // subscribing to the native events
+      sdk.addListener(UI_READY, onUIReady),
+      sdk.addListener(CAPTURE_DONE, onCaptureDone),
+      sdk.addListener(FV_RETRY, onRetry),
+    ]
+
     try {
       // we're passing current JWT to the native code allowing it to call GoodServer for verification
       // unfortunately we couldn't pass callback which could return some data back to the native code
       // so it's only way to integrate Zoom on native - to reimplement all logic about calling server
-      const verificationStatus = await faceVerification(enrollmentIdentifier, api.jwt)
+      const verificationStatus = await sdk.enroll(enrollmentIdentifier, api.jwt)
 
       return verificationStatus
     } catch (exception) {
-      this._convertCodeAndRethrow(exception, 'Face verification')
+      const { message } = exception
+
+      logger.warn(`Face verification failed`, message, exception)
+      throw exception
+    } finally {
+      // don't forgetting to unsubscribe
+      // just going over unsubscribe functions stored in subscriptions array and calling them
+      over(subscriptions)()
     }
   }
 
   // eslint-disable-next-line require-await
   async unload() {
+    const { sdk, logger } = this
+
     try {
-      // preload call commented as we don't have native module yet
-      // so, for app init could pass we skippinh non-existed function call
-      // await preload()
+      await sdk.unload()
     } catch (exception) {
-      this._convertCodeAndRethrow(exception, 'Zoom unloading')
+      const { message } = exception
+
+      logger.warn(`Zoom unloading failed`, message, exception)
+      throw exception
     }
   }
-
-  // RCTBridge doesn't returns/rejects with JS Error object
-  // it returns just object literal with the Error-like shape
-  // also, codes are returning as strings (but actually Zoom statuses are numbers)
-  // so we have to use this method to convert codes to numbers
-  // and convert error-like shape to the JS Error object
-  _convertCodeAndRethrow({ code, message }, logPrefix) {
-    const exception = new Error(message)
-
-    exception.code = Number(code)
-    log.warn(`${logPrefix} failed`, { exception })
-
-    throw exception
-  }
-}()
+}(Zoom.sdk, logger.child({ from: 'ZoomSDK' })) // eslint-disable-line

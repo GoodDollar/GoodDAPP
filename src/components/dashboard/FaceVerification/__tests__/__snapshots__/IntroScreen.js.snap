@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FaceVerificationIntro matches snapshot 1`] = `
+exports[`FaceVerification IntroScreen matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -110,7 +110,7 @@ exports[`FaceVerificationIntro matches snapshot 1`] = `
               "fontSize": "24px",
               "fontWeight": "500",
               "lineHeight": "30px",
-              "marginBottom": "28px",
+              "marginTop": "30px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -118,11 +118,29 @@ exports[`FaceVerificationIntro matches snapshot 1`] = `
           }
         >
           ,
-Let's make sure you are a real live person
+Only a real live person
+can claim G$’s
         </div>
         <div
           className="css-view-1dbjc4n"
-        />
+          style={
+            Object {
+              "height": "220px",
+              "marginBottom": "18px",
+              "marginTop": "18px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "height": "100%",
+              }
+            }
+          />
+        </div>
         <div
           className="css-view-1dbjc4n"
         >
@@ -168,16 +186,16 @@ Let's make sure you are a real live person
                   "color": "rgba(0,175,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "700",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
             >
-              Since this is your first G$ Claim
+              Once in a while
 
             </span>
             <span
@@ -188,16 +206,16 @@ Let's make sure you are a real live person
                   "color": "rgba(0,175,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
             >
-              we will take a short video of you
+              we'll need to take a short video of you
 
             </span>
             <span
@@ -208,9 +226,9 @@ Let's make sure you are a real live person
                   "color": "rgba(0,175,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -233,9 +251,9 @@ Let's make sure you are a real live person
                   "direction": "ltr",
                   "display": "block",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "700",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "paddingTop": "32px",
                   "textAlign": "center",
                   "textDecoration": "underline",
@@ -257,7 +275,7 @@ Let's make sure you are a real live person
                 "borderTopLeftRadius": "1px",
                 "borderTopRightRadius": "1px",
                 "height": "2px",
-                "marginBottom": "28px",
+                "marginBottom": "25px",
               }
             }
           />
@@ -271,7 +289,7 @@ Let's make sure you are a real live person
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
               "alignItems": "stretch",
-              "backgroundColor": "rgba(0,175,255,1.00)",
+              "backgroundColor": "rgba(0,0,0,0.12)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
@@ -288,7 +306,6 @@ Let's make sure you are a real live person
               "borderTopRightRadius": "50px",
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
-              "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
               "display": "flex",
               "justifyContent": "center",
               "marginBottom": "0px",
@@ -308,15 +325,13 @@ Let's make sure you are a real live person
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            data-focusable={true}
-            disabled={false}
+            aria-disabled={true}
+            className="css-view-1dbjc4n"
+            disabled={true}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
-            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -327,15 +342,11 @@ Let's make sure you are a real live person
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
-                "touchAction": "manipulation",
               }
             }
-            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -362,7 +373,7 @@ Let's make sure you are a real live person
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
+                    "color": "rgba(0,0,0,0.32)",
                     "direction": "ltr",
                     "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
@@ -428,7 +439,7 @@ Let's make sure you are a real live person
                       }
                     }
                   >
-                    OK, Verify me
+                    OK, VERIFY ME
                   </span>
                 </div>
               </div>

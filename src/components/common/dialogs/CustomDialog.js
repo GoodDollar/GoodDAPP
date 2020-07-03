@@ -59,6 +59,7 @@ const CustomDialog = ({
   buttons,
   showAtBottom,
   buttonsContainerStyle,
+  fullHeight = false,
   isMinHeight = true,
 }: DialogProps) => {
   const defaultImage = type === 'error' ? <ErrorAnimation /> : <SuccessIcon />
@@ -75,6 +76,7 @@ const CustomDialog = ({
         showTooltipArrow={showTooltipArrow}
         itemType={'custom'}
         isMinHeight={isMinHeight}
+        fullHeight={fullHeight}
       >
         <React.Fragment>
           {!!title && (
@@ -127,6 +129,7 @@ const getColorFromType = (type: string) => {
     {
       success: theme.colors.primary,
       error: theme.colors.red,
+      queue: theme.colors.orange,
     }[type] || theme.colors.primary
   )
 }

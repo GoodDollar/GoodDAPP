@@ -1,12 +1,19 @@
+// libraries
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { HelperText, TextInput } from 'react-native-paper'
 
+// components
 import Icon from '../view/Icon'
 
-import logger from '../../../lib/logger/pino-logger'
-
+// hooks
 import { useClipboardPaste } from '../../../lib/hooks/useClipboard'
+import useOnPress from '../../../lib/hooks/useOnPress'
+import usePermissions from '../../permissions/hooks/usePermissions'
+
+// utils
+import logger from '../../../lib/logger/pino-logger'
+import { Permissions } from '../../permissions/types'
 
 const log = logger.child({ from: 'InputRecipient' })
 
@@ -19,13 +26,22 @@ const log = logger.child({ from: 'InputRecipient' })
  * @returns {React.Node}
  */
 const InputRecipient = props => {
-  const { onBlur, onChangeText, to, error } = props
+  const { onBlur, onChangeText, to, error, navigate } = props
   const pasteToWho = useClipboardPaste(onChangeText, log)
+
+  // check clipboard permission an show dialog is not allowed
+  const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
+    requestOnMounted: false,
+    onAllowed: pasteToWho,
+    navigate,
+  })
+
+  const handlePastePress = useOnPress(requestClipboardPermissions, [])
 
   return (
     <View style={styles.iconInputContainer}>
       <View style={styles.pasteIcon}>
-        <Icon size={24} color="#282c34" name="paste" onPress={pasteToWho} />
+        <Icon size={24} color="#282c34" name="paste" onPress={handlePastePress} />
       </View>
       <TextInput
         onChangeText={onChangeText}

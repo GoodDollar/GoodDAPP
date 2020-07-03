@@ -14,7 +14,7 @@ import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
-import { isBrowser } from '../../../../lib/utils/platform'
+import { isBrowser, isE2ERunning } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import Config from '../../../../config/config'
@@ -59,15 +59,27 @@ const IntroScreen = ({ styles, screenProps }) => {
     }
   })
 
+  const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
+  const openFaceVerification = () => screenProps.navigateTo('FaceVerification')
+
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
+    onAllowed: openFaceVerification,
     onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
-    onAllowed: () => screenProps.navigateTo('FaceVerification'),
     onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
   })
 
-  const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
-  const handleVerifyClick = useOnPress(requestCameraPermissions, [])
+
+  const handleVerifyClick = useOnPress(() => {
+    // if cypress is running - just redirect to FR as we're skipping
+    // zoom componet (which requires camera access) in this case
+    if (isE2ERunning) {
+      openFaceVerification()
+      return
+    }
+
+    requestCameraPermissions()
+  }, [requestCameraPermissions])
 
   useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
 

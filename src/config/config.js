@@ -37,7 +37,6 @@ const Config = {
   auth0SMSClientId: process.env.REACT_APP_AUTH0_SMS_CLIENT_ID,
   auth0Domain: process.env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
-  showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   zoomServerURL: process.env.REACT_APP_ZOOM_SERVER_BASEURL || 'https://api.zoomauth.com/api/v2/biometrics',

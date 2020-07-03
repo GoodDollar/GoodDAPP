@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -32,7 +32,7 @@ const log = logger.child({ from: 'SendQRSummary' })
 const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
-  const [showDialog, showErrorDialog] = useDialog()
+  const [showDialog, , showErrorDialog] = useDialog()
   const [survey, setSurvey] = useState('other')
   const [showSurvey, setShowSurvey] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -48,7 +48,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
     try {
       sendGD()
     } catch (e) {
-      log.error('Send TX failed:', e.message, e)
+      log.error('Send TX failed:', e.message, e, { dialogShown: true })
       showErrorDialog({
         visible: true,
         title: 'Transaction Failed!',
@@ -68,63 +68,56 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   }, [to])
 
   const sendGD = () => {
-    try {
-      setLoading(true)
-      let txhash
-      goodWallet.sendAmount(to, amount, {
-        onTransactionHash: hash => {
-          log.debug({ hash })
-          txhash = hash
+    setLoading(true)
 
-          // Save transaction
-          const transactionEvent: TransactionEvent = {
-            id: hash,
-            date: new Date().toString(),
-            type: 'send',
-            data: {
-              to,
-              reason,
-              amount,
-            },
-          }
-          userStorage.enqueueTX(transactionEvent)
-          if (Config.isEToro) {
-            userStorage.saveSurveyDetails(hash, {
-              reason,
-              amount,
-              survey,
-            })
-          }
+    let txhash
 
-          fireEvent('SEND_DONE', { type: screenState.params.type })
-          showDialog({
-            visible: true,
-            title: 'SUCCESS!',
-            message: 'The G$ was sent successfully',
-            buttons: [{ text: 'Yay!' }],
-            onDismiss: screenProps.goToRoot,
+    goodWallet.sendAmount(to, amount, {
+      onTransactionHash: hash => {
+        log.debug({ hash })
+        txhash = hash
+
+        // Save transaction
+        const transactionEvent: TransactionEvent = {
+          id: hash,
+          date: new Date().toString(),
+          type: 'send',
+          data: {
+            to,
+            reason,
+            amount,
+          },
+        }
+
+        userStorage.enqueueTX(transactionEvent)
+        if (Config.isEToro) {
+          userStorage.saveSurveyDetails(hash, {
+            reason,
+            amount,
+            survey,
           })
+        }
 
-          setLoading(false)
+        fireEvent('SEND_DONE', { type: screenState.params.type })
+        showDialog({
+          visible: true,
+          title: 'SUCCESS!',
+          message: 'The G$ was sent successfully',
+          buttons: [{ text: 'Yay!' }],
+          onDismiss: screenProps.goToRoot,
+        })
 
-          return hash
-        },
-        onError: e => {
-          log.error('Send TX failed:', e.message, e)
+        setLoading(false)
 
-          setLoading(false)
-          userStorage.markWithErrorEvent(txhash)
-        },
-      })
-    } catch (e) {
-      log.error('Send TX failed:', e.message, e)
-      showErrorDialog({
-        visible: true,
-        title: 'Transaction Failed!',
-        message: `There was a problem sending G$. Try again`,
-        dismissText: 'OK',
-      })
-    }
+        return hash
+      },
+      onError: e => {
+        log.error('Send TX failed:', e.message, e, { category: ExceptionCategory.Blockhain })
+
+        setLoading(false)
+        userStorage.markWithErrorEvent(txhash)
+      },
+    })
   }
 
   // continue after valid FR to send G$

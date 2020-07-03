@@ -88,7 +88,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleSignUp = useCallback(
     async (provider: 'facebook' | 'google' | 'google-old' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
       store.set('loadingIndicator')({ loading: true })
-      const redirectTo = 'Name'
       let torusUser
       let replacing = false
 
@@ -96,9 +95,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         if (['development', 'test'].includes(config.env)) {
           torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
         }
+
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
+
         identifyOnUserSignup(torusUser.email)
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
 
@@ -112,11 +113,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('torus login success', { torusUser })
       } catch (e) {
         store.set('loadingIndicator')({ loading: false })
+
         if (e.message === 'user closed popup') {
           log.info(e.message, e)
         } else {
-          log.error('torus login failed', e.message, e)
+          log.error('torus login failed', e.message, e, { dialogShown: true })
         }
+
         showErrorDialog('We were unable to complete the login. Please try again.')
         return
       }
@@ -136,7 +139,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         //user doesnt exists start signup
         fireEvent(SIGNUP_STARTED, { source, provider })
-        navigate(redirectTo, {
+        navigate('Signup', {
           regMethod: REGISTRATION_METHOD_TORUS,
           torusUser,
           torusProvider: provider,

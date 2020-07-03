@@ -9,3 +9,10 @@ logger.debug = logger.info
 global.logger = logger
 
 export default logger
+
+export const ExceptionCategory = {
+  Human: 'human',
+  Blockhain: 'blockchain',
+  Network: 'network',
+  Unexpected: 'unexpected',
+}

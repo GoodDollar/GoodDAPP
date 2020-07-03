@@ -15,6 +15,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
 
 Image.prefetch(illustration)
+
 const log = logger.child({ from: 'MagicLinkInfo' })
 
 const MagicLinkInfoComponent = props => {
@@ -33,7 +34,7 @@ const MagicLinkInfoComponent = props => {
         })
       })
       .catch(e => {
-        log.error('failed Resending magiclink', e.message, e)
+        log.error('failed Resending magiclink', e.message, e, { dialogShown: true })
         showErrorDialog('Could not send magiclink email. Please try again.')
       })
   }

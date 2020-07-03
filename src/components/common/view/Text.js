@@ -97,6 +97,7 @@ const getStylesFromProps = ({
   lineHeight,
   textDecorationLine,
   textTransform,
+  letterSpacing,
 }) => {
   const calculatedFontSize = Number.isFinite(fontSize) ? fontSize : 16
   const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
@@ -112,6 +113,7 @@ const getStylesFromProps = ({
       lineHeight: normalize(calculatedLineHeight),
       textTransform: textTransform || 'none',
       textDecorationLine: textDecorationLine || 'none',
+      letterSpacing,
     },
   }
 }

@@ -6,8 +6,28 @@ import renderer from 'react-test-renderer'
 // utils
 import { getWebRouterComponentWithMocks } from './__util__'
 
+
+
 describe('ReceiveToAddress', () => {
-  const ExportWalletData = getWebRouterComponentWithMocks('../ExportWalletData')
+  let ExportWalletData
+  
+  beforeAll(() => { 
+    jest.doMock('../../../lib/wallet/GoodWallet', () => {
+      return {
+        wallet: {
+          eth: {
+            accounts: {
+              wallet: [{ privateKey: 'fake-wallet-private-key' }],
+            },
+          },
+        },
+      }
+    })
+    
+    ExportWalletData = getWebRouterComponentWithMocks('../ExportWalletData') 
+  })
+
+  afterAll(() => jest.dontMock('../../../lib/wallet/GoodWallet'))
 
   it('renders without errors', () => {
     const tree = renderer.create(<ExportWalletData />)

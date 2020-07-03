@@ -17,7 +17,6 @@ import useDisposingState from '../hooks/useDisposingState'
 // utils
 import UserStorage from '../../../../lib/gundb/UserStorage'
 import GDStore from '../../../../lib/undux/GDStore'
-import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
@@ -27,8 +26,6 @@ import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
-
-const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.paddingVertical20}>
@@ -80,8 +77,6 @@ const IntroScreen = ({ styles, screenProps }) => {
     fontSize: 18,
     lineHeight: 25,
   }
-
-  useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
 
   useEffect(() => {
     if (isValid) {

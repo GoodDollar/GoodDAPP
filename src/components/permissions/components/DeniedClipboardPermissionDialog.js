@@ -3,36 +3,23 @@ import React from 'react'
 import { Image, Platform } from 'react-native'
 
 // components
-import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+import illustration from '../../../assets/ClipboardPermissionError.svg'
+import DeniedPermissionDialog from './DeniedPermissionDialog'
 
 // assets
-import illustration from '../../../assets/ClipboardPermissionError.svg'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const DeniedClipboardPermissionDialog = ({ onDismiss, navigate }) => (
-  <ExplanationDialog
+export default props => (
+  <DeniedPermissionDialog
     title="Go to your device settings & enable clipboard permission"
     imageSource={illustration}
     imageHeight={119}
-    buttons={[
-      {
-        text: 'How to do that?',
-        action: () => {
-          onDismiss()
-          navigate('Support')
-        },
-        mode: 'text',
-      },
-    ]}
+    {...props}
   />
 )
-
-DeniedClipboardPermissionDialog.hideDissmissButton = true
-
-export default DeniedClipboardPermissionDialog
 
 /*
  - Usage example

@@ -1,7 +1,7 @@
 // libraries
 import React from 'react'
 import { Image, View } from 'react-native'
-import { noop } from 'lodash'
+import { isEmpty, noop } from 'lodash'
 
 // components
 import Text from '../view/Text'
@@ -11,25 +11,28 @@ import CustomButton from '../buttons/CustomButton'
 import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
-import { store } from '../../../lib/undux/SimpleStore'
+import SimpleStore from '../../../lib/undux/SimpleStore'
+import { hideDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { theme } from '../../theme/styles'
 
-const ButtonComponent = ({ button, styles }) => {
-  const { text = 'OK', action = noop, mode } = button
+const ExplanationButton = ({ text = 'OK', action = noop, mode, styles }) => {
+  const { buttonText, textModeButtonText, textModeButton } = styles
+  const store = SimpleStore.useStore()
+  const isTextMode = mode === 'text'
 
   const handleActionPress = useOnPress(() => {
     action()
-    store.set('currentScreen')({ dialogData: { visible: false } })
-  }, [action])
+    hideDialog(store)
+  }, [action, store])
 
   return (
     <CustomButton
       onPress={handleActionPress}
       mode={mode}
-      textStyle={[styles.buttonTextStyle, mode === 'text' && styles.textOfButton_textMode]}
-      style={mode === 'text' && styles.button_textMode}
+      textStyle={[buttonText, isTextMode && textModeButtonText]}
+      style={isTextMode && textModeButton}
     >
       {text}
     </CustomButton>
@@ -72,10 +75,10 @@ const ExplanationDialog = ({
         {title}
       </Text>
       {text && <Text fontSize={24}>{text}</Text>}
-      {buttons && buttons.length && (
+      {!isEmpty(buttons) && (
         <View style={styles.buttonsContainer}>
-          {buttons.map(button => (
-            <ButtonComponent key={button.text} button={button} styles={styles} />
+          {buttons.map(buttonProps => (
+            <ExplanationButton key={buttonProps.text} styles={styles} {...buttonProps} />
           ))}
         </View>
       )}
@@ -115,14 +118,14 @@ const mapStylesToProps = () => ({
     paddingRight: 0,
     paddingTop: theme.sizes.defaultDouble,
   },
-  buttonTextStyle: {
+  buttonText: {
     paddingLeft: 5,
     paddingRight: 5,
   },
-  textOfButton_textMode: {
+  textModeButtonText: {
     textDecorationLine: 'underline',
   },
-  button_textMode: {
+  textModeButton: {
     marginRight: 'auto',
     marginLeft: 'auto',
   },

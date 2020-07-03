@@ -19,7 +19,7 @@ export default (props = {}) => {
   const store = SimpleStore.useStore()
   const [showDialog] = useErrorDialog()
   const isLoggedIn = store.get('isLoggedIn')
-  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog, store, theme })
+  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog: showDialog, store, theme })
 
   const [isSelfCustody, setIsSelfCustody] = useState(false)
   const slideToggle = useCallback(() => toggleSidemenu(store), [store])

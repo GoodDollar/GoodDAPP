@@ -58,7 +58,6 @@ export default ({
         })
       } finally {
         // call onComplete callback with success state
-        // couldn't reuse constant from UICustomization as it's web only
         onComplete(zoomResultSuccessMessage)
       }
 

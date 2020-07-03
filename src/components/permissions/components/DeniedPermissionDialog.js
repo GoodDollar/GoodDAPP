@@ -4,7 +4,7 @@ import React from 'react'
 // components
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
-export default ({ onDismiss, navigate, dialogProps }) => (
+export default ({ onDismiss, navigate, ...dialogProps }) => (
   <ExplanationDialog
     {...dialogProps}
     buttons={[

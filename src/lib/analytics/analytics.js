@@ -365,9 +365,9 @@ const patchLogger = () => {
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
   logger.error = (...args) => {
-    const { Unexpected, Network } = category
+    const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
-    let { dialogShown, category = ExceptionCategory.Unexpected } = extra
+    let { dialogShown, category = Unexpected } = extra
     let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category
 
@@ -433,7 +433,7 @@ const patchLogger = () => {
       {
         dialogShown,
         category: categoryToPassIntoLog,
-        level: categoryToPassIntoLog === ExceptionCategory.Human ? 'info' : undefined,
+        level: categoryToPassIntoLog === Human ? 'info' : undefined,
       }
     )
 

@@ -1,20 +1,27 @@
 // @flow
+
+// libraries
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
-import logger from '../../lib/logger/pino-logger'
-import { extractQueryParams, readCode } from '../../lib/share'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { wrapFunction } from '../../lib/undux/utils/wrapper'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import usePermissions from '../permissions/hooks/usePermissions'
-import { Permissions } from '../permissions/types'
+// components
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
+
+// hooks
+import usePermissions from '../permissions/hooks/usePermissions'
+import SimpleStore from '../../lib/undux/SimpleStore'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
+
+// utils
+import logger from '../../lib/logger/pino-logger'
+import { extractQueryParams, readCode } from '../../lib/share'
+import { wrapFunction } from '../../lib/undux/utils/wrapper'
+import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
-import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
+import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const QR_DEFAULT_DELAY = 300
 
@@ -28,7 +35,7 @@ const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
-  const { pop, push } = screenProps
+  const { pop, push, navigateTo } = screenProps
 
   const handlePermissionDenied = useCallback(() => pop(), [pop])
 
@@ -36,6 +43,7 @@ const SendByQR = ({ screenProps }: Props) => {
   const hasCameraAccess = usePermissions(Permissions.Camera, {
     promptPopup: QRCameraPermissionDialog,
     onDenied: handlePermissionDenied,
+    navigate: navigateTo,
   })
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
@@ -73,8 +81,8 @@ const SendByQR = ({ screenProps }: Props) => {
         return
       }
 
-      log.error('QR scan send failed', message, exception, { dialogShown: true })
       showErrorDialog(errorMessage, '', dialogOptions)
+      log.error('QR scan send failed', message, exception)
     },
     [showErrorDialog]
   )

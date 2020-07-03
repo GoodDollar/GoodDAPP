@@ -18,27 +18,14 @@ const log = logger.child({ from: 'TorusSDK' })
 class TorusSDK {
   strategies = {}
 
-  static factory() {
-    const sdk = new TorusSDK(Config, log)
-
-    sdk.addStrategy('facebook', FacebookStrategy)
-    sdk.addStrategy('google-old', GoogleLegacyStrategy)
-    sdk.addStrategy('google', GoogleStrategy)
-    sdk.addStrategy('auth0', Auth0Strategy)
-    sdk.addStrategy('auth0-pwdless-email', PaswordlessEmailStrategy)
-    sdk.addStrategy('auth0-pwdless-sms', PaswordlessSMSStrategy)
-
-    return sdk
-  }
-
   constructor(config, logger) {
-    const { env, publicUrl, googleClientId, facebookAppId, torusProxyContract, torusNetwork } = config
+    const { env, publicUrl, googleClientId, facebookAppId } = config
 
     this.torus = new DirectWebSDK({
       GOOGLE_CLIENT_ID: googleClientId,
       FACEBOOK_CLIENT_ID: facebookAppId,
-      proxyContractAddress: torusProxyContract, // details for test net
-      network: torusNetwork, // details for test net
+      proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
+      network: 'ropsten', // details for test net
       baseUrl: `${publicUrl}/torus/`,
       enableLogging: env === 'development',
     })
@@ -107,4 +94,13 @@ class TorusSDK {
   }
 }
 
-export default TorusSDK.factory()
+const sdk = new TorusSDK(Config, log)
+
+sdk.addStrategy('facebook', FacebookStrategy)
+sdk.addStrategy('google-old', GoogleLegacyStrategy)
+sdk.addStrategy('google', GoogleStrategy)
+sdk.addStrategy('auth0', Auth0Strategy)
+sdk.addStrategy('auth0-pwdless-email', PaswordlessEmailStrategy)
+sdk.addStrategy('auth0-pwdless-sms', PaswordlessSMSStrategy)
+
+export default sdk

@@ -1,5 +1,4 @@
 // @flow
-//eslint-disable-next-line
 
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'

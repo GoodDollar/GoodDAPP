@@ -9,7 +9,7 @@ import Config from '../../config/config'
 
 export const ExceptionCategory = {
   Human: 'human',
-  Blockhain: 'blockchain',
+  Blockchain: 'blockchain',
   Network: 'network',
   Unexpected: 'unexpected',
 }

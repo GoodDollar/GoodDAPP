@@ -18,7 +18,7 @@ const Config = {
   newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: (forceLogLevel && forceLogLevel[1]) || process.env.REACT_APP_LOG_LEVEL || 'debug',
   secureLog: process.env.REACT_APP_LOG_SECURE === 'true',
-  secureLogKeys: process.env.REACT_APP_LOG_SECURE_KEYS || 'mnemonic,password,pass,privateKey,pkey,mobile,email,seed',
+  secureLogKeys: process.env.REACT_APP_LOG_SECURE_KEYS || 'mnemonic,mnemonics,password,pass,privateKey,pkey,mobile,email,seed',
   secureLogCensor: process.env.REACT_APP_LOG_SECURE_CENSOR || '[Secured]',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',

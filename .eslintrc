@@ -53,6 +53,7 @@
     "react/prop-types": "off",
     "react/display-name": "off",
     "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "off",
     //FIXME: RN
     // "dependencies/no-cycles": "warn",
     "import/named": "warn",

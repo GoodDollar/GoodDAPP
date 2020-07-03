@@ -2,50 +2,70 @@
 
 exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
 <div
-  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
 >
   <div
-    className="css-view-1dbjc4n r-justifyContent-1777fci"
+    className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "stretch",
-        "WebkitBoxAlign": "stretch",
-        "alignItems": "stretch",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxPack": "center",
+        "WebkitJustifyContent": "center",
+        "alignItems": "center",
         "backgroundColor": "rgba(0,175,255,1.00)",
-        "borderBottomColor": "rgba(0,175,255,1.00)",
-        "borderBottomLeftRadius": "50px",
-        "borderBottomRightRadius": "50px",
+        "borderBottomColor": "rgba(255,255,255,1.00)",
+        "borderBottomLeftRadius": "98px",
+        "borderBottomRightRadius": "98px",
         "borderBottomStyle": "solid",
-        "borderBottomWidth": "0px",
-        "borderLeftColor": "rgba(0,175,255,1.00)",
+        "borderBottomWidth": "3px",
+        "borderLeftColor": "rgba(255,255,255,1.00)",
         "borderLeftStyle": "solid",
-        "borderLeftWidth": "0px",
-        "borderRightColor": "rgba(0,175,255,1.00)",
+        "borderLeftWidth": "3px",
+        "borderRightColor": "rgba(255,255,255,1.00)",
         "borderRightStyle": "solid",
-        "borderRightWidth": "0px",
-        "borderTopColor": "rgba(0,175,255,1.00)",
-        "borderTopLeftRadius": "50px",
-        "borderTopRightRadius": "50px",
+        "borderRightWidth": "3px",
+        "borderTopColor": "rgba(255,255,255,1.00)",
+        "borderTopLeftRadius": "98px",
+        "borderTopRightRadius": "98px",
         "borderTopStyle": "solid",
-        "borderTopWidth": "0px",
-        "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+        "borderTopWidth": "3px",
+        "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "display": "flex",
+        "height": "196px",
+        "justifyContent": "center",
         "marginBottom": "0px",
         "marginLeft": "0px",
         "marginRight": "0px",
         "marginTop": "0px",
-        "minHeight": "68px",
+        "minHeight": "44px",
         "minWidth": "auto",
-        "msFlexAlign": "stretch",
+        "msFlexAlign": "center",
+        "msFlexPack": "center",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
         "paddingTop": "0px",
+        "width": "196px",
       }
     }
   >
     <div
-      className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+      className="css-cursor-18t94o4 css-view-1dbjc4n"
       data-focusable={true}
       disabled={false}
       onKeyDown={[Function]}
@@ -64,123 +84,229 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
           "borderBottomRightRadius": "50px",
           "borderTopLeftRadius": "50px",
           "borderTopRightRadius": "50px",
+          "cursor": "pointer",
+          "msTouchAction": "manipulation",
+          "overflowX": "hidden",
+          "overflowY": "hidden",
+          "position": "relative",
+          "touchAction": "manipulation",
         }
       }
       tabIndex="0"
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitBoxPack": "center",
+            "WebkitFlexDirection": "row",
+            "WebkitJustifyContent": "center",
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "msFlexAlign": "center",
+            "msFlexDirection": "row",
+            "msFlexPack": "center",
+          }
+        }
       >
         <div
-          className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
+          className="css-text-901oao css-textOneLine-bfa6kz"
           dir="auto"
           style={
             Object {
               "color": "rgba(255,255,255,1.00)",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontWeight": "500",
+              "direction": "ltr",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "letterSpacing": "1px",
+              "marginBottom": "9px",
+              "marginLeft": "8px",
+              "marginRight": "8px",
+              "marginTop": "9px",
+              "textAlign": "center",
             }
           }
         >
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "500",
-                "lineHeight": "22px",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
-          >
-            CLAIM YOUR SHARE - 
-          </span>
           <div
-            className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz"
+            className="css-view-1dbjc4n"
             style={
               Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxFlex": 1,
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexBasis": "0%",
+                "WebkitFlexDirection": "row",
+                "WebkitFlexGrow": 1,
+                "WebkitFlexShrink": 1,
+                "alignItems": "center",
                 "display": "flex",
-                "marginLeft": "4px",
+                "flexBasis": "0%",
+                "flexDirection": "row",
+                "flexGrow": 1,
+                "flexShrink": 1,
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexNegative": 1,
+                "msFlexPositive": 1,
+                "msFlexPreferredSize": "0%",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
+            <div
+              className="css-view-1dbjc4n"
               style={
                 Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "36px",
-                  "fontWeight": "500",
-                  "lineHeight": "36px",
-                  "marginRight": "2px",
-                  "textAlign": "right",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              1
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "normal",
-                  "lineHeight": "22px",
-                  "textDecoration": "none",
-                  "textTransform": "none",
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "display": "flex",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexPack": "center",
                 }
               }
             >
               <span
                 className="css-text-901oao css-textHasAncestor-16my406"
                 dir="auto"
-                marginVertical="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
+                    "color": "rgba(12,38,61,1.00)",
+                    "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "500",
-                    "lineHeight": "19px",
-                    "textAlign": "right",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
                     "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
               >
-                G
+                Get your 
               </span>
               <span
                 className="css-text-901oao css-textHasAncestor-16my406"
                 dir="auto"
-                marginVertical="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
+                    "color": "rgba(12,38,61,1.00)",
+                    "direction": "ltr",
                     "fontFamily": "Roboto",
-                    "fontSize": "15.5px",
+                    "fontSize": "16px",
                     "fontWeight": "500",
-                    "lineHeight": "19px",
-                    "textAlign": "right",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
                     "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
               >
-                $
+                 free daily share:
               </span>
-            </span>
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitFlexDirection": "row",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                  }
+                }
+              >
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "36px",
+                      "marginRight": "2px",
+                      "textAlign": "right",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                    }
+                  }
+                >
+                  1
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(66,69,74,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontSize": "16px",
+                      "fontWeight": "normal",
+                      "lineHeight": "22px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                    }
+                  }
+                >
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "lineHeight": "20px",
+                        "textAlign": "right",
+                        "textDecoration": "none",
+                        "textTransform": "none",
+                      }
+                    }
+                  >
+                    G
+                  </span>
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "15.5px",
+                        "fontWeight": "500",
+                        "lineHeight": "20px",
+                        "textAlign": "right",
+                        "textDecoration": "none",
+                        "textTransform": "none",
+                      }
+                    }
+                  >
+                    $
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -191,55 +317,76 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
 
 exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
 <div
-  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
 >
   <div
-    className="css-view-1dbjc4n r-justifyContent-1777fci"
+    className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "stretch",
-        "WebkitBoxAlign": "stretch",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "center",
         "WebkitFlexDirection": "column",
-        "alignItems": "stretch",
+        "WebkitJustifyContent": "center",
+        "alignItems": "center",
         "backgroundColor": "rgba(248,175,64,1.00)",
-        "borderBottomColor": "rgba(0,175,255,1.00)",
-        "borderBottomLeftRadius": "50px",
-        "borderBottomRightRadius": "50px",
+        "borderBottomColor": "rgba(255,255,255,1.00)",
+        "borderBottomLeftRadius": "98px",
+        "borderBottomRightRadius": "98px",
         "borderBottomStyle": "solid",
-        "borderBottomWidth": "0px",
-        "borderLeftColor": "rgba(0,175,255,1.00)",
+        "borderBottomWidth": "3px",
+        "borderLeftColor": "rgba(255,255,255,1.00)",
         "borderLeftStyle": "solid",
-        "borderLeftWidth": "0px",
-        "borderRightColor": "rgba(0,175,255,1.00)",
+        "borderLeftWidth": "3px",
+        "borderRightColor": "rgba(255,255,255,1.00)",
         "borderRightStyle": "solid",
-        "borderRightWidth": "0px",
-        "borderTopColor": "rgba(0,175,255,1.00)",
-        "borderTopLeftRadius": "50px",
-        "borderTopRightRadius": "50px",
+        "borderRightWidth": "3px",
+        "borderTopColor": "rgba(255,255,255,1.00)",
+        "borderTopLeftRadius": "98px",
+        "borderTopRightRadius": "98px",
         "borderTopStyle": "solid",
-        "borderTopWidth": "0px",
+        "borderTopWidth": "3px",
+        "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "display": "flex",
         "flexDirection": "column",
+        "height": "196px",
+        "justifyContent": "center",
         "marginBottom": "0px",
         "marginLeft": "0px",
         "marginRight": "0px",
         "marginTop": "0px",
-        "minHeight": "68px",
+        "minHeight": "44px",
         "minWidth": "auto",
-        "msFlexAlign": "stretch",
+        "msFlexAlign": "center",
         "msFlexDirection": "column",
+        "msFlexPack": "center",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
         "paddingTop": "0px",
+        "width": "196px",
       }
     }
   >
     <div
       aria-disabled={true}
-      className="css-view-1dbjc4n r-overflow-1udh08x r-position-bnwqim"
+      className="css-view-1dbjc4n"
       disabled={true}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
@@ -255,217 +402,304 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
           "borderBottomRightRadius": "50px",
           "borderTopLeftRadius": "50px",
           "borderTopRightRadius": "50px",
+          "overflowX": "hidden",
+          "overflowY": "hidden",
+          "position": "relative",
         }
       }
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitBoxPack": "center",
+            "WebkitFlexDirection": "row",
+            "WebkitJustifyContent": "center",
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "msFlexAlign": "center",
+            "msFlexDirection": "row",
+            "msFlexPack": "center",
+          }
+        }
       >
         <div
-          className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
+          className="css-text-901oao css-textOneLine-bfa6kz"
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,0,0,0.32)",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontWeight": "500",
+              "color": "rgba(255,255,255,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "letterSpacing": "1px",
+              "marginBottom": "9px",
+              "marginLeft": "8px",
+              "marginRight": "8px",
+              "marginTop": "9px",
+              "textAlign": "center",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n r-display-xoduu5"
+            className="css-view-1dbjc4n"
             style={
               Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "vertical",
-                "WebkitFlexDirection": "column",
-                "flexDirection": "column",
-                "msFlexDirection": "column",
+                "WebkitBoxFlex": 1,
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexBasis": "0%",
+                "WebkitFlexDirection": "row",
+                "WebkitFlexGrow": 1,
+                "WebkitFlexShrink": 1,
+                "alignItems": "center",
+                "display": "flex",
+                "flexBasis": "0%",
+                "flexDirection": "row",
+                "flexGrow": 1,
+                "flexShrink": 1,
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexNegative": 1,
+                "msFlexPositive": 1,
+                "msFlexPreferredSize": "0%",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "700",
-                  "letterSpacing": "0.08px",
-                  "lineHeight": "22px",
-                  "marginBottom": "8px",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              Your next daily claim:
-            </span>
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-display-xoduu5 r-flexDirection-18u37iz r-justifyContent-1777fci"
+              className="css-view-1dbjc4n"
               style={
                 Object {
-                  "WebkitBoxFlex": 1,
-                  "WebkitFlexGrow": 1,
-                  "flexGrow": 1,
-                  "msFlexPositive": 1,
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "vertical",
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "column",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "column",
+                  "msFlexPack": "center",
                 }
               }
             >
               <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
+                className="css-text-901oao css-textHasAncestor-16my406"
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
+                    "color": "rgba(66,69,74,1.00)",
+                    "direction": "ltr",
                     "fontFamily": "Roboto",
-                    "fontSize": "36px",
+                    "fontSize": "16px",
                     "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "marginTop": "-4px",
+                    "letterSpacing": "0.14px",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
                     "textDecoration": "none",
                     "textTransform": "none",
-                    "width": "25px",
                   }
                 }
               >
-                0
+                Your next daily claim:
               </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-                dir="auto"
+              <div
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "36px",
-                    "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "marginTop": "-4px",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                    "width": "25px",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxFlex": 1,
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "center",
+                    "WebkitFlexDirection": "row",
+                    "WebkitFlexGrow": 1,
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "inline-flex",
+                    "flexDirection": "row",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "minHeight": "53px",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "center",
+                    "msFlexPositive": 1,
                   }
                 }
               >
-                0
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "36px",
-                    "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "marginTop": "-4px",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                    "width": "10px",
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
                   }
-                }
-              >
-                :
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "36px",
-                    "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "marginTop": "-4px",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                    "width": "25px",
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
                   }
-                }
-              >
-                1
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "36px",
-                    "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "marginTop": "-4px",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                    "width": "25px",
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "10px",
+                    }
                   }
-                }
-              >
-                0
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "36px",
-                    "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "marginTop": "-4px",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                    "width": "10px",
+                >
+                  :
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
                   }
-                }
-              >
-                :
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "36px",
-                    "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "marginTop": "-4px",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                    "width": "25px",
+                >
+                  1
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
                   }
-                }
-              >
-                0
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "36px",
-                    "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "marginTop": "-4px",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                    "width": "25px",
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "10px",
+                    }
                   }
-                }
-              >
-                0
-              </span>
+                >
+                  :
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  0
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -477,50 +711,71 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
 
 exports[`ClaimButton matches snapshot for non-citizen 1`] = `
 <div
-  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
 >
   <div
-    className="css-view-1dbjc4n r-justifyContent-1777fci"
+    className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "stretch",
-        "WebkitBoxAlign": "stretch",
-        "alignItems": "stretch",
-        "backgroundColor": "rgba(0,0,0,0.12)",
-        "borderBottomColor": "rgba(0,175,255,1.00)",
-        "borderBottomLeftRadius": "50px",
-        "borderBottomRightRadius": "50px",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxPack": "center",
+        "WebkitJustifyContent": "center",
+        "alignItems": "center",
+        "backgroundColor": "rgba(0,175,255,1.00)",
+        "borderBottomColor": "rgba(255,255,255,1.00)",
+        "borderBottomLeftRadius": "98px",
+        "borderBottomRightRadius": "98px",
         "borderBottomStyle": "solid",
-        "borderBottomWidth": "0px",
-        "borderLeftColor": "rgba(0,175,255,1.00)",
+        "borderBottomWidth": "3px",
+        "borderLeftColor": "rgba(255,255,255,1.00)",
         "borderLeftStyle": "solid",
-        "borderLeftWidth": "0px",
-        "borderRightColor": "rgba(0,175,255,1.00)",
+        "borderLeftWidth": "3px",
+        "borderRightColor": "rgba(255,255,255,1.00)",
         "borderRightStyle": "solid",
-        "borderRightWidth": "0px",
-        "borderTopColor": "rgba(0,175,255,1.00)",
-        "borderTopLeftRadius": "50px",
-        "borderTopRightRadius": "50px",
+        "borderRightWidth": "3px",
+        "borderTopColor": "rgba(255,255,255,1.00)",
+        "borderTopLeftRadius": "98px",
+        "borderTopRightRadius": "98px",
         "borderTopStyle": "solid",
-        "borderTopWidth": "0px",
+        "borderTopWidth": "3px",
+        "boxShadow": "10px 12px 25px -14px, 0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "display": "flex",
+        "height": "196px",
+        "justifyContent": "center",
         "marginBottom": "0px",
         "marginLeft": "0px",
         "marginRight": "0px",
         "marginTop": "0px",
-        "minHeight": "68px",
+        "minHeight": "44px",
         "minWidth": "auto",
-        "msFlexAlign": "stretch",
+        "msFlexAlign": "center",
+        "msFlexPack": "center",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
         "paddingTop": "0px",
+        "width": "196px",
       }
     }
   >
     <div
       aria-disabled={true}
-      className="css-view-1dbjc4n r-overflow-1udh08x r-position-bnwqim"
+      className="css-view-1dbjc4n"
       disabled={true}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
@@ -536,126 +791,305 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
           "borderBottomRightRadius": "50px",
           "borderTopLeftRadius": "50px",
           "borderTopRightRadius": "50px",
+          "overflowX": "hidden",
+          "overflowY": "hidden",
+          "position": "relative",
         }
       }
     >
       <div
-        className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitBoxPack": "center",
+            "WebkitFlexDirection": "row",
+            "WebkitJustifyContent": "center",
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "msFlexAlign": "center",
+            "msFlexDirection": "row",
+            "msFlexPack": "center",
+          }
+        }
       >
         <div
-          className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ybube5 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
+          className="css-text-901oao css-textOneLine-bfa6kz"
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,0,0,0.32)",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontWeight": "500",
+              "color": "rgba(255,255,255,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "letterSpacing": "1px",
+              "marginBottom": "9px",
+              "marginLeft": "8px",
+              "marginRight": "8px",
+              "marginTop": "9px",
+              "textAlign": "center",
             }
           }
         >
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(255,255,255,1.00)",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "500",
-                "lineHeight": "22px",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
-          >
-            CLAIM YOUR SHARE - 
-          </span>
           <div
-            className="css-view-1dbjc4n r-flexDirection-18u37iz"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "baseline",
-                "WebkitBoxAlign": "baseline",
-                "alignItems": "baseline",
-                "display": "inline",
-                "marginLeft": "4px",
-                "msFlexAlign": "baseline",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxFlex": 1,
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexBasis": "0%",
+                "WebkitFlexDirection": "row",
+                "WebkitFlexGrow": 1,
+                "WebkitFlexShrink": 1,
+                "alignItems": "center",
+                "display": "flex",
+                "flexBasis": "0%",
+                "flexDirection": "row",
+                "flexGrow": 1,
+                "flexShrink": 1,
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexNegative": 1,
+                "msFlexPositive": 1,
+                "msFlexPreferredSize": "0%",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
+            <div
+              className="css-view-1dbjc4n"
               style={
                 Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "500",
-                  "lineHeight": "36px",
-                  "marginRight": "2px",
-                  "textAlign": "right",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              0
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "normal",
-                  "lineHeight": "22px",
-                  "textDecoration": "none",
-                  "textTransform": "none",
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "vertical",
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "column",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "column",
+                  "msFlexPack": "center",
                 }
               }
             >
               <span
                 className="css-text-901oao css-textHasAncestor-16my406"
                 dir="auto"
-                marginVertical="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
+                    "color": "rgba(66,69,74,1.00)",
+                    "direction": "ltr",
                     "fontFamily": "Roboto",
-                    "fontSize": "10px",
-                    "fontWeight": "500",
-                    "lineHeight": "19px",
-                    "textAlign": "right",
+                    "fontSize": "16px",
+                    "fontWeight": "700",
+                    "letterSpacing": "0.14px",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
                     "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
               >
-                G
+                Your next daily claim:
               </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                marginVertical="auto"
+              <div
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "Roboto",
-                    "fontSize": "9.5px",
-                    "fontWeight": "500",
-                    "lineHeight": "19px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxFlex": 1,
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "center",
+                    "WebkitFlexDirection": "row",
+                    "WebkitFlexGrow": 1,
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "inline-flex",
+                    "flexDirection": "row",
+                    "flexGrow": 1,
+                    "justifyContent": "center",
+                    "minHeight": "53px",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "center",
+                    "msFlexPositive": 1,
                   }
                 }
               >
-                $
-              </span>
-            </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "10px",
+                    }
+                  }
+                >
+                  :
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  1
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "10px",
+                    }
+                  }
+                >
+                  :
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "lineHeight": "30px",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "25px",
+                    }
+                  }
+                >
+                  0
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

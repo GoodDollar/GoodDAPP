@@ -1,7 +1,7 @@
 // @flow
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
@@ -124,11 +124,9 @@ class API {
 
   /**
    * `/user/delete` post api call
-   * @param {string} zoomId
-   * @param {string} zoomSignature
    */
-  deleteAccount(zoomId: string, zoomSignature: string): AxiosPromise<any> {
-    return this.client.post('/user/delete', { zoomId, zoomSignature })
+  deleteAccount(): AxiosPromise<any> {
+    return this.client.post('/user/delete')
   }
 
   /**
@@ -228,9 +226,9 @@ class API {
    * @param {string} mobile
    * @param {string} magicCode
    */
-  sendMagicCodeBySms(mobile: string, magicCode: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/magiccode', { to: mobile, magicCode })
-  }
+  // sendMagicCodeBySms(mobile: string, magicCode: string): Promise<$AxiosXHR<any>> {
+  //   return this.client.post('/send/magiccode', { to: mobile, magicCode })
+  // }
 
   /**
    * `/send/linksms` post api call
@@ -243,22 +241,28 @@ class API {
 
   /**
    * `/verify/facerecognition` post api call
-   * @param {Credentials} creds
+   * @param {any} payload
+   * @param {string} enrollmentIdentifier
+   * @param {any} axiosConfig
    */
-  performFaceRecognition(req: FormData): Promise<$AxiosXHR<any>> {
-    //return { data: { ok: 1, livenessPassed: true, duplicates: false, zoomEnrollmentId:-1 } } //TODO: // REMOVE!!!!!!!!!!
-    return this.client
-      .post('/verify/facerecognition', req, {
-        headers: {
-          'Content-Type': `multipart/form-data;`,
-        },
-      })
-      .then(r => {
-        if (r.data.onlyInEnv) {
-          return { data: { ok: 1, enrollResult: { alreadyEnrolled: true } } }
-        }
-        return r
-      })
+  performFaceVerification(payload: any, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
+    const { client } = this
+    const { enrollmentIdentifier, ...enrollmentPayload } = payload
+    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+
+    return client.put(endpoint, enrollmentPayload, axiosConfig)
+  }
+
+  /**
+   * `/verify/facerecognition` post api call
+   * @param {string} enrollmentIdentifier
+   * @param {string} signature
+   */
+  disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
+    const { client } = this
+    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+
+    return client.delete(endpoint, { params: { signature } })
   }
 
   /**

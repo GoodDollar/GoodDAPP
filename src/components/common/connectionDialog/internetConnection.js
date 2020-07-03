@@ -38,12 +38,12 @@ const InternetConnection = props => {
 
   useEffect(() => {
     showDialogWindow.cancel()
-
-    if (isConnection === false) {
-      return showDialogWindow('Check your internet connection', showDialog, setShowDisconnect)
-    }
-
-    if (isAPIConnection === false || isConnectionWeb3 === false || isConnectionGun === false) {
+    if (
+      isConnection === false ||
+      isAPIConnection === false ||
+      isConnectionWeb3 === false ||
+      isConnectionGun === false
+    ) {
       log.warn('connection failed:', {
         isAPIConnection,
         isConnection,
@@ -52,7 +52,7 @@ const InternetConnection = props => {
         firstLoadError,
       })
 
-      // supress showing the error dialog while in splash and connecting
+      //supress showing the error dialog while in splash and connecting
       if (firstLoadError) {
         return setShowDisconnect(true)
       }

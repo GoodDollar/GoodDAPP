@@ -2,9 +2,9 @@
 import Web3 from 'web3'
 import bip39 from 'bip39-light'
 import type { HttpProvider, WebSocketProvider } from 'web3-providers'
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
-import { GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
+import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, GD_USER_PRIVATEKEYS } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
@@ -23,7 +23,7 @@ export function saveMnemonics(mnemonics: string): Promise<any> {
  * get user mnemonics stored on device or generate a new one
  */
 export async function getMnemonics(): Promise<string> {
-  let pkey = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+  let pkey = (await AsyncStorage.getItem(GD_USER_MASTERSEED)) || (await AsyncStorage.getItem(GD_USER_MNEMONIC))
 
   if (pkey) {
     log.info('pkey found, creating account from pkey:', { pkey })
@@ -75,7 +75,7 @@ class SoftwareWalletProvider {
 
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
     let pkey: ?string = this.conf.mnemonic || (await getMnemonics())
-    let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS).then(JSON.parse)
+    let privateKeys = await AsyncStorage.getItem(GD_USER_PRIVATEKEYS)
 
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
@@ -83,7 +83,7 @@ class SoftwareWalletProvider {
       log.debug('Generating private keys from hdwallet')
       let mulWallet = new MultipleAddressWallet(pkey, 10)
       privateKeys = mulWallet.addresses.map(addr => '0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))
-      AsyncStorage.setItem(GD_USER_PRIVATEKEYS, JSON.stringify(privateKeys))
+      AsyncStorage.setItem(GD_USER_PRIVATEKEYS, privateKeys)
     } else {
       log.debug('Existing private keys found')
     }

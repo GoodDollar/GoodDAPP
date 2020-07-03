@@ -10,6 +10,8 @@ export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
 export const CLICK_BTN_CARD_ACTION = 'CLICK_BTN_CARD_ACTION'
 export const CLICK_DELETE_WALLET = 'CLICK_DELETE_WALLET'
+export const SIGNUP_STARTED = 'SIGNUP_STARTED'
+export const SIGNIN_TORUS_SUCCESS = 'TORUS_SIGNIN_SUCCESS'
 export const SIGNIN_SUCCESS = 'MAGICLINK_SUCCESS'
 export const SIGNIN_FAILED = 'MAGICLINK_FAILED'
 export const RECOVER_SUCCESS = 'RECOVER_SUCCESS'
@@ -41,6 +43,8 @@ const log = logger.child({ from: 'analytics' })
 export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
   const identifier = goodWallet && goodWallet.getAccountForType('login')
   const email = userStorage && (await userStorage.getProfileFieldValue('email'))
+  log.debug('got identifiers', { identifier, email })
+
   const emailOrId = email || identifier
 
   if (bugsnagClient) {
@@ -111,7 +115,7 @@ export const reportToSentry = (error, extra = {}, tags = {}) =>
 
     // set tags
     forEach(tags, (value, key) => {
-      scope.setTags(key, value)
+      scope.setTag(key, value)
     })
 
     Sentry.captureException(error)
@@ -152,7 +156,12 @@ const patchLogger = () => {
   global.logger.error = function() {
     let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
     if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') === -1) {
-      debounceFireEvent(ERROR_LOG, { reason: logMessage, logContext })
+      debounceFireEvent(ERROR_LOG, {
+        unique: `${eMsg} ${logMessage} (${logContext})`,
+        $reason: logMessage,
+        logContext,
+        eMsg,
+      })
     }
     if (bugsnagClient && Config.env !== 'test') {
       bugsnagClient.notify(logMessage, {
@@ -163,7 +172,18 @@ const patchLogger = () => {
     }
 
     if (Config.sentryDSN && Config.env !== 'test') {
-      reportToSentry(errorObj && errorObj instanceof Error ? errorObj : new Error(logMessage), {
+      const isValidErrorObject = errorObj instanceof Error
+      let errorToPassIntoLog
+
+      if (isValidErrorObject) {
+        errorObj.message = `${logMessage}: ${errorObj.message}`
+        errorToPassIntoLog = errorObj
+      } else {
+        errorToPassIntoLog = new Error(logMessage)
+      }
+
+      reportToSentry(errorToPassIntoLog, {
+        logMessage,
         errorObj,
         logContext,
         eMsg,

@@ -1,5 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
+import { View } from 'react-native'
 import { debounce, isEqual, isEqualWith, merge, pickBy } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -10,18 +11,21 @@ import { Section, UserAvatar, Wrapper } from '../common'
 import SaveButton from '../common/animations/SaveButton/SaveButton'
 import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
+const avatarSize = getDesignRelativeWidth(136)
+const AVATAR_MARGIN = 6
 
 // To remove profile values that are already failing
 function filterObject(obj) {
   return pickBy(obj, (v, k) => v !== undefined && v !== '')
 }
 
-const EditProfile = ({ screenProps, theme, styles, navigation }) => {
+const EditProfile = ({ screenProps, styles, navigation }) => {
   const store = GDStore.useStore()
   const storedProfile = store.get('privateProfile')
   const [profile, setProfile] = useState(storedProfile)
@@ -31,16 +35,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const [errors, setErrors] = useState({})
   const [lockSubmit, setLockSubmit] = useState(false)
   const [showErrorDialog] = useErrorDialog()
-
-  //initialize profile value for first time from storedprofile
-  useEffect(() => {
-    setProfile(storedProfile)
-  }, [isEqual(profile, {}) && storedProfile])
-
-  const updateProfile = async () => {
-    const profile = await userStorage.getProfile()
-    store.set('privateProfile')(profile)
-  }
+  const { push } = screenProps
 
   useEffect(() => {
     if (isEqual(storedProfile, {})) {
@@ -48,8 +43,21 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     }
   }, [])
 
+  // Validate after saving profile state in order to show errors
+  useEffect(() => {
+    //need to pass parameters into memoized debounced method otherwise setX hooks wont work
+    validate()
+  }, [profile])
+
+  const updateProfile = useCallback(async () => {
+    // initialize profile value for first time from storedProfile in userStorage
+    const profileFromUserStorage = await userStorage.getProfile()
+    store.set('privateProfile')(profileFromUserStorage)
+    setProfile(profileFromUserStorage)
+  }, [store, setProfile])
+
   const validate = useCallback(
-    debounce(async (profile, storedProfile, setIsPristine, setErrors, setIsValid) => {
+    debounce(async () => {
       if (profile && profile.validate) {
         try {
           const pristine = isEqualWith(storedProfile, profile, (x, y) => {
@@ -82,17 +90,20 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       }
       return false
     }, 500),
-    []
+    [profile, storedProfile, setIsPristine, setErrors, setIsValid]
   )
 
-  const handleProfileChange = newProfile => {
-    if (saving) {
-      return
-    }
-    setProfile(newProfile)
-  }
+  const handleProfileChange = useCallback(
+    newProfile => {
+      if (saving) {
+        return
+      }
+      setProfile(newProfile)
+    },
+    [setProfile, saving]
+  )
 
-  const handleSaveButton = async () => {
+  const handleSaveButton = useCallback(async () => {
     setSaving(true)
 
     fireEvent(PROFILE_UPDATE)
@@ -119,6 +130,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       }
       return false
     })
+
     return userStorage
       .setProfile(toupdate, true)
       .catch(e => {
@@ -127,46 +139,55 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
         return false
       })
       .finally(_ => setSaving(false))
-  }
+  }, [setSaving, storedProfile, showErrorDialog])
 
-  const onProfileSaved = () => {
-    screenProps.goToRoot()
-  }
+  const onProfileSaved = useCallback(() => {
+    push(`Dashboard`)
+  }, [push])
 
-  const handleAvatarPress = event => {
-    event.preventDefault()
-    screenProps.push(`ViewAvatar`)
-  }
+  const handleAvatarPress = useCallback(
+    event => {
+      event.preventDefault()
+      push(`ViewAvatar`)
+    },
+    [push]
+  )
 
-  const handleCameraPress = event => {
-    event.preventDefault()
-    screenProps.push(`ViewAvatar`)
-  }
-
-  // Validate after saving profile state in order to show errors
-  useEffect(() => {
-    //need to pass parameters into memoized debounced method otherwise setX hooks wont work
-    validate(profile, storedProfile, setIsPristine, setErrors, setIsValid)
-  }, [profile])
+  const handleCameraPress = useCallback(
+    event => {
+      event.preventDefault()
+      push(`ViewAvatar`)
+    },
+    [push]
+  )
 
   return (
     <Wrapper>
+      <Section.Row justifyContent="center" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
+        <UserAvatar
+          profile={profile}
+          onPress={handleAvatarPress}
+          size={avatarSize}
+          imageSize={avatarSize - AVATAR_MARGIN}
+          style={styles.userAvatar}
+          containerStyle={styles.userAvatarWrapper}
+          unknownStyle={styles.unknownStyles}
+        >
+          <CameraButton handleCameraPress={handleCameraPress} />
+        </UserAvatar>
+        {lockSubmit || isPristine || !isValid ? (
+          <SaveButtonDisabled style={styles.animatedSaveButton} />
+        ) : (
+          <SaveButton
+            loading={saving}
+            onPress={handleSaveButton}
+            onFinish={onProfileSaved}
+            style={styles.animatedSaveButton}
+          />
+        )}
+      </Section.Row>
       <Section grow>
-        <Section.Row justifyContent="center" alignItems="flex-start">
-          <UserAvatar profile={profile} onPress={handleAvatarPress}>
-            <CameraButton handleCameraPress={handleCameraPress} />
-          </UserAvatar>
-          {lockSubmit || isPristine || !isValid ? (
-            <SaveButtonDisabled style={styles.animatedSaveButton} />
-          ) : (
-            <SaveButton
-              loading={saving}
-              onPress={handleSaveButton}
-              onFinish={onProfileSaved}
-              style={styles.animatedSaveButton}
-            />
-          )}
-        </Section.Row>
+        <View style={styles.emptySpace} />
         <ProfileDataTable
           onChange={handleProfileChange}
           editable
@@ -185,17 +206,53 @@ EditProfile.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  animatedSaveButton: {
-    position: 'absolute',
-    width: 120,
-    height: 60,
-    top: -3,
-    right: -24,
-    marginVertical: 0,
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const halfAvatarSize = avatarSize / 2
+  const { white } = theme.colors
+
+  return {
+    animatedSaveButton: {
+      position: 'absolute',
+      width: getDesignRelativeWidth(110),
+      height: 50,
+      top: getDesignRelativeHeight(18),
+      right: -10,
+      marginVertical: 0,
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+    userDataAndButtonsRow: {
+      display: 'flex',
+      justifyContent: 'center',
+      position: 'relative',
+      zIndex: 1,
+      height: halfAvatarSize,
+    },
+    userAvatarWrapper: {
+      position: 'absolute',
+      borderColor: white,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: halfAvatarSize,
+    },
+    userAvatar: {
+      borderWidth: 3,
+      borderColor: theme.colors.white,
+      justifyContent: 'center',
+      flexDirection: 'row-reverse',
+      alignItems: 'flex-end',
+      borderRadius: halfAvatarSize,
+    },
+    unknownStyles: {
+      borderWidth: 3,
+      borderColor: theme.colors.white,
+      borderRadius: halfAvatarSize,
+    },
+    emptySpace: {
+      height: 74,
+      width: '100%',
+    },
+  }
+}
 
 export default withStyles(getStylesFromProps)(EditProfile)

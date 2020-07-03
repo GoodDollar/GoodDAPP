@@ -1,8 +1,9 @@
 // @flow
 import React from 'react'
-import { AsyncStorage, Platform, SafeAreaView } from 'react-native'
+import { Platform, SafeAreaView } from 'react-native'
 import { get } from 'lodash'
-import Mnemonics from '../signin/Mnemonics'
+import AsyncStorage from '../../lib/utils/asyncStorage'
+import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
@@ -10,7 +11,7 @@ import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import config from '../../config/config'
@@ -19,6 +20,8 @@ import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import { deleteGunDB } from '../../lib/hooks/useDeleteAccountDialog'
+import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../lib/constants/login'
 
 type Props = {
   navigation: any,
@@ -37,15 +40,14 @@ class Auth extends React.Component<Props> {
     w3User: undefined,
   }
 
-  async componentWillMount() {
-    await this.checkWeb3TokenAndPaymentCode()
+  componentDidMount() {
+    this.checkWeb3TokenAndPaymentCode()
   }
 
   checkWeb3TokenAndPaymentCode = async () => {
     const { navigation } = this.props
     const web3Token = await AsyncStorage.getItem('GD_web3Token')
-    const _destinationPath = await AsyncStorage.getItem('GD_destinationPath')
-    const destinationPath = JSON.parse(_destinationPath)
+    const destinationPath = await AsyncStorage.getItem('GD_destinationPath')
     const paymentCode = get(destinationPath, 'params.paymentCode')
 
     log.info('checkWeb3TokenAndPaymentCode', web3Token, paymentCode)
@@ -104,28 +106,22 @@ class Auth extends React.Component<Props> {
     const { w3User, w3Token } = this.state
     const redirectTo = w3Token ? 'Phone' : 'Signup'
     log.debug({ w3User, w3Token })
-
-    // FIXME: RN
-    if (Platform.OS === 'web') {
-      try {
-        const req = new Promise((res, rej) => {
-          const del = indexedDB.deleteDatabase('radata')
-          del.onsuccess = res
-          del.onerror = rej
-        })
+    try {
+      if (Platform.OS === 'web') {
+        const req = deleteGunDB()
         await req
-
-        log.info('indexedDb successfully cleared')
-      } catch (e) {
-        log.error('Failed to clear indexedDb', e.message, e)
-      } finally {
-        store.set('loadingIndicator')({ loading: false })
+      } else {
+        await AsyncStorage.clear()
       }
-    } else {
+
+      log.info('indexedDb successfully cleared')
+    } catch (e) {
+      log.error('Failed to clear indexedDb', e.message, e)
+    } finally {
       store.set('loadingIndicator')({ loading: false })
     }
 
-    this.props.navigation.navigate(redirectTo, { w3User, w3Token })
+    this.props.navigation.navigate(redirectTo, { regMethod: REGISTRATION_METHOD_SELF_CUSTODY, w3User, w3Token })
 
     if (Platform.OS === 'web') {
       //Hack to get keyboard up on mobile need focus from user event such as click
@@ -147,7 +143,7 @@ class Auth extends React.Component<Props> {
     this.props.navigation.navigate('SigninInfo')
   }
 
-  handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
+  handleNavigateTermsOfUse = () => this.props.screenProps.push('PrivacyPolicyAndTerms')
 
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
@@ -214,6 +210,7 @@ class Auth extends React.Component<Props> {
                 </Text>
               </Text>
             )}
+
             <CustomButton
               color={firstButtonColor}
               style={styles.buttonLayout}
@@ -257,7 +254,8 @@ const getStylesFromProps = ({ theme }) => {
       paddingBottom: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      marginVertical: 20,
+      marginTop: 20,
+      marginBottom: 20,
     },
     buttonText: {
       alignItems: 'center',
@@ -283,20 +281,19 @@ const getStylesFromProps = ({ theme }) => {
     },
   }
 }
+
 const auth = withStyles(getStylesFromProps)(SimpleStore.withStore(Auth))
 auth.navigationOptions = {
   title: 'Auth',
   navigationBarHidden: true,
 }
-export default createStackNavigator(
-  {
-    Login: auth,
-    TermsOfUse,
-    PrivacyPolicy,
-    Recover: Mnemonics,
-    Support,
-  },
-  {
-    backRouteName: 'Auth',
-  }
-)
+
+const routes = {
+  Login: auth,
+  PrivacyPolicyAndTerms,
+  PrivacyPolicy,
+  Support: SupportForUnsigned,
+  Recover,
+}
+
+export default createStackNavigator(routes, { backRouteName: 'Auth' })

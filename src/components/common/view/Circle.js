@@ -37,6 +37,7 @@ class Circle extends React.Component {
 }
 
 const getStylesFromProps = ({ theme }) => {
+  const shadowColor = '6px 1px 0 rgba(12, 38, 61, 0.15)'
   return {
     mainBlock: {
       display: 'flex',
@@ -66,7 +67,13 @@ const getStylesFromProps = ({ theme }) => {
       }),
       ...Platform.select({
         web: {
-          boxShadow: '6px 1px 0 rgba(12, 38, 61, 0.15)',
+          boxShadow: shadowColor,
+        },
+        default: {
+          shadowOffset: { width: 6, height: 1 },
+          shadowRadius: 0,
+          shadowColor: shadowColor,
+          elevation: 2,
         },
       }),
       marginTop: theme.sizes.default,

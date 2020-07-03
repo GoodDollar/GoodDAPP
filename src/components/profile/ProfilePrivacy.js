@@ -167,7 +167,7 @@ const ProfilePrivacy = props => {
  */
 const InfoIcon = ({ color, onPress, size, style }) => (
   <TouchableOpacity onPress={onPress} style={style}>
-    <Icon size={size || 16} color={color} name="system-filled" />
+    <Icon size={size || 16} color={color} name="faq" />
   </TouchableOpacity>
 )
 

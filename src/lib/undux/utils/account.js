@@ -1,30 +1,43 @@
 // @flow
 import type { Store } from 'undux'
-import { isNull } from 'lodash'
 import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
+import { assertStore } from '../SimpleStore'
 
-const log = logger.child({ from: 'undux/utils/balance' })
+const log = logger.child({ from: 'undux/utils/account' })
 
-const updateAll = store => {
-  return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
-    .then(([balance, entitlement]) => {
-      if (isNull(store)) {
-        log.warn('updateAll failed', 'received store is null')
-      } else {
-        const account = store.get('account')
-        const balanceChanged = !account.balance || account.balance !== balance
-        const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
+const updateAll = async store => {
+  let walletOperations
 
-        if (balanceChanged || entitlementChanged || account.ready === false) {
-          store.set('account')({ balance, entitlement, ready: true })
-        }
-      }
-    })
-    .catch(e => {
-      log.error('updateAll failed', e.message, e)
-    })
+  try {
+    walletOperations = await Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
+  } catch (exception) {
+    const { message } = exception
+
+    log.error('updateAll failed', message, exception)
+    return
+  }
+
+  if (!assertStore(store, log, 'updateAll failed')) {
+    return
+  }
+
+  try {
+    const [balance, entitlement] = walletOperations
+    const account = store.get('account')
+    const balanceChanged = !account.balance || account.balance !== balance
+    const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
+
+    if (balanceChanged || entitlementChanged || account.ready === false) {
+      store.set('account')({ balance, entitlement, ready: true })
+    }
+  } catch (exception) {
+    const { message } = exception
+
+    log.warn('updateAll failed', `Store failed with exception: ${message}`, exception)
+    return
+  }
 }
 
 /**

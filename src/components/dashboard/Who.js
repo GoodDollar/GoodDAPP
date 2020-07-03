@@ -1,13 +1,12 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
-import { ScanQRButton, Section, SendToAddress, Wrapper } from '../common'
+import { ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { isMobileNative } from '../../lib/utils/platform'
-import logger from '../../lib/logger/pino-logger'
-import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
+import { ACTION_RECEIVE, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 import WhoContent from './WhoContent'
 
 export type AmountProps = {
@@ -22,8 +21,6 @@ const getError = value => {
 
   return null
 }
-
-const log = logger.child({ from: 'Who' })
 
 const Who = (props: AmountProps) => {
   const { screenProps } = props
@@ -41,7 +38,17 @@ const Who = (props: AmountProps) => {
     setScreenState({ counterPartyDisplayName: (contact && contact.fullName) || state.value })
   }, [contact, state.value])
 
-  log.info('Component props -> ', { props, params, text, state })
+  const handlePressQR = useCallback(() => screenProps.push('SendByQR'), [screenProps])
+
+  const handlePressSendToAddress = useCallback(
+    () =>
+      screenProps &&
+      screenProps.push('SendToAddress', {
+        nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
+        params: { action: ACTION_SEND_TO_ADDRESS },
+      }),
+    [screenProps]
+  )
 
   const next = useCallback(() => {
     if (state.isValid || contact) {
@@ -65,12 +72,10 @@ const Who = (props: AmountProps) => {
   const Scroll = isMobileNative ? ScrollView : React.Fragment
 
   return (
-    <Wrapper style={{ flex: 1 }}>
+    <Wrapper>
       <TopBar push={screenProps.push} hideProfile={!isReceive}>
-        {!isReceive && <SendToAddress />}
-        {!isReceive && (
-          <ScanQRButton onPress={() => screenProps.push('SendByQR')} style={{ flexDirection: 'column-reverse' }} />
-        )}
+        {!isReceive && <ScanQRButton onPress={handlePressQR} />}
+        {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />}
       </TopBar>
       <Scroll>
         <Section grow>

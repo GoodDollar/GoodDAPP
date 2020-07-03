@@ -23,7 +23,7 @@ const ImageCropper = props => {
       toggleDragModeOnDblclick={false}
       crop={() => {
         const dataUrl = cropper.current.getCroppedCanvas().toDataURL()
-        if (image != dataUrl) {
+        if (image !== dataUrl) {
           onChange(dataUrl)
         }
       }}

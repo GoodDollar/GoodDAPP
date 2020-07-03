@@ -2,31 +2,37 @@ import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { View } from 'react-native'
 import createAppContainer from './lib/utils/createAppContainer'
-import { isAndroid, isMobileSafari } from './lib/utils/platform'
+import { isAndroid, isWeb } from './lib/utils/platform'
+import Config from './config/config'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
-import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
-import isWebApp from './lib/utils/isWebApp'
 import { getOriginalScreenHeight } from './lib/utils/Orientation'
+import AuthTorus from './components/auth/AuthTorus'
 
-const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
-const router = createSwitchNavigator(
-  {
-    Auth,
-    Signup,
-    InvalidW3TokenError,
-    SigninInfo,
-    IOSWebAppSignIn,
-  },
-  {
-    initialRouteName,
-  }
-)
+// import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
+
+const initialRouteName = 'Auth' // isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
+
+const AuthType = isWeb && Config.torusEnabled ? AuthTorus : Auth
+
+const routes = {
+  Auth: AuthType,
+  Signup,
+  InvalidW3TokenError,
+
+  // IOSWebAppSignIn,
+}
+
+if (Config.enableSelfCustody) {
+  Object.assign(routes, { SigninInfo })
+}
+
+const router = createSwitchNavigator(routes, { initialRouteName })
 
 const RouterWrapper = createAppContainer(router)
 

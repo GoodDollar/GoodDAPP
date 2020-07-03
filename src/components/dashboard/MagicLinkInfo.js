@@ -10,7 +10,7 @@ import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
-import MagicLinkSVG from '../../assets/Signup/maginLinkIllustration.svg'
+import Illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
 
@@ -60,7 +60,7 @@ const MagicLinkInfoComponent = props => {
             </View>
           </Section.Row>
           <View style={styles.illustration}>
-            <MagicLinkSVG />
+            <Illustration />
           </View>
         </Section.Stack>
       </Section>
@@ -78,6 +78,12 @@ const MagicLinkInfoComponent = props => {
 
 const getStylesFromProps = ({ theme }) => {
   return {
+    headerText: {
+      borderBottomWidth: 2,
+      borderBottomStyle: 'solid',
+      borderBottomColor: theme.colors.primary,
+      paddingBottom: getDesignRelativeHeight(5, false),
+    },
     mainWrapper: {
       display: 'flex',
       paddingHorizontal: 0,

@@ -12,9 +12,9 @@ class HomePage {
     return cy.get('[data-testid="goodmarket_tab"]')
   }
 
-  get supportTab() {
-    return cy.get('[data-testid="support_tab"]')
-  }
+  /*get supportTab() {
+      return cy.get('[data-testid="support_tab"]')
+    }*/
 
   get optionsButton() {
     return cy.get('[data-testid="burger_button"]')
@@ -41,7 +41,8 @@ class HomePage {
   }
 
   get profileAvatar() {
-    return cy.get('img[alt]', { timeout: 10000 }).eq(0)
+    return cy.get('img[alt]', { timeout: 10000 })
+    //return cy.get('img[alt]', { timeout: 10000 }).eq(0)
   }
 
   get closeOptionsButton() {
@@ -57,7 +58,8 @@ class HomePage {
   // }
 
   get welcomeFeed() {
-    return cy.contains('Start claiming free G$')
+    return cy.contains('Claim free G$ coins daily')
+    //return cy.contains('Start claiming free G$')
   }
 
   get deleteAccountButton() {
@@ -66,6 +68,10 @@ class HomePage {
 
   get confirmDeletionButton() {
     return cy.get('span').contains('Delete')
+  }
+
+  get backupButton() {
+    return cy.contains('Backup Wallet')
   }
 
   waitForHomePageDisplayed() {

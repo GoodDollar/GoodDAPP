@@ -1,5 +1,5 @@
 // @flow
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '../utils/asyncStorage'
 import type { Credentials } from '../API/api'
 import API from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
@@ -26,7 +26,7 @@ class LoginService {
       return
     }
     this.credentials = creds
-    AsyncStorage.setItem(CREDS, JSON.stringify(this.credentials))
+    AsyncStorage.setItem(CREDS, this.credentials)
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -39,7 +39,7 @@ class LoginService {
 
   async getCredentials(): Promise<?Credentials> {
     const data = await AsyncStorage.getItem(CREDS)
-    return data ? JSON.parse(data) : null
+    return data
   }
 
   // eslint-disable-next-line class-methods-use-this

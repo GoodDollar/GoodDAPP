@@ -15,4 +15,5 @@ const isWebApp = () => {
     window.location.search.indexOf('?standalone') >= 0
   )
 }
+
 export default isWebApp()

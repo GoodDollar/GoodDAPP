@@ -1,10 +1,11 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, TouchableOpacity } from 'react-native'
-import { set } from 'lodash'
+import { cloneDeep, set } from 'lodash'
 import AnimationBase from '../Base'
 import { weiToMask } from '../../../../lib/wallet/utils'
-import animationData from './data.json'
+import { getAnimationData } from '../../../../lib/utils/lottie'
+const { animationData } = getAnimationData('ClaimButton', require('./data'))
 
 class ClaimButton extends AnimationBase {
   state = {
@@ -17,11 +18,12 @@ class ClaimButton extends AnimationBase {
     const numberFormatter = formatter || weiToMask
     const entitlement = amount === undefined ? '-.--' : numberFormatter(amount)
     const length = String(entitlement).length
-    const gap = this.getGap(length)
 
     // set amount of G$ text to animation
 
     set(animationData, 'layers[5].t.d.k[0].s.t', `CLAIM YOUR SHARE${entitlement ? ` - ${entitlement}` : ''} `)
+
+    const gap = this.getGap(length)
 
     // set x coordinate of G$ text to animation
     set(animationData, 'layers[4].ks.p.k[0].s[0]', gap)
@@ -78,21 +80,25 @@ class ClaimButton extends AnimationBase {
     }
   }
 
-  getGap() {
-    const { amount } = this.props
-
+  getGap(length) {
     // calculate x coordinate of G$ text in animation
     return Platform.select({
-      ios: 261 + (String(amount).length - 1) * 5,
-      android: 278 + (String(amount).length - 1) * 6.5,
-      web: 255 + (String(amount).length - 1) * 5,
+      ios: 261 + (length - 1) * 5,
+      android: 278 + (length - 1) * 6.5,
+      web: 255 + (length - 1) * 5,
     })
   }
 
   render() {
     return (
       <TouchableOpacity onPress={this.handlePress}>
-        <Lottie ref={this.setAnim} loop={false} source={animationData} resizeMode="cover" style={{ width: '100%' }} />
+        <Lottie
+          ref={this.setAnim}
+          loop={false}
+          source={cloneDeep(animationData)}
+          resizeMode="cover"
+          style={{ width: '100%' }}
+        />
       </TouchableOpacity>
     )
   }

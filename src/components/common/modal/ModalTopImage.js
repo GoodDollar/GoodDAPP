@@ -1,117 +1,125 @@
 // @flow
+
+// libraries
 import React from 'react'
 import { Image, Platform, View } from 'react-native'
-import ReceiveSVG from '../../../assets/Feed/receive.svg'
-import SendSVG from '../../../assets/Feed/send.svg'
-import MessagePNG from '../../../assets/Feed/message.png'
-import InvitePNG from '../../../assets/Feed/invite.png'
-import InviteFriendsPNG from '../../../assets/Feed/inviteFriends.png'
-import BackupPNG from '../../../assets/Feed/backup.png'
-import SpendingSVG from '../../../assets/Feed/spending.svg'
-import ClaimingSVG from '../../../assets/Feed/claiming.svg'
-import HanukaStartsSVG from '../../../assets/Feed/hanukaStarts.svg'
-import ReceivedAnimation from '../../common/animations/Received'
-import SendAnimation from '../../common/animations/Send'
+
+// utils
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { isWeb } from '../../../lib/utils/platform'
 
-const mainPhotoStyles = {
-  web: {
-    height: '20vh',
-    width: '100%',
-  },
-  ios: {
-    height: getDesignRelativeHeight(175, true),
-    width: '100%',
-  },
-  android: {
-    height: getDesignRelativeHeight(175, true),
-    width: '100%',
-  },
+// animated illustrations (animations)
+import ReceivedAnimation from '../../common/animations/Received'
+import SendAnimation from '../../common/animations/Send'
+
+// assets
+// svg illustrations
+import receiveIllustation from '../../../assets/Feed/receive.svg'
+import sendIllustration from '../../../assets/Feed/send.svg'
+import claimIllustration from '../../../assets/Feed/IllustrationsMenHero.svg' // eslint-disable-line
+import spendingIllustration from '../../../assets/Feed/spending.svg'
+import claimingIllustration from '../../../assets/Feed/claiming.svg'
+import hanukaStartsIllustration from '../../../assets/Feed/hanukaStarts.svg'
+
+// png illustrations
+import messageIllustration from '../../../assets/Feed/message.png'
+import inviteIllustration from '../../../assets/Feed/invite.png'
+import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
+import backupIllustration from '../../../assets/Feed/backup.png'
+
+if (isWeb) {
+  Image.prefetch(messageIllustration)
+  Image.prefetch(inviteIllustration)
+  Image.prefetch(inviteFriendsIllustration)
+  Image.prefetch(backupIllustration)
 }
 
 export const getImageByType = (type, styles = {}) =>
   ({
     withdraw: {
-      animationComponent: ReceivedAnimation,
-      animation: true,
+      Component: ReceivedAnimation,
       containerStyle: styles.mainImageContainer,
     },
     sendcompleted: {
-      animationComponent: SendAnimation,
-      animation: true,
+      Component: SendAnimation,
       containerStyle: styles.mainImageContainer,
     },
     claim: {
-      animationComponent: ReceivedAnimation,
-      animation: true,
+      Component: ReceivedAnimation,
       containerStyle: styles.mainImageContainer,
     },
     claiming: {
-      svgSrc: ClaimingSVG,
+      Component: claimingIllustration,
       style: styles.claiming,
       containerStyle: styles.mainImageContainer,
     },
     bonuscompleted: {
-      animationComponent: ReceivedAnimation,
-      animation: true,
+      Component: ReceivedAnimation,
       containerStyle: styles.mainImageContainer,
     },
     receive: {
-      svgSrc: ReceiveSVG,
+      Component: receiveIllustation,
       style: styles.mainImage,
       containerStyle: styles.mainImageContainer,
     },
     send: {
-      svgSrc: SendSVG,
+      Component: sendIllustration,
       style: styles.mainImage,
       containerStyle: styles.mainImageContainer,
     },
-    message: {
-      imageSrc: MessagePNG,
-      style: styles.mainPhoto,
-      containerStyle: styles.mainPhotoContainer,
-    },
-    invite: {
-      imageSrc: InviteFriendsPNG,
-      style: styles.mainPhoto,
-      containerStyle: styles.mainPhotoContainer,
-    },
-    welcome: {
-      imageSrc: InvitePNG,
-      style: styles.mainPhoto,
-      containerStyle: styles.mainPhotoContainer,
-    },
-    backup: {
-      imageSrc: BackupPNG,
-      style: styles.mainPhoto,
+    claimsThreshold: {
+      Component: claimIllustration,
+      style: styles.claimIllustration,
       containerStyle: styles.mainPhotoContainer,
     },
     spending: {
-      svgSrc: SpendingSVG,
+      Component: spendingIllustration,
       style: styles.spending,
       containerStyle: styles.mainPhotoContainer,
     },
     hanukaStarts: {
-      svgSrc: HanukaStartsSVG,
+      Component: hanukaStartsIllustration,
       style: styles.hanukaStarts,
       containerStyle: styles.mainImageContainer,
+    },
+
+    // below illustrations is a png images and should be rendered with Image component
+    message: {
+      src: messageIllustration,
+      style: styles.mainPhoto,
+      containerStyle: styles.mainPhotoContainer,
+    },
+    invite: {
+      src: inviteFriendsIllustration,
+      style: styles.mainPhoto,
+      containerStyle: styles.mainPhotoContainer,
+    },
+    welcome: {
+      src: inviteIllustration,
+      style: styles.mainPhoto,
+      containerStyle: styles.mainPhotoContainer,
+    },
+    backup: {
+      src: backupIllustration,
+      style: styles.mainPhoto,
+      containerStyle: styles.mainPhotoContainer,
     },
   }[type] || null)
 
 const TopImage = ({ type, styles }) => {
-  const ImageData = getImageByType(type, styles)
+  const image = getImageByType(type, styles)
 
-  if (ImageData) {
-    return (
-      <View style={ImageData.containerStyle}>
-        {!!ImageData.animation && <ImageData.animationComponent />}
-        {!!ImageData.imageSrc && <Image style={ImageData.style} source={ImageData.imageSrc} />}
-        {!!ImageData.svgSrc && (
-          <View style={ImageData.style}>
-            <ImageData.svgSrc />
-          </View>
-        )}
+  if (image) {
+    const { Component, src, containerStyle, style } = image
+
+    return Component ? (
+      <View style={containerStyle}>
+        <Component style={style} />
+      </View>
+    ) : (
+      <View style={containerStyle}>
+        <Image style={style} source={src} />
       </View>
     )
   }
@@ -126,7 +134,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 0,
     justifyContent: 'center',
     flexDirection: 'row',
-    marginBottom: 15,
+    marginBottom: 30,
   },
   mainImage: {
     height: getDesignRelativeHeight(110, true),
@@ -140,9 +148,20 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     marginHorizontal: -theme.sizes.defaultDouble,
     marginTop: -theme.sizes.defaultDouble,
-    marginBottom: 15,
+    marginBottom: 30,
   },
-  mainPhoto: Platform.select(mainPhotoStyles),
+  mainPhoto: {
+    height: Platform.select({
+      default: getDesignRelativeHeight(175, true),
+      web: '20vh',
+    }),
+    width: '100%',
+  },
+  claimIllustration: {
+    marginTop: getDesignRelativeHeight(30),
+    height: '24vh',
+    width: '60%',
+  },
   spending: {
     width: getDesignRelativeWidth(176),
     height: getDesignRelativeHeight(76),

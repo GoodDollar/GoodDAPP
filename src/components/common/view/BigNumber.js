@@ -28,6 +28,7 @@ class BigNumber extends React.Component {
       styles,
       testID,
       reverse,
+      spaceBetween = true,
     } = this.props
 
     const components = []
@@ -51,7 +52,7 @@ class BigNumber extends React.Component {
         ) : (
           children
         ),
-        <Text key="big_number_space"> </Text>,
+        spaceBetween ? <Text key="big_number_space"> </Text> : null,
         <Text
           key="big_number_amount"
           fontFamily="slab"

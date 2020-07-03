@@ -2,10 +2,24 @@
 
 exports[`SplashDesktop matches snapshot 1`] = `
 <div
-  className="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
 >
   <div
-    className="css-view-1dbjc4n r-padding-t60dpp r-position-bnwqim r-width-13qz1uu"
+    className="css-view-1dbjc4n"
     data-name="viewWrapper"
     style={
       Object {
@@ -14,36 +28,74 @@ exports[`SplashDesktop matches snapshot 1`] = `
         "WebkitBoxOrient": "vertical",
         "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
-        "backgroundImage": "linear-gradient(3.141592653589793rad,#00AFFF,#2DC0F7,#28C0EF,#23C0E7,#1EC1DF,#19C1D7,#14C1CF,#0FC2C7,#0FC2C7,#0AC2BF,#05C2B7,#00C3AF)",
+        "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
         "display": "flex",
         "flexDirection": "column",
         "flexGrow": 1,
         "maxHeight": "844px",
         "msFlexDirection": "column",
         "msFlexPositive": 1,
+        "paddingBottom": "0px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "0px",
+        "position": "relative",
+        "width": "100%",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-1niwhzg r-flex-13awgt0 r-justifyContent-1777fci r-position-bnwqim r-transform-1defyd4"
+      className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxFlex": 1,
+          "WebkitBoxPack": "center",
+          "WebkitFlexBasis": "0%",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "WebkitJustifyContent": "center",
+          "WebkitTransform": "rotateY(180deg)",
+          "alignItems": "center",
+          "backgroundColor": "rgba(0,0,0,0.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
+          "flexBasis": "0%",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "justifyContent": "center",
+          "msFlexAlign": "center",
+          "msFlexNegative": 1,
+          "msFlexPack": "center",
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0%",
           "paddingBottom": "16px",
           "paddingLeft": "12px",
           "paddingRight": "12px",
           "paddingTop": "16px",
+          "position": "relative",
+          "transform": "rotateY(180deg)",
         }
       }
     >
       <div
-        className="css-view-1dbjc4n r-height-1pi2tsx r-opacity-1oec5bt r-position-u8s1d r-width-13qz1uu"
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "backgroundImage": "url(splashWaves.svg)",
+            "backgroundRepeat": "repeat-y",
+            "height": "100%",
+            "opacity": 0.1,
+            "position": "absolute",
+            "width": "100%",
+          }
+        }
       />
       <div
-        className="css-view-1dbjc4n r-marginTop-6ity3w r-transform-1defyd4 r-width-13qz1uu"
+        className="css-view-1dbjc4n"
         style={
           Object {
             "WebkitAlignItems": "stretch",
@@ -55,42 +107,50 @@ exports[`SplashDesktop matches snapshot 1`] = `
             "WebkitFlexDirection": "column",
             "WebkitFlexGrow": 1,
             "WebkitJustifyContent": "space-between",
+            "WebkitTransform": "rotateY(180deg)",
             "alignItems": "stretch",
             "flexDirection": "column",
             "flexGrow": 1,
             "justifyContent": "space-between",
+            "marginTop": "30px",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
             "msFlexPositive": 1,
+            "transform": "rotateY(180deg)",
+            "width": "100%",
           }
         }
       >
         <div
-          className="css-text-901oao r-textAlign-q4m81j"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
+              "color": "rgba(12,38,61,1.00)",
+              "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "22px",
               "fontWeight": "normal",
               "lineHeight": "30px",
+              "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
             }
           }
         >
           <span
-            className="css-text-901oao css-textHasAncestor-16my406 r-textAlign-q4m81j"
+            className="css-text-901oao css-textHasAncestor-16my406"
             dir="auto"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
+                "color": "rgba(12,38,61,1.00)",
+                "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "22px",
                 "fontWeight": "800",
                 "lineHeight": "30px",
+                "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
               }
@@ -104,24 +164,43 @@ please scan and continue
 on your mobile device.
         </div>
         <div
-          className="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci"
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
+              "justifyContent": "center",
+              "msFlexAlign": "center",
+              "msFlexPack": "center",
+            }
+          }
         >
           <div
-            className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderWidth-d045u9 r-transform-1defyd4"
+            className="css-view-1dbjc4n"
             style={
               Object {
+                "WebkitTransform": "rotateY(180deg)",
+                "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "5px",
                 "borderBottomRightRadius": "5px",
+                "borderBottomWidth": "2px",
                 "borderLeftColor": "rgba(0,175,255,1.00)",
+                "borderLeftWidth": "2px",
                 "borderRightColor": "rgba(0,175,255,1.00)",
+                "borderRightWidth": "2px",
                 "borderTopColor": "rgba(0,175,255,1.00)",
                 "borderTopLeftRadius": "5px",
                 "borderTopRightRadius": "5px",
+                "borderTopWidth": "2px",
                 "paddingBottom": "16px",
                 "paddingLeft": "16px",
                 "paddingRight": "16px",
                 "paddingTop": "16px",
+                "transform": "rotateY(180deg)",
               }
             }
           >
@@ -135,9 +214,6 @@ on your mobile device.
               }
               theme={
                 Object {
-                  "animation": Object {
-                    "scale": 1,
-                  },
                   "backdrop": Object {
                     "backgroundColor": "rgba(255, 0, 0, 0.8)",
                   },
@@ -153,6 +229,8 @@ on your mobile device.
                     "darkGray": "#42454A",
                     "disabled": "rgba(0, 0, 0, 0.26)",
                     "error": "#FA6C77",
+                    "facebookBlue": "#1877F3",
+                    "googleRed": "#EA4335",
                     "gray": "#555",
                     "gray50Percent": "#CBCBCB",
                     "gray80Percent": "#A3A3A3",
@@ -161,8 +239,6 @@ on your mobile device.
                     "lightGreen": "#00BBA5",
                     "lighterGray": "#A3A3A3",
                     "notification": "#f50057",
-                    "onBackground": "#000000",
-                    "onSurface": "#000000",
                     "orange": "#F8AF40",
                     "placeholder": "#CBCBCB",
                     "primary": "#00AFFF",
@@ -185,23 +261,11 @@ on your mobile device.
                   },
                   "fonts": Object {
                     "default": "Roboto",
-                    "light": Object {
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "300",
-                    },
-                    "medium": Object {
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "500",
-                    },
-                    "regular": Object {
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "400",
-                    },
+                    "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "slab": "Roboto Slab",
-                    "thin": Object {
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontWeight": "100",
-                    },
+                    "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   },
                   "modals": Object {
                     "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
@@ -236,20 +300,38 @@ on your mobile device.
           </div>
         </div>
         <div
-          className="css-view-1dbjc4n r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010"
+          className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitFlexBasis": "auto",
+              "flexBasis": "auto",
               "maxWidth": "100%",
               "minHeight": "30px",
               "minWidth": "212px",
+              "msFlexPreferredSize": "auto",
+              "overflowX": "hidden",
+              "overflowY": "hidden",
+              "zIndex": 0,
             }
           }
         >
           <div
-            className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-backgroundSize-ehq7j7 r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw"
+            className="css-view-1dbjc4n"
             style={
               Object {
+                "backgroundColor": "rgba(0,0,0,0.00)",
                 "backgroundImage": "url(\\"goodDollar.svg\\")",
+                "backgroundPosition": "center",
+                "backgroundRepeat": "no-repeat",
+                "backgroundSize": "contain",
+                "bottom": "0px",
+                "height": "100%",
+                "left": "0px",
+                "position": "absolute",
+                "right": "0px",
+                "top": "0px",
+                "width": "100%",
+                "zIndex": -1,
               }
             }
           />
@@ -261,12 +343,15 @@ on your mobile device.
           />
         </div>
         <div
-          className="css-view-1dbjc4n r-backgroundColor-1niwhzg r-justifyContent-1777fci r-padding-t60dpp"
+          className="css-view-1dbjc4n"
           style={
             Object {
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
               "alignItems": "stretch",
+              "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(255,255,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
@@ -284,6 +369,7 @@ on your mobile device.
               "borderTopStyle": "solid",
               "borderTopWidth": "1px",
               "display": "flex",
+              "justifyContent": "center",
               "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -291,13 +377,16 @@ on your mobile device.
               "minHeight": "44px",
               "minWidth": "64px",
               "msFlexAlign": "stretch",
+              "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
             }
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n r-cursor-1loqt21 r-overflow-1udh08x r-position-bnwqim r-touchAction-1otgn73"
+            className="css-cursor-18t94o4 css-view-1dbjc4n"
             data-focusable={true}
             disabled={false}
             onKeyDown={[Function]}
@@ -316,42 +405,110 @@ on your mobile device.
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
+                "cursor": "pointer",
+                "msTouchAction": "manipulation",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "position": "relative",
+                "touchAction": "manipulation",
               }
             }
             tabIndex="0"
           >
             <div
-              className="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "row",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
+                  "msFlexPack": "center",
+                }
+              }
             >
               <div
-                className="css-text-901oao css-textOneLine-bfa6kz r-letterSpacing-ud0q2t r-marginHorizontal-1ydw1k6 r-marginVertical-712mwr r-textAlign-q4m81j r-textTransform-tsynxw"
+                className="css-text-901oao css-textOneLine-bfa6kz"
                 dir="auto"
                 style={
                   Object {
                     "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "fontWeight": "500",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "letterSpacing": "1px",
+                    "marginBottom": "9px",
+                    "marginLeft": "16px",
+                    "marginRight": "16px",
+                    "marginTop": "9px",
+                    "textAlign": "center",
                   }
                 }
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406 r-alignItems-1awozwy r-justifyContent-1777fci r-textAlign-q4m81j r-textTransform-tsynxw"
-                  dir="auto"
+                <div
+                  className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "500",
-                      "letterSpacing": "0px",
-                      "lineHeight": "22px",
-                      "paddingTop": "1px",
-                      "textDecoration": "none",
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
-                  Continue on Web
-                </span>
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "center",
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "justifyContent": "center",
+                        "letterSpacing": "0px",
+                        "lineHeight": "22px",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
+                        "paddingTop": "1px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "uppercase",
+                      }
+                    }
+                  >
+                    Continue on Web
+                  </span>
+                </div>
               </div>
             </div>
           </div>

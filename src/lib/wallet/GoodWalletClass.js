@@ -8,7 +8,7 @@ import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { get, values } from 'lodash'
+import { get, invokeMap, values } from 'lodash'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import API from '../API/api'
@@ -100,7 +100,7 @@ export class GoodWallet {
     eth: 2,
     donate: 3,
     login: 4,
-    zoomId: 5,
+    faceVerification: 5,
   }
 
   ready: Promise<Web3>
@@ -360,7 +360,11 @@ export class GoodWallet {
 
   async getNextClaimTime(): Promise<any> {
     try {
-      const lastClaim = (await this.UBIContract.methods.lastClaimed(this.account).call()) || ZERO
+      let lastClaim = await this.UBIContract.methods.lastClaimed(this.account).call()
+
+      if (!lastClaim) {
+        lastClaim = ZERO
+      }
       return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
     } catch (e) {
       log.error('getNextClaimTime failed', e.message, e)
@@ -370,24 +374,24 @@ export class GoodWallet {
 
   async getAmountAndQuantityClaimedToday(): Promise<any> {
     try {
-      const res = (await this.UBIContract.methods.getDailyStats().call()) || [ZERO, ZERO]
-      return {
-        people: res[0].toNumber(),
-        amount: res[1].toNumber(),
-      }
+      const stats = await this.UBIContract.methods.getDailyStats().call()
+      const [people, amount] = invokeMap(stats || [ZERO, ZERO], 'toNumber')
+
+      return { amount, people }
     } catch (e) {
       log.error('getAmountAndQuantityClaimedToday failed', e.message, e)
       return Promise.reject(e)
     }
   }
 
-  async checkEntitlement(): Promise<number> {
+  checkEntitlement(): Promise<number> {
     try {
-      const entitlement = await this.UBIContract.methods.checkEntitlement().call()
-      return entitlement
-    } catch (e) {
-      log.error('getNextClaimTime failed', e.message, e)
-      return Promise.reject(e)
+      return this.UBIContract.methods.checkEntitlement().call()
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('checkEntitlement failed', message, exception)
+      throw exception
     }
   }
 
@@ -444,16 +448,38 @@ export class GoodWallet {
     return this.wallet.eth.getBlockNumber().then(toBN)
   }
 
-  balanceOf(): Promise<number> {
-    return this.tokenContract.methods
-      .balanceOf(this.account)
-      .call()
-      .then(toBN)
-      .then(_ => _.toNumber())
+  async balanceOf(): Promise<number> {
+    try {
+      const balance = await this.tokenContract.methods.balanceOf(this.account).call()
+      const balanceValue = toBN(balance)
+
+      return balanceValue.toNumber()
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('BalanceOf failed', message, exception)
+      throw exception
+    }
   }
 
-  balanceOfNative(): Promise<number> {
-    return this.wallet.eth.getBalance(this.account).then(parseInt)
+  async balanceOfNative(): Promise<number> {
+    const { wallet, account } = this
+
+    try {
+      const balance = await wallet.eth.getBalance(account)
+      const balanceValue = parseInt(balance)
+
+      if (isNaN(balanceValue)) {
+        throw new Error(`Invalid balance value '${balance}'`)
+      }
+
+      return balanceValue
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('balanceOfNative failed', message, exception)
+      throw exception
+    }
   }
 
   signMessage() {}
@@ -477,7 +503,14 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   isVerified(address: string): Promise<boolean> {
-    return this.identityContract.methods.isWhitelisted(address).call()
+    try {
+      return this.identityContract.methods.isWhitelisted(address).call()
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('isVerified failed', message, exception)
+      throw exception
+    }
   }
 
   /**
@@ -490,13 +523,19 @@ export class GoodWallet {
 
   /**
    * Get transaction fee from GoodDollarReserveContract
-   * @returns {Promise<boolean>}
+   * @returns {Promise<number>}
    */
-  getTxFee(): Promise<boolean> {
-    return this.tokenContract.methods
-      .getFees(1)
-      .call()
-      .then(toBN)
+  async getTxFee(): Promise<number> {
+    try {
+      const fee = await this.tokenContract.methods.getFees(1).call()
+
+      return toBN(fee)
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('getTxFee failed', message, exception)
+      throw exception
+    }
   }
 
   /**
@@ -517,18 +556,23 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   async canSend(amount: number, options = {}): Promise<boolean> {
-    const { feeIncluded = false } = options
-    let amountWithFee = amount
+    try {
+      const { feeIncluded = false } = options
+      let amountWithFee = amount
 
-    if (!feeIncluded) {
-      // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
-      const fee = await this.calculateTxFee(amount)
+      if (!feeIncluded) {
+        // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
+        const fee = await this.calculateTxFee(amount)
 
-      amountWithFee = new BN(amount).add(fee)
+        amountWithFee = new BN(amount).add(fee)
+      }
+      const balance = await this.balanceOf()
+      return parseInt(amountWithFee) <= balance
+    } catch (exception) {
+      const { message } = exception
+      log.warn('canSend failed', message, exception)
     }
-
-    const balance = await this.balanceOf()
-    return parseInt(amountWithFee) <= balance
+    return false
   }
 
   /**
@@ -572,8 +616,8 @@ export class GoodWallet {
     log.debug('generateLink:', { amount })
 
     const paymentLink = generateShareLink('send', {
-      paymentCode: code,
-      reason,
+      p: code,
+      r: reason,
     })
 
     const txPromise = this.depositToHash(amount, hashedCode, events)
@@ -596,34 +640,51 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   isWithdrawLinkUsed(link: string): Promise<boolean> {
-    const { hasPayment } = this.oneTimePaymentsContract.methods
-    return hasPayment(link).call()
+    try {
+      return this.oneTimePaymentsContract.methods.hasPayment(link).call()
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('isWithdrawLinkUsed failed', message, exception)
+      throw exception
+    }
   }
 
   /**
    * Depending on what's queried off the blockchain for the OTL code, will return an status to display
    * @param otlCode - one time link code
-   * @returns {Promise<'Completed' | 'Cancelled' | 'Pending'>}
+   * @returns {Promise<{status:'Completed' | 'Cancelled' | 'Pending'}>}
    */
-  async getWithdrawDetails(otlCode: string): Promise<'Completed' | 'Cancelled' | 'Pending'> {
-    const hash = this.getWithdrawLink(otlCode)
-    const { payments } = this.oneTimePaymentsContract.methods
+  async getWithdrawDetails(otlCode: string): Promise<{ status: 'Completed' | 'Cancelled' | 'Pending' }> {
+    try {
+      const hashedCode = this.getWithdrawLink(otlCode)
+      const { paymentAmount, hasPayment, paymentSender: sender } = await this.oneTimePaymentsContract.methods
+        .payments(hashedCode)
+        .call()
 
-    const { paymentAmount, paymentSender, hasPayment } = await payments(hash).call()
-    const amount = toBN(paymentAmount).toNumber()
-    let status = WITHDRAW_STATUS_UNKNOWN
+      const amount = toBN(paymentAmount).toNumber()
+      let status = WITHDRAW_STATUS_UNKNOWN
 
-    // Check payment availability
-    if (hasPayment && amount > 0) {
-      status = WITHDRAW_STATUS_PENDING
-    }
-    if (hasPayment === false && toBN(paymentSender).isZero() === false) {
-      status = WITHDRAW_STATUS_COMPLETE
-    }
-    return {
-      status,
-      amount,
-      sender: paymentSender,
+      // Check payment availability
+      if (hasPayment && amount > 0) {
+        status = WITHDRAW_STATUS_PENDING
+      }
+
+      if (hasPayment === false && toBN(sender).isZero() === false) {
+        status = WITHDRAW_STATUS_COMPLETE
+      }
+
+      return {
+        hashedCode,
+        status,
+        amount,
+        sender,
+      }
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('getWithdrawDetails failed', message, exception)
+      throw exception
     }
   }
 
@@ -736,13 +797,14 @@ export class GoodWallet {
       }
 
       if (topWallet) {
-        log.info('no gas, asking for top wallet')
+        log.info('no gas, asking for top wallet', { nativeBalance, required: wei, address: this.account })
         const toppingRes = await API.verifyTopWallet()
         const { data } = toppingRes
-        if (data.ok !== 1) {
+        if (!data || data.ok !== 1) {
           return {
             ok: false,
-            error: (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
+            error:
+              !data || (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
           }
         }
         nativeBalance = await this.balanceOfNative()
@@ -755,7 +817,7 @@ export class GoodWallet {
         ok: false,
       }
     } catch (e) {
-      log.error('verifyHasGas:', e.message, e, { wei })
+      log.warn('verifyHasGas:', e.message, e, { wei })
       return {
         ok: false,
         error: false,

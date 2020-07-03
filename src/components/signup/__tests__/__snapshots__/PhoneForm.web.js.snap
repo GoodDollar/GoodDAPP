@@ -175,11 +175,11 @@ exports[`PhoneForm matches snapshot 1`] = `
               >
                 Kevin,
 enter your phone number
-so we could verify you
+so we can verify its you
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n"
+              className="signup_phone_input signup_phone_input css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitAlignItems": "stretch",

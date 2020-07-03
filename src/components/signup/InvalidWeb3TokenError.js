@@ -1,5 +1,6 @@
 import React from 'react'
-import { AsyncStorage, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import normalize from '../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'

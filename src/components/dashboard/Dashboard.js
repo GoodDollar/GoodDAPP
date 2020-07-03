@@ -1,26 +1,16 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Animated,
-  AppState,
-  AsyncStorage,
-  Dimensions,
-  Easing,
-  Image,
-  InteractionManager,
-  Platform,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
 import { debounce, get } from 'lodash'
 import type { Store } from 'undux'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isBrowser } from '../../lib/utils/platform'
 import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
-import SimpleStore from '../../lib/undux/SimpleStore'
+import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw, prepareDataWithdraw } from '../../lib/undux/utils/withdraw'
@@ -44,13 +34,14 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { PrivacyArticle, PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { readCode } from '../../lib/share'
-import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
+import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
+import SuccessIcon from '../common/modal/SuccessIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import DeepLinking from '../../lib/utils/deepLinking'
@@ -67,26 +58,28 @@ import Receive from './Receive'
 import MagicLinkInfo from './MagicLinkInfo'
 import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
-import ReceiveConfirmation from './ReceiveConfirmation'
+import ReceiveToAddress from './ReceiveToAddress'
+import TransactionConfirmation from './TransactionConfirmation'
+import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
-import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
-// import FaceRecognition from './FaceRecognition/FaceRecognition'
-// import FRIntro from './FaceRecognition/FRIntro'
-// import FRError from './FaceRecognition/FRError'
-// import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
+import FaceVerification from './FaceVerification/screens/VerificationScreen'
+import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
+import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
+import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedScreen'
 
 const log = logger.child({ from: 'Dashboard' })
 
 const screenWidth = getMaxDeviceWidth()
-const headerContentWidth = screenWidth - _theme.sizes.default * 2 * 2
-const avatarCenteredPosition = headerContentWidth / 2 - 34
+let didRender = false
+const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
+const initialAvatarCenteredPosition = initialHeaderContentWidth / 2 - 34
 
 export type DashboardProps = {
   navigation: any,
@@ -98,10 +91,12 @@ const Dashboard = props => {
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
+  const [headerContentWidth, setHeaderContentWidth] = useState(initialHeaderContentWidth)
   const [headerHeightAnimValue] = useState(new Animated.Value(165))
   const [headerAvatarAnimValue] = useState(new Animated.Value(68))
-  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(avatarCenteredPosition))
-  const [headerBalanceRightAnimValue] = useState(new Animated.Value(avatarCenteredPosition))
+  const [headerAvatarLeftAnimValue] = useState(new Animated.Value(initialAvatarCenteredPosition))
+  const [headerBalanceRightAnimValue] = useState(new Animated.Value(initialAvatarCenteredPosition))
+  const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(initialAvatarCenteredPosition)
   const [headerBalanceVerticalMarginAnimValue] = useState(new Animated.Value(theme.sizes.defaultDouble))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
   const [animValue] = useState(new Animated.Value(1))
@@ -109,6 +104,7 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
+  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const currentFeed = store.get('currentFeed')
@@ -149,6 +145,15 @@ const Dashboard = props => {
     marginVertical: headerBalanceVerticalMarginAnimValue,
   }
 
+  const calculateHeaderLayoutSizes = useCallback(() => {
+    const newScreenWidth = getMaxDeviceWidth()
+    const newHeaderContentWidth = newScreenWidth - _theme.sizes.default * 2 * 2
+    const newAvatarCenteredPosition = newHeaderContentWidth / 2 - 34
+
+    setHeaderContentWidth(newHeaderContentWidth)
+    setAvatarCenteredPosition(newAvatarCenteredPosition)
+  }, [setHeaderContentWidth, setAvatarCenteredPosition])
+
   const isTheSameUser = code => {
     return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
   }
@@ -157,14 +162,14 @@ const Dashboard = props => {
     async anyParams => {
       try {
         if (anyParams && anyParams.code) {
-          const code = readCode(decodeURI(anyParams.code))
+          const code = readCode(decodeURIComponent(anyParams.code))
 
           if (isTheSameUser(code) === false) {
             try {
               const { route, params } = await routeAndPathForCode('send', code)
               screenProps.push(route, params)
             } catch (e) {
-              showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+              showErrorDialog('Paymnet link is incorrect. Please double check your link.', undefined, {
                 onDismiss: screenProps.goToRoot,
               })
             }
@@ -179,34 +184,45 @@ const Dashboard = props => {
 
   const handleDeleteRedirect = useCallback(() => {
     if (navigation.state.key === 'Delete') {
-      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
+      showDeleteAccountDialog()
     }
-  }, [navigation, showErrorDialog, store, theme])
+  }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    async (reset = false) => {
-      const res =
-        (await userStorage
+    debounce(
+      async (reset = false) => {
+        log.debug('getFeedPage:', { feeds, loadAnimShown, didRender })
+        const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
-          .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
+          .catch(e => logger.error('getInitialFeed -> ', e.message, e))
 
-      if (res.length === 0) {
-        return
-      }
-
-      if (reset) {
-        if (!loadAnimShown) {
-          await delay(1900)
-          store.set('feedLoadAnimShown')(true)
+        if (reset) {
+          // a flag used to show feed load animation only at the first app loading
+          //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
+          //so we use a global variable
+          if (!didRender) {
+            // a time to perform feed load animation till the end
+            await delay(2000)
+            didRender = true
+          }
+          const res = (await feedPromise) || []
+          res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
+          res.length > 0 && setFeeds(res)
+        } else {
+          const res = (await feedPromise) || []
+          res.length > 0 && setFeeds(feeds.concat(res))
         }
-        setFeeds(res)
-      } else {
-        setFeeds(feeds.concat(res))
-      }
-    },
+      },
+      500,
+      { leading: true }
+    ),
     [loadAnimShown, store, setFeeds, feeds]
   )
 
+  //subscribeToFeed probably should be an effect that updates the feed items
+  //as they come in, currently on each new item it simply reset the feed
+  //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
+  //which would lead to many unwanted subscribe/unsubscribe to gun
   const subscribeToFeed = () => {
     return new Promise((res, rej) => {
       userStorage.feed.get('byid').on(async data => {
@@ -233,11 +249,11 @@ const Dashboard = props => {
     }
   }
 
-  const handleAppFocus = state => {
-    if (state === 'active') {
+  useEffect(() => {
+    if (appState === 'active') {
       animateClaim()
     }
-  }
+  }, [appState])
 
   const animateClaim = useCallback(() => {
     const { entitlement } = gdstore.get('account')
@@ -260,6 +276,10 @@ const Dashboard = props => {
   }, [gdstore, animValue])
 
   const showDelayed = useCallback(() => {
+    if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
+      return
+    }
+
     const id = setTimeout(() => {
       //wait until not loading and not showing other modal (see use effect)
       //mark as displayed
@@ -272,29 +292,37 @@ const Dashboard = props => {
   /**
    * rerender on screen size change
    */
-  const handleResize = () => {
-    const debouncedHandleResize = debounce(() => {
-      log.info('update component after resize', update)
+  const handleResize = useCallback(
+    debounce(() => {
       setUpdate(Date.now())
-    }, 100)
+      calculateHeaderLayoutSizes()
+    }, 100),
+    [setUpdate]
+  )
 
-    Dimensions.addEventListener('change', () => debouncedHandleResize())
-  }
-
-  const nextFeed = useCallback(() => {
-    if (feeds && feeds.length > 0) {
-      log.debug('getNextFeed called')
-      return getFeedPage()
-    }
-  }, [feeds])
+  const nextFeed = useCallback(
+    debounce(
+      () => {
+        if (feeds && feeds.length > 0) {
+          log.debug('getNextFeed called')
+          return getFeedPage()
+        }
+      },
+      100,
+      { leading: true }
+    ),
+    [feeds, getFeedPage]
+  )
 
   const initDashboard = async () => {
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+
     log.debug('initDashboard subscribed to feed')
     handleDeleteRedirect()
-    handleResize()
     animateClaim()
     InteractionManager.runAfterInteractions(handleAppLinks)
+
+    Dimensions.addEventListener('change', handleResize)
   }
 
   // The width of the balance block required to place the balance block at the center of the screen
@@ -305,18 +333,18 @@ const Dashboard = props => {
 
   const saveBalanceBlockWidth = useCallback(
     event => {
-      if (balanceHasBeenCentered.current) {
-        return
-      }
-
       const width = get(event, 'nativeEvent.layout.width')
 
       setBalanceBlockWidth(width)
 
+      if (balanceHasBeenCentered.current) {
+        return
+      }
+
       const balanceCenteredPosition = headerContentWidth / 2 - width / 2
       Animated.timing(headerBalanceRightAnimValue, {
         toValue: balanceCenteredPosition,
-        duration: 100,
+        duration: 50,
       }).start()
 
       if (!showBalance) {
@@ -324,7 +352,7 @@ const Dashboard = props => {
       }
       balanceHasBeenCentered.current = true
     },
-    [setBalanceBlockWidth, headerBalanceRightAnimValue, showBalance, setShowBalance, balanceHasBeenCentered]
+    [setBalanceBlockWidth]
   )
 
   useEffect(() => {
@@ -401,15 +429,14 @@ const Dashboard = props => {
         }),
       ]).start()
     }
-  }, [headerLarge])
+  }, [headerLarge, balance, update, headerContentWidth, avatarCenteredPosition])
 
   useEffect(() => {
     log.debug('Dashboard didmount', navigation)
     initDashboard()
-    AppState.addEventListener('change', handleAppFocus)
 
     return function() {
-      AppState.removeEventListener('change', handleAppFocus)
+      Dimensions.removeEventListener('change', handleResize)
     }
   }, [])
 
@@ -503,7 +530,7 @@ const Dashboard = props => {
         })
       }
     },
-    [showDialog]
+    [showDialog, showEventModal]
   )
 
   const handleWithdraw = useCallback(
@@ -515,18 +542,37 @@ const Dashboard = props => {
           title: 'Processing Payment Link...',
           image: <LoadingIcon />,
           message: 'please wait while processing...',
-          buttons: [{ text: 'YAY!', style: styles.disabledButton }],
+          buttons: [
+            {
+              text: 'YAY!',
+              style: styles.disabledButton,
+              disabled: true,
+            },
+          ],
         })
+
         const { status, transactionHash } = await executeWithdraw(
           store,
           paymentParams.paymentCode,
           paymentParams.reason
         )
+
         if (transactionHash) {
           fireEvent('WITHDRAW')
           hideDialog()
+          showDialog({
+            title: 'Payment Link Processed Successfully',
+            image: <SuccessIcon />,
+            message: "You received G$'s!",
+            buttons: [
+              {
+                text: 'YAY!',
+              },
+            ],
+          })
           return
         }
+
         switch (status) {
           case WITHDRAW_STATUS_COMPLETE:
             showErrorDialog('Payment already withdrawn or canceled by sender')
@@ -539,12 +585,13 @@ const Dashboard = props => {
               const { status } = await goodWallet.getWithdrawDetails(paymentParams.paymentCode)
               if (status === WITHDRAW_STATUS_PENDING) {
                 // eslint-disable-next-line no-await-in-loop
-                return await handleWithdraw()
+                return await handleWithdraw(params)
               }
             }
             showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
             break
           default:
+            break
         }
       } catch (e) {
         log.error('withdraw failed:', e.message, e, { errCode: e.code })
@@ -556,6 +603,8 @@ const Dashboard = props => {
     [showDialog, hideDialog, showErrorDialog, store, navigation]
   )
 
+  // const avatarSource = useMemo(() => (avatar ? { uri: avatar } : UnknownProfile), [avatar])
+
   const onScroll = useCallback(
     ({ nativeEvent }) => {
       const minScrollRequired = 150
@@ -563,12 +612,16 @@ const Dashboard = props => {
       const minScrollRequiredISH = headerLarge ? minScrollRequired : minScrollRequired * 2
       const scrollPositionISH = headerLarge ? scrollPosition : scrollPosition + minScrollRequired
       if (feeds && feeds.length && feeds.length > 10 && scrollPositionISH > minScrollRequiredISH) {
-        headerLarge && setHeaderLarge(false)
+        if (headerLarge) {
+          setHeaderLarge(false)
+        }
       } else {
-        !headerLarge && setHeaderLarge(true)
+        if (!headerLarge) {
+          setHeaderLarge(true)
+        }
       }
     },
-    [headerLarge, feeds]
+    [headerLarge, feeds, setHeaderLarge]
   )
 
   const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feeds), [currentFeed, feeds])
@@ -623,7 +676,7 @@ const Dashboard = props => {
             contentStyle={styles.leftButtonContent}
             textStyle={styles.leftButtonText}
             params={{
-              nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
+              nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'TransactionConfirmation'],
               params: { action: 'Send' },
             }}
             compact
@@ -655,7 +708,10 @@ const Dashboard = props => {
         data={feeds}
         handleFeedSelection={handleFeedSelection}
         initialNumToRender={PAGE_SIZE}
-        onEndReached={nextFeed}
+        onEndReached={nextFeed} // How far from the end the bottom edge of the list must be from the end of the content to trigger the onEndReached callback.
+        // we can use decimal (from 0 to 1) or integer numbers. Integer - it is a pixels from the end. Decimal it is the percentage from the end
+        onEndReachedThreshold={0.7} // Determines the maximum number of items rendered outside of the visible area
+        windowSize={7}
         onScroll={onScroll}
         headerLarge={headerLarge}
         scrollEventThrottle={100}
@@ -710,6 +766,15 @@ const getStylesFromProps = ({ theme }) => ({
   userInfo: {
     backgroundColor: 'transparent',
     marginBottom: 12,
+  },
+  userInfoHorizontal: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
   },
   avatarWrapper: {
     height: '100%',
@@ -783,15 +848,6 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: theme.sizes.defaultDouble,
     justifyContent: 'space-between',
   },
-  userInfoHorizontal: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: 0,
-  },
   marginNegative: {
     marginBottom: -7,
   },
@@ -827,26 +883,39 @@ export default createStackNavigator({
     path: ':action/Reason',
     params: { action: ACTION_SEND },
   },
+  ReceiveToAddress,
   ReceiveSummary,
-  ReceiveConfirmation: {
-    screen: ReceiveConfirmation,
-    path: ':action/ReceiveConfirmation',
-  },
-  SendLinkSummary,
-  SendConfirmation,
-  SendByQR,
   ReceiveByQR,
 
-  // FRError,
-  // FaceVerification: FaceRecognition,
-  // FRIntro,
-  // UnsupportedDevice,
+  /*ReceiveConfirmation: {
+    screen: ReceiveConfirmation,
+    path: ':action/ReceiveConfirmation',
+  },*/
+
+  SendLinkSummary,
+  SendByQR,
+  SendToAddress,
+
+  // SendConfirmation,
+
+  FaceVerification,
+  FaceVerificationIntro,
+  FaceVerificationError,
+  FaceVerificationUnsupported,
+
   SendQRSummary,
-  PP: PrivacyPolicy,
+
+  TransactionConfirmation: {
+    screen: TransactionConfirmation,
+    path: ':action/TransactionConfirmation',
+    params: { action: ACTION_SEND },
+  },
+
+  // PP: PrivacyPolicy,
   PrivacyArticle,
-  TOU: TermsOfUse,
+  TOU: PrivacyPolicyAndTerms,
   Support,
-  FAQ,
+  Statistics,
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: {

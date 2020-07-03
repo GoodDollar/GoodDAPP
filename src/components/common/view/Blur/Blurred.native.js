@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+// eslint-disable-next-line import/named
 import { BlurView } from '@react-native-community/blur'
 import { findNodeHandle, StyleSheet, View } from 'react-native'
 

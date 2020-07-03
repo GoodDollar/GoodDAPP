@@ -1,5 +1,7 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
+import { cloneDeep } from 'lodash'
+
 import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
@@ -13,10 +15,10 @@ class Received extends AnimationBase {
         imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
         autoPlay={true}
-        source={animationData}
+        source={cloneDeep(animationData)}
         autoSize={false}
         style={{
-          height: getDesignRelativeHeight(145),
+          height: getDesignRelativeHeight(160),
         }}
         loop={false}
       />

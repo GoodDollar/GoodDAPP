@@ -1,7 +1,12 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
+import { cloneDeep } from 'lodash'
+
 import AnimationBase from '../Base'
+import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
+import { isMobileOnly } from '../../../../lib/utils/platform'
+
 import animationData from './data.json'
 
 const styles = {
@@ -17,8 +22,7 @@ const styles = {
   },
   web: {
     width: '100%',
-    position: 'absolute',
-    marginTop: -270,
+    marginBottom: isMobileOnly ? getDesignRelativeHeight(5) : -getDesignRelativeHeight(20),
   },
 }
 const stylesBlock = {
@@ -33,6 +37,8 @@ const stylesBlock = {
   web: {
     width: '100%',
     height: 100,
+    justifyContent: 'flex-end',
+    marginTop: isMobileOnly ? 0 : getDesignRelativeHeight(50),
   },
 }
 
@@ -43,7 +49,7 @@ class JumpingPeople extends AnimationBase {
         <Lottie
           enableMergePathsAndroidForKitKatAndAbove={true}
           autoPlay={true}
-          source={animationData}
+          source={cloneDeep(animationData)}
           autoSize={true}
           style={Platform.select(styles)}
           loop={false}

@@ -3,6 +3,8 @@ import React from 'react'
 import { Appbar } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
+import { Icon } from '../common'
+import { isMobile } from '../../lib/utils/platform'
 
 /**
  * @type
@@ -17,16 +19,21 @@ type NavBarProps = {
  * @name NavBar
  * @param {NavBarProps} props
  */
+
+const NavigationBar = isMobile ? Appbar.Header : Appbar
+
 class NavBar extends React.Component<NavBarProps> {
   render() {
     const { styles } = this.props
 
     return (
-      <Appbar.Header dark style={styles.topbarStyles}>
-        {this.props.goBack && <Appbar.BackAction onPress={this.props.goBack} color="white" />}
+      <NavigationBar dark style={styles.topbarStyles}>
+        {this.props.goBack && (
+          <Icon name="arrow-back" onPress={this.props.goBack} color="white" size={22} style={styles.backButton} />
+        )}
         <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
         {this.props.goBack && <Appbar.Action color="white" />}
-      </Appbar.Header>
+      </NavigationBar>
     )
   }
 }
@@ -43,6 +50,11 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 0,
     flexShrink: 0,
     boxShadow: 'none',
+    elevation: 0,
+  },
+  backButton: {
+    marginLeft: 15,
+    width: 33,
   },
 })
 

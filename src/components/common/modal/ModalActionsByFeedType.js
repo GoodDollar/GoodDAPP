@@ -58,24 +58,29 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   }, [showErrorDialog, setState, state, handleModalClose])
 
   const getPaymentLink = useMemo(() => {
-    const url = generateShareLink('send', {
-      paymentCode: item.data.withdrawCode,
-      reason: item.data.message,
-    })
+    try {
+      let result
+      const url = generateShareLink('send', {
+        p: item.data.withdrawCode,
+        r: item.data.message,
+      })
 
-    let result
-
-    if (canShare) {
-      result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
-    } else {
-      result = {
-        url: generateSendShareText(url, item.data.amount, item.data.endpoint.fullName, currentUserName),
+      if (canShare) {
+        result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName, canShare)
+      } else {
+        result = {
+          url: generateSendShareText(url, item.data.amount, item.data.endpoint.fullName, currentUserName),
+        }
       }
+
+      fireEventAnalytics('Sharelink')
+      return result
+    } catch (e) {
+      log.error('getPaymentLink Failed', e.message, {
+        item,
+        canShare,
+      })
     }
-
-    fireEventAnalytics('Sharelink')
-
-    return result
   }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject])
 
   const readMore = useCallback(() => {

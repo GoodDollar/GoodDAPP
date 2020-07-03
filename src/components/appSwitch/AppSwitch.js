@@ -1,9 +1,10 @@
 // @flow
-import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Platform } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Platform } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
@@ -14,10 +15,13 @@ import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import userStorage from '../../lib/gundb/UserStorage'
 import runUpdates from '../../lib/updates'
-import DeepLinking from '../../lib/utils/deepLinking'
 import useAppState from '../../lib/hooks/useAppState'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
+import { delay } from '../../lib/utils/async'
+import { assertStore } from '../../lib/undux/SimpleStore'
+import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
+import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
 
 type LoadingProps = {
@@ -34,7 +38,9 @@ const showOutOfGasError = debounce(
     const gasResult = await goodWallet.verifyHasGas(goodWallet.wallet.utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
       topWallet: false,
     })
+
     log.debug('outofgaserror:', { gasResult })
+
     if (gasResult.ok === false && gasResult.error !== false) {
       props.navigation.navigate('OutOfGasError')
     }
@@ -57,12 +63,21 @@ const AppSwitch = (props: LoadingProps) => {
   const [ready, setReady] = useState(false)
   const { appState } = useAppState()
 
+  const recheck = useCallback(() => {
+    if (ready && gdstore) {
+      checkBonusInterval(true)
+      showOutOfGasError(props)
+    }
+  }, [gdstore, ready])
+
+  useAppState({ onForeground: recheck })
+
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
   const getParams = async () => {
     // const navInfo = router.getPathAndParamsForState(state)
-    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
+    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     AsyncStorage.removeItem(DESTINATION_PATH)
 
     // FIXME: RN INAPPLINKS
@@ -90,7 +105,6 @@ const AppSwitch = (props: LoadingProps) => {
   user completes signup and becomes loggedin which just updates this component
 */
   const navigateToUrlAction = async () => {
-    log.info('didUpdate')
     let destDetails = await getParams()
 
     //once user logs in we can redirect him to saved destinationpath
@@ -105,15 +119,25 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = async () => {
+    if (!assertStore(gdstore, log, 'Failed to initialize login/citizen status')) {
+      return
+    }
+
     //after dynamic routes update, if user arrived here, then he is already loggedin
     //initialize the citizen status and wallet status
     const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
       ([authResult, _]) => authResult
     )
+
     log.debug({ isLoggedIn, isLoggedInCitizen })
+
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
-    isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+
+    if (isLoggedInCitizen) {
+      API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
+    }
+    return isLoggedInCitizen
 
     // if (isLoggedIn) {
     //   if (destDetails) {
@@ -148,39 +172,46 @@ const AppSwitch = (props: LoadingProps) => {
     // }
   }
 
-  const init = async (retries = 3) => {
+  const init = async () => {
     log.debug('initializing', gdstore)
 
     try {
-      await initialize()
+      const isCitizen = await initialize()
+      checkBonusInterval()
+      prepareLoginToken()
+      runUpdates()
+      showOutOfGasError(props)
 
-      //we only need feed once user logs in, so this is not in userstorage.init
-      userStorage.startSystemFeed()
-      await Promise.all([runUpdates(), prepareLoginToken(), checkBonusInterval(), showOutOfGasError(props)])
+      // preloading Zoom (supports web + native)
+      if (isCitizen === false) {
+        // don't awaiting for sdk ready here
+        // initialize() will await if preload hasn't completed yet
+        preloadZoomSDK(log) // eslint-disable-line require-await
+      }
 
       setReady(true)
     } catch (e) {
       log.error('failed initializing app', e.message, e)
       unsuccessfulLaunchAttempts += 1
-      if (unsuccessfulLaunchAttempts > 1) {
-        showErrorDialog('Wallet could not be loaded. Please try again later.', '', {
-          onDismiss: init,
-        })
+      if (unsuccessfulLaunchAttempts > 3) {
+        //TODO: FIX window.location for RN
+        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
+        await delay(1500)
         init()
       }
     }
   }
 
   const prepareLoginToken = async () => {
-    if (config.isEToro !== true) {
+    if (config.enableInvites !== true) {
       return
     }
-    const loginToken = await userStorage.getProfileFieldValue('loginToken')
-    log.info('Prepare login token process started', loginToken)
 
-    if (!loginToken) {
-      try {
+    try {
+      const loginToken = await userStorage.getProfileFieldValue('loginToken')
+      log.info('Prepare login token process started', loginToken)
+      if (!loginToken) {
         const response = await API.getLoginToken()
 
         const _loginToken = get(response, 'data.loginToken')
@@ -188,23 +219,29 @@ const AppSwitch = (props: LoadingProps) => {
         if (_loginToken) {
           await userStorage.setProfileField('loginToken', _loginToken, 'private')
         }
-      } catch (e) {
-        log.error('prepareLoginToken failed', e.message, e)
       }
+    } catch (e) {
+      log.error('prepareLoginToken failed', e.message, e)
     }
   }
 
-  const checkBonusInterval = async perform => {
-    if (config.isEToro !== true) {
+  const checkBonusInterval = async force => {
+    if (config.enableInvites !== true) {
       return
     }
+
+    if (!assertStore(gdstore, log, 'checkBonusInterval failed')) {
+      return
+    }
+
     const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
     const isUserWhitelisted = gdstore.get('isLoggedInCitizen') || (await goodWallet.isCitizen())
 
     log.debug({ lastTimeBonusCheck, isUserWhitelisted, gdstore })
     if (
       isUserWhitelisted !== true ||
-      (lastTimeBonusCheck &&
+      (force !== true &&
+        lastTimeBonusCheck &&
         moment()
           .subtract(Number(config.backgroundReqsInterval), 'minutes')
           .isBefore(moment(lastTimeBonusCheck)))

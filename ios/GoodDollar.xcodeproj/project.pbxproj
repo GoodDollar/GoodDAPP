@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* GoodDollarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GoodDollarTests.m */; };
 		033B8C0A8940430D912EC4AC /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 87C6E460098F4D6485C02C84 /* Roboto-Bold.ttf */; };
@@ -19,7 +20,7 @@
 		2FF5A9749E634C41B5508DCD /* RobotoSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77E20F18A1D644E28CD22FBA /* RobotoSlab-Regular.ttf */; };
 		477F7AF867B84C89B5DD55C3 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E177BA7F034F44F4A748FB5F /* Roboto-BoldItalic.ttf */; };
 		5453E5E92409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5E82409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m */; };
-    5453E5EB2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */; };
+		5453E5EB2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */; };
 		5453E5ED240AA27E00E3DC92 /* DeepLink+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */; };
 		5453E5F0240ABC1400E3DC92 /* branch.json in Resources */ = {isa = PBXBuildFile; fileRef = 5453E5EF240ABC1400E3DC92 /* branch.json */; };
 		5453E5F1240AD05900E3DC92 /* GoodDollar.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */; };
@@ -84,7 +85,7 @@
 		503435BD5C8549679380F2C6 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		539FABBEB0951E48A3BDC28F /* libPods-GoodDollar-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoodDollar-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5453E5E82409C38B00E3DC92 /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
-    5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "RNPushNotificationIOS+AppDelegate.m"; path = "GoodDollar/RNPushNotificationIOS+AppDelegate.m"; sourceTree = "<group>"; };
+		5453E5EA2409D8E600E3DC92 /* RNPushNotificationIOS+AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "RNPushNotificationIOS+AppDelegate.m"; path = "GoodDollar/RNPushNotificationIOS+AppDelegate.m"; sourceTree = "<group>"; };
 		5453E5EC240AA27E00E3DC92 /* DeepLink+AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "DeepLink+AppDelegate.m"; path = "GoodDollar/DeepLink+AppDelegate.m"; sourceTree = "<group>"; };
 		5453E5EE240AAFEB00E3DC92 /* GoodDollar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = GoodDollar.entitlements; path = GoodDollar/GoodDollar.entitlements; sourceTree = "<group>"; };
 		5453E5EF240ABC1400E3DC92 /* branch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = branch.json; path = ../branch.json; sourceTree = "<group>"; };
@@ -313,30 +314,6 @@
 			name = animations;
 			sourceTree = "<group>";
 		};
-		948C136DD52B4D6E842D76EA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = Application;
-			sourceTree = "<group>";
-		};
-		808BF4AC3E21437DA0A83635 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = Application;
-			sourceTree = "<group>";
-		};
-		A7AE4DD0613C4DCBB87CC9E6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = Application;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -486,7 +463,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-GoodDollar/Pods-GoodDollar-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController/QBImagePicker.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -503,7 +480,7 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
-				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -524,7 +501,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RSKImageCropperStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

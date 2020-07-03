@@ -10,6 +10,7 @@ import InputFile from '../../common/form/InputFile'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
 import { onPressFix } from '../../../lib/utils/async'
+import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import CircleButtonWrapper from '../CircleButtonWrapper'
 import CameraButton from '../CameraButton'
 import openCropper from './openCropper'
@@ -29,7 +30,7 @@ export const pickerOptions = {
 }
 
 const log = logger.child({ from: 'ViewAvatar' })
-const TITLE = 'Your Profile'
+const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
   const { styles } = props
@@ -87,30 +88,34 @@ const ViewOrUploadAvatar = props => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        {profile.avatar ? (
-          <>
-            <UserAvatar profile={profile} size={272} onPress={onPressFix(handleCameraPress)} />
-            <CircleButtonWrapper
-              style={styles.closeButton}
-              iconName={'trash'}
-              iconSize={22}
-              onPress={handleClosePress}
-            />
-            <CameraButton style={styles.cameraButton} handleCameraPress={onPressFix(handleCameraPress)} />
-          </>
-        ) : (
-          <>
-            <InputFile pickerOptions={pickerOptions} onChange={handleAddAvatar}>
-              <UserAvatar profile={profile} size={272} />
-            </InputFile>
-            <InputFile pickerOptions={pickerOptions} onChange={handleAddAvatar} style={styles.cameraButton}>
-              <CameraButton noStyles />
-            </InputFile>
-          </>
-        )}
-        <CustomButton style={styles.doneButton} onPress={goToProfile}>
-          Done
-        </CustomButton>
+        <Section.Stack>
+          {profile.avatar ? (
+            <>
+              <UserAvatar profile={profile} size={272} onPress={onPressFix(handleCameraPress)} />
+              <CircleButtonWrapper
+                style={styles.closeButton}
+                iconName={'trash'}
+                iconSize={22}
+                onPress={handleClosePress}
+              />
+              <CameraButton style={styles.cameraButton} handleCameraPress={onPressFix(handleCameraPress)} />
+            </>
+          ) : (
+            <>
+              <InputFile pickerOptions={pickerOptions} onChange={handleAddAvatar}>
+                <CameraButton containerStyle={styles.cameraButtonNewImgContainer} style={styles.cameraButtonNewImg} />
+              </InputFile>
+              <InputFile pickerOptions={pickerOptions} onChange={handleAddAvatar}>
+                <UserAvatar profile={profile} size={272} />
+              </InputFile>
+            </>
+          )}
+        </Section.Stack>
+        <Section.Stack grow style={styles.buttonsRow}>
+          <CustomButton style={styles.doneButton} onPress={goToProfile}>
+            Done
+          </CustomButton>
+        </Section.Stack>
       </Section>
     </Wrapper>
   )
@@ -120,25 +125,62 @@ ViewOrUploadAvatar.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  section: {
-    flex: 1,
-    position: 'relative',
-  },
-  cameraButton: {
-    left: 'auto',
-    position: 'absolute',
-    right: 12,
-    top: theme.sizes.defaultDouble,
-  },
-  closeButton: {
-    left: 12,
-    position: 'absolute',
-    top: theme.sizes.defaultDouble,
-  },
-  doneButton: {
-    marginTop: 'auto',
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const { defaultDouble, defaultQuadruple } = theme.sizes
+  const buttonGap = getDesignRelativeWidth(-30) / 2
+
+  return {
+    section: {
+      flex: 1,
+      position: 'relative',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    cameraButtonContainer: {
+      zIndex: 1,
+    },
+    cameraButton: {
+      left: 'auto',
+      position: 'absolute',
+      top: 1,
+      right: 1,
+      marginTop: defaultDouble,
+      marginRight: buttonGap,
+    },
+    cameraButtonNewImgContainer: {
+      zIndex: 1,
+    },
+    cameraButtonNewImg: {
+      left: 'auto',
+      position: 'absolute',
+      top: 1,
+      right: 1,
+      marginRight: buttonGap,
+    },
+    closeButtonContainer: {
+      zIndex: 1,
+    },
+    closeButton: {
+      left: 1,
+      right: 'auto',
+      position: 'absolute',
+      top: 1,
+      marginTop: defaultDouble,
+      marginLeft: buttonGap,
+    },
+    avatar: {
+      marginTop: defaultQuadruple,
+    },
+    buttonsRow: {
+      justifyContent: 'flex-end',
+      minHeight: 60,
+      width: '100%',
+      zIndex: -1,
+    },
+    doneButton: {
+      marginTop: 'auto',
+    },
+  }
+}
 
 export default withStyles(getStylesFromProps)(ViewOrUploadAvatar)

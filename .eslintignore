@@ -5,6 +5,6 @@ assets
 /config
 flow-typed
 scripts
-public/ZoomAuthentication.js
+src/lib/zoom
 /*.js
 /node_modules/**

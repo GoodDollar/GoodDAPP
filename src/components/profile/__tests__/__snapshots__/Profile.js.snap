@@ -62,115 +62,26 @@ exports[`Profile matches snapshot 1`] = `
       }
     >
       <div
-        aria-label="Back"
-        className="css-cursor-18t94o4 css-view-1dbjc4n"
+        className="css-text-901oao"
         data-focusable={true}
-        disabled={false}
+        dir="auto"
+        onClick={[Function]}
         onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        role="button"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
-            "alignItems": "center",
+            "color": "rgba(255,255,255,1.00)",
             "cursor": "pointer",
-            "height": "28px",
-            "justifyContent": "center",
-            "marginBottom": "10px",
-            "marginLeft": "10px",
-            "marginRight": "10px",
-            "marginTop": "10px",
-            "msFlexAlign": "center",
-            "msFlexPack": "center",
-            "msTouchAction": "manipulation",
-            "overflowX": "visible",
-            "overflowY": "visible",
-            "position": "relative",
-            "touchAction": "manipulation",
-            "width": "28px",
+            "fontFamily": "gooddollar",
+            "fontSize": "22px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "marginLeft": "15px",
+            "width": "33px",
           }
         }
         tabIndex="0"
       >
-        <span
-          className="css-hitSlop-mjp8i1"
-          style={
-            Object {
-              "bottom": "-10px",
-              "left": "-10px",
-              "right": "-10px",
-              "top": "-10px",
-            }
-          }
-        />
-        <div
-          className="css-view-1dbjc4n"
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "height": "24px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-                "width": "24px",
-              }
-            }
-          >
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitTransform": "rotate(0deg)",
-                  "bottom": "0px",
-                  "left": "0px",
-                  "opacity": 1,
-                  "position": "absolute",
-                  "right": "0px",
-                  "top": "0px",
-                  "transform": "rotate(0deg)",
-                }
-              }
-            >
-              <div
-                className="css-text-901oao r-pointerEvents-633pao"
-                dir="auto"
-                focusable={false}
-                role="img"
-                style={
-                  Object {
-                    "WebkitTransform": "scaleX(1)",
-                    "backgroundColor": "rgba(0,0,0,0.00)",
-                    "color": "rgba(255,255,255,1.00)",
-                    "fontFamily": "MaterialIcons",
-                    "fontSize": "24px",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                    "transform": "scaleX(1)",
-                  }
-                }
-              >
-                
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </div>
       <div
         className="css-view-1dbjc4n"
@@ -221,7 +132,7 @@ exports[`Profile matches snapshot 1`] = `
             }
           }
         >
-          Profile
+          My Profile
         </h1>
       </div>
       <div
@@ -388,19 +299,23 @@ exports[`Profile matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexGrow": 1,
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "borderBottomLeftRadius": "5px",
-                "borderBottomRightRadius": "5px",
-                "borderTopLeftRadius": "5px",
-                "borderTopRightRadius": "5px",
-                "flexGrow": 1,
-                "msFlexPositive": 1,
-                "paddingBottom": "16px",
-                "paddingLeft": "12px",
-                "paddingRight": "12px",
-                "paddingTop": "16px",
+                "WebkitAlignItems": "flex-start",
+                "WebkitBoxAlign": "start",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "center",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "center",
+                "alignItems": "flex-start",
+                "display": "flex",
+                "flexDirection": "row",
+                "height": "68px",
+                "justifyContent": "center",
+                "msFlexAlign": "start",
+                "msFlexDirection": "row",
+                "msFlexPack": "center",
+                "position": "relative",
+                "zIndex": 1,
               }
             }
           >
@@ -408,19 +323,8 @@ exports[`Profile matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "WebkitAlignItems": "flex-start",
-                  "WebkitBoxAlign": "start",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "justify",
-                  "WebkitFlexDirection": "row",
-                  "WebkitJustifyContent": "space-between",
-                  "alignItems": "flex-start",
-                  "flexDirection": "row",
-                  "justifyContent": "space-between",
-                  "msFlexAlign": "start",
-                  "msFlexDirection": "row",
-                  "msFlexPack": "justify",
+                  "left": "20px",
+                  "position": "absolute",
                 }
               }
             >
@@ -486,6 +390,43 @@ exports[`Profile matches snapshot 1`] = `
                 </div>
               </div>
               <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "10px",
+                    "fontWeight": "500",
+                    "lineHeight": "11px",
+                    "marginTop": "3px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                Privacy
+              </div>
+            </div>
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexPack": "center",
+                  "position": "absolute",
+                }
+              }
+            >
+              <div
                 className="css-view-1dbjc4n"
                 style={
                   Object {
@@ -498,6 +439,7 @@ exports[`Profile matches snapshot 1`] = `
                     "justifyContent": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
+                    "width": "136px",
                   }
                 }
               >
@@ -543,24 +485,32 @@ exports[`Profile matches snapshot 1`] = `
                       Object {
                         "MozTransitionProperty": "opacity",
                         "MozUserSelect": "none",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
                         "WebkitTransitionDuration": "0.15s",
                         "WebkitTransitionProperty": "opacity",
                         "WebkitUserSelect": "none",
+                        "alignItems": "center",
                         "backgroundColor": "rgba(203,203,203,1.00)",
-                        "borderBottomColor": "rgba(163,163,163,1.00)",
+                        "borderBottomColor": "rgba(255,255,255,1.00)",
                         "borderBottomLeftRadius": "68px",
                         "borderBottomRightRadius": "68px",
-                        "borderBottomWidth": "1px",
-                        "borderLeftColor": "rgba(163,163,163,1.00)",
-                        "borderLeftWidth": "1px",
-                        "borderRightColor": "rgba(163,163,163,1.00)",
-                        "borderRightWidth": "1px",
-                        "borderTopColor": "rgba(163,163,163,1.00)",
+                        "borderBottomWidth": "3px",
+                        "borderLeftColor": "rgba(255,255,255,1.00)",
+                        "borderLeftWidth": "3px",
+                        "borderRightColor": "rgba(255,255,255,1.00)",
+                        "borderRightWidth": "3px",
+                        "borderTopColor": "rgba(255,255,255,1.00)",
                         "borderTopLeftRadius": "68px",
                         "borderTopRightRadius": "68px",
-                        "borderTopWidth": "1px",
+                        "borderTopWidth": "3px",
                         "cursor": "pointer",
                         "height": "136px",
+                        "justifyContent": "center",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
                         "msTouchAction": "manipulation",
                         "msUserSelect": "none",
                         "touchAction": "manipulation",
@@ -577,12 +527,12 @@ exports[`Profile matches snapshot 1`] = `
                       style={
                         Object {
                           "backgroundColor": "rgba(0,0,0,0.00)",
-                          "borderBottomLeftRadius": "67px",
-                          "borderBottomRightRadius": "67px",
-                          "borderTopLeftRadius": "67px",
-                          "borderTopRightRadius": "67px",
-                          "height": "134px",
-                          "width": "134px",
+                          "borderBottomLeftRadius": "65px",
+                          "borderBottomRightRadius": "65px",
+                          "borderTopLeftRadius": "65px",
+                          "borderTopRightRadius": "65px",
+                          "height": "130px",
+                          "width": "130px",
                         }
                       }
                     >
@@ -591,16 +541,16 @@ exports[`Profile matches snapshot 1`] = `
                         style={
                           Object {
                             "WebkitFlexBasis": "auto",
-                            "borderBottomLeftRadius": "67px",
-                            "borderBottomRightRadius": "67px",
-                            "borderTopLeftRadius": "67px",
-                            "borderTopRightRadius": "67px",
+                            "borderBottomLeftRadius": "65px",
+                            "borderBottomRightRadius": "65px",
+                            "borderTopLeftRadius": "65px",
+                            "borderTopRightRadius": "65px",
                             "flexBasis": "auto",
-                            "height": "134px",
+                            "height": "130px",
                             "msFlexPreferredSize": "auto",
                             "overflowX": "hidden",
                             "overflowY": "hidden",
-                            "width": "134px",
+                            "width": "130px",
                             "zIndex": 0,
                           }
                         }
@@ -636,6 +586,34 @@ exports[`Profile matches snapshot 1`] = `
                   </div>
                 </div>
               </div>
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(66,69,74,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto Slab",
+                    "fontSize": "22px",
+                    "fontWeight": "normal",
+                    "lineHeight": "29px",
+                    "marginTop": "8px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "position": "absolute",
+                  "right": "20px",
+                }
+              }
+            >
               <div
                 className="css-view-1dbjc4n"
                 data-focusable={true}
@@ -699,7 +677,57 @@ exports[`Profile matches snapshot 1`] = `
                   
                 </div>
               </div>
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "10px",
+                    "fontWeight": "500",
+                    "lineHeight": "11px",
+                    "marginTop": "3px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                Edit
+              </div>
             </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitBoxFlex": 1,
+                "WebkitFlexGrow": 1,
+                "backgroundColor": "rgba(255,255,255,1.00)",
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "flexGrow": 1,
+                "msFlexPositive": 1,
+                "paddingBottom": "16px",
+                "paddingLeft": "12px",
+                "paddingRight": "12px",
+                "paddingTop": "16px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "height": "75px",
+                  "width": "100%",
+                }
+              }
+            />
             <div
               className="css-view-1dbjc4n"
               style={
@@ -819,7 +847,7 @@ exports[`Profile matches snapshot 1`] = `
                             "borderTopLeftRadius": "0px",
                             "borderTopRightRadius": "0px",
                             "borderTopWidth": "1px",
-                            "marginBottom": "0px",
+                            "marginBottom": "2px",
                             "marginTop": "2px",
                             "paddingBottom": "2px",
                             "paddingLeft": "32px",
@@ -830,13 +858,13 @@ exports[`Profile matches snapshot 1`] = `
                         }
                       >
                         <input
-                          aria-disabled={true}
                           autoCapitalize="sentences"
                           autoComplete="on"
                           autoCorrect="on"
                           className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                          data-focusable={true}
                           dir="auto"
-                          disabled={true}
+                          disabled={false}
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -844,7 +872,7 @@ exports[`Profile matches snapshot 1`] = `
                           onKeyPress={[Function]}
                           onSelect={[Function]}
                           placeholder="Choose a Username"
-                          readOnly={false}
+                          readOnly={true}
                           spellCheck={true}
                           style={
                             Object {
@@ -866,7 +894,6 @@ exports[`Profile matches snapshot 1`] = `
                               "msFlexPreferredSize": "0%",
                             }
                           }
-                          tabIndex="-1"
                           type="text"
                         />
                         <div
@@ -885,6 +912,7 @@ exports[`Profile matches snapshot 1`] = `
                               "msFlexPack": "center",
                               "position": "absolute",
                               "right": "0px",
+                              "top": "0px",
                               "width": "32px",
                               "zIndex": 1,
                             }
@@ -963,7 +991,7 @@ exports[`Profile matches snapshot 1`] = `
                             "borderTopLeftRadius": "0px",
                             "borderTopRightRadius": "0px",
                             "borderTopWidth": "1px",
-                            "marginBottom": "0px",
+                            "marginBottom": "2px",
                             "marginTop": "2px",
                             "paddingBottom": "2px",
                             "paddingLeft": "32px",
@@ -974,13 +1002,13 @@ exports[`Profile matches snapshot 1`] = `
                         }
                       >
                         <input
-                          aria-disabled={true}
                           autoCapitalize="sentences"
                           autoComplete="on"
                           autoCorrect="on"
                           className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                          data-focusable={true}
                           dir="auto"
-                          disabled={true}
+                          disabled={false}
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -988,7 +1016,7 @@ exports[`Profile matches snapshot 1`] = `
                           onKeyPress={[Function]}
                           onSelect={[Function]}
                           placeholder="Add your Mobile"
-                          readOnly={false}
+                          readOnly={true}
                           spellCheck={true}
                           style={
                             Object {
@@ -1010,7 +1038,6 @@ exports[`Profile matches snapshot 1`] = `
                               "msFlexPreferredSize": "0%",
                             }
                           }
-                          tabIndex="-1"
                           type="text"
                         />
                         <div
@@ -1029,6 +1056,7 @@ exports[`Profile matches snapshot 1`] = `
                               "msFlexPack": "center",
                               "position": "absolute",
                               "right": "0px",
+                              "top": "0px",
                               "width": "32px",
                               "zIndex": 1,
                             }
@@ -1109,7 +1137,7 @@ exports[`Profile matches snapshot 1`] = `
                             "borderTopLeftRadius": "0px",
                             "borderTopRightRadius": "0px",
                             "borderTopWidth": "1px",
-                            "marginBottom": "0px",
+                            "marginBottom": "2px",
                             "marginTop": "2px",
                             "paddingBottom": "2px",
                             "paddingLeft": "32px",
@@ -1120,13 +1148,13 @@ exports[`Profile matches snapshot 1`] = `
                         }
                       >
                         <input
-                          aria-disabled={true}
                           autoCapitalize="sentences"
                           autoComplete="on"
                           autoCorrect="on"
                           className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
+                          data-focusable={true}
                           dir="auto"
-                          disabled={true}
+                          disabled={false}
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -1134,7 +1162,7 @@ exports[`Profile matches snapshot 1`] = `
                           onKeyPress={[Function]}
                           onSelect={[Function]}
                           placeholder="Add your Email"
-                          readOnly={false}
+                          readOnly={true}
                           spellCheck={true}
                           style={
                             Object {
@@ -1156,7 +1184,6 @@ exports[`Profile matches snapshot 1`] = `
                               "msFlexPreferredSize": "0%",
                             }
                           }
-                          tabIndex="-1"
                           type="text"
                         />
                         <div
@@ -1175,6 +1202,7 @@ exports[`Profile matches snapshot 1`] = `
                               "msFlexPack": "center",
                               "position": "absolute",
                               "right": "0px",
+                              "top": "0px",
                               "width": "32px",
                               "zIndex": 1,
                             }

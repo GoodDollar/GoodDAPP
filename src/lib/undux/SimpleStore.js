@@ -1,9 +1,12 @@
 // @flow
-import { useMemo } from 'react'
 import { createConnectedStore } from 'undux'
-import { AsyncStorage } from 'react-native'
+import { isString } from 'lodash'
+import AsyncStorage from '../utils/asyncStorage'
+
 import { IS_LOGGED_IN } from '../constants/localStorage'
-import withPinoLogger from './plugins/logger'
+import pinoLogger from '../logger/pino-logger'
+import withPinoLogger, { log as unduxLogger } from './plugins/logger'
+import { createUseCurriedSettersHook } from './utils/setter'
 
 /**
  * Dialog data. This is being used to show a dialog across the app
@@ -104,10 +107,11 @@ const initialState: State = {
  * @module
  */
 let SimpleStore: UnduxStore = createConnectedStore(initialState, withPinoLogger) // default value for tests
+
 const initStore = async () => {
-  let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
-  initialState.isLoggedIn = isLoggedIn
-  SimpleStore = createConnectedStore(initialState, withPinoLogger)
+  let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
+  const state = { ...initialState, isLoggedIn }
+  SimpleStore = createConnectedStore(state, withPinoLogger)
   return SimpleStore
 }
 
@@ -118,10 +122,36 @@ const setInitFunctions = (_setWallet, _setUserStorage) => {
   setUserStorage = _setUserStorage
 }
 
-const useCurriedSetters = (paths: string[]) => {
-  const store = SimpleStore.useStore()
+const storeAssertion = (condition, logger, message) => {
+  let log = logger
+  const assertionFailed = condition()
 
-  return useMemo(() => paths.map(path => store.set(path)), [paths, store])
+  if (isString(logger)) {
+    log = pinoLogger.child({ from: logger })
+  }
+
+  if (assertionFailed) {
+    log.warn(message, 'Received store is null')
+  }
+
+  return !assertionFailed
 }
 
-export { initStore, SimpleStore as default, setInitFunctions, setWallet, setUserStorage, useCurriedSetters }
+const useCurriedSetters = createUseCurriedSettersHook(() => SimpleStore)
+
+const assertStore = (store, logger = unduxLogger, message = 'Operation failed') =>
+  storeAssertion(() => !store, logger, message)
+
+const assertStoreSnapshot = (store, logger = unduxLogger, message = 'Operation failed') =>
+  storeAssertion(() => !store || !store.storeSnapshot, logger, message)
+
+export {
+  initStore,
+  assertStore,
+  assertStoreSnapshot,
+  SimpleStore as default,
+  setInitFunctions,
+  setWallet,
+  setUserStorage,
+  useCurriedSetters,
+}

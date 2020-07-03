@@ -8,6 +8,7 @@ const {
   addBabelPresets,
   fixBabelImports,
   babelExclude,
+  useEslintRc
 } = require("customize-cra");
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
@@ -84,17 +85,22 @@ module.exports = {
       path.resolve('node_modules/@react-navigation'),
       path.resolve('node_modules/react-native-paper'),
       path.resolve('node_modules/react-native-safe-area-view'),
-      path.resolve('node_modules/react-native-vector-icons'),
+      path.resolve('node_modules/react-native-vector-icons/lib'),
       path.resolve('node_modules/react-native-gesture-handler'),
       path.resolve('node_modules/react-native-keyboard-aware-scroll-view'),
       path.resolve('node_modules/react-native-animatable'),
+      path.resolve('node_modules/react-native-card-flip'),
     ]),
 
     babelExclude([
       path.resolve('node_modules/@react-navigation/core/lib/module/utils'),
       path.resolve('node_modules/@react-navigation/native/dist/utils'),
       path.resolve('node_modules/@react-navigation/web'),
+      path.resolve('node_modules/react-native-card-flip/node_modules'),
+      path.resolve('src/lib/zoom'),
     ]),
+
+    useEslintRc(),
 
     addWebpackAlias({
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
@@ -109,8 +115,12 @@ module.exports = {
     ),
 
     ...addBabelPresets(
-      ["@babel/preset-env", { useBuiltIns: "usage" }],
-      "@babel/preset-react",
+      ['@babel/preset-env', {
+        modules: false,
+        targets: {
+          node: 4,
+        }
+      }],
       "@babel/preset-flow"
     ),
 

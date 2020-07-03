@@ -7,5 +7,8 @@ module.exports = function(api) {
         plugins: ['react-native-paper/babel', "lodash", "transform-class-properties"],
       },
     },
-  };
-};
+    ignore: [
+      'src/lib/zoom/ZoomAuthentication.js'
+    ]
+  }
+}

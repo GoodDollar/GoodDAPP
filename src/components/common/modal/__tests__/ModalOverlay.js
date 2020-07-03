@@ -1,6 +1,5 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { isMobileOnly } from '../../../../lib/utils/platform'
 import ImportedModalOverlay from '../ModalOverlay'
 import { withThemeProvider } from '../../../../__tests__/__util__'
 import { theme } from '../../../theme/styles'
@@ -17,9 +16,11 @@ describe('ModalOverlay', () => {
 
   it('check height for mobile and desktop device', () => {
     const tree = renderer.create(<ModalOverlay />)
-    const height = isMobileOnly ? '100vh' : `${theme.sizes.maxHeightForTabletAndDesktop}px`
+    const maxHeight = theme.sizes.maxHeightForTabletAndDesktop
     const heightTemplate = tree.toJSON().children[0].props.style.height
-    expect(height === heightTemplate).toBeTruthy()
+    const heightTemplateAsNumber = Number(heightTemplate.match(/\d+/g).join(''))
+
+    expect(maxHeight >= heightTemplateAsNumber).toBeTruthy()
   })
 
   it('matches snapshot', () => {

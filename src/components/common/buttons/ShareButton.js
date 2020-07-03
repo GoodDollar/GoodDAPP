@@ -1,9 +1,7 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
-import { Share } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
-import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import CustomButton from './CustomButton'
 import CopyButton from './CopyButton'
 
@@ -17,30 +15,24 @@ type ShareButtonProps = {
 const log = logger.child({ from: 'ShareButton' })
 
 const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareButtonProps) => {
-  const [showErrorDialog] = useErrorDialog()
-  const { canShare } = useNativeSharing()
+  const { canShare, shareAction } = useNativeSharing()
 
   useEffect(() => {
     log.info('getPaymentLink', { share })
   }, [])
 
-  const shareAction = useCallback(async () => {
-    try {
-      await Share.share(share)
-    } catch (e) {
-      if (e.name !== 'AbortError') {
-        showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
-      }
-    }
-  }, [showErrorDialog])
+  const shareHandler = useCallback(() => {
+    shareAction(share)
+  }, [shareAction, share])
 
   if (canShare) {
     return (
-      <CustomButton onPress={shareAction} {...buttonProps}>
+      <CustomButton onPress={shareHandler} {...buttonProps}>
         {actionText}
       </CustomButton>
     )
   }
+
   return (
     <CopyButton toCopy={share.url} onPressDone={onPressDone} {...buttonProps}>
       {actionText}

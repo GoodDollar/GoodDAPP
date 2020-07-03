@@ -23,7 +23,7 @@ const RESOLUTIONS_PROPORTION = CURRENT_RESOLUTION / DESIGN_RESOLUTION
 
 export default size => {
   if (RESOLUTIONS_PROPORTION < 1 && size > 16) {
-    return size
+    return size * RESOLUTIONS_PROPORTION
   }
 
   return size

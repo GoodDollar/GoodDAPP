@@ -1,24 +1,49 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { isMobile } from 'mobile-device-detect'
+import { Platform } from 'react-native'
+import { cloneDeep } from 'lodash'
+import { isMobileNative } from '../../../../lib/utils/platform'
+
 import AnimationBase from '../Base'
-import { getScreenHeight, getScreenWidth } from '../../../../lib/utils/Orientation'
-import animationData from './data.json'
+import { getAnimationData } from '../../../../lib/utils/lottie'
+
+const { animationData, imageAssetsFolder } = getAnimationData('Logo', require('./data'))
+
+const styles = {
+  android: {
+    width: '100%',
+  },
+  ios: {
+    width: '100%',
+  },
+  web: {
+    width: '100%',
+  },
+}
 
 class Logo extends AnimationBase {
+  onMount = () => {
+    if (this.props.animation) {
+      this.anim.play()
+    } else {
+      if (isMobileNative) {
+        const lastFrame = Number(animationData.op) - 1
+        this.anim.play(lastFrame, 5200)
+      } else {
+        this.anim.goToAndStop(5200)
+      }
+    }
+  }
+
   render() {
     return (
       <Lottie
+        ref={this.setAnim}
+        imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
-        autoPlay={true}
-        source={animationData}
+        source={cloneDeep(animationData)}
         autoSize={false}
-        style={
-          isMobile && {
-            height: getScreenHeight() - 50,
-            width: getScreenWidth(),
-          }
-        }
+        style={[Platform.select(styles), this.props.style]}
         loop={false}
       />
     )

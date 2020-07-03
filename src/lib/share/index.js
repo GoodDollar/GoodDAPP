@@ -1,4 +1,5 @@
 // @flow
+import { Share } from 'react-native'
 import { fromPairs, isEmpty } from 'lodash'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
@@ -29,12 +30,12 @@ export function generateCode(
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
   const codeObj = {
-    mnid,
-    amount,
-    reason,
+    m: mnid,
+    a: amount,
+    r: reason,
   }
   if (counterPartyDisplayName) {
-    codeObj.counterPartyDisplayName = counterPartyDisplayName
+    codeObj.c = counterPartyDisplayName
   }
 
   return codeObj
@@ -48,15 +49,17 @@ export function generateCode(
 export function readCode(code: string) {
   try {
     let mnid, amount, reason, counterPartyDisplayName
+    const decoded = decodeURIComponent(code)
+
     try {
-      let codeParams = Buffer.from(code, 'base64').toString()
+      let codeParams = Buffer.from(decoded, 'base64').toString()
       let codeObject = JSON.parse(codeParams)
-      mnid = codeObject.mnid
-      amount = codeObject.amount
-      reason = codeObject.reason
-      counterPartyDisplayName = codeObject.counterPartyDisplayName
+      mnid = codeObject.mnid || codeObject.m
+      amount = codeObject.amount || codeObject.a
+      reason = codeObject.reason || codeObject.r
+      counterPartyDisplayName = codeObject.counterPartyDisplayName || codeObject.c
     } catch (e) {
-      ;[mnid, amount, reason, counterPartyDisplayName] = code.split('|')
+      ;[mnid, amount, reason, counterPartyDisplayName] = decoded.split('|')
     }
 
     if (!isMNID(mnid)) {
@@ -75,7 +78,7 @@ export function readCode(code: string) {
       counterPartyDisplayName,
     }
   } catch (e) {
-    log.error('readCode failed', e.message, e)
+    log.error('readCode failed', e.message, e, { code })
     return null
   }
 }
@@ -132,16 +135,23 @@ type ShareObject = {
 export function generateShareObject(title: string, message: string, url: string): ShareObject {
   return {
     title,
-    message: `${message} ${url}`,
+    message,
+    url,
   }
 }
 
-export function generateSendShareObject(url: string, amount: number, to: string, from: string): ShareObject {
+export function generateSendShareObject(
+  url: string,
+  amount: number,
+  to: string,
+  from: string,
+  canShare: boolean
+): ShareObject {
   return generateShareObject(
     'Sending G$ via GoodDollar App',
     to
-      ? `${to}, You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open:`
-      : `You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open:`,
+      ? `${to}, You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`
+      : `You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`,
     url
   )
 }
@@ -159,13 +169,19 @@ export function generateSendShareText(...args): ShareObject {
  * @param {string} from - current user's fullName
  * @returns {string} - URL to use to share/receive GDs
  */
-export function generateReceiveShareObject(codeObj: any, amount: number, to: string, from: string): ShareObject {
+export function generateReceiveShareObject(
+  codeObj: any,
+  amount: number,
+  to: string,
+  from: string,
+  canShare: boolean
+): ShareObject {
   const url = generateShareLink('receive', codeObj)
   const text = [
     to ? `${to}, ` : '',
     `You've got a request from ${from}`,
     amount > 0 ? ` for ${weiToGd(amount)} G$` : '',
-    `. To Transfer open:`,
+    `. To approve transfer open: ${canShare ? url : ''}`,
   ].join('')
 
   return generateShareObject('Sending G$ via GoodDollar App', text, url)
@@ -220,14 +236,29 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     throw new Error(`Link couldn't be generated`)
   }
 
-  let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
+  //remove == of base64 not required then uri encode component to encode +/
+  let paramsBase64 = encodeURIComponent(Buffer.from(JSON.stringify(params)).toString('base64'))
   let queryParams = ''
 
-  if (Config.network === 'production') {
+  if (Config.enableShortUrl) {
     queryParams = `/${paramsBase64}`
   } else {
     queryParams = action === 'send' ? `?paymentCode=${paramsBase64}` : `?code=${paramsBase64}`
   }
 
   return encodeURI(`${destination}${queryParams}`)
+}
+
+export function shareAction(shareObj, showErrorDialog, customErrorMessage) {
+  try {
+    Share.share(shareObj)
+  } catch (e) {
+    if (e.name !== 'AbortError') {
+      showErrorDialog(customErrorMessage || 'Sorry, there was an error sharing you link. Please try again later.')
+
+      log.error('Native share failed', e.message, e, {
+        shareObj,
+      })
+    }
+  }
 }

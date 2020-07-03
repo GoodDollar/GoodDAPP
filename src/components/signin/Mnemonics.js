@@ -1,9 +1,9 @@
 // @flow
 //eslint-disable-next-line
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage } from 'react-native'
-import bip39 from 'bip39-light'
 import { get } from 'lodash'
+import bip39 from 'bip39-light'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import retryImport from '../../lib/utils/retryImport'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -165,8 +165,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               onChangeText={handleChange}
               error={errorMessage}
               onKeyPress={handleEnter}
-              onCleanUpField={handleChange}
               getRef={input}
+              showCleanAdornment
               autoFocus
               enablesReturnKeyAutomatically
               onSubmitEditing={recover}
@@ -203,7 +203,8 @@ const mnemonicsStyles = ({ theme }) => ({
     marginVertical: theme.paddings.defaultMargin,
   },
   buttonLayout: {
-    marginVertical: 20,
+    marginTop: 20,
+    marginBottom: 20,
   },
   bottomContainer: {
     maxHeight: 80,

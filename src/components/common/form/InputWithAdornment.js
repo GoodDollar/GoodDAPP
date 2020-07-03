@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useMemo } from 'react'
-import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import { isMobileWeb as isMobile, isMobileSafari } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { useCurriedSetters } from '../../../lib/undux/SimpleStore'
 import { withStyles } from '../../../lib/styles'

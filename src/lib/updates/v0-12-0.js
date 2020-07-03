@@ -10,7 +10,8 @@ const fixSendFeedStatus = async (lastUpdate, prevVersion, logger) => {
   try {
     const feeds = await userStorage.getAllFeed()
     const promises = []
-    for (const feedItem of feeds) {
+    let feedItem
+    for (feedItem of feeds) {
       if (
         get(feedItem, 'type') === 'send' &&
         get(feedItem, 'status') === 'completed' &&

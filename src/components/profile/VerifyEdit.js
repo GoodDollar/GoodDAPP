@@ -57,7 +57,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
       navigation.navigate('VerifyEditCode', { field, content })
     } catch (e) {
-      log.error('Failed to send code', e.message, e, { dialogShown: true })
+      log.error('Failed to send code', e.message, e)
 
       showErrorDialog('Could not send verification code. Please try again', undefined, { onDismiss: goBack })
     } finally {

@@ -55,7 +55,7 @@ const UnrecoverableError = ({ styles, exception, screenProps }) => {
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none">
+          <Section.Title fontWeight="medium" textTransform="none" color="red">
             {'Sorry about that…\nWe’re looking in to it,\nplease try again later'}
           </Section.Title>
           <Image source={illustration} resizeMode="contain" style={styles.errorImage} />

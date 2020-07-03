@@ -1,21 +1,23 @@
+// libraries
 import React from 'react'
 import { Image, Platform } from 'react-native'
 
-import { isMobile } from '../../../lib/utils/platform'
-
-import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
+// components
 import illustration from '../../../assets/CameraPermissionError.svg'
+import DeniedPermissionDialog from './DeniedPermissionDialog'
+
+// assets
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-export default () => (
-  <ExplanationDialog
+export default props => (
+  <DeniedPermissionDialog
     errorMessage={"We can't access your camera..."}
-    title="Please enable camera permission"
-    text={`Change it via your ${isMobile ? 'device' : 'browser'} settings`}
+    title="Go to your device settings & enable camera permission"
     imageSource={illustration}
+    {...props}
   />
 )
 

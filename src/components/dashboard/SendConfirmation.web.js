@@ -8,7 +8,6 @@ import Wrapper from '../common/layout/Wrapper'
 import TopBar from '../common/view/TopBar'
 import useClipboard from '../../lib/hooks/useClipboard'
 import { withStyles } from '../../lib/styles'
-import logger from '../../lib/logger/pino-logger'
 import { Icon } from '../common'
 import AnimatedSendButton from '../common/animations/ShareLinkSendButton/ShareLinkSendButton'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -23,8 +22,6 @@ export type ReceiveProps = {
   navigation: any,
   styles: any,
 }
-
-const log = logger.child({ from: 'SendConfirmation.web' })
 
 const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
@@ -41,10 +38,6 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
         await navigator.share(paymentLink)
       } catch (e) {
         if (e.name !== 'AbortError') {
-          log.error('Share link failed', e.message, e, {
-            paymentLink,
-            dialogShown: true,
-          })
           showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
         }
       }

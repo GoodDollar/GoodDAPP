@@ -7,7 +7,7 @@ import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNa
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
-import { isMobileNative, isIOS } from '../../lib/utils/platform'
+import { isIOS, isMobileNative } from '../../lib/utils/platform'
 import { ACTION_RECEIVE, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 import WhoContent from './WhoContent'
 

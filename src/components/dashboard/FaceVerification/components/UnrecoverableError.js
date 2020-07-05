@@ -1,32 +1,61 @@
 import React, { useEffect } from 'react'
+import { get } from 'lodash'
 
 import { Image, Platform, View } from 'react-native'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
+import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
 
+import { useDialog } from '../../../../lib/undux/utils/dialog'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import { isMobileOnly } from '../../../../lib/utils/platform'
+import logger from '../../../../lib/logger/pino-logger'
+
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import illustration from '../../../../assets/FRUnrecoverableError.svg'
 
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 
+import { ZoomSDKStatus } from '../sdk/ZoomSDK'
+
+const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus
+
+const log = logger.child({ from: 'FaceVerification' })
+
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const UnrecoverableError = ({ styles, screenProps }) => {
+const UnrecoverableError = ({ styles, exception, screenProps }) => {
+  const [, hideDialog, showErrorDialog] = useDialog()
+
+  const sdkStatus = get(exception, 'code')
+  const isLicenseIssue = [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(sdkStatus)
+
   const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
   const onDismiss = useOnPress(() => screenProps.goToRoot(), [screenProps])
 
-  useEffect(() => fireEvent(FV_TRYAGAINLATER), [])
+  useEffect(() => {
+    if (!isLicenseIssue) {
+      fireEvent(FV_TRYAGAINLATER)
+      return
+    }
+
+    // if user is not in whitelist and we do not do faceverification then this is an error
+    log.error('FaceVerification failed', '', exception, { dialogShown: true })
+    showSupportDialog(showErrorDialog, hideDialog, screenProps.push, 'Face Verification disabled')
+  }, [])
+
+  if (isLicenseIssue) {
+    return null
+  }
 
   return (
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none">
+          <Section.Title fontWeight="medium" textTransform="none" color="red">
             {'Sorry about that…\nWe’re looking in to it,\nplease try again later'}
           </Section.Title>
           <Image source={illustration} resizeMode="contain" style={styles.errorImage} />

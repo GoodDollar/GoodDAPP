@@ -14,6 +14,7 @@ const Config = {
   contractsVersion,
   isEToro,
   isPhaseZero: 'true' === process.env.REACT_APP_ENV_PHASE_ZERO,
+  isPhaseOne: 'true' === process.env.REACT_APP_ENV_PHASE_ONE,
   newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: (forceLogLevel && forceLogLevel[1]) || process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
@@ -34,7 +35,6 @@ const Config = {
   auth0SMSClientId: process.env.REACT_APP_AUTH0_SMS_CLIENT_ID,
   auth0Domain: process.env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
-  showInvite: process.env.REACT_APP_DASHBOARD_SHOW_INVITE === 'true',
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   zoomServerURL: process.env.REACT_APP_ZOOM_SERVER_BASEURL || 'https://api.zoomauth.com/api/v2/biometrics',

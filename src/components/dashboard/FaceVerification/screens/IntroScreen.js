@@ -1,28 +1,32 @@
-/* eslint-disable */
+// libraries
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
 
-import UserStorage from '../../../../lib/gundb/UserStorage'
-import GDStore from '../../../../lib/undux/GDStore'
+//components
 import Separator from '../../../common/layout/Separator'
-import logger from '../../../../lib/logger/pino-logger'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import { getFirstWord } from '../../../../lib/utils/getFirstWord'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
-import { withStyles } from '../../../../lib/styles'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
-import { isBrowser } from '../../../../lib/utils/platform'
-import { openLink } from '../../../../lib/utils/linking'
+
+// hooks
 import useOnPress from '../../../../lib/hooks/useOnPress'
-import Config from '../../../../config/config'
-import { Permissions } from '../../../permissions/types'
-import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
+// utils
+import UserStorage from '../../../../lib/gundb/UserStorage'
+import GDStore from '../../../../lib/undux/GDStore'
+import logger from '../../../../lib/logger/pino-logger'
+import { getFirstWord } from '../../../../lib/utils/getFirstWord'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+import { withStyles } from '../../../../lib/styles'
+import { isBrowser } from '../../../../lib/utils/platform'
+import { openLink } from '../../../../lib/utils/linking'
+import Config from '../../../../config/config'
+import { Permissions } from '../../../permissions/types'
+import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
@@ -44,36 +48,45 @@ const WalletDeletedPopupText = ({ styles }) => (
 const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
-  const isValid = get(screenProps, 'screenState.isValid', false)
+  const { screenState, goToRoot, navigateTo, pop } = screenProps
+  const isValid = get(screenState, 'isValid', false)
 
   const disposing = useDisposingState({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
     onComplete: isDisposing => {
       if (!isDisposing) {
-        return;
+        return
       }
 
       showQueueDialog(WalletDeletedPopupText, {
-        onDismiss: () => screenProps.goToRoot(),
+        onDismiss: goToRoot,
       })
-    }
+    },
   })
 
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
     onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
-    onAllowed: () => screenProps.navigateTo('FaceVerification'),
+    onAllowed: () => navigateTo('FaceVerification'),
     onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
+    navigate: navigateTo,
   })
 
   const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
   const handleVerifyClick = useOnPress(requestCameraPermissions, [])
 
+  const commonTextStyles = {
+    textAlign: 'center',
+    color: 'primary',
+    fontSize: 18,
+    lineHeight: 25,
+  }
+
   useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
 
   useEffect(() => {
     if (isValid) {
-      screenProps.pop({ isValid: true })
+      pop({ isValid: true })
     } else {
       fireEvent(FV_INTRO)
     }
@@ -84,7 +97,7 @@ const IntroScreen = ({ styles, screenProps }) => {
       <Section style={styles.topContainer} grow>
         <View style={styles.mainContent}>
           <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nLet's make sure you're\na real live person`}
+            {`${getFirstWord(fullName)},\nOnly a real live person\ncan claim G$’s`}
           </Section.Title>
           <View style={styles.illustration}>
             <FaceVerificationSmiley />
@@ -92,20 +105,15 @@ const IntroScreen = ({ styles, screenProps }) => {
           <View>
             <Separator width={2} />
             <Text textAlign="center" style={styles.descriptionContainer}>
-              <Text textAlign="center" fontWeight="bold" color="primary">
+              <Text {...commonTextStyles} fontWeight="bold">
                 {`Once in a while\n`}
               </Text>
-              <Text textAlign="center" color="primary">
-                {`we'll need to take a short video of you\n`}
-              </Text>
-              <Text textAlign="center" color="primary">
-                {`to prevent duplicate accounts.\n`}
-              </Text>
+              <Text {...commonTextStyles}>{`we'll need to take a short video of you\n`}</Text>
+              <Text {...commonTextStyles}>{`to prevent duplicate accounts.\n`}</Text>
               <Text
-                textAlign="center"
+                {...commonTextStyles}
                 fontWeight="bold"
                 textDecorationLine="underline"
-                color="primary"
                 style={styles.descriptionUnderline}
                 onPress={openPrivacy}
               >
@@ -115,7 +123,7 @@ const IntroScreen = ({ styles, screenProps }) => {
             <Separator style={[styles.bottomSeparator]} width={2} />
           </View>
           <CustomButton style={[styles.button]} onPress={handleVerifyClick} disabled={false !== disposing}>
-            OK, Verify me
+            OK, VERIFY ME
           </CustomButton>
         </View>
       </Section>

@@ -5,10 +5,16 @@ import renderer from 'react-test-renderer'
 
 import { getWebRouterComponentWithMocks } from './__util__'
 
-const address = '0x0000000000000000000000000000000000000000'
+jest.doMock('../../../lib/wallet/GoodWallet', () => {
+  return {
+    account: 'face-account-wallet-address',
+  }
+})
 
 describe('ReceiveToAddress', () => {
-  const ReceiveToAddress = getWebRouterComponentWithMocks('../ReceiveToAddress', { address })
+  const ReceiveToAddress = getWebRouterComponentWithMocks('../ReceiveToAddress')
+
+  afterAll(() => jest.dontMock('../../../lib/wallet/GoodWallet'))
 
   it('renders without errors', () => {
     const tree = renderer.create(<ReceiveToAddress />)

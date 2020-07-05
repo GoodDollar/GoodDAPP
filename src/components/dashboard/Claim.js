@@ -7,7 +7,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import logger from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -29,7 +29,6 @@ import {
   fireMauticEvent,
 } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
@@ -60,7 +59,7 @@ const Claim = props => {
   const { entitlement } = gdstore.get('account')
   const isCitizen = gdstore.get('isLoggedInCitizen')
 
-  const [showDialog, hideDialog, showErrorDialog] = useDialog()
+  const [showDialog, , showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
   const [claimState, setClaimState]: [ClaimState, Function] = useState({
@@ -108,7 +107,7 @@ const Claim = props => {
         }
       }
     } catch (e) {
-      log.error('evaluateFRValidity failed', e.message, e)
+      log.error('evaluateFRValidity failed', e.message, { dialogShown: true })
       showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
         onDismiss: () => {
           screenProps.goToRoot()
@@ -127,7 +126,10 @@ const Claim = props => {
         .checkEntitlement()
         .then(entitlement => setClaimState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
         .catch(e => {
-          log.error('gatherStats failed', e.message, e)
+          log.error('gatherStats failed', e.message, e, {
+            dialogShown: true,
+            category: ExceptionCategory.Blockhain,
+          })
           showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
             onDismiss: () => {
               screenProps.goToRoot()
@@ -162,7 +164,10 @@ const Claim = props => {
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
     ]).catch(e => {
-      log.error('gatherStats failed', e.message, e)
+      log.error('gatherStats failed', e.message, e, {
+        dialogShown: true,
+        category: ExceptionCategory.Blockhain,
+      })
       showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
         onDismiss: () => {
           screenProps.goToRoot()
@@ -267,26 +272,25 @@ const Claim = props => {
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
+        log.error('Claim transaction failed', '', null, {
+          txHash: receipt.transactionHash,
+          entitlement: curEntitlement,
+          status: receipt.status,
+          category: ExceptionCategory.Blockhain,
+          dialogShown: true,
+        })
         showErrorDialog('Claim transaction failed', '', { boldMessage: 'Try again later.' })
       }
     } catch (e) {
       fireEvent(CLAIM_FAILED, { txError: true, eMsg: e.message })
-      log.error('claiming failed', e.message, e)
+      log.error('claiming failed', e.message, e, { dialogShown: true })
       showErrorDialog('Claim request failed', '', { boldMessage: 'Try again later.' })
     } finally {
       setLoading(false)
     }
   }
 
-  const handleFaceVerification = () => {
-    //if user is not in whitelist and we do not do faceverification then this is an error
-    if (Config.zoomLicenseKey == null) {
-      showSupportDialog(showErrorDialog, hideDialog, screenProps.push, 'Faceverification disabled')
-      log.error('handleFaceVerification failed', '', new Error('Zoom licensekey missing'))
-    } else {
-      screenProps.push('FaceVerificationIntro', { from: 'Claim' })
-    }
-  }
+  const handleFaceVerification = () => screenProps.push('FaceVerificationIntro', { from: 'Claim' })
 
   return (
     <WrapperClaim>

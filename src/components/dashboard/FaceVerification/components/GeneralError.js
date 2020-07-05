@@ -24,7 +24,7 @@ const GeneralError = ({ styles, displayTitle, onRetry, screenProps }) => {
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none">
+          <Section.Title fontWeight="medium" textTransform="none" color="red">
             {displayTitle}
             {',\nSomething went wrong\non our side...'}
           </Section.Title>
@@ -34,15 +34,18 @@ const GeneralError = ({ styles, displayTitle, onRetry, screenProps }) => {
           <Section style={styles.errorSection}>
             <Separator width={2} />
             <View style={styles.descriptionWrapper}>
-              <Text color="primary">
-                {"You see, it's not that easy\nto capture your beauty :)\nSo, let's give it another shot..."}
+              <Text color="primary" fontSize={18} lineHeight={25}>
+                {"You see, it's not that easy\nto capture your beauty :)"}
+              </Text>
+              <Text color="primary" fontWeight="bold" fontSize={18} lineHeight={25}>
+                So, let`s give it another shot...
               </Text>
             </View>
             <Separator width={2} />
           </Section>
         </Section>
         <View style={styles.action}>
-          <CustomButton onPress={onRetryPress}>PLEASE TRY AGAIN</CustomButton>
+          <CustomButton onPress={onRetryPress}>TRY AGAIN</CustomButton>
         </View>
       </View>
     </Wrapper>

@@ -1,19 +1,26 @@
 // @flow
+
+// libraries
 import React, { useCallback, useEffect } from 'react'
 import { isAddress } from 'web3-utils'
-import goodWallet from '../../lib/wallet/GoodWallet'
+
+// components
 import InputWithAdornment from '../common/form/InputWithAdornment'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { Permissions } from '../permissions/types'
 
-import useValidatedValueState from '../../lib/utils/useValidatedValueState'
+// hooks
 import { useClipboardPaste } from '../../lib/hooks/useClipboard'
 import usePermissions from '../permissions/hooks/usePermissions'
 import useOnPress from '../../lib/hooks/useOnPress'
+import useValidatedValueState from '../../lib/utils/useValidatedValueState'
+
+// utils
+import goodWallet from '../../lib/wallet/GoodWallet'
+import { withStyles } from '../../lib/styles'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { Permissions } from '../permissions/types'
 
 export type TypeProps = {
   screenProps: any,
@@ -40,6 +47,7 @@ const validate = value => {
 const SendToAddress = (props: TypeProps) => {
   const { screenProps, styles, navigation } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
+  const { push, navigateTo } = screenProps
   const { params } = navigation.state
   const { address } = screenState
   const [state, setValue] = useValidatedValueState(address, validate)
@@ -55,13 +63,14 @@ const SendToAddress = (props: TypeProps) => {
   const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
     requestOnMounted: false,
     onAllowed: pasteValueFromClipboard,
+    navigate: navigateTo,
   })
 
   const handleAdornmentAction = useOnPress(requestClipboardPermissions, [])
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} hideProfile={false} />
+      <TopBar push={push} hideProfile={false} />
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title fontWeight="medium">Send To?</Section.Title>
@@ -106,8 +115,8 @@ SendToAddress.navigationOptions = {
   title: 'Send G$',
 }
 
-SendToAddress.shouldNavigateToComponent = props => {
-  const { screenState } = props.screenProps
+SendToAddress.shouldNavigateToComponent = ({ screenProps }) => {
+  const { screenState } = screenProps
   return screenState.nextRoutes
 }
 

@@ -51,7 +51,7 @@ export default (props = {}) => {
         },
       },
     ],
-    [slideOut, showDeleteAccountDialog]
+    [slideOut, showDeleteAccountDialog],
   )
 
   const topItems = useMemo(() => {
@@ -96,10 +96,21 @@ export default (props = {}) => {
         icon: 'export-wallet',
         size: 18,
         name: 'Export Wallet',
-        hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
             routeName: 'ExportWallet',
+            type: 'Navigation/NAVIGATE',
+          })
+          slideOut()
+        },
+      },
+      {
+        icon: 'lock',
+        name: 'Backup Wallet',
+        hidden: isSelfCustody === false,
+        action: () => {
+          navigation.navigate({
+            routeName: 'BackupWallet',
             type: 'Navigation/NAVIGATE',
           })
           slideOut()

@@ -65,7 +65,9 @@ describe('Decode base64', () => {
       paymentCode: 'paymentCode',
       reason: 'test',
     }
-    const code = Buffer.from(JSON.stringify(params)).toString('base64')
+    const code = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
     const decoded = prepareDataWithdraw({ paymentCode: code })
 
     // Then
@@ -83,7 +85,9 @@ describe('Decode base64', () => {
       code: 'code_code',
     }
 
-    const code = Buffer.from(JSON.stringify(params)).toString('base64')
+    const code = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
     const decoded = prepareDataWithdraw({ paymentCode: code, ...otherParams })
 
     expect(decoded).toEqual(params)
@@ -99,7 +103,9 @@ describe('Decode base64', () => {
       other1: 'other 1',
       code: 'code_code',
     }
-    const code = Buffer.from(JSON.stringify(params)).toString('base64')
+    const code = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
 
     const decoded = prepareDataWithdraw({ paymentCode: code, ...otherParams })
 

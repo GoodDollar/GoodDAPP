@@ -22,6 +22,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const store = GDStore.useStore()
   const { canShare, generateSendShareObject, generateSendShareText, generateShareLink } = useNativeSharing()
   const currentUserName = store.get('profile').fullName
+  const inviteCode = store.get('inviteCode')
 
   const fireEventAnalytics = actionType => {
     fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
@@ -60,11 +61,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const getPaymentLink = useMemo(() => {
     try {
       let result
-      const url = generateShareLink('send', {
+      const params = {
         p: item.data.withdrawCode,
         r: item.data.message,
-      })
-
+      }
+      inviteCode && (params.i = inviteCode)
+      const url = generateShareLink('send', params)
       if (canShare) {
         result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
       } else {
@@ -81,7 +83,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         canShare,
       })
     }
-  }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject])
+  }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject, inviteCode])
 
   const readMore = useCallback(() => {
     fireEventAnalytics('readMore')

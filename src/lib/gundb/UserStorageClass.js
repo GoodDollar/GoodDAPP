@@ -290,8 +290,8 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
           }
           return acc
         },
-        { name: log.name }
-      )
+        { name: log.name },
+      ),
     )
 
   //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
@@ -300,7 +300,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     logs.filter(log => {
       return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
-    log => log.value
+    log => log.value,
   )
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
@@ -578,7 +578,7 @@ export class UserStorage {
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
-          this.gunCreate(username, password).then(r => this.gunAuth(username, password))
+          this.gunCreate(username, password).then(r => this.gunAuth(username, password)),
         )
       } else {
         loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
@@ -657,8 +657,57 @@ export class UserStorage {
     })
     logger.debug('init systemfeed')
 
-    await this.startSystemFeed()
+    await Promise.all([this.startSystemFeed(), this.initTokens()])
+
     return true
+  }
+
+  async initTokens() {
+    const initMarketToken = async () => {
+      if (Config.market) {
+        const r = await API.getMarketToken().catch(e => {
+          logger.warn('failed fetching market token', { e })
+        })
+        token = get(r, 'data.jwt')
+        if (token) {
+          this.setProfileField('marketToken', token, 'private')
+        }
+        return token
+      }
+    }
+
+    const initLoginToken = async () => {
+      if (Config.enableInvites) {
+        const r = await API.getLoginToken().catch(e => {
+          logger.warn('failed fetching login token', { e })
+        })
+        token = get(r, 'data.loginToken')
+        if (token) {
+          this.setProfileField('loginToken', token, 'private')
+        }
+        return token
+      }
+    }
+
+    let [token, inviteCode, marketToken] = await Promise.all([
+      this.getProfileFieldValue('loginToken'),
+      this.getProfileFieldValue('inviteCode'),
+      this.getProfileFieldValue('marketToken'),
+    ])
+
+    let [_token] = await Promise.all([token || initLoginToken(), marketToken || initMarketToken()])
+
+    if (!inviteCode) {
+      const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
+        logger.warn('failed fetching w3 user', { e })
+        return {}
+      })
+      logger.debug('w3 user result', { data })
+      inviteCode = get(data, 'invite_code')
+      if (inviteCode) {
+        this.setProfileField('inviteCode', inviteCode, 'private')
+      }
+    }
   }
 
   /**
@@ -703,7 +752,9 @@ export class UserStorage {
    */
   createMagicLink(username: String, password: String): String {
     let magicLink = `${username}+${password}`
-    magicLink = Buffer.from(magicLink).toString('base64')
+    magicLink = Buffer.from(magicLink)
+      .toString('base64')
+      .replace(/==$/, '')
 
     return magicLink
   }
@@ -832,7 +883,7 @@ export class UserStorage {
           'handleOTPLUpdated failed',
           'Original payment link TX not found',
           new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
-          data
+          data,
         )
         return
       }
@@ -1068,7 +1119,6 @@ export class UserStorage {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
-
     logger.debug('init opened profile', { gunRef: this.profile, profile, gunuser })
   }
 
@@ -1173,7 +1223,7 @@ export class UserStorage {
         ...acc,
         [currKey]: profile[currKey].display,
       }),
-      {}
+      {},
     )
     return getUserModel(displayProfile)
   }
@@ -1232,7 +1282,7 @@ export class UserStorage {
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
-        { errors }
+        { errors },
       )
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
@@ -1257,7 +1307,7 @@ export class UserStorage {
             logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
           })
-        })
+        }),
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
 
@@ -1270,7 +1320,7 @@ export class UserStorage {
             errCount: errors.length,
             errors,
             strErrors: JSON.stringify(errors),
-          }
+          },
         )
 
         if (Config.throwSaveProfileErrors) {
@@ -1296,7 +1346,7 @@ export class UserStorage {
       logger.error(
         `indexProfileField - field ${field} value is empty (value: ${value})`,
         cleanValue,
-        new Error('isValidValue failed')
+        new Error('isValidValue failed'),
       )
       return false
     }
@@ -1325,7 +1375,7 @@ export class UserStorage {
     const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
 
     const validatedFields = await Promise.all(
-      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field], true) }))
+      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field], true) })),
     )
     const errors = validatedFields.reduce((accErrors, curr) => {
       if (!curr.valid) {
@@ -1352,7 +1402,7 @@ export class UserStorage {
     field: string,
     value: string,
     privacy: FieldPrivacy = 'public',
-    onlyPrivacy: boolean = false
+    onlyPrivacy: boolean = false,
   ): Promise<ACK> {
     let display
     switch (privacy) {
@@ -1523,7 +1573,7 @@ export class UserStorage {
           }
 
           return item
-        })
+        }),
     )
   }
 
@@ -1541,7 +1591,7 @@ export class UserStorage {
             feedItem &&
             feedItem.data &&
             ['deleted', 'cancelled'].includes(feedItem.status) === false &&
-            feedItem.otplStatus !== 'cancelled'
+            feedItem.otplStatus !== 'cancelled',
         )
         .map(feedItem => {
           if (false == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
@@ -1552,7 +1602,7 @@ export class UserStorage {
             logger.error('getFormattedEvents Failed formatting event:', e.message, e, { feedItem })
             return {}
           })
-        })
+        }),
     )
   }
 
@@ -1738,7 +1788,7 @@ export class UserStorage {
             initiator,
             type,
             address,
-            displayName
+            displayName,
           ).catch(e => {
             logger.warn('formatEvent: failed extractFullName', e.message, e, {
               customName,
@@ -1781,7 +1831,7 @@ export class UserStorage {
         logger.error('formatEvent: failed formatting event:', e.message, e, event)
         return {}
       }
-    }
+    },
   )
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
@@ -2277,10 +2327,10 @@ export class UserStorage {
             'Deleting profile field failed',
             err.message || 'Some error occurred during setting the privacy to the field',
             err || new Error('Deleting profile field failed'),
-            { index: k }
+            { index: k },
           )
         })
-      })
+      }),
     )
     return true
   }

@@ -956,8 +956,8 @@ export class UserStorage {
     const feed = await this.feed
     logger.debug('init feed', { feed })
 
-    if (feed === null) {
-      // this.feed.put({ byid: {}, index: {}, queue: {} })
+    if (feed == null) {
+      await this.feed.put({}) //restore old feed data - after nullified
       logger.debug('init empty feed')
     } else {
       const byid = await this.feed.get('byid')
@@ -968,43 +968,48 @@ export class UserStorage {
     this.feedIds = (await loadFeedCache) || {}
 
     //verify cache has all items
-    await new Promise((res, rej) => {
-      if (!(feed && feed.byid)) {
-        res()
-      }
-      this.feed.get('byid').onThen(items => {
-        if (items && items._) {
-          delete items._
+    if (!(feed && feed.byid)) {
+      return
+    }
+    const items = await this.feed
+      .get('byid')
+      .onThen()
+      .catch(e => {
+        logger.warn('fetch byid onthen failed', { e })
+      })
+
+    if (!items) {
+      return
+    }
+    if (items && items._) {
+      delete items._
+    }
+    const ids = Object.entries(items)
+    logger.debug('initFeed got items', { ids })
+    const promises = ids.map(async ([k, v]) => {
+      if (this.feedIds[k] === undefined) {
+        logger.debug('initFeed got missing cache item', { k })
+        const data = await this.feed
+          .get('byid')
+          .get(k)
+          .decrypt()
+          .catch(_ => undefined)
+        if (data != null) {
+          this.feedIds[k] = data
+          return true
         }
-        const ids = Object.entries(items)
-        logger.debug('initFeed got items', { ids })
-        const promises = ids.map(async ([k, v]) => {
-          if (this.feedIds[k] === undefined) {
-            logger.debug('initFeed got missing cache item', { k })
-            const data = await this.feed
-              .get('byid')
-              .get(k)
-              .decrypt()
-              .catch(_ => undefined)
-            if (data != null) {
-              this.feedIds[k] = data
-              return true
-            }
-            return false
-          }
-          return false
-        })
-        Promise.all(promises)
-          .then(_ => {
-            if (_.find(_ => _)) {
-              logger.debug('initFeed updating cache', this.feedIds, _)
-              AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
-            }
-          })
-          .catch(e => logger.error('error caching feed items', e.message, e))
-        res()
-      }, true)
+        return false
+      }
+      return false
     })
+    Promise.all(promises)
+      .then(_ => {
+        if (_.find(_ => _)) {
+          logger.debug('initFeed updating cache', this.feedIds, _)
+          AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+        }
+      })
+      .catch(e => logger.error('error caching feed items', e.message, e))
   }
 
   async startSystemFeed() {
@@ -1044,14 +1049,10 @@ export class UserStorage {
    */
   async initProperties() {
     this.properties = this.gunuser.get('properties')
-    const props = await this.properties
-    logger.debug('init properties', { props })
 
-    if (props == null) {
-      let putRes = await this.properties.putAck(UserProperties.defaultProperties)
-      logger.debug('set defaultProperties ok:', { defaultProperties: UserProperties.defaultProperties, putRes })
-    }
     this.userProperties = new UserProperties(this.properties)
+    const properties = await this.userProperties.ready
+    logger.debug('init properties', { properties })
   }
 
   async initProfile() {
@@ -1217,7 +1218,7 @@ export class UserStorage {
    * It saves only known profile fields
    *
    * @param {UserModel} profile - User profile
-   * @param {boolean} update - are we updating, if so validate only non empty fields
+   * @param {boolean} update - are we updating, if so validate only non empty fields, otherwise also set default privacy
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
@@ -1246,7 +1247,13 @@ export class UserStorage {
       keys(this.profileSettings)
         .filter(key => profile[key])
         .map(async field => {
-          return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
+          return this.setProfileField(
+            field,
+            profile[field],
+            update
+              ? await this.getFieldPrivacy(field)
+              : get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
+          ).catch(e => {
             logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
           })
@@ -1591,7 +1598,8 @@ export class UserStorage {
    * @param {string} username
    */
   async isUsername(username: string) {
-    const profile = await this.gun.get('users/byusername').get(username)
+    const cleanValue = UserStorage.cleanHashedFieldForIndex('username', username)
+    const profile = await this.gun.get('users/byusername').get(cleanValue)
     return profile !== undefined
   }
 
@@ -1909,7 +1917,7 @@ export class UserStorage {
       let putRes = await this.feed
         .get('queue')
         .get(event.id)
-        .putAck(event)
+        .secretAck(event)
       await this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
@@ -1928,7 +1936,10 @@ export class UserStorage {
    */
   async dequeueTX(eventId: string): Promise<FeedEvent> {
     try {
-      const feedItem = await this.loadGunField(this.feed.get('queue').get(eventId))
+      const feedItem = await this.feed
+        .get('queue')
+        .get(eventId)
+        .decrypt()
       logger.debug('dequeueTX got item', eventId, feedItem)
       if (feedItem) {
         this.feed
@@ -2243,22 +2254,24 @@ export class UserStorage {
    * @returns {Promise<boolean>|Promise<boolean>}
    */
   async userAlreadyExist(): Promise<boolean> {
-    const [isProfileRegistered, isRegistered] = await Promise.all([
-      this.profile.get('registered').onThen(null, { default: {} }),
-      this.gunuser.get('registered').onThen(),
-    ])
-    const exists = isProfileRegistered.display || isRegistered
-    logger.debug('userAlreadyExist', { exists, isProfileRegistered, isRegistered })
+    const exists = await this.gunuser.get('registered').onThen()
+    logger.debug('userAlreadyExist', { exists })
     return exists
   }
 
   /**
-   * remove user from indexes when deleting profile
+   * remove user from indexes
+   * deleting profile actually doenst delete but encrypts everything
    */
   async deleteProfile(): Promise<boolean> {
+    this.unSubscribeProfileUpdates()
+
     //first delete from indexes then delete the profile itself
+    let profileFields = await this.profile
+    delete profileFields._
+
     await Promise.all(
-      keys(UserStorage.indexableFields).map(k => {
+      keys(profileFields).map(k => {
         return this.setProfileFieldPrivacy(k, 'private').catch(err => {
           logger.error(
             'Deleting profile field failed',
@@ -2269,9 +2282,6 @@ export class UserStorage {
         })
       })
     )
-
-    await this.gunuser.get('profile').putAck(null)
-
     return true
   }
 
@@ -2337,7 +2347,7 @@ export class UserStorage {
       return false
     }
 
-    logger.debug('deleteAccount', { deleteResults })
+    logger.debug('deleteAccount', deleteResults)
     return true
   }
 }

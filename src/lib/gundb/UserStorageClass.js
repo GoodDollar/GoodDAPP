@@ -1561,7 +1561,7 @@ export class UserStorage {
         .map(async eventIndex => {
           let item = this.feedIds[eventIndex.id]
 
-          if (item === undefined) {
+          if (item === undefined && eventIndex.id.indexOf('0x') === 0) {
             const receipt = await this.wallet.getReceiptWithLogs(eventIndex.id).catch(e => {
               logger.warn('no receipt found for id:', eventIndex.id, e.message, e)
               return undefined
@@ -1888,16 +1888,20 @@ export class UserStorage {
 
   async _extractProfileToShow(initiatorType, initiator, address): Gun {
     const getProfile = async (group, value) => {
+      logger.debug('extractProfile:', { group, value })
+
       // Need to verify if user deleted, otherwise the gun will stuck here and feed wont be displayed
       // The group will contain null value in case user was deleted
       const gunGroupIndexValue = this.gun.get(group).get(value)
       const groupValue = await gunGroupIndexValue.then()
+      logger.debug('extractProfiler result :', { group, value, groupValue })
 
-      if (!isNull(groupValue)) {
+      if (!isNull(groupValue) && Gun.node.is(groupValue)) {
         return {
           gunProfile: gunGroupIndexValue.get('profile'),
         }
       }
+      logger.warn('_extractProfileToShow invalid profile', { group, value, groupValue })
     }
 
     const searchField = initiatorType && `by${initiatorType}`

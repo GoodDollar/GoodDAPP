@@ -143,7 +143,7 @@ export const welcomeMessage = {
   data: {
     customName: 'Welcome to GoodDollar!',
     subtitle: 'Welcome to GoodDollar!',
-    readMore: 'Claim free G$ coins daily',
+    readMore: 'Claim free G$ coins daily.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -174,8 +174,8 @@ export const inviteFriendsMessage = {
   status: 'completed',
   data: {
     customName: `Invite friends and earn G$'s`,
-    subtitle: `Want to earn more G$'s ?`,
-    readMore: 'Invite more friends!',
+    subtitle: Config.isPhaseZero ? 'Want to earn more G$`s ?' : 'Invite Your friends now.',
+    readMore: Config.isPhaseZero ? 'Invite more friends!' : 'and let them also claim free G$`s.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -191,7 +191,7 @@ export const backupMessage = {
   data: {
     customName: 'Backup your wallet. Now.',
     subtitle: 'You need to backup your',
-    readMore: 'wallet pass phrase',
+    readMore: 'wallet pass phrase.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -229,7 +229,9 @@ export const startClaiming = {
     },
 
     // preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
-    reason: `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`,
+    reason: Config.isPhaseZero
+      ? `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
+      : `GoodDollar gives every active member a small daily income.\n\nSign in every day, collect free GoodDollars and use them to pay for goods and services.`,
   },
 }
 
@@ -239,7 +241,7 @@ export const hanukaBonusStartsMessage = {
   data: {
     customName: 'Collect extra GoodDollars\non every day of Hannukah',
     subtitle: 'Hannukah Miracle Bonus',
-    readMore: 'Claim today for extra G$$$',
+    readMore: 'Claim today for extra G$$$.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -258,7 +260,7 @@ export const longUseOfClaims = {
   data: {
     customName: 'Woohoo! You’ve made it!', //title in modal
     subtitle: 'Woohoo! You’ve made it!',
-    smallReadMore: 'Congrats! You claimed G$ for 14 days',
+    smallReadMore: 'Congrats! You claimed G$ for 14 days.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -1123,7 +1125,7 @@ export class UserStorage {
   }
 
   addAllCardsTest() {
-    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
+    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims, startSpending].forEach(m => {
       const copy = Object.assign({}, m, { id: String(Math.random()) })
       this.enqueueTX(copy)
     })
@@ -1302,7 +1304,7 @@ export class UserStorage {
             profile[field],
             update
               ? await this.getFieldPrivacy(field)
-              : get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
+              : get(this.profileSettings, `[${field}].defaultPrivacy`, 'private'),
           ).catch(e => {
             logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
@@ -1821,9 +1823,10 @@ export class UserStorage {
             },
             amount: value,
             preMessageText: preReasonText,
-            message: smallReadMore || reason || message,
+            message: reason || message,
             subtitle,
             readMore,
+            smallReadMore,
             withdrawCode,
           },
         }

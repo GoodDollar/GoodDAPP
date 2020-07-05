@@ -440,7 +440,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           ),
       ])
 
-      userStorage.gunuser.get('registered').put(true)
+      await userStorage.gunuser.get('registered').putAck(true)
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
       AsyncStorage.removeItem('GD_web3Token')

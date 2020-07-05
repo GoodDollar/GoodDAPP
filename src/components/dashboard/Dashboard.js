@@ -177,7 +177,7 @@ const Dashboard = props => {
         log.error('checkCode unexpected error:', e.message, e)
       }
     },
-    [screenProps, showErrorDialog]
+    [screenProps, showErrorDialog],
   )
 
   const handleDeleteRedirect = useCallback(() => {
@@ -189,7 +189,7 @@ const Dashboard = props => {
   const getFeedPage = useCallback(
     debounce(
       async (reset = false) => {
-        log.debug('getFeedPage:', { feeds, loadAnimShown, didRender })
+        log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
           .catch(e => log.error('getInitialFeed -> ', e.message, e))
@@ -204,6 +204,7 @@ const Dashboard = props => {
             didRender = true
           }
           const res = (await feedPromise) || []
+          log.debug('getFeedPage result:', { res })
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
           res.length > 0 && setFeeds(res)
         } else {
@@ -212,9 +213,9 @@ const Dashboard = props => {
         }
       },
       500,
-      { leading: true }
+      { leading: true },
     ),
-    [loadAnimShown, store, setFeeds, feeds]
+    [loadAnimShown, store, setFeeds, feeds],
   )
 
   //subscribeToFeed probably should be an effect that updates the feed items
@@ -225,7 +226,7 @@ const Dashboard = props => {
     return new Promise((res, rej) => {
       userStorage.feed.get('byid').on(async data => {
         log.debug('gun getFeed callback', { data })
-        await getFeedPage(true).catch(e => rej(false))
+        await getFeedPage(true).catch(e => rej(e))
         res(true)
       }, true)
     })
@@ -253,7 +254,7 @@ const Dashboard = props => {
   }, [appState])
 
   const animateClaim = useCallback(async () => {
-    const inQueue = await userStorage.userProperties.get('claimQueueAdded').onThen()
+    const inQueue = await userStorage.userProperties.get('claimQueueAdded')
     if (inQueue && inQueue.status === 'pending') {
       return
     }
@@ -298,7 +299,7 @@ const Dashboard = props => {
       setUpdate(Date.now())
       calculateHeaderLayoutSizes()
     }, 100),
-    [setUpdate]
+    [setUpdate],
   )
 
   const nextFeed = useCallback(
@@ -310,9 +311,9 @@ const Dashboard = props => {
         }
       },
       100,
-      { leading: true }
+      { leading: true },
     ),
-    [feeds, getFeedPage]
+    [feeds, getFeedPage],
   )
 
   const initDashboard = async () => {
@@ -350,7 +351,7 @@ const Dashboard = props => {
 
       setShowBalance(true)
     },
-    [setBalanceBlockWidth]
+    [setBalanceBlockWidth],
   )
 
   useEffect(() => {
@@ -487,7 +488,7 @@ const Dashboard = props => {
     currentFeed => {
       store.set('currentFeed')(currentFeed)
     },
-    [store]
+    [store],
   )
 
   const handleFeedSelection = (receipt, horizontal) => {
@@ -514,7 +515,7 @@ const Dashboard = props => {
         })
       }
     },
-    [showDialog, showEventModal]
+    [showDialog, showEventModal],
   )
 
   const handleWithdraw = useCallback(
@@ -538,7 +539,7 @@ const Dashboard = props => {
         const { status, transactionHash } = await executeWithdraw(
           store,
           paymentParams.paymentCode,
-          paymentParams.reason
+          paymentParams.reason,
         )
 
         if (transactionHash) {
@@ -584,7 +585,7 @@ const Dashboard = props => {
         navigation.setParams({ paymentCode: undefined })
       }
     },
-    [showDialog, hideDialog, showErrorDialog, store, navigation]
+    [showDialog, hideDialog, showErrorDialog, store, navigation],
   )
 
   const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
@@ -605,7 +606,7 @@ const Dashboard = props => {
         }
       }
     },
-    [headerLarge, feeds, setHeaderLarge]
+    [headerLarge, feeds, setHeaderLarge],
   )
 
   const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feeds), [currentFeed, feeds])

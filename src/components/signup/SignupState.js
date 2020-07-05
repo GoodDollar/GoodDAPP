@@ -13,7 +13,7 @@ import {
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -22,6 +22,7 @@ import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup } from '../../lib/analytics/analytics'
+import { prepareDataWithdraw } from '../../lib/undux/utils/withdraw'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -30,7 +31,6 @@ import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
 import MagicLinkInfo from './MagicLinkInfo'
-
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord & { invite_code?: string }
@@ -254,7 +254,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const checkW3InviteCode = async () => {
     const _destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     const destinationPath = JSON.parse(_destinationPath)
-    return get(destinationPath, 'params.inviteCode')
+    const params = get(destinationPath, 'params')
+    const paymentParams = params && prepareDataWithdraw(params)
+
+    return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
   }
 
   const onMount = async () => {
@@ -354,6 +357,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkW3InviteCode()
+      log.debug('invite code:', { inviteCode })
       const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
 
       ;['email', 'fullName', 'mobile'].forEach(field => {
@@ -406,7 +410,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       goodWallet
         .getBlockNumber()
         .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
-        .catch(e => log.error('save blocknumber failed:', e.message, e, { category: ExceptionCategory.Blockhain }))
+        .catch(e => log.error('save blocknumber failed:', e.message, e))
 
       //first need to add user to our database
       const addUserAPIPromise = API.addUser(requestPayload).then(res => {
@@ -432,11 +436,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       Promise.all([
         w3Token &&
           API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
-            log.error('failed updateW3UserWithWallet', e.message, e)
+            log.error('failed updateW3UserWithWallet', e.message, e),
           ),
       ])
 
-      userStorage.setProfileField('registered', true, 'public').catch(_ => _)
       userStorage.gunuser.get('registered').put(true)
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
@@ -447,7 +450,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setLoading(false)
       return true
     } catch (e) {
-      log.error('New user failure', e.message, e, { dialogShown: true })
+      log.error('New user failure', e.message, e)
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, e.message)
 
       // showErrorDialog('Something went on our side. Please try again')
@@ -523,15 +526,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           const errorMessage =
             data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
 
-          log.error(errorMessage, '', null, {
-            data,
-            dialogShown: true,
-          })
           return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error('Send mobile code failed', e.message, e, { dialogShown: true })
+        log.error('Send mobile code failed', e.message, e)
         return showErrorDialog('Could not send verification code. Please try again')
       } finally {
         setLoading(false)
@@ -541,13 +540,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         setLoading(true)
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          log.error('Send verification code failed', '', null, {
-            data,
-            dialogShown: true,
-          })
           return showErrorDialog('Could not send verification email. Please try again')
         }
-
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
         if (Config.skipEmailVerification || data.onlyInEnv) {
           // Server is using onlyInEnv middleware (probably dev mode), email verification is not sent.
@@ -561,7 +555,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
+        log.error('email verification failed unexpected:', e.message, e)
         return showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
       } finally {
         setLoading(false)

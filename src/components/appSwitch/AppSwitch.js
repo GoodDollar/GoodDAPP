@@ -45,7 +45,7 @@ const showOutOfGasError = debounce(
   GAS_CHECK_DEBOUNCE_TIME,
   {
     leading: true,
-  }
+  },
 )
 
 let unsuccessfulLaunchAttempts = 0
@@ -115,15 +115,17 @@ const AppSwitch = (props: LoadingProps) => {
 
     //after dynamic routes update, if user arrived here, then he is already loggedin
     //initialize the citizen status and wallet status
-    const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
-      ([authResult, _]) => authResult
-    )
+    const [{ isLoggedInCitizen, isLoggedIn }, , inviteCode] = await Promise.all([
+      getLoginState(),
+      updateWalletStatus(gdstore),
+      userStorage.getProfileFieldValue('inviteCode'),
+    ])
 
-    log.debug({ isLoggedIn, isLoggedInCitizen })
+    log.debug({ isLoggedIn, isLoggedInCitizen, inviteCode })
 
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
-
+    gdstore.set('inviteCode')(inviteCode)
     if (isLoggedInCitizen) {
       API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
     }
@@ -156,7 +158,7 @@ const AppSwitch = (props: LoadingProps) => {
     //     props.navigation.navigate('Auth')
     //   } else {
     //     // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
-    //     log.error('Failed to sign in', 'Failed to sign in', new Error('Failed to sign in'), { credsOrError, dialogShown: false })
+    //     log.error('Failed to sign in', 'Failed to sign in', new Error('Failed to sign in'), { credsOrError })
     //     props.navigation.navigate('Auth')
     //   }
     // }
@@ -190,13 +192,11 @@ const AppSwitch = (props: LoadingProps) => {
 
       setReady(true)
     } catch (e) {
+      log.error('failed initializing app', e.message, e)
       unsuccessfulLaunchAttempts += 1
       if (unsuccessfulLaunchAttempts > 3) {
-        log.error('failed initializing app', e.message, e, { dialogShown: true })
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
-        log.error('failed initializing app', e.message, e)
-
         await delay(1500)
         init()
       }

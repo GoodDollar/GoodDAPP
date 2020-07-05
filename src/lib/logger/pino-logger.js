@@ -12,7 +12,7 @@ export default logger
 
 export const ExceptionCategory = {
   Human: 'human',
-  Blockhain: 'blockchain',
+  Blockchain: 'blockchain',
   Network: 'network',
   Unexpected: 'unexpected',
 }

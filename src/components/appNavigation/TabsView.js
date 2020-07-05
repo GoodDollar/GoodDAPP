@@ -4,16 +4,14 @@ import { View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { isIOS } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
-import { get } from 'lodash'
 import config from '../../config/config'
 import { theme } from '../../components/theme/styles'
 import userStorage from '../../lib/gundb/UserStorage'
-import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 
-const { isEToro, market, marketUrl, showInvite, showRewards } = config
+const { isEToro, market, marketUrl, enableInvites, showRewards } = config
 
 const styles = {
   marketIconBackground: {
@@ -38,7 +36,7 @@ const styles = {
 
 //const showSupportFirst = !isEToro && !showInvite && !showRewards
 const showRewardsFlag = showRewards || isEToro
-const showInviteFlag = showInvite || isEToro
+const showInviteFlag = enableInvites || isEToro
 const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
 
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
@@ -134,31 +132,7 @@ const TabsView = ({ navigation }) => {
   const fetchTokens = useCallback(async () => {
     let _token = await userStorage.getProfileFieldValue('loginToken')
 
-    if (!_token && config.enableInvites) {
-      _token = await API.getLoginToken()
-        .then(r => get(r, 'data.loginToken'))
-        .then(newToken => {
-          if (newToken) {
-            userStorage.setProfileField('loginToken', newToken, 'private')
-          }
-
-          return newToken
-        })
-    }
-
     let _marketToken = await userStorage.getProfileFieldValue('marketToken')
-
-    if (!_marketToken && config.market) {
-      _marketToken = await API.getMarketToken()
-        .then(_ => get(_, 'data.jwt'))
-        .then(newtoken => {
-          if (newtoken) {
-            userStorage.setProfileField('marketToken', newtoken)
-          }
-
-          return newtoken
-        })
-    }
 
     log.debug('tokens:', { _marketToken, _token })
 
@@ -181,7 +155,7 @@ const TabsView = ({ navigation }) => {
       event.preventDefault()
       navigation.navigate('Rewards')
     },
-    [navigation, token]
+    [navigation, token],
   )
 
   /*const goToSupport = useCallback(() => {
@@ -211,7 +185,7 @@ const TabsView = ({ navigation }) => {
       {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
       {market && (
         <>
-          {!isEToro && !!(!showInvite ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
+          {!isEToro && !!(!enableInvites ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
           <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />
         </>
       )}

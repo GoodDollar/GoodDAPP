@@ -4,7 +4,7 @@ import { View } from 'react-native'
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
-import logger, { ExceptionCategory } from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/pino-logger'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
@@ -30,6 +30,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const store = GDStore.useStore()
   const { canShare, generateSendShareObject, generateSendShareText, generateShareLink } = useNativeSharing()
   const currentUserName = store.get('profile').fullName
+  const inviteCode = store.get('inviteCode')
 
   const fireEventAnalytics = actionType => {
     fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
@@ -48,10 +49,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .cancelOTLByTransactionHash(item.id)
           .catch(e => {
             userStorage.updateOTPLEventStatus(item.id, 'pending')
-            log.error('cancel payment failed', e.message, e, {
-              dialogShown: true,
-              category: ExceptionCategory.Blockhain,
-            })
+            log.error('cancel payment failed', e.message, e)
             showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
           })
           .finally(() => {
@@ -59,7 +57,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           })
         await userStorage.cancelOTPLEvent(item.id)
       } catch (e) {
-        log.error('cancel payment failed', e.message, e, { dialogShown: true })
+        log.error('cancel payment failed', e.message, e)
         userStorage.updateOTPLEventStatus(item.id, 'pending')
         setState({ ...state, cancelPaymentLoading: false })
         showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
@@ -71,11 +69,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const getPaymentLink = useMemo(() => {
     try {
       let result
-      const url = generateShareLink('send', {
+      const params = {
         p: item.data.withdrawCode,
         r: item.data.message,
-      })
-
+      }
+      inviteCode && (params.i = inviteCode)
+      const url = generateShareLink('send', params)
       if (canShare) {
         result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
       } else {
@@ -87,9 +86,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       fireEventAnalytics('Sharelink')
       return result
     } catch (e) {
-      log.error('getPaymentLink Failed', e.message, { item, canShare })
+      log.error('getPaymentLink Failed', e.message, {
+        item,
+        canShare,
+      })
     }
-  }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject])
+  }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject, inviteCode])
 
   const readMore = useCallback(() => {
     fireEventAnalytics('readMore')
@@ -162,19 +164,13 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
-              <CustomButton
-                mode="contained"
-                style={styles.rightButton}
-                textStyle={styles.letterSpacing0}
-                onPress={handleModalClose}
-              >
+              <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
                 Ok
               </CustomButton>
             </View>
           </View>
         </>
       )
-
     case 'message':
       return (
         <View style={styles.buttonsView}>
@@ -188,7 +184,6 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
         </View>
       )
-
     case 'invite':
       return (
         <View style={styles.buttonsView}>
@@ -211,7 +206,6 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
         </View>
       )
-
     case 'spending':
       return (
         <View style={styles.buttonsView}>
@@ -227,7 +221,6 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
         </View>
       )
-
     case 'backup':
       return (
         <View style={styles.buttonsView}>
@@ -316,9 +309,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   buttonTextStyle: {
     fontSize: normalize(14),
-    letterSpacing: 0,
-  },
-  letterSpacing0: {
     letterSpacing: 0,
   },
 })

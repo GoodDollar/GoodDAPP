@@ -6,12 +6,10 @@ import renderer from 'react-test-renderer'
 // utils
 import { getWebRouterComponentWithMocks } from './__util__'
 
-
-
 describe('ReceiveToAddress', () => {
   let ExportWalletData
-  
-  beforeAll(() => { 
+
+  beforeAll(() => {
     jest.doMock('../../../lib/wallet/GoodWallet', () => {
       return {
         wallet: {
@@ -23,8 +21,8 @@ describe('ReceiveToAddress', () => {
         },
       }
     })
-    
-    ExportWalletData = getWebRouterComponentWithMocks('../ExportWalletData') 
+
+    ExportWalletData = getWebRouterComponentWithMocks('../ExportWalletData')
   })
 
   afterAll(() => jest.dontMock('../../../lib/wallet/GoodWallet'))

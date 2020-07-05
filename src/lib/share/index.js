@@ -25,7 +25,7 @@ export function generateCode(
   networkId: number,
   amount: number,
   reason: string,
-  counterPartyDisplayName: string
+  counterPartyDisplayName: string,
 ) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
@@ -79,7 +79,6 @@ export function readCode(code: string) {
     }
   } catch (e) {
     log.error('readCode failed', e.message, e, { code })
-
     return null
   }
 }
@@ -147,7 +146,7 @@ export function generateSendShareObject(url: string, amount: number, to: string,
     to
       ? `${to}, You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open:`
       : `You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open:`,
-    url
+    url,
   )
 }
 
@@ -226,7 +225,11 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   }
 
   //remove == of base64 not required then uri encode component to encode +/
-  let paramsBase64 = encodeURIComponent(Buffer.from(JSON.stringify(params)).toString('base64'))
+  let paramsBase64 = encodeURIComponent(
+    Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, ''),
+  )
   let queryParams = ''
 
   if (Config.enableShortUrl) {
@@ -243,12 +246,11 @@ export function shareAction(shareObj, showErrorDialog, customErrorMessage) {
     Share.share(shareObj)
   } catch (e) {
     if (e.name !== 'AbortError') {
+      showErrorDialog(customErrorMessage || 'Sorry, there was an error sharing you link. Please try again later.')
+
       log.error('Native share failed', e.message, e, {
         shareObj,
-        dialogShown: true,
       })
-
-      showErrorDialog(customErrorMessage || 'Sorry, there was an error sharing you link. Please try again later.')
     }
   }
 }

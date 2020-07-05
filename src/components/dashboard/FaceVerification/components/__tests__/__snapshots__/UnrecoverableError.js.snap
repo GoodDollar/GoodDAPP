@@ -117,7 +117,7 @@ exports[`FaceVerification UnrecoverableError matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
+              "color": "rgba(250,108,119,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "24px",

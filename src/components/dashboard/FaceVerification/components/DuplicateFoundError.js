@@ -23,7 +23,7 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, screenProps }) => 
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title fontWeight="medium" textTransform="none">
+          <Section.Title fontWeight="medium" textTransform="none" color="red">
             {displayTitle}
             {',\nUnfortunately,\nWe found your twin...'}
           </Section.Title>
@@ -38,10 +38,12 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, screenProps }) => 
           <Section style={styles.errorSection}>
             <Separator width={2} />
             <View style={styles.descriptionWrapper}>
-              <Text color="primary" fontWeight="bold">
+              <Text color="primary" fontWeight="bold" fontSize={18} lineHeight={25}>
                 You can open ONLY ONE account per person.
               </Text>
-              <Text color="primary">If this is your only active account - please contact our support</Text>
+              <Text color="primary" fontSize={18} lineHeight={25}>
+                {'If this is your only active account\nplease contact our support'}
+              </Text>
             </View>
             <Separator width={2} />
           </Section>

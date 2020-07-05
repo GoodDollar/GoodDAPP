@@ -117,7 +117,7 @@ exports[`FaceVerification GeneralError matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
+              "color": "rgba(250,108,119,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "24px",
@@ -204,9 +204,9 @@ on our side...
                   "color": "rgba(0,175,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -215,7 +215,25 @@ on our side...
             >
               You see, it's not that easy
 to capture your beauty :)
-So, let's give it another shot...
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,175,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "18px",
+                  "fontWeight": "700",
+                  "lineHeight": "25px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              So, let\`s give it another shot...
             </div>
           </div>
           <div
@@ -406,7 +424,7 @@ So, let's give it another shot...
                       }
                     }
                   >
-                    PLEASE TRY AGAIN
+                    TRY AGAIN
                   </span>
                 </div>
               </div>

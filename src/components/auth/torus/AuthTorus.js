@@ -95,11 +95,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         if (['development', 'test'].includes(config.env)) {
           torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
         }
-
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
-
         identifyOnUserSignup(torusUser.email)
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
 
@@ -113,13 +111,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('torus login success', { torusUser })
       } catch (e) {
         store.set('loadingIndicator')({ loading: false })
-
         if (e.message === 'user closed popup') {
           log.info(e.message, e)
         } else {
-          log.error('torus login failed', e.message, e, { dialogShown: true })
+          log.error('torus login failed', e.message, e)
         }
-
         showErrorDialog('We were unable to complete the login. Please try again.')
         return
       }

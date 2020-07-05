@@ -750,7 +750,6 @@ exports[`SigninInfo matches snapshot 1`] = `
                             "fontFamily": "Roboto",
                             "fontSize": "14px",
                             "fontWeight": "normal",
-                            "letterSpacing": "0.14px",
                             "lineHeight": "16px",
                             "position": "absolute",
                             "textAlign": "center",

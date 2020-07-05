@@ -13,7 +13,7 @@ import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 
-const { isEToro, market, marketUrl, showInvite, showRewards } = config
+const { isEToro, market, marketUrl, enableInvites, showRewards } = config
 
 const styles = {
   marketIconBackground: {
@@ -38,7 +38,7 @@ const styles = {
 
 //const showSupportFirst = !isEToro && !showInvite && !showRewards
 const showRewardsFlag = showRewards || isEToro
-const showInviteFlag = showInvite || isEToro
+const showInviteFlag = enableInvites || isEToro
 const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
 
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
@@ -211,7 +211,7 @@ const TabsView = ({ navigation }) => {
       {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
       {market && (
         <>
-          {!isEToro && !!(!showInvite ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
+          {!isEToro && !!(!enableInvites ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
           <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />
         </>
       )}

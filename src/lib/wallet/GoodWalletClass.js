@@ -12,7 +12,7 @@ import abiDecoder from 'abi-decoder'
 import { get, invokeMap, values } from 'lodash'
 import moment from 'moment'
 import Config from '../../config/config'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
@@ -196,7 +196,7 @@ export class GoodWallet {
         log.info('GoodWallet Ready.', { account: this.account })
       })
       .catch(e => {
-        log.error('Failed initializing GoodWallet', e.message, e, { category: ExceptionCategory.Blockhain })
+        log.error('Failed initializing GoodWallet', e.message, e)
         throw e
       })
     return this.ready
@@ -232,9 +232,7 @@ export class GoodWallet {
       if (error) {
         // eslint-disable-next-line no-negated-condition
         if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
-          log.error('listenTxUpdates fromEventsPromise failed:', error.message, error, {
-            category: ExceptionCategory.Blockhain,
-          })
+          log.error('listenTxUpdates fromEventsPromise failed:', error.message, error)
         } else {
           log.warn('listenTxUpdates fromEventsPromise failed:', error.message, error)
         }
@@ -243,11 +241,7 @@ export class GoodWallet {
 
         this.getReceiptWithLogs(event.transactionHash)
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-          .catch(err =>
-            log.error('send event get/send receipt failed:', err.message, err, {
-              category: ExceptionCategory.Blockhain,
-            })
-          )
+          .catch(err => log.error('send event get/send receipt failed:', err.message, err))
 
         if (event && event.blockNumber && blockIntervalCallback) {
           blockIntervalCallback({ toBlock: event.blockNumber, event })
@@ -269,9 +263,7 @@ export class GoodWallet {
       if (error) {
         // eslint-disable-next-line no-negated-condition
         if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
-          log.error('listenTxUpdates toEventsPromise failed:', error.message, error, {
-            category: ExceptionCategory.Blockhain,
-          })
+          log.error('listenTxUpdates toEventsPromise failed:', error.message, error)
         } else {
           log.warn('listenTxUpdates toEventsPromise failed:', error.message, error)
         }
@@ -280,11 +272,7 @@ export class GoodWallet {
 
         this.getReceiptWithLogs(event.transactionHash)
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-          .catch(err =>
-            log.error('receive event get/send receipt failed:', err.message, err, {
-              category: ExceptionCategory.Blockhain,
-            })
-          )
+          .catch(err => log.error('receive event get/send receipt failed:', err.message, err))
 
         if (event && blockIntervalCallback) {
           blockIntervalCallback({ toBlock: event.blockNumber, event })
@@ -303,9 +291,7 @@ export class GoodWallet {
       if (error) {
         // eslint-disable-next-line no-negated-condition
         if (error.currentTarget === undefined || error.currentTarget.readyState !== error.currentTarget.CLOSED) {
-          log.error('listenTxUpdates fromEventsPromise unexpected error:', error.message, error, {
-            category: ExceptionCategory.Blockhain,
-          })
+          log.error('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
         } else {
           log.warn('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
         }
@@ -315,11 +301,7 @@ export class GoodWallet {
         if (event && event.event && ['PaymentWithdraw', 'PaymentCancel'].includes(event.event)) {
           this.getReceiptWithLogs(event.transactionHash)
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
-            .catch(err =>
-              log.error('send event get/send receipt failed:', err.message, err, {
-                category: ExceptionCategory.Blockhain,
-              })
-            )
+            .catch(err => log.error('send event get/send receipt failed:', err.message, err))
         }
 
         if (event && blockIntervalCallback) {
@@ -369,8 +351,7 @@ export class GoodWallet {
     try {
       return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
     } catch (e) {
-      log.error('claim failed', e.message, e, { category: ExceptionCategory.Blockhain })
-
+      log.error('claim failed', e.message, e)
       return Promise.reject(e)
     }
   }
@@ -390,8 +371,7 @@ export class GoodWallet {
       const millisToClaim = startRef.diff(moment(), 'millis')
       return millisToClaim >= 0 ? millisToClaim : 0
     } catch (e) {
-      log.error('getNextClaimTime failed', e.message, e, { category: ExceptionCategory.Blockhain })
-
+      log.error('getNextClaimTime failed', e.message, e)
       return Promise.reject(e)
     }
   }
@@ -414,8 +394,7 @@ export class GoodWallet {
 
       return { amount, people }
     } catch (e) {
-      log.error('getAmountAndQuantityClaimedToday failed', e.message, e, { category: ExceptionCategory.Blockhain })
-
+      log.error('getAmountAndQuantityClaimedToday failed', e.message, e)
       return Promise.reject(e)
     }
   }
@@ -800,8 +779,7 @@ export class GoodWallet {
   }
 
   handleError(e: Error) {
-    log.error('handleError', e.message, e, { category: ExceptionCategory.Blockhain })
-
+    log.error('handleError', e.message, e)
     throw e
   }
 
@@ -815,7 +793,7 @@ export class GoodWallet {
         gasPrice = networkGasPrice.toString()
       }
     } catch (e) {
-      log.error('failed to retrieve gas price from network', e.message, e, { category: ExceptionCategory.Blockhain })
+      log.error('failed to retrieve gas price from network', e.message, e)
     }
 
     return gasPrice
@@ -926,10 +904,7 @@ export class GoodWallet {
           onConfirmation && onConfirmation(c)
         })
         .on('error', e => {
-          log.error('sendTransaction error:', e.message, e, {
-            tx,
-            category: ExceptionCategory.Blockhain,
-          })
+          log.error('sendTransaction error:', e.message, e, { tx })
           rej(e)
           onError && onError(e)
         })

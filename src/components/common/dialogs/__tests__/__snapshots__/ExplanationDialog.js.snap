@@ -5,14 +5,15 @@ exports[`ExplanationDialog matches snapshot 1`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
-      "WebkitBoxPack": "center",
-      "WebkitJustifyContent": "center",
+      "WebkitBoxPack": "justify",
+      "WebkitJustifyContent": "space-around",
       "display": "flex",
       "height": "100%",
-      "justifyContent": "center",
+      "justifyContent": "space-around",
       "marginBottom": "auto",
       "marginTop": "auto",
-      "msFlexPack": "center",
+      "minHeight": "310px",
+      "msFlexPack": "distribute",
     }
   }
 >
@@ -42,9 +43,9 @@ exports[`ExplanationDialog matches snapshot 1`] = `
       Object {
         "direction": "ltr",
         "fontFamily": "Roboto",
-        "fontSize": "16px",
+        "fontSize": "24px",
         "fontWeight": "normal",
-        "lineHeight": "22px",
+        "lineHeight": "30px",
         "textAlign": "center",
         "textDecoration": "none",
         "textTransform": "none",

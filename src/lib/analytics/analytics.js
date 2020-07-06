@@ -362,7 +362,7 @@ const listenLogger = () => {
   // for error logs if they happen frequently only log one
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
-  logger.on('log:error', ({ messages }) => {
+  logger.on('log', ({ messages }) => {
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = messages
     let { dialogShown, category = Unexpected } = extra

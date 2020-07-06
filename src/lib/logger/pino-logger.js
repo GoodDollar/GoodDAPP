@@ -56,7 +56,7 @@ class SecureLogger extends EventEmitter {
         transmit: {
           // transmit.level property specifies the minimum level (inclusive) of when the send fn should be called
           level: transmitLogLevel,
-          send: (level, logEvent) => this.emit(`log:${level}`, logEvent),
+          send: (level, logEvent) => this.broadcastLog(level, logEvent),
         },
       },
     })
@@ -173,6 +173,12 @@ class SecureLogger extends EventEmitter {
     }
 
     return methodsMap[methodName]
+  }
+
+  broadcastLog(level, logEvent) {
+    const events = ['log', `log:${level}`]
+
+    events.forEach(event => this.emit(event, logEvent))
   }
 }
 

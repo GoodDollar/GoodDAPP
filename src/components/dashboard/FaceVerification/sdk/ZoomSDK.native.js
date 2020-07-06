@@ -34,7 +34,8 @@ export const ZoomSDK = new class {
     const { sdk, logger } = this
 
     try {
-      const isInitialized = await sdk.initialize(licenseKey, preload, Config.serverUrl, Config.zoomServerUrl)
+      // TODO: update native implementation to use GoodServer for issue session token
+      const isInitialized = await sdk.initialize(licenseKey, preload, Config.serverUrl)
 
       return isInitialized
     } catch (exception) {

@@ -38,8 +38,17 @@ class SecureLogger extends EventEmitter {
   constructor(Config) {
     super()
 
-    const { secureLog, secureLogKeys, secureLogCensor, logLevel } = Config
-    const logger = pino({ level: logLevel, browser: { transmit: this } })
+    const { secureLog, secureLogKeys, secureLogCensor, logLevel, transmitLogLevel } = Config
+
+    const logger = pino({
+      level: logLevel,
+      browser: {
+        transmit: {
+          level: transmitLogLevel,
+          send: (level, logEvent) => this.broadcastLog(level, logEvent),
+        },
+      },
+    })
 
     // if secure logs enabled - preparing redaction paths
     if (secureLog) {
@@ -140,7 +149,7 @@ class SecureLogger extends EventEmitter {
     })
   }
 
-  send(level, logEvent) {
+  broadcastLog(level, logEvent) {
     const events = ['log', `log:${level}`]
 
     events.forEach(event => this.emit(event, logEvent))

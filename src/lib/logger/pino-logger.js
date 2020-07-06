@@ -139,7 +139,7 @@ class SecureLogger extends EventEmitter {
 
       if (secureLog && logMethods.includes(methodName)) {
         wrappedMethod = (...loggingArgs) => {
-          const redactedArgs = this.applyConfidentialCensorship(cloneDeep(loggingArgs))
+          const redactedArgs = this.applyConfidentialCensorship(loggingArgs)
 
           return methodFunction.apply(target, redactedArgs)
         }
@@ -155,14 +155,42 @@ class SecureLogger extends EventEmitter {
     const { censor } = this
 
     return loggingArgs.map(loggingArgument => {
-      // pino has different output fot errors only on the browser
-      // also we won't call redaction on non-object args
-      if (isError(loggingArgument) || (!isPlainObject(loggingArgument) && !isObjectLike(loggingArgument))) {
-        return loggingArgument
+      // by default (if not an object - no serialize, skip censor)
+      let shouldSkipCensorship = true
+      let serializedArgument = loggingArgument
+
+      // if is plain object - enable censor, processing object itself
+      if (isPlainObject(loggingArgument)) {
+        shouldSkipCensorship = false
+      } else if (isObjectLike(loggingArgument)) {
+        // if is an object - serializing it & checking should we censor it
+        serializedArgument = this.serializeLoggingArgument(loggingArgument)
+        shouldSkipCensorship = this.shouldSkipCensorship(loggingArgument)
       }
 
-      return censor(loggingArgument)
+      if (shouldSkipCensorship) {
+        return serializedArgument
+      }
+
+      return censor(cloneDeep(serializedArgument))
     })
+  }
+
+  shouldSkipCensorship(loggingArgument) {
+    const isW3Wallet = false //TODO: add checks if wallet (move to some util)
+
+    // pino has different output fot errors only on the browser
+    return isW3Wallet || isError(loggingArgument)
+  }
+
+  serializeLoggingArgument(loggingArgument) {
+    const isUnduxState = false //TODO: add checks if wallet (move to some util)
+
+    if (isUnduxState) {
+      return {} // TODO: serialize state snapshot to plain object
+    }
+
+    return loggingArgument
   }
 
   getMethodMap(methodName) {

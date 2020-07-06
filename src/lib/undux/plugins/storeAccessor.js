@@ -18,6 +18,7 @@ export default () => {
         if (test) {
           return
         }
+
         // do not throw error if it called from HMR wrapper on the app startup
         if (module.hot && new Error().stack.includes('react-hot-loader')) {
           return

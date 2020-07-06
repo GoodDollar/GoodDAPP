@@ -154,14 +154,14 @@ export class GoodWallet {
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
           get(ContractsAddress, `${this.network}.Identity` /*IdentityABI.networks[this.networkId].address*/),
-          { from: this.account }
+          { from: this.account },
         )
 
         // Token Contract
         this.tokenContract = new this.wallet.eth.Contract(
           GoodDollarABI.abi,
           get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
-          { from: this.account }
+          { from: this.account },
         )
         abiDecoder.addABI(GoodDollarABI.abi)
 
@@ -169,7 +169,7 @@ export class GoodWallet {
         this.erc20Contract = new this.wallet.eth.Contract(
           ERC20ABI.abi,
           get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
-          { from: this.account }
+          { from: this.account },
         )
         abiDecoder.addABI(ERC20ABI.abi)
 
@@ -177,7 +177,7 @@ export class GoodWallet {
         this.UBIContract = new this.wallet.eth.Contract(
           UBIABI.abi,
           get(StakingModelAddress, `${this.network}.UBIScheme` /*UBIABI.networks[this.networkId].address*/),
-          { from: this.account }
+          { from: this.account },
         )
         abiDecoder.addABI(UBIABI.abi)
 
@@ -186,11 +186,11 @@ export class GoodWallet {
           OneTimePaymentsABI.abi,
           get(
             ContractsAddress,
-            `${this.network}.OneTimePayments` /*OneTimePaymentsABI.networks[this.networkId].address*/
+            `${this.network}.OneTimePayments` /*OneTimePaymentsABI.networks[this.networkId].address*/,
           ),
           {
             from: this.account,
-          }
+          },
         )
         abiDecoder.addABI(OneTimePaymentsABI.abi)
         log.info('GoodWallet Ready.', { account: this.account })
@@ -639,20 +639,24 @@ export class GoodWallet {
    * @param {PromiEvents} events - used to subscribe to onTransactionHash event
    * @returns {{code, hashedCode, paymentLink}}
    */
-  generateLink(
+  generatePaymentLink(
     amount: number,
     reason: string = '',
-    events: PromiEvents = defaultPromiEvents
+    inviteCode: string,
+    events: PromiEvents = defaultPromiEvents,
   ): { code: string, hashedCode: string, paymentLink: string } {
     const code = this.wallet.utils.randomHex(10).replace('0x', '')
     const hashedCode = this.wallet.utils.sha3(code)
 
-    log.debug('generateLink:', { amount })
+    log.debug('generatePaymentLink:', { amount })
 
-    const paymentLink = generateShareLink('send', {
+    const params = {
       p: code,
       r: reason,
-    })
+    }
+    inviteCode && (params.i = inviteCode)
+
+    const paymentLink = generateShareLink('send', params)
 
     const txPromise = this.depositToHash(amount, hashedCode, events)
 
@@ -875,7 +879,7 @@ export class GoodWallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = defaultPromiEvents,
-    { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+    { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
     let gas = setgas || (await tx.estimateGas())

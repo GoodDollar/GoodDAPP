@@ -29,7 +29,7 @@ type ReceiptType = {
 export const executeWithdraw = async (
   store: Store,
   code: string,
-  reason: string
+  reason: string,
 ): Promise<ReceiptType | { status: boolean }> => {
   try {
     const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)
@@ -73,28 +73,4 @@ export const executeWithdraw = async (
     log.error('code withdraw failed', e.message, e, { code })
     throw e
   }
-}
-
-export const prepareDataWithdraw = params => {
-  const { paymentCode, reason } = params
-  let paymentParams = null
-
-  if (paymentCode) {
-    try {
-      paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
-      const { p, r, reason: oldr, paymentCode: oldp } = JSON.parse(paymentParams)
-      paymentParams = {
-        paymentCode: p || oldp,
-        reason: r || oldr,
-      }
-    } catch (e) {
-      log.info('uses old format', { paymentCode, reason })
-      paymentParams = {
-        paymentCode: decodeURIComponent(paymentCode),
-        reason: reason ? decodeURIComponent(reason) : null,
-      }
-    }
-  }
-
-  return paymentParams
 }

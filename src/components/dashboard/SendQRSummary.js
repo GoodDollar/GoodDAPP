@@ -73,7 +73,8 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
       let txhash
       goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
-          log.debug({ hash })
+          log.debug('Received hash of goodWallet.sendAmount method', { hash })
+
           txhash = hash
 
           // Save transaction

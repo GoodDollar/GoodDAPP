@@ -71,7 +71,8 @@ class SoftwareWalletProvider {
 
   async initSoftwareWallet(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
-    log.info('wallet config:', this.conf, provider)
+
+    log.info('wallet config:', this.conf)
 
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
     let pkey: ?string = this.conf.mnemonic || (await getMnemonics())

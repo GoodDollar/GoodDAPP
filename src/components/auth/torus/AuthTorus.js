@@ -1,4 +1,5 @@
 // @flow
+
 import React, { useCallback, useMemo, useState } from 'react'
 import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
@@ -47,12 +48,12 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   }
 
   //login so we can check if user exists
-  const ready = async replacing => {
+  const ready = async (replacing: boolean) => {
     log.debug('ready: Starting initialization', { replacing })
     const { init } = await retryImport(() => import('../../../init'))
-    log.debug('ready: got init', init)
+    log.debug('ready: got init')
     const login = retryImport(() => import('../../../lib/login/GoodWalletLogin'))
-    log.debug('ready: got login', login)
+    log.debug('ready: got login')
     const { goodWallet, userStorage, source } = await init()
     log.debug('ready: done init')
 

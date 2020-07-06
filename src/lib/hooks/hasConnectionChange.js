@@ -116,7 +116,9 @@ export const useConnectionGun = () => {
     if (userStorage) {
       const connection = get(userStorage, `gun._.opt.peers`, [])[Config.gunPublicUrl]
       const readyState = get(connection, 'wire.readyState')
-      log.debug('gun connection:', connection, userStorage.gun._.opt.peers)
+
+      log.debug('gun connection:', connection)
+
       if (readyState && readyState === connection.wire.OPEN) {
         setIsConnection(true)
         bindEvents('add')

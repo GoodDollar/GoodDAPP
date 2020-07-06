@@ -61,7 +61,7 @@ class LoginService {
     log.info('Calling server for authentication')
     return API.auth(creds)
       .then(res => {
-        log.info('Got auth response', res)
+        log.debug('Got auth response', res)
         if (res.status === 200) {
           const data = res.data
           creds.jwt = data.token

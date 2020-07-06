@@ -55,7 +55,8 @@ const SendByQR = ({ screenProps }: Props) => {
           const decoded = decodeURI(data)
           let paramsUrl = extractQueryParams(decoded)
           const code = readCode(paramsUrl.code)
-          log.info({ code })
+
+          log.info('Code received from QR code', { code })
 
           const { route, params } = await routeAndPathForCode('sendByQR', code)
           fireEvent(QR_SCAN, { type: 'send' })

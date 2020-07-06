@@ -364,7 +364,7 @@ const listenLogger = () => {
 
   logger.on('log', ({ messages }) => {
     const { Unexpected, Network, Human } = ExceptionCategory
-    const [logContext, logMessage, eMsg, errorObj, extra = {}] = messages
+    const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = messages
     let { dialogShown, category = Unexpected } = extra
     let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category

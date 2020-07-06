@@ -230,7 +230,9 @@ const AddWebApp = props => {
       AsyncStorage.getItem('GD_AddWebAppLastClaim'),
       AsyncStorage.getItem('GD_AddWebAppIOSAdded'),
     ])
-    log.debug({ installPrompt, show, skipCount })
+
+    log.debug({ installPrompt: Boolean(installPrompt), show, skipCount })
+
     if (lastCheck === undefined) {
       return
     }

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import logger from '../../../lib/logger/pino-logger'
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import CustomButton from './CustomButton'
@@ -17,11 +17,8 @@ const log = logger.child({ from: 'ShareButton' })
 const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareButtonProps) => {
   const { canShare, shareAction } = useNativeSharing()
 
-  useEffect(() => {
-    log.info('getPaymentLink', { share })
-  }, [])
-
   const shareHandler = useCallback(() => {
+    log.info('gotPaymentLink', { share })
     shareAction(share)
   }, [shareAction, share])
 

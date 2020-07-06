@@ -22,7 +22,7 @@ const update = async () => {
         .update(lastUpdate, prevVersion, log)
         .then(_ => {
           doneUpdates[updateKey] = true
-          log.info('update done:', updateKey)
+          log.debug('update done:', updateKey)
         })
         .catch(e => {
           doneUpdates[updateKey] = false

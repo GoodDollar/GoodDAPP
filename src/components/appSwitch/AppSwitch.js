@@ -78,7 +78,7 @@ const AppSwitch = (props: LoadingProps) => {
 
     if (destinationPath) {
       const app = router.getActionForPathAndParams(destinationPath.path) || {}
-      log.debug('destinationPath getParams', { destinationPath, router, state, app })
+      log.debug('destinationPath getParams', { destinationPath, state, app })
 
       //get nested routes
       const destRoute = actions => (actions && actions.action ? destRoute(actions.action) : actions)
@@ -163,7 +163,7 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const init = async () => {
-    log.debug('initializing', gdstore)
+    log.debug('initializing')
 
     try {
       const isCitizen = await initialize()
@@ -235,7 +235,8 @@ const AppSwitch = (props: LoadingProps) => {
     const lastTimeBonusCheck = await userStorage.userProperties.get('lastBonusCheckDate')
     const isUserWhitelisted = gdstore.get('isLoggedInCitizen') || (await goodWallet.isCitizen())
 
-    log.debug({ lastTimeBonusCheck, isUserWhitelisted, gdstore })
+    log.debug({ lastTimeBonusCheck, isUserWhitelisted })
+
     if (
       isUserWhitelisted !== true ||
       (force !== true &&

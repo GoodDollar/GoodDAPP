@@ -29,8 +29,6 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
   const [showErrorDialog] = useErrorDialog()
 
   const handleChange = (newCode: string) => {
-    log.info({ newCode })
-
     setCode(newCode)
 
     if (newCode) {

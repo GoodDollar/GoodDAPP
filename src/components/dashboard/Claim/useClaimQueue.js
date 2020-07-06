@@ -56,6 +56,7 @@ export default () => {
         }
 
         log.debug('CLAIM', { queue })
+
         if (inQueue == null) {
           userStorage.userProperties.set('claimQueueAdded', queue)
         }

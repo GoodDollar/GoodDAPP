@@ -92,9 +92,10 @@ class PhoneForm extends React.Component<Props, State> {
   }
 
   checkErrors = () => {
-    const modelErrorMessage = this.validateField()
-    const errorMessage = modelErrorMessage
-    log.debug({ modelErrorMessage, errorMessage })
+    const errorMessage = this.validateField()
+
+    log.debug('checkErrors result', { errorMessage })
+
     this.setState({ errorMessage, isValid: errorMessage === '' })
     return errorMessage === ''
   }

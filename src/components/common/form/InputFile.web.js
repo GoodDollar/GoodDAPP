@@ -6,10 +6,7 @@ import FileAPI from 'promisify-file-reader'
 import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
-import logger from '../../../lib/logger/pino-logger'
 import { constrainImage, createImage, MAX_AVATAR_HEIGHT, MAX_AVATAR_WIDTH } from '../../../lib/utils/image'
-
-const log = logger.child({ from: 'InputFile' })
 
 const InputFile = props => {
   const { children, onChange } = props
@@ -20,8 +17,6 @@ const InputFile = props => {
     const [file] = inputRef.current.files
     const imageSource = await FileAPI.readAsDataURL(file)
     const image = await createImage(imageSource)
-
-    log.debug('Uploaded file to use as avatar', { file, image })
 
     // getting the reduces data url
     const dataUrl = await constrainImage(image, MAX_AVATAR_WIDTH, MAX_AVATAR_HEIGHT)

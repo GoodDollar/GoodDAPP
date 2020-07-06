@@ -22,7 +22,7 @@ export default (onInitialized = noop) => {
       try {
         const result = await sdk.initialize()
 
-        log.debug('torus service initialized', { result, sdk })
+        log.debug('torus sdk initialized', { result })
 
         onInitializedRef.current()
 

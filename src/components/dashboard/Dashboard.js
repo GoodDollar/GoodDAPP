@@ -189,7 +189,8 @@ const Dashboard = props => {
   const getFeedPage = useCallback(
     debounce(
       async (reset = false) => {
-        log.debug('getFeedPage:', { feeds, loadAnimShown, didRender })
+        log.debug('getFeedPage:', { numberOfFeeds: feeds.length, loadAnimShown, didRender, reset })
+
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
           .catch(e => log.error('getInitialFeed -> ', e.message, e))
@@ -430,7 +431,8 @@ const Dashboard = props => {
   }, [headerLarge, balance, update, headerContentWidth, avatarCenteredPosition])
 
   useEffect(() => {
-    log.debug('Dashboard didmount', navigation)
+    log.debug('Dashboard didmount')
+
     initDashboard()
 
     return function() {
@@ -455,6 +457,7 @@ const Dashboard = props => {
   useEffect(() => {
     if (serviceWorkerUpdated) {
       log.info('service worker updated', serviceWorkerUpdated)
+
       showDialog({
         showCloseButtons: false,
         content: <ServiceWorkerUpdatedDialog />,

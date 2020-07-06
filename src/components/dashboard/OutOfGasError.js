@@ -59,8 +59,6 @@ Don’t worry, we’ll take care off you.\n`
     }
   }
 
-  log.debug(props.screenProps)
-
   return (
     <Wrapper>
       <View style={styles.topContainer}>

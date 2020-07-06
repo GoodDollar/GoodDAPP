@@ -47,7 +47,8 @@ class API {
    * init API with axions client and proper interptors. Needs `GoodDAPP_jwt`to be present in AsyncStorage
    */
   init() {
-    log.info('initializing api...', Config.serverUrl)
+    log.debug('initializing api...', Config.serverUrl)
+
     return (this.ready = AsyncStorage.getItem(JWT).then(async jwt => {
       this.jwt = jwt
       let instance: AxiosInstance = axios.create({
@@ -79,7 +80,8 @@ class API {
         }
       )
       this.client = await instance
-      log.info('API ready', this.jwt)
+
+      log.debug('API ready', this.jwt)
 
       let w3Instance: AxiosInstance = axios.create({
         baseURL: Config.web3SiteUrl,

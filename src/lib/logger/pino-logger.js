@@ -155,42 +155,14 @@ class SecureLogger extends EventEmitter {
     const { censor } = this
 
     return loggingArgs.map(loggingArgument => {
-      // by default (if not an object - no serialize, skip censor)
-      let shouldSkipCensorship = true
-      let serializedArgument = loggingArgument
-
-      // if is plain object - enable censor, processing object itself
-      if (isPlainObject(loggingArgument)) {
-        shouldSkipCensorship = false
-      } else if (isObjectLike(loggingArgument)) {
-        // if is an object - serializing it & checking should we censor it
-        serializedArgument = this.serializeLoggingArgument(loggingArgument)
-        shouldSkipCensorship = this.shouldSkipCensorship(loggingArgument)
+      // if not plain object - disable censor, print value as is
+      if (!isPlainObject(loggingArgument)) {
+        return loggingArgument
       }
 
-      if (shouldSkipCensorship) {
-        return serializedArgument
-      }
-
-      return censor(cloneDeep(serializedArgument))
+      // otherwise cloning & redacting
+      return censor(cloneDeep(loggingArgument))
     })
-  }
-
-  shouldSkipCensorship(loggingArgument) {
-    const isW3Wallet = false //TODO: add checks if wallet (move to some util)
-
-    // pino has different output fot errors only on the browser
-    return isW3Wallet || isError(loggingArgument)
-  }
-
-  serializeLoggingArgument(loggingArgument) {
-    const isUnduxState = false //TODO: add checks if wallet (move to some util)
-
-    if (isUnduxState) {
-      return {} // TODO: serialize state snapshot to plain object
-    }
-
-    return loggingArgument
   }
 
   getMethodMap(methodName) {

@@ -29,6 +29,7 @@ const usePermissions = (permission: Permission, options = {}) => {
     requestOnMounted = true,
     promptPopup,
     deniedPopup,
+    navigate,
   } = options
 
   const [showDialog] = useDialog()
@@ -42,10 +43,11 @@ const usePermissions = (permission: Permission, options = {}) => {
     ({ onDismiss = noop, ...props }) =>
       showDialog({
         isMinHeight: false,
+        showButtons: false,
         onDismiss,
         ...props,
       }),
-    [showDialog]
+    [showDialog],
   )
 
   const handleAllowed = useCallback(() => {
@@ -60,10 +62,10 @@ const usePermissions = (permission: Permission, options = {}) => {
     () =>
       showPopup({
         type: 'error',
-        content: <DeniedPopup />,
+        content: <DeniedPopup onDismiss={onDenied} navigate={navigate} />,
         onDismiss: onDenied,
       }),
-    [onDenied, showPopup, DeniedPopup]
+    [onDenied, showPopup, DeniedPopup],
   )
 
   const handleRequest = useCallback(async () => {
@@ -101,7 +103,7 @@ const usePermissions = (permission: Permission, options = {}) => {
     switch (status) {
       case Prompt:
         showPopup({
-          content: <PromptPopup />,
+          content: <PromptPopup onDismiss={handleRequest} />,
           onDismiss: handleRequest,
         })
 

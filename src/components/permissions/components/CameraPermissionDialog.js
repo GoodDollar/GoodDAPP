@@ -8,11 +8,18 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-export default () => (
+export default ({ onDismiss }) => (
   <ExplanationDialog
-    title="Please allow access to your camera"
-    text={`In order to complete the verification`}
+    title={'You must allow access\nto your camera'}
+    text="In order to claim G$'s"
     imageSource={illustration}
+    imageHeight={128}
+    buttons={[
+      {
+        text: 'I UNDERSTAND',
+        action: onDismiss,
+      },
+    ]}
   />
 )
 
@@ -24,6 +31,7 @@ const [showDialog] = useDialog()
 showDialog({
   content: <CameraPermissionDialog />,
   isMinHeight: false,
+  showButtons: false,
   buttons: [
     {
       text: 'OK',

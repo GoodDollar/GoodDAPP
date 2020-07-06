@@ -118,8 +118,8 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
           }
         >
           ,
-Let's make sure you're
-a real live person
+Only a real live person
+can claim G$’s
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -186,9 +186,9 @@ a real live person
                   "color": "rgba(0,175,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "700",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -206,9 +206,9 @@ a real live person
                   "color": "rgba(0,175,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -226,9 +226,9 @@ a real live person
                   "color": "rgba(0,175,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -251,9 +251,9 @@ a real live person
                   "direction": "ltr",
                   "display": "block",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "700",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "paddingTop": "32px",
                   "textAlign": "center",
                   "textDecoration": "underline",
@@ -439,7 +439,7 @@ a real live person
                       }
                     }
                   >
-                    OK, Verify me
+                    OK, VERIFY ME
                   </span>
                 </div>
               </div>

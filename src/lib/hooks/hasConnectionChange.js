@@ -7,7 +7,6 @@ import { delay } from '../utils/async'
 import logger from '../logger/pino-logger'
 import SimpleStore from '../undux/SimpleStore'
 import useAppState from './useAppState'
-
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
@@ -155,7 +154,7 @@ export const useConnectionGun = () => {
         wire[callMethod]('error', gunError)
       }
     },
-    [userStorage, websocket]
+    [userStorage, websocket],
   )
 
   useEffect(() => {

@@ -1,11 +1,17 @@
+// libraries
 import React, { useCallback, useEffect } from 'react'
 
-import illustration from '../../../../assets/CameraPermissionError.svg'
+// components
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 
+// hooks
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 
+// utils
 import { fireEvent, FV_CANTACCESSCAMERA } from '../../../../lib/analytics/analytics'
+
+// assets
+import illustration from '../../../../assets/CameraPermissionError.svg'
 
 const CameraNotAllowedError = ({ onRetry }) => {
   const [showDialog] = useDialog()
@@ -15,7 +21,7 @@ const CameraNotAllowedError = ({ onRetry }) => {
       dismiss()
       onRetry()
     },
-    [onRetry]
+    [onRetry],
   )
 
   useEffect(() => {
@@ -26,16 +32,18 @@ const CameraNotAllowedError = ({ onRetry }) => {
           title="Please enable camera permission"
           text="Change it via your device settings"
           imageSource={illustration}
+          buttons={[
+            {
+              text: 'How to do that?',
+              action: onDismiss,
+              mode: 'text',
+            },
+          ]}
         />
       ),
       type: 'error',
       isMinHeight: false,
-      buttons: [
-        {
-          text: 'OK',
-          onPress: onDismiss,
-        },
-      ],
+      showButtons: false,
     })
 
     fireEvent(FV_CANTACCESSCAMERA)

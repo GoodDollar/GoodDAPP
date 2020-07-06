@@ -72,7 +72,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           const { isValid, errors } = profile.validate()
 
           const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(
-            filterObject(profile)
+            filterObject(profile),
           )
           const valid = isValid && isValidIndex
 
@@ -90,7 +90,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
       }
       return false
     }, 500),
-    [profile, storedProfile, setIsPristine, setErrors, setIsValid]
+    [profile, storedProfile, setIsPristine, setErrors, setIsValid],
   )
 
   const handleProfileChange = useCallback(
@@ -100,7 +100,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
       }
       setProfile(newProfile)
     },
-    [setProfile, saving]
+    [setProfile, saving],
   )
 
   const handleSaveButton = useCallback(async () => {
@@ -134,7 +134,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
     return userStorage
       .setProfile(toupdate, true)
       .catch(e => {
-        log.error('Error saving profile', { toupdate }, e.message, e, { dialogShown: true })
+        log.error('Error saving profile', { toupdate }, e.message, e)
         showErrorDialog('Could not save profile. Please try again.')
         return false
       })
@@ -150,7 +150,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
       event.preventDefault()
       push(`ViewAvatar`)
     },
-    [push]
+    [push],
   )
 
   const handleCameraPress = useCallback(
@@ -158,7 +158,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
       event.preventDefault()
       push(`ViewAvatar`)
     },
-    [push]
+    [push],
   )
 
   return (

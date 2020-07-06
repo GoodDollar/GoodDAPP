@@ -117,7 +117,7 @@ exports[`FaceVerification DeviceOrientationError matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
+              "color": "rgba(250,108,119,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "24px",
@@ -225,9 +225,9 @@ to portrait mode
                   "color": "rgba(0,175,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "18px",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
+                  "lineHeight": "25px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -235,8 +235,26 @@ to portrait mode
               }
             >
               It’s a nice landscape,
-but we need to see
-your face only in portrait mode
+but we need to see your face
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,175,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "18px",
+                  "fontWeight": "700",
+                  "lineHeight": "25px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              only in portrait mode
             </div>
           </div>
           <div

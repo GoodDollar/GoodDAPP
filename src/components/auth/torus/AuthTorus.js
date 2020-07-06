@@ -9,7 +9,7 @@ import {
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_STARTED,
 } from '../../../lib/analytics/analytics'
-import { GD_USER_MASTERSEED, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
+import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
 import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
@@ -95,15 +95,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         if (['development', 'test'].includes(config.env)) {
           torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
         }
-
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
-
         identifyOnUserSignup(torusUser.email)
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+        const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
 
-        if (curSeed && curSeed !== torusUser.privateKey) {
+        if (curMnemonic || (curSeed && curSeed !== torusUser.privateKey)) {
           await AsyncStorage.clear()
           replacing = true
         }
@@ -113,13 +112,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('torus login success', { torusUser })
       } catch (e) {
         store.set('loadingIndicator')({ loading: false })
-
         if (e.message === 'user closed popup') {
           log.info(e.message, e)
         } else {
-          log.error('torus login failed', e.message, e, { dialogShown: true })
+          log.error('torus login failed', e.message, e)
         }
-
         showErrorDialog('We were unable to complete the login. Please try again.')
         return
       }
@@ -158,7 +155,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         store.set('loadingIndicator')({ loading: false })
       }
     },
-    [store, torusSDK, showErrorDialog, navigate]
+    [store, torusSDK, showErrorDialog, navigate],
   )
 
   const goToManualRegistration = useCallback(() => {
@@ -228,7 +225,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         </CustomButton>
       )
     },
-    [isPasswordless, torusSDK, auth0ButtonHandler]
+    [isPasswordless, torusSDK, auth0ButtonHandler],
   )
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>

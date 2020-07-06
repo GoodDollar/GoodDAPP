@@ -134,7 +134,7 @@ export const ZoomSDK = new class {
       ZoomSDKStatus.NeverInitialized === sdkStatus
         ? "Initialize wasn't attempted as emulated device has been detected. " +
           'FaceTec ZoomSDK could be ran on the real devices only'
-        : sdk.getFriendlyDescriptionForZoomSDKStatus(sdkStatus)
+        : sdk.getFriendlyDescriptionForZoomSDKStatus(sdkStatus),
     )
 
     // adding status code as error's object property
@@ -173,10 +173,6 @@ export const ZoomSDK = new class {
    */
   showReloadPopup() {
     const store = this.store.getCurrentSnapshot()
-    const { criticalPreloadException, logger } = this
-    const { message } = criticalPreloadException
-
-    logger.error('Failed to preload ZoOm SDK', message, criticalPreloadException, { dialogShown: true })
 
     showDialogWithData(store, {
       type: 'error',
@@ -204,7 +200,7 @@ export const ZoomSDK = new class {
     const subscription = this.subscribeToZoomExceptions()
 
     return Promise.race([subscription.asPromise(), this.promisifyCall(zoomCall)]).finally(() =>
-      subscription.unsubscrbe()
+      subscription.unsubscrbe(),
     )
   }
 
@@ -310,4 +306,4 @@ export const ZoomSDK = new class {
 
     return preloadCall.catch(noop)
   }
-}(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK.web' }))
+}(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK' }))

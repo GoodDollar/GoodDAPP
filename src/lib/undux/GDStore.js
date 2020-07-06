@@ -56,6 +56,7 @@ const initialState: State = {
   feeds: [],
   currentFeed: undefined,
   feedLoading: false,
+  inviteCode: undefined,
 }
 
 /**
@@ -66,8 +67,8 @@ const GDStore: StoreDefinition<State> = createConnectedStore(
   initialState,
   compose(
     effects,
-    withPinoLogger
-  )
+    withPinoLogger,
+  ),
 )
 
 export const useCurriedSetters = createUseCurriedSettersHook(() => GDStore)

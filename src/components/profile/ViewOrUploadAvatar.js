@@ -26,7 +26,7 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
       event.preventDefault()
       navigation.navigate('EditAvatar')
     },
-    [navigation]
+    [navigation],
   )
 
   const handleClosePress = useCallback(
@@ -34,11 +34,11 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
       event.preventDefault()
 
       wrappedUserStorage.removeAvatar().catch(e => {
-        log.error('delete image failed:', e.message, e, { dialogShown: true })
         showErrorDialog('Could not delete image. Please try again.')
+        log.error('delete image failed:', e.message, e)
       })
     },
-    [wrappedUserStorage]
+    [wrappedUserStorage],
   )
 
   const handleAddAvatar = useCallback(
@@ -46,13 +46,13 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
       fireEvent(PROFILE_IMAGE)
 
       wrappedUserStorage.setAvatar(avatar).catch(e => {
-        log.error('save image failed:', e.message, e, { dialogShown: true })
         showErrorDialog('Could not save image. Please try again.')
+        log.error('save image failed:', e.message, e)
       })
 
       navigation.navigate('EditAvatar')
     },
-    [navigation, wrappedUserStorage]
+    [navigation, wrappedUserStorage],
   )
 
   const navigateBack = useCallback(() => {

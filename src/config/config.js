@@ -28,8 +28,6 @@ const Config = {
   market: process.env.REACT_APP_MARKET === 'true' || isEToro,
   marketUrl: process.env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
   torusEnabled: process.env.REACT_APP_USE_TORUS === 'true',
-  torusNetwork: process.env.REACT_APP_TORUS_NETWORK || 'ropsten',
-  torusProxyContract: process.env.REACT_APP_TORUS_PROXY_CONTRACT || '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
   enableSelfCustody: process.env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,
@@ -71,6 +69,7 @@ const Config = {
   claimQueue: process.env.REACT_APP_CLAIM_QUEUE_ENABLED === 'true',
   mauticUrl: process.env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
   mauticAddContractFormID: process.env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
+  apiTimeout: process.env.REACT_APP_API_REQUEST_TIMEOUT || 30000,
   ethereum: {
     '42': {
       network_id: 42,

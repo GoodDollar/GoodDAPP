@@ -125,7 +125,7 @@ const AddWebApp = props => {
     // const mobile = await userStorage.getProfileFieldValue('mobile')
     //
     // API.sendMagicCodeBySms(mobile, magicLinkCode).catch(e => {
-    //   log.error('Failed to send magic link code to user by sms', e.message, e, { dialogShown: false })
+    //   log.error('Failed to send magic link code to user by sms', e.message, e)
     // })
 
     showDialog({

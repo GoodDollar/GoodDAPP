@@ -154,7 +154,7 @@ export const useConnectionGun = () => {
         wire[callMethod]('error', gunError)
       }
     },
-    [userStorage, websocket]
+    [userStorage, websocket],
   )
 
   useEffect(() => {

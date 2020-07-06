@@ -63,7 +63,7 @@ class API {
           // Do something with response error
           log.warn('axios req error', e.message, e)
           return Promise.reject(e)
-        }
+        },
       )
       instance.interceptors.response.use(
         response => {
@@ -76,7 +76,7 @@ class API {
             return Promise.reject(e.response.data)
           }
           return Promise.reject(e)
-        }
+        },
       )
       this.client = await instance
       log.info('API ready', this.jwt)
@@ -94,7 +94,7 @@ class API {
           }
 
           return Promise.reject(error)
-        }
+        },
       )
       this.w3Client = await w3Instance
       let mauticInstance: AxiosInstance = axios.create({

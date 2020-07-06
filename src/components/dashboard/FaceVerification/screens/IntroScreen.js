@@ -22,7 +22,7 @@ import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import { isBrowser } from '../../../../lib/utils/platform'
+import { isBrowser, isE2ERunning } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
@@ -64,16 +64,27 @@ const IntroScreen = ({ styles, screenProps }) => {
     },
   })
 
+  const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
+  const openFaceVerification = () => screenProps.navigateTo('FaceVerification')
+
   const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
     requestOnMounted: false,
+    onAllowed: openFaceVerification,
     onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
-    onAllowed: () => navigateTo('FaceVerification'),
     onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
     navigate: navigateTo,
   })
 
-  const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
-  const handleVerifyClick = useOnPress(requestCameraPermissions, [])
+  const handleVerifyClick = useOnPress(() => {
+    // if cypress is running - just redirect to FR as we're skipping
+    // zoom componet (which requires camera access) in this case
+    if (isE2ERunning) {
+      openFaceVerification()
+      return
+    }
+
+    requestCameraPermissions()
+  }, [requestCameraPermissions])
 
   const commonTextStyles = {
     textAlign: 'center',

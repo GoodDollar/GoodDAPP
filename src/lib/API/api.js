@@ -52,7 +52,7 @@ class API {
       this.jwt = jwt
       let instance: AxiosInstance = axios.create({
         baseURL: Config.serverUrl,
-        timeout: 30000,
+        timeout: Config.apiTimeout,
         headers: { Authorization: `Bearer ${this.jwt || ''}` },
       })
       instance.interceptors.request.use(
@@ -83,7 +83,7 @@ class API {
 
       let w3Instance: AxiosInstance = axios.create({
         baseURL: Config.web3SiteUrl,
-        timeout: 30000,
+        timeout: Config.apiTimeout,
       })
       w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
       w3Instance.interceptors.response.use(
@@ -99,7 +99,7 @@ class API {
       this.w3Client = await w3Instance
       let mauticInstance: AxiosInstance = axios.create({
         baseURL: Config.mauticUrl,
-        timeout: 30000,
+        timeout: Config.apiTimeout,
       })
       this.mauticClient = await mauticInstance
     }))

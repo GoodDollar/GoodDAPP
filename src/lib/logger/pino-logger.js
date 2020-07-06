@@ -1,8 +1,11 @@
 import pino from 'pino'
 import redaction from 'pino/lib/redaction'
+import EventEmitter from 'eventemitter3'
+
 import { redactFmtSym } from 'pino/lib/symbols'
 import { stringify } from 'pino/lib/tools'
-import { flatten, isError, isObjectLike, isPlainObject } from 'lodash'
+
+import { bindAll, filter, flatten, isError, isFunction, isObjectLike, isPlainObject, keys } from 'lodash'
 
 import { isE2ERunning } from '../utils/platform'
 import Config from '../../config/config'
@@ -14,13 +17,17 @@ export const ExceptionCategory = {
   Unexpected: 'unexpected',
 }
 
-class SecureLogger {
+const { prototype: eeProto } = EventEmitter
+
+class SecureLogger extends EventEmitter {
   childrenMap = new WeakMap()
 
   methodsMap = new WeakMap()
 
   // debug is excluded as it's redirected to info
   censorLevels = ['error', 'fatal', 'warn', 'info', 'trace']
+
+  eventEmitterMethods = filter(keys(eeProto), prop => isFunction(eeProto[prop]))
 
   get censor() {
     const { redactionApi } = this
@@ -29,31 +36,33 @@ class SecureLogger {
   }
 
   constructor(Config) {
-    const { secureLog, secureLogKeys, secureLogCensor, logLevel } = Config
-    const logger = pino({ level: logLevel })
+    super()
 
-    // if secure logs disabled - return pino instance
-    if (!secureLog) {
-      return logger
+    const { secureLog, secureLogKeys, secureLogCensor, logLevel } = Config
+    const logger = pino({ level: logLevel, browser: { transmit: this } })
+
+    // if secure logs enabled - preparing redaction paths
+    if (secureLog) {
+      const censor = secureLogCensor
+      const paths = flatten(
+        secureLogKeys.split(',').map(key => {
+          const secureKey = key.trim()
+
+          if (!secureKey) {
+            return []
+          }
+
+          return [secureKey, `*.${secureKey}`]
+        })
+      )
+
+      this.redactionApi = redaction({ paths, censor }, stringify)
     }
 
-    // otherwise read config, prepare redaction paths
-    const censor = secureLogCensor
-    const paths = flatten(
-      secureLogKeys.split(',').map(key => {
-        const secureKey = key.trim()
+    this.secureLog = secureLog
+    bindAll(this, this.eventEmitterMethods)
 
-        if (!secureKey) {
-          return []
-        }
-
-        return [secureKey, `*.${secureKey}`]
-      })
-    )
-
-    this.redactionApi = redaction({ paths, censor }, stringify)
-
-    // and return proxy-wrapped
+    // returning proxy-wrapped logger
     return new Proxy(logger, this)
   }
 
@@ -62,16 +71,24 @@ class SecureLogger {
       return
     }
 
+    // proxy EventEmitter methods
+    if (this.eventEmitterMethods.includes(property)) {
+      return this[property]
+    }
+
+    // logger.debug = logger.info substitution from old implementation
     if ('debug' === property) {
       return this.get(target, 'info')
     }
 
+    // auto wrapping children loggers to the Proxy
     if ('child' === property) {
       return this.wrapChildMethod(target)
     }
 
     const propertyValue = target[property]
 
+    // proxying logger methods
     if ('function' === typeof propertyValue) {
       return this.wrapLoggerMethod(target, property, propertyValue)
     }
@@ -90,15 +107,20 @@ class SecureLogger {
   }
 
   wrapLoggerMethod(target, methodName, methodFunction) {
-    const { censorLevels, methodsMap } = this
+    const { censorLevels, methodsMap, secureLog } = this
 
     if (!methodsMap.has(target)) {
-      methodsMap.set(
-        target,
-        censorLevels.includes(methodName)
-          ? (...loggingArgs) => methodFunction.apply(target, this.applyConfidentialCensorship(loggingArgs))
-          : methodFunction.bind(target)
-      )
+      let wrappedMethod = methodFunction.bind(target)
+
+      if (secureLog && censorLevels.includes(methodName)) {
+        wrappedMethod = (...loggingArgs) => {
+          const redactedArgs = this.applyConfidentialCensorship(loggingArgs)
+
+          return methodFunction.apply(target, redactedArgs)
+        }
+      }
+
+      methodsMap.set(target, wrappedMethod)
     }
 
     return methodsMap.get(target)
@@ -116,6 +138,12 @@ class SecureLogger {
 
       return censor(loggingArgument)
     })
+  }
+
+  send(level, logEvent) {
+    const events = ['log', `log:${level}`]
+
+    events.forEach(event => this.emit(event, logEvent))
   }
 }
 

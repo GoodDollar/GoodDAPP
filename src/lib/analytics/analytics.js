@@ -366,7 +366,7 @@ const patchLogger = () => {
 
   logger.error = (...args) => {
     const { Unexpected, Network, Human } = ExceptionCategory
-    const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
+    const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
     let { dialogShown, category = Unexpected } = extra
     let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category

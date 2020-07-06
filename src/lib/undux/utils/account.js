@@ -49,7 +49,7 @@ const updateAll = async store => {
  */
 const onBalanceChange = async (event: EventLog, store: Store) => {
   if (event) {
-    log.debug('new Transfer events:', { event, store })
+    log.debug('new Transfer events:', { event })
     await updateAll(store)
   }
 }
@@ -67,7 +67,7 @@ const initTransferEvents = async (store: Store) => {
   )
 
   if (balanceChangedSub) {
-    log.debug('removing old subscription', balanceChangedSub)
+    log.debug('removing old subscription of balanceChangedSub')
     goodWallet.unsubscribeFromEvent(balanceChangedSub)
   }
   balanceChangedSub = goodWallet.balanceChanged(event => onBalanceChange(event, store))

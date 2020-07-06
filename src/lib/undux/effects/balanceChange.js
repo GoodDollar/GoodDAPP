@@ -19,7 +19,9 @@ const withBalanceChange: Effects<State> = (store: Store) => {
     }
 
     const balanceUpdate = store.get('balanceUpdate')
-    log.debug('subscribing to balance changes', isLoggedIn, store, balanceUpdate)
+
+    log.debug('subscribing to balance changes', isLoggedIn, balanceUpdate)
+
     if (!balanceUpdate && isLoggedIn) {
       initTransferEvents(store)
       store.set('balanceUpdate')(true)

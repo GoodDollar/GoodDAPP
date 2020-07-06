@@ -50,7 +50,7 @@ const ReceiveByQR = ({ screenProps }) => {
       try {
         const url = readReceiveLink(data)
 
-        log.debug({ url })
+        log.debug('Url received from QR code', { url })
 
         if (url === null) {
           log.error('Invalid QR Code. Probably this QR code is for sending GD', '', null, {

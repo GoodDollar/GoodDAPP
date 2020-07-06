@@ -25,7 +25,7 @@ const SendByQR = ({ screenProps }: Props) => {
       try {
         const code = readCode(data)
 
-        log.info({ code })
+        log.info('Code received from QR code', { code })
 
         const { route, params } = await routeAndPathForCode('sendByQR', code)
 

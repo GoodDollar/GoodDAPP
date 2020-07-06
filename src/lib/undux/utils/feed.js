@@ -71,7 +71,7 @@ const getInitial = async (store: Store) => {
     (await userStorage
       .getFormattedEvents(PAGE_SIZE, true)
       .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
-  logger.info({ feeds })
+
   const mockedFeeds = getMockFeeds()
   store.set('feedLoading')(false)
   store.set('feeds')(feeds.concat(mockedFeeds))

@@ -168,7 +168,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
 
       let w3User = w3UserFromProps
-      log.info('from props:', { w3User })
+      log.info('w3user from props:', { w3User })
       if (w3User.email == null) {
         store.set('loadingIndicator')({ loading: true })
         await API.ready
@@ -177,7 +177,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           const w3userData = await API.getUserFromW3ByToken(w3Token)
 
           w3User = w3userData.data
-          log.info({ w3User })
+          log.info('Received user data from w3 site', { w3User })
 
           const userScreenData = {
             email: w3User.email || '',
@@ -506,7 +506,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const newState = { ...state, ...data, lastStep: navigation.state.index }
     setState(newState)
 
-    log.info('signup data:', { data, nextRoute, newState })
+    log.debug('signup data:', { data, nextRoute, newState })
 
     if (nextRoute === undefined) {
       const ok = await waitForRegistrationToFinish()

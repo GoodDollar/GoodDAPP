@@ -21,7 +21,7 @@ const ReceiveByQR = ({ screenProps }) => {
       try {
         const url = readReceiveLink(data)
 
-        log.debug({ url })
+        log.debug('Url received from QR code', { url })
 
         if (url === null) {
           throw new Error('Invalid QR Code.')
@@ -35,7 +35,7 @@ const ReceiveByQR = ({ screenProps }) => {
           setWithdrawParams({ receiveLink, reason })
         }
       } catch (e) {
-        log.error('scan received failed', e.message, e)
+        log.error('scan received failed', e.message, e, { data })
         throw e
       }
     }

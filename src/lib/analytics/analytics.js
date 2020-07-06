@@ -146,7 +146,7 @@ export const initAnalytics = async () => {
     Amplitude: isAmplitudeEnabled,
   })
 
-  patchLogger()
+  listenLogger()
 }
 
 /** @private */
@@ -358,15 +358,13 @@ export const fireGoogleAnalyticsEvent = (event, data = {}) => {
   GoogleAnalytics.push({ event, ...data })
 }
 
-const patchLogger = () => {
-  const logError = logger.error.bind(logger)
-
+const listenLogger = () => {
   // for error logs if they happen frequently only log one
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
-  logger.error = (...args) => {
+  logger.on('log:error', ({ messages }) => {
     const { Unexpected, Network, Human } = ExceptionCategory
-    const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
+    const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = messages
     let { dialogShown, category = Unexpected } = extra
     let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category
@@ -436,7 +434,5 @@ const patchLogger = () => {
         level: categoryToPassIntoLog === Human ? 'info' : undefined,
       }
     )
-
-    return logError(...args)
-  }
+  })
 }

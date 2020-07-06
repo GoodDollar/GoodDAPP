@@ -12,7 +12,7 @@ const update = async () => {
     lastVersionUpdate: '',
   }
   const lastUpdate = new Date(updatesData.lastUpdate)
-  const doneUpdates = (await userStorage.userProperties.get('updates').get('status')) || {}
+  const doneUpdates = updatesData.status || {}
   const prevVersion = updatesData.lastVersionUpdate
   log.debug('starting updates:', { prevVersion, lastUpdate, doneUpdates })
   const promises = updates.map(upd => {

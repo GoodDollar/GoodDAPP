@@ -43,9 +43,9 @@ let event4 = {
   data: { foo: 'bar', unchanged: 'zar' },
 }
 
+jest.setTimeout(30000)
 describe('UserStorage', () => {
   beforeAll(async () => {
-    jest.setTimeout(30000)
     await userStorage.wallet.ready
     await userStorage.ready
   })
@@ -163,7 +163,12 @@ describe('UserStorage', () => {
       .get('id')
       .get('value')
       .then()
-    expect(Object.keys(res)).toEqual(['ct', 'iv', 's'])
+    expect(res).toMatch(/SEA{.*/)
+    expect(JSON.parse(res.substring(3))).toMatchObject({
+      ct: expect.anything(),
+      iv: expect.anything(),
+      s: expect.anything(),
+    })
   })
 
   it('gets profile field private (decrypted)', async () => {
@@ -351,11 +356,8 @@ describe('UserStorage', () => {
 
   it('events/keeps event index sorted', async () => {
     await userStorage.updateFeedEvent(event4)
-    const index = await userStorage.feed
-      .get('index')
-      .once()
-      .then()
-    const events = await userStorage.feed.get('2019-01-02').then()
+    const index = await userStorage.feed.get('index').then()
+    const events = await userStorage.feed.get('2019-01-02').then(JSON.parse)
     expect(index['2019-01-02']).toEqual(1)
     expect(events.map(event => event.id)).toEqual([event4.id])
   })
@@ -605,7 +607,12 @@ describe('UserStorage', () => {
       username: 'hadar2',
     }
     const profile = getUserModel(profileData)
-    const result = await userStorage.setProfile(profile)
+    const fieldsPrivacy = await Promise.all([
+      userStorage.getFieldPrivacy('mobile'),
+      userStorage.getFieldPrivacy('email'),
+    ])
+    expect(fieldsPrivacy).toEqual(['masked', 'masked'])
+    const result = await userStorage.setProfile(profile, true)
     expect(result).toBe(true)
     await delay(350)
     userStorage.subscribeProfileUpdates(async updatedProfile => {
@@ -627,10 +634,21 @@ describe('UserStorage', () => {
   it(`update profile doesn't change privacy settings`, async done => {
     const email = 'johndoe@blah.com'
     await userStorage.setProfileField('email', email, 'public')
-    await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }))
+    await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }), true)
     userStorage.subscribeProfileUpdates(updatedProfile => {
       const result = userStorage.getDisplayProfile(updatedProfile)
       expect(result.email).toBe(email)
+      done()
+    })
+  })
+
+  it(`setting profile changes privacy settings`, async done => {
+    const email = 'johndoe@blah.com'
+    await userStorage.setProfileField('email', email, 'public')
+    await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }))
+    userStorage.subscribeProfileUpdates(updatedProfile => {
+      const result = userStorage.getDisplayProfile(updatedProfile)
+      expect(result.email).toBe('******')
       done()
     })
   })
@@ -894,7 +912,9 @@ describe('users index', () => {
     let wallet = userStorage.wallet.account
     await userStorage.setProfileField('walletAddress', wallet)
     await userStorage.setProfileField('email', 'test@test.com', 'public')
+    await delay(500)
     let addr = await userStorage.getUserAddress('test@test.com')
+    await delay(500)
     expect(addr).toBe(wallet)
   })
 

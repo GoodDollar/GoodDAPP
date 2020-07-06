@@ -42,7 +42,9 @@ describe('generateShareLink', () => {
     const params = {
       key: 'value',
     }
-    let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
+    let paramsBase64 = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
 
     // When
     const link = generateShareLink(action, params)
@@ -57,7 +59,9 @@ describe('generateShareLink', () => {
     const params = {
       key: 'value',
     }
-    let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
+    let paramsBase64 = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
 
     // When
     const link = generateShareLink(action, params)
@@ -75,7 +79,9 @@ describe('generateShareLink', () => {
       key3: 'value3',
       key4: 'value4',
     }
-    let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
+    let paramsBase64 = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
 
     // When
     const link = generateShareLink(action, params)
@@ -93,7 +99,9 @@ describe('generateShareLink', () => {
       key3: 'value3',
       key4: 'value4',
     }
-    let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
+    let paramsBase64 = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
 
     // When
     const link = generateShareLink(action, params)
@@ -106,7 +114,9 @@ describe('generateShareLink', () => {
     // Given
     const action = 'send'
     const params = { key: 'value with spaces' }
-    let paramsBase64 = Buffer.from(JSON.stringify(params)).toString('base64')
+    let paramsBase64 = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
 
     // When
     const link = generateShareLink(action, params)

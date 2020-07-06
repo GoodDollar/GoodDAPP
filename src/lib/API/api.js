@@ -53,7 +53,7 @@ class API {
       this.jwt = jwt
       let instance: AxiosInstance = axios.create({
         baseURL: Config.serverUrl,
-        timeout: 30000,
+        timeout: Config.apiTimeout,
         headers: { Authorization: `Bearer ${this.jwt || ''}` },
       })
       instance.interceptors.request.use(
@@ -64,7 +64,7 @@ class API {
           // Do something with response error
           log.warn('axios req error', e.message, e)
           return Promise.reject(e)
-        }
+        },
       )
       instance.interceptors.response.use(
         response => {
@@ -77,7 +77,7 @@ class API {
             return Promise.reject(e.response.data)
           }
           return Promise.reject(e)
-        }
+        },
       )
       this.client = await instance
 
@@ -85,7 +85,7 @@ class API {
 
       let w3Instance: AxiosInstance = axios.create({
         baseURL: Config.web3SiteUrl,
-        timeout: 30000,
+        timeout: Config.apiTimeout,
       })
       w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
       w3Instance.interceptors.response.use(
@@ -96,12 +96,12 @@ class API {
           }
 
           return Promise.reject(error)
-        }
+        },
       )
       this.w3Client = await w3Instance
       let mauticInstance: AxiosInstance = axios.create({
         baseURL: Config.mauticUrl,
-        timeout: 30000,
+        timeout: Config.apiTimeout,
       })
       this.mauticClient = await mauticInstance
     }))
@@ -248,8 +248,27 @@ class API {
     return this.client.post('/send/linksms', { to, sendLink })
   }
 
+  /** @private */
+  faceVerificationUrl = '/verify/face'
+
+  /** @private */
+  enrollmentUrl(enrollmentIdentifier) {
+    const { faceVerificationUrl } = this
+
+    return `${faceVerificationUrl}/${encodeURIComponent(enrollmentIdentifier)}`
+  }
+
   /**
-   * `/verify/facerecognition/:enrollmentIdentifier` put api call
+   * `/verify/face/session` post api call
+   */
+  issueSessionToken(): Promise<$AxiosXHR<any>> {
+    const { client, faceVerificationUrl } = this
+
+    return client.post(`${faceVerificationUrl}/session`, {})
+  }
+
+  /**
+   * `/verify/face/:enrollmentIdentifier` put api call
    * @param {any} payload
    * @param {string} enrollmentIdentifier
    * @param {any} axiosConfig
@@ -257,31 +276,31 @@ class API {
   performFaceVerification(payload: any, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
     const { client } = this
     const { enrollmentIdentifier, ...enrollmentPayload } = payload
-    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+    const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.put(endpoint, enrollmentPayload, axiosConfig)
   }
 
   /**
-   * `/verify/facerecognition/:enrollmentIdentifier` delete api call
+   * `/verify/face/:enrollmentIdentifier` delete api call
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
   disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
     const { client } = this
-    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+    const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.delete(endpoint, { params: { signature } })
   }
 
   /**
-   * `/verify/facerecognition/:enrollmentIdentifier` get api call
+   * `/verify/face/:enrollmentIdentifier` get api call
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
   checkFaceSnapshotDisposalState(enrollmentIdentifier: string): Promise<$AxiosXHR<any>> {
     const { client } = this
-    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+    const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.get(endpoint)
   }

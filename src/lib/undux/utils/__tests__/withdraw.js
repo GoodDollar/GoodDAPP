@@ -1,4 +1,4 @@
-import { prepareDataWithdraw } from '../withdraw'
+import { parsePaymentLinkParams } from '../../../share'
 
 describe('Decode old', () => {
   it(`decode old format, full params`, () => {
@@ -8,7 +8,7 @@ describe('Decode old', () => {
       reason: 'test',
     }
 
-    const decoded = prepareDataWithdraw(params)
+    const decoded = parsePaymentLinkParams(params)
 
     // Then
     expect(decoded).toEqual(params)
@@ -24,7 +24,7 @@ describe('Decode old', () => {
       other1: 'other 1',
       code: 'code_code',
     }
-    const decoded = prepareDataWithdraw({ ...params, ...otherParams })
+    const decoded = parsePaymentLinkParams({ ...params, ...otherParams })
 
     // Then
     expect(decoded).toEqual(params)
@@ -39,7 +39,7 @@ describe('Decode old', () => {
       other1: 'other 1',
       code: 'code_code',
     }
-    const decoded = prepareDataWithdraw({ ...params, ...otherParams })
+    const decoded = parsePaymentLinkParams({ ...params, ...otherParams })
 
     // Then
     expect(decoded).toEqual({ ...params, reason: null })
@@ -51,7 +51,7 @@ describe('Decode old', () => {
       other1: 'other 1',
       code: 'code_code',
     }
-    const decoded = prepareDataWithdraw({ ...otherParams })
+    const decoded = parsePaymentLinkParams({ ...otherParams })
 
     // Then
     expect(decoded).toEqual(null)
@@ -65,8 +65,10 @@ describe('Decode base64', () => {
       paymentCode: 'paymentCode',
       reason: 'test',
     }
-    const code = Buffer.from(JSON.stringify(params)).toString('base64')
-    const decoded = prepareDataWithdraw({ paymentCode: code })
+    const code = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
+    const decoded = parsePaymentLinkParams({ paymentCode: code })
 
     // Then
     expect(decoded).toEqual(params)
@@ -83,8 +85,10 @@ describe('Decode base64', () => {
       code: 'code_code',
     }
 
-    const code = Buffer.from(JSON.stringify(params)).toString('base64')
-    const decoded = prepareDataWithdraw({ paymentCode: code, ...otherParams })
+    const code = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
+    const decoded = parsePaymentLinkParams({ paymentCode: code, ...otherParams })
 
     expect(decoded).toEqual(params)
   })
@@ -99,9 +103,11 @@ describe('Decode base64', () => {
       other1: 'other 1',
       code: 'code_code',
     }
-    const code = Buffer.from(JSON.stringify(params)).toString('base64')
+    const code = Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, '')
 
-    const decoded = prepareDataWithdraw({ paymentCode: code, ...otherParams })
+    const decoded = parsePaymentLinkParams({ paymentCode: code, ...otherParams })
 
     // Then
     expect(decoded).toEqual(params)

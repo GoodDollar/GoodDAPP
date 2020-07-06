@@ -22,6 +22,7 @@ import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup } from '../../lib/analytics/analytics'
+import { parsePaymentLinkParams } from '../../lib/share'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -30,7 +31,6 @@ import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
 import MagicLinkInfo from './MagicLinkInfo'
-
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord & { invite_code?: string }
@@ -254,7 +254,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const checkW3InviteCode = async () => {
     const _destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     const destinationPath = JSON.parse(_destinationPath)
-    return get(destinationPath, 'params.inviteCode')
+    const params = get(destinationPath, 'params')
+    const paymentParams = params && parsePaymentLinkParams(params)
+
+    return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
   }
 
   const onMount = async () => {
@@ -354,6 +357,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkW3InviteCode()
+      log.debug('invite code:', { inviteCode })
       const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
 
       ;['email', 'fullName', 'mobile'].forEach(field => {
@@ -432,13 +436,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       Promise.all([
         w3Token &&
           API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
-            log.error('failed updateW3UserWithWallet', e.message, e)
+            log.error('failed updateW3UserWithWallet', e.message, e),
           ),
       ])
 
-      userStorage.setProfileField('registered', true, 'public').catch(_ => _)
-      userStorage.gunuser.get('registered').put(true)
-      await AsyncStorage.setItem(IS_LOGGED_IN, true)
+      await Promise.all([
+        userStorage.gunuser.get('registered').putAck(true),
+        userStorage.userProperties.set('registered', true),
+        AsyncStorage.setItem(IS_LOGGED_IN, true),
+      ])
 
       AsyncStorage.removeItem('GD_web3Token')
       AsyncStorage.removeItem(GD_INITIAL_REG_METHOD)

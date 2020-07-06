@@ -143,7 +143,7 @@ export const welcomeMessage = {
   data: {
     customName: 'Welcome to GoodDollar!',
     subtitle: 'Welcome to GoodDollar!',
-    readMore: 'Claim free G$ coins daily',
+    readMore: 'Claim free G$ coins daily.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -174,8 +174,8 @@ export const inviteFriendsMessage = {
   status: 'completed',
   data: {
     customName: `Invite friends and earn G$'s`,
-    subtitle: `Want to earn more G$'s ?`,
-    readMore: 'Invite more friends!',
+    subtitle: Config.isPhaseZero ? 'Want to earn more G$`s ?' : 'Invite Your friends now.',
+    readMore: Config.isPhaseZero ? 'Invite more friends!' : 'and let them also claim free G$`s.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -191,7 +191,7 @@ export const backupMessage = {
   data: {
     customName: 'Backup your wallet. Now.',
     subtitle: 'You need to backup your',
-    readMore: 'wallet pass phrase',
+    readMore: 'wallet pass phrase.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -229,7 +229,9 @@ export const startClaiming = {
     },
 
     // preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
-    reason: `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`,
+    reason: Config.isPhaseZero
+      ? `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
+      : `GoodDollar gives every active member a small daily income.\n\nSign in every day, collect free GoodDollars and use them to pay for goods and services.`,
   },
 }
 
@@ -239,7 +241,7 @@ export const hanukaBonusStartsMessage = {
   data: {
     customName: 'Collect extra GoodDollars\non every day of Hannukah',
     subtitle: 'Hannukah Miracle Bonus',
-    readMore: 'Claim today for extra G$$$',
+    readMore: 'Claim today for extra G$$$.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -258,7 +260,7 @@ export const longUseOfClaims = {
   data: {
     customName: 'Woohoo! You’ve made it!', //title in modal
     subtitle: 'Woohoo! You’ve made it!',
-    smallReadMore: 'Congrats! You claimed G$ for 14 days',
+    smallReadMore: 'Congrats! You claimed G$ for 14 days.',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -290,8 +292,8 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
           }
           return acc
         },
-        { name: log.name }
-      )
+        { name: log.name },
+      ),
     )
 
   //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
@@ -300,7 +302,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     logs.filter(log => {
       return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
-    log => log.value
+    log => log.value,
   )
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
@@ -578,7 +580,7 @@ export class UserStorage {
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
-          this.gunCreate(username, password).then(r => this.gunAuth(username, password))
+          this.gunCreate(username, password).then(r => this.gunAuth(username, password)),
         )
       } else {
         loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
@@ -657,8 +659,57 @@ export class UserStorage {
     })
     logger.debug('init systemfeed')
 
-    await this.startSystemFeed()
+    await Promise.all([this.startSystemFeed(), this.initTokens()])
+
     return true
+  }
+
+  async initTokens() {
+    const initMarketToken = async () => {
+      if (Config.market) {
+        const r = await API.getMarketToken().catch(e => {
+          logger.warn('failed fetching market token', { e })
+        })
+        token = get(r, 'data.jwt')
+        if (token) {
+          this.setProfileField('marketToken', token, 'private')
+        }
+        return token
+      }
+    }
+
+    const initLoginToken = async () => {
+      if (Config.enableInvites) {
+        const r = await API.getLoginToken().catch(e => {
+          logger.warn('failed fetching login token', { e })
+        })
+        token = get(r, 'data.loginToken')
+        if (token) {
+          this.setProfileField('loginToken', token, 'private')
+        }
+        return token
+      }
+    }
+
+    let [token, inviteCode, marketToken] = await Promise.all([
+      this.getProfileFieldValue('loginToken'),
+      this.getProfileFieldValue('inviteCode'),
+      this.getProfileFieldValue('marketToken'),
+    ])
+
+    let [_token] = await Promise.all([token || initLoginToken(), marketToken || initMarketToken()])
+
+    if (!inviteCode) {
+      const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
+        logger.warn('failed fetching w3 user', { e })
+        return {}
+      })
+      logger.debug('w3 user result', { data })
+      inviteCode = get(data, 'invite_code')
+      if (inviteCode) {
+        this.setProfileField('inviteCode', inviteCode, 'private')
+      }
+    }
   }
 
   /**
@@ -703,7 +754,9 @@ export class UserStorage {
    */
   createMagicLink(username: String, password: String): String {
     let magicLink = `${username}+${password}`
-    magicLink = Buffer.from(magicLink).toString('base64')
+    magicLink = Buffer.from(magicLink)
+      .toString('base64')
+      .replace(/==$/, '')
 
     return magicLink
   }
@@ -832,7 +885,7 @@ export class UserStorage {
           'handleOTPLUpdated failed',
           'Original payment link TX not found',
           new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
-          data
+          data,
         )
         return
       }
@@ -956,8 +1009,8 @@ export class UserStorage {
     const feed = await this.feed
     logger.debug('init feed', { feed })
 
-    if (feed === null) {
-      // this.feed.put({ byid: {}, index: {}, queue: {} })
+    if (feed == null) {
+      await this.feed.put({}) //restore old feed data - after nullified
       logger.debug('init empty feed')
     } else {
       const byid = await this.feed.get('byid')
@@ -968,43 +1021,48 @@ export class UserStorage {
     this.feedIds = (await loadFeedCache) || {}
 
     //verify cache has all items
-    await new Promise((res, rej) => {
-      if (!(feed && feed.byid)) {
-        res()
-      }
-      this.feed.get('byid').onThen(items => {
-        if (items && items._) {
-          delete items._
+    if (!(feed && feed.byid)) {
+      return
+    }
+    const items = await this.feed
+      .get('byid')
+      .onThen()
+      .catch(e => {
+        logger.warn('fetch byid onthen failed', { e })
+      })
+
+    if (!items) {
+      return
+    }
+    if (items && items._) {
+      delete items._
+    }
+    const ids = Object.entries(items)
+    logger.debug('initFeed got items', { ids })
+    const promises = ids.map(async ([k, v]) => {
+      if (this.feedIds[k] === undefined) {
+        logger.debug('initFeed got missing cache item', { k })
+        const data = await this.feed
+          .get('byid')
+          .get(k)
+          .decrypt()
+          .catch(_ => undefined)
+        if (data != null) {
+          this.feedIds[k] = data
+          return true
         }
-        const ids = Object.entries(items)
-        logger.debug('initFeed got items', { ids })
-        const promises = ids.map(async ([k, v]) => {
-          if (this.feedIds[k] === undefined) {
-            logger.debug('initFeed got missing cache item', { k })
-            const data = await this.feed
-              .get('byid')
-              .get(k)
-              .decrypt()
-              .catch(_ => undefined)
-            if (data != null) {
-              this.feedIds[k] = data
-              return true
-            }
-            return false
-          }
-          return false
-        })
-        Promise.all(promises)
-          .then(_ => {
-            if (_.find(_ => _)) {
-              logger.debug('initFeed updating cache', this.feedIds, _)
-              AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
-            }
-          })
-          .catch(e => logger.error('error caching feed items', e.message, e))
-        res()
-      }, true)
+        return false
+      }
+      return false
     })
+    Promise.all(promises)
+      .then(_ => {
+        if (_.find(_ => _)) {
+          logger.debug('initFeed updating cache', this.feedIds, _)
+          AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+        }
+      })
+      .catch(e => logger.error('error caching feed items', e.message, e))
   }
 
   async startSystemFeed() {
@@ -1044,14 +1102,10 @@ export class UserStorage {
    */
   async initProperties() {
     this.properties = this.gunuser.get('properties')
-    const props = await this.properties
-    logger.debug('init properties', { props })
 
-    if (props == null) {
-      let putRes = await this.properties.putAck(UserProperties.defaultProperties)
-      logger.debug('set defaultProperties ok:', { defaultProperties: UserProperties.defaultProperties, putRes })
-    }
     this.userProperties = new UserProperties(this.properties)
+    const properties = await this.userProperties.ready
+    logger.debug('init properties', { properties })
   }
 
   async initProfile() {
@@ -1067,12 +1121,11 @@ export class UserStorage {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
-
     logger.debug('init opened profile', { gunRef: this.profile, profile, gunuser })
   }
 
   addAllCardsTest() {
-    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
+    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims, startSpending].forEach(m => {
       const copy = Object.assign({}, m, { id: String(Math.random()) })
       this.enqueueTX(copy)
     })
@@ -1172,7 +1225,7 @@ export class UserStorage {
         ...acc,
         [currKey]: profile[currKey].display,
       }),
-      {}
+      {},
     )
     return getUserModel(displayProfile)
   }
@@ -1217,7 +1270,7 @@ export class UserStorage {
    * It saves only known profile fields
    *
    * @param {UserModel} profile - User profile
-   * @param {boolean} update - are we updating, if so validate only non empty fields
+   * @param {boolean} update - are we updating, if so validate only non empty fields, otherwise also set default privacy
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
@@ -1231,7 +1284,7 @@ export class UserStorage {
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
-        { errors }
+        { errors },
       )
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
@@ -1246,11 +1299,17 @@ export class UserStorage {
       keys(this.profileSettings)
         .filter(key => profile[key])
         .map(async field => {
-          return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
+          return this.setProfileField(
+            field,
+            profile[field],
+            update
+              ? await this.getFieldPrivacy(field)
+              : get(this.profileSettings, `[${field}].defaultPrivacy`, 'private'),
+          ).catch(e => {
             logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
           })
-        })
+        }),
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
 
@@ -1263,7 +1322,7 @@ export class UserStorage {
             errCount: errors.length,
             errors,
             strErrors: JSON.stringify(errors),
-          }
+          },
         )
 
         if (Config.throwSaveProfileErrors) {
@@ -1289,7 +1348,7 @@ export class UserStorage {
       logger.error(
         `indexProfileField - field ${field} value is empty (value: ${value})`,
         cleanValue,
-        new Error('isValidValue failed')
+        new Error('isValidValue failed'),
       )
       return false
     }
@@ -1318,7 +1377,7 @@ export class UserStorage {
     const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
 
     const validatedFields = await Promise.all(
-      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field], true) }))
+      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field], true) })),
     )
     const errors = validatedFields.reduce((accErrors, curr) => {
       if (!curr.valid) {
@@ -1345,7 +1404,7 @@ export class UserStorage {
     field: string,
     value: string,
     privacy: FieldPrivacy = 'public',
-    onlyPrivacy: boolean = false
+    onlyPrivacy: boolean = false,
   ): Promise<ACK> {
     let display
     switch (privacy) {
@@ -1502,7 +1561,7 @@ export class UserStorage {
         .map(async eventIndex => {
           let item = this.feedIds[eventIndex.id]
 
-          if (item === undefined) {
+          if (item === undefined && eventIndex.id.indexOf('0x') === 0) {
             const receipt = await this.wallet.getReceiptWithLogs(eventIndex.id).catch(e => {
               logger.warn('no receipt found for id:', eventIndex.id, e.message, e)
               return undefined
@@ -1516,7 +1575,7 @@ export class UserStorage {
           }
 
           return item
-        })
+        }),
     )
   }
 
@@ -1534,7 +1593,7 @@ export class UserStorage {
             feedItem &&
             feedItem.data &&
             ['deleted', 'cancelled'].includes(feedItem.status) === false &&
-            feedItem.otplStatus !== 'cancelled'
+            feedItem.otplStatus !== 'cancelled',
         )
         .map(feedItem => {
           if (false == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
@@ -1545,7 +1604,7 @@ export class UserStorage {
             logger.error('getFormattedEvents Failed formatting event:', e.message, e, { feedItem })
             return {}
           })
-        })
+        }),
     )
   }
 
@@ -1591,7 +1650,8 @@ export class UserStorage {
    * @param {string} username
    */
   async isUsername(username: string) {
-    const profile = await this.gun.get('users/byusername').get(username)
+    const cleanValue = UserStorage.cleanHashedFieldForIndex('username', username)
+    const profile = await this.gun.get('users/byusername').get(cleanValue)
     return profile !== undefined
   }
 
@@ -1730,7 +1790,7 @@ export class UserStorage {
             initiator,
             type,
             address,
-            displayName
+            displayName,
           ).catch(e => {
             logger.warn('formatEvent: failed extractFullName', e.message, e, {
               customName,
@@ -1763,9 +1823,10 @@ export class UserStorage {
             },
             amount: value,
             preMessageText: preReasonText,
-            message: smallReadMore || reason || message,
+            message: reason || message,
             subtitle,
             readMore,
+            smallReadMore,
             withdrawCode,
           },
         }
@@ -1773,7 +1834,7 @@ export class UserStorage {
         logger.error('formatEvent: failed formatting event:', e.message, e, event)
         return {}
       }
-    }
+    },
   )
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
@@ -1827,16 +1888,20 @@ export class UserStorage {
 
   async _extractProfileToShow(initiatorType, initiator, address): Gun {
     const getProfile = async (group, value) => {
+      logger.debug('extractProfile:', { group, value })
+
       // Need to verify if user deleted, otherwise the gun will stuck here and feed wont be displayed
       // The group will contain null value in case user was deleted
       const gunGroupIndexValue = this.gun.get(group).get(value)
       const groupValue = await gunGroupIndexValue.then()
+      logger.debug('extractProfiler result :', { group, value, groupValue })
 
-      if (!isNull(groupValue)) {
+      if (!isNull(groupValue) && Gun.node.is(groupValue)) {
         return {
           gunProfile: gunGroupIndexValue.get('profile'),
         }
       }
+      logger.warn('_extractProfileToShow invalid profile', { group, value, groupValue })
     }
 
     const searchField = initiatorType && `by${initiatorType}`
@@ -1909,7 +1974,7 @@ export class UserStorage {
       let putRes = await this.feed
         .get('queue')
         .get(event.id)
-        .putAck(event)
+        .secretAck(event)
       await this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
@@ -1928,7 +1993,10 @@ export class UserStorage {
    */
   async dequeueTX(eventId: string): Promise<FeedEvent> {
     try {
-      const feedItem = await this.loadGunField(this.feed.get('queue').get(eventId))
+      const feedItem = await this.feed
+        .get('queue')
+        .get(eventId)
+        .decrypt()
       logger.debug('dequeueTX got item', eventId, feedItem)
       if (feedItem) {
         this.feed
@@ -2243,35 +2311,34 @@ export class UserStorage {
    * @returns {Promise<boolean>|Promise<boolean>}
    */
   async userAlreadyExist(): Promise<boolean> {
-    const [isProfileRegistered, isRegistered] = await Promise.all([
-      this.profile.get('registered').onThen(null, { default: {} }),
-      this.gunuser.get('registered').onThen(),
-    ])
-    const exists = isProfileRegistered.display || isRegistered
-    logger.debug('userAlreadyExist', { exists, isProfileRegistered, isRegistered })
+    const exists = await this.gunuser.get('registered').onThen()
+    logger.debug('userAlreadyExist', { exists })
     return exists
   }
 
   /**
-   * remove user from indexes when deleting profile
+   * remove user from indexes
+   * deleting profile actually doenst delete but encrypts everything
    */
   async deleteProfile(): Promise<boolean> {
+    this.unSubscribeProfileUpdates()
+
     //first delete from indexes then delete the profile itself
+    let profileFields = await this.profile
+    delete profileFields._
+
     await Promise.all(
-      keys(UserStorage.indexableFields).map(k => {
+      keys(profileFields).map(k => {
         return this.setProfileFieldPrivacy(k, 'private').catch(err => {
           logger.error(
             'Deleting profile field failed',
             err.message || 'Some error occurred during setting the privacy to the field',
             err || new Error('Deleting profile field failed'),
-            { index: k }
+            { index: k },
           )
         })
-      })
+      }),
     )
-
-    await this.gunuser.get('profile').putAck(null)
-
     return true
   }
 
@@ -2337,7 +2404,7 @@ export class UserStorage {
       return false
     }
 
-    logger.debug('deleteAccount', { deleteResults })
+    logger.debug('deleteAccount', deleteResults)
     return true
   }
 }

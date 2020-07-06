@@ -246,8 +246,27 @@ class API {
     return this.client.post('/send/linksms', { to, sendLink })
   }
 
+  /** @private */
+  faceVerificationUrl = '/verify/face'
+
+  /** @private */
+  enrollmentUrl(enrollmentIdentifier) {
+    const { faceVerificationUrl } = this
+
+    return `${faceVerificationUrl}/${encodeURIComponent(enrollmentIdentifier)}`
+  }
+
   /**
-   * `/verify/facerecognition/:enrollmentIdentifier` put api call
+   * `/verify/face/session` post api call
+   */
+  issueSessionToken(): Promise<$AxiosXHR<any>> {
+    const { client, faceVerificationUrl } = this
+
+    return client.post(`${faceVerificationUrl}/session`, {})
+  }
+
+  /**
+   * `/verify/face/:enrollmentIdentifier` put api call
    * @param {any} payload
    * @param {string} enrollmentIdentifier
    * @param {any} axiosConfig
@@ -255,31 +274,31 @@ class API {
   performFaceVerification(payload: any, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
     const { client } = this
     const { enrollmentIdentifier, ...enrollmentPayload } = payload
-    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+    const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.put(endpoint, enrollmentPayload, axiosConfig)
   }
 
   /**
-   * `/verify/facerecognition/:enrollmentIdentifier` delete api call
+   * `/verify/face/:enrollmentIdentifier` delete api call
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
   disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
     const { client } = this
-    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+    const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.delete(endpoint, { params: { signature } })
   }
 
   /**
-   * `/verify/facerecognition/:enrollmentIdentifier` get api call
+   * `/verify/face/:enrollmentIdentifier` get api call
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
   checkFaceSnapshotDisposalState(enrollmentIdentifier: string): Promise<$AxiosXHR<any>> {
     const { client } = this
-    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+    const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.get(endpoint)
   }

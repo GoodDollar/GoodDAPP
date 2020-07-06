@@ -22,7 +22,7 @@ import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup } from '../../lib/analytics/analytics'
-import { prepareDataWithdraw } from '../../lib/undux/utils/withdraw'
+import { parsePaymentLinkParams } from '../../lib/share'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -255,7 +255,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const _destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     const destinationPath = JSON.parse(_destinationPath)
     const params = get(destinationPath, 'params')
-    const paymentParams = params && prepareDataWithdraw(params)
+    const paymentParams = params && parsePaymentLinkParams(params)
 
     return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
   }
@@ -440,8 +440,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           ),
       ])
 
-      await userStorage.gunuser.get('registered').putAck(true)
-      await AsyncStorage.setItem(IS_LOGGED_IN, true)
+      await Promise.all([
+        userStorage.gunuser.get('registered').putAck(true),
+        userStorage.userProperties.set('registered', true),
+        AsyncStorage.setItem(IS_LOGGED_IN, true),
+      ])
 
       AsyncStorage.removeItem('GD_web3Token')
       AsyncStorage.removeItem(GD_INITIAL_REG_METHOD)

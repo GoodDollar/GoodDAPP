@@ -74,28 +74,3 @@ export const executeWithdraw = async (
     throw e
   }
 }
-
-export const prepareDataWithdraw = params => {
-  const { paymentCode, reason } = params
-  let paymentParams = null
-
-  if (paymentCode) {
-    try {
-      paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
-      const { p, r, reason: oldr, paymentCode: oldp, i } = JSON.parse(paymentParams)
-      paymentParams = {
-        paymentCode: p || oldp,
-        reason: r || oldr,
-        inviteCode: i,
-      }
-    } catch (e) {
-      log.info('uses old format', { paymentCode, reason })
-      paymentParams = {
-        paymentCode: decodeURIComponent(paymentCode),
-        reason: reason ? decodeURIComponent(reason) : null,
-      }
-    }
-  }
-
-  return paymentParams
-}

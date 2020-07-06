@@ -22,6 +22,7 @@ export default class UserProperties {
     countClaim: 0,
     regMethod: REGISTRATION_METHOD_SELF_CUSTODY,
     showQuickActionHint: true,
+    registered: false,
   }
 
   fields = [

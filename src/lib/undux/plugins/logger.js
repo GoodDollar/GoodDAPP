@@ -6,12 +6,14 @@ import type { State } from '../GDStore'
 
 export const log = logger.child({ from: 'undux' })
 
+const complexObjects = ['wallet', 'userStorage']
+
 const withPinoLogger: Effects<State> = store => {
   store.onAll().subscribe(({ key, previousValue, value }) => {
     log.info('store content changed', {
       key,
-      from: previousValue,
-      to: value,
+      from: complexObjects.includes(key) ? Boolean(previousValue) : previousValue,
+      to: complexObjects.includes(key) ? Boolean(value) : value,
     })
   })
 

@@ -4,18 +4,7 @@ import EventEmitter from 'eventemitter3'
 
 import { redactFmtSym } from 'pino/lib/symbols'
 
-import {
-  bindAll,
-  cloneDeep,
-  filter,
-  flatten,
-  isError,
-  isFunction,
-  isObjectLike,
-  isPlainObject,
-  keys,
-  zipObject,
-} from 'lodash'
+import { bindAll, cloneDeep, filter, flatten, isFunction, isPlainObject, keys, zipObject } from 'lodash'
 
 import { isE2ERunning } from '../utils/platform'
 import Config from '../../config/config'

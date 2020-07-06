@@ -1,4 +1,5 @@
 // @flow
+
 import React from 'react'
 import { Platform, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
@@ -15,6 +16,7 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent } from '../../lib/analytics/analytics'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -30,8 +32,9 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
 
   const { amount, reason, paymentLink } = screenState
 
-  const shareAction = async () => {
+  const shareAction = useOnPress(async () => {
     let type = 'copy'
+
     if (isMobile && navigator.share) {
       try {
         type = 'share'
@@ -49,7 +52,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     }
 
     fireEvent('SEND_CONFIRMATION_SHARE', { type })
-  }
+  }, [paymentLink, showErrorDialog, setString])
 
   return (
     <Wrapper>

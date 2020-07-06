@@ -1,4 +1,5 @@
 // @flow
+
 import React from 'react'
 import { Image, View } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -13,30 +14,34 @@ import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 Image.prefetch(illustration)
+
 const log = logger.child({ from: 'MagicLinkInfo' })
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps } = props
+  const { goToRoot, pop } = screenProps
   const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const sendMagicEmail = () => {
+  const sendMagicEmail = useOnPress(() => {
     API.sendMagicLinkByEmail(userStorage.getMagicLink())
       .then(r => {
         log.info('Resending magiclink')
         fireEvent('RESENDING_MAGICLINK_SUCCESS')
+
         showDialog({
           title: 'Hocus Pocus!',
           message: 'We sent you an email with your Magic Link',
-          onDismiss: () => screenProps.goToRoot(),
+          onDismiss: () => goToRoot(),
         })
       })
       .catch(e => {
         log.error('failed Resending magiclink', e.message, e)
         showErrorDialog('Could not send magiclink email. Please try again.')
       })
-  }
+  }, [showDialog, showErrorDialog, goToRoot])
 
   return (
     <Wrapper backgroundColor={props.theme.colors.surface}>
@@ -67,7 +72,7 @@ const MagicLinkInfoComponent = props => {
         <CustomButton mode="outlined" dark={false} onPress={sendMagicEmail}>
           EMAIL ME THE MAGIC LINK
         </CustomButton>
-        <CustomButton style={styles.downBtn} onPress={screenProps.pop}>
+        <CustomButton style={styles.downBtn} onPress={pop}>
           OK
         </CustomButton>
       </Section.Stack>

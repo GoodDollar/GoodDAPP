@@ -13,6 +13,7 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/pino-logger'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
+import useOnPress from '../../lib/hooks/useOnPress'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 
@@ -65,11 +66,11 @@ const FeedList = ({
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
 
-  const scrollToTop = () => {
+  const scrollToTop = useOnPress(() => {
     if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
       flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
     }
-  }
+  }, [])
 
   const keyExtractor = item => item.id
 
@@ -82,16 +83,17 @@ const FeedList = ({
     }
   }
 
-  const pressItem = item => () => {
-    if (item.type !== 'empty') {
-      fireEvent(CARD_OPEN, { cardId: item.id })
-      handleFeedSelection(item, true)
-    }
-  }
+  const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => {
+    // eslint-disable-next-line
+    const handlePress = useOnPress(() => {
+      if (item.type !== 'empty') {
+        fireEvent(CARD_OPEN, { cardId: item.id })
+        handleFeedSelection(item, true)
+      }
+    }, [handleFeedSelection])
 
-  const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedListItem key={item.id} item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
-  )
+    return <FeedListItem key={item.id} item={item} separators={separators} fixedHeight onPress={handlePress} />
+  }
 
   /**
    * Calls proper action depening on the feed status

@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../lib/styles'
 import Icon from './Icon'
 import Text from './Text'
@@ -11,10 +12,12 @@ type KeyboardKeyProps = {
 }
 
 const KeyboardKey = ({ keyValue, onPress, styles, theme }: KeyboardKeyProps) => {
+  const onPressHandler = useOnPress(() => onPress(keyValue), [onPress, keyValue])
+
   return (
     <TouchableHighlight
       activeOpacity={0.8}
-      onPress={() => onPress(keyValue)}
+      onPress={onPressHandler}
       style={styles.key}
       underlayColor={theme.colors.lightGray}
     >

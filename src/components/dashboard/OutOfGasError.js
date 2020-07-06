@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Image, View } from 'react-native'
 import { get } from 'lodash'
 import * as web3Utils from 'web3-utils'
@@ -10,56 +10,62 @@ import Text from '../common/view/Text'
 import Oops from '../../assets/oops.svg'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'OutOfGasError' })
 
-const OutOfGasError = props => {
-  const { styles, theme } = props
+const OutOfGasError = ({ styles, theme, screenProps }) => {
   const MIN_BALANCE_VALUE = '100000'
-  const isValid = get(props, 'screenProps.screenState.isValid', undefined)
+  const { pop, navigateTo } = screenProps
+  const isValid = get(screenProps, 'screenState.isValid', undefined)
   const ERROR = `In order for transactions to go through,
 you need ‘Gas’ witch is a virtual money.
 Don’t worry, we’ll take care off you.\n`
   const ERROR_BOLD = "We're giving it to you for FREE, FOREVER."
   const TITLE = "Ooops,\nYou're out of gas..."
   const ERROR_CHEAT = 'Something went wrong try again later'
+
   if (isValid) {
-    props.screenProps.pop({ isValid })
+    pop({ isValid })
   }
 
   const [isLoading, setLoading] = useState(false)
   const [isCheatError, setCheatError] = useState(false)
 
-  const gotoDb = () => {
-    props.screenProps.navigateTo('Home')
-  }
-  const gotoSupport = () => {
-    props.screenProps.navigateTo('Support')
-  }
+  const gotoDb = useOnPress(() => {
+    navigateTo('Home')
+  }, [navigateTo])
+
+  const gotoSupport = useOnPress(() => {
+    navigateTo('Support')
+  }, [navigateTo])
 
   useEffect(() => {
     callTopWallet()
   }, [])
 
-  const callTopWallet = async () => {
+  const callTopWallet = useCallback(async () => {
     setLoading(true)
     let isOk = false
+
     try {
       const { ok, error } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'))
+
       if (error) {
         setCheatError(true)
       }
+
       isOk = ok
     } catch (e) {
       log.warn('verifyHasGasFailed', e.message, e)
     }
+
     setLoading(false)
+
     if (isOk) {
       gotoDb()
     }
-  }
-
-  log.debug(props.screenProps)
+  }, [setLoading, setCheatError, gotoDb])
 
   return (
     <Wrapper>
@@ -151,4 +157,5 @@ const getStylesFromProps = ({ theme }) => ({
     textTransform: 'none',
   },
 })
+
 export default withStyles(getStylesFromProps)(OutOfGasError)

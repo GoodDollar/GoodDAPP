@@ -1,5 +1,6 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+
+import React, { useMemo } from 'react'
 import { PixelRatio, View } from 'react-native'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
@@ -12,6 +13,7 @@ import { CopyButton, CustomButton, QRCode, ReceiveToAddressButton, Section, Wrap
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -25,6 +27,7 @@ const useTopSpaceForMobile = isMobileOnlyWeb && PixelRatio.get() >= 2 && getMaxD
 const SHARE_TEXT = 'Receive via wallet link'
 
 const Receive = ({ screenProps, styles }: ReceiveProps) => {
+  const { push, goToRoot } = screenProps
   const profile = GDStore.useStore().get('profile')
   const { account, networkId } = goodWallet
   const { canShare, generateCode, generateReceiveShareObject, shareAction } = useNativeSharing()
@@ -39,18 +42,18 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
 
   const shareLink = useMemo(() => share.message + ' ' + share.url, [share])
 
-  const fireReceiveDoneEvent = useCallback(() => fireEvent('RECEIVE_DONE', { type: 'wallet' }), [])
+  const fireReceiveDoneEvent = useOnPress(() => fireEvent('RECEIVE_DONE', { type: 'wallet' }), [])
 
-  const shareHandler = useCallback(() => {
+  const shareHandler = useOnPress(() => {
     shareAction(share)
     fireReceiveDoneEvent()
   }, [shareAction, share])
 
-  const onPressReceiveToAddressButton = useCallback(() => screenProps.push('ReceiveToAddress'), [screenProps])
+  const onPressReceiveToAddressButton = useOnPress(() => push('ReceiveToAddress'), [push])
 
   return (
     <Wrapper>
-      <TopBar hideBalance={false} push={screenProps.push}>
+      <TopBar hideBalance={false} push={push}>
         <View />
         <ReceiveToAddressButton onPress={onPressReceiveToAddressButton} />
       </TopBar>
@@ -90,7 +93,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
               style={styles.shareButton}
               toCopy={shareLink}
               onPress={fireReceiveDoneEvent}
-              onPressDone={screenProps.goToRoot}
+              onPressDone={goToRoot}
             >
               {SHARE_TEXT}
             </CopyButton>

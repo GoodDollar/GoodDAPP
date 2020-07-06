@@ -7,6 +7,7 @@ import { once } from 'lodash'
 import { withStyles } from '../../lib/styles'
 import { getMaxDeviceWidth, getScreenWidth } from '../../lib/utils/Orientation'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
+import useOnPress from '../../lib/hooks/useOnPress'
 import FeedModalItem from './FeedItems/FeedModalItem'
 
 const VIEWABILITY_CONFIG = {
@@ -39,7 +40,6 @@ type ItemComponentProps = {
 const FeedModalList = ({
   data,
   onEndReached,
-  initialNumToRender,
   handleFeedSelection,
   selectedFeed,
   styles,
@@ -81,17 +81,16 @@ const FeedModalList = ({
     return { index, length, offset: length * index }
   }
 
-  const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <View style={styles.horizontalListItem}>
-      <FeedModalItem
-        navigation={navigation}
-        item={item}
-        separators={separators}
-        fixedHeight
-        onPress={() => handleFeedSelection(item, false)}
-      />
-    </View>
-  )
+  const renderItemComponent = ({ item, separators }: ItemComponentProps) => {
+    // eslint-disable-next-line
+    const handlePress = useOnPress(() => handleFeedSelection(item, false), [handleFeedSelection])
+
+    return (
+      <View style={styles.horizontalListItem}>
+        <FeedModalItem navigation={navigation} item={item} separators={separators} fixedHeight onPress={handlePress} />
+      </View>
+    )
+  }
 
   const slideEvent = once(() => {
     fireEvent(CARD_SLIDE)

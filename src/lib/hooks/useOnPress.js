@@ -5,7 +5,7 @@ export default (callback, deps) => {
 
   return useCallback(
     event => {
-      event.preventDefault()
+      event && event.preventDefault()
 
       return memoizedCallback(event)
     },

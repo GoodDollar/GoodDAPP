@@ -1,10 +1,20 @@
 // @flow
+
+// libraries
 import React from 'react'
 import { View } from 'react-native'
+import { noop } from 'lodash'
+
+// components
+
+// hooks
+import useOnPress from '../../../lib/hooks/useOnPress'
+
+// utils
 import { moneyRegexp } from '../../../lib/wallet/utils'
 import { withStyles } from '../../../lib/styles'
-import KeyboardKey from './KeyboardKey'
 import KeyboardRow from './KeyboardRow'
+import KeyboardKey from './KeyboardKey'
 
 type CaretPosition = {
   start: number,
@@ -22,31 +32,34 @@ const NumPadKeyboard = ({
   onPress,
   amount,
   isMaxLength,
-  caretPosition,
-  updateCaretPosition,
+  caretPosition = null,
+  updateCaretPosition = noop,
   styles,
 }: KeyboardProps) => {
-  const onPressKey = (value: string) => {
-    // prevent adding numbers to the amount field if maxLength is reached
-    if (isMaxLength) {
-      return
-    }
+  const onPressKey = useOnPress(
+    (value: string) => {
+      // prevent adding numbers to the amount field if maxLength is reached
+      if (isMaxLength) {
+        return
+      }
 
-    const stringAmount = `${amount}`
-    const updatedValue = caretPosition
-      ? [stringAmount.slice(0, caretPosition.start), value, stringAmount.slice(caretPosition.end)].join('')
-      : `${stringAmount}${value}`
+      const stringAmount = `${amount}`
+      const updatedValue = caretPosition
+        ? [stringAmount.slice(0, caretPosition.start), value, stringAmount.slice(caretPosition.end)].join('')
+        : `${stringAmount}${value}`
 
-    if (moneyRegexp.test(updatedValue)) {
-      onPress(updatedValue)
-      updateCaretPosition({
-        start: caretPosition.start + 1,
-        end: caretPosition.start + 1,
-      })
-    }
-  }
+      if (moneyRegexp.test(updatedValue)) {
+        onPress(updatedValue)
+        updateCaretPosition({
+          start: caretPosition.start + 1,
+          end: caretPosition.start + 1,
+        })
+      }
+    },
+    [isMaxLength, amount, caretPosition, onPress, updateCaretPosition]
+  )
 
-  const onBackspaceKey = () => {
+  const onBackspaceKey = useOnPress(() => {
     if (!caretPosition || caretPosition.end > 0) {
       const stringAmount = `${amount}`
       let updatedValue = stringAmount.slice(0, -1)
@@ -59,7 +72,7 @@ const NumPadKeyboard = ({
       }
       onPress(updatedValue)
     }
-  }
+  }, [caretPosition, amount, updateCaretPosition, onPress])
 
   return (
     <View style={styles.keyboard}>
@@ -73,11 +86,6 @@ const NumPadKeyboard = ({
       </View>
     </View>
   )
-}
-
-NumPadKeyboard.defaultProps = {
-  caretPosition: null,
-  updateCaretPosition: () => {},
 }
 
 const getStylesFromProps = ({ theme }) => {

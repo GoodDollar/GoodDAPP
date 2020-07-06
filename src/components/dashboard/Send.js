@@ -8,14 +8,17 @@ import isMobilePhone from '../../lib/validators/isMobilePhone'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { CustomButton, IconButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const SEND_TITLE = 'Send G$'
 
 const log = logger.child({ from: SEND_TITLE })
 
-const ScanQRButton = ({ screenProps, disabled }) => (
-  <IconButton name="link" text="Scan QR Code" onPress={() => screenProps.push('SendByQR')} disabled={disabled} />
-)
+const ScanQRButton = ({ screenProps, disabled }) => {
+  const handlePress = useOnPress(() => screenProps.push('SendByQR'), [screenProps])
+
+  return <IconButton name="link" text="Scan QR Code" onPress={handlePress} disabled={disabled} />
+}
 
 /**
  * This button navigates to Amount screen passing nextRoutes param
@@ -23,14 +26,16 @@ const ScanQRButton = ({ screenProps, disabled }) => (
  * It also passes to param as initial state for Amount component
  * @param {screenProps} props passed by navigation
  */
-const GenerateLinkButton = ({ screenProps, disabled }) => (
-  <IconButton
-    name="qrcode"
-    text="Generate Link"
-    disabled={disabled}
-    onPress={() => screenProps.push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] })}
-  />
-)
+const GenerateLinkButton = ({ screenProps, disabled }) => {
+  /*eslint-disable */
+  const handlePress = useOnPress(
+    () => screenProps.push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] }),
+    [screenProps]
+  )
+  /*eslint-enable */
+
+  return <IconButton name="qrcode" text="Generate Link" disabled={disabled} onPress={handlePress} />
+}
 
 const validate = async to => {
   if (!to) {
@@ -48,28 +53,30 @@ const validate = async to => {
   return `Needs to be a valid username, email or mobile phone (starts with a '+')`
 }
 
-const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
-  <CustomButton
-    onPress={async () => {
-      if (await checkError()) {
-        return
-      }
+const ContinueButton = ({ screenProps, to, disabled, checkError }) => {
+  const handlePress = useOnPress(async () => {
+    if (await checkError()) {
+      return
+    }
 
-      const address = await userStorage.getUserAddress(to).catch(e => undefined)
-      if (address || goodWallet.wallet.utils.isAddress(to)) {
-        return screenProps.push('Amount', { to: address || to, nextRoutes: ['Reason', 'SendQRSummary'] })
-      }
-      if (to && (isMobilePhone(to) || isEmail(to))) {
-        return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
-      }
-      log.debug(`Oops, no error and no action`)
-    }}
-    disabled={disabled}
-    style={{ flex: 2 }}
-  >
-    Next
-  </CustomButton>
-)
+    const address = await userStorage.getUserAddress(to).catch(() => undefined)
+    if (address || goodWallet.wallet.utils.isAddress(to)) {
+      return screenProps.push('Amount', { to: address || to, nextRoutes: ['Reason', 'SendQRSummary'] })
+    }
+
+    if (to && (isMobilePhone(to) || isEmail(to))) {
+      return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
+    }
+
+    log.debug(`Oops, no error and no action`)
+  }, [checkError, screenProps])
+
+  return (
+    <CustomButton onPress={handlePress} disabled={disabled} style={{ flex: 2 }}>
+      Next
+    </CustomButton>
+  )
+}
 
 const Send = props => {
   const [screenState, setScreenState] = useScreenState(props.screenProps)

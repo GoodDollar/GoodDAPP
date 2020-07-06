@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
 import useClipboard from '../../lib/hooks/useClipboard'
 import GDStore from '../../lib/undux/GDStore'
@@ -13,6 +13,7 @@ import useNativeSharing from '../../lib/hooks/useNativeSharing'
 
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -46,7 +47,7 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     return generateShareLink('receive', code)
   }, [code, generateShareLink])
 
-  const sharePressHandler = useCallback(() => {
+  const sharePressHandler = useOnPress(() => {
     if (canShare) {
       shareAction(share)
     } else {
@@ -54,7 +55,7 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     }
   }, [canShare, share, shareAction])
 
-  const shareDonePressHandler = useCallback(() => {
+  const shareDonePressHandler = useOnPress(() => {
     fireEvent('RECEIVE_DONE', { type: 'link' })
     goToRoot()
   }, [goToRoot])

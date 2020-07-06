@@ -1,4 +1,5 @@
 // @flow
+
 import React, { useMemo } from 'react'
 import { Image, View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
@@ -59,7 +60,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     }
 
     fireEvent('SEND_CONFIRMATION_SHARE', { type })
-  }, [canShare, paymentLink, goToRoot, shareAction])
+  }, [canShare, paymentLink, goToRoot, shareAction, setString])
 
   const handleDoneClick = useOnPress(() => goToRoot(), [goToRoot])
 

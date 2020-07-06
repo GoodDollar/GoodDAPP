@@ -1,8 +1,10 @@
 // @flow
+
 /**
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
-import React, { useEffect, useState } from 'react'
+
+import React, { useCallback, useEffect, useState } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -13,6 +15,7 @@ import { CustomButton, Section, Wrapper } from '../common'
 import SummaryTable from '../common/view/SummaryTable'
 import TopBar from '../common/view/TopBar'
 import Config from '../../config/config'
+import useOnPress from '../../lib/hooks/useOnPress'
 import SurveySend from './SurveySend'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
@@ -30,6 +33,7 @@ const log = logger.child({ from: 'SendQRSummary' })
  * @param {any} props.styles
  */
 const SendQRSummary = ({ screenProps }: AmountProps, params) => {
+  const { goToRoot } = screenProps
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const [showDialog, showErrorDialog] = useDialog()
@@ -39,12 +43,13 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
   const [profile, setProfile] = useState({})
-  const updateRecepientProfile = async () => {
+
+  const updateRecepientProfile = useCallback(async () => {
     const profile = await userStorage.getUserProfile(to)
     setProfile(profile)
-  }
+  }, [setProfile])
 
-  const confirm = () => {
+  const confirm = useOnPress(() => {
     try {
       sendGD()
     } catch (e) {
@@ -59,18 +64,13 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
         },
       })
     }
-  }
+  }, [sendGD, showErrorDialog])
 
-  useEffect(() => {
-    if (to) {
-      updateRecepientProfile()
-    }
-  }, [to])
-
-  const sendGD = () => {
+  const sendGD = useCallback(() => {
     try {
       setLoading(true)
       let txhash
+
       goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
@@ -102,7 +102,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
             title: 'SUCCESS!',
             message: 'The G$ was sent successfully',
             buttons: [{ text: 'Yay!' }],
-            onDismiss: screenProps.goToRoot,
+            onDismiss: goToRoot,
           })
 
           setLoading(false)
@@ -125,7 +125,15 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
         dismissText: 'OK',
       })
     }
-  }
+  }, [setLoading, to, amount, reason, survey, goToRoot, showDialog, showErrorDialog])
+
+  const handleConfirm = useOnPress(() => (Config.isEToro ? setShowSurvey(true) : confirm()), [setShowSurvey, confirm])
+
+  useEffect(() => {
+    if (to) {
+      updateRecepientProfile()
+    }
+  }, [to])
 
   // continue after valid FR to send G$
   useEffect(() => {
@@ -153,11 +161,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton
-              mode="contained"
-              onPress={() => (Config.isEToro ? setShowSurvey(true) : confirm())}
-              loading={loading}
-            >
+            <CustomButton mode="contained" onPress={handleConfirm} loading={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>

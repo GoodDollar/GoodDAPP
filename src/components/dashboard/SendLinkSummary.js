@@ -15,6 +15,7 @@ import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SurveySend from './SurveySend'
 
@@ -47,14 +48,6 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [loading, setLoading] = useState(false)
 
   const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
-
-  const handleConfirm = useCallback(() => {
-    if (action === ACTION_SEND_TO_ADDRESS) {
-      sendViaAddress()
-    } else {
-      sendViaLink()
-    }
-  }, [action])
 
   const sendViaAddress = useCallback(() => {
     try {
@@ -135,6 +128,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       log.error('Something went wrong while trying to generate send link', e.message, e)
     }
   }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
+
+  const handleConfirm = useOnPress(() => {
+    if (action === ACTION_SEND_TO_ADDRESS) {
+      sendViaAddress()
+    } else {
+      sendViaLink()
+    }
+  }, [action, sendViaAddress, sendViaLink])
 
   /**
    * Generates link to send and call send email/sms action

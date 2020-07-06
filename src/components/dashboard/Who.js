@@ -9,6 +9,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { isIOS } from '../../lib/utils/platform'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { ACTION_RECEIVE, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -39,9 +40,9 @@ const Who = (props: AmountProps) => {
     setScreenState({ counterPartyDisplayName: state.value })
   }, [state.value])
 
-  const handlePressQR = useCallback(() => push('SendByQR'), [push])
+  const handlePressQR = useOnPress(() => push('SendByQR'), [push])
 
-  const handlePressSendToAddress = useCallback(
+  const handlePressSendToAddress = useOnPress(
     () =>
       push('SendToAddress', {
         nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],

@@ -4,7 +4,18 @@ import EventEmitter from 'eventemitter3'
 
 import { redactFmtSym } from 'pino/lib/symbols'
 
-import { bindAll, cloneDeep, filter, flatten, isError, isFunction, isObjectLike, isPlainObject, keys } from 'lodash'
+import {
+  bindAll,
+  cloneDeep,
+  filter,
+  flatten,
+  isError,
+  isFunction,
+  isObjectLike,
+  isPlainObject,
+  keys,
+  zipObject,
+} from 'lodash'
 
 import { isE2ERunning } from '../utils/platform'
 import Config from '../../config/config'
@@ -19,12 +30,12 @@ export const ExceptionCategory = {
 const { prototype: eeProto } = EventEmitter
 
 class SecureLogger extends EventEmitter {
+  methodsMap = {}
+
   childrenMap = new WeakMap()
 
-  methodsMap = new WeakMap()
-
   // debug is excluded as it's redirected to info
-  censorLevels = ['error', 'fatal', 'warn', 'info', 'trace']
+  logMethods = ['error', 'fatal', 'warn', 'info', 'trace']
 
   eventEmitterMethods = filter(keys(eeProto), prop => isFunction(eeProto[prop]))
 
@@ -68,8 +79,12 @@ class SecureLogger extends EventEmitter {
       this.redactionApi = redaction({ paths, censor }, false)
     }
 
+    const { eventEmitterMethods, logMethods } = this
+
     this.secureLog = secureLog
-    bindAll(this, this.eventEmitterMethods)
+    this.methodsMap = zipObject(logMethods, logMethods.map(() => new WeakMap()))
+
+    bindAll(this, eventEmitterMethods)
 
     // returning proxy-wrapped logger
     return new Proxy(logger, this)
@@ -116,12 +131,13 @@ class SecureLogger extends EventEmitter {
   }
 
   wrapLoggerMethod(target, methodName, methodFunction) {
-    const { censorLevels, methodsMap, secureLog } = this
+    const { logMethods, secureLog } = this
+    const methodMap = this.getMethodMap(methodName)
 
-    if (!methodsMap.has(target)) {
+    if (!methodMap.has(target)) {
       let wrappedMethod = methodFunction.bind(target)
 
-      if (secureLog && censorLevels.includes(methodName)) {
+      if (secureLog && logMethods.includes(methodName)) {
         wrappedMethod = (...loggingArgs) => {
           const redactedArgs = this.applyConfidentialCensorship(cloneDeep(loggingArgs))
 
@@ -129,10 +145,10 @@ class SecureLogger extends EventEmitter {
         }
       }
 
-      methodsMap.set(target, wrappedMethod)
+      methodMap.set(target, wrappedMethod)
     }
 
-    return methodsMap.get(target)
+    return methodMap.get(target)
   }
 
   applyConfidentialCensorship(loggingArgs) {
@@ -147,6 +163,16 @@ class SecureLogger extends EventEmitter {
 
       return censor(loggingArgument)
     })
+  }
+
+  getMethodMap(methodName) {
+    const { methodsMap } = this
+
+    if (!(methodName in methodsMap)) {
+      methodsMap[methodName] = new WeakMap()
+    }
+
+    return methodsMap[methodName]
   }
 }
 

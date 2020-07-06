@@ -3,9 +3,8 @@ import redaction from 'pino/lib/redaction'
 import EventEmitter from 'eventemitter3'
 
 import { redactFmtSym } from 'pino/lib/symbols'
-import { stringify } from 'pino/lib/tools'
 
-import { bindAll, filter, flatten, isError, isFunction, isObjectLike, isPlainObject, keys } from 'lodash'
+import { bindAll, cloneDeep, filter, flatten, isError, isFunction, isObjectLike, isPlainObject, keys } from 'lodash'
 
 import { isE2ERunning } from '../utils/platform'
 import Config from '../../config/config'
@@ -44,8 +43,9 @@ class SecureLogger extends EventEmitter {
       level: logLevel,
       browser: {
         transmit: {
+          // transmit.level property specifies the minimum level (inclusive) of when the send fn should be called
           level: transmitLogLevel,
-          send: (level, logEvent) => this.broadcastLog(level, logEvent),
+          send: (level, logEvent) => this.emit(`log:${level}`, logEvent),
         },
       },
     })
@@ -65,7 +65,7 @@ class SecureLogger extends EventEmitter {
         })
       )
 
-      this.redactionApi = redaction({ paths, censor }, stringify)
+      this.redactionApi = redaction({ paths, censor }, false)
     }
 
     this.secureLog = secureLog
@@ -123,7 +123,7 @@ class SecureLogger extends EventEmitter {
 
       if (secureLog && censorLevels.includes(methodName)) {
         wrappedMethod = (...loggingArgs) => {
-          const redactedArgs = this.applyConfidentialCensorship(loggingArgs)
+          const redactedArgs = this.applyConfidentialCensorship(cloneDeep(loggingArgs))
 
           return methodFunction.apply(target, redactedArgs)
         }
@@ -147,12 +147,6 @@ class SecureLogger extends EventEmitter {
 
       return censor(loggingArgument)
     })
-  }
-
-  broadcastLog(level, logEvent) {
-    const events = ['log', `log:${level}`]
-
-    events.forEach(event => this.emit(event, logEvent))
   }
 }
 

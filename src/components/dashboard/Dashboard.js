@@ -12,7 +12,7 @@ import API from '../../lib/API/api'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { executeWithdraw, prepareDataWithdraw } from '../../lib/undux/utils/withdraw'
+import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import {
   WITHDRAW_STATUS_COMPLETE,
@@ -35,7 +35,7 @@ import logger from '../../lib/logger/pino-logger'
 import { PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
-import { extractQueryParams, readCode } from '../../lib/share'
+import { extractQueryParams, parsePaymentLinkParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import useAppState from '../../lib/hooks/useAppState'
 import config from '../../config/config'
@@ -520,7 +520,7 @@ const Dashboard = props => {
 
   const handleWithdraw = useCallback(
     async params => {
-      const paymentParams = prepareDataWithdraw(params)
+      const paymentParams = parsePaymentLinkParams(params)
 
       try {
         showDialog({

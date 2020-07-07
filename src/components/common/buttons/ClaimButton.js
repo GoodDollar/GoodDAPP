@@ -1,12 +1,13 @@
 // @flow
-import React from 'react'
-import { Platform } from 'react-native'
+import React, { useCallback } from 'react'
+import { Animated, Platform, View } from 'react-native'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 import useClaimQueue from '../../dashboard/Claim/useClaimQueue'
 
-const ClaimButton = ({ screenProps, styles }) => {
+const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
   const { queueStatus, handleClaim } = useClaimQueue()
+  const [pushButtonTranslate, setPushButtonTranslate] = React.useState({})
   const isPending = queueStatus && queueStatus.status === 'pending'
   const canContinue = () => {
     //if there's no status the first time then get it
@@ -18,17 +19,38 @@ const ClaimButton = ({ screenProps, styles }) => {
     return true
   }
 
-  return (
+  const Button = (
     <PushButton
       disabled={isPending}
       canContinue={canContinue}
       routeName="Claim"
       testID="claim_button"
       screenProps={screenProps}
-      style={[styles.claimButton, isPending ? styles.inQueue : undefined]}
+      style={[
+        styles.claimButton,
+        isPending ? styles.inQueue : undefined,
+        {
+          transform: [
+            { translateY: pushButtonTranslate.translateY || 0 },
+            { translateX: pushButtonTranslate.translateX || 0 },
+          ],
+        },
+      ]}
+      contentStyle={styles.removeMargin}
     >
       {isPending ? 'Queue' : 'Claim'}
     </PushButton>
+  )
+
+  const handleLayout = useCallback(event => {
+    const { width, height } = event.nativeEvent.layout
+    setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
+  })
+
+  return (
+    <View style={styles.wrapper} onLayout={handleLayout}>
+      {animated ? <Animated.View style={[animatedScale, styles.animatedWrapper]}>{Button}</Animated.View> : Button}
+    </View>
   )
 }
 

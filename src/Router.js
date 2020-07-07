@@ -28,9 +28,9 @@ const AppNavigator = createNavigator(
     {
       initialRouteName: 'AppNavigation',
     },
-    navigationConfig
+    navigationConfig,
   ),
-  navigationConfig
+  navigationConfig,
 )
 let WebRouter
 if (Platform.OS === 'web') {

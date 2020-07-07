@@ -11,7 +11,7 @@ export const showDialogForError = (
   store: Store,
   humanError: string,
   error: Error | ResponseError,
-  dialogProps?: DialogProps
+  dialogProps?: DialogProps,
 ) => {
   let message = ''
 

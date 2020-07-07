@@ -122,7 +122,7 @@ const ReceiveByQR = ({ screenProps }) => {
       log.error('QR scan receive failed', message, exception, { dialogShown: true })
       showErrorDialog(errorMessage, '', dialogOptions)
     },
-    [showErrorDialog]
+    [showErrorDialog],
   )
 
   return (

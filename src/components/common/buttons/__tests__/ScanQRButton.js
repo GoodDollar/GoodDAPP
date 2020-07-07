@@ -14,7 +14,7 @@ describe('ScanQRButton', () => {
     const component = renderer.create(
       <Container>
         <ScanQRButton onPress={() => {}} />
-      </Container>
+      </Container>,
     )
 
     // When
@@ -29,7 +29,7 @@ describe('ScanQRButton', () => {
     const component = renderer.create(
       <Container>
         <ScanQRButton onPress={() => {}} />
-      </Container>
+      </Container>,
     )
 
     // When

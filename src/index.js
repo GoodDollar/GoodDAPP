@@ -63,7 +63,7 @@ upgradeVersion()
           <App />
         </SimpleStore.Container>
       </ErrorBoundary>,
-      document.getElementById('root')
+      document.getElementById('root'),
     )
   })
 

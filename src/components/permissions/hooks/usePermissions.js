@@ -47,7 +47,7 @@ const usePermissions = (permission: Permission, options = {}) => {
         onDismiss,
         ...props,
       }),
-    [showDialog]
+    [showDialog],
   )
 
   const handleAllowed = useCallback(() => {
@@ -65,7 +65,7 @@ const usePermissions = (permission: Permission, options = {}) => {
         content: <DeniedPopup onDismiss={onDenied} navigate={navigate} />,
         onDismiss: onDenied,
       }),
-    [onDenied, showPopup, DeniedPopup]
+    [onDenied, showPopup, DeniedPopup],
   )
 
   const handleRequest = useCallback(async () => {

@@ -18,7 +18,7 @@ const Config = {
   newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: (forceLogLevel && forceLogLevel[1]) || process.env.REACT_APP_TRANSMIT_LOG_LEVEL || 'debug',
   secureTransmit: process.env.REACT_APP_TRANSMIT_SECURE === 'true',
-  transmitSecureKeys: process.env.REACT_APP_TRANSMIT_SECURE_KEYS || 'mnemonic*,pass*,privateKey,pkey,mobile,email,seed',
+  transmitSecureKeys: process.env.REACT_APP_TRANSMIT_SECURE_KEYS || 'mnemonic,mnemonics,pass,password,privateKey,mobile,email,seed',
   transmitCensor: process.env.REACT_APP_TRANSMIT_CENSOR || '[Confidential]',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
@@ -44,7 +44,6 @@ const Config = {
     process.env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
-  rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
   httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
   web3TransportProvider: process.env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'WebSocketProvider',
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',

@@ -68,7 +68,7 @@ const SendByQR = ({ screenProps }: Props) => {
         }
       }
     },
-    [push, setQRDelay]
+    [push, setQRDelay],
   )
 
   const handleError = useCallback(
@@ -85,7 +85,7 @@ const SendByQR = ({ screenProps }: Props) => {
       showErrorDialog(errorMessage, '', dialogOptions)
       log.error('QR scan send failed', message, exception)
     },
-    [showErrorDialog]
+    [showErrorDialog],
   )
 
   return (

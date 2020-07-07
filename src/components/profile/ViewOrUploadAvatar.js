@@ -26,7 +26,7 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
       event.preventDefault()
       navigation.navigate('EditAvatar')
     },
-    [navigation]
+    [navigation],
   )
 
   const handleClosePress = useCallback(
@@ -38,7 +38,7 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
         log.error('delete image failed:', e.message, e)
       })
     },
-    [wrappedUserStorage]
+    [wrappedUserStorage],
   )
 
   const handleAddAvatar = useCallback(
@@ -52,7 +52,7 @@ const ViewOrUploadAvatar = ({ styles, navigation, screenProps }) => {
 
       navigation.navigate('EditAvatar')
     },
-    [navigation, wrappedUserStorage]
+    [navigation, wrappedUserStorage],
   )
 
   const navigateBack = useCallback(() => {

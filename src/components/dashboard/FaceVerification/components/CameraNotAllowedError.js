@@ -21,7 +21,7 @@ const CameraNotAllowedError = ({ onRetry }) => {
       dismiss()
       onRetry()
     },
-    [onRetry]
+    [onRetry],
   )
 
   useEffect(() => {

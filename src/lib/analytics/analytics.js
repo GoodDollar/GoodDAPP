@@ -4,8 +4,7 @@
 import * as Sentry from '@sentry/browser'
 import redaction from 'pino/lib/redaction'
 import { redactFmtSym } from 'pino/lib/symbols'
-
-import { assign, debounce, forEach, get, isFunction, isString, pick, pickBy } from 'lodash'
+import { assign, debounce, flatten, forEach, get, isFunction, isString, pick, pickBy } from 'lodash'
 
 // utils
 import API from '../../lib/API/api'
@@ -110,9 +109,7 @@ const analytics = new class {
     this.secureTransmit = secureTransmit
 
     if (secureTransmit) {
-      const redactionApi = redaction({ paths: transmitSecureKeys, censor: transmitCensor }, false)
-
-      this.censor = redactionApi[redactFmtSym]
+      this.initCensor(transmitSecureKeys, transmitCensor)
     }
 
     this.isSentryEnabled = !!sentryDSN
@@ -287,6 +284,23 @@ const analytics = new class {
     }
 
     googleAnalytics.push({ event, ...data })
+  }
+
+  /** @private */
+  initCensor(transmitSecureKeys, transmitCensor) {
+    const paths = flatten(
+      transmitSecureKeys.split(',').map(key => {
+        const secureKey = key.trim()
+
+        if (!secureKey) {
+          return []
+        }
+
+        return [secureKey, `*.${secureKey}`]
+      }),
+    )
+
+    this.censor = redaction({ paths, censor: transmitCensor }, false)[redactFmtSym]
   }
 
   /** @private */
@@ -490,6 +504,7 @@ export const {
   fireEvent,
   fireMauticEvent,
   fireEventFromNavigation,
+  fireGoogleAnalyticsEvent,
 } = analytics
 
 export default analytics

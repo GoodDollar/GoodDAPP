@@ -23,7 +23,7 @@ describe('AppNavigation', () => {
         <StoresWrapper>
           <WebRouter />
         </StoresWrapper>
-      </PaperProvider>
+      </PaperProvider>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -35,7 +35,7 @@ describe('AppNavigation', () => {
         <StoresWrapper>
           <WebRouter />
         </StoresWrapper>
-      </PaperProvider>
+      </PaperProvider>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

@@ -64,7 +64,7 @@ export default () => {
         return queue
       }
     },
-    [setQueueStatus]
+    [setQueueStatus],
   )
 
   const handleClaim = async onSuccess => {

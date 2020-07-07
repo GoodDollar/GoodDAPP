@@ -11,7 +11,7 @@ describe('ProfileDataTable', () => {
     const tree = renderer.create(
       <PaperProvider theme={theme}>
         <ProfileDataTable profile={profile} />
-      </PaperProvider>
+      </PaperProvider>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -20,7 +20,7 @@ describe('ProfileDataTable', () => {
     const component = renderer.create(
       <PaperProvider theme={theme}>
         <ProfileDataTable profile={profile} />
-      </PaperProvider>
+      </PaperProvider>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -30,7 +30,7 @@ describe('ProfileDataTable', () => {
     const component = renderer.create(
       <PaperProvider theme={theme}>
         <ProfileDataTable profile={profile} editable={true} />
-      </PaperProvider>
+      </PaperProvider>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -40,7 +40,7 @@ describe('ProfileDataTable', () => {
     const component = renderer.create(
       <PaperProvider theme={theme}>
         <ProfileDataTable profile={profile} editable={true} errors={{ mobile: 'error', email: 'error' }} />
-      </PaperProvider>
+      </PaperProvider>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

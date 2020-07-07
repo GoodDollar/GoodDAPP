@@ -94,7 +94,7 @@ export const useConnectionWeb3 = () => {
       wallet.wallet.currentProvider[method]('close', onErrorClose)
     }
     if (wallet && appState === 'active') {
-      log.debug('subscribing', { wallet: Boolean(wallet), appState, isWeb3Connection })
+      log.debug('subscribing', { wallet, appState, isWeb3Connection })
       subscribe('on')
       isWeb3Connection()
     } else if (wallet && appState !== 'active') {
@@ -156,7 +156,7 @@ export const useConnectionGun = () => {
         wire[callMethod]('error', gunError)
       }
     },
-    [userStorage, websocket]
+    [userStorage, websocket],
   )
 
   useEffect(() => {

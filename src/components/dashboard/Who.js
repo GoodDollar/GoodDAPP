@@ -25,7 +25,7 @@ const getError = value => {
 }
 
 const Who = (props: AmountProps) => {
-  const { screenProps } = props
+  const { screenProps, styles } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { push } = screenProps
   const { params } = props.navigation.state
@@ -76,12 +76,12 @@ const Who = (props: AmountProps) => {
 
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
-      <Wrapper>
-        <TopBar push={screenProps.push} hideProfile={!isReceive}>
-          {!isReceive && <ScanQRButton onPress={handlePressQR} />}
-          {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />}
-        </TopBar>
-        <Scroll>
+      <Scroll>
+        <Wrapper>
+          <TopBar push={screenProps.push} hideProfile={!isReceive}>
+            {!isReceive && <ScanQRButton onPress={handlePressQR} />}
+            {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />}
+          </TopBar>
           <Section grow>
             <WhoContent
               setName={setValue}
@@ -114,8 +114,8 @@ const Who = (props: AmountProps) => {
               </Section.Row>
             )}
           </Section>
-        </Scroll>
-      </Wrapper>
+        </Wrapper>
+      </Scroll>
     </KeyboardAvoidingView>
   )
 }

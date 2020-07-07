@@ -15,15 +15,10 @@ import useSideMenu from '../../lib/hooks/useSideMenu'
 const { isEToro, market, marketUrl, enableInvites, showRewards } = config
 
 //const showSupportFirst = !isEToro && !showInvite && !showRewards
-const showRewardsFlag = showRewards || isEToro
-const showInviteFlag = enableInvites || isEToro
-const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
 
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
-const marketButtonStyles = [styles.marketIconBackground, styles.marginRight10]
 
-// const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyles
-const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : defaultLeftButtonStyles
+// const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyless
 
 const log = logger.child({ from: 'TabsView' })
 
@@ -93,7 +88,7 @@ const styles = {
 }
 
 const showRewardsFlag = showRewards || isEToro
-const showInviteFlag = showInvite || isEToro
+const showInviteFlag = enableInvites || isEToro
 const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
 
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]

@@ -6,7 +6,7 @@ import Avatar from './view/Avatar'
 import BigGoodDollar from './view/BigGoodDollar'
 import BigNumber from './view/BigNumber'
 import CopyButton from './buttons/CopyButton'
-import CustomButton, { ButtonProps } from './buttons/CustomButton'
+import CustomButton, { type ButtonProps } from './buttons/CustomButton'
 import CustomDialog from './dialogs/CustomDialog'
 import Icon from './view/Icon'
 import IconButton from './buttons/IconButton'
@@ -28,6 +28,7 @@ import Text from './view/Text'
 import UserAvatar from './view/UserAvatar'
 import Wrapper from './layout/Wrapper'
 import WrapperClaim from './layout/WrapperClaim'
+import ClaimButton from './buttons/ClaimButton'
 
 export {
   Address,
@@ -35,7 +36,6 @@ export {
   Avatar,
   BigGoodDollar,
   BigNumber,
-  ButtonProps,
   ClaimButton,
   CopyButton,
   CustomButton,
@@ -61,3 +61,5 @@ export {
   AwaitButton,
   WrapperClaim,
 }
+
+export type { ButtonProps }

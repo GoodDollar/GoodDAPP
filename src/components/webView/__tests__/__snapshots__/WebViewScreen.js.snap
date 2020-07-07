@@ -2,6 +2,7 @@
 
 exports[`WebViewScreen Instances FAQ matches snapshot 1`] = `
 <iframe
+  allowFullScreen={true}
   frameBorder="0"
   height="100%"
   onLoad={[Function]}
@@ -19,6 +20,7 @@ exports[`WebViewScreen Instances FAQ matches snapshot 1`] = `
 
 exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
 <iframe
+  allowFullScreen={true}
   frameBorder="0"
   height="100%"
   onLoad={[Function]}
@@ -36,6 +38,7 @@ exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
 
 exports[`WebViewScreen Instances PrivacyPolicyAndTerms matches snapshot 1`] = `
 <iframe
+  allowFullScreen={true}
   frameBorder="0"
   height="100%"
   onLoad={[Function]}
@@ -53,6 +56,7 @@ exports[`WebViewScreen Instances PrivacyPolicyAndTerms matches snapshot 1`] = `
 
 exports[`WebViewScreen Instances Support matches snapshot 1`] = `
 <iframe
+  allowFullScreen={true}
   frameBorder="0"
   height="100%"
   onLoad={[Function]}
@@ -70,6 +74,7 @@ exports[`WebViewScreen Instances Support matches snapshot 1`] = `
 
 exports[`WebViewScreen Instances SupportForUnsigned matches snapshot 1`] = `
 <iframe
+  allowFullScreen={true}
   frameBorder="0"
   height="100%"
   onLoad={[Function]}

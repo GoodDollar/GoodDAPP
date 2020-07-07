@@ -124,6 +124,7 @@
     "rxjs": "^6.4.0",
     "svg2png": "^4.1.1",
     "undux": "^5.0.1",
+    "uuid": "^8.2.0",
     "validator": "^10.11.0",
     "web3": "^2.0.0-alpha.1",
     "web3-providers": "^2.0.0-alpha.1",

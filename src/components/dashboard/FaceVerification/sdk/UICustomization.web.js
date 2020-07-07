@@ -6,6 +6,7 @@ import { assignIn, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 import { Spinner } from '../../../common/view/LoadingIndicator'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 
+import { zoomResultSuccessMessage } from '../utils/strings'
 import { theme } from '../../../theme/styles'
 import './UICustomization.css'
 
@@ -24,8 +25,8 @@ const { primary, green, white, lightGray, darkGray, gray50Percent } = theme.colo
 const { default: defaultFont } = theme.fonts
 
 export const UITextStrings = {
+  zoomResultSuccessMessage,
   zoomInitializingCamera: null, // setting empty "Starting camera..." text
-  zoomResultSuccessMessage: `You are an\namazing unicorn!`,
   zoomResultFacemapUploadMessage: `Verifying you're\none of a kind`,
   zoomResultIdscanUploadMessage: `Verifying you're\none of a kind`,
 

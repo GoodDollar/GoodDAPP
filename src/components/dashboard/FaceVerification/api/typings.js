@@ -13,5 +13,4 @@ export type FaceVerificationPayload = {
   faceMap: string,
   lowQualityAuditTrailImage: string,
   auditTrailImage: string,
-  userAgent: string,
 }

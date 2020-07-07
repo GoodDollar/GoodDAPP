@@ -16,7 +16,7 @@ const Config = {
   isPhaseZero: 'true' === process.env.REACT_APP_ENV_PHASE_ZERO,
   isPhaseOne: 'true' === process.env.REACT_APP_ENV_PHASE_ONE,
   newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
-  logLevel: (forceLogLevel && forceLogLevel[1]) || process.env.REACT_APP_TRANSMIT_LOG_LEVEL || 'debug',
+  logLevel: (forceLogLevel && forceLogLevel[1]) || process.env.REACT_APP_LOG_LEVEL || 'debug',
   secureTransmit: process.env.REACT_APP_TRANSMIT_SECURE === 'true',
   transmitSecureKeys: process.env.REACT_APP_TRANSMIT_SECURE_KEYS || 'mnemonic,mnemonics,pass,password,privateKey,mobile,email,seed',
   transmitCensor: process.env.REACT_APP_TRANSMIT_CENSOR || '[Confidential]',

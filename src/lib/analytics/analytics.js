@@ -2,12 +2,15 @@
 
 // libraries
 import * as Sentry from '@sentry/browser'
-import { debounce, forEach, get, invoke, isFunction, isString } from 'lodash'
+import redaction from 'pino/lib/redaction'
+import { redactFmtSym } from 'pino/lib/symbols'
+
+import { assign, debounce, forEach, get, isFunction, isString, pick, pickBy } from 'lodash'
 
 // utils
 import API from '../../lib/API/api'
 import Config from '../../config/config'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger, { addLoggingListener, ExceptionCategory, LogEvent } from '../../lib/logger/pino-logger'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -51,388 +54,442 @@ export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
-let Amplitude
-const { bugsnagClient: BugSnag, mt: Mautic, Rollbar, FS, dataLayer: GoogleAnalytics } = global
+const detectAPIs = () => {
+  const { mt, FS, dataLayer, amplitude } = global
+  const amplitudeFactory = amplitude ? () => amplitude.getInstance() : null
 
-const log = logger.child({ from: 'analytics' })
-const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
-
-const isFSEnabled = !!FS
-const isSentryEnabled = !!sentryDSN
-const isRollbarEnabled = !!(Rollbar && rollbarKey)
-const isAmplitudeEnabled = 'amplitude' in global && !!amplitudeKey
-const isGoogleAnalyticsEnabled = !!GoogleAnalytics
-
-/** @private */
-// eslint-disable-next-line require-await
-const initAmplitude = async () => {
-  const amp = () => invoke(global, 'amplitude.getInstance')
-
-  if (!isAmplitudeEnabled) {
-    return
-  }
-
-  return new Promise(resolve =>
-    amp().init(amplitudeKey, null, null, () => {
-      Amplitude = amp()
-      resolve()
-    })
-  )
-}
-
-/** @private */
-// eslint-disable-next-line require-await
-const initFullStory = async () =>
-  new Promise(resolve => {
-    const { _fs_ready } = window
-
-    Object.assign(window, {
-      _fs_ready: () => {
-        if (isFunction(_fs_ready)) {
-          _fs_ready()
-        }
-
-        resolve()
-      },
-    })
+  return pickBy({
+    mautic: mt,
+    fullStory: FS,
+    sentry: Sentry,
+    googleAnalytics: dataLayer,
+    amplitudeFactory,
   })
-
-export const initAnalytics = async () => {
-  // pre-initializing & preloading FS & Amplitude
-  await Promise.all([isFSEnabled && initFullStory(), isAmplitudeEnabled && initAmplitude(amplitudeKey)])
-
-  if (isRollbarEnabled) {
-    Rollbar.configure({
-      accessToken: rollbarKey,
-      captureUncaught: true,
-      captureUnhandledRejections: true,
-      payload: {
-        environment: env + network,
-        codeVersion: version,
-      },
-    })
-  }
-
-  if (isAmplitudeEnabled) {
-    const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
-
-    Amplitude.setVersionName(version)
-    Amplitude.identify(identity)
-
-    if (isFSEnabled) {
-      const sessionUrl = FS.getCurrentSessionURL()
-
-      // set session URL to user props once FS & Amplitude both initialized
-      Amplitude.setUserProperties({ sessionUrl })
-    }
-  }
-
-  if (isSentryEnabled) {
-    Sentry.init({
-      dsn: sentryDSN,
-      environment: env,
-    })
-
-    Sentry.configureScope(scope => {
-      scope.setTag('appVersion', version)
-      scope.setTag('networkUsed', network)
-    })
-  }
-
-  log.debug('Initialized analytics:', {
-    FS: isFSEnabled,
-    Sentry: isSentryEnabled,
-    Rollbar: isRollbarEnabled,
-    Amplitude: isAmplitudeEnabled,
-  })
-
-  listenLogger()
 }
 
-/** @private */
-const setUserEmail = email => {
-  if (!email) {
-    return
-  }
-
-  if (BugSnag) {
-    const { user } = BugSnag
-
-    BugSnag.user = {
-      ...(user || {}),
-      email,
-    }
-  }
-
-  if (isRollbarEnabled) {
-    Rollbar.configure({
-      payload: {
-        person: {
-          email,
-        },
-      },
-    })
-  }
-
-  if (isAmplitudeEnabled) {
-    Amplitude.setUserProperties({ email })
-  }
-
-  if (FS) {
-    FS.setUserVars({
-      email,
-    })
-  }
-
-  if (isSentryEnabled) {
-    Sentry.configureScope(scope => {
-      const { _user } = scope
-
-      scope.setUser({
-        ...(_user || {}),
-        email,
-      })
-    })
-  }
-
-  if (Mautic) {
-    Mautic.userId = email
-  }
+const loggingAPI = {
+  addLoggingListener,
+  child: logContext => logger.child(logContext),
 }
 
-/** @private */
-const identifyWith = (email, identifier = null) => {
-  if (BugSnag) {
-    BugSnag.user = {
-      id: identifier,
+const analytics = new class {
+  apis = {}
+
+  rootApi = null
+
+  loggerApi = null
+
+  secureTransmit = false
+
+  isSentryEnabled = false
+
+  isAmplitudeEnabled = false
+
+  amplitudeKey = null
+
+  sentryDSN = null
+
+  version = null
+
+  network = null
+
+  env = null
+
+  censor = null
+
+  logger = null
+
+  constructor(apis, rootApi, Config, loggerApi) {
+    const { sentryDSN, amplitudeKey, secureTransmit, transmitSecureKeys, transmitCensor } = Config
+    const { amplitudeFactory } = apis
+
+    assign(this, apis, pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env'))
+
+    this.rootApi = rootApi
+    this.loggerApi = loggerApi
+    this.secureTransmit = secureTransmit
+
+    if (secureTransmit) {
+      const redactionApi = redaction({ paths: transmitSecureKeys, censor: transmitCensor }, false)
+
+      this.censor = redactionApi[redactFmtSym]
     }
+
+    this.isSentryEnabled = !!sentryDSN
+    this.isAmplitudeEnabled = !(!amplitudeFactory || !amplitudeKey)
+
+    this.logger = loggerApi.child({ from: 'analytics' })
   }
 
-  if (isRollbarEnabled) {
-    Rollbar.configure({
-      payload: {
-        person: {
-          id: identifier,
-        },
-      },
-    })
-  }
+  // definine public methods as arrows to keep this and simplify compatibility exports
+  initAnalytics = async () => {
+    const { isSentryEnabled, isAmplitudeEnabled, apis, version, network } = this
+    const { fullStory } = apis
 
-  if (isAmplitudeEnabled && identifier) {
-    Amplitude.setUserId(identifier)
-  }
+    // pre-initializing & preloading FS & Amplitude
+    // eslint-disable-next-line
+    await Promise.all([
+      fullStory && this.initFullStory(),
+      isAmplitudeEnabled && this.initAmplitude(amplitudeKey)
+    ])
 
-  if (FS) {
-    FS.identify(identifier, {
-      appVersion: version,
-    })
-  }
+    const { amplitudeKey, sentryDSN, env, logger } = this
+    const { amplitude, sentry } = apis
 
-  if (isSentryEnabled) {
-    Sentry.configureScope(scope =>
-      scope.setUser({
-        id: identifier,
+    if (isAmplitudeEnabled) {
+      const identity = new amplitude.Identify().setOnce('first_open_date', new Date().toString())
+
+      amplitude.setVersionName(version)
+      amplitude.identify(identity)
+
+      if (fullStory) {
+        const sessionUrl = fullStory.getCurrentSessionURL()
+
+        // set session URL to user props once FS & Amplitude both initialized
+        amplitude.setUserProperties({ sessionUrl })
+      }
+    }
+
+    if (isSentryEnabled) {
+      sentry.init({
+        dsn: sentryDSN,
+        environment: env,
       })
+
+      sentry.configureScope(scope => {
+        scope.setTag('appVersion', version)
+        scope.setTag('networkUsed', network)
+      })
+    }
+
+    logger.debug('Initialized analytics:', {
+      FS: !!fullStory,
+      Sentry: isSentryEnabled,
+      Amplitude: isAmplitudeEnabled,
+    })
+
+    this.listenLogger()
+  }
+
+  identifyOnUserSignup = async email => {
+    const { env, logger, apis, rootApi, isSentryEnabled, isAmplitudeEnabled } = this
+    const { mautic, fullStory } = apis
+
+    this.setUserEmail(email)
+
+    if (mautic && email && 'production' === env) {
+      await rootApi.addMauticContact({ email })
+    }
+
+    logger.debug(
+      'Analytics services identified during new user signup:',
+      { email },
+      {
+        FS: !!fullStory,
+        Sentry: isSentryEnabled,
+        Amplitude: isAmplitudeEnabled,
+        Mautic: !(!mautic || !email),
+      },
     )
   }
 
-  setUserEmail(email)
+  identifyWithSignedInUser = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
+    const { logger } = this
+    const identifier = goodWallet.getAccountForType('login')
+    const email = await userStorage.getProfileFieldValue('email')
 
-  log.debug(
-    'Analytics services identified with:',
-    { email, identifier },
-    {
-      FS: isFSEnabled,
-      Mautic: !!email,
-      BugSnag: !!BugSnag,
-      Sentry: isSentryEnabled,
-      Rollbar: isRollbarEnabled,
-      Amplitude: isAmplitudeEnabled,
-    }
-  )
-}
+    logger.debug('got identifiers', { identifier, email })
 
-export const identifyOnUserSignup = async email => {
-  setUserEmail(email)
-
-  if (Mautic && email && 'production' === env) {
-    await API.addMauticContact({ email })
+    this.identifyWith(email, identifier)
   }
 
-  log.debug(
-    'Analytics services identified during new user signup:',
-    { email },
-    {
-      FS: isFSEnabled,
-      Mautic: !!email,
-      BugSnag: !!BugSnag,
-      Sentry: isSentryEnabled,
-      Rollbar: isRollbarEnabled,
-      Amplitude: isAmplitudeEnabled,
-    }
-  )
-}
+  reportToSentry = (error, extra = {}, tags = {}) => {
+    const { isSentryEnabled, apis } = this
+    const { sentry } = apis
 
-export const identifyWithSignedInUser = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
-  const identifier = goodWallet.getAccountForType('login')
-  const email = await userStorage.getProfileFieldValue('email')
-
-  log.debug('got identifiers', { identifier, email })
-
-  identifyWith(email, identifier)
-}
-
-export const reportToSentry = (error, extra = {}, tags = {}) => {
-  if (!isSentryEnabled) {
-    return
-  }
-
-  Sentry.configureScope(scope => {
-    // set extra
-    forEach(extra, (value, key) => {
-      scope.setExtra(key, value)
-    })
-
-    // set tags
-    forEach(tags, (value, key) => {
-      scope.setTag(key, value)
-    })
-
-    Sentry.captureException(error)
-  })
-}
-
-export const fireEvent = (event: string, data: any = {}) => {
-  if (!isAmplitudeEnabled) {
-    return
-  }
-
-  if (!Amplitude.logEvent(event, data)) {
-    log.warn('Amplitude event not sent', { event, data })
-    return
-  }
-
-  log.debug('fired event', { event, data })
-}
-
-export const fireMauticEvent = (data: any = {}) => {
-  if (!Mautic) {
-    return
-  }
-
-  const { userId } = Mautic
-  let eventData = data
-
-  if (userId) {
-    // do not mutate source params
-    eventData = { ...data, email: userId }
-  }
-
-  Mautic('send', 'pageview', eventData)
-}
-
-/**
- * Create code from navigation active route and call `fireEvent`
- * @param {object} route
- */
-export const fireEventFromNavigation = route => {
-  const { routeName: key, params } = route
-  const action = get(params, 'action', 'GOTO')
-  const code = `${action}_${key}`.toUpperCase()
-
-  fireEvent(code)
-}
-
-/**
- * fire event to google analytics
- *
- * @param {string} event Event name
- * @param {object} data Event properties (optional)
- * @return {void}
- */
-export const fireGoogleAnalyticsEvent = (event, data = {}) => {
-  if (!isGoogleAnalyticsEnabled) {
-    return
-  }
-
-  GoogleAnalytics.push({ event, ...data })
-}
-
-const listenLogger = () => {
-  // for error logs if they happen frequently only log one
-  const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
-
-  logger.on('log', ({ messages }) => {
-    const { Unexpected, Network, Human } = ExceptionCategory
-    const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = messages
-    let { dialogShown, category = Unexpected } = extra
-    let errorToPassIntoLog = errorObj
-    let categoryToPassIntoLog = category
-
-    if (
-      categoryToPassIntoLog === Unexpected &&
-      ['connection', 'websocket', 'network'].some(str => eMsg.toLowerCase().includes(str))
-    ) {
-      categoryToPassIntoLog = Network
-    }
-
-    if (errorObj instanceof Error) {
-      errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
-    } else {
-      errorToPassIntoLog = new Error(logMessage)
-    }
-
-    if (isString(logMessage) && !logMessage.includes('axios')) {
-      const logPayload = {
-        unique: `${eMsg} ${logMessage} (${logContext.from})`,
-        reason: logMessage,
-        logContext,
-        eMsg,
-        dialogShown,
-        category: categoryToPassIntoLog,
-      }
-
-      if (isFSEnabled) {
-        const sessionUrlAtTime = FS.getCurrentSessionURL(true)
-
-        Object.assign(logPayload, { sessionUrlAtTime })
-      }
-
-      debounceFireEvent(ERROR_LOG, logPayload)
-    }
-
-    if (env === 'test') {
+    if (!isSentryEnabled) {
       return
     }
 
-    if (BugSnag) {
-      const { from } = logContext || {}
+    sentry.configureScope(scope => {
+      // set extra
+      forEach(extra, (value, key) => {
+        scope.setExtra(key, value)
+      })
 
-      BugSnag.notify(logMessage, {
-        context: from,
-        groupingHash: from,
-        metaData: { logMessage, eMsg, errorObj: errorToPassIntoLog, extra },
+      // set tags
+      forEach(tags, (value, key) => {
+        scope.setTag(key, value)
+      })
+
+      sentry.captureException(error)
+    })
+  }
+
+  fireEvent = (event: string, data: any = {}) => {
+    const { isAmplitudeEnabled, apis, logger } = this
+    const { amplitude } = apis
+
+    if (!isAmplitudeEnabled) {
+      return
+    }
+
+    if (!amplitude.logEvent(event, data)) {
+      logger.warn('Amplitude event not sent', { event, data })
+      return
+    }
+
+    logger.debug('fired event', { event, data })
+  }
+
+  fireMauticEvent = (data: any = {}) => {
+    const { mautic } = this.apis
+
+    if (!mautic) {
+      return
+    }
+
+    const { userId } = mautic
+    let eventData = data
+
+    if (userId) {
+      // do not mutate source params
+      eventData = { ...data, email: userId }
+    }
+
+    mautic('send', 'pageview', eventData)
+  }
+
+  /**
+   * Create code from navigation active route and call `fireEvent`
+   * @param {object} route
+   */
+  fireEventFromNavigation = route => {
+    const { routeName: key, params } = route
+    const action = get(params, 'action', 'GOTO')
+    const code = `${action}_${key}`.toUpperCase()
+
+    this.fireEvent(code)
+  }
+
+  /**
+   * fire event to google analytics
+   *
+   * @param {string} event Event name
+   * @param {object} data Event properties (optional)
+   * @return {void}
+   */
+  fireGoogleAnalyticsEvent = (event, data = {}) => {
+    const { googleAnalytics } = this.apis
+
+    if (!googleAnalytics) {
+      return
+    }
+
+    googleAnalytics.push({ event, ...data })
+  }
+
+  /** @private */
+  // eslint-disable-next-line require-await
+  async initAmplitude() {
+    const { apis, isAmplitudeEnabled, amplitudeKey } = this
+    const { amplitudeFactory } = apis
+
+    if (!isAmplitudeEnabled) {
+      return
+    }
+
+    return new Promise(resolve =>
+      amplitudeFactory().init(amplitudeKey, null, null, () => {
+        apis.amplitude = amplitudeFactory()
+        resolve()
+      }),
+    )
+  }
+
+  /** @private */
+  // eslint-disable-next-line require-await
+  async initFullStory() {
+    return new Promise(resolve => {
+      const { _fs_ready } = window
+
+      Object.assign(window, {
+        _fs_ready: () => {
+          if (isFunction(_fs_ready)) {
+            _fs_ready()
+          }
+
+          resolve()
+        },
+      })
+    })
+  }
+
+  /** @private */
+  setUserEmail(email) {
+    const { isAmplitudeEnabled, isSentryEnabled, apis } = this
+    const { amplitude, sentry, fullStory, mautic } = apis
+
+    if (!email) {
+      return
+    }
+
+    if (isAmplitudeEnabled) {
+      amplitude.setUserProperties({ email })
+    }
+
+    if (fullStory) {
+      fullStory.setUserVars({
+        email,
       })
     }
 
-    if (isRollbarEnabled) {
-      Rollbar.error(logMessage, errorToPassIntoLog, { logContext, eMsg, extra })
+    if (isSentryEnabled) {
+      sentry.configureScope(scope => {
+        const { _user } = scope
+
+        scope.setUser({
+          ...(_user || {}),
+          email,
+        })
+      })
     }
 
-    reportToSentry(
-      errorToPassIntoLog,
+    if (mautic) {
+      mautic.userId = email
+    }
+  }
+
+  /** @private */
+  identifyWith(email, identifier = null) {
+    const { isAmplitudeEnabled, isSentryEnabled, apis, version, logger } = this
+    const { amplitude, sentry, fullStory, mautic } = apis
+
+    if (isAmplitudeEnabled && identifier) {
+      amplitude.setUserId(identifier)
+    }
+
+    if (fullStory) {
+      fullStory.identify(identifier, {
+        appVersion: version,
+      })
+    }
+
+    if (isSentryEnabled) {
+      sentry.configureScope(scope =>
+        scope.setUser({
+          id: identifier,
+        }),
+      )
+    }
+
+    this.setUserEmail(email)
+
+    logger.debug(
+      'Analytics services identified with:',
+      { email, identifier },
       {
-        logMessage,
-        errorObj,
-        logContext,
-        eMsg,
-        extra,
+        FS: !!fullStory,
+        Mautic: !(!mautic || !email),
+        Sentry: isSentryEnabled,
+        Amplitude: isAmplitudeEnabled,
       },
-      {
-        dialogShown,
-        category: categoryToPassIntoLog,
-        level: categoryToPassIntoLog === Human ? 'info' : undefined,
-      }
     )
-  })
-}
+  }
+
+  listenLogger() {
+    const { fireEvent, apis, isSentryEnabled, secureTransmit, loggerApi, censor, env } = this
+    const { sentry, fullStory } = apis
+
+    // for error logs if they happen frequently only log one
+    const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
+    const networkReasonRegex = /(connection|websocket|network)/i
+
+    loggerApi.addLoggingListener(LogEvent.Error, async ({ bindings, messages }) => {
+      const { Unexpected, Network, Human } = ExceptionCategory
+
+      const [logContext = {}] = bindings
+      const [logMessage, eMsg = '', errorObj, extra = {}] = messages
+
+      let { dialogShown, category = Unexpected } = extra
+      let errorToPassIntoLog = errorObj
+      let categoryToPassIntoLog = category
+
+      if (categoryToPassIntoLog === Unexpected && networkReasonRegex.test(eMsg)) {
+        categoryToPassIntoLog = Network
+      }
+
+      if (errorObj instanceof Error) {
+        errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
+      } else {
+        errorToPassIntoLog = new Error(logMessage)
+      }
+
+      if (isString(logMessage) && !logMessage.includes('axios')) {
+        const logPayload = {
+          unique: `${eMsg} ${logMessage} (${logContext.from})`,
+          reason: logMessage,
+          logContext,
+          eMsg,
+          dialogShown,
+          category: categoryToPassIntoLog,
+        }
+
+        if (fullStory) {
+          const sessionUrlAtTime = fullStory.getCurrentSessionURL(true)
+
+          assign(logPayload, { sessionUrlAtTime })
+        }
+
+        debounceFireEvent(ERROR_LOG, logPayload)
+      }
+
+      if (!isSentryEnabled || env === 'test') {
+        return
+      }
+
+      const secureObjects = [errorObj, extra]
+
+      if (secureTransmit) {
+        secureObjects.forEach(censor)
+      }
+
+      this.reportToSentry(
+        errorToPassIntoLog,
+        {
+          logMessage,
+          errorObj,
+          logContext,
+          eMsg,
+          extra,
+        },
+        {
+          dialogShown,
+          category: categoryToPassIntoLog,
+          level: categoryToPassIntoLog === Human ? 'info' : undefined,
+        },
+      )
+
+      if (secureTransmit) {
+        try {
+          await sentry.flush()
+        } finally {
+          secureObjects.forEach(censor.restore)
+        }
+      }
+    })
+  }
+}(detectAPIs(), API, Config, loggingAPI)
+
+// backward compatibility exports
+export const {
+  initAnalytics,
+  identifyOnUserSignup,
+  identifyWithSignedInUser,
+  reportToSentry,
+  fireEvent,
+  fireMauticEvent,
+  fireEventFromNavigation,
+} = analytics
+
+export default analytics

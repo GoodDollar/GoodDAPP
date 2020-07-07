@@ -3,6 +3,8 @@ import { noop } from 'lodash'
 
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
+import { isE2ERunning } from '../../../../lib/utils/platform'
+
 import { ZoomSDK } from '../sdk/ZoomSDK'
 import { kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
@@ -22,6 +24,11 @@ const ZoomGlobalState = {
  */
 export const preloadZoomSDK = async (logger = log) => {
   const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
+
+  // if cypress is running - do nothing
+  if (isE2ERunning) {
+    return
+  }
 
   logger.debug('Pre-loading Zoom SDK')
 
@@ -144,6 +151,12 @@ export default ({ onInitialized = noop, onError = noop }) => {
         // handling initialization exceptions
         handleException(exception)
       }
+    }
+
+    // if cypress is running - do nothing and immediately call success callback
+    if (isE2ERunning) {
+      onInitializedRef.current()
+      return
     }
 
     // skipping initialization attempt is some

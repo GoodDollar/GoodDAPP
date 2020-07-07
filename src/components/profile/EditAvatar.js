@@ -49,7 +49,7 @@ const EditAvatar = ({ theme, navigation }) => {
       croppedRef.current = cropped
       markAsDirty(true)
     },
-    [markAsDirty]
+    [markAsDirty],
   )
 
   useEffect(() => {

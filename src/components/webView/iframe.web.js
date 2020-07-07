@@ -23,6 +23,7 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
     //this is for our external pages like privacy policy, etc.. they dont require iframeresizer to work ok on ios <13
     return (
       <iframe
+        allowFullScreen
         title={title}
         seamless
         frameBorder="0"

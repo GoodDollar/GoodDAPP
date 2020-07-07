@@ -63,7 +63,7 @@ const initTransferEvents = async (store: Store) => {
   log.debug('starting events listener', { lastBlock })
 
   goodWallet.listenTxUpdates(parseInt(lastBlock), ({ fromBlock, toBlock }) =>
-    userStorage.saveLastBlockNumber(parseInt(toBlock) + 1)
+    userStorage.saveLastBlockNumber(parseInt(toBlock) + 1),
   )
 
   if (balanceChangedSub) {

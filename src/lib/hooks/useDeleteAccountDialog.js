@@ -81,5 +81,5 @@ export default ({ API, showDialog, store, theme }) =>
           },
         ],
       }),
-    [API, showDialog, store, theme]
+    [API, showDialog, store, theme],
   )

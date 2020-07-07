@@ -1,17 +1,20 @@
 import { useCallback, useRef } from 'react'
+import { v4 as uuid } from 'uuid'
 import { noop } from 'lodash'
 
-// logger
+// logger & utils
 import logger from '../../../../lib/logger/pino-logger'
+import { isE2ERunning } from '../../../../lib/utils/platform'
 
 // Zoom SDK reference & helpers
+import api from '../api/FaceVerificationApi'
 import { ZoomSDK } from '../sdk/ZoomSDK'
 import { kindOfSessionIssue } from '../utils/kindOfTheIssue'
+import { zoomResultSuccessMessage } from '../utils/strings'
 import { unloadZoomSDK } from './useZoomSDK'
 
-// Zoom exceptions helper
-
 const log = logger.child({ from: 'useZoomVerification' })
+const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))
 
 /**
  * ZoomSDK face verification & fecamap enrollment hook
@@ -41,6 +44,26 @@ export default ({
   // Wrapped to useCallback for incapsulate session in a single call
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
+    // if cypress is running
+    if (isE2ERunning) {
+      try {
+        // don't start session, just call enroll with fake data
+        // to whitelist user on server
+        await api.performFaceVerification({
+          enrollmentIdentifier,
+          sessionId: uuid(),
+          faceMap: emptyBase64,
+          lowQualityAuditTrailImage: emptyBase64,
+          auditTrailImage: emptyBase64,
+        })
+      } finally {
+        // call onComplete callback with success state
+        onComplete(zoomResultSuccessMessage)
+      }
+
+      return
+    }
+
     // don't starting new session if it already runs
     if (sessionInProgressRef.current) {
       return

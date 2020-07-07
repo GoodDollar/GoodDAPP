@@ -2,9 +2,9 @@
 
 // libraries
 import * as Sentry from '@sentry/browser'
-import redaction from 'pino/lib/redaction'
-import { redactFmtSym } from 'pino/lib/symbols'
-import { assign, debounce, flatten, forEach, get, isFunction, isString, pick, pickBy } from 'lodash'
+import fastRedact from 'fast-redact'
+
+import { assign, debounce, flatten, forEach, get, isFunction, isString, pick, pickBy, values } from 'lodash'
 
 // utils
 import API from '../../lib/API/api'
@@ -100,9 +100,10 @@ const analytics = new class {
 
   constructor(apis, rootApi, Config, loggerApi) {
     const { sentryDSN, amplitudeKey, secureTransmit, transmitSecureKeys, transmitCensor } = Config
-    const { amplitudeFactory } = apis
+    const { amplitudeFactory, sentry } = apis
 
-    assign(this, apis, pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env'))
+    assign(this.apis, apis)
+    assign(this, pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env'))
 
     this.rootApi = rootApi
     this.loggerApi = loggerApi
@@ -112,7 +113,7 @@ const analytics = new class {
       this.initCensor(transmitSecureKeys, transmitCensor)
     }
 
-    this.isSentryEnabled = !!sentryDSN
+    this.isSentryEnabled = !(!sentry || !sentryDSN)
     this.isAmplitudeEnabled = !(!amplitudeFactory || !amplitudeKey)
 
     this.logger = loggerApi.child({ from: 'analytics' })
@@ -296,11 +297,16 @@ const analytics = new class {
           return []
         }
 
-        return [secureKey, `*.${secureKey}`]
+        return [secureKey, `${secureKey}.*`, `${secureKey}[*]`]
       }),
     )
 
-    this.censor = redaction({ paths, censor: transmitCensor }, false)[redactFmtSym]
+    this.censor = fastRedact({
+      paths,
+      strict: false,
+      serialize: false,
+      censor: transmitCensor,
+    })
   }
 
   /** @private */
@@ -462,27 +468,25 @@ const analytics = new class {
         return
       }
 
-      const secureObjects = [errorObj, extra]
+      const centryPayload = {
+        logMessage,
+        errorObj,
+        logContext,
+        eMsg,
+        extra,
+      }
+
+      const secureObjects = [errorToPassIntoLog, ...values(centryPayload)]
 
       if (secureTransmit) {
         secureObjects.forEach(censor)
       }
 
-      this.reportToSentry(
-        errorToPassIntoLog,
-        {
-          logMessage,
-          errorObj,
-          logContext,
-          eMsg,
-          extra,
-        },
-        {
-          dialogShown,
-          category: categoryToPassIntoLog,
-          level: categoryToPassIntoLog === Human ? 'info' : undefined,
-        },
-      )
+      this.reportToSentry(errorToPassIntoLog, centryPayload, {
+        dialogShown,
+        category: categoryToPassIntoLog,
+        level: categoryToPassIntoLog === Human ? 'info' : undefined,
+      })
 
       if (secureTransmit) {
         try {

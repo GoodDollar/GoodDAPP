@@ -1,21 +1,7 @@
 //@flow
 import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
-import {
-  find,
-  flatten,
-  get,
-  isEqual,
-  isNull,
-  keys,
-  maxBy,
-  memoize,
-  merge,
-  orderBy,
-  takeWhile,
-  toPairs,
-  values,
-} from 'lodash'
+import { find, flatten, get, isEqual, keys, maxBy, memoize, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun'
@@ -1407,6 +1393,7 @@ export class UserStorage {
     onlyPrivacy: boolean = false,
   ): Promise<ACK> {
     let display
+
     switch (privacy) {
       case 'private':
         display = '******'
@@ -1772,9 +1759,9 @@ export class UserStorage {
         const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
         logger.debug('formatEvent: initiator data', event.id, { initiatorType, initiator, address })
-        const profileNode = (await this._extractProfileToShow(initiatorType, initiator, address)) || {}
+        const profileNode = await this._getProfileNode(initiatorType, initiator, address)
         const [avatar, fullName] = await Promise.all([
-          this._extractAvatar(type, withdrawStatus, profileNode.gunProfile, address).catch(e => {
+          this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
               type,
               withdrawStatus,
@@ -1783,9 +1770,10 @@ export class UserStorage {
             })
             return undefined
           }),
+          /* eslint-disable */
           this._extractFullName(
             customName,
-            profileNode.gunProfile,
+            get(profileNode, 'gunProfile'),
             initiatorType,
             initiator,
             type,
@@ -1794,15 +1782,15 @@ export class UserStorage {
           ).catch(e => {
             logger.warn('formatEvent: failed extractFullName', e.message, e, {
               customName,
-              profileNode: profileNode.gunProfile,
+              profileNode,
               initiatorType,
               initiator,
               type,
               address,
               displayName,
             })
-            return undefined
           }),
+          /* eslint-enable */
         ])
 
         return {
@@ -1886,7 +1874,7 @@ export class UserStorage {
     return `${type}${sufix}`
   }
 
-  async _extractProfileToShow(initiatorType, initiator, address): Gun {
+  async _getProfileNode(initiatorType, initiator, address): Gun {
     const getProfile = async (group, value) => {
       logger.debug('extractProfile:', { group, value })
 
@@ -1896,12 +1884,13 @@ export class UserStorage {
       const groupValue = await gunGroupIndexValue.then()
       logger.debug('extractProfiler result :', { group, value, groupValue })
 
-      if (!isNull(groupValue) && Gun.node.is(groupValue)) {
+      if (groupValue != null && groupValue.profile) {
         return {
           gunProfile: gunGroupIndexValue.get('profile'),
         }
       }
       logger.warn('_extractProfileToShow invalid profile', { group, value, groupValue })
+      return undefined
     }
 
     const searchField = initiatorType && `by${initiatorType}`
@@ -1915,34 +1904,37 @@ export class UserStorage {
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
     const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
-    const profileFromGun = () =>
-      profileToShow &&
-      profileToShow
-        .get('smallAvatar')
-        .get('display')
-        .then()
+    const getAvatarFromGun = async () => {
+      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then())
+
+      // verify account is not deleted and return value
+      // if account deleted - the display of 'avatar' field will be private
+      return get(avatar, 'privacy') === 'public' ? avatar.display : undefined
+    }
 
     return (
       (type === EVENT_TYPE_BONUS && favicon) ||
       (((type === EVENT_TYPE_SEND && withdrawStatus === 'error') ||
         (type === EVENT_TYPE_WITHDRAW && withdrawStatus === 'error')) &&
         favicon) || // errored send/withdraw
-      (await profileFromGun()) || // extract avatar from profile
+      (await getAvatarFromGun()) || // extract avatar from profile
       (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
     )
   }
 
   async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
-    const profileFromGun = () =>
-      profileToShow &&
-      profileToShow
-        .get('fullName')
-        .get('display')
-        .then()
+    const getFullNameFromGun = async () => {
+      const fullName = profileToShow && (await profileToShow.get('fullName').then())
+      logger.debug('profileFromGun:', { fullName })
+
+      // verify account is not deleted and return value
+      // if account deleted - the display of 'fullName' field will be private
+      return get(fullName, 'privacy') === 'public' ? fullName.display : undefined
+    }
 
     return (
       customName || // if customName exist, use it
-      (await profileFromGun()) || // if there's a profile, extract it's fullName
+      (await getFullNameFromGun()) || // if there's a profile, extract it's fullName
       (initiatorType && initiator) ||
       (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000'
         ? 'GoodDollar'

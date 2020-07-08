@@ -2,14 +2,14 @@
 
 // libraries
 import * as Sentry from '@sentry/browser'
-import fastRedact from 'fast-redact'
 
-import { assign, debounce, flatten, forEach, get, isFunction, isString, pick, pickBy, values } from 'lodash'
+import { assign, debounce, forEach, get, isFunction, isString, pick, pickBy, values } from 'lodash'
 
 // utils
 import API from '../../lib/API/api'
 import Config from '../../config/config'
 import logger, { addLoggingListener, ExceptionCategory, LogEvent } from '../../lib/logger/pino-logger'
+import Redact from '../utils/redact'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -94,7 +94,7 @@ const analytics = new class {
 
   env = null
 
-  censor = null
+  redact = null
 
   logger = null
 
@@ -110,7 +110,7 @@ const analytics = new class {
     this.secureTransmit = secureTransmit
 
     if (secureTransmit) {
-      this.initCensor(transmitSecureKeys, transmitCensor)
+      this.redact = new Redact(transmitSecureKeys, transmitCensor)
     }
 
     this.isSentryEnabled = !(!sentry || !sentryDSN)
@@ -288,28 +288,6 @@ const analytics = new class {
   }
 
   /** @private */
-  initCensor(transmitSecureKeys, transmitCensor) {
-    const paths = flatten(
-      transmitSecureKeys.split(',').map(key => {
-        const secureKey = key.trim()
-
-        if (!secureKey) {
-          return []
-        }
-
-        return [secureKey, `${secureKey}.*`, `${secureKey}[*]`]
-      }),
-    )
-
-    this.censor = fastRedact({
-      paths,
-      strict: false,
-      serialize: false,
-      censor: transmitCensor,
-    })
-  }
-
-  /** @private */
   // eslint-disable-next-line require-await
   async initAmplitude() {
     const { apis, isAmplitudeEnabled, amplitudeKey } = this
@@ -417,8 +395,9 @@ const analytics = new class {
     )
   }
 
+  /** @private */
   listenLogger() {
-    const { fireEvent, apis, isSentryEnabled, secureTransmit, loggerApi, censor, env } = this
+    const { fireEvent, apis, isSentryEnabled, secureTransmit, loggerApi, redact, env } = this
     const { sentry, fullStory } = apis
 
     // for error logs if they happen frequently only log one
@@ -479,7 +458,7 @@ const analytics = new class {
       const secureObjects = [errorToPassIntoLog, ...values(centryPayload)]
 
       if (secureTransmit) {
-        secureObjects.forEach(censor)
+        secureObjects.forEach(object => redact.censor(object))
       }
 
       this.reportToSentry(errorToPassIntoLog, centryPayload, {
@@ -492,7 +471,7 @@ const analytics = new class {
         try {
           await sentry.flush()
         } finally {
-          secureObjects.forEach(censor.restore)
+          secureObjects.forEach(object => redact.restore(object))
         }
       }
     })

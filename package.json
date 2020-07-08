@@ -78,7 +78,6 @@
     "ethereumjs-util": "^6.1.0",
     "ethereumjs-wallet": "^0.6.3",
     "eventemitter3": "^4.0.4",
-    "fast-redact": "^2.0.0",
     "gun": "^0.2020.520",
     "hdkey": "^1.1.1",
     "hex-to-rgba": "^2.0.1",

@@ -76,7 +76,7 @@ const initAmplitude = async () => {
     amp().init(amplitudeKey, null, null, () => {
       Amplitude = amp()
       resolve()
-    })
+    }),
   )
 }
 
@@ -232,7 +232,7 @@ const identifyWith = (email, identifier = null) => {
     Sentry.configureScope(scope =>
       scope.setUser({
         id: identifier,
-      })
+      }),
     )
   }
 
@@ -248,7 +248,7 @@ const identifyWith = (email, identifier = null) => {
       Sentry: isSentryEnabled,
       Rollbar: isRollbarEnabled,
       Amplitude: isAmplitudeEnabled,
-    }
+    },
   )
 }
 
@@ -269,7 +269,7 @@ export const identifyOnUserSignup = async email => {
       Sentry: isSentryEnabled,
       Rollbar: isRollbarEnabled,
       Amplitude: isAmplitudeEnabled,
-    }
+    },
   )
 }
 
@@ -366,7 +366,7 @@ const patchLogger = () => {
 
   logger.error = (...args) => {
     const { Unexpected, Network, Human } = ExceptionCategory
-    const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
+    const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
     let { dialogShown, category = Unexpected } = extra
     let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category
@@ -434,7 +434,7 @@ const patchLogger = () => {
         dialogShown,
         category: categoryToPassIntoLog,
         level: categoryToPassIntoLog === Human ? 'info' : undefined,
-      }
+      },
     )
 
     return logError(...args)

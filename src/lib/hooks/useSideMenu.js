@@ -3,14 +3,18 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 
+// hooks
 import SimpleStore from '../undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidemenu'
 
+// utils
 import { useWrappedApi } from '../API/useWrappedApi'
+import userStorage from '../gundb/UserStorage'
 
+// constants
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
-import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../lib/constants/localStorage'
+import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 export default (props = {}) => {
@@ -28,9 +32,9 @@ export default (props = {}) => {
 
   const getIsSelfCustody = async () => {
     if (isLoggedIn) {
-      const hasSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
-      const hasMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-      setIsSelfCustody(hasSeed == null && hasMnemonic)
+      const regMethod = await userStorage.userProperties.get('regMethod')
+
+      setIsSelfCustody(regMethod === REGISTRATION_METHOD_SELF_CUSTODY)
     }
   }
 

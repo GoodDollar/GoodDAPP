@@ -404,6 +404,9 @@ export class UserStorage {
     username: true,
   }
 
+  //trusted GoodDollar user indexes
+  trust = {}
+
   /**
    * Clean string removing blank spaces and special characters, and converts to lower case
    *

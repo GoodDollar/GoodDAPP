@@ -3,8 +3,9 @@ import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
+import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
-import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.min.json'
+import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
@@ -18,8 +19,6 @@ import WalletFactory from './WalletFactory'
 
 const log = logger.child({ from: 'GoodWallet' })
 
-const DAY_IN_SECONDS = window.nextTimeClaim ? Number(window.nextTimeClaim) : Number(Config.nextTimeClaim)
-const MILLISECONDS = 1000
 const ZERO = new BN('0')
 
 //17280 = 24hours seconds divided by 5 seconds blocktime
@@ -177,7 +176,7 @@ export class GoodWallet {
         // UBI Contract
         this.UBIContract = new this.wallet.eth.Contract(
           UBIABI.abi,
-          get(ContractsAddress, `${this.network}.UBI` /*UBIABI.networks[this.networkId].address*/),
+          get(StakingModelAddress, `${this.network}.UBIScheme` /*UBIABI.networks[this.networkId].address*/),
           { from: this.account },
         )
         abiDecoder.addABI(UBIABI.abi)
@@ -359,12 +358,18 @@ export class GoodWallet {
 
   async getNextClaimTime(): Promise<any> {
     try {
-      let lastClaim = await this.UBIContract.methods.lastClaimed(this.account).call()
+      const hasClaim = await this.checkEntitlement().then(_ => _.toNumber())
 
-      if (!lastClaim) {
-        lastClaim = ZERO
+      //if has current available amount to claim then he can claim  immediatly
+      if (hasClaim > 0) {
+        return 0
       }
-      return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
+
+      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000))
+      const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
+      startRef.add(curDay + 1, 'days')
+      const millisToClaim = startRef.diff(moment(), 'millis')
+      return millisToClaim >= 0 ? millisToClaim : 0
     } catch (e) {
       log.error('getNextClaimTime failed', e.message, e)
       return Promise.reject(e)
@@ -552,9 +557,8 @@ export class GoodWallet {
    */
   async getTxFee(): Promise<number> {
     try {
-      const fee = await this.tokenContract.methods.getFees(1).call()
-
-      return toBN(fee)
+      const { 0: fee, 1: senderPays } = await this.tokenContract.methods.getFees(1).call()
+      return senderPays ? toBN(fee) : ZERO
     } catch (exception) {
       const { message } = exception
 
@@ -568,10 +572,15 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   async calculateTxFee(amount): Promise<boolean> {
-    // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
-    const percents = await this.getTxFee()
+    try {
+      const { 0: fee, 1: senderPays } = await this.tokenContract.methods.getFees(amount).call()
+      return senderPays ? toBN(fee) : ZERO
+    } catch (exception) {
+      const { message } = exception
 
-    return new BN(amount).mul(percents).div(new BN('1000000'))
+      log.warn('getTxFee failed', message, exception)
+      throw exception
+    }
   }
 
   /**

@@ -1,7 +1,7 @@
 // @flow
 
 // libraries
-import React, { useMemo } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 
@@ -22,7 +22,7 @@ import GDStore from '../../lib/undux/GDStore'
 import config from '../../config/config'
 
 // assets
-import unknownProfile from '../../assets/unknownProfile.svg'
+// import unknownProfile from '../../assets/unknownProfile.svg'
 import FuseLogo from '../../assets/ExportWallet/FuseLogo.svg'
 
 const web3ProviderUrl = GoodWallet.networkId && config.ethereum[GoodWallet.networkId].httpWeb3provider
@@ -37,8 +37,9 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { navigate } = navigation
   const gdstore = GDStore.useStore()
   const { avatar } = gdstore.get('profile')
-  const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
-  const rpcImageSource = { uri: FuseLogo }
+
+  // const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
+  // const rpcImageSource = { uri: FuseLogo }
 
   // getting the privateKey of GD wallet address - which index is 0
   const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')
@@ -55,7 +56,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
             title="My Wallet Private Key"
             content={fullPrivateKey}
             truncateContent
-            imageSource={avatarSource}
+            imageSource={avatar}
             copyButtonText="Copy Key"
           />
           <BorderedBox
@@ -63,7 +64,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
             theme={theme}
             title="Fuse Network RPC Address"
             content={web3ProviderUrl}
-            imageSource={rpcImageSource}
+            imageSource={FuseLogo}
             copyButtonText="Copy Address"
           />
         </View>

@@ -15,6 +15,7 @@ import { truncateMiddle } from '../../../lib/utils/string'
 
 // custom components
 import { Icon, Section } from '../index'
+import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 
 const copyIconSize = isBrowser ? 34 : normalize(24)
 
@@ -26,7 +27,13 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, truncateConte
   return (
     <Section style={styles.borderedBox}>
       <View style={styles.avatarLineSeparator} />
-      <Image source={imageSource} style={styles.avatar} />
+      {imageSource ? (
+        <Image source={{ uri: imageSource }} style={styles.avatar} />
+      ) : (
+        <View style={styles.avatar}>
+          <UnknownProfileSVG />
+        </View>
+      )}
       <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
         {title}
       </Section.Text>

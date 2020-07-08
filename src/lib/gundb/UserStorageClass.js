@@ -532,14 +532,14 @@ export class UserStorage {
     logger.debug('Initializing GunDB UserStorage')
 
     //get trusted GoodDollar indexes and pub key
-    let trustPromise = API.getTrust()
-      .then(_ => {
-        AsyncStorage.setItem('GD_trust', JSON.stringify(_.data))
-        this.trust = _.data
-      })
-      .catch(e => {
-        logger.error('Could not fetch /trust', e.message, e)
-      })
+    // let trustPromise = API.getTrust()
+    //   .then(_ => {
+    //     AsyncStorage.setItem('GD_trust', JSON.stringify(_.data))
+    //     this.trust = _.data
+    //   })
+    //   .catch(e => {
+    //     logger.error('Could not fetch /trust', e.message, e)
+    //   })
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
@@ -640,10 +640,10 @@ export class UserStorage {
     //   .get(this.gunuser.is.pub)
     //   .putAck(this.gunuser) //save ref to user
     await Promise.all([
-      trustPromise,
-      AsyncStorage.getItem('GD_trust')
-        .then(JSON.parse)
-        .then(_ => (this.trust = _ || {})),
+      // trustPromise,
+      // AsyncStorage.getItem('GD_trust')
+      //   .then(JSON.parse)
+      //   .then(_ => (this.trust = _ || {})),
       this.initProfile(),
       this.initProperties(),
       this.initFeed(),

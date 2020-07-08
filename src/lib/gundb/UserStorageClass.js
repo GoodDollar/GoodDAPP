@@ -15,10 +15,10 @@ import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
-
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
+import { type StandardFeed } from './StandardFeed'
 const logger = pino.child({ from: 'UserStorage' })
 
 const EVENT_TYPE_WITHDRAW = 'withdraw'
@@ -34,25 +34,6 @@ const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
 
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
-}
-
-/**
- * StandardFeed element. It's being used to show the feed on dashboard
- * @type
- */
-export type StandardFeed = {
-  id: string,
-  date: number,
-  type: string, // 'message' | 'withdraw' | 'send',
-  data: {
-    endpoint: {
-      address: string,
-      fullName: string,
-      avatar?: string,
-    },
-    amount: string,
-    message: string,
-  },
 }
 
 /**

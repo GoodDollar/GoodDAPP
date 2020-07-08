@@ -2,7 +2,7 @@
 import { createConnectedStore, type StoreDefinition } from 'undux'
 import { compose } from 'lodash/fp'
 import effects from '../../lib/undux/effects'
-import type { StandardFeed } from '../gundb/UserStorageClass'
+import type { StandardFeed } from '../gundb/StandardFeed'
 import withPinoLogger from './plugins/logger'
 import { createUseCurriedSettersHook } from './utils/setter'
 

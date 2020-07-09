@@ -1,6 +1,10 @@
 // libraries
 import React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { Image, View } from 'react-native'
+
+// components
+import { Icon, Section } from '../index'
+import CustomButton from '../buttons/CustomButton'
 
 // hooks
 import useClipboard from '../../../lib/hooks/useClipboard'
@@ -12,9 +16,6 @@ import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
-
-// custom components
-import { Icon, Section } from '../index'
 
 const copyIconSize = isBrowser ? 34 : normalize(24)
 
@@ -34,14 +35,14 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, truncateConte
         {displayContent}
       </Section.Text>
       <View style={styles.copyIconLineSeparator} />
-      <TouchableOpacity onPress={copyToClipboard} activeOpacity={1} style={styles.boxCopyIconWrapper}>
-        <View style={styles.copyIconContainer}>
+      <View style={styles.boxCopyIconWrapper}>
+        <CustomButton onPress={copyToClipboard} style={styles.copyIconContainer}>
           <Icon name="copy" size={copyIconSize} color={theme.colors.surface} />
-        </View>
+        </CustomButton>
         <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
           {copyButtonText}
         </Section.Text>
-      </TouchableOpacity>
+      </View>
     </Section>
   )
 }
@@ -93,6 +94,7 @@ const styles = ({ theme }) => ({
   copyIconContainer: {
     height: getDesignRelativeHeight(38, false),
     width: getDesignRelativeHeight(38, false),
+    minWidth: getDesignRelativeHeight(38, false),
     borderRadius: getDesignRelativeHeight(19, false),
     backgroundColor: theme.colors.primary,
     display: 'flex',

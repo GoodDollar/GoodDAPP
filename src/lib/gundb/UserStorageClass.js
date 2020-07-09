@@ -1860,7 +1860,6 @@ export class UserStorage {
       logger.debug('extractProfile:', { group, value })
 
       // Need to verify if user deleted, otherwise the gun will stuck here and feed wont be displayed
-      // The group will contain null value in case user was deleted
       const gunGroupIndexValue = this.gun.get(group).get(value)
       const groupValue = await gunGroupIndexValue.then()
       logger.debug('extractProfiler result :', { group, value, groupValue })

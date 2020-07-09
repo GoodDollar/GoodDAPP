@@ -3,7 +3,7 @@
 // libraries
 import * as Sentry from '@sentry/browser'
 
-import { assign, debounce, forEach, get, isFunction, isString, pick, pickBy, values } from 'lodash'
+import { assign, debounce, forEach, get, isError, isFunction, isString, pick, pickBy, values } from 'lodash'
 
 // utils
 import API from '../../lib/API/api'
@@ -404,12 +404,30 @@ const analytics = new class {
     const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
     const networkReasonRegex = /(connection|websocket|network)/i
 
+    const createError = (msg, type, stack) => {
+      const error = new Error(msg)
+      const stackDescriptor = Object.getOwnPropertyDescriptor('stack')
+
+      error.name = type
+      Object.defineProperty(error, 'stack', { ...stackDescriptor, value: stack })
+
+      return error
+    }
+
     loggerApi.addLoggingListener(LogEvent.Error, async ({ bindings, messages }) => {
       const { Unexpected, Network, Human } = ExceptionCategory
 
       const [logContext = {}] = bindings
-      const [logMessage, eMsg = '', errorObj, extra = {}] = messages
-      const errorToPassIntoLog = new Error(`${logMessage}${eMsg ? ' ' + eMsg : ''}`)
+      const [logMessage, eMsg = '', error, extra = {}] = messages
+      let errorObj = error
+
+      if (isString(error)) {
+        errorObj = new Error(error)
+      } else if (!isError(error)) {
+        const { msg, type, trace } = error
+
+        errorObj = createError(msg, type, trace)
+      }
 
       let { dialogShown, category = Unexpected } = extra
       let categoryToPassIntoLog = category
@@ -441,6 +459,9 @@ const analytics = new class {
       if (!isSentryEnabled || env === 'test') {
         return
       }
+
+      const { name, message, stack } = errorObj
+      const errorToPassIntoLog = createError(`${logMessage}: ${message}`, name, stack)
 
       const sentryPayload = {
         logMessage,

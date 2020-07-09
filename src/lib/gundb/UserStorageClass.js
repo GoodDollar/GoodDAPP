@@ -4,14 +4,9 @@ import {
   find,
   flatten,
   get,
-<<<<<<< HEAD
   identity,
   isArray,
   isEqual,
-=======
-  isEqual,
-  isNull,
->>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
   keys,
   maxBy,
   memoize,
@@ -1008,48 +1003,44 @@ export class UserStorage {
         }
         return false
       }
-<<<<<<< HEAD
-      return false
-=======
-      this.feed.get('byid').onThen(items => {
-        if (items && items._) {
-          delete items._
-        }
-        const ids = Object.entries(items)
-        logger.debug('initFeed got items', { ids })
-        const promises = ids.map(async ([k, v]) => {
-          if (this.feedIds[k] === undefined) {
-            logger.debug('initFeed got missing cache item', { k })
-            const data = await this.feed
-              .get('byid')
-              .get(k)
-              .decrypt()
-              .catch(_ => undefined)
-            if (data != null) {
-              this.feedIds[k] = data
-              return true
-            }
-            return false
-          }
-          return false
-        })
-        Promise.all(promises)
-          .then(_ => {
-            if (_.find(_ => _)) {
-              logger.debug('initFeed updating cache', this.feedIds, _)
-              AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
-            }
-          })
-          .catch(e => logger.error('error caching feed items', e.message, e))
-        res()
-      }, true)
->>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
     })
     const updates = await Promise.all(promises)
     if (updates.find(_ => _)) {
       logger.debug('initFeed updating cache', this.feedIds, updates)
       AsyncStorage.setItem('GD_feed', this.feedIds)
     }
+
+    this.feed.get('byid').onThen(items => {
+      if (items && items._) {
+        delete items._
+      }
+      const ids = Object.entries(items)
+      logger.debug('initFeed got items', { ids })
+      const promises = ids.map(async ([k, v]) => {
+        if (this.feedIds[k] === undefined) {
+          logger.debug('initFeed got missing cache item', { k })
+          const data = await this.feed
+            .get('byid')
+            .get(k)
+            .decrypt()
+            .catch(_ => undefined)
+          if (data != null) {
+            this.feedIds[k] = data
+            return true
+          }
+          return false
+        }
+        return false
+      })
+      Promise.all(promises)
+        .then(_ => {
+          if (_.find(_ => _)) {
+            logger.debug('initFeed updating cache', this.feedIds, _)
+            AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+          }
+        })
+        .catch(e => logger.error('error caching feed items', e.message, e))
+    })
   }
 
   async startSystemFeed() {
@@ -1896,7 +1887,7 @@ export class UserStorage {
       const gunGroupIndexValue = this.gun.get(group).get(value)
       const groupValue = await gunGroupIndexValue.then()
 
-      if (!isNull(groupValue)) {
+      if (groupValue && groupValue.profile) {
         return {
           gunProfile: gunGroupIndexValue.get('profile'),
         }
@@ -1904,13 +1895,8 @@ export class UserStorage {
     }
 
     const searchField = initiatorType && `by${initiatorType}`
-<<<<<<< HEAD
-    const byIndex = searchField && getProfile(`users/${searchField}`, initiator)
-    const byAddress = address && getProfile('users/bywalletAddress', address)
-=======
     const byIndex = searchField && getProfile(this.trust[searchField] || `users/${searchField}`, initiator)
     const byAddress = address && getProfile(this.trust.bywalletAddress || `users/bywalletAddress`, address)
->>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
 
     const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
 

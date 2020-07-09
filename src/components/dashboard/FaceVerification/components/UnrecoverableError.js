@@ -19,7 +19,7 @@ import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics
 
 import { ZoomSDKStatus } from '../sdk/ZoomSDK'
 
-const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus
+const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus || {} //FIXME: RN
 
 const log = logger.child({ from: 'FaceVerification' })
 

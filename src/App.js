@@ -16,7 +16,6 @@ import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import useServiceWorker from './lib/utils/useServiceWorker'
 import Config from './config/config'
 import RouterSelector from './RouterSelector'
-import { ErrorBoundary } from './lib/analytics/bugsnag'
 import logger from './lib/logger/pino-logger'
 import { deleteGunDB } from './lib/hooks/useDeleteAccountDialog'
 
@@ -113,11 +112,9 @@ const AppHolder = () => {
 
   return (
     <ActionSheetProvider>
-      <ErrorBoundary>
-        <SimpleStore.Container>
-          <App />
-        </SimpleStore.Container>
-      </ErrorBoundary>
+      <SimpleStore.Container>
+        <App />
+      </SimpleStore.Container>
     </ActionSheetProvider>
   )
 }

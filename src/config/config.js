@@ -45,7 +45,6 @@ const Config = {
     process.env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
-  rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
   httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
   web3TransportProvider: process.env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'WebSocketProvider',
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
@@ -60,7 +59,6 @@ const Config = {
   sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}`,
   nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
   displayStartClaimingCardTime: process.env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
-  bugsnagKey: process.env.REACT_APP_BUGSNAG_API_KEY,
   backgroundReqsInterval: process.env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, // minutes
   sentryDSN: process.env.REACT_APP_SENTRY_DSN,
   hanukaStartDate: process.env.REACT_APP_HANUKA_START_DATE, // date

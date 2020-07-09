@@ -60,8 +60,6 @@
   },
   "homepage": "https://gooddollar.org",
   "dependencies": {
-    "@bugsnag/js": "^6.4.3",
-    "@bugsnag/plugin-react": "^6.4.0",
     "@expo/react-native-action-sheet": "^3.4.1",
     "@gooddollar/goodcontracts": "^1.2.0",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
@@ -91,7 +89,6 @@
     "bip39-light": "^1.0.7",
     "browserify-zlib": "^0.1.4",
     "buffer": "^5.4.3",
-    "bugsnag-react-native": "^2.23.5",
     "canvas-prebuilt": "^2.0.0-alpha.14",
     "color": "^3.1.2",
     "console-subscriber": "^1.0.2",

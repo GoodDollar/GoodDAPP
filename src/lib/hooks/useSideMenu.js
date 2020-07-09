@@ -111,7 +111,7 @@ export default (props = {}) => {
       {
         icon: 'lock',
         name: 'Backup Wallet',
-        hidden: isSelfCustody,
+        hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
             routeName: 'BackupWallet',

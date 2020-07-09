@@ -11,8 +11,10 @@ import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
 
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/pino-logger'
+import { isE2ERunning } from '../../../lib/utils/platform'
 
 const log = logger.child({ from: 'useClaimQueue' })
+const isQueueDisabled = !Config.claimQueue
 
 const ClaimQueuePopupText = ({ styles }) => (
   <View style={styles.paddingVertical20}>
@@ -87,12 +89,23 @@ export default () => {
     }
   }
 
-  useEffect(() => {
-    if (Config.claimQueue) {
-      checkQueueStatus().catch(e => log.error('checkQueueStatus API request failed', e.message, e))
-    } else {
-      setQueueStatus({ status: 'approved' })
+  const initializeQueue = async () => {
+    try {
+      await checkQueueStatus()
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('checkQueueStatus API request failed', message, exception)
     }
+  }
+
+  useEffect(() => {
+    if (isQueueDisabled || isE2ERunning) {
+      setQueueStatus({ status: 'approved' })
+      return
+    }
+
+    initializeQueue()
   }, [])
 
   return { queueStatus, handleClaim }

@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AsyncStorage } from 'react-native'
-import bugsnag from '@bugsnag/js'
-import bugsnagReact from '@bugsnag/plugin-react'
 import './index.css'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 import App from './App'
@@ -11,17 +9,6 @@ import Config from './config/config'
 import { deleteGunDB } from './lib/hooks/useDeleteAccountDialog'
 
 let ErrorBoundary = React.Fragment
-if (Config.bugsnagKey) {
-  const bugsnagClient = bugsnag({
-    apiKey: Config.bugsnagKey,
-    appVersion: Config.version,
-    releaseStage: Config.env + '_' + Config.network,
-  })
-  global.bugsnagClient = bugsnagClient
-  bugsnagClient.metaData = { network: Config.network }
-  bugsnagClient.use(bugsnagReact, React)
-  ErrorBoundary = bugsnagClient.getPlugin('react')
-}
 
 const fontStylesMaterialIcons = `@font-face { src: url(${fontMaterialIcons}); font-family: MaterialIcons; }`
 const style = document.createElement('style')

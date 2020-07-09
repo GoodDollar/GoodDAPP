@@ -6,7 +6,7 @@ import { Portal } from 'react-native-paper'
 import { navigationConfig } from './components/appNavigation/navigationConfig'
 import About from './components/about/AboutState'
 
-//import BackupWallet from './components/backupWallet/BackupWalletState'
+import BackupWallet from './components/backupWallet/BackupWalletState'
 import ExportWallet from './components/backupWallet/ExportWalletData'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
@@ -21,7 +21,7 @@ const AppNavigator = createNavigator(
     {
       About,
 
-      //BackupWallet,
+      BackupWallet,
       ExportWallet,
       AppNavigation,
     },

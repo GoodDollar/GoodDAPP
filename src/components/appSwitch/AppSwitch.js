@@ -18,7 +18,7 @@ import useAppState from '../../lib/hooks/useAppState'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
-import { assertStore } from '../../lib/undux/SimpleStore'
+import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
 
 type LoadingProps = {
@@ -55,6 +55,7 @@ let unsuccessfulLaunchAttempts = 0
  */
 const AppSwitch = (props: LoadingProps) => {
   const gdstore = GDStore.useStore()
+  const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
@@ -126,6 +127,8 @@ const AppSwitch = (props: LoadingProps) => {
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
     gdstore.set('inviteCode')(inviteCode)
+    store.set('regMethod')(userStorage.userProperties.get('regMethod'))
+
     if (isLoggedInCitizen) {
       API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
     }

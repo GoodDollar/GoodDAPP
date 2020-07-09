@@ -1,22 +1,14 @@
 //@flow
-<<<<<<< HEAD
-import { debounce, forEach } from 'lodash'
-import amplitude from 'amplitude-js'
-import logger from '../logger/pino-logger'
-import Config from '../../config/config'
-import Sentry from './sentry'
-import bugsnagClient from './bugsnag'
-=======
 
 // libraries
-import * as Sentry from '@sentry/browser'
-import { debounce, forEach, get, invoke, isFunction, isString } from 'lodash'
+import amplitude from 'amplitude-js'
+import { debounce, forEach, get, isFunction, isString } from 'lodash'
 
 // utils
 import API from '../../lib/API/api'
 import Config from '../../config/config'
 import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
->>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
+import Sentry from './sentry'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -60,51 +52,22 @@ export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
-<<<<<<< HEAD
-let Amplitude, FS
-=======
 let Amplitude
-const { bugsnagClient: BugSnag, mt: Mautic, Rollbar, FS, dataLayer: GoogleAnalytics } = global
->>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
+const { mt: Mautic, FS, dataLayer: GoogleAnalytics } = global
 
 const log = logger.child({ from: 'analytics' })
-const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
+const { sentryDSN, amplitudeKey, version, env, network } = Config
 
 const isFSEnabled = !!FS
 const isSentryEnabled = !!sentryDSN
-const isRollbarEnabled = !!(Rollbar && rollbarKey)
-const isAmplitudeEnabled = 'amplitude' in global && !!amplitudeKey
+const isAmplitudeEnabled = !!amplitudeKey
 const isGoogleAnalyticsEnabled = !!GoogleAnalytics
 
 /** @private */
 // eslint-disable-next-line require-await
 const initAmplitude = async () => {
-  const amp = () => invoke(global, 'amplitude.getInstance')
+  const amp = () => amplitude.getInstance()
 
-<<<<<<< HEAD
-  if (bugsnagClient) {
-    bugsnagClient.user = {
-      id: identifier,
-      email: emailOrId,
-    }
-  }
-
-  if (amplitude && Config.amplitudeKey) {
-    Amplitude = amplitude.getInstance()
-    Amplitude.init(Config.amplitudeKey)
-    Amplitude.setVersionName(Config.version)
-    if (Amplitude) {
-      const created = new amplitude.Identify().setOnce('first_open_date', new Date().toString())
-      if (email) {
-        Amplitude.setUserId(email)
-      }
-      Amplitude.identify(created)
-      if (identifier) {
-        Amplitude.setUserProperties({ identifier })
-      }
-    }
-  }
-=======
   if (!isAmplitudeEnabled) {
     return
   }
@@ -138,21 +101,8 @@ export const initAnalytics = async () => {
   // pre-initializing & preloading FS & Amplitude
   await Promise.all([isFSEnabled && initFullStory(), isAmplitudeEnabled && initAmplitude(amplitudeKey)])
 
-  if (isRollbarEnabled) {
-    Rollbar.configure({
-      accessToken: rollbarKey,
-      captureUncaught: true,
-      captureUnhandledRejections: true,
-      payload: {
-        environment: env + network,
-        codeVersion: version,
-      },
-    })
-  }
-
   if (isAmplitudeEnabled) {
     const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
->>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
 
     Amplitude.setVersionName(version)
     Amplitude.identify(identity)
@@ -178,15 +128,9 @@ export const initAnalytics = async () => {
   }
 
   log.debug('Initialized analytics:', {
-<<<<<<< HEAD
-    Amplitude: Amplitude !== undefined,
-    FS: FS !== undefined,
-=======
     FS: isFSEnabled,
     Sentry: isSentryEnabled,
-    Rollbar: isRollbarEnabled,
     Amplitude: isAmplitudeEnabled,
->>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
   })
 
   patchLogger()
@@ -196,25 +140,6 @@ export const initAnalytics = async () => {
 const setUserEmail = email => {
   if (!email) {
     return
-  }
-
-  if (BugSnag) {
-    const { user } = BugSnag
-
-    BugSnag.user = {
-      ...(user || {}),
-      email,
-    }
-  }
-
-  if (isRollbarEnabled) {
-    Rollbar.configure({
-      payload: {
-        person: {
-          email,
-        },
-      },
-    })
   }
 
   if (isAmplitudeEnabled) {
@@ -245,22 +170,6 @@ const setUserEmail = email => {
 
 /** @private */
 const identifyWith = (email, identifier = null) => {
-  if (BugSnag) {
-    BugSnag.user = {
-      id: identifier,
-    }
-  }
-
-  if (isRollbarEnabled) {
-    Rollbar.configure({
-      payload: {
-        person: {
-          id: identifier,
-        },
-      },
-    })
-  }
-
   if (isAmplitudeEnabled && identifier) {
     Amplitude.setUserId(identifier)
   }
@@ -287,9 +196,7 @@ const identifyWith = (email, identifier = null) => {
     {
       FS: isFSEnabled,
       Mautic: !!email,
-      BugSnag: !!BugSnag,
       Sentry: isSentryEnabled,
-      Rollbar: isRollbarEnabled,
       Amplitude: isAmplitudeEnabled,
     }
   )
@@ -308,9 +215,7 @@ export const identifyOnUserSignup = async email => {
     {
       FS: isFSEnabled,
       Mautic: !!email,
-      BugSnag: !!BugSnag,
       Sentry: isSentryEnabled,
-      Rollbar: isRollbarEnabled,
       Amplitude: isAmplitudeEnabled,
     }
   )
@@ -402,15 +307,6 @@ export const fireGoogleAnalyticsEvent = (event, data = {}) => {
 }
 
 const patchLogger = () => {
-<<<<<<< HEAD
-  let error = global.logger.error
-  global.logger.error = function() {
-    let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
-    if (logMessage && typeof logMessage === 'string' && logMessage.indexOf('axios') === -1) {
-      debounceFireEvent(ERROR_LOG, {
-        unique: `${eMsg} ${logMessage} (${logContext})`,
-        $reason: logMessage,
-=======
   const logError = logger.error.bind(logger)
 
   // for error logs if they happen frequently only log one
@@ -440,7 +336,6 @@ const patchLogger = () => {
       const logPayload = {
         unique: `${eMsg} ${logMessage} (${logContext.from})`,
         reason: logMessage,
->>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
         logContext,
         eMsg,
         dialogShown,
@@ -459,41 +354,6 @@ const patchLogger = () => {
     if (env === 'test') {
       return
     }
-<<<<<<< HEAD
-    if (bugsnagClient && Config.env !== 'test') {
-      bugsnagClient.notify(logMessage, {
-        context: logContext && logContext.from,
-        metaData: { logMessage, eMsg, errorObj, rest },
-        groupingHash: logContext && logContext.from,
-      })
-    }
-
-    if (Config.sentryDSN && Config.env !== 'test') {
-      const isValidErrorObject = errorObj instanceof Error
-      let errorToPassIntoLog
-
-      if (isValidErrorObject) {
-        errorObj.message = `${logMessage}: ${errorObj.message}`
-        errorToPassIntoLog = errorObj
-      } else {
-        errorToPassIntoLog = new Error(logMessage)
-      }
-=======
-
-    if (BugSnag) {
-      const { from } = logContext || {}
-
-      BugSnag.notify(logMessage, {
-        context: from,
-        groupingHash: from,
-        metaData: { logMessage, eMsg, errorObj: errorToPassIntoLog, extra },
-      })
-    }
-
-    if (isRollbarEnabled) {
-      Rollbar.error(logMessage, errorToPassIntoLog, { logContext, eMsg, extra })
-    }
->>>>>>> 601947b6d61fb07a47a5edcca401a495407bc705
 
     reportToSentry(
       errorToPassIntoLog,

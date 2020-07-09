@@ -409,19 +409,13 @@ const analytics = new class {
 
       const [logContext = {}] = bindings
       const [logMessage, eMsg = '', errorObj, extra = {}] = messages
+      const errorToPassIntoLog = new Error(`${logMessage}${eMsg ? ' ' + eMsg : ''}`)
 
       let { dialogShown, category = Unexpected } = extra
-      let errorToPassIntoLog = errorObj
       let categoryToPassIntoLog = category
 
       if (categoryToPassIntoLog === Unexpected && networkReasonRegex.test(eMsg)) {
         categoryToPassIntoLog = Network
-      }
-
-      if (errorObj instanceof Error) {
-        errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
-      } else {
-        errorToPassIntoLog = new Error(logMessage)
       }
 
       if (isString(logMessage) && !logMessage.includes('axios')) {
@@ -432,6 +426,7 @@ const analytics = new class {
           eMsg,
           dialogShown,
           category: categoryToPassIntoLog,
+          errorObj,
         }
 
         if (fullStory) {
@@ -447,7 +442,7 @@ const analytics = new class {
         return
       }
 
-      const centryPayload = {
+      const sentryPayload = {
         logMessage,
         errorObj,
         logContext,
@@ -455,13 +450,13 @@ const analytics = new class {
         extra,
       }
 
-      const secureObjects = [errorToPassIntoLog, ...values(centryPayload)]
+      const secureObjects = [errorToPassIntoLog, ...values(sentryPayload)]
 
       if (secureTransmit) {
         secureObjects.forEach(object => redact.censor(object))
       }
 
-      this.reportToSentry(errorToPassIntoLog, centryPayload, {
+      this.reportToSentry(errorToPassIntoLog, sentryPayload, {
         dialogShown,
         category: categoryToPassIntoLog,
         level: categoryToPassIntoLog === Human ? 'info' : undefined,

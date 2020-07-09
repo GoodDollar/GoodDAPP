@@ -127,7 +127,7 @@ const AppSwitch = (props: LoadingProps) => {
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
     gdstore.set('inviteCode')(inviteCode)
-    store.set('regMethod', userStorage.properties.get('regMethod'))
+    store.set('regMethod', userStorage.userProperties.get('regMethod'))
     if (isLoggedInCitizen) {
       API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
     }

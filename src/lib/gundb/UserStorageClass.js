@@ -632,6 +632,9 @@ export class UserStorage {
   }
 
   async initTokens() {
+    if (this.userAlreadyExist() !== true) {
+      return
+    }
     const initMarketToken = async () => {
       if (Config.market) {
         const r = await API.getMarketToken().catch(e => {

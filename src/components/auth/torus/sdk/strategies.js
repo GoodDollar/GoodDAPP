@@ -14,11 +14,11 @@ class AbstractLoginStrategy {
 export class FacebookStrategy extends AbstractLoginStrategy {
   async triggerLogin() {
     const { torus, config } = this
-    const { facebookAppId } = config
+    const { facebookAppId, env } = config
 
     return torus.triggerLogin({
       typeOfLogin: 'facebook',
-      verifier: 'facebook-gooddollar',
+      verifier: env === 'production' ? 'gooddollar-facebook' : 'facebook-gooddollar',
       clientId: facebookAppId,
     })
   }
@@ -27,11 +27,11 @@ export class FacebookStrategy extends AbstractLoginStrategy {
 export class GoogleLegacyStrategy extends AbstractLoginStrategy {
   async triggerLogin() {
     const { torus, config } = this
-    const { googleClientId } = config
+    const { googleClientId, env } = config
 
     return torus.triggerLogin({
       typeOfLogin: 'google',
-      verifier: 'google-gooddollar',
+      verifier: env === 'production' ? 'gooddollar-google' : 'google-gooddollar',
       clientId: googleClientId,
     })
   }
@@ -40,11 +40,11 @@ export class GoogleLegacyStrategy extends AbstractLoginStrategy {
 export class GoogleStrategy extends AbstractLoginStrategy {
   async triggerLogin() {
     const { torus, config } = this
-    const { googleClientId } = config
+    const { googleClientId, env } = config
 
     return torus.triggerAggregateLogin({
       aggregateVerifierType: 'single_id_verifier',
-      verifierIdentifier: 'google-auth0-gooddollar',
+      verifierIdentifier: env === 'production' ? 'gooddollar-google-auth0' : 'google-auth0-gooddollar',
       subVerifierDetailsArray: [
         {
           clientId: googleClientId,
@@ -59,11 +59,11 @@ export class GoogleStrategy extends AbstractLoginStrategy {
 export class Auth0Strategy extends AbstractLoginStrategy {
   async triggerLogin() {
     const { torus, config } = this
-    const { auth0Domain, auth0ClientId } = config
+    const { auth0Domain, auth0ClientId, env } = config
 
     return torus.triggerAggregateLogin({
       aggregateVerifierType: 'single_id_verifier',
-      verifierIdentifier: 'google-auth0-gooddollar',
+      verifierIdentifier: env === 'production' ? 'gooddollar-google-auth0' : 'google-auth0-gooddollar',
       subVerifierDetailsArray: [
         {
           clientId: auth0ClientId,
@@ -82,11 +82,11 @@ export class Auth0Strategy extends AbstractLoginStrategy {
 export class PaswordlessEmailStrategy extends AbstractLoginStrategy {
   async triggerLogin() {
     const { torus, config } = this
-    const { auth0Domain, auth0ClientId } = config
+    const { auth0Domain, auth0ClientId, env } = config
 
     return torus.triggerAggregateLogin({
       aggregateVerifierType: 'single_id_verifier',
-      verifierIdentifier: 'google-auth0-gooddollar',
+      verifierIdentifier: env === 'production' ? 'gooddollar-google-auth0' : 'google-auth0-gooddollar',
       subVerifierDetailsArray: [
         {
           clientId: auth0ClientId,

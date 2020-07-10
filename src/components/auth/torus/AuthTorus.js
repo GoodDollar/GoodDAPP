@@ -26,7 +26,7 @@ import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import useTorus from './hooks/useTorus'
 
 Image.prefetch(illustration)
@@ -194,21 +194,21 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           <Section.Row>
             <CustomButton
               color={mainTheme.colors.darkGray}
-              style={[styles.buttonLayout, { flex: 1 }]}
-              onPress={signupAuth0Email}
-              disabled={!sdkInitialized}
-              testID="login_via_email"
-            >
-              Via Email
-            </CustomButton>
-            <CustomButton
-              color={mainTheme.colors.darkGray}
-              style={[styles.buttonLayout, { flex: 1 }]}
+              style={[styles.buttonLayout, { flex: 1, marginRight: getDesignRelativeWidth(5) }]}
               onPress={signupAuth0Mobile}
               disabled={!sdkInitialized}
               testID="login_via_mobile"
             >
-              Via Mobile
+              Via Phone Code
+            </CustomButton>
+            <CustomButton
+              color={mainTheme.colors.darkGray}
+              style={[styles.buttonLayout, { flex: 1, marginLeft: getDesignRelativeWidth(5) }]}
+              onPress={signupAuth0Email}
+              disabled={!sdkInitialized}
+              testID="login_via_email"
+            >
+              Via Email Code
             </CustomButton>
           </Section.Row>
         )
@@ -357,8 +357,10 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: theme.sizes.default,
-      width: '100%',
-      maxHeight: getDesignRelativeHeight(240),
+      width: getDesignRelativeWidth(249),
+      height: getDesignRelativeHeight(195),
+      marginRight: 'auto',
+      marginLeft: 'auto',
       paddingTop: theme.sizes.default,
     },
     headerText: {

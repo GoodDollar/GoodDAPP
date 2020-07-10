@@ -97,7 +97,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.RELEASE_ANDROID_PASSPHRASE }}" --batch release.keystore.asc > android/app/release.keystore
       - name: Build Android Release
         run: |
-          cd android && ./gradlew assembleRelease
+          cd android && ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.RELEASE_ANDROID_PASSPHRASE }}'
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:

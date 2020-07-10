@@ -1,28 +1,45 @@
 // @flow
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
-import useNativeSharing from '../../../lib/hooks/useNativeSharing'
+import { pickBy } from 'lodash'
+
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
+import Text from '../view/Text'
+
+import useNativeSharing from '../../../lib/hooks/useNativeSharing'
+import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+
+import GDStore from '../../../lib/undux/GDStore'
+
 import logger from '../../../lib/logger/pino-logger'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
-import GDStore from '../../../lib/undux/GDStore'
+
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
-const ModalButton = ({ children, ...props }) => {
-  return (
-    <CustomButton mode="contained" style={{ minWidth: 96 }} {...props}>
-      {children}
-    </CustomButton>
-  )
-}
+const ModalButton = ({ children, customText = false, bolder = false, ...props }) => (
+  <CustomButton mode="contained" minWidth={96} {...props}>
+    {customText ? (
+      <Text
+        fontSize={14}
+        letterSpacing={0}
+        color={customText === true ? '#FFFFFF' : customText}
+        fontFamily="Roboto"
+        fontWeight={bolder ? 'medium' : 'normal'}
+      >
+        {children}
+      </Text>
+    ) : (
+      children
+    )}
+  </CustomButton>
+)
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
@@ -69,12 +86,17 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const getPaymentLink = useMemo(() => {
     try {
       let result
-      const params = {
-        p: item.data.withdrawCode,
-        r: item.data.message,
-      }
-      inviteCode && (params.i = inviteCode)
-      const url = generateShareLink('send', params)
+      const { withdrawCode, message } = item.data
+
+      const url = generateShareLink(
+        'send',
+        pickBy({
+          p: withdrawCode,
+          r: message,
+          i: inviteCode,
+        }),
+      )
+
       if (canShare) {
         result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
       } else {
@@ -134,7 +156,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton onPress={handleModalClose}>{config.isPhaseZero ? 'OK' : 'LET`S DO IT'}</ModalButton>
+            <ModalButton onPress={handleModalClose} customText bolder>
+              {config.isPhaseZero ? 'OK' : 'LET`S DO IT'}
+            </ModalButton>
           </View>
         </View>
       )
@@ -164,7 +188,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
-              <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
+              <CustomButton
+                mode="contained"
+                style={styles.rightButton}
+                textStyle={styles.letterSpacing0}
+                onPress={handleModalClose}
+              >
                 Ok
               </CustomButton>
             </View>
@@ -175,12 +204,19 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton mode="outlined" onPress={readMore}>
+            <ModalButton mode="outlined" textStyle={styles.letterSpacing0} onPress={readMore}>
               Read more
             </ModalButton>
           </View>
           <View style={styles.rightButtonContainer}>
-            <ModalButton onPress={shareMessage}>Share</ModalButton>
+            <ModalButton
+              mode="contained"
+              style={styles.rightButton}
+              textStyle={styles.letterSpacing0}
+              onPress={shareMessage}
+            >
+              Share
+            </ModalButton>
           </View>
         </View>
       )
@@ -188,7 +224,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton mode="text" color="gray80Percent" onPress={handleModalClose}>
+            <ModalButton mode="text" onPress={handleModalClose} customText="gray80Percent">
               LATER
             </ModalButton>
           </View>
@@ -200,6 +236,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               iconSize={20}
               icon="invite"
               iconStyle={styles.iconStyle}
+              customText
             >
               INVITE
             </ModalButton>
@@ -215,7 +252,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
             </ModalButton>
           </View>
           <View style={styles.rightButtonContainer}>
-            <ModalButton onPress={Marketplace} iconAlignment="right">
+            <ModalButton mode="contained" onPress={Marketplace} iconAlignment="right" customText>
               {"LET'S GO"}
             </ModalButton>
           </View>
@@ -225,7 +262,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton onPress={backupPage}>{"LET'S BACKUP"}</ModalButton>
+            <ModalButton mode="contained" onPress={backupPage} customText>
+              {"LET'S BACKUP"}
+            </ModalButton>
           </View>
         </View>
       )
@@ -234,7 +273,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton onPress={goToClaimPage}>CLAIM G$</ModalButton>
+            <ModalButton mode="contained" customText onPress={goToClaimPage}>
+              CLAIM G$
+            </ModalButton>
           </View>
         </View>
       )
@@ -243,7 +284,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton mode="contained" onPress={goToClaimPage}>
+            <ModalButton mode="contained" onPress={goToClaimPage} customText>
               Claim now
             </ModalButton>
           </View>
@@ -253,7 +294,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     case 'feedback':
       return (
         <View style={styles.buttonsView}>
-          <ModalButton onPress={handleModalClose}>Later</ModalButton>
+          <ModalButton mode="contained" onPress={handleModalClose} textStyle={styles.letterSpacing0}>
+            Later
+          </ModalButton>
         </View>
       )
     case 'empty':
@@ -262,7 +305,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       // claim / receive / withdraw / notification / sendcancelled / sendcompleted
       return (
         <View style={styles.buttonsView}>
-          <ModalButton mode="contained" onPress={handleModalClose}>
+          <ModalButton mode="contained" onPress={handleModalClose} textStyle={styles.letterSpacing0}>
             Ok
           </ModalButton>
         </View>
@@ -289,9 +332,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   cancelButton: {
     width: '48%',
-  },
-  button: {
-    minWidth: 96,
   },
   iconStyle: {
     marginLeft: theme.sizes.defaultHalf,

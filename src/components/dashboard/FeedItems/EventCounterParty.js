@@ -28,7 +28,7 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
     <Text
       textTransform="capitalize"
       textAlign="left"
-      style={[{ height: '100%' }, style]}
+      style={[{ height: '100%', flex: 1 }, style]}
       numberOfLines={2}
       ellipsizeMode="tail"
     >

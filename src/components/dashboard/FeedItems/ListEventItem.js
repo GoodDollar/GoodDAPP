@@ -122,7 +122,7 @@ const getWelcomeStyles = () => ({
     textAlign: 'left',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
   readMore: {
     // minHeight: normalize(16),

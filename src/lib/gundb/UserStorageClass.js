@@ -26,7 +26,7 @@ import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
-import resizeBase64Image from '../utils/resizeBase64Image'
+import { resizeImage } from '../utils/image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
 import defaultGun from './gundb'
@@ -666,7 +666,7 @@ export class UserStorage {
   }
 
   async setSmallAvatar(avatar) {
-    const smallAvatar = await resizeBase64Image(avatar, 50)
+    const smallAvatar = await resizeImage(avatar, 50)
     return this.setProfileField('smallAvatar', smallAvatar, 'public')
   }
 
@@ -1225,7 +1225,7 @@ export class UserStorage {
     }
 
     if (profile.avatar) {
-      profile.smallAvatar = await resizeBase64Image(profile.avatar, 50)
+      profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
 
     return Promise.all(

@@ -33,7 +33,7 @@ const log = logger.child({ from: 'ViewAvatar' })
 const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
-  const { styles } = props
+  const { styles, navigation } = props
   const store = GDStore.useStore()
   const profile = store.get('profile')
   const wrappedUserStorage = useWrappedUserStorage()
@@ -52,7 +52,7 @@ const ViewOrUploadAvatar = props => {
         avatar: profile.avatar,
       })
     },
-    [profile, wrappedUserStorage]
+    [navigation],
   )
 
   const handleClosePress = useCallback(
@@ -63,7 +63,7 @@ const ViewOrUploadAvatar = props => {
         log.error('delete image failed:', e.message, e)
       })
     },
-    [wrappedUserStorage, showErrorDialog]
+    [wrappedUserStorage],
   )
 
   const handleAddAvatar = useCallback(
@@ -78,7 +78,7 @@ const ViewOrUploadAvatar = props => {
         props.navigation.navigate('EditAvatar')
       }
     },
-    [wrappedUserStorage]
+    [navigation, wrappedUserStorage],
   )
 
   const goToProfile = useCallback(() => {

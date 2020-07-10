@@ -1,7 +1,7 @@
 // @flow
 import { createConnectedStore, type StoreDefinition } from 'undux'
 import { compose } from 'lodash/fp'
-import type { StandardFeed } from '../gundb/UserStorageClass'
+import type { StandardFeed } from '../gundb/StandardFeed'
 import effects from './effects'
 import withPinoLogger from './plugins/logger'
 import { createUseCurriedSettersHook } from './utils/setter'
@@ -56,6 +56,7 @@ const initialState: State = {
   feeds: [],
   currentFeed: undefined,
   feedLoading: false,
+  inviteCode: undefined,
 }
 
 /**
@@ -66,8 +67,8 @@ const GDStore: StoreDefinition<State> = createConnectedStore(
   initialState,
   compose(
     effects,
-    withPinoLogger
-  )
+    withPinoLogger,
+  ),
 )
 
 export const useCurriedSetters = createUseCurriedSettersHook(() => GDStore)

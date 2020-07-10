@@ -124,14 +124,26 @@ const getWelcomeStyles = () => ({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
   },
+  readMore: {
+    // minHeight: normalize(16),
+    // maxHeight: normalize(16),
+    // marginHorizontal: -theme.sizes.default,
+    display: 'inline',
+  },
 })
 
 const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
   <View style={styles.welcomeText}>
-    <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'} fontSize={16} lineHeight={16}>
+    <Text fontWeight="medium" lineHeight={20} numberOfLines={1} fontSize={10} style={style} color={color || 'darkGray'}>
       {text}
     </Text>
-    <Text color={color || theme.colors.lighterGray} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
+    <Text
+      color={color || theme.colors.lighterGray}
+      lineHeight={20}
+      numberOfLines={1}
+      fontSize={10}
+      style={styles.readMoreText}
+    >
       {buttonText}
     </Text>
   </View>
@@ -146,15 +158,24 @@ const getFeedTextStyles = () => ({
 
 const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice }) => {
   let result = ''
-
-  if (feed.data.readMore) {
-    result = <ReadMoreText text={feed.data.readMore} buttonText="Learn more..." />
+  const readMore = feed.data.readMore || feed.data.smallReadMore
+  if (readMore) {
+    result = (
+      <ReadMoreText color="gray80Percent" text={readMore} buttonText={feed.data.readMore ? 'Learn more...' : ''} />
+    )
   } else if (feed.data.readMore === false) {
     //if readMore is exactly false we dont show anything
     result = ''
   } else {
     result = (
-      <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
+      <Text
+        lineHeight={20}
+        numberOfLines={1}
+        color="gray80Percent"
+        fontSize={10}
+        textTransform="capitalize"
+        style={styles.message}
+      >
         {feed.data.message}
       </Text>
     )
@@ -215,8 +236,8 @@ const getStylesFromProps = ({ theme }) => ({
     width: normalize(34),
   },
   claimingCardFeedText: {
-    height: '100%',
-    justifyContent: 'center',
+    // height: '100%',
+    // justifyContent: 'center',
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -231,7 +252,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   feedItem: {
     flexShrink: 0,
-    height: normalize(20),
     marginTop: theme.sizes.default - 2,
     display: 'flex',
     alignItems: 'flex-end',

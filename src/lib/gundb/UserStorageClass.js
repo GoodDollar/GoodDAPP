@@ -20,14 +20,13 @@ import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun/gun'
 import SEA from 'gun/sea'
-import { sha3 } from 'web3-utils'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
-import { resizeImage } from '../utils/image'
+import resizeBase64Image from '../utils/resizeBase64Image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
 import defaultGun from './gundb'
@@ -290,8 +289,8 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
           }
           return acc
         },
-        { name: log.name }
-      )
+        { name: log.name },
+      ),
     )
 
   //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
@@ -300,7 +299,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     logs.filter(log => {
       return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
-    log => log.value
+    log => log.value,
   )
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
@@ -411,14 +410,14 @@ export class UserStorage {
    * @param {string} value - Field value
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
-  static cleanHashedFieldForIndex = (field: string, value: string): string => {
+  static cleanFieldForIndex = (field: string, value: string): string => {
     if (value === undefined) {
       return value
     }
     if (field === 'mobile' || field === 'phone') {
       return value.replace(/[_+-\s]+/g, '')
     }
-    return sha3(`${value}`.toLowerCase())
+    return `${value}`.toLowerCase()
   }
 
   /**
@@ -532,15 +531,6 @@ export class UserStorage {
   async init() {
     logger.debug('Initializing GunDB UserStorage')
 
-    //get trusted GoodDollar indexes and pub key
-    let trustPromise = API.getTrust()
-      .then(_ => {
-        AsyncStorage.setItem('GD_trust', JSON.stringify(_.data))
-        this.trust = _.data
-      })
-      .catch(e => {
-        logger.error('Could not fetch /trust', e.message, e)
-      })
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
@@ -579,7 +569,7 @@ export class UserStorage {
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
-          this.gunCreate(username, password).then(r => this.gunAuth(username, password))
+          this.gunCreate(username, password).then(r => this.gunAuth(username, password)),
         )
       } else {
         loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
@@ -641,10 +631,6 @@ export class UserStorage {
     //   .get(this.gunuser.is.pub)
     //   .putAck(this.gunuser) //save ref to user
     await Promise.all([
-      trustPromise,
-      AsyncStorage.getItem('GD_trust')
-        .then(JSON.parse)
-        .then(_ => (this.trust = _ || {})),
       this.initProfile(),
       this.initProperties(),
       this.initFeed(),
@@ -652,10 +638,7 @@ export class UserStorage {
         .get('users')
         .get(this.gunuser.is.pub)
         .putAck(this.gunuser), //save ref to user
-    ]).catch(e => {
-      logger.error('failed init step in userstorage', e.message, e)
-      throw e
-    })
+    ])
     logger.debug('init systemfeed')
 
     await this.startSystemFeed()
@@ -683,7 +666,7 @@ export class UserStorage {
   }
 
   async setSmallAvatar(avatar) {
-    const smallAvatar = await resizeImage(avatar, 50)
+    const smallAvatar = await resizeBase64Image(avatar, 50)
     return this.setProfileField('smallAvatar', smallAvatar, 'public')
   }
 
@@ -737,7 +720,7 @@ export class UserStorage {
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent | void> {
     //first check to save time if already exists
     let feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
-    if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
+    if (get(feedEvent, 'data.receiptData')) {
       return feedEvent
     }
 
@@ -745,9 +728,8 @@ export class UserStorage {
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
     if (
-      data &&
-      (data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
-        (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to))
+      data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
+      (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
     ) {
       logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
       return
@@ -774,7 +756,7 @@ export class UserStorage {
         type: this.getOperationType(data, this.wallet.account),
       }
 
-      if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
+      if (get(feedEvent, 'data.receiptData')) {
         logger.debug('handleReceiptUpdated skipping event with existed receipt data', feedEvent, receipt)
         return feedEvent
       }
@@ -784,7 +766,6 @@ export class UserStorage {
         ...feedEvent,
         ...initialEvent,
         status: feedEvent.otplStatus === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
-        receiptReceived: true,
         date: receiptDate.toString(),
         data: {
           ...feedEvent.data,
@@ -833,7 +814,7 @@ export class UserStorage {
           'handleOTPLUpdated failed',
           'Original payment link TX not found',
           new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
-          data
+          data,
         )
         return
       }
@@ -1003,44 +984,13 @@ export class UserStorage {
         }
         return false
       }
+      return false
     })
     const updates = await Promise.all(promises)
     if (updates.find(_ => _)) {
       logger.debug('initFeed updating cache', this.feedIds, updates)
       AsyncStorage.setItem('GD_feed', this.feedIds)
     }
-
-    this.feed.get('byid').onThen(items => {
-      if (items && items._) {
-        delete items._
-      }
-      const ids = Object.entries(items)
-      logger.debug('initFeed got items', { ids })
-      const promises = ids.map(async ([k, v]) => {
-        if (this.feedIds[k] === undefined) {
-          logger.debug('initFeed got missing cache item', { k })
-          const data = await this.feed
-            .get('byid')
-            .get(k)
-            .decrypt()
-            .catch(_ => undefined)
-          if (data != null) {
-            this.feedIds[k] = data
-            return true
-          }
-          return false
-        }
-        return false
-      })
-      Promise.all(promises)
-        .then(_ => {
-          if (_.find(_ => _)) {
-            logger.debug('initFeed updating cache', this.feedIds, _)
-            AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
-          }
-        })
-        .catch(e => logger.error('error caching feed items', e.message, e))
-    })
   }
 
   async startSystemFeed() {
@@ -1208,7 +1158,7 @@ export class UserStorage {
         ...acc,
         [currKey]: profile[currKey].display,
       }),
-      {}
+      {},
     )
     return getUserModel(displayProfile)
   }
@@ -1267,7 +1217,7 @@ export class UserStorage {
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
-        { errors }
+        { errors },
       )
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
@@ -1275,7 +1225,7 @@ export class UserStorage {
     }
 
     if (profile.avatar) {
-      profile.smallAvatar = await resizeImage(profile.avatar, 50)
+      profile.smallAvatar = await resizeBase64Image(profile.avatar, 50)
     }
 
     return Promise.all(
@@ -1286,7 +1236,7 @@ export class UserStorage {
             logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
           })
-        })
+        }),
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
 
@@ -1299,7 +1249,7 @@ export class UserStorage {
             errCount: errors.length,
             errors,
             strErrors: JSON.stringify(errors),
-          }
+          },
         )
 
         if (Config.throwSaveProfileErrors) {
@@ -1318,29 +1268,24 @@ export class UserStorage {
    * @param {string} privacy
    * @returns {boolean}
    */
-  static async isValidValue(field: string, value: string, trusted: boolean = false) {
-    const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
+  static async isValidValue(field: string, value: string) {
+    const cleanValue = UserStorage.cleanFieldForIndex(field, value)
 
     if (!cleanValue) {
       logger.error(
         `indexProfileField - field ${field} value is empty (value: ${value})`,
         cleanValue,
-        new Error('isValidValue failed')
+        new Error('isValidValue failed'),
       )
       return false
     }
 
-    //we no longer enforce uniqueness on email/mobile only on username
     try {
-      if (field === 'username') {
-        const indexValue = await global.gun
-          .get(`users/by${field}`)
-          .get(cleanValue)
-          .then()
-        return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
-      }
-
-      return true
+      const indexValue = await global.gun
+        .get(`users/by${field}`)
+        .get(cleanValue)
+        .then()
+      return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
     } catch (e) {
       logger.error('indexProfileField', e.message, e)
       return true
@@ -1354,7 +1299,7 @@ export class UserStorage {
     const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
 
     const validatedFields = await Promise.all(
-      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field], true) }))
+      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field]) })),
     )
     const errors = validatedFields.reduce((accErrors, curr) => {
       if (!curr.valid) {
@@ -1381,7 +1326,7 @@ export class UserStorage {
     field: string,
     value: string,
     privacy: FieldPrivacy = 'public',
-    onlyPrivacy: boolean = false
+    onlyPrivacy: boolean = false,
   ): Promise<ACK> {
     let display
     switch (privacy) {
@@ -1445,13 +1390,13 @@ export class UserStorage {
     if (!UserStorage.indexableFields[field]) {
       return Promise.resolve({ err: 'Not indexable field', ok: 0 })
     }
-    const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
+    const cleanValue = UserStorage.cleanFieldForIndex(field, value)
     if (!cleanValue) {
       return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
     }
 
     try {
-      if (field === 'username' && !(await UserStorage.isValidValue(field, value, false))) {
+      if (field === 'username' && !(await UserStorage.isValidValue(field, value))) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
       const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
@@ -1465,10 +1410,9 @@ export class UserStorage {
         currentUser: this.gunuser.is.pub,
       })
 
-      //now that we use the hash of the email/mobile there's no privacy issue
-      // if (privacy !== 'public' && indexValue !== undefined) {
-      //   return indexNode.putAck(null)
-      // }
+      if (privacy !== 'public' && indexValue !== undefined) {
+        return indexNode.putAck(null)
+      }
 
       return indexNode.putAck(this.gunuser)
     } catch (e) {
@@ -1542,7 +1486,7 @@ export class UserStorage {
           }
 
           return item
-        })
+        }),
     )
   }
 
@@ -1561,7 +1505,7 @@ export class UserStorage {
         if (!isArray(dayEvents)) {
           throw new Error(
             'Invalid value for feed items collection was stored in the Gun. ' +
-              "Should be an Javascript array or it's JSON representation"
+              "Should be an Javascript array or it's JSON representation",
           )
         }
       }
@@ -1589,10 +1533,10 @@ export class UserStorage {
             feedItem &&
             feedItem.data &&
             ['deleted', 'cancelled'].includes(feedItem.status) === false &&
-            feedItem.otplStatus !== 'cancelled'
+            feedItem.otplStatus !== 'cancelled',
         )
         .map(feedItem => {
-          if (false == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
+          if (!(feedItem.data && feedItem.data.receiptData)) {
             return this.getFormatedEventById(feedItem.id)
           }
 
@@ -1600,7 +1544,7 @@ export class UserStorage {
             logger.error('getFormattedEvents Failed formatting event:', e.message, e, { feedItem })
             return {}
           })
-        })
+        }),
     )
   }
 
@@ -1613,7 +1557,7 @@ export class UserStorage {
     if (!prevFeedEvent) {
       return standardPrevFeedEvent
     }
-    if (get(prevFeedEvent, 'data.receiptData', prevFeedEvent && prevFeedEvent.receiptReceived)) {
+    if (prevFeedEvent.data && prevFeedEvent.data.receiptData) {
       return standardPrevFeedEvent
     }
 
@@ -1703,10 +1647,10 @@ export class UserStorage {
       return this.wallet.wallet.utils.isAddress(field) ? field : undefined
     }
 
-    const value = UserStorage.cleanHashedFieldForIndex(attr, field)
+    const value = UserStorage.cleanFieldForIndex(attr, field)
 
     return this.gun
-      .get(this.trust[`by${attr}`] || `users/by${attr}`)
+      .get(`users/by${attr}`)
       .get(value)
       .get('profile')
       .get('walletAddress')
@@ -1722,11 +1666,10 @@ export class UserStorage {
    */
   async getUserProfile(field: string = '') {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
-    const value = UserStorage.cleanHashedFieldForIndex(attr, field)
+    const value = UserStorage.cleanFieldForIndex(attr, field)
 
-    const index = this.trust[`by${attr}`] || `users/by${attr}`
     const profileToShow = this.gun
-      .get(index)
+      .get(`users/by${attr}`)
       .get(value)
       .get('profile')
 
@@ -1766,10 +1709,10 @@ export class UserStorage {
         const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
         const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
-        logger.debug('formatEvent: initiator data', event.id, { initiatorType, initiator, address })
-        const profileNode = (await this._extractProfileToShow(initiatorType, initiator, address)) || {}
+        logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
+        const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
         const [avatar, fullName] = await Promise.all([
-          this._extractAvatar(type, withdrawStatus, profileNode.gunProfile, address).catch(e => {
+          this._extractAvatar(type, withdrawStatus, profileNode, address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
               type,
               withdrawStatus,
@@ -1778,26 +1721,20 @@ export class UserStorage {
             })
             return undefined
           }),
-          this._extractFullName(
-            customName,
-            profileNode.gunProfile,
-            initiatorType,
-            initiator,
-            type,
-            address,
-            displayName
-          ).catch(e => {
-            logger.warn('formatEvent: failed extractFullName', e.message, e, {
-              customName,
-              profileNode: profileNode.gunProfile,
-              initiatorType,
-              initiator,
-              type,
-              address,
-              displayName,
-            })
-            return undefined
-          }),
+          this._extractFullName(customName, profileNode, initiatorType, initiator, type, address, displayName).catch(
+            e => {
+              logger.warn('formatEvent: failed extractFullName', e.message, e, {
+                customName,
+                profileNode,
+                initiatorType,
+                initiator,
+                type,
+                address,
+                displayName,
+              })
+              return undefined
+            },
+          ),
         ])
 
         return {
@@ -1828,7 +1765,7 @@ export class UserStorage {
         logger.error('formatEvent: failed formatting event:', e.message, e, event)
         return {}
       }
-    }
+    },
   )
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
@@ -1846,7 +1783,7 @@ export class UserStorage {
     }
 
     data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
-    data.address = data.address && UserStorage.cleanHashedFieldForIndex('walletAddress', data.address)
+    data.address = data.address && UserStorage.cleanFieldForIndex('walletAddress', data.address)
     data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
     data.displayName = counterPartyDisplayName || 'Unknown'
 
@@ -1880,27 +1817,20 @@ export class UserStorage {
     return `${type}${sufix}`
   }
 
-  async _extractProfileToShow(initiatorType, initiator, address): Gun {
-    const getProfile = async (group, value) => {
-      // Need to verify if user deleted, otherwise the gun will stuck here and feed wont be displayed
-      // The group will contain null value in case user was deleted
-      const gunGroupIndexValue = this.gun.get(group).get(value)
-      const groupValue = await gunGroupIndexValue.then()
-
-      if (groupValue && groupValue.profile) {
-        return {
-          gunProfile: gunGroupIndexValue.get('profile'),
-        }
-      }
-    }
+  _extractProfileToShow(initiatorType, initiator, address): Gun {
+    const getProfile = (group, value) =>
+      this.gun
+        .get(group)
+        .get(value)
+        .get('profile')
 
     const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && getProfile(this.trust[searchField] || `users/${searchField}`, initiator)
-    const byAddress = address && getProfile(this.trust.bywalletAddress || `users/bywalletAddress`, address)
+    const byIndex = searchField && getProfile(`users/${searchField}`, initiator)
+    const byAddress = address && getProfile('users/bywalletAddress', address)
 
-    const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
+    // const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
 
-    return profileByIndex || profileByAddress
+    return byIndex || byAddress
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
@@ -2321,10 +2251,10 @@ export class UserStorage {
             'Deleting profile field failed',
             err.message || 'Some error occurred during setting the privacy to the field',
             err || new Error('Deleting profile field failed'),
-            { index: k }
+            { index: k },
           )
         })
-      })
+      }),
     )
 
     await this.gunuser.get('profile').putAck(null)

@@ -7,10 +7,12 @@ import SimpleStore from '../undux/SimpleStore'
 import { useErrorDialog } from '../undux/utils/dialog'
 import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidemenu'
 
+// utils
 import { useWrappedApi } from '../API/useWrappedApi'
 
-import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../analytics/analytics'
-import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../constants/localStorage'
+// constants
+import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
+import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 export default (props = {}) => {
@@ -26,11 +28,11 @@ export default (props = {}) => {
   const slideIn = useCallback(() => showSidemenu(store), [store])
   const slideOut = useCallback(() => hideSidemenu(store), [store])
 
-  const getIsSelfCustody = async () => {
+  const getIsSelfCustody = () => {
     if (isLoggedIn) {
-      const hasSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
-      const hasMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-      setIsSelfCustody(hasSeed == null && hasMnemonic)
+      const regMethod = store.get('regMethod')
+
+      setIsSelfCustody(regMethod === REGISTRATION_METHOD_SELF_CUSTODY)
     }
   }
 
@@ -51,7 +53,7 @@ export default (props = {}) => {
         },
       },
     ],
-    [slideOut, showDeleteAccountDialog]
+    [slideOut, showDeleteAccountDialog],
   )
 
   const topItems = useMemo(() => {
@@ -96,10 +98,21 @@ export default (props = {}) => {
         icon: 'export-wallet',
         size: 18,
         name: 'Export Wallet',
-        hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
             routeName: 'ExportWallet',
+            type: 'Navigation/NAVIGATE',
+          })
+          slideOut()
+        },
+      },
+      {
+        icon: 'lock',
+        name: 'Backup Wallet',
+        hidden: isSelfCustody === false,
+        action: () => {
+          navigation.navigate({
+            routeName: 'BackupWallet',
             type: 'Navigation/NAVIGATE',
           })
           slideOut()

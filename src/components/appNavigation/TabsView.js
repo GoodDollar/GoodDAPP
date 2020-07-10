@@ -7,7 +7,6 @@ import { isIOSWeb } from '../../lib/utils/platform'
 import config from '../../config/config'
 import { theme } from '../../components/theme/styles'
 import userStorage from '../../lib/gundb/UserStorage'
-import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 import useSideMenu from '../../lib/hooks/useSideMenu'
@@ -148,31 +147,7 @@ const TabsView = ({ navigation }) => {
   const fetchTokens = useCallback(async () => {
     let _token = await userStorage.getProfileFieldValue('loginToken')
 
-    if (!_token && config.enableInvites) {
-      _token = await API.getLoginToken()
-        .then(r => get(r, 'data.loginToken'))
-        .then(newToken => {
-          if (newToken) {
-            userStorage.setProfileField('loginToken', newToken, 'private')
-          }
-
-          return newToken
-        })
-    }
-
     let _marketToken = await userStorage.getProfileFieldValue('marketToken')
-
-    if (!_marketToken && config.market) {
-      _marketToken = await API.getMarketToken()
-        .then(_ => get(_, 'data.jwt'))
-        .then(newtoken => {
-          if (newtoken) {
-            userStorage.setProfileField('marketToken', newtoken)
-          }
-
-          return newtoken
-        })
-    }
 
     log.debug('tokens:', { _marketToken, _token })
     if (isIOSWeb) {
@@ -194,7 +169,7 @@ const TabsView = ({ navigation }) => {
       event.preventDefault()
       navigation.navigate('Rewards')
     },
-    [navigation, token]
+    [navigation, token],
   )
 
   /*const goToSupport = useCallback(() => {

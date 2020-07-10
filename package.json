@@ -1,8 +1,8 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.24.1-5",
+  "version": "0.25.0",
   "engines": {
-    "node": "10.x",
+    "node": "10.21.0",
     "npm": "6.x"
   },
   "scripts": {
@@ -21,7 +21,7 @@
     "animation:assets": "node ./animationAssets.js",
     "test": "npm run link && npm run test:web && npm run test:native",
     "test:web-watch": "npm run link && react-app-rewired test --watch",
-    "test:web": "npm run link && react-app-rewired test",
+    "test:web": "node scripts/test.js --config \"./config/web.jest.config.js\"",
     "test:native": "npm run test:ios && npm run test:android",
     "test:ios": "npm run animation:assets && ENVFILE=.env.test detox build -c ios.sim.debug && detox test -c ios.sim.debug",
     "test:android": "npm run animation:assets && ENVFILE=.env.test detox build -c android.emu.debug && detox test -c android.emu.debug",
@@ -61,7 +61,7 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.4.1",
-    "@gooddollar/goodcontracts": "^1.2.0",
+    "@gooddollar/goodcontracts": "^2.0.0-beta.5",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/react-native-webview-crypto": "0.0.20",
     "@gooddollar/v8-android-jit-nointl": "^7.8.2",
@@ -80,9 +80,9 @@
     "Base64": "^1.1.0",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",
-    "amplitude-js": "^5.11.0",
+    "amplitude-js": "^7.1.0",
     "asyncstorage-down": "^4.2.0",
-    "await-mutex": "1.0.1",
+    "await-mutex": "^1.0.2",
     "axios": "^0.19.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "base-64": "^0.1.0",
@@ -98,7 +98,7 @@
     "ethereumjs-util": "^6.1.0",
     "ethereumjs-wallet": "^0.6.3",
     "events": "^1.1.1",
-    "gun": "git+https://github.com/GoodDollar/gun.git#master",
+    "gun": "^0.2020.520",
     "hdkey": "^1.1.1",
     "hex-to-rgba": "^2.0.1",
     "https-browserify": "0.0.1",
@@ -192,6 +192,7 @@
     "undux": "^5.0.1",
     "url": "^0.10.3",
     "util": "^0.10.4",
+    "uuid": "^8.2.0",
     "validator": "^10.11.0",
     "vm-browserify": "^1.1.2",
     "web3": "^2.0.0-alpha.1",

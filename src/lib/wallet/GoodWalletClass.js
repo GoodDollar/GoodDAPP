@@ -3,8 +3,9 @@ import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
 import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
+import StakingModelAddress from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
-import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.min.json'
+import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBIScheme.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
@@ -18,8 +19,6 @@ import WalletFactory from './WalletFactory'
 
 const log = logger.child({ from: 'GoodWallet' })
 
-const DAY_IN_SECONDS = window.nextTimeClaim ? Number(window.nextTimeClaim) : Number(Config.nextTimeClaim)
-const MILLISECONDS = 1000
 const ZERO = new BN('0')
 
 //17280 = 24hours seconds divided by 5 seconds blocktime
@@ -157,14 +156,14 @@ export class GoodWallet {
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
           get(ContractsAddress, `${this.network}.Identity` /*IdentityABI.networks[this.networkId].address*/),
-          { from: this.account }
+          { from: this.account },
         )
 
         // Token Contract
         this.tokenContract = new this.wallet.eth.Contract(
           GoodDollarABI.abi,
           get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
-          { from: this.account }
+          { from: this.account },
         )
         abiDecoder.addABI(GoodDollarABI.abi)
 
@@ -172,15 +171,15 @@ export class GoodWallet {
         this.erc20Contract = new this.wallet.eth.Contract(
           ERC20ABI.abi,
           get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
-          { from: this.account }
+          { from: this.account },
         )
         abiDecoder.addABI(ERC20ABI.abi)
 
         // UBI Contract
         this.UBIContract = new this.wallet.eth.Contract(
           UBIABI.abi,
-          get(ContractsAddress, `${this.network}.UBI` /*UBIABI.networks[this.networkId].address*/),
-          { from: this.account }
+          get(StakingModelAddress, `${this.network}.UBIScheme` /*UBIABI.networks[this.networkId].address*/),
+          { from: this.account },
         )
         abiDecoder.addABI(UBIABI.abi)
 
@@ -189,11 +188,11 @@ export class GoodWallet {
           OneTimePaymentsABI.abi,
           get(
             ContractsAddress,
-            `${this.network}.OneTimePayments` /*OneTimePaymentsABI.networks[this.networkId].address*/
+            `${this.network}.OneTimePayments` /*OneTimePaymentsABI.networks[this.networkId].address*/,
           ),
           {
             from: this.account,
-          }
+          },
         )
         abiDecoder.addABI(OneTimePaymentsABI.abi)
         log.info('GoodWallet Ready.', { account: this.account })
@@ -361,12 +360,18 @@ export class GoodWallet {
 
   async getNextClaimTime(): Promise<any> {
     try {
-      let lastClaim = await this.UBIContract.methods.lastClaimed(this.account).call()
+      const hasClaim = await this.checkEntitlement().then(_ => _.toNumber())
 
-      if (!lastClaim) {
-        lastClaim = ZERO
+      //if has current available amount to claim then he can claim  immediatly
+      if (hasClaim > 0) {
+        return 0
       }
-      return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
+
+      const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000))
+      const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
+      startRef.add(curDay + 1, 'days')
+      const millisToClaim = startRef.diff(moment(), 'millis')
+      return millisToClaim >= 0 ? millisToClaim : 0
     } catch (e) {
       log.error('getNextClaimTime failed', e.message, e)
       return Promise.reject(e)
@@ -554,9 +559,8 @@ export class GoodWallet {
    */
   async getTxFee(): Promise<number> {
     try {
-      const fee = await this.tokenContract.methods.getFees(1).call()
-
-      return toBN(fee)
+      const { 0: fee, 1: senderPays } = await this.tokenContract.methods.getFees(1).call()
+      return senderPays ? toBN(fee) : ZERO
     } catch (exception) {
       const { message } = exception
 
@@ -570,10 +574,15 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   async calculateTxFee(amount): Promise<boolean> {
-    // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
-    const percents = await this.getTxFee()
+    try {
+      const { 0: fee, 1: senderPays } = await this.tokenContract.methods.getFees(amount).call()
+      return senderPays ? toBN(fee) : ZERO
+    } catch (exception) {
+      const { message } = exception
 
-    return new BN(amount).mul(percents).div(new BN('1000000'))
+      log.warn('getTxFee failed', message, exception)
+      throw exception
+    }
   }
 
   /**
@@ -632,20 +641,24 @@ export class GoodWallet {
    * @param {PromiEvents} events - used to subscribe to onTransactionHash event
    * @returns {{code, hashedCode, paymentLink}}
    */
-  generateLink(
+  generatePaymentLink(
     amount: number,
     reason: string = '',
-    events: PromiEvents = defaultPromiEvents
+    inviteCode: string,
+    events: PromiEvents = defaultPromiEvents,
   ): { code: string, hashedCode: string, paymentLink: string } {
     const code = this.wallet.utils.randomHex(10).replace('0x', '')
     const hashedCode = this.wallet.utils.sha3(code)
 
-    log.debug('generateLink:', { amount })
+    log.debug('generatePaymentLink:', { amount })
 
-    const paymentLink = generateShareLink('send', {
+    const params = {
       p: code,
       r: reason,
-    })
+    }
+    inviteCode && (params.i = inviteCode)
+
+    const paymentLink = generateShareLink('send', params)
 
     const txPromise = this.depositToHash(amount, hashedCode, events)
 
@@ -868,7 +881,7 @@ export class GoodWallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = defaultPromiEvents,
-    { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+    { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
     let gas = setgas || (await tx.estimateGas())

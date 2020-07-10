@@ -100,6 +100,7 @@ const initialState: State = {
   wallet: null,
   userStorage: null,
   serviceWorkerUpdated: null,
+  regMethod: 'torus',
 }
 
 const { storeAccessor, storeEffects } = createStoreEffects()

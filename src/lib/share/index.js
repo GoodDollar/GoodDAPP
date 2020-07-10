@@ -25,7 +25,7 @@ export function generateCode(
   networkId: number,
   amount: number,
   reason: string,
-  counterPartyDisplayName: string
+  counterPartyDisplayName: string,
 ) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
@@ -145,14 +145,14 @@ export function generateSendShareObject(
   amount: number,
   to: string,
   from: string,
-  canShare: boolean
+  canShare: boolean,
 ): ShareObject {
   return generateShareObject(
     'Sending G$ via GoodDollar App',
     to
       ? `${to}, You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`
       : `You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open: ${canShare ? url : ''}`,
-    url
+    url,
   )
 }
 
@@ -174,7 +174,7 @@ export function generateReceiveShareObject(
   amount: number,
   to: string,
   from: string,
-  canShare: boolean
+  canShare: boolean,
 ): ShareObject {
   const url = generateShareLink('receive', codeObj)
   const text = [
@@ -237,7 +237,11 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   }
 
   //remove == of base64 not required then uri encode component to encode +/
-  let paramsBase64 = encodeURIComponent(Buffer.from(JSON.stringify(params)).toString('base64'))
+  let paramsBase64 = encodeURIComponent(
+    Buffer.from(JSON.stringify(params))
+      .toString('base64')
+      .replace(/==$/, ''),
+  )
   let queryParams = ''
 
   if (Config.enableShortUrl) {
@@ -261,4 +265,29 @@ export function shareAction(shareObj, showErrorDialog, customErrorMessage) {
       })
     }
   }
+}
+
+export const parsePaymentLinkParams = params => {
+  const { paymentCode, reason } = params
+  let paymentParams = null
+
+  if (paymentCode) {
+    try {
+      paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
+      const { p, r, reason: oldr, paymentCode: oldp, i } = JSON.parse(paymentParams)
+      paymentParams = {
+        paymentCode: p || oldp,
+        reason: r || oldr,
+        inviteCode: i,
+      }
+    } catch (e) {
+      log.info('uses old format', { paymentCode, reason })
+      paymentParams = {
+        paymentCode: decodeURIComponent(paymentCode),
+        reason: reason ? decodeURIComponent(reason) : null,
+      }
+    }
+  }
+
+  return paymentParams
 }

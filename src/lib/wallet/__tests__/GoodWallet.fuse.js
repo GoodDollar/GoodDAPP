@@ -68,13 +68,13 @@ describe('GoodWalletShare/ReceiveTokens', () => {
   })
 
   it('should deposit payment and withdraw', async () => {
-    const linkData = testWallet.generateLink(amount, reason)
+    const linkData = testWallet.generatePaymentLink(amount, reason)
     expect(await linkData.txPromise).toBeTruthy()
     expect(await testWallet2.withdraw(linkData.code)).toBeTruthy()
   })
 
   it('should deposit payment and cancel', async () => {
-    const linkData = testWallet.generateLink(amount, reason)
+    const linkData = testWallet.generatePaymentLink(amount, reason)
     expect(await linkData.txPromise).toBeTruthy()
     expect(await testWallet.cancelOTL(linkData.hashedCode)).toBeTruthy()
   })
@@ -112,7 +112,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
   it('should emit PaymentWithdraw and transfer event filtered by from block', async done => {
     expect(await testWallet2.claim()).toBeTruthy()
 
-    const linkData = testWallet2.generateLink(amount, reason)
+    const linkData = testWallet2.generatePaymentLink(amount, reason)
     expect(await linkData.txPromise.catch(_ => false)).toBeTruthy()
     let eventId = testWallet2.subscribeToEvent('otplUpdated', receipt => {
       expect(receipt).toBeTruthy()
@@ -127,7 +127,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
   it('should emit PaymentCancel event', async done => {
     expect(await testWallet2.claim().catch(_ => true)).toBeTruthy()
 
-    const { txPromise, hashedCode } = testWallet2.generateLink(amount, reason)
+    const { txPromise, hashedCode } = testWallet2.generatePaymentLink(amount, reason)
     await txPromise
 
     let eventId = testWallet2.subscribeToEvent('otplUpdated', receipt => {

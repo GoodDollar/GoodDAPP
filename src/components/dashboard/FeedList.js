@@ -132,7 +132,7 @@ const FeedList = ({
       userStorage.userProperties.set('showQuickActionHint', false)
       setShowBounce(false)
     },
-    [showErrorDialog, setShowBounce]
+    [showErrorDialog, setShowBounce],
   )
 
   const renderQuickActions = useCallback(
@@ -160,7 +160,7 @@ const FeedList = ({
         </Animatable.View>
       )
     },
-    [feeds]
+    [feeds],
   )
 
   const manageDisplayQuickActionHint = useCallback(async () => {
@@ -179,7 +179,7 @@ const FeedList = ({
         'showQuickActionHint',
         moment()
           .add(24, 'hours')
-          .format()
+          .format(),
       )
     }
   }, [setShowBounce])

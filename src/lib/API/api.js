@@ -37,10 +37,12 @@ class API {
 
   client: AxiosInstance
 
-  mauticClient: AxiosInstance
+  mauticJS: any
 
   constructor() {
     this.ready = this.init()
+    const { MauticJS } = global
+    this.mauticJS = MauticJS
   }
 
   /**
@@ -48,11 +50,12 @@ class API {
    */
   init() {
     log.info('initializing api...', Config.serverUrl)
+
     return (this.ready = AsyncStorage.getItem(JWT).then(async jwt => {
       this.jwt = jwt
       let instance: AxiosInstance = axios.create({
         baseURL: Config.serverUrl,
-        timeout: 30000,
+        timeout: Config.apiTimeout,
         headers: { Authorization: `Bearer ${this.jwt || ''}` },
       })
       instance.interceptors.request.use(
@@ -63,7 +66,7 @@ class API {
           // Do something with response error
           log.warn('axios req error', e.message, e)
           return Promise.reject(e)
-        }
+        },
       )
       instance.interceptors.response.use(
         response => {
@@ -76,14 +79,14 @@ class API {
             return Promise.reject(e.response.data)
           }
           return Promise.reject(e)
-        }
+        },
       )
       this.client = await instance
       log.info('API ready', this.jwt)
 
       let w3Instance: AxiosInstance = axios.create({
         baseURL: Config.web3SiteUrl,
-        timeout: 30000,
+        timeout: Config.apiTimeout,
       })
       w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
       w3Instance.interceptors.response.use(
@@ -94,14 +97,9 @@ class API {
           }
 
           return Promise.reject(error)
-        }
+        },
       )
       this.w3Client = await w3Instance
-      let mauticInstance: AxiosInstance = axios.create({
-        baseURL: Config.mauticUrl,
-        timeout: 30000,
-      })
-      this.mauticClient = await mauticInstance
     }))
   }
 
@@ -246,8 +244,27 @@ class API {
     return this.client.post('/send/linksms', { to, sendLink })
   }
 
+  /** @private */
+  faceVerificationUrl = '/verify/face'
+
+  /** @private */
+  enrollmentUrl(enrollmentIdentifier) {
+    const { faceVerificationUrl } = this
+
+    return `${faceVerificationUrl}/${encodeURIComponent(enrollmentIdentifier)}`
+  }
+
   /**
-   * `/verify/facerecognition/:enrollmentIdentifier` put api call
+   * `/verify/face/session` post api call
+   */
+  issueSessionToken(): Promise<$AxiosXHR<any>> {
+    const { client, faceVerificationUrl } = this
+
+    return client.post(`${faceVerificationUrl}/session`, {})
+  }
+
+  /**
+   * `/verify/face/:enrollmentIdentifier` put api call
    * @param {any} payload
    * @param {string} enrollmentIdentifier
    * @param {any} axiosConfig
@@ -255,31 +272,31 @@ class API {
   performFaceVerification(payload: any, axiosConfig: any = {}): Promise<$AxiosXHR<any>> {
     const { client } = this
     const { enrollmentIdentifier, ...enrollmentPayload } = payload
-    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+    const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.put(endpoint, enrollmentPayload, axiosConfig)
   }
 
   /**
-   * `/verify/facerecognition/:enrollmentIdentifier` delete api call
+   * `/verify/face/:enrollmentIdentifier` delete api call
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
   disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
     const { client } = this
-    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+    const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.delete(endpoint, { params: { signature } })
   }
 
   /**
-   * `/verify/facerecognition/:enrollmentIdentifier` get api call
+   * `/verify/face/:enrollmentIdentifier` get api call
    * @param {string} enrollmentIdentifier
    * @param {string} signature
    */
   checkFaceSnapshotDisposalState(enrollmentIdentifier: string): Promise<$AxiosXHR<any>> {
     const { client } = this
-    const endpoint = `/verify/face/${encodeURIComponent(enrollmentIdentifier)}`
+    const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.get(endpoint)
   }
@@ -374,8 +391,14 @@ class API {
    * adds a first time registering user to mautic
    * @param {*} userData usually just {email}
    */
-  addMauticContact(userData) {
-    return this.mauticClient.post('/form/submit', { ...userData, formId: Config.mauticAddContactFormID })
+  addMauticContact(userData: { email: string }) {
+    if (this.mauticJS && Config.mauticUrl && userData.email) {
+      this.mauticJS.makeCORSRequest('POST', Config.mauticUrl + '/form/submit', {
+        'mauticform[formId]': Config.mauticAddContractFormID,
+        'mauticform[email]': userData.email,
+        'mauticform[messenger]': 1,
+      })
+    }
   }
 }
 

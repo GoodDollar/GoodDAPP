@@ -134,7 +134,7 @@ export const ZoomSDK = new class {
       ZoomSDKStatus.NeverInitialized === sdkStatus
         ? "Initialize wasn't attempted as emulated device has been detected. " +
           'FaceTec ZoomSDK could be ran on the real devices only'
-        : sdk.getFriendlyDescriptionForZoomSDKStatus(sdkStatus)
+        : sdk.getFriendlyDescriptionForZoomSDKStatus(sdkStatus),
     )
 
     // adding status code as error's object property
@@ -200,7 +200,7 @@ export const ZoomSDK = new class {
     const subscription = this.subscribeToZoomExceptions()
 
     return Promise.race([subscription.asPromise(), this.promisifyCall(zoomCall)]).finally(() =>
-      subscription.unsubscrbe()
+      subscription.unsubscrbe(),
     )
   }
 

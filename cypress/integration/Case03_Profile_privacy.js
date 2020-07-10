@@ -51,5 +51,8 @@ describe('Test case 3: Ability to change profile privacy level', () => {
     ProfilePage.phoneInput.should('have.value', '+380673001757')
     ProfilePage.emailInput.should('have.value', 'main.test.acc.gooddollar@gmail.com')
    })
+   ProfilePage.profilePrivacyButton.click()
+   cy.contains('My Face Record ID').should('be.visible')
+   cy.get('[dir="auto"]').contains('Copy ID').should('be.visible')
   })
 })

@@ -72,12 +72,14 @@ const ReceiveByQR = ({ screenProps }) => {
             })
             showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
           }
+
           fireEvent(QR_SCAN, { type: 'receive' })
           setWithdrawParams({ receiveLink, reason })
         }
       } catch (e) {
         log.error('scan receive failed', e.message, e)
         setQRDelay(false)
+
         throw e
       }
     }
@@ -89,6 +91,7 @@ const ReceiveByQR = ({ screenProps }) => {
     if (receiveLink) {
       try {
         const receipt = await executeWithdraw(store, receiveLink)
+
         navigateTo('Home', {
           event: receipt.transactionHash,
           receiveLink: undefined,
@@ -99,6 +102,7 @@ const ReceiveByQR = ({ screenProps }) => {
           receiveLink,
           dialogShown: true,
         })
+
         showErrorDialog('Something has gone wrong. Please try again later.')
       }
     }

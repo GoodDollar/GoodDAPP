@@ -1,0 +1,11 @@
+diff a/src/lib/wallet/GoodWalletClass.js b/src/lib/wallet/GoodWalletClass.js	(rejected hunks)
+@@ -366,7 +385,8 @@ export class GoodWallet {
+       }
+       return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
+     } catch (e) {
+-      log.error('getNextClaimTime failed', e.message, e)
++      log.error('getNextClaimTime failed', e.message, e, { category: ExceptionCategory.Blockhain })
++
+       return Promise.reject(e)
+     }
+   }

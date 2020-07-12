@@ -10,7 +10,6 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import illustration from '../../../assets/Claim/claimQueue.svg'
 import { withStyles } from '../../../lib/styles'
-
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/pino-logger'
 
@@ -114,7 +113,7 @@ export default () => {
       }
       return true
     } catch (e) {
-      log.error('handleClaimQueue failed', e.message, e)
+      log.error('handleClaimQueue failed', e.message, e, { dialogShown: true })
       showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status')
       return false
     } finally {

@@ -73,8 +73,8 @@ const SendByQR = ({ screenProps }: Props) => {
         return
       }
 
+      log.error('QR scan send failed', message, exception, { dialogShown: true })
       showErrorDialog(errorMessage, '', dialogOptions)
-      log.error('QR scan send failed', message, exception)
     },
     [showErrorDialog]
   )

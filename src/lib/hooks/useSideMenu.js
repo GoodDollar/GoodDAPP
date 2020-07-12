@@ -96,7 +96,6 @@ export default (props = {}) => {
         icon: 'export-wallet',
         size: 18,
         name: 'Export Wallet',
-        hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
             routeName: 'ExportWallet',

@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.25.3",
+  "version": "0.25.4",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -71,6 +71,7 @@
     "@toruslabs/torus-direct-web-sdk": "^3.0.3",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",
+    "amplitude-js": "^7.1.0",
     "await-mutex": "^1.0.2",
     "axios": "^0.19.0",
     "bip39-light": "^1.0.7",

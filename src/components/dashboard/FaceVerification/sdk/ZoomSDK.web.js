@@ -173,6 +173,10 @@ export const ZoomSDK = new class {
    */
   showReloadPopup() {
     const store = this.store.getCurrentSnapshot()
+    const { criticalPreloadException, logger } = this
+    const { message } = criticalPreloadException
+
+    logger.error('Failed to preload ZoOm SDK', message, criticalPreloadException, { dialogShown: true })
 
     showDialogWithData(store, {
       type: 'error',
@@ -306,4 +310,4 @@ export const ZoomSDK = new class {
 
     return preloadCall.catch(noop)
   }
-}(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK' }))
+}(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK.web' }))

@@ -16,14 +16,27 @@ import {
 class TorusSDK {
   strategies = {}
 
+  static factory() {
+    const sdk = new TorusSDK(Config, logger.child({ from: 'TorusSDK' }))
+
+    sdk.addStrategy('facebook', FacebookStrategy)
+    sdk.addStrategy('google-old', GoogleLegacyStrategy)
+    sdk.addStrategy('google', GoogleStrategy)
+    sdk.addStrategy('auth0', Auth0Strategy)
+    sdk.addStrategy('auth0-pwdless-email', PaswordlessEmailStrategy)
+    sdk.addStrategy('auth0-pwdless-sms', PaswordlessSMSStrategy)
+
+    return sdk
+  }
+
   constructor(config, logger) {
-    const { env, publicUrl, googleClientId, facebookAppId } = config
+    const { env, publicUrl, googleClientId, facebookAppId, torusProxyContract, torusNetwork } = config
 
     this.torus = new DirectWebSDK({
       GOOGLE_CLIENT_ID: googleClientId,
       FACEBOOK_CLIENT_ID: facebookAppId,
-      proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
-      network: 'ropsten', // details for test net
+      proxyContractAddress: torusProxyContract, // details for test net
+      network: torusNetwork, // details for test net
       baseUrl: `${publicUrl}/torus/`,
       enableLogging: env === 'development',
     })
@@ -52,7 +65,7 @@ class TorusSDK {
 
     const response = await strategies[withVerifier].triggerLogin()
 
-    return fetchTorusUser(response)
+    return fetchTorusUser(response, customLogger)
   }
 
   addStrategy(verifier, strategyClass) {
@@ -61,8 +74,9 @@ class TorusSDK {
     strategies[verifier] = new strategyClass(torus, config)
   }
 
-  fetchTorusUser(response) {
-    const { env } = this.config
+  fetchTorusUser(response, customLogger = null) {
+    const { logger, config } = this
+    const log = customLogger || logger
 
     let torusUser = response
     let { userInfo, ...otherResponse } = torusUser
@@ -84,21 +98,12 @@ class TorusSDK {
       torusUser = omit(torusUser, 'name')
     }
 
-    if ('production' !== env) {
-      logger.debug('Received torusUser:', torusUser)
+    if ('production' !== config.env) {
+      log.debug('Received torusUser:', torusUser)
     }
 
     return torusUser
   }
 }
 
-const sdk = new TorusSDK(Config, logger.child({ from: 'TorusSDK' }))
-
-sdk.addStrategy('facebook', FacebookStrategy)
-sdk.addStrategy('google-old', GoogleLegacyStrategy)
-sdk.addStrategy('google', GoogleStrategy)
-sdk.addStrategy('auth0', Auth0Strategy)
-sdk.addStrategy('auth0-pwdless-email', PaswordlessEmailStrategy)
-sdk.addStrategy('auth0-pwdless-sms', PaswordlessSMSStrategy)
-
-export default sdk
+export default TorusSDK.factory()

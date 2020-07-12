@@ -195,9 +195,12 @@ const AppSwitch = (props: LoadingProps) => {
 
       setReady(true)
     } catch (e) {
-      log.error('failed initializing app', e.message, e)
+      const dialogShown = unsuccessfulLaunchAttempts > 3
+
       unsuccessfulLaunchAttempts += 1
-      if (unsuccessfulLaunchAttempts > 3) {
+      log.error('failed initializing app', e.message, e, { dialogShown })
+
+      if (dialogShown) {
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
         await delay(1500)

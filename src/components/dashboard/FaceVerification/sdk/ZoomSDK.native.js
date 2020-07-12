@@ -90,4 +90,4 @@ export const ZoomSDK = new class {
       throw exception
     }
   }
-}(Zoom.sdk, logger.child({ from: 'ZoomSDK' })) // eslint-disable-line
+}(Zoom.sdk, logger.child({ from: 'ZoomSDK.native' })) // eslint-disable-line

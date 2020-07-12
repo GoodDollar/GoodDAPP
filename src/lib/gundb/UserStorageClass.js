@@ -374,6 +374,9 @@ export class UserStorage {
     username: true,
   }
 
+  //trusted GoodDollar user indexes
+  trust = {}
+
   /**
    * Clean string removing blank spaces and special characters, and converts to lower case
    *
@@ -429,7 +432,7 @@ export class UserStorage {
         gunuser.auth(username, password, user => {
           logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnemonic UserStorage', user.err)
+            logger.error('Error getMnemonic UserStorage', user.err, null)
             return rej(false)
           }
           res(true)

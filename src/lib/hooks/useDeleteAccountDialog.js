@@ -72,6 +72,9 @@ export default ({ API, showErrorDialog, store, theme }) =>
                   window.location = '/'
                 } else {
                   showErrorDialog('There was a problem deleting your account. Try again later.')
+                  log.error('Error deleting account', 'false from userStorage.deleteAccount()', null, {
+                    dialogShown: true,
+                  })
                 }
               } catch (e) {
                 log.error('Error deleting account', e.message, e, { dialogShown: true })

@@ -108,7 +108,7 @@ const Claim = props => {
         }
       }
     } catch (e) {
-      log.error('evaluateFRValidity failed', e.message, { dialogShown: true })
+      log.error('evaluateFRValidity failed', e.message, e, { dialogShown: true })
       showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
         onDismiss: () => {
           screenProps.goToRoot()

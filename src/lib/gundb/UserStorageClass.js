@@ -189,8 +189,8 @@ export const startClaiming = {
   type: 'claiming',
   status: 'completed',
   data: {
-    customName: 'Claim your GoodDollars today!', //title in modal
-    subtitle: 'Claim your GoodDollars today!', //title in feed list
+    customName: `Claim your G$'s today!`, //title in modal
+    subtitle: `Claim your G$'s today!`, //title in feed list
     readMore: false,
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',

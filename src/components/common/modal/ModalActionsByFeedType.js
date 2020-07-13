@@ -5,6 +5,7 @@ import { pickBy } from 'lodash'
 
 import CustomButton from '../buttons/CustomButton'
 import ShareButton from '../buttons/ShareButton'
+import Text from '../view/Text'
 
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
@@ -22,9 +23,21 @@ import config from '../../../config/config'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
-const ModalButton = ({ children, ...props }) => (
-  <CustomButton mode="contained" style={{ minWidth: 96 }} {...props}>
-    {children}
+const ModalButton = ({ children, customText = false, bolder = false, ...props }) => (
+  <CustomButton mode="contained" minWidth={96} {...props}>
+    {customText ? (
+      <Text
+        fontSize={14}
+        letterSpacing={0}
+        color={customText === true ? '#FFFFFF' : customText}
+        fontFamily="Roboto"
+        fontWeight={bolder ? 'medium' : 'normal'}
+      >
+        {children}
+      </Text>
+    ) : (
+      children
+    )}
   </CustomButton>
 )
 
@@ -143,7 +156,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton onPress={handleModalClose}>{config.isPhaseZero ? 'OK' : 'LET`S DO IT'}</ModalButton>
+            <ModalButton onPress={handleModalClose} customText bolder>
+              {config.isPhaseZero ? 'OK' : 'LET`S DO IT'}
+            </ModalButton>
           </View>
         </View>
       )
@@ -173,7 +188,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
-              <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
+              <CustomButton
+                mode="contained"
+                style={styles.rightButton}
+                textStyle={styles.letterSpacing0}
+                onPress={handleModalClose}
+              >
                 Ok
               </CustomButton>
             </View>
@@ -184,12 +204,19 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton mode="outlined" onPress={readMore}>
+            <ModalButton mode="outlined" textStyle={styles.letterSpacing0} onPress={readMore}>
               Read more
             </ModalButton>
           </View>
           <View style={styles.rightButtonContainer}>
-            <ModalButton onPress={shareMessage}>Share</ModalButton>
+            <ModalButton
+              mode="contained"
+              style={styles.rightButton}
+              textStyle={styles.letterSpacing0}
+              onPress={shareMessage}
+            >
+              Share
+            </ModalButton>
           </View>
         </View>
       )
@@ -197,7 +224,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton mode="text" color="gray80Percent" onPress={handleModalClose}>
+            <ModalButton mode="text" onPress={handleModalClose} customText="gray80Percent">
               LATER
             </ModalButton>
           </View>
@@ -209,6 +236,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               iconSize={20}
               icon="invite"
               iconStyle={styles.iconStyle}
+              customText
             >
               INVITE
             </ModalButton>
@@ -224,7 +252,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
             </ModalButton>
           </View>
           <View style={styles.rightButtonContainer}>
-            <ModalButton onPress={Marketplace} iconAlignment="right">
+            <ModalButton mode="contained" onPress={Marketplace} iconAlignment="right" customText>
               {"LET'S GO"}
             </ModalButton>
           </View>
@@ -234,7 +262,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton onPress={backupPage}>{"LET'S BACKUP"}</ModalButton>
+            <ModalButton mode="contained" onPress={backupPage} customText>
+              {"LET'S BACKUP"}
+            </ModalButton>
           </View>
         </View>
       )
@@ -243,7 +273,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton onPress={goToClaimPage}>CLAIM G$</ModalButton>
+            <ModalButton mode="contained" customText onPress={goToClaimPage}>
+              CLAIM G$
+            </ModalButton>
           </View>
         </View>
       )
@@ -252,7 +284,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton mode="contained" onPress={goToClaimPage}>
+            <ModalButton mode="contained" onPress={goToClaimPage} customText>
               Claim now
             </ModalButton>
           </View>
@@ -262,7 +294,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     case 'feedback':
       return (
         <View style={styles.buttonsView}>
-          <ModalButton onPress={handleModalClose}>Later</ModalButton>
+          <ModalButton mode="contained" onPress={handleModalClose} textStyle={styles.letterSpacing0}>
+            Later
+          </ModalButton>
         </View>
       )
     case 'empty':
@@ -271,7 +305,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       // claim / receive / withdraw / notification / sendcancelled / sendcompleted
       return (
         <View style={styles.buttonsView}>
-          <ModalButton mode="contained" onPress={handleModalClose}>
+          <ModalButton mode="contained" onPress={handleModalClose} textStyle={styles.letterSpacing0}>
             Ok
           </ModalButton>
         </View>

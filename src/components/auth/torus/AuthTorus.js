@@ -7,6 +7,7 @@ import {
   fireEvent,
   identifyOnUserSignup,
   SIGNIN_TORUS_SUCCESS,
+  SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
@@ -26,7 +27,10 @@ import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import normalizeText from '../../../lib/utils/normalizeText'
+import { isBrowser } from '../../../lib/utils/platform'
 import useTorus from './hooks/useTorus'
 
 Image.prefetch(illustration)
@@ -88,8 +92,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleSignUp = useCallback(
     async (provider: 'facebook' | 'google' | 'google-old' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
       store.set('loadingIndicator')({ loading: true })
+
       let torusUser
       let replacing = false
+
+      fireEvent(SIGNUP_METHOD_SELECTED, { method: provider })
 
       try {
         if (['development', 'test'].includes(config.env)) {
@@ -133,7 +140,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         //user exists reload with dashboard route
         if (userExists) {
-          fireEvent(SIGNIN_TORUS_SUCCESS)
+          fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
           store.set('isLoggedIn')(true)
           return
@@ -164,6 +171,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   )
 
   const goToManualRegistration = useCallback(() => {
+    fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])
 
@@ -183,11 +191,16 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
-  const auth0ButtonHandler = useMemo(() => (asGuest ? () => setPasswordless(true) : goToW3Site), [
-    asGuest,
-    signupAuth0,
-    setPasswordless,
-  ])
+  const auth0ButtonHandler = useMemo(
+    () =>
+      asGuest
+        ? () => {
+            setPasswordless(true)
+            fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
+          }
+        : goToW3Site,
+    [asGuest, signupAuth0, setPasswordless],
+  )
 
   const signupAuth0Email = () => signupAuth0('email')
   const signupAuth0Mobile = () => signupAuth0('mobile')
@@ -198,35 +211,40 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         return (
           <Section.Row>
             <CustomButton
-              color={mainTheme.colors.darkGray}
-              style={[styles.buttonLayout, { flex: 1 }]}
-              onPress={signupAuth0Email}
-              disabled={!sdkInitialized}
-              testID="login_via_email"
-            >
-              Via Email
-            </CustomButton>
-            <CustomButton
-              color={mainTheme.colors.darkGray}
-              style={[styles.buttonLayout, { flex: 1 }]}
+              color={mainTheme.colors.darkBlue}
+              style={[styles.buttonText, styles.buttonLayout, { flex: 1, marginRight: getDesignRelativeWidth(5) }]}
+              textStyle={[styles.buttonText]}
               onPress={signupAuth0Mobile}
               disabled={!sdkInitialized}
               testID="login_via_mobile"
+              compact={isSmallDevice}
             >
-              Via Mobile
+              Via Phone Code
+            </CustomButton>
+            <CustomButton
+              color={mainTheme.colors.darkBlue}
+              style={[styles.buttonLayout, { flex: 1, marginLeft: getDesignRelativeWidth(5) }]}
+              textStyle={[styles.buttonText]}
+              onPress={signupAuth0Email}
+              disabled={!sdkInitialized}
+              testID="login_via_email"
+              compact={isSmallDevice}
+            >
+              Via Email Code
             </CustomButton>
           </Section.Row>
         )
       }
       return (
         <CustomButton
-          color={mainTheme.colors.darkGray}
+          color={mainTheme.colors.darkBlue}
           style={styles.buttonLayout}
+          textStyle={[styles.buttonText]}
           onPress={auth0ButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_auth0"
         >
-          Agree & Continue with Passwordless
+          Agree & Continue Passwordless
         </CustomButton>
       )
     },
@@ -281,6 +299,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
                 <Section.Text
                   fontWeight="medium"
                   style={styles.recoverText}
+                  textStyle={[styles.buttonText]}
                   textDecorationLine="underline"
                   fontSize={14}
                   color="primary"
@@ -294,6 +313,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
                 <Section.Text
                   fontWeight="medium"
                   style={styles.haveIssuesText}
+                  textStyle={[styles.buttonText]}
                   textDecorationLine="underline"
                   fontSize={14}
                   color="primary"
@@ -307,7 +327,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         <CustomButton
           color={mainTheme.colors.googleRed}
           style={styles.buttonLayout}
-          textStyle={googleButtonTextStyle}
+          textStyle={[styles.buttonText, googleButtonTextStyle]}
           onPress={googleButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_google"
@@ -317,7 +337,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         <CustomButton
           color={mainTheme.colors.facebookBlue}
           style={styles.buttonLayout}
-          textStyle={facebookButtonTextStyle}
+          textStyle={[styles.buttonText, facebookButtonTextStyle]}
           onPress={facebookButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_facebook"
@@ -331,6 +351,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 }
 
 const getStylesFromProps = ({ theme }) => {
+  const buttonFontSize = normalizeText(isSmallDevice ? 15 : 16)
+
   return {
     mainWrapper: {
       paddingHorizontal: 0,
@@ -343,39 +365,38 @@ const getStylesFromProps = ({ theme }) => {
     },
     bottomContainer: {
       paddingHorizontal: theme.sizes.defaultDouble,
-      paddingBottom: theme.sizes.defaultDouble,
+      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
     },
     buttonLayout: {
-      marginTop: theme.sizes.default,
-      marginBottom: theme.sizes.default,
+      marginTop: getDesignRelativeHeight(theme.sizes.default),
+      marginBottom: getDesignRelativeHeight(theme.sizes.default),
     },
     buttonText: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingTop: 1,
-      letterSpacing: 0,
+      fontSize: buttonFontSize,
     },
     acceptTermsLink: {
-      marginTop: theme.sizes.default,
+      marginTop: getDesignRelativeHeight(theme.sizes.default),
     },
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
-      marginBottom: theme.sizes.default,
-      width: '100%',
-      maxHeight: getDesignRelativeHeight(240),
-      paddingTop: theme.sizes.default,
+      marginBottom: getDesignRelativeHeight(theme.sizes.default),
+      width: getDesignRelativeWidth(249),
+      height: getDesignRelativeHeight(isBrowser ? 195 : 150),
+      marginRight: 'auto',
+      marginLeft: 'auto',
+      paddingTop: getDesignRelativeHeight(theme.sizes.default),
     },
     headerText: {
       marginTop: getDesignRelativeHeight(30),
-      marginBottom: getDesignRelativeHeight(30),
+      marginBottom: getDesignRelativeHeight(20),
     },
     privacyAndTerms: {
-      marginBottom: 20,
+      marginBottom: getDesignRelativeHeight(16),
     },
     signInLink: {
-      marginTop: 5,
-      marginBottom: 5,
+      marginTop: getDesignRelativeHeight(5),
+      marginBottom: getDesignRelativeHeight(5),
     },
   }
 }

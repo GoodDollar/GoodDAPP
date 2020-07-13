@@ -1474,7 +1474,7 @@ export class UserStorage {
       if (field === 'username' && !(await UserStorage.isValidValue(field, value, false))) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
-      const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
+      const indexNode = this.gun.get(this.trust[`by${field}`] || `users/by${field}`).get(cleanValue)
       const indexValue = await indexNode.then()
 
       logger.debug('indexProfileField', {

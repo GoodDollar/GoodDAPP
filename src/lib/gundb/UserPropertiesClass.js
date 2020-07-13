@@ -23,6 +23,7 @@ export default class UserProperties {
     regMethod: REGISTRATION_METHOD_SELF_CUSTODY,
     showQuickActionHint: true,
     registered: false,
+    lastBlock: 0,
   }
 
   fields = [

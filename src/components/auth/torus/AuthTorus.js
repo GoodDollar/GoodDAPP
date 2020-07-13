@@ -206,7 +206,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         return (
           <Section.Row>
             <CustomButton
-              color={mainTheme.colors.darkGray}
+              color={mainTheme.colors.darkBlue}
               style={[styles.buttonText, styles.buttonLayout, { flex: 1, marginRight: getDesignRelativeWidth(5) }]}
               textStyle={[styles.buttonText]}
               onPress={signupAuth0Mobile}
@@ -217,7 +217,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               Via Phone Code
             </CustomButton>
             <CustomButton
-              color={mainTheme.colors.darkGray}
+              color={mainTheme.colors.darkBlue}
               style={[styles.buttonLayout, { flex: 1, marginLeft: getDesignRelativeWidth(5) }]}
               textStyle={[styles.buttonText]}
               onPress={signupAuth0Email}
@@ -232,7 +232,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       }
       return (
         <CustomButton
-          color={mainTheme.colors.darkGray}
+          color={mainTheme.colors.darkBlue}
           style={styles.buttonLayout}
           textStyle={[styles.buttonText]}
           onPress={auth0ButtonHandler}

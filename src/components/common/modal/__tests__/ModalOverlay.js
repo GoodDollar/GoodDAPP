@@ -27,7 +27,7 @@ describe('ModalOverlay', () => {
     const component = renderer.create(
       <ModalOverlay>
         <React.Fragment>Testing</React.Fragment>
-      </ModalOverlay>
+      </ModalOverlay>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -37,7 +37,7 @@ describe('ModalOverlay', () => {
     const component = renderer.create(
       <ModalOverlay>
         <React.Fragment>Testing</React.Fragment>
-      </ModalOverlay>
+      </ModalOverlay>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

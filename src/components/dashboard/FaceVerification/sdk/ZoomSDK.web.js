@@ -1,4 +1,4 @@
-import { isString, noop } from 'lodash'
+import { fromPairs, isString, noop } from 'lodash'
 import ConsoleSubscriber from 'console-subscriber'
 
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
@@ -75,7 +75,8 @@ export const ZoomSDK = new class {
     }
   }
 
-  async initialize(licenseKey, preload = true) {
+  async initialize(licenseKey, licenseText = null, encryptionKey = null, preload = true) {
+    let license = null
     const { sdk, logger, criticalPreloadException } = this
 
     // waiting for Zoom preload to be finished before starting initialization
@@ -95,9 +96,60 @@ export const ZoomSDK = new class {
         throw criticalPreloadException
       }
 
+      if (licenseText) {
+        // JavaScript SDK accepts object literal, converting license text to it
+        license = fromPairs(
+          licenseText
+            .split('\n') // exclude native-only 'appId' option from license text
+            .filter(line => !line.includes('appId'))
+            .map(line => {
+              const [option, value] = line.split('=')
+
+              return [option.trimEnd(), value.trimStart()]
+            }),
+        )
+      }
+
       // aslo there's possibility to this exception will be throwing during initialize() call
       // so we'll wrap this bock onto try...catch
-      const isInitialized = await this.wrapCall(resolver => sdk.initialize(licenseKey, resolver, preload))
+      const isInitialized = await this.wrapCall(resolver => {
+        // using one of four existing initiualize() overloads depending of which env variebles
+        // (e.g. REACT_APP_ZOOM_ENCRYPTION_KEY and REACT_APP_ZOOM_LICENSE_TEXT) are set or not
+        if (license) {
+          /**
+           * Production mode (REACT_APP_ZOOM_LICENSE_TEXT is set):
+           * Initialize ZoomSDK using a Device SDK License - SFTP Log mode
+           *
+           * initializeWithLicense: {
+           *  // REACT_APP_ZOOM_ENCRYPTION_KEY is set
+           *  (licenseText: string, licenseKeyIdentifier: string, faceMapEncryptionKey: string, onInitializationComplete: (result: boolean) => void): void;
+           *  // REACT_APP_ZOOM_ENCRYPTION_KEY isn't set
+           *  (licenseText: string, licenseKeyIdentifier: string, onInitializationComplete: (result: boolean) => void): void;
+           * }
+           */
+          const initializeArgs = [license, licenseKey, encryptionKey || resolver]
+
+          if (encryptionKey) {
+            initializeArgs.push(resolver)
+          }
+
+          sdk.initializeWithLicense(...initializeArgs)
+          return
+        }
+
+        /**
+         * Non-production mode (REACT_APP_ZOOM_LICENSE_TEXT isn't set):
+         * Initialize ZoomSDK using a Device SDK License - HTTPS Log mode
+         *
+         * initialize: {
+         *  // REACT_APP_ZOOM_ENCRYPTION_KEY is set
+         *  (licenseKeyIdentifier: string, faceMapEncryptionKey: string, onInitializationComplete: (result: boolean) => void): void;
+         *  // REACT_APP_ZOOM_ENCRYPTION_KEY isn't set
+         *  (licenseKeyIdentifier: string, onInitializationComplete: (result: boolean) => void, preloadZoomSDK?: boolean | undefined): void;
+         * }
+         */
+        sdk.initialize(licenseKey, encryptionKey || resolver, encryptionKey ? resolver : preload)
+      })
 
       // if Zoom was initialized successfully
       if (isInitialized) {
@@ -173,6 +225,10 @@ export const ZoomSDK = new class {
    */
   showReloadPopup() {
     const store = this.store.getCurrentSnapshot()
+    const { criticalPreloadException: exception, logger } = this
+    const { message } = exception
+
+    logger.error('Failed to preload ZoOm SDK', message, exception, { dialogShown: true })
 
     showDialogWithData(store, {
       type: 'error',
@@ -306,4 +362,4 @@ export const ZoomSDK = new class {
 
     return preloadCall.catch(noop)
   }
-}(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK' }))
+}(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK.web' }))

@@ -20,7 +20,7 @@ describe('withStyles', () => {
     const tree = renderer.create(
       <PaperProvider theme={theme}>
         <MockWithTheme />
-      </PaperProvider>
+      </PaperProvider>,
     )
     expect(tree.toJSON().children[0]).toMatch(JSON.stringify({ theme }))
   })
@@ -33,7 +33,7 @@ describe('withStyles', () => {
     const tree = renderer.create(
       <PaperProvider theme={theme}>
         <MockWithTheme />
-      </PaperProvider>
+      </PaperProvider>,
     )
     expect(tree.toJSON().children[0]).toMatch(JSON.stringify({ styles, theme }))
   })
@@ -51,7 +51,7 @@ describe('withStyles', () => {
     const tree = renderer.create(
       <PaperProvider theme={theme}>
         <MockWithTheme />
-      </PaperProvider>
+      </PaperProvider>,
     )
     expect(tree.toJSON().children[0]).toMatch(
       JSON.stringify({
@@ -60,7 +60,7 @@ describe('withStyles', () => {
           otherProperty: 'fixed-value',
         },
         theme,
-      })
+      }),
     )
   })
 
@@ -79,7 +79,7 @@ describe('withStyles', () => {
     const tree = renderer.create(
       <PaperProvider theme={theme}>
         <MockWithTheme />
-      </PaperProvider>
+      </PaperProvider>,
     )
     expect(tree.toJSON().children[0]).toMatch(
       JSON.stringify({
@@ -90,7 +90,7 @@ describe('withStyles', () => {
           },
         },
         theme,
-      })
+      }),
     )
   })
 
@@ -109,7 +109,7 @@ describe('withStyles', () => {
     const tree = renderer.create(
       <PaperProvider theme={theme}>
         <MockWithTheme />
-      </PaperProvider>
+      </PaperProvider>,
     )
     expect(tree.toJSON().children[0]).toMatch(
       JSON.stringify({
@@ -119,7 +119,7 @@ describe('withStyles', () => {
           },
         },
         theme,
-      })
+      }),
     )
   })
 })

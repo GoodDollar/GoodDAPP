@@ -10,7 +10,7 @@ describe('AddWebApp', () => {
     const component = renderer.create(
       <SimpleStore.Container>
         <AddWebApp />
-      </SimpleStore.Container>
+      </SimpleStore.Container>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

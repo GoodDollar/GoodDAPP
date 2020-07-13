@@ -25,6 +25,6 @@ export const showSupportDialog = (showErrorDialog, hideDialog, push, message) =>
           </Text>
         </>
       ),
-    }
+    },
   )
 }

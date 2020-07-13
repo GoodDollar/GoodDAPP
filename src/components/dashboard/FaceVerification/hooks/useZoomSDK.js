@@ -105,6 +105,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // to access actual initialization / error callbacks
   useEffect(() => {
     const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
+    const { zoomLicenseKey, zoomLicenseText, zoomEncryptionKey } = Config
 
     // Helper for handle exceptions
     const handleException = exception => {
@@ -121,7 +122,12 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
         // Initializing ZoOm
         // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
-        const isInitialized = await ZoomSDK.initialize(Config.zoomLicenseKey, !zoomSDKPreloaded)
+        const isInitialized = await ZoomSDK.initialize(
+          zoomLicenseKey,
+          zoomLicenseText,
+          zoomEncryptionKey,
+          !zoomSDKPreloaded,
+        )
 
         if (isInitialized) {
           // Executing onInitialized callback

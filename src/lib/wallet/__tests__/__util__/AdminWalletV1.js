@@ -151,13 +151,13 @@ export class Wallet {
     this.identityContract = new this.web3.eth.Contract(
       IdentityABI.abi,
       get(ContractsAddress, `${this.network}.Identity`),
-      { from: this.address }
+      { from: this.address },
     )
 
     this.tokenContract = new this.web3.eth.Contract(
       GoodDollarABI.abi,
       get(ContractsAddress, `${this.network}.GoodDollar`),
-      { from: this.address }
+      { from: this.address },
     )
 
     try {
@@ -195,7 +195,7 @@ export class Wallet {
         onReceipt,
         onError,
       },
-      { gas: '200000' } // gas estimate for this is very high so we limit it to prevent failure
+      { gas: '200000' }, // gas estimate for this is very high so we limit it to prevent failure
     )
   }
 
@@ -229,7 +229,7 @@ export class Wallet {
       e => {
         log.error('Error whitelistUser', { e, errMessage: e.message, address, did })
         throw e
-      }
+      },
     )
     log.info('Whitelisted user', { address, did, tx })
     return tx
@@ -242,7 +242,7 @@ export class Wallet {
    */
   async blacklistUser(address: string): Promise<TransactionReceipt> {
     const tx: TransactionReceipt = await this.sendTransaction(
-      this.identityContract.methods.addBlacklisted(address)
+      this.identityContract.methods.addBlacklisted(address),
     ).catch(e => {
       log.error('Error blackListUser', { e, errMessage: e.message, address })
       throw e
@@ -258,7 +258,7 @@ export class Wallet {
    */
   async removeWhitelisted(address: string): Promise<TransactionReceipt> {
     const tx: TransactionReceipt = await this.sendTransaction(
-      this.proxyContract.methods.removeWhitelist(address)
+      this.proxyContract.methods.removeWhitelist(address),
     ).catch(e => {
       log.error('Error removeWhitelisted', { e, errMessage: e.message, address })
       throw e
@@ -309,7 +309,7 @@ export class Wallet {
   async topWallet(
     address: string,
     lastTopping?: moment.Moment = moment().subtract(1, 'day'),
-    force: boolean = false
+    force: boolean = false,
   ): PromiEvent<TransactionReceipt> {
     let daysAgo = moment().diff(moment(lastTopping), 'days')
     if (conf.env !== 'development' && daysAgo < 1) {
@@ -366,7 +366,7 @@ export class Wallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = {},
-    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = txCallbacks
     gas = gas || (await tx.estimateGas().then(gas => gas + 50000))

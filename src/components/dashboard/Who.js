@@ -49,7 +49,7 @@ const Who = (props: AmountProps) => {
         nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
         params: { action: ACTION_SEND_TO_ADDRESS },
       }),
-    [push]
+    [push],
   )
 
   const next = useCallback(() => {

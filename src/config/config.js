@@ -1,6 +1,6 @@
 import { get } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
-import { env as devenv } from '../lib/utils/env'
+import { env as devenv, fixNL } from '../lib/utils/env'
 import env from './env'
 
 const publicUrl = env.REACT_APP_PUBLIC_URL || get(window, 'location.origin')
@@ -31,7 +31,9 @@ const Config = {
   market: process.env.REACT_APP_MARKET === 'true' || isEToro,
   marketUrl: process.env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
   torusEnabled: process.env.REACT_APP_USE_TORUS === 'true',
-  enableSelfCustody: env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
+  torusNetwork: process.env.REACT_APP_TORUS_NETWORK || 'ropsten',
+  torusProxyContract: process.env.REACT_APP_TORUS_PROXY_CONTRACT || '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
+  enableSelfCustody: process.env.REACT_APP_ENABLE_SELF_CUSTODY === 'true',
   googleClientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   facebookAppId: process.env.REACT_APP_FACEBOOK_APP_ID,
   auth0ClientId: process.env.REACT_APP_AUTH0_CLIENT_ID,
@@ -39,7 +41,9 @@ const Config = {
   auth0Domain: process.env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
+  zoomEncryptionKey: fixNL(process.env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
+  zoomLicenseText: fixNL(process.env.REACT_APP_ZOOM_LICENSE_TEXT),
   faceVerificationPrivacyUrl:
     process.env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
@@ -70,6 +74,11 @@ const Config = {
   mauticUrl: process.env.REACT_APP_MAUTIC_URL || 'https://go.gooddollar.org',
   mauticAddContractFormID: process.env.REACT_APP_MAUTIC_ADDCONTRACT_FORMID || '15',
   apiTimeout: process.env.REACT_APP_API_REQUEST_TIMEOUT || 30000,
+  torusFacebook: process.env.REACT_APP_TORUS_FACEBOOK || 'facebook-gooddollar',
+  torusGoogle: process.env.REACT_APP_TORUS_GOOGLE || 'google-gooddollar',
+  torusGoogleAuth0: process.env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
+  torusAuth0SMS: process.env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
+
   ethereum: {
     '42': {
       network_id: 42,
@@ -99,6 +108,8 @@ const Config = {
   },
   nodeEnv: env.NODE_ENV,
 }
+
+
 
 // TODO: wrap all stubs / "backdoors" made for automated testing
 // if (isE2ERunning) {

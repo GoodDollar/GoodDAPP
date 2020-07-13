@@ -185,7 +185,7 @@ const Claim = props => {
         setInterval(async () => {
           const nextClaim = await getNextClaim(nextClaimDate)
           setClaimState(prevState => ({ ...prevState, nextClaim }))
-        }, 1000)
+        }, 1000),
       )
     }
   }

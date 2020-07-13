@@ -30,10 +30,10 @@ export const deleteGunDB = () => {
   })
 }
 
-export default ({ API, showDialog, store, theme }) =>
+export default ({ API, showErrorDialog, store, theme }) =>
   useCallback(
     () =>
-      showDialog('', '', {
+      showErrorDialog('', '', {
         title: 'ARE YOU SURE?',
         message: 'If you delete your account',
         boldMessage: 'you might lose access to your G$!',
@@ -44,7 +44,7 @@ export default ({ API, showDialog, store, theme }) =>
             text: 'Delete',
             color: theme.colors.red,
             onPress: async () => {
-              showDialog('', '', {
+              showErrorDialog('', '', {
                 title: 'ARE YOU SURE?',
                 message: 'If you delete your account',
                 boldMessage: 'you might lose access to your G$!',
@@ -71,15 +71,18 @@ export default ({ API, showDialog, store, theme }) =>
                   await Promise.all([AsyncStorage.clear(), req.catch()])
                   window.location = '/'
                 } else {
-                  showDialog('There was a problem deleting your account. Try again later.')
+                  showErrorDialog('There was a problem deleting your account. Try again later.')
+                  log.error('Error deleting account', 'false from userStorage.deleteAccount()', null, {
+                    dialogShown: true,
+                  })
                 }
               } catch (e) {
-                log.error('Error deleting account', e.message, e)
-                showDialog('There was a problem deleting your account. Try again later.')
+                log.error('Error deleting account', e.message, e, { dialogShown: true })
+                showErrorDialog('There was a problem deleting your account. Try again later.')
               }
             },
           },
         ],
       }),
-    [API, showDialog, store, theme],
+    [API, showErrorDialog, store, theme],
   )

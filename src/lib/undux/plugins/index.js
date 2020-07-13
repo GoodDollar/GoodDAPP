@@ -11,7 +11,7 @@ export default () => {
     storeAccessor,
     storeEffects: compose(
       withPinoLogger,
-      withStoreAccessor
+      withStoreAccessor,
     ),
   }
 }

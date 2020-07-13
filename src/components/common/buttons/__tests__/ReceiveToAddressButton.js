@@ -14,7 +14,7 @@ describe('SendToAddressButton', () => {
     const component = renderer.create(
       <Container>
         <ReceiveToAddressButton onPress={() => {}} />
-      </Container>
+      </Container>,
     )
 
     // When
@@ -29,7 +29,7 @@ describe('SendToAddressButton', () => {
     const component = renderer.create(
       <Container>
         <ReceiveToAddressButton onPress={() => {}} />
-      </Container>
+      </Container>,
     )
 
     // When

@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.25.0",
+  "version": "0.25.4-1",
   "engines": {
     "node": "10.21.0",
     "npm": "6.x"
@@ -61,13 +61,14 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.4.1",
-    "@gooddollar/goodcontracts": "^2.0.0-beta.5",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/react-native-webview-crypto": "0.0.20",
     "@gooddollar/v8-android-jit-nointl": "^7.8.2",
     "@peculiar/webcrypto": "^1.0.22",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/blur": "^3.4.1",
+    "@babel/preset-flow": "^7.0.0",
+    "@gooddollar/goodcontracts": "^2.0.0-beta.6",
     "@react-native-community/clipboard": "^1.2.2",
     "@react-native-community/netinfo": "^5.5.1",
     "@react-native-community/push-notification-ios": "^1.2.0",

@@ -33,7 +33,7 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
-import logger from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
@@ -104,7 +104,7 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
+  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const currentFeed = store.get('currentFeed')
@@ -169,7 +169,12 @@ const Dashboard = props => {
               const { route, params } = await routeAndPathForCode('send', code)
               screenProps.push(route, params)
             } catch (e) {
-              showErrorDialog('Paymnet link is incorrect. Please double check your link.', undefined, {
+              log.error('Payment link is incorrect', e.message, e, {
+                code,
+                category: ExceptionCategory.Human,
+                dialogShown: true,
+              })
+              showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
                 onDismiss: screenProps.goToRoot,
               })
             }
@@ -194,7 +199,7 @@ const Dashboard = props => {
         log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
-          .catch(e => log.error('getInitialFeed -> ', e.message, e))
+          .catch(e => log.error('getInitialFeed failed:', e.message, e))
 
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
@@ -580,6 +585,13 @@ const Dashboard = props => {
 
         switch (status) {
           case WITHDRAW_STATUS_COMPLETE:
+            log.error('Payment already withdrawn or canceled by sender', '', null, {
+              status,
+              transactionHash,
+              paymentParams,
+              category: ExceptionCategory.Human,
+              dialogShown: true,
+            })
             showErrorDialog('Payment already withdrawn or canceled by sender')
             break
           case WITHDRAW_STATUS_UNKNOWN:
@@ -593,14 +605,24 @@ const Dashboard = props => {
                 return await handleWithdraw(params)
               }
             }
+            log.error('Could not find payment details', 'Wrong payment link or payment details', null, {
+              status,
+              transactionHash,
+              paymentParams,
+              category: ExceptionCategory.Human,
+              dialogShown: true,
+            })
             showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
             break
           default:
             break
         }
       } catch (e) {
-        log.error('withdraw failed:', e.message, e, { errCode: e.code })
-        showErrorDialog(e.message)
+        const { message } = e
+        showErrorDialog(message)
+        log.error('withdraw failed:', e.message, e, {
+          dialogShown: true,
+        })
       } finally {
         navigation.setParams({ paymentCode: undefined })
       }

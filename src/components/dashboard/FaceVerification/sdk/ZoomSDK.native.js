@@ -30,12 +30,21 @@ export const ZoomSDK = new class {
     }
   }
 
-  async initialize(licenseKey, preload) {
+  async initialize(licenseKey, licenseText = null, encryptionKey = null, preload = true) {
     const { sdk, logger } = this
+    let license = null
+
+    if (licenseText) {
+      // exclude web-only 'domains' option from license text
+      license = licenseText
+        .split('\n')
+        .filter(line => !line.includes('domains'))
+        .join('\n')
+    }
 
     try {
       // TODO: update native implementation to use GoodServer for issue session token
-      const isInitialized = await sdk.initialize(licenseKey, preload, Config.serverUrl)
+      const isInitialized = await sdk.initialize(licenseKey, license, encryptionKey, preload, Config.serverUrl)
 
       return isInitialized
     } catch (exception) {
@@ -91,4 +100,4 @@ export const ZoomSDK = new class {
       throw exception
     }
   }
-}(logger.child({ from: 'ZoomSDK' })) // eslint-disable-line
+}(Zoom.sdk, logger.child({ from: 'ZoomSDK.native' })) // eslint-disable-line

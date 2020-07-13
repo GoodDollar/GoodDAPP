@@ -8,7 +8,7 @@ describe('Receive', () => {
   beforeAll(() => {
     localStorage.setItem(
       'GD_USER_MNEMONIC',
-      'burger must derive wrong dry unaware reopen laptop acoustic report slender scene'
+      'burger must derive wrong dry unaware reopen laptop acoustic report slender scene',
     )
     getWebRouterComponentWithMocks = require('./__util__').getWebRouterComponentWithMocks
   })

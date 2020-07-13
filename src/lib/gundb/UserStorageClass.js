@@ -880,7 +880,7 @@ export class UserStorage {
           'handleOTPLUpdated failed',
           'Original payment link TX not found',
           new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
-          { data },
+          { data, receipt },
         )
         return
       }
@@ -1888,20 +1888,22 @@ export class UserStorage {
   }
 
   async _getProfileNode(initiatorType, initiator, address): Gun {
-    const getProfile = async (group, value) => {
-      logger.debug('extractProfile:', { group, value })
+    const getProfile = async (idxSoul, idxKey) => {
+      logger.debug('extractProfile:', { idxSoul, idxKey })
 
       // Need to verify if user deleted, otherwise the gun will stuck here and feed wont be displayed
-      const gunGroupIndexValue = this.gun.get(group).get(value)
-      const groupValue = await gunGroupIndexValue.then()
-      logger.debug('extractProfiler result :', { group, value, groupValue })
+      const gunProfile = this.gun
+        .get(idxSoul)
+        .get(idxKey)
+        .get('profile')
+      const profile = await gunProfile
+      logger.debug('extractProfile result :', { idxSoul, idxKey, profile })
 
-      if (groupValue != null && groupValue.profile) {
-        return {
-          gunProfile: gunGroupIndexValue.get('profile'),
-        }
+      if (profile) {
+        //need to return object so promise.all doesnt resolve node
+        return { gunProfile }
       }
-      logger.warn('_extractProfileToShow invalid profile', { group, value, groupValue })
+      logger.warn('_extractProfileToShow invalid profile', { idxSoul, idxKey, profile })
       return undefined
     }
 
@@ -1910,7 +1912,6 @@ export class UserStorage {
     const byAddress = address && getProfile(this.trust.bywalletAddress || `users/bywalletAddress`, address)
 
     const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
-
     return profileByIndex || profileByAddress
   }
 

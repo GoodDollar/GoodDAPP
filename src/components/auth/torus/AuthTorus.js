@@ -27,6 +27,9 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import normalizeText from '../../../lib/utils/normalizeText'
+import { isBrowser } from '../../../lib/utils/platform'
 import useTorus from './hooks/useTorus'
 
 Image.prefetch(illustration)
@@ -194,19 +197,23 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           <Section.Row>
             <CustomButton
               color={mainTheme.colors.darkGray}
-              style={[styles.buttonLayout, { flex: 1, marginRight: getDesignRelativeWidth(5) }]}
+              style={[styles.buttonText, styles.buttonLayout, { flex: 1, marginRight: getDesignRelativeWidth(5) }]}
+              textStyle={[styles.buttonText]}
               onPress={signupAuth0Mobile}
               disabled={!sdkInitialized}
               testID="login_via_mobile"
+              compact={isSmallDevice}
             >
               Via Phone Code
             </CustomButton>
             <CustomButton
               color={mainTheme.colors.darkGray}
               style={[styles.buttonLayout, { flex: 1, marginLeft: getDesignRelativeWidth(5) }]}
+              textStyle={[styles.buttonText]}
               onPress={signupAuth0Email}
               disabled={!sdkInitialized}
               testID="login_via_email"
+              compact={isSmallDevice}
             >
               Via Email Code
             </CustomButton>
@@ -217,9 +224,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         <CustomButton
           color={mainTheme.colors.darkGray}
           style={styles.buttonLayout}
+          textStyle={[styles.buttonText]}
           onPress={auth0ButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_auth0"
+          compact={isSmallDevice || isMediumDevice}
         >
           Agree & Continue with Passwordless
         </CustomButton>
@@ -276,6 +285,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
                 <Section.Text
                   fontWeight="medium"
                   style={styles.recoverText}
+                  textStyle={[styles.buttonText]}
                   textDecorationLine="underline"
                   fontSize={14}
                   color="primary"
@@ -289,6 +299,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
                 <Section.Text
                   fontWeight="medium"
                   style={styles.haveIssuesText}
+                  textStyle={[styles.buttonText]}
                   textDecorationLine="underline"
                   fontSize={14}
                   color="primary"
@@ -302,7 +313,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         <CustomButton
           color={mainTheme.colors.googleRed}
           style={styles.buttonLayout}
-          textStyle={googleButtonTextStyle}
+          textStyle={[styles.buttonText, googleButtonTextStyle]}
           onPress={googleButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_google"
@@ -312,7 +323,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         <CustomButton
           color={mainTheme.colors.facebookBlue}
           style={styles.buttonLayout}
-          textStyle={facebookButtonTextStyle}
+          textStyle={[styles.buttonText, facebookButtonTextStyle]}
           onPress={facebookButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_facebook"
@@ -326,6 +337,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 }
 
 const getStylesFromProps = ({ theme }) => {
+  const buttonFontSize = normalizeText(isSmallDevice ? 14 : 16)
+
   return {
     mainWrapper: {
       paddingHorizontal: 0,
@@ -338,41 +351,38 @@ const getStylesFromProps = ({ theme }) => {
     },
     bottomContainer: {
       paddingHorizontal: theme.sizes.defaultDouble,
-      paddingBottom: theme.sizes.defaultDouble,
+      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
     },
     buttonLayout: {
-      marginTop: theme.sizes.default,
-      marginBottom: theme.sizes.default,
+      marginTop: getDesignRelativeHeight(theme.sizes.default),
+      marginBottom: getDesignRelativeHeight(theme.sizes.default),
     },
     buttonText: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingTop: 1,
-      letterSpacing: 0,
+      fontSize: buttonFontSize,
     },
     acceptTermsLink: {
-      marginTop: theme.sizes.default,
+      marginTop: getDesignRelativeHeight(theme.sizes.default),
     },
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
-      marginBottom: theme.sizes.default,
+      marginBottom: getDesignRelativeHeight(theme.sizes.default),
       width: getDesignRelativeWidth(249),
-      height: getDesignRelativeHeight(195),
+      height: getDesignRelativeHeight(isBrowser ? 195 : 150),
       marginRight: 'auto',
       marginLeft: 'auto',
-      paddingTop: theme.sizes.default,
+      paddingTop: getDesignRelativeHeight(theme.sizes.default),
     },
     headerText: {
       marginTop: getDesignRelativeHeight(30),
-      marginBottom: getDesignRelativeHeight(30),
+      marginBottom: getDesignRelativeHeight(20),
     },
     privacyAndTerms: {
-      marginBottom: 20,
+      marginBottom: getDesignRelativeHeight(16),
     },
     signInLink: {
-      marginTop: 5,
-      marginBottom: 5,
+      marginTop: getDesignRelativeHeight(5),
+      marginBottom: getDesignRelativeHeight(5),
     },
   }
 }

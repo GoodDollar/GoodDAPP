@@ -2,7 +2,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 import { Platform, TouchableOpacity, View } from 'react-native'
-import { get } from 'lodash'
 import { isIOSWeb } from '../../lib/utils/platform'
 import config from '../../config/config'
 import { theme } from '../../components/theme/styles'

@@ -7,6 +7,7 @@ import {
   fireEvent,
   identifyOnUserSignup,
   SIGNIN_TORUS_SUCCESS,
+  SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
@@ -91,8 +92,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleSignUp = useCallback(
     async (provider: 'facebook' | 'google' | 'google-old' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
       store.set('loadingIndicator')({ loading: true })
+
       let torusUser
       let replacing = false
+
+      fireEvent(SIGNUP_METHOD_SELECTED, { method: provider })
 
       try {
         if (['development', 'test'].includes(config.env)) {
@@ -162,6 +166,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   )
 
   const goToManualRegistration = useCallback(() => {
+    fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])
 
@@ -181,11 +186,16 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
-  const auth0ButtonHandler = useMemo(() => (asGuest ? () => setPasswordless(true) : goToW3Site), [
-    asGuest,
-    signupAuth0,
-    setPasswordless,
-  ])
+  const auth0ButtonHandler = useMemo(
+    () =>
+      asGuest
+        ? () => {
+            setPasswordless(true)
+            fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
+          }
+        : goToW3Site,
+    [asGuest, signupAuth0, setPasswordless],
+  )
 
   const signupAuth0Email = () => signupAuth0('email')
   const signupAuth0Mobile = () => signupAuth0('mobile')

@@ -8,14 +8,20 @@ describe('ClaimButton', () => {
 
   it('renders without errors', () => {
     const tree = renderer.create(
-      <WrappedClaimButton isCitizen={true} entitlement={0} nextClaim="00:10:00" loading={false} onPress={() => null} />
+      <WrappedClaimButton isCitizen={true} entitlement={0} nextClaim="00:10:00" loading={false} onPress={() => null} />,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot for non-citizen', () => {
     const component = renderer.create(
-      <WrappedClaimButton isCitizen={false} entitlement={0} nextClaim="00:10:00" loading={false} onPress={() => null} />
+      <WrappedClaimButton
+        isCitizen={false}
+        entitlement={0}
+        nextClaim="00:10:00"
+        loading={false}
+        onPress={() => null}
+      />,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -23,7 +29,7 @@ describe('ClaimButton', () => {
 
   it('matches snapshot for citizen without entitlement', () => {
     const component = renderer.create(
-      <WrappedClaimButton isCitizen={true} entitlement={0} nextClaim="00:10:00" loading={false} onPress={() => null} />
+      <WrappedClaimButton isCitizen={true} entitlement={0} nextClaim="00:10:00" loading={false} onPress={() => null} />,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -37,7 +43,7 @@ describe('ClaimButton', () => {
         nextClaim="00:10:00"
         loading={false}
         onPress={() => null}
-      />
+      />,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

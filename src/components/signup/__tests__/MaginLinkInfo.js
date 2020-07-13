@@ -13,7 +13,7 @@ describe('Sign Up Magic Link Info Screen', () => {
     const tree = renderer.create(
       <StoresWrapper>
         <WebRouter />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -23,7 +23,7 @@ describe('Sign Up Magic Link Info Screen', () => {
     const component = renderer.create(
       <StoresWrapper>
         <WebRouter />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

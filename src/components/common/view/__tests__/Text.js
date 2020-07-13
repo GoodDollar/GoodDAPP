@@ -32,7 +32,7 @@ describe('Text', () => {
     const component = renderer.create(
       <Text color="red" textAlign="right">
         Example Text
-      </Text>
+      </Text>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

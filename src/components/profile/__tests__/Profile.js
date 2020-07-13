@@ -15,7 +15,7 @@ describe('Profile', () => {
         <GDStore.Container>
           <Profile />
         </GDStore.Container>
-      </SimpleStore.Container>
+      </SimpleStore.Container>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -27,7 +27,7 @@ describe('Profile', () => {
         <GDStore.Container>
           <Profile />
         </GDStore.Container>
-      </SimpleStore.Container>
+      </SimpleStore.Container>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

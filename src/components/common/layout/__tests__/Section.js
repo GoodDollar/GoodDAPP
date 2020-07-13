@@ -11,7 +11,7 @@ describe('Section', () => {
     const tree = renderer.create(
       <PaperProvider theme={theme}>
         <Section />
-      </PaperProvider>
+      </PaperProvider>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -25,7 +25,7 @@ describe('Section', () => {
             <Section.Text>{`TODAY'S DAILY INCOME `}</Section.Text>
           </Section.Row>
         </Section>
-      </PaperProvider>
+      </PaperProvider>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -42,7 +42,7 @@ describe('Section', () => {
             <Section.Text>{`TODAY'S DAILY INCOME `}</Section.Text>
           </Section.Row>
         </Section>
-      </PaperProvider>
+      </PaperProvider>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

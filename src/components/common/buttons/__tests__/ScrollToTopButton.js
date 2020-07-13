@@ -14,7 +14,7 @@ describe('ScrollToTopButton', () => {
     const component = renderer.create(
       <Container>
         <ScrollToTopButton onPress={() => {}} />
-      </Container>
+      </Container>,
     )
 
     // When
@@ -29,7 +29,7 @@ describe('ScrollToTopButton', () => {
     const component = renderer.create(
       <Container>
         <ScrollToTopButton onPress={() => {}} />
-      </Container>
+      </Container>,
     )
 
     // When

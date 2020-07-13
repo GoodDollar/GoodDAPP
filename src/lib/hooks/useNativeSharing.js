@@ -20,7 +20,7 @@ export default () => {
     (shareObj, customErrorMessage) => {
       importedShareAction(shareObj, showErrorDialog, customErrorMessage)
     },
-    [showErrorDialog]
+    [showErrorDialog],
   )
 
   return {

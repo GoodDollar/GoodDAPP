@@ -16,7 +16,7 @@ describe('ModalContents', () => {
     const component = renderer.create(
       <ModalContents>
         <React.Fragment>Testing</React.Fragment>
-      </ModalContents>
+      </ModalContents>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -26,7 +26,7 @@ describe('ModalContents', () => {
     const component = renderer.create(
       <ModalContents>
         <React.Fragment>Testing</React.Fragment>
-      </ModalContents>
+      </ModalContents>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

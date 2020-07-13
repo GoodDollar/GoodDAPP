@@ -9,6 +9,6 @@ export default (callback, deps = []) => {
 
       return memoizedCallback(event)
     },
-    [memoizedCallback]
+    [memoizedCallback],
   )
 }

@@ -508,15 +508,9 @@ export class UserStorage {
   async init() {
     logger.debug('Initializing GunDB UserStorage')
 
-    //get trusted GoodDollar indexes and pub key
-    let trustPromise = API.getTrust()
-      .then(_ => {
-        AsyncStorage.setItem('GD_trust', JSON.stringify(_.data))
-        this.trust = _.data
-      })
-      .catch(e => {
-        logger.error('Could not fetch /trust', e.message, e)
-      })
+    // get trusted GoodDollar indexes and pub key
+    const trustPromise = this.fetchTrustIndexes()
+
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
@@ -687,6 +681,29 @@ export class UserStorage {
       if (inviteCode) {
         this.setProfileField('inviteCode', inviteCode, 'private')
       }
+    }
+  }
+
+  /**
+   * Fetches trusted GoodDollar indexes and pub key
+   * @returns Promise
+   * @private
+   */
+  async fetchTrustIndexes() {
+    try {
+      // make sure server is up
+      await API.ping()
+
+      // fetch trust data
+      const { data } = await API.getTrust()
+
+      AsyncStorage.setItem('GD_trust', JSON.stringify(data))
+      this.trust = data
+    } catch (exception) {
+      const { message } = exception
+
+      // if fetch trust request failed even we're pinged the server - it's an exception
+      logger.error('Could not fetch /trust', message, exception)
     }
   }
 

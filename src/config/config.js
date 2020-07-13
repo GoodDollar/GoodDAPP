@@ -1,5 +1,6 @@
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
-import { env } from '../lib/utils/env'
+
+import { env, fixNL } from '../lib/utils/env'
 
 // E2E checker utility import
 //import { isE2ERunning } from '../lib/utils/platform'
@@ -38,7 +39,9 @@ const Config = {
   auth0Domain: process.env.REACT_APP_AUTH0_DOMAIN || 'https://gooddollar.eu.auth0.com',
   enableInvites: process.env.REACT_APP_ENABLE_INVITES !== 'false' || isEToro, // true by default
   showRewards: process.env.REACT_APP_DASHBOARD_SHOW_REWARDS === 'true',
+  zoomEncryptionKey: fixNL(process.env.REACT_APP_ZOOM_ENCRYPTION_KEY),
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
+  zoomLicenseText: fixNL(process.env.REACT_APP_ZOOM_LICENSE_TEXT),
   faceVerificationPrivacyUrl:
     process.env.REACT_APP_FACE_VERIFICATION_PRIVACY_URL ||
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
@@ -102,6 +105,8 @@ const Config = {
     },
   },
 }
+
+
 
 // TODO: wrap all stubs / "backdoors" made for automated testing
 // if (isE2ERunning) {

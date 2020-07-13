@@ -101,7 +101,7 @@ export const ZoomSDK = new class {
         license = fromPairs(
           licenseText
             .split('\n') // exclude native-only 'appId' option from license text
-            .filter(line => !line.includes('domains'))
+            .filter(line => !line.includes('appId'))
             .map(line => {
               const [option, value] = line.split('=')
 

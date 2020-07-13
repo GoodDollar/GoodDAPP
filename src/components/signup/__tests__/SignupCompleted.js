@@ -11,7 +11,7 @@ describe('SignupCompleted', () => {
         fullName: 'Kevin Bardi',
         loading: false,
         doneCallback: () => {},
-      })
+      }),
     )
     const tree = renderer.create(<SignupCompleted />)
     expect(tree.toJSON()).toBeTruthy()
@@ -24,7 +24,7 @@ describe('SignupCompleted', () => {
         fullName: 'Kevin Bardi',
         loading: false,
         doneCallback: () => {},
-      })
+      }),
     )
     const component = renderer.create(<SignupCompleted />)
     const tree = component.toJSON()

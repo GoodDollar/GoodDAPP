@@ -17,7 +17,7 @@ describe('LoadingIndicator', () => {
           <PaperProvider theme={theme}>
             <LoadingIndicator />
           </PaperProvider>
-        </Container>
+        </Container>,
       )
 
       const tree = component.toJSON()
@@ -30,7 +30,7 @@ describe('LoadingIndicator', () => {
           <PaperProvider theme={theme}>
             <LoadingIndicator />
           </PaperProvider>
-        </Container>
+        </Container>,
       )
 
       const tree = component.toJSON()
@@ -43,7 +43,7 @@ describe('LoadingIndicator', () => {
           <PaperProvider theme={theme}>
             <LoadingIndicator force />
           </PaperProvider>
-        </Container>
+        </Container>,
       )
 
       const tree = component.toJSON()

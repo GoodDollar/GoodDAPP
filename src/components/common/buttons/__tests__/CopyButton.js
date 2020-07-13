@@ -22,7 +22,7 @@ describe('CopyButton', () => {
     const component = renderer.create(
       <CopyButton toCopy={'stringToCopy'} mode="outlined">
         Title in CopyButton
-      </CopyButton>
+      </CopyButton>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

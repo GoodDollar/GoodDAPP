@@ -4,5 +4,5 @@ import withProfile from './profile'
 
 export default compose(
   withBalanceChange,
-  withProfile
+  withProfile,
 )

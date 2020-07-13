@@ -1,8 +1,9 @@
 //@flow
 
 // libraries
+import amplitude from 'amplitude-js'
+import { debounce, forEach, get, isFunction, isString } from 'lodash'
 import * as Sentry from '@sentry/browser'
-import { debounce, forEach, get, invoke, isFunction, isString } from 'lodash'
 
 // utils
 import API from '../../lib/API/api'
@@ -13,6 +14,7 @@ export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
 export const CLICK_BTN_CARD_ACTION = 'CLICK_BTN_CARD_ACTION'
 export const CLICK_DELETE_WALLET = 'CLICK_DELETE_WALLET'
+export const SIGNUP_METHOD_SELECTED = 'SIGNUP_METHOD_SELECTED'
 export const SIGNUP_STARTED = 'SIGNUP_STARTED'
 export const SIGNIN_TORUS_SUCCESS = 'TORUS_SIGNIN_SUCCESS'
 export const SIGNIN_SUCCESS = 'MAGICLINK_SUCCESS'
@@ -52,21 +54,20 @@ export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
 let Amplitude
-const { bugsnagClient: BugSnag, mt: Mautic, Rollbar, FS, dataLayer: GoogleAnalytics } = global
+const { mt: Mautic, FS, dataLayer: GoogleAnalytics } = global
 
 const log = logger.child({ from: 'analytics' })
-const { sentryDSN, amplitudeKey, rollbarKey, version, env, network } = Config
+const { sentryDSN, amplitudeKey, version, env, network } = Config
 
 const isFSEnabled = !!FS
 const isSentryEnabled = !!sentryDSN
-const isRollbarEnabled = !!(Rollbar && rollbarKey)
-const isAmplitudeEnabled = 'amplitude' in global && !!amplitudeKey
+const isAmplitudeEnabled = !!amplitudeKey
 const isGoogleAnalyticsEnabled = !!GoogleAnalytics
 
 /** @private */
 // eslint-disable-next-line require-await
 const initAmplitude = async () => {
-  const amp = () => invoke(global, 'amplitude.getInstance')
+  const amp = () => amplitude.getInstance()
 
   if (!isAmplitudeEnabled) {
     return
@@ -76,7 +77,7 @@ const initAmplitude = async () => {
     amp().init(amplitudeKey, null, null, () => {
       Amplitude = amp()
       resolve()
-    })
+    }),
   )
 }
 
@@ -100,18 +101,6 @@ const initFullStory = async () =>
 export const initAnalytics = async () => {
   // pre-initializing & preloading FS & Amplitude
   await Promise.all([isFSEnabled && initFullStory(), isAmplitudeEnabled && initAmplitude(amplitudeKey)])
-
-  if (isRollbarEnabled) {
-    Rollbar.configure({
-      accessToken: rollbarKey,
-      captureUncaught: true,
-      captureUnhandledRejections: true,
-      payload: {
-        environment: env + network,
-        codeVersion: version,
-      },
-    })
-  }
 
   if (isAmplitudeEnabled) {
     const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
@@ -142,7 +131,6 @@ export const initAnalytics = async () => {
   log.debug('Initialized analytics:', {
     FS: isFSEnabled,
     Sentry: isSentryEnabled,
-    Rollbar: isRollbarEnabled,
     Amplitude: isAmplitudeEnabled,
   })
 
@@ -153,25 +141,6 @@ export const initAnalytics = async () => {
 const setUserEmail = email => {
   if (!email) {
     return
-  }
-
-  if (BugSnag) {
-    const { user } = BugSnag
-
-    BugSnag.user = {
-      ...(user || {}),
-      email,
-    }
-  }
-
-  if (isRollbarEnabled) {
-    Rollbar.configure({
-      payload: {
-        person: {
-          email,
-        },
-      },
-    })
   }
 
   if (isAmplitudeEnabled) {
@@ -202,22 +171,6 @@ const setUserEmail = email => {
 
 /** @private */
 const identifyWith = (email, identifier = null) => {
-  if (BugSnag) {
-    BugSnag.user = {
-      id: identifier,
-    }
-  }
-
-  if (isRollbarEnabled) {
-    Rollbar.configure({
-      payload: {
-        person: {
-          id: identifier,
-        },
-      },
-    })
-  }
-
   if (isAmplitudeEnabled && identifier) {
     Amplitude.setUserId(identifier)
   }
@@ -232,7 +185,7 @@ const identifyWith = (email, identifier = null) => {
     Sentry.configureScope(scope =>
       scope.setUser({
         id: identifier,
-      })
+      }),
     )
   }
 
@@ -244,11 +197,9 @@ const identifyWith = (email, identifier = null) => {
     {
       FS: isFSEnabled,
       Mautic: !!email,
-      BugSnag: !!BugSnag,
       Sentry: isSentryEnabled,
-      Rollbar: isRollbarEnabled,
       Amplitude: isAmplitudeEnabled,
-    }
+    },
   )
 }
 
@@ -265,11 +216,9 @@ export const identifyOnUserSignup = async email => {
     {
       FS: isFSEnabled,
       Mautic: !!email,
-      BugSnag: !!BugSnag,
       Sentry: isSentryEnabled,
-      Rollbar: isRollbarEnabled,
       Amplitude: isAmplitudeEnabled,
-    }
+    },
   )
 }
 
@@ -366,7 +315,7 @@ const patchLogger = () => {
 
   logger.error = (...args) => {
     const { Unexpected, Network, Human } = ExceptionCategory
-    const [logContext, logMessage, eMsg, errorObj, extra = {}] = args
+    const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
     let { dialogShown, category = Unexpected } = extra
     let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category
@@ -407,20 +356,6 @@ const patchLogger = () => {
       return
     }
 
-    if (BugSnag) {
-      const { from } = logContext || {}
-
-      BugSnag.notify(logMessage, {
-        context: from,
-        groupingHash: from,
-        metaData: { logMessage, eMsg, errorObj: errorToPassIntoLog, extra },
-      })
-    }
-
-    if (isRollbarEnabled) {
-      Rollbar.error(logMessage, errorToPassIntoLog, { logContext, eMsg, extra })
-    }
-
     reportToSentry(
       errorToPassIntoLog,
       {
@@ -434,7 +369,7 @@ const patchLogger = () => {
         dialogShown,
         category: categoryToPassIntoLog,
         level: categoryToPassIntoLog === Human ? 'info' : undefined,
-      }
+      },
     )
 
     return logError(...args)

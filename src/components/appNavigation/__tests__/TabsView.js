@@ -21,7 +21,7 @@ describe('TabsView', () => {
     const tree = renderer.create(
       <SimpleStore.Container>
         <TabsView routes={routes} />
-      </SimpleStore.Container>
+      </SimpleStore.Container>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -30,7 +30,7 @@ describe('TabsView', () => {
     const component = renderer.create(
       <SimpleStore.Container>
         <TabsView routes={routes} />
-      </SimpleStore.Container>
+      </SimpleStore.Container>,
     )
     expect(component.toJSON()).toMatchSnapshot()
   })

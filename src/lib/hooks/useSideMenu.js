@@ -3,34 +3,38 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 
+// hooks
 import SimpleStore from '../undux/SimpleStore'
+
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidemenu'
 
+// utils
 import { useWrappedApi } from '../API/useWrappedApi'
 
+// constants
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
-import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../../lib/constants/localStorage'
+import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 export default (props = {}) => {
   const { navigation, theme } = props
   const API = useWrappedApi()
   const store = SimpleStore.useStore()
-  const [showDialog] = useErrorDialog()
+  const [showErrorDialog] = useErrorDialog()
   const isLoggedIn = store.get('isLoggedIn')
-  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog, store, theme })
+  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
 
   const [isSelfCustody, setIsSelfCustody] = useState(false)
   const slideToggle = useCallback(() => toggleSidemenu(store), [store])
   const slideIn = useCallback(() => showSidemenu(store), [store])
   const slideOut = useCallback(() => hideSidemenu(store), [store])
 
-  const getIsSelfCustody = async () => {
+  const getIsSelfCustody = () => {
     if (isLoggedIn) {
-      const hasSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
-      const hasMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-      setIsSelfCustody(hasSeed == null && hasMnemonic)
+      const regMethod = store.get('regMethod')
+
+      setIsSelfCustody(regMethod === REGISTRATION_METHOD_SELF_CUSTODY)
     }
   }
 

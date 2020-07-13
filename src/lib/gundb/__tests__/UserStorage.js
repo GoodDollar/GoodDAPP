@@ -20,15 +20,11 @@ import {
 import UserPropertiesClass from '../UserPropertiesClass'
 import { getUserModel } from '../UserModel'
 import update from '../../updates'
+import { delay } from '../../utils/async'
 import { addUser, setProfileFieldIndex } from './__util__/index'
 
 welcomeMessage.date = '2019-01-01'
 
-const delay = duration => {
-  return new Promise((resolve, reject) => {
-    setTimeout(resolve, duration)
-  })
-}
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
 let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
 let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toString(), data: { foo: 'xar' } }

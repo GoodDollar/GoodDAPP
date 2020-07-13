@@ -25,9 +25,9 @@ describe('ButtonBlock', () => {
               nextClaim="00:10:00"
               loading={false}
               onPress={() => null}
-            />
+            />,
           )
-          .toJSON())
+          .toJSON()),
     ).not.toThrow()
 
     expect(tree).toBeTruthy()
@@ -43,7 +43,7 @@ describe('ButtonBlock', () => {
         nextClaim="00:10:00"
         loading={false}
         onPress={() => null}
-      />
+      />,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -58,7 +58,7 @@ describe('ButtonBlock', () => {
         nextClaim="00:10:00"
         loading={false}
         onPress={() => null}
-      />
+      />,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

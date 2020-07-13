@@ -37,10 +37,12 @@ class API {
 
   client: AxiosInstance
 
-  mauticClient: AxiosInstance
+  mauticJS: any
 
   constructor() {
     this.ready = this.init()
+    const { MauticJS } = global
+    this.mauticJS = MauticJS
   }
 
   /**
@@ -48,6 +50,7 @@ class API {
    */
   init() {
     log.info('initializing api...', Config.serverUrl)
+
     return (this.ready = AsyncStorage.getItem(JWT).then(async jwt => {
       this.jwt = jwt
       let instance: AxiosInstance = axios.create({
@@ -97,11 +100,6 @@ class API {
         },
       )
       this.w3Client = await w3Instance
-      let mauticInstance: AxiosInstance = axios.create({
-        baseURL: Config.mauticUrl,
-        timeout: Config.apiTimeout,
-      })
-      this.mauticClient = await mauticInstance
     }))
   }
 
@@ -393,8 +391,14 @@ class API {
    * adds a first time registering user to mautic
    * @param {*} userData usually just {email}
    */
-  addMauticContact(userData) {
-    return this.mauticClient.post('/form/submit', { ...userData, formId: Config.mauticAddContactFormID })
+  addMauticContact(userData: { email: string }) {
+    if (this.mauticJS && Config.mauticUrl && userData.email) {
+      this.mauticJS.makeCORSRequest('POST', Config.mauticUrl + '/form/submit', {
+        'mauticform[formId]': Config.mauticAddContractFormID,
+        'mauticform[email]': userData.email,
+        'mauticform[messenger]': 1,
+      })
+    }
   }
 }
 

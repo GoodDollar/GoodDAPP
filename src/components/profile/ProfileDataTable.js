@@ -47,7 +47,7 @@ const ProfileDataTable = ({
     (field, content) => {
       navigation.navigate('VerifyEdit', { field, content })
     },
-    [navigation]
+    [navigation],
   )
 
   // username handlers

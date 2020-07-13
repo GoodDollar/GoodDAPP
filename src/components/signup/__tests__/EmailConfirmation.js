@@ -15,7 +15,7 @@ describe('EmailConfirmation', () => {
     const tree = renderer.create(
       <StoresWrapper>
         <WebRouter />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -25,7 +25,7 @@ describe('EmailConfirmation', () => {
     const component = renderer.create(
       <StoresWrapper>
         <WebRouter />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

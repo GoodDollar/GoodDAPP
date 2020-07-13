@@ -28,7 +28,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import useTorus from './hooks/useTorus'
@@ -238,9 +238,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           onPress={auth0ButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_auth0"
-          compact={isSmallDevice || isMediumDevice}
         >
-          Agree & Continue with Passwordless
+          Agree & Continue Passwordless
         </CustomButton>
       )
     },
@@ -347,7 +346,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const buttonFontSize = normalizeText(isSmallDevice ? 14 : 16)
+  const buttonFontSize = normalizeText(isSmallDevice ? 15 : 16)
 
   return {
     mainWrapper: {

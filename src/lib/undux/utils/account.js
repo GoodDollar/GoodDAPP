@@ -59,8 +59,8 @@ const onBalanceChange = async (event: EventLog, store: Store) => {
  * Starts listening to Transfer events to (and from) the current account
  */
 let balanceChangedSub
-const initTransferEvents = async (store: Store) => {
-  const lastBlock = await userStorage.getLastBlockNode().then()
+const initTransferEvents = (store: Store) => {
+  const lastBlock = userStorage.userProperties.get('lastBlock')
   log.debug('starting events listener', { lastBlock })
 
   goodWallet.listenTxUpdates(parseInt(lastBlock), ({ fromBlock, toBlock }) =>

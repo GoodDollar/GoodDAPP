@@ -189,8 +189,8 @@ export const startClaiming = {
   type: 'claiming',
   status: 'completed',
   data: {
-    customName: 'Claim your GoodDollars today!', //title in modal
-    subtitle: 'Claim your GoodDollars today!', //title in feed list
+    customName: `Claim your G$'s today!`, //title in modal
+    subtitle: `Claim your G$'s today!`, //title in feed list
     readMore: false,
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
@@ -374,6 +374,9 @@ export class UserStorage {
     username: true,
   }
 
+  //trusted GoodDollar user indexes
+  trust = {}
+
   /**
    * Clean string removing blank spaces and special characters, and converts to lower case
    *
@@ -429,7 +432,7 @@ export class UserStorage {
         gunuser.auth(username, password, user => {
           logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnemonic UserStorage', user.err)
+            logger.error('Error getMnemonic UserStorage', user.err, null)
             return rej(false)
           }
           res(true)

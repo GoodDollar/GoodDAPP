@@ -111,10 +111,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       fireEventAnalytics('Sharelink')
       return result
     } catch (e) {
-      log.error('getPaymentLink Failed', e.message, {
-        item,
-        canShare,
-      })
+      log.error('getPaymentLink Failed', e.message, e, { item, canShare })
     }
   }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject, inviteCode])
 

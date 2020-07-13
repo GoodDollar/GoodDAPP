@@ -161,7 +161,7 @@ const AppSwitch = (props: LoadingProps) => {
     //     props.navigation.navigate('Auth')
     //   } else {
     //     // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
-    //     log.error('Failed to sign in', 'Failed to sign in', new Error('Failed to sign in'), { credsOrError })
+    //     log.error('Failed to sign in', 'Failed to sign in', new Error('Failed to sign in'), { credsOrError, dialogShown: false })
     //     props.navigation.navigate('Auth')
     //   }
     // }
@@ -198,9 +198,9 @@ const AppSwitch = (props: LoadingProps) => {
       const dialogShown = unsuccessfulLaunchAttempts > 3
 
       unsuccessfulLaunchAttempts += 1
-      log.error('failed initializing app', e.message, e, { dialogShown })
 
       if (dialogShown) {
+        log.error('failed initializing app', e.message, e, { dialogShown })
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
         await delay(1500)

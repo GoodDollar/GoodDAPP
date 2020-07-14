@@ -76,7 +76,7 @@
     "console-subscriber": "^1.0.2",
     "ethereumjs-util": "^6.1.0",
     "ethereumjs-wallet": "^0.6.3",
-    "gun": "^0.2020.520",
+    "gun": "^0.2020.116",
     "hdkey": "^1.1.1",
     "hex-to-rgba": "^2.0.1",
     "loadjs": "^3.6.1",

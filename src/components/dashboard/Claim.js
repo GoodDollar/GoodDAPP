@@ -191,11 +191,11 @@ const Claim = props => {
 
   // Claim STATS
   useEffect(() => {
+    gatherStats()
     if (entitlement === undefined) {
       return
     }
 
-    gatherStats()
     return () => claimInterval && clearInterval(claimInterval)
   }, [entitlement])
 

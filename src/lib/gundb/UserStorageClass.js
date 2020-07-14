@@ -1,21 +1,7 @@
 //@flow
 import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
-import {
-  assign,
-  find,
-  flatten,
-  get,
-  isEqual,
-  keys,
-  maxBy,
-  memoize,
-  merge,
-  orderBy,
-  takeWhile,
-  toPairs,
-  values,
-} from 'lodash'
+import { find, flatten, get, isEqual, keys, maxBy, memoize, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun'
@@ -635,35 +621,41 @@ export class UserStorage {
   }
 
   // eslint-disable-next-line require-await
-  async backgroundInit(): Promise<boolean> {
-    let { ready, wallet } = this
+  async retryInit(): Promise<boolean> {
+    this.ready = null
 
-    if (!ready) {
-      ready = (async () => {
-        try {
-          await wallet.ready
-          const isReady = await this.init()
+    this.backgroundInit()
+    return this.ready
+  }
 
-          logger.debug('userStorage initialized.')
-          return isReady
-        } catch (exception) {
-          let logLevel = 'error'
-          const { account } = wallet
-          const { message } = exception
+  // eslint-disable-next-line require-await
+  async backgroundInit(): Promise<void> {
+    const { ready, wallet } = this
 
-          if (message && message.includes('Wrong user or password')) {
-            logLevel = 'warn'
-          }
-
-          logger[logLevel]('Error initializing UserStorage', message, exception, { account })
-          throw exception
-        }
-      })()
-
-      assign(this, { ready })
+    if (ready) {
+      return
     }
 
-    return ready
+    this.ready = (async () => {
+      try {
+        await wallet.ready
+        const isReady = await this.init()
+
+        logger.debug('userStorage initialized.')
+        return isReady
+      } catch (exception) {
+        let logLevel = 'error'
+        const { account } = wallet
+        const { message } = exception
+
+        if (message && message.includes('Wrong user or password')) {
+          logLevel = 'warn'
+        }
+
+        logger[logLevel]('Error initializing UserStorage', message, exception, { account })
+        throw exception
+      }
+    })()
   }
 
   async initTokens() {

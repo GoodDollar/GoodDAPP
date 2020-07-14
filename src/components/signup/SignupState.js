@@ -318,7 +318,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       try {
         // init user storage
         // if exception thrown, retrying init one more times
-        await userStorage.ready.catch(() => userStorage.backgroundInit())
+        await userStorage.ready.catch(() => userStorage.retryInit())
       } catch (exception) {
         const { message } = exception
 

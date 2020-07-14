@@ -468,7 +468,6 @@ export class UserStorage {
 
         logger[logLevel]('Error initializing UserStorage', e.message, e, {
           account: this.wallet.account,
-          dialogShown: false,
         })
 
         return false

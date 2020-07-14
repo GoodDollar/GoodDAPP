@@ -177,9 +177,10 @@ const Claim = props => {
       return []
     })
 
-    if (claimedToday && nextClaimDate) {
+    setClaimState(prevState => ({ ...prevState, claimedToday }))
+    if (nextClaimDate) {
       const nextClaim = await getNextClaim(nextClaimDate)
-      setClaimState(prevState => ({ ...prevState, claimedToday, nextClaim }))
+      setClaimState(prevState => ({ ...prevState, nextClaim }))
       setClaimInterval(
         setInterval(async () => {
           const nextClaim = await getNextClaim(nextClaimDate)

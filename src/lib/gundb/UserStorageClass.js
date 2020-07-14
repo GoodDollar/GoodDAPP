@@ -628,8 +628,7 @@ export class UserStorage {
     return this.ready
   }
 
-  // eslint-disable-next-line require-await
-  async backgroundInit(): Promise<void> {
+  backgroundInit(): void {
     const { ready, wallet } = this
 
     if (ready) {

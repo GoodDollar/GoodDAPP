@@ -4,12 +4,16 @@ import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
 import { assign, get } from 'lodash'
+import { defer, from as fromPromise } from 'rxjs'
+import { catchError, retry } from 'rxjs/operators'
+
 import {
   DESTINATION_PATH,
   GD_INITIAL_REG_METHOD,
   GD_USER_MNEMONIC,
   IS_LOGGED_IN,
 } from '../../lib/constants/localStorage'
+
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
@@ -297,6 +301,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     //lazy login in background
     const ready = (async () => {
       log.debug('ready: Starting initialization', { w3UserFromProps, isRegMethodSelfCustody, torusUserFromProps })
+
       if (torusUserFromProps.privateKey) {
         log.debug('skipping ready initialization (already done in AuthTorus)')
         const [, { init }] = await Promise.all([API.ready, retryImport(() => import('../../init'))])
@@ -307,9 +312,28 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
       const { goodWallet, userStorage, source } = await init()
 
-      //for QA
+      // for QA
       global.wallet = goodWallet
-      await userStorage.ready
+
+      try {
+        // init user storage
+        await fromPromise(userStorage.ready)
+          .pipe(
+            catchError(
+              () => fromPromise(userStorage.backgroundInit()), // if exception thrown, retrying init one more times
+            ),
+          )
+          .toPromise()
+      } catch (exception) {
+        const { message } = exception
+
+        // after 2 unsuccessfull attempts show dialog to reload app
+        log.error('failed initializing UserStorage', message, exception, { dialogShown: true })
+        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => location.reload(true) })
+
+        throw exception
+      }
+
       fireSignupEvent('STARTED', { source })
 
       //the login also re-initialize the api with new jwt
@@ -325,7 +349,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       log.debug('ready: signupstate ready')
 
       //now that we are loggedin, reload api with JWT
-      // await API.init()
       return { goodWallet, userStorage }
     })()
 
@@ -404,7 +427,19 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       requestPayload.regMethod = regMethod
 
       const mnemonic = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || ''
-      await userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }).catch(_ => _)
+
+      // trying to update profile 2 times, if failed anyway - re-throwing exception
+      await defer(() =>
+        fromPromise(
+          userStorage.setProfile({
+            ...requestPayload,
+            walletAddress: goodWallet.account,
+            mnemonic,
+          }),
+        ),
+      )
+        .pipe(retry(1))
+        .toPromise()
 
       // Stores creationBlock number into 'lastBlock' feed's node
       goodWallet

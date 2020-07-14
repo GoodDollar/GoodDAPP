@@ -1,7 +1,21 @@
 //@flow
 import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
-import { find, flatten, get, isEqual, keys, maxBy, memoize, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
+import {
+  assign,
+  find,
+  flatten,
+  get,
+  isEqual,
+  keys,
+  maxBy,
+  memoize,
+  merge,
+  orderBy,
+  takeWhile,
+  toPairs,
+  values,
+} from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun'
@@ -374,8 +388,10 @@ export class UserStorage {
     username: true,
   }
 
-  //trusted GoodDollar user indexes
+  // trusted GoodDollar user indexes
   trust = {}
+
+  ready: Promise<boolean> = null
 
   /**
    * Clean string removing blank spaces and special characters, and converts to lower case
@@ -456,22 +472,8 @@ export class UserStorage {
   constructor(wallet: GoodWallet, gun: Gun) {
     this.gun = gun || defaultGun
     this.wallet = wallet
-    this.ready = this.wallet.ready
-      .then(() => this.init())
-      .then(() => logger.debug('userStorage initialized.'))
-      .catch(e => {
-        let logLevel = 'error'
 
-        if (e.message && e.message.includes('Wrong user or password')) {
-          logLevel = 'warn'
-        }
-
-        logger[logLevel]('Error initializing UserStorage', e.message, e, {
-          account: this.wallet.account,
-        })
-
-        return false
-      })
+    this.backgroundInit()
   }
 
   gunAuth(username: string, password: string): Promise<any> {
@@ -630,6 +632,38 @@ export class UserStorage {
     await Promise.all([this.startSystemFeed(), this.initTokens()])
 
     return true
+  }
+
+  // eslint-disable-next-line require-await
+  async backgroundInit(): Promise<boolean> {
+    let { ready, wallet } = this
+
+    if (!ready) {
+      ready = (async () => {
+        try {
+          await wallet.ready
+          const isReady = await this.init()
+
+          logger.debug('userStorage initialized.')
+          return isReady
+        } catch (exception) {
+          let logLevel = 'error'
+          const { account } = wallet
+          const { message } = exception
+
+          if (message && message.includes('Wrong user or password')) {
+            logLevel = 'warn'
+          }
+
+          logger[logLevel]('Error initializing UserStorage', message, exception, { account })
+          throw exception
+        }
+      })()
+
+      assign(this, { ready })
+    }
+
+    return ready
   }
 
   async initTokens() {

@@ -16,7 +16,7 @@ describe('ModalWrapper', () => {
     const component = renderer.create(
       <ModalWrapper>
         <React.Fragment>Testing</React.Fragment>
-      </ModalWrapper>
+      </ModalWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -26,7 +26,7 @@ describe('ModalWrapper', () => {
     const component = renderer.create(
       <ModalWrapper showJaggedEdge={true}>
         <React.Fragment>Testing</React.Fragment>
-      </ModalWrapper>
+      </ModalWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

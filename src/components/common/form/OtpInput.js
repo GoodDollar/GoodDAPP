@@ -332,7 +332,7 @@ const OtpInput = (props: Props) => {
           keyboardType={keyboardType || null}
           indexElement={i}
           aside={aside}
-        />
+        />,
       )
     }
     return inputs

@@ -49,12 +49,16 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
         message: 'We sent an email with recovery instructions for your wallet',
       })
     } catch (e) {
-      log.error('backup email failed:', e.message, e)
+      log.error('backup email failed:', e.message, e, { dialogShown: true })
       showErrorDialog('Could not send backup email. Please try again.')
     }
     const userProperties = await userStorage.userProperties.getAll()
     if (userProperties.isMadeBackup) {
-      userStorage.deleteEvent(backupMessage.id).catch(e => log.error('delete backup message failed', e.message, e))
+      try {
+        await userStorage.deleteEvent(backupMessage.id)
+      } catch (e) {
+        log.error('delete backup message failed', e.message, e)
+      }
     } else {
       await userStorage.userProperties.set('isMadeBackup', true)
     }

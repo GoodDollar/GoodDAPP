@@ -36,7 +36,7 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
   const shareStringSource = [codeObject, amount, counterPartyDisplayName, fullName]
   const shareString = useMemo(
     () => (canShare ? generateReceiveShareObject : generateReceiveShareText)(...shareStringSource),
-    [...shareStringSource, canShare, generateReceiveShareObject, generateReceiveShareText]
+    [...shareStringSource, canShare, generateReceiveShareObject, generateReceiveShareText],
   )
 
   const noCreds = !(counterPartyDisplayName || reason)

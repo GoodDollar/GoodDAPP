@@ -27,7 +27,7 @@ const ProfileWrapper = props => {
       event.preventDefault()
       screenProps.push(`ViewAvatar`)
     },
-    [screenProps]
+    [screenProps],
   )
 
   const handlePrivacyPress = useCallback(() => screenProps.push(`ProfilePrivacy`), [screenProps])

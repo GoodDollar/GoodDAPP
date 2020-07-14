@@ -33,7 +33,7 @@ const FaceVerification = ({ screenProps }) => {
       log.debug('FaceVerification error', { error })
       screenProps.navigateTo('FaceVerificationError', { error })
     },
-    [screenProps]
+    [screenProps],
   )
 
   const uiReadyHandler = useCallback(() => {
@@ -68,7 +68,7 @@ const FaceVerification = ({ screenProps }) => {
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },
-    [screenProps, setIsCitizen, resetAttempts]
+    [screenProps, setIsCitizen, resetAttempts],
   )
 
   // ZoomSDK session exception handler
@@ -86,7 +86,7 @@ const FaceVerification = ({ screenProps }) => {
       // handling error
       showErrorScreen(exception)
     },
-    [screenProps, showErrorScreen]
+    [screenProps, showErrorScreen],
   )
 
   // Using zoom verification hook, passing completion callback
@@ -105,7 +105,7 @@ const FaceVerification = ({ screenProps }) => {
       fireEvent(FV_ZOOMFAILED)
       showErrorScreen(exception)
     },
-    [showErrorScreen]
+    [showErrorScreen],
   )
 
   // using zoom sdk initialization hook

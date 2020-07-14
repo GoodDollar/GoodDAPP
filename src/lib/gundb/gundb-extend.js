@@ -29,7 +29,7 @@ const gunExtend = (() => {
             res(v)
           }
         },
-        { wait: opts.wait }
+        { wait: opts.wait },
       )
     })
     const res = Promise.race([onPromise, oncePromise, delay(opts.wait + 1000, opts.default)]).catch(_ => undefined)

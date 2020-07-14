@@ -79,6 +79,7 @@ export function readCode(code: string) {
     }
   } catch (e) {
     log.error('readCode failed', e.message, e, { code })
+
     return null
   }
 }
@@ -246,11 +247,12 @@ export function shareAction(shareObj, showErrorDialog, customErrorMessage) {
     Share.share(shareObj)
   } catch (e) {
     if (e.name !== 'AbortError') {
-      showErrorDialog(customErrorMessage || 'Sorry, there was an error sharing you link. Please try again later.')
-
       log.error('Native share failed', e.message, e, {
         shareObj,
+        dialogShown: true,
       })
+
+      showErrorDialog(customErrorMessage || 'Sorry, there was an error sharing you link. Please try again later.')
     }
   }
 }

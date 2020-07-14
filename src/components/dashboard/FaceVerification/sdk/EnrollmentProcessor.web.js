@@ -210,8 +210,8 @@ export class EnrollmentProcessor {
 
     return new Promise((resolve, reject) =>
       faceMetrics.getFaceMapBase64(faceMap =>
-        faceMap ? resolve(faceMap) : reject(new Error('Error generating FaceMap !'))
-      )
+        faceMap ? resolve(faceMap) : reject(new Error('Error generating FaceMap !')),
+      ),
     )
   }
 }

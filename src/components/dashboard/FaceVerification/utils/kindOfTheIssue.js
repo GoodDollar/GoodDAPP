@@ -73,7 +73,7 @@ const kindOfSessionIssuesMap = mapValues(
       'UserCancelledViaClickableReadyScreenSubtext',
     ],
   },
-  statusTransformer(ZoomSessionStatus)
+  statusTransformer(ZoomSessionStatus),
 )
 
 const kindOfSDKIssuesMap = mapValues(
@@ -113,7 +113,7 @@ const kindOfSDKIssuesMap = mapValues(
       'EncryptionKeyInvalid',
     ],
   },
-  statusTransformer(ZoomSDKStatus)
+  statusTransformer(ZoomSDKStatus),
 )
 
 export const kindOfSessionIssue = exception => {

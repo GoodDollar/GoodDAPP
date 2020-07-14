@@ -9,7 +9,7 @@ describe('EmailForm', () => {
       getWebRouterComponentWithMocks('../EmailForm', {
         email: 'kevin.bardi@altoros.com',
         fullName: 'Kevin Bardi',
-      })
+      }),
     )
     const tree = renderer.create(<EmailForm />)
     expect(tree.toJSON()).toBeTruthy()
@@ -20,7 +20,7 @@ describe('EmailForm', () => {
       getWebRouterComponentWithMocks('../EmailForm', {
         mobile: 'kevin.bardi@altoros.com',
         fullName: 'Kevin Bardi',
-      })
+      }),
     )
     const component = renderer.create(<EmailForm />)
     const tree = component.toJSON()

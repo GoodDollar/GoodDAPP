@@ -15,7 +15,7 @@ describe('EventDialog', () => {
         <EventDialog visible event={event}>
           Next
         </EventDialog>
-      </WrappedWrapper>
+      </WrappedWrapper>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -26,7 +26,7 @@ describe('EventDialog', () => {
         <EventDialog visible event={event}>
           Next
         </EventDialog>
-      </WrappedWrapper>
+      </WrappedWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

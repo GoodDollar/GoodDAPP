@@ -1762,9 +1762,9 @@ export class UserStorage {
         const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
         logger.debug('formatEvent: initiator data', event.id, { initiatorType, initiator, address })
-        const profileNode = (await this._getProfileNode(initiatorType, initiator, address)) || {}
+        const profileNode = await this._getProfileNode(initiatorType, initiator, address)
         const [avatar, fullName] = await Promise.all([
-          this._extractAvatar(type, withdrawStatus, profileNode.gunProfile, address).catch(e => {
+          this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
               type,
               withdrawStatus,

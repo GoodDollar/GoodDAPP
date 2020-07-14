@@ -1,7 +1,6 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
 import { View } from 'react-native-animatable'
-import { cloneDeep } from 'lodash'
 import AnimationBase from '../Base'
 import { isMobileNative } from '../../../../lib/utils/platform'
 import animationData from './data.json'
@@ -74,7 +73,7 @@ class SpinnerCheckMark extends AnimationBase {
           ref={this.setAnim}
           loop={false}
           onAnimationFinish={isMobileNative && this.onFinish}
-          source={cloneDeep(animationData)}
+          source={this.improveAnimationData(animationData)}
           speed={this.state.speed}
           style={{
             marginTop: -height / (isMobileNative ? 6 : 2.4),

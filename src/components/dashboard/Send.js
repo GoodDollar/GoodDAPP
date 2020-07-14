@@ -13,22 +13,22 @@ const SEND_TITLE = 'Send G$'
 
 const log = logger.child({ from: SEND_TITLE })
 
-const ScanQRButton = ({ screenProps, disabled }) => (
-  <IconButton name="link" text="Scan QR Code" onPress={() => screenProps.push('SendByQR')} disabled={disabled} />
+const ScanQRButton = ({ push, disabled }) => (
+  <IconButton name="link" text="Scan QR Code" onPress={() => push('SendByQR')} disabled={disabled} />
 )
 
 /**
  * This button navigates to Amount screen passing nextRoutes param
  * This param is used to navigate with NextButton which will handle push to next screen
  * It also passes to param as initial state for Amount component
- * @param {screenProps} props passed by navigation
+ * @param {push} props passed by navigation
  */
-const GenerateLinkButton = ({ screenProps, disabled }) => (
+const GenerateLinkButton = ({ push, disabled }) => (
   <IconButton
     name="qrcode"
     text="Generate Link"
     disabled={disabled}
-    onPress={() => screenProps.push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] })}
+    onPress={() => push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] })}
   />
 )
 
@@ -48,7 +48,7 @@ const validate = async to => {
   return `Needs to be a valid username, email or mobile phone (starts with a '+')`
 }
 
-const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
+const ContinueButton = ({ push, to, disabled, checkError }) => (
   <CustomButton
     onPress={async () => {
       if (await checkError()) {
@@ -57,10 +57,10 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
 
       const address = await userStorage.getUserAddress(to).catch(e => undefined)
       if (address || goodWallet.wallet.utils.isAddress(to)) {
-        return screenProps.push('Amount', { to: address || to, nextRoutes: ['Reason', 'SendQRSummary'] })
+        return push('Amount', { to: address || to, nextRoutes: ['Reason', 'SendQRSummary'] })
       }
       if (to && (isMobilePhone(to) || isEmail(to))) {
-        return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
+        return push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
       }
       log.debug(`Oops, no error and no action`)
     }}
@@ -71,8 +71,9 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
   </CustomButton>
 )
 
-const Send = props => {
-  const [screenState, setScreenState] = useScreenState(props.screenProps)
+const Send = ({ screenProps }) => {
+  const [screenState, setScreenState] = useScreenState(screenProps)
+  const { push, navigateTo } = screenProps
   const [error, setError] = useState()
   const { to } = screenState
 
@@ -84,7 +85,7 @@ const Send = props => {
 
   return (
     <Wrapper>
-      <TopBar push={props.screenProps.push} />
+      <TopBar push={push} />
       <Section grow>
         <Section.Title>Send To?</Section.Title>
         <Section.Stack grow={1} justifyContent="space-around">
@@ -93,18 +94,19 @@ const Send = props => {
             onBlur={checkError}
             to={to}
             error={error}
+            navigate={navigateTo}
           />
         </Section.Stack>
         <Section.Row grow={2} justifyContent="flex-end">
-          <ScanQRButton screenProps={props.screenProps} disabled={!!to} />
-          <GenerateLinkButton screenProps={props.screenProps} disabled={!!to} />
+          <ScanQRButton push={push} disabled={!!to} />
+          <GenerateLinkButton push={push} disabled={!!to} />
         </Section.Row>
         <Section.Row>
           <Section.Stack grow={1}>
-            <BackButton screenProps={props.screenProps}>Cancel</BackButton>
+            <BackButton screenProps={screenProps}>Cancel</BackButton>
           </Section.Stack>
           <Section.Stack grow={2}>
-            <ContinueButton screenProps={props.screenProps} to={to} disabled={!to} checkError={checkError} />
+            <ContinueButton push={push} to={to} disabled={!to} checkError={checkError} />
           </Section.Stack>
         </Section.Row>
       </Section>

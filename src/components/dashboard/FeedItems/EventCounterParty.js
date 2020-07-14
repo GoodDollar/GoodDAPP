@@ -1,13 +1,13 @@
 import React from 'react'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
-import cutLastWords from '../../../lib/utils/cutLastWords'
 
 const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSmallDevice }) => {
   let direction = ''
   let displayText =
     feedItem.data.subtitle && subtitle ? `${feedItem.data.subtitle}` : `${feedItem.data.endpoint.fullName}`
 
+  let hasSubtitle = feedItem.data.readMore !== false
   switch (feedItem.type) {
     case 'send':
       direction = 'To: '
@@ -20,22 +20,29 @@ const EventCounterParty = ({ feedItem, styles, style, textStyle, subtitle, isSma
       direction = 'From: '
       break
 
-    case 'claiming':
-      displayText = isSmallDevice ? cutLastWords(displayText, 2) : displayText
-      break
-
     default:
       break
   }
 
   return (
-    <Text textTransform="capitalize" textAlign="left" style={style} numberOfLines={2} ellipsizeMode="tail">
+    <Text
+      textTransform="capitalize"
+      textAlign="left"
+      style={[{ height: '100%', flex: 1 }, style]}
+      numberOfLines={2}
+      ellipsizeMode="tail"
+    >
       {direction && (
         <Text fontSize={10} lineHeight={(textStyle && textStyle.lineHeight) || 16} style={styles.direction}>
           {direction}
         </Text>
       )}
-      <Text fontWeight="medium" lineHeight={19} style={[styles.fullName, textStyle]}>
+      <Text
+        fontWeight="medium"
+        textAlign={'left'}
+        lineHeight={hasSubtitle ? 19 : 38}
+        style={[styles.fullName, textStyle]}
+      >
         {displayText}
       </Text>
     </Text>

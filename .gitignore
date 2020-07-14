@@ -78,3 +78,9 @@ account.data.txt
 .gradle
 .png-cache
 .DS_Store
+
+# Bundle artifact
+*.jsbundle
+
+# CocoaPods
+ios/Pods/

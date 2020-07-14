@@ -1,6 +1,6 @@
 // @flow
 import type { Store } from 'undux'
-import logger from '../../logger/pino-logger'
+import logger, { ExceptionCategory } from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
 import { assertStore } from '../SimpleStore'
@@ -15,7 +15,8 @@ const updateAll = async store => {
   } catch (exception) {
     const { message } = exception
 
-    log.error('updateAll failed', message, exception)
+    log.error('update balance and entitlement failed', message, exception, { category: ExceptionCategory.Blockhain })
+
     return
   }
 
@@ -63,7 +64,7 @@ const initTransferEvents = async (store: Store) => {
   log.debug('starting events listener', { lastBlock })
 
   goodWallet.listenTxUpdates(parseInt(lastBlock), ({ fromBlock, toBlock }) =>
-    userStorage.saveLastBlockNumber(parseInt(toBlock) + 1)
+    userStorage.saveLastBlockNumber(parseInt(toBlock) + 1),
   )
 
   if (balanceChangedSub) {

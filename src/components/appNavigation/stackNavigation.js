@@ -152,7 +152,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       () => {
         navigation.navigate(nextRoute, navigationParams)
         this.trans = false
-      }
+      },
     )
   }
 
@@ -175,7 +175,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
         }
         navigation.navigate(route)
         this.trans = false
-      }
+      },
     )
   }
 
@@ -196,7 +196,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       () => {
         navigation.navigate(nextRoute)
         this.trans = false
-      }
+      },
     )
   }
 

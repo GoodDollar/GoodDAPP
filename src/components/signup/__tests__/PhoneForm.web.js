@@ -9,7 +9,7 @@ describe('PhoneForm', () => {
       getWebRouterComponentWithMocks('../PhoneForm.web', {
         mobile: '',
         fullName: 'Kevin Bardi',
-      })
+      }),
     )
     const tree = renderer.create(<PhoneForm />)
     expect(tree.toJSON()).toBeTruthy()
@@ -20,7 +20,7 @@ describe('PhoneForm', () => {
       getWebRouterComponentWithMocks('../PhoneForm.web', {
         mobile: '',
         fullName: 'Kevin Bardi',
-      })
+      }),
     )
     const component = renderer.create(<PhoneForm />)
     const tree = component.toJSON()

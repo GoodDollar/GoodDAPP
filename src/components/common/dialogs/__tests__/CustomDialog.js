@@ -12,7 +12,7 @@ describe('CustomDialog', () => {
     const tree = renderer.create(
       <WrappedWrapper>
         <CustomDialog>Next</CustomDialog>
-      </WrappedWrapper>
+      </WrappedWrapper>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -21,7 +21,7 @@ describe('CustomDialog', () => {
     const component = renderer.create(
       <WrappedWrapper>
         <CustomDialog>Next</CustomDialog>
-      </WrappedWrapper>
+      </WrappedWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

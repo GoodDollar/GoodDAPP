@@ -1,16 +1,26 @@
 // @flow
+
+// libraries
 import React, { useCallback, useEffect } from 'react'
 import { isAddress } from 'web3-utils'
 
+// components
 import InputWithAdornment from '../common/form/InputWithAdornment'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
+
+// hooks
+import { useClipboardPaste } from '../../lib/hooks/useClipboard'
+import usePermissions from '../permissions/hooks/usePermissions'
+import useOnPress from '../../lib/hooks/useOnPress'
+import useValidatedValueState from '../../lib/utils/useValidatedValueState'
+
+// utils
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-
-import useValidatedValueState from '../../lib/utils/useValidatedValueState'
-import { useClipboardPaste } from '../../lib/hooks/useClipboard'
+import { Permissions } from '../permissions/types'
 
 export type TypeProps = {
   screenProps: any,
@@ -27,12 +37,17 @@ const validate = value => {
     return 'Invalid wallet address'
   }
 
+  if (value.toLowerCase() === goodWallet.account.toLowerCase()) {
+    return "You can't send G$s to yourself, you already own your G$s"
+  }
+
   return null
 }
 
 const SendToAddress = (props: TypeProps) => {
   const { screenProps, styles, navigation } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
+  const { push, navigateTo } = screenProps
   const { params } = navigation.state
   const { address } = screenState
   const [state, setValue] = useValidatedValueState(address, validate)
@@ -44,9 +59,18 @@ const SendToAddress = (props: TypeProps) => {
   const canContinue = useCallback(() => state.isValid, [state])
   const pasteValueFromClipboard = useClipboardPaste(setValue)
 
+  // check clipboard permission an show dialog is not allowed
+  const [, requestClipboardPermissions] = usePermissions(Permissions.Clipboard, {
+    requestOnMounted: false,
+    onAllowed: pasteValueFromClipboard,
+    navigate: navigateTo,
+  })
+
+  const handleAdornmentAction = useOnPress(requestClipboardPermissions, [])
+
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} hideProfile={false} />
+      <TopBar push={push} hideProfile={false} />
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title fontWeight="medium">Send To?</Section.Title>
@@ -59,7 +83,7 @@ const SendToAddress = (props: TypeProps) => {
             value={state.value}
             showAdornment
             adornment="paste"
-            adornmentAction={pasteValueFromClipboard}
+            adornmentAction={handleAdornmentAction}
             adornmentSize={32}
             adornmentStyle={styles.adornmentStyle}
             autoFocus
@@ -91,8 +115,8 @@ SendToAddress.navigationOptions = {
   title: 'Send G$',
 }
 
-SendToAddress.shouldNavigateToComponent = props => {
-  const { screenState } = props.screenProps
+SendToAddress.shouldNavigateToComponent = ({ screenProps }) => {
+  const { screenState } = screenProps
   return screenState.nextRoutes
 }
 

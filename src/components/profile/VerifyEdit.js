@@ -13,8 +13,6 @@ import CustomButton from '../common/buttons/CustomButton'
 import API from '../../lib/API/api'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
-const TITLE = 'Edit Profile'
-
 const log = logger.child({ from: 'Verify edit profile field' })
 
 const EditProfile = ({ screenProps, theme, styles, navigation }) => {
@@ -59,7 +57,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 
       navigation.navigate('VerifyEditCode', { field, content })
     } catch (e) {
-      log.error('Failed to send code', e.message, e)
+      log.error('Failed to send code', e.message, e, { dialogShown: true })
 
       showErrorDialog('Could not send verification code. Please try again', undefined, { onDismiss: goBack })
     } finally {
@@ -103,7 +101,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
 }
 
 EditProfile.navigationOptions = {
-  title: TITLE,
+  title: 'Edit Profile',
 }
 
 const getStylesFromProps = ({ theme }) => ({

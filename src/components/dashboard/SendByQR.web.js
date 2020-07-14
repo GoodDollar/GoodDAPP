@@ -1,16 +1,26 @@
 // @flow
+
+// libraries
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import QrReader from 'react-qr-reader'
 
-import logger from '../../lib/logger/pino-logger'
-import { extractQueryParams, readCode } from '../../lib/share'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { wrapFunction } from '../../lib/undux/utils/wrapper'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+// components
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
+
+// hooks
+import usePermissions from '../permissions/hooks/usePermissions'
+import SimpleStore from '../../lib/undux/SimpleStore'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
+
+// utils
+import logger from '../../lib/logger/pino-logger'
+import { extractQueryParams, readCode } from '../../lib/share'
+import { wrapFunction } from '../../lib/undux/utils/wrapper'
+import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
+import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const QR_DEFAULT_DELAY = 300
@@ -25,27 +35,41 @@ const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
+  const { pop, push, navigateTo } = screenProps
+
+  const handlePermissionDenied = useCallback(() => pop(), [pop])
+
+  // check camera permission and show dialog if not allowed
+  const hasCameraAccess = usePermissions(Permissions.Camera, {
+    promptPopup: QRCameraPermissionDialog,
+    onDenied: handlePermissionDenied,
+    navigate: navigateTo,
+  })
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
-  const handleScan = async data => {
-    if (data) {
-      try {
-        const decoded = decodeURI(data)
-        let paramsUrl = extractQueryParams(decoded)
-        const code = readCode(paramsUrl.code)
-        log.info({ code })
+  const handleScan = useCallback(
+    async data => {
+      if (data) {
+        try {
+          const decoded = decodeURI(data)
+          const paramsUrl = extractQueryParams(decoded)
+          const code = readCode(paramsUrl.code)
+          const { route, params } = await routeAndPathForCode('sendByQR', code)
 
-        const { route, params } = await routeAndPathForCode('sendByQR', code)
-        fireEvent(QR_SCAN, { type: 'send' })
-        screenProps.push(route, params)
-      } catch (e) {
-        log.error('scan send code failed', e.message, e, { data })
-        setQRDelay(false)
-        throw e
+          log.info({ code })
+          fireEvent(QR_SCAN, { type: 'send' })
+          push(route, params)
+        } catch (e) {
+          log.error('scan send code failed', e.message, e, { data })
+          setQRDelay(false)
+
+          throw e
+        }
       }
-    }
-  }
+    },
+    [push, setQRDelay],
+  )
 
   const handleError = useCallback(
     exception => {
@@ -54,29 +78,31 @@ const SendByQR = ({ screenProps }: Props) => {
       let errorMessage = message
 
       if ('NotAllowedError' === name) {
-        errorMessage = `GoodDollar can't access your camera, please enable camera permission`
-        dialogOptions.onDismiss = screenProps.goToRoot
+        // exit the function and do nothing as we already displayed error popup via usePermission hook
+        return
       }
 
+      log.error('QR scan send failed', message, exception, { dialogShown: true })
       showErrorDialog(errorMessage, '', dialogOptions)
-      log.error('QR scan send failed', message, exception)
     },
-    [screenProps, showErrorDialog]
+    [showErrorDialog],
   )
 
   return (
     <Wrapper>
-      <TopBar hideBalance={true} hideProfile={false} profileAsLink={false} push={screenProps.push}>
+      <TopBar hideBalance={true} hideProfile={false} profileAsLink={false} push={push}>
         <View />
       </TopBar>
       <Section style={styles.bottomSection}>
         <Section.Row>
-          <QrReader
-            delay={qrDelay}
-            onError={handleError}
-            onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
-            style={{ width: '100%' }}
-          />
+          {hasCameraAccess && (
+            <QrReader
+              delay={qrDelay}
+              onError={handleError}
+              onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
+              style={{ width: '100%' }}
+            />
+          )}
         </Section.Row>
       </Section>
     </Wrapper>
@@ -84,10 +110,6 @@ const SendByQR = ({ screenProps }: Props) => {
 }
 
 const styles = StyleSheet.create({
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'baseline',
-  },
   bottomSection: {
     flex: 1,
   },

@@ -21,12 +21,10 @@ class SendMoneyPage {
   }
 
   get copyLinkButton() {
-    //return cy.get('div[role=button]', { timeout: 10000 }).contains('Copy link to clipboard')
-    return cy.contains(/copy link to clipboard/i)
+    return cy.contains('COPY LINK TO CLIPBOARD')
   }
 
   get doneButton() {
-    //return cy.get('div[data-gdtype="copybutton-done"]')
     return cy.contains('Done')
   }
 
@@ -44,6 +42,10 @@ class SendMoneyPage {
 
   get readyButton() {
     return cy.contains('I\'M READY')
+  }
+
+  get yayButton() {
+    return cy.contains('YAY!')
   }
 }
 

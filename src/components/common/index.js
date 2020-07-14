@@ -5,7 +5,6 @@ import AmountInput from './view/AmountInput'
 import Avatar from './view/Avatar'
 import BigGoodDollar from './view/BigGoodDollar'
 import BigNumber from './view/BigNumber'
-import ClaimButton from './buttons/ClaimButton'
 import CopyButton from './buttons/CopyButton'
 import CustomButton, { type ButtonProps } from './buttons/CustomButton'
 import CustomDialog from './dialogs/CustomDialog'
@@ -29,6 +28,7 @@ import Text from './view/Text'
 import UserAvatar from './view/UserAvatar'
 import Wrapper from './layout/Wrapper'
 import WrapperClaim from './layout/WrapperClaim'
+import ClaimButton from './buttons/ClaimButton'
 
 export {
   Address,

@@ -1,24 +1,39 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 
 import Section from '../../common/layout/Section'
-
 import ClaimButton from '../ClaimButton'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
-const ButtonBlock = ({ styles, entitlement, isCitizen, nextClaim, handleClaim, faceRecognition, ...props }) => {
-  const onPress = useCallback(() => {
+const ButtonBlock = ({
+  styles,
+  entitlement,
+  isCitizen,
+  nextClaim,
+  handleClaim,
+  handleNonCitizen,
+  isInQueue,
+  ...props
+}) => {
+  const onPress = useOnPress(() => {
     if (!isCitizen) {
-      faceRecognition()
+      handleNonCitizen()
       return
     }
-
     if (entitlement) {
       handleClaim()
     }
-  }, [entitlement, isCitizen, faceRecognition, handleClaim])
+  }, [entitlement, isCitizen, handleNonCitizen, handleClaim])
 
   return (
     <Section.Stack style={styles.claimButtonContainer}>
-      <ClaimButton isCitizen={isCitizen} entitlement={entitlement} nextClaim={nextClaim} onPress={onPress} {...props} />
+      <ClaimButton
+        isInQueue={isInQueue}
+        isCitizen={isCitizen}
+        entitlement={entitlement}
+        nextClaim={nextClaim}
+        onPress={onPress}
+        {...props}
+      />
     </Section.Stack>
   )
 }

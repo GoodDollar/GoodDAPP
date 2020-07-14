@@ -3,7 +3,7 @@ import { pick } from 'lodash'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import isWebApp from './lib/utils/isWebApp'
-import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
+import { APP_OPEN, fireEvent, identifyWithSignedInUser, initAnalytics } from './lib/analytics/analytics'
 import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 import DeepLinking from './lib/utils/deepLinking'
 import logger from './lib/logger/pino-logger'
@@ -24,8 +24,11 @@ export const init = () => {
 
       // set userStorage to simple storage
       setUserStorage(userStorage)
-      await initAnalytics(goodWallet, userStorage)
-      log.debug('analytics has been initializing')
+
+      await initAnalytics()
+      log.debug('analytics has been initialized')
+      await identifyWithSignedInUser(goodWallet, userStorage)
+      log.debug('analytics has been identified with the user signed in')
 
       const source =
         Object.keys(pick(DeepLinking.params, ['inviteCode', 'web3', 'paymentCode', 'code'])).pop() || 'none'

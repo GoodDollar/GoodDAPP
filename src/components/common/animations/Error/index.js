@@ -1,6 +1,5 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-import { cloneDeep } from 'lodash'
 
 import AnimationBase from '../Base'
 import { getAnimationData } from '../../../../lib/utils/lottie'
@@ -14,7 +13,7 @@ class Error extends AnimationBase {
         imageAssetsFolder={imageAssetsFolder}
         enableMergePathsAndroidForKitKatAndAbove={true}
         autoPlay={true}
-        source={cloneDeep(animationData)}
+        source={this.improveAnimationData(animationData)}
         autoSize={false}
         style={{
           width: 200,

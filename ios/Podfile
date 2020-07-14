@@ -3,6 +3,7 @@ platform :ios, targetVersion
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 target 'GoodDollar' do
+  project 'GoodDollar'
   # Pods for GoodDollar
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"

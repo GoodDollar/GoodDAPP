@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'gooddollar';
-    src: url('../font/gooddollar.svg?68710565#gooddollar') format('svg');
+    src: url('../font/gooddollar.svg?24366002#gooddollar') format('svg');
   }
 }
 */
@@ -24,7 +24,7 @@
   font-family: "gooddollar";
   font-style: normal;
   font-weight: normal;
-  speak: none;
+  speak: never;
 
   display: inline-block;
   text-decoration: inherit;
@@ -64,7 +64,7 @@
 .icon-cake:before { content: '\e806'; } /* '' */
 .icon-camera:before { content: '\e807'; } /* '' */
 .icon-ios-share:before { content: '\e808'; } /* '' */
-.icon-logout:before { content: '\e809'; } /* '' */
+.icon-profile:before { content: '\e809'; } /* '' */
 .icon-bonus-reward:before { content: '\e80a'; } /* '' */
 .icon-paste:before { content: '\e80b'; } /* '' */
 .icon-close:before { content: '\e80c'; } /* '' */
@@ -72,7 +72,6 @@
 .icon-backspace:before { content: '\e80e'; } /* '' */
 .icon-edit:before { content: '\e80f'; } /* '' */
 .icon-envelope:before { content: '\e810'; } /* '' */
-.icon-faq:before { content: '\e811'; } /* '' */
 .icon-claim-filled-old:before { content: '\e812'; } /* '' */
 .icon-claim-circle:before { content: '\e813'; } /* '' */
 .icon-donate-filled:before { content: '\e814'; } /* '' */
@@ -89,7 +88,6 @@
 .icon-system:before { content: '\e81f'; } /* '' */
 .icon-feedback:before { content: '\e820'; } /* '' */
 .icon-filter:before { content: '\e821'; } /* '' */
-.icon-link:before { content: '\e822'; } /* '' */
 .icon-gooddollar:before { content: '\e823'; } /* '' */
 .icon-hidden:before { content: '\e824'; } /* '' */
 .icon-gooddollar-small:before { content: '\e825'; } /* '' */
@@ -106,7 +104,6 @@
 .icon-shown:before { content: '\e830'; } /* '' */
 .icon-success:before { content: '\e831'; } /* '' */
 .icon-trash:before { content: '\e832'; } /* '' */
-.icon-profile:before { content: '\e833'; } /* '' */
 .icon-username:before { content: '\e834'; } /* '' */
 .icon-receive:before { content: '\e835'; } /* '' */
 .icon-send:before { content: '\e836'; } /* '' */
@@ -120,6 +117,11 @@
 .icon-statistics:before { content: '\e841'; } /* '' */
 .icon-send-to-address:before { content: '\e842'; } /* '' */
 .icon-receive-to-address:before { content: '\e843'; } /* '' */
-.icon-add:before { content: '\e882'; } /* '' */
+.icon-copy:before { content: '\e844'; } /* '' */
+.icon-logout:before { content: '\e845'; } /* '' */
+.icon-export-wallet:before { content: '\e846'; } /* '' */
+.icon-link:before { content: '\e847'; } /* '' */
+.icon-faq:before { content: '\e848'; } /* '' */
+.icon-add:before { content: '\e849'; } /* '' */
 .icon-privacy-policy:before { content: '\e883'; } /* '' */
 .icon-terms-of-use:before { content: '\e89f'; } /* '' */

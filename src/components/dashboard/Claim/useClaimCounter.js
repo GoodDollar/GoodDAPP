@@ -8,36 +8,40 @@ import userStorage from '../../../lib/gundb/UserStorage'
 import { CLAIM_TASK_COMPLETED, claimDaysThreshold } from './events'
 
 const claimDaysProperty = 'countClaim'
-const { userProperties } = userStorage
 
 export default () => {
   const claimsCountRef = useRef(0)
+  const claimsCountInitialized = useRef(null)
+  const claimsCountInitializing = useRef(new Promise(resolve => (claimsCountInitialized.current = resolve)))
 
   const advanceClaimsCounter = useCallback(async () => {
-    let { current } = claimsCountRef
+    const { userProperties } = userStorage
 
-    if (!Config.isPhaseZero) {
-      return
+    if (claimsCountInitializing.current) {
+      return claimsCountInitializing.current.then(advanceClaimsCounter)
     }
 
-    if (++current === claimDaysThreshold) {
+    claimsCountRef.current += 1
+
+    if (Config.isPhaseZero && claimsCountRef.current === claimDaysThreshold) {
       fireEvent(CLAIM_TASK_COMPLETED)
       await userStorage.enqueueTX(longUseOfClaims)
     }
 
-    await userProperties.set(claimDaysProperty, current)
-    claimsCountRef.current++
+    await userProperties.set(claimDaysProperty, claimsCountRef.current)
+    return claimsCountRef.current
   }, [])
 
   useEffect(() => {
+    const { userProperties } = userStorage
     const initializeClaimsCount = async () => {
       const count = await userProperties.get(claimDaysProperty)
 
       claimsCountRef.current = count
-    }
+      claimsCountInitialized.current()
 
-    if (!Config.isPhaseZero) {
-      return
+      claimsCountInitializing.current = null
+      claimsCountInitialized.current = null
     }
 
     initializeClaimsCount()

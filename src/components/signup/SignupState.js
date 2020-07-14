@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { get } from 'lodash'
+import { assign, get } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
 import {
@@ -14,7 +14,7 @@ import {
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
-import logger from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -23,7 +23,8 @@ import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, identifyOnUserSignup } from '../../lib/analytics/analytics'
+import { parsePaymentLinkParams } from '../../lib/share'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -32,7 +33,6 @@ import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
 import MagicLinkInfo from './MagicLinkInfo'
-
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord & { invite_code?: string }
@@ -80,19 +80,23 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)
+  const [torusUser] = useState(torusUserFromProps)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
   const skipEmail = !!w3UserFromProps.email || !!torusUserFromProps.email
+  const skipMobile = !!torusUserFromProps.mobile
 
   const initialState: SignupState = {
     ...getUserModel({
       email: w3UserFromProps.email || torusUserFromProps.email || '',
       fullName: w3UserFromProps.full_name || torusUserFromProps.name || '',
-      mobile: '',
+      mobile: torusUserFromProps.mobile || '',
     }),
     smsValidated: false,
     isEmailConfirmed: skipEmail,
     jwt: '',
     skipEmail: skipEmail,
+    skipPhone: skipMobile,
+    skipSMS: skipMobile,
     skipEmailConfirmation: Config.skipEmailVerification || skipEmail,
     skipMagicLinkInfo: isRegMethodSelfCustody === false,
     w3Token,
@@ -217,9 +221,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const verifyStartRoute = () => {
     //we dont support refresh if regMethod param is missing then go back to Auth
     //if regmethod is missing it means user did refresh on later steps then first 1
-    if (!regMethod) {
+    if (!regMethod || (navigation.state.index > 0 && state.lastStep !== navigation.state.index)) {
       log.debug('redirecting to start, got index:', navigation.state.index, { regMethod, torusUserFromProps })
       return navigation.navigate('Auth')
+    }
+
+    //if we have name from web3/torus we skip to phone
+    if (state.fullName) {
+      return navigation.navigate('Phone')
     }
   }
 
@@ -246,8 +255,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
    * which registers the user on w3 with it
    */
   const checkW3InviteCode = async () => {
-    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
-    return get(destinationPath, 'params.inviteCode')
+    const _destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
+    const destinationPath = JSON.parse(_destinationPath)
+    const params = get(destinationPath, 'params')
+    const paymentParams = params && parsePaymentLinkParams(params)
+
+    return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
   }
 
   const onMount = async () => {
@@ -326,14 +339,28 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     onMount()
   }, [])
 
+  // listening to the email changes in the state
+  useEffect(() => {
+    const { email } = state
+
+    // perform this again for torus and on email change. torus has also mobile verification that doesnt set email
+    if (!email) {
+      return
+    }
+
+    // once email appears in the state - identifying and setting 'identified' flag
+    identifyOnUserSignup(email)
+  }, [state.email])
+
   const finishRegistration = async () => {
     setCreateError(false)
     setLoading(true)
 
-    log.info('Sending new user data', state)
+    log.info('Sending new user data', { state, regMethod, torusProvider })
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkW3InviteCode()
+      log.debug('invite code:', { inviteCode })
       const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
 
       ;['email', 'fullName', 'mobile'].forEach(field => {
@@ -348,10 +375,30 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
 
       if (regMethod === REGISTRATION_METHOD_TORUS) {
-        requestPayload.torusProvider = torusProvider
+        const { mobile, email, privateKey, accessToken, idToken } = torusUser
+
+        // create proof that email/mobile is the same one verified by torus
+        assign(requestPayload, {
+          torusProvider,
+          torusAccessToken: accessToken,
+          torusIdToken: idToken,
+        })
+
+        if (torusProvider !== 'facebook') {
+          // if logged in via other provider that facebook - generating & signing proof
+          const torusProofNonce = Date.now()
+          const msg = (mobile || email) + String(torusProofNonce)
+          const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
+
+          assign(requestPayload, {
+            torusProof: proof.signature,
+            torusProofNonce,
+          })
+        }
       }
 
       let w3Token = requestPayload.w3Token
+
       if (w3Token) {
         userStorage.userProperties.set('cameFromW3Site', true)
       }
@@ -366,7 +413,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       goodWallet
         .getBlockNumber()
         .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
-        .catch(e => log.error('save blocknumber failed:', e.message, e))
+        .catch(e => log.error('save blocknumber failed:', e.message, e, { category: ExceptionCategory.Blockhain }))
 
       //first need to add user to our database
       const addUserAPIPromise = API.addUser(requestPayload).then(res => {
@@ -392,13 +439,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       Promise.all([
         w3Token &&
           API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
-            log.error('failed updateW3UserWithWallet', e.message, e)
+            log.error('failed updateW3UserWithWallet', e.message, e),
           ),
       ])
 
-      userStorage.setProfileField('registered', true, 'public').catch(_ => _)
-      userStorage.gunuser.get('registered').put(true)
-      await AsyncStorage.setItem(IS_LOGGED_IN, true)
+      await Promise.all([
+        userStorage.gunuser.get('registered').putAck(true),
+        userStorage.userProperties.set('registered', true),
+        AsyncStorage.setItem(IS_LOGGED_IN, true),
+      ])
 
       AsyncStorage.removeItem('GD_web3Token')
       AsyncStorage.removeItem(GD_INITIAL_REG_METHOD)
@@ -407,7 +456,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setLoading(false)
       return true
     } catch (e) {
-      log.error('New user failure', e.message, e)
+      log.error('New user failure', e.message, e, { dialogShown: true })
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, e.message)
 
       // showErrorDialog('Something went on our side. Please try again')
@@ -468,7 +517,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
 
-    const newState = { ...state, ...data }
+    const newState = { ...state, ...data, lastStep: navigation.state.index }
     setState(newState)
     log.info('signup data:', { data, nextRoute, newState })
 
@@ -486,11 +535,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           const errorMessage =
             data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
 
+          log.error(errorMessage, '', null, {
+            data,
+            dialogShown: true,
+          })
           return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error('Send mobile code failed', e.message, e)
+        log.error('Send mobile code failed', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification code. Please try again')
       } finally {
         setLoading(false)
@@ -500,8 +553,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         setLoading(true)
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
+          log.error('Send verification code failed', '', null, {
+            data,
+            dialogShown: true,
+          })
           return showErrorDialog('Could not send verification email. Please try again')
         }
+
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
         if (Config.skipEmailVerification || data.onlyInEnv) {
           // Server is using onlyInEnv middleware (probably dev mode), email verification is not sent.
@@ -515,7 +573,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error('email verification failed unexpected:', e.message, e)
+        log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
       } finally {
         setLoading(false)
@@ -557,6 +615,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setTitle('Magic Link')
       setShowNavBarGoBackButton(false)
     }
+
     if (curRoute && curRoute.key === 'SignupCompleted') {
       const finishedPromise = finishRegistration()
       setFinishedPromise(finishedPromise)

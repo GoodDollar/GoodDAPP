@@ -10,7 +10,7 @@ describe('WebViewScreen Instances', () => {
     const tree = renderer.create(
       <StoresWrapper>
         <PrivacyPolicyAndTerms />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -19,7 +19,7 @@ describe('WebViewScreen Instances', () => {
     const component = renderer.create(
       <StoresWrapper>
         <PrivacyPolicyAndTerms />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -29,7 +29,7 @@ describe('WebViewScreen Instances', () => {
     const tree = renderer.create(
       <StoresWrapper>
         <PrivacyPolicy />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -38,7 +38,7 @@ describe('WebViewScreen Instances', () => {
     const component = renderer.create(
       <StoresWrapper>
         <PrivacyPolicy />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -48,7 +48,7 @@ describe('WebViewScreen Instances', () => {
     const tree = renderer.create(
       <StoresWrapper>
         <FAQ />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -57,7 +57,7 @@ describe('WebViewScreen Instances', () => {
     const component = renderer.create(
       <StoresWrapper>
         <FAQ />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -67,7 +67,7 @@ describe('WebViewScreen Instances', () => {
     const tree = renderer.create(
       <StoresWrapper>
         <Support />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -76,7 +76,7 @@ describe('WebViewScreen Instances', () => {
     const component = renderer.create(
       <StoresWrapper>
         <Support />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -86,7 +86,7 @@ describe('WebViewScreen Instances', () => {
     const tree = renderer.create(
       <StoresWrapper>
         <SupportForUnsigned />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -95,7 +95,7 @@ describe('WebViewScreen Instances', () => {
     const component = renderer.create(
       <StoresWrapper>
         <SupportForUnsigned />
-      </StoresWrapper>
+      </StoresWrapper>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

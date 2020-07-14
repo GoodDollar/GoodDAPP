@@ -45,16 +45,16 @@ exports[`SideMenuItem matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
+          "WebkitAlignItems": "flex-start",
+          "WebkitBoxAlign": "start",
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
-          "alignItems": "center",
+          "alignItems": "flex-start",
           "display": "flex",
           "justifyContent": "center",
           "marginLeft": "8px",
           "marginRight": "30px",
-          "msFlexAlign": "center",
+          "msFlexAlign": "start",
           "msFlexPack": "center",
           "width": "20px",
         }
@@ -67,7 +67,7 @@ exports[`SideMenuItem matches snapshot 1`] = `
           Object {
             "color": "rgba(0,175,255,1.00)",
             "fontFamily": "gooddollar",
-            "fontSize": "22px",
+            "fontSize": "23px",
             "fontStyle": "normal",
             "fontWeight": "normal",
           }

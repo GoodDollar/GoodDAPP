@@ -2,19 +2,22 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 import { Platform, TouchableOpacity, View } from 'react-native'
-import { get } from 'lodash'
 import { isIOSWeb } from '../../lib/utils/platform'
 import config from '../../config/config'
 import { theme } from '../../components/theme/styles'
 import userStorage from '../../lib/gundb/UserStorage'
-import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 
-const { isEToro, market, marketUrl, showInvite, showRewards } = config
+const { isEToro, market, marketUrl, enableInvites, showRewards } = config
 
 //const showSupportFirst = !isEToro && !showInvite && !showRewards
+
+// const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
+
+// const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyless
+
 const log = logger.child({ from: 'TabsView' })
 
 // TODO: Decide if makes sense keep this to add tab behavior again
@@ -83,7 +86,7 @@ const styles = {
 }
 
 const showRewardsFlag = showRewards || isEToro
-const showInviteFlag = showInvite || isEToro
+const showInviteFlag = enableInvites || isEToro
 const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
 
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
@@ -135,7 +138,7 @@ const EmptySpaceComponent = ({ style }) => (
   </>
 )
 
-const TabsView = React.memo(({ navigation }) => {
+const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()
   const [token, setToken] = useState(isIOSWeb ? undefined : true)
   const [marketToken, setMarketToken] = useState(isIOSWeb ? undefined : true)
@@ -143,31 +146,7 @@ const TabsView = React.memo(({ navigation }) => {
   const fetchTokens = useCallback(async () => {
     let _token = await userStorage.getProfileFieldValue('loginToken')
 
-    if (!_token && config.enableInvites) {
-      _token = await API.getLoginToken()
-        .then(r => get(r, 'data.loginToken'))
-        .then(newToken => {
-          if (newToken) {
-            userStorage.setProfileField('loginToken', newToken, 'private')
-          }
-
-          return newToken
-        })
-    }
-
     let _marketToken = await userStorage.getProfileFieldValue('marketToken')
-
-    if (!_marketToken && config.market) {
-      _marketToken = await API.getMarketToken()
-        .then(_ => get(_, 'data.jwt'))
-        .then(newtoken => {
-          if (newtoken) {
-            userStorage.setProfileField('marketToken', newtoken)
-          }
-
-          return newtoken
-        })
-    }
 
     log.debug('tokens:', { _marketToken, _token })
     if (isIOSWeb) {
@@ -189,7 +168,7 @@ const TabsView = React.memo(({ navigation }) => {
       event.preventDefault()
       navigation.navigate('Rewards')
     },
-    [navigation, token]
+    [navigation, token],
   )
 
   /*const goToSupport = useCallback(() => {
@@ -219,17 +198,17 @@ const TabsView = React.memo(({ navigation }) => {
       {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
       {market && (
         <>
-          {!isEToro && !!(!showInvite ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
+          {!isEToro && !!(!enableInvites ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
           <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />
         </>
       )}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
-      <Appbar.Content />
+      {!market && !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
       <TouchableOpacity onPress={slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>
   )
-})
+}
 
 export default TabsView

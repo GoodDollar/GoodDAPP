@@ -5,7 +5,7 @@ import { get } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
-import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
+import { CLICK_BTN_GETINVITED, fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 import { PushButton } from '../appNavigation/PushButton'
@@ -120,6 +120,8 @@ class Auth extends React.Component<Props> {
     } finally {
       store.set('loadingIndicator')({ loading: false })
     }
+
+    fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
 
     this.props.navigation.navigate(redirectTo, { regMethod: REGISTRATION_METHOD_SELF_CUSTODY, w3User, w3Token })
 

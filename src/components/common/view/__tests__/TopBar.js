@@ -18,7 +18,7 @@ describe('TopBar', () => {
     const tree = renderer.create(
       <Container>
         <WrappedTopBar />
-      </Container>
+      </Container>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -27,7 +27,7 @@ describe('TopBar', () => {
     const component = renderer.create(
       <Container>
         <WrappedTopBar hideBalance />
-      </Container>
+      </Container>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -37,7 +37,7 @@ describe('TopBar', () => {
     const component = renderer.create(
       <Container>
         <WrappedTopBar />
-      </Container>
+      </Container>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -52,7 +52,7 @@ describe('TopBar', () => {
             <Text>Children element</Text>
           </View>
         </WrappedTopBar>
-      </Container>
+      </Container>,
     )
 
     // When

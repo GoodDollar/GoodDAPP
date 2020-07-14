@@ -208,16 +208,16 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
+                "WebkitAlignItems": "flex-start",
+                "WebkitBoxAlign": "start",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "display": "flex",
                 "justifyContent": "center",
                 "marginLeft": "8px",
                 "marginRight": "30px",
-                "msFlexAlign": "center",
+                "msFlexAlign": "start",
                 "msFlexPack": "center",
                 "width": "20px",
               }
@@ -230,13 +230,13 @@ exports[`SideMenuPanel matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,175,255,1.00)",
                   "fontFamily": "gooddollar",
-                  "fontSize": "22px",
+                  "fontSize": "23px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
             >
-              
+              
             </div>
           </div>
           <div
@@ -257,6 +257,110 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             }
           >
             My profile
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          data-focusable={true}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "MozTransitionProperty": "opacity",
+              "MozUserSelect": "none",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "start",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "flex-start",
+              "WebkitTransitionDuration": "0.15s",
+              "WebkitTransitionProperty": "opacity",
+              "WebkitUserSelect": "none",
+              "alignItems": "center",
+              "borderBottomColor": "rgba(238,238,238,1.00)",
+              "borderBottomStyle": "solid",
+              "borderBottomWidth": "1px",
+              "cursor": "pointer",
+              "flexDirection": "row",
+              "justifyContent": "flex-start",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "start",
+              "msTouchAction": "manipulation",
+              "msUserSelect": "none",
+              "paddingBottom": "16px",
+              "paddingLeft": "0px",
+              "paddingRight": "16px",
+              "paddingTop": "16px",
+              "touchAction": "manipulation",
+              "transitionDuration": "0.15s",
+              "transitionProperty": "opacity",
+              "userSelect": "none",
+            }
+          }
+          tabIndex="0"
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "flex-start",
+                "WebkitBoxAlign": "start",
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
+                "alignItems": "flex-start",
+                "display": "flex",
+                "justifyContent": "center",
+                "marginLeft": "8px",
+                "marginRight": "30px",
+                "msFlexAlign": "start",
+                "msFlexPack": "center",
+                "width": "20px",
+              }
+            }
+          >
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,175,255,1.00)",
+                  "fontFamily": "gooddollar",
+                  "fontSize": "18px",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                }
+              }
+            >
+              
+            </div>
+          </div>
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(66,69,74,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "14px",
+                "fontWeight": "500",
+                "lineHeight": "20px",
+                "textAlign": "left",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            Export Wallet
           </div>
         </div>
         <div
@@ -334,7 +438,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,175,255,1.00)",
                   "fontFamily": "gooddollar",
-                  "fontSize": "22px",
+                  "fontSize": "23px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
@@ -416,16 +520,16 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
+                "WebkitAlignItems": "flex-start",
+                "WebkitBoxAlign": "start",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "display": "flex",
                 "justifyContent": "center",
                 "marginLeft": "8px",
                 "marginRight": "30px",
-                "msFlexAlign": "center",
+                "msFlexAlign": "start",
                 "msFlexPack": "center",
                 "width": "20px",
               }
@@ -438,13 +542,13 @@ exports[`SideMenuPanel matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,175,255,1.00)",
                   "fontFamily": "gooddollar",
-                  "fontSize": "22px",
+                  "fontSize": "18px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
             >
-              
+              
             </div>
           </div>
           <div
@@ -464,7 +568,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
               }
             }
           >
-            Support & FAQ
+            Support & Feedback
           </div>
         </div>
         <div
@@ -520,16 +624,16 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
+                "WebkitAlignItems": "flex-start",
+                "WebkitBoxAlign": "start",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "display": "flex",
                 "justifyContent": "center",
                 "marginLeft": "8px",
                 "marginRight": "30px",
-                "msFlexAlign": "center",
+                "msFlexAlign": "start",
                 "msFlexPack": "center",
                 "width": "20px",
               }
@@ -542,7 +646,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,175,255,1.00)",
                   "fontFamily": "gooddollar",
-                  "fontSize": "22px",
+                  "fontSize": "23px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
@@ -624,16 +728,16 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
+                "WebkitAlignItems": "flex-start",
+                "WebkitBoxAlign": "start",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "display": "flex",
                 "justifyContent": "center",
                 "marginLeft": "8px",
                 "marginRight": "30px",
-                "msFlexAlign": "center",
+                "msFlexAlign": "start",
                 "msFlexPack": "center",
                 "width": "20px",
               }
@@ -646,13 +750,13 @@ exports[`SideMenuPanel matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,175,255,1.00)",
                   "fontFamily": "gooddollar",
-                  "fontSize": "22px",
+                  "fontSize": "23px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
             >
-              
+              
             </div>
           </div>
           <div
@@ -736,16 +840,16 @@ exports[`SideMenuPanel matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
+                  "WebkitAlignItems": "flex-start",
+                  "WebkitBoxAlign": "start",
                   "WebkitBoxPack": "center",
                   "WebkitJustifyContent": "center",
-                  "alignItems": "center",
+                  "alignItems": "flex-start",
                   "display": "flex",
                   "justifyContent": "center",
                   "marginLeft": "8px",
                   "marginRight": "30px",
-                  "msFlexAlign": "center",
+                  "msFlexAlign": "start",
                   "msFlexPack": "center",
                   "width": "20px",
                 }
@@ -758,7 +862,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
                   Object {
                     "color": "rgba(250,108,119,1.00)",
                     "fontFamily": "gooddollar",
-                    "fontSize": "22px",
+                    "fontSize": "23px",
                     "fontStyle": "normal",
                     "fontWeight": "normal",
                   }
@@ -784,7 +888,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
                 }
               }
             >
-              Delete wallet
+              Delete Account
             </div>
           </div>
         </div>

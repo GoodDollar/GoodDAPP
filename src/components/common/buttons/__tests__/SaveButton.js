@@ -22,7 +22,7 @@ describe('WrappedSaveButton', () => {
     const component = renderer.create(
       <WrappedSaveButton onPress={() => {}} mode="outlined">
         Title in SaveButton
-      </WrappedSaveButton>
+      </WrappedSaveButton>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -32,7 +32,7 @@ describe('WrappedSaveButton', () => {
     const component = renderer.create(
       <WrappedSaveButton onPress={() => {}} color="#CCC">
         SaveButton with color
-      </WrappedSaveButton>
+      </WrappedSaveButton>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -42,7 +42,7 @@ describe('WrappedSaveButton', () => {
     const component = renderer.create(
       <WrappedSaveButton onPress={() => {}} loadingDelay={3000} doneDelay={500}>
         SaveButton with custom delay
-      </WrappedSaveButton>
+      </WrappedSaveButton>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

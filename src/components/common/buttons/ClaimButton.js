@@ -3,17 +3,32 @@ import React, { useCallback } from 'react'
 import { Animated, Platform, View } from 'react-native'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
+import useClaimQueue from '../../dashboard/Claim/useClaimQueue'
 
 const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
+  const { queueStatus, handleClaim } = useClaimQueue()
   const [pushButtonTranslate, setPushButtonTranslate] = React.useState({})
+  const isPending = queueStatus && queueStatus.status === 'pending'
+  const canContinue = () => {
+    //if there's no status the first time then get it
+    //otherwise just return true.
+    //in case we already have status then button is disabled if pending so its ok to return true here.
+    if (queueStatus === undefined) {
+      return handleClaim()
+    }
+    return true
+  }
 
   const Button = (
     <PushButton
+      disabled={isPending}
+      canContinue={canContinue}
       routeName="Claim"
       testID="claim_button"
       screenProps={screenProps}
       style={[
         styles.claimButton,
+        isPending ? styles.inQueue : undefined,
         {
           transform: [
             { translateY: pushButtonTranslate.translateY || 0 },
@@ -23,7 +38,7 @@ const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
       ]}
       contentStyle={styles.removeMargin}
     >
-      Claim
+      {isPending ? 'Queue' : 'Claim'}
     </PushButton>
   )
 
@@ -40,6 +55,9 @@ const ClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  inQueue: {
+    backgroundColor: theme.colors.orange,
+  },
   claimButton: {
     alignItems: 'center',
     backgroundColor: theme.colors.green,

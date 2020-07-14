@@ -7,6 +7,7 @@ import { delay } from '../utils/async'
 import logger from '../logger/pino-logger'
 import SimpleStore from '../undux/SimpleStore'
 import useAppState from './useAppState'
+
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
@@ -63,8 +64,12 @@ export const useConnectionWeb3 = () => {
 
       //websocketprovider (https://github.com/ethereum/web3.js/issues/3500) provider has bug not calling events correctly, so we subscribe directly to websocket connection
       const callMethod = method === 'remove' ? 'removeEventListener' : 'addEventListener'
-      wallet.wallet.currentProvider.connection[callMethod]('close', web3Close)
-      wallet.wallet.currentProvider.connection[callMethod]('error', web3Error)
+      const connection = get(wallet, 'wallet.currentProvider.connection')
+      if (connection === undefined) {
+        return
+      }
+      connection[callMethod]('close', web3Close)
+      connection[callMethod]('error', web3Error)
     }
 
     const onReady = () => {
@@ -130,7 +135,7 @@ export const useConnectionGun = () => {
     method => {
       const connection = get(userStorage, `gun._.opt.peers`, [])[Config.gunPublicUrl] || {}
       const wire = connection.wire
-      if ((wire && websocket.current !== wire) || method === 'remove') {
+      if (wire && (websocket.current !== wire || method === 'remove')) {
         log.debug('gun binding listeners')
         websocket.current = wire
         const callMethod = method === 'remove' ? 'removeEventListener' : 'addEventListener'
@@ -141,7 +146,7 @@ export const useConnectionGun = () => {
         wire[callMethod]('error', gunError)
       }
     },
-    [userStorage, websocket]
+    [userStorage, websocket],
   )
 
   useEffect(() => {

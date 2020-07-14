@@ -19,7 +19,7 @@ import useAppState from '../../lib/hooks/useAppState'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
-import { assertStore } from '../../lib/undux/SimpleStore'
+import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
 import DeepLinking from '../../lib/utils/deepLinking'
 import { isMobileNative } from '../../lib/utils/platform'
@@ -48,7 +48,7 @@ const showOutOfGasError = debounce(
   GAS_CHECK_DEBOUNCE_TIME,
   {
     leading: true,
-  }
+  },
 )
 
 let unsuccessfulLaunchAttempts = 0
@@ -58,6 +58,7 @@ let unsuccessfulLaunchAttempts = 0
  */
 const AppSwitch = (props: LoadingProps) => {
   const gdstore = GDStore.useStore()
+  const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
   const [ready, setReady] = useState(false)
@@ -125,14 +126,18 @@ const AppSwitch = (props: LoadingProps) => {
 
     //after dynamic routes update, if user arrived here, then he is already loggedin
     //initialize the citizen status and wallet status
-    const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
-      ([authResult, _]) => authResult
-    )
+    const [{ isLoggedInCitizen, isLoggedIn }, , inviteCode] = await Promise.all([
+      getLoginState(),
+      updateWalletStatus(gdstore),
+      userStorage.getProfileFieldValue('inviteCode'),
+    ])
 
-    log.debug({ isLoggedIn, isLoggedInCitizen })
+    log.debug({ isLoggedIn, isLoggedInCitizen, inviteCode })
 
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
+    gdstore.set('inviteCode')(inviteCode)
+    store.set('regMethod')(userStorage.userProperties.get('regMethod'))
 
     if (isLoggedInCitizen) {
       API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
@@ -166,7 +171,7 @@ const AppSwitch = (props: LoadingProps) => {
     //     props.navigation.navigate('Auth')
     //   } else {
     //     // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
-    //     log.error('Failed to sign in', 'Failed to sign in', new Error('Failed to sign in'), { credsOrError })
+    //     log.error('Failed to sign in', 'Failed to sign in', new Error('Failed to sign in'), { credsOrError, dialogShown: false })
     //     props.navigation.navigate('Auth')
     //   }
     // }
@@ -177,6 +182,15 @@ const AppSwitch = (props: LoadingProps) => {
 
     try {
       const isCitizen = await initialize()
+
+      //patch to fore phase0 users to go through face recognition
+      if (config.isPhaseZero && isCitizen) {
+        const [lastVerified, isWhitelisted] = await Promise.all([goodWallet.lastVerified(), goodWallet.isCitizen()])
+        if (isWhitelisted && lastVerified < new Date('06/02/2020')) {
+          await goodWallet.deleteAccount()
+          gdstore.set('isLoggedInCitizen')(false)
+        }
+      }
       checkBonusInterval()
       prepareLoginToken()
       runUpdates()
@@ -191,10 +205,13 @@ const AppSwitch = (props: LoadingProps) => {
 
       setReady(true)
     } catch (e) {
-      log.error('failed initializing app', e.message, e)
+      const dialogShown = unsuccessfulLaunchAttempts > 3
+
       unsuccessfulLaunchAttempts += 1
-      if (unsuccessfulLaunchAttempts > 3) {
+
+      if (dialogShown) {
         //TODO: FIX window.location for RN
+        log.error('failed initializing app', e.message, e, { dialogShown })
         showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => (window.location = '/') })
       } else {
         await delay(1500)
@@ -226,7 +243,7 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const checkBonusInterval = async force => {
-    if (config.enableInvites !== true) {
+    if (config.enableInvites !== true || config.isPhaseOne) {
       return
     }
 

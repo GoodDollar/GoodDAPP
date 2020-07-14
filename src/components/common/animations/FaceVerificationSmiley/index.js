@@ -1,7 +1,6 @@
 import React from 'react'
 import { Platform } from 'react-native'
 import Lottie from 'lottie-react-native'
-import { cloneDeep } from 'lodash'
 
 import AnimationBase from '../Base'
 
@@ -10,7 +9,9 @@ import animationData from './data.json'
 const styles = {
   android: {},
   ios: {},
-  web: {},
+  web: {
+    height: '100%',
+  },
 }
 
 class FaceVerificationSmiley extends AnimationBase {
@@ -19,7 +20,7 @@ class FaceVerificationSmiley extends AnimationBase {
       <Lottie
         enableMergePathsAndroidForKitKatAndAbove={true}
         autoPlay={true}
-        source={cloneDeep(animationData)}
+        source={this.improveAnimationData(animationData)}
         autoSize={true}
         style={Platform.select(styles)}
         loop={false}

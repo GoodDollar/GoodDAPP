@@ -10,15 +10,16 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { getScreenWidth } from '../../lib/utils/Orientation'
+import { isMediumDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 
-const isSmallDev = getScreenWidth() < 350
+const buttonLabelFontSize = isSmallDevice ? 30 : 40
+const timerFontSize = isSmallDevice ? 30 : 36
 
-const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles }) => (
+const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, styles, isInQueue }) => (
   <View style={styles.textBtn}>
     {showLabelOnly ? (
-      <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={isSmallDev ? 30 : 40}>
-        {`Claim`}
+      <Text color="white" fontFamily="Roboto Slab" fontWeight="bold" fontSize={buttonLabelFontSize}>
+        {isInQueue ? `In Queue` : `Claim`}
       </Text>
     ) : (
       <>
@@ -55,7 +56,7 @@ const ButtonAmountToClaim = ({ showLabelOnly = false, entitlement, isCitizen, st
 
 export const ButtonCountdown = ({ styles, nextClaim }) => (
   <View style={styles.countdownContainer}>
-    {isSmallDev ? (
+    {isSmallDevice ? (
       <View style={styles.btnTitleSmallDev}>
         <Text style={styles.extraInfoCountdownTitle} fontWeight="bold">
           {`Your next`}
@@ -76,7 +77,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
           return (
             <Text
               key={index}
-              fontSize={isSmallDev ? 30 : 36}
+              fontSize={timerFontSize}
               fontFamily="Roboto Slab"
               fontWeight="bold"
               color="white"
@@ -90,7 +91,7 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
   </View>
 )
 
-const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnly }) => {
+const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnly, isInQueue }) => {
   //if user can claim either as whitelisted or new user not whitelisted show claim
   //otherwise show countdown
   if (entitlement) {
@@ -100,19 +101,20 @@ const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnl
         entitlement={entitlement}
         isCitizen={isCitizen}
         showLabelOnly={showLabelOnly}
+        isInQueue={isInQueue}
       />
     )
   }
   return <ButtonCountdown styles={styles} nextClaim={nextClaim} />
 }
 
-const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly }) => (
+const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly, isInQueue }) => (
   <CustomButton
     testId="claim_button"
     compact={true}
     mode="contained"
     onPress={onPress}
-    style={[styles.minButtonHeight, isCitizen && !entitlement ? styles.buttonCountdown : {}, style]}
+    style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
   >
     <ButtonContent
       isCitizen={isCitizen}
@@ -120,11 +122,12 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
       entitlement={entitlement}
       nextClaim={nextClaim}
       styles={styles}
+      isInQueue={isInQueue}
     />
   </CustomButton>
 )
 
-const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, ...buttonProps }) => {
+const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
   const initialEntitlementRef = useRef(entitlement)
 
   const cardRef = useRef()
@@ -145,12 +148,19 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, ..
 
   if (initialEntitlementRef.current) {
     return (
-      <ClaimButton {...buttonProps} styles={styles} entitlement={entitlement} nextClaim={nextClaim} onPress={onPress} />
+      <ClaimButton
+        {...buttonProps}
+        styles={styles}
+        entitlement={entitlement}
+        nextClaim={nextClaim}
+        onPress={onPress}
+        isInQueue={isInQueue}
+      />
     )
   }
 
-  if (!entitlement) {
-    return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} />
+  if (!entitlement || isInQueue) {
+    return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} isInQueue={isInQueue} />
   }
 
   const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
@@ -191,12 +201,12 @@ const getStylesFromProps = ({ theme }) => ({
     height: getDesignRelativeHeight(196),
   },
   minButtonHeight: {
-    borderRadius: isSmallDev ? 70 : 98,
+    borderRadius: isSmallDevice ? 70 : 98,
     borderColor: '#FFFFFF',
     borderWidth: 3,
     borderStyle: 'solid',
-    height: isSmallDev ? 140 : 196,
-    width: isSmallDev ? 140 : 196,
+    height: isSmallDevice ? 140 : getDesignRelativeHeight(196),
+    width: isSmallDevice ? 140 : getDesignRelativeHeight(196),
     boxShadow: '10px 12px 25px -14px',
     alignItems: 'center',
   },
@@ -206,10 +216,10 @@ const getStylesFromProps = ({ theme }) => ({
   },
   countDownTimer: {
     justifyContent: 'center',
-    minHeight: isSmallDev ? 0 : 53,
-    alignItems: isSmallDev ? 'normal' : 'center',
+    minHeight: isSmallDevice ? 0 : 53,
+    alignItems: isSmallDevice ? 'normal' : 'center',
   },
-  countdownContainer: isSmallDev
+  countdownContainer: isSmallDevice
     ? {
         flexDirection: 'column',
         height: 140,
@@ -224,17 +234,22 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'relative',
     top: 0,
     left: 0,
-    marginTop: 18,
+    marginTop: 20,
+    marginBottom: 10,
   },
   tallCountDown: {
-    width: isSmallDev ? getDesignRelativeWidth(8) : getDesignRelativeWidth(10),
+    width: isSmallDevice ? getDesignRelativeWidth(8) : getDesignRelativeWidth(10),
   },
   countdown: {
-    width: isSmallDev ? getDesignRelativeWidth(18) : getDesignRelativeWidth(25),
+    width: isSmallDevice
+      ? getDesignRelativeWidth(18)
+      : isMediumDevice
+      ? getDesignRelativeWidth(22)
+      : getDesignRelativeWidth(25),
   },
   extraInfoCountdownTitle: {
     letterSpacing: 0.14,
-    fontSize: isSmallDev ? 14 : 16,
+    fontSize: isMediumDevice || isSmallDevice ? 14 : 16,
   },
   amountInButton: {
     display: 'flex',

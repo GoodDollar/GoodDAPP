@@ -8,7 +8,7 @@ import GDStore from '../../lib/undux/GDStore'
 import Config from '../../config/config'
 import gun from '../../lib/gundb/gundb'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -34,6 +34,7 @@ export type AmountProps = {
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const gdstore = GDStore.useStore()
+  const inviteCode = gdstore.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
@@ -210,14 +211,17 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           return hash
         },
         onError: e => {
-          log.error('Send TX failed:', e.message, e)
+          log.error('Send TX failed:', e.message, e, { category: ExceptionCategory.Blockhain })
 
           setLoading(false)
           userStorage.markWithErrorEvent(txhash)
         },
       })
     } catch (e) {
-      log.error('Send TX failed:', e.message, e)
+      log.error('Send TX failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+        dialogShown: true,
+      })
 
       showErrorDialog({
         visible: true,
@@ -234,14 +238,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
       const desktopShareLink = (canShare ? generateSendShareObject : generateSendShareText)(
         paymentLink,
-        ...shareStringStateDepSource
+        ...shareStringStateDepSource,
       )
 
       // Go to transaction confirmation screen
       push('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
     } catch (e) {
+      log.error('Something went wrong while trying to generate send link', e.message, e, { dialogShown: true })
       showErrorDialog('Could not complete transaction. Please try again.')
-      log.error('Something went wrong while trying to generate send link', e.message, e)
     }
   }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
 
@@ -257,7 +261,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     let txHash
 
     // Generate link deposit
-    const generateLinkResponse = goodWallet.generateLink(amount, reason, {
+    const generatePaymentLinkResponse = goodWallet.generatePaymentLink(amount, reason, inviteCode, {
       onTransactionHash: hash => {
         txHash = hash
 
@@ -272,15 +276,15 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             counterPartyDisplayName,
             reason,
             amount,
-            paymentLink: generateLinkResponse.paymentLink,
-            hashedCode: generateLinkResponse.hashedCode,
-            code: generateLinkResponse.code,
+            paymentLink: generatePaymentLinkResponse.paymentLink,
+            hashedCode: generatePaymentLinkResponse.hashedCode,
+            code: generatePaymentLinkResponse.code,
           },
         }
 
         fireEvent('SEND_DONE', { type: 'link' })
 
-        log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
+        log.debug('generatePaymentLinkAndSend: enqueueTX', { transactionEvent })
 
         userStorage.enqueueTX(transactionEvent)
 
@@ -297,13 +301,16 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       },
     })
 
-    log.debug('generateLinkAndSend:', { generateLinkResponse })
+    log.debug('generatePaymentLinkAndSend:', { generatePaymentLinkResponse })
 
-    if (generateLinkResponse) {
-      const { txPromise, paymentLink } = generateLinkResponse
+    if (generatePaymentLinkResponse) {
+      const { txPromise, paymentLink } = generatePaymentLinkResponse
 
       txPromise.catch(e => {
-        log.error('generateLinkAndSend:', e.message, e)
+        log.error('generatePaymentLinkAndSend:', e.message, e, {
+          category: ExceptionCategory.Blockhain,
+          dialogShown: true,
+        })
 
         showErrorDialog('Link generation failed. Please try again', '', {
           buttons: [

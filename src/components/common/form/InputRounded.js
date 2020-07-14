@@ -18,7 +18,7 @@ const InputRounded = ({ styles, containerStyle, theme, icon, iconSize, iconColor
     value => {
       onChange(value)
     },
-    [onChange]
+    [onChange],
   )
 
   return (

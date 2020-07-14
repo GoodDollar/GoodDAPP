@@ -1,17 +1,20 @@
 import { useCallback, useRef } from 'react'
+import { v4 as uuid } from 'uuid'
 import { noop } from 'lodash'
 
-// logger
+// logger & utils
 import logger from '../../../../lib/logger/pino-logger'
+import { isE2ERunning } from '../../../../lib/utils/platform'
 
 // Zoom SDK reference & helpers
+import api from '../api/FaceVerificationApi'
 import { ZoomSDK } from '../sdk/ZoomSDK'
 import { kindOfSessionIssue } from '../utils/kindOfTheIssue'
+import { zoomResultSuccessMessage } from '../utils/strings'
 import { unloadZoomSDK } from './useZoomSDK'
 
-// Zoom exceptions helper
-
 const log = logger.child({ from: 'useZoomVerification' })
+const emptyBase64 = btoa(String.fromCharCode(0x20).repeat(40))
 
 /**
  * ZoomSDK face verification & fecamap enrollment hook
@@ -24,7 +27,14 @@ const log = logger.child({ from: 'useZoomVerification' })
  *
  * @return {async () => Promise<void>} Function that starts verification/enrollment process
  */
-export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => {
+export default ({
+  enrollmentIdentifier,
+  onUIReady = noop,
+  onCaptureDone = noop,
+  onRetry = noop,
+  onComplete = noop,
+  onError = noop,
+}) => {
   // Zoom session in progress flag to avoid begin
   // a new session until current is in progress
   // Shared via Ref
@@ -34,6 +44,26 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
   // Wrapped to useCallback for incapsulate session in a single call
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
+    // if cypress is running
+    if (isE2ERunning) {
+      try {
+        // don't start session, just call enroll with fake data
+        // to whitelist user on server
+        await api.performFaceVerification({
+          enrollmentIdentifier,
+          sessionId: uuid(),
+          faceMap: emptyBase64,
+          lowQualityAuditTrailImage: emptyBase64,
+          auditTrailImage: emptyBase64,
+        })
+      } finally {
+        // call onComplete callback with success state
+        onComplete(zoomResultSuccessMessage)
+      }
+
+      return
+    }
+
     // don't starting new session if it already runs
     if (sessionInProgressRef.current) {
       return
@@ -46,32 +76,41 @@ export default ({ enrollmentIdentifier, onComplete = noop, onError = noop }) => 
 
     // initializing zoom session
     try {
-      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier)
+      const verificationStatus = await ZoomSDK.faceVerification(enrollmentIdentifier, onUIReady, onCaptureDone, onRetry)
 
       log.debug('Zoom verification successfull', { verificationStatus })
 
       await unloadZoomSDK(log)
       onComplete(verificationStatus)
     } catch (exception) {
-      // the following code is needed to categorize exceptions
-      // then we could display specific error messages
-      // corresponding to the kind of issue (camera, orientation, duplicate etc)
-      const kindOfTheIssue = kindOfSessionIssue(exception)
       const { message } = exception
 
-      if (kindOfTheIssue) {
-        exception.name = kindOfTheIssue
-      } else if (exception.message.startsWith('Duplicate')) {
+      // checking for duplicate case firstly because on any server error
+      // we're calling zoomResultCallback.cancel() which returns us
+      // an 'ProgrammaticallyCancelled' status which fills kindOfTheIssue
+      // so check for duplicates case never performs
+      if (message.startsWith('Duplicate')) {
         exception.name = 'DuplicateFoundError'
+      } else {
+        // the following code is needed to categorize exceptions
+        // then we could display specific error messages
+        // corresponding to the kind of issue (camera, orientation, duplicate etc)
+        const kindOfTheIssue = kindOfSessionIssue(exception)
+
+        if (kindOfTheIssue) {
+          exception.name = kindOfTheIssue
+        }
       }
 
-      log.error('Zoom verification failed', message, exception)
+      const dialogShown = exception.name === 'NotAllowedError'
+
+      log.error('Zoom verification failed', message, exception, { dialogShown })
       onError(exception)
     } finally {
       // setting session is not running flag in the ref
       sessionInProgressRef.current = false
     }
-  }, [enrollmentIdentifier, onComplete, onError])
+  }, [enrollmentIdentifier, onUIReady, onComplete, onError])
 
   // exposing public hook API
   return startVerification

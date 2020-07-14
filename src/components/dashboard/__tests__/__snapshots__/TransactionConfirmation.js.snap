@@ -159,6 +159,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "500",
+                "letterSpacing": "0.16px",
                 "lineHeight": "28px",
                 "textAlign": "left",
                 "textDecoration": "none",
@@ -177,6 +178,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "700",
+                  "letterSpacing": "0.16px",
                   "lineHeight": "28px",
                   "textAlign": "left",
                   "textDecoration": "none",
@@ -199,6 +201,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "500",
+                "letterSpacing": "0.16px",
                 "lineHeight": "28px",
                 "textAlign": "left",
                 "textDecoration": "none",
@@ -217,6 +220,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "700",
+                  "letterSpacing": "0.16px",
                   "lineHeight": "28px",
                   "textAlign": "left",
                   "textDecoration": "none",
@@ -239,6 +243,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "500",
+                "letterSpacing": "0.16px",
                 "lineHeight": "28px",
                 "textAlign": "left",
                 "textDecoration": "none",
@@ -257,6 +262,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "700",
+                  "letterSpacing": "0.16px",
                   "lineHeight": "28px",
                   "textAlign": "left",
                   "textDecoration": "none",
@@ -279,6 +285,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "500",
+                "letterSpacing": "0.16px",
                 "lineHeight": "28px",
                 "textAlign": "left",
                 "textDecoration": "none",
@@ -297,6 +304,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "700",
+                  "letterSpacing": "0.16px",
                   "lineHeight": "28px",
                   "textAlign": "left",
                   "textDecoration": "none",
@@ -513,7 +521,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                       }
                     }
                   >
-                    
+                    
                   </span>
                   <span
                     className="css-text-901oao css-textHasAncestor-16my406"

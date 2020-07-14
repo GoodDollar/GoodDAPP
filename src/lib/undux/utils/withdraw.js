@@ -1,7 +1,7 @@
 // @flow
 import type { Store } from 'undux'
 import goodWallet from '../../wallet/GoodWallet'
-import pino from '../../logger/pino-logger'
+import pino, { ExceptionCategory } from '../../logger/pino-logger'
 import userStorage from '../../gundb/UserStorage'
 import type { TransactionEvent } from '../../gundb/UserStorage'
 import { WITHDRAW_STATUS_PENDING } from '../../wallet/GoodWalletClass'
@@ -29,14 +29,17 @@ type ReceiptType = {
 export const executeWithdraw = async (
   store: Store,
   code: string,
-  reason: string
+  reason: string,
 ): Promise<ReceiptType | { status: boolean }> => {
   try {
     const { amount, sender, status, hashedCode } = await goodWallet.getWithdrawDetails(code)
+
     log.info('executeWithdraw', { code, reason, amount, sender, status, hashedCode })
+
     if (sender.toLowerCase() === goodWallet.account.toLowerCase()) {
       throw new Error('You are trying to withdraw your own payment link.')
     }
+
     if (status === WITHDRAW_STATUS_PENDING) {
       let txHash
 
@@ -68,33 +71,16 @@ export const executeWithdraw = async (
         })
       })
     }
+
     return { status }
   } catch (e) {
-    log.error('code withdraw failed', e.message, e, { code })
+    const { message } = e
+
+    log.error('code withdraw failed', message, e, {
+      code,
+      category: message.endsWith('your own payment link.') ? ExceptionCategory.Human : ExceptionCategory.Blockhain,
+    })
+
     throw e
   }
-}
-
-export const prepareDataWithdraw = params => {
-  const { paymentCode, reason } = params
-  let paymentParams = null
-
-  if (paymentCode) {
-    try {
-      paymentParams = Buffer.from(decodeURIComponent(paymentCode), 'base64').toString()
-      const { p, r, reason: oldr, paymentCode: oldp } = JSON.parse(paymentParams)
-      paymentParams = {
-        paymentCode: p || oldp,
-        reason: r || oldr,
-      }
-    } catch (e) {
-      log.info('uses old format', { paymentCode, reason })
-      paymentParams = {
-        paymentCode: decodeURIComponent(paymentCode),
-        reason: reason ? decodeURIComponent(reason) : null,
-      }
-    }
-  }
-
-  return paymentParams
 }

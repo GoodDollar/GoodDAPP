@@ -7,30 +7,32 @@ import SimpleStore from '../undux/SimpleStore'
 import { useErrorDialog } from '../undux/utils/dialog'
 import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidemenu'
 
+// utils
 import { useWrappedApi } from '../API/useWrappedApi'
 
-import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../analytics/analytics'
-import { GD_USER_MASTERSEED, GD_USER_MNEMONIC } from '../constants/localStorage'
+// constants
+import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
+import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
 export default (props = {}) => {
   const { navigation, theme } = props
   const API = useWrappedApi()
   const store = SimpleStore.useStore()
-  const [showDialog] = useErrorDialog()
+  const [showErrorDialog] = useErrorDialog()
   const isLoggedIn = store.get('isLoggedIn')
-  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog, store, theme })
+  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
 
   const [isSelfCustody, setIsSelfCustody] = useState(false)
   const slideToggle = useCallback(() => toggleSidemenu(store), [store])
   const slideIn = useCallback(() => showSidemenu(store), [store])
   const slideOut = useCallback(() => hideSidemenu(store), [store])
 
-  const getIsSelfCustody = async () => {
+  const getIsSelfCustody = () => {
     if (isLoggedIn) {
-      const hasSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
-      const hasMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-      setIsSelfCustody(hasSeed == null && hasMnemonic)
+      const regMethod = store.get('regMethod')
+
+      setIsSelfCustody(regMethod === REGISTRATION_METHOD_SELF_CUSTODY)
     }
   }
 
@@ -42,7 +44,7 @@ export default (props = {}) => {
     () => [
       {
         icon: 'trash',
-        name: 'Delete wallet',
+        name: 'Delete Account',
         color: 'red',
         action: () => {
           fireEvent(CLICK_DELETE_WALLET)
@@ -51,7 +53,7 @@ export default (props = {}) => {
         },
       },
     ],
-    [slideOut, showDeleteAccountDialog]
+    [slideOut, showDeleteAccountDialog],
   )
 
   const topItems = useMemo(() => {
@@ -71,6 +73,7 @@ export default (props = {}) => {
       },
       {
         icon: 'add',
+        size: 18,
         name: 'Add App To Home',
         hidden: !installPrompt && !isMobileSafari,
         action: () => {
@@ -81,10 +84,23 @@ export default (props = {}) => {
       {
         icon: 'link',
         name: 'Magic Link',
+        size: 18,
         hidden: isSelfCustody === false,
         action: () => {
           navigation.navigate({
             routeName: 'MagicLinkInfo',
+            type: 'Navigation/NAVIGATE',
+          })
+          slideOut()
+        },
+      },
+      {
+        icon: 'export-wallet',
+        size: 18,
+        name: 'Export Wallet',
+        action: () => {
+          navigation.navigate({
+            routeName: 'ExportWallet',
             type: 'Navigation/NAVIGATE',
           })
           slideOut()
@@ -104,6 +120,7 @@ export default (props = {}) => {
       },
       {
         icon: 'statistics',
+        centered: true,
         name: 'Statistics',
         action: () => {
           navigation.navigate({
@@ -115,7 +132,8 @@ export default (props = {}) => {
       },
       {
         icon: 'faq',
-        name: 'Support & FAQ',
+        size: 18,
+        name: 'Support & Feedback',
         action: () => {
           navigation.navigate('Support')
           slideOut()

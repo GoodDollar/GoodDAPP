@@ -113,7 +113,7 @@ export class Wallet {
         from: this.address,
         gas: 500000,
         gasPrice: web3Utils.toWei('2', 'gwei'),
-      }
+      },
     )
 
     this.tokenContract = new this.web3.eth.Contract(
@@ -123,7 +123,7 @@ export class Wallet {
         from: this.address,
         gas: 500000,
         gasPrice: web3Utils.toWei('1', 'gwei'),
-      }
+      },
     )
 
     try {
@@ -152,7 +152,7 @@ export class Wallet {
    */
   async whitelistUser(address: string, did: string): Promise<TransactionReceipt> {
     const tx: TransactionReceipt = await this.sendTransaction(
-      this.identityContract.methods.addWhitelistedWithDID(address, did)
+      this.identityContract.methods.addWhitelistedWithDID(address, did),
     ).catch(e => {
       log.error('Error whitelistUser', { e }, e.message)
       throw e
@@ -163,7 +163,7 @@ export class Wallet {
 
   async blacklistUser(address: string): Promise<TransactionReceipt> {
     const tx: TransactionReceipt = await this.sendTransaction(
-      this.identityContract.methods.addBlacklisted(address)
+      this.identityContract.methods.addBlacklisted(address),
     ).catch(e => {
       log.error('Error blacklistUser', { e }, e.message)
       throw e
@@ -209,7 +209,7 @@ export class Wallet {
   async topWallet(
     address: string,
     lastTopping?: moment.Moment = moment().subtract(1, 'day'),
-    force: boolean = false
+    force: boolean = false,
   ): PromiEvent<TransactionReceipt> {
     let daysAgo = moment().diff(moment(lastTopping), 'days')
     if (conf.env !== 'development' && daysAgo < 1) {
@@ -274,7 +274,7 @@ export class Wallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = {},
-    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = txCallbacks
     gas = gas || (await tx.estimateGas())
@@ -320,7 +320,7 @@ export class Wallet {
   async sendNative(
     params: { from: string, to: string, value: string },
     txCallbacks: PromiEvents = {},
-    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined },
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = txCallbacks
     gas = gas || 100000

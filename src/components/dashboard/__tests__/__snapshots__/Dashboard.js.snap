@@ -86,6 +86,101 @@ exports[`Dashboard matches snapshot 1`] = `
               "WebkitTransitionProperty": "opacity",
               "WebkitUserSelect": "none",
               "cursor": "pointer",
+              "marginLeft": "10px",
+              "msTouchAction": "manipulation",
+              "msUserSelect": "none",
+              "touchAction": "manipulation",
+              "transitionDuration": "0.15s",
+              "transitionProperty": "opacity",
+              "userSelect": "none",
+              "width": "37px",
+            }
+          }
+          tabIndex="0"
+        >
+          <div
+            className="css-text-901oao"
+            data-testid="invite_tab"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(255,255,255,1.00)",
+                "fontFamily": "gooddollar",
+                "fontSize": "36px",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              }
+            }
+          >
+            
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          data-focusable={true}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "WebkitBoxFlex": 1,
+              "WebkitFlexBasis": "0%",
+              "WebkitFlexGrow": 1,
+              "WebkitFlexShrink": 1,
+              "cursor": "pointer",
+              "flexBasis": "0%",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "msFlexNegative": 1,
+              "msFlexPositive": 1,
+              "msFlexPreferredSize": "0%",
+              "msTouchAction": "manipulation",
+              "paddingLeft": "12px",
+              "paddingRight": "12px",
+              "touchAction": "manipulation",
+            }
+          }
+          tabIndex="0"
+        >
+          <h1
+            className="css-reset-4rbku5 css-text-901oao css-textOneLine-bfa6kz"
+            dir="auto"
+            role="heading"
+            style={
+              Object {
+                "color": "rgba(0,0,0,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontSize": "20px",
+                "textAlign": "left",
+              }
+            }
+          />
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          data-focusable={true}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "MozTransitionProperty": "opacity",
+              "MozUserSelect": "none",
+              "WebkitTransitionDuration": "0.15s",
+              "WebkitTransitionProperty": "opacity",
+              "WebkitUserSelect": "none",
+              "cursor": "pointer",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
               "touchAction": "manipulation",

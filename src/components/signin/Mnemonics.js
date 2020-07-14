@@ -1,12 +1,13 @@
 // @flow
 //eslint-disable-next-line
+
 import React, { useEffect, useState } from 'react'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import retryImport from '../../lib/utils/retryImport'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
@@ -57,11 +58,18 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)
-    const showError = () =>
+
+    const showError = () => {
+      log.error('Incorrect pass phrase - wallet recover failed', '', null, {
+        mnemonics,
+        category: ExceptionCategory.Human,
+        dialogShown: true,
+      })
       showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
         title: 'Ooops ...',
         boldMessage: 'Please check it and try again.',
       })
+    }
 
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
       fireEvent(RECOVER_FAILED, { invalidMnemonics: true })
@@ -105,7 +113,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       }
     } catch (e) {
       fireEvent(RECOVER_FAILED, { unexpected: true })
-      log.error('recover mnemonics failed', e.message, e)
+      log.error('recover mnemonics failed', e.message, e, { dialogShown: true })
       saveMnemonics(prevMnemonics)
       showSupportDialog(showErrorDialog, hideDialog, screenProps.push)
     } finally {

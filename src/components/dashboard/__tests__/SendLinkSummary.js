@@ -13,7 +13,7 @@ describe('SendLinkSummary', () => {
     const tree = renderer.create(
       <Container>
         <SendLinkSummary />
-      </Container>
+      </Container>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })
@@ -23,7 +23,7 @@ describe('SendLinkSummary', () => {
     const component = renderer.create(
       <Container>
         <SendLinkSummary />
-      </Container>
+      </Container>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

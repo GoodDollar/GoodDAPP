@@ -13,7 +13,7 @@ import API from '../../lib/API/api'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { PAGE_SIZE } from '../../lib/undux/utils/feed'
-import { executeWithdraw, prepareDataWithdraw } from '../../lib/undux/utils/withdraw'
+import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import {
   WITHDRAW_STATUS_COMPLETE,
@@ -33,11 +33,11 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
-import logger from '../../lib/logger/pino-logger'
-import { PrivacyArticle, PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import { PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
-import { readCode } from '../../lib/share'
+import { parsePaymentLinkParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -72,7 +72,6 @@ import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
-import FaceVerificationUnsupported from './FaceVerification/screens/UnsupportedScreen'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -87,6 +86,7 @@ export type DashboardProps = {
   store: Store,
   styles?: any,
 }
+
 const Dashboard = props => {
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
@@ -104,7 +104,7 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showDialog: showErrorDialog, store, theme })
+  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
   const [update, setUpdate] = useState(0)
   const [showDelayedTimer, setShowDelayedTimer] = useState()
   const currentFeed = store.get('currentFeed')
@@ -169,7 +169,12 @@ const Dashboard = props => {
               const { route, params } = await routeAndPathForCode('send', code)
               screenProps.push(route, params)
             } catch (e) {
-              showErrorDialog('Paymnet link is incorrect. Please double check your link.', undefined, {
+              log.error('Payment link is incorrect', e.message, e, {
+                code,
+                category: ExceptionCategory.Human,
+                dialogShown: true,
+              })
+              showErrorDialog('Payment link is incorrect. Please double check your link.', undefined, {
                 onDismiss: screenProps.goToRoot,
               })
             }
@@ -179,7 +184,7 @@ const Dashboard = props => {
         log.error('checkCode unexpected error:', e.message, e)
       }
     },
-    [screenProps, showErrorDialog]
+    [screenProps, showErrorDialog],
   )
 
   const handleDeleteRedirect = useCallback(() => {
@@ -191,10 +196,10 @@ const Dashboard = props => {
   const getFeedPage = useCallback(
     debounce(
       async (reset = false) => {
-        log.debug('getFeedPage:', { feeds, loadAnimShown, didRender })
+        log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
-          .catch(e => logger.error('getInitialFeed -> ', e.message, e))
+          .catch(e => log.error('getInitialFeed failed:', e.message, e))
 
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
@@ -206,6 +211,7 @@ const Dashboard = props => {
             didRender = true
           }
           const res = (await feedPromise) || []
+          log.debug('getFeedPage result:', { res })
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
           res.length > 0 && setFeeds(res)
         } else {
@@ -214,9 +220,9 @@ const Dashboard = props => {
         }
       },
       500,
-      { leading: true }
+      { leading: true },
     ),
-    [loadAnimShown, store, setFeeds, feeds]
+    [loadAnimShown, store, setFeeds, feeds],
   )
 
   //subscribeToFeed probably should be an effect that updates the feed items
@@ -227,7 +233,7 @@ const Dashboard = props => {
     return new Promise((res, rej) => {
       userStorage.feed.get('byid').on(async data => {
         log.debug('gun getFeed callback', { data })
-        await getFeedPage(true).catch(e => rej(false))
+        await getFeedPage(true).catch(e => rej(e))
         res(true)
       }, true)
     })
@@ -255,7 +261,11 @@ const Dashboard = props => {
     }
   }, [appState])
 
-  const animateClaim = useCallback(() => {
+  const animateClaim = useCallback(async () => {
+    const inQueue = await userStorage.userProperties.get('claimQueueAdded')
+    if (inQueue && inQueue.status === 'pending') {
+      return
+    }
     const { entitlement } = gdstore.get('account')
 
     if (Number(entitlement)) {
@@ -297,7 +307,7 @@ const Dashboard = props => {
       setUpdate(Date.now())
       calculateHeaderLayoutSizes()
     }, 100),
-    [setUpdate]
+    [setUpdate],
   )
 
   const nextFeed = useCallback(
@@ -309,9 +319,9 @@ const Dashboard = props => {
         }
       },
       100,
-      { leading: true }
+      { leading: true },
     ),
-    [feeds, getFeedPage]
+    [feeds, getFeedPage],
   )
 
   const initDashboard = async () => {
@@ -352,7 +362,7 @@ const Dashboard = props => {
       }
       balanceHasBeenCentered.current = true
     },
-    [setBalanceBlockWidth]
+    [setBalanceBlockWidth],
   )
 
   useEffect(() => {
@@ -488,7 +498,7 @@ const Dashboard = props => {
     currentFeed => {
       store.set('currentFeed')(currentFeed)
     },
-    [store]
+    [store],
   )
 
   const getNotificationItem = async () => {
@@ -530,12 +540,12 @@ const Dashboard = props => {
         })
       }
     },
-    [showDialog, showEventModal]
+    [showDialog, showEventModal],
   )
 
   const handleWithdraw = useCallback(
     async params => {
-      const paymentParams = prepareDataWithdraw(params)
+      const paymentParams = parsePaymentLinkParams(params)
 
       try {
         showDialog({
@@ -554,7 +564,7 @@ const Dashboard = props => {
         const { status, transactionHash } = await executeWithdraw(
           store,
           paymentParams.paymentCode,
-          paymentParams.reason
+          paymentParams.reason,
         )
 
         if (transactionHash) {
@@ -575,6 +585,13 @@ const Dashboard = props => {
 
         switch (status) {
           case WITHDRAW_STATUS_COMPLETE:
+            log.error('Payment already withdrawn or canceled by sender', '', null, {
+              status,
+              transactionHash,
+              paymentParams,
+              category: ExceptionCategory.Human,
+              dialogShown: true,
+            })
             showErrorDialog('Payment already withdrawn or canceled by sender')
             break
           case WITHDRAW_STATUS_UNKNOWN:
@@ -588,19 +605,29 @@ const Dashboard = props => {
                 return await handleWithdraw(params)
               }
             }
+            log.error('Could not find payment details', 'Wrong payment link or payment details', null, {
+              status,
+              transactionHash,
+              paymentParams,
+              category: ExceptionCategory.Human,
+              dialogShown: true,
+            })
             showErrorDialog(`Could not find payment details.\nCheck your link or try again later.`)
             break
           default:
             break
         }
       } catch (e) {
-        log.error('withdraw failed:', e.message, e, { errCode: e.code })
-        showErrorDialog(e.message)
+        const { message } = e
+        showErrorDialog(message)
+        log.error('withdraw failed:', e.message, e, {
+          dialogShown: true,
+        })
       } finally {
         navigation.setParams({ paymentCode: undefined })
       }
     },
-    [showDialog, hideDialog, showErrorDialog, store, navigation]
+    [showDialog, hideDialog, showErrorDialog, store, navigation],
   )
 
   // const avatarSource = useMemo(() => (avatar ? { uri: avatar } : UnknownProfile), [avatar])
@@ -621,7 +648,7 @@ const Dashboard = props => {
         }
       }
     },
-    [headerLarge, feeds, setHeaderLarge]
+    [headerLarge, feeds, setHeaderLarge],
   )
 
   const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feeds), [currentFeed, feeds])
@@ -720,7 +747,6 @@ const Dashboard = props => {
         <FeedModalList
           data={modalListData}
           handleFeedSelection={handleFeedSelection}
-          initialNumToRender={PAGE_SIZE}
           onEndReached={nextFeed}
           selectedFeed={currentFeed}
           navigation={navigation}
@@ -901,7 +927,6 @@ export default createStackNavigator({
   FaceVerification,
   FaceVerificationIntro,
   FaceVerificationError,
-  FaceVerificationUnsupported,
 
   SendQRSummary,
 
@@ -912,7 +937,7 @@ export default createStackNavigator({
   },
 
   // PP: PrivacyPolicy,
-  PrivacyArticle,
+  // PrivacyArticle,
   TOU: PrivacyPolicyAndTerms,
   Support,
   Statistics,

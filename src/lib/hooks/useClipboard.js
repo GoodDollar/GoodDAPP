@@ -1,44 +1,55 @@
 import { useCallback } from 'react'
+import { Image, Platform } from 'react-native'
+
+import illustration from '../../assets/ClipboardPermissionError.svg'
+
 import Clipboard from '../utils/Clipboard'
 import logger from '../logger/pino-logger'
-import { useErrorDialog } from '../undux/utils/dialog'
 
 const log = logger.child({ from: 'useClipboard Hook' })
 
-export default () => {
-  const [showErrorDialog] = useErrorDialog()
-
-  const setString = useCallback(
-    content => {
-      try {
-        Clipboard.setString(content)
-        return true
-      } catch (e) {
-        if (e.name === 'NotAllowedError') {
-          showErrorDialog("GoodDollar can't access your clipboard, please enable clipboard permission")
-
-          log.warn('No clipboard permission', e.message, e, {
-            content,
-          })
-        }
-
-        return false
-      }
-    },
-    [showErrorDialog]
-  )
-
-  return { setString }
+if (Platform.OS === 'web') {
+  Image.prefetch(illustration)
 }
 
-export const useClipboardPaste = (onPaste, logger = log) =>
-  useCallback(async () => {
+const useClipboard = (logger = log) => {
+  const setString = useCallback(async content => {
     try {
-      const clipboardContents = await Clipboard.getString()
-      onPaste(clipboardContents)
+      await Clipboard.setString(content)
+      return true
     } catch (exception) {
       const { message } = exception
 
-      logger.warn('Paste action failed', message, exception)
+      log.warn('Copy to clipboard failed', message, exception)
+      return false
     }
-  }, [onPaste])
+  }, [])
+
+  // Please use usePermissionsHook in places where this method will be used to check permissions first
+  // eslint-disable-next-line require-await
+  const getString = useCallback(async () => {
+    try {
+      const text = await Clipboard.getString()
+
+      return text
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('Paste from clipboard failed', message, exception)
+    }
+  }, [])
+
+  return [getString, setString]
+}
+
+export const useClipboardPaste = (onPaste, logger = log) => {
+  const [getString] = useClipboard(logger)
+
+  return useCallback(async () => {
+    const clipboardContents = await getString()
+
+    onPaste(clipboardContents)
+  }, [onPaste, getString])
+}
+
+export default useClipboard

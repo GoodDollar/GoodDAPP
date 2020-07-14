@@ -36,7 +36,7 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
   const shareStringSource = [codeObject, amount, counterPartyDisplayName, fullName, canShare]
   const shareString = useMemo(
     () => (canShare ? generateReceiveShareObject : generateReceiveShareText)(...shareStringSource),
-    [...shareStringSource, canShare, generateReceiveShareObject, generateReceiveShareText]
+    [...shareStringSource, canShare, generateReceiveShareObject, generateReceiveShareText],
   )
 
   const iconMarginWithoutReason = useMemo(() => {

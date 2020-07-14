@@ -1,19 +1,35 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+
+// libraries
+import React, { useEffect, useMemo, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
 import { startCase } from 'lodash'
+
+// custom components
+import Wrapper from '../common/layout/Wrapper'
+import { CustomButton, Icon, Section, Text } from '../common'
+import { BackButton } from '../appNavigation/stackNavigation'
+import BorderedBox from '../common/view/BorderedBox'
+
+// hooks
+import useOnPress from '../../lib/hooks/useOnPress'
+import { useDialog } from '../../lib/undux/utils/dialog'
+
+// utils
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import { BackButton } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import { CustomButton, Icon, Section, Text } from '../common'
 import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
-import { useDialog } from '../../lib/undux/utils/dialog'
-import Wrapper from '../common/layout/Wrapper'
+import GDStore from '../../lib/undux/GDStore'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+
+// assets
+// import unknownProfile from '../../assets/unknownProfile.svg'
 import OptionsRow from './OptionsRow'
 
-const TITLE = 'PROFILE PRIVACY'
+// initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
 
 // privacy options
@@ -36,6 +52,14 @@ const ProfilePrivacy = props => {
   const [field, setField] = useState(false)
   const { screenProps, styles, theme } = props
   const [showDialog] = useDialog()
+  const gdstore = GDStore.useStore()
+
+  // bordered box required data
+  const { avatar } = gdstore.get('profile')
+
+  // const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
+
+  const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])
 
   useEffect(() => {
     // looks for the users fields' privacy
@@ -53,7 +77,7 @@ const ProfilePrivacy = props => {
     privacyGatherer()
   }, [])
 
-  const handleSaveShowTips = () => {
+  const handleSaveShowTips = useOnPress(() => {
     showDialog({
       title: 'SETTINGS',
       content: (
@@ -77,21 +101,24 @@ const ProfilePrivacy = props => {
         },
       ],
     })
-  }
+  }, [showDialog])
 
   /**
    * filters the fields to be updated
    */
-  const updatableValues = () => profileFields.filter(field => privacy[field] !== initialPrivacy[field])
+  const valuesToBeUpdated = useMemo(() => profileFields.filter(field => privacy[field] !== initialPrivacy[field]), [
+    privacy,
+    initialPrivacy,
+  ])
 
-  const handleSave = async () => {
+  const handleSave = useOnPress(async () => {
     setLoading(true)
 
     fireEvent(PROFILE_PRIVACY, { privacy: privacy[field], field })
 
     try {
       // filters out fields to be updated
-      const toUpdate = updatableValues().map(field => ({
+      const toUpdate = valuesToBeUpdated.map(field => ({
         update: userStorage.setProfileFieldPrivacy(field, privacy[field]),
         field,
       }))
@@ -106,22 +133,20 @@ const ProfilePrivacy = props => {
     }
 
     setLoading(false)
-  }
+  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy])
 
   return (
     <Wrapper style={styles.mainWrapper}>
       <Section grow style={styles.wrapper}>
         <Section.Stack grow justifyContent="flex-start">
-          <Section.Row grow justifyContent="center" style={styles.subtitleRow}>
+          <Section.Row justifyContent="center" style={styles.subtitleRow}>
             <Section.Text fontWeight="bold" color="gray">
               Manage your privacy settings
             </Section.Text>
-            <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => handleSaveShowTips()} />
+            <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={handleSaveShowTips} />
           </Section.Row>
-
           <Section.Stack justifyContent="flex-start" style={styles.optionsRowContainer}>
             <OptionsRow />
-
             {profileFields.map(field => (
               <RadioButton.Group
                 onValueChange={value => {
@@ -135,9 +160,17 @@ const ProfilePrivacy = props => {
               </RadioButton.Group>
             ))}
           </Section.Stack>
+          <Section grow justifyContent="center">
+            <BorderedBox
+              imageSource={avatar}
+              title="My Face Record ID"
+              content={faceRecordId}
+              truncateContent
+              copyButtonText="Copy ID"
+            />
+          </Section>
         </Section.Stack>
-
-        <Section.Row grow alignItems="flex-end" style={styles.buttonsRow}>
+        <Section.Row alignItems="flex-end" style={styles.buttonsRow}>
           <BackButton mode="text" screenProps={screenProps} style={styles.growOne}>
             Cancel
           </BackButton>
@@ -145,7 +178,7 @@ const ProfilePrivacy = props => {
             onPress={handleSave}
             mode="contained"
             loading={loading}
-            disabled={updatableValues().length === 0}
+            disabled={!valuesToBeUpdated.length}
             style={styles.growTen}
           >
             Save
@@ -172,18 +205,25 @@ const InfoIcon = ({ color, onPress, size, style }) => (
 )
 
 const getStylesFromProps = ({ theme }) => {
+  const wrapper = {
+    borderRadius: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: getDesignRelativeHeight(10),
+  }
+
+  if (isSmallDevice) {
+    wrapper.paddingBottom = getDesignRelativeHeight(3)
+    wrapper.paddingTop = getDesignRelativeHeight(5)
+  }
+
   return {
-    wrapper: {
-      borderRadius: 0,
-      paddingLeft: 0,
-      paddingRight: 0,
-    },
+    wrapper,
     infoIcon: {
       marginLeft: 6,
     },
     optionsRowContainer: {
       padding: 0,
-      height: '70%',
     },
     growOne: {
       flexGrow: 1,
@@ -193,11 +233,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     subtitleRow: {
       maxHeight: '16%',
-      marginBottom: theme.sizes.defaultDouble,
+      marginBottom: getDesignRelativeHeight(isSmallDevice ? 20 : 30),
     },
     buttonsRow: {
       paddingHorizontal: theme.sizes.defaultDouble,
-      minHeight: 60,
     },
     dialogTipItem: {
       alignItems: 'flex-start',
@@ -213,7 +252,7 @@ const getStylesFromProps = ({ theme }) => {
 const profilePrivacy = withStyles(getStylesFromProps)(ProfilePrivacy)
 
 profilePrivacy.navigationOptions = {
-  title: TITLE,
+  title: 'PROFILE PRIVACY',
 }
 
 export default profilePrivacy

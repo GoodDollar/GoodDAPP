@@ -20,13 +20,14 @@ import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from 'gun/gun'
 import SEA from 'gun/sea'
+import { sha3 } from 'web3-utils'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import API from '../API/api'
-import pino from '../logger/pino-logger'
+import pino, { ExceptionCategory } from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
-import resizeBase64Image from '../utils/resizeBase64Image'
+import { resizeImage } from '../utils/image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
 import defaultGun from './gundb'
@@ -220,8 +221,8 @@ export const startClaiming = {
   type: 'claiming',
   status: 'completed',
   data: {
-    customName: 'Claim your GoodDollars today!', //title in modal
-    subtitle: 'Claim your GoodDollars today!', //title in feed list
+    customName: `Claim your G$'s today!`, //title in modal
+    subtitle: `Claim your G$'s today!`, //title in feed list
     readMore: false,
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
@@ -289,8 +290,8 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
           }
           return acc
         },
-        { name: log.name }
-      )
+        { name: log.name },
+      ),
     )
 
   //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
@@ -299,7 +300,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     logs.filter(log => {
       return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
-    log => log.value
+    log => log.value,
   )
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
@@ -403,6 +404,9 @@ export class UserStorage {
     username: true,
   }
 
+  //trusted GoodDollar user indexes
+  trust = {}
+
   /**
    * Clean string removing blank spaces and special characters, and converts to lower case
    *
@@ -410,14 +414,14 @@ export class UserStorage {
    * @param {string} value - Field value
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
-  static cleanFieldForIndex = (field: string, value: string): string => {
+  static cleanHashedFieldForIndex = (field: string, value: string): string => {
     if (value === undefined) {
       return value
     }
     if (field === 'mobile' || field === 'phone') {
       return value.replace(/[_+-\s]+/g, '')
     }
-    return `${value}`.toLowerCase()
+    return sha3(`${value}`.toLowerCase())
   }
 
   /**
@@ -458,7 +462,7 @@ export class UserStorage {
         gunuser.auth(username, password, user => {
           logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnemonic UserStorage', user.err)
+            logger.error('Error getMnemonic UserStorage', user.err, null)
             return rej(false)
           }
           res(true)
@@ -493,7 +497,10 @@ export class UserStorage {
           logLevel = 'warn'
         }
 
-        logger[logLevel]('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
+        logger[logLevel]('Error initializing UserStorage', e.message, e, {
+          account: this.wallet.account,
+        })
+
         return false
       })
   }
@@ -530,6 +537,9 @@ export class UserStorage {
    */
   async init() {
     logger.debug('Initializing GunDB UserStorage')
+
+    // get trusted GoodDollar indexes and pub key
+    const trustPromise = this.fetchTrustIndexes()
 
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
@@ -569,7 +579,7 @@ export class UserStorage {
       logger.debug('init existing username:', { existingUsername })
       if (existingUsername) {
         loggedInPromise = this.gunAuth(username, password).catch(e =>
-          this.gunCreate(username, password).then(r => this.gunAuth(username, password))
+          this.gunCreate(username, password).then(r => this.gunAuth(username, password)),
         )
       } else {
         loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
@@ -631,6 +641,10 @@ export class UserStorage {
     //   .get(this.gunuser.is.pub)
     //   .putAck(this.gunuser) //save ref to user
     await Promise.all([
+      trustPromise,
+      AsyncStorage.getItem('GD_trust')
+        .then(JSON.parse)
+        .then(_ => (this.trust = _ || {})),
       this.initProfile(),
       this.initProperties(),
       this.initFeed(),
@@ -638,11 +652,37 @@ export class UserStorage {
         .get('users')
         .get(this.gunuser.is.pub)
         .putAck(this.gunuser), //save ref to user
-    ])
+    ]).catch(e => {
+      logger.error('failed init step in userstorage', e.message, e)
+      throw e
+    })
     logger.debug('init systemfeed')
 
     await this.startSystemFeed()
     return true
+  }
+
+  /**
+   * Fetches trusted GoodDollar indexes and pub key
+   * @returns Promise
+   * @private
+   */
+  async fetchTrustIndexes() {
+    try {
+      // make sure server is up
+      await API.ping()
+
+      // fetch trust data
+      const { data } = await API.getTrust()
+
+      AsyncStorage.setItem('GD_trust', JSON.stringify(data))
+      this.trust = data
+    } catch (exception) {
+      const { message } = exception
+
+      // if fetch trust request failed even we're pinged the server - it's an exception
+      logger.error('Could not fetch /trust', message, exception)
+    }
   }
 
   /**
@@ -666,7 +706,7 @@ export class UserStorage {
   }
 
   async setSmallAvatar(avatar) {
-    const smallAvatar = await resizeBase64Image(avatar, 50)
+    const smallAvatar = await resizeImage(avatar, 50)
     return this.setProfileField('smallAvatar', smallAvatar, 'public')
   }
 
@@ -720,7 +760,7 @@ export class UserStorage {
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent | void> {
     //first check to save time if already exists
     let feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
-    if (get(feedEvent, 'data.receiptData')) {
+    if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
       return feedEvent
     }
 
@@ -756,7 +796,7 @@ export class UserStorage {
         type: this.getOperationType(data, this.wallet.account),
       }
 
-      if (get(feedEvent, 'data.receiptData')) {
+      if (get(feedEvent, 'data.receiptData', feedEvent && feedEvent.receiptReceived)) {
         logger.debug('handleReceiptUpdated skipping event with existed receipt data', feedEvent, receipt)
         return feedEvent
       }
@@ -766,6 +806,7 @@ export class UserStorage {
         ...feedEvent,
         ...initialEvent,
         status: feedEvent.otplStatus === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
+        receiptReceived: true,
         date: receiptDate.toString(),
         data: {
           ...feedEvent.data,
@@ -814,7 +855,7 @@ export class UserStorage {
           'handleOTPLUpdated failed',
           'Original payment link TX not found',
           new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
-          data
+          { data, receipt },
         )
         return
       }
@@ -1158,7 +1199,7 @@ export class UserStorage {
         ...acc,
         [currKey]: profile[currKey].display,
       }),
-      {}
+      {},
     )
     return getUserModel(displayProfile)
   }
@@ -1217,7 +1258,7 @@ export class UserStorage {
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
-        { errors }
+        { errors, category: ExceptionCategory.Human },
       )
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
@@ -1225,7 +1266,7 @@ export class UserStorage {
     }
 
     if (profile.avatar) {
-      profile.smallAvatar = await resizeBase64Image(profile.avatar, 50)
+      profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
 
     return Promise.all(
@@ -1236,7 +1277,7 @@ export class UserStorage {
             logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
           })
-        })
+        }),
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
 
@@ -1249,7 +1290,7 @@ export class UserStorage {
             errCount: errors.length,
             errors,
             strErrors: JSON.stringify(errors),
-          }
+          },
         )
 
         if (Config.throwSaveProfileErrors) {
@@ -1268,26 +1309,32 @@ export class UserStorage {
    * @param {string} privacy
    * @returns {boolean}
    */
-  static async isValidValue(field: string, value: string) {
-    const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+  static async isValidValue(field: string, value: string, trusted: boolean = false) {
+    const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
 
     if (!cleanValue) {
       logger.error(
         `indexProfileField - field ${field} value is empty (value: ${value})`,
         cleanValue,
-        new Error('isValidValue failed')
+        new Error('isValidValue failed'),
+        { category: ExceptionCategory.Human },
       )
       return false
     }
 
+    //we no longer enforce uniqueness on email/mobile only on username
     try {
-      const indexValue = await global.gun
-        .get(`users/by${field}`)
-        .get(cleanValue)
-        .then()
-      return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
+      if (field === 'username') {
+        const indexValue = await global.gun
+          .get(`users/by${field}`)
+          .get(cleanValue)
+          .then()
+        return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
+      }
+
+      return true
     } catch (e) {
-      logger.error('indexProfileField', e.message, e)
+      logger.error('Validate IndexProfileField failed', e.message, e)
       return true
     }
   }
@@ -1299,7 +1346,7 @@ export class UserStorage {
     const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
 
     const validatedFields = await Promise.all(
-      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field]) }))
+      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field], true) })),
     )
     const errors = validatedFields.reduce((accErrors, curr) => {
       if (!curr.valid) {
@@ -1326,7 +1373,7 @@ export class UserStorage {
     field: string,
     value: string,
     privacy: FieldPrivacy = 'public',
-    onlyPrivacy: boolean = false
+    onlyPrivacy: boolean = false,
   ): Promise<ACK> {
     let display
     switch (privacy) {
@@ -1390,13 +1437,13 @@ export class UserStorage {
     if (!UserStorage.indexableFields[field]) {
       return Promise.resolve({ err: 'Not indexable field', ok: 0 })
     }
-    const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+    const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
     if (!cleanValue) {
       return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
     }
 
     try {
-      if (field === 'username' && !(await UserStorage.isValidValue(field, value))) {
+      if (field === 'username' && !(await UserStorage.isValidValue(field, value, false))) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
       const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
@@ -1416,7 +1463,7 @@ export class UserStorage {
 
       return indexNode.putAck(this.gunuser)
     } catch (e) {
-      logger.error('indexProfileField', e.message, e)
+      logger.error('indexProfileField failed', e.message, e)
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
@@ -1486,7 +1533,7 @@ export class UserStorage {
           }
 
           return item
-        })
+        }),
     )
   }
 
@@ -1505,7 +1552,7 @@ export class UserStorage {
         if (!isArray(dayEvents)) {
           throw new Error(
             'Invalid value for feed items collection was stored in the Gun. ' +
-              "Should be an Javascript array or it's JSON representation"
+              "Should be an Javascript array or it's JSON representation",
           )
         }
       }
@@ -1533,10 +1580,10 @@ export class UserStorage {
             feedItem &&
             feedItem.data &&
             ['deleted', 'cancelled'].includes(feedItem.status) === false &&
-            feedItem.otplStatus !== 'cancelled'
+            feedItem.otplStatus !== 'cancelled',
         )
         .map(feedItem => {
-          if (!(feedItem.data && feedItem.data.receiptData)) {
+          if (false == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
             return this.getFormatedEventById(feedItem.id)
           }
 
@@ -1544,7 +1591,7 @@ export class UserStorage {
             logger.error('getFormattedEvents Failed formatting event:', e.message, e, { feedItem })
             return {}
           })
-        })
+        }),
     )
   }
 
@@ -1552,12 +1599,13 @@ export class UserStorage {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
+
       return undefined
     })
     if (!prevFeedEvent) {
       return standardPrevFeedEvent
     }
-    if (prevFeedEvent.data && prevFeedEvent.data.receiptData) {
+    if (get(prevFeedEvent, 'data.receiptData', prevFeedEvent && prevFeedEvent.receiptReceived)) {
       return standardPrevFeedEvent
     }
 
@@ -1581,6 +1629,7 @@ export class UserStorage {
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
+
       return {}
     })
   }
@@ -1610,7 +1659,8 @@ export class UserStorage {
         .putAck({ [hash]: details })
       return true
     } catch (e) {
-      logger.error('saveSurveyDetails :', e.message, e, details)
+      logger.error('saveSurveyDetails :', e.message, e, { details })
+
       return false
     }
   }
@@ -1647,10 +1697,10 @@ export class UserStorage {
       return this.wallet.wallet.utils.isAddress(field) ? field : undefined
     }
 
-    const value = UserStorage.cleanFieldForIndex(attr, field)
-
+    const value = UserStorage.cleanHashedFieldForIndex(attr, field)
+    const index = this.trust[`by${attr}`] || `users/by${attr}`
     return this.gun
-      .get(`users/by${attr}`)
+      .get(index)
       .get(value)
       .get('profile')
       .get('walletAddress')
@@ -1666,10 +1716,11 @@ export class UserStorage {
    */
   async getUserProfile(field: string = '') {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
-    const value = UserStorage.cleanFieldForIndex(attr, field)
+    const value = UserStorage.cleanHashedFieldForIndex(attr, field)
 
+    const index = this.trust[`by${attr}`] || `users/by${attr}`
     const profileToShow = this.gun
-      .get(`users/by${attr}`)
+      .get(index)
       .get(value)
       .get('profile')
 
@@ -1709,10 +1760,10 @@ export class UserStorage {
         const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
         const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
-        logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
-        const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
+        logger.debug('formatEvent: initiator data', event.id, { initiatorType, initiator, address })
+        const profileNode = await this._getProfileNode(initiatorType, initiator, address)
         const [avatar, fullName] = await Promise.all([
-          this._extractAvatar(type, withdrawStatus, profileNode, address).catch(e => {
+          this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
               type,
               withdrawStatus,
@@ -1721,20 +1772,27 @@ export class UserStorage {
             })
             return undefined
           }),
-          this._extractFullName(customName, profileNode, initiatorType, initiator, type, address, displayName).catch(
-            e => {
-              logger.warn('formatEvent: failed extractFullName', e.message, e, {
-                customName,
-                profileNode,
-                initiatorType,
-                initiator,
-                type,
-                address,
-                displayName,
-              })
-              return undefined
-            }
-          ),
+          /* eslint-disable */
+          this._extractFullName(
+            customName,
+            get(profileNode, 'gunProfile'),
+            initiatorType,
+            initiator,
+            type,
+            address,
+            displayName,
+          ).catch(e => {
+            logger.warn('formatEvent: failed extractFullName', e.message, e, {
+              customName,
+              profileNode,
+              initiatorType,
+              initiator,
+              type,
+              address,
+              displayName,
+            })
+          }),
+          /* eslint-enable */
         ])
 
         return {
@@ -1762,10 +1820,10 @@ export class UserStorage {
           },
         }
       } catch (e) {
-        logger.error('formatEvent: failed formatting event:', e.message, e, event)
+        logger.error('formatEvent: failed formatting event:', e.message, e, { event })
         return {}
       }
-    }
+    },
   )
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
@@ -1783,7 +1841,7 @@ export class UserStorage {
     }
 
     data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
-    data.address = data.address && UserStorage.cleanFieldForIndex('walletAddress', data.address)
+    data.address = data.address && UserStorage.cleanHashedFieldForIndex('walletAddress', data.address)
     data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
     data.displayName = counterPartyDisplayName || 'Unknown'
 
@@ -1817,20 +1875,32 @@ export class UserStorage {
     return `${type}${sufix}`
   }
 
-  _extractProfileToShow(initiatorType, initiator, address): Gun {
-    const getProfile = (group, value) =>
-      this.gun
-        .get(group)
-        .get(value)
+  async _getProfileNode(initiatorType, initiator, address): Gun {
+    const getProfile = async (idxSoul, idxKey) => {
+      logger.debug('extractProfile:', { idxSoul, idxKey })
+
+      // Need to verify if user deleted, otherwise the gun will stuck here and feed wont be displayed
+      const gunProfile = this.gun
+        .get(idxSoul)
+        .get(idxKey)
         .get('profile')
+      const profile = await gunProfile
+      logger.debug('extractProfile result :', { idxSoul, idxKey, profile })
+
+      if (profile) {
+        //need to return object so promise.all doesnt resolve node
+        return { gunProfile }
+      }
+      logger.warn('_extractProfileToShow invalid profile', { idxSoul, idxKey, profile })
+      return undefined
+    }
 
     const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && getProfile(`users/${searchField}`, initiator)
-    const byAddress = address && getProfile('users/bywalletAddress', address)
+    const byIndex = searchField && getProfile(this.trust[searchField] || `users/${searchField}`, initiator)
+    const byAddress = address && getProfile(this.trust.bywalletAddress || `users/bywalletAddress`, address)
 
-    // const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
-
-    return byIndex || byAddress
+    const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
+    return profileByIndex || profileByAddress
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
@@ -1899,7 +1969,8 @@ export class UserStorage {
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
-      logger.error('enqueueTX failed: ', e.message, e, event)
+      logger.error('enqueueTX failed: ', e.message, e, { event })
+
       return false
     } finally {
       release()
@@ -1950,7 +2021,8 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, { feedEvent })
+
         return {}
       })
   }
@@ -1969,7 +2041,8 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, feedEvent)
+        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, { feedEvent })
+
         return {}
       })
   }
@@ -1988,7 +2061,8 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, { feedEvent })
+
         return {}
       })
   }
@@ -2002,6 +2076,7 @@ export class UserStorage {
     if (txHash === undefined) {
       return
     }
+
     const release = await this.feedMutex.lock()
 
     try {
@@ -2133,7 +2208,8 @@ export class UserStorage {
 
     // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {
-      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
+      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, { event })
+
       return { err: e.message }
     })
     const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArray))
@@ -2153,7 +2229,7 @@ export class UserStorage {
 
     return Promise.all([saveAck, ack, eventAck])
       .then(() => event)
-      .catch(e => logger.error('savingIndex', e.message, e))
+      .catch(e => logger.error('Save Indexes failed', e.message, e))
   }
 
   /**
@@ -2189,12 +2265,14 @@ export class UserStorage {
 
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+
     if (encryptedProfile === undefined) {
-      logger.error('getProfile: profile node undefined')
+      logger.error('getProfile: profile node undefined', '', null)
+
       return {}
     }
-    const fullProfile = this.getPrivateProfile(encryptedProfile)
-    return fullProfile
+
+    return this.getPrivateProfile(encryptedProfile)
   }
 
   async loadGunField(gunNode): Promise<any> {
@@ -2213,12 +2291,14 @@ export class UserStorage {
 
   async getPublicProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+
     if (encryptedProfile === undefined) {
-      logger.error('getPublicProfile: profile node undefined')
+      logger.error('getPublicProfile: profile node undefined', '', null)
+
       return {}
     }
-    const fullProfile = this.getDisplayProfile(encryptedProfile)
-    return fullProfile
+
+    return this.getDisplayProfile(encryptedProfile)
   }
 
   getFaceIdentifier(): string {
@@ -2251,10 +2331,10 @@ export class UserStorage {
             'Deleting profile field failed',
             err.message || 'Some error occurred during setting the privacy to the field',
             err || new Error('Deleting profile field failed'),
-            { index: k }
+            { index: k },
           )
         })
-      })
+      }),
     )
 
     await this.gunuser.get('profile').putAck(null)

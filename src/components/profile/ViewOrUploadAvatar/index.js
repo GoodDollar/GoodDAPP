@@ -33,7 +33,7 @@ const log = logger.child({ from: 'ViewAvatar' })
 const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {
-  const { styles } = props
+  const { styles, navigation } = props
   const store = GDStore.useStore()
   const profile = store.get('profile')
   const wrappedUserStorage = useWrappedUserStorage()
@@ -52,33 +52,33 @@ const ViewOrUploadAvatar = props => {
         avatar: profile.avatar,
       })
     },
-    [profile, wrappedUserStorage]
+    [navigation],
   )
 
   const handleClosePress = useCallback(
     event => {
       event.preventDefault()
       wrappedUserStorage.removeAvatar().catch(e => {
+        log.error('delete image failed:', e.message, e, { dialogShown: true })
         showErrorDialog('Could not delete image. Please try again.')
-        log.error('delete image failed:', e.message, e)
       })
     },
-    [wrappedUserStorage, showErrorDialog]
+    [wrappedUserStorage],
   )
 
   const handleAddAvatar = useCallback(
     avatar => {
       fireEvent(PROFILE_IMAGE)
       wrappedUserStorage.setAvatar(avatar).catch(e => {
+        log.error('save image failed:', e.message, e, { dialogShown: true })
         showErrorDialog('Could not save image. Please try again.')
-        log.error('save image failed:', e.message, e)
       })
 
       if (Platform.OS === 'web') {
         props.navigation.navigate('EditAvatar')
       }
     },
-    [wrappedUserStorage]
+    [navigation, wrappedUserStorage],
   )
 
   const goToProfile = useCallback(() => {
@@ -93,6 +93,7 @@ const ViewOrUploadAvatar = props => {
             <>
               <UserAvatar profile={profile} size={272} onPress={onPressFix(handleCameraPress)} />
               <CircleButtonWrapper
+                containerStyle={styles.closeButtonContainer}
                 style={styles.closeButton}
                 iconName={'trash'}
                 iconSize={22}

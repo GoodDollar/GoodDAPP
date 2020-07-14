@@ -7,12 +7,12 @@ import Config from './config/config'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import Auth from './components/auth/Auth'
+import AuthTorus from './components/auth/torus/AuthTorus'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import { getOriginalScreenHeight } from './lib/utils/Orientation'
-import AuthTorus from './components/auth/AuthTorus'
 
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 

@@ -338,7 +338,7 @@ const OtpInput = (props: Props) => {
           indexElement={i}
           aside={aside}
           selectTextOnFocus
-        />
+        />,
       )
     }
     return inputs

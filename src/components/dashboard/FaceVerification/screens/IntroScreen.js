@@ -1,78 +1,139 @@
+// libraries
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
-import { isIOSWeb as isIOS, isMobileSafari } from '../../../../lib/utils/platform'
-import GDStore from '../../../../lib/undux/GDStore'
+import { get } from 'lodash'
+
+//components
 import Separator from '../../../common/layout/Separator'
-import logger from '../../../../lib/logger/pino-logger'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import { fireEvent } from '../../../../lib/analytics/analytics'
+import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
+
+// hooks
+import useOnPress from '../../../../lib/hooks/useOnPress'
+import usePermissions from '../../../permissions/hooks/usePermissions'
+import useDisposingState from '../hooks/useDisposingState'
+
+// utils
+import UserStorage from '../../../../lib/gundb/UserStorage'
+import GDStore from '../../../../lib/undux/GDStore'
+import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
+import { isBrowser, isE2ERunning, isIOSWeb as isIOS, isMobileSafari } from '../../../../lib/utils/platform'
+import { openLink } from '../../../../lib/utils/linking'
+import Config from '../../../../config/config'
+import { Permissions } from '../../../permissions/types'
+import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
+import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
-const IntroScreen = props => {
+const WalletDeletedPopupText = ({ styles }) => (
+  <View style={styles.paddingVertical20}>
+    <Text style={styles.textStyle} fontSize={14}>
+      <Text style={[styles.textStyle, styles.paddingTop20]} fontSize={14} fontWeight="bold">
+        {'Since you’ve just deleted your wallet, '}
+      </Text>
+      you will have to wait 24 hours until you can claim.
+    </Text>
+    <Text style={[styles.textStyle, styles.paddingTop20]} fontSize={14}>
+      {'This is to prevent fraud and misuse.\nSorry for the inconvenience.'}
+    </Text>
+  </View>
+)
+
+const IntroScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
-  const { styles } = props
+  const { screenState, goToRoot, navigateTo, pop } = screenProps
+  const isValid = get(screenState, 'isValid', false)
 
-  const isUnsupported = isIOS && isMobileSafari === false
-  const isValid = props.screenProps.screenState && props.screenProps.screenState.isValid
-  log.debug({ isIOS, isMobileSafari })
+  const disposing = useDisposingState({
+    enrollmentIdentifier: UserStorage.getFaceIdentifier(),
+    onComplete: isDisposing => {
+      if (!isDisposing) {
+        return
+      }
 
-  if (isUnsupported) {
-    props.screenProps.navigateTo('FaceVerificationUnsupported', { reason: 'isNotMobileSafari' })
+      showQueueDialog(WalletDeletedPopupText, {
+        onDismiss: goToRoot,
+      })
+    },
+  })
+
+  const openPrivacy = useOnPress(() => openLink(Config.faceVerificationPrivacyUrl), [])
+  const openFaceVerification = () => screenProps.navigateTo('FaceVerification')
+
+  const [, requestCameraPermissions] = usePermissions(Permissions.Camera, {
+    requestOnMounted: false,
+    onAllowed: openFaceVerification,
+    onPrompt: () => fireEvent(FV_CAMERAPERMISSION),
+    onDenied: () => fireEvent(FV_CANTACCESSCAMERA),
+    navigate: navigateTo,
+  })
+
+  const handleVerifyClick = useOnPress(() => {
+    // if cypress is running - just redirect to FR as we're skipping
+    // zoom componet (which requires camera access) in this case
+    if (isE2ERunning) {
+      openFaceVerification()
+      return
+    }
+
+    requestCameraPermissions()
+  }, [requestCameraPermissions])
+
+  const commonTextStyles = {
+    textAlign: 'center',
+    color: 'primary',
+    fontSize: 18,
+    lineHeight: 25,
   }
+
+  useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
 
   useEffect(() => {
     if (isValid) {
-      props.screenProps.pop({ isValid: true })
+      pop({ isValid: true })
     } else {
-      fireEvent('FR_Intro')
+      fireEvent(FV_INTRO)
     }
   }, [isValid])
 
-  const gotoPrivacyArticle = () => props.screenProps.push('PrivacyArticle')
-  const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
-
   return (
     <Wrapper>
-      <Section style={styles.topContainer} grow={1} justifyContent="center">
+      <Section style={styles.topContainer} grow>
         <View style={styles.mainContent}>
           <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nLet's make sure you are a real live person`}
+            {`${getFirstWord(fullName)},\nOnly a real live person\ncan claim G$’s`}
           </Section.Title>
-          <FaceVerificationSmiley />
+          <View style={styles.illustration}>
+            <FaceVerificationSmiley />
+          </View>
           <View>
             <Separator width={2} />
             <Text textAlign="center" style={styles.descriptionContainer}>
-              <Text textAlign="center" fontWeight="bold" color="primary">
-                {`Since this is your first G$ Claim\n`}
+              <Text {...commonTextStyles} fontWeight="bold">
+                {`Once in a while\n`}
               </Text>
-              <Text textAlign="center" color="primary">
-                {`we will take a short video of you\n`}
-              </Text>
-              <Text textAlign="center" color="primary">
-                {`to prevent duplicate accounts.\n`}
-              </Text>
+              <Text {...commonTextStyles}>{`we'll need to take a short video of you\n`}</Text>
+              <Text {...commonTextStyles}>{`to prevent duplicate accounts.\n`}</Text>
               <Text
-                textAlign="center"
+                {...commonTextStyles}
                 fontWeight="bold"
                 textDecorationLine="underline"
-                color="primary"
                 style={styles.descriptionUnderline}
-                onPress={gotoPrivacyArticle}
+                onPress={openPrivacy}
               >
                 {`Learn more`}
               </Text>
             </Text>
             <Separator style={[styles.bottomSeparator]} width={2} />
           </View>
-          <CustomButton style={[styles.button]} onPress={gotoFR}>
-            OK, Verify me
+          <CustomButton style={[styles.button]} onPress={handleVerifyClick} disabled={false !== disposing}>
+            OK, VERIFY ME
           </CustomButton>
         </View>
       </Section>
@@ -88,6 +149,7 @@ IntroScreen.navigationOptions = {
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: theme.colors.surface,
     borderRadius: theme.sizes.borderRadius,
     display: 'flex',
@@ -106,28 +168,27 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   mainTitle: {
-    marginBottom: getDesignRelativeHeight(28),
+    marginTop: getDesignRelativeHeight(isBrowser ? 30 : 15),
   },
   illustration: {
-    flexGrow: 0,
-    flexShrink: 0,
-    marginBottom: getDesignRelativeHeight(28),
-    maxWidth: '100%',
-    height: getDesignRelativeHeight(145),
+    marginTop: getDesignRelativeHeight(18),
+    marginBottom: getDesignRelativeHeight(18),
+    height: getDesignRelativeWidth(isBrowser ? 220 : 130),
+    width: '100%',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
-    paddingVertical: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingVertical: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : 14),
   },
   descriptionUnderline: {
     display: 'block',
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
+    paddingTop: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
   },
   button: {
     width: '100%',
   },
   bottomSeparator: {
-    marginBottom: getDesignRelativeHeight(28),
+    marginBottom: getDesignRelativeHeight(25),
   },
 })
 

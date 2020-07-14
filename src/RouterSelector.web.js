@@ -35,7 +35,9 @@ let SignupRouter = React.lazy(async () => {
  * @returns {Promise<boolean>}
  */
 const handleLinks = async () => {
-  const params = extractQueryParams(window.location.href)
+  const decodedHref = decodeURI(window.location.href)
+  const params = extractQueryParams(decodedHref)
+
   try {
     const { magiclink } = params
     if (magiclink) {

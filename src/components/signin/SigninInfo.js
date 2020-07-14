@@ -150,5 +150,5 @@ export default createStackNavigator(
   },
   {
     backRouteName: 'Auth',
-  }
+  },
 )

@@ -45,7 +45,7 @@ class FaceVerificationApi {
 
   async performFaceVerification(
     payload: FaceVerificationPayload,
-    progressSubscription?: ({ loaded: number, total: number }) => void
+    progressSubscription?: ({ loaded: number, total: number }) => void,
   ): Promise<FaceVerificationResponse> {
     let axiosConfig = {}
     const { rootApi, logger } = this

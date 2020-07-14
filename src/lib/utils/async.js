@@ -1,5 +1,3 @@
-export const delay = (t, v) => {
-  return new Promise(function(resolve) {
-    setTimeout(resolve.bind(null, v), t)
-  })
-}
+// eslint-disable-next-line require-await
+export const delay = async (millis, resolveWithValue = null) =>
+  new Promise(resolve => setTimeout(() => resolve(resolveWithValue), millis))

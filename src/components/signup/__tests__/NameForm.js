@@ -8,7 +8,7 @@ describe('NameForm', () => {
     const NameForm = withThemeProvider(
       getWebRouterComponentWithMocks('../NameForm', {
         fullName: 'Kevin Bardi',
-      })
+      }),
     )
     const tree = renderer.create(<NameForm />)
     expect(tree.toJSON()).toBeTruthy()
@@ -18,7 +18,7 @@ describe('NameForm', () => {
     const NameForm = withThemeProvider(
       getWebRouterComponentWithMocks('../NameForm', {
         fullName: 'Kevin Bardi',
-      })
+      }),
     )
     const component = renderer.create(<NameForm />)
     const tree = component.toJSON()
@@ -29,7 +29,7 @@ describe('NameForm', () => {
     const NameForm = withThemeProvider(
       getWebRouterComponentWithMocks('../NameForm', {
         fullName: '',
-      })
+      }),
     )
     const tree = renderer.create(<NameForm />)
     expect(tree.toJSON()).toBeTruthy()
@@ -39,7 +39,7 @@ describe('NameForm', () => {
     const NameForm = withThemeProvider(
       getWebRouterComponentWithMocks('../NameForm', {
         fullName: '',
-      })
+      }),
     )
     const component = renderer.create(<NameForm />)
     const tree = component.toJSON()

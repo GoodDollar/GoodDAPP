@@ -12,7 +12,7 @@ describe('App', () => {
     const tree = renderer.create(
       <Container>
         <App />
-      </Container>
+      </Container>,
     )
     expect(tree.toJSON()).toBeTruthy()
   })

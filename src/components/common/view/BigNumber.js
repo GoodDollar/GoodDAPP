@@ -63,7 +63,7 @@ class BigNumber extends React.Component {
           style={[styles.bigNumber, bigNumberStyles]}
         >
           {number}
-        </Text>
+        </Text>,
       )
     } else {
       components.push(
@@ -94,7 +94,7 @@ class BigNumber extends React.Component {
           </Text>
         ) : (
           children
-        )
+        ),
       )
     }
 

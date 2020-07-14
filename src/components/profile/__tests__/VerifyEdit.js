@@ -15,7 +15,7 @@ describe('VerifyEdit', () => {
         <GDStore.Container>
           <VerifyEdit />
         </GDStore.Container>
-      </SimpleStore.Container>
+      </SimpleStore.Container>,
     )
 
     expect(tree.toJSON()).toBeTruthy()
@@ -29,7 +29,7 @@ describe('VerifyEdit', () => {
         <GDStore.Container>
           <VerifyEdit />
         </GDStore.Container>
-      </SimpleStore.Container>
+      </SimpleStore.Container>,
     )
 
     const tree = component.toJSON()

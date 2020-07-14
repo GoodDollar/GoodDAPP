@@ -25,7 +25,7 @@ describe('FeedModalList', () => {
         const tree = renderer.create(
           <Container>
             <WrappedFeedModalList {...props} />
-          </Container>
+          </Container>,
         )
         expect(tree.toJSON()).toBeTruthy()
       })
@@ -34,7 +34,7 @@ describe('FeedModalList', () => {
         const component = renderer.create(
           <Container>
             <WrappedFeedModalList {...props} />
-          </Container>
+          </Container>,
         )
         const tree = component.toJSON()
         expect(tree).toMatchSnapshot()
@@ -56,7 +56,7 @@ describe('FeedModalList', () => {
         const tree = renderer.create(
           <Container>
             <WrappedFeedModalList {...props} />
-          </Container>
+          </Container>,
         )
         expect(tree.toJSON()).toBeTruthy()
       })
@@ -65,7 +65,7 @@ describe('FeedModalList', () => {
         const component = renderer.create(
           <Container>
             <WrappedFeedModalList {...props} />
-          </Container>
+          </Container>,
         )
         const tree = component.toJSON()
         expect(tree).toMatchSnapshot()

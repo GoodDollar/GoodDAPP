@@ -35,7 +35,7 @@ const EditAvatar = ({ theme, navigation }) => {
     } catch (exception) {
       const { message } = exception
 
-      log.error('saving image failed:', message, exception)
+      log.error('saving image failed:', message, exception, { dialogShown: true })
       showErrorDialog('We could not capture all your beauty. Please try again.')
     } finally {
       setProcessing(false)

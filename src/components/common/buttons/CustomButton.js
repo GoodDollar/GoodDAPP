@@ -96,7 +96,7 @@ const TextContent = withStyles(mapPropsToStyles)(
     }
 
     return children
-  }
+  },
 )
 
 type IconButtonProps = {

@@ -956,7 +956,7 @@ export class UserStorage {
    * @returns {Promise<Array<FeedEvent>>}
    */
   async getAllFeed() {
-    const total = values((await this.feed.get('index').then()) || {}).reduce((acc, curr) => acc + curr, 0)
+    const total = values((await this.feed.get('index').then(null, 1000)) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
     logger.debug('getAllFeed', { total, prevCursor })
     const feed = await this.getFeedPage(total, true)
@@ -1000,31 +1000,31 @@ export class UserStorage {
     const loadFeedCache = AsyncStorage.getItem('GD_feed')
       .then(JSON.parse)
       .catch(e => logger.warn('failed parsing feed from cache'))
-    this.feed = this.gunuser.get('feed')
-    const feed = await this.feed
+    const { feed } = await this.gunuser
     logger.debug('init feed', { feed })
 
     if (feed == null) {
-      await this.feed.put({}) //restore old feed data - after nullified
+      await this.gunuser.putAck({ feed: {} }) //restore old feed data - after nullified
       logger.debug('init empty feed')
-    } else {
-      const byid = await this.feed.get('byid')
-      logger.debug('init feed byid', { byid })
     }
-
-    this.feed.get('index').on(this.updateFeedIndex, false)
+    this.gunuser
+      .get('feed')
+      .get('index')
+      .on(this.updateFeedIndex, false)
     this.feedIds = (await loadFeedCache) || {}
+    this.feed = this.gunuser.get('feed')
 
     //verify cache has all items
-    if (!(feed && feed.byid)) {
-      return
-    }
+    // if (!(feed && feed.byid)) {
+    //   return
+    // }
     const items = await this.feed
       .get('byid')
-      .onThen()
+      .then(null, 1000)
       .catch(e => {
         logger.warn('fetch byid onthen failed', { e })
       })
+    logger.debug('init feed byid', { items, ids: Object.entries(items) })
 
     if (!items) {
       return
@@ -1033,10 +1033,10 @@ export class UserStorage {
       delete items._
     }
     const ids = Object.entries(items)
-    logger.debug('initFeed got items', { ids })
+    logger.debug('init feed got items', { ids })
     const promises = ids.map(async ([k, v]) => {
       if (this.feedIds[k] === undefined) {
-        logger.debug('initFeed got missing cache item', { k })
+        logger.debug('init feed got missing cache item', { k })
         const data = await this.feed
           .get('byid')
           .get(k)
@@ -1053,7 +1053,7 @@ export class UserStorage {
     Promise.all(promises)
       .then(_ => {
         if (_.find(_ => _)) {
-          logger.debug('initFeed updating cache', this.feedIds, _)
+          logger.debug('init feed updating cache', this.feedIds, _)
           AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
         }
       })
@@ -1104,14 +1104,13 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const gunuser = await this.gunuser.onThen()
-    this.profile = this.gunuser.get('profile')
-    const profile = gunuser.profile && (await this.profile.onThen())
-    if (gunuser.profile === null) {
+    const gunuser = await this.gunuser.then(null, 1000)
+    const profile = await this.gunuser.get('profile').then(null, 1000)
+    if (profile === null) {
       //in case profile was deleted in the past it will be exactly null
       await this.gunuser.get('profile').putAck({ initialized: true })
-      this.profile = this.gunuser.get('profile')
     }
+    this.profile = this.gunuser.get('profile')
     this.profile.open(doc => {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
@@ -1772,7 +1771,7 @@ export class UserStorage {
         const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
         logger.debug('formatEvent: initiator data', event.id, { initiatorType, initiator, address })
-        const profileNode = await this._getProfileNode(initiatorType, initiator, address)
+        const profileNode = this._getProfileNode(initiatorType, initiator, address)
         const [avatar, fullName] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
@@ -1887,38 +1886,37 @@ export class UserStorage {
     return `${type}${sufix}`
   }
 
-  async _getProfileNode(initiatorType, initiator, address): Gun {
-    const getProfile = async (idxSoul, idxKey) => {
+  _getProfileNode(initiatorType, initiator, address): Gun {
+    const getProfile = (idxSoul, idxKey) => {
       logger.debug('extractProfile:', { idxSoul, idxKey })
 
-      // Need to verify if user deleted, otherwise the gun will stuck here and feed wont be displayed
-      const gunProfile = this.gun
+      // Need to verify if user deleted, otherwise gun might stuck here and feed wont be displayed (gun <0.2020)
+      let gunProfile = this.gun
         .get(idxSoul)
         .get(idxKey)
         .get('profile')
-      const profile = await gunProfile
-      logger.debug('extractProfile result :', { idxSoul, idxKey, profile })
 
-      if (profile) {
-        //need to return object so promise.all doesnt resolve node
-        return { gunProfile }
+      //need to return object so promise.all doesnt resolve node
+      return {
+        gunProfile,
       }
-      logger.warn('_extractProfileToShow invalid profile', { idxSoul, idxKey, profile })
-      return undefined
+
+      // logger.warn('_extractProfileToShow invalid profile', { idxSoul, idxKey })
+      // return undefined
     }
 
     const searchField = initiatorType && `by${initiatorType}`
     const byIndex = searchField && getProfile(this.trust[searchField] || `users/${searchField}`, initiator)
+
     const byAddress = address && getProfile(this.trust.bywalletAddress || `users/bywalletAddress`, address)
 
-    const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
-    return profileByIndex || profileByAddress
+    return byIndex || byAddress
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
     const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
     const getAvatarFromGun = async () => {
-      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then())
+      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))
 
       // verify account is not deleted and return value
       // if account deleted - the display of 'avatar' field will be private
@@ -1937,7 +1935,7 @@ export class UserStorage {
 
   async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
     const getFullNameFromGun = async () => {
-      const fullName = profileToShow && (await profileToShow.get('fullName').then())
+      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 1000))
       logger.debug('profileFromGun:', { fullName })
 
       // verify account is not deleted and return value
@@ -2326,7 +2324,7 @@ export class UserStorage {
    * @returns {Promise<boolean>|Promise<boolean>}
    */
   async userAlreadyExist(): Promise<boolean> {
-    const exists = await this.gunuser.get('registered').onThen()
+    const exists = await this.gunuser.get('registered').then(null, 1000)
     logger.debug('userAlreadyExist', { exists })
     return exists
   }

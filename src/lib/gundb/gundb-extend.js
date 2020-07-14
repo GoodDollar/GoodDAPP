@@ -39,7 +39,7 @@ const gunExtend = (() => {
   /**
    * fix gun issue https://github.com/amark/gun/issues/855
    */
-  Gun.chain.then = function(cb) {
+  Gun.chain.then = function(cb, wait = 200) {
     var gun = this,
       p = new Promise(function(res, rej) {
         gun.once(res, { wait: 200 })

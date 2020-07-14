@@ -12,14 +12,16 @@ import SimpleStore, { initStore, setInitFunctions } from './lib/undux/SimpleStor
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
 import Splash from './components/splash/Splash'
+import isWebApp from './lib/utils/isWebApp'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import useServiceWorker from './lib/utils/useServiceWorker'
 import Config from './config/config'
 import RouterSelector from './RouterSelector'
 import logger from './lib/logger/pino-logger'
 import { deleteGunDB } from './lib/hooks/useDeleteAccountDialog'
-
+import * as serviceWorker from './serviceWorker'
 const log = logger.child({ from: 'App' })
+let serviceWorkerRegistred = false
 const DisconnectedSplash = () => <Splash animation={false} />
 
 const SplashOrRouter = memo(({ store }) => {
@@ -44,6 +46,35 @@ const App = () => {
   const store = SimpleStore.useStore()
 
   useEffect(() => {
+    const onUpdate = reg => {
+      store.set('serviceWorkerUpdated')(reg)
+      navigator.serviceWorker.addEventListener('controllerchange', function() {
+        log.debug('service worker: controllerchange')
+        window.location.reload()
+      })
+    }
+    const onRegister = reg => {
+      //force check for service worker update
+      reg.update()
+      if (reg.waiting) {
+        onUpdate(reg)
+      }
+    }
+    if (serviceWorkerRegistred === false) {
+      log.debug('registering service worker')
+      serviceWorker.register({ onRegister, onUpdate })
+      serviceWorkerRegistred = true
+    }
+    if (isWebApp === false) {
+      log.debug('useEffect, registering beforeinstallprompt')
+
+      window.addEventListener('beforeinstallprompt', e => {
+        // For older browsers
+        e.preventDefault()
+        log.debug('Install Prompt fired')
+        store.set('installPrompt')(e)
+      })
+    }
     setInitFunctions(store.set('wallet'), store.set('userStorage'))
   }, [])
 

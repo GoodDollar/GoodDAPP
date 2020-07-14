@@ -178,9 +178,10 @@ const Claim = props => {
       return []
     })
 
-    if (claimedToday && nextClaimDate) {
+    setClaimState(prevState => ({ ...prevState, claimedToday }))
+    if (nextClaimDate) {
       const nextClaim = await getNextClaim(nextClaimDate)
-      setClaimState(prevState => ({ ...prevState, claimedToday, nextClaim }))
+      setClaimState(prevState => ({ ...prevState, nextClaim }))
       setClaimInterval(
         setInterval(async () => {
           const nextClaim = await getNextClaim(nextClaimDate)
@@ -192,11 +193,11 @@ const Claim = props => {
 
   // Claim STATS
   useEffect(() => {
+    gatherStats()
     if (entitlement === undefined) {
       return
     }
 
-    gatherStats()
     return () => claimInterval && clearInterval(claimInterval)
   }, [entitlement])
 

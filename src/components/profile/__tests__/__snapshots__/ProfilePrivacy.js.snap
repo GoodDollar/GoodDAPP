@@ -835,6 +835,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "13px",
                   "fontWeight": "normal",
+                  "letterSpacing": "0.07px",
                   "lineHeight": "15.6px",
                   "textAlign": "center",
                   "textDecoration": "none",

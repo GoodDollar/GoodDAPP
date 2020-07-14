@@ -5,7 +5,7 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
 import { assign, get } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
-import { catchError, retry } from 'rxjs/operators'
+import { retry } from 'rxjs/operators'
 
 import {
   DESTINATION_PATH,
@@ -317,13 +317,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       try {
         // init user storage
-        await fromPromise(userStorage.ready)
-          .pipe(
-            catchError(
-              () => fromPromise(userStorage.backgroundInit()), // if exception thrown, retrying init one more times
-            ),
-          )
-          .toPromise()
+        // if exception thrown, retrying init one more times
+        await userStorage.ready.catch(() => userStorage.backgroundInit())
       } catch (exception) {
         const { message } = exception
 

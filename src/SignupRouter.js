@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { View } from 'react-native'
 import createAppContainer from './lib/utils/createAppContainer'
-import { isAndroid } from './lib/utils/platform'
+import { isAndroid, isWeb } from './lib/utils/platform'
 import Config from './config/config'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
@@ -12,13 +12,16 @@ import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import { getOriginalScreenHeight } from './lib/utils/Orientation'
+const AuthTorus = lazy(() => isWeb && import('./components/auth/torus/AuthTorus'))
 
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 
 const initialRouteName = 'Auth' // isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 
+const AuthType = Config.torusEnabled ? AuthTorus : Auth
+
 const routes = {
-  Auth,
+  Auth: AuthType,
   Signup,
   InvalidW3TokenError,
 

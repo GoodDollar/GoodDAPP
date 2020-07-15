@@ -36,7 +36,8 @@ export default () => {
       //user already whitelisted
       const isCitizen = await goodWallet.isCitizen()
       if (isCitizen) {
-        return
+        setQueueStatus({ status: 'approved' })
+        return { status: 'approved' }
       }
       const inQueue = userStorage.userProperties.get('claimQueueAdded')
       if (inQueue) {

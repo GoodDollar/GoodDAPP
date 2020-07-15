@@ -136,9 +136,9 @@ export default ({ onInitialized = noop, onError = noop }) => {
           } catch ({ message }) {
             // in case of preload was failed (in a general case) - throw UnrecoverableError
             // if unrecoverable error (e.g. 65321) happened, don't rethrow it, because
-            // it will be catched by the SDK on the next initialize call
-            if (`Couldn't preload Zoom SDK` === message) {
-              const exception = new Error('An issue was encountered preloading ZoOm.')
+            // it will be cought by the SDK on the next initialize call
+            if (message.includes('issue was encountered preloading ZoOm')) {
+              const exception = new Error('Preload was not completed or an issue was encountered preloading ZoOm')
 
               exception.name = 'UnrecoverableError'
               throw exception

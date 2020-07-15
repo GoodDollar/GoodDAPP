@@ -204,12 +204,14 @@ const Dashboard = props => {
           //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
           //so we use a global variable
           if (!didRender) {
+            log.debug('waiting for feed animation')
+
             // a time to perform feed load animation till the end
             await delay(2000)
             didRender = true
           }
           const res = (await feedPromise) || []
-          log.debug('getFeedPage result:', { res })
+          log.debug('getFeedPage getFormattedEvents result:', { res })
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
           res.length > 0 && setFeeds(res)
         } else {

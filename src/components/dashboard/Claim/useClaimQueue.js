@@ -10,7 +10,6 @@ import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/pino-logger'
-import { isE2ERunning } from '../../../lib/utils/platform'
 
 const log = logger.child({ from: 'useClaimQueue' })
 const isQueueDisabled = !Config.claimQueue
@@ -98,7 +97,7 @@ export default () => {
   }
 
   useEffect(() => {
-    if (isQueueDisabled || isE2ERunning) {
+    if (isQueueDisabled) {
       setQueueStatus({ status: 'approved' })
       return
     }

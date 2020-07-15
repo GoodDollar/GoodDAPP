@@ -29,11 +29,11 @@ class ProfilePrivacyPage {
   }
 
   get backButton() {
-    return cy.get('[role=button]', { timeout: 10000 }).eq(7)
+    return cy.get('[role=button]', { timeout: 10000 }).contains('Cancel')
   }
 
   get saveButton() {
-    return cy.get('[role=button]', { timeout: 10000 }).eq(8)
+    return cy.get('[role=button]', { timeout: 10000 }).contains('Save')
   }
 }
 

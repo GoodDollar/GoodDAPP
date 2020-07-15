@@ -449,8 +449,24 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         throw exception
       }
 
-      // first need to add user to our database
-      const { data: newUserData } = await API.addUser(requestPayload)
+      let newUserData
+
+      try {
+        // first need to add user to our database
+        const { data } = await API.addUser(requestPayload)
+
+        newUserData = data
+      } catch (exception) {
+        const { message } = exception
+
+        // if user already exiosts just log.warn then continue sugnup
+        if ('You cannot create more than 1 account with the same credentials' === message) {
+          log.warn('User already exists during addUser() call:', message, exception)
+        } else {
+          // otherwise re-throwing exception to be catched in the parent try {}
+          throw exception
+        }
+      }
 
       await Promise.all(
         toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) => {

@@ -640,8 +640,7 @@ export class UserStorage {
   async retryInit(): Promise<boolean> {
     this.ready = null
 
-    this.
-    t()
+    this.backgroundInit()
     return this.ready
   }
 
@@ -1076,12 +1075,12 @@ export class UserStorage {
     logger.debug('init feed got items', { ids })
     const promises = ids.map(async ([k, v]) => {
       if (this.feedIds[k] === undefined) {
-        logger.debug('init feed got missing cache item', { k })
         const data = await this.feed
           .get('byid')
           .get(k)
           .decrypt()
           .catch(_ => undefined)
+        logger.debug('init feed got missing cache item', { id: k, data })
         if (data != null) {
           this.feedIds[k] = data
           return true
@@ -1570,6 +1569,7 @@ export class UserStorage {
     if (!this.feedIndex) {
       return []
     }
+
     let daysToTake: Array<[string, number]> = takeWhile(this.feedIndex.slice(this.cursor), day => {
       if (total >= numResults) {
         return false
@@ -1592,6 +1592,8 @@ export class UserStorage {
     })
 
     const eventsIndex = flatten(await Promise.all(promises))
+    logger.debug('getFeedPage', { feedIndex: this.feedIndex, daysToTake, eventsIndex })
+
     return Promise.all(
       eventsIndex
         .filter(_ => _.id)
@@ -1623,6 +1625,7 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
+    logger.debug('getFormattedEvents page result:', { numResults, reset, feedPage: feed })
     return Promise.all(
       feed
         .filter(

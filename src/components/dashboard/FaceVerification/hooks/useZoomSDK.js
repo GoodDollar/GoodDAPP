@@ -131,7 +131,19 @@ export default ({ onInitialized = noop, onError = noop }) => {
         // as it's not supported if we would like to pass encryption key or initialize
         // ZoOm in the production mode
         if (zoomSDKPreloadFailed) {
-          await preloadZoomSDK()
+          try {
+            await preloadZoomSDK()
+          } catch ({ message }) {
+            // in case of preload was failed (in a general case) - throw UnrecoverableError
+            // if unrecoverable error (e.g. 65321) happened, don't rethrow it, because
+            // it will be catched by the SDK on the next initialize call
+            if (`Couldn't preload Zoom SDK` === message) {
+              const exception = new Error('An issue was encountered preloading ZoOm.')
+
+              exception.name = 'UnrecoverableError'
+              throw exception
+            }
+          }
         }
 
         // Initializing ZoOm

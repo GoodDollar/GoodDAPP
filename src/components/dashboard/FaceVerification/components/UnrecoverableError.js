@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { get } from 'lodash'
 
 import { Image, Platform, View } from 'react-native'
 
@@ -27,11 +26,12 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const UnrecoverableError = ({ styles, exception, screenProps }) => {
+const UnrecoverableError = ({ styles, exception = {}, screenProps }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
 
-  const sdkStatus = get(exception, 'code')
-  const isLicenseIssue = [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(sdkStatus)
+  const { code, message = '' } = exception
+  const isLicenseIssue = [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(code)
+  const isPreloadIssue = message.includes('issue was encountered preloading ZoOm') // eslint-disable-line
 
   const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
   const onDismiss = useOnPress(() => screenProps.goToRoot(), [screenProps])

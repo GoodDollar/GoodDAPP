@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-
 import { Image, Platform, View } from 'react-native'
+import { get } from 'lodash'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
 import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
@@ -10,7 +10,6 @@ import useOnPress from '../../../../lib/hooks/useOnPress'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import logger from '../../../../lib/logger/pino-logger'
 
-import showReloadDialog from '../utils/showReoadDialog'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import illustration from '../../../../assets/FRUnrecoverableError.svg'
@@ -27,12 +26,11 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const UnrecoverableError = ({ styles, exception = {}, screenProps }) => {
+const UnrecoverableError = ({ styles, exception, screenProps }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
 
-  const { code, message = '' } = exception
-  const isLicenseIssue = [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(code)
-  const isPreloadIssue = message.includes('issue was encountered preloading ZoOm') // eslint-disable-line
+  const sdkStatus = get(exception, 'code')
+  const isLicenseIssue = [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(sdkStatus)
 
   const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
   const onDismiss = useOnPress(() => screenProps.goToRoot(), [screenProps])
@@ -40,12 +38,6 @@ const UnrecoverableError = ({ styles, exception = {}, screenProps }) => {
   useEffect(() => {
     if (!isLicenseIssue) {
       fireEvent(FV_TRYAGAINLATER)
-      return
-    }
-
-    if (isPreloadIssue) {
-      log.error('FaceVerification failed', message, exception, { dialogShown: true })
-      showReloadDialog()
       return
     }
 

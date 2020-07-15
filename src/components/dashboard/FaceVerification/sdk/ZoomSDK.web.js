@@ -1,9 +1,12 @@
 import { fromPairs, isString, noop } from 'lodash'
 import ConsoleSubscriber from 'console-subscriber'
 
-import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
-import _showReloadDialog from '../utils/showReoadDialog'
+import { store } from '../../../../lib/undux/SimpleStore'
+import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
+
 import logger from '../../../../lib/logger/pino-logger'
+
+import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import { UICustomization, UITextStrings, ZOOM_PUBLIC_PATH } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
@@ -170,9 +173,7 @@ export const ZoomSDK = new class {
       // for handle case when no critical exception was on preload()
       // but it appears on initialize()
       if (this.criticalPreloadException) {
-        this.showReloadPopup()
-
-        return false
+        return this.showReloadPopup()
       }
 
       throw exception
@@ -199,12 +200,19 @@ export const ZoomSDK = new class {
   // eslint-disable-next-line require-await
   async faceVerification(enrollmentIdentifier, onUIReady = noop, onCaptureDone = noop, onRetry = noop) {
     const subscriber = new ProcessingSubscriber(onUIReady, onCaptureDone, onRetry, this.logger)
-
     const processor = new EnrollmentProcessor(subscriber)
 
-    processor.enroll(enrollmentIdentifier)
+    try {
+      processor.enroll(enrollmentIdentifier)
 
-    return subscriber.asPromise()
+      return await subscriber.asPromise()
+    } catch (exception) {
+      if (ZoomSessionStatus.PreloadNotCompleted === exception.code) {
+        return this.showReloadPopup()
+      }
+
+      throw exception
+    }
   }
 
   async unload() {
@@ -222,12 +230,29 @@ export const ZoomSDK = new class {
    *
    * @private
    */
-  showReloadPopup() {
+  // eslint-disable-next-line require-await
+  async showReloadPopup() {
     const { criticalPreloadException: exception, logger } = this
+    const storeSnapshot = store.getCurrentSnapshot()
     const { message } = exception
 
     logger.error('Failed to preload ZoOm SDK', message, exception, { dialogShown: true })
-    _showReloadDialog()
+
+    showDialogWithData(storeSnapshot, {
+      type: 'error',
+      isMinHeight: false,
+      message: "We couldn't start face verification,\nplease reload the app.",
+      onDismiss: () => window.location.reload(true),
+      buttons: [
+        {
+          text: 'REFRESH',
+        },
+      ],
+    })
+
+    // return never ending Promise so app will stuck in the 'loading state'
+    // on the backgroumnd of the reload dialog
+    return new Promise(noop)
   }
 
   /**

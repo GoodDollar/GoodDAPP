@@ -459,7 +459,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       } catch (exception) {
         const { message } = exception
 
-        // if user already exiosts just log.warn then continue sugnup
+        // if user already exists just log.warn then continue signup
         if ('You cannot create more than 1 account with the same credentials' === message) {
           log.warn('User already exists during addUser() call:', message, exception)
         } else {

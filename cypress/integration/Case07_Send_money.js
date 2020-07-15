@@ -18,9 +18,9 @@ describe('Test case 7: Ability to send money', () => {
       HomePage.claimButton.click().invoke('text').then(text => {
         cy.log(text)
         if (text == 'Queue') {
-          const urlRequest = Cypress.env('postUrlRequest')
-          const bodyRequest = Cypress.env('postBodyRequest')
-          cy.request('POST', urlRequest, bodyRequest)
+          const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
+          const bodyPass = Cypress.env('CYPRESS_GUNDB_PASSWORD')
+          cy.request('POST', urlRequest + '/admin/queue', [{ password: bodyPass, allow: 1 }])
         }
 
       SendMoneyPage.dailyClaimText.should('be.visible')

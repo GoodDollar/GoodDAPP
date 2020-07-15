@@ -2,12 +2,11 @@ import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { View } from 'react-native'
 import createAppContainer from './lib/utils/createAppContainer'
-import { isAndroid, isWeb } from './lib/utils/platform'
+import { isAndroid } from './lib/utils/platform'
 import Config from './config/config'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import Auth from './components/auth/Auth'
-import AuthTorus from './components/auth/torus/AuthTorus'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
@@ -18,10 +17,8 @@ import { getOriginalScreenHeight } from './lib/utils/Orientation'
 
 const initialRouteName = 'Auth' // isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 
-const AuthType = isWeb && Config.torusEnabled ? AuthTorus : Auth
-
 const routes = {
-  Auth: AuthType,
+  Auth,
   Signup,
   InvalidW3TokenError,
 

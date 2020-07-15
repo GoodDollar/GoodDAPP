@@ -75,7 +75,7 @@ export const ZoomSDK = new class {
     }
   }
 
-  async initialize(licenseKey, licenseText = null, encryptionKey = null, preload = true) {
+  async initialize(licenseKey, licenseText = null, encryptionKey = null) {
     let license = null
     const { sdk, logger, criticalPreloadException } = this
 
@@ -115,6 +115,12 @@ export const ZoomSDK = new class {
       const isInitialized = await this.wrapCall(resolver => {
         // using one of four existing initiualize() overloads depending of which env variebles
         // (e.g. REACT_APP_ZOOM_ENCRYPTION_KEY and REACT_APP_ZOOM_LICENSE_TEXT) are set or not
+        const initializeArgs = [licenseKey, encryptionKey || resolver]
+
+        if (encryptionKey) {
+          initializeArgs.push(resolver)
+        }
+
         if (license) {
           /**
            * Production mode (REACT_APP_ZOOM_LICENSE_TEXT is set):
@@ -127,12 +133,7 @@ export const ZoomSDK = new class {
            *  (licenseText: string, licenseKeyIdentifier: string, onInitializationComplete: (result: boolean) => void): void;
            * }
            */
-          const initializeArgs = [license, licenseKey, encryptionKey || resolver]
-
-          if (encryptionKey) {
-            initializeArgs.push(resolver)
-          }
-
+          initializeArgs.unshift(license)
           sdk.initializeWithLicense(...initializeArgs)
           return
         }
@@ -148,7 +149,7 @@ export const ZoomSDK = new class {
          *  (licenseKeyIdentifier: string, onInitializationComplete: (result: boolean) => void, preloadZoomSDK?: boolean | undefined): void;
          * }
          */
-        sdk.initialize(licenseKey, encryptionKey || resolver, encryptionKey ? resolver : preload)
+        sdk.initialize(...initializeArgs)
       })
 
       // if Zoom was initialized successfully

@@ -10,23 +10,19 @@ const log = logger.child({ from: 'LoginService' })
 class LoginService {
   static toSign = 'Login to GoodDAPP'
 
-  credentials: ?Credentials
-
   jwt: ?string
 
   toSign: string = 'Login to GoodDAPP'
 
   constructor() {
     this.getJWT().then(jwt => (this.jwt = jwt))
-    this.getCredentials().then(c => (this.credentials = c))
   }
 
   storeCredentials(creds: Credentials) {
     if (!creds) {
       return
     }
-    this.credentials = creds
-    AsyncStorage.setItem(CREDS, JSON.stringify(this.credentials))
+    AsyncStorage.setItem(CREDS, JSON.stringify(creds))
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -53,7 +49,7 @@ class LoginService {
   }
 
   async auth(): Promise<?Credentials | Error> {
-    let creds = this.credentials || (await this.login())
+    let creds = (await this.getCredentials()) || (await this.login())
     log.info('signed message', creds)
     this.storeCredentials(creds)
 

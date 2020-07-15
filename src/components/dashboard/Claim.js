@@ -304,7 +304,7 @@ const Claim = props => {
           {claimState.entitlement > 0 ? (
             <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
               <View style={styles.amountBlock}>
-                <Section.Stack olor="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
+                <Section.Stack color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
                   <BigGoodDollar
                     number={entitlement}
                     formatter={weiToGd}

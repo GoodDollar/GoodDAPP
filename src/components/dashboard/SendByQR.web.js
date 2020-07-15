@@ -53,17 +53,17 @@ const SendByQR = ({ screenProps }: Props) => {
       if (data) {
         try {
           const decoded = decodeURI(data)
-          let paramsUrl = extractQueryParams(decoded)
+          const paramsUrl = extractQueryParams(decoded)
           const code = readCode(paramsUrl.code)
-
-          log.info('Code received from QR code', { code })
-
           const { route, params } = await routeAndPathForCode('sendByQR', code)
+
+          log.info({ code })
           fireEvent(QR_SCAN, { type: 'send' })
           push(route, params)
         } catch (e) {
           log.error('scan send code failed', e.message, e, { data })
           setQRDelay(false)
+
           throw e
         }
       }
@@ -82,8 +82,8 @@ const SendByQR = ({ screenProps }: Props) => {
         return
       }
 
+      log.error('QR scan send failed', message, exception, { dialogShown: true })
       showErrorDialog(errorMessage, '', dialogOptions)
-      log.error('QR scan send failed', message, exception)
     },
     [showErrorDialog],
   )

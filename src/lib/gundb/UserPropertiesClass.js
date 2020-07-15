@@ -23,6 +23,7 @@ export default class UserProperties {
     regMethod: REGISTRATION_METHOD_SELF_CUSTODY,
     showQuickActionHint: true,
     registered: false,
+    startClaimingAdded: false,
   }
 
   fields = [
@@ -35,6 +36,7 @@ export default class UserProperties {
     'countClaim',
     'regMethod',
     'showQuickActionHint',
+    'startClaimingAdded',
   ]
 
   /**

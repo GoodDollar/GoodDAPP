@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.25.0",
+  "version": "0.25.4-1",
   "engines": {
     "node": "10.21.0",
     "npm": "6.x"
@@ -61,7 +61,7 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@gooddollar/goodcontracts": "^2.0.0-beta.5",
+    "@gooddollar/goodcontracts": "^2.0.0-beta.6",
     "@react-native-community/clipboard": "^1.2.2",
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.9",

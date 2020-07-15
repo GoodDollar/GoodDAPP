@@ -2,9 +2,7 @@
 
 // libraries
 import amplitude from 'amplitude-js'
-import { debounce, forEach, get, isFunction, isString } from 'lodash'
 import * as Sentry from '@sentry/browser'
-
 import { assign, debounce, forEach, get, isError, isFunction, isString, pick, pickBy, values } from 'lodash'
 
 // utils
@@ -17,6 +15,7 @@ export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
 export const CLICK_BTN_CARD_ACTION = 'CLICK_BTN_CARD_ACTION'
 export const CLICK_DELETE_WALLET = 'CLICK_DELETE_WALLET'
+export const SIGNUP_METHOD_SELECTED = 'SIGNUP_METHOD_SELECTED'
 export const SIGNUP_STARTED = 'SIGNUP_STARTED'
 export const SIGNIN_TORUS_SUCCESS = 'TORUS_SIGNIN_SUCCESS'
 export const SIGNIN_SUCCESS = 'MAGICLINK_SUCCESS'
@@ -56,15 +55,14 @@ export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
 const detectAPIs = () => {
-  const { mt, FS, dataLayer, amplitude } = global
-  const amplitudeFactory = amplitude ? () => amplitude.getInstance() : null
+  const { mt, FS, dataLayer } = global
 
   return pickBy({
     mautic: mt,
     fullStory: FS,
     sentry: Sentry,
     googleAnalytics: dataLayer,
-    amplitudeFactory,
+    amplitude: amplitude.getInstance(),
   })
 }
 
@@ -102,7 +100,7 @@ const analytics = new class {
 
   constructor(apis, rootApi, Config, loggerApi) {
     const { sentryDSN, amplitudeKey, secureTransmit, transmitSecureKeys, transmitCensor } = Config
-    const { amplitudeFactory, sentry } = apis
+    const { amplitude, sentry } = apis
 
     assign(this.apis, apis)
     assign(this, pick(Config, 'sentryDSN', 'amplitudeKey', 'version', 'env'))
@@ -116,7 +114,7 @@ const analytics = new class {
     }
 
     this.isSentryEnabled = !(!sentry || !sentryDSN)
-    this.isAmplitudeEnabled = !(!amplitudeFactory || !amplitudeKey)
+    this.isAmplitudeEnabled = !(!amplitude || !amplitudeKey)
 
     this.logger = loggerApi.child({ from: 'analytics' })
   }
@@ -130,10 +128,10 @@ const analytics = new class {
     // eslint-disable-next-line
     await Promise.all([
       fullStory && this.initFullStory(),
-      isAmplitudeEnabled && this.initAmplitude(amplitudeKey)
+      isAmplitudeEnabled && this.initAmplitude()
     ])
 
-    const { amplitudeKey, sentryDSN, env, logger } = this
+    const { sentryDSN, env, logger } = this
     const { amplitude, sentry } = apis
 
     if (isAmplitudeEnabled) {
@@ -293,18 +291,13 @@ const analytics = new class {
   // eslint-disable-next-line require-await
   async initAmplitude() {
     const { apis, isAmplitudeEnabled, amplitudeKey } = this
-    const { amplitudeFactory } = apis
+    const { amplitude } = apis
 
     if (!isAmplitudeEnabled) {
       return
     }
 
-    return new Promise(resolve =>
-      amplitudeFactory().init(amplitudeKey, null, null, () => {
-        apis.amplitude = amplitudeFactory()
-        resolve()
-      }),
-    )
+    return new Promise(resolve => amplitude.init(amplitudeKey, null, null, resolve))
   }
 
   /** @private */

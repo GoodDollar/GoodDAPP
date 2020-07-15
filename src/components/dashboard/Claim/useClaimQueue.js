@@ -8,11 +8,12 @@ import useLoadingIndicator from '../../../lib/hooks/useLoadingIndicator'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
-
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/pino-logger'
+import { isE2ERunning } from '../../../lib/utils/platform'
 
 const log = logger.child({ from: 'useClaimQueue' })
+const isQueueDisabled = !Config.claimQueue
 
 const ClaimQueuePopupText = ({ styles }) => (
   <View style={styles.paddingVertical20}>
@@ -26,7 +27,7 @@ const ClaimQueuePopupText = ({ styles }) => (
 )
 
 export default () => {
-  const [queueStatus, setQueueStatus] = useState(undefined)
+  const [queueStatus, setQueueStatus] = useState(userStorage.userProperties.get('claimQueueAdded'))
   const [showLoading, hideLoading] = useLoadingIndicator()
   const [, hideDialog, showErrorDialog] = useDialog()
 
@@ -37,7 +38,7 @@ export default () => {
       if (isCitizen) {
         return
       }
-      const inQueue = await userStorage.userProperties.get('claimQueueAdded')
+      const inQueue = userStorage.userProperties.get('claimQueueAdded')
       if (inQueue) {
         setQueueStatus(inQueue)
       }
@@ -53,13 +54,10 @@ export default () => {
         //send event in case user was added to queue or his queue status has changed
         if (ok === 1 || queue.status !== curStatus) {
           fireEvent(CLAIM_QUEUE, { status: queue.status })
+          userStorage.userProperties.set('claimQueueAdded', queue)
         }
 
         log.debug('CLAIM', { queue })
-
-        if (inQueue == null) {
-          userStorage.userProperties.set('claimQueueAdded', queue)
-        }
         setQueueStatus(queue)
         return queue
       }
@@ -80,7 +78,7 @@ export default () => {
       }
       return true
     } catch (e) {
-      log.error('handleClaimQueue failed', e.message, e)
+      log.error('handleClaimQueue failed', e.message, e, { dialogShown: true })
       showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status')
       return false
     } finally {
@@ -88,12 +86,23 @@ export default () => {
     }
   }
 
-  useEffect(() => {
-    if (Config.claimQueue) {
-      checkQueueStatus().catch(e => log.error('checkQueueStatus API request failed', e.message, e))
-    } else {
-      setQueueStatus({ status: 'approved' })
+  const initializeQueue = async () => {
+    try {
+      await checkQueueStatus()
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('checkQueueStatus API request failed', message, exception)
     }
+  }
+
+  useEffect(() => {
+    if (isQueueDisabled || isE2ERunning) {
+      setQueueStatus({ status: 'approved' })
+      return
+    }
+
+    initializeQueue()
   }, [])
 
   return { queueStatus, handleClaim }

@@ -1,10 +1,11 @@
 // @flow
 //eslint-disable-next-line
+
 import bip39 from 'bip39-light'
 import React, { Fragment, useState } from 'react'
 import { AsyncStorage, Image } from 'react-native'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import logger from '../../lib/logger/pino-logger'
+import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import retryImport from '../../lib/utils/retryImport'
@@ -19,7 +20,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 Image.prefetch(IOSWebAppSignInSVG)
 
 const TITLE = 'EASY ACCESS'
-const log = logger.child({ from: TITLE })
+const log = logger.child({ from: 'IOS EASY ACCESS' })
 
 const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
@@ -63,9 +64,19 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
 
         window.location = '/'
       } else {
+        log.error(errorText, '', null, {
+          code,
+          category: ExceptionCategory.Human,
+          dialogShown: true,
+        })
         showErrorDialog(errorText)
       }
     } else {
+      log.error(errorText, '', null, {
+        code,
+        category: ExceptionCategory.Human,
+        dialogShown: true,
+      })
       showErrorDialog(errorText)
     }
 

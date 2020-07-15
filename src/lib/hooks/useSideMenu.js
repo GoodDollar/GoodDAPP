@@ -21,9 +21,9 @@ export default (props = {}) => {
   const { navigation, theme } = props
   const API = useWrappedApi()
   const store = SimpleStore.useStore()
-  const [showDialog] = useErrorDialog()
+  const [showErrorDialog] = useErrorDialog()
   const isLoggedIn = store.get('isLoggedIn')
-  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog: showDialog, store, theme })
+  const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
 
   const [isSelfCustody, setIsSelfCustody] = useState(false)
   const slideToggle = useCallback(() => toggleSidemenu(store), [store])

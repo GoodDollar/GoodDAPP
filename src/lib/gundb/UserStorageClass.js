@@ -10,7 +10,7 @@ import { sha3 } from 'web3-utils'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
-import pino from '../logger/pino-logger'
+import pino, { ExceptionCategory } from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
@@ -189,8 +189,8 @@ export const startClaiming = {
   type: 'claiming',
   status: 'completed',
   data: {
-    customName: 'Claim your GoodDollars today!', //title in modal
-    subtitle: 'Claim your GoodDollars today!', //title in feed list
+    customName: `Claim your G$'s today!`, //title in modal
+    subtitle: `Claim your G$'s today!`, //title in feed list
     readMore: false,
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
@@ -296,7 +296,7 @@ export class UserStorage {
    * a gun node refering to gun.user()
    * @instance {Gun}
    */
-  gunuser: Gun
+  // gunuser: Gun
 
   /**
    * a gun node referring to gun
@@ -308,7 +308,7 @@ export class UserStorage {
    * a gun node referring tto gun.user().get('properties')
    * @instance {Gun}
    */
-  properties: Gun
+  // properties: Gun
 
   /**
    * a gun node referring tto gun.user().get('properties')
@@ -320,13 +320,13 @@ export class UserStorage {
    * a gun node refering to gun.user().get('profile')
    * @instance {Gun}
    */
-  profile: Gun
+  // profile: Gun
 
   /**
    * a gun node refering to gun.user().get('feed')
    * @instance {Gun}
    */
-  feed: Gun
+  // feed: Gun
 
   /**
    * current feed item
@@ -373,6 +373,11 @@ export class UserStorage {
     walletAddress: true,
     username: true,
   }
+
+  // trusted GoodDollar user indexes
+  trust = {}
+
+  ready: Promise<boolean> = null
 
   /**
    * Clean string removing blank spaces and special characters, and converts to lower case
@@ -429,7 +434,7 @@ export class UserStorage {
         gunuser.auth(username, password, user => {
           logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnemonic UserStorage', user.err)
+            logger.error('Error getMnemonic UserStorage', user.err, null)
             return rej(false)
           }
           res(true)
@@ -453,19 +458,24 @@ export class UserStorage {
   constructor(wallet: GoodWallet, gun: Gun) {
     this.gun = gun || defaultGun
     this.wallet = wallet
-    this.ready = this.wallet.ready
-      .then(() => this.init())
-      .then(() => logger.debug('userStorage initialized.'))
-      .catch(e => {
-        let logLevel = 'error'
 
-        if (e.message && e.message.includes('Wrong user or password')) {
-          logLevel = 'warn'
-        }
+    this.backgroundInit()
+  }
 
-        logger[logLevel]('Error initializing UserStorage', e.message, e, { account: this.wallet.account })
-        return false
-      })
+  get profile() {
+    return this.gun.user().get('profile')
+  }
+
+  get properties() {
+    return this.gun.user().get('properties')
+  }
+
+  get gunuser() {
+    return this.gun.user()
+  }
+
+  get feed() {
+    return this.gun.user().get('feed')
   }
 
   gunAuth(username: string, password: string): Promise<any> {
@@ -501,15 +511,9 @@ export class UserStorage {
   async init() {
     logger.debug('Initializing GunDB UserStorage')
 
-    //get trusted GoodDollar indexes and pub key
-    let trustPromise = API.getTrust()
-      .then(_ => {
-        AsyncStorage.setItem('GD_trust', JSON.stringify(_.data))
-        this.trust = _.data
-      })
-      .catch(e => {
-        logger.error('Could not fetch /trust', e.message, e)
-      })
+    // get trusted GoodDollar indexes and pub key
+    const trustPromise = this.fetchTrustIndexes()
+
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
@@ -523,7 +527,7 @@ export class UserStorage {
       loginToken: { defaultPrivacy: 'private' },
     }
 
-    this.gunuser = this.gun.user()
+    // this.gunuser = this.gun.user()
 
     if (this.gunuser.is) {
       logger.debug('init:', 'logging out first')
@@ -632,6 +636,43 @@ export class UserStorage {
     return true
   }
 
+  // eslint-disable-next-line require-await
+  async retryInit(): Promise<boolean> {
+    this.ready = null
+
+    this.backgroundInit()
+    return this.ready
+  }
+
+  backgroundInit(): void {
+    const { ready, wallet } = this
+
+    if (ready) {
+      return
+    }
+
+    this.ready = (async () => {
+      try {
+        await wallet.ready
+        const isReady = await this.init()
+
+        logger.debug('userStorage initialized.')
+        return isReady
+      } catch (exception) {
+        let logLevel = 'error'
+        const { account } = wallet
+        const { message } = exception
+
+        if (message && message.includes('Wrong user or password')) {
+          logLevel = 'warn'
+        }
+
+        logger[logLevel]('Error initializing UserStorage', message, exception, { account })
+        throw exception
+      }
+    })()
+  }
+
   async initTokens() {
     if (this.userAlreadyExist() !== true) {
       return
@@ -680,6 +721,29 @@ export class UserStorage {
       if (inviteCode) {
         this.setProfileField('inviteCode', inviteCode, 'private')
       }
+    }
+  }
+
+  /**
+   * Fetches trusted GoodDollar indexes and pub key
+   * @returns Promise
+   * @private
+   */
+  async fetchTrustIndexes() {
+    try {
+      // make sure server is up
+      await API.ping()
+
+      // fetch trust data
+      const { data } = await API.getTrust()
+
+      AsyncStorage.setItem('GD_trust', JSON.stringify(data))
+      this.trust = data
+    } catch (exception) {
+      const { message } = exception
+
+      // if fetch trust request failed even we're pinged the server - it's an exception
+      logger.error('Could not fetch /trust', message, exception)
     }
   }
 
@@ -856,7 +920,7 @@ export class UserStorage {
           'handleOTPLUpdated failed',
           'Original payment link TX not found',
           new Error('handleOTPLUpdated Failed: Original payment link TX not found'),
-          data,
+          { data, receipt },
         )
         return
       }
@@ -932,7 +996,7 @@ export class UserStorage {
    * @returns {Promise<Array<FeedEvent>>}
    */
   async getAllFeed() {
-    const total = values((await this.feed.get('index').then()) || {}).reduce((acc, curr) => acc + curr, 0)
+    const total = values((await this.feed.get('index').then(null, 1000)) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
     logger.debug('getAllFeed', { total, prevCursor })
     const feed = await this.getFeedPage(total, true)
@@ -976,31 +1040,30 @@ export class UserStorage {
     const loadFeedCache = AsyncStorage.getItem('GD_feed')
       .then(JSON.parse)
       .catch(e => logger.warn('failed parsing feed from cache'))
-    this.feed = this.gunuser.get('feed')
-    const feed = await this.feed
+    const { feed } = await this.gunuser
     logger.debug('init feed', { feed })
 
     if (feed == null) {
-      await this.feed.put({}) //restore old feed data - after nullified
-      logger.debug('init empty feed')
-    } else {
-      const byid = await this.feed.get('byid')
-      logger.debug('init feed byid', { byid })
+      //for some reason this breaks on gun 2020 https://github.com/amark/gun/issues/987
+      await this.feed.putAck({ initialized: true }) //restore old feed data - after nullified
+      logger.debug('init empty feed', { feed })
     }
-
     this.feed.get('index').on(this.updateFeedIndex, false)
     this.feedIds = (await loadFeedCache) || {}
 
+    // this.feed = this.gunuser.get('feed')
+
     //verify cache has all items
-    if (!(feed && feed.byid)) {
-      return
-    }
+    // if (!(feed && feed.byid)) {
+    //   return
+    // }
     const items = await this.feed
       .get('byid')
-      .onThen()
+      .then(null, 1000)
       .catch(e => {
         logger.warn('fetch byid onthen failed', { e })
       })
+    logger.debug('init feed byid', { items, ids: items && Object.entries(items) })
 
     if (!items) {
       return
@@ -1009,15 +1072,15 @@ export class UserStorage {
       delete items._
     }
     const ids = Object.entries(items)
-    logger.debug('initFeed got items', { ids })
+    logger.debug('init feed got items', { ids })
     const promises = ids.map(async ([k, v]) => {
       if (this.feedIds[k] === undefined) {
-        logger.debug('initFeed got missing cache item', { k })
         const data = await this.feed
           .get('byid')
           .get(k)
           .decrypt()
           .catch(_ => undefined)
+        logger.debug('init feed got missing cache item', { id: k, data })
         if (data != null) {
           this.feedIds[k] = data
           return true
@@ -1029,7 +1092,7 @@ export class UserStorage {
     Promise.all(promises)
       .then(_ => {
         if (_.find(_ => _)) {
-          logger.debug('initFeed updating cache', this.feedIds, _)
+          logger.debug('init feed updating cache', this.feedIds, _)
           AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
         }
       })
@@ -1072,7 +1135,7 @@ export class UserStorage {
    * Save user properties
    */
   async initProperties() {
-    this.properties = this.gunuser.get('properties')
+    // this.properties = this.gunuser.get('properties')
 
     this.userProperties = new UserProperties(this.properties)
     const properties = await this.userProperties.ready
@@ -1080,14 +1143,14 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const gunuser = await this.gunuser.onThen()
-    this.profile = this.gunuser.get('profile')
-    const profile = gunuser.profile && (await this.profile.onThen())
-    if (gunuser.profile === null) {
+    const gunuser = await this.gunuser.then(null, 1000)
+    const profile = await this.profile.then(null, 1000)
+    if (profile === null) {
       //in case profile was deleted in the past it will be exactly null
-      await this.gunuser.get('profile').putAck({ initialized: true })
-      this.profile = this.gunuser.get('profile')
+      await this.profile.putAck({ initialized: true })
     }
+
+    // this.profile = this.gunuser.get('profile')
     this.profile.open(doc => {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
@@ -1125,12 +1188,12 @@ export class UserStorage {
    * @returns {Promise<void>}
    */
   async addStartClaimingCard() {
-    const userProperties = await this.userProperties.getAll()
-    const firstVisitAppDate = userProperties.firstVisitApp
+    const firstVisitAppDate = this.userProperties.get('firstVisitApp')
     const displayTimeFilter = Config.displayStartClaimingCardTime
     const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
 
-    if (allowToShowByTimeFilter) {
+    if (allowToShowByTimeFilter && this.userProperties.get('startClaimingAdded') === false) {
+      this.userProperties.set('startClaimingAdded', true)
       await this.enqueueTX(startClaiming)
     }
   }
@@ -1255,7 +1318,7 @@ export class UserStorage {
         'setProfile failed',
         'Fields validation failed',
         new Error('setProfile failed: Fields validation failed'),
-        { errors },
+        { errors, category: ExceptionCategory.Human },
       )
       if (Config.throwSaveProfileErrors) {
         return Promise.reject(errors)
@@ -1320,6 +1383,7 @@ export class UserStorage {
         `indexProfileField - field ${field} value is empty (value: ${value})`,
         cleanValue,
         new Error('isValidValue failed'),
+        { category: ExceptionCategory.Human },
       )
       return false
     }
@@ -1336,7 +1400,7 @@ export class UserStorage {
 
       return true
     } catch (e) {
-      logger.error('indexProfileField', e.message, e)
+      logger.error('Validate IndexProfileField failed', e.message, e)
       return true
     }
   }
@@ -1467,7 +1531,7 @@ export class UserStorage {
 
       return indexNode.putAck(this.gunuser)
     } catch (e) {
-      logger.error('indexProfileField', e.message, e)
+      logger.error('indexProfileField failed', e.message, e)
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
@@ -1505,6 +1569,7 @@ export class UserStorage {
     if (!this.feedIndex) {
       return []
     }
+
     let daysToTake: Array<[string, number]> = takeWhile(this.feedIndex.slice(this.cursor), day => {
       if (total >= numResults) {
         return false
@@ -1527,6 +1592,8 @@ export class UserStorage {
     })
 
     const eventsIndex = flatten(await Promise.all(promises))
+    logger.debug('getFeedPage', { feedIndex: this.feedIndex, daysToTake, eventsIndex })
+
     return Promise.all(
       eventsIndex
         .filter(_ => _.id)
@@ -1558,6 +1625,7 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
+    logger.debug('getFormattedEvents page result:', { numResults, reset, feedPage: feed })
     return Promise.all(
       feed
         .filter(
@@ -1584,6 +1652,7 @@ export class UserStorage {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
+
       return undefined
     })
     if (!prevFeedEvent) {
@@ -1613,6 +1682,7 @@ export class UserStorage {
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
+
       return {}
     })
   }
@@ -1643,7 +1713,8 @@ export class UserStorage {
         .putAck({ [hash]: details })
       return true
     } catch (e) {
-      logger.error('saveSurveyDetails :', e.message, e, details)
+      logger.error('saveSurveyDetails :', e.message, e, { details })
+
       return false
     }
   }
@@ -1744,7 +1815,7 @@ export class UserStorage {
         const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
         logger.debug('formatEvent: initiator data', event.id, { initiatorType, initiator, address })
-        const profileNode = await this._getProfileNode(initiatorType, initiator, address)
+        const profileNode = this._getProfileNode(initiatorType, initiator, address)
         const [avatar, fullName] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
@@ -1804,7 +1875,7 @@ export class UserStorage {
           },
         }
       } catch (e) {
-        logger.error('formatEvent: failed formatting event:', e.message, e, event)
+        logger.error('formatEvent: failed formatting event:', e.message, e, { event })
         return {}
       }
     },
@@ -1859,37 +1930,37 @@ export class UserStorage {
     return `${type}${sufix}`
   }
 
-  async _getProfileNode(initiatorType, initiator, address): Gun {
-    const getProfile = async (group, value) => {
-      logger.debug('extractProfile:', { group, value })
+  _getProfileNode(initiatorType, initiator, address): Gun {
+    const getProfile = (idxSoul, idxKey) => {
+      logger.debug('extractProfile:', { idxSoul, idxKey })
 
-      // Need to verify if user deleted, otherwise the gun will stuck here and feed wont be displayed
-      const gunGroupIndexValue = this.gun.get(group).get(value)
-      const groupValue = await gunGroupIndexValue.then()
-      logger.debug('extractProfiler result :', { group, value, groupValue })
+      // Need to verify if user deleted, otherwise gun might stuck here and feed wont be displayed (gun <0.2020)
+      let gunProfile = this.gun
+        .get(idxSoul)
+        .get(idxKey)
+        .get('profile')
 
-      if (groupValue != null && groupValue.profile) {
-        return {
-          gunProfile: gunGroupIndexValue.get('profile'),
-        }
+      //need to return object so promise.all doesnt resolve node
+      return {
+        gunProfile,
       }
-      logger.warn('_extractProfileToShow invalid profile', { group, value, groupValue })
-      return undefined
+
+      // logger.warn('_extractProfileToShow invalid profile', { idxSoul, idxKey })
+      // return undefined
     }
 
     const searchField = initiatorType && `by${initiatorType}`
     const byIndex = searchField && getProfile(this.trust[searchField] || `users/${searchField}`, initiator)
+
     const byAddress = address && getProfile(this.trust.bywalletAddress || `users/bywalletAddress`, address)
 
-    const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
-
-    return profileByIndex || profileByAddress
+    return byIndex || byAddress
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
     const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
     const getAvatarFromGun = async () => {
-      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then())
+      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))
 
       // verify account is not deleted and return value
       // if account deleted - the display of 'avatar' field will be private
@@ -1908,7 +1979,7 @@ export class UserStorage {
 
   async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
     const getFullNameFromGun = async () => {
-      const fullName = profileToShow && (await profileToShow.get('fullName').then())
+      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 1000))
       logger.debug('profileFromGun:', { fullName })
 
       // verify account is not deleted and return value
@@ -1955,7 +2026,8 @@ export class UserStorage {
       logger.debug('enqueueTX ok:', { event, putRes })
       return true
     } catch (e) {
-      logger.error('enqueueTX failed: ', e.message, e, event)
+      logger.error('enqueueTX failed: ', e.message, e, { event })
+
       return false
     } finally {
       release()
@@ -2009,7 +2081,8 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, { feedEvent })
+
         return {}
       })
   }
@@ -2028,7 +2101,8 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, feedEvent)
+        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, { feedEvent })
+
         return {}
       })
   }
@@ -2047,7 +2121,8 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, feedEvent)
+        logger.error('updateOTPLEventStatus failedEncrypt byId:', e.message, e, { feedEvent })
+
         return {}
       })
   }
@@ -2061,6 +2136,7 @@ export class UserStorage {
     if (txHash === undefined) {
       return
     }
+
     const release = await this.feedMutex.lock()
 
     try {
@@ -2190,7 +2266,8 @@ export class UserStorage {
 
     // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {
-      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, event)
+      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, { event })
+
       return { err: e.message }
     })
     const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
@@ -2210,7 +2287,7 @@ export class UserStorage {
 
     return Promise.all([saveAck, ack, eventAck])
       .then(() => event)
-      .catch(e => logger.error('savingIndex', e.message, e))
+      .catch(e => logger.error('Save Indexes failed', e.message, e))
   }
 
   /**
@@ -2246,12 +2323,14 @@ export class UserStorage {
 
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+
     if (encryptedProfile === undefined) {
-      logger.error('getProfile: profile node undefined')
+      logger.error('getProfile: profile node undefined', '', null)
+
       return {}
     }
-    const fullProfile = this.getPrivateProfile(encryptedProfile)
-    return fullProfile
+
+    return this.getPrivateProfile(encryptedProfile)
   }
 
   loadGunField(gunNode): Promise<any> {
@@ -2270,12 +2349,14 @@ export class UserStorage {
 
   async getPublicProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+
     if (encryptedProfile === undefined) {
-      logger.error('getPublicProfile: profile node undefined')
+      logger.error('getPublicProfile: profile node undefined', '', null)
+
       return {}
     }
-    const fullProfile = this.getDisplayProfile(encryptedProfile)
-    return fullProfile
+
+    return this.getDisplayProfile(encryptedProfile)
   }
 
   getFaceIdentifier(): string {
@@ -2287,7 +2368,7 @@ export class UserStorage {
    * @returns {Promise<boolean>|Promise<boolean>}
    */
   async userAlreadyExist(): Promise<boolean> {
-    const exists = await this.gunuser.get('registered').onThen()
+    const exists = await this.gunuser.get('registered').then(null, 1000)
     logger.debug('userAlreadyExist', { exists })
     return exists
   }

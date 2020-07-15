@@ -233,7 +233,7 @@ export const ZoomSDK = new class {
    */
   // eslint-disable-next-line require-await
   async showReloadPopup() {
-    const { criticalPreloadException: exception, logger } = this
+    const { criticalPreloadException: exception, logger, store } = this
     const storeSnapshot = store.getCurrentSnapshot()
     const { message } = exception
 

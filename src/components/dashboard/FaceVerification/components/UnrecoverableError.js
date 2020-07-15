@@ -10,6 +10,7 @@ import useOnPress from '../../../../lib/hooks/useOnPress'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import logger from '../../../../lib/logger/pino-logger'
 
+import showReloadDialog from '../utils/showReoadDialog'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import illustration from '../../../../assets/FRUnrecoverableError.svg'
@@ -39,6 +40,12 @@ const UnrecoverableError = ({ styles, exception = {}, screenProps }) => {
   useEffect(() => {
     if (!isLicenseIssue) {
       fireEvent(FV_TRYAGAINLATER)
+      return
+    }
+
+    if (isPreloadIssue) {
+      log.error('FaceVerification failed', message, exception, { dialogShown: true })
+      showReloadDialog()
       return
     }
 

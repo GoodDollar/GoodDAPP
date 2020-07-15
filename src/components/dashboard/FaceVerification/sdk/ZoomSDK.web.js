@@ -2,8 +2,7 @@ import { fromPairs, isString, noop } from 'lodash'
 import ConsoleSubscriber from 'console-subscriber'
 
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
-import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
-import { store } from '../../../../lib/undux/SimpleStore'
+import _showReloadDialog from '../utils/showReoadDialog'
 import logger from '../../../../lib/logger/pino-logger'
 import { UICustomization, UITextStrings, ZOOM_PUBLIC_PATH } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
@@ -34,7 +33,7 @@ export const ZoomSDK = new class {
    */
   preloadCall = null
 
-  constructor(sdk, store, logger) {
+  constructor(sdk, logger) {
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory(`${ZOOM_PUBLIC_PATH}/resources`)
 
@@ -45,7 +44,6 @@ export const ZoomSDK = new class {
     sdk.setCustomization(UICustomization)
 
     this.sdk = sdk
-    this.store = store
     this.logger = logger
   }
 
@@ -225,23 +223,11 @@ export const ZoomSDK = new class {
    * @private
    */
   showReloadPopup() {
-    const store = this.store.getCurrentSnapshot()
     const { criticalPreloadException: exception, logger } = this
     const { message } = exception
 
     logger.error('Failed to preload ZoOm SDK', message, exception, { dialogShown: true })
-
-    showDialogWithData(store, {
-      type: 'error',
-      isMinHeight: false,
-      message: "We couldn't start face verification,\nplease reload the app.",
-      onDismiss: () => window.location.reload(true),
-      buttons: [
-        {
-          text: 'REFRESH',
-        },
-      ],
-    })
+    _showReloadDialog()
   }
 
   /**
@@ -363,4 +349,4 @@ export const ZoomSDK = new class {
 
     return preloadCall.catch(noop)
   }
-}(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK.web' }))
+}(ZoomAuthentication.ZoomSDK, logger.child({ from: 'ZoomSDK.web' }))

@@ -1188,12 +1188,12 @@ export class UserStorage {
    * @returns {Promise<void>}
    */
   async addStartClaimingCard() {
-    const userProperties = await this.userProperties.getAll()
-    const firstVisitAppDate = userProperties.firstVisitApp
+    const firstVisitAppDate = this.userProperties.get('firstVisitApp')
     const displayTimeFilter = Config.displayStartClaimingCardTime
     const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
 
-    if (allowToShowByTimeFilter) {
+    if (allowToShowByTimeFilter && this.userProperties.get('startClaimingAdded') === false) {
+      this.userProperties.set('startClaimingAdded', true)
       await this.enqueueTX(startClaiming)
     }
   }

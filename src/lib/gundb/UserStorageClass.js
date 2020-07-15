@@ -296,7 +296,7 @@ export class UserStorage {
    * a gun node refering to gun.user()
    * @instance {Gun}
    */
-  gunuser: Gun
+  // gunuser: Gun
 
   /**
    * a gun node referring to gun
@@ -308,7 +308,7 @@ export class UserStorage {
    * a gun node referring tto gun.user().get('properties')
    * @instance {Gun}
    */
-  properties: Gun
+  // properties: Gun
 
   /**
    * a gun node referring tto gun.user().get('properties')
@@ -320,13 +320,13 @@ export class UserStorage {
    * a gun node refering to gun.user().get('profile')
    * @instance {Gun}
    */
-  profile: Gun
+  // profile: Gun
 
   /**
    * a gun node refering to gun.user().get('feed')
    * @instance {Gun}
    */
-  feed: Gun
+  // feed: Gun
 
   /**
    * current feed item
@@ -471,8 +471,24 @@ export class UserStorage {
           dialogShown: false,
         })
 
-        return false
+        throw e
       })
+  }
+
+  get profile() {
+    return this.gun.user().get('profile')
+  }
+
+  get properties() {
+    return this.gun.user().get('properties')
+  }
+
+  get gunuser() {
+    return this.gun.user()
+  }
+
+  get feed() {
+    return this.gun.user().get('feed')
   }
 
   gunAuth(username: string, password: string): Promise<any> {
@@ -524,7 +540,7 @@ export class UserStorage {
       loginToken: { defaultPrivacy: 'private' },
     }
 
-    this.gunuser = this.gun.user()
+    // this.gunuser = this.gun.user()
 
     if (this.gunuser.is) {
       logger.debug('init:', 'logging out first')
@@ -1004,15 +1020,14 @@ export class UserStorage {
     logger.debug('init feed', { feed })
 
     if (feed == null) {
-      await this.gunuser.putAck({ feed: {} }) //restore old feed data - after nullified
-      logger.debug('init empty feed')
+      //for some reason this breaks on gun 2020 https://github.com/amark/gun/issues/987
+      await this.feed.putAck({ initialized: true }) //restore old feed data - after nullified
+      logger.debug('init empty feed', { feed })
     }
-    this.gunuser
-      .get('feed')
-      .get('index')
-      .on(this.updateFeedIndex, false)
+    this.feed.get('index').on(this.updateFeedIndex, false)
     this.feedIds = (await loadFeedCache) || {}
-    this.feed = this.gunuser.get('feed')
+
+    // this.feed = this.gunuser.get('feed')
 
     //verify cache has all items
     // if (!(feed && feed.byid)) {
@@ -1024,7 +1039,7 @@ export class UserStorage {
       .catch(e => {
         logger.warn('fetch byid onthen failed', { e })
       })
-    logger.debug('init feed byid', { items, ids: Object.entries(items) })
+    logger.debug('init feed byid', { items, ids: items && Object.entries(items) })
 
     if (!items) {
       return
@@ -1096,7 +1111,7 @@ export class UserStorage {
    * Save user properties
    */
   async initProperties() {
-    this.properties = this.gunuser.get('properties')
+    // this.properties = this.gunuser.get('properties')
 
     this.userProperties = new UserProperties(this.properties)
     const properties = await this.userProperties.ready
@@ -1105,12 +1120,13 @@ export class UserStorage {
 
   async initProfile() {
     const gunuser = await this.gunuser.then(null, 1000)
-    const profile = await this.gunuser.get('profile').then(null, 1000)
+    const profile = await this.profile.then(null, 1000)
     if (profile === null) {
       //in case profile was deleted in the past it will be exactly null
-      await this.gunuser.get('profile').putAck({ initialized: true })
+      await this.profile.putAck({ initialized: true })
     }
-    this.profile = this.gunuser.get('profile')
+
+    // this.profile = this.gunuser.get('profile')
     this.profile.open(doc => {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
@@ -1473,7 +1489,7 @@ export class UserStorage {
       if (field === 'username' && !(await UserStorage.isValidValue(field, value, false))) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
-      const indexNode = this.gun.get(this.trust[`by${field}`] || `users/by${field}`).get(cleanValue)
+      const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
       const indexValue = await indexNode.then()
 
       logger.debug('indexProfileField', {

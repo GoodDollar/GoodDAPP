@@ -30,7 +30,7 @@ import {
   fireMauticEvent,
 } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isLargeDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import type { DashboardProps } from './Dashboard'
@@ -450,8 +450,8 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
-      marginTop: getDesignRelativeHeight(isBrowser ? 70 : 18),
+      marginBottom: getDesignRelativeHeight(isLargeDevice ? 20 : 16),
+      marginTop: getDesignRelativeHeight(isLargeDevice ? 70 : 18),
     },
     headerText,
     amountBlock: {
@@ -472,7 +472,7 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       zIndex: 1,
       justifyContent: 'flex-end',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+      marginBottom: getDesignRelativeHeight(isLargeDevice ? 16 : 20),
     },
     learnMoreLink,
     claimButtonContainer: {

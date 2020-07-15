@@ -27,7 +27,7 @@ const ClaimQueuePopupText = ({ styles }) => (
 )
 
 export default () => {
-  const [queueStatus, setQueueStatus] = useState(undefined)
+  const [queueStatus, setQueueStatus] = useState(userStorage.userProperties.get('claimQueueAdded'))
   const [showLoading, hideLoading] = useLoadingIndicator()
   const [, hideDialog, showErrorDialog] = useDialog()
 
@@ -38,7 +38,7 @@ export default () => {
       if (isCitizen) {
         return
       }
-      const inQueue = await userStorage.userProperties.get('claimQueueAdded')
+      const inQueue = userStorage.userProperties.get('claimQueueAdded')
       if (inQueue) {
         setQueueStatus(inQueue)
       }
@@ -54,12 +54,10 @@ export default () => {
         //send event in case user was added to queue or his queue status has changed
         if (ok === 1 || queue.status !== curStatus) {
           fireEvent(CLAIM_QUEUE, { status: queue.status })
+          userStorage.userProperties.set('claimQueueAdded', queue)
         }
 
         log.debug('CLAIM', { queue })
-        if (inQueue == null) {
-          userStorage.userProperties.set('claimQueueAdded', queue)
-        }
         setQueueStatus(queue)
         return queue
       }

@@ -47,6 +47,8 @@ const App = () => {
       })
     }
     const onRegister = reg => {
+      //force check for service worker update
+      reg.update()
       if (reg.waiting) {
         onUpdate(reg)
       }

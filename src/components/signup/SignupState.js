@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
-import { assign, get } from 'lodash'
+import { assign, get, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 
@@ -375,12 +375,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkW3InviteCode()
-      log.debug('invite code:', { inviteCode })
       const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
 
+      log.debug('invite code:', { inviteCode })
       ;['email', 'fullName', 'mobile'].forEach(field => {
         if (!requestPayload[field]) {
           const fieldNames = { email: 'Email', fullName: 'Name', mobile: 'Mobile' }
+
           throw new Error(`Seems like you didn't fill your ${fieldNames[field]}`)
         }
       })
@@ -415,10 +416,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       let w3Token = requestPayload.w3Token
 
       if (w3Token) {
-        userStorage.userProperties.set('cameFromW3Site', true)
+        await userStorage.userProperties.set('cameFromW3Site', true)
       }
 
-      userStorage.userProperties.set('regMethod', regMethod)
+      await userStorage.userProperties.set('regMethod', regMethod)
       requestPayload.regMethod = regMethod
 
       const mnemonic = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || ''
@@ -437,50 +438,51 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         .toPromise()
 
       // Stores creationBlock number into 'lastBlock' feed's node
-      goodWallet
-        .getBlockNumber()
-        .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
-        .catch(e => log.error('save blocknumber failed:', e.message, e, { category: ExceptionCategory.Blockhain }))
+      try {
+        const creationBlock = await goodWallet.getBlockNumber()
 
-      //first need to add user to our database
-      const addUserAPIPromise = API.addUser(requestPayload).then(res => {
-        const data = res.data
+        await userStorage.saveLastBlockNumber(creationBlock.toString())
+      } catch (exception) {
+        const { message } = exception
 
-        if (data && data.loginToken) {
-          userStorage.setProfileField('loginToken', data.loginToken, 'private').catch()
+        log.error('save blocknumber failed:', message, exception, { category: ExceptionCategory.Blockhain })
+        throw exception
+      }
+
+      // first need to add user to our database
+      const { data: newUserData } = await API.addUser(requestPayload)
+
+      await Promise.all(
+        toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) => {
+          if ('w3Token' === fieldName) {
+            w3Token = fieldValue
+          }
+
+          return userStorage.setProfileField(fieldName, fieldValue, 'private')
+        }),
+      )
+
+      if (w3Token) {
+        try {
+          await API.updateW3UserWithWallet(w3Token, goodWallet.account)
+        } catch (exception) {
+          const { message } = exception
+
+          log.error('failed updateW3UserWithWallet', message, exception)
         }
-
-        if (data && data.w3Token) {
-          userStorage.setProfileField('w3Token', data.w3Token, 'private').catch()
-          w3Token = data.w3Token
-        }
-
-        if (data && data.marketToken) {
-          userStorage.setProfileField('marketToken', data.marketToken, 'private').catch()
-        }
-      })
-
-      await addUserAPIPromise
-
-      //need to wait for API.addUser but we dont need to wait for it to finish
-      Promise.all([
-        w3Token &&
-          API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
-            log.error('failed updateW3UserWithWallet', e.message, e),
-          ),
-      ])
+      }
 
       await Promise.all([
         userStorage.gunuser.get('registered').putAck(true),
         userStorage.userProperties.set('registered', true),
         AsyncStorage.setItem(IS_LOGGED_IN, true),
+        AsyncStorage.removeItem('GD_web3Token'),
+        AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
       ])
-
-      AsyncStorage.removeItem('GD_web3Token')
-      AsyncStorage.removeItem(GD_INITIAL_REG_METHOD)
 
       log.debug('New user created')
       setLoading(false)
+
       return true
     } catch (e) {
       log.error('New user failure', e.message, e, { dialogShown: true })

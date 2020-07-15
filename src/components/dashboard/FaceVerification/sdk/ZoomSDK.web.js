@@ -36,7 +36,7 @@ export const ZoomSDK = new class {
    */
   preloadCall = null
 
-  constructor(sdk, logger) {
+  constructor(sdk, store, logger) {
     // setting a the directory path for other ZoOm Resources.
     sdk.setResourceDirectory(`${ZOOM_PUBLIC_PATH}/resources`)
 
@@ -47,6 +47,7 @@ export const ZoomSDK = new class {
     sdk.setCustomization(UICustomization)
 
     this.sdk = sdk
+    this.store = store
     this.logger = logger
   }
 
@@ -374,4 +375,4 @@ export const ZoomSDK = new class {
 
     return preloadCall.catch(noop)
   }
-}(ZoomAuthentication.ZoomSDK, logger.child({ from: 'ZoomSDK.web' }))
+}(ZoomAuthentication.ZoomSDK, store, logger.child({ from: 'ZoomSDK.web' }))

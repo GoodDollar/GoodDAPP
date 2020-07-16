@@ -1932,8 +1932,19 @@ export class UserStorage {
   }
 
   _getProfileNode(initiatorType, initiator, address): Gun {
-    const getProfile = (idxSoul, idxKey) => {
-      logger.debug('extractProfile:', { idxSoul, idxKey })
+    const getProfile = (indexName, idxKey) => {
+      const trustIdx = this.trust[indexName]
+      const trustExists =
+        trustIdx &&
+        this.gun
+          .get(trustIdx)
+          .get(idxKey)
+          .then()
+      let idxSoul = `users/${indexName}`
+      if (trustExists) {
+        idxSoul = trustIdx
+      }
+      logger.debug('extractProfile:', { idxSoul, idxKey, trustExists })
 
       // Need to verify if user deleted, otherwise gun might stuck here and feed wont be displayed (gun <0.2020)
       let gunProfile = this.gun
@@ -1951,9 +1962,9 @@ export class UserStorage {
     }
 
     const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && getProfile(this.trust[searchField] || `users/${searchField}`, initiator)
+    const byIndex = searchField && getProfile(searchField, initiator)
 
-    const byAddress = address && getProfile(this.trust.bywalletAddress || `users/bywalletAddress`, address)
+    const byAddress = address && getProfile('bywalletAddress', address)
 
     return byIndex || byAddress
   }

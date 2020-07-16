@@ -1066,6 +1066,7 @@ export class UserStorage {
     logger.debug('init feed byid', { items, ids: items && Object.entries(items) })
 
     if (!items) {
+      await this.feed.putAck({ byid: {} })
       return
     }
     if (items && items._) {
@@ -2428,23 +2429,26 @@ export class UserStorage {
             .catch(r => ({
               profile: 'failed',
             })),
-          this.gunuser
-            .get('feed')
-            .putAck(null)
-            .then(r => ({
-              feed: 'ok',
-            }))
-            .catch(r => ({
-              feed: 'failed',
-            })),
-          this.properties
-            .putAck(null)
-            .then(r => ({
-              properties: 'ok',
-            }))
-            .catch(r => ({
-              properties: 'failed',
-            })),
+
+          //dont delete anything, everything is encrypted. nullified nodes in gun
+          //can break stuff if user recreates account with same credentials
+          // this.gunuser
+          //   .get('feed')
+          //   .putAck(null)
+          //   .then(r => ({
+          //     feed: 'ok',
+          //   }))
+          //   .catch(r => ({
+          //     feed: 'failed',
+          //   })),
+          // this.properties
+          //   .putAck(null)
+          //   .then(r => ({
+          //     properties: 'ok',
+          //   }))
+          //   .catch(r => ({
+          //     properties: 'failed',
+          //   })),
           this.gunuser
             .get('registered')
             .putAck(false)

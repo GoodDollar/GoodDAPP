@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import Section from '../common/layout/Section'
@@ -12,15 +12,38 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
   const IframeTab = props => {
     const store = SimpleStore.useStore()
 
-    const isLoaded = () => {
+    const isLoaded = useCallback(() => {
       store.set('loadingIndicator')({ loading: false })
-    }
+    }, [store])
 
     useEffect(() => {
+      let isListening = true
+
+      const removeMessageListener = () => {
+        if (!isListening) {
+          return
+        }
+
+        isListening = false
+        window.removeEventListener('message', onMessage)
+      }
+
+      const onMessage = ({ data }) => {
+        const { src: targetSrc, target, event } = data
+
+        if ('DOMContentLoaded' === event && 'iframe' === target && src === targetSrc) {
+          removeMessageListener()
+          isLoaded()
+        }
+      }
+
       store.set('loadingIndicator')({ loading: true })
+      window.addEventListener('message', onMessage)
+
+      return removeMessageListener
     }, [])
 
-    //this is for our external pages like privacy policy, etc.. they dont require iframeresizer to work ok on ios <13
+    // this is for our external pages like privacy policy, etc.. they dont require iframeresizer to work ok on ios <13
     return (
       <iframe
         allowFullScreen

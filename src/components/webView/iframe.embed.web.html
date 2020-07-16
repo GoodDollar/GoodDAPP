@@ -1,0 +1,17 @@
+<script type="text/javascript">
+  (function () {
+    var DOMReady = 'DOMContentLoaded'
+
+    if (!parent || ('function' !== (typeof parent.postMessage))) {
+      return;
+    }
+
+    window.addEventListener(DOMReady, function() {
+      parent.postMessage({
+        event: DOMReady,
+        target: 'iframe',
+        src: location.href
+      })
+    });
+  })()
+</script>

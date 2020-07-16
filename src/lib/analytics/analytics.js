@@ -162,8 +162,7 @@ const setUserEmail = email => {
   }
 }
 
-/** @private */
-const identifyWith = (email, identifier = null) => {
+export const identifyWith = (email, identifier = null) => {
   if (isAmplitudeEnabled && identifier) {
     Amplitude.setUserId(identifier)
   }
@@ -213,15 +212,6 @@ export const identifyOnUserSignup = async email => {
       Amplitude: isAmplitudeEnabled,
     },
   )
-}
-
-export const identifyWithSignedInUser = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
-  const identifier = goodWallet.getAccountForType('login')
-  const email = await userStorage.getProfileFieldValue('email')
-
-  log.debug('got identifiers', { identifier, email })
-
-  identifyWith(email, identifier)
 }
 
 export const reportToSentry = (error, extra = {}, tags = {}) => {

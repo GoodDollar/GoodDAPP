@@ -25,7 +25,7 @@ import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
-import { fireEvent, identifyOnUserSignup } from '../../lib/analytics/analytics'
+import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
@@ -265,6 +265,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   const onMount = async () => {
+    //if email from torus then identify user
+    state.email && identifyOnUserSignup(state.email)
+
     verifyStartRoute()
 
     // // Recognize registration method (page refresh case included)
@@ -302,18 +305,20 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     const ready = (async () => {
       log.debug('ready: Starting initialization', { w3UserFromProps, isRegMethodSelfCustody, torusUserFromProps })
 
-      if (torusUserFromProps.privateKey) {
-        log.debug('skipping ready initialization (already done in AuthTorus)')
-        const [, { init }] = await Promise.all([API.ready, retryImport(() => import('../../init'))])
-        return init()
-      }
-
       const { init } = await retryImport(() => import('../../init'))
-      const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
       const { goodWallet, userStorage, source } = await init()
+      identifyWith(null, goodWallet.getAccountForType('login'))
+      fireSignupEvent('STARTED', { source })
 
       // for QA
       global.wallet = goodWallet
+      if (torusUserFromProps.privateKey) {
+        log.debug('skipping ready initialization (already done in AuthTorus)')
+        await API.ready
+        return { goodWallet, userStorage }
+      }
+
+      const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
 
       try {
         // init user storage
@@ -328,8 +333,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         throw exception
       }
-
-      fireSignupEvent('STARTED', { source })
 
       //the login also re-initialize the api with new jwt
       await login

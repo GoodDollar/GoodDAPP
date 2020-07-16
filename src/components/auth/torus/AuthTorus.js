@@ -5,7 +5,6 @@ import logger from '../../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
   fireEvent,
-  identifyOnUserSignup,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
@@ -106,9 +105,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
-        }
-        if (provider !== 'auth0-pwdless-sms') {
-          identifyOnUserSignup(torusUser.email)
         }
 
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)

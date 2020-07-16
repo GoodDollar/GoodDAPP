@@ -1,5 +1,4 @@
 //@flow
-import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
 import { find, flatten, get, isEqual, keys, maxBy, memoize, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
 import isEmail from 'validator/lib/isEmail'
@@ -15,6 +14,7 @@ import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
+import AsyncStorage from '../utils/asyncStorage'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -536,7 +536,7 @@ export class UserStorage {
 
     let loggedInPromise
 
-    let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
+    let existingCreds = await AsyncStorage.getItem(GD_GUN_CREDENTIALS)
     existingCreds = null
     if (existingCreds == null) {
       //sign with different address so its not connected to main user address and there's no 1-1 link
@@ -559,7 +559,7 @@ export class UserStorage {
       }
       loggedInPromise = loggedInPromise.then(_ => {
         existingCreds = { sea: this.gunuser.pair(), is: this.gunuser.is, username, password }
-        AsyncStorage.setItem('GD_GunCredentials', JSON.stringify(existingCreds))
+        AsyncStorage.setItem('GD_GunCredentials', existingCreds)
         return _
       })
     } else {
@@ -1024,7 +1024,7 @@ export class UserStorage {
 
   writeFeedEvent(event): Promise<FeedEvent> {
     this.feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+    AsyncStorage.setItem('GD_feed', this.feedIds)
     return this.feed
       .get('byid')
       .get(event.id)
@@ -1094,7 +1094,7 @@ export class UserStorage {
       .then(_ => {
         if (_.find(_ => _)) {
           logger.debug('init feed updating cache', this.feedIds, _)
-          AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+          AsyncStorage.setItem('GD_feed', this.feedIds)
         }
       })
       .catch(e => logger.error('error caching feed items', e.message, e))
@@ -2346,6 +2346,7 @@ export class UserStorage {
   }
 
   loadGunField(gunNode): Promise<any> {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async res => {
       gunNode.load(p => res(p))
       let isNode = await gunNode

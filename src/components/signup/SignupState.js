@@ -413,16 +413,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         }
       }
 
-      let w3Token = requestPayload.w3Token
-
-      if (w3Token) {
-        await userStorage.userProperties.set('cameFromW3Site', true)
-      }
-
-      await userStorage.userProperties.set('regMethod', regMethod)
+      let { w3Token } = requestPayload
       requestPayload.regMethod = regMethod
 
-      const mnemonic = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || ''
+      const [, , mnemonic] = await Promise.all([
+        w3Token && userStorage.userProperties.set('cameFromW3Site', true),
+        userStorage.userProperties.set('regMethod', regMethod),
+        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
+      ])
 
       // trying to update profile 2 times, if failed anyway - re-throwing exception
       await defer(() =>
@@ -437,36 +435,34 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         .pipe(retry(1))
         .toPromise()
 
-      // Stores creationBlock number into 'lastBlock' feed's node
-      try {
-        const creationBlock = await goodWallet.getBlockNumber()
-
-        await userStorage.saveLastBlockNumber(creationBlock.toString())
-      } catch (exception) {
-        const { message } = exception
-
-        log.error('save blocknumber failed:', message, exception, { category: ExceptionCategory.Blockhain })
-        throw exception
-      }
-
       let newUserData
 
-      try {
-        // first need to add user to our database
-        const { data } = await API.addUser(requestPayload)
+      await Promise.all([
+        // Stores creationBlock number into 'lastBlock' feed's node
+        goodWallet
+          .getBlockNumber()
+          .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
+          .catch(exception => {
+            const { message } = exception
 
-        newUserData = data
-      } catch (exception) {
-        const { message } = exception
+            log.error('save blocknumber failed:', message, exception, { category: ExceptionCategory.Blockhain })
+            throw exception
+          }),
 
-        // if user already exists just log.warn then continue signup
-        if ('You cannot create more than 1 account with the same credentials' === message) {
-          log.warn('User already exists during addUser() call:', message, exception)
-        } else {
-          // otherwise re-throwing exception to be catched in the parent try {}
-          throw exception
-        }
-      }
+        API.addUser(requestPayload)
+          .then(({ data }) => (newUserData = data))
+          .catch(exception => {
+            const { message } = exception
+
+            // if user already exists just log.warn then continue signup
+            if ('You cannot create more than 1 account with the same credentials' === message) {
+              log.warn('User already exists during addUser() call:', message, exception)
+            } else {
+              // otherwise re-throwing exception to be catched in the parent try {}
+              throw exception
+            }
+          }),
+      ])
 
       await Promise.all(
         toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) => {
@@ -478,22 +474,18 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         }),
       )
 
-      if (w3Token) {
-        try {
-          await API.updateW3UserWithWallet(w3Token, goodWallet.account)
-        } catch (exception) {
-          const { message } = exception
-
-          log.error('failed updateW3UserWithWallet', message, exception)
-        }
-      }
-
       await Promise.all([
         userStorage.gunuser.get('registered').putAck(true),
         userStorage.userProperties.set('registered', true),
         AsyncStorage.setItem(IS_LOGGED_IN, true),
         AsyncStorage.removeItem('GD_web3Token'),
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
+        w3Token &&
+          API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(exception => {
+            const { message } = exception
+
+            log.error('failed updateW3UserWithWallet', message, exception)
+          }),
       ])
 
       log.debug('New user created')

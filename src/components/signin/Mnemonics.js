@@ -5,12 +5,12 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
-import retryImport from '../../lib/utils/retryImport'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
+import { userExists } from '../../lib/login/userExists'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -54,6 +54,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   }
 
   const recover = async () => {
+    //required to wallet and storage are reinitialized
+    await AsyncStorage.clear()
     input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)
@@ -85,9 +87,10 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       await saveMnemonics(mnemonics)
 
       // We validate that a user was registered for the specified mnemonics
-      const [profile, fullName] = await profileExist()
+      const { exists, fullName } = await userExists(mnemonics)
+      log.debug('userExists result:', { exists, fullName })
 
-      if (profile) {
+      if (exists) {
         await AsyncStorage.setItem(IS_LOGGED_IN, true)
         const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
         const firstName = getFirstWord(fullName)
@@ -129,23 +132,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       handleChange(incomingMnemonic)
     }
   }, [])
-
-  /**
-   * Helper to validate if exist a Gun profile associated to current mnemonic
-   * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
-   */
-  async function profileExist(): Promise<any> {
-    const [Wallet, UserStorage] = await Promise.all([
-      retryImport(() => import('../../lib/wallet/GoodWalletClass').then(_ => _.GoodWallet)),
-      retryImport(() => import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage)),
-    ])
-    const wallet = new Wallet({ mnemonic: mnemonics })
-    await wallet.ready
-    const userStorage = new UserStorage(wallet)
-    await userStorage.ready
-    const exists = await userStorage.userAlreadyExist()
-    return [exists, exists && (await userStorage.getProfileFieldDisplayValue('fullName'))]
-  }
 
   const web3HasWallet = get(navigation, 'state.params.web3HasWallet')
 

@@ -175,10 +175,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: getDesignRelativeHeight(18),
     height: getDesignRelativeWidth(isBrowser ? 220 : 130),
     width: '100%',
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),

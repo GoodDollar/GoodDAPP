@@ -2368,9 +2368,8 @@ export class UserStorage {
    * @returns {Promise<boolean>|Promise<boolean>}
    */
   async userAlreadyExist(): Promise<boolean> {
-    // from GUN docs: gun.then(cb) (not official yet) Could be buggy until official!
     const gunNode = this.gunuser.get('registered')
-    const exists = await new Promise(resolve => gunNode.once(resolve))
+    const exists = await gunNode.then(null, 1000)
 
     logger.debug('userAlreadyExist', { exists })
     return exists

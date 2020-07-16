@@ -53,7 +53,7 @@ export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
-let Amplitude
+const Amplitude = amplitude.getInstance()
 const { mt: Mautic, FS, dataLayer: GoogleAnalytics } = global
 
 const log = logger.child({ from: 'analytics' })
@@ -67,18 +67,11 @@ const isGoogleAnalyticsEnabled = !!GoogleAnalytics
 /** @private */
 // eslint-disable-next-line require-await
 const initAmplitude = async () => {
-  const amp = () => amplitude.getInstance()
-
   if (!isAmplitudeEnabled) {
     return
   }
 
-  return new Promise(resolve =>
-    amp().init(amplitudeKey, null, null, () => {
-      Amplitude = amp()
-      resolve()
-    }),
-  )
+  return new Promise(resolve => Amplitude.init(amplitudeKey, null, null, resolve))
 }
 
 /** @private */

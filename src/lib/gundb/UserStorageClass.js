@@ -1066,6 +1066,7 @@ export class UserStorage {
     logger.debug('init feed byid', { items, ids: items && Object.entries(items) })
 
     if (!items) {
+      await this.feed.putAck({ byid: {} })
       return
     }
     if (items && items._) {
@@ -1931,8 +1932,19 @@ export class UserStorage {
   }
 
   _getProfileNode(initiatorType, initiator, address): Gun {
-    const getProfile = (idxSoul, idxKey) => {
-      logger.debug('extractProfile:', { idxSoul, idxKey })
+    const getProfile = (indexName, idxKey) => {
+      const trustIdx = this.trust[indexName]
+      const trustExists =
+        trustIdx &&
+        this.gun
+          .get(trustIdx)
+          .get(idxKey)
+          .then()
+      let idxSoul = `users/${indexName}`
+      if (trustExists) {
+        idxSoul = trustIdx
+      }
+      logger.debug('extractProfile:', { idxSoul, idxKey, trustExists })
 
       // Need to verify if user deleted, otherwise gun might stuck here and feed wont be displayed (gun <0.2020)
       let gunProfile = this.gun
@@ -1950,9 +1962,9 @@ export class UserStorage {
     }
 
     const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && getProfile(this.trust[searchField] || `users/${searchField}`, initiator)
+    const byIndex = searchField && getProfile(searchField, initiator)
 
-    const byAddress = address && getProfile(this.trust.bywalletAddress || `users/bywalletAddress`, address)
+    const byAddress = address && getProfile('bywalletAddress', address)
 
     return byIndex || byAddress
   }
@@ -2430,23 +2442,26 @@ export class UserStorage {
             .catch(r => ({
               profile: 'failed',
             })),
-          this.gunuser
-            .get('feed')
-            .putAck(null)
-            .then(r => ({
-              feed: 'ok',
-            }))
-            .catch(r => ({
-              feed: 'failed',
-            })),
-          this.properties
-            .putAck(null)
-            .then(r => ({
-              properties: 'ok',
-            }))
-            .catch(r => ({
-              properties: 'failed',
-            })),
+
+          //dont delete anything, everything is encrypted. nullified nodes in gun
+          //can break stuff if user recreates account with same credentials
+          // this.gunuser
+          //   .get('feed')
+          //   .putAck(null)
+          //   .then(r => ({
+          //     feed: 'ok',
+          //   }))
+          //   .catch(r => ({
+          //     feed: 'failed',
+          //   })),
+          // this.properties
+          //   .putAck(null)
+          //   .then(r => ({
+          //     properties: 'ok',
+          //   }))
+          //   .catch(r => ({
+          //     properties: 'failed',
+          //   })),
           this.gunuser
             .get('registered')
             .putAck(false)

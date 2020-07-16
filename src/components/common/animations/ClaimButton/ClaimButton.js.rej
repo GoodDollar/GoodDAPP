@@ -1,4 +1,0 @@
-diff a/src/components/common/animations/ClaimButton/ClaimButton.js b/src/components/common/animations/ClaimButton/ClaimButton.js	(rejected hunks)
-@@ -93 +93 @@ class ClaimButton extends React.Component {
--        <Lottie ref={this.setAnim} loop={false} source={animationData} resizeMode="cover" style={{ width: '100%' }}/>
-+        <Lottie ref={this.setAnim} loop={false} source={animationData} resizeMode="cover" style={{ width: '100%' }} />

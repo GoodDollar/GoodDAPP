@@ -23,6 +23,7 @@ function inputPhoneNumber(isVisible) {
 
 describe('Test case 1: login via TorusTestUser and Create temporary user', () => {
   it('login via google', () => {
+    localStorage.clear()
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
@@ -64,6 +65,7 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
   })
 
   it('User to sign up the wallet with correct values', () => {
+    // StartPage.open()
     StartPage.headerPage.contains('Welcome').should('be.visible')
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')
@@ -84,16 +86,6 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     SignUpPage.letStartButton.click()
     SignUpPage.gotItButton.click()
     HomePage.welcomeFeed.should('be.visible')
-
-    //get mnemonic from clipboard
-    // HomePage.optionsButton.click()
-    // HomePage.backupButton.click().should(() => {
-    //   HomePage.clipboardButton.click()
-    //   cy.task('getClipboard').then(mnemonic => {
-    //     cy.log(mnemonic)
-    //     cy.writeFile('cypress/fixtures/userMnemonicSave.txt', mnemonic, { timeout: 10000 })
-    //   })
-    // })
 
     //get mnemonic from localStorage
     HomePage.sendButton.should(() => {

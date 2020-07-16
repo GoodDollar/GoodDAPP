@@ -18,7 +18,7 @@ describe('Test case 6: Ability to send recovering email', () => {
       HomePage.waitForHomePageDisplayed()
     })
     HomePage.optionsButton.click({ force: true })
-    HomePage.options.eq(2).click()
+    HomePage.options.contains('Backup Wallet').click()
     for (let i = 0; i < 12; i++) {
       RecoverWalletPage.mnemonicInputs.eq(i).should('be.visible')
       RecoverWalletPage.mnemonicInputs

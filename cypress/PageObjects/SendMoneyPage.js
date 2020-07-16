@@ -37,7 +37,7 @@ class SendMoneyPage {
   }
 
   get verifyButton() {
-    return cy.contains('OK, Verify me')
+    return cy.get('[role="button"]').contains('OK, VERIFY ME')
   }
 
   get readyButton() {

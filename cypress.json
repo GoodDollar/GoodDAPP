@@ -23,7 +23,8 @@
     "emailForCheckingRegistration": "main.test.acc.gooddollar@gmail.com",
     "usernameForRegistration": "Name Surname",
     "numberForCheckingRegistration": "+380673001757",
-    "numberForTorus": "+380991234567"
+    "numberForTorus": "+380991234567",
+    "REACT_APP_SERVER_URL": "https://good-server.herokuapp.com"
   },
   "projectId": "mm5rgt"
 }

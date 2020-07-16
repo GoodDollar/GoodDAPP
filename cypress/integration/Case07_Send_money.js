@@ -15,12 +15,30 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
-      HomePage.claimButton.click().invoke('text').then(text => {
+      HomePage.claimButton.click()
+      cy.wait(2000)     // wait for a pop-up to appear confirming the decision in the queue
+      cy.get('#root')
+      .find('[role="button"]')
+      .its('length')
+      .then(res => {
+        cy.log(res)
+        if (res == 4) {
+          cy.get('[role="button"]').contains(/OK, Got it/i).click()
+        }
+      })
+
+      HomePage.claimButton.invoke('text').then(text => {
         cy.log(text)
         if (text == 'Queue') {
           const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
           const bodyPass = Cypress.env('CYPRESS_GUNDB_PASSWORD')
-          cy.request('POST', urlRequest + '/admin/queue', [{ password: bodyPass, allow: 1 }])
+          cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 1 }).then(response => {
+            expect(response.body).to.have.property('stillPending')
+          })
+          cy.reload()
+          cy.contains('Welcome to GoodDollar!').should('be.visible')
+          HomePage.claimButton.should('be.visible')          
+          HomePage.claimButton.click()
         }
 
       SendMoneyPage.dailyClaimText.should('be.visible')

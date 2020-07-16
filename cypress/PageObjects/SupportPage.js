@@ -19,7 +19,7 @@ class SupportPage {
   get ask() {
     return '#ask-a-question'
   }
-
+/*
   get helpFormFirstName() {
     return '#mauticform_input_communitygdsupportrequestform_first_name'
   }
@@ -67,6 +67,7 @@ class SupportPage {
   get subscribeFormSuccessMessage() {
     return '#mauticform_communitygdfooternlregistration_message'
   }
+  */
 }
 
 export default new SupportPage()

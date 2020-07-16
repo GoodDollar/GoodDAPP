@@ -1,6 +1,6 @@
 // libraries
 import React, { useEffect } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 
 //components
@@ -175,13 +175,17 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: getDesignRelativeHeight(18),
     height: getDesignRelativeWidth(isBrowser ? 220 : 130),
     width: '100%',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
     paddingVertical: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : 14),
   },
   descriptionUnderline: {
-    display: 'block',
+    display: Platform.select({ web: 'block', default: 'flex' }),
     paddingTop: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
   },
   button: {

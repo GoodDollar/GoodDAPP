@@ -12,8 +12,8 @@ export const PrivacyPolicy = createIframe('https://community.gooddollar.org/tou/
 //   'Privacy And Identity'
 // )
 
-export const Support = createIframe('https://support.gooddollar.org', ' Support & Feedback', true)
-export const SupportForUnsigned = createIframe('https://support.gooddollar.org', ' Support & Feedback', true, 'Login')
+export const Support = createIframe('https://support.gooddollar.org', ' Help & Feedback', true)
+export const SupportForUnsigned = createIframe('https://support.gooddollar.org', ' Help & Feedback', true, 'Login')
 
 export const Statistics = createIframe(Config.dashboardUrl, 'Statistics')
 export const FAQ = createIframe(`https://community.gooddollar.org/faq${Config.isEToro ? '-etoro' : ''}`, 'FAQ')

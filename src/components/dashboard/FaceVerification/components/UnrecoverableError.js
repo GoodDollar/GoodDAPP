@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
-import { get } from 'lodash'
-
 import { Image, Platform, View } from 'react-native'
+import { get } from 'lodash'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
 import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'

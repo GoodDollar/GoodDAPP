@@ -52,7 +52,7 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
 
   it('login via facebook', () => {
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
-    StartPage.headerPage.contains('Welcome').should('be.visible')
+    StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.facebookLink.should('be.visible')
     SocialLoginPage.facebookLink.get('[role="button"]').should('have.attr', 'data-focusable', 'true')

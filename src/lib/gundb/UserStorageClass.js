@@ -7,6 +7,9 @@ import moment from 'moment'
 import Gun from 'gun'
 import SEA from 'gun/sea'
 import { sha3 } from 'web3-utils'
+import { defer, from as fromPromise } from 'rxjs'
+import { retry } from 'rxjs/operators'
+
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
@@ -636,14 +639,6 @@ export class UserStorage {
     return true
   }
 
-  // eslint-disable-next-line require-await
-  async retryInit(): Promise<boolean> {
-    this.ready = null
-
-    this.backgroundInit()
-    return this.ready
-  }
-
   backgroundInit(): void {
     const { ready, wallet } = this
 
@@ -653,8 +648,12 @@ export class UserStorage {
 
     this.ready = (async () => {
       try {
+        // firstly, awaiting for wallet is ready
         await wallet.ready
-        const isReady = await this.init()
+
+        const isReady = await defer(() => fromPromise(this.init())) // init user storage
+          .pipe(retry(1)) // if exception thrown, retry init one more times
+          .toPromise()
 
         logger.debug('userStorage initialized.')
         return isReady

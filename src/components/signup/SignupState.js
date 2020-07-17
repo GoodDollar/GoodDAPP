@@ -104,6 +104,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     w3Token,
   }
 
+  const [unrecoverableError, setUnrecoverableError] = useState(null)
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
@@ -264,95 +265,106 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
   }
 
-  const onMount = async () => {
-    verifyStartRoute()
+  useEffect(() => {
+    const onMount = async () => {
+      verifyStartRoute()
 
-    // // Recognize registration method (page refresh case included)
-    // const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
+      // // Recognize registration method (page refresh case included)
+      // const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
 
-    // if (initialRegMethod && initialRegMethod !== regMethod) {
-    //   setRegMethod(initialRegMethod)
-    //   await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
-    //   const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY
+      // if (initialRegMethod && initialRegMethod !== regMethod) {
+      //   setRegMethod(initialRegMethod)
+      //   await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
+      //   const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY
 
-    //   // set regMethod sensitive variables into state, they are already initialized only need to re-set if
-    //   //regmethod has changed by refresh
-    //   setState({
-    //     ...state,
-    //     skipEmail: skipEmailConfirmOrMagicLink,
-    //     skipEmailConfirmation: Config.skipEmailVerification || skipEmailConfirmOrMagicLink,
-    //     skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
-    //     isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
-    //   })
-    // }
+      //   // set regMethod sensitive variables into state, they are already initialized only need to re-set if
+      //   //regmethod has changed by refresh
+      //   setState({
+      //     ...state,
+      //     skipEmail: skipEmailConfirmOrMagicLink,
+      //     skipEmailConfirmation: Config.skipEmailVerification || skipEmailConfirmOrMagicLink,
+      //     skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
+      //     isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
+      //   })
+      // }
 
-    checkTorusLogin()
+      checkTorusLogin()
 
-    //get user country code for phone
-    //read user data from w3 if needed
-    //read torus seed
-    await Promise.all([getCountryCode(), checkW3Token()])
+      //get user country code for phone
+      //read user data from w3 if needed
+      //read torus seed
+      await Promise.all([getCountryCode(), checkW3Token()])
 
-    //verify web3 email here
-    if (Config.skipEmailVerification === false && state.w3Token && state.email) {
-      verifyW3Email(state.email, state.w3Token)
+      //verify web3 email here
+      if (Config.skipEmailVerification === false && state.w3Token && state.email) {
+        verifyW3Email(state.email, state.w3Token)
+      }
+
+      //lazy login in background
+      const ready = (async () => {
+        log.debug('ready: Starting initialization', { w3UserFromProps, isRegMethodSelfCustody, torusUserFromProps })
+
+        if (torusUserFromProps.privateKey) {
+          log.debug('skipping ready initialization (already done in AuthTorus)')
+          const [, { init }] = await Promise.all([API.ready, retryImport(() => import('../../init'))])
+          return init()
+        }
+
+        const { init } = await retryImport(() => import('../../init'))
+        const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
+        const { goodWallet, userStorage, source } = await init()
+
+        // for QA
+        global.wallet = goodWallet
+
+        try {
+          // getting user storage status
+          await userStorage.ready
+        } catch (exception) {
+          const { message } = exception
+
+          // if initialization failed, logging exception
+          log.error('failed initializing UserStorage', message, exception, { dialogShown: true })
+
+          // and setting unrecoverable error in the state to trigger show "reload app" dialog
+          setUnrecoverableError(exception)
+
+          // re-throw exception
+          throw exception
+        }
+
+        fireSignupEvent('STARTED', { source })
+
+        //the login also re-initialize the api with new jwt
+        await login
+          .then(l => l.default.auth())
+          .catch(e => {
+            log.error('failed auth:', e.message, e)
+
+            // showErrorDialog('Failed authenticating with server', e)
+          })
+
+        await API.ready
+        log.debug('ready: signupstate ready')
+
+        //now that we are loggedin, reload api with JWT
+        return { goodWallet, userStorage }
+      })()
+
+      setReady(ready)
     }
 
-    //lazy login in background
-    const ready = (async () => {
-      log.debug('ready: Starting initialization', { w3UserFromProps, isRegMethodSelfCustody, torusUserFromProps })
-
-      if (torusUserFromProps.privateKey) {
-        log.debug('skipping ready initialization (already done in AuthTorus)')
-        const [, { init }] = await Promise.all([API.ready, retryImport(() => import('../../init'))])
-        return init()
-      }
-
-      const { init } = await retryImport(() => import('../../init'))
-      const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
-      const { goodWallet, userStorage, source } = await init()
-
-      // for QA
-      global.wallet = goodWallet
-
-      try {
-        // init user storage
-        // if exception thrown, retrying init one more times
-        await userStorage.ready.catch(() => userStorage.retryInit())
-      } catch (exception) {
-        const { message } = exception
-
-        // after 2 unsuccessfull attempts show dialog to reload app
-        log.error('failed initializing UserStorage', message, exception, { dialogShown: true })
-        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => location.reload(true) })
-
-        throw exception
-      }
-
-      fireSignupEvent('STARTED', { source })
-
-      //the login also re-initialize the api with new jwt
-      await login
-        .then(l => l.default.auth())
-        .catch(e => {
-          log.error('failed auth:', e.message, e)
-
-          // showErrorDialog('Failed authenticating with server', e)
-        })
-
-      await API.ready
-      log.debug('ready: signupstate ready')
-
-      //now that we are loggedin, reload api with JWT
-      return { goodWallet, userStorage }
-    })()
-
-    setReady(ready)
-  }
-
-  useEffect(() => {
     onMount()
   }, [])
+
+  // listening to the unrecoverable exception could happened if user storage fails to init
+  useEffect(() => {
+    if (!unrecoverableError) {
+      return
+    }
+
+    showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => location.reload(true) })
+  }, [unrecoverableError])
 
   // listening to the email changes in the state
   useEffect(() => {
@@ -657,19 +669,22 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }, [navigation.state.index])
 
   const { scrollableContainer, contentContainer } = styles
+
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={title} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
-          <SignupWizardNavigator
-            navigation={navigation}
-            screenProps={{
-              data: { ...state, loading, createError, countryCode },
-              doneCallback: done,
-              back,
-            }}
-          />
+          {!unrecoverableError && (
+            <SignupWizardNavigator
+              navigation={navigation}
+              screenProps={{
+                data: { ...state, loading, createError, countryCode },
+                doneCallback: done,
+                back,
+              }}
+            />
+          )}
         </View>
       </ScrollView>
     </View>

@@ -69,6 +69,7 @@ export const showQueueDialog = (textComponent, dialogOptions = {}) => {
     buttons: [
       {
         text: 'OK, I’ll WAIT',
+        textStyle: { fontWeight: '500' },
       },
     ],
     ...dialogOptions,

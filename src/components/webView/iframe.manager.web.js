@@ -1,9 +1,10 @@
-import { over, trimEnd } from 'lodash'
+import EventEmitter from 'eventemitter3'
+import { trimEnd } from 'lodash'
 
 const TRIM_URL_CHARS = ' /#'
 
 export default new class {
-  listeners = {}
+  emitter = new EventEmitter()
 
   constructor() {
     const { onMessage } = this
@@ -17,47 +18,27 @@ export default new class {
   }
 
   addListener(src, listener) {
-    const { listeners } = this
+    const { emitter } = this
     const pageSource = trimEnd(src, TRIM_URL_CHARS)
-    let srcListeners = listeners[pageSource]
 
-    if (!srcListeners) {
-      srcListeners = []
-      listeners[pageSource] = srcListeners
-    }
-
-    srcListeners.push(listener)
+    emitter.once(pageSource, listener)
   }
 
   removeListener(src, listener) {
-    const { listeners } = this
+    const { emitter } = this
     const pageSource = trimEnd(src, TRIM_URL_CHARS)
-    const srcListeners = listeners[pageSource]
 
-    if (!srcListeners) {
-      return
-    }
-
-    const listenerIndex = srcListeners.indexOf(listener)
-
-    if (listenerIndex < 0) {
-      return
-    }
-
-    srcListeners.splice(listenerIndex, 1)
+    emitter.off(pageSource, listener)
   }
 
   /** @private */
   onMessage = messageEvent => {
-    const { listeners } = this
+    const { emitter } = this
     const { src, target, event } = messageEvent.data
     const pageSource = trimEnd(src, TRIM_URL_CHARS)
-    const srcListeners = listeners[pageSource]
 
-    if (srcListeners && 'DOMContentLoaded' === event && 'iframe' === target) {
-      over(srcListeners)(messageEvent)
-
-      delete listeners[pageSource]
+    if ('DOMContentLoaded' === event && 'iframe' === target) {
+      emitter.emit(pageSource)
     }
   }
 }()

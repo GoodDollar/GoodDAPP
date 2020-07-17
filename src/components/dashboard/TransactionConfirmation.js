@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import Section from '../common/layout/Section'
@@ -91,7 +91,9 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
             </Section.Text>
           </Section.Stack>
         </Section.Stack>
-        <Image style={styles.image} source={ConfirmTransactionSVG} resizeMode="contain" />
+        <View style={styles.image}>
+          <ConfirmTransactionSVG />
+        </View>
         <View style={styles.confirmButtonWrapper}>
           <ConfirmButton testID={paymentLink} onPress={handlePressConfirm} onPressDone={goToRoot}>
             <>

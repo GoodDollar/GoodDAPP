@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
 import API from '../../lib/API/api'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -10,11 +10,9 @@ import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Signup/maginLinkIllustration.svg'
+import MagicLinkSVG from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
-
-Image.prefetch(illustration)
 
 const log = logger.child({ from: 'MagicLinkInfo' })
 
@@ -61,7 +59,9 @@ const MagicLinkInfoComponent = props => {
               </Text>
             </View>
           </Section.Row>
-          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+          <View style={styles.illustration}>
+            <MagicLinkSVG />
+          </View>
         </Section.Stack>
       </Section>
       <Section.Stack alignItems="stretch">
@@ -90,6 +90,7 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'space-evenly',
     },
     illustration: {
+      justifyContent: 'center',
       flexGrow: 1,
       flexShrink: 0,
       maxHeight: getDesignRelativeHeight(230),

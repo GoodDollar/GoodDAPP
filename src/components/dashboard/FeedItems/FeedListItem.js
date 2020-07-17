@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable'
 import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
 import useNavigationMacro from '../../../lib/hooks/useNavigationMacro'
-import wavePattern from '../../../assets/feedListItemPattern.svg'
+import { url as wavePattern } from '../../../assets/feedListItemPattern.svg'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import Config from '../../../config/config'
 import ListEventItem from './ListEventItem'
@@ -42,7 +42,10 @@ const FeedListItem = (props: FeedListItemProps) => {
     backgroundImage: `url(${wavePattern})`,
   }
 
-  const onItemPress = useNavigationMacro(action, useCallback(() => onPress(id), [id, onPress]))
+  const onItemPress = useNavigationMacro(
+    action,
+    useCallback(() => onPress(id), [id, onPress]),
+  )
 
   if (isItemEmpty) {
     const simpleStore = SimpleStore.useStore()

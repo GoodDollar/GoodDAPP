@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useMemo, useState } from 'react'
-import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
+import { AsyncStorage, TouchableOpacity, View } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
@@ -20,7 +20,7 @@ import Recover from '../../signin/Mnemonics'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../webView/webViewInstances'
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { withStyles } from '../../../lib/styles'
-import illustration from '../../../assets/Auth/torusIllustration.svg'
+import TorusIllustrationSVG from '../../../assets/Auth/torusIllustration.svg'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
@@ -32,8 +32,6 @@ import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import useTorus from './hooks/useTorus'
-
-Image.prefetch(illustration)
 
 const log = logger.child({ from: 'AuthTorus' })
 
@@ -266,7 +264,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           {"\nYes, it's that simple."}
         </Text>
       </Text>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+      <View style={styles.illustration}>
+        <TorusIllustrationSVG />
+      </View>
       <Section style={styles.bottomContainer}>
         {asGuest && (
           <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
@@ -386,6 +386,7 @@ const getStylesFromProps = ({ theme }) => {
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      justifyContent: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(30),

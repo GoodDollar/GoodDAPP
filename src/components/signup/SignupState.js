@@ -42,6 +42,7 @@ export type SignupState = UserModel & SMSRecord & { invite_code?: string }
 type Ready = Promise<{ goodWallet: any, userStorage: any }>
 
 const routes = {
+  MagicLinkInfo,
   Name: NameForm,
   Phone: PhoneForm,
   SMS: SmsForm,
@@ -63,22 +64,42 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   // We are redirecting directly to Phone from Auth component if w3Token provided
   const _w3UserFromProps =
     get(navigation, 'state.params.w3User') ||
-    get(navigation.state.routes.find(route => get(route, 'params.w3User')), 'params.w3User', {})
+    get(
+      navigation.state.routes.find(route => get(route, 'params.w3User')),
+      'params.w3User',
+      {},
+    )
   const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
 
   const w3Token =
     get(navigation, 'state.params.w3Token') ||
-    get(navigation.state.routes.find(route => get(route, 'params.w3Token')), 'params.w3Token', undefined)
+    get(
+      navigation.state.routes.find(route => get(route, 'params.w3Token')),
+      'params.w3Token',
+      undefined,
+    )
 
   const torusUserFromProps =
     get(navigation, 'state.params.torusUser') ||
-    get(navigation.state.routes.find(route => get(route, 'params.torusUser')), 'params.torusUser', {})
+    get(
+      navigation.state.routes.find(route => get(route, 'params.torusUser')),
+      'params.torusUser',
+      {},
+    )
   const _regMethod =
     get(navigation, 'state.params.regMethod') ||
-    get(navigation.state.routes.find(route => get(route, 'params.regMethod')), 'params.regMethod', undefined)
+    get(
+      navigation.state.routes.find(route => get(route, 'params.regMethod')),
+      'params.regMethod',
+      undefined,
+    )
   const _torusProvider =
     get(navigation, 'state.params.torusProvider') ||
-    get(navigation.state.routes.find(route => get(route, 'params.torusProvider')), 'params.torusProvider', undefined)
+    get(
+      navigation.state.routes.find(route => get(route, 'params.torusProvider')),
+      'params.torusProvider',
+      undefined,
+    )
 
   const [regMethod] = useState(_regMethod)
   const [torusProvider] = useState(_torusProvider)

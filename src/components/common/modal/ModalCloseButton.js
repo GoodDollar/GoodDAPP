@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, TouchableOpacity } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { mediumZIndex } from './styles'
 import CloseSVG from './img/close.svg'
@@ -12,7 +12,9 @@ const ModalCloseButton = (props: any) => {
 
   return (
     <TouchableOpacity style={styles.modalCloseImageContainer} onPress={onClose}>
-      <Image style={styles.modalCloseImage} source={CloseSVG} />
+      <View style={styles.modalCloseImage}>
+        <CloseSVG />
+      </View>
     </TouchableOpacity>
   )
 }

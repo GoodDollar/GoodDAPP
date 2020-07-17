@@ -1,18 +1,20 @@
 import React from 'react'
-import { Image, Platform } from 'react-native'
+import { View } from 'react-native'
 
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
-import illustration from '../../../assets/CameraPermission.svg'
+import CameraPermissionSVG from '../../../assets/CameraPermission.svg'
 
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
+const ImageComponent = ({ style }) => (
+  <View style={style}>
+    <CameraPermissionSVG />
+  </View>
+)
 
 export default ({ onDismiss }) => (
   <ExplanationDialog
     title={'You must allow access\nto your camera'}
     text="In order to claim G$'s"
-    imageSource={illustration}
+    image={ImageComponent}
     imageHeight={128}
     buttons={[
       {

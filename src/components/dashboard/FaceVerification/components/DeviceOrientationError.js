@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 
 import Text from '../../../common/view/Text'
 import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
-import illustration from '../../../../assets/FRPortraitModeError.svg'
+import FRPortraitModeErrorSVG from '../../../../assets/FRPortraitModeError.svg'
 
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
@@ -12,10 +12,6 @@ import { isMobileOnly } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 
 import { fireEvent, FV_WRONGORIENTATION } from '../../../../lib/analytics/analytics'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => {
   const onRetryPress = useOnPress(onRetry)
@@ -30,7 +26,9 @@ const DeviceOrientationError = ({ styles, displayTitle, onRetry }) => {
             {displayTitle}
             {',\nplease turn your camera\nto portrait mode'}
           </Section.Title>
-          <Image source={illustration} resizeMode="contain" style={styles.errorImage} />
+          <View style={styles.errorImage}>
+            <FRPortraitModeErrorSVG />
+          </View>
           <Section style={styles.errorSection}>
             <Separator width={2} />
             <View style={styles.descriptionWrapper}>

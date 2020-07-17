@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { get } from 'lodash'
 import * as web3Utils from 'web3-utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -7,7 +7,7 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import { AwaitButton, CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
 import Text from '../common/view/Text'
-import Oops from '../../assets/oops.svg'
+import OopsSVG from '../../assets/oops.svg'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 
@@ -66,7 +66,9 @@ Don’t worry, we’ll take care off you.\n`
       <View style={styles.topContainer}>
         <Section style={styles.mainContainer} justifyContent={'space-evenly'}>
           <Section.Title style={styles.mainTitle}>{TITLE}</Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={styles.image} />
+          <View style={styles.image}>
+            <OopsSVG />
+          </View>
           <Section style={styles.mainSection}>
             <Separator style={styles.separator} width={2} />
             {isCheatError ? (
@@ -133,7 +135,10 @@ const getStylesFromProps = ({ theme }) => ({
     paddingHorizontal: getDesignRelativeWidth(12),
   },
   image: {
-    height: getDesignRelativeHeight(180),
+    height: getDesignRelativeHeight(173),
+    width: getDesignRelativeWidth(244),
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   separator: {
     marginHorizontal: getDesignRelativeWidth(0),

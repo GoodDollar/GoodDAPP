@@ -1,10 +1,9 @@
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import Text from '../common/view/Text'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import UpdateVersion from '../../assets/updateversion.svg'
-Image.prefetch(UpdateVersion)
+import UpdateVersionSVG from '../../assets/updateversion.svg'
 
 const dialogStyles = ({ theme }) => ({
   image: {
@@ -36,7 +35,9 @@ export default withStyles(dialogStyles)(({ styles, theme }) => {
   return (
     <View>
       <View style={styles.imageContainer}>
-        <Image source={UpdateVersion} style={styles.image} />
+        <View style={styles.image}>
+          <UpdateVersionSVG />
+        </View>
         <Text
           fontSize={22}
           lineHeight={26}

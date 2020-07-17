@@ -1,10 +1,11 @@
 import React from 'react'
-import { AsyncStorage, Image, StyleSheet, Text, View } from 'react-native'
+import { AsyncStorage, StyleSheet, Text, View } from 'react-native'
 import normalize from '../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
-import Oops from '../../assets/oops.svg'
+import OopsSVG from '../../assets/oops.svg'
 import config from '../../config/config'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 const InvalidWe3TokenError = props => {
   AsyncStorage.removeItem('GD_web3Token')
@@ -29,7 +30,9 @@ const InvalidWe3TokenError = props => {
           }}
         >
           <Section.Title style={styles.mainTitle}>{TITLE}</Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={{ height: normalize(146) }} />
+          <View style={styles.image}>
+            <OopsSVG />
+          </View>
           <Section
             style={{
               padding: 0,
@@ -65,13 +68,13 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(33),
+    paddingTop: getDesignRelativeHeight(33),
     borderRadius: 5,
   },
   bottomContainer: {
     display: 'flex',
     flex: 1,
-    paddingTop: normalize(20),
+    paddingTop: getDesignRelativeHeight(20),
     justifyContent: 'flex-end',
   },
   description: {
@@ -79,8 +82,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontWeight: 'bold',
     color: '#00AFFF',
-    paddingTop: normalize(25),
-    paddingBottom: normalize(25),
+    paddingTop: getDesignRelativeHeight(25),
+    paddingBottom: getDesignRelativeHeight(25),
     verticalAlign: 'text-top',
   },
   mainTitle: {
@@ -88,6 +91,9 @@ const styles = StyleSheet.create({
     fontSize: normalize(24),
     color: '#42454A',
     textTransform: 'none',
+  },
+  image: {
+    height: getDesignRelativeHeight(170),
   },
 })
 

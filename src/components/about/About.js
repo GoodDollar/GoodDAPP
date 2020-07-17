@@ -1,17 +1,13 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
-import splashImage from '../../assets/Splash/logo.svg'
-import goodDollarImage from '../../assets/Splash/goodDollar.svg'
-import wavePattern from '../../assets/wave50.svg'
+import { StyleSheet, View } from 'react-native'
+import SplashImageSVG from '../../assets/Splash/logo.svg'
+import GoodDollarSVG from '../../assets/Splash/goodDollar.svg'
+import { url as wavePattern } from '../../assets/wave50.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
 import normalize from '../../lib/utils/normalizeText'
-
-//minimize delay <Image> has over web <img>
-Image.prefetch(splashImage)
-Image.prefetch(goodDollarImage)
-Image.prefetch(wavePattern)
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 
 const About = () => (
   <Wrapper style={styles.wrapper}>
@@ -21,8 +17,12 @@ const About = () => (
         <Section.Text fontSize={22} color="darkBlue">
           Welcome to
         </Section.Text>
-        <Image source={splashImage} style={styles.logo} resizeMode="contain" />
-        <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
+        <View style={styles.logo}>
+          <SplashImageSVG />
+        </View>
+        <View style={styles.goodDollar}>
+          <GoodDollarSVG />
+        </View>
         <Section.Text fontSize={22} color="darkBlue">
           {`V${Config.version}`}
         </Section.Text>
@@ -68,14 +68,16 @@ const styles = StyleSheet.create({
     marginBottom: '8vh',
   },
   logo: {
-    maxWidth: '100%',
-    minHeight: 135,
-    minWidth: 135,
+    height: getDesignRelativeHeight(135),
+    width: getDesignRelativeHeight(135),
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   goodDollar: {
-    maxWidth: '100%',
-    minHeight: 30,
-    minWidth: 212,
+    height: getDesignRelativeHeight(30),
+    width: getDesignRelativeWidth(212),
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   aboutDescription: {
     maxWidth: normalize(270),

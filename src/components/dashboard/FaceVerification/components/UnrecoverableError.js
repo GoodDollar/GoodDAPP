@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 import { get } from 'lodash'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
@@ -12,7 +12,7 @@ import logger from '../../../../lib/logger/pino-logger'
 
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import illustration from '../../../../assets/FRUnrecoverableError.svg'
+import FRUnrecoverableErrorSVG from '../../../../assets/FRUnrecoverableError.svg'
 
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 
@@ -21,10 +21,6 @@ import { ZoomSDKStatus } from '../sdk/ZoomSDK'
 const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus
 
 const log = logger.child({ from: 'FaceVerification' })
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 const UnrecoverableError = ({ styles, exception, screenProps }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
@@ -57,7 +53,9 @@ const UnrecoverableError = ({ styles, exception, screenProps }) => {
           <Section.Title fontWeight="medium" textTransform="none" color="red">
             {'Sorry about that…\nWe’re looking in to it,\nplease try again later'}
           </Section.Title>
-          <Image source={illustration} resizeMode="contain" style={styles.errorImage} />
+          <View style={styles.errorImage}>
+            <FRUnrecoverableErrorSVG />
+          </View>
         </Section>
         <View style={styles.action}>
           <CustomButton onPress={onDismiss} style={styles.actionsSpace}>

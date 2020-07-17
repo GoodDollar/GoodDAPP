@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { AsyncStorage, Image, View } from 'react-native'
+import { AsyncStorage, View } from 'react-native'
 import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
 import SimpleStore, { assertStore } from '../../../lib/undux/SimpleStore'
@@ -12,7 +12,7 @@ import {
   fireEvent,
 } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
-import addAppIlustration from '../../../assets/addApp.svg'
+import AddAppIlustration from '../../../assets/addApp.svg'
 import Icon from '../view/Icon'
 import Text from '../../common/view/Text'
 import logger from '../../../lib/logger/pino-logger'
@@ -68,7 +68,9 @@ const DiaglogTitle = withStyles(mapStylesToProps)(({ children, styles }) => (
 
 const DialogImage = props => (
   <View style={props.styles.imageContainer}>
-    <Image style={props.styles.image} source={addAppIlustration} resizeMode="contain" {...props} />
+    <View style={props.styles.image}>
+      <AddAppIlustration />
+    </View>
   </View>
 )
 
@@ -142,9 +144,7 @@ const AddWebApp = props => {
     const skipCount = await AsyncStorage.getItem('GD_AddWebAppSkipCount')
     const newSkipCount = Number(skipCount) || 0
     const nextCheckInDays = Math.pow(2, newSkipCount)
-    const nextCheckDate = moment()
-      .add(nextCheckInDays, 'days')
-      .toDate()
+    const nextCheckDate = moment().add(nextCheckInDays, 'days').toDate()
 
     await Promise.all([
       AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount + 1),

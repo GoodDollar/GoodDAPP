@@ -3,7 +3,7 @@
 
 import bip39 from 'bip39-light'
 import React, { Fragment, useState } from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import { AsyncStorage, Image, View } from 'react-native'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -108,7 +108,9 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
             <InputText value={code} onChangeText={handleChange} onKeyPress={handleEnter} showCleanAdornment autoFocus />
           </Section.Row>
         </Section.Stack>
-        <Image source={IOSWebAppSignInSVG} resizeMode={'contain'} style={styles.image} />
+        <View style={styles.image}>
+          <IOSWebAppSignInSVG />
+        </View>
         <Section style={styles.bottomContainer}>
           <CustomButton style={styles.buttonLayout} onPress={recover} disabled={!isValid || isRecovering}>
             {'SIGN IN'}

@@ -1,14 +1,14 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import GoodWallet from '../../lib/wallet/GoodWallet'
 import InputText from '../common/form/InputText'
 import { Section, Text, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
-import illustration from '../../assets/Signup/maginLinkIllustration.svg'
+import MagicLinkSVG from '../../assets/Signup/maginLinkIllustration.svg'
 import CopyButton from '../common/buttons/CopyButton'
 
 export type TypeProps = {
@@ -35,7 +35,9 @@ const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => (
       <Text fontSize={24} fontWeight="medium" lineHeight={30}>
         {'You can copy and share it\nwith others'}
       </Text>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+      <View style={styles.illustration}>
+        <MagicLinkSVG />
+      </View>
       <CopyButton style={styles.confirmButton} toCopy={address || account} onPressDone={screenProps.goToRoot} />
     </Section>
   </Wrapper>
@@ -57,10 +59,13 @@ export default withStyles(({ theme }) => ({
     fontFamily: 'Roboto Slab',
   },
   illustration: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    justifyContent: 'center',
     flexGrow: 1,
     flexShrink: 0,
-    maxHeight: getDesignRelativeHeight(230),
-    minHeight: getDesignRelativeHeight(140),
+    height: getDesignRelativeHeight(140, false),
+    width: getDesignRelativeWidth(200, false),
     marginTop: getDesignRelativeHeight(15),
     marginBottom: getDesignRelativeHeight(15),
   },

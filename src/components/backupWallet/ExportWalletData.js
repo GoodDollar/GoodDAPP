@@ -22,8 +22,8 @@ import GDStore from '../../lib/undux/GDStore'
 import config from '../../config/config'
 
 // assets
-import unknownProfile from '../../assets/unknownProfile.svg'
-import FuseLogo from '../../assets/ExportWallet/FuseLogo.svg'
+import UnknownProfileSVG from '../../assets/unknownProfile.svg'
+import FuseLogoSVG from '../../assets/ExportWallet/FuseLogo.svg'
 
 const web3ProviderUrl = GoodWallet.networkId && config.ethereum[GoodWallet.networkId].httpWeb3provider
 
@@ -37,8 +37,13 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { navigate } = navigation
   const gdstore = GDStore.useStore()
   const { avatar } = gdstore.get('profile')
-  const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
-  const rpcImageSource = { uri: FuseLogo }
+  const avatarProps = useMemo(
+    () => ({
+      imageSource: avatar ? { uri: avatar } : undefined,
+      ImageComponent: avatar ? undefined : UnknownProfileSVG,
+    }),
+    [avatar],
+  )
 
   // getting the privateKey of GD wallet address - which index is 0
   const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')
@@ -55,16 +60,16 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
             title="My Wallet Private Key"
             content={fullPrivateKey}
             truncateContent
-            imageSource={avatarSource}
             copyButtonText="Copy Key"
+            {...avatarProps}
           />
           <BorderedBox
             styles={styles}
             theme={theme}
             title="Fuse Network RPC Address"
             content={web3ProviderUrl}
-            imageSource={rpcImageSource}
             copyButtonText="Copy Address"
+            ImageComponent={FuseLogoSVG}
           />
         </View>
         <CustomButton onPress={handleGoHome}>Done</CustomButton>

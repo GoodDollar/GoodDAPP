@@ -1,21 +1,21 @@
 // libraries
 import React from 'react'
-import { Image, Platform } from 'react-native'
+import { View } from 'react-native'
 
 // components
-import illustration from '../../../assets/ClipboardPermissionError.svg'
+import ClipboardPermissionError from '../../../assets/ClipboardPermissionError.svg'
 import DeniedPermissionDialog from './DeniedPermissionDialog'
 
-// assets
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
+const ImageComponent = ({ style }) => (
+  <View style={style}>
+    <ClipboardPermissionError />
+  </View>
+)
 
 export default props => (
   <DeniedPermissionDialog
     title="Go to your device settings & enable clipboard permission"
-    imageSource={illustration}
+    imageSource={ImageComponent}
     imageHeight={119}
     {...props}
   />

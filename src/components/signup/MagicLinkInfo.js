@@ -1,14 +1,12 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import Section from '../common/layout/Section'
 import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
-import illustration from '../../assets/Signup/maginLinkIllustration.svg'
+import MagicLinkSVG from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomWrapper from './signUpWrapper'
-
-Image.prefetch(illustration)
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps = {} } = props
@@ -30,8 +28,9 @@ const MagicLinkInfoComponent = props => {
           </Text>
         </View>
       </Section.Row>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-
+      <View style={styles.illustration}>
+        <MagicLinkSVG />
+      </View>
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">

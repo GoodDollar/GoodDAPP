@@ -19,7 +19,16 @@ import { truncateMiddle } from '../../../lib/utils/string'
 
 const copyIconSize = isBrowser ? 34 : normalize(24)
 
-const BorderedBox = ({ styles, theme, imageSource, title, content, truncateContent = false, copyButtonText }) => {
+const BorderedBox = ({
+  styles,
+  theme,
+  imageSource,
+  ImageComponent,
+  title,
+  content,
+  truncateContent = false,
+  copyButtonText,
+}) => {
   const [, setString] = useClipboard()
   const copyToClipboard = useOnPress(() => setString(content), [setString, content])
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
@@ -27,7 +36,12 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, truncateConte
   return (
     <Section style={styles.borderedBox}>
       <View style={styles.avatarLineSeparator} />
-      <Image source={imageSource} style={styles.avatar} />
+      {imageSource && <Image source={imageSource} style={styles.avatar} />}
+      {ImageComponent && (
+        <View style={styles.avatar}>
+          <ImageComponent />
+        </View>
+      )}
       <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
         {title}
       </Section.Text>
@@ -95,6 +109,7 @@ const styles = ({ theme }) => ({
     height: getDesignRelativeHeight(38, false),
     width: getDesignRelativeHeight(38, false),
     minWidth: getDesignRelativeHeight(38, false),
+    minHeight: getDesignRelativeHeight(38, false),
     borderRadius: getDesignRelativeHeight(19, false),
     backgroundColor: theme.colors.primary,
     display: 'flex',

@@ -1,22 +1,23 @@
 // libraries
 import React from 'react'
-import { Image, Platform } from 'react-native'
+import { View } from 'react-native'
 
 // components
-import illustration from '../../../assets/CameraPermissionError.svg'
+import CameraPermissionErrorSVG from '../../../assets/CameraPermissionError.svg'
 import DeniedPermissionDialog from './DeniedPermissionDialog'
 
-// assets
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
+const ImageComponent = ({ style }) => (
+  <View style={style}>
+    <CameraPermissionErrorSVG />
+  </View>
+)
 
 export default props => (
   <DeniedPermissionDialog
     errorMessage={"We can't access your camera..."}
     title="Go to your device settings & enable camera permission"
-    imageSource={illustration}
+    image={ImageComponent}
+    imageHeight={87}
     {...props}
   />
 )

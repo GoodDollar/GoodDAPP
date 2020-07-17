@@ -2,7 +2,7 @@
 
 // libraries
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 
 // custom components
 import Text from '../view/Text'
@@ -14,7 +14,7 @@ import { showDialogWithData } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 
 // assets
-import illustration from '../../../assets/Claim/claimQueue.svg'
+import ClaimQueueSVG from '../../../assets/Claim/claimQueue.svg'
 
 const styles = () => ({
   wrapper: {
@@ -56,12 +56,23 @@ const QueuePopup = withStyles(styles)(({ styles, textComponent }) => {
 })
 
 export const showQueueDialog = (textComponent, dialogOptions = {}) => {
-  const imageStyle = { marginRight: 'auto', marginLeft: 'auto', width: '33vh', height: '28vh' }
+  const imageStyle = {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    width: '33vh',
+    height: '28vh',
+    display: 'flex',
+    justifyContent: 'center',
+  }
 
   showDialogWithData(store.getCurrentSnapshot(), {
     type: 'queue',
     isMinHeight: true,
-    image: <Image source={illustration} style={imageStyle} resizeMode="contain" />,
+    image: (
+      <View style={imageStyle}>
+        <ClaimQueueSVG />
+      </View>
+    ),
     message: <QueuePopup textComponent={textComponent} />,
     buttons: [
       {

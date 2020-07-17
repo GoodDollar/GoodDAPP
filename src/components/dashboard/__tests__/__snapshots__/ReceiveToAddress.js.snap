@@ -134,62 +134,12 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "borderBottomLeftRadius": "20px",
-                "borderBottomRightRadius": "20px",
-                "borderTopLeftRadius": "20px",
-                "borderTopRightRadius": "20px",
-                "height": "40px",
-                "width": "40px",
+                "height": "100%",
+                "width": "100%",
               }
             }
           >
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "20px",
-                  "borderBottomRightRadius": "20px",
-                  "borderTopLeftRadius": "20px",
-                  "borderTopRightRadius": "20px",
-                  "flexBasis": "auto",
-                  "height": "40px",
-                  "msFlexPreferredSize": "auto",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
-                  "width": "40px",
-                  "zIndex": 0,
-                }
-              }
-            >
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(0,0,0,0.00)",
-                    "backgroundImage": "url(\\"unknownProfile.svg\\")",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "cover",
-                    "bottom": "0px",
-                    "height": "100%",
-                    "left": "0px",
-                    "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
-                    "width": "100%",
-                    "zIndex": -1,
-                  }
-                }
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="unknownProfile.svg"
-              />
-            </div>
+            <unknownProfile.svg />
           </div>
         </div>
       </div>
@@ -361,51 +311,26 @@ with others
         style={
           Object {
             "WebkitBoxFlex": 1,
-            "WebkitFlexBasis": "auto",
+            "WebkitBoxPack": "center",
             "WebkitFlexGrow": 1,
             "WebkitFlexShrink": 0,
-            "flexBasis": "auto",
+            "WebkitJustifyContent": "center",
             "flexGrow": 1,
             "flexShrink": 0,
+            "height": "174.54545454545453px",
+            "justifyContent": "center",
             "marginBottom": "15px",
+            "marginLeft": "auto",
+            "marginRight": "auto",
             "marginTop": "15px",
-            "maxHeight": "230px",
-            "minHeight": "140px",
             "msFlexNegative": 0,
+            "msFlexPack": "center",
             "msFlexPositive": 1,
-            "msFlexPreferredSize": "auto",
-            "overflowX": "hidden",
-            "overflowY": "hidden",
-            "zIndex": 0,
+            "width": "263.8888888888889px",
           }
         }
       >
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "backgroundImage": "url(\\"maginLinkIllustration.svg\\")",
-              "backgroundPosition": "center",
-              "backgroundRepeat": "no-repeat",
-              "backgroundSize": "contain",
-              "bottom": "0px",
-              "height": "100%",
-              "left": "0px",
-              "position": "absolute",
-              "right": "0px",
-              "top": "0px",
-              "width": "100%",
-              "zIndex": -1,
-            }
-          }
-        />
-        <img
-          alt=""
-          className="css-accessibilityImage-9pa8cd"
-          draggable={false}
-          src="maginLinkIllustration.svg"
-        />
+        <maginLinkIllustration.svg />
       </div>
       <div
         className="css-view-1dbjc4n"

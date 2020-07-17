@@ -123,7 +123,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   "WebkitFlexGrow": 1,
                   "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(0,175,255,1.00)",
-                  "backgroundImage": "url(wave.svg)",
+                  "backgroundImage": "url(undefined)",
                   "backgroundRepeat": "repeat-y",
                   "borderBottomLeftRadius": "5px",
                   "borderTopLeftRadius": "5px",
@@ -187,48 +187,17 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitFlexBasis": "auto",
-                      "flexBasis": "auto",
                       "height": "37px",
                       "marginLeft": "auto",
                       "marginRight": "-18.5px",
-                      "msFlexPreferredSize": "auto",
-                      "overflowX": "hidden",
-                      "overflowY": "hidden",
                       "position": "absolute",
                       "right": "0px",
                       "top": "-20px",
                       "width": "37px",
-                      "zIndex": 0,
                     }
                   }
                 >
-                  <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "backgroundColor": "rgba(0,0,0,0.00)",
-                        "backgroundImage": "url(\\"close.svg\\")",
-                        "backgroundPosition": "center",
-                        "backgroundRepeat": "no-repeat",
-                        "backgroundSize": "cover",
-                        "bottom": "0px",
-                        "height": "100%",
-                        "left": "0px",
-                        "position": "absolute",
-                        "right": "0px",
-                        "top": "0px",
-                        "width": "100%",
-                        "zIndex": -1,
-                      }
-                    }
-                  />
-                  <img
-                    alt=""
-                    className="css-accessibilityImage-9pa8cd"
-                    draggable={false}
-                    src="close.svg"
-                  />
+                  <close.svg />
                 </div>
               </div>
               <div
@@ -811,7 +780,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   "WebkitFlexGrow": 1,
                   "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(159,106,157,1.00)",
-                  "backgroundImage": "url(wave.svg)",
+                  "backgroundImage": "url(undefined)",
                   "backgroundRepeat": "repeat-y",
                   "borderBottomLeftRadius": "5px",
                   "borderTopLeftRadius": "5px",
@@ -875,48 +844,17 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitFlexBasis": "auto",
-                      "flexBasis": "auto",
                       "height": "37px",
                       "marginLeft": "auto",
                       "marginRight": "-18.5px",
-                      "msFlexPreferredSize": "auto",
-                      "overflowX": "hidden",
-                      "overflowY": "hidden",
                       "position": "absolute",
                       "right": "0px",
                       "top": "-20px",
                       "width": "37px",
-                      "zIndex": 0,
                     }
                   }
                 >
-                  <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "backgroundColor": "rgba(0,0,0,0.00)",
-                        "backgroundImage": "url(\\"close.svg\\")",
-                        "backgroundPosition": "center",
-                        "backgroundRepeat": "no-repeat",
-                        "backgroundSize": "cover",
-                        "bottom": "0px",
-                        "height": "100%",
-                        "left": "0px",
-                        "position": "absolute",
-                        "right": "0px",
-                        "top": "0px",
-                        "width": "100%",
-                        "zIndex": -1,
-                      }
-                    }
-                  />
-                  <img
-                    alt=""
-                    className="css-accessibilityImage-9pa8cd"
-                    draggable={false}
-                    src="close.svg"
-                  />
+                  <close.svg />
                 </div>
               </div>
               <div
@@ -1630,7 +1568,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   "WebkitFlexGrow": 1,
                   "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(250,108,119,1.00)",
-                  "backgroundImage": "url(wave.svg)",
+                  "backgroundImage": "url(undefined)",
                   "backgroundRepeat": "repeat-y",
                   "borderBottomLeftRadius": "5px",
                   "borderTopLeftRadius": "5px",
@@ -1694,48 +1632,17 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitFlexBasis": "auto",
-                      "flexBasis": "auto",
                       "height": "37px",
                       "marginLeft": "auto",
                       "marginRight": "-18.5px",
-                      "msFlexPreferredSize": "auto",
-                      "overflowX": "hidden",
-                      "overflowY": "hidden",
                       "position": "absolute",
                       "right": "0px",
                       "top": "-20px",
                       "width": "37px",
-                      "zIndex": 0,
                     }
                   }
                 >
-                  <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "backgroundColor": "rgba(0,0,0,0.00)",
-                        "backgroundImage": "url(\\"close.svg\\")",
-                        "backgroundPosition": "center",
-                        "backgroundRepeat": "no-repeat",
-                        "backgroundSize": "cover",
-                        "bottom": "0px",
-                        "height": "100%",
-                        "left": "0px",
-                        "position": "absolute",
-                        "right": "0px",
-                        "top": "0px",
-                        "width": "100%",
-                        "zIndex": -1,
-                      }
-                    }
-                  />
-                  <img
-                    alt=""
-                    className="css-accessibilityImage-9pa8cd"
-                    draggable={false}
-                    src="close.svg"
-                  />
+                  <close.svg />
                 </div>
               </div>
               <div
@@ -1759,74 +1666,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-view-1dbjc4n"
-                  style={
-                    Object {
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxFlex": 0,
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "row",
-                      "WebkitFlexGrow": 0,
-                      "WebkitFlexShrink": 0,
-                      "WebkitJustifyContent": "center",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "flexGrow": 0,
-                      "flexShrink": 0,
-                      "justifyContent": "center",
-                      "marginBottom": "30px",
-                      "msFlexDirection": "row",
-                      "msFlexNegative": 0,
-                      "msFlexPack": "center",
-                      "msFlexPositive": 0,
-                    }
-                  }
-                >
-                  <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "WebkitFlexBasis": "auto",
-                        "flexBasis": "auto",
-                        "height": "110px",
-                        "msFlexPreferredSize": "auto",
-                        "overflowX": "hidden",
-                        "overflowY": "hidden",
-                        "width": "70px",
-                        "zIndex": 0,
-                      }
-                    }
-                  >
-                    <div
-                      className="css-view-1dbjc4n"
-                      style={
-                        Object {
-                          "backgroundColor": "rgba(0,0,0,0.00)",
-                          "backgroundImage": "url(\\"send.svg\\")",
-                          "backgroundPosition": "center",
-                          "backgroundRepeat": "no-repeat",
-                          "backgroundSize": "cover",
-                          "bottom": "0px",
-                          "height": "100%",
-                          "left": "0px",
-                          "position": "absolute",
-                          "right": "0px",
-                          "top": "0px",
-                          "width": "100%",
-                          "zIndex": -1,
-                        }
-                      }
-                    />
-                    <img
-                      alt=""
-                      className="css-accessibilityImage-9pa8cd"
-                      draggable={false}
-                      src="send.svg"
-                    />
-                  </div>
-                </div>
                 <div
                   className="css-view-1dbjc4n"
                   style={
@@ -2567,7 +2406,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   "WebkitFlexGrow": 1,
                   "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(250,108,119,1.00)",
-                  "backgroundImage": "url(wave.svg)",
+                  "backgroundImage": "url(undefined)",
                   "backgroundRepeat": "repeat-y",
                   "borderBottomLeftRadius": "5px",
                   "borderTopLeftRadius": "5px",
@@ -2631,48 +2470,17 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitFlexBasis": "auto",
-                      "flexBasis": "auto",
                       "height": "37px",
                       "marginLeft": "auto",
                       "marginRight": "-18.5px",
-                      "msFlexPreferredSize": "auto",
-                      "overflowX": "hidden",
-                      "overflowY": "hidden",
                       "position": "absolute",
                       "right": "0px",
                       "top": "-20px",
                       "width": "37px",
-                      "zIndex": 0,
                     }
                   }
                 >
-                  <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "backgroundColor": "rgba(0,0,0,0.00)",
-                        "backgroundImage": "url(\\"close.svg\\")",
-                        "backgroundPosition": "center",
-                        "backgroundRepeat": "no-repeat",
-                        "backgroundSize": "cover",
-                        "bottom": "0px",
-                        "height": "100%",
-                        "left": "0px",
-                        "position": "absolute",
-                        "right": "0px",
-                        "top": "0px",
-                        "width": "100%",
-                        "zIndex": -1,
-                      }
-                    }
-                  />
-                  <img
-                    alt=""
-                    className="css-accessibilityImage-9pa8cd"
-                    draggable={false}
-                    src="close.svg"
-                  />
+                  <close.svg />
                 </div>
               </div>
               <div
@@ -2696,74 +2504,6 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-view-1dbjc4n"
-                  style={
-                    Object {
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxFlex": 0,
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "row",
-                      "WebkitFlexGrow": 0,
-                      "WebkitFlexShrink": 0,
-                      "WebkitJustifyContent": "center",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "flexGrow": 0,
-                      "flexShrink": 0,
-                      "justifyContent": "center",
-                      "marginBottom": "30px",
-                      "msFlexDirection": "row",
-                      "msFlexNegative": 0,
-                      "msFlexPack": "center",
-                      "msFlexPositive": 0,
-                    }
-                  }
-                >
-                  <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "WebkitFlexBasis": "auto",
-                        "flexBasis": "auto",
-                        "height": "110px",
-                        "msFlexPreferredSize": "auto",
-                        "overflowX": "hidden",
-                        "overflowY": "hidden",
-                        "width": "70px",
-                        "zIndex": 0,
-                      }
-                    }
-                  >
-                    <div
-                      className="css-view-1dbjc4n"
-                      style={
-                        Object {
-                          "backgroundColor": "rgba(0,0,0,0.00)",
-                          "backgroundImage": "url(\\"send.svg\\")",
-                          "backgroundPosition": "center",
-                          "backgroundRepeat": "no-repeat",
-                          "backgroundSize": "cover",
-                          "bottom": "0px",
-                          "height": "100%",
-                          "left": "0px",
-                          "position": "absolute",
-                          "right": "0px",
-                          "top": "0px",
-                          "width": "100%",
-                          "zIndex": -1,
-                        }
-                      }
-                    />
-                    <img
-                      alt=""
-                      className="css-accessibilityImage-9pa8cd"
-                      draggable={false}
-                      src="send.svg"
-                    />
-                  </div>
-                </div>
                 <div
                   className="css-view-1dbjc4n"
                   style={
@@ -3504,7 +3244,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   "WebkitFlexGrow": 1,
                   "WebkitFlexShrink": 0,
                   "backgroundColor": "rgba(0,195,174,1.00)",
-                  "backgroundImage": "url(wave.svg)",
+                  "backgroundImage": "url(undefined)",
                   "backgroundRepeat": "repeat-y",
                   "borderBottomLeftRadius": "5px",
                   "borderTopLeftRadius": "5px",
@@ -3569,48 +3309,17 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitFlexBasis": "auto",
-                      "flexBasis": "auto",
                       "height": "37px",
                       "marginLeft": "auto",
                       "marginRight": "-18.5px",
-                      "msFlexPreferredSize": "auto",
-                      "overflowX": "hidden",
-                      "overflowY": "hidden",
                       "position": "absolute",
                       "right": "0px",
                       "top": "-20px",
                       "width": "37px",
-                      "zIndex": 0,
                     }
                   }
                 >
-                  <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "backgroundColor": "rgba(0,0,0,0.00)",
-                        "backgroundImage": "url(\\"close.svg\\")",
-                        "backgroundPosition": "center",
-                        "backgroundRepeat": "no-repeat",
-                        "backgroundSize": "cover",
-                        "bottom": "0px",
-                        "height": "100%",
-                        "left": "0px",
-                        "position": "absolute",
-                        "right": "0px",
-                        "top": "0px",
-                        "width": "100%",
-                        "zIndex": -1,
-                      }
-                    }
-                  />
-                  <img
-                    alt=""
-                    className="css-accessibilityImage-9pa8cd"
-                    draggable={false}
-                    src="close.svg"
-                  />
+                  <close.svg />
                 </div>
               </div>
               <div

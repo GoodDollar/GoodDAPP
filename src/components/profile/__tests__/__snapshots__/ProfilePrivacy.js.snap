@@ -945,16 +945,11 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "WebkitFlexBasis": "auto",
                   "borderBottomLeftRadius": "42.38961038961039px",
                   "borderBottomRightRadius": "42.38961038961039px",
                   "borderTopLeftRadius": "42.38961038961039px",
                   "borderTopRightRadius": "42.38961038961039px",
-                  "flexBasis": "auto",
                   "height": "84.77922077922078px",
-                  "msFlexPreferredSize": "auto",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
                   "position": "absolute",
                   "top": "-42.38961038961039px",
                   "width": "84.77922077922078px",
@@ -962,32 +957,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(0,0,0,0.00)",
-                    "backgroundImage": "url(\\"unknownProfile.svg\\")",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "cover",
-                    "bottom": "0px",
-                    "height": "100%",
-                    "left": "0px",
-                    "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
-                    "width": "100%",
-                    "zIndex": -1,
-                  }
-                }
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="unknownProfile.svg"
-              />
+              <unknownProfile.svg />
             </div>
             <div
               className="css-text-901oao"
@@ -1088,7 +1058,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     "marginLeft": "auto",
                     "marginRight": "auto",
                     "marginTop": "0px",
-                    "minHeight": "44px",
+                    "minHeight": "47.37662337662338px",
                     "minWidth": "47.37662337662338px",
                     "msFlexAlign": "center",
                     "msFlexPack": "center",

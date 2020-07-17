@@ -31,15 +31,10 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "WebkitFlexBasis": "auto",
         "bottom": "0px",
         "cursor": "pointer",
-        "flexBasis": "auto",
         "height": "74px",
-        "msFlexPreferredSize": "auto",
         "msTouchAction": "manipulation",
-        "overflowX": "hidden",
-        "overflowY": "hidden",
         "position": "absolute",
         "right": "0px",
         "touchAction": "manipulation",
@@ -49,32 +44,7 @@ exports[`ScrollToTopButton should match snapshot 1`] = `
     }
     tabIndex="0"
   >
-    <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "backgroundImage": "url(\\"scrollToTop.svg\\")",
-          "backgroundPosition": "center",
-          "backgroundRepeat": "no-repeat",
-          "backgroundSize": "contain",
-          "bottom": "0px",
-          "height": "100%",
-          "left": "0px",
-          "position": "absolute",
-          "right": "0px",
-          "top": "0px",
-          "width": "100%",
-          "zIndex": -1,
-        }
-      }
-    />
-    <img
-      alt=""
-      className="css-accessibilityImage-9pa8cd"
-      draggable={false}
-      src="scrollToTop.svg"
-    />
+    <scrollToTop.svg />
   </div>
 </div>
 `;

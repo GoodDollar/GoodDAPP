@@ -95,7 +95,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
           style={
             Object {
               "backgroundColor": "rgba(250,108,119,1.00)",
-              "backgroundImage": "url(feedListItemPattern.svg)",
+              "backgroundImage": "url(undefined)",
               "backgroundRepeat": "repeat-y",
               "backgroundSize": "initial",
               "height": "100%",
@@ -699,7 +699,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
           style={
             Object {
               "backgroundColor": "rgba(0,195,174,1.00)",
-              "backgroundImage": "url(feedListItemPattern.svg)",
+              "backgroundImage": "url(undefined)",
               "backgroundRepeat": "repeat-y",
               "backgroundSize": "initial",
               "height": "100%",

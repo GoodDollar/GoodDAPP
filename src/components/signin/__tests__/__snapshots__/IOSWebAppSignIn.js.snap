@@ -376,49 +376,18 @@ sent to you by text message:
       style={
         Object {
           "WebkitBoxFlex": 1,
-          "WebkitFlexBasis": "auto",
           "WebkitFlexGrow": 1,
           "WebkitFlexShrink": 0,
-          "flexBasis": "auto",
           "flexGrow": 1,
           "flexShrink": 0,
           "height": "200px",
           "marginBottom": "20px",
           "msFlexNegative": 0,
           "msFlexPositive": 1,
-          "msFlexPreferredSize": "auto",
-          "overflowX": "hidden",
-          "overflowY": "hidden",
-          "zIndex": 0,
         }
       }
     >
-      <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "backgroundColor": "rgba(0,0,0,0.00)",
-            "backgroundImage": "url(\\"IOSWebAppSignIn.svg\\")",
-            "backgroundPosition": "center",
-            "backgroundRepeat": "no-repeat",
-            "backgroundSize": "contain",
-            "bottom": "0px",
-            "height": "100%",
-            "left": "0px",
-            "position": "absolute",
-            "right": "0px",
-            "top": "0px",
-            "width": "100%",
-            "zIndex": -1,
-          }
-        }
-      />
-      <img
-        alt=""
-        className="css-accessibilityImage-9pa8cd"
-        draggable={false}
-        src="IOSWebAppSignIn.svg"
-      />
+      <IOSWebAppSignIn.svg />
     </div>
     <div
       className="css-view-1dbjc4n"

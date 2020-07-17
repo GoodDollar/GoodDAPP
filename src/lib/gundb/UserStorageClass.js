@@ -1816,7 +1816,7 @@ export class UserStorage {
         const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
         logger.debug('formatEvent: initiator data', event.id, { initiatorType, initiator, address })
-        const profileNode = this._getProfileNode(initiatorType, initiator, address)
+        const profileNode = await this._getProfileNode(initiatorType, initiator, address)
         const [avatar, fullName] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
@@ -1931,15 +1931,15 @@ export class UserStorage {
     return `${type}${sufix}`
   }
 
-  _getProfileNode(initiatorType, initiator, address): Gun {
-    const getProfile = (indexName, idxKey) => {
+  async _getProfileNode(initiatorType, initiator, address): Gun {
+    const getProfile = async (indexName, idxKey) => {
       const trustIdx = this.trust[indexName]
       const trustExists =
         trustIdx &&
-        this.gun
+        (await this.gun
           .get(trustIdx)
           .get(idxKey)
-          .then()
+          .then())
       let idxSoul = `users/${indexName}`
       if (trustExists) {
         idxSoul = trustIdx
@@ -1962,9 +1962,9 @@ export class UserStorage {
     }
 
     const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && getProfile(searchField, initiator)
+    const byIndex = searchField && (await getProfile(searchField, initiator))
 
-    const byAddress = address && getProfile('bywalletAddress', address)
+    const byAddress = address && (await getProfile('bywalletAddress', address))
 
     return byIndex || byAddress
   }

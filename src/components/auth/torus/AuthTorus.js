@@ -170,7 +170,15 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     [store, torusSDK, showErrorDialog, navigate],
   )
 
-  const goToManualRegistration = useCallback(() => {
+  const goToManualRegistration = useCallback(async () => {
+    const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+
+    //in case user started torus signup but came back here we need to re-initialize wallet/storage with
+    //new credentials
+    if (curSeed) {
+      await AsyncStorage.clear()
+      await ready(true)
+    }
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])

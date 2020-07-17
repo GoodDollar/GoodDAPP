@@ -32,7 +32,7 @@ describe('Test case 7: Ability to send money', () => {
         if (text == 'Queue') {
           const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
           const bodyPass = Cypress.env('CYPRESS_GUNDB_PASSWORD')
-          cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 1 }).then(response => {
+          cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 }).then(response => {
             expect(response.body).to.have.property('stillPending')
           })
           cy.reload()

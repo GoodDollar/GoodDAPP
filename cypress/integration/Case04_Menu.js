@@ -97,5 +97,8 @@ describe('Test case 4: Check menu items functionality', () => {
     SupportPage.iframe.find(SupportPage.search).should('be.visible')
     SupportPage.iframe.find(SupportPage.topics).should('be.visible')
     SupportPage.iframe.find(SupportPage.ask).should('be.visible')
+    SupportPage.iframe.find(SupportPage.contactUs).should('be.visible')
+    SupportPage.iframe.find(SupportPage.contactUs).click()
+    SupportPage.iframe.find(SupportPage.formSend).should('be.visible')
   })
 })

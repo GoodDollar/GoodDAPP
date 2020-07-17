@@ -312,16 +312,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         const { init } = await retryImport(() => import('../../init'))
         const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
-        const { goodWallet, userStorage, source } = await init()
-
-        // for QA
-        global.wallet = goodWallet
-
-        try {
-          // getting user storage status
-          await userStorage.ready
-        } catch (exception) {
+        const { goodWallet, userStorage, source } = await init().catch(exception => {
           const { message } = exception
+
+          // we've already awaited for userStorage.ready in init()
+          // so here we just handling init exception
 
           // if initialization failed, logging exception
           log.error('failed initializing UserStorage', message, exception, { dialogShown: true })
@@ -331,7 +326,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
           // re-throw exception
           throw exception
-        }
+        })
+
+        // for QA
+        global.wallet = goodWallet
 
         fireSignupEvent('STARTED', { source })
 

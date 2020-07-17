@@ -65,7 +65,7 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
   })
 
   it('User to sign up the wallet with correct values', () => {
-    // StartPage.open()
+    StartPage.open()
     StartPage.headerPage.contains('Welcome').should('be.visible')
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')

@@ -7,11 +7,13 @@
     }
 
     window.addEventListener(DOMReady, function() {
-      parent.postMessage({
+      var messagePayload = {
         event: DOMReady,
         target: 'iframe',
         src: location.href
-      })
+      };
+
+      parent.postMessage(messagePayload, '*')
     });
   })()
 </script>

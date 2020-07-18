@@ -80,7 +80,7 @@
     "hdkey": "^1.1.1",
     "hex-to-rgba": "^2.0.1",
     "loadjs": "^3.6.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "lottie-react-native": "^3.3.2",
     "lottie-react-web": "^2.1.4",
     "mnid": "^0.1.3",

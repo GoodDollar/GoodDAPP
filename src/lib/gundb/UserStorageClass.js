@@ -4,8 +4,8 @@ import Mutex from 'await-mutex'
 import { find, flatten, get, isEqual, keys, maxBy, memoize, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
-import Gun from 'gun'
-import SEA from 'gun/sea'
+import Gun from '@gooddollar/gun'
+import SEA from '@gooddollar/gun/sea'
 import { sha3 } from 'web3-utils'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
@@ -275,7 +275,11 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
   })
-  logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
+  logger.debug('getReceiveDataFromReceipt', {
+    logs: receipt.logs,
+    transferLog,
+    withdrawLog,
+  })
   const log = withdrawLog || transferLog
   return log
 }
@@ -554,7 +558,12 @@ export class UserStorage {
         loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
       }
       loggedInPromise = loggedInPromise.then(_ => {
-        existingCreds = { sea: this.gunuser.pair(), is: this.gunuser.is, username, password }
+        existingCreds = {
+          sea: this.gunuser.pair(),
+          is: this.gunuser.is,
+          username,
+          password,
+        }
         AsyncStorage.setItem('GD_GunCredentials', JSON.stringify(existingCreds))
         return _
       })
@@ -673,7 +682,9 @@ export class UserStorage {
           logLevel = 'warn'
         }
 
-        logger[logLevel]('Error initializing UserStorage', message, exception, { account })
+        logger[logLevel]('Error initializing UserStorage', message, exception, {
+          account,
+        })
         throw exception
       }
     })()
@@ -852,8 +863,13 @@ export class UserStorage {
       //get initial TX data from queue, if not in queue then it must be a receive TX ie
       //not initiated by user
       //other option is that TX was processed on another wallet instance
-      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || { data: {} }
-      logger.debug('handleReceiptUpdated got enqueued event:', { id: receipt.transactionHash, initialEvent })
+      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || {
+        data: {},
+      }
+      logger.debug('handleReceiptUpdated got enqueued event:', {
+        id: receipt.transactionHash,
+        initialEvent,
+      })
 
       const receiptDate = await this.wallet.wallet.eth
         .getBlock(receipt.blockNumber)
@@ -891,7 +907,13 @@ export class UserStorage {
         updatedFeedEvent.data.customName = 'GoodDollar'
       }
 
-      logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
+      logger.debug('handleReceiptUpdated receiptReceived', {
+        initialEvent,
+        feedEvent,
+        receipt,
+        data,
+        updatedFeedEvent,
+      })
 
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
@@ -955,7 +977,12 @@ export class UserStorage {
       feedEvent.data.otplData = data
       feedEvent.status = feedEvent.data.otplStatus = otplStatus
       feedEvent.date = receiptDate.toString()
-      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
+      logger.debug('handleOTPLUpdated receiptReceived', {
+        feedEvent,
+        otplStatus,
+        receipt,
+        data,
+      })
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
     } catch (e) {
@@ -1025,7 +1052,11 @@ export class UserStorage {
     delete changed._
     let dayToNumEvents: Array<[string, number]> = toPairs(changed)
     this.feedIndex = orderBy(dayToNumEvents, day => day[0], 'desc')
-    logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
+    logger.debug('updateFeedIndex', {
+      changed,
+      field,
+      newIndex: this.feedIndex,
+    })
   }
 
   writeFeedEvent(event): Promise<FeedEvent> {
@@ -1069,7 +1100,10 @@ export class UserStorage {
       .catch(e => {
         logger.warn('fetch byid onthen failed', { e })
       })
-    logger.debug('init feed byid', { items, ids: items && Object.entries(items) })
+    logger.debug('init feed byid', {
+      items,
+      ids: items && Object.entries(items),
+    })
 
     if (!items) {
       await this.feed.putAck({ byid: {} })
@@ -1162,7 +1196,11 @@ export class UserStorage {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
-    logger.debug('init opened profile', { gunRef: this.profile, profile, gunuser })
+    logger.debug('init opened profile', {
+      gunRef: this.profile,
+      profile,
+      gunuser,
+    })
   }
 
   addAllCardsTest() {
@@ -1419,7 +1457,10 @@ export class UserStorage {
     const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
 
     const validatedFields = await Promise.all(
-      fields.map(async field => ({ field, valid: await UserStorage.isValidValue(field, profile[field], true) })),
+      fields.map(async field => ({
+        field,
+        valid: await UserStorage.isValidValue(field, profile[field], true),
+      })),
     )
     const errors = validatedFields.reduce((accErrors, curr) => {
       if (!curr.valid) {
@@ -1513,12 +1554,18 @@ export class UserStorage {
     }
     const cleanValue = UserStorage.cleanHashedFieldForIndex(field, value)
     if (!cleanValue) {
-      return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
+      return Promise.resolve({
+        err: 'Indexable field cannot be null or empty',
+        ok: 0,
+      })
     }
 
     try {
       if (field === 'username' && !(await UserStorage.isValidValue(field, value, false))) {
-        return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
+        return Promise.resolve({
+          err: `Existing index on field ${field}`,
+          ok: 0,
+        })
       }
       const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
       const indexValue = await indexNode.then()
@@ -1599,7 +1646,11 @@ export class UserStorage {
     })
 
     const eventsIndex = flatten(await Promise.all(promises))
-    logger.debug('getFeedPage', { feedIndex: this.feedIndex, daysToTake, eventsIndex })
+    logger.debug('getFeedPage', {
+      feedIndex: this.feedIndex,
+      daysToTake,
+      eventsIndex,
+    })
 
     return Promise.all(
       eventsIndex
@@ -1632,7 +1683,11 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-    logger.debug('getFormattedEvents page result:', { numResults, reset, feedPage: feed })
+    logger.debug('getFormattedEvents page result:', {
+      numResults,
+      reset,
+      feedPage: feed,
+    })
     return Promise.all(
       feed
         .filter(
@@ -1669,7 +1724,10 @@ export class UserStorage {
       return standardPrevFeedEvent
     }
 
-    logger.warn('getFormatedEventById: receipt data missing for:', { id, standardPrevFeedEvent })
+    logger.warn('getFormatedEventById: receipt data missing for:', {
+      id,
+      standardPrevFeedEvent,
+    })
 
     //if for some reason we dont have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
@@ -1686,7 +1744,10 @@ export class UserStorage {
       return standardPrevFeedEvent
     }
 
-    logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
+    logger.debug('getFormatedEventById updated event with receipt', {
+      prevFeedEvent,
+      updatedEvent,
+    })
     return this.formatEvent(updatedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', e.message, e, { id })
 
@@ -1821,8 +1882,12 @@ export class UserStorage {
         const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
         const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status, type)
         const displayType = this._extractDisplayType(type, withdrawStatus, status)
-        logger.debug('formatEvent: initiator data', event.id, { initiatorType, initiator, address })
-        const profileNode = this._getProfileNode(initiatorType, initiator, address)
+        logger.debug('formatEvent: initiator data', event.id, {
+          initiatorType,
+          initiator,
+          address,
+        })
+        const profileNode = await this._getProfileNode(initiatorType, initiator, address)
         const [avatar, fullName] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
@@ -1834,26 +1899,26 @@ export class UserStorage {
             return undefined
           }),
           /* eslint-disable */
-          this._extractFullName(
+        this._extractFullName(
+          customName,
+          get(profileNode, "gunProfile"),
+          initiatorType,
+          initiator,
+          type,
+          address,
+          displayName
+        ).catch(e => {
+          logger.warn("formatEvent: failed extractFullName", e.message, e, {
             customName,
-            get(profileNode, 'gunProfile'),
+            profileNode,
             initiatorType,
             initiator,
             type,
             address,
-            displayName,
-          ).catch(e => {
-            logger.warn('formatEvent: failed extractFullName', e.message, e, {
-              customName,
-              profileNode,
-              initiatorType,
-              initiator,
-              type,
-              address,
-              displayName,
-            })
-          }),
-          /* eslint-enable */
+            displayName
+          });
+        })
+        /* eslint-enable */
         ])
 
         return {
@@ -1882,7 +1947,9 @@ export class UserStorage {
           },
         }
       } catch (e) {
-        logger.error('formatEvent: failed formatting event:', e.message, e, { event })
+        logger.error('formatEvent: failed formatting event:', e.message, e, {
+          event,
+        })
         return {}
       }
     },
@@ -1890,7 +1957,14 @@ export class UserStorage {
 
   _extractData({ type, id, data: { receiptData, from = '', to = '', counterPartyDisplayName = '', amount } }) {
     const { isAddress } = this.wallet.wallet.utils
-    const data = { address: '', initiator: '', initiatorType: '', value: '', displayName: '', message: '' }
+    const data = {
+      address: '',
+      initiator: '',
+      initiatorType: '',
+      value: '',
+      displayName: '',
+      message: '',
+    }
 
     if (type === EVENT_TYPE_SEND) {
       data.address = isAddress(to) ? to : receiptData && receiptData.to
@@ -1907,7 +1981,15 @@ export class UserStorage {
     data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
     data.displayName = counterPartyDisplayName || 'Unknown'
 
-    logger.debug('formatEvent: parsed data', { id, type, to, counterPartyDisplayName, from, receiptData, ...data })
+    logger.debug('formatEvent: parsed data', {
+      id,
+      type,
+      to,
+      counterPartyDisplayName,
+      from,
+      receiptData,
+      ...data,
+    })
 
     return data
   }
@@ -1937,15 +2019,15 @@ export class UserStorage {
     return `${type}${sufix}`
   }
 
-  _getProfileNode(initiatorType, initiator, address): Gun {
-    const getProfile = (indexName, idxKey) => {
+  async _getProfileNode(initiatorType, initiator, address): Gun {
+    const getProfile = async (indexName, idxKey) => {
       const trustIdx = this.trust[indexName]
       const trustExists =
         trustIdx &&
-        this.gun
+        (await this.gun
           .get(trustIdx)
           .get(idxKey)
-          .then()
+          .then())
       let idxSoul = `users/${indexName}`
       if (trustExists) {
         idxSoul = trustIdx
@@ -1968,9 +2050,9 @@ export class UserStorage {
     }
 
     const searchField = initiatorType && `by${initiatorType}`
-    const byIndex = searchField && getProfile(searchField, initiator)
+    const byIndex = searchField && (await getProfile(searchField, initiator))
 
-    const byAddress = address && getProfile('bywalletAddress', address)
+    const byAddress = address && (await getProfile('bywalletAddress', address))
 
     return byIndex || byAddress
   }
@@ -2099,7 +2181,9 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, { feedEvent })
+        logger.error('updateEventStatus failedEncrypt byId:', e.message, e, {
+          feedEvent,
+        })
 
         return {}
       })
@@ -2119,7 +2203,9 @@ export class UserStorage {
     return this.writeFeedEvent(feedEvent)
       .then(_ => feedEvent)
       .catch(e => {
-        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, { feedEvent })
+        logger.error('updateFeedAnimationStatus by ID failed:', e.message, e, {
+          feedEvent,
+        })
 
         return {}
       })
@@ -2227,7 +2313,9 @@ export class UserStorage {
             break
           }
 
-          logger.debug('updateFeedEvent: skipping own link withdraw', { event })
+          logger.debug('updateFeedEvent: skipping own link withdraw', {
+            event,
+          })
 
           feed
             .get('queue')
@@ -2284,7 +2372,9 @@ export class UserStorage {
 
     // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {
-      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, { event })
+      logger.error('updateFeedEvent failedEncrypt byId:', e.message, e, {
+        event,
+      })
 
       return { err: e.message }
     })
@@ -2300,7 +2390,10 @@ export class UserStorage {
       saveDaySizePtr && saveDaySizePtr.then().catch(e => logger.error('updateFeedEvent daySize', e.message, e))
 
     if (saveDayIndexPtr || saveDaySizePtr) {
-      logger.info('updateFeedEvent: Gun drain in process', { saveDayIndexPtr, saveDaySizePtr })
+      logger.info('updateFeedEvent: Gun drain in process', {
+        saveDayIndexPtr,
+        saveDaySizePtr,
+      })
     }
 
     return Promise.all([saveAck, ack, eventAck])

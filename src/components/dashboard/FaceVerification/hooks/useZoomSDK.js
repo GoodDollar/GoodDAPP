@@ -12,6 +12,7 @@ const log = logger.child({ from: 'useZoomSDK' })
 
 const ZoomGlobalState = {
   zoomSDKPreloaded: false,
+  zoomSDKPreloadFailed: false,
   zoomUnrecoverableError: null,
 }
 
@@ -23,7 +24,7 @@ const ZoomGlobalState = {
  * @returns {Promise}
  */
 export const preloadZoomSDK = async (logger = log) => {
-  const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
+  const { zoomSDKPreloaded, zoomSDKPreloadFailed, zoomUnrecoverableError } = ZoomGlobalState
 
   // if cypress is running - do nothing
   if (isE2ERunning) {
@@ -41,6 +42,10 @@ export const preloadZoomSDK = async (logger = log) => {
       throw zoomUnrecoverableError
     }
 
+    if (zoomSDKPreloadFailed) {
+      ZoomGlobalState.zoomSDKPreloadFailed = false
+    }
+
     await ZoomSDK.preload()
 
     ZoomGlobalState.zoomSDKPreloaded = true
@@ -48,6 +53,7 @@ export const preloadZoomSDK = async (logger = log) => {
   } catch (exception) {
     const { message } = exception
 
+    ZoomGlobalState.zoomSDKPreloadFailed = true
     logger.error('preloading zoom failed', message, exception)
   }
 }
@@ -72,6 +78,7 @@ export const unloadZoomSDK = async (logger = log) => {
     await ZoomSDK.unload()
 
     ZoomGlobalState.zoomSDKPreloaded = false
+    ZoomGlobalState.zoomSDKPreloadFailed = false
     logger.debug('Zoom SDK is unloaded')
   } catch (exception) {
     const { message } = exception
@@ -104,7 +111,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    const { zoomSDKPreloaded, zoomUnrecoverableError } = ZoomGlobalState
+    const { zoomSDKPreloadFailed, zoomUnrecoverableError } = ZoomGlobalState
     const { zoomLicenseKey, zoomLicenseText, zoomEncryptionKey } = Config
 
     // Helper for handle exceptions
@@ -120,20 +127,19 @@ export default ({ onInitialized = noop, onError = noop }) => {
       try {
         log.debug('Initializing ZoomSDK')
 
-        // Initializing ZoOm
-        // if preloading wasn't attempted or wasn't successfull, we also setting preload flag
-        const isInitialized = await ZoomSDK.initialize(
-          zoomLicenseKey,
-          zoomLicenseText,
-          zoomEncryptionKey,
-          !zoomSDKPreloaded,
-        )
-
-        if (isInitialized) {
-          // Executing onInitialized callback
-          onInitializedRef.current()
-          log.debug('ZoomSDK is ready')
+        // retry preload Zoom if it was failed becase preload argument was removed
+        // as it's not supported if we would like to pass encryption key or initialize
+        // ZoOm in the production mode
+        if (zoomSDKPreloadFailed) {
+          await preloadZoomSDK()
         }
+
+        // Initializing ZoOm
+        await ZoomSDK.initialize(zoomLicenseKey, zoomLicenseText, zoomEncryptionKey)
+
+        // Executing onInitialized callback
+        onInitializedRef.current()
+        log.debug('ZoomSDK is ready')
       } catch (exception) {
         // the following code is needed to categorize exceptions
         // then we could display specific error messages

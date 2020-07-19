@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
-import { assign, get } from 'lodash'
+import { assign, get, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 
@@ -104,6 +104,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     w3Token,
   }
 
+  const [unrecoverableError, setUnrecoverableError] = useState(null)
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
@@ -264,98 +265,88 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     return get(destinationPath, 'params.inviteCode') || get(paymentParams, 'inviteCode')
   }
 
-  const onMount = async () => {
-    //if email from torus then identify user
-    state.email && identifyOnUserSignup(state.email)
+  useEffect(() => {
+    const onMount = async () => {
+      //if email from torus then identify user
+      state.email && identifyOnUserSignup(state.email)
 
-    verifyStartRoute()
+      verifyStartRoute()
 
-    // // Recognize registration method (page refresh case included)
-    // const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
+      checkTorusLogin()
 
-    // if (initialRegMethod && initialRegMethod !== regMethod) {
-    //   setRegMethod(initialRegMethod)
-    //   await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
-    //   const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY
+      //get user country code for phone
+      //read user data from w3 if needed
+      //read torus seed
+      await Promise.all([getCountryCode(), checkW3Token()])
 
-    //   // set regMethod sensitive variables into state, they are already initialized only need to re-set if
-    //   //regmethod has changed by refresh
-    //   setState({
-    //     ...state,
-    //     skipEmail: skipEmailConfirmOrMagicLink,
-    //     skipEmailConfirmation: Config.skipEmailVerification || skipEmailConfirmOrMagicLink,
-    //     skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
-    //     isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
-    //   })
-    // }
+      //verify web3 email here
+      if (Config.skipEmailVerification === false && state.w3Token && state.email) {
+        verifyW3Email(state.email, state.w3Token)
+      }
 
-    checkTorusLogin()
+      //lazy login in background while user starts registration
+      const ready = (async () => {
+        log.debug('ready: Starting initialization', { w3UserFromProps, isRegMethodSelfCustody, torusUserFromProps })
 
-    //get user country code for phone
-    //read user data from w3 if needed
-    //read torus seed
-    await Promise.all([getCountryCode(), checkW3Token()])
+        const { init } = await retryImport(() => import('../../init'))
+        const { goodWallet, userStorage, source } = await init().catch(exception => {
+          const { message } = exception
 
-    //verify web3 email here
-    if (Config.skipEmailVerification === false && state.w3Token && state.email) {
-      verifyW3Email(state.email, state.w3Token)
+          // we've already awaited for userStorage.ready in init()
+          // so here we just handling init exception
+
+          // if initialization failed, logging exception
+          log.error('failed initializing UserStorage', message, exception, { dialogShown: true })
+
+          // and setting unrecoverable error in the state to trigger show "reload app" dialog
+          setUnrecoverableError(exception)
+
+          // re-throw exception
+          throw exception
+        })
+        identifyWith(null, goodWallet.getAccountForType('login'))
+        fireSignupEvent('STARTED', { source })
+
+        // for QA
+        global.wallet = goodWallet
+        if (torusUserFromProps.privateKey) {
+          log.debug('skipping ready initialization (already done in AuthTorus)')
+          await API.ready
+          return { goodWallet, userStorage }
+        }
+
+        const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
+
+        //the login also re-initialize the api with new jwt
+        await login
+          .then(l => l.default.auth())
+          .catch(e => {
+            log.error('failed auth:', e.message, e)
+
+            // showErrorDialog('Failed authenticating with server', e)
+          })
+
+        await API.ready
+        log.debug('ready: signupstate ready')
+
+        //now that we are loggedin, reload api with JWT
+        return { goodWallet, userStorage }
+      })()
+
+      setReady(ready)
     }
 
-    //lazy login in background
-    const ready = (async () => {
-      log.debug('ready: Starting initialization', { w3UserFromProps, isRegMethodSelfCustody, torusUserFromProps })
-
-      const { init } = await retryImport(() => import('../../init'))
-      const { goodWallet, userStorage, source } = await init()
-      identifyWith(null, goodWallet.getAccountForType('login'))
-      fireSignupEvent('STARTED', { source })
-
-      // for QA
-      global.wallet = goodWallet
-      if (torusUserFromProps.privateKey) {
-        log.debug('skipping ready initialization (already done in AuthTorus)')
-        await API.ready
-        return { goodWallet, userStorage }
-      }
-
-      const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
-
-      try {
-        // init user storage
-        // if exception thrown, retrying init one more times
-        await userStorage.ready.catch(() => userStorage.retryInit())
-      } catch (exception) {
-        const { message } = exception
-
-        // after 2 unsuccessfull attempts show dialog to reload app
-        log.error('failed initializing UserStorage', message, exception, { dialogShown: true })
-        showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => location.reload(true) })
-
-        throw exception
-      }
-
-      //the login also re-initialize the api with new jwt
-      await login
-        .then(l => l.default.auth())
-        .catch(e => {
-          log.error('failed auth:', e.message, e)
-
-          // showErrorDialog('Failed authenticating with server', e)
-        })
-
-      await API.ready
-      log.debug('ready: signupstate ready')
-
-      //now that we are loggedin, reload api with JWT
-      return { goodWallet, userStorage }
-    })()
-
-    setReady(ready)
-  }
-
-  useEffect(() => {
     onMount()
   }, [])
+
+  // listening to the unrecoverable exception could happened if user storage fails to init
+  useEffect(() => {
+    if (!unrecoverableError) {
+      return
+    }
+
+    showErrorDialog('Wallet could not be loaded. Please refresh.', '', { onDismiss: () => location.reload(true) })
+  }, [unrecoverableError])
 
   // listening to the email changes in the state
   useEffect(() => {
@@ -378,12 +369,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkW3InviteCode()
-      log.debug('invite code:', { inviteCode })
       const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
 
+      log.debug('invite code:', { inviteCode })
       ;['email', 'fullName', 'mobile'].forEach(field => {
         if (!requestPayload[field]) {
           const fieldNames = { email: 'Email', fullName: 'Name', mobile: 'Mobile' }
+
           throw new Error(`Seems like you didn't fill your ${fieldNames[field]}`)
         }
       })
@@ -415,16 +407,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         }
       }
 
-      let w3Token = requestPayload.w3Token
-
-      if (w3Token) {
-        userStorage.userProperties.set('cameFromW3Site', true)
-      }
-
-      userStorage.userProperties.set('regMethod', regMethod)
+      let { w3Token } = requestPayload
       requestPayload.regMethod = regMethod
 
-      const mnemonic = (await AsyncStorage.getItem(GD_USER_MNEMONIC)) || ''
+      const [, , mnemonic] = await Promise.all([
+        w3Token && userStorage.userProperties.set('cameFromW3Site', true),
+        userStorage.userProperties.set('regMethod', regMethod),
+        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
+      ])
 
       // trying to update profile 2 times, if failed anyway - re-throwing exception
       await defer(() =>
@@ -439,51 +429,65 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         .pipe(retry(1))
         .toPromise()
 
-      // Stores creationBlock number into 'lastBlock' feed's node
-      goodWallet
-        .getBlockNumber()
-        .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
-        .catch(e => log.error('save blocknumber failed:', e.message, e, { category: ExceptionCategory.Blockhain }))
+      let newUserData
 
-      //first need to add user to our database
-      const addUserAPIPromise = API.addUser(requestPayload).then(res => {
-        const data = res.data
+      await Promise.all([
+        // Stores creationBlock number into 'lastBlock' feed's node
+        goodWallet
+          .getBlockNumber()
+          .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
+          .catch(exception => {
+            const { message } = exception
 
-        if (data && data.loginToken) {
-          userStorage.setProfileField('loginToken', data.loginToken, 'private').catch()
-        }
+            log.error('save blocknumber failed:', message, exception, { category: ExceptionCategory.Blockhain })
+            throw exception
+          }),
 
-        if (data && data.w3Token) {
-          userStorage.setProfileField('w3Token', data.w3Token, 'private').catch()
-          w3Token = data.w3Token
-        }
+        API.addUser(requestPayload)
+          .then(({ data }) => (newUserData = data))
+          .catch(exception => {
+            const { message } = exception
 
-        if (data && data.marketToken) {
-          userStorage.setProfileField('marketToken', data.marketToken, 'private').catch()
-        }
-      })
-
-      await addUserAPIPromise
-
-      //need to wait for API.addUser but we dont need to wait for it to finish
-      Promise.all([
-        w3Token &&
-          API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
-            log.error('failed updateW3UserWithWallet', e.message, e),
-          ),
+            // if user already exists just log.warn then continue signup
+            if ('You cannot create more than 1 account with the same credentials' === message) {
+              log.warn('User already exists during addUser() call:', message, exception)
+            } else {
+              // otherwise re-throwing exception to be catched in the parent try {}
+              throw exception
+            }
+          }),
       ])
+
+      //set tokens for other services returned from backedn
+      await Promise.all(
+        toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) => {
+          if ('w3Token' === fieldName) {
+            w3Token = fieldValue
+          }
+
+          return userStorage.setProfileField(fieldName, fieldValue, 'private')
+        }),
+      )
 
       await Promise.all([
         userStorage.gunuser.get('registered').putAck(true),
         userStorage.userProperties.set('registered', true),
         AsyncStorage.setItem(IS_LOGGED_IN, true),
-      ])
+        AsyncStorage.removeItem('GD_web3Token'),
+        AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
 
-      AsyncStorage.removeItem('GD_web3Token')
-      AsyncStorage.removeItem(GD_INITIAL_REG_METHOD)
+        //privacy issue, and not need at the moment
+        // w3Token &&
+        //   API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(exception => {
+        //     const { message } = exception
+
+        //     log.error('failed updateW3UserWithWallet', message, exception)
+        //   }),
+      ])
 
       log.debug('New user created')
       setLoading(false)
+
       return true
     } catch (e) {
       log.error('New user failure', e.message, e, { dialogShown: true })
@@ -650,19 +654,22 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }, [navigation.state.index])
 
   const { scrollableContainer, contentContainer } = styles
+
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={title} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
-          <SignupWizardNavigator
-            navigation={navigation}
-            screenProps={{
-              data: { ...state, loading, createError, countryCode },
-              doneCallback: done,
-              back,
-            }}
-          />
+          {!unrecoverableError && (
+            <SignupWizardNavigator
+              navigation={navigation}
+              screenProps={{
+                data: { ...state, loading, createError, countryCode },
+                doneCallback: done,
+                back,
+              }}
+            />
+          )}
         </View>
       </ScrollView>
     </View>

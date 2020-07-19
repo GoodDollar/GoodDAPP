@@ -490,12 +490,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         AsyncStorage.setItem(IS_LOGGED_IN, true),
         AsyncStorage.removeItem('GD_web3Token'),
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
-        w3Token &&
-          API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(exception => {
-            const { message } = exception
 
-            log.error('failed updateW3UserWithWallet', message, exception)
-          }),
+        //privacy issue, and not need at the moment
+        // w3Token &&
+        //   API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(exception => {
+        //     const { message } = exception
+
+        //     log.error('failed updateW3UserWithWallet', message, exception)
+        //   }),
       ])
 
       log.debug('New user created')

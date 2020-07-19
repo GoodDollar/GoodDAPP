@@ -462,7 +462,7 @@ export class UserStorage {
     this.gun = gun || defaultGun
     this.wallet = wallet
 
-    this.backgroundInit()
+    this.init()
   }
 
   get profile() {
@@ -511,7 +511,7 @@ export class UserStorage {
   /**
    * Initialize wallet, gundb user, feed and subscribe to events
    */
-  async init() {
+  async initGun() {
     logger.debug('Initializing GunDB UserStorage')
 
     // get trusted GoodDollar indexes and pub key
@@ -639,19 +639,15 @@ export class UserStorage {
     return true
   }
 
-  backgroundInit(): void {
-    const { ready, wallet } = this
-
-    if (ready) {
-      return
-    }
+  init(): Promise {
+    const { wallet } = this
 
     this.ready = (async () => {
       try {
         // firstly, awaiting for wallet is ready
         await wallet.ready
 
-        const isReady = await defer(() => fromPromise(this.init())) // init user storage
+        const isReady = await defer(() => fromPromise(this.initGun())) // init user storage
           .pipe(retry(1)) // if exception thrown, retry init one more times
           .toPromise()
 
@@ -670,6 +666,7 @@ export class UserStorage {
         throw exception
       }
     })()
+    return this.ready
   }
 
   async initTokens() {

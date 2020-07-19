@@ -13,10 +13,12 @@ const log = logger.child({ from: 'init' })
 
 let initialized = false
 
-export const init = () => {
-  return Promise.all([goodWallet.ready, userStorage.ready]).then(async () => {
-    log.debug('wallet and storage ready, initializing analytics', { initialized })
+// userStorage.ready already awaits for goodwallet
+export const init = () =>
+  userStorage.ready.then(async () => {
     let source = 'none'
+    log.debug('wallet and storage ready, initializing analytics', { initialized })
+
     if (initialized === false) {
       global.wallet = goodWallet
 
@@ -45,4 +47,3 @@ export const init = () => {
 
     return { goodWallet, userStorage, source }
   })
-}

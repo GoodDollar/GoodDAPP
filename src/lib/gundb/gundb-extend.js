@@ -1,3 +1,5 @@
+import { isFunction } from 'lodash'
+
 import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import '@gooddollar/gun/lib/load'
@@ -39,12 +41,15 @@ const gunExtend = (() => {
   /**
    * fix gun issue https://github.com/amark/gun/issues/855
    */
-  Gun.chain.then = function(cb, wait = 200) {
-    var gun = this,
-      p = new Promise(function(res, rej) {
-        gun.once(res, { wait: 200 })
-      })
-    return cb ? p.then(cb) : p
+  // eslint-disable-next-line require-await
+  Gun.chain.then = async function(callback, wait = 200) {
+    const readPromise = new Promise(resolve => this.once(resolve, { wait }))
+
+    if (!isFunction(callback)) {
+      return readPromise
+    }
+
+    return readPromise.then(callback)
   }
 
   /**

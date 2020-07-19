@@ -93,7 +93,7 @@ export class EnrollmentProcessor {
       // after some preparation notifying Zoom that progress is 10%
       resultCallback.uploadProgress(0.1)
 
-      // calling API
+      // calling API, if response contains success:false it will throw an exception
       await api
         .performFaceVerification(payload, ({ loaded, total }) => {
           // handling XMLHttpRequest upload progress from 10 to 80%
@@ -126,14 +126,16 @@ export class EnrollmentProcessor {
       if (response) {
         // if error response was sent
         const { enrollmentResult, error } = response
-        const { isEnrolled, isLive, code } = enrollmentResult || {}
+        const { isEnrolled, isLive, code, isDuplicate } = enrollmentResult || {}
 
         // setting lastMessage from server's response
         this.lastMessage = error
 
-        // if code is 200 then we have some client-side issues
-        // (e.g. low images quality, glasses weared, too dark etc)
-        if (200 === code && (!isLive || !isEnrolled)) {
+        // if code is 200 then facetec server operations went ok
+        // there is an issue with logic ie liveness, duplicate, image quality
+        if (true === isDuplicate) {
+          subscriber.onDuplicate()
+        } else if (200 === code && (false === isLive || false === isEnrolled)) {
           // showing reason and asking to retry capturing
           ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
 
@@ -144,6 +146,9 @@ export class EnrollmentProcessor {
       }
 
       // otherwise we're cancelling session
+      //this will trigger handleCompletion which in turn trigger ProcessingSubscriber.onSessionCompleted
+      //which then rejects its promise and causes ZoomSDK.faceVerification to throw which is caught by
+      //useZoomVerification
       resultCallback.cancel()
     }
   }

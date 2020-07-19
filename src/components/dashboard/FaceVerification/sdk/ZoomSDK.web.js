@@ -1,10 +1,12 @@
 import { fromPairs, isString, noop } from 'lodash'
 import ConsoleSubscriber from 'console-subscriber'
 
-import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
-import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
 import { store } from '../../../../lib/undux/SimpleStore'
+import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
+
 import logger from '../../../../lib/logger/pino-logger'
+
+import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import { UICustomization, UITextStrings, ZOOM_PUBLIC_PATH } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
@@ -75,7 +77,7 @@ export const ZoomSDK = new class {
     }
   }
 
-  async initialize(licenseKey, licenseText = null, encryptionKey = null, preload = true) {
+  async initialize(licenseKey, licenseText = null, encryptionKey = null) {
     let license = null
     const { sdk, logger, criticalPreloadException } = this
 
@@ -115,6 +117,12 @@ export const ZoomSDK = new class {
       const isInitialized = await this.wrapCall(resolver => {
         // using one of four existing initiualize() overloads depending of which env variebles
         // (e.g. REACT_APP_ZOOM_ENCRYPTION_KEY and REACT_APP_ZOOM_LICENSE_TEXT) are set or not
+        const initializeArgs = [licenseKey, encryptionKey || resolver]
+
+        if (encryptionKey) {
+          initializeArgs.push(resolver)
+        }
+
         if (license) {
           /**
            * Production mode (REACT_APP_ZOOM_LICENSE_TEXT is set):
@@ -127,12 +135,7 @@ export const ZoomSDK = new class {
            *  (licenseText: string, licenseKeyIdentifier: string, onInitializationComplete: (result: boolean) => void): void;
            * }
            */
-          const initializeArgs = [license, licenseKey, encryptionKey || resolver]
-
-          if (encryptionKey) {
-            initializeArgs.push(resolver)
-          }
-
+          initializeArgs.unshift(license)
           sdk.initializeWithLicense(...initializeArgs)
           return
         }
@@ -148,7 +151,7 @@ export const ZoomSDK = new class {
          *  (licenseKeyIdentifier: string, onInitializationComplete: (result: boolean) => void, preloadZoomSDK?: boolean | undefined): void;
          * }
          */
-        sdk.initialize(licenseKey, encryptionKey || resolver, encryptionKey ? resolver : preload)
+        sdk.initialize(...initializeArgs)
       })
 
       // if Zoom was initialized successfully
@@ -171,9 +174,7 @@ export const ZoomSDK = new class {
       // for handle case when no critical exception was on preload()
       // but it appears on initialize()
       if (this.criticalPreloadException) {
-        this.showReloadPopup()
-
-        return false
+        return this.showReloadPopup()
       }
 
       throw exception
@@ -200,12 +201,19 @@ export const ZoomSDK = new class {
   // eslint-disable-next-line require-await
   async faceVerification(enrollmentIdentifier, onUIReady = noop, onCaptureDone = noop, onRetry = noop) {
     const subscriber = new ProcessingSubscriber(onUIReady, onCaptureDone, onRetry, this.logger)
-
     const processor = new EnrollmentProcessor(subscriber)
 
-    processor.enroll(enrollmentIdentifier)
+    try {
+      processor.enroll(enrollmentIdentifier)
 
-    return subscriber.asPromise()
+      return await subscriber.asPromise()
+    } catch (exception) {
+      if (ZoomSessionStatus.PreloadNotCompleted === exception.code) {
+        return this.showReloadPopup()
+      }
+
+      throw exception
+    }
   }
 
   async unload() {
@@ -223,14 +231,15 @@ export const ZoomSDK = new class {
    *
    * @private
    */
-  showReloadPopup() {
-    const store = this.store.getCurrentSnapshot()
-    const { criticalPreloadException: exception, logger } = this
+  // eslint-disable-next-line require-await
+  async showReloadPopup() {
+    const { criticalPreloadException: exception, logger, store } = this
+    const storeSnapshot = store.getCurrentSnapshot()
     const { message } = exception
 
     logger.error('Failed to preload ZoOm SDK', message, exception, { dialogShown: true })
 
-    showDialogWithData(store, {
+    showDialogWithData(storeSnapshot, {
       type: 'error',
       isMinHeight: false,
       message: "We couldn't start face verification,\nplease reload the app.",
@@ -241,6 +250,10 @@ export const ZoomSDK = new class {
         },
       ],
     })
+
+    // return never ending Promise so app will stuck in the 'loading state'
+    // on the backgroumnd of the reload dialog
+    return new Promise(noop)
   }
 
   /**

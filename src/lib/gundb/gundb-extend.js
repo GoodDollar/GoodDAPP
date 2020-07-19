@@ -1,9 +1,8 @@
 import { isFunction } from 'lodash'
 
-import Gun from 'gun'
-import SEA from 'gun/sea'
-import 'gun/lib/load'
-
+import Gun from '@gooddollar/gun'
+import SEA from '@gooddollar/gun/sea'
+import '@gooddollar/gun/lib/load'
 import { delay } from '../utils/async'
 
 /**

@@ -517,10 +517,6 @@ export class UserStorage {
    */
   async initGun() {
     logger.debug('Initializing GunDB UserStorage')
-
-    // get trusted GoodDollar indexes and pub key
-    const trustPromise = this.fetchTrustIndexes()
-
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
@@ -594,6 +590,9 @@ export class UserStorage {
     this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
     this.user = this.gunuser.is
 
+    //try to make sure all gun SEA  decryption keys are preloaded
+    this.gunuser.get('trust').load()
+
     const gunuser = await this.gun.user()
 
     logger.debug('GunDB logged in', {
@@ -602,7 +601,19 @@ export class UserStorage {
       pair: this.gunuser.pair(),
       gunuser,
     })
-    logger.debug('subscribing')
+    await Promise.all([this.initProperties(), this.initProfile()])
+  }
+
+  /**
+   * Initialize wallet, gundb user, feed and subscribe to events
+   */
+  async initRegistered() {
+    logger.debug('Initializing GunDB UserStorage for resgistered user')
+
+    //get trusted GoodDollar indexes and pub key
+    let trustPromise = this.fetchTrustIndexes()
+
+    logger.debug('subscribing to wallet events')
 
     this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
       logger.debug({ event }, EVENT_TYPE_RECEIVE)
@@ -630,8 +641,6 @@ export class UserStorage {
       AsyncStorage.getItem('GD_trust')
         .then(JSON.parse)
         .then(_ => (this.trust = _ || {})),
-      this.initProfile(),
-      this.initProperties(),
       this.initFeed(),
       this.gun
         .get('users')
@@ -1174,8 +1183,7 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const gunuser = await this.gunuser.then(null, 1000)
-    const profile = await this.profile.then(null, 1000)
+    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 1000), this.profile.then(null, 1000)])
     if (profile === null) {
       //in case profile was deleted in the past it will be exactly null
       await this.profile.putAck({ initialized: true })
@@ -1263,6 +1271,7 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
+      .catch(e => logger.error('getProfileFieldValue decrypt failed:', e.msg, e))
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {
@@ -2405,21 +2414,13 @@ export class UserStorage {
   }
 
   /**
-   * Returns the 'lastBlock' gun's node
-   * @returns {*}
-   */
-  getLastBlockNode() {
-    return this.feed.get('lastBlock')
-  }
-
-  /**
    * Saves block number in the 'lastBlock' node
    * @param blockNumber
    * @returns {Promise<Promise<*>|Promise<R|*>>}
    */
   saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
-    return this.getLastBlockNode().putAck(blockNumber)
+    return this.userProperties.set('lastBlock', blockNumber)
   }
 
   async getProfile(): Promise<any> {

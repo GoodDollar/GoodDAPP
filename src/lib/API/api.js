@@ -135,6 +135,13 @@ class API {
   }
 
   /**
+   * `/user/exists` get api call
+   */
+  userExists(): AxiosPromise<any> {
+    return this.client.get('/user/exists')
+  }
+
+  /**
    * `/w3Site/api/wl/user/update_profile` post w3 api call to delete wallet address
    * @param {string} token
    */

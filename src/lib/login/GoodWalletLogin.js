@@ -20,8 +20,8 @@ export class GoodWalletLogin extends LoginService {
     const nonce = this.wallet.wallet.utils.randomHex(10).replace('0x', '')
     const signature = await this.wallet.sign(toSign + nonce, 'login')
     const gdSignature = await this.wallet.sign(toSign + nonce, 'gd')
-    const profileSignature = await this.userStorage.sign(LoginService.toSign + nonce)
-    const profilePublickey = this.userStorage.user.pub
+    const profileSignature = this.userStorage && (await this.userStorage.sign(LoginService.toSign + nonce))
+    const profilePublickey = this.userStorage && this.userStorage.user.pub
     const creds = {
       signature,
       gdSignature,

@@ -1,19 +1,28 @@
-import React, { useMemo } from 'react'
-import { AsyncStorage } from 'react-native'
+// libraries
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { AsyncStorage, StyleSheet } from 'react-native'
 import bip39 from 'bip39-light'
 
+// components
+import Splash from './components/splash/Splash'
+import ServiceWorkerUpdatedDialog from './components/dashboard/ServiceWorkerUpdatedDialog'
+
+// hooks
+import { useDialog } from './lib/undux/utils/dialog'
+
+// utils
 import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
-import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
 import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 import Config from './config/config'
+import { theme } from './components/theme/styles'
+import normalize from './lib/utils/normalizeText'
 
 const log = logger.child({ from: 'RouterSelector' })
-log.debug({ Config })
 
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(async () => {
@@ -81,6 +90,49 @@ const handleLinks = async () => {
   }
 }
 
+const showUpgradeDialog = (showDialog, serviceWorkerUpdated) => {
+  const styles = StyleSheet.create({
+    serviceWorkerDialogButtonsContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      paddingLeft: 0,
+      paddingRight: 0,
+      paddingTop: theme.sizes.defaultDouble,
+      justifyContent: 'space-between',
+    },
+    serviceWorkerDialogWhatsNew: {
+      textAlign: 'left',
+      fontSize: normalize(14),
+    },
+  })
+
+  showDialog({
+    showCloseButtons: false,
+    content: <ServiceWorkerUpdatedDialog />,
+    buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
+    buttons: [
+      {
+        text: 'WHAT’S NEW?',
+        mode: 'text',
+        color: theme.colors.gray80Percent,
+        style: styles.serviceWorkerDialogWhatsNew,
+        onPress: () => {
+          window.open(Config.newVersionUrl, '_blank')
+        },
+      },
+      {
+        text: 'UPDATE',
+        onPress: () => {
+          if (serviceWorkerUpdated && serviceWorkerUpdated.waiting && serviceWorkerUpdated.waiting.postMessage) {
+            log.debug('service worker:', 'sending skip waiting', serviceWorkerUpdated.active.clients)
+            serviceWorkerUpdated.waiting.postMessage({ type: 'SKIP_WAITING' })
+          }
+        },
+      },
+    ],
+  })
+}
+
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
   let walletAndStorageReady = retryImport(() => import(/* webpackChunkName: "init" */ './init'))
@@ -95,10 +147,27 @@ let AppRouter = React.lazy(() => {
 })
 
 const RouterSelector = () => {
+  const [showDialog] = useDialog()
   const store = SimpleStore.useStore()
+  const [displayUpgradeDialog, setDisplayUpgradeDialog] = useState(false)
 
   //we use global state for signup process to signal user has registered
   const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem(IS_LOGGED_IN))
+  const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
+
+  useEffect(() => {
+    log.info('service worker updated', {
+      serviceWorkerUpdated,
+      displayUpgradeDialog,
+    })
+
+    if (!serviceWorkerUpdated && displayUpgradeDialog) {
+      showUpgradeDialog(showDialog, serviceWorkerUpdated)
+    }
+  }, [serviceWorkerUpdated, displayUpgradeDialog])
+
+  // upgrade dialog should be shown after the router is loaded - so wait for splash will be unmounted
+  const allowDisplayingUpgradeDialog = useCallback(() => setDisplayUpgradeDialog(true), [setDisplayUpgradeDialog])
 
   const Router = useMemo(() => {
     log.debug('RouterSelector Rendered', { isLoggedIn })
@@ -106,7 +175,7 @@ const RouterSelector = () => {
   }, [isLoggedIn])
 
   return (
-    <React.Suspense fallback={<Splash animation />}>
+    <React.Suspense fallback={<Splash animation onUnmount={allowDisplayingUpgradeDialog} />}>
       <Router />
     </React.Suspense>
   )

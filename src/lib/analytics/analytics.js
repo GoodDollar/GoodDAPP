@@ -198,7 +198,7 @@ export const identifyWith = (email, identifier = null) => {
 export const identifyOnUserSignup = async email => {
   setUserEmail(email)
 
-  if (Mautic && email && 'production' === env) {
+  if (Mautic && email && ['staging', 'production'].includes(env)) {
     await API.addMauticContact({ email })
   }
 

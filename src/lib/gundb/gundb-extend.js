@@ -104,11 +104,14 @@ const gunExtend = (() => {
         .get(path)
         .then()
       sec = await SEA.decrypt(sec, pair)
-      if (!sec) {
-        return gun.then(cb)
-      }
       return gun
         .then(async data => {
+          if (data == null) {
+            return data
+          }
+          if (!sec) {
+            return Promise.reject('decrypting key missing for ' + path)
+          }
           let decrypted = await SEA.decrypt(data, sec)
           return decrypted
         })

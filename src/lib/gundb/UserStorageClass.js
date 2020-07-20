@@ -590,6 +590,9 @@ export class UserStorage {
     this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
     this.user = this.gunuser.is
 
+    //try to make sure all gun SEA  decryption keys are preloaded
+    this.gunuser.get('trust').load()
+
     const gunuser = await this.gun.user()
 
     logger.debug('GunDB logged in', {
@@ -1180,8 +1183,7 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const gunuser = await this.gunuser.then(null, 1000)
-    const profile = await this.profile.then(null, 1000)
+    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 1000), this.profile.then(null, 1000)])
     if (profile === null) {
       //in case profile was deleted in the past it will be exactly null
       await this.profile.putAck({ initialized: true })
@@ -1269,6 +1271,7 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
+      .catch(e => logger.error('getProfileFieldValue decrypt failed:', e.msg, e))
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {

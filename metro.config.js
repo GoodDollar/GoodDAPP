@@ -12,6 +12,7 @@ module.exports = (async () => {
   const {
     resolver: { sourceExts, assetExts }
   } = await getDefaultConfig()
+
   const defaultSourceExts = [ ...sourceExts, 'svg' ]
 
   return {
@@ -20,7 +21,11 @@ module.exports = (async () => {
         ...nodeLibs,
         vm: require.resolve('vm-browserify')
       },
-      assetExts: assetExts.filter(ext => ext !== "svg"),
+
+      assetExts: assetExts
+        .filter(ext => ext !== "svg")
+        .concat('embed.html'),
+
       sourceExts: process.env.TEST_REACT_NATIVE
         ? ['e2e.js'].concat(defaultSourceExts)
         : defaultSourceExts

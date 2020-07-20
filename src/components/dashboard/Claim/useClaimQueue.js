@@ -18,7 +18,7 @@ const ClaimQueuePopupText = ({ styles }) => (
   <View style={styles.paddingVertical20}>
     <Text style={styles.textStyle}>We’ll email you as soon as it’s your turn to claim G$’s.</Text>
     <Text style={[styles.textStyle, styles.paddingTop20, styles.boldFont]}>
-      {'And always remember:\nGood things come for those who wait :).'}
+      {'And always remember:\nGood things come for those who wait :)'}
     </Text>
   </View>
 )

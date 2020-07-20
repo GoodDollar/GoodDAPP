@@ -163,7 +163,7 @@ const RouterSelector = () => {
       displayUpgradeDialog,
     })
 
-    if (!serviceWorkerUpdated && displayUpgradeDialog) {
+    if (serviceWorkerUpdated && displayUpgradeDialog) {
       showUpgradeDialog(showDialog, serviceWorkerUpdated)
     }
   }, [serviceWorkerUpdated, displayUpgradeDialog])

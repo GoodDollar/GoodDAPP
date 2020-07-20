@@ -1,27 +1,52 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { WebView } from 'react-native-webview'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
+
 import Section from '../common/layout/Section'
 import Icon from '../common/view/Icon'
-import SimpleStore from '../../lib/undux/SimpleStore'
+
 import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
+import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
+
+import embed from './iframe.embed.html'
 
 const wHeight = getMaxDeviceHeight()
+const DOMLoadedDispatcher = embed.replace(/<script.+?>/g, '')
 
 export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home', styles) => {
   const IframeTab = props => {
-    const store = SimpleStore.useStore()
+    const [showLoading, hideLoading] = useLoadingIndicator()
 
-    const isLoaded = () => {
-      store.set('loadingIndicator')({ loading: false })
-    }
+    const onMessage = useCallback(
+      ({ data }) => {
+        const { event } = data
 
-    useEffect(() => {
-      store.set('loadingIndicator')({ loading: true })
-    }, [])
+        if ('DOMContentLoaded' === event) {
+          hideLoading()
+        }
+      },
+      [hideLoading],
+    )
 
-    return <WebView title={title} onLoad={isLoaded} source={{ uri: src }} style={{ height: wHeight }} />
+    useEffect(showLoading, [])
+
+    return (
+      <WebView
+        title={title}
+        onLoad={hideLoading}
+        source={{ uri: src }}
+        style={{ height: wHeight }}
+        originWhitelist={['*']}
+        javaScriptEnabledAndroid={true}
+        injectedJavaScript={DOMLoadedDispatcher}
+        onMessage={onMessage}
+      />
+    )
+  }
+
+  IframeTab.navigationOptions = {
+    title,
   }
 
   if (backToWallet) {
@@ -40,6 +65,7 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
         right: 15,
       },
     }
+
     const NavigationBar = navigate => (
       <Appbar.Header dark style={navBarStyles.wrapper}>
         <View style={{ width: 48 }} />
@@ -53,19 +79,11 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
         </TouchableOpacity>
       </Appbar.Header>
     )
-    IframeTab.navigationOptions = ({ navigation }) => {
-      return {
-        navigationBar: () => NavigationBar(navigation.navigate),
-      }
-    }
-  } else {
-    IframeTab.navigationOptions = {
-      title,
-    }
+
+    IframeTab.navigationOptions = ({ navigation }) => ({
+      navigationBar: () => NavigationBar(navigation.navigate),
+    })
   }
 
-  IframeTab.navigationOptions = {
-    title,
-  }
   return IframeTab
 }

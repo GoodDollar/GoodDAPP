@@ -1,8 +1,9 @@
 <script type="text/javascript">
   (function () {
-    var DOMReady = 'DOMContentLoaded'
+    var DOMReady = 'DOMContentLoaded';
+    var messenger = (window.ReactNativeWebView || parent || {}).postMessage;
 
-    if (!parent || ('function' !== (typeof parent.postMessage))) {
+    if ('function' === (typeof messenger)) {
       return;
     }
 

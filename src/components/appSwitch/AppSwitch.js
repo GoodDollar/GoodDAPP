@@ -184,7 +184,7 @@ const AppSwitch = (props: LoadingProps) => {
           gdstore.set('isLoggedInCitizen')(false)
         }
       }
-      identifyWith(userStorage.getProfileFieldValue('email'), goodWallet.getAccountForType('login'))
+      identifyWith(await userStorage.getProfileFieldValue('email'), goodWallet.getAccountForType('login'))
       checkBonusInterval()
       prepareLoginToken()
       runUpdates()

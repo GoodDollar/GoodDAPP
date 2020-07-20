@@ -12,6 +12,7 @@ import normalize from '../../lib/utils/normalizeText'
 import CustomButton from '../common/buttons/CustomButton'
 import API from '../../lib/API/api'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'Verify edit profile field' })
 
@@ -45,11 +46,11 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       break
   }
 
-  const goBack = () => {
+  const goBack = useOnPress(() => {
     navigation.navigate('EditProfile')
-  }
+  }, [navigation])
 
-  const handleSubmit = async () => {
+  const handleSubmit = useOnPress(async () => {
     try {
       setLoading(true)
 
@@ -63,7 +64,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [setLoading, sendCodeRequestFn, fieldToSend, navigation, field, content, showErrorDialog, goBack])
 
   return (
     <Wrapper>

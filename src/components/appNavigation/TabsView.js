@@ -9,6 +9,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 import useSideMenu from '../../lib/hooks/useSideMenu'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const { isEToro, market, marketUrl, enableInvites, showRewards } = config
 
@@ -159,23 +160,19 @@ const TabsView = ({ navigation }) => {
     fetchTokens()
   }, [])
 
-  const goToRewards = useCallback(
-    event => {
-      // if (isIOSWeb) {
-      //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
-      //   return window.open(src, '_blank')
-      // }
-      event.preventDefault()
-      navigation.navigate('Rewards')
-    },
-    [navigation, token],
-  )
+  const goToRewards = useOnPress(() => {
+    // if (isIOSWeb) {
+    //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
+    //   return window.open(src, '_blank')
+    // }
+    navigation.navigate('Rewards')
+  }, [navigation, token])
 
   /*const goToSupport = useCallback(() => {
     navigation.navigate('Support')
   }, [navigation])*/
 
-  const goToMarketplace = useCallback(() => {
+  const goToMarketplace = useOnPress(() => {
     if (isIOSWeb) {
       const src = `${marketUrl}?jwt=${marketToken}&nofooter=true`
       window.open(src, '_blank')
@@ -183,6 +180,8 @@ const TabsView = ({ navigation }) => {
       navigation.navigate('Marketplace')
     }
   }, [navigation, marketToken])
+
+  const _slideToggle = useOnPress(slideToggle)
 
   return (
     <Appbar.Header dark style={styles.appBar}>
@@ -204,7 +203,7 @@ const TabsView = ({ navigation }) => {
       )}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
       {!market && !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
-      <TouchableOpacity onPress={slideToggle} style={styles.iconWidth}>
+      <TouchableOpacity onPress={_slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>

@@ -10,6 +10,7 @@ import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
+import useOnPress from '../../lib/hooks/useOnPress'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -159,6 +160,7 @@ class SmsForm extends React.Component<Props, State> {
 
 const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
   const [showWait, setWait] = useState(true)
+  const _handleRetry = useOnPress(handleRetry, [handleRetry])
 
   useEffect(() => {
     if (showWait) {
@@ -183,7 +185,7 @@ const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
           fontWeight="medium"
           fontSize={14}
           color="primary"
-          onPress={handleRetry}
+          onPress={_handleRetry}
         >
           Send me the code again
         </Section.Text>

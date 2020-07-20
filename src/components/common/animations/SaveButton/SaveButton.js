@@ -6,6 +6,7 @@ import AnimationBase from '../Base'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 
+import useOnPress from '../../../../lib/hooks/useOnPress'
 import animationData from './data.json'
 
 class SaveButton extends AnimationBase {
@@ -42,7 +43,7 @@ class SaveButton extends AnimationBase {
     }
   }
 
-  handlePress = () => {
+  handlePress = useOnPress(() => {
     const { onPress } = this.props
     onPress && onPress()
     if (isMobileReactNative) {
@@ -51,7 +52,7 @@ class SaveButton extends AnimationBase {
     } else {
       this.anim.goToAndPlay(12, true)
     }
-  }
+  }, [this.props, this.anim])
 
   handleAnimationFinish = () => {
     const { onFinish, loading } = this.props

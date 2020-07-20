@@ -30,6 +30,7 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import useTorus from './hooks/useTorus'
@@ -171,28 +172,28 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     [store, torusSDK, showErrorDialog, navigate],
   )
 
-  const goToManualRegistration = useCallback(() => {
+  const goToManualRegistration = useOnPress(() => {
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])
 
-  const goToSignIn = useCallback(() => {
+  const goToSignIn = useOnPress(() => {
     navigate('SigninInfo')
   }, [navigate])
 
-  const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
+  const handleNavigateTermsOfUse = useOnPress(() => push('PrivacyPolicyAndTerms'), [push])
 
-  const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
+  const handleNavigatePrivacyPolicy = useOnPress(() => push('PrivacyPolicy'), [push])
 
   // google button settings
-  const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
+  const googleButtonHandler = useOnPress(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
   const googleButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
   // facebook button settings
-  const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
+  const facebookButtonHandler = useOnPress(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
-  const auth0ButtonHandler = useMemo(
+  const auth0ButtonHandler = useOnPress(
     () =>
       asGuest
         ? () => {
@@ -203,8 +204,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     [asGuest, signupAuth0, setPasswordless],
   )
 
-  const signupAuth0Email = () => signupAuth0('email')
-  const signupAuth0Mobile = () => signupAuth0('mobile')
+  const signupAuth0Email = useOnPress(() => signupAuth0('email'), [signupAuth0])
+  const signupAuth0Mobile = useOnPress(() => signupAuth0('mobile'), [signupAuth0])
 
   const ShowPasswordless = useMemo(
     () => () => {

@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native'
 import AnimationBase from '../Base'
 import { isMobileReactNative } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
+import useOnPress from '../../../../lib/hooks/useOnPress'
 
 import animationData from './data.json'
 
@@ -25,7 +26,7 @@ class ShareLinkSendButton extends AnimationBase {
     })
   }
 
-  handlePress = () => {
+  handlePress = useOnPress(() => {
     const { onPress, onPressDone } = this.props
     const { performed } = this.state
 
@@ -38,7 +39,7 @@ class ShareLinkSendButton extends AnimationBase {
       this.anim.play()
       onPress()
     }
-  }
+  }, [this.props, this.state, this.anim])
 
   render() {
     const { styles, style = {} } = this.props

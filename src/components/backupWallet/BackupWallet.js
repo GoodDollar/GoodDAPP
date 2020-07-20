@@ -13,6 +13,7 @@ import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'BackupWallet' })
 const TITLE = 'Backup my wallet'
@@ -39,7 +40,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     getMnemonicsValue()
   }, [])
 
-  const sendRecoveryEmail = async () => {
+  const sendRecoveryEmail = useOnPress(async () => {
     try {
       const currentMnemonics = await getMnemonics()
       await API.sendRecoveryInstructionByEmail(currentMnemonics)
@@ -62,9 +63,9 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     } else {
       await userStorage.userProperties.set('isMadeBackup', true)
     }
-  }
+  }, [getMnemonics, userStorage])
 
-  const setClipboard = async () => {
+  const setClipboard = useOnPress(async () => {
     const currentMnemonics = await getMnemonics()
 
     if (await setString(currentMnemonics)) {
@@ -74,7 +75,9 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
         message: 'The backup phrase has been copied to the clipboard',
       })
     }
-  }
+  }, [getMnemonics])
+
+  const done = useOnPress(screenProps.pop, [screenProps])
 
   return (
     <Wrapper style={styles.mainWrapper}>
@@ -96,7 +99,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
             Send me a backup email
           </CustomButton>
         </Section.Stack>
-        <CustomButton onPress={screenProps.pop}>Done</CustomButton>
+        <CustomButton onPress={done}>Done</CustomButton>
       </Section>
     </Wrapper>
   )

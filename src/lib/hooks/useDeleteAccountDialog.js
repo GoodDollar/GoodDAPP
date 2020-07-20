@@ -6,6 +6,7 @@ import IconWrapper from '../../components/common/modal/IconWrapper'
 import LoadingIcon from '../../components/common/modal/LoadingIcon'
 
 import retryImport from '../utils/retryImport'
+import useOnPress from './useOnPress'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
@@ -43,7 +44,7 @@ export default ({ API, showErrorDialog, store, theme }) =>
           {
             text: 'Delete',
             color: theme.colors.red,
-            onPress: async () => {
+            onPress: useOnPress(async () => {
               showErrorDialog('', '', {
                 title: 'ARE YOU SURE?',
                 message: 'If you delete your account',
@@ -80,7 +81,7 @@ export default ({ API, showErrorDialog, store, theme }) =>
                 log.error('Error deleting account', e.message, e, { dialogShown: true })
                 showErrorDialog('There was a problem deleting your account. Try again later.')
               }
-            },
+            }, []),
           },
         ],
       }),

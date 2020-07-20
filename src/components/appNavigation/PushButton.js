@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 type PushButtonProps = {
   ...ButtonProps,
@@ -21,15 +22,15 @@ type PushButtonProps = {
  * @param {object} args.params
  * @param {ButtonProps} props
  */
-export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => (
-  <CustomButton
-    onPress={async e => {
-      e.preventDefault()
-      screenProps && (await canContinue()) && screenProps.push(routeName, params)
-    }}
-    {...props}
-  />
-)
+export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => {
+  const OnPress = useOnPress(async () => screenProps && (await canContinue()) && screenProps.push(routeName, params), [
+    canContinue,
+    screenProps,
+    routeName,
+    params,
+  ])
+  return <CustomButton onPress={OnPress} {...props} />
+}
 
 PushButton.defaultProps = {
   mode: 'contained',

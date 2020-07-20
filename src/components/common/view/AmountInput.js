@@ -6,6 +6,7 @@ import SectionTitle from '../layout/SectionTitle'
 import InputGoodDollar from '../form/InputGoodDollar'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import NumPadKeyboard from './NumPadKeyboard'
 
 type AmountInputProps = {
@@ -28,15 +29,13 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title, maxLeng
     })
   }, [])
 
+  const handlePress = useOnPress(() => (isMobile ? Keyboard.dismiss() : null), [isMobile])
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
         {title && <SectionTitle fontWeight="medium">{title}</SectionTitle>}
-        <TouchableWithoutFeedback
-          onPress={() => (isMobile ? Keyboard.dismiss() : null)}
-          accessible={false}
-          style={styles.section}
-        >
+        <TouchableWithoutFeedback onPress={handlePress} accessible={false} style={styles.section}>
           <InputGoodDollar
             style={error ? styles.errorInput : styles.section}
             editable={!isMobile}

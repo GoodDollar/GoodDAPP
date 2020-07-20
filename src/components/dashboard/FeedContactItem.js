@@ -4,13 +4,15 @@ import { map } from 'lodash'
 import { Avatar, Section } from '../common'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const FeedContactItem = ({ contact, selectContact, horizontalMode, styles, index }) => {
   const [phoneNumber] = map(contact.phoneNumbers, 'number')
   const fullName = contact.familyName ? `${contact.givenName} ${contact.familyName}` : contact.givenName
+  const handleContact = useOnPress(() => selectContact({ fullName, phoneNumber }), [fullName, phoneNumber])
 
   return (
-    <TouchableOpacity onPress={() => selectContact({ fullName, phoneNumber })}>
+    <TouchableOpacity onPress={handleContact}>
       <Section.Row key={contact.recordId} style={!horizontalMode && styles.contactWrapperVertical}>
         <Section style={horizontalMode ? styles.contactWrapperHorizontal : styles.rowSpace}>
           <Avatar

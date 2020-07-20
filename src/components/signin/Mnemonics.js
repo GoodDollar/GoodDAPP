@@ -19,6 +19,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
 import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -54,7 +55,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     setMnemonics(mnemonics)
   }
 
-  const recover = async () => {
+  const recover = useOnPress(async () => {
     input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)
@@ -119,7 +120,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } finally {
       setRecovering(false)
     }
-  }
+  }, [setRecovering, mnemonics, ExceptionCategory, mnemonicsHelpers, profileExist, showDialog])
+
   const handleEnter = (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter') {
       recover()

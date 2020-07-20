@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
@@ -12,6 +12,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { fireEvent } from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
+import useOnPress from '../../lib/hooks/useOnPress'
 import useClipboard from '../../lib/hooks/useClipboard'
 import { ACTION_RECEIVE, ACTION_SEND, PARAM_ACTION, RECEIVE_TITLE, SEND_TITLE } from './utils/sendReceiveFlow'
 
@@ -42,7 +43,7 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { paymentLink, action } = screenState
   const [, setString] = useClipboard()
 
-  const handlePressConfirm = useCallback(async () => {
+  const handlePressConfirm = useOnPress(async () => {
     let type = 'share'
 
     if (canShare) {

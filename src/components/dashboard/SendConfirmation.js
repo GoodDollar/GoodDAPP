@@ -16,6 +16,7 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { fireEvent } from '../../lib/analytics/analytics'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -33,7 +34,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
 
   const { amount, reason, paymentLink } = screenState
 
-  const shareAction = async () => {
+  const shareAction = useOnPress(async () => {
     let type = 'copy'
     if (isMobile && navigator.share) {
       try {
@@ -56,7 +57,9 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     }
 
     fireEvent('SEND_CONFIRMATION_SHARE', { type })
-  }
+  }, [isMobile, navigator, paymentLink, showErrorDialog, setString])
+
+  const onPressDone = useOnPress(() => screenProps.goToRoot(), [screenProps])
 
   return (
     <Wrapper>
@@ -97,7 +100,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
             </Section.Row>
           )}
         </Section.Stack>
-        <AnimatedSendButton onPress={shareAction} onPressDone={() => screenProps.goToRoot()} />
+        <AnimatedSendButton onPress={shareAction} onPressDone={onPressDone} />
       </Section>
     </Wrapper>
   )

@@ -3,6 +3,7 @@ import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 export type SideMenuItemProps = {
   icon: string,
@@ -10,20 +11,23 @@ export type SideMenuItemProps = {
   action: Function,
 }
 
-const SideMenuItem = ({ icon, name, color, action, styles, theme, size, centered }: SideMenuItemProps) => (
-  <TouchableOpacity style={styles.clickableRow} onPress={action}>
-    <View style={[styles.menuIcon, centered && styles.centeredIcon]}>
-      <Icon
-        name={icon}
-        size={size ? size : icon === 'gooddollar' ? 16 : 23}
-        color={color === undefined ? theme.colors.primary : theme.colors[color]}
-      />
-    </View>
-    <Text color={color} fontWeight="medium" textAlign="left" fontSize={14}>
-      {name}
-    </Text>
-  </TouchableOpacity>
-)
+const SideMenuItem = ({ icon, name, color, action, styles, theme, size, centered }: SideMenuItemProps) => {
+  const _onPress = useOnPress(action)
+  return (
+    <TouchableOpacity style={styles.clickableRow} onPress={_onPress}>
+      <View style={[styles.menuIcon, centered && styles.centeredIcon]}>
+        <Icon
+          name={icon}
+          size={size ? size : icon === 'gooddollar' ? 16 : 23}
+          color={color === undefined ? theme.colors.primary : theme.colors[color]}
+        />
+      </View>
+      <Text color={color} fontWeight="medium" textAlign="left" fontSize={14}>
+        {name}
+      </Text>
+    </TouchableOpacity>
+  )
+}
 
 const sideMenuItemStyles = ({ theme }) => ({
   clickableRow: {

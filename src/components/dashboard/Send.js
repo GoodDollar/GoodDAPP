@@ -8,14 +8,16 @@ import isMobilePhone from '../../lib/validators/isMobilePhone'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { CustomButton, IconButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const SEND_TITLE = 'Send G$'
 
 const log = logger.child({ from: SEND_TITLE })
 
-const ScanQRButton = ({ push, disabled }) => (
-  <IconButton name="link" text="Scan QR Code" onPress={() => push('SendByQR')} disabled={disabled} />
-)
+const ScanQRButton = ({ push, disabled }) => {
+  const _onPress = useOnPress(() => push('SendByQR'), [push])
+  return <IconButton name="link" text="Scan QR Code" onPress={_onPress} disabled={disabled} />
+}
 
 /**
  * This button navigates to Amount screen passing nextRoutes param
@@ -23,14 +25,10 @@ const ScanQRButton = ({ push, disabled }) => (
  * It also passes to param as initial state for Amount component
  * @param {push} props passed by navigation
  */
-const GenerateLinkButton = ({ push, disabled }) => (
-  <IconButton
-    name="qrcode"
-    text="Generate Link"
-    disabled={disabled}
-    onPress={() => push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] })}
-  />
-)
+const GenerateLinkButton = ({ push, disabled }) => {
+  const _onPress = useOnPress(() => push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] }), [push])
+  return <IconButton name="qrcode" text="Generate Link" disabled={disabled} onPress={_onPress} />
+}
 
 const validate = async to => {
   if (!to) {
@@ -50,7 +48,7 @@ const validate = async to => {
 
 const ContinueButton = ({ push, to, disabled, checkError }) => (
   <CustomButton
-    onPress={async () => {
+    onPress={useOnPress(async () => {
       if (await checkError()) {
         return
       }
@@ -63,7 +61,7 @@ const ContinueButton = ({ push, to, disabled, checkError }) => (
         return push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
       }
       log.debug(`Oops, no error and no action`)
-    }}
+    }, [checkError, userStorage, goodWallet, isMobilePhone, isEmail, push, to])}
     disabled={disabled}
     style={{ flex: 2 }}
   >

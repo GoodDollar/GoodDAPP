@@ -5,6 +5,7 @@ import { set } from 'lodash'
 import AnimationBase from '../Base'
 import { weiToMask } from '../../../../lib/wallet/utils'
 import { getAnimationData } from '../../../../lib/utils/lottie'
+import useOnPress from '../../../../lib/hooks/useOnPress'
 const { animationData } = getAnimationData('ClaimButton', require('./data'))
 
 class ClaimButton extends AnimationBase {
@@ -67,7 +68,7 @@ class ClaimButton extends AnimationBase {
     this.setState({ stopOnClaim: false }, cb)
   }
 
-  handlePress = () => {
+  handlePress = useOnPress(() => {
     const { onPressClaim } = this.props
     const { stopOnClaim } = this.state
 
@@ -78,7 +79,7 @@ class ClaimButton extends AnimationBase {
     if (stopOnClaim) {
       this.goToCounter()
     }
-  }
+  }, [this.props, this.state, this.goToCounter])
 
   getGap(length) {
     // calculate x coordinate of G$ text in animation

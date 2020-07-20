@@ -13,6 +13,7 @@ import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
@@ -66,11 +67,11 @@ const FeedList = ({
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
 
-  const scrollToTop = () => {
+  const scrollToTop = useOnPress(() => {
     if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
       flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
     }
-  }
+  }, [])
 
   const keyExtractor = item => item.id
 
@@ -99,7 +100,7 @@ const FeedList = ({
    * @param {FeedEvent} item - feed item
    * @param {object} actions - wether to cancel/delete or any further action required
    */
-  const handleFeedActionPress = useCallback(
+  const handleFeedActionPress = useOnPress(
     ({ id, status }: FeedEvent, actions: {}) => {
       if (actions.canCancel) {
         if (status === 'pending') {

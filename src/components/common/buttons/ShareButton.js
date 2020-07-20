@@ -1,7 +1,8 @@
 // @flow
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import logger from '../../../lib/logger/pino-logger'
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import CustomButton from './CustomButton'
 import CopyButton from './CopyButton'
 
@@ -21,7 +22,7 @@ const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareBu
     log.info('getPaymentLink', { share })
   }, [])
 
-  const shareHandler = useCallback(() => {
+  const shareHandler = useOnPress(() => {
     shareAction(share)
   }, [shareAction, share])
 

@@ -11,6 +11,7 @@ import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import useOnPress from '../../lib/hooks/useOnPress'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -168,6 +169,7 @@ class EmailConfirmation extends React.Component<Props, State> {
 }
 
 const CodeAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFinish }) => {
+  const _handleRetry = useOnPress(handleRetry, [handleRetry])
   if (renderButton) {
     return (
       <SpinnerCheckMark loading={sendingCode} success={resentCode} onFinish={onFinish}>
@@ -176,7 +178,7 @@ const CodeAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFini
           fontWeight="medium"
           fontSize={14}
           color="primary"
-          onPress={handleRetry}
+          onPress={_handleRetry}
         >
           email me the code again
         </Section.Text>

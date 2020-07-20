@@ -10,6 +10,7 @@ import SuccessIcon from '../modal/SuccessIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 import Text from '../view/Text'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
@@ -66,6 +67,7 @@ const CustomDialog = ({
   const modalColor = getColorFromType(type)
   const textColor = type === 'error' ? 'red' : 'darkGray'
   const color = theme.colors[textColor]
+  const _onPressOk = useOnPress(onDismiss, [onDismiss])
   return visible ? (
     <Portal>
       <ModalWrapper
@@ -99,20 +101,22 @@ const CustomDialog = ({
           {showButtons ? (
             <View style={buttonsContainerStyle || styles.buttonsContainer}>
               {buttons ? (
-                buttons.map(({ onPress = dismiss => dismiss(), style, disabled, ...buttonProps }, index) => (
-                  <CustomButton
-                    {...buttonProps}
-                    onPress={() => onPress(onDismiss)}
-                    style={[{ marginLeft: 10 }, style]}
-                    disabled={disabled || loading}
-                    loading={loading}
-                    key={index}
-                  >
-                    {buttonProps.text}
-                  </CustomButton>
-                ))
+                buttons.map(({ onPress = dismiss => dismiss(), style, disabled, ...buttonProps }, index) => {
+                  return (
+                    <CustomButton
+                      {...buttonProps}
+                      onPress={() => onPress(onDismiss)}
+                      style={[{ marginLeft: 10 }, style]}
+                      disabled={disabled || loading}
+                      loading={loading}
+                      key={index}
+                    >
+                      {buttonProps.text}
+                    </CustomButton>
+                  )
+                })
               ) : (
-                <CustomButton disabled={loading} loading={loading} onPress={onDismiss} style={[styles.buttonOK]}>
+                <CustomButton disabled={loading} loading={loading} onPress={_onPressOk} style={[styles.buttonOK]}>
                   Ok
                 </CustomButton>
               )}

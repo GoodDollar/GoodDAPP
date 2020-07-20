@@ -10,6 +10,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import Illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import CopyButton from '../common/buttons/CopyButton'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 export type TypeProps = {
   screenProps: any,
@@ -19,29 +20,32 @@ export type TypeProps = {
 
 const { account } = GoodWallet
 
-const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => (
-  <Wrapper>
-    <TopBar push={screenProps.push} hideProfile={false}>
-      <View />
-    </TopBar>
-    <Section grow justifyContent="space-between">
-      <Section.Title fontWeight="medium">YOUR WALLET ADDRESS:</Section.Title>
-      <InputText
-        containerStyle={styles.containerInput}
-        style={styles.input}
-        value={address || account}
-        editable={false}
-      />
-      <Text fontSize={24} fontWeight="medium" lineHeight={30}>
-        {'You can copy and share it\nwith others'}
-      </Text>
-      <View style={styles.illustration}>
-        <Illustration />
-      </View>
-      <CopyButton style={styles.confirmButton} toCopy={address || account} onPressDone={screenProps.goToRoot} />
-    </Section>
-  </Wrapper>
-)
+const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
+  const onPressDone = useOnPress(screenProps.goToRoot, [screenProps])
+  return (
+    <Wrapper>
+      <TopBar push={screenProps.push} hideProfile={false}>
+        <View />
+      </TopBar>
+      <Section grow justifyContent="space-between">
+        <Section.Title fontWeight="medium">YOUR WALLET ADDRESS:</Section.Title>
+        <InputText
+          containerStyle={styles.containerInput}
+          style={styles.input}
+          value={address || account}
+          editable={false}
+        />
+        <Text fontSize={24} fontWeight="medium" lineHeight={30}>
+          {'You can copy and share it\nwith others'}
+        </Text>
+        <View style={styles.illustration}>
+          <Illustration />
+        </View>
+        <CopyButton style={styles.confirmButton} toCopy={address || account} onPressDone={onPressDone} />
+      </Section>
+    </Wrapper>
+  )
+}
 
 ReceiveToAddress.navigationOptions = {
   title: 'Receive G$',

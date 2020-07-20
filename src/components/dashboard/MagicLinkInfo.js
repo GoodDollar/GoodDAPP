@@ -13,6 +13,7 @@ import { withStyles } from '../../lib/styles'
 import Illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'MagicLinkInfo' })
 
@@ -20,7 +21,7 @@ const MagicLinkInfoComponent = props => {
   const { styles, screenProps } = props
   const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const sendMagicEmail = () => {
+  const sendMagicEmail = useOnPress(() => {
     API.sendMagicLinkByEmail(userStorage.getMagicLink())
       .then(r => {
         log.info('Resending magiclink')
@@ -35,7 +36,9 @@ const MagicLinkInfoComponent = props => {
         log.error('failed Resending magiclink', e.message, e, { dialogShown: true })
         showErrorDialog('Could not send magiclink email. Please try again.')
       })
-  }
+  }, [userStorage, screenProps, showDialog, showErrorDialog])
+
+  const onPressOk = useOnPress(screenProps.pop)
 
   return (
     <Wrapper backgroundColor={props.theme.colors.surface}>
@@ -68,7 +71,7 @@ const MagicLinkInfoComponent = props => {
         <CustomButton mode="outlined" dark={false} onPress={sendMagicEmail}>
           EMAIL ME THE MAGIC LINK
         </CustomButton>
-        <CustomButton style={styles.downBtn} onPress={screenProps.pop}>
+        <CustomButton style={styles.downBtn} onPress={onPressOk}>
           OK
         </CustomButton>
       </Section.Stack>

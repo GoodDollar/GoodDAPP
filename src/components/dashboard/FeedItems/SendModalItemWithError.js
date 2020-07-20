@@ -5,6 +5,7 @@ import Icon from '../../common/view/Icon'
 import Text from '../../common/view/Text'
 import SummaryTable from '../../common/view/SummaryTable'
 import ModalActionsByFeedType from '../../common/modal/ModalActionsByFeedType'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
 
@@ -14,9 +15,9 @@ import type { FeedEventProps } from './EventProps'
  * @returns {HTMLElement}
  */
 const FeedModalItem = ({ item, onPress, styles, theme }: FeedEventProps) => {
-  const buttonPress = () => {
+  const buttonPress = useOnPress(() => {
     onPress(item.id)
-  }
+  }, [item])
 
   return (
     <React.Fragment>

@@ -5,6 +5,7 @@ import Icon from '../view/Icon'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
 type Props = {
   disabled?: boolean,
@@ -14,18 +15,21 @@ type Props = {
   theme: any,
 }
 
-const ScanQRButton = ({ onPress, styles, theme, disabled, style = {} }: Props) => (
-  <TouchableOpacity style={style.row} onPress={disabled ? undefined : onPress}>
-    <View style={styles.buttonContainer}>
-      <View style={styles.iconWrapper}>
-        <Icon name="send-to-address" color="white" size={20} />
+const ScanQRButton = ({ onPress, styles, theme, disabled, style = {} }: Props) => {
+  const _onPress = useOnPress(disabled ? undefined : onPress, [disabled])
+  return (
+    <TouchableOpacity style={style.row} onPress={_onPress}>
+      <View style={styles.buttonContainer}>
+        <View style={styles.iconWrapper}>
+          <Icon name="send-to-address" color="white" size={20} />
+        </View>
+        <Text color="darkBlue" fontSize={10} fontWeight="medium" lineHeight={11} style={styles.text}>
+          Send to address
+        </Text>
       </View>
-      <Text color="darkBlue" fontSize={10} fontWeight="medium" lineHeight={11} style={styles.text}>
-        Send to address
-      </Text>
-    </View>
-  </TouchableOpacity>
-)
+    </TouchableOpacity>
+  )
+}
 
 const mapPropsToStyle = ({ theme }) => ({
   iconWrapper: {

@@ -13,6 +13,7 @@ import { onPressFix } from '../../../lib/utils/async'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import CircleButtonWrapper from '../CircleButtonWrapper'
 import CameraButton from '../CameraButton'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import openCropper from './openCropper'
 
 export const pickerOptions = {
@@ -39,32 +40,23 @@ const ViewOrUploadAvatar = props => {
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
 
-  const handleCameraPress = useCallback(
-    event => {
-      event.preventDefault()
+  const handleCameraPress = useOnPress(() => {
+    openCropper({
+      pickerOptions,
+      navigation: props.navigation,
+      wrappedUserStorage,
+      showErrorDialog,
+      log,
+      avatar: profile.avatar,
+    })
+  }, [navigation, wrappedUserStorage, showErrorDialog, profile])
 
-      openCropper({
-        pickerOptions,
-        navigation: props.navigation,
-        wrappedUserStorage,
-        showErrorDialog,
-        log,
-        avatar: profile.avatar,
-      })
-    },
-    [navigation],
-  )
-
-  const handleClosePress = useCallback(
-    event => {
-      event.preventDefault()
-      wrappedUserStorage.removeAvatar().catch(e => {
-        log.error('delete image failed:', e.message, e, { dialogShown: true })
-        showErrorDialog('Could not delete image. Please try again.')
-      })
-    },
-    [wrappedUserStorage],
-  )
+  const handleClosePress = useOnPress(() => {
+    wrappedUserStorage.removeAvatar().catch(e => {
+      log.error('delete image failed:', e.message, e, { dialogShown: true })
+      showErrorDialog('Could not delete image. Please try again.')
+    })
+  }, [wrappedUserStorage, showErrorDialog])
 
   const handleAddAvatar = useCallback(
     avatar => {
@@ -81,9 +73,9 @@ const ViewOrUploadAvatar = props => {
     [navigation, wrappedUserStorage],
   )
 
-  const goToProfile = useCallback(() => {
+  const goToProfile = useOnPress(() => {
     props.navigation.navigate('EditProfile')
-  })
+  }, [props.navigation])
 
   return (
     <Wrapper>

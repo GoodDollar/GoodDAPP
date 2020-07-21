@@ -41,8 +41,6 @@ class API {
 
   constructor() {
     this.ready = this.init()
-    const { MauticJS } = global
-    this.mauticJS = MauticJS
   }
 
   /**
@@ -399,11 +397,24 @@ class API {
    * @param {*} userData usually just {email}
    */
   addMauticContact(userData: { email: string }) {
-    if (this.mauticJS && Config.mauticUrl && userData.email) {
-      this.mauticJS.makeCORSRequest('POST', Config.mauticUrl + '/form/submit', {
-        'mauticform[formId]': Config.mauticAddContractFormID,
-        'mauticform[email]': userData.email,
-        'mauticform[messenger]': 1,
+    const { MauticJS } = global
+    if (MauticJS && Config.mauticUrl && userData.email) {
+      this.mauticJS.makeCORSRequest(
+        'POST',
+        Config.mauticUrl + '/form/submit',
+        {
+          'mauticform[formId]': Config.mauticAddContractFormID,
+          'mauticform[email]': userData.email,
+          'mauticform[messenger]': 1,
+        },
+        () => log.info('addMauticContact success'),
+        (response, xhr) => log.error('addMauticContact call failed:', response.content),
+      )
+    } else {
+      log.warn('addMauticContact not called:', {
+        hasMauticAPI: !!MauticJS,
+        mautic: Config.mauticUrl,
+        hasEmail: !!userData.email,
       })
     }
   }

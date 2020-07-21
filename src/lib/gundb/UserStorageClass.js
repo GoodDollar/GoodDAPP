@@ -1529,11 +1529,21 @@ export class UserStorage {
       this.profile
         .get(field)
         .get('value')
-        .secretAck(value),
-      this.profile.get(field).putAck({
-        display,
-        privacy,
-      }),
+        .secretAck(value)
+        .catch(e => {
+          logger.warn('encrypting profile field failed', { e, field })
+          throw e
+        }),
+      this.profile
+        .get(field)
+        .putAck({
+          display,
+          privacy,
+        })
+        .catch(e => {
+          logger.warn('saving profile field display and privacy failed', { e, field })
+          throw e
+        }),
     ])
   }
 
@@ -1582,9 +1592,10 @@ export class UserStorage {
       //   return indexNode.putAck(null)
       // }
 
-      return indexNode.putAck(this.gunuser)
+      const res = await indexNode.putAck(this.gunuser)
+      return res
     } catch (e) {
-      logger.error('indexProfileField failed', e.message, e)
+      logger.error('indexProfileField failed', e.message, e, { field })
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })

@@ -1403,9 +1403,7 @@ export class UserStorage {
           },
         )
 
-        if (Config.throwSaveProfileErrors) {
-          return Promise.reject(errors)
-        }
+        return Promise.reject(errors)
       }
 
       return true

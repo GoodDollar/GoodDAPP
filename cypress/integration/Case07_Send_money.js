@@ -23,7 +23,7 @@ describe('Test case 7: Ability to send money', () => {
       .then(res => {
         cy.log(res)
         if (res == 4) {
-          cy.get('[role="button"]').contains(/OK, Got it/i).click()
+          cy.get('[role="button"]').contains(/OK, I’ll WAIT/i).click()
         }
       })
 

@@ -161,7 +161,7 @@ const TabsView = ({ navigation }) => {
     fetchTokens()
   }, [])
 
-  const goToRewards = useOnPress(navigation.navigate('Rewards'), [navigation])
+  const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
 
   // const goToRewards = () => {
   //   if (isIOSWeb) {

@@ -12,7 +12,7 @@ import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 import embed from './iframe.embed.html'
 
 const wHeight = getMaxDeviceHeight()
-const DOMLoadedDispatcher = embed.replace(/<script.+?>/g, '')
+const DOMLoadedDispatcher = String(embed).replace(/<script.+?>/g, '')
 
 export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home', styles) => {
   const IframeTab = props => {

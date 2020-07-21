@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export default showPopup => {
+export default () => {
   const [showDialog] = useDialog()
   const store = SimpleStore.useStore()
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
@@ -39,10 +39,9 @@ export default showPopup => {
   useEffect(() => {
     log.info('service worker updated', {
       serviceWorkerUpdated,
-      showPopup,
     })
 
-    if (!serviceWorkerUpdated || !showPopup) {
+    if (!serviceWorkerUpdated) {
       return
     }
 
@@ -74,5 +73,5 @@ export default showPopup => {
         },
       ],
     })
-  }, [serviceWorkerUpdated, showPopup])
+  }, [serviceWorkerUpdated])
 }

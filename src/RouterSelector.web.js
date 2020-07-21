@@ -1,10 +1,10 @@
 // libraries
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'
 
 // components
-import Splash from './components/splash/Splash'
+import Splash, { animationDuration } from './components/splash/Splash'
 
 // hooks
 import useUpgradeDialog from './lib/hooks/useUpgradeDialog'
@@ -19,19 +19,6 @@ import logger from './lib/logger/pino-logger'
 import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 
 const log = logger.child({ from: 'RouterSelector' })
-
-// import Router from './SignupRouter'
-let SignupRouter = React.lazy(async () => {
-  await initAnalytics()
-
-  const [module] = await Promise.all([
-    retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
-    handleLinks(),
-    delay(5000),
-  ])
-
-  return module
-})
 
 /**
  * handle in-app links for unsigned users such as magiclink and paymentlinks
@@ -91,39 +78,52 @@ const handleLinks = async () => {
   }
 }
 
-let AppRouter = React.lazy(() => {
-  log.debug('initializing storage and wallet...')
-  let walletAndStorageReady = retryImport(() => import(/* webpackChunkName: "init" */ './init'))
-  let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
+let SignupRouter = React.lazy(async () => {
+  await initAnalytics()
 
-  return Promise.all([retryImport(() => import(/* webpackChunkName: "router" */ './Router')), p2])
-    .then(r => {
-      log.debug('router ready')
-      return r
-    })
-    .then(r => r[0])
+  const [module] = await Promise.all([
+    retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
+    handleLinks(),
+    delay(animationDuration),
+  ])
+
+  return module
+})
+
+let AppRouter = React.lazy(async () => {
+  log.debug('initializing storage and wallet...')
+
+  const [module] = await Promise.all([
+    retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
+    retryImport(() => import(/* webpackChunkName: "init" */ './init'))
+      .then(({ init }) => init())
+      .then(() => log.debug('storage and wallet ready')),
+
+    delay(animationDuration),
+  ])
+
+  log.debug('router ready')
+  return module
+})
+
+const NestedRouter = memo(({ isLoggedIn }) => {
+  useUpgradeDialog()
+
+  useEffect(() => {
+    log.debug('RouterSelector Rendered', { isLoggedIn })
+  }, [isLoggedIn])
+
+  return isLoggedIn ? <AppRouter /> : <SignupRouter />
 })
 
 const RouterSelector = () => {
-  const [allowUpgradePopup, setAllowUpgradePopup] = useState(false)
-
-  useUpgradeDialog(allowUpgradePopup)
-
   // we use global state for signup process to signal user has registered
   const store = SimpleStore.useStore()
   const isLoggedIn = store.get('isLoggedIn')
 
-  // this callback used to detect if Router (content) is rendered - then show upgrade popup
-  const handleSplashUnmount = useCallback(() => setAllowUpgradePopup(true), [setAllowUpgradePopup])
-
-  const Router = useMemo(() => {
-    log.debug('RouterSelector Rendered', { isLoggedIn })
-    return isLoggedIn ? AppRouter : SignupRouter
-  }, [isLoggedIn])
-
   return (
-    <React.Suspense fallback={<Splash animation onUnmount={handleSplashUnmount} />}>
-      <Router />
+    <React.Suspense fallback={<Splash animation />}>
+      <NestedRouter isLoggedIn={isLoggedIn} />
     </React.Suspense>
   )
 }

@@ -20,7 +20,11 @@ const TopBar = ({ hideBalance, push, children, hideProfile = true, profileAsLink
   const { avatar } = store.get('profile')
 
   const redirectToProfile = useCallback(() => push('Profile'), [push])
-  const _onPress = useOnPress(() => (push && profileAsLink ? redirectToProfile : null), [push, profileAsLink])
+  const _onPress = useOnPress(() => (push && profileAsLink ? redirectToProfile : null), [
+    push,
+    profileAsLink,
+    redirectToProfile,
+  ])
 
   return (
     <Section style={styles.topBar}>

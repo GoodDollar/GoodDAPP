@@ -18,7 +18,7 @@ type Props = {
 const defaultStyles = {}
 
 const ReceiveToAddressButton = ({ onPress, styles, theme, disabled, style = defaultStyles }: Props) => {
-  const _onPress = useOnPress(disabled ? undefined : onPress, [disabled])
+  const _onPress = useOnPress(disabled ? undefined : onPress, [disabled, onPress])
   return (
     <TouchableOpacity style={style.row} onPress={_onPress}>
       <View style={styles.buttonContainer}>

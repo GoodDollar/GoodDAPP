@@ -23,13 +23,13 @@ type PushButtonProps = {
  * @param {ButtonProps} props
  */
 export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => {
-  const OnPress = useOnPress(async () => screenProps && (await canContinue()) && screenProps.push(routeName, params), [
+  const onPress = useOnPress(async () => screenProps && (await canContinue()) && screenProps.push(routeName, params), [
     canContinue,
     screenProps,
     routeName,
     params,
   ])
-  return <CustomButton onPress={OnPress} {...props} />
+  return <CustomButton onPress={onPress} {...props} />
 }
 
 PushButton.defaultProps = {

@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 
 import Config from '../../config/config'
 
-import ServiceWorkerUpdatedDialog from '../../components/dashboard/ServiceWorkerUpdatedDialog'
+import ServiceWorkerUpdatedDialog from '../../components/common/dialogs/ServiceWorkerUpdatedDialog'
 
 import SimpleStore from '../undux/SimpleStore'
 import { useDialog } from '../undux/utils/dialog'
@@ -27,10 +27,11 @@ const styles = StyleSheet.create({
   serviceWorkerDialogWhatsNew: {
     textAlign: 'left',
     fontSize: normalize(14),
+    marginLeft: 0,
   },
 })
 
-export default () => {
+export default showPopup => {
   const [showDialog] = useDialog()
   const store = SimpleStore.useStore()
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
@@ -38,9 +39,10 @@ export default () => {
   useEffect(() => {
     log.info('service worker updated', {
       serviceWorkerUpdated,
+      showPopup,
     })
 
-    if (!serviceWorkerUpdated) {
+    if (!serviceWorkerUpdated || !showPopup) {
       return
     }
 
@@ -72,5 +74,5 @@ export default () => {
         },
       ],
     })
-  }, [serviceWorkerUpdated])
+  }, [serviceWorkerUpdated, showPopup])
 }

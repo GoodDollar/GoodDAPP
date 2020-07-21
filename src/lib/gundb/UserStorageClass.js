@@ -1356,7 +1356,9 @@ export class UserStorage {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
+
     const { errors, isValid } = profile.validate(update)
+
     if (!isValid) {
       logger.error(
         'setProfile failed',
@@ -1364,50 +1366,51 @@ export class UserStorage {
         new Error('setProfile failed: Fields validation failed'),
         { errors, category: ExceptionCategory.Human },
       )
-      if (Config.throwSaveProfileErrors) {
-        return Promise.reject(errors)
-      }
+
+      throw errors
     }
 
     if (profile.avatar) {
       profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
 
-    return Promise.all(
+    const results = await Promise.all(
       keys(this.profileSettings)
         .filter(key => profile[key])
         .map(async field => {
-          return this.setProfileField(
-            field,
-            profile[field],
-            update
-              ? await this.getFieldPrivacy(field)
-              : get(this.profileSettings, `[${field}].defaultPrivacy`, 'private'),
-          ).catch(e => {
-            logger.error('setProfile field failed:', e.message, e, { field })
+          let isPrivate = get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
+
+          if (update) {
+            isPrivate = await this.getFieldPrivacy(field)
+          }
+
+          try {
+            return await this.setProfileField(field, profile[field], isPrivate)
+          } catch (e) {
+            //logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
-          })
+          }
         }),
-    ).then(results => {
-      const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+    )
 
-      if (errors.length > 0) {
-        logger.error(
-          'setProfile partially failed',
-          'some of the fields failed during saving',
-          new Error('setProfile: some fields failed during saving'),
-          {
-            errCount: errors.length,
-            errors,
-            strErrors: JSON.stringify(errors),
-          },
-        )
+    const gunErrors = results.filter(ack => ack && ack.err).map(ack => ack.err)
 
-        return Promise.reject(errors)
-      }
-
+    if (gunErrors.length <= 0) {
       return true
-    })
+    }
+
+    logger.error(
+      'setProfile partially failed',
+      'some of the fields failed during saving',
+      new Error('setProfile: some fields failed during saving'),
+      {
+        errCount: gunErrors.length,
+        errors: gunErrors,
+        strErrors: JSON.stringify(gunErrors),
+      },
+    )
+
+    throw gunErrors
   }
 
   /**

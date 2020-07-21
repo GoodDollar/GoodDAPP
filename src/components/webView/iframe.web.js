@@ -7,20 +7,16 @@ import Icon from '../common/view/Icon'
 
 import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
-import IframeManager from './iframe.manager'
+import { useIframeLoaded } from './iframe.hooks.web'
 
 const wHeight = getMaxDeviceHeight()
 
 export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home') => {
   const IframeTab = props => {
     const [showLoading, hideLoading] = useLoadingIndicator()
+    const isLoaded = useIframeLoaded(src, hideLoading)
 
-    useEffect(() => {
-      showLoading()
-      IframeManager.addListener(src, hideLoading)
-
-      return () => IframeManager.removeListener(src, hideLoading)
-    }, [])
+    useEffect(showLoading, [])
 
     // this is for our external pages like privacy policy, etc.. they dont require iframeresizer to work ok on ios <13
     return (
@@ -29,7 +25,7 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
         title={title}
         seamless
         frameBorder="0"
-        onLoad={hideLoading}
+        onLoad={isLoaded}
         src={src}
         width="100%"
         height="100%"

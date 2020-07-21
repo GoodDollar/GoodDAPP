@@ -517,10 +517,6 @@ export class UserStorage {
    */
   async initGun() {
     logger.debug('Initializing GunDB UserStorage')
-
-    // get trusted GoodDollar indexes and pub key
-    const trustPromise = this.fetchTrustIndexes()
-
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
@@ -594,6 +590,9 @@ export class UserStorage {
     this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
     this.user = this.gunuser.is
 
+    //try to make sure all gun SEA  decryption keys are preloaded
+    this.gunuser.get('trust').load()
+
     const gunuser = await this.gun.user()
 
     logger.debug('GunDB logged in', {
@@ -602,7 +601,19 @@ export class UserStorage {
       pair: this.gunuser.pair(),
       gunuser,
     })
-    logger.debug('subscribing')
+    await Promise.all([this.initProperties(), this.initProfile()])
+  }
+
+  /**
+   * Initialize wallet, gundb user, feed and subscribe to events
+   */
+  async initRegistered() {
+    logger.debug('Initializing GunDB UserStorage for resgistered user')
+
+    //get trusted GoodDollar indexes and pub key
+    let trustPromise = this.fetchTrustIndexes()
+
+    logger.debug('subscribing to wallet events')
 
     this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
       logger.debug({ event }, EVENT_TYPE_RECEIVE)
@@ -630,8 +641,6 @@ export class UserStorage {
       AsyncStorage.getItem('GD_trust')
         .then(JSON.parse)
         .then(_ => (this.trust = _ || {})),
-      this.initProfile(),
-      this.initProperties(),
       this.initFeed(),
       this.gun
         .get('users')
@@ -1174,8 +1183,7 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const gunuser = await this.gunuser.then(null, 1000)
-    const profile = await this.profile.then(null, 1000)
+    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 1000), this.profile.then(null, 1000)])
     if (profile === null) {
       //in case profile was deleted in the past it will be exactly null
       await this.profile.putAck({ initialized: true })
@@ -1263,6 +1271,7 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
+      .catch(e => logger.error('getProfileFieldValue decrypt failed:', e.msg, e))
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {
@@ -1347,7 +1356,9 @@ export class UserStorage {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
+
     const { errors, isValid } = profile.validate(update)
+
     if (!isValid) {
       logger.error(
         'setProfile failed',
@@ -1355,52 +1366,51 @@ export class UserStorage {
         new Error('setProfile failed: Fields validation failed'),
         { errors, category: ExceptionCategory.Human },
       )
-      if (Config.throwSaveProfileErrors) {
-        return Promise.reject(errors)
-      }
+
+      throw errors
     }
 
     if (profile.avatar) {
       profile.smallAvatar = await resizeImage(profile.avatar, 50)
     }
 
-    return Promise.all(
+    const results = await Promise.all(
       keys(this.profileSettings)
         .filter(key => profile[key])
         .map(async field => {
-          return this.setProfileField(
-            field,
-            profile[field],
-            update
-              ? await this.getFieldPrivacy(field)
-              : get(this.profileSettings, `[${field}].defaultPrivacy`, 'private'),
-          ).catch(e => {
-            logger.error('setProfile field failed:', e.message, e, { field })
+          let isPrivate = get(this.profileSettings, `[${field}].defaultPrivacy`, 'private')
+
+          if (update) {
+            isPrivate = await this.getFieldPrivacy(field)
+          }
+
+          try {
+            return await this.setProfileField(field, profile[field], isPrivate)
+          } catch (e) {
+            //logger.error('setProfile field failed:', e.message, e, { field })
             return { err: `failed saving field ${field}` }
-          })
+          }
         }),
-    ).then(results => {
-      const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+    )
 
-      if (errors.length > 0) {
-        logger.error(
-          'setProfile partially failed',
-          'some of the fields failed during saving',
-          new Error('setProfile: some fields failed during saving'),
-          {
-            errCount: errors.length,
-            errors,
-            strErrors: JSON.stringify(errors),
-          },
-        )
+    const gunErrors = results.filter(ack => ack && ack.err).map(ack => ack.err)
 
-        if (Config.throwSaveProfileErrors) {
-          return Promise.reject(errors)
-        }
-      }
-
+    if (gunErrors.length <= 0) {
       return true
-    })
+    }
+
+    logger.error(
+      'setProfile partially failed',
+      'some of the fields failed during saving',
+      new Error('setProfile: some fields failed during saving'),
+      {
+        errCount: gunErrors.length,
+        errors: gunErrors,
+        strErrors: JSON.stringify(gunErrors),
+      },
+    )
+
+    throw gunErrors
   }
 
   /**
@@ -1520,11 +1530,21 @@ export class UserStorage {
       this.profile
         .get(field)
         .get('value')
-        .secretAck(value),
-      this.profile.get(field).putAck({
-        display,
-        privacy,
-      }),
+        .secretAck(value)
+        .catch(e => {
+          logger.warn('encrypting profile field failed', { e, field })
+          throw e
+        }),
+      this.profile
+        .get(field)
+        .putAck({
+          display,
+          privacy,
+        })
+        .catch(e => {
+          logger.warn('saving profile field display and privacy failed', { e, field })
+          throw e
+        }),
     ])
   }
 
@@ -1573,9 +1593,10 @@ export class UserStorage {
       //   return indexNode.putAck(null)
       // }
 
-      return indexNode.putAck(this.gunuser)
+      const res = await indexNode.putAck(this.gunuser)
+      return res
     } catch (e) {
-      logger.error('indexProfileField failed', e.message, e)
+      logger.error('indexProfileField failed', e.message, e, { field })
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
@@ -2405,21 +2426,13 @@ export class UserStorage {
   }
 
   /**
-   * Returns the 'lastBlock' gun's node
-   * @returns {*}
-   */
-  getLastBlockNode() {
-    return this.feed.get('lastBlock')
-  }
-
-  /**
    * Saves block number in the 'lastBlock' node
    * @param blockNumber
    * @returns {Promise<Promise<*>|Promise<R|*>>}
    */
   saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
-    return this.getLastBlockNode().putAck(blockNumber)
+    return this.userProperties.set('lastBlock', blockNumber)
   }
 
   async getProfile(): Promise<any> {

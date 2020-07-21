@@ -25,7 +25,7 @@ import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
-import { fireEvent, identifyOnUserSignup } from '../../lib/analytics/analytics'
+import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
@@ -267,26 +267,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
   useEffect(() => {
     const onMount = async () => {
+      //if email from torus then identify user
+      state.email && identifyOnUserSignup(state.email)
+
       verifyStartRoute()
-
-      // // Recognize registration method (page refresh case included)
-      // const initialRegMethod = await AsyncStorage.getItem(GD_INITIAL_REG_METHOD)
-
-      // if (initialRegMethod && initialRegMethod !== regMethod) {
-      //   setRegMethod(initialRegMethod)
-      //   await AsyncStorage.setItem(GD_INITIAL_REG_METHOD, initialRegMethod)
-      //   const skipEmailConfirmOrMagicLink = initialRegMethod !== REGISTRATION_METHOD_SELF_CUSTODY
-
-      //   // set regMethod sensitive variables into state, they are already initialized only need to re-set if
-      //   //regmethod has changed by refresh
-      //   setState({
-      //     ...state,
-      //     skipEmail: skipEmailConfirmOrMagicLink,
-      //     skipEmailConfirmation: Config.skipEmailVerification || skipEmailConfirmOrMagicLink,
-      //     skipMagicLinkInfo: skipEmailConfirmOrMagicLink,
-      //     isEmailConfirmed: skipEmailConfirmOrMagicLink || !!w3UserFromProps.email,
-      //   })
-      // }
 
       checkTorusLogin()
 
@@ -300,18 +284,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         verifyW3Email(state.email, state.w3Token)
       }
 
-      //lazy login in background
+      //lazy login in background while user starts registration
       const ready = (async () => {
         log.debug('ready: Starting initialization', { w3UserFromProps, isRegMethodSelfCustody, torusUserFromProps })
 
-        if (torusUserFromProps.privateKey) {
-          log.debug('skipping ready initialization (already done in AuthTorus)')
-          const [, { init }] = await Promise.all([API.ready, retryImport(() => import('../../init'))])
-          return init()
-        }
-
         const { init } = await retryImport(() => import('../../init'))
-        const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
         const { goodWallet, userStorage, source } = await init().catch(exception => {
           const { message } = exception
 
@@ -327,11 +304,18 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           // re-throw exception
           throw exception
         })
+        identifyWith(null, goodWallet.getAccountForType('login'))
+        fireSignupEvent('STARTED', { source })
 
         // for QA
         global.wallet = goodWallet
+        if (torusUserFromProps.privateKey) {
+          log.debug('skipping ready initialization (already done in AuthTorus)')
+          await API.ready
+          return { goodWallet, userStorage }
+        }
 
-        fireSignupEvent('STARTED', { source })
+        const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
 
         //the login also re-initialize the api with new jwt
         await login
@@ -474,6 +458,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           }),
       ])
 
+      //set tokens for other services returned from backedn
       await Promise.all(
         toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) => {
           if ('w3Token' === fieldName) {

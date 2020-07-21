@@ -1,26 +1,24 @@
 import React, { useEffect } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
+
 import Section from '../common/layout/Section'
 import Icon from '../common/view/Icon'
-import SimpleStore from '../../lib/undux/SimpleStore'
+
 import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
+import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
+import { useIframeLoaded } from './iframe.hooks.web'
 
 const wHeight = getMaxDeviceHeight()
 
 export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home') => {
   const IframeTab = props => {
-    const store = SimpleStore.useStore()
+    const [showLoading, hideLoading] = useLoadingIndicator()
+    const isLoaded = useIframeLoaded(src, hideLoading)
 
-    const isLoaded = () => {
-      store.set('loadingIndicator')({ loading: false })
-    }
+    useEffect(showLoading, [])
 
-    useEffect(() => {
-      store.set('loadingIndicator')({ loading: true })
-    }, [])
-
-    //this is for our external pages like privacy policy, etc.. they dont require iframeresizer to work ok on ios <13
+    // this is for our external pages like privacy policy, etc.. they dont require iframeresizer to work ok on ios <13
     return (
       <iframe
         allowFullScreen

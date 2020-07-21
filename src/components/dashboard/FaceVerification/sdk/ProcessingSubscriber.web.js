@@ -13,8 +13,6 @@ export class ProcessingSubscriber {
     })
   }
 
-  onDuplicate() {}
-
   // eslint-disable-next-line require-await
   async asPromise() {
     return this._promise

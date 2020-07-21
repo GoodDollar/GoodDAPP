@@ -15,6 +15,7 @@ import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatu
 import userStorage from '../../lib/gundb/UserStorage'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
+import { identifyWith } from '../../lib/analytics/analytics'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
@@ -110,6 +111,8 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = async () => {
+    //initialize logged in user feed and stuff
+    await userStorage.initRegistered()
     if (!assertStore(gdstore, log, 'Failed to initialize login/citizen status')) {
       return
     }
@@ -181,6 +184,7 @@ const AppSwitch = (props: LoadingProps) => {
           gdstore.set('isLoggedInCitizen')(false)
         }
       }
+      identifyWith(await userStorage.getProfileFieldValue('email'), goodWallet.getAccountForType('login'))
       checkBonusInterval()
       prepareLoginToken()
       runUpdates()

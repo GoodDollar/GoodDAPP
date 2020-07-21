@@ -24,6 +24,7 @@ export default class UserProperties {
     showQuickActionHint: true,
     registered: false,
     startClaimingAdded: false,
+    lastBlock: 0,
   }
 
   fields = [

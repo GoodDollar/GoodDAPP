@@ -1,5 +1,5 @@
 // libraries
-import React, { memo, useEffect } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'
 
@@ -104,25 +104,26 @@ let AppRouter = React.lazy(() => {
     .then(r => r[0])
 })
 
-const NestedRouter = memo(({ isLoggedIn }) => {
-  useUpgradeDialog()
-
-  useEffect(() => {
-    log.debug('RouterSelector Rendered', { isLoggedIn })
-  }, [isLoggedIn])
-
-  return isLoggedIn ? <AppRouter /> : <SignupRouter />
-})
-
 const RouterSelector = () => {
-  const store = SimpleStore.useStore()
+  const [allowUpgradePopup, setAllowUpgradePopup] = useState(false)
+
+  useUpgradeDialog(allowUpgradePopup)
 
   // we use global state for signup process to signal user has registered
+  const store = SimpleStore.useStore()
   const isLoggedIn = store.get('isLoggedIn')
 
+  // this callback used to detect if Router (content) is rendered - then show upgrade popup
+  const handleSplashUnmount = useCallback(() => setAllowUpgradePopup(true), [setAllowUpgradePopup])
+
+  const Router = useMemo(() => {
+    log.debug('RouterSelector Rendered', { isLoggedIn })
+    return isLoggedIn ? AppRouter : SignupRouter
+  }, [isLoggedIn])
+
   return (
-    <React.Suspense fallback={<Splash animation />}>
-      <NestedRouter isLoggedIn={isLoggedIn} />
+    <React.Suspense fallback={<Splash animation onUnmount={handleSplashUnmount} />}>
+      <Router />
     </React.Suspense>
   )
 }

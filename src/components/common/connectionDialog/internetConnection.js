@@ -22,6 +22,7 @@ const InternetConnection = props => {
   const isConnectionGun = useConnectionGun()
   const [showDisconnect, setShowDisconnect] = useState(false)
   const [firstLoadError, setFirstLoadError] = useState(true)
+
   const showDialogWindow = useCallback(
     debounce((message, showDialog, setShowDisconnect) => {
       setShowDisconnect(true)
@@ -81,7 +82,7 @@ const InternetConnection = props => {
       //first time that connection is ok, from now on we will start showing the connection dialog on error
       setFirstLoadError(false)
       showDialogWindow && showDialogWindow.cancel()
-      hideDialog()
+      !firstLoadError && hideDialog()
       setShowDisconnect(false)
     }
   }, [isConnection, isAPIConnection, isConnectionWeb3, isConnectionGun])

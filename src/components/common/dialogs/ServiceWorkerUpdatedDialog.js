@@ -39,7 +39,6 @@ const dialogStyles = ({ theme }) => {
     },
     imageContainer: {
       paddingTop: getDesignRelativeHeight(32),
-      paddingHorizontal: getDesignRelativeWidth(5),
       display: 'flex',
       alignItems: ' center',
     },
@@ -112,7 +111,7 @@ const Phase1Component = ({ styles, theme }) => (
         <Text fontSize={14} lineHeight={26} fontWeight="bold">
           2.
         </Text>
-        {' Sign up (one last time, we promise :))\n'}
+        {` Sign up (one last time, we promise${isSmallDevice ? '' : ':)'})\n`}
         <Text fontSize={14} lineHeight={26} fontWeight="bold">
           3.
         </Text>

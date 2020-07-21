@@ -76,6 +76,7 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: isMobileOnly ? getDesignRelativeHeight(35) : 0,
       marginRight: 'auto',
       marginLeft: 'auto',
+      alignItems: 'center',
     },
     descriptionContainer: {
       flex: 1,

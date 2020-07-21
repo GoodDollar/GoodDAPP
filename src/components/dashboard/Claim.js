@@ -13,7 +13,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { openLink } from '../../lib/utils/linking'
-import { formatWithCommaSeparator, formatWithSIPrefix } from '../../lib/utils/formatNumber'
+import { formatWithThousandsSeparator, formatWithSIPrefix } from '../../lib/utils/formatNumber'
 import API from '../../lib/API/api'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
@@ -293,7 +293,7 @@ const Claim = props => {
 
   const handleFaceVerification = () => screenProps.push('FaceVerificationIntro', { from: 'Claim' })
 
-  const claimAmountFormatter = useCallback(value => formatWithCommaSeparator(weiToGd(value)), [])
+  const claimAmountFormatter = useCallback(value => formatWithThousandsSeparator(weiToGd(value)), [])
 
   return (
     <WrapperClaim>

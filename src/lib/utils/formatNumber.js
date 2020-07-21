@@ -13,6 +13,6 @@ export const formatWithSIPrefix = (number, customFormat = null) => {
     .toUpperCase()
 }
 
-export const formatWithCommaSeparator = number => {
+export const formatWithThousandsSeparator = number => {
   return numeral(number).format('0[,]0.00')
 }

@@ -25,21 +25,25 @@ describe('Test case 7: Ability to send money', () => {
         if (res == 4) {
           cy.get('[role="button"]').contains(/OK, I’ll WAIT/i).click()
         }
-      })
-
-      HomePage.claimButton.invoke('text').then(text => {
-        cy.log(text)
-        if (text == 'Queue') {
-          const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
-          const bodyPass = Cypress.env('CYPRESS_GUNDB_PASSWORD')
-          cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 }).then(response => {
+        if (res != 2) {
+          HomePage.claimButton.invoke('text').then(text => {
+          cy.log(text)
+          if (text == 'Queue') {
+           const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
+           const bodyPass = Cypress.env('CYPRESS_GUNDB_PASSWORD')
+           cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 }).then(response => {
             expect(response.body).to.have.property('stillPending')
-          })
+           })
           cy.reload()
           cy.contains('Welcome to GoodDollar!').should('be.visible')
           HomePage.claimButton.should('be.visible')          
           HomePage.claimButton.click()
         }
+      })
+        }
+      })
+
+
 
       SendMoneyPage.dailyClaimText.should('be.visible')
       SendMoneyPage.claimButton.click()
@@ -98,5 +102,4 @@ describe('Test case 7: Ability to send money', () => {
           })
         })
     })
-  })
 })

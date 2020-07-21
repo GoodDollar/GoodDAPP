@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
 // components
@@ -59,6 +59,8 @@ const ExplanationDialog = ({
     resizeMode: 'contain',
   }
 
+  const Image = imageSource
+
   return (
     <View style={styles.container}>
       {errorMessage && (
@@ -69,7 +71,9 @@ const ExplanationDialog = ({
       {ImageComponent ? (
         <ImageComponent {...imageProps} />
       ) : imageSource ? (
-        <Image source={imageSource} {...imageProps} />
+        <View style={styles.centerImage}>
+          <Image {...imageProps} />
+        </View>
       ) : null}
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
         {title}
@@ -90,7 +94,7 @@ const mapStylesToProps = () => ({
   container: {
     display: 'flex',
     justifyContent: 'space-around',
-    height: '100%',
+    maxHeight: '100%',
     marginTop: 'auto',
     marginBottom: 'auto',
     minHeight: getDesignRelativeHeight(310),
@@ -128,6 +132,11 @@ const mapStylesToProps = () => ({
   textModeButton: {
     marginRight: 'auto',
     marginLeft: 'auto',
+  },
+  centerImage: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
 })
 

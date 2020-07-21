@@ -30,7 +30,7 @@ import {
   fireMauticEvent,
 } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isLargeDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import type { DashboardProps } from './Dashboard'
@@ -304,7 +304,7 @@ const Claim = props => {
           {claimState.entitlement > 0 ? (
             <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
               <View style={styles.amountBlock}>
-                <Section.Text color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
+                <Section.Stack color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
                   <BigGoodDollar
                     number={entitlement}
                     formatter={weiToGd}
@@ -324,7 +324,7 @@ const Claim = props => {
                       lineHeight: bigFontSize,
                     }}
                   />
-                </Section.Text>
+                </Section.Stack>
               </View>
             </Section.Row>
           ) : null}
@@ -356,13 +356,13 @@ const Claim = props => {
         />
         <View style={styles.fakeExtraInfoContainer} />
         <Section.Row style={styles.extraInfoContainer}>
-          <Section.Text
+          <Section.Row
             style={[styles.fontSize16, styles.extraInfoSecondContainer]}
             fontWeight="bold"
             fontFamily="Roboto"
           >
             <Section.Text style={styles.fontSize16}>{'Today '}</Section.Text>
-            <Section.Text fontWeight="bold" style={styles.fontSize16}>
+            <Section.Row fontWeight="bold" style={styles.fontSize16}>
               <BigGoodDollar
                 style={styles.extraInfoAmountDisplay}
                 number={get(claimState, 'claimedToday.amount', 0)}
@@ -380,13 +380,13 @@ const Claim = props => {
                   color: 'black',
                 }}
               />
-            </Section.Text>
+            </Section.Row>
             <Section.Text style={styles.fontSize16}>{` Claimed by `}</Section.Text>
             <Section.Text fontWeight="bold" color="black" style={styles.fontSize16}>
               {formattedNumberOfPeopleClaimedToday}{' '}
             </Section.Text>
             <Section.Text style={styles.fontSize16}>Good People</Section.Text>
-          </Section.Text>
+          </Section.Row>
         </Section.Row>
       </Section.Stack>
     </WrapperClaim>
@@ -450,8 +450,8 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
-      marginTop: getDesignRelativeHeight(isBrowser ? 70 : 18),
+      marginBottom: getDesignRelativeHeight(isLargeDevice ? 20 : 16),
+      marginTop: getDesignRelativeHeight(isLargeDevice ? 70 : 18),
     },
     headerText,
     amountBlock: {
@@ -472,7 +472,7 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       zIndex: 1,
       justifyContent: 'flex-end',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+      marginBottom: getDesignRelativeHeight(isLargeDevice ? 16 : 20),
     },
     learnMoreLink,
     claimButtonContainer: {
@@ -488,7 +488,7 @@ const getStylesFromProps = ({ theme }) => {
       height: getDesignRelativeHeight(196),
     },
     extraInfoAmountDisplay: {
-      display: Platform.select({ web: 'contents', default: 'none' }),
+      display: Platform.select({ web: 'contents', default: 'flex' }),
     },
     extraInfoContainer: {
       position: 'absolute',
@@ -497,7 +497,8 @@ const getStylesFromProps = ({ theme }) => {
       width: '100%',
     },
     extraInfoSecondContainer: {
-      width: '100%',
+      flex: 1,
+      justifyContent: 'center',
     },
     fakeExtraInfoContainer: {
       height: getDesignRelativeHeight(45),

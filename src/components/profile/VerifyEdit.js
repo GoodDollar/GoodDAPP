@@ -64,7 +64,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     } finally {
       setLoading(false)
     }
-  }, [setLoading, sendCodeRequestFn, fieldToSend, navigation, field, content, showErrorDialog, goBack])
+  }, [setLoading, navigation, content, goBack])
 
   return (
     <Wrapper>

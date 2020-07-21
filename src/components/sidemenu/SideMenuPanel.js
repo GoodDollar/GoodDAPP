@@ -19,7 +19,7 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
     theme,
   })
 
-  const onPressClose = useOnPress(slideToggle, [slideToggle])
+  const onPressClose = useOnPress(slideToggle)
 
   return (
     <ScrollView contentContainerStyle={styles.scrollableContainer}>

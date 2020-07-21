@@ -22,7 +22,7 @@ const numberColors = [
 ]
 
 const CircleNumber = ({ value, onPress, styles, theme }) => {
-  const _onPress = useOnPress(onPress, [onPress])
+  const _onPress = useOnPress(onPress)
   return (
     <View style={styles.numberColumn}>
       <CustomButton
@@ -46,7 +46,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const { item, onPress, styles, theme } = props
   const buttonPress = useOnPress(() => {
     onPress(item.id)
-  }, [item.id, onPress])
+  }, [item.id])
 
   return (
     <React.Fragment>

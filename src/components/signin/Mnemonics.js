@@ -120,7 +120,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } finally {
       setRecovering(false)
     }
-  }, [setRecovering, mnemonics, ExceptionCategory, mnemonicsHelpers, profileExist, showDialog])
+  }, [setRecovering, mnemonics, profileExist, showDialog])
 
   const handleEnter = (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter') {

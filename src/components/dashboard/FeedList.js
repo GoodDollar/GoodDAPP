@@ -71,7 +71,7 @@ const FeedList = ({
     if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
       flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
     }
-  }, [])
+  })
 
   const keyExtractor = item => item.id
 

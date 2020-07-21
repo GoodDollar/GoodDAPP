@@ -36,9 +36,9 @@ const MagicLinkInfoComponent = props => {
         log.error('failed Resending magiclink', e.message, e, { dialogShown: true })
         showErrorDialog('Could not send magiclink email. Please try again.')
       })
-  }, [userStorage, screenProps, showDialog, showErrorDialog])
+  }, [screenProps])
 
-  const onPressOk = useOnPress(screenProps.pop, [screenProps.pop])
+  const onPressOk = useOnPress(screenProps.pop)
 
   return (
     <Wrapper backgroundColor={props.theme.colors.surface}>

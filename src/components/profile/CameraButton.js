@@ -11,7 +11,7 @@ type CameraButtonProps = {
 }
 
 const CameraButton = ({ handleCameraPress, styles, style, noStyles, containerStyle }: CameraButtonProps) => {
-  const _handleCameraPress = useOnPress(handleCameraPress, [handleCameraPress])
+  const _handleCameraPress = useOnPress(handleCameraPress)
   return (
     <CircleButtonWrapper
       iconSize={22}

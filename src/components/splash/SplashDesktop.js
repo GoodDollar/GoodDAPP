@@ -11,7 +11,7 @@ import QRCode from '../common/view/QrCode/QRCode'
 import useOnPress from '../../lib/hooks/useOnPress'
 
 const SplashDesktop = ({ onContinue, urlForQR }) => {
-  const _onContinue = useOnPress(onContinue, [onContinue])
+  const _onContinue = useOnPress(onContinue)
   return (
     <Wrapper style={styles.wrapper}>
       <Section style={styles.container}>

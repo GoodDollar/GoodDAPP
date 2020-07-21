@@ -15,7 +15,7 @@ type FooterProps = {
 }
 
 const Footer = ({ valid, submitText, handleSubmit, loading }: FooterProps) => {
-  const _handleSubmit = useOnPress(handleSubmit, [handleSubmit])
+  const _handleSubmit = useOnPress(handleSubmit)
   return (
     <CustomButton disabled={!valid || loading} loading={loading} onPress={_handleSubmit} style={{ flex: 1 }}>
       {submitText}

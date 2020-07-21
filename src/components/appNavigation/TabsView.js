@@ -141,6 +141,7 @@ const EmptySpaceComponent = ({ style }) => (
 
 const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()
+  // eslint-disable-next-line no-unused-vars
   const [token, setToken] = useState(isIOSWeb ? undefined : true)
   const [marketToken, setMarketToken] = useState(isIOSWeb ? undefined : true)
 
@@ -160,13 +161,14 @@ const TabsView = ({ navigation }) => {
     fetchTokens()
   }, [])
 
-  const goToRewards = useOnPress(() => {
-    // if (isIOSWeb) {
-    //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
-    //   return window.open(src, '_blank')
-    // }
-    navigation.navigate('Rewards')
-  }, [navigation, token])
+  const goToRewards = useOnPress(navigation.navigate('Rewards'), [navigation])
+
+  // const goToRewards = () => {
+  //   if (isIOSWeb) {
+  //     const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
+  //     return window.open(src, '_blank')
+  //   }
+  // }
 
   /*const goToSupport = useCallback(() => {
     navigation.navigate('Support')

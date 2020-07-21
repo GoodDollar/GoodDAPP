@@ -61,7 +61,7 @@ const ContinueButton = ({ push, to, disabled, checkError }) => (
         return push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
       }
       log.debug(`Oops, no error and no action`)
-    }, [checkError, userStorage, goodWallet, isMobilePhone, isEmail, push, to])}
+    }, [checkError, goodWallet, push, to])}
     disabled={disabled}
     style={{ flex: 2 }}
   >

@@ -12,7 +12,7 @@ export type SideMenuItemProps = {
 }
 
 const SideMenuItem = ({ icon, name, color, action, styles, theme, size, centered }: SideMenuItemProps) => {
-  const _onPress = useOnPress(action, [action])
+  const _onPress = useOnPress(action)
   return (
     <TouchableOpacity style={styles.clickableRow} onPress={_onPress}>
       <View style={[styles.menuIcon, centered && styles.centeredIcon]}>

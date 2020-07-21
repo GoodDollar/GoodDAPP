@@ -67,7 +67,7 @@ const CustomDialog = ({
   const modalColor = getColorFromType(type)
   const textColor = type === 'error' ? 'red' : 'darkGray'
   const color = theme.colors[textColor]
-  const _onPressOk = useOnPress(onDismiss, [onDismiss])
+  const _onPressOk = useOnPress(onDismiss)
   return visible ? (
     <Portal>
       <ModalWrapper

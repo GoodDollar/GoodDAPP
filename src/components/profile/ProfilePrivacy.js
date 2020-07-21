@@ -199,7 +199,7 @@ const ProfilePrivacy = props => {
  * @constructor
  */
 const InfoIcon = ({ color, onPress, size, style }) => {
-  const _onPress = useOnPress(onPress, [onPress])
+  const _onPress = useOnPress(onPress)
   return (
     <TouchableOpacity onPress={_onPress} style={style}>
       <Icon size={size || 16} color={color} name="faq" />

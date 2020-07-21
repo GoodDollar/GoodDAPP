@@ -14,7 +14,7 @@ import type { FeedEventProps } from './FeedItems/EventProps'
  */
 const FeedActions = ({ hasAction, children, actionIcon, onPress, styles, theme }: FeedEventProps) => {
   const backgroundColor = hasAction ? theme.colors.red : 'transparent'
-  const _onPress = useOnPress(onPress, [onPress])
+  const _onPress = useOnPress(onPress)
 
   return (
     <View style={[styles.actionsContainer, { backgroundColor }]}>

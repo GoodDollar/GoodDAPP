@@ -110,7 +110,7 @@ const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnl
 }
 
 const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly, isInQueue }) => {
-  const _onPress = useOnPress(onPress, [onPress])
+  const _onPress = useOnPress(onPress)
   return (
     <CustomButton
       testId="claim_button"
@@ -150,7 +150,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
     }
   }, [entitlement])
 
-  const _onPress = useOnPress(onPress, [onPress])
+  const _onPress = useOnPress(onPress)
 
   if (initialEntitlementRef.current) {
     return (

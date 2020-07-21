@@ -24,7 +24,7 @@ type IconProps = {
  * @returns {React.Node}
  */
 const IconButton = ({ styles, theme, text, onPress, disabled, name, ...iconProps }: IconProps) => {
-  const _onPress = useOnPress(disabled ? undefined : onPress, [disabled, onPress])
+  const _onPress = useOnPress(onPress)
   return (
     <TouchableOpacity cursor={disabled ? 'inherit' : 'pointer'} onPress={_onPress} style={styles.container}>
       <CustomIcon

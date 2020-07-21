@@ -29,7 +29,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title, maxLeng
     })
   }, [])
 
-  const handlePress = useOnPress(() => (isMobile ? Keyboard.dismiss() : null), [isMobile])
+  const handlePress = useOnPress(() => isMobile && Keyboard.dismiss())
 
   return (
     <View style={styles.wrapper}>

@@ -36,7 +36,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const { canShare, generateSendShareObject, generateSendShareText, generateShareLink } = useNativeSharing()
   const currentUserName = store.get('profile').fullName
   const inviteCode = store.get('inviteCode')
-  const _handleModalClose = useOnPress(handleModalClose, [handleModalClose])
+  const _handleModalClose = useOnPress(handleModalClose)
 
   const fireEventAnalytics = actionType => {
     fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })

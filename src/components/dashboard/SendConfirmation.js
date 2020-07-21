@@ -57,7 +57,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     }
 
     fireEvent('SEND_CONFIRMATION_SHARE', { type })
-  }, [isMobile, navigator, paymentLink, showErrorDialog, setString])
+  }, [navigator, paymentLink, setString])
 
   const onPressDone = useOnPress(() => screenProps.goToRoot(), [screenProps.goToRoot])
 

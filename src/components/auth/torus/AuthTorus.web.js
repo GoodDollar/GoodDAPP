@@ -204,8 +204,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     [asGuest, signupAuth0, setPasswordless],
   )
 
-  const signupAuth0Email = useOnPress(() => signupAuth0('email'), [signupAuth0])
-  const signupAuth0Mobile = useOnPress(() => signupAuth0('mobile'), [signupAuth0])
+  const signupAuth0Email = useOnPress(() => signupAuth0('email'))
+  const signupAuth0Mobile = useOnPress(() => signupAuth0('mobile'))
 
   const ShowPasswordless = useMemo(
     () => () => {

@@ -160,7 +160,7 @@ class SmsForm extends React.Component<Props, State> {
 
 const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
   const [showWait, setWait] = useState(true)
-  const _handleRetry = useOnPress(handleRetry, [handleRetry])
+  const _handleRetry = useOnPress(handleRetry)
 
   useEffect(() => {
     if (showWait) {

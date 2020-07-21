@@ -8,7 +8,7 @@ import CloseSVG from './img/close.svg'
 
 const ModalCloseButton = (props: any) => {
   const { styles, onClose } = props
-  const onPress = useOnPress(onClose, [onClose])
+  const onPress = useOnPress(onClose)
 
   return (
     <TouchableOpacity style={styles.modalCloseImageContainer} onPress={onPress}>

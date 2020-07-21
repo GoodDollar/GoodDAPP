@@ -17,7 +17,7 @@ const CircleButtonWrapper = ({
   iconColor,
   iconSize,
 }) => {
-  const _onPress = useOnPress(() => (disabled ? undefined : onPress), [disabled, onPress])
+  const _onPress = useOnPress(onPress)
   return (
     <View style={containerStyle}>
       <TouchableOpacity cursor={disabled ? 'inherit' : 'pointer'} onPress={_onPress} style={[styles.button, style]}>

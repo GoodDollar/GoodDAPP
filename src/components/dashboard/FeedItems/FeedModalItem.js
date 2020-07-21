@@ -27,7 +27,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const { item, onPress, styles, theme, navigation } = props
   const buttonPress = useOnPress(() => {
     onPress(item.id)
-  }, [item, onPress])
+  }, [item])
   const itemType = item.displayType || item.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color

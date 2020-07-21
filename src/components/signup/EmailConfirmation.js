@@ -169,7 +169,7 @@ class EmailConfirmation extends React.Component<Props, State> {
 }
 
 const CodeAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFinish }) => {
-  const _handleRetry = useOnPress(handleRetry, [handleRetry])
+  const _handleRetry = useOnPress(handleRetry)
   if (renderButton) {
     return (
       <SpinnerCheckMark loading={sendingCode} success={resentCode} onFinish={onFinish}>

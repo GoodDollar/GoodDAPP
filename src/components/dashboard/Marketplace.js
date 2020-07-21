@@ -85,7 +85,7 @@ const navBarStyles = {
   },
 }
 
-const NavigationBar = navigate => {
+const NavigationBar = ({ navigate }) => {
   const navigateToHome = useOnPress(() => navigate('Home'), [navigate])
   return (
     <Appbar.Header dark style={navBarStyles.wrapper}>
@@ -101,7 +101,7 @@ const NavigationBar = navigate => {
 
 MarketTab.navigationOptions = ({ navigation }) => {
   return {
-    navigationBar: () => NavigationBar(navigation.navigate),
+    navigationBar: () => <NavigationBar navigate={navigation.navigate} />,
   }
 }
 

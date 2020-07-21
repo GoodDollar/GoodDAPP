@@ -71,7 +71,7 @@ const InputText = ({
     return error ? red : darkGray
   }, [error])
 
-  const _onPress = useOnPress(adornmentAction, [adornmentAction])
+  const _onPress = useOnPress(adornmentAction)
 
   return (
     <View style={[styles.view, containerStyle]}>

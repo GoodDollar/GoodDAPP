@@ -41,7 +41,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
 
   const customDate = new Date(date).toLocaleString(navigator.language, dateOptions)
 
-  const _onPressOk = useOnPress(onDismiss, [onDismiss])
+  const _onPressOk = useOnPress(onDismiss)
 
   return (
     <Portal>

@@ -13,7 +13,7 @@ import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 import embed from './iframe.embed.html'
 
 const wHeight = getMaxDeviceHeight()
-const DOMLoadedDispatcher = embed.replace(/<script.+?>/g, '')
+const DOMLoadedDispatcher = String(embed).replace(/<script.+?>/g, '')
 
 export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home', styles) => {
   const IframeTab = props => {
@@ -67,7 +67,7 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
       },
     }
 
-    const NavigationBar = navigate => {
+    const NavigationBar = ({ navigate }) => {
       const handleBack = useOnPress(() => navigate(backToRoute), [backToRoute, navigate])
       return (
         <Appbar.Header dark style={navBarStyles.wrapper}>
@@ -85,7 +85,7 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
     }
 
     IframeTab.navigationOptions = ({ navigation }) => ({
-      navigationBar: () => NavigationBar(navigation.navigate),
+      navigationBar: () => <NavigationBar navigate={navigation.navigate} />,
     })
   }
 

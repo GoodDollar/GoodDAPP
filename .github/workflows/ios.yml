@@ -11,6 +11,9 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.15.3
       
       - name: Install gpg
         run: brew install gnupg
@@ -66,3 +69,4 @@ jobs:
         run: |
           npm install appcenter-cli@2.3.3
           npx appcenter distribute release --token "${{secrets.APP_CENTER_TOKEN}}" --app "apporg/GoodDollar" --group "group-name" --file "ios/build/GoodDollar.ipa" --release-notes "$(git log -1 --pretty=format:%s)" --debug
+          

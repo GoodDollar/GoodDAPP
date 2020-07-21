@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 
 import Config from '../../config/config'
 
-import ServiceWorkerUpdatedDialog from '../../components/dashboard/ServiceWorkerUpdatedDialog'
+import ServiceWorkerUpdatedDialog from '../../components/common/dialogs/ServiceWorkerUpdatedDialog'
 
 import SimpleStore from '../undux/SimpleStore'
 import { useDialog } from '../undux/utils/dialog'
@@ -41,7 +41,7 @@ export default showPopup => {
       showPopup,
     })
 
-    if (serviceWorkerUpdated || !showPopup) {
+    if (!serviceWorkerUpdated || !showPopup) {
       return
     }
 

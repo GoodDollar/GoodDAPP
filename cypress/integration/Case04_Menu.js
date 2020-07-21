@@ -87,7 +87,7 @@ describe('Test case 4: Check menu items functionality', () => {
     HomePage.backArrow.click()
   })
 
-  it('Check Support page', () => {
+  it.skip('Check Support page', () => {
     HomePage.waitForHomePageDisplayed()
     HomePage.optionsButton.should('be.visible')
     HomePage.optionsButton.click({ force: true })

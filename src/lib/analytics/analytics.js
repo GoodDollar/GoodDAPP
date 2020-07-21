@@ -63,6 +63,7 @@ const isFSEnabled = !!FS
 const isSentryEnabled = !!sentryDSN
 const isAmplitudeEnabled = !!amplitudeKey
 const isGoogleAnalyticsEnabled = !!GoogleAnalytics
+const isMauticEnabled = !!Mautic
 
 /** @private */
 // eslint-disable-next-line require-await
@@ -125,6 +126,7 @@ export const initAnalytics = async () => {
     FS: isFSEnabled,
     Sentry: isSentryEnabled,
     Amplitude: isAmplitudeEnabled,
+    Mautic: isMauticEnabled,
   })
 
   patchLogger()
@@ -198,7 +200,7 @@ export const identifyWith = (email, identifier = null) => {
 export const identifyOnUserSignup = async email => {
   setUserEmail(email)
 
-  if (Mautic && email && ['staging', 'production'].includes(env)) {
+  if (email && ['staging', 'production'].includes(env)) {
     await API.addMauticContact({ email })
   }
 
@@ -207,7 +209,7 @@ export const identifyOnUserSignup = async email => {
     { email },
     {
       FS: isFSEnabled,
-      Mautic: !!email,
+      Mautic: isMauticEnabled && !!email,
       Sentry: isSentryEnabled,
       Amplitude: isAmplitudeEnabled,
     },

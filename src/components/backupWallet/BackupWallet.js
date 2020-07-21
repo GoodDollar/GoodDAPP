@@ -77,7 +77,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     }
   }, [getMnemonics])
 
-  const done = useOnPress(screenProps.pop, [screenProps])
+  const done = useOnPress(screenProps.pop)
 
   return (
     <Wrapper style={styles.mainWrapper}>

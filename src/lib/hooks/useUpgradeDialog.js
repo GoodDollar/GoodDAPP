@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   serviceWorkerDialogWhatsNew: {
     textAlign: 'left',
     fontSize: normalize(14),
+    marginLeft: 0,
   },
 })
 

@@ -21,7 +21,7 @@ export type TypeProps = {
 const { account } = GoodWallet
 
 const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
-  const onPressDone = useOnPress(screenProps.goToRoot, [screenProps])
+  const onPressDone = useOnPress(screenProps.goToRoot, [screenProps.goToRoot])
   return (
     <Wrapper>
       <TopBar push={screenProps.push} hideProfile={false}>

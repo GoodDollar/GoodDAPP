@@ -38,7 +38,7 @@ const MagicLinkInfoComponent = props => {
       })
   }, [userStorage, screenProps, showDialog, showErrorDialog])
 
-  const onPressOk = useOnPress(screenProps.pop)
+  const onPressOk = useOnPress(screenProps.pop, [screenProps.pop])
 
   return (
     <Wrapper backgroundColor={props.theme.colors.surface}>

@@ -16,7 +16,7 @@ type Props = {
 
 const SendToAddress = ({ onPress, styles, theme, ...screenProps }: Props) => {
   const { disabled } = screenProps
-  const _onPress = useOnPress(disabled ? undefined : onPress, [disabled])
+  const _onPress = useOnPress(() => (disabled ? undefined : onPress), [disabled, onPress])
   return (
     <TouchableOpacity style={styles.alignContent} onPress={_onPress}>
       <View style={styles.iconWrapper}>

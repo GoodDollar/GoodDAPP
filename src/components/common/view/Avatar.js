@@ -16,7 +16,7 @@ import useOnPress from '../../../lib/hooks/useOnPress'
  * @returns {React.Node}
  */
 const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, children, unknownStyle, ...avatarProps }) => {
-  const _onPress = useOnPress(onPress)
+  const _onPress = useOnPress(onPress, [onPress])
   return (
     <TouchableOpacity
       activeOpacity={1}

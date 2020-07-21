@@ -68,7 +68,7 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
     }
 
     const NavigationBar = navigate => {
-      const handleBack = useOnPress(() => navigate(backToRoute), [backToRoute])
+      const handleBack = useOnPress(() => navigate(backToRoute), [backToRoute, navigate])
       return (
         <Appbar.Header dark style={navBarStyles.wrapper}>
           <View style={{ width: 48 }} />

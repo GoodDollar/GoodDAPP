@@ -47,7 +47,7 @@ const RewardsTab = props => {
 
   const onPressOk = useOnPress(() => {
     window.open(getRewardsPath(), '_blank')
-  })
+  }, [getRewardsPath])
 
   const onDismiss = useOnPress(() => {
     props.navigation.navigate('Home')

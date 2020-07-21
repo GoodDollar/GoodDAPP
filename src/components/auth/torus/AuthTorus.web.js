@@ -186,14 +186,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleNavigatePrivacyPolicy = useOnPress(() => push('PrivacyPolicy'), [push])
 
   // google button settings
-  const googleButtonHandler = useOnPress(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
+  const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
   const googleButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
   // facebook button settings
-  const facebookButtonHandler = useOnPress(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
+  const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
-  const auth0ButtonHandler = useOnPress(
+  const auth0ButtonHandler = useMemo(
     () =>
       asGuest
         ? () => {

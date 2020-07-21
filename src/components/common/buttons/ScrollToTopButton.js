@@ -7,7 +7,7 @@ import { withStyles } from '../../../lib/styles'
 import useOnPress from '../../../lib/hooks/useOnPress'
 
 const ScrollToTopButton = ({ onPress, styles, style, show }) => {
-  const _onPress = useOnPress(onPress)
+  const _onPress = useOnPress(onPress, [onPress])
   return (
     <Fade show={show}>
       <TouchableWithoutFeedback onPress={_onPress}>

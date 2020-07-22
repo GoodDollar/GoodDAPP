@@ -14,6 +14,7 @@ const ZoomGlobalState = {
   zoomSDKPreloaded: false,
   zoomSDKPreloadFailed: false,
   zoomUnrecoverableError: null,
+  zoomLastInitializeStatus: null,
 }
 
 /**
@@ -111,7 +112,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    const { zoomSDKPreloadFailed, zoomUnrecoverableError } = ZoomGlobalState
+    const { zoomSDKPreloadFailed, zoomUnrecoverableError, zoomLastInitializeStatus } = ZoomGlobalState
     const { zoomLicenseKey, zoomLicenseText, zoomEncryptionKey } = Config
 
     // Helper for handle exceptions
@@ -134,8 +135,12 @@ export default ({ onInitialized = noop, onError = noop }) => {
           await preloadZoomSDK()
         }
 
-        // Initializing ZoOm
-        await ZoomSDK.initialize(zoomLicenseKey, zoomLicenseText, zoomEncryptionKey)
+        // if the previous initialize error was DeviceOrientationError - then zoomSDK already initialized
+        // extended condition if required
+        if (zoomLastInitializeStatus !== 'DeviceOrientationError') {
+          // Initializing ZoOm
+          await ZoomSDK.initialize(zoomLicenseKey, zoomLicenseText, zoomEncryptionKey)
+        }
 
         // Executing onInitialized callback
         onInitializedRef.current()
@@ -148,6 +153,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
         if (kindOfTheIssue) {
           exception.name = kindOfTheIssue
+          ZoomGlobalState.zoomLastInitializeStatus = kindOfTheIssue
         }
 
         // if some unrecoverable error happens

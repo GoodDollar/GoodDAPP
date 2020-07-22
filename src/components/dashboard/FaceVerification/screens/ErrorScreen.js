@@ -44,7 +44,6 @@ const ErrorScreen = ({ styles, screenProps }) => {
     }
 
     if (verificationAttemptsRef.current >= MAX_RETRIES_ALLOWED) {
-      resetAttempts()
       return UnrecoverableError
     }
 
@@ -60,8 +59,18 @@ const ErrorScreen = ({ styles, screenProps }) => {
 
     // tracking attempt here as we should track only "general" error
     // (when "something went wrong on our side")
-    trackNewAttempt(exception.message)
+    if (verificationAttemptsRef.current < MAX_RETRIES_ALLOWED) {
+      trackNewAttempt(exception.message)
+      return
+    }
+
+    resetAttempts()
   }, [])
+
+  const attemptErrMessages = useMemo(() => verificationAttemptErrMessages.concat(exception.message), [
+    verificationAttemptErrMessages,
+    exception,
+  ])
 
   return (
     <ErrorViewComponent
@@ -69,7 +78,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
       displayTitle={displayTitle}
       screenProps={screenProps}
       exception={exception}
-      attemptErrMessages={verificationAttemptErrMessages}
+      attemptErrMessages={attemptErrMessages}
     />
   )
 }

@@ -28,12 +28,13 @@ if (Platform.OS === 'web') {
 
 const UnrecoverableError = ({ styles, exception, attemptErrMessages, screenProps }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
+  const { navigateTo, goToRoot, push } = screenProps
 
   const sdkStatus = get(exception, 'code')
   const isLicenseIssue = [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(sdkStatus)
 
-  const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
-  const onDismiss = useOnPress(() => screenProps.goToRoot(), [screenProps])
+  const onContactSupport = useOnPress(() => navigateTo('Support'), [navigateTo])
+  const onDismiss = useOnPress(() => goToRoot(), [goToRoot])
 
   useEffect(() => {
     if (!isLicenseIssue) {
@@ -46,7 +47,7 @@ const UnrecoverableError = ({ styles, exception, attemptErrMessages, screenProps
       attemptErrMessages,
       dialogShown: true,
     })
-    showSupportDialog(showErrorDialog, hideDialog, screenProps.push, 'Face Verification disabled')
+    showSupportDialog(showErrorDialog, hideDialog, push, 'Face Verification disabled')
   }, [])
 
   if (isLicenseIssue) {

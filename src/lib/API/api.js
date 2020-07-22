@@ -399,7 +399,7 @@ class API {
   addMauticContact(userData: { email: string }) {
     const { MauticJS } = global
     if (MauticJS && Config.mauticUrl && userData.email) {
-      this.mauticJS.makeCORSRequest(
+      MauticJS.makeCORSRequest(
         'POST',
         Config.mauticUrl + '/form/submit',
         {

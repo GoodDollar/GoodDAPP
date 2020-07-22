@@ -186,26 +186,30 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleNavigatePrivacyPolicy = useOnPress(() => push('PrivacyPolicy'), [push])
 
   // google button settings
-  const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
+  const googleButtonHandler = useMemo(useOnPress(() => (asGuest ? signupGoogle : goToW3Site)), [asGuest, signupGoogle])
   const googleButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
   // facebook button settings
-  const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
+  const facebookButtonHandler = useMemo(useOnPress(() => (asGuest ? signupFacebook : goToW3Site)), [
+    asGuest,
+    signupFacebook,
+  ])
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
   const auth0ButtonHandler = useMemo(
-    () =>
+    useOnPress(() =>
       asGuest
         ? () => {
             setPasswordless(true)
             fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
           }
         : goToW3Site,
+    ),
     [asGuest, signupAuth0, setPasswordless],
   )
 
-  const signupAuth0Email = useOnPress(() => signupAuth0('email'))
-  const signupAuth0Mobile = useOnPress(() => signupAuth0('mobile'))
+  const signupAuth0Email = useOnPress(() => signupAuth0('email'), [signupAuth0])
+  const signupAuth0Mobile = useOnPress(() => signupAuth0('mobile'), [signupAuth0])
 
   const ShowPasswordless = useMemo(
     () => () => {

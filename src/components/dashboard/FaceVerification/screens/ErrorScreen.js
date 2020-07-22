@@ -20,7 +20,12 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const kindOfTheIssue = get(exception, 'name')
   const isGeneralError = !kindOfTheIssue || !(kindOfTheIssue in ErrorScreen.kindOfTheIssue)
 
-  const [verificationAttempts, trackNewAttempt, resetAttempts] = useVerificationAttempts()
+  const [
+    verificationAttempts,
+    trackNewAttempt,
+    resetAttempts,
+    verificationAttemptErrMessages,
+  ] = useVerificationAttempts()
 
   // storing first received attempts count into the ref to avoid component re-updated after attempt tracked
   const verificationAttemptsRef = useRef(verificationAttempts)
@@ -55,11 +60,17 @@ const ErrorScreen = ({ styles, screenProps }) => {
 
     // tracking attempt here as we should track only "general" error
     // (when "something went wrong on our side")
-    trackNewAttempt()
+    trackNewAttempt(exception.message)
   }, [])
 
   return (
-    <ErrorViewComponent onRetry={onRetry} displayTitle={displayTitle} screenProps={screenProps} exception={exception} />
+    <ErrorViewComponent
+      onRetry={onRetry}
+      displayTitle={displayTitle}
+      screenProps={screenProps}
+      exception={exception}
+      attemptErrMessages={verificationAttemptErrMessages}
+    />
   )
 }
 

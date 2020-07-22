@@ -48,6 +48,7 @@ const initialState: State = {
     ready: false,
   },
   verificationAttempts: 0,
+  verificationAttemptErrMessages: [],
   isLoggedInCitizen: false,
   isLoggedIn: false,
   profile: {},

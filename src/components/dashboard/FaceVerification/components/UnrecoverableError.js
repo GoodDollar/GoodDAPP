@@ -26,7 +26,7 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const UnrecoverableError = ({ styles, exception, screenProps }) => {
+const UnrecoverableError = ({ styles, exception, attemptErrMessages, screenProps }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
 
   const sdkStatus = get(exception, 'code')
@@ -42,7 +42,10 @@ const UnrecoverableError = ({ styles, exception, screenProps }) => {
     }
 
     // if user is not in whitelist and we do not do faceverification then this is an error
-    log.error('FaceVerification failed', '', exception, { dialogShown: true })
+    log.error('FaceVerification failed - try again later fired:', exception.message, exception, {
+      attemptErrMessages,
+      dialogShown: true,
+    })
     showSupportDialog(showErrorDialog, hideDialog, screenProps.push, 'Face Verification disabled')
   }, [])
 

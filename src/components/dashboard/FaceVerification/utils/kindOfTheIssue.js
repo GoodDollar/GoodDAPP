@@ -111,6 +111,8 @@ const kindOfSDKIssuesMap = mapValues(
 
       // The provided public encryption key is missing or invalid.
       'EncryptionKeyInvalid',
+
+      'IFrameNotAllowedWithoutPermission',
     ],
   },
   statusTransformer(ZoomSDKStatus),

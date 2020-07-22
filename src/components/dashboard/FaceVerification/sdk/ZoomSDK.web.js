@@ -84,11 +84,22 @@ export const ZoomSDK = new class {
     // waiting for Zoom preload to be finished before starting initialization
     await this.ensureZoomIsntPreloading()
 
+    const sdkStatus = sdk.getStatus()
+
+    logger.debug('zoom sdk status', { sdkStatus })
+
     // checking the last retrieved status code
     // if Zoom was already initialized successfully,
     // then resolving immediately
-    if (ZoomSDKStatus.Initialized === sdk.getStatus()) {
+    if (ZoomSDKStatus.Initialized === sdkStatus) {
       return true
+    }
+
+    // the initialization will be invoked always when user enter FV first time in separate session
+    // we dont need to invoke initialize again if some non-unrecoverable errors occurred
+    // but we need to invoke initialize when these statuses appear:
+    if (![ZoomSDKStatus.NeverInitialized, ZoomSDKStatus.NetworkIssues].includes(sdkStatus)) {
+      this.onInitializeFailed()
     }
 
     try {
@@ -179,7 +190,10 @@ export const ZoomSDK = new class {
 
       throw exception
     }
+  }
 
+  onInitializeFailed() {
+    const { sdk, logger } = this
     const sdkStatus = sdk.getStatus()
 
     // retrieving full description from status code

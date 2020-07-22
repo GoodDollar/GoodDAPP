@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { StyleSheet } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner'
 
@@ -9,6 +9,9 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
+import usePermissions from '../permissions/hooks/usePermissions'
+import { Permissions } from '../permissions/types'
+import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const log = logger.child({ from: 'SendByQR' })
@@ -19,6 +22,15 @@ type Props = {
 
 const SendByQR = ({ screenProps }: Props) => {
   const store = SimpleStore.useStore()
+  const { pop, push, navigateTo } = screenProps
+
+  const handlePermissionDenied = useCallback(() => pop(), [pop])
+
+  const hasCameraAccess = usePermissions(Permissions.Camera, {
+    promptPopup: QRCameraPermissionDialog,
+    onDenied: handlePermissionDenied,
+    navigate: navigateTo,
+  })
 
   const handleScan = async ({ data }) => {
     if (data) {
@@ -30,7 +42,7 @@ const SendByQR = ({ screenProps }: Props) => {
 
         const { route, params } = await routeAndPathForCode('sendByQR', code)
 
-        screenProps.push(route, params)
+        push(route, params)
       } catch (e) {
         log.error('QR reader send error', e.message, e)
         throw e
@@ -40,10 +52,12 @@ const SendByQR = ({ screenProps }: Props) => {
 
   return (
     <Wrapper>
-      <TopBar hideProfile={false} profileAsLink={false} hideBalance={true} push={screenProps.push} />
+      <TopBar hideProfile={false} profileAsLink={false} hideBalance={true} push={push} />
       <Section style={styles.bottomSection}>
         <Section.Row>
-          <QRCodeScanner onRead={wrapFunction(handleScan, store)} cameraStyle={styles.centeredCamera} />
+          {hasCameraAccess && (
+            <QRCodeScanner onRead={wrapFunction(handleScan, store)} cameraStyle={styles.centeredCamera} />
+          )}
         </Section.Row>
       </Section>
     </Wrapper>

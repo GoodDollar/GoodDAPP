@@ -70,7 +70,7 @@ describe('Test case 4: Check menu items functionality', () => {
   it('Check Statistics page', () => {
     HomePage.waitForHomePageDisplayed()
     HomePage.optionsButton.should('be.visible')
-    HomePage.optionsButton.click()
+    HomePage.optionsButton.click({ force: true })
     cy.contains('Statistics').click()
     StatisticsPage.headerPage.should('be.visible').contains('Statistics')
     StatisticsPage.iframe.find(StatisticsPage.container).should('be.visible')

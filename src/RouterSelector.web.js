@@ -99,7 +99,6 @@ let AppRouter = React.lazy(async () => {
       .then(({ init }) => init())
       .then(() => log.debug('storage and wallet ready')),
 
-    delay(animationDuration),
   ])
 
   log.debug('router ready')

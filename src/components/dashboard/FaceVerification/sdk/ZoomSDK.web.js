@@ -78,8 +78,8 @@ export const ZoomSDK = new class {
   }
 
   async initialize(licenseKey, licenseText = null, encryptionKey = null) {
-    let license = null
-    const { sdk, logger, criticalPreloadException } = this
+    const { sdk, logger } = this
+    const { Initialized, NeverInitialized, NetworkIssues, DeviceInLandscapeMode } = ZoomSDKStatus
 
     // waiting for Zoom preload to be finished before starting initialization
     await this.ensureZoomIsntPreloading()
@@ -88,19 +88,27 @@ export const ZoomSDK = new class {
 
     logger.debug('zoom sdk status', { sdkStatus })
 
-    // checking the last retrieved status code
-    // if Zoom was already initialized successfully,
-    // then resolving immediately
-    if (ZoomSDKStatus.Initialized === sdkStatus) {
-      return true
-    }
+    switch (sdkStatus) {
+      case Initialized:
+      case DeviceInLandscapeMode:
+        // we dont need to invoke initialize again if some non-unrecoverable errors occurred eslint-disable-line
+        this.configureLocalization()
+        return true
 
-    // the initialization will be invoked always when user enter FV first time in separate session
-    // we dont need to invoke initialize again if some non-unrecoverable errors occurred
-    // but we need to invoke initialize when these statuses appear:
-    if (![ZoomSDKStatus.NeverInitialized, ZoomSDKStatus.NetworkIssues].includes(sdkStatus)) {
-      this.onInitializeFailed()
+      case NeverInitialized:
+      case NetworkIssues:
+        // we need to invoke initialize again if network issues happened during last call
+        return this.initializationAttempt(licenseKey, licenseText, encryptionKey)
+
+      default:
+        // for other error status just re-throwing the corresponding exceptions
+        this.throwExceptionFromStatus(sdkStatus)
     }
+  }
+
+  async initializationAttempt(licenseKey, licenseText, encryptionKey) {
+    let license = null
+    const { sdk, criticalPreloadException } = this
 
     try {
       // re-throw critical exception (e.g.65391) if happened during preload
@@ -167,12 +175,8 @@ export const ZoomSDK = new class {
 
       // if Zoom was initialized successfully
       if (isInitialized) {
-        // customizing UI texts. Doing it here, according the docs:
-        //
-        // Note: configureLocalization() MUST BE called after initialize() or initializeWithLicense().
-        // @see https://dev.facetec.com/#/string-customization-guide?link=overriding-system-settings (scroll back one paragraph)
-        //
-        sdk.configureLocalization(UITextStrings.toJSON())
+        // customizing texts after initializaiton, according the docs
+        this.configureLocalization()
 
         // resolving
         return isInitialized
@@ -190,25 +194,43 @@ export const ZoomSDK = new class {
 
       throw exception
     }
-  }
 
-  onInitializeFailed() {
-    const { sdk, logger } = this
     const sdkStatus = sdk.getStatus()
 
+    if (ZoomSDKStatus.NeverInitialized === sdkStatus) {
+      // handling the case when we're trying to run SDK on emulated device
+      const exception = new Error(
+        "Initialize wasn't attempted as emulated device has been detected. " +
+          'FaceTec ZoomSDK could be ran on the real devices only',
+      )
+
+      exception.code = sdkStatus
+      throw exception
+    }
+
+    // otherwise throwing exception based on the new status we've got after initialize() call
+    this.throwExceptionFromStatus(sdkStatus)
+  }
+
+  configureLocalization() {
+    // customizing UI texts. This method should be invoked after successfull initializatoin, according the docs:
+    //
+    // Note: configureLocalization() MUST BE called after initialize() or initializeWithLicense().
+    // @see https://dev.facetec.com/#/string-customization-guide?link=overriding-system-settings (scroll back one paragraph)
+    //
+    this.sdk.configureLocalization(UITextStrings.toJSON())
+  }
+
+  throwExceptionFromStatus(sdkStatus) {
+    const { sdk, logger } = this
+
     // retrieving full description from status code
-    const exception = new Error(
-      ZoomSDKStatus.NeverInitialized === sdkStatus
-        ? "Initialize wasn't attempted as emulated device has been detected. " +
-          'FaceTec ZoomSDK could be ran on the real devices only'
-        : sdk.getFriendlyDescriptionForZoomSDKStatus(sdkStatus),
-    )
+    const exception = new Error(sdk.getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
 
     // adding status code as error's object property
     exception.code = sdkStatus
     logger.warn('initialize failed', { exception })
 
-    // rejecting with an error
     throw exception
   }
 

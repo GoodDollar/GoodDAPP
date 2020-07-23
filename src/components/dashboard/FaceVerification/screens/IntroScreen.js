@@ -32,13 +32,13 @@ const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.paddingVertical20}>
-    <Text style={styles.textStyle} fontSize={14}>
-      <Text style={[styles.textStyle, styles.paddingTop20]} fontSize={14} fontWeight="bold">
+    <Text style={styles.textStyle}>
+      <Text style={[styles.textStyle, styles.paddingTop20]} fontWeight="bold">
         {'Since you’ve just deleted your wallet, '}
       </Text>
       you will have to wait 24 hours until you can claim.
     </Text>
-    <Text style={[styles.textStyle, styles.paddingTop20]} fontSize={14}>
+    <Text style={[styles.textStyle, styles.paddingTop20]}>
       {'This is to prevent fraud and misuse.\nSorry for the inconvenience.'}
     </Text>
   </View>

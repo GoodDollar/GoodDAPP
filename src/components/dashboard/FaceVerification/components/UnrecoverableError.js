@@ -37,8 +37,10 @@ const UnrecoverableError = ({ styles, exception, attemptErrMessages, screenProps
   const onDismiss = useOnPress(() => goToRoot(), [goToRoot])
 
   useEffect(() => {
+    // logging error every time unrecoverable error screen shown to send failed attempt messages to the sentry, amplitude
     log.error('FaceVerification failed - try again later fired:', exception.message, exception, {
       attemptErrMessages,
+      isLicenseIssue,
       dialogShown: isLicenseIssue,
     })
 

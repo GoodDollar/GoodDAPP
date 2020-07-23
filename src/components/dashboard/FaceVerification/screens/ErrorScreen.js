@@ -53,20 +53,28 @@ const ErrorScreen = ({ styles, screenProps }) => {
   }, [kindOfTheIssue, resetAttempts])
 
   useEffect(() => {
-    if (!isGeneralError) {
+    // tracking attempt here as we should track only "general" error
+    // (when "something went wrong on our side")
+    // if there will be a Human errors (like DeviceOrientation or Permission errors)
+    // it will be skip and do not consider as failed attempt
+    if (!isGeneralError && kindOfTheIssue !== 'DeviceOrientationError') {
       return
     }
 
-    // tracking attempt here as we should track only "general" error
-    // (when "something went wrong on our side")
+    // tracking all attempts except the last one
+    // after the last FV fail the unrecoverable error screen will be displayed
     if (verificationAttemptsRef.current < MAX_RETRIES_ALLOWED) {
+      // track attempt and save its message
       trackNewAttempt(exception.message)
       return
     }
 
+    // reset/clear saved attempts count and messages
     resetAttempts()
   }, [])
 
+  // the last failed attempt won't be tracked
+  // so concating saved attempt messages with the latest received and pass to unrecoverable component
   const attemptErrMessages = useMemo(() => verificationAttemptErrMessages.concat(exception.message), [
     verificationAttemptErrMessages,
     exception,

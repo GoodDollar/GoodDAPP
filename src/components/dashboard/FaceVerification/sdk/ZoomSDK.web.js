@@ -91,7 +91,7 @@ export const ZoomSDK = new class {
     switch (sdkStatus) {
       case Initialized:
       case DeviceInLandscapeMode:
-        // we dont need to invoke initialize again if some non-unrecoverable errors occurred eslint-disable-line
+        // we dont need to invoke initialize again if some non-unrecoverable errors occurred
         this.configureLocalization()
         return true
 

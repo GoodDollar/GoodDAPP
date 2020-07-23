@@ -3,7 +3,6 @@
 // libraries
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import QrReader from 'react-qr-reader'
 
 // components
 import { Section, Wrapper } from '../common'
@@ -20,6 +19,7 @@ import { extractQueryParams, readCode } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
+import QrReader from './QR/QRScanner'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
@@ -100,7 +100,7 @@ const SendByQR = ({ screenProps }: Props) => {
               delay={qrDelay}
               onError={handleError}
               onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
-              style={{ width: '100%' }}
+              styles={styles}
             />
           )}
         </Section.Row>
@@ -112,6 +112,9 @@ const SendByQR = ({ screenProps }: Props) => {
 const styles = StyleSheet.create({
   bottomSection: {
     flex: 1,
+  },
+  centeredCamera: {
+    maxWidth: '100%',
   },
 })
 

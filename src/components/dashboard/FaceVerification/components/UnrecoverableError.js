@@ -37,16 +37,17 @@ const UnrecoverableError = ({ styles, exception, attemptErrMessages, screenProps
   const onDismiss = useOnPress(() => goToRoot(), [goToRoot])
 
   useEffect(() => {
+    log.error('FaceVerification failed - try again later fired:', exception.message, exception, {
+      attemptErrMessages,
+      dialogShown: isLicenseIssue,
+    })
+
     if (!isLicenseIssue) {
-      fireEvent(FV_TRYAGAINLATER)
+      fireEvent(FV_TRYAGAINLATER, { attemptErrMessages })
       return
     }
 
     // if user is not in whitelist and we do not do faceverification then this is an error
-    log.error('FaceVerification failed - try again later fired:', exception.message, exception, {
-      attemptErrMessages,
-      dialogShown: true,
-    })
     showSupportDialog(showErrorDialog, hideDialog, push, 'Face Verification disabled')
   }, [])
 

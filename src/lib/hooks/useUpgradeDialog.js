@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from 'react'
-import { StyleSheet } from 'react-native'
+import React, { useCallback, useEffect, useRef } from 'react'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 
 import API from '../../lib/API/api'
 import Config from '../../config/config'
 
+import Text from '../../components/common/layout/SectionText'
 import { NewReleaseDialog, RegularDialog } from '../../components/common/dialogs/ServiceWorkerUpdatedDialog'
 
 import SimpleStore from '../undux/SimpleStore'
 import { useDialog } from '../undux/utils/dialog'
 
-import normalize from '../utils/normalizeText'
 import logger from '../logger/pino-logger'
 
 import { theme } from '../../components/theme/styles'
@@ -26,11 +26,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   serviceWorkerDialogWhatsNew: {
-    textAlign: 'left',
-    fontSize: normalize(14),
-    marginLeft: 0,
+    justifyContent: 'center',
+    cursor: 'pointer',
   },
 })
+
+const WhatsNewButtonComponent = () => {
+  const handlePress = useCallback(() => window.open(Config.newVersionUrl, '_blank'), [])
+
+  return (
+    <TouchableOpacity onPress={handlePress} style={styles.serviceWorkerDialogWhatsNew}>
+      <Text fontSize={14} lineHeight={20} fontWeight="medium" color="gray80Percent">
+        WHAT’S NEW?
+      </Text>
+    </TouchableOpacity>
+  )
+}
 
 export default () => {
   const [showDialog] = useDialog()
@@ -60,13 +71,8 @@ export default () => {
         buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
         buttons: [
           {
-            text: 'WHAT’S NEW?',
-            mode: 'text',
-            color: theme.colors.gray80Percent,
-            style: styles.serviceWorkerDialogWhatsNew,
-            onPress: () => {
-              window.open(Config.newVersionUrl, '_blank')
-            },
+            mode: 'custom',
+            Component: WhatsNewButtonComponent,
           },
           {
             text: 'UPDATE',

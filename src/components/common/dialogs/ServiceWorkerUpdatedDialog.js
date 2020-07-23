@@ -9,7 +9,6 @@ import JumpingPeopleAnimation from '../animations/JumpingPeople'
 // utils
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import Config from '../../../config/config'
 import { isBrowser } from '../../../lib/utils/platform'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 
@@ -62,7 +61,7 @@ const dialogStyles = ({ theme }) => {
   }
 }
 
-const RegularComponent = ({ styles, theme }) => (
+export const RegularDialog = withStyles(dialogStyles)(({ styles, theme }) => (
   <View>
     <View style={styles.imageContainer}>
       <Image source={UpdateVersion} style={styles.image} />
@@ -83,9 +82,9 @@ const RegularComponent = ({ styles, theme }) => (
       </Text>
     </View>
   </View>
-)
+))
 
-const Phase1Component = ({ styles, theme }) => (
+export const NewReleaseDialog = withStyles(dialogStyles)(({ styles, theme }) => (
   <View>
     <View style={styles.imageContainer}>
       <View style={styles.animation}>
@@ -119,6 +118,4 @@ const Phase1Component = ({ styles, theme }) => (
       </Text>
     </View>
   </View>
-)
-
-export default withStyles(dialogStyles)(Config.isPhaseOne ? Phase1Component : RegularComponent)
+))

@@ -418,6 +418,12 @@ class API {
       })
     }
   }
+
+  async getActualPhase() {
+    const { data } = await this.client.get('/phase')
+
+    return data.phase
+  }
 }
 
 const api = new API()

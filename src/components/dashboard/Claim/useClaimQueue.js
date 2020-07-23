@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
+import { get } from 'lodash'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import API from '../../../lib/API/api'
@@ -41,8 +42,8 @@ export default () => {
         setQueueStatus(inQueue)
       }
 
-      log.debug('CLAIM', { inQueue })
-      if (inQueue || addToQueue) {
+      log.debug('queue status from userproperties:', { inQueue })
+      if (get(inQueue, 'status') === 'pending' || addToQueue) {
         const {
           data: { ok, queue },
         } = await API.checkQueueStatus()
@@ -55,7 +56,7 @@ export default () => {
           userStorage.userProperties.set('claimQueueAdded', queue)
         }
 
-        log.debug('CLAIM', { queue })
+        log.debug('queue stats from api:', { queue })
         setQueueStatus(queue)
         return queue
       }
@@ -70,6 +71,7 @@ export default () => {
       //if user has no queue status, we try to add him to queue
       let { status } = queueStatus || (await checkQueueStatus(true)) || {}
 
+      //this will only trigger the first time, since in subsequent loads claim button is disabled
       if (status === 'pending') {
         showQueueDialog(ClaimQueuePopupText)
         return false

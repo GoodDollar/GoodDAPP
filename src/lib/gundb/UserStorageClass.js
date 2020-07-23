@@ -2544,6 +2544,14 @@ export class UserStorage {
             .catch(r => ({
               profile: 'failed',
             })),
+          this.userProperties
+            .reset()
+            .then(r => ({
+              userprops: 'ok',
+            }))
+            .catch(r => ({
+              userprops: 'failed',
+            })),
 
           //dont delete anything, everything is encrypted. nullified nodes in gun
           //can break stuff if user recreates account with same credentials

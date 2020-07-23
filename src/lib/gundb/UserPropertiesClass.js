@@ -87,4 +87,8 @@ export default class UserProperties {
   getAll() {
     return this.data
   }
+
+  reset() {
+    return this.gun.secret(UserProperties.defaultProperties)
+  }
 }

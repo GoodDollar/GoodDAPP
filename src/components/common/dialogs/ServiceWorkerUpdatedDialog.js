@@ -84,38 +84,42 @@ export const RegularDialog = withStyles(dialogStyles)(({ styles, theme }) => (
   </View>
 ))
 
-export const NewReleaseDialog = withStyles(dialogStyles)(({ styles, theme }) => (
-  <View>
-    <View style={styles.imageContainer}>
-      <View style={styles.animation}>
-        <JumpingPeopleAnimation />
+export const NewReleaseDialog = withStyles(dialogStyles)(({ styles, theme }) => {
+  const textStyles = { fontSize: 14, lineHeight: isSmallDevice ? 30 : 26 }
+
+  return (
+    <View>
+      <View style={styles.imageContainer}>
+        <View style={styles.animation}>
+          <JumpingPeopleAnimation />
+        </View>
+        <Text
+          fontSize={26}
+          lineHeight={38}
+          textAlign="left"
+          fontWeight="bold"
+          color={theme.colors.green}
+          style={[styles.title, styles.phase1Title]}
+        >
+          Good news: We’re Live!
+        </Text>
       </View>
-      <Text
-        fontSize={26}
-        lineHeight={38}
-        textAlign="left"
-        fontWeight="bold"
-        color={theme.colors.green}
-        style={[styles.title, styles.phase1Title]}
-      >
-        Good news: We’re Live!
-      </Text>
+      <View style={styles.description}>
+        <Text {...textStyles} textAlign="left" color={theme.colors.darkGray}>
+          <Text {...textStyles} fontWeight="bold">
+            1.
+          </Text>
+          {' Click ‘update’\n'}
+          <Text {...textStyles} fontWeight="bold">
+            2.
+          </Text>
+          {` Sign up (one last time, we promise${isSmallDevice ? '' : ':)'})\n`}
+          <Text {...textStyles} fontWeight="bold">
+            3.
+          </Text>
+          {' Start claiming your free REAL G$’s'}
+        </Text>
+      </View>
     </View>
-    <View style={styles.description}>
-      <Text fontSize={14} lineHeight={26} textAlign="left" color={theme.colors.darkGray}>
-        <Text fontSize={14} lineHeight={26} fontWeight="bold">
-          1.
-        </Text>
-        {' Click ‘update’\n'}
-        <Text fontSize={14} lineHeight={26} fontWeight="bold">
-          2.
-        </Text>
-        {` Sign up (one last time, we promise${isSmallDevice ? '' : ':)'})\n`}
-        <Text fontSize={14} lineHeight={26} fontWeight="bold">
-          3.
-        </Text>
-        {' Start claiming your free REAL G$’s'}
-      </Text>
-    </View>
-  </View>
-))
+  )
+})

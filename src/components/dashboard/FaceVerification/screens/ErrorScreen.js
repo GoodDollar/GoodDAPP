@@ -57,7 +57,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
     // (when "something went wrong on our side")
     // if there will be a Human errors (like DeviceOrientation or Permission errors)
     // it will be skip and do not consider as failed attempt
-    if (!isGeneralError && kindOfTheIssue !== 'DeviceOrientationError') {
+    if (!isGeneralError && kindOfTheIssue !== 'DuplicateFoundError') {
       return
     }
 

@@ -1,3 +1,4 @@
+import { isUndefined } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { env } from '../lib/utils/env'
 
@@ -8,12 +9,25 @@ const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location
 const isEToro = process.env.REACT_APP_ETORO === 'true' || process.env.REACT_APP_NETWORK === 'etoro'
 const forceLogLevel = window && window.location && window.location.search.match(/level=(.*?)($|&)/)
 
+let phase = process.env.REACT_APP_RELEASE_PHASE
+
+if (isUndefined(phase)) {
+  phase = ('true' === process.env.REACT_APP_ENV_PHASE_ONE) ? 1 : 0
+}
+
+const isPhaseZero = 0 === phase
+const isPhaseOne = 1 === phase
+const isPhaseTwo = 2 === phase
+
 const Config = {
   env,
   version: process.env.VERSION || 'v0',
   contractsVersion,
   isEToro,
-  isPhaseZero: 'true' === process.env.REACT_APP_ENV_PHASE_ZERO,
+  phase,
+  isPhaseZero,
+  isPhaseOne,
+  isPhaseTwo,
   newVersionUrl: process.env.REACT_APP_NEW_VERSION_URL || 'https://whatsnew.gooddollar.org',
   logLevel: (forceLogLevel && forceLogLevel[1]) || process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',

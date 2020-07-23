@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { StyleSheet } from 'react-native'
 
+import API from '../../lib/API/api'
 import Config from '../../config/config'
 
-import ServiceWorkerUpdatedDialog from '../../components/common/dialogs/ServiceWorkerUpdatedDialog'
+import { NewReleaseDialog, RegularDialog } from '../../components/common/dialogs/ServiceWorkerUpdatedDialog'
 
 import SimpleStore from '../undux/SimpleStore'
 import { useDialog } from '../undux/utils/dialog'
@@ -35,8 +36,15 @@ export default () => {
   const [showDialog] = useDialog()
   const store = SimpleStore.useStore()
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
+  const actualPhaseRef = useRef(null)
 
   useEffect(() => {
+    actualPhaseRef.current = API.getActualPhase()
+  }, [])
+
+  useEffect(() => {
+    const { phase } = Config
+
     log.info('service worker updated', {
       serviceWorkerUpdated,
     })
@@ -45,33 +53,35 @@ export default () => {
       return
     }
 
-    showDialog({
-      showCloseButtons: false,
-      content: <ServiceWorkerUpdatedDialog />,
-      buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
-      buttons: [
-        {
-          text: 'WHAT’S NEW?',
-          mode: 'text',
-          color: theme.colors.gray80Percent,
-          style: styles.serviceWorkerDialogWhatsNew,
-          onPress: () => {
-            window.open(Config.newVersionUrl, '_blank')
+    actualPhaseRef.current.then(actualPhase =>
+      showDialog({
+        showCloseButtons: false,
+        content: phase === actualPhase ? <RegularDialog /> : <NewReleaseDialog />,
+        buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
+        buttons: [
+          {
+            text: 'WHAT’S NEW?',
+            mode: 'text',
+            color: theme.colors.gray80Percent,
+            style: styles.serviceWorkerDialogWhatsNew,
+            onPress: () => {
+              window.open(Config.newVersionUrl, '_blank')
+            },
           },
-        },
-        {
-          text: 'UPDATE',
-          onPress: () => {
-            const { waiting, active } = serviceWorkerUpdated || {}
+          {
+            text: 'UPDATE',
+            onPress: () => {
+              const { waiting, active } = serviceWorkerUpdated || {}
 
-            if (waiting && waiting.postMessage) {
-              log.debug('service worker:', 'sending skip waiting', active.clients)
+              if (waiting && waiting.postMessage) {
+                log.debug('service worker:', 'sending skip waiting', active.clients)
 
-              waiting.postMessage({ type: 'SKIP_WAITING' })
-            }
+                waiting.postMessage({ type: 'SKIP_WAITING' })
+              }
+            },
           },
-        },
-      ],
-    })
+        ],
+      })
+    )
   }, [serviceWorkerUpdated])
 }

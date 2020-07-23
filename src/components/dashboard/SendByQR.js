@@ -113,10 +113,6 @@ const styles = StyleSheet.create({
   bottomSection: {
     flex: 1,
   },
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'baseline',
-  },
   centeredCamera: {
     maxWidth: '100%',
   },

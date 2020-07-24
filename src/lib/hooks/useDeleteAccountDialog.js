@@ -31,7 +31,7 @@ export const deleteGunDB = () => {
   })
 }
 
-export default ({ API, showErrorDialog, store, theme }) => {
+export default ({ API, showErrorDialog, theme }) => {
   const deleteHandler = useOnPress(async () => {
     showErrorDialog('', '', {
       title: 'ARE YOU SURE?',
@@ -40,6 +40,7 @@ export default ({ API, showErrorDialog, store, theme }) => {
       image: <LoadingIcon />,
       showButtons: false,
     })
+    
     try {
       const userStorage = await retryImport(() => import('../gundb/UserStorage')).then(_ => _.default)
 
@@ -69,7 +70,7 @@ export default ({ API, showErrorDialog, store, theme }) => {
       log.error('Error deleting account', e.message, e, { dialogShown: true })
       showErrorDialog('There was a problem deleting your account. Try again later.')
     }
-  }, [])
+  }, [showErrorDialog, API])
 
   return useCallback(
     () =>
@@ -87,6 +88,6 @@ export default ({ API, showErrorDialog, store, theme }) => {
           },
         ],
       }),
-    [API, showErrorDialog, store, theme],
+    [deleteHandler, theme],
   )
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { get } from 'lodash'
 
 import CameraNotAllowedError from '../components/CameraNotAllowedError'
@@ -18,12 +18,9 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
   const exception = get(screenProps, 'screenState.error')
   const kindOfTheIssue = get(exception, 'name')
-  const isGeneralError = !kindOfTheIssue || !(kindOfTheIssue in ErrorScreen.kindOfTheIssue)
 
+  const [isTracked, setTracked] = useState(false)
   const { attemptsCount, trackAttempt, resetAttempts, attemptsHistory } = useVerificationAttempts()
-
-  // storing first received attempts count into the ref to avoid component re-updated after attempt tracked
-  const verificationAttemptsRef = useRef(attemptsCount)
 
   const displayTitle = useMemo(() => {
     const { fullName } = store.get('profile')
@@ -34,43 +31,39 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])
 
   const ErrorViewComponent = useMemo(() => {
-    if (!isGeneralError) {
-      return ErrorScreen.kindOfTheIssue[kindOfTheIssue]
-    }
+    const { kindOfTheIssue: map } = ErrorScreen
 
-    if (verificationAttemptsRef.current >= MAX_RETRIES_ALLOWED) {
+    // if reached max retries - showing 'something went wrong our side'
+    if (attemptsCount >= MAX_RETRIES_ALLOWED) {
       return UnrecoverableError
     }
 
+    if (kindOfTheIssue in map) {
+      return map[kindOfTheIssue]
+    }
+
     return GeneralError
+  }, [kindOfTheIssue, attemptsCount])
 
-    // isGeneralError depends from kindOfTheIssue so we could omit it in the deps list
-  }, [kindOfTheIssue])
-
+  // exception tracking
   useEffect(() => {
-    // tracking attempt here as we should track only "general" error
-    // (when "something went wrong on our side")
-    // if there will be a Human errors (like DeviceOrientation or Permission errors)
-    // it will be skip and do not consider as failed attempt
-    if (!isGeneralError && kindOfTheIssue !== 'DuplicateFoundError') {
-      return
+    if (attemptsCount > MAX_RETRIES_ALLOWED) {
+      // reset/clear saved attempts count and messages
+      // if exceeded max retries during last error screen shown
+      resetAttempts()
     }
 
-    // tracking all attempts except the last one
-    // after the last FV fail the unrecoverable error screen will be displayed
-    if (verificationAttemptsRef.current < MAX_RETRIES_ALLOWED) {
-      // track attempt and save its message
-      trackAttempt(exception)
-      return
-    }
+    // track attempt and save its exception
+    trackAttempt(exception)
 
-    // reset/clear saved attempts count and messages
-    resetAttempts()
+    // setting tracked flag
+    setTracked(true)
   }, [])
 
-  // the last failed attempt won't be tracked
-  // so concating saved attempt messages with the latest received and pass to unrecoverable component
-  const attemptErrMessages = useMemo(() => attemptsHistory.concat([exception]), [attemptsHistory, exception])
+  // rendering error screen once we've tracked an exception to avoid screens shift
+  if (!isTracked) {
+    return null
+  }
 
   return (
     <ErrorViewComponent
@@ -78,7 +71,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
       displayTitle={displayTitle}
       screenProps={screenProps}
       exception={exception}
-      attemptErrMessages={attemptErrMessages}
+      attemptErrMessages={attemptsHistory}
     />
   )
 }

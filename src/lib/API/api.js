@@ -371,7 +371,7 @@ class API {
   }
 
   async getActualPhase() {
-    const { data } = await this.client.get('/phase')
+    const { data } = await this.client.get('/verify/phase')
 
     return data.phase
   }

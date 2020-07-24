@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { Image, Platform, View } from 'react-native'
-import { get } from 'lodash'
+import { get, map } from 'lodash'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
 import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
@@ -26,7 +26,7 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const UnrecoverableError = ({ styles, exception, attemptErrMessages, screenProps }) => {
+const UnrecoverableError = ({ styles, exception, attemptsHistory, screenProps }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
   const { navigateTo, goToRoot, push } = screenProps
 
@@ -36,16 +36,18 @@ const UnrecoverableError = ({ styles, exception, attemptErrMessages, screenProps
   const onContactSupport = useOnPress(() => navigateTo('Support'), [navigateTo])
   const onDismiss = useOnPress(() => goToRoot(), [goToRoot])
 
+  const attemptsErrorMessages = useMemo(() => map(attemptsHistory, 'message'), [attemptsHistory])
+
   useEffect(() => {
     // logging error every time unrecoverable error screen shown to send failed attempt messages to the sentry, amplitude
     log.error('FaceVerification failed - try again later fired:', exception.message, exception, {
-      attemptErrMessages,
       isLicenseIssue,
+      attemptsErrorMessages,
       dialogShown: isLicenseIssue,
     })
 
     if (!isLicenseIssue) {
-      fireEvent(FV_TRYAGAINLATER, { attemptErrMessages })
+      fireEvent(FV_TRYAGAINLATER, { attemptsErrorMessages })
       return
     }
 

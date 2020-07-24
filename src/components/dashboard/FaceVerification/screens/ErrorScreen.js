@@ -71,7 +71,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
       displayTitle={displayTitle}
       screenProps={screenProps}
       exception={exception}
-      attemptErrMessages={attemptsHistory}
+      attemptsHistory={attemptsHistory}
     />
   )
 }

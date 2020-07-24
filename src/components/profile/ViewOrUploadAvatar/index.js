@@ -39,23 +39,26 @@ const ViewOrUploadAvatar = props => {
   const profile = store.get('profile')
   const wrappedUserStorage = useWrappedUserStorage()
   const [showErrorDialog] = useErrorDialog()
+  const { avatar } = profile
 
   const handleCameraPress = useOnPress(() => {
     openCropper({
       pickerOptions,
-      navigation: props.navigation,
+      navigation,
       wrappedUserStorage,
       showErrorDialog,
       log,
-      avatar: profile.avatar,
+      avatar,
     })
-  }, [navigation, wrappedUserStorage, showErrorDialog, profile])
+  }, [navigation, wrappedUserStorage, showErrorDialog, profile, avatar])
 
-  const handleClosePress = useOnPress(() => {
-    wrappedUserStorage.removeAvatar().catch(e => {
+  const handleClosePress = useOnPress(async () => {
+    try {
+      await wrappedUserStorage.removeAvatar()
+    } catch (e) {
       log.error('delete image failed:', e.message, e, { dialogShown: true })
       showErrorDialog('Could not delete image. Please try again.')
-    })
+    }
   }, [wrappedUserStorage, showErrorDialog])
 
   const handleAddAvatar = useCallback(
@@ -73,9 +76,7 @@ const ViewOrUploadAvatar = props => {
     [navigation, wrappedUserStorage],
   )
 
-  const goToProfile = useOnPress(() => {
-    props.navigation.navigate('EditProfile')
-  }, [props.navigation])
+  const goToProfile = useOnPress(() => navigation.navigate('EditProfile'), [navigation])
 
   return (
     <Wrapper>

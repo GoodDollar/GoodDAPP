@@ -45,7 +45,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const shareHandler = useOnPress(() => {
     shareAction(share)
     fireReceiveDoneEvent()
-  }, [shareAction, share])
+  }, [shareAction, share, fireReceiveDoneEvent])
 
   const onPressReceiveToAddressButton = useOnPress(() => screenProps.push('ReceiveToAddress'), [screenProps])
 

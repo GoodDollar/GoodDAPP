@@ -22,9 +22,7 @@ const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareBu
     log.info('getPaymentLink', { share })
   }, [])
 
-  const shareHandler = useOnPress(() => {
-    shareAction(share)
-  }, [shareAction, share])
+  const shareHandler = useOnPress(() => shareAction(share), [shareAction, share])
 
   if (canShare) {
     return (

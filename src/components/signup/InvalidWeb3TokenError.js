@@ -14,9 +14,7 @@ const InvalidWeb3TokenError = props => {
   const ERROR_BOLD = 'Please get back to the web site and try again'
   const TITLE = 'Something went wrong'
 
-  const goToWeb3 = useOnPress(() => {
-    window.location = config.web3SiteUrl
-  })
+  const goToWeb3 = useOnPress(() => (window.location = config.web3SiteUrl))
 
   return (
     <Wrapper>

@@ -3,7 +3,7 @@ import React, { createRef, useCallback, useEffect, useRef, useState } from 'reac
 import { Animated } from 'react-native'
 import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import * as Animatable from 'react-native-animatable'
-import { get } from 'lodash'
+import { get, isFunction } from 'lodash'
 import moment from 'moment'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
@@ -68,8 +68,10 @@ const FeedList = ({
   const [displayContent, setDisplayContent] = useState(false)
 
   const scrollToTop = useOnPress(() => {
-    if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
-      flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
+    const list = get(flRef, 'current._component._flatListRef', {})
+
+    if (isFunction(list.scrollToOffset)) {
+      list.scrollToOffset({ offset: 0 })
     }
   })
 

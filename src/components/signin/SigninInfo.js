@@ -18,13 +18,9 @@ const Signin = props => {
 
   AsyncStorage.removeItem('GD_web3Token')
 
-  const handleRecover = useOnPress(() => {
-    navigation.navigate('Recover')
-  }, [navigation])
+  const handleRecover = useOnPress(() => navigation.navigate('Recover'), [navigation])
 
-  const goToSupport = useOnPress(() => {
-    navigation.navigate('Support')
-  }, [navigation])
+  const goToSupport = useOnPress(() => navigation.navigate('Support'), [navigation])
 
   return (
     <Section.Stack grow justifyContent="flex-start">

@@ -53,7 +53,7 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     } else {
       setString(share)
     }
-  }, [canShare, share, shareAction])
+  }, [canShare, share, shareAction, setString])
 
   const shareDonePressHandler = useCallback(() => {
     fireEvent('RECEIVE_DONE', { type: 'link' })

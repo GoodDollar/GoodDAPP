@@ -46,9 +46,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       break
   }
 
-  const goBack = useOnPress(() => {
-    navigation.navigate('EditProfile')
-  }, [navigation])
+  const goBack = useOnPress(() => navigation.navigate('EditProfile'), [navigation])
 
   const handleSubmit = useOnPress(async () => {
     try {

@@ -36,7 +36,7 @@ const MagicLinkInfoComponent = props => {
         log.error('failed Resending magiclink', e.message, e, { dialogShown: true })
         showErrorDialog('Could not send magiclink email. Please try again.')
       })
-  }, [screenProps])
+  }, [screenProps, showErrorDialog])
 
   const onPressOk = useOnPress(screenProps.pop)
 

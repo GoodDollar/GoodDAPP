@@ -46,7 +46,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const { item, onPress, styles, theme } = props
   const buttonPress = useOnPress(() => {
     onPress(item.id)
-  }, [item.id])
+  }, [item.id, onPress])
 
   return (
     <React.Fragment>

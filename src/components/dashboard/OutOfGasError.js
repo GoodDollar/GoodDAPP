@@ -32,13 +32,9 @@ Don’t worry, we’ll take care off you.\n`
   const [isCheatError, setCheatError] = useState(false)
   const { screenProps } = props
 
-  const gotoDb = useOnPress(() => {
-    screenProps.navigateTo('Home')
-  }, [screenProps])
+  const gotoDb = useOnPress(() => screenProps.navigateTo('Home'), [screenProps])
 
-  const gotoSupport = useOnPress(() => {
-    screenProps.navigateTo('Support')
-  }, [screenProps])
+  const gotoSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
 
   useEffect(() => {
     callTopWallet()

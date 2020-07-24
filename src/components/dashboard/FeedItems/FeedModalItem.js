@@ -25,9 +25,7 @@ import SendModalItemWithError from './SendModalItemWithError'
  */
 const FeedModalItem = (props: FeedEventProps) => {
   const { item, onPress, styles, theme, navigation } = props
-  const buttonPress = useOnPress(() => {
-    onPress(item.id)
-  }, [item])
+  const buttonPress = useOnPress(() => onPress(item.id), [item, onPress])
   const itemType = item.displayType || item.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color

@@ -146,21 +146,9 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
     push(`Dashboard`)
   }, [push])
 
-  const handleAvatarPress = useOnPress(
-    event => {
-      event.preventDefault()
-      push(`ViewAvatar`)
-    },
-    [push],
-  )
+  const handleAvatarPress = useOnPress(() => push(`ViewAvatar`), [push])
 
-  const handleCameraPress = useCallback(
-    event => {
-      event.preventDefault()
-      push(`ViewAvatar`)
-    },
-    [push],
-  )
+  const handleCameraPress = useOnPress(() => push(`ViewAvatar`), [push])
 
   return (
     <Wrapper>

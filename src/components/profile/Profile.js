@@ -23,13 +23,7 @@ const ProfileWrapper = props => {
   const profile = store.get('profile')
   const { screenProps, styles } = props
 
-  const handleAvatarPress = useOnPress(
-    event => {
-      event.preventDefault()
-      screenProps.push(`ViewAvatar`)
-    },
-    [screenProps],
-  )
+  const handleAvatarPress = useOnPress(screenProps.push(`ViewAvatar`), [screenProps])
 
   const handlePrivacyPress = useOnPress(() => screenProps.push(`ProfilePrivacy`), [screenProps])
 

@@ -1,17 +1,19 @@
+import { trimEnd } from 'lodash'
+
 import Config from '../../config/config'
 import { createIframe } from './iframe.web'
 
-const tou = Config.isPhaseOne ? 'tou1' : 'tou'
+const { isEToro, dashboardUrl, isPhaseOne } = Config
+
+const tou = isPhaseOne ? 'tou1' : 'tou'
+const faq = `faq${isEToro ? '-etoro' : ''}`
+const dashboard = trimEnd(dashboardUrl, ' #/')
+
 export const PrivacyPolicyAndTerms = createIframe(`https://community.gooddollar.org/${tou}/`, 'Privacy Policy & Terms')
 export const PrivacyPolicy = createIframe(`https://community.gooddollar.org/${tou}/#privacy-policy`, 'Privacy Policy')
-
-// export const PrivacyArticle = createIframe(
-//   'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
-//   'Privacy And Identity'
-// )
 
 export const Support = createIframe('https://support.gooddollar.org', ' Help & Feedback', true)
 export const SupportForUnsigned = createIframe('https://support.gooddollar.org', ' Help & Feedback', true, 'Login')
 
-export const Statistics = createIframe(Config.dashboardUrl, 'Statistics')
-export const FAQ = createIframe(`https://community.gooddollar.org/faq${Config.isEToro ? '-etoro' : ''}`, 'FAQ')
+export const Statistics = createIframe(`${dashboard}/admin/dashboard`, 'Statistics')
+export const FAQ = createIframe(`https://community.gooddollar.org/${faq}`, 'FAQ')

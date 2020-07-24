@@ -4,25 +4,22 @@ import GDStore, { useCurriedSetters } from '../../../../lib/undux/GDStore'
 
 export default () => {
   const store = GDStore.useStore()
-  const verificationAttempts = store.get('verificationAttempts')
-  const verificationAttemptErrMessages = store.get('verificationAttemptErrMessages')
-  const [setVerificationAttempts, setVerificationAttemptErrMessages] = useCurriedSetters([
-    'verificationAttempts',
-    'verificationAttemptErrMessages',
-  ])
+  const attemptsCount = store.get('attemptsCount')
+  const attemptsHistory = store.get('attemptsHistory')
+  const [setAttemptsCount, setAttemptsHistory] = useCurriedSetters(['attemptsCount', 'attemptsHistory'])
 
-  const trackNewAttempt = useCallback(
-    errorMessage => {
-      setVerificationAttempts(verificationAttempts + 1)
-      setVerificationAttemptErrMessages([...verificationAttemptErrMessages, errorMessage])
+  const trackAttempt = useCallback(
+    exception => {
+      setAttemptsCount(attemptsCount + 1)
+      setAttemptsHistory([...attemptsHistory, exception])
     },
-    [setVerificationAttempts, verificationAttempts, setVerificationAttemptErrMessages, verificationAttemptErrMessages],
+    [setAttemptsCount, attemptsCount, setAttemptsHistory, attemptsHistory],
   )
 
   const resetAttempts = useCallback(() => {
-    setVerificationAttempts(0)
-    setVerificationAttemptErrMessages([])
-  }, [setVerificationAttempts, setVerificationAttemptErrMessages])
+    setAttemptsCount(0)
+    setAttemptsHistory([])
+  }, [setAttemptsCount, setAttemptsHistory])
 
-  return [verificationAttempts, trackNewAttempt, resetAttempts, verificationAttemptErrMessages]
+  return { attemptsCount, trackAttempt, resetAttempts, attemptsHistory }
 }

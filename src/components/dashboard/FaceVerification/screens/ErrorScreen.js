@@ -20,15 +20,10 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const kindOfTheIssue = get(exception, 'name')
   const isGeneralError = !kindOfTheIssue || !(kindOfTheIssue in ErrorScreen.kindOfTheIssue)
 
-  const [
-    verificationAttempts,
-    trackNewAttempt,
-    resetAttempts,
-    verificationAttemptErrMessages,
-  ] = useVerificationAttempts()
+  const { attemptsCount, trackAttempt, resetAttempts, attemptsHistory } = useVerificationAttempts()
 
   // storing first received attempts count into the ref to avoid component re-updated after attempt tracked
-  const verificationAttemptsRef = useRef(verificationAttempts)
+  const verificationAttemptsRef = useRef(attemptsCount)
 
   const displayTitle = useMemo(() => {
     const { fullName } = store.get('profile')
@@ -50,7 +45,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
     return GeneralError
 
     // isGeneralError depends from kindOfTheIssue so we could omit it in the deps list
-  }, [kindOfTheIssue, resetAttempts])
+  }, [kindOfTheIssue])
 
   useEffect(() => {
     // tracking attempt here as we should track only "general" error
@@ -65,7 +60,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
     // after the last FV fail the unrecoverable error screen will be displayed
     if (verificationAttemptsRef.current < MAX_RETRIES_ALLOWED) {
       // track attempt and save its message
-      trackNewAttempt(exception.message)
+      trackAttempt(exception)
       return
     }
 
@@ -75,10 +70,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
 
   // the last failed attempt won't be tracked
   // so concating saved attempt messages with the latest received and pass to unrecoverable component
-  const attemptErrMessages = useMemo(() => verificationAttemptErrMessages.concat(exception.message), [
-    verificationAttemptErrMessages,
-    exception,
-  ])
+  const attemptErrMessages = useMemo(() => attemptsHistory.concat([exception]), [attemptsHistory, exception])
 
   return (
     <ErrorViewComponent

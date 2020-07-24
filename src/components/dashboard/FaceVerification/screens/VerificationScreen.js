@@ -24,7 +24,7 @@ const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
   const [showLoading, hideLoading] = useLoadingIndicator()
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
-  const [, , resetAttempts] = useVerificationAttempts()
+  const { resetAttempts } = useVerificationAttempts()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)

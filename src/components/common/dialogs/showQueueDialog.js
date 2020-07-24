@@ -15,6 +15,7 @@ import { withStyles } from '../../../lib/styles'
 
 // assets
 import ClaimQueueSVG from '../../../assets/Claim/claimQueue.svg'
+import { isMobileNative } from '../../../lib/utils/platform'
 
 const styles = () => ({
   wrapper: {
@@ -56,16 +57,19 @@ const QueuePopup = withStyles(styles)(({ styles, textComponent }) => {
 })
 
 export const showQueueDialog = (textComponent, dialogOptions = {}) => {
-  const imageStyle = { marginRight: 'auto', marginLeft: 'auto', width: '33vh', height: '28vh' }
+  const imageStyle = { marginRight: 'auto', marginLeft: 'auto', width: 177, height: 119 }
+  const Image = isMobileNative ? (
+    <View style={imageStyle}>
+      <ClaimQueueSVG />
+    </View>
+  ) : (
+    <ClaimQueueSVG width="100%" height="100%" viewBox="0 0 180 130" />
+  )
 
   showDialogWithData(store.getCurrentSnapshot(), {
     type: 'queue',
     isMinHeight: true,
-    image: (
-      <View style={imageStyle}>
-        <ClaimQueueSVG width="100%" height="100%" viewBox="0 0 170 160" />
-      </View>
-    ),
+    image: Image,
     message: <QueuePopup textComponent={textComponent} />,
     buttons: [
       {

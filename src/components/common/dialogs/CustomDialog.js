@@ -10,6 +10,7 @@ import SuccessIcon from '../modal/SuccessIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 import Text from '../view/Text'
+import Section from '../layout/Section'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
@@ -89,7 +90,7 @@ const CustomDialog = ({
               <>
                 {children}
                 {image ? image : defaultImage}
-                {message && <Paragraph style={[styles.paragraph, { color }]}>{message}</Paragraph>}
+                {message && <Section.Row style={[styles.paragraph, { color }]}>{message}</Section.Row>}
                 {boldMessage && (
                   <Paragraph style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Paragraph>
                 )}
@@ -169,6 +170,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexGrow: 1,
     padding: 0,
+    flex: 1,
   },
   buttonsContainer: {
     display: 'flex',

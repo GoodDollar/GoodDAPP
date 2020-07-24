@@ -17,6 +17,7 @@ import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SurveySend from './SurveySend'
 
@@ -51,7 +52,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
 
-  const handleConfirm = useCallback(() => {
+  const handleConfirm = useOnPress(() => {
     if (action === ACTION_SEND_TO_ADDRESS) {
       sendViaAddress()
     } else {

@@ -6,6 +6,7 @@ import IconWrapper from '../../components/common/modal/IconWrapper'
 import LoadingIcon from '../../components/common/modal/LoadingIcon'
 
 import retryImport from '../utils/retryImport'
+import useOnPress from './useOnPress'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
@@ -30,8 +31,48 @@ export const deleteGunDB = () => {
   })
 }
 
-export default ({ API, showErrorDialog, store, theme }) =>
-  useCallback(
+export default ({ API, showErrorDialog, theme }) => {
+  const deleteHandler = useOnPress(async () => {
+    showErrorDialog('', '', {
+      title: 'ARE YOU SURE?',
+      message: 'If you delete your account',
+      boldMessage: 'you might lose access to your G$!',
+      image: <LoadingIcon />,
+      showButtons: false,
+    })
+    
+    try {
+      const userStorage = await retryImport(() => import('../gundb/UserStorage')).then(_ => _.default)
+
+      let token = await userStorage.getProfileFieldValue('w3Token')
+
+      if (!token) {
+        token = await userStorage.getProfileFieldValue('loginToken')
+      }
+
+      const isDeleted = await userStorage.deleteAccount()
+      log.debug('deleted account', isDeleted)
+
+      if (isDeleted) {
+        token && API.deleteWalletFromW3Site(token).catch(e => log.warn(e.message, e))
+        const req = deleteGunDB()
+
+        //remove all local data so its not cached and user will re-login
+        await Promise.all([AsyncStorage.clear(), req.catch()])
+        window.location = '/'
+      } else {
+        showErrorDialog('There was a problem deleting your account. Try again later.')
+        log.error('Error deleting account', 'false from userStorage.deleteAccount()', null, {
+          dialogShown: true,
+        })
+      }
+    } catch (e) {
+      log.error('Error deleting account', e.message, e, { dialogShown: true })
+      showErrorDialog('There was a problem deleting your account. Try again later.')
+    }
+  }, [showErrorDialog, API])
+
+  return useCallback(
     () =>
       showErrorDialog('', '', {
         title: 'ARE YOU SURE?',
@@ -43,46 +84,10 @@ export default ({ API, showErrorDialog, store, theme }) =>
           {
             text: 'Delete',
             color: theme.colors.red,
-            onPress: async () => {
-              showErrorDialog('', '', {
-                title: 'ARE YOU SURE?',
-                message: 'If you delete your account',
-                boldMessage: 'you might lose access to your G$!',
-                image: <LoadingIcon />,
-                showButtons: false,
-              })
-              try {
-                const userStorage = await retryImport(() => import('../gundb/UserStorage')).then(_ => _.default)
-
-                let token = await userStorage.getProfileFieldValue('w3Token')
-
-                if (!token) {
-                  token = await userStorage.getProfileFieldValue('loginToken')
-                }
-
-                const isDeleted = await userStorage.deleteAccount()
-                log.debug('deleted account', isDeleted)
-
-                if (isDeleted) {
-                  token && API.deleteWalletFromW3Site(token).catch(e => log.warn(e.message, e))
-                  const req = deleteGunDB()
-
-                  //remove all local data so its not cached and user will re-login
-                  await Promise.all([AsyncStorage.clear(), req.catch()])
-                  window.location = '/'
-                } else {
-                  showErrorDialog('There was a problem deleting your account. Try again later.')
-                  log.error('Error deleting account', 'false from userStorage.deleteAccount()', null, {
-                    dialogShown: true,
-                  })
-                }
-              } catch (e) {
-                log.error('Error deleting account', e.message, e, { dialogShown: true })
-                showErrorDialog('There was a problem deleting your account. Try again later.')
-              }
-            },
+            onPress: deleteHandler,
           },
         ],
       }),
-    [API, showErrorDialog, store, theme],
+    [deleteHandler, theme],
   )
+}

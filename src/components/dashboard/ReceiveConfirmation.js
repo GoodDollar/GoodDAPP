@@ -13,6 +13,7 @@ import useNativeSharing from '../../lib/hooks/useNativeSharing'
 
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -46,13 +47,13 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     return generateShareLink('receive', code)
   }, [code, generateShareLink])
 
-  const sharePressHandler = useCallback(() => {
+  const sharePressHandler = useOnPress(() => {
     if (canShare) {
       shareAction(share)
     } else {
       setString(share)
     }
-  }, [canShare, share, shareAction])
+  }, [canShare, share, shareAction, setString])
 
   const shareDonePressHandler = useCallback(() => {
     fireEvent('RECEIVE_DONE', { type: 'link' })

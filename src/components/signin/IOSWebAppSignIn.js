@@ -17,6 +17,7 @@ import InputText from '../common/form/InputText'
 import NavBar from '../appNavigation/NavBar'
 import IOSWebAppSignInSVG from '../../assets/IOSWebAppSignIn.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const TITLE = 'EASY ACCESS'
 const log = logger.child({ from: 'IOS EASY ACCESS' })
@@ -40,7 +41,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
     }
   }
 
-  const recover = async () => {
+  const recover = useOnPress(async () => {
     setRecovering(true)
 
     const errorText = 'You are using wrong sign in code'
@@ -82,7 +83,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
     }
 
     setRecovering(false)
-  }
+  }, [setRecovering, code, showErrorDialog])
 
   const handleEnter = async (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter' && isValid) {

@@ -6,6 +6,7 @@ import useSideMenu from '../../lib/hooks/useSideMenu'
 import { withStyles } from '../../lib/styles'
 
 import { Icon } from '../common'
+import useOnPress from '../../lib/hooks/useOnPress'
 import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
@@ -18,9 +19,11 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
     theme,
   })
 
+  const onPressClose = useOnPress(slideToggle)
+
   return (
     <ScrollView contentContainerStyle={styles.scrollableContainer}>
-      <TouchableOpacity style={styles.closeIconRow} onPress={slideToggle} testID="close_burger_button">
+      <TouchableOpacity style={styles.closeIconRow} onPress={onPressClose} testID="close_burger_button">
         <Icon name="close" size={20} color={theme.colors.lighterGray} />
       </TouchableOpacity>
       <View style={styles.listContainer}>

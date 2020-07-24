@@ -46,28 +46,32 @@ const validate = async to => {
   return `Needs to be a valid username, email or mobile phone (starts with a '+')`
 }
 
-const ContinueButton = ({ push, to, disabled, checkError }) => (
-  <CustomButton
-    onPress={useOnPress(async () => {
-      if (await checkError()) {
-        return
-      }
+const ContinueButton = ({ push, to, disabled, checkError }) => {
+  const onContinue = useOnPress(async () => {
+    if (await checkError()) {
+      return
+    }
 
-      const address = await userStorage.getUserAddress(to).catch(e => undefined)
-      if (address || goodWallet.wallet.utils.isAddress(to)) {
-        return push('Amount', { to: address || to, nextRoutes: ['Reason', 'SendQRSummary'] })
-      }
-      if (to && (isMobilePhone(to) || isEmail(to))) {
-        return push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
-      }
-      log.debug(`Oops, no error and no action`)
-    }, [checkError, goodWallet, push, to])}
-    disabled={disabled}
-    style={{ flex: 2 }}
-  >
-    Next
-  </CustomButton>
-)
+    const address = await userStorage.getUserAddress(to).catch(e => undefined)
+    if (address || goodWallet.wallet.utils.isAddress(to)) {
+      return push('Amount', { to: address || to, nextRoutes: ['Reason', 'SendQRSummary'] })
+    }
+    if (to && (isMobilePhone(to) || isEmail(to))) {
+      return push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
+    }
+    log.debug(`Oops, no error and no action`)
+  }, [checkError, goodWallet, push, to])
+  
+  return (
+    <CustomButton
+      onPress={onContinue}
+      disabled={disabled}
+      style={{ flex: 2 }}
+    >
+      Next
+    </CustomButton>
+  )
+}  
 
 const Send = ({ screenProps }) => {
   const [screenState, setScreenState] = useScreenState(screenProps)

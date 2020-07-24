@@ -1,5 +1,7 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
+import { defer, from as fromPromise } from 'rxjs'
+import { share } from 'rxjs/operators'
 
 import API from '../../lib/API/api'
 import Config from '../../config/config'
@@ -13,6 +15,7 @@ import { useDialog } from '../undux/utils/dialog'
 import logger from '../logger/pino-logger'
 
 import { theme } from '../../components/theme/styles'
+import useOnPress from './useOnPress'
 
 const log = logger.child({ from: 'useUpgradeDialog' })
 
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
 })
 
 const WhatsNewButtonComponent = () => {
-  const handlePress = useCallback(() => window.open(Config.newVersionUrl, '_blank'), [])
+  const handlePress = useOnPress(() => window.open(Config.newVersionUrl, '_blank'))
 
   return (
     <TouchableOpacity onPress={handlePress} style={styles.serviceWorkerDialogWhatsNew}>
@@ -47,10 +50,14 @@ export default () => {
   const [showDialog] = useDialog()
   const store = SimpleStore.useStore()
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
-  const actualPhaseRef = useRef(null)
+
+  // observable won't start until first subscription
+  // sharing observable between many subscribers to keep single API call
+  const actualPhaseRef = useRef(defer(() => fromPromise(API.getActualPhase())).pipe(share()))
 
   useEffect(() => {
-    actualPhaseRef.current = API.getActualPhase()
+    // calling api on mount
+    actualPhaseRef.current.subscribe()
   }, [])
 
   useEffect(() => {
@@ -64,7 +71,10 @@ export default () => {
       return
     }
 
-    actualPhaseRef.current.then(actualPhase =>
+    // subscribing to actualPhase observable stream
+    // API request will performed anyway
+    // even if this code will execute before on mount hook
+    actualPhaseRef.current.subscribe(actualPhase =>
       showDialog({
         showCloseButtons: false,
         content: phase === actualPhase ? <RegularDialog /> : <NewReleaseDialog />,

@@ -35,25 +35,28 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
     )
   }
 
-  const navBarStyles = {
-    wrapper: {
-      position: 'relative',
-    },
-    title: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      textTransform: 'uppercase',
-    },
-    walletIcon: {
-      position: 'absolute',
-      right: 15,
-    },
-  }
+  IframeTab.navigationOptions = { title }
 
   if (backToWallet) {
-    const NavigationBar = navigate => {
-      const handleNavigate = useOnPress(() => navigate(backToRoute), [navigate, backToRoute])
+    const navBarStyles = {
+      wrapper: {
+        position: 'relative',
+      },
+      title: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        textTransform: 'uppercase',
+      },
+      walletIcon: {
+        position: 'absolute',
+        right: 15,
+      },
+    }
+    
+    const NavigationBar = ({ navigation }) => {
+      const handleNavigate = useOnPress(() => navigation.navigate(backToRoute), [navigation])
+      
       return (
         <Appbar.Header dark style={navBarStyles.wrapper}>
           <View style={{ width: 48 }} />
@@ -69,15 +72,10 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
       )
     }
 
-    IframeTab.navigationOptions = ({ navigation }) => {
-      return {
-        navigationBar: () => NavigationBar(navigation.navigate),
-      }
-    }
-  } else {
-    IframeTab.navigationOptions = {
-      title,
-    }
+    IframeTab.navigationOptions = ({ navigation }) => ({
+      navigationBar: () => <NavigationBar navigation={navigation} />
+    })
   }
+  
   return IframeTab
 }

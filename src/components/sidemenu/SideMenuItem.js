@@ -1,9 +1,17 @@
 // @flow
+
+// libraries
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { withStyles } from '../../lib/styles'
+
+// components
 import { Icon, Text } from '../common'
+
+// hooks
 import useOnPress from '../../lib/hooks/useOnPress'
+
+// utils
+import { withStyles } from '../../lib/styles'
 
 export type SideMenuItemProps = {
   icon: string,
@@ -12,9 +20,10 @@ export type SideMenuItemProps = {
 }
 
 const SideMenuItem = ({ icon, name, color, action, styles, theme, size, centered }: SideMenuItemProps) => {
-  const _onPress = useOnPress(action)
+  const handlePress = useOnPress(() => action(), [action])
+
   return (
-    <TouchableOpacity style={styles.clickableRow} onPress={_onPress}>
+    <TouchableOpacity style={styles.clickableRow} onPress={handlePress}>
       <View style={[styles.menuIcon, centered && styles.centeredIcon]}>
         <Icon
           name={icon}

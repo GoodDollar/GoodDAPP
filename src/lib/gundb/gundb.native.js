@@ -1,11 +1,16 @@
-import Gun from 'gun/gun'
-import asyncStore from 'gun/lib/ras.js'
+import Gun from '@gooddollar/gun'
+
+import asyncStore from '@gooddollar/gun/lib/ras.js'
 import AsyncStorage from '../utils/asyncStorage'
-import 'gun/sea'
+
+import '@gooddollar/gun/sea'
+import '@gooddollar/gun/lib/radix'
+import '@gooddollar/gun/lib/radisk'
+import '@gooddollar/gun/lib/store'
+import '@gooddollar/gun/lib/rindexed'
+import '@gooddollar/gun/nts'
+
 import './gundb-extend'
-import 'gun/lib/radix.js'
-import 'gun/lib/radisk.js'
-import 'gun/lib/store.js'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 

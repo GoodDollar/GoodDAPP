@@ -68,9 +68,11 @@ class ClaimButton extends AnimationBase {
     this.setState({ stopOnClaim: false }, cb)
   }
 
-  handlePress = useOnPress(() => {
+  handlePress = e => {
     const { onPressClaim } = this.props
     const { stopOnClaim } = this.state
+    
+    e.preventDefault()
 
     if (onPressClaim && stopOnClaim) {
       onPressClaim()
@@ -79,7 +81,7 @@ class ClaimButton extends AnimationBase {
     if (stopOnClaim) {
       this.goToCounter()
     }
-  }, [this.props, this.state, this.goToCounter])
+  }
 
   getGap(length) {
     // calculate x coordinate of G$ text in animation

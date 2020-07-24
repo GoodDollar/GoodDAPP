@@ -43,9 +43,13 @@ class SaveButton extends AnimationBase {
   }
 
   handlePress = e => {
-    e.preventDefault()
     const { onPress } = this.props
-    onPress && onPress()
+        
+    e.preventDefault()
+
+    if (onPress) {
+      onPress()
+    }   
     if (isMobileReactNative) {
       this.setState({ animStep: 1 })
       this.anim.play(12, 101)

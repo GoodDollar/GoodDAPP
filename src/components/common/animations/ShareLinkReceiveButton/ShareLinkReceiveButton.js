@@ -28,6 +28,7 @@ class ShareLinkReceiveButton extends AnimationBase {
   handlePress = e => {
     const { onPress, onPressDone } = this.props
     const { performed } = this.state
+
     e.preventDefault()
 
     if (performed) {

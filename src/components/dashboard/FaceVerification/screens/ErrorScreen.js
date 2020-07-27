@@ -12,7 +12,7 @@ import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 
-const MAX_RETRIES_ALLOWED = 2
+const MAX_RETRIES_ALLOWED = 3
 
 const ErrorScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()

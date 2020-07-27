@@ -1,81 +1,83 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 // import { isIOS } from 'mobile-device-detect'
-import { get, toPairs } from 'lodash'
-import userStorage from '../../lib/gundb/UserStorage'
+import { isNil } from 'lodash'
+
+import { Iframe } from '../webView/iframe'
+
+import { useDialog } from '../../lib/undux/utils/dialog'
+import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
+
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
+
+import userStorage from '../../lib/gundb/UserStorage'
 
 const log = logger.child({ from: 'RewardsTab' })
 
-const openInNewTab = false //isIOS
-const RewardsTab = props => {
-  const [token, setToken] = useState()
-  const store = SimpleStore.useStore()
+const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
   const [showDialog] = useDialog()
+  const { params = {} } = navigation.state
+  const [token, setToken] = useState(null)
+  const [showLoading, hideLoading] = useLoadingIndicator()
 
-  const getRewardsPath = () => {
-    const params = get(props, 'navigation.state.params', {})
-    if (openInNewTab === false) {
-      params.purpose = 'iframe'
+  const rewardsPath = useMemo(() => {
+    if (!token) {
+      return
     }
-    params.token = token
-    let path = decodeURIComponent(get(params, 'rewardsPath', ''))
-    const query = toPairs(params)
-      .filter(p => p[0] !== 'rewardsPath')
-      .map(param => param.join('='))
-      .join('&')
 
-    return `${Config.web3SiteUrl}/${path}?${query}`
-  }
+    const url = new URL(Config.web3SiteUrl)
+    const { rewardsPath = '', ...query } = params
+    const searchParams = new URLSearchParams(query)
 
-  const getToken = async () => {
-    let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
-    log.debug('got rewards login token', token)
-    setToken(token)
-  }
-  const isLoaded = () => {
-    store.set('loadingIndicator')({ loading: false })
-  }
+    searchParams.append('token', token)
+
+    if (!openInNewTab) {
+      searchParams.append('purpose', 'iframe')
+    }
+
+    url.pathname = decodeURIComponent(rewardsPath)
+    url.search = searchParams.toString()
+
+    return url.toString()
+  }, [token, params, openInNewTab])
 
   useEffect(() => {
-    store.set('loadingIndicator')({ loading: true })
-    getToken()
-    return () => store.set('loadingIndicator')({ loading: false })
+    showLoading()
+
+    userStorage.getProfileFieldValue('loginToken').then(loginToken => {
+      const token = loginToken || ''
+
+      log.debug('got rewards login token', token)
+      setToken(token)
+    })
+
+    return hideLoading
   }, [])
 
   useEffect(() => {
-    if (openInNewTab && token) {
-      store.set('loadingIndicator')({ loading: false })
-      showDialog({
-        title: 'Press ok to go to Rewards dashboard',
-        buttons: [
-          {
-            text: 'OK',
-            onPress: () => {
-              window.open(getRewardsPath(), '_blank')
-            },
-          },
-        ],
-        onDismiss: () => {
-          props.navigation.navigate('Home')
-        },
-      })
+    if (!openInNewTab || !token) {
+      return
     }
+
+    hideLoading()
+    showDialog({
+      title: 'Press ok to go to Rewards dashboard',
+      onDismiss: () => navigation.navigate('Home'),
+      buttons: [
+        {
+          text: 'OK',
+          onPress: () => window.open(rewardsPath(), '_blank'),
+        },
+      ],
+    })
   }, [token])
 
-  const src = getRewardsPath()
-  const iframe = useMemo(() => {
-    return <iframe title="Rewards" onLoad={isLoaded} src={src} seamless frameBorder="0" style={{ flex: 1 }} />
-  }, [src])
-
-  if (openInNewTab || token === undefined) {
+  if (openInNewTab || isNil(token)) {
     return null
   }
 
-  return iframe
+  return <Iframe title="Rewards" src={rewardsPath} />
 }
 
 RewardsTab.navigationOptions = {

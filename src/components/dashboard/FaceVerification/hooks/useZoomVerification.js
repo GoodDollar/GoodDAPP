@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import { noop } from 'lodash'
 
@@ -40,10 +40,37 @@ export default ({
   // Shared via Ref
   const sessionInProgressRef = useRef(false)
 
+  // creating refs for callback
+  const onUIReadyRef = useRef()
+  const onCaptureDoneRef = useRef()
+  const onRetryRef = useRef()
+  const onCompleteRef = useRef()
+  const onErrorRef = useRef()
+
+  // and updating them once some of callbacks changes
+  useEffect(() => {
+    onUIReadyRef.current = onUIReady
+    onCaptureDoneRef.current = onCaptureDone
+    onRetryRef.current = onRetry
+    onCompleteRef.current = onComplete
+    onErrorRef.current = onError
+  }, [onUIReady, onCaptureDone, onRetry, onComplete, onError])
+
   // Starts verification/enrollment process
   // Wrapped to useCallback for incapsulate session in a single call
   // and execute corresponding callback on completion or error
   const startVerification = useCallback(async () => {
+    // creating functions unwrapping callback refs
+    // keeping theirs names the same like in the props
+    // for avoid code modifications
+    const [onUIReady, onCaptureDone, onRetry, onComplete, onError] = [
+      onUIReadyRef,
+      onCaptureDoneRef,
+      onRetryRef,
+      onCompleteRef,
+      onErrorRef,
+    ].map(ref => (...args) => ref.current(...args))
+
     // if cypress is running
     if (isE2ERunning) {
       try {
@@ -110,7 +137,7 @@ export default ({
       // setting session is not running flag in the ref
       sessionInProgressRef.current = false
     }
-  }, [enrollmentIdentifier, onUIReady, onComplete, onError])
+  }, [enrollmentIdentifier])
 
   // exposing public hook API
   return startVerification

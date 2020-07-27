@@ -2,6 +2,8 @@ import { useCallback } from 'react'
 
 import GDStore, { useCurriedSetters } from '../../../../lib/undux/GDStore'
 
+export const MAX_RETRIES_ALLOWED = 3
+
 export default () => {
   const store = GDStore.useStore()
   const attemptsCount = store.get('attemptsCount')

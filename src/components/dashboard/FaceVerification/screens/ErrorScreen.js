@@ -8,11 +8,9 @@ import GeneralError from '../components/GeneralError'
 import UnrecoverableError from '../components/UnrecoverableError'
 
 import GDStore from '../../../../lib/undux/GDStore'
-import useVerificationAttempts from '../hooks/useVerificationAttempts'
+import useVerificationAttempts, { MAX_RETRIES_ALLOWED } from '../hooks/useVerificationAttempts'
 
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
-
-const MAX_RETRIES_ALLOWED = 3
 
 const ErrorScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()

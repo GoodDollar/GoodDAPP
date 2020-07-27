@@ -14,7 +14,7 @@ const log = logger.child({ from: 'init' })
 let initialized = false
 
 export const init = () => {
-  return Promise.all([goodWallet.ready, userStorage.ready]).then(async () => {
+  return Promise.all([goodWallet.ready, userStorage.ready]).then(() => {
     log.debug('wallet and storage ready, initializing analytics', { initialized })
     let source = 'none'
     if (initialized === false) {
@@ -26,10 +26,12 @@ export const init = () => {
       // set userStorage to simple storage
       setUserStorage(userStorage)
 
-      await initAnalytics()
-      log.debug('analytics has been initialized')
-      await identifyWithSignedInUser(goodWallet, userStorage)
-      log.debug('analytics has been identified with the user signed in')
+      initAnalytics().then(async () => {
+        log.debug('analytics has been initialized')
+        await identifyWithSignedInUser(goodWallet, userStorage)
+        log.debug('analytics has been identified with the user signed in')
+        fireEvent(APP_OPEN, { source, isWebApp })
+      })
 
       // FIXME RN INAPPLINKS
       if (Platform.OS === 'web') {
@@ -39,7 +41,6 @@ export const init = () => {
         source = Object.keys(pick(params, ['inviteCode', 'web3Token', 'paymentCode', 'code'])).pop() || source
       }
 
-      fireEvent(APP_OPEN, { source, isWebApp })
       initialized = true
     }
 

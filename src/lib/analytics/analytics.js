@@ -99,7 +99,10 @@ const initFullStory = async () =>
 
 export const initAnalytics = async () => {
   // pre-initializing & preloading FS & Amplitude
-  await Promise.all([isFSEnabled && initFullStory(), isAmplitudeEnabled && initAmplitude(amplitudeKey)])
+  await Promise.all([
+    isFSEnabled && initFullStory().then(_ => log.debug('FS initialized')),
+    isAmplitudeEnabled && initAmplitude(amplitudeKey).then(_ => log.debug('Amplitude initialized')),
+  ])
 
   if (isAmplitudeEnabled) {
     const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())

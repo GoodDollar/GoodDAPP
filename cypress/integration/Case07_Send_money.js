@@ -47,9 +47,7 @@ describe('Test case 7: Ability to send money', () => {
 
       SendMoneyPage.dailyClaimText.should('be.visible')
       SendMoneyPage.claimButton.click()
-      cy.get('[role="button"]')
-        .eq(1)
-        .should('have.attr', 'data-focusable')
+      SendMoneyPage.claimButton.should('have.attr', 'data-focusable')
       SendMoneyPage.verifyButton.should('be.visible')
       SendMoneyPage.verifyButton.click()
 

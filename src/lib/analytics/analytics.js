@@ -52,16 +52,11 @@ export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
-let Amplitude
-const { mt: Mautic, FS, dataLayer: GoogleAnalytics } = global
-
 const log = logger.child({ from: 'analytics' })
 const { sentryDSN, amplitudeKey, version, env, network } = Config
 
-const isFSEnabled = !!FS
-const isSentryEnabled = !!sentryDSN
-const isAmplitudeEnabled = !!amplitudeKey
-const isGoogleAnalyticsEnabled = !!GoogleAnalytics
+let Amplitude, Mautic, FS, GoogleAnalytics
+let isFSEnabled, isSentryEnabled, isGoogleAnalyticsEnabled, isMauticEnabled, isAmplitudeEnabled
 
 /** @private */
 // eslint-disable-next-line require-await
@@ -98,10 +93,21 @@ const initFullStory = async () =>
   })
 
 export const initAnalytics = async () => {
+  Amplitude = amplitude.getInstance()
+  Mautic = global.mt
+  FS = global.FS
+  GoogleAnalytics = global.dataLayer
+
+  isFSEnabled = !!FS
+  isSentryEnabled = !!sentryDSN
+  isAmplitudeEnabled = !!amplitudeKey
+  isGoogleAnalyticsEnabled = !!GoogleAnalytics
+  isMauticEnabled = !!Mautic
+
   // pre-initializing & preloading FS & Amplitude
   await Promise.all([
     isFSEnabled && initFullStory().then(_ => log.debug('FS initialized')),
-    isAmplitudeEnabled && initAmplitude(amplitudeKey).then(_ => log.debug('Amplitude initialized')),
+    isAmplitudeEnabled && initAmplitude().then(_ => log.debug('Amplitude initialized')),
   ])
 
   if (isAmplitudeEnabled) {
@@ -166,7 +172,7 @@ const setUserEmail = email => {
     })
   }
 
-  if (Mautic) {
+  if (isMauticEnabled) {
     Mautic.userId = email
   }
 }
@@ -208,7 +214,7 @@ const identifyWith = (email, identifier = null) => {
 export const identifyOnUserSignup = async email => {
   setUserEmail(email)
 
-  if (Mautic && email && 'production' === env) {
+  if (isMauticEnabled && email && 'production' === env) {
     await API.addMauticContact({ email })
   }
 
@@ -217,7 +223,7 @@ export const identifyOnUserSignup = async email => {
     { email },
     {
       FS: isFSEnabled,
-      Mautic: !!email,
+      Mautic: isMauticEnabled && !!email,
       Sentry: isSentryEnabled,
       Amplitude: isAmplitudeEnabled,
     }
@@ -267,7 +273,7 @@ export const fireEvent = (event: string, data: any = {}) => {
 }
 
 export const fireMauticEvent = (data: any = {}) => {
-  if (!Mautic) {
+  if (!isMauticEnabled) {
     return
   }
 

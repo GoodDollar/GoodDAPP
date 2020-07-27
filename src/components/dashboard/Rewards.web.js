@@ -67,7 +67,7 @@ const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
       buttons: [
         {
           text: 'OK',
-          onPress: () => window.open(rewardsPath(), '_blank'),
+          onPress: () => window.open(rewardsPath, '_blank'),
         },
       ],
     })

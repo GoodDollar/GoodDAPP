@@ -55,7 +55,7 @@ const FaceVerification = ({ screenProps }) => {
     eventData => {
       const exception = eventData.reason
 
-      // tracking all lovenes exceptions exceptions except
+      // tracking all liveness exceptions except
       // the last one required to show 'try again lagter'
       if (attemptsCount < MAX_RETRIES_ALLOWED) {
         trackAttempt(exception)

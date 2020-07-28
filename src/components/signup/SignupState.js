@@ -412,9 +412,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       let { w3Token } = requestPayload
       requestPayload.regMethod = regMethod
 
-      const [, , mnemonic] = await Promise.all([
-        w3Token && userStorage.userProperties.set('cameFromW3Site', true),
-        userStorage.userProperties.set('regMethod', regMethod),
+      const [, mnemonic] = await Promise.all([
+        userStorage.userProperties.updateAll({ cameFromW3Site: !!w3Token, regMethod }),
         AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
       ])
 

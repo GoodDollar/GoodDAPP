@@ -87,4 +87,14 @@ export default class UserProperties {
   getAll() {
     return this.data
   }
+
+  /**
+   * Set value to multiple properties
+   */
+  async updateAll(data: { [string]: any }): Promise<boolean> {
+    Object.assign(this.data, data)
+    await this.gun.secret(this.data)
+
+    return true
+  }
 }

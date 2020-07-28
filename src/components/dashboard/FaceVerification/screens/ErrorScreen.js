@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { get } from 'lodash'
 
 import CameraNotAllowedError from '../components/CameraNotAllowedError'
@@ -8,7 +8,7 @@ import GeneralError from '../components/GeneralError'
 import UnrecoverableError from '../components/UnrecoverableError'
 
 import GDStore from '../../../../lib/undux/GDStore'
-import useVerificationAttempts, { MAX_RETRIES_ALLOWED } from '../hooks/useVerificationAttempts'
+import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 
@@ -17,8 +17,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const exception = get(screenProps, 'screenState.error')
   const kindOfTheIssue = get(exception, 'name')
 
-  const [isTracked, setTracked] = useState(false)
-  const { attemptsCount, trackAttempt, resetAttempts, attemptsHistory } = useVerificationAttempts()
+  const { isReachedMaxAttempts } = useVerificationAttempts()
 
   const displayTitle = useMemo(() => {
     const { fullName } = store.get('profile')
@@ -32,7 +31,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
     const { kindOfTheIssue: map } = ErrorScreen
 
     // if reached max retries - showing 'something went wrong our side'
-    if (attemptsCount >= MAX_RETRIES_ALLOWED) {
+    if (isReachedMaxAttempts()) {
       return UnrecoverableError
     }
 
@@ -41,36 +40,10 @@ const ErrorScreen = ({ styles, screenProps }) => {
     }
 
     return GeneralError
-  }, [kindOfTheIssue, attemptsCount])
-
-  // exception tracking
-  useEffect(() => {
-    if (attemptsCount > MAX_RETRIES_ALLOWED) {
-      // reset/clear saved attempts count and messages
-      // if exceeded max retries during last error screen shown
-      resetAttempts()
-    }
-
-    // track attempt and save its exception
-    trackAttempt(exception)
-
-    // setting tracked flag
-    setTracked(true)
-  }, [])
-
-  // rendering error screen once we've tracked an exception to avoid screens shift
-  if (!isTracked) {
-    return null
-  }
+  }, [kindOfTheIssue, isReachedMaxAttempts])
 
   return (
-    <ErrorViewComponent
-      onRetry={onRetry}
-      displayTitle={displayTitle}
-      screenProps={screenProps}
-      exception={exception}
-      attemptsHistory={attemptsHistory}
-    />
+    <ErrorViewComponent onRetry={onRetry} displayTitle={displayTitle} screenProps={screenProps} exception={exception} />
   )
 }
 

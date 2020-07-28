@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import UserStorage from '../../../../lib/gundb/UserStorage'
 import { useCurriedSetters } from '../../../../lib/undux/GDStore'
@@ -8,7 +8,7 @@ import logger from '../../../../lib/logger/pino-logger'
 import useLoadingIndicator from '../../../../lib/hooks/useLoadingIndicator'
 import useZoomSDK from '../hooks/useZoomSDK'
 import useZoomVerification from '../hooks/useZoomVerification'
-import useVerificationAttempts, { MAX_RETRIES_ALLOWED } from '../hooks/useVerificationAttempts'
+import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import {
   fireEvent,
@@ -24,8 +24,7 @@ const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
   const [showLoading, hideLoading] = useLoadingIndicator()
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
-  const { attemptsCount, trackAttempt, resetAttempts } = useVerificationAttempts()
-  const livenessExceptionRef = useRef(null)
+  const { trackAttempt, resetAttempts } = useVerificationAttempts()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -53,21 +52,10 @@ const FaceVerification = ({ screenProps }) => {
 
   const retryHandler = useCallback(
     eventData => {
-      const exception = eventData.reason
-
-      // tracking all liveness exceptions except
-      // the last one required to show 'try again lagter'
-      if (attemptsCount < MAX_RETRIES_ALLOWED) {
-        trackAttempt(exception)
-      } else if (!livenessExceptionRef.current) {
-        // storing the last one in the ref, it will be
-        // tracked & reported by the error screen
-        livenessExceptionRef.current = exception
-      }
-
+      trackAttempt(eventData.reason)
       fireEvent(FV_TRYAGAIN_ZOOM, eventData)
     },
-    [attemptsCount],
+    [trackAttempt],
   )
 
   // ZoomSDK session completition handler
@@ -78,14 +66,13 @@ const FaceVerification = ({ screenProps }) => {
       const isCitizen = await goodWallet.isCitizen()
 
       // if session was successfull
-      // resetting attempts
+      // 1. resetting attempts
       resetAttempts()
-      livenessExceptionRef.current = 0
 
-      // whitelistening user
+      // 2. whitelistening user
       setIsCitizen(isCitizen)
 
-      // and returning sucecss to the caller
+      // 3. returning success to the caller
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },
@@ -96,29 +83,22 @@ const FaceVerification = ({ screenProps }) => {
   const exceptionHandler = useCallback(
     exception => {
       const { name } = exception
-      const cancel = 'UserCancelled'
-      const livenessException = livenessExceptionRef.current
-
-      // if user cancelled session after failed liveness attempts
-      // reached the threshold - showing the error screen with the
-      // last one liveness exception to be tracked & repoted
-      if (cancel === name && livenessException) {
-        livenessExceptionRef.current = null
-        showErrorScreen(livenessException)
-        return
-      }
 
       // If user has cancelled face verification by own
       // decision - redirecting back to the into screen
-      if ([cancel, 'ForegroundLoosedError'].includes(name)) {
+      if (['UserCancelled', 'ForegroundLoosedError'].includes(name)) {
         screenProps.navigateTo('FaceVerificationIntro')
         return
       }
 
-      // handling error
+      // otherwise:
+      // 1. tracking error
+      trackAttempt(exception)
+
+      // 2. handling error (showing corresponding error screen)
       showErrorScreen(exception)
     },
-    [screenProps, showErrorScreen],
+    [screenProps, showErrorScreen, trackAttempt],
   )
 
   // Using zoom verification hook, passing completion callback

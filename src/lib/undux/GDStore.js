@@ -28,7 +28,8 @@ type Account = {
  */
 export type State = {
   attemptsCount: number,
-  attemptsHistory: Array,
+  attemptsHistory: string[],
+  reachedMaxAttempts: boolean,
   balanceUpdate: boolean,
   account: Account,
   destinationPath: string,

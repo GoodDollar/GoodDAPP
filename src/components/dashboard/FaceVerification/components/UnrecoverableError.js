@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { Image, Platform, View } from 'react-native'
-import { get, map } from 'lodash'
+import { get } from 'lodash'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
 import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
+
+import { MAX_ATTEMPTS_ALLOWED } from '../hooks/useVerificationAttempts'
 
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 import useOnPress from '../../../../lib/hooks/useOnPress'
@@ -13,8 +15,6 @@ import logger from '../../../../lib/logger/pino-logger'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import illustration from '../../../../assets/FRUnrecoverableError.svg'
-
-import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 
 import { ZoomSDKStatus } from '../sdk/ZoomSDK'
 
@@ -36,18 +36,19 @@ const UnrecoverableError = ({ styles, exception, attemptsHistory, screenProps })
   const onContactSupport = useOnPress(() => navigateTo('Support'), [navigateTo])
   const onDismiss = useOnPress(() => goToRoot(), [goToRoot])
 
-  const attemptsErrorMessages = useMemo(() => map(attemptsHistory, 'message'), [attemptsHistory])
-
   useEffect(() => {
-    // logging error every time unrecoverable error screen shown to send failed attempt messages to the sentry, amplitude
-    log.error('FaceVerification failed - try again later fired:', exception.message, exception, {
-      isLicenseIssue,
-      attemptsErrorMessages,
-      dialogShown: isLicenseIssue,
-    })
+    const { message } = exception
 
+    // logging that unrecoverable error screen shown
+    log.error(
+      `FaceVerification still failing after ${MAX_ATTEMPTS_ALLOWED} attempts - "Try again later" screen shown:`,
+      message,
+      exception,
+      { dialogShown: isLicenseIssue },
+    )
+
+    // if it's not an license issue - we don't have to show dialog
     if (!isLicenseIssue) {
-      fireEvent(FV_TRYAGAINLATER, { attemptsErrorMessages })
       return
     }
 
@@ -55,6 +56,7 @@ const UnrecoverableError = ({ styles, exception, attemptsHistory, screenProps })
     showSupportDialog(showErrorDialog, hideDialog, push, 'Face Verification disabled')
   }, [])
 
+  // if its an license issue - don't render anything, the dialog will be shown
   if (isLicenseIssue) {
     return null
   }

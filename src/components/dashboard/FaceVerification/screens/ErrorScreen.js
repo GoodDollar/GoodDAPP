@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { get } from 'lodash'
 
 import CameraNotAllowedError from '../components/CameraNotAllowedError'
@@ -17,6 +17,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const exception = get(screenProps, 'screenState.error')
   const kindOfTheIssue = get(exception, 'name')
 
+  const [ErrorViewComponent, setErrorViewComponent] = useState(null)
   const { isReachedMaxAttempts } = useVerificationAttempts()
 
   const displayTitle = useMemo(() => {
@@ -27,20 +28,27 @@ const ErrorScreen = ({ styles, screenProps }) => {
 
   const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])
 
-  const ErrorViewComponent = useMemo(() => {
+  // determining error component to display on mount
+  useEffect(() => {
+    // be default display general error
+    let errorViewComponent = GeneralError
     const { kindOfTheIssue: map } = ErrorScreen
 
     // if reached max retries - showing 'something went wrong our side'
     if (isReachedMaxAttempts()) {
-      return UnrecoverableError
+      errorViewComponent = UnrecoverableError
+
+      // otherwise, if there's special screen for this kind of the issue hapened - showing it
+    } else if (kindOfTheIssue in map) {
+      errorViewComponent = map[kindOfTheIssue]
     }
 
-    if (kindOfTheIssue in map) {
-      return map[kindOfTheIssue]
-    }
+    setErrorViewComponent(errorViewComponent)
+  }, [])
 
-    return GeneralError
-  }, [kindOfTheIssue, isReachedMaxAttempts])
+  if (!ErrorViewComponent) {
+    return null
+  }
 
   return (
     <ErrorViewComponent onRetry={onRetry} displayTitle={displayTitle} screenProps={screenProps} exception={exception} />

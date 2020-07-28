@@ -65,8 +65,7 @@ export default class UserProperties {
    * @returns {Promise<void>}
    */
   async set(field: string, value: any) {
-    this.data[field] = value
-    await this.gun.secret(this.data)
+    await this.updateAll({ [field]: value })
 
     return true
   }

@@ -23,8 +23,7 @@ module.exports = (async () => {
       },
 
       assetExts: assetExts
-        .filter(ext => ext !== "svg")
-        .concat('embed.html'),
+        .filter(ext => ext !== "svg"),
 
       sourceExts: process.env.TEST_REACT_NATIVE
         ? ['e2e.js'].concat(defaultSourceExts)

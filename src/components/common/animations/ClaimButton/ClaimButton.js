@@ -5,6 +5,7 @@ import { set } from 'lodash'
 import AnimationBase from '../Base'
 import { weiToMask } from '../../../../lib/wallet/utils'
 import { getAnimationData } from '../../../../lib/utils/lottie'
+import useOnPress from '../../../../lib/hooks/useOnPress'
 const { animationData } = getAnimationData('ClaimButton', require('./data'))
 
 class ClaimButton extends AnimationBase {
@@ -67,9 +68,11 @@ class ClaimButton extends AnimationBase {
     this.setState({ stopOnClaim: false }, cb)
   }
 
-  handlePress = () => {
+  handlePress = e => {
     const { onPressClaim } = this.props
     const { stopOnClaim } = this.state
+    
+    e.preventDefault()
 
     if (onPressClaim && stopOnClaim) {
       onPressClaim()

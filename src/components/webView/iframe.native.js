@@ -7,9 +7,11 @@ import Section from '../common/layout/Section'
 import Icon from '../common/view/Icon'
 
 import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
+import useOnPress from '../../lib/hooks/useOnPress'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 
 const wHeight = getMaxDeviceHeight()
+
 const DOMLoadedDispatcher = `(function () {
   var documentUrl = location.href;
   var DOMReady = 'DOMContentLoaded';
@@ -80,22 +82,25 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
       },
     }
 
-    const NavigationBar = navigate => (
-      <Appbar.Header dark style={navBarStyles.wrapper}>
-        <View style={{ width: 48 }} />
-        <Appbar.Content />
-        <Section.Text color="white" fontWeight="medium" style={navBarStyles.title} testID="rewards_header">
-          {title}
-        </Section.Text>
-        <Appbar.Content />
-        <TouchableOpacity onPress={() => navigate(backToRoute)} style={navBarStyles.walletIcon}>
-          <Icon name="wallet" size={36} color="white" />
-        </TouchableOpacity>
-      </Appbar.Header>
-    )
+    const NavigationBar = ({ navigate }) => {
+      const handleBack = useOnPress(() => navigate(backToRoute), [backToRoute, navigate])
+      return (
+        <Appbar.Header dark style={navBarStyles.wrapper}>
+          <View style={{ width: 48 }} />
+          <Appbar.Content />
+          <Section.Text color="white" fontWeight="medium" style={navBarStyles.title} testID="rewards_header">
+            {title}
+          </Section.Text>
+          <Appbar.Content />
+          <TouchableOpacity onPress={handleBack} style={navBarStyles.walletIcon}>
+            <Icon name="wallet" size={36} color="white" />
+          </TouchableOpacity>
+        </Appbar.Header>
+      )
+    }
 
     IframeTab.navigationOptions = ({ navigation }) => ({
-      navigationBar: () => NavigationBar(navigation.navigate),
+      navigationBar: () => <NavigationBar navigate={navigation.navigate} />,
     })
   }
 

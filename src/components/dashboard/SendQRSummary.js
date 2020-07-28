@@ -13,6 +13,7 @@ import { CustomButton, Section, Wrapper } from '../common'
 import SummaryTable from '../common/view/SummaryTable'
 import TopBar from '../common/view/TopBar'
 import Config from '../../config/config'
+import useOnPress from '../../lib/hooks/useOnPress'
 import SurveySend from './SurveySend'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
@@ -141,6 +142,8 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
     return () => setIsValid(undefined)
   }, [isValid])
 
+  const handleConfirm = useOnPress(() => (Config.isEToro ? setShowSurvey(true) : confirm()), [setShowSurvey, confirm])
+
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
@@ -157,11 +160,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton
-              mode="contained"
-              onPress={() => (Config.isEToro ? setShowSurvey(true) : confirm())}
-              loading={loading}
-            >
+            <CustomButton mode="contained" onPress={handleConfirm} loading={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>

@@ -8,17 +8,18 @@ import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { createIframe } from '../webView/iframe'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'RewardsTab' })
 
 const openInNewTab = false //isIOSWeb
-const RewardsTab = props => {
+const RewardsTab = ({ navigation }) => {
   const [token, setToken] = useState()
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
 
   const getRewardsPath = () => {
-    const params = get(props, 'navigation.state.params', {})
+    const params = get(navigation, 'state.params', {})
     if (openInNewTab === false) {
       params.purpose = 'iframe'
     }
@@ -44,6 +45,10 @@ const RewardsTab = props => {
     return () => store.set('loadingIndicator')({ loading: false })
   }, [])
 
+  const onPressOk = useOnPress(() => window.open(getRewardsPath(), '_blank'), [getRewardsPath])
+
+  const onDismiss = useOnPress(() => navigation.navigate('Home'), [navigation])
+
   useEffect(() => {
     if (openInNewTab && token) {
       store.set('loadingIndicator')({ loading: false })
@@ -52,14 +57,10 @@ const RewardsTab = props => {
         buttons: [
           {
             text: 'OK',
-            onPress: () => {
-              window.open(getRewardsPath(), '_blank')
-            },
+            onPress: onPressOk,
           },
         ],
-        onDismiss: () => {
-          props.navigation.navigate('Home')
-        },
+        onDismiss,
       })
     }
   }, [token])

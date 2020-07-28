@@ -4,6 +4,7 @@ import { Platform, View } from 'react-native'
 import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import type { FeedEventProps } from './EventProps'
 
 const numberColors = [
@@ -20,18 +21,21 @@ const numberColors = [
   '#31AB00',
 ]
 
-const CircleNumber = ({ value, onPress, styles, theme }) => (
-  <View style={styles.numberColumn}>
-    <CustomButton
-      style={[styles.numberButton, { borderColor: numberColors[value] }]}
-      onPress={onPress}
-      mode="outlined"
-      color={theme.colors.darkGray}
-    >
-      {value}
-    </CustomButton>
-  </View>
-)
+const CircleNumber = ({ value, onPress, styles, theme }) => {
+  const _onPress = useOnPress(onPress)
+  return (
+    <View style={styles.numberColumn}>
+      <CustomButton
+        style={[styles.numberButton, { borderColor: numberColors[value] }]}
+        onPress={_onPress}
+        mode="outlined"
+        color={theme.colors.darkGray}
+      >
+        {value}
+      </CustomButton>
+    </View>
+  )
+}
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -40,9 +44,9 @@ const CircleNumber = ({ value, onPress, styles, theme }) => (
  */
 const FeedModalItem = (props: FeedEventProps) => {
   const { item, onPress, styles, theme } = props
-  const buttonPress = () => {
+  const buttonPress = useOnPress(() => {
     onPress(item.id)
-  }
+  }, [item.id, onPress])
 
   return (
     <React.Fragment>

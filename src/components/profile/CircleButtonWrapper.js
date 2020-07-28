@@ -3,6 +3,7 @@ import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const CircleButtonWrapper = ({
   label,
@@ -15,22 +16,21 @@ const CircleButtonWrapper = ({
   iconName,
   iconColor,
   iconSize,
-}) => (
-  <View style={containerStyle}>
-    <TouchableOpacity
-      cursor={disabled ? 'inherit' : 'pointer'}
-      onPress={disabled ? undefined : onPress}
-      style={[styles.button, style]}
-    >
-      <Icon color={iconColor} size={iconSize} name={iconName} />
-    </TouchableOpacity>
-    {!!label && (
-      <Text fontSize={10} fontWeight="medium" lineHeight={11} color="white" style={[styles.label, labelStyles]}>
-        {label}
-      </Text>
-    )}
-  </View>
-)
+}) => {
+  const _onPress = useOnPress(onPress)
+  return (
+    <View style={containerStyle}>
+      <TouchableOpacity cursor={disabled ? 'inherit' : 'pointer'} onPress={_onPress} style={[styles.button, style]}>
+        <Icon color={iconColor} size={iconSize} name={iconName} />
+      </TouchableOpacity>
+      {!!label && (
+        <Text fontSize={10} fontWeight="medium" lineHeight={11} color="white" style={[styles.label, labelStyles]}>
+          {label}
+        </Text>
+      )}
+    </View>
+  )
+}
 
 CircleButtonWrapper.defaultProps = {
   iconColor: '#fff',

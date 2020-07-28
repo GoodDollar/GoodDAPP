@@ -11,19 +11,16 @@ import { withStyles } from '../../lib/styles'
 import SingInSVG from '../../assets/Signin/illustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const Signin = props => {
-  const { styles } = props
+  const { styles, navigation } = props
 
   AsyncStorage.removeItem('GD_web3Token')
 
-  const handleRecover = () => {
-    props.navigation.navigate('Recover')
-  }
+  const handleRecover = useOnPress(() => navigation.navigate('Recover'), [navigation])
 
-  const goToSupport = () => {
-    props.navigation.navigate('Support')
-  }
+  const goToSupport = useOnPress(() => navigation.navigate('Support'), [navigation])
 
   return (
     <Section.Stack grow justifyContent="flex-start">

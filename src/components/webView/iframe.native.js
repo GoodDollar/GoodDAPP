@@ -10,10 +10,28 @@ import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 
-import embed from './iframe.embed.html'
-
 const wHeight = getMaxDeviceHeight()
-const DOMLoadedDispatcher = embed.replace(/<script.+?>/g, '')
+
+const DOMLoadedDispatcher = `(function () {
+  var documentUrl = location.href;
+  var DOMReady = 'DOMContentLoaded';
+  var messenger = (window.ReactNativeWebView || parent || {}).postMessage;
+  
+  if ('function' !== (typeof messenger)) {
+    return;
+  }
+  
+  window.addEventListener(DOMReady, function() {
+    var messagePayload = {
+      event: DOMReady,
+      target: 'iframe',
+      src: documentUrl
+    };
+    
+    messenger(messagePayload, '*')
+  });
+})()
+`
 
 export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home', styles) => {
   const IframeTab = props => {

@@ -1,5 +1,5 @@
-//@flow
-
+// @flow
+import { defaults, once } from 'lodash'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 
 /**
@@ -41,20 +41,39 @@ export default class UserProperties {
   ]
 
   /**
-   * a gun node referring tto gun.user().get('properties')
+   * a gun node referring to gun.user().get('properties')
    * @instance {UserProperties}
    */
-  gun: Gun
+  node: Gun
 
-  data: {}
+  /** @private */
+  props: {}
 
-  constructor(propertiesGun: Gun) {
-    this.gun = propertiesGun
-    this.ready = this.gun
-      .decrypt()
-      .catch(_ => {})
-      .then(_ => Object.assign({}, UserProperties.defaultProperties, _))
-      .then(_ => (this.data = _))
+  get ready(): Promise {
+    return this.loadInBackground()
+  }
+
+  /** @private */
+  loadInBackground = once(async () => {
+    let props
+    const { constructor, node } = this
+    const { defaultProperties } = constructor
+
+    try {
+      props = await node.decrypt()
+    } catch {
+      props = {}
+    }
+
+    props = defaults(props, defaultProperties)
+    this.props = props
+
+    return props
+  })
+
+  constructor(propsNode: Gun) {
+    this.node = propsNode
+    this.loadInBackground()
   }
 
   /**
@@ -62,21 +81,22 @@ export default class UserProperties {
    *
    * @param {string} field
    * @param {string} value
-   * @returns {Promise<void>}
+   * @returns {Promise<boolean>}
    */
+  // eslint-disable-next-line require-await
   async set(field: string, value: any) {
-    await this.updateAll({ [field]: value })
-
-    return true
+    return this.updateAll({ [field]: value })
   }
 
   /**
    * Return property values
    * @param field
-   * @returns {Promise<any>}
+   * @returns {any}
    */
   get(field: string) {
-    return this.data[field]
+    const { props } = this
+
+    return props[field]
   }
 
   /**
@@ -84,16 +104,49 @@ export default class UserProperties {
    * @returns {{}}
    */
   getAll() {
-    return this.data
+    const { props } = this
+
+    return { ...props }
   }
 
   /**
-   * Set value to multiple properties
+   * Sets all properties from the object passed
+   * Warning! This method rewrites all props, if you need
+   * just update a few props - use updateProps()
+   *
+   * @param {object} newProps Object to set properties from
    */
-  async updateAll(data: { [string]: any }): Promise<boolean> {
-    Object.assign(this.data, data)
-    await this.gun.secret(this.data)
+  async setAll(newProps: object): Promise<boolean> {
+    const { node } = this
+    const props = { ...newProps }
+
+    await node.secret(props)
+    this.props = props
 
     return true
+  }
+
+  /**
+   * Updates props by merging them with the object passed
+   *
+   * @param {object} updateProps Object to merge properties with
+   */
+  // eslint-disable-next-line require-await
+  async updateAll(updateProps: object): Promise<boolean> {
+    const { props } = this
+    const updatedProps = { ...props, ...updateProps }
+
+    return this.setAll(updatedProps)
+  }
+
+  /**
+   * Resets props to the default ones
+   * Warning! This method rewrites all props
+   */
+  // eslint-disable-next-line require-await
+  async reset() {
+    const { defaultProperties } = this.constructor
+
+    return this.setAll(defaultProperties)
   }
 }

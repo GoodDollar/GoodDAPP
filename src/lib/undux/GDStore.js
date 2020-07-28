@@ -51,6 +51,7 @@ const initialState: State = {
   },
   attemptsCount: 0,
   attemptsHistory: [],
+  reachedMaxAttempts: false,
   isLoggedInCitizen: false,
   isLoggedIn: false,
   profile: {},

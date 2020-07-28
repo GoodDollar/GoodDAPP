@@ -142,16 +142,15 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         // const userExists = await userStorage.userAlreadyExist()
         log.debug('checking userAlreadyExist', { exists, fullName })
+        const { source } = await ready(replacing)
 
         //user exists reload with dashboard route
         if (exists) {
-          fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
+          fireEvent(SIGNIN_TORUS_SUCCESS, { provider, source })
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
           store.set('isLoggedIn')(true)
           return
         }
-
-        const { source } = await ready(replacing)
 
         //user doesnt exists start signup
         fireEvent(SIGNUP_STARTED, { source, provider })

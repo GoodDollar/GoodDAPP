@@ -10,8 +10,8 @@ if (Platform.OS === 'web') {
 
 export default ({ onDismiss }) => (
   <ExplanationDialog
-    title={'You must allow access\nto your camera'}
-    text="In order to claim G$'s"
+    title="Enable camera access"
+    text={`to claim G$'s`}
     imageSource={illustration}
     imageHeight={128}
     buttons={[

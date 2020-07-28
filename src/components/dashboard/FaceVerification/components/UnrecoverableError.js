@@ -5,8 +5,6 @@ import { get } from 'lodash'
 import { CustomButton, Section, Wrapper } from '../../../common'
 import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
 
-import { MAX_ATTEMPTS_ALLOWED } from '../hooks/useVerificationAttempts'
-
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import { isMobileOnly } from '../../../../lib/utils/platform'
@@ -39,20 +37,13 @@ const UnrecoverableError = ({ styles, exception, attemptsHistory, screenProps })
   useEffect(() => {
     const { message } = exception
 
-    // logging that unrecoverable error screen shown
-    log.error(
-      `FaceVerification still failing after ${MAX_ATTEMPTS_ALLOWED} attempts - "Try again later" screen shown:`,
-      message,
-      exception,
-      { dialogShown: isLicenseIssue },
-    )
-
     // if it's not an license issue - we don't have to show dialog
     if (!isLicenseIssue) {
       return
     }
 
     // if user is not in whitelist and we do not do faceverification then this is an error
+    log.error('FaceVerification failed due to the license issue', message, exception, { dialogShown: true })
     showSupportDialog(showErrorDialog, hideDialog, push, 'Face Verification disabled')
   }, [])
 

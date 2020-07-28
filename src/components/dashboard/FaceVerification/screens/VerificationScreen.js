@@ -83,17 +83,19 @@ const FaceVerification = ({ screenProps }) => {
   const exceptionHandler = useCallback(
     exception => {
       const { name } = exception
+      const cancelled = 'UserCancelled'
 
-      // If user has cancelled face verification by own
+      // 1. if not a user cancelled case - tracking attempt
+      if (cancelled !== name) {
+        trackAttempt(exception)
+      }
+
+      // 2. If user has cancelled face verification by own
       // decision - redirecting back to the into screen
-      if (['UserCancelled', 'ForegroundLoosedError'].includes(name)) {
+      if ([cancelled, 'ForegroundLoosedError'].includes(name)) {
         screenProps.navigateTo('FaceVerificationIntro')
         return
       }
-
-      // otherwise:
-      // 1. tracking error
-      trackAttempt(exception)
 
       // 2. handling error (showing corresponding error screen)
       showErrorScreen(exception)

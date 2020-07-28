@@ -53,7 +53,7 @@ const ExplanationDialog = ({
   const imageProps = {
     style: [
       styles.image,
-      { height: getDesignRelativeHeight(imageHeight) },
+      { height: getDesignRelativeHeight(imageHeight, false) },
       { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) },
     ],
     resizeMode: 'contain',
@@ -101,13 +101,9 @@ const mapStylesToProps = () => ({
   },
   image: {
     width: '100%',
-    marginBottom: getDesignRelativeHeight(16),
+    marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
   },
   title: {
-    marginBottom: getDesignRelativeHeight(8),
-  },
-  bottomLink: {
-    marginTop: getDesignRelativeHeight(24),
     marginBottom: getDesignRelativeHeight(8),
   },
   buttonsContainer: {
@@ -116,7 +112,7 @@ const mapStylesToProps = () => ({
     justifyContent: 'flex-end',
     paddingLeft: 0,
     paddingRight: 0,
-    paddingTop: theme.sizes.defaultDouble,
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
   },
   buttonText: {
     paddingLeft: 5,

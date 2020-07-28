@@ -10,8 +10,7 @@ if (Platform.OS === 'web') {
 
 export default ({ onDismiss }) => (
   <ExplanationDialog
-    title="Enable camera access"
-    text={`to claim G$'s`}
+    title={`Enable camera access\nto claim G$'s`}
     imageSource={illustration}
     imageHeight={128}
     buttons={[

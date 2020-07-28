@@ -16,15 +16,18 @@ const DOMLoadedDispatcher = `(function () {
   var documentUrl = location.href;
   var DOMReady = 'DOMContentLoaded';
   var messenger = (window.ReactNativeWebView || parent || {}).postMessage;
+  
   if ('function' !== (typeof messenger)) {
     return;
   }
+  
   window.addEventListener(DOMReady, function() {
     var messagePayload = {
       event: DOMReady,
       target: 'iframe',
       src: documentUrl
     };
+    
     messenger(messagePayload, '*')
   });
 })()

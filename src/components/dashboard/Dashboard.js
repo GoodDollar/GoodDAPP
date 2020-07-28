@@ -65,7 +65,6 @@ import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
-import ServiceWorkerUpdatedDialog from './ServiceWorkerUpdatedDialog'
 
 import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
@@ -108,7 +107,6 @@ const Dashboard = props => {
   const currentFeed = store.get('currentFeed')
   const currentScreen = store.get('currentScreen')
   const loadingIndicator = store.get('loadingIndicator')
-  const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
   const loadAnimShown = store.get('feedLoadAnimShown')
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
@@ -457,37 +455,6 @@ const Dashboard = props => {
     }
   }, [_get(currentScreen, 'dialogData.visible'), _get(loadingIndicator, 'loading'), currentFeed])
 
-  useEffect(() => {
-    if (serviceWorkerUpdated) {
-      log.info('service worker updated', serviceWorkerUpdated)
-      showDialog({
-        showCloseButtons: false,
-        content: <ServiceWorkerUpdatedDialog />,
-        buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
-        buttons: [
-          {
-            text: 'WHAT’S NEW?',
-            mode: 'text',
-            color: theme.colors.gray80Percent,
-            style: styles.serviceWorkerDialogWhatsNew,
-            onPress: () => {
-              window.open(config.newVersionUrl, '_blank')
-            },
-          },
-          {
-            text: 'UPDATE',
-            onPress: () => {
-              if (serviceWorkerUpdated && serviceWorkerUpdated.waiting && serviceWorkerUpdated.waiting.postMessage) {
-                log.debug('service worker:', 'sending skip waiting', serviceWorkerUpdated.active.clients)
-                serviceWorkerUpdated.waiting.postMessage({ type: 'SKIP_WAITING' })
-              }
-            },
-          },
-        ],
-      })
-    }
-  }, [serviceWorkerUpdated])
-
   const showEventModal = useCallback(
     currentFeed => {
       store.set('currentFeed')(currentFeed)
@@ -827,18 +794,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
-  },
-  serviceWorkerDialogWhatsNew: {
-    textAlign: 'left',
-    fontSize: normalize(14),
-  },
-  serviceWorkerDialogButtonsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: theme.sizes.defaultDouble,
-    justifyContent: 'space-between',
   },
 })
 

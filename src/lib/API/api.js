@@ -369,6 +369,12 @@ class API {
       })
     }
   }
+
+  async getActualPhase() {
+    const { data } = await this.client.get('/verify/phase')
+
+    return data.phase
+  }
 }
 
 const api = new API()

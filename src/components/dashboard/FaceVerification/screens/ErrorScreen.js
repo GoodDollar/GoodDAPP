@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import { get } from 'lodash'
 
 import CameraNotAllowedError from '../components/CameraNotAllowedError'
@@ -17,8 +17,10 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const exception = get(screenProps, 'screenState.error')
   const kindOfTheIssue = get(exception, 'name')
 
-  const [ErrorViewComponent, setErrorViewComponent] = useState(null)
   const { isReachedMaxAttempts } = useVerificationAttempts()
+
+  // calling isReachedMaxAttempts once and storing result in the ref
+  const isReachedMaxAttemptsRef = useRef(isReachedMaxAttempts())
 
   const displayTitle = useMemo(() => {
     const { fullName } = store.get('profile')
@@ -28,26 +30,18 @@ const ErrorScreen = ({ styles, screenProps }) => {
 
   const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])
 
-  // determining error component to display on mount
-  useEffect(() => {
-    // be default display general error
-    let errorViewComponent = GeneralError
-    const { kindOfTheIssue: map } = ErrorScreen
+  // determining error component to display
+  // be default display general error
+  let ErrorViewComponent = GeneralError
+  const { kindOfTheIssue: map } = ErrorScreen
 
-    // if reached max retries - showing 'something went wrong our side'
-    if (isReachedMaxAttempts()) {
-      errorViewComponent = UnrecoverableError
+  // if reached max retries - showing 'something went wrong our side'
+  if (isReachedMaxAttemptsRef.current) {
+    ErrorViewComponent = UnrecoverableError
 
-      // otherwise, if there's special screen for this kind of the issue hapened - showing it
-    } else if (kindOfTheIssue in map) {
-      errorViewComponent = map[kindOfTheIssue]
-    }
-
-    setErrorViewComponent(errorViewComponent)
-  }, [])
-
-  if (!ErrorViewComponent) {
-    return null
+    // otherwise, if there's special screen for this kind of the issue hapened - showing it
+  } else if (kindOfTheIssue in map) {
+    ErrorViewComponent = map[kindOfTheIssue]
   }
 
   return (

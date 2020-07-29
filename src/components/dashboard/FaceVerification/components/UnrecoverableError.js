@@ -1,26 +1,56 @@
 import React, { useEffect } from 'react'
-
 import { Image, Platform, View } from 'react-native'
+import { get } from 'lodash'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
+import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
 
+import { useDialog } from '../../../../lib/undux/utils/dialog'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import { isMobileOnly } from '../../../../lib/utils/platform'
+import logger from '../../../../lib/logger/pino-logger'
+
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 import illustration from '../../../../assets/FRUnrecoverableError.svg'
 
-import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
+import { ZoomSDKStatus } from '../sdk/ZoomSDK'
+
+const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus
+
+const log = logger.child({ from: 'FaceVerification' })
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const UnrecoverableError = ({ styles, screenProps }) => {
-  const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
-  const onDismiss = useOnPress(() => screenProps.goToRoot(), [screenProps])
+const UnrecoverableError = ({ styles, exception, attemptsHistory, screenProps }) => {
+  const [, hideDialog, showErrorDialog] = useDialog()
+  const { navigateTo, goToRoot, push } = screenProps
 
-  useEffect(() => fireEvent(FV_TRYAGAINLATER), [])
+  const sdkStatus = get(exception, 'code')
+  const isLicenseIssue = [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(sdkStatus)
+
+  const onContactSupport = useOnPress(() => navigateTo('Support'), [navigateTo])
+  const onDismiss = useOnPress(() => goToRoot(), [goToRoot])
+
+  useEffect(() => {
+    const { message } = exception
+
+    // if it's not an license issue - we don't have to show dialog
+    if (!isLicenseIssue) {
+      return
+    }
+
+    // if user is not in whitelist and we do not do faceverification then this is an error
+    log.error('FaceVerification failed due to the license issue', message, exception, { dialogShown: true })
+    showSupportDialog(showErrorDialog, hideDialog, push, 'Face Verification disabled')
+  }, [])
+
+  // if its an license issue - don't render anything, the dialog will be shown
+  if (isLicenseIssue) {
+    return null
+  }
 
   return (
     <Wrapper>

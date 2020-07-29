@@ -24,7 +24,7 @@ const log = logger.child({ from: 'FaceVerification' })
 const FaceVerification = ({ screenProps }) => {
   const [showLoading, hideLoading] = useLoadingIndicator()
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
-  const [, , resetAttempts] = useVerificationAttempts()
+  const { trackAttempt, resetAttempts } = useVerificationAttempts()
 
   // Redirects to the error screen, passing exception
   // object and allowing to show/hide retry button (hides it by default)
@@ -50,9 +50,13 @@ const FaceVerification = ({ screenProps }) => {
     fireEvent(FV_PROGRESS_ZOOM)
   }, [])
 
-  const retryHandler = useCallback(eventData => {
-    fireEvent(FV_TRYAGAIN_ZOOM, eventData)
-  }, [])
+  const retryHandler = useCallback(
+    eventData => {
+      fireEvent(FV_TRYAGAIN_ZOOM, eventData)
+      trackAttempt(eventData.reason)
+    },
+    [trackAttempt]
+  )
 
   // ZoomSDK session completition handler
   const completionHandler = useCallback(
@@ -61,10 +65,14 @@ const FaceVerification = ({ screenProps }) => {
 
       const isCitizen = await goodWallet.isCitizen()
 
-      // if session was successfull - whitelistening user
-      // and returning sucecss to the caller
+      // if session was successfull
+      // 1. resetting attempts
       resetAttempts()
+
+      // 2. whitelistening user
       setIsCitizen(isCitizen)
+
+      // 3. returning success to the caller
       screenProps.pop({ isValid: true })
       fireEvent(FV_SUCCESS_ZOOM)
     },
@@ -75,18 +83,24 @@ const FaceVerification = ({ screenProps }) => {
   const exceptionHandler = useCallback(
     exception => {
       const { name } = exception
+      const cancelled = 'UserCancelled'
 
-      if (['UserCancelled', 'ForegroundLoosedError'].includes(name)) {
-        // If user has cancelled face verification by own
-        // decision - redirecting back to the into screen
+      // 1. if not a user cancelled case - tracking attempt
+      if (cancelled !== name) {
+        trackAttempt(exception)
+      }
+
+      // 2. If user has cancelled face verification by own
+      // decision - redirecting back to the into screen
+      if ([cancelled, 'ForegroundLoosedError'].includes(name)) {
         screenProps.navigateTo('FaceVerificationIntro')
         return
       }
 
-      // handling error
+      // 2. handling error (showing corresponding error screen)
       showErrorScreen(exception)
     },
-    [screenProps, showErrorScreen]
+    [screenProps, showErrorScreen, trackAttempt]
   )
 
   // Using zoom verification hook, passing completion callback

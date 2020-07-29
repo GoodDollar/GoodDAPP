@@ -25,7 +25,7 @@ exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://community.gooddollar.org/tou/#privacy-policy"
+  src="https://community.gooddollar.org/tou1/#privacy-policy"
   style={
     Object {
       "height": 768,
@@ -43,7 +43,7 @@ exports[`WebViewScreen Instances PrivacyPolicyAndTerms matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://community.gooddollar.org/tou/"
+  src="https://community.gooddollar.org/tou1/"
   style={
     Object {
       "height": 768,
@@ -67,7 +67,7 @@ exports[`WebViewScreen Instances Support matches snapshot 1`] = `
       "height": 768,
     }
   }
-  title=" Support & Feedback"
+  title=" Help & Feedback"
   width="100%"
 />
 `;
@@ -85,7 +85,7 @@ exports[`WebViewScreen Instances SupportForUnsigned matches snapshot 1`] = `
       "height": 768,
     }
   }
-  title=" Support & Feedback"
+  title=" Help & Feedback"
   width="100%"
 />
 `;

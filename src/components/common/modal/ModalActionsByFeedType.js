@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { pickBy } from 'lodash'
 
@@ -19,6 +19,7 @@ import { withStyles } from '../../../lib/styles'
 
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -35,12 +36,13 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const { canShare, generateSendShareObject, generateSendShareText, generateShareLink } = useNativeSharing()
   const currentUserName = store.get('profile').fullName
   const inviteCode = store.get('inviteCode')
+  const _handleModalClose = useOnPress(handleModalClose)
 
   const fireEventAnalytics = actionType => {
     fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
   }
 
-  const cancelPayment = useCallback(async () => {
+  const cancelPayment = useOnPress(async () => {
     log.info({ item, action: 'cancelPayment' })
     fireEventAnalytics('cancelPayment')
     if (item.status === 'pending') {
@@ -102,37 +104,37 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     }
   }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject, inviteCode])
 
-  const readMore = useCallback(() => {
+  const readMore = useOnPress(() => {
     fireEventAnalytics('readMore')
     log.info({ item, action: 'readMore' })
     handleModalClose()
   }, [handleModalClose, item])
 
-  const shareMessage = useCallback(() => {
+  const shareMessage = useOnPress(() => {
     fireEventAnalytics('shareMessage')
     log.info({ item, action: 'shareMessage' })
     handleModalClose()
   }, [handleModalClose, item])
 
-  const invitePeople = useCallback(() => {
+  const invitePeople = useOnPress(() => {
     fireEventAnalytics('Rewards')
     navigation.navigate('Rewards')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const Marketplace = useCallback(() => {
+  const Marketplace = useOnPress(() => {
     fireEventAnalytics('Marketplace')
     navigation.navigate('Marketplace')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const backupPage = useCallback(() => {
+  const backupPage = useOnPress(() => {
     fireEventAnalytics('BackupWallet')
     navigation.navigate('BackupWallet')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const goToClaimPage = useCallback(() => {
+  const goToClaimPage = useOnPress(() => {
     fireEventAnalytics('Claim')
     navigation.navigate('Claim')
     handleModalClose()
@@ -175,7 +177,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
-              <CustomButton mode="contained" style={styles.rightButton} fontWeight="medium" onPress={handleModalClose}>
+              <CustomButton mode="contained" style={styles.rightButton} fontWeight="medium" onPress={_handleModalClose}>
                 Ok
               </CustomButton>
             </View>
@@ -201,7 +203,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton fontWeight="medium" mode="text" color="gray80Percent" onPress={handleModalClose}>
+            <ModalButton fontWeight="medium" mode="text" color="gray80Percent" onPress={_handleModalClose}>
               LATER
             </ModalButton>
           </View>
@@ -224,7 +226,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton fontWeight="medium" mode="text" color="gray80Percent" onPress={handleModalClose}>
+            <ModalButton fontWeight="medium" mode="text" color="gray80Percent" onPress={_handleModalClose}>
               LATER
             </ModalButton>
           </View>
@@ -271,7 +273,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     case 'feedback':
       return (
         <View style={styles.buttonsView}>
-          <ModalButton fontWeight="medium" onPress={handleModalClose}>
+          <ModalButton fontWeight="medium" onPress={_handleModalClose}>
             Later
           </ModalButton>
         </View>
@@ -282,7 +284,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       // claim / receive / withdraw / notification / sendcancelled / sendcompleted
       return (
         <View style={styles.buttonsView}>
-          <ModalButton fontWeight="medium" mode="contained" onPress={handleModalClose}>
+          <ModalButton fontWeight="medium" mode="contained" onPress={_handleModalClose}>
             Ok
           </ModalButton>
         </View>

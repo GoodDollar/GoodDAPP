@@ -3,6 +3,7 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import CustomIcon from './CustomIcon'
 
 type IconProps = {
@@ -23,12 +24,9 @@ type IconProps = {
  * @returns {React.Node}
  */
 const IconButton = ({ styles, theme, text, onPress, disabled, name, ...iconProps }: IconProps) => {
+  const _onPress = useOnPress(onPress)
   return (
-    <TouchableOpacity
-      cursor={disabled ? 'inherit' : 'pointer'}
-      onPress={disabled ? undefined : onPress}
-      style={styles.container}
-    >
+    <TouchableOpacity cursor={disabled ? 'inherit' : 'pointer'} onPress={_onPress} style={styles.container}>
       <CustomIcon
         color={theme.colors.darkBlue}
         name={name}

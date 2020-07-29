@@ -6,7 +6,6 @@ import logger from '../../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
   fireEvent,
-  identifyOnUserSignup,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
@@ -30,8 +29,10 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
+import { userExists } from '../../../lib/login/userExists'
 import useTorus from './hooks/useTorus'
 
 Image.prefetch(illustration)
@@ -65,7 +66,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       log.debug('reinitializing wallet and storage with new user')
       goodWallet.init()
       await goodWallet.ready
-      await userStorage.init()
+      userStorage.init()
     }
 
     //for QA
@@ -108,8 +109,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           torusUser = await torusSDK.triggerLogin(provider)
         }
 
-        identifyOnUserSignup(torusUser.email)
-
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
         const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
 
@@ -135,17 +134,20 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       }
 
       try {
-        const { userStorage, source } = await ready(replacing)
-        const userExists = await userStorage.userAlreadyExist()
-        log.debug('checking userAlreadyExist', { userExists })
+        const { exists, fullName } = await userExists()
+
+        // const userExists = await userStorage.userAlreadyExist()
+        log.debug('checking userAlreadyExist', { exists, fullName })
 
         //user exists reload with dashboard route
-        if (userExists) {
+        if (exists) {
           fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
           store.set('isLoggedIn')(true)
           return
         }
+
+        const { source } = await ready(replacing)
 
         //user doesnt exists start signup
         fireEvent(SIGNUP_STARTED, { source, provider })
@@ -171,40 +173,52 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     [store, torusSDK, showErrorDialog, navigate],
   )
 
-  const goToManualRegistration = useCallback(() => {
+  const goToManualRegistration = useOnPress(async () => {
+    const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+
+    //in case user started torus signup but came back here we need to re-initialize wallet/storage with
+    //new credentials
+    if (curSeed) {
+      await AsyncStorage.clear()
+      await ready(true)
+    }
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])
 
-  const goToSignIn = useCallback(() => {
-    navigate('SigninInfo')
-  }, [navigate])
+  const goToSignIn = useOnPress(() => navigate('SigninInfo'), [navigate])
 
-  const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
+  const handleNavigateTermsOfUse = useOnPress(() => push('PrivacyPolicyAndTerms'), [push])
 
-  const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
+  const handleNavigatePrivacyPolicy = useOnPress(() => push('PrivacyPolicy'), [push])
 
   // google button settings
-  const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
+  const googleButtonHandler = useOnPress(() => (asGuest ? signupGoogle() : goToW3Site()), [
+    asGuest,
+    signupGoogle,
+    goToW3Site,
+  ])
   const googleButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
   // facebook button settings
-  const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
+  const facebookButtonHandler = useOnPress(() => (asGuest ? signupFacebook() : goToW3Site()), [
+    asGuest,
+    signupFacebook,
+    goToW3Site,
+  ])
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
-  const auth0ButtonHandler = useMemo(
-    () =>
-      asGuest
-        ? () => {
-            setPasswordless(true)
-            fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
-          }
-        : goToW3Site,
-    [asGuest, signupAuth0, setPasswordless],
-  )
+  const auth0ButtonHandler = useOnPress(() => {
+    if (!asGuest) {
+      goToW3Site()
+      return
+    }
+    setPasswordless(true)
+    fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
+  }, [asGuest, signupAuth0, setPasswordless])
 
-  const signupAuth0Email = () => signupAuth0('email')
-  const signupAuth0Mobile = () => signupAuth0('mobile')
+  const signupAuth0Email = useOnPress(() => signupAuth0('email'), [signupAuth0])
+  const signupAuth0Mobile = useOnPress(() => signupAuth0('mobile'), [signupAuth0])
 
   const ShowPasswordless = useMemo(
     () => () => {

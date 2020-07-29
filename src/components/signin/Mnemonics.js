@@ -5,12 +5,12 @@ import React, { useEffect, useState } from 'react'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import retryImport from '../../lib/utils/retryImport'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
+import { userExists } from '../../lib/login/userExists'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -19,6 +19,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
 import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -54,7 +55,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     setMnemonics(mnemonics)
   }
 
-  const recover = async () => {
+  const recover = useOnPress(async () => {
+    await AsyncStorage.clear()
     input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)
@@ -87,10 +89,11 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       await saveMnemonics(mnemonics)
 
       // We validate that a user was registered for the specified mnemonics
-      const [profile, fullName] = await profileExist()
-      log.debug('profile exists:', { profile, fullName })
-      if (profile) {
-        await AsyncStorage.setItem(IS_LOGGED_IN, 'true')
+      const { exists, fullName } = await userExists(mnemonics)
+      log.debug('userExists result:', { exists, fullName })
+
+      if (exists) {
+        await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
         // FIXME: RN INAPPLINKS
         const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
@@ -119,7 +122,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } finally {
       setRecovering(false)
     }
-  }
+  }, [setRecovering, mnemonics, showDialog])
+
   const handleEnter = (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter') {
       recover()
@@ -133,23 +137,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       handleChange(incomingMnemonic)
     }
   }, [])
-
-  /**
-   * Helper to validate if exist a Gun profile associated to current mnemonic
-   * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
-   */
-  async function profileExist(): Promise<any> {
-    const [Wallet, UserStorage] = await Promise.all([
-      retryImport(() => import('../../lib/wallet/GoodWalletClass').then(_ => _.GoodWallet)),
-      retryImport(() => import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage)),
-    ])
-    const wallet = new Wallet({ mnemonic: mnemonics })
-    await wallet.ready
-    const userStorage = new UserStorage(wallet)
-    await userStorage.ready
-    const exists = await userStorage.userAlreadyExist()
-    return [exists, exists && (await userStorage.getProfileFieldDisplayValue('fullName'))]
-  }
 
   const web3HasWallet = get(navigation, 'state.params.web3HasWallet')
 

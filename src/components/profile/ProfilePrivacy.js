@@ -198,11 +198,14 @@ const ProfilePrivacy = props => {
  * @returns {ReactNode}
  * @constructor
  */
-const InfoIcon = ({ color, onPress, size, style }) => (
-  <TouchableOpacity onPress={onPress} style={style}>
-    <Icon size={size || 16} color={color} name="faq" />
-  </TouchableOpacity>
-)
+const InfoIcon = ({ color, onPress, size, style }) => {
+  const _onPress = useOnPress(onPress)
+  return (
+    <TouchableOpacity onPress={_onPress} style={style}>
+      <Icon size={size || 16} color={color} name="faq" />
+    </TouchableOpacity>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => {
   const wrapper = {

@@ -3,6 +3,7 @@ import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
+import useOnPress from '../../lib/hooks/useOnPress'
 import type { FeedEventProps } from './FeedItems/EventProps'
 
 /**
@@ -13,11 +14,12 @@ import type { FeedEventProps } from './FeedItems/EventProps'
  */
 const FeedActions = ({ hasAction, children, actionIcon, onPress, styles, theme }: FeedEventProps) => {
   const backgroundColor = hasAction ? theme.colors.red : 'transparent'
+  const _onPress = useOnPress(onPress)
 
   return (
     <View style={[styles.actionsContainer, { backgroundColor }]}>
       {hasAction && (
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={_onPress}>
           <View style={styles.actionsContainerInner}>
             <Icon name={actionIcon} color={theme.colors.surface} size={22} />
             <Text style={styles.action} fontSize={14} fontWeight="medium" color="surface">

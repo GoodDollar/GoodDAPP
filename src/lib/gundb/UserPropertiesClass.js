@@ -1,4 +1,4 @@
-//@flow
+// @flow
 
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 
@@ -24,6 +24,7 @@ export default class UserProperties {
     showQuickActionHint: true,
     registered: false,
     startClaimingAdded: false,
+    lastBlock: 0,
   }
 
   fields = [
@@ -64,8 +65,7 @@ export default class UserProperties {
    * @returns {Promise<void>}
    */
   async set(field: string, value: any) {
-    this.data[field] = value
-    await this.gun.secret(this.data)
+    await this.updateAll({ [field]: value })
 
     return true
   }
@@ -85,5 +85,15 @@ export default class UserProperties {
    */
   getAll() {
     return this.data
+  }
+
+  /**
+   * Set value to multiple properties
+   */
+  async updateAll(data: { [string]: any }): Promise<boolean> {
+    Object.assign(this.data, data)
+    await this.gun.secret(this.data)
+
+    return true
   }
 }

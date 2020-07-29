@@ -8,6 +8,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../common'
 import ImageCropper from '../common/form/ImageCropper'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'EditAvatar' })
 
@@ -26,7 +27,7 @@ const EditAvatar = ({ theme, navigation }) => {
   const [avatar, setAvatar] = useState(profile.avatar)
   const croppedRef = useRef(avatar)
 
-  const updateAvatar = useCallback(async () => {
+  const updateAvatar = useOnPress(async () => {
     setProcessing(true)
 
     try {

@@ -53,25 +53,17 @@ export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
-const Amplitude = amplitude.getInstance()
-const { mt: Mautic, FS, dataLayer: GoogleAnalytics } = global
-
 const log = logger.child({ from: 'analytics' })
 const { sentryDSN, amplitudeKey, version, env, network } = Config
 
-const isFSEnabled = !!FS
-const isSentryEnabled = !!sentryDSN
-const isAmplitudeEnabled = !!amplitudeKey
-const isGoogleAnalyticsEnabled = !!GoogleAnalytics
-
 /** @private */
 // eslint-disable-next-line require-await
-const initAmplitude = async () => {
+const initAmplitude = async key => {
   if (!isAmplitudeEnabled) {
     return
   }
 
-  return new Promise(resolve => Amplitude.init(amplitudeKey, null, null, resolve))
+  return new Promise(resolve => Amplitude.init(key, null, null, resolve))
 }
 
 /** @private */
@@ -90,8 +82,20 @@ const initFullStory = async () =>
       },
     })
   })
-
+let Amplitude, Mautic, FS, GoogleAnalytics
+let isFSEnabled, isSentryEnabled, isGoogleAnalyticsEnabled, isMauticEnabled, isAmplitudeEnabled
 export const initAnalytics = async () => {
+  Amplitude = amplitude.getInstance()
+  Mautic = global.mt
+  FS = global.FS
+  GoogleAnalytics = global.dataLayer
+
+  isFSEnabled = !!FS
+  isSentryEnabled = !!sentryDSN
+  isAmplitudeEnabled = !!amplitudeKey
+  isGoogleAnalyticsEnabled = !!GoogleAnalytics
+  isMauticEnabled = !!Mautic
+
   // pre-initializing & preloading FS & Amplitude
   await Promise.all([isFSEnabled && initFullStory(), isAmplitudeEnabled && initAmplitude(amplitudeKey)])
 
@@ -125,6 +129,7 @@ export const initAnalytics = async () => {
     FS: isFSEnabled,
     Sentry: isSentryEnabled,
     Amplitude: isAmplitudeEnabled,
+    Mautic: isMauticEnabled,
   })
 
   patchLogger()
@@ -162,8 +167,7 @@ const setUserEmail = email => {
   }
 }
 
-/** @private */
-const identifyWith = (email, identifier = null) => {
+export const identifyWith = (email, identifier = null) => {
   if (isAmplitudeEnabled && identifier) {
     Amplitude.setUserId(identifier)
   }
@@ -199,7 +203,7 @@ const identifyWith = (email, identifier = null) => {
 export const identifyOnUserSignup = async email => {
   setUserEmail(email)
 
-  if (Mautic && email && 'production' === env) {
+  if (email && ['staging', 'production'].includes(env)) {
     await API.addMauticContact({ email })
   }
 
@@ -208,20 +212,11 @@ export const identifyOnUserSignup = async email => {
     { email },
     {
       FS: isFSEnabled,
-      Mautic: !!email,
+      Mautic: isMauticEnabled && !!email,
       Sentry: isSentryEnabled,
       Amplitude: isAmplitudeEnabled,
     },
   )
-}
-
-export const identifyWithSignedInUser = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
-  const identifier = goodWallet.getAccountForType('login')
-  const email = await userStorage.getProfileFieldValue('email')
-
-  log.debug('got identifiers', { identifier, email })
-
-  identifyWith(email, identifier)
 }
 
 export const reportToSentry = (error, extra = {}, tags = {}) => {

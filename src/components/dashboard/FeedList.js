@@ -3,7 +3,7 @@ import React, { createRef, useCallback, useEffect, useRef, useState } from 'reac
 import { Animated } from 'react-native'
 import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import * as Animatable from 'react-native-animatable'
-import { get } from 'lodash'
+import { get, isFunction } from 'lodash'
 import moment from 'moment'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
@@ -13,6 +13,7 @@ import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
@@ -66,11 +67,13 @@ const FeedList = ({
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
 
-  const scrollToTop = () => {
-    if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
-      flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
+  const scrollToTop = useOnPress(() => {
+    const list = get(flRef, 'current._component._flatListRef', {})
+
+    if (isFunction(list.scrollToOffset)) {
+      list.scrollToOffset({ offset: 0 })
     }
-  }
+  })
 
   const keyExtractor = item => item.id
 

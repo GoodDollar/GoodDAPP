@@ -3,6 +3,7 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
 import { connectActionSheet, useActionSheet } from '@expo/react-native-action-sheet'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
 type Props = {
   onChange: Function,
@@ -27,14 +28,14 @@ const InputFile = ({ onChange, style, children, pickerOptions }: Props) => {
     onChange(imageData)
   }
 
-  const openSheet = () => {
+  const openSheet = useOnPress(() => {
     const sheetOptions = {
       options: ['Open Camera', 'Choose from library', 'Close'],
       cancelButtonIndex: 2,
     }
 
     showActionSheetWithOptions(sheetOptions, handleSheetClick)
-  }
+  }, [handleSheetClick, showActionSheetWithOptions])
 
   return (
     <TouchableOpacity onPress={openSheet} style={style}>

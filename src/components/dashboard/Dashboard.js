@@ -46,6 +46,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
+import useOnPress from '../../lib/hooks/useOnPress'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
 import Amount from './Amount'
@@ -655,7 +656,7 @@ const Dashboard = props => {
 
   const modalListData = useMemo(() => (isBrowser ? [currentFeed] : feeds), [currentFeed, feeds])
 
-  const goToProfile = useCallback(() => screenProps.push('Profile'), [screenProps])
+  const goToProfile = useOnPress(() => screenProps.push('Profile'), [screenProps])
 
   return (
     <Wrapper style={styles.dashboardWrapper} withGradient={false}>

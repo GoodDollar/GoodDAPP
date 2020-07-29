@@ -14,8 +14,6 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 import { withStyles } from '../../../../lib/styles'
 import illustration from '../../../../assets/FRUnrecoverableError.svg'
 
-import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
-
 import { ZoomSDKStatus } from '../sdk/ZoomSDK'
 
 const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus
@@ -26,26 +24,30 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const UnrecoverableError = ({ styles, exception, screenProps }) => {
+const UnrecoverableError = ({ styles, exception, attemptsHistory, screenProps }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
+  const { navigateTo, goToRoot, push } = screenProps
 
   const sdkStatus = get(exception, 'code')
   const isLicenseIssue = [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(sdkStatus)
 
-  const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
-  const onDismiss = useOnPress(() => screenProps.goToRoot(), [screenProps])
+  const onContactSupport = useOnPress(() => navigateTo('Support'), [navigateTo])
+  const onDismiss = useOnPress(() => goToRoot(), [goToRoot])
 
   useEffect(() => {
+    const { message } = exception
+
+    // if it's not an license issue - we don't have to show dialog
     if (!isLicenseIssue) {
-      fireEvent(FV_TRYAGAINLATER)
       return
     }
 
     // if user is not in whitelist and we do not do faceverification then this is an error
-    log.error('FaceVerification failed', '', exception, { dialogShown: true })
-    showSupportDialog(showErrorDialog, hideDialog, screenProps.push, 'Face Verification disabled')
+    log.error('FaceVerification failed due to the license issue', message, exception, { dialogShown: true })
+    showSupportDialog(showErrorDialog, hideDialog, push, 'Face Verification disabled')
   }, [])
 
+  // if its an license issue - don't render anything, the dialog will be shown
   if (isLicenseIssue) {
     return null
   }

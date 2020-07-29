@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
-import { Paragraph, Portal } from 'react-native-paper'
+import { Portal } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
@@ -94,7 +94,7 @@ const CustomDialog = ({
                 {image ? image : defaultImage}
                 {message && <Section.Row style={[styles.paragraph, { color }]}>{message}</Section.Row>}
                 {boldMessage && (
-                  <Paragraph style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Paragraph>
+                  <Section.Row style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Section.Row>
                 )}
               </>
             )}

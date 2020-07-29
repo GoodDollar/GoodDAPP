@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
@@ -174,7 +174,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexGrow: 1,
     padding: 0,
-    flex: 1,
+    maxHeight: Platform.select({
+      web: 'none',
+      default: 350,
+    }),
   },
   buttonsContainer: {
     display: 'flex',

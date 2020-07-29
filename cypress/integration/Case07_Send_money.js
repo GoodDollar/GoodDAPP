@@ -62,7 +62,7 @@ describe('Test case 7: Ability to send money', () => {
       HomePage.sendButton.click()
       SendMoneyPage.nameInput.type('another person')
       SendMoneyPage.nextButton.click()
-      SendMoneyPage.moneyInput.type('0.01')
+      SendMoneyPage.moneyInput.type('0.05')
       SendMoneyPage.nextButton.click()
       SendMoneyPage.messageInput.type('test message')
       SendMoneyPage.nextButton.click()
@@ -98,7 +98,7 @@ describe('Test case 7: Ability to send money', () => {
 
             //wait for blockchain payment
             cy.contains('Claim').should('be.visible')
-            HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.01).toFixed(2))
+            HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.05).toFixed(2))
             SendMoneyPage.yayButton.click()
             cy.contains(Cypress.env('usernameForRegistration')).should('be.visible')
             cy.contains('test message').should('be.visible')
@@ -108,7 +108,8 @@ describe('Test case 7: Ability to send money', () => {
     })
   })
 
-  it('User is able to send money from exist wallet without "claim"', () => {
+  it.only('User is able to send money from exist wallet without "claim"', () => {
+    let validMoneyLnk
     localStorage.clear()
     StartPage.open()
     StartPage.signInButton.click()
@@ -134,32 +135,32 @@ describe('Test case 7: Ability to send money', () => {
         cy.log(sendMoneyUrl)
         const moneyLink = sendMoneyUrl
         const pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
-        const validMoneyLnk = moneyLink.match(pattern)
+        validMoneyLnk = moneyLink.match(pattern)
         cy.log(validMoneyLnk)
-        SendMoneyPage.doneButton.click()
-        cy.clearLocalStorage()
-        cy.clearCookies()
-        cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
-          StartPage.open()
-          StartPage.signInButton.click()
-          LoginPage.recoverFromPassPhraseLink.click()
-          LoginPage.pageHeader.should('contain', 'Recover')
-          LoginPage.mnemonicsInput.type(mnemonic)
-          LoginPage.recoverWalletButton.click()
-          LoginPage.yayButton.click()
-          HomePage.claimButton.should('be.visible')
-          HomePage.moneyAmountDiv.invoke('text').then(moneyBefore => {
-            cy.log('Money before sending: ' + moneyBefore)
-            cy.visit(validMoneyLnk.toString())
+      })
+      SendMoneyPage.doneButton.click()
+      cy.clearLocalStorage()
+      cy.clearCookies()
+      cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+        StartPage.open()
+        StartPage.signInButton.click()
+        LoginPage.recoverFromPassPhraseLink.click()
+        LoginPage.pageHeader.should('contain', 'Recover')
+        LoginPage.mnemonicsInput.type(mnemonic)
+        LoginPage.recoverWalletButton.click()
+        LoginPage.yayButton.click()
+        HomePage.claimButton.should('be.visible')
+        HomePage.moneyAmountDiv.invoke('text').then(moneyBefore => {
+          cy.log('Money before sending: ' + moneyBefore)
+          cy.visit(validMoneyLnk.toString())
 
-            //wait for blockchain payment
-            cy.contains('Claim').should('be.visible')
-            HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.03).toFixed(2))
-            SendMoneyPage.yayButton.click()
-            cy.contains(Cypress.env('additionalAccountUsername')).should('be.visible')
-            cy.contains('without claim').should('be.visible')
-            cy.contains('exist user').should('not.be.visible')
-          })
+          //wait for blockchain payment
+          cy.contains('Claim').should('be.visible')
+          HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.03).toFixed(2))
+          SendMoneyPage.yayButton.click()
+          cy.contains(Cypress.env('additionalAccountUsername')).should('be.visible')
+          cy.contains('without claim').should('be.visible')
+          cy.contains('exist user').should('not.be.visible')
         })
       })
   })

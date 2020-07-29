@@ -95,7 +95,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }),
     smsValidated: false,
     isEmailConfirmed: skipEmail,
-    jwt: '',
     skipEmail: skipEmail,
     skipPhone: skipMobile,
     skipSMS: skipMobile,
@@ -317,7 +316,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
 
-        //the login also re-initialize the api with new jwt
+        // the login also re-initialize the api with new jwt
         await login
           .then(l => l.default.auth())
           .catch(e => {
@@ -329,7 +328,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         await API.ready
         log.debug('ready: signupstate ready')
 
-        //now that we are loggedin, reload api with JWT
+        // now that we are loggedin, reload api with JWT
         return { goodWallet, userStorage }
       })()
 

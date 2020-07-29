@@ -53,25 +53,17 @@ export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
-const Amplitude = amplitude.getInstance()
-const { mt: Mautic, FS, dataLayer: GoogleAnalytics } = global
-
 const log = logger.child({ from: 'analytics' })
 const { sentryDSN, amplitudeKey, version, env, network } = Config
 
-const isFSEnabled = !!FS
-const isSentryEnabled = !!sentryDSN
-const isAmplitudeEnabled = !!amplitudeKey
-const isGoogleAnalyticsEnabled = !!GoogleAnalytics
-
 /** @private */
 // eslint-disable-next-line require-await
-const initAmplitude = async () => {
+const initAmplitude = async key => {
   if (!isAmplitudeEnabled) {
     return
   }
 
-  return new Promise(resolve => Amplitude.init(amplitudeKey, null, null, resolve))
+  return new Promise(resolve => Amplitude.init(key, null, null, resolve))
 }
 
 /** @private */
@@ -90,8 +82,20 @@ const initFullStory = async () =>
       },
     })
   })
-
+let Amplitude, Mautic, FS, GoogleAnalytics
+let isFSEnabled, isSentryEnabled, isGoogleAnalyticsEnabled, isMauticEnabled, isAmplitudeEnabled
 export const initAnalytics = async () => {
+  Amplitude = amplitude.getInstance()
+  Mautic = global.mt
+  FS = global.FS
+  GoogleAnalytics = global.dataLayer
+
+  isFSEnabled = !!FS
+  isSentryEnabled = !!sentryDSN
+  isAmplitudeEnabled = !!amplitudeKey
+  isGoogleAnalyticsEnabled = !!GoogleAnalytics
+  isMauticEnabled = !!Mautic
+
   // pre-initializing & preloading FS & Amplitude
   await Promise.all([isFSEnabled && initFullStory(), isAmplitudeEnabled && initAmplitude(amplitudeKey)])
 
@@ -125,6 +129,7 @@ export const initAnalytics = async () => {
     FS: isFSEnabled,
     Sentry: isSentryEnabled,
     Amplitude: isAmplitudeEnabled,
+    Mautic: isMauticEnabled,
   })
 
   patchLogger()
@@ -198,7 +203,7 @@ export const identifyWith = (email, identifier = null) => {
 export const identifyOnUserSignup = async email => {
   setUserEmail(email)
 
-  if (Mautic && email && ['staging', 'production'].includes(env)) {
+  if (email && ['staging', 'production'].includes(env)) {
     await API.addMauticContact({ email })
   }
 
@@ -207,7 +212,7 @@ export const identifyOnUserSignup = async email => {
     { email },
     {
       FS: isFSEnabled,
-      Mautic: !!email,
+      Mautic: isMauticEnabled && !!email,
       Sentry: isSentryEnabled,
       Amplitude: isAmplitudeEnabled,
     },
@@ -299,7 +304,7 @@ const patchLogger = () => {
   logger.error = (...args) => {
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
-    let { dialogShown, category = Unexpected } = extra
+    let { dialogShown, category = Unexpected, ...context } = extra
     let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category
 
@@ -324,6 +329,7 @@ const patchLogger = () => {
         eMsg,
         dialogShown,
         category: categoryToPassIntoLog,
+        context,
       }
 
       if (isFSEnabled) {
@@ -346,7 +352,7 @@ const patchLogger = () => {
         errorObj,
         logContext,
         eMsg,
-        extra,
+        context,
       },
       {
         dialogShown,

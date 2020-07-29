@@ -49,29 +49,45 @@ class LoginService {
   }
 
   async auth(): Promise<?Credentials | Error> {
-    let creds = (await this.getCredentials()) || (await this.login())
+    let creds = await this.getCredentials()
+
+    if (!creds) {
+      creds = await this.login()
+    }
+
     log.info('signed message', creds)
     this.storeCredentials(creds)
 
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
+    creds = await this.requestJWT(creds)
+
+    this.storeJWT(creds.jwt)
+    API.init()
+
+    return creds
+  }
+
+  async requestJWT(creds: Credentials): Promise<?Credentials | Error> {
     log.info('Calling server for authentication')
-    return API.auth(creds)
-      .then(res => {
-        log.info('Got auth response', res)
-        if (res.status === 200) {
-          const data = res.data
-          creds.jwt = data.token
-          this.storeJWT(data.token)
-          log.debug('Login success:', data)
-          API.init()
-          return creds
-        }
-        throw new Error(res.statusText)
-      })
-      .catch((e: Error) => {
-        log.error('Login service auth failed:', e.message, e)
-        throw e
-      })
+
+    try {
+      const response = await API.auth(creds)
+      const { status, data, statusText } = response
+
+      log.info('Got auth response', response)
+
+      if (200 !== status) {
+        throw new Error(statusText)
+      }
+
+      log.debug('Login success:', data)
+      return { ...creds, jwt: data.token }
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('Login service auth failed:', message, exception)
+      throw exception
+    }
   }
 }
 

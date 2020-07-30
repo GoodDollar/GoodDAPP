@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
-import { noop } from 'lodash'
+import { assign, noop } from 'lodash'
 
 // logger & utils
 import logger from '../../../../lib/logger/pino-logger'
@@ -9,7 +9,7 @@ import { isE2ERunning } from '../../../../lib/utils/platform'
 // Zoom SDK reference & helpers
 import api from '../api/FaceVerificationApi'
 import { ZoomSDK } from '../sdk/ZoomSDK'
-import { kindOfSessionIssue } from '../utils/kindOfTheIssue'
+import { ExceptionType, kindOfSessionIssue } from '../utils/kindOfTheIssue'
 import { zoomResultSuccessMessage } from '../utils/strings'
 import { unloadZoomSDK } from './useZoomSDK'
 
@@ -110,25 +110,20 @@ export default ({
       await unloadZoomSDK(log)
       onComplete(verificationStatus)
     } catch (exception) {
-      const { message } = exception
+      let { message, name } = exception
 
       // checking for duplicate case firstly because on any server error
       // we're calling zoomResultCallback.cancel() which returns us
       // an 'ProgrammaticallyCancelled' status which fills kindOfTheIssue
       // so check for duplicates case never performs
-      if (message.startsWith('Duplicate')) {
-        exception.name = 'DuplicateFoundError'
-      } else {
-        // the following code is needed to categorize exceptions
-        // then we could display specific error messages
-        // corresponding to the kind of issue (camera, orientation, duplicate etc)
-        const kindOfTheIssue = kindOfSessionIssue(exception)
+      name = message.startsWith('Duplicate')
+        ? 'DuplicateFoundError'
+        : // the following code is needed to categorize exceptions
+          // then we could display specific error messages
+          // corresponding to the kind of issue (camera, orientation, duplicate etc)
+          kindOfSessionIssue(exception) || name
 
-        if (kindOfTheIssue) {
-          exception.name = kindOfTheIssue
-        }
-      }
-
+      assign(exception, { type: ExceptionType.Session, name })
       log.error('Zoom verification failed', message, exception, { dialogShown: true })
       onError(exception)
     } finally {

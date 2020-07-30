@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { Image, Platform, View } from 'react-native'
-import { get } from 'lodash'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
 import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
@@ -15,6 +14,7 @@ import { withStyles } from '../../../../lib/styles'
 import illustration from '../../../../assets/FRUnrecoverableError.svg'
 
 import { ZoomSDKStatus } from '../sdk/ZoomSDK'
+import { ExceptionType } from '../utils/kindOfTheIssue'
 
 const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus
 
@@ -28,19 +28,18 @@ const UnrecoverableError = ({ styles, exception, attemptsHistory, screenProps })
   const [, hideDialog, showErrorDialog] = useDialog()
   const { navigateTo, goToRoot, push } = screenProps
 
-  const sdkStatus = get(exception, 'code')
-  const isLicenseIssue = [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(sdkStatus)
+  const { type, code, message } = exception || {}
+  const isLicenseIssue =
+    ExceptionType.SDK === type && [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(code)
 
   const onContactSupport = useOnPress(() => navigateTo('Support'), [navigateTo])
   const onDismiss = useOnPress(() => goToRoot(), [goToRoot])
 
   useEffect(() => {
     // if it's not an license issue - we don't have to show dialog
-    if (!exception || !isLicenseIssue) {
+    if (!isLicenseIssue) {
       return
     }
-
-    const { message } = exception
 
     // if user is not in whitelist and we do not do faceverification then this is an error
     log.error('FaceVerification failed due to the license issue', message, exception, { dialogShown: true })

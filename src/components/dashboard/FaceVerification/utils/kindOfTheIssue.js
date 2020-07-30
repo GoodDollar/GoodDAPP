@@ -118,6 +118,11 @@ const kindOfSDKIssuesMap = mapValues(
   statusTransformer(ZoomSDKStatus)
 )
 
+export const ExceptionType = {
+  SDK: 'sdk',
+  Session: 'session',
+}
+
 export const kindOfSessionIssue = exception => {
   const { code } = exception
 

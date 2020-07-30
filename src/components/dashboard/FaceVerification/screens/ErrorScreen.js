@@ -49,7 +49,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const { current: ErrorViewComponent } = errorViewComponentRef
 
   if (!ErrorViewComponent) {
-    return
+    return null
   }
 
   return (

@@ -17,7 +17,7 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.yayButton.click()
       HomePage.claimButton.click()
       //cy.wait(2000) // wait for a pop-up to appear confirming the decision in the queue
-      cy.contains(/OK, I’ll WAIT/i).click()
+      SendMoneyPage.waitButton.click()
       HomePage.claimButton.invoke('text').then(text => {
         if (text == 'Queue') {
           const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
@@ -31,37 +31,7 @@ describe('Test case 7: Ability to send money', () => {
           HomePage.claimButton.click()
         }        
       })
-
-      /*
-      cy.get('#root')
-        .find('[role="button"]')
-        .its('length')
-        .then(res => {
-          cy.log(res)
-          if (res == 4) {
-            cy.get('[role="button"]')
-              .contains(/OK, I’ll WAIT/i)
-              .click()
-          }
-          if (res != 2) {
-            HomePage.claimButton.invoke('text').then(text => {
-              cy.log(text)
-              if (text == 'Queue') {
-                const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
-                const bodyPass = Cypress.env('GUNDB_PASSWORD')
-                cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 }).then(response => {
-                  expect(response.body).to.have.property('stillPending')
-                })
-                cy.reload()
-                cy.contains('Welcome to GoodDollar!').should('be.visible')
-                HomePage.claimButton.should('be.visible')
-                HomePage.claimButton.click()
-              }
-            })
-          }
-        })
-        */
-
+    }
       SendMoneyPage.dailyClaimText.should('be.visible')
       SendMoneyPage.claimButton.click()
       SendMoneyPage.claimButton.should('have.attr', 'data-focusable')
@@ -115,6 +85,7 @@ describe('Test case 7: Ability to send money', () => {
 
             //wait for blockchain payment
             cy.contains('Claim').should('be.visible')
+            SendMoneyPage.yayButton.should('be.visible')
             HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.05).toFixed(2))
             SendMoneyPage.yayButton.click()
             cy.contains(Cypress.env('usernameForRegistration')).should('be.visible')
@@ -173,6 +144,7 @@ describe('Test case 7: Ability to send money', () => {
 
         //wait for blockchain payment
         cy.contains('Claim').should('be.visible')
+        SendMoneyPage.yayButton.should('be.visible')
         HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.03).toFixed(2))
         SendMoneyPage.yayButton.click()
         cy.contains(Cypress.env('additionalAccountUsername')).should('be.visible')

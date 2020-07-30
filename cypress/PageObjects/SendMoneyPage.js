@@ -47,6 +47,10 @@ class SendMoneyPage {
   get yayButton() {
     return cy.contains('YAY!')
   }
+
+  get waitButton() {
+    return cy.contains(/OK, I’ll WAIT/i)
+  }
 }
 
 export default new SendMoneyPage()

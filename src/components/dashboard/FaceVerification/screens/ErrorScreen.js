@@ -44,7 +44,9 @@ const ErrorScreen = ({ styles, screenProps }) => {
     ErrorViewComponent = map[kindOfTheIssue]
   }
 
-  return <ErrorViewComponent onRetry={onRetry} displayTitle={displayTitle} screenProps={screenProps} />
+  return (
+    <ErrorViewComponent onRetry={onRetry} exception={exception} displayTitle={displayTitle} screenProps={screenProps} />
+  )
 }
 
 ErrorScreen.navigationOptions = {

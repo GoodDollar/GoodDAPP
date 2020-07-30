@@ -17,10 +17,8 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const exception = get(screenProps, 'screenState.error')
   const kindOfTheIssue = get(exception, 'name')
 
-  const { isReachedMaxAttempts } = useVerificationAttempts()
-
   const errorViewComponentRef = useRef(null)
-  const isReachedMaxAttemptsRef = useRef(isReachedMaxAttempts())
+  const { isReachedMaxAttempts } = useVerificationAttempts()
 
   const displayTitle = useMemo(() => {
     const { fullName } = store.get('profile')
@@ -37,7 +35,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
     const { kindOfTheIssue: map } = ErrorScreen
 
     // if reached max retries - showing 'something went wrong our side'
-    if (isReachedMaxAttemptsRef.current) {
+    if (isReachedMaxAttempts()) {
       component = UnrecoverableError
 
       // otherwise, if there's special screen for this kind of the issue hapened - showing it

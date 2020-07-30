@@ -304,7 +304,7 @@ const patchLogger = () => {
   logger.error = (...args) => {
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
-    let { dialogShown, category = Unexpected } = extra
+    let { dialogShown, category = Unexpected, ...context } = extra
     let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category
 
@@ -329,6 +329,7 @@ const patchLogger = () => {
         eMsg,
         dialogShown,
         category: categoryToPassIntoLog,
+        context,
       }
 
       if (isFSEnabled) {
@@ -351,7 +352,7 @@ const patchLogger = () => {
         errorObj,
         logContext,
         eMsg,
-        extra,
+        context,
       },
       {
         dialogShown,

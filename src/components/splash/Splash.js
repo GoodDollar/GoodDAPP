@@ -1,16 +1,24 @@
+// libraries
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import AnimationsLogo from '../common/animations/Logo'
 
-// import wavePattern from '../../assets/splashWaves.svg'
+// components
+import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
+
+// utils
 import Config from '../../config/config'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import WavesBackground from '../common/view/WavesBackground'
 import { isMobile } from '../../lib/utils/platform'
 
+// assets
+// import wavePattern from '../../assets/splashWaves.svg'
+
 const { isPhaseZero, version } = Config
+
+export const animationDuration = 5000
 
 const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>

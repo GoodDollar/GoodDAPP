@@ -96,4 +96,8 @@ export default class UserProperties {
 
     return true
   }
+
+  reset() {
+    return this.gun.secret(UserProperties.defaultProperties)
+  }
 }

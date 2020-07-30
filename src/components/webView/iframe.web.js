@@ -6,34 +6,36 @@ import Section from '../common/layout/Section'
 import Icon from '../common/view/Icon'
 
 import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
-import useOnPress from '../../lib/hooks/useOnPress'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { useIframeLoaded } from './iframe.hooks.web'
 
 const wHeight = getMaxDeviceHeight()
 
-export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home', styles) => {
-  const IframeTab = props => {
-    const [showLoading, hideLoading] = useLoadingIndicator()
-    const isLoaded = useIframeLoaded(src, hideLoading)
+export const Iframe = ({ src, title }) => {
+  const [showLoading, hideLoading] = useLoadingIndicator()
+  const isLoaded = useIframeLoaded(src, hideLoading)
 
-    useEffect(showLoading, [])
+  useEffect(showLoading, [])
 
-    // this is for our external pages like privacy policy, etc.. they dont require iframeresizer to work ok on ios <13
-    return (
-      <iframe
-        allowFullScreen
-        title={title}
-        seamless
-        frameBorder="0"
-        onLoad={isLoaded}
-        src={src}
-        width="100%"
-        height="100%"
-        style={styles ? styles : { height: wHeight }}
-      />
-    )
-  }
+  // this is for our external pages like privacy policy, etc.. they dont require iframeresizer to work ok on ios <13
+  return (
+    <iframe
+      allowFullScreen
+      title={title}
+      seamless
+      frameBorder="0"
+      onLoad={isLoaded}
+      src={src}
+      width="100%"
+      height="100%"
+      style={{ height: wHeight }}
+    />
+  )
+}
+
+export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home') => {
+  const IframeTab = () => <Iframe title={title} src={src} />
 
   IframeTab.navigationOptions = { title }
 
@@ -53,10 +55,10 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
         right: 15,
       },
     }
-    
+
     const NavigationBar = ({ navigation }) => {
-      const handleNavigate = useOnPress(() => navigation.navigate(backToRoute), [navigation])
-      
+      const goBack = useOnPress(() => navigation.navigate(backToRoute))
+
       return (
         <Appbar.Header dark style={navBarStyles.wrapper}>
           <View style={{ width: 48 }} />
@@ -65,7 +67,7 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
             {title}
           </Section.Text>
           <Appbar.Content />
-          <TouchableOpacity onPress={handleNavigate} style={navBarStyles.walletIcon}>
+          <TouchableOpacity onPress={goBack} style={navBarStyles.walletIcon}>
             <Icon name="wallet" size={36} color="white" />
           </TouchableOpacity>
         </Appbar.Header>
@@ -73,9 +75,9 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
     }
 
     IframeTab.navigationOptions = ({ navigation }) => ({
-      navigationBar: () => <NavigationBar navigation={navigation} />
+      navigationBar: () => <NavigationBar navigation={navigation} />,
     })
   }
-  
+
   return IframeTab
 }

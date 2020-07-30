@@ -106,20 +106,27 @@ const CustomDialog = ({
           {showButtons ? (
             <View style={buttonsContainerStyle || styles.buttonsContainer}>
               {buttons ? (
-                buttons.map(({ onPress = dismiss => dismiss(), style, disabled, ...buttonProps }, index) => {
-                  return (
-                    <CustomButton
-                      {...buttonProps}
-                      onPress={() => onPress(onDismiss)}
-                      style={[{ marginLeft: 10 }, style]}
-                      disabled={disabled || loading}
-                      loading={loading}
-                      key={index}
-                    >
-                      {buttonProps.text}
-                    </CustomButton>
-                  )
-                })
+                buttons.map(
+                  ({ onPress = dismiss => dismiss(), style, disabled, mode, Component, ...buttonProps }, index) => {
+                    if (mode === 'custom') {
+                      return <Component />
+                    }
+
+                    return (
+                      <CustomButton
+                        {...buttonProps}
+                        mode={mode}
+                        onPress={() => onPress(onDismiss)}
+                        style={[{ marginLeft: 10 }, style]}
+                        disabled={disabled || loading}
+                        loading={loading}
+                        key={index}
+                      >
+                        {buttonProps.text}
+                      </CustomButton>
+                    )
+                  },
+                )
               ) : (
                 <CustomButton disabled={loading} loading={loading} onPress={_onPressOk} style={[styles.buttonOK]}>
                   Ok

@@ -111,10 +111,17 @@ const kindOfSDKIssuesMap = mapValues(
 
       // The provided public encryption key is missing or invalid.
       'EncryptionKeyInvalid',
+
+      'IFrameNotAllowedWithoutPermission',
     ],
   },
   statusTransformer(ZoomSDKStatus),
 )
+
+export const ExceptionType = {
+  SDK: 'sdk',
+  Session: 'session',
+}
 
 export const kindOfSessionIssue = exception => {
   const { code } = exception

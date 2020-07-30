@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
-import { Portal } from 'react-native-paper'
+import { Paragraph, Portal } from 'react-native-paper'
+import { isString } from 'lodash'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
@@ -68,6 +69,9 @@ const CustomDialog = ({
   const modalColor = getColorFromType(type)
   const textColor = type === 'error' ? 'red' : 'darkGray'
   const color = theme.colors[textColor]
+  const handleMessage = _message => (isString(_message) ? Paragraph : Section.Row)
+  const Message = handleMessage(message)
+  const BoldMessage = handleMessage(boldMessage)
   const _onPressOk = useOnPress(onDismiss)
   return visible ? (
     <Portal>
@@ -92,9 +96,9 @@ const CustomDialog = ({
               <>
                 {children}
                 {image ? image : defaultImage}
-                {message && <Section.Row style={[styles.paragraph, { color }]}>{message}</Section.Row>}
+                {message && <Message style={[styles.paragraph, { color }]}>{message}</Message>}
                 {boldMessage && (
-                  <Section.Row style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Section.Row>
+                  <BoldMessage style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</BoldMessage>
                 )}
               </>
             )}

@@ -6,6 +6,7 @@ import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 
+// eslint-disable-next-line
 export { ZoomSDKStatus, ZoomSessionStatus } from 'react-native-zoom'
 
 // sdk class

@@ -96,7 +96,6 @@ let AppRouter = React.lazy(async () => {
     retryImport(() => import(/* webpackChunkName: "init" */ './init'))
       .then(({ init }) => init())
       .then(() => log.debug('storage and wallet ready')),
-
   ])
 
   log.debug('router ready')

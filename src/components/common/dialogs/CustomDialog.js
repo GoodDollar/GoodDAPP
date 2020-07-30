@@ -118,7 +118,7 @@ const CustomDialog = ({
                         {buttonProps.text}
                       </CustomButton>
                     )
-                  },
+                  }
                 )
               ) : (
                 <CustomButton disabled={loading} loading={loading} onPress={onDismiss} style={[styles.buttonOK]}>

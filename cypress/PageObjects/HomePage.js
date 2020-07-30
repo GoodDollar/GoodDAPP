@@ -29,7 +29,6 @@ class HomePage {
   }
 
   get claimButton() {
-    // return cy.contains('Claim')
     return cy.get('[data-testid="claim_button"]')
   }
 

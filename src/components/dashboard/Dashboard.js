@@ -906,7 +906,7 @@ export default createStackNavigator({
     path: 'Rewards/:rewardsPath*',
   },
   Marketplace: {
-    screen: MarketTab,
+    screen: config.market ? MarketTab : WrappedDashboard,
     path: 'Marketplace/:marketPath*',
   },
   MagicLinkInfo,

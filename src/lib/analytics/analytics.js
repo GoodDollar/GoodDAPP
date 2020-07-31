@@ -351,7 +351,7 @@ const patchLogger = () => {
           errorObj,
           logContext,
           eMsg,
-          extra,
+          context,
         },
         {
           dialogShown,
@@ -359,6 +359,7 @@ const patchLogger = () => {
           level: categoryToPassIntoLog === Human ? 'info' : undefined,
         },
       )
+
       await Sentry.flush()
       Object.assign(errorToPassIntoLog, { message: savedErrorMessage })
     }

@@ -7,6 +7,7 @@ import { Iframe } from '../webView/iframe'
 
 import { useDialog } from '../../lib/undux/utils/dialog'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -42,14 +43,15 @@ const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
     return url.toString()
   }, [token, params, openInNewTab])
 
+  const onPressOk = useOnPress(() => window.open(rewardsPath, '_blank'), [rewardsPath])
+  const onDismiss = useOnPress(() => navigation.navigate('Home'), [navigation])
+
   useEffect(() => {
     showLoading()
 
-const onPressOk = useOnPress(() => window.open(getRewardsPath(), '_blank'), [getRewardsPath])
     userStorage.getProfileFieldValue('loginToken').then(loginToken => {
       const token = loginToken || ''
 
-  const onDismiss = useOnPress(() => navigation.navigate('Home'), [navigation])
       log.debug('got rewards login token', token)
       setToken(token)
     })

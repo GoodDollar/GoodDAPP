@@ -45,9 +45,11 @@ const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
   useEffect(() => {
     showLoading()
 
+const onPressOk = useOnPress(() => window.open(getRewardsPath(), '_blank'), [getRewardsPath])
     userStorage.getProfileFieldValue('loginToken').then(loginToken => {
       const token = loginToken || ''
 
+  const onDismiss = useOnPress(() => navigation.navigate('Home'), [navigation])
       log.debug('got rewards login token', token)
       setToken(token)
     })
@@ -63,11 +65,11 @@ const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
     hideLoading()
     showDialog({
       title: 'Press ok to go to Rewards dashboard',
-      onDismiss: () => navigation.navigate('Home'),
+      onDismiss: onDismiss,
       buttons: [
         {
           text: 'OK',
-          onPress: () => window.open(rewardsPath, '_blank'),
+          onPress: onPressOk,
         },
       ],
     })

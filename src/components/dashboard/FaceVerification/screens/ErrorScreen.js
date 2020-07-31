@@ -12,18 +12,13 @@ import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 
-const MAX_RETRIES_ALLOWED = 2
-
 const ErrorScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
   const exception = get(screenProps, 'screenState.error')
   const kindOfTheIssue = get(exception, 'name')
-  const isGeneralError = !kindOfTheIssue || !(kindOfTheIssue in ErrorScreen.kindOfTheIssue)
 
-  const [verificationAttempts, trackNewAttempt, resetAttempts] = useVerificationAttempts()
-
-  // storing first received attempts count into the ref to avoid component re-updated after attempt tracked
-  const verificationAttemptsRef = useRef(verificationAttempts)
+  const errorViewComponentRef = useRef(null)
+  const { isReachedMaxAttempts } = useVerificationAttempts()
 
   const displayTitle = useMemo(() => {
     const { fullName } = store.get('profile')
@@ -33,30 +28,29 @@ const ErrorScreen = ({ styles, screenProps }) => {
 
   const onRetry = useCallback(() => screenProps.navigateTo('FaceVerificationIntro'), [screenProps])
 
-  const ErrorViewComponent = useMemo(() => {
-    if (!isGeneralError) {
-      return ErrorScreen.kindOfTheIssue[kindOfTheIssue]
-    }
-
-    if (verificationAttemptsRef.current >= MAX_RETRIES_ALLOWED) {
-      resetAttempts()
-      return UnrecoverableError
-    }
-
-    return GeneralError
-
-    // isGeneralError depends from kindOfTheIssue so we could omit it in the deps list
-  }, [kindOfTheIssue, resetAttempts])
-
   useEffect(() => {
-    if (!isGeneralError) {
-      return
+    // determining error component to display
+    // be default display general error
+    let component = GeneralError
+    const { kindOfTheIssue: map } = ErrorScreen
+
+    // if reached max retries - showing 'something went wrong our side'
+    if (isReachedMaxAttempts()) {
+      component = UnrecoverableError
+
+      // otherwise, if there's special screen for this kind of the issue hapened - showing it
+    } else if (kindOfTheIssue in map) {
+      component = map[kindOfTheIssue]
     }
 
-    // tracking attempt here as we should track only "general" error
-    // (when "something went wrong on our side")
-    trackNewAttempt()
+    errorViewComponentRef.current = component
   }, [])
+
+  const { current: ErrorViewComponent } = errorViewComponentRef
+
+  if (!ErrorViewComponent) {
+    return null
+  }
 
   return (
     <ErrorViewComponent onRetry={onRetry} displayTitle={displayTitle} screenProps={screenProps} exception={exception} />

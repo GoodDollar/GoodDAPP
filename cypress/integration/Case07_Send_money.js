@@ -97,7 +97,6 @@ describe('Test case 7: Ability to send money', () => {
   })
 
   it('User is able to send money from exist wallet without "claim"', () => {
-    let validMoneyLnk
     localStorage.clear()
     StartPage.open()
     StartPage.signInButton.click()
@@ -117,19 +116,23 @@ describe('Test case 7: Ability to send money', () => {
     SendMoneyPage.confirmButton.click()
     SendMoneyPage.copyLinkButton.click()
     SendMoneyPage.doneButton.should('be.visible')
-    cy.get('[data-testid*="http"]')
-      .invoke('attr', 'data-testid')
-      .then(sendMoneyUrl => {
-        cy.log(sendMoneyUrl)
+    Promise.all([
+      cy.get('[data-testid*="http"]').invoke('attr', 'data-testid'),
+      cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt')
+    ]).then((sendMoneyUrl, mnemonic) => {
         const moneyLink = sendMoneyUrl
         const pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
-        validMoneyLnk = moneyLink.match(pattern)
+        const [validMoneyLnk] = moneyLink.match(pattern) 
+ 
+        cy.log(sendMoneyUrl)       
         cy.log(validMoneyLnk)
-      })
-    SendMoneyPage.doneButton.click()
-    cy.clearLocalStorage()
-    cy.clearCookies()
-    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+        
+        return [validMoneyLnk, mnemonic]
+    }).then((link, mnemonic) => {
+      SendMoneyPage.doneButton.click()
+      cy.clearLocalStorage()
+      cy.clearCookies()
+      
       StartPage.open()
       StartPage.signInButton.click()
       LoginPage.recoverFromPassPhraseLink.click()
@@ -138,19 +141,19 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
       HomePage.claimButton.should('be.visible')
-      HomePage.moneyAmountDiv.invoke('text').then(moneyBefore => {
-        cy.log('Money before sending: ' + moneyBefore)
-        cy.visit(validMoneyLnk.toString())
-
-        //wait for blockchain payment
-        cy.contains('Claim').should('be.visible')
-        SendMoneyPage.yayButton.should('be.visible')
-        HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.03).toFixed(2))
-        SendMoneyPage.yayButton.click()
-        cy.contains(Cypress.env('additionalAccountUsername')).should('be.visible')
-        cy.contains('without claim').should('be.visible')
-        cy.contains('exist user').should('not.be.visible')
-      })
+      
+      return Promise.all([link, mnemonic, HomePage.moneyAmountDiv.invoke('text')])
+    }).then((link, mnemonic, moneyBefore) => {
+      cy.log('Money before sending: ' + moneyBefore)
+      cy.visit(link)
+      // wait for blockchain payment
+      cy.contains('Claim').should('be.visible')
+        
+      SendMoneyPage.yayButton.should('be.visible')
+      HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.03).toFixed(2))
+      SendMoneyPage.yayButton.click()
+      cy.contains(Cypress.env('additionalAccountUsername')).should('be.visible')
+      cy.contains('without claim').should('be.visible')
+      cy.contains('exist user').should('not.be.visible')
     })
-  })
 })

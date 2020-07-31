@@ -7,6 +7,7 @@ import SendMoneyPage from '../PageObjects/SendMoneyPage'
 describe('Test case 7: Ability to send money', () => {
   it('User is able to send money from a new wallet using the "claim"', () => {
     localStorage.clear()
+
     cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       StartPage.open()
       StartPage.signInButton.click()
@@ -16,32 +17,43 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
       HomePage.claimButton.click()
-      //cy.wait(2000) // wait for a pop-up to appear confirming the decision in the queue
-      SendMoneyPage.waitButton.click()
-      HomePage.claimButton.invoke('text').then(text => {
-        if (text == 'Queue') {
-          const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
-          const bodyPass = Cypress.env('GUNDB_PASSWORD')
-          cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 }).then(response => {
-            expect(response.body).to.have.property('stillPending')
-          })
-          cy.reload()
-          cy.contains('Welcome to GoodDollar!').should('be.visible')
-          HomePage.claimButton.should('be.visible')
-          HomePage.claimButton.click()
-        }        
-      })
-    }
+
+      return SendMoneyPage.hasWaitButton
+    }).then(hasWaitButton => {
+      if (hasWaitButton) {
+        SendMoneyPage.waitButton.click()
+      }
+
+      return HomePage.claimButton
+        .invoke('text')
+        .then(text => text == 'Queue')
+    }).then(isInQueue => {
+      const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
+      const bodyPass = Cypress.env('GUNDB_PASSWORD')
+      const promises = [isInQueue]
+
+      if (isInQueue) {
+        promises.push(cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 }))
+      }
+
+      return Promise.all(promises)
+    }).then(([wasInQueue, approvalResponse]) => {
+      if (!wasInQueue) {
+        return
+      }
+
+      expect(approvalResponse.body).to.have.property('stillPending')
+
+      cy.reload()
+      cy.contains('Welcome to GoodDollar!').should('be.visible')
+      HomePage.claimButton.should('be.visible')
+      HomePage.claimButton.click()
+    }).then(() => {
       SendMoneyPage.dailyClaimText.should('be.visible')
       SendMoneyPage.claimButton.click()
       SendMoneyPage.claimButton.should('have.attr', 'data-focusable')
       SendMoneyPage.verifyButton.should('be.visible')
       SendMoneyPage.verifyButton.click()
-
-      // face verification
-      // cy.wait(5000)
-      // SendMoneyPage.readyButton.should('be.visible')
-      // SendMoneyPage.readyButton.click()
 
       LoginPage.yayButton.click()
       cy.contains('G$').should('be.visible')
@@ -57,42 +69,39 @@ describe('Test case 7: Ability to send money', () => {
       SendMoneyPage.copyLinkButton.click()
       SendMoneyPage.doneButton.should('be.visible')
 
-      //get link from clipboard
-      // cy.task('getClipboard').then(sendMoneyUrl => {
+      return cy.get('[data-testid*="http"]').invoke('attr', 'data-testid')
+    }).then(sendMoneyUrl => {
+      const { sendMoneyLinkRegex } = SendMoneyPage
+      const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
 
-      cy.get('[data-testid*="http"]')
-        .invoke('attr', 'data-testid')
-        .then(sendMoneyUrl => {
-          cy.log(sendMoneyUrl)
-          const moneyLink = sendMoneyUrl
-          const pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
-          const validMoneyLnk = moneyLink.match(pattern)
-          cy.log(validMoneyLnk)
-          SendMoneyPage.doneButton.click()
-          cy.clearLocalStorage()
-          cy.clearCookies()
-          StartPage.open()
-          StartPage.signInButton.click()
-          LoginPage.recoverFromPassPhraseLink.click()
-          LoginPage.pageHeader.should('contain', 'Recover')
-          LoginPage.mnemonicsInput.type(Cypress.env('additionalAccountMnemonics'))
-          LoginPage.recoverWalletButton.click()
-          LoginPage.yayButton.click()
-          HomePage.claimButton.should('be.visible')
-          HomePage.moneyAmountDiv.invoke('text').then(moneyBefore => {
-            cy.log('Money before sending: ' + moneyBefore)
-            cy.visit(validMoneyLnk.toString())
+      cy.log(validMoneyLnk)
+      cy.log(sendMoneyUrl)
 
-            //wait for blockchain payment
-            cy.contains('Claim').should('be.visible')
-            SendMoneyPage.yayButton.should('be.visible')
-            HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.05).toFixed(2))
-            SendMoneyPage.yayButton.click()
-            cy.contains(Cypress.env('usernameForRegistration')).should('be.visible')
-            cy.contains('test message').should('be.visible')
-            cy.contains('another person').should('not.be.visible')            
-          })
-        })
+      SendMoneyPage.doneButton.click()
+      cy.clearLocalStorage()
+      cy.clearCookies()
+      StartPage.open()
+      StartPage.signInButton.click()
+      LoginPage.recoverFromPassPhraseLink.click()
+      LoginPage.pageHeader.should('contain', 'Recover')
+      LoginPage.mnemonicsInput.type(Cypress.env('additionalAccountMnemonics'))
+      LoginPage.recoverWalletButton.click()
+      LoginPage.yayButton.click()
+      HomePage.claimButton.should('be.visible')
+
+      return Promise.all([validMoneyLnk, HomePage.moneyAmountDiv.invoke('text').then(Number)])
+    }).then(([ link, moneyBefore ]) => {
+      cy.log('Money before sending: ' + moneyBefore)
+      cy.visit(link)
+
+      // wait for blockchain payment
+      cy.contains('Claim').should('be.visible')
+      SendMoneyPage.yayButton.should('be.visible')
+      HomePage.moneyAmountDiv.invoke('text').should('eq', (moneyBefore + 0.05).toFixed(2))
+      SendMoneyPage.yayButton.click()
+      cy.contains(Cypress.env('usernameForRegistration')).should('be.visible')
+      cy.contains('test message').should('be.visible')
+      cy.contains('another person').should('not.be.visible')
     })
   })
 
@@ -116,23 +125,23 @@ describe('Test case 7: Ability to send money', () => {
     SendMoneyPage.confirmButton.click()
     SendMoneyPage.copyLinkButton.click()
     SendMoneyPage.doneButton.should('be.visible')
+
     Promise.all([
       cy.get('[data-testid*="http"]').invoke('attr', 'data-testid'),
       cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt')
     ]).then((sendMoneyUrl, mnemonic) => {
-        const moneyLink = sendMoneyUrl
-        const pattern = /(?:http[s]?:\/\/)[^\s[",><]*/gim
-        const [validMoneyLnk] = moneyLink.match(pattern) 
- 
-        cy.log(sendMoneyUrl)       
+        const { sendMoneyLinkRegex } = SendMoneyPage
+        const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
+
+        cy.log(sendMoneyUrl)
         cy.log(validMoneyLnk)
-        
-        return [validMoneyLnk, mnemonic]
-    }).then((link, mnemonic) => {
+
+        return { validMoneyLnk, mnemonic }
+    }).then(({ link, mnemonic }) => {
       SendMoneyPage.doneButton.click()
       cy.clearLocalStorage()
       cy.clearCookies()
-      
+
       StartPage.open()
       StartPage.signInButton.click()
       LoginPage.recoverFromPassPhraseLink.click()
@@ -141,16 +150,16 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
       HomePage.claimButton.should('be.visible')
-      
-      return Promise.all([link, mnemonic, HomePage.moneyAmountDiv.invoke('text')])
-    }).then((link, mnemonic, moneyBefore) => {
+
+      return Promise.all([link, mnemonic, HomePage.moneyAmountDiv.invoke('text').then(Number)])
+    }).then(([link, mnemonic, moneyBefore]) => {
       cy.log('Money before sending: ' + moneyBefore)
       cy.visit(link)
       // wait for blockchain payment
       cy.contains('Claim').should('be.visible')
-        
+
       SendMoneyPage.yayButton.should('be.visible')
-      HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.03).toFixed(2))
+      HomePage.moneyAmountDiv.invoke('text').should('eq', (moneyBefore + 0.03).toFixed(2))
       SendMoneyPage.yayButton.click()
       cy.contains(Cypress.env('additionalAccountUsername')).should('be.visible')
       cy.contains('without claim').should('be.visible')

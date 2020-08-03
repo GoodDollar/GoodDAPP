@@ -4,8 +4,6 @@ import { invokeMap } from 'lodash'
 import logger from '../../../lib/logger/pino-logger'
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
 
-const log = logger.child({ from: 'PermissionsAPI' })
-
 class PermissionsAPI {
   // permissions enum to platform permissions map
   platformPermissions = {
@@ -13,7 +11,8 @@ class PermissionsAPI {
     [Permissions.Clipboard]: 'clipboard-read',
   }
 
-  constructor(api, clipboardApi, mediaApi) {
+  constructor(api, clipboardApi, mediaApi, log) {
+    this.log = log
     this.api = api
     this.clipboardApi = clipboardApi
     this.mediaApi = mediaApi
@@ -91,8 +90,10 @@ class PermissionsAPI {
    * @private
    */
   async _requestCameraPermission(): Promise<void> {
+    const { mediaApi, log } = this
+
     // fetching the getUserMedia method from navigator
-    const { getUserMedia } = this.mediaApi || {}
+    const { getUserMedia } = mediaApi || {}
 
     // verify if getUserMedia is available
     if (!getUserMedia) {
@@ -131,7 +132,7 @@ class PermissionsAPI {
    * @returns {Promise<void>}
    */
   async _requestClipboardPermissions(): Promise<void> {
-    const { clipboardApi } = this
+    const { clipboardApi, log } = this
 
     // verify if clipboard API is available
     if (!clipboardApi) {
@@ -172,7 +173,7 @@ class PermissionsAPI {
    */
   async _queryPermissions(name: string): Promise<'granted' | 'denied' | 'prompt' | ''> {
     let result = '' // undetermined by default. if api supported and request succeeded - will be updated to the actual status
-    const { api } = this
+    const { api, log } = this
 
     // if Permissions API is available
     if (api) {
@@ -185,7 +186,7 @@ class PermissionsAPI {
       } catch (exception) {
         const { message } = exception
 
-        log.error(`Permission ${name} isn't currently supported by the browser`, message, exception)
+        log.warn(`Permission ${name} isn't currently supported by the browser`, message, exception)
       }
     }
 
@@ -195,4 +196,4 @@ class PermissionsAPI {
 
 const { permissions, clipboard, mediaDevices } = navigator
 
-export default new PermissionsAPI(permissions, clipboard, mediaDevices)
+export default new PermissionsAPI(permissions, clipboard, mediaDevices, logger.child({ from: 'PermissionsAPI' }))

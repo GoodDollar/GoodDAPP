@@ -69,7 +69,7 @@ export default () => {
   // returns isReachedMaxAttempts flag, resets it once got
   const isReachedMaxAttempts = useCallback(() => {
     if (reachedMaxAttempts) {
-      setReachedMaxAttempts(true)
+      setReachedMaxAttempts(false)
     }
 
     return reachedMaxAttempts

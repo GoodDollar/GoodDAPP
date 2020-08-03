@@ -26,7 +26,7 @@ class PermissionsAPI {
    * @return Promise<PermissionStatus> Status of the permission
    */
   async check(permission: Permission): Promise<PermissionStatus> {
-    const { api, platformPermissions } = this
+    const { platformPermissions } = this
     const { Granted, Denied, Prompt, Undetermined } = PermissionStatuses
     const platformPermission = platformPermissions[permission]
 
@@ -35,15 +35,10 @@ class PermissionsAPI {
       return Granted
     }
 
-    // Permissions API not available - return undetermined status
-    if (!api) {
-      return Undetermined
-    }
-
-    const { state, status } = await api.query({ name: platformPermission })
+    const status = await this._queryPermissions(platformPermission)
 
     // could be changed/extended so we need this switch to map them to platform-independed statuses
-    switch (status || state) {
+    switch (status) {
       case 'granted':
         return Granted
       case 'prompt':
@@ -166,6 +161,35 @@ class PermissionsAPI {
     }
 
     // in case error did not appear - clipboard access granted
+  }
+
+  /**
+   * Queries browser's permissions API
+   *
+   * @param {string} name Name of the permission
+   * @returns {Promise<'granted' | 'denied' | 'prompt' | ''>} Promise resolves with the permission status.
+   * If status couldn't be determinated (no API or permission not supported) - will be resolved with empty string
+   */
+  async _queryPermissions(name: string): Promise<'granted' | 'denied' | 'prompt' | ''> {
+    let result = '' // undetermined by default. if api supported and request succeeded - will be updated to the actual status
+    const { api } = this
+
+    // if Permissions API is available
+    if (api) {
+      try {
+        // requesting permissions
+        const { state, status } = await api.query({ name })
+
+        // if succeeded - setting value to return from the response
+        result = status || state
+      } catch (exception) {
+        const { message } = exception
+
+        log.error(`Permission ${name} isn't currently supported by the browser`, message, exception)
+      }
+    }
+
+    return result
   }
 }
 

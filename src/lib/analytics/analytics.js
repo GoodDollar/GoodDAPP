@@ -347,7 +347,7 @@ const patchLogger = () => {
       logError(...args)
       return
     }
-      
+
     reportToSentry(
       errorToPassIntoLog,
       {
@@ -356,7 +356,8 @@ const patchLogger = () => {
         logContext,
         eMsg,
         context,
-      }, {
+      },
+      {
         dialogShown,
         category: categoryToPassIntoLog,
         level: categoryToPassIntoLog === Human ? 'info' : undefined,
@@ -364,13 +365,14 @@ const patchLogger = () => {
     )
 
     Sentry.flush().finally(() => {
+      // if savedErrorMessage not empty that means errorObj
+      // was an Error instrance and we mutated its message
+      // so we have to restore it now
       if (savedErrorMessage) {
         errorObj.message = savedErrorMessage
       }
-      
+
       logError(...args)
     })
-    }
-
   }
 }

@@ -65,7 +65,7 @@ class SendMoneyPage {
     const { waitButtonRegex } = this
 
     return cy.get('#root')
-      .find('[role="button"]')
+      // .find('[role="button"]')
       .contains(waitButtonRegex)
       .its('length')
       .then(Boolean)

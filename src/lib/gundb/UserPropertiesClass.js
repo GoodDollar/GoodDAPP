@@ -1,5 +1,5 @@
-//@flow
-
+// @flow
+import { assign } from 'lodash'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 
 /**
@@ -50,11 +50,19 @@ export default class UserProperties {
 
   constructor(propertiesGun: Gun) {
     this.gun = propertiesGun
-    this.ready = this.gun
-      .decrypt()
-      .catch(_ => {})
-      .then(_ => Object.assign({}, UserProperties.defaultProperties, _))
-      .then(_ => (this.data = _))
+
+    this.ready = (async () => {
+      let props
+      const { defaultProperties } = UserProperties
+
+      try {
+        props = await propertiesGun.decrypt()
+      } catch {
+        props = {}
+      }
+
+      this.data = assign({}, defaultProperties, props)
+    })()
   }
 
   /**
@@ -65,8 +73,7 @@ export default class UserProperties {
    * @returns {Promise<void>}
    */
   async set(field: string, value: any) {
-    this.data[field] = value
-    await this.gun.secret(this.data)
+    await this.updateAll({ [field]: value })
 
     return true
   }
@@ -88,7 +95,27 @@ export default class UserProperties {
     return this.data
   }
 
-  reset() {
-    return this.gun.secret(UserProperties.defaultProperties)
+  /**
+   * Set value to multiple properties
+   */
+  async updateAll(properties: { [string]: any }): Promise<boolean> {
+    const { gun, data } = this
+
+    assign(data, properties)
+    await gun.secret(data)
+
+    return true
+  }
+
+  /**
+   * Reset properties to the default state
+   */
+  async reset() {
+    const { defaultProperties } = UserProperties
+
+    this.data = assign({}, defaultProperties)
+    await this.gun.secret(defaultProperties)
+
+    return true
   }
 }

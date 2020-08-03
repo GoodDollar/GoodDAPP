@@ -91,6 +91,12 @@ class HomePage {
   waitForHomePageDisplayed() {
     cy.contains('Claim').should('be.visible')
   }
+
+  isInQueue() {
+    return this.claimButton
+      .invoke('text')
+      .then(text => text == 'Queue')
+  }
 }
 
 export default new HomePage()

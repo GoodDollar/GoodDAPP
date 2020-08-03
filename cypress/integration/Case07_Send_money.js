@@ -18,6 +18,7 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
+
       HomePage.claimButton.click()
 
       return SendMoneyPage.hasWaitButton()
@@ -68,8 +69,8 @@ describe('Test case 7: Ability to send money', () => {
       const { sendMoneyLinkRegex } = SendMoneyPage
       const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
 
-      cy.log(validMoneyLnk)
       cy.log(sendMoneyUrl)
+      cy.log(validMoneyLnk)
 
       SendMoneyPage.doneButton.click()
       cy.clearLocalStorage()
@@ -83,26 +84,24 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.yayButton.click()
       HomePage.claimButton.should('be.visible')
 
+      cy.visit(validMoneyLnk)
+      cy.contains('Claim').should('be.visible')
+
       return all([
-        from(validMoneyLnk),
         HomePage.moneyAmountDiv.invoke('text')
       ])
-    }).spread((link, moneyBefore) => {
-      cy.log('link: ' + link)
-      cy.log('money: ' + HomePage.moneyAmountDiv.invoke('text'))
+    }).spread((moneyBefore) => {
       cy.log('Money before sending: ' + moneyBefore)
-      cy.visit(link)
 
-      // wait for blockchain payment
-      cy.contains('Claim').should('be.visible')
-      SendMoneyPage.yayButton.should('be.visible')
-
-      // HomePage.moneyAmountDiv.invoke('text').should('eq', Number(moneyBefore + 0.05).toFixed(2))
+      // wait for blockchain payment  
+      SendMoneyPage.yayButton.should('be.visible')        
+      HomePage.moneyAmountDiv.invoke('text').should('eq', Number(moneyBefore + 0.05).toFixed(2))
       SendMoneyPage.yayButton.click()
       cy.contains(Cypress.env('usernameForRegistration')).should('be.visible')
       cy.contains('test message').should('be.visible')
       cy.contains('another person').should('not.be.visible')
-    })
+      })
+
   })
 
   it('User is able to send money from exist wallet without "claim"', () => {
@@ -126,10 +125,7 @@ describe('Test case 7: Ability to send money', () => {
     SendMoneyPage.copyLinkButton.click()
     SendMoneyPage.doneButton.should('be.visible')
 
-    all([
-      cy.get('[data-testid*="http"]').invoke('attr', 'data-testid'),
-      cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt')
-    ]).spread((sendMoneyUrl, mnemonic) => {
+    cy.get('[data-testid*="http"]').invoke('attr', 'data-testid').then(sendMoneyUrl =>{
       const { sendMoneyLinkRegex } = SendMoneyPage
       const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
 
@@ -144,28 +140,30 @@ describe('Test case 7: Ability to send money', () => {
       StartPage.signInButton.click()
       LoginPage.recoverFromPassPhraseLink.click()
       LoginPage.pageHeader.should('contain', 'Recover')
-      LoginPage.mnemonicsInput.type(mnemonic)
+      cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+        cy.log(mnemonic)
+        LoginPage.mnemonicsInput.type(mnemonic)
+      })
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
       HomePage.claimButton.should('be.visible')
 
+      cy.visit(validMoneyLnk)
+      cy.contains('Claim').should('be.visible')      
+
       return all([
-        from(validMoneyLnk),
-        from(mnemonic),
-        HomePage.moneyAmountDiv.invoke('text').then(Number)
+        HomePage.moneyAmountDiv.invoke('text')
       ])
-    }).spread((link, mnemonic, moneyBefore) => {
+    }).spread((moneyBefore) => {
       cy.log('Money before sending: ' + moneyBefore)
-      cy.visit(link)
-
+      
       // wait for blockchain payment
-      cy.contains('Claim').should('be.visible')
-
       SendMoneyPage.yayButton.should('be.visible')
-      HomePage.moneyAmountDiv.invoke('text').should('eq', (moneyBefore + 0.03).toFixed(2))
+      HomePage.moneyAmountDiv.invoke('text').should('eq', Number(moneyBefore + 0.03).toFixed(2))
       SendMoneyPage.yayButton.click()
       cy.contains(Cypress.env('additionalAccountUsername')).should('be.visible')
       cy.contains('without claim').should('be.visible')
       cy.contains('exist user').should('not.be.visible')
     })
+  })
 })

@@ -301,7 +301,7 @@ const patchLogger = () => {
   // for error logs if they happen frequently only log one
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
-  logger.error = async (...args) => {
+  logger.error = (...args) => {
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
     let { dialogShown, category = Unexpected, ...context } = extra
@@ -343,27 +343,34 @@ const patchLogger = () => {
       debounceFireEvent(ERROR_LOG, logPayload)
     }
 
-    if (env !== 'test') {
-      reportToSentry(
-        errorToPassIntoLog,
-        {
-          logMessage,
-          errorObj,
-          logContext,
-          eMsg,
-          context,
-        },
-        {
-          dialogShown,
-          category: categoryToPassIntoLog,
-          level: categoryToPassIntoLog === Human ? 'info' : undefined,
-        },
-      )
+    if (env === 'test') {
+      logError(...args)
+      return
+    }
+      
+    reportToSentry(
+      errorToPassIntoLog,
+      {
+        logMessage,
+        errorObj,
+        logContext,
+        eMsg,
+        context,
+      }, {
+        dialogShown,
+        category: categoryToPassIntoLog,
+        level: categoryToPassIntoLog === Human ? 'info' : undefined,
+      },
+    )
 
-      await Sentry.flush()
-      Object.assign(errorToPassIntoLog, { message: savedErrorMessage })
+    Sentry.flush().finally(() => {
+      if (savedErrorMessage) {
+        errorObj.message = savedErrorMessage
+      }
+      
+      logError(...args)
+    })
     }
 
-    return logError(...args)
   }
 }

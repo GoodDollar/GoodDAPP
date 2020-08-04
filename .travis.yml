@@ -42,7 +42,7 @@ matrix:
     - if: env(DEPLOY_VERSION) IS NOT present
       script:
         - npm run test:setup
-        - npm run coverage -- --silent
+        - npm run coverage
         - npm run coveralls || true
         - pkill -f ganache
     - if: env(DEPLOY_VERSION) IS present

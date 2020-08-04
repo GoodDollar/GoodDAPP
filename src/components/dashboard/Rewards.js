@@ -5,7 +5,7 @@ import { isNil } from 'lodash'
 
 import { Iframe } from '../webView/iframe'
 
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 import useOnPress from '../../lib/hooks/useOnPress'
 
@@ -19,6 +19,7 @@ const log = logger.child({ from: 'RewardsTab' })
 
 const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
   const [showDialog] = useDialog()
+  const [showErrorDialog] = useErrorDialog()
   const { params = {} } = navigation.state
   const [token, setToken] = useState(null)
   const [showLoading, hideLoading] = useLoadingIndicator()
@@ -44,8 +45,18 @@ const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
     return url.toString()
   }, [token, params, openInNewTab])
 
-  const onPressOk = useOnPress(() => openLink(rewardsPath, '_blank'), [rewardsPath])
   const onDismiss = useOnPress(() => navigation.navigate('Home'), [navigation])
+
+  const onPressOk = useOnPress(async () => {
+    try {
+      await openLink(rewardsPath, '_blank')
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('Failed opening external link:', message, exception, { rewardsPath })
+      showErrorDialog(message, '', { onDismiss })
+    }
+  }, [rewardsPath, onDismiss])
 
   useEffect(() => {
     showLoading()
@@ -53,7 +64,7 @@ const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
     userStorage.getProfileFieldValue('loginToken').then(loginToken => {
       const token = loginToken || ''
 
-      log.debug('got rewards login token', token)
+      log.debug('Got rewards login token', token)
       setToken(token)
     })
 
@@ -66,9 +77,10 @@ const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
     }
 
     hideLoading()
+
     showDialog({
       title: 'Press ok to go to Rewards dashboard',
-      onDismiss: onDismiss,
+      onDismiss,
       buttons: [
         {
           text: 'OK',

@@ -1,6 +1,7 @@
 // libraries
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
+import { isString } from 'lodash'
 
 // components
 import { Icon, Section } from '../index'
@@ -11,30 +12,28 @@ import useClipboard from '../../../lib/hooks/useClipboard'
 import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
-import { isBrowser } from '../../../lib/utils/platform'
+import { isWeb } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
 
-// assets
-import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
-
-const copyIconSize = isBrowser ? 34 : normalize(24)
+const copyIconSize = isWeb ? 34 : normalize(24)
 
 const BorderedBox = ({ styles, theme, imageSource, title, content, truncateContent = false, copyButtonText }) => {
   const [, setString] = useClipboard()
   const copyToClipboard = useOnPress(() => setString(content), [setString, content])
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
+  const ImageSVG = imageSource
 
   return (
     <Section style={styles.borderedBox}>
       <View style={styles.avatarLineSeparator} />
-      {imageSource ? (
+      {isString(imageSource) ? (
         <Image source={{ uri: imageSource }} style={styles.avatar} />
       ) : (
         <View style={styles.avatar}>
-          <UnknownProfileSVG />
+          <ImageSVG />
         </View>
       )}
       <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
@@ -62,7 +61,7 @@ const styles = ({ theme }) => ({
     borerStyle: 'solid',
     borderColor: theme.colors.lighterGray,
     borderRadius: 5,
-    height: getDesignRelativeHeight(isBrowser ? 123 : 130, false),
+    height: getDesignRelativeHeight(isWeb ? 123 : 130, false),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -85,6 +84,7 @@ const styles = ({ theme }) => ({
     top: -getDesignRelativeHeight(34, false), // half of height
     position: 'absolute',
     zIndex: 1,
+    alignItems: 'center',
   },
   boxCopyIconWrapper: {
     height: getDesignRelativeHeight(52, false),
@@ -103,8 +103,14 @@ const styles = ({ theme }) => ({
   copyIconContainer: {
     height: getDesignRelativeHeight(38, false),
     width: getDesignRelativeHeight(38, false),
-    minWidth: getDesignRelativeHeight(38, false),
-    borderRadius: getDesignRelativeHeight(19, false),
+    minWidth: Platform.select({
+      isWeb: getDesignRelativeHeight(38, false),
+      default: getDesignRelativeHeight(42, false),
+    }),
+    borderRadius: Platform.select({
+      web: getDesignRelativeHeight(19, false),
+      default: getDesignRelativeHeight(21, false),
+    }),
     backgroundColor: theme.colors.primary,
     display: 'flex',
     justifyContent: 'center',

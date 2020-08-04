@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '10.15'
+  - "10.15"
 
 addons:
   chrome: stable
@@ -42,12 +42,7 @@ matrix:
         #- npm run bundlesize:check
     - if: env(DEPLOY_VERSION) IS NOT present
       script:
-        - pushd node_modules/@gooddollar/goodcontracts
-        - npm ci
-        - npm run ganache &
-        - npm run wait
-        - npm run deploy
-        - popd
+        - npm run test:setup
         - npm run coverage -- --silent
         - npm run coveralls || true
         - pkill -f ganache

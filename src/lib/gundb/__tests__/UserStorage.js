@@ -2,6 +2,8 @@
 import { pick } from 'lodash'
 import moment from 'moment'
 import Contracts from '@gooddollar/goodcontracts/releases/deployment.json'
+import ModelContracts from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
+
 import gun from '../gundb'
 import Config from '../../../config/config'
 import userStorage from '../UserStorage'
@@ -44,6 +46,7 @@ describe('UserStorage', () => {
   beforeAll(async () => {
     await userStorage.wallet.ready
     await userStorage.ready
+    await userStorage.initRegistered()
   })
 
   afterEach(() => {
@@ -867,7 +870,7 @@ describe('getOperationType', () => {
   it('from ubicontract should be claim', () => {
     const event = {
       name: 'Transfer',
-      from: Contracts[Config.network].UBI.toLowerCase(),
+      from: ModelContracts[Config.network].UBIScheme.toLowerCase(),
     }
     expect(userStorage.getOperationType(event, 'account1')).toBe('claim')
   })

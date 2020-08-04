@@ -20,6 +20,7 @@
     "web:local": "npm run link && npm run web",
     "build": "node scripts/build.js --stats",
     "test": "npm run link && npm run test:web && npm run test:native",
+    "test:setup": "./scripts/blockchainTestSetup.sh",
     "test:web-watch": "npm run link && node scripts/test.js --watch --config \"./config/web.jest.config.js\"",
     "test:web": "node scripts/test.js --config \"./config/web.jest.config.js\"",
     "test:native": "npm run link && node scripts/test.js --config \"./config/native.jest.config.js\"",

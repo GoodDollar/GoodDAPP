@@ -98,6 +98,9 @@ export default class UserProperties {
   }
 
   reset() {
-    return this.gun.secret(UserProperties.defaultProperties)
+    const { defaultProperties } = UserProperties
+
+    this.data = Object.assign({}, defaultProperties)
+    return this.gun.secret(defaultProperties)
   }
 }

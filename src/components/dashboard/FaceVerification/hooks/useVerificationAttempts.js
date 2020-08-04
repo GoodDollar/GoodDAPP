@@ -20,6 +20,12 @@ export default () => {
     'reachedMaxAttempts',
   ])
 
+  const resetAttempts = useCallback(() => {
+    setAttemptsCount(0)
+    setAttemptsHistory([])
+    setReachedMaxAttempts(false)
+  }, [setAttemptsCount, setAttemptsHistory, setReachedMaxAttempts])
+
   const trackAttempt = useCallback(
     exception => {
       const { message } = exception
@@ -57,14 +63,10 @@ export default () => {
       // 5. set "reached max attempts" flag in the store
       setReachedMaxAttempts(true)
     },
-    [setAttemptsCount, attemptsCount, setAttemptsHistory, attemptsHistory, setReachedMaxAttempts],
-  )
 
-  const resetAttempts = useCallback(() => {
-    setAttemptsCount(0)
-    setAttemptsHistory([])
-    setReachedMaxAttempts(false)
-  }, [setAttemptsCount, setAttemptsHistory, setReachedMaxAttempts])
+    // resetAttempts already depends from setAttemptsCount, setAttemptsHistory & setReachedMaxAttempts
+    [attemptsCount, attemptsHistory, resetAttempts],
+  )
 
   // returns isReachedMaxAttempts flag, resets it once got
   const isReachedMaxAttempts = useCallback(() => {

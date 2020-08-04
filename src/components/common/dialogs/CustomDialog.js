@@ -106,20 +106,7 @@ const CustomDialog = ({
           {showButtons ? (
             <View style={buttonsContainerStyle || styles.buttonsContainer}>
               {buttons ? (
-                buttons.map(({ onPress = dismiss => dismiss(), style, disabled, ...buttonProps }, index) => {
-                  return (
-                    <CustomButton
-                      {...buttonProps}
-                      onPress={() => onPress(onDismiss)}
-                      style={[{ marginLeft: 10 }, style]}
-                      disabled={disabled || loading}
-                      loading={loading}
-                      key={index}
-                    >
-                      {buttonProps.text}
-                    </CustomButton>
-                  )
-                })
+                buttons.map((options, index) => <DialogButton key={index} options={options} loading={loading} dismiss={_onPressOk} />)
               ) : (
                 <CustomButton disabled={loading} loading={loading} onPress={_onPressOk} style={[styles.buttonOK]}>
                   Ok
@@ -155,6 +142,36 @@ const SimpleStoreDialog = () => {
         currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
       }}
     />
+  )
+}
+
+const DialogButton = ({ options = {}, loading, dismiss }) => {
+  const { onPress, style, disabled, mode, Component, ...buttonProps } = options
+
+  const pressHandler = useOnPress(() => {
+    if (onPress) {
+      onPress(dismiss)
+      return
+    }
+
+    dismiss()
+  }, [dismiss, onPress])
+
+  if (mode === 'custom') {
+    return <Component />
+  }
+
+  return (
+    <CustomButton
+      {...buttonProps}
+      mode={mode}
+      onPress={pressHandler}
+      style={[{ marginLeft: 10 }, style]}
+      disabled={disabled || loading}
+      loading={loading}
+    >
+      {buttonProps.text}
+    </CustomButton>
   )
 }
 

@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { debounce } from 'lodash'
 import Config from '../../../config/config'
 import LoadingIcon from '../modal/LoadingIcon'
@@ -22,8 +22,14 @@ const InternetConnection = props => {
   const isConnectionGun = useConnectionGun()
   const [showDisconnect, setShowDisconnect] = useState(false)
   const [firstLoadError, setFirstLoadError] = useState(true)
+  const connectionStatusRef = useRef(true)
+
   const showDialogWindow = useCallback(
     debounce((message, showDialog, setShowDisconnect) => {
+      if (connectionStatusRef.current) {
+        log.debug('connectStatusRef is true not showing dialog')
+        return
+      }
       setShowDisconnect(true)
       showDialog({
         title: 'Waiting for network',
@@ -44,6 +50,7 @@ const InternetConnection = props => {
       isConnectionWeb3 === false ||
       isConnectionGun === false
     ) {
+      connectionStatusRef.current = false
       log.warn('connection failed:', {
         isAPIConnection,
         isConnection,
@@ -72,12 +79,13 @@ const InternetConnection = props => {
 
       showDialogWindow(message, showDialog, setShowDisconnect)
     } else {
+      connectionStatusRef.current = true
       log.debug('connection back - hiding dialog')
 
       //first time that connection is ok, from now on we will start showing the connection dialog on error
       setFirstLoadError(false)
       showDialogWindow && showDialogWindow.cancel()
-      hideDialog()
+      !firstLoadError && hideDialog()
       setShowDisconnect(false)
     }
   }, [isConnection, isAPIConnection, isConnectionWeb3, isConnectionGun])

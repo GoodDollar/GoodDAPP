@@ -54,35 +54,41 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
   //login so we can check if user exists
   const ready = async replacing => {
+    const loginPromise = retryImport(() => import('../../../lib/login/GoodWalletLogin'))
     log.debug('ready: Starting initialization', { replacing })
+
     const { init } = await retryImport(() => import('../../../init'))
     log.debug('ready: got init', init)
-    const login = retryImport(() => import('../../../lib/login/GoodWalletLogin'))
-    log.debug('ready: got login', login)
+
     const { goodWallet, userStorage, source } = await init()
     log.debug('ready: done init')
 
     if (replacing) {
       log.debug('reinitializing wallet and storage with new user')
+
       goodWallet.init()
       await goodWallet.ready
       userStorage.init()
     }
 
-    //for QA
+    // for QA
     global.wallet = goodWallet
     await userStorage.ready
     log.debug('ready: userstorage ready')
 
-    //the login also re-initialize the api with new jwt
-    login
-      .then(l => l.default.auth())
-      .catch(e => {
-        log.error('failed auth:', e.message, e)
+    // the login also re-initialize the api with new jwt
+    const { default: login } = await loginPromise
+    log.debug('ready: got login', login)
 
-        // showErrorDialog('Failed authenticating with server', e)
-      })
-    log.debug('ready: login ready')
+    try {
+      await login.auth()
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('failed auth:', message, exception)
+    } finally {
+      log.debug('ready: login ready')
+    }
 
     return { goodWallet, userStorage, source }
   }
@@ -138,16 +144,15 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         // const userExists = await userStorage.userAlreadyExist()
         log.debug('checking userAlreadyExist', { exists, fullName })
+        const { source } = await ready(replacing)
 
         //user exists reload with dashboard route
         if (exists) {
-          fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
+          fireEvent(SIGNIN_TORUS_SUCCESS, { provider, source })
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
           store.set('isLoggedIn')(true)
           return
         }
-
-        const { source } = await ready(replacing)
 
         //user doesnt exists start signup
         fireEvent(SIGNUP_STARTED, { source, provider })

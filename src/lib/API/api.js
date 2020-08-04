@@ -32,30 +32,39 @@ export type UserRecord = NameRecord &
  * This is being initialized with the token retrieved from GoodServer once.
  * After init is being used to user operations such add, delete, etc.
  */
-class API {
+export class APIService {
   jwt: string
 
   client: AxiosInstance
 
   mauticJS: any
 
-  constructor() {
-    this.ready = this.init()
+  constructor(jwt = null) {
+    this.init(jwt)
   }
 
   /**
    * init API with axions client and proper interptors. Needs `GoodDAPP_jwt`to be present in AsyncStorage
    */
-  init() {
-    log.info('initializing api...', Config.serverUrl)
+  init(jwtToken = null) {
+    this.jwt = jwtToken
 
-    return (this.ready = AsyncStorage.getItem(JWT).then(async jwt => {
-      this.jwt = jwt
+    log.info('initializing api...', Config.serverUrl, jwtToken)
+
+    return (this.ready = (async () => {
+      let { jwt } = this
+
+      if (!jwt) {
+        jwt = await AsyncStorage.getItem(JWT)
+        this.jwt = jwt
+      }
+
       let instance: AxiosInstance = axios.create({
         baseURL: Config.serverUrl,
         timeout: Config.apiTimeout,
-        headers: { Authorization: `Bearer ${this.jwt || ''}` },
+        headers: { Authorization: `Bearer ${jwt || ''}` },
       })
+
       instance.interceptors.request.use(
         req => {
           return req
@@ -66,6 +75,7 @@ class API {
           return Promise.reject(e)
         },
       )
+
       instance.interceptors.response.use(
         response => {
           return response
@@ -80,12 +90,13 @@ class API {
         },
       )
       this.client = await instance
-      log.info('API ready', this.jwt)
+      log.info('API ready', jwt)
 
       let w3Instance: AxiosInstance = axios.create({
         baseURL: Config.web3SiteUrl,
         timeout: Config.apiTimeout,
       })
+
       w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
       w3Instance.interceptors.response.use(
         response => response.data,
@@ -97,8 +108,9 @@ class API {
           return Promise.reject(error)
         },
       )
+
       this.w3Client = await w3Instance
-    }))
+    })())
   }
 
   /**
@@ -418,8 +430,15 @@ class API {
       })
     }
   }
+
+  async getActualPhase() {
+    const { data } = await this.client.get('/verify/phase')
+
+    return data.phase
+  }
 }
 
-const api = new API()
+const api = new APIService()
+
 global.api = api
 export default api

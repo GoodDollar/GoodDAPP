@@ -54,7 +54,7 @@ export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
 const log = logger.child({ from: 'analytics' })
-const { sentryDSN, amplitudeKey, version, env, network } = Config
+const { sentryDSN, amplitudeKey, version, env, network, phase } = Config
 
 /** @private */
 // eslint-disable-next-line require-await
@@ -101,10 +101,9 @@ export const initAnalytics = async () => {
 
   if (isAmplitudeEnabled) {
     const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
-
+    identity.append('phase', String(phase))
     Amplitude.setVersionName(version)
     Amplitude.identify(identity)
-
     if (isFSEnabled) {
       const sessionUrl = FS.getCurrentSessionURL()
 
@@ -304,7 +303,7 @@ const patchLogger = () => {
   logger.error = (...args) => {
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
-    let { dialogShown, category = Unexpected } = extra
+    let { dialogShown, category = Unexpected, ...context } = extra
     let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category
 
@@ -315,7 +314,9 @@ const patchLogger = () => {
       categoryToPassIntoLog = Network
     }
 
+    let savedErrorMessage
     if (errorObj instanceof Error) {
+      savedErrorMessage = errorObj.message
       errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
     } else {
       errorToPassIntoLog = new Error(logMessage)
@@ -329,6 +330,7 @@ const patchLogger = () => {
         eMsg,
         dialogShown,
         category: categoryToPassIntoLog,
+        context,
       }
 
       if (isFSEnabled) {
@@ -341,6 +343,7 @@ const patchLogger = () => {
     }
 
     if (env === 'test') {
+      logError(...args)
       return
     }
 
@@ -351,7 +354,7 @@ const patchLogger = () => {
         errorObj,
         logContext,
         eMsg,
-        extra,
+        context,
       },
       {
         dialogShown,
@@ -360,6 +363,15 @@ const patchLogger = () => {
       },
     )
 
-    return logError(...args)
+    Sentry.flush().finally(() => {
+      // if savedErrorMessage not empty that means errorObj
+      // was an Error instrance and we mutated its message
+      // so we have to restore it now
+      if (savedErrorMessage) {
+        errorObj.message = savedErrorMessage
+      }
+
+      logError(...args)
+    })
   }
 }

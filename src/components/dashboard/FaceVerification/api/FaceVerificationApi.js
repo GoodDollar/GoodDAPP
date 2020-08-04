@@ -1,6 +1,6 @@
 // @flow
 import axios, { type Axios } from 'axios'
-import { get } from 'lodash'
+import { get, isError } from 'lodash'
 
 import API from '../../../../lib/API/api'
 import Config from '../../../../config/config'
@@ -71,19 +71,7 @@ class FaceVerificationApi {
     logger.info('performFaceVerification', { sessionId, enrollmentIdentifier })
 
     try {
-      const { data: response } = await rootApi.performFaceVerification(payload, axiosConfig)
-      const { success, error } = response || {}
-
-      if (!response) {
-        throw new Error('Failed to perform face recognition on server')
-      }
-
-      if (!success) {
-        const exception = new Error(error)
-
-        exception.response = response
-        throw exception
-      }
+      const response = await this.wrapApiCall(rootApi.performFaceVerification(payload, axiosConfig))
 
       logger.info('Face Recognition finished successfull', { response })
 
@@ -111,7 +99,60 @@ class FaceVerificationApi {
   }
 
   async disposeFaceSnapshot(enrollmentIdentifier: string, signature: string): Promise<void> {
-    await this.rootApi.disposeFaceSnapshot(enrollmentIdentifier, signature)
+    const { rootApi } = this
+
+    logger.info('Disposing face snapshot', { enrollmentIdentifier })
+
+    try {
+      await this.wrapApiCall(rootApi.disposeFaceSnapshot(enrollmentIdentifier, signature))
+
+      logger.info('Face snapshot enqued to disposal queue successfully')
+    } catch (exception) {
+      const { message, response } = exception
+      const { error } = response || {}
+
+      logger.error('Face snapshot disposal check failed', error || message, exception)
+      throw exception
+    }
+  }
+
+  async wrapApiCall(httpCall) {
+    let response
+
+    try {
+      const httpResponse = await httpCall
+
+      // our API resolve as usual with response.data
+      response = httpResponse.data
+    } catch (errorObject) {
+      // if API rejects there're 2 possible cases
+      // if was rejected with an Error object that means axios exception haven't response.data set
+      if (!isError(errorObject)) {
+        // in other cases API rejects with response.data we could use
+        // and don't forget to set success = false flag
+        // it's supposed that GoodServer will return false in the case of non-200 code
+        // but let's add this additional safety check
+        response = { ...errorObject, success: false }
+      }
+    }
+
+    const { success, error } = response || {}
+
+    if (!response) {
+      // no response - throwing unexpected error
+      throw new Error('Failed to perform face verification API call')
+    }
+
+    if (!success) {
+      // non - success - throwing an exception with failed response
+      const exception = new Error(error)
+
+      exception.response = response
+      throw exception
+    }
+
+    // if success - just return the response
+    return response
   }
 }
 

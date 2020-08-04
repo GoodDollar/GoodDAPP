@@ -42,6 +42,7 @@ describe('Test case 7: Ability to send money', () => {
       HomePage.claimButton.click()
 
       SendMoneyPage.dailyClaimText.should('be.visible')
+      SendMoneyPage.dailyClaimText.click()
       SendMoneyPage.claimButton.click()
       SendMoneyPage.claimButton.should('have.attr', 'data-focusable')
       SendMoneyPage.verifyButton.should('be.visible')
@@ -90,7 +91,7 @@ describe('Test case 7: Ability to send money', () => {
 
       // wait for blockchain payment
       SendMoneyPage.yayButton.should('be.visible')
-      HomePage.moneyAmountDiv.invoke('text').should('eq', Number(moneyBefore + 0.05).toFixed(2))
+      HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.05).toFixed(2))
       SendMoneyPage.yayButton.click()
       cy.contains(Cypress.env('usernameForRegistration')).should('be.visible')
       cy.contains('test message').should('be.visible')
@@ -156,7 +157,7 @@ describe('Test case 7: Ability to send money', () => {
 
       // wait for blockchain payment
       SendMoneyPage.yayButton.should('be.visible')
-      HomePage.moneyAmountDiv.invoke('text').should('eq', Number(moneyBefore + 0.03).toFixed(2))
+      HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.03).toFixed(2))
       SendMoneyPage.yayButton.click()
 
       cy.contains(Cypress.env('additionalAccountUsername')).should('be.visible')

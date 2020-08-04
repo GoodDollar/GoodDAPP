@@ -106,7 +106,7 @@ const CustomDialog = ({
           {showButtons ? (
             <View style={buttonsContainerStyle || styles.buttonsContainer}>
               {buttons ? (
-                buttons.map((options, index) => <DialogButton key={index} options={options} loading={loading} />)
+                buttons.map((options, index) => <DialogButton key={index} options={options} loading={loading} dismiss={_onPressOk} />)
               ) : (
                 <CustomButton disabled={loading} loading={loading} onPress={_onPressOk} style={[styles.buttonOK]}>
                   Ok

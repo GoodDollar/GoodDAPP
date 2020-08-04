@@ -1,4 +1,4 @@
-import { first, noop } from 'lodash'
+import { first, isNumber, noop } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
@@ -54,10 +54,13 @@ export class EnrollmentProcessor {
     let latestMessage = lastMessage
     const { status } = lastResult
 
-    // if no errors were thrown and server haven't returned specific
-    // status messages - setting last message from session status code
+    // if no errors were thrown and server haven't returned specific status messages
     if (!latestMessage) {
-      latestMessage = getFriendlyDescriptionForZoomSessionStatus(status)
+      // setting last message from session status code it it's present
+      latestMessage =
+        isNumber(status) && status !== ZoomSessionStatus.SessionCompletedSuccessfully
+          ? getFriendlyDescriptionForZoomSessionStatus(status)
+          : 'Session could not be completed due to an unexpected issue during the network request.'
     }
 
     // calling completion callback
@@ -126,25 +129,37 @@ export class EnrollmentProcessor {
       if (response) {
         // if error response was sent
         const { enrollmentResult, error } = response
-        const { isEnrolled, isLive, code } = enrollmentResult || {}
+        const { isEnrolled, isLive, isDuplicate, code } = enrollmentResult || {}
 
         // setting lastMessage from server's response
         this.lastMessage = error
 
-        // if code is 200 then we have some client-side issues
-        // (e.g. low images quality, glasses weared, too dark etc)
-        if (200 === code && (!isLive || !isEnrolled)) {
-          // showing reason and asking to retry capturing
-          ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
-
-          resultCallback.retry()
-          subscriber.onRetry({ reason: error, liveness: isLive, enrolled: isEnrolled })
+        // if isDuplicate is strictly true, that means we have dup face
+        // despite the http status code this case should be processed like error
+        if (true === isDuplicate) {
+          this._cancelEnrollmentSession()
           return
+        }
+
+        // if code is 200 then facetec server operations went ok but
+        // there could be issues with liveness check or image quality
+        if (200 === code) {
+          // if liveness check failed or face wasn't enrolled by the other reasons
+          // (e.g. wearing glasses or bad image quality)
+          if (false === isLive || false === isEnrolled) {
+            // showing reason and asking to retry capturing
+            ZoomCustomization.setOverrideResultScreenSuccessMessage(error)
+
+            resultCallback.retry()
+            subscriber.onRetry({ reason: error, liveness: isLive, enrolled: isEnrolled })
+            return
+          }
         }
       }
 
-      // otherwise we're cancelling session
-      resultCallback.cancel()
+      // the other cases (non-200 code or other issue that liveness / image quality)
+      // we're processing like an error - cancelling session
+      this._cancelEnrollmentSession()
     }
   }
 
@@ -200,6 +215,21 @@ export class EnrollmentProcessor {
       // otherwise calling completion handler with empty zoomSessionResult
       subscriber.onSessionCompleted(false, null, message)
     }
+  }
+
+  /**
+   * Cancels the enrollment session, throwing an
+   * error with the latest status code and message
+   *
+   * @private
+   */
+  _cancelEnrollmentSession() {
+    const { resultCallback } = this
+
+    // this will trigger handleCompletion which in turn trigger ProcessingSubscriber.onSessionCompleted
+    // which then rejects its promise and causes ZoomSDK.faceVerification to throw which is caught by
+    // useZoomVerification
+    resultCallback.cancel()
   }
 
   // Promisified getFaceMapBase64.getFaceMapBase64()

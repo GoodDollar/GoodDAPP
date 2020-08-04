@@ -6,5 +6,4 @@ npm ci
 npm run ganache:test &
 npm run wait
 npm run start:withmain
-npm run simulate:interest #required for fishManager.test.js
 popd

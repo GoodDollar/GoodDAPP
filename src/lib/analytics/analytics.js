@@ -314,7 +314,9 @@ const patchLogger = () => {
       categoryToPassIntoLog = Network
     }
 
+    let savedErrorMessage
     if (errorObj instanceof Error) {
+      savedErrorMessage = errorObj.message
       errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
     } else {
       errorToPassIntoLog = new Error(logMessage)
@@ -341,6 +343,7 @@ const patchLogger = () => {
     }
 
     if (env === 'test') {
+      logError(...args)
       return
     }
 
@@ -360,6 +363,15 @@ const patchLogger = () => {
       },
     )
 
-    return logError(...args)
+    Sentry.flush().finally(() => {
+      // if savedErrorMessage not empty that means errorObj
+      // was an Error instrance and we mutated its message
+      // so we have to restore it now
+      if (savedErrorMessage) {
+        errorObj.message = savedErrorMessage
+      }
+
+      logError(...args)
+    })
   }
 }

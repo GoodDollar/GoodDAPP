@@ -86,7 +86,7 @@ describe('Test case 7: Ability to send money', () => {
       cy.contains('Claim').should('be.visible')
 
       return HomePage.moneyAmountDiv.invoke('text')
-    }).then((moneyBefore) => {
+    }).then(moneyBefore => {
       cy.log('Money before sending: ' + moneyBefore)
 
       // wait for blockchain payment

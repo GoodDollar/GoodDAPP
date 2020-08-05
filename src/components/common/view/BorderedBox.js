@@ -104,7 +104,7 @@ const styles = ({ theme }) => ({
     height: getDesignRelativeHeight(38, false),
     width: getDesignRelativeHeight(38, false),
     minWidth: Platform.select({
-      isWeb: getDesignRelativeHeight(38, false),
+      web: getDesignRelativeHeight(38, false),
       default: getDesignRelativeHeight(42, false),
     }),
     borderRadius: Platform.select({

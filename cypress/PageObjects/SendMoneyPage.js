@@ -1,5 +1,13 @@
 /* eslint-disable no-undef */
 class SendMoneyPage {
+  get waitButtonRegex() {
+    return /OK, I’ll WAIT/i
+  }
+
+  get sendMoneyLinkRegex() {
+    return /(?:http[s]?:\/\/)[^\s[",><]*/gim
+  }
+
   get nameInput() {
     return cy.get('input[placeholder="Enter the recipient name"]', { timeout: 10000 })
   }
@@ -46,6 +54,20 @@ class SendMoneyPage {
 
   get yayButton() {
     return cy.contains('YAY!')
+  }
+
+  get waitButton() {
+    const { waitButtonRegex } = this
+    return cy.contains(waitButtonRegex)
+  }
+
+  hasWaitButton() {
+    const { waitButtonRegex } = this
+
+    return cy.get('#root')
+      .contains(waitButtonRegex)
+      .its('length')
+      .then(Boolean)
   }
 }
 

@@ -18,7 +18,7 @@ import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
 
-const copyIconSize = isWeb ? 34 : normalize(24)
+const copyIconSize = isWeb ? 34 : normalize(21)
 
 const BorderedBox = ({ styles, theme, imageSource, title, content, truncateContent = false, copyButtonText }) => {
   const [, setString] = useClipboard()

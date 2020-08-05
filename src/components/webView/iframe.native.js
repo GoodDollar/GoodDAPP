@@ -13,25 +13,33 @@ import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 const wHeight = getMaxDeviceHeight()
 
 const DOMLoadedDispatcher = `(function () {
-  var documentUrl = location.href;
-  var DOMReady = 'DOMContentLoaded';
-  var messenger = (window.ReactNativeWebView || parent || {}).postMessage;
-  
-  if ('function' !== (typeof messenger)) {
-    return;
-  }
-  
-  window.addEventListener(DOMReady, function() {
-    var messagePayload = {
-      event: DOMReady,
-      target: 'iframe',
-      src: documentUrl
-    };
-    
-    messenger(messagePayload, '*')
-  });
-})()
-`
+    var messenger = window.ReactNativeWebView || parent;
+
+    if (!messenger || ('function' !== (typeof messenger.postMessage))) {
+      return;
+    }
+
+    var documentUrl = location.href;
+    var DOMReady = 'DOMContentLoaded';
+
+    var onDOMContentLoaded = function() {
+      var messagePayload = {
+        event: DOMReady,
+        target: 'iframe',
+        src: documentUrl
+      };
+
+      messenger.postMessage(messagePayload, '*');
+    }
+
+    if (document.readyState !== 'loading') {
+      onDOMContentLoaded();
+      return;
+    }
+
+    window.addEventListener(DOMReady, onDOMContentLoaded);
+  })();`
+
 export const Iframe = ({ src, title }) => {
   const [showLoading, hideLoading] = useLoadingIndicator()
 

@@ -44,7 +44,7 @@ export const Iframe = ({ src, title }) => {
   const [showLoading, hideLoading] = useLoadingIndicator()
 
   const onMessage = useCallback(
-    ({ data }) => {
+    ({ nativeEvent: { data } }) => {
       const { event } = data
 
       if ('DOMContentLoaded' === event) {

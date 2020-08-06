@@ -209,8 +209,12 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     () =>
       asGuest
         ? () => {
-            setPasswordless(true)
-            fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
+            if (config.torusEmailEnabled) {
+              setPasswordless(true)
+              fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
+            } else {
+              signupAuth0Mobile()
+            }
           }
         : goToW3Site,
     [asGuest, signupAuth0, setPasswordless],

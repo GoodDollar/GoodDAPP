@@ -26,7 +26,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 
 // assets
-// import unknownProfile from '../../assets/unknownProfile.svg'
+import unknownProfile from '../../assets/unknownProfile.svg'
 import OptionsRow from './OptionsRow'
 
 // initialize child logger
@@ -57,7 +57,7 @@ const ProfilePrivacy = props => {
   // bordered box required data
   const { avatar } = gdstore.get('profile')
 
-  // const avatarSource = useMemo(() => (avatar ? { uri: avatar } : unknownProfile), [avatar])
+  const avatarSource = useMemo(() => avatar || unknownProfile, [avatar])
 
   const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])
 
@@ -162,7 +162,7 @@ const ProfilePrivacy = props => {
           </Section.Stack>
           <Section grow justifyContent="center">
             <BorderedBox
-              imageSource={avatar}
+              imageSource={avatarSource}
               title="My Face Record ID"
               content={faceRecordId}
               truncateContent

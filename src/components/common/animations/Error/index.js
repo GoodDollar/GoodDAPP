@@ -16,7 +16,6 @@ class Error extends AnimationBase {
         source={this.improveAnimationData(animationData)}
         autoSize={false}
         style={{
-          width: 200,
           marginHorizontal: 'auto',
           paddingTop: 20,
           paddingBottom: 20,

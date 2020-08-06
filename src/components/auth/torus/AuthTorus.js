@@ -1,6 +1,7 @@
 // @flow
+/*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
-import { AsyncStorage, Image, TouchableOpacity } from 'react-native'
+import { AsyncStorage, Image, TouchableOpacity, View } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
@@ -31,10 +32,11 @@ import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import { userExists } from '../../../lib/login/userExists'
-import { delay } from '../../../lib/utils/async'
-import LoadingIcon from '../../common/modal/LoadingIcon'
 
-// import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
+// import { delay } from '../../../lib/utils/async'
+// import LoadingIcon from '../../common/modal/LoadingIcon'
+
+import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
 import useTorus from './hooks/useTorus'
 
@@ -100,30 +102,30 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const signupFacebook = () => handleSignUp('facebook')
   const signupAuth0 = loginType => handleSignUp(loginType === 'email' ? 'auth0-pwdless-email' : 'auth0-pwdless-sms')
 
-  const showLoadingDialog = success => {
-    showDialog({
-      image: success ? undefined : <LoadingIcon />,
-      loading: true,
-      message: 'Please wait\nThis might take a few seconds...',
-      showButtons: false,
-      title: `PREPARING\nYOUR WALLET`,
-    })
-  }
-
-  // const showLoadingDialog = (success, resolve) => {
+  // const showLoadingDialog = success => {
   //   showDialog({
-  //     image: (
-  //       <View style={{ flex: 1, margin: 'auto' }}>
-  //         <SpinnerCheckMark loading={!!success} success={success} onFinish={resolve} marginTop={-50} />
-  //       </View>
-  //     ),
-
+  //     image: success ? undefined : <LoadingIcon />,
   //     loading: true,
   //     message: 'Please wait\nThis might take a few seconds...',
   //     showButtons: false,
   //     title: `PREPARING\nYOUR WALLET`,
   //   })
   // }
+
+  const showLoadingDialog = (success, resolve) => {
+    showDialog({
+      image: (
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <SpinnerCheckMark loading={!!success} success={success} onFinish={resolve} height={'auto'} marginTop={0} />
+        </View>
+      ),
+
+      loading: true,
+      message: 'Please wait\nThis might take a few seconds...',
+      showButtons: false,
+      title: `PREPARING\nYOUR WALLET`,
+    })
+  }
   const handleSignUp = useCallback(
     async (provider: 'facebook' | 'google' | 'google-old' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
       // store.set('loadingIndicator')({ loading: true })
@@ -173,10 +175,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         // const userExists = await userStorage.userAlreadyExist()
         log.debug('checking userAlreadyExist', { exists, fullName })
         const { source } = await ready(replacing)
-        showLoadingDialog(true)
-        await delay(300)
 
-        // await new Promise(res => showLoadingDialog(true, res))
+        // showLoadingDialog(true)
+        // await delay(30000000)
+
+        await new Promise(res => showLoadingDialog(true, res))
         hideDialog()
 
         //user exists reload with dashboard route

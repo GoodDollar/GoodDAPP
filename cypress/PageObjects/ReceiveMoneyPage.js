@@ -29,15 +29,15 @@ class ReceiveMoneyPage {
   }
 
   get shareLinkButton() {
-    return cy.contains('COPY LINK TO CLIPBOARD')
+    return cy.contains(/COPY LINK TO CLIPBOARD/i)
   }
 
   get confirmWindowButton() {
-    return cy.contains('Confirm')
+    return cy.contains(/Confirm/i)
   }
 
   get doneButton() {
-    return cy.contains('Done')
+    return cy.contains(/Done/i)
   }
 
   get qrImage() {

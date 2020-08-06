@@ -1,20 +1,31 @@
+<!-- IFrame DOMContentLoaded support -->
 <script type="text/javascript">
   (function () {
-    var DOMReady = 'DOMContentLoaded';
-    var messenger = (window.ReactNativeWebView || parent || {}).postMessage;
+    var messenger = window.ReactNativeWebView || parent;
 
-    if ('function' === (typeof messenger)) {
+    if (!messenger || ('function' !== (typeof messenger.postMessage))) {
       return;
     }
 
-    window.addEventListener(DOMReady, function() {
+    var documentUrl = location.href;
+    var DOMReady = 'DOMContentLoaded';
+
+    var onDOMContentLoaded = function() {
       var messagePayload = {
         event: DOMReady,
         target: 'iframe',
-        src: location.href
+        src: documentUrl
       };
 
-      parent.postMessage(messagePayload, '*')
-    });
-  })()
+      messenger.postMessage(messagePayload, '*');
+    }
+
+    if (document.readyState !== 'loading') {
+      onDOMContentLoaded();
+      return;
+    }
+
+    window.addEventListener(DOMReady, onDOMContentLoaded);
+  })();
 </script>
+<!-- End IFrame DOMContentLoaded support -->

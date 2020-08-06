@@ -25,11 +25,11 @@ describe('Test case 11: Test Terms of Use and Privacy Policy links', () => {
       .and('contain', 'Demo Agreement')
       .should('be.visible')
 
-    StartPage.iframePPT.contains('Terms of Use & Pilot Agreement')
+    StartPage.iframePPT.contains('Terms of Use')
     StartPage.iframePPT.contains('Last Updated')
-    StartPage.iframePPT.contains('1. INFORMATION ABOUT US')
-    StartPage.iframePPT.contains('21. RISK FACTORS')
-    StartPage.iframePPT.contains('23. TRADE MARKS')
+    StartPage.iframePPT.contains('INFORMATION ABOUT US')
+    StartPage.iframePPT.contains('RISK FACTORS')
+    StartPage.iframePPT.contains('TRADE MARKS')
 
     StartPage.backArrow.click()
   })
@@ -51,11 +51,11 @@ describe('Test case 11: Test Terms of Use and Privacy Policy links', () => {
       .and('contain', 'Demo Agreement')
       .should('be.visible')
 
-    StartPage.iframePP.contains('Terms of Use & Pilot Agreement')
+    StartPage.iframePP.contains('Terms of Use')
     StartPage.iframePP.contains('GoodDollar Personal Data Protection Policy and Cookies Policy')
-    StartPage.iframePP.contains('1. General principles')
+    StartPage.iframePP.contains('General principles')
     StartPage.iframePP.contains('Cookies Policy')
-    StartPage.iframePP.contains('17. Any questions?')
+    StartPage.iframePP.contains('Any questions?')
 
     StartPage.backArrow.click()
 

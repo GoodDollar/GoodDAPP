@@ -9,21 +9,22 @@
     "mainAccountPhone": "+380988846111",
     "mainAccountMnemonics": "glance muscle defy idle asset pipe future empower bind text define radar",
     "wordsForUnsuccessfullLogin": {
-      "withChangedWord": "mirror cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withNumbers": "1hazard cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withSymbols": "@hazard cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withChangedLetter": "nazard cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withChangedOrder": "cake hazard road tumble news flee usual tooth holiday bamboo food crew",
-      "withCapitalize": "Hazard cake road tumble news flee usual tooth holiday bamboo food crew"
+      "withChangedWord": "dance muscle defy idle asset pipe future empower bind text define radar",
+      "withNumbers": "1glance muscle defy idle asset pipe future empower bind text define radar",
+      "withSymbols": "@glance muscle defy idle asset pipe future empower bind text define radar",
+      "withChangedLetter": "olance muscle defy idle asset pipe future empower bind text define radar",
+      "withChangedOrder": "muscle glance defy idle asset pipe future empower bind text define radar",
+      "withCapitalize": "Glance muscle defy idle asset pipe future empower bind text define radar"
     },
-    "additionalAccountEmail": "testaccountgd@yahoo.com",
-    "additionalAccountUsername": "Automation Test",
-    "additionalAccountPhone": "+380988846111",
-    "additionalAccountMnemonics": "glance muscle defy idle asset pipe future empower bind text define radar",
+    "additionalAccountEmail": "cypress.auto@test.com",
+    "additionalAccountUsername": "Cypress Auto Test",
+    "additionalAccountPhone": "+380689876543",
+    "additionalAccountMnemonics": "seven donor retreat large major sick wreck wine innocent forget cruise buffalo",
     "emailForCheckingRegistration": "main.test.acc.gooddollar@gmail.com",
     "usernameForRegistration": "Name Surname",
     "numberForCheckingRegistration": "+380673001757",
-    "numberForTorus": "+380991234567"
+    "numberForTorus": "+380991234567",
+    "REACT_APP_SERVER_URL": "https://good-server.herokuapp.com"
   },
   "projectId": "mm5rgt"
 }

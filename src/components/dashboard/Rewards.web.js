@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 // import { isIOS } from 'mobile-device-detect'
-import { isNil } from 'lodash'
+import { get, isNil } from 'lodash'
 
 import { Iframe } from '../webView/iframe'
 
@@ -17,9 +17,10 @@ const log = logger.child({ from: 'RewardsTab' })
 
 const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
   const [showDialog] = useDialog()
-  const { params = {} } = navigation.state
   const [token, setToken] = useState(null)
   const [showLoading, hideLoading] = useLoadingIndicator()
+
+  const params = get(navigation, 'state.params', {})
 
   const rewardsPath = useMemo(() => {
     if (!token) {

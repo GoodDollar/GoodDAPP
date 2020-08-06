@@ -38,7 +38,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const gdstore = GDStore.useStore()
   const { avatar } = gdstore.get('profile')
 
-  const avatarSource = useMemo(() => (avatar ? avatar : unknownProfile), [avatar])
+  const avatarSource = useMemo(() => avatar || unknownProfile, [avatar])
 
   // getting the privateKey of GD wallet address - which index is 0
   const fullPrivateKey = get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', '')

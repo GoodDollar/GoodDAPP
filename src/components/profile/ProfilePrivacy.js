@@ -57,7 +57,7 @@ const ProfilePrivacy = props => {
   // bordered box required data
   const { avatar } = gdstore.get('profile')
 
-  const avatarSource = useMemo(() => (avatar ? avatar : unknownProfile), [avatar])
+  const avatarSource = useMemo(() => avatar || unknownProfile, [avatar])
 
   const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])
 

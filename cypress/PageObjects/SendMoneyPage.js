@@ -53,7 +53,7 @@ class SendMoneyPage {
   }
 
   get yayButton() {
-    return cy.contains('YAY!')
+    return cy.contains(/YAY!/i)
   }
 
   get waitButton() {

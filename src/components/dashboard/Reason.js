@@ -51,7 +51,10 @@ const SendReason = (props: AmountProps) => {
     return canContinue
   }, [setError, setScreenState, code, hashedCode, paymentLink])
 
-  const handleReasonChanges = useCallback(reason => setScreenState({ reason }), [setScreenState])
+  const handleReasonChanges = useCallback(reason => { 
+    setError(null)
+    setScreenState({ reason })
+  }, [setScreenState, setError])
 
   return (
     <Wrapper>

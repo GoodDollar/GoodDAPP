@@ -16,54 +16,59 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
+    })
+    HomePage.claimButton.click()
 
-      HomePage.claimButton.click()
+    // return SendMoneyPage.hasWaitButton()
+    // .then(hasWaitButton => {
+    // if (hasWaitButton) {
+    //   SendMoneyPage.waitButton.click()
+    // }
 
-      return SendMoneyPage.hasWaitButton()
-    }).then(hasWaitButton => {
-      if (hasWaitButton) {
+    cy.get('div[role=button]').invoke('text').then(textButton => {
+      if (textButton == /OK, I’ll WAIT/i) {
         SendMoneyPage.waitButton.click()
       }
 
-      return HomePage.isInQueue()
-    }).then(isInQueue => {
-      const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
-      const bodyPass = Cypress.env('GUNDB_PASSWORD')
-
+    return HomePage.isInQueue()
+    .then(isInQueue => {
       if (!isInQueue) {
         return
       }
-
-      return cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 })
+    return cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 })
     }).then(() => {
+      const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
+      const bodyPass = Cypress.env('GUNDB_PASSWORD')
       cy.reload()
       cy.contains('Welcome to GoodDollar!').should('be.visible')
       HomePage.claimButton.should('be.visible')
       HomePage.claimButton.click()
+      })
+    })
 
-      SendMoneyPage.dailyClaimText.should('be.visible')
-      SendMoneyPage.dailyClaimText.click()
-      SendMoneyPage.claimButton.click()
-      SendMoneyPage.claimButton.should('have.attr', 'data-focusable')
-      SendMoneyPage.verifyButton.should('be.visible')
-      SendMoneyPage.verifyButton.click()
+    SendMoneyPage.dailyClaimText.should('be.visible')
+    SendMoneyPage.dailyClaimText.click()
+    SendMoneyPage.claimButton.click()
+    SendMoneyPage.claimButton.should('have.attr', 'data-focusable')
+    SendMoneyPage.verifyButton.should('be.visible')
+    SendMoneyPage.verifyButton.click()
 
-      LoginPage.yayButton.click()
-      cy.contains('G$').should('be.visible')
+    LoginPage.yayButton.click()
+    cy.contains('G$').should('be.visible')
 
-      HomePage.sendButton.click()
-      SendMoneyPage.nameInput.type('another person')
-      SendMoneyPage.nextButton.click()
-      SendMoneyPage.moneyInput.type('0.05')
-      SendMoneyPage.nextButton.click()
-      SendMoneyPage.messageInput.type('test message')
-      SendMoneyPage.nextButton.click()
-      SendMoneyPage.confirmButton.click()
-      SendMoneyPage.copyLinkButton.click()
-      SendMoneyPage.doneButton.should('be.visible')
+    HomePage.sendButton.click()
+    SendMoneyPage.nameInput.type('another person')
+    SendMoneyPage.nextButton.click()
+    SendMoneyPage.moneyInput.type('0.05')
+    SendMoneyPage.nextButton.click()
+    SendMoneyPage.messageInput.type('test message')
+    SendMoneyPage.nextButton.click()
+    SendMoneyPage.confirmButton.click()
+    SendMoneyPage.copyLinkButton.click()
+    SendMoneyPage.doneButton.should('be.visible')
 
-      return cy.get('[data-testid*="http"]').invoke('attr', 'data-testid')
-    }).then(sendMoneyUrl => {
+    return cy.get('[data-testid*="http"]').invoke('attr', 'data-testid')
+    .then(sendMoneyUrl => {
       const { sendMoneyLinkRegex } = SendMoneyPage
       const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
 
@@ -80,12 +85,12 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.mnemonicsInput.type(Cypress.env('additionalAccountMnemonics'))
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
-      HomePage.claimButton.should('be.visible')
+      // HomePage.claimButton.should('be.visible')
 
       cy.visit(validMoneyLnk)
       cy.contains('Claim').should('be.visible')
 
-      return HomePage.moneyAmountDiv.invoke('text')
+    return HomePage.moneyAmountDiv.invoke('text')
     }).then(moneyBefore => {
       cy.log('Money before sending: ' + moneyBefore)
 

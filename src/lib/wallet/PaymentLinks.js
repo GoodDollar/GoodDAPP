@@ -1,115 +1,113 @@
 // @flow
+import { assign } from 'lodash'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
-import { generateShareLink } from '../share'
-import { GoodWallet as GoodWalletClass } from './GoodWalletClass'
+import { defaultPromiEvents, GoodWallet as GoodWalletClass } from './GoodWalletClass'
 
 const log = logger.child({ from: 'GoodWallet' })
-if (Config.contractsVersion >= '1.0.0') {
-  const defaultPromiEvents: PromiEvents = {
-    onTransactionHash: () => {},
-    onReceipt: () => {},
-    onConfirmation: () => {},
-    onError: () => {},
-  }
-  log.debug('patching GoodWallet with new payment links methods')
+
+if (Config.contractsVersion < '1.0.0') {
+  return
+}
+
+log.debug('patching GoodWallet with new payment links methods')
+
+assign(GoodWalletClass.prototype, {
+  /**
+   * Generates unique code for the payment link
+   * @returns {{code, hashedCode}}
+   */
+  generatePaymentCode(): { code: string, hashedCode: string } {
+    const { accounts } = this.wallet.eth
+    const { privateKey: code, address } = accounts.create()
+    const hashedCode = address.toLowerCase()
+
+    log.debug('generatePaymentCode:', { code, hashedCode })
+
+    return { code, hashedCode }
+  },
 
   /**
-   * deposits the specified amount to _oneTimeLink_ contract and generates a link that will send the user to a URL to withdraw it
-   * @param {number} amount - amount of money to send using OTP
-   * @param {string} reason - optional reason for sending the payment (comment)
-   * @param {({ link: string, code: string }) => () => any} getOnTxHash - a callback that returns onTransactionHashHandler based on generated code
-   * @param {PromiEvents} events - used to subscribe to onTransactionHash event
-   * @returns {{code, hashedCode, paymentLink}}
+   * Deposits the specified amount to _oneTimeLink_ contract signing tx with hashed code from the payment link
+   *
+   * @param {*} amount - amount of money to send using OTP
+   * @param {*} code - unique link code
+   * @param {*} hashedCode - hadhed code value will be used to
+   * @param {*} paymentLink
+   * @param {*} events
    */
-  GoodWalletClass.prototype.generatePaymentLink = function(
+  depositWithPaymentLinkCode(
     amount: number,
-    reason: string = '',
-    inviteCode: string,
+    code: string,
+    hashedCode: string,
     events: PromiEvents = defaultPromiEvents,
-  ): { code: string, hashedCode: string, paymentLink: string } {
-    const { privateKey: code, address: hashedCode } = this.wallet.eth.accounts.create()
+  ): { hashedCode: string, txPromise: Promise } {
+    const { abi } = this.wallet.eth
+    const txHash = abi.encodeParameter('address', hashedCode)
 
-    log.debug('generatePaymentLink:', { amount, code, hashedCode })
+    log.debug('depositWithPaymentLinkCode:', { amount, code, hashedCode, txHash })
 
-    const params = {
-      p: code,
-      r: reason,
-    }
-    inviteCode && (params.i = inviteCode)
+    return this.depositToHash(amount, txHash, events)
+  },
+})
 
-    const paymentLink = generateShareLink('send', params)
+/**
+ * @param otlCode code to unlock payment - a privatekey
+ * @returns the payment id - public address
+ */
+GoodWalletClass.prototype.getWithdrawLink = function(otlCode: string) {
+  return this.wallet.eth.accounts.privateKeyToAccount(otlCode).address
+}
 
-    const asParam = this.wallet.eth.abi.encodeParameter('address', hashedCode)
+/**
+ * withdraws the payment received in the link to the current wallet holder
+ * @param {string} otlCode - the privatekey to unlock payment
+ * @param {PromiEvents} callbacks
+ */
+GoodWalletClass.prototype.withdraw = function(otlCode: string, callbacks: PromiEvents) {
+  let method = 'withdraw'
+  let args
 
-    const txPromise = this.depositToHash(amount, asParam, events)
+  if (Config.simulateWithdrawReverted) {
+    method = 'setIdentity'
+    args = [this.account, this.account]
+  } else {
+    const paymentId = this.getWithdrawLink(otlCode)
+    const toSign = this.wallet.utils.sha3(this.account)
 
-    return {
-      code,
-      hashedCode: hashedCode.toLowerCase(),
-      paymentLink,
-      txPromise,
-    }
+    const privateKeyProof = this.wallet.eth.accounts.sign(toSign, otlCode)
+    log.debug('withdraw:', { paymentId, toSign, otlCode, privateKeyProof })
+    args = [paymentId, privateKeyProof.signature]
   }
 
-  /**
-   * @param otlCode code to unlock payment - a privatekey
-   * @returns the payment id - public address
-   */
-  GoodWalletClass.prototype.getWithdrawLink = function(otlCode: string) {
-    return this.wallet.eth.accounts.privateKeyToAccount(otlCode).address
-  }
+  const withdrawCall = this.oneTimePaymentsContract.methods[method](...args)
 
-  /**
-   * withdraws the payment received in the link to the current wallet holder
-   * @param {string} otlCode - the privatekey to unlock payment
-   * @param {PromiEvents} callbacks
-   */
-  GoodWalletClass.prototype.withdraw = function(otlCode: string, callbacks: PromiEvents) {
-    let method = 'withdraw'
-    let args
+  return this.sendTransaction(withdrawCall, callbacks)
+}
 
-    if (Config.simulateWithdrawReverted) {
-      method = 'setIdentity'
-      args = [this.account, this.account]
-    } else {
-      const paymentId = this.getWithdrawLink(otlCode)
-      const toSign = this.wallet.utils.sha3(this.account)
+/**
+ * Cancels a Deposit based on its transaction hash
+ * @param {string} transactionHash
+ * @param {object} txCallbacks
+ * @returns {Promise<TransactionReceipt>}
+ */
+GoodWalletClass.prototype.cancelOTLByTransactionHash = async function(
+  transactionHash: string,
+  txCallbacks: {} = {},
+): Promise<TransactionReceipt> {
+  const { logs } = await this.getReceiptWithLogs(transactionHash)
+  const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposit')[0]
 
-      const privateKeyProof = this.wallet.eth.accounts.sign(toSign, otlCode)
-      log.debug('withdraw:', { paymentId, toSign, otlCode, privateKeyProof })
-      args = [paymentId, privateKeyProof.signature]
+  if (paymentDepositLog && paymentDepositLog.events) {
+    const eventHashParam = paymentDepositLog.events.filter(({ name }) => name === 'paymentId')[0]
+
+    if (eventHashParam) {
+      const { value: paymentId } = eventHashParam
+      return this.cancelOTL(paymentId, txCallbacks)
     }
 
-    const withdrawCall = this.oneTimePaymentsContract.methods[method](...args)
-
-    return this.sendTransaction(withdrawCall, callbacks)
-  }
-
-  /**
-   * Cancels a Deposit based on its transaction hash
-   * @param {string} transactionHash
-   * @param {object} txCallbacks
-   * @returns {Promise<TransactionReceipt>}
-   */
-  GoodWalletClass.prototype.cancelOTLByTransactionHash = async function(
-    transactionHash: string,
-    txCallbacks: {} = {},
-  ): Promise<TransactionReceipt> {
-    const { logs } = await this.getReceiptWithLogs(transactionHash)
-    const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposit')[0]
-
-    if (paymentDepositLog && paymentDepositLog.events) {
-      const eventHashParam = paymentDepositLog.events.filter(({ name }) => name === 'paymentId')[0]
-
-      if (eventHashParam) {
-        const { value: paymentId } = eventHashParam
-        return this.cancelOTL(paymentId, txCallbacks)
-      }
-
-      throw new Error('No hash available')
-    } else {
-      throw new Error('Impossible to cancel OTL')
-    }
+    throw new Error('No hash available')
+  } else {
+    throw new Error('Impossible to cancel OTL')
   }
 }

@@ -84,7 +84,7 @@ type GasValues = {
   gasPrice?: number,
 }
 
-const defaultPromiEvents: PromiEvents = {
+export const defaultPromiEvents: PromiEvents = {
   onTransactionHash: () => {},
   onReceipt: () => {},
   onConfirmation: () => {},
@@ -652,10 +652,25 @@ export class GoodWallet {
   }
 
   /**
-   * deposits the specified amount to _oneTimeLink_ contract and generates a link that will send the user to a URL to withdraw it
+   * Generates unique code for the payment link
+   * @returns {{code, hashedCode}}
+   */
+  generatePaymentCode(): { code: string, hashedCode: string } {
+    const { utils } = this.wallet
+    const code = utils.randomHex(10).replace('0x', '')
+    const hashedCode = utils.sha3(code)
+
+    log.debug('generatePaymentCode:', { code, hashedCode })
+
+    return { code, hashedCode }
+  }
+
+  /**
+   * Generates a link that will send the user to a URL to withdraw
+   *
    * @param {number} amount - amount of money to send using OTP
    * @param {string} reason - optional reason for sending the payment (comment)
-   * @param {({ link: string, code: string }) => () => any} getOnTxHash - a callback that returns onTransactionHashHandler based on generated code
+   * @param {string} inviteCode - invitation code
    * @param {PromiEvents} events - used to subscribe to onTransactionHash event
    * @returns {{code, hashedCode, paymentLink}}
    */
@@ -663,29 +678,58 @@ export class GoodWallet {
     amount: number,
     reason: string = '',
     inviteCode: string,
-    events: PromiEvents = defaultPromiEvents,
   ): { code: string, hashedCode: string, paymentLink: string } {
-    const code = this.wallet.utils.randomHex(10).replace('0x', '')
-    const hashedCode = this.wallet.utils.sha3(code)
+    const { code, hashedCode } = this.generatePaymentCode()
+    const params = { p: code, r: reason }
 
-    log.debug('generatePaymentLink:', { amount })
+    log.debug('generatePaymentLink:', { amount, code, hashedCode })
 
-    const params = {
-      p: code,
-      r: reason,
+    if (inviteCode) {
+      params.i = inviteCode
     }
-    inviteCode && (params.i = inviteCode)
 
-    const paymentLink = generateShareLink('send', params)
+    return { code, hashedCode, paymentLink: generateShareLink('send', params) }
+  }
 
-    const txPromise = this.depositToHash(amount, hashedCode, events)
+  /**
+   * Deposits the specified amount to _oneTimeLink_ contract signing tx with hashed code from the payment link
+   *
+   * @param {*} amount - amount of money to send using OTP
+   * @param {*} code - unique link code
+   * @param {*} hashedCode - hadhed code value will be used to
+   * @param {*} paymentLink
+   * @param {*} events
+   * @returns {Promise}
+   */
+  depositWithPaymentLinkCode(
+    amount: number,
+    code: string,
+    hashedCode: string,
+    events: PromiEvents = defaultPromiEvents,
+  ): { hashedCode: string, txPromise: Promise } {
+    log.debug('depositWithPaymentLinkCode:', { amount, code, hashedCode })
 
-    return {
-      code,
-      hashedCode,
-      paymentLink,
-      txPromise,
-    }
+    return this.depositToHash(amount, hashedCode, events)
+  }
+
+  /**
+   * Generates a link that will send the user to a URL to withdraw it and deposits the specified amount to _oneTimeLink_ contract
+   * @param {number} amount - amount of money to send using OTP
+   * @param {string} reason - optional reason for sending the payment (comment)
+   * @param {string} inviteCode - invitation code
+   * @param {PromiEvents} events - used to subscribe to onTransactionHash event
+   * @returns {{code, hashedCode, paymentLink,txPromise}}
+   */
+  getPaymentLink(
+    amount: number,
+    reason: string = '',
+    inviteCode: string,
+    events: PromiEvents = defaultPromiEvents,
+  ): { code: string, hashedCode: string, paymentLink: string, txPromise: Promise } {
+    const { code, hashedCode, paymentLink } = this.generatePaymentLink(amount, reason, inviteCode)
+    const txPromise = this.depositWithPaymentLinkCode(amount, code, hashedCode, events)
+
+    return { code, hashedCode, paymentLink, txPromise }
   }
 
   getWithdrawLink(otlCode: string) {

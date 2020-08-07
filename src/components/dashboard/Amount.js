@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet } from 'react-native'
 import { BN } from 'web3-utils'
 import logger from '../../lib/logger/pino-logger'
@@ -36,11 +36,15 @@ const Amount = (props: AmountProps) => {
   const [loading, setLoading] = useState(amount <= 0)
   const [error, setError] = useState()
 
-  const canContinue = async weiAmount => {
+  const weiAmount = useMemo(() => gdToWei(GDAmount), [GDAmount])
+
+  const canContinue = useCallback(async () => {
     if (params && params.action === ACTION_RECEIVE) {
       return true
     }
+
     log.info('canContiniue?', { weiAmount, params })
+
     try {
       const txFeePercents = await goodWallet.getTxFee().then(n => n / 10000)
       const fee = await goodWallet.calculateTxFee(weiAmount)
@@ -55,27 +59,29 @@ const Amount = (props: AmountProps) => {
     } catch (e) {
       log.warn('Failed canContiniue', e.message, e)
       setError(`Sorry, Something unexpected happened, please try again.`)
+
       return false
     }
-  }
+  }, [weiAmount, setError])
 
-  const handleContinue = async () => {
+  const handleContinue = useCallback(async () => {
     setLoading(true)
-
-    const weiAmount = gdToWei(GDAmount)
     setScreenState({ amount: weiAmount })
-    const can = await canContinue(weiAmount)
 
+    const result = await canContinue()
     setLoading(false)
 
-    return can
-  }
+    return result
+  }, [setLoading, setScreenState, canContinue])
 
-  const handleAmountChange = (value: string) => {
-    setGDAmount(value)
-    setLoading(value <= 0)
-    setError('')
-  }
+  const handleAmountChange = useCallback(
+    (value: string) => {
+      setGDAmount(value)
+      setLoading(value <= 0)
+      setError('')
+    },
+    [setGDAmount, setLoading, setError],
+  )
 
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
@@ -101,7 +107,7 @@ const Amount = (props: AmountProps) => {
               <NextButton
                 nextRoutes={screenState.nextRoutes}
                 canContinue={handleContinue}
-                values={{ ...restState, amount: gdToWei(GDAmount), params }}
+                values={{ ...restState, amount: weiAmount, params }}
                 disabled={loading}
                 {...props}
               />

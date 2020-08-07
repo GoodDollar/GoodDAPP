@@ -32,7 +32,6 @@ export type AmountProps = {
  */
 const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const gdstore = GDStore.useStore()
-  const inviteCode = gdstore.get('inviteCode')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
@@ -40,8 +39,8 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const { push, goToRoot } = screenProps
 
   const { fullName } = gdstore.get('profile')
-  const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
-  const { action } = params
+  const { amount, reason = null, code, hashedCode, paymentLink, counterPartyDisplayName, address, params } = screenState
+  const { action } = params || {}
 
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
@@ -152,7 +151,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     let txHash
 
     // Generate link deposit
-    const generatePaymentLinkResponse = goodWallet.generatePaymentLink(amount, reason, inviteCode, {
+    const txPromise = goodWallet.depositWithPaymentLinkCode(amount, code, hashedCode, {
       onTransactionHash: hash => {
         txHash = hash
 
@@ -167,15 +166,15 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             counterPartyDisplayName,
             reason,
             amount,
-            paymentLink: generatePaymentLinkResponse.paymentLink,
-            hashedCode: generatePaymentLinkResponse.hashedCode,
-            code: generatePaymentLinkResponse.code,
+            paymentLink,
+            hashedCode,
+            code: code,
           },
         }
 
         fireEvent('SEND_DONE', { type: 'link' })
 
-        log.debug('generatePaymentLinkAndSend: enqueueTX', { transactionEvent })
+        log.debug('getPaymentLinkAndSend: enqueueTX', { transactionEvent })
 
         userStorage.enqueueTX(transactionEvent)
 
@@ -192,13 +191,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       },
     })
 
-    log.debug('generatePaymentLinkAndSend:', { generatePaymentLinkResponse })
+    log.debug('getPaymentLinkAndSend:', { getPaymentLinkResponse: { amount, code, hashedCode, txPromise } })
 
-    if (generatePaymentLinkResponse) {
-      const { txPromise, paymentLink } = generatePaymentLinkResponse
-
+    if (txPromise) {
       txPromise.catch(e => {
-        log.error('generatePaymentLinkAndSend:', e.message, e, {
+        log.error('getPaymentLinkAndSend:', e.message, e, {
           category: ExceptionCategory.Blockhain,
           dialogShown: true,
         })
@@ -213,16 +210,27 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               },
             },
           ],
-          onDismiss: () => {
-            goToRoot()
-          },
+          onDismiss: goToRoot,
         })
       })
 
       setLink(paymentLink)
       return paymentLink
     }
-  }, [screenProps, survey, showErrorDialog, setLink, link, goToRoot])
+  }, [
+    screenProps,
+    survey,
+    showErrorDialog,
+    setLink,
+    link,
+    goToRoot,
+    amount,
+    reason,
+    code,
+    hashedCode,
+    paymentLink,
+    counterPartyDisplayName,
+  ])
 
   return (
     <Wrapper>

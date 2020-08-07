@@ -1,10 +1,15 @@
 // @flow
-import React from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
+
 import InputText from '../common/form/InputText'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
+
+import GDStore from '../../lib/undux/GDStore'
+import goodWallet from '../../lib/wallet/GoodWallet'
+
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { navigationOptions } from './utils/sendReceiveFlow'
@@ -19,8 +24,34 @@ const SendReason = (props: AmountProps) => {
   const { screenProps } = props
   const { params } = props.navigation.state
 
+  const store = GDStore.useStore()
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { reason, ...restState } = screenState
+  const [error, setError] = useState()
+
+  const { amount, reason, ...restState } = screenState
+  const inviteCode = store.get('inviteCode')
+
+  const { code, hashedCode, paymentLink } = useMemo(() => goodWallet.generatePaymentLink(amount, reason, inviteCode), [
+    amount,
+    reason,
+    inviteCode,
+  ])
+
+  const handleContinue = useCallback(() => {
+    // checking the link length isn't exceeded the browser's limits.
+    // 2000 is a common threshold for the all browsers
+    const canContinue = (paymentLink || '').length <= 2000
+
+    setScreenState({ code, hashedCode, paymentLink })
+
+    if (!canContinue) {
+      setError('The text you entered in this field is too long.')
+    }
+
+    return canContinue
+  }, [setError, setScreenState, code, hashedCode, paymentLink])
+
+  const handleReasonChanges = useCallback(reason => setScreenState({ reason }), [setScreenState])
 
   return (
     <Wrapper>
@@ -33,7 +64,8 @@ const SendReason = (props: AmountProps) => {
             autoFocus
             style={[props.styles.input, styles.bottomContent]}
             value={reason}
-            onChangeText={reason => setScreenState({ reason })}
+            error={error}
+            onChangeText={handleReasonChanges}
             placeholder="Add a message"
           />
         </Section.Stack>
@@ -46,7 +78,8 @@ const SendReason = (props: AmountProps) => {
           <Section.Stack grow={3}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
-              values={{ ...restState, reason, params }}
+              canContinue={handleContinue}
+              values={{ ...restState, amount, reason, code, hashedCode, paymentLink, params }}
               {...props}
               label={reason ? 'Next' : 'Skip'}
             />

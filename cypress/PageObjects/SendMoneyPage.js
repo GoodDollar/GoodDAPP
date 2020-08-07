@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 class SendMoneyPage {
   get waitButtonRegex() {
-    return /OK, I’ll WAIT/i
+    return 'OK, I’ll WAIT'
   }
 
   get sendMoneyLinkRegex() {

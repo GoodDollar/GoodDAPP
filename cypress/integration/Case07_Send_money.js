@@ -25,20 +25,26 @@ describe('Test case 7: Ability to send money', () => {
     //   SendMoneyPage.waitButton.click()
     // }
 
-    cy.get('div[role=button]').invoke('text').then(textButton => {
-      if (textButton == /OK, I’ll WAIT/i) {
-        SendMoneyPage.waitButton.click()
-      }
+    cy.get('div[role=button]').then(($els) =>{
+      const buttonsOnScreen = Array.from($els, el => el.textContent)
+      let i=0
+      buttonsOnScreen.forEach(() => {
+        cy.log(i + 'button : ' + buttonsOnScreen[i])
+        if (buttonsOnScreen[i] == SendMoneyPage.waitButtonRegex) {
+          SendMoneyPage.waitButton.click()
+        }
+        i++
+      })
 
     return HomePage.isInQueue()
     .then(isInQueue => {
       if (!isInQueue) {
         return
       }
+      const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
+      const bodyPass = Cypress.env('GUNDB_PASSWORD')      
     return cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 })
     }).then(() => {
-      const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
-      const bodyPass = Cypress.env('GUNDB_PASSWORD')
       cy.reload()
       cy.contains('Welcome to GoodDollar!').should('be.visible')
       HomePage.claimButton.should('be.visible')

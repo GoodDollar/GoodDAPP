@@ -24,7 +24,7 @@ if (style.styleSheet) {
  */
 const upgradeVersion = async () => {
   const valid = ['etoro', 'phase0-a']
-  const required = Config.isEToro ? 'etoro' : 'phase0-a'
+  const required = Config.phase > 0 && Config.env === 'production' ? 'phase1' : 'phase0-a'
   const version = await AsyncStorage.getItem('GD_version')
   if (version == null || valid.includes(version)) {
     return

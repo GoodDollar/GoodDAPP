@@ -130,6 +130,7 @@ export const initAnalytics = async () => {
     Sentry: isSentryEnabled,
     Amplitude: isAmplitudeEnabled,
     Mautic: isMauticEnabled,
+    Google: isGoogleAnalyticsEnabled,
   })
 
   patchLogger()

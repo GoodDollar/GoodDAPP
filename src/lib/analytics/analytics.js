@@ -68,20 +68,19 @@ const initAmplitude = async key => {
 
 /** @private */
 // eslint-disable-next-line require-await
-const initFullStory = async () =>
-  new Promise(resolve => {
-    const { _fs_ready } = window
+const initFullStory = new Promise(resolve => {
+  const { _fs_ready } = window
 
-    Object.assign(window, {
-      _fs_ready: () => {
-        if (isFunction(_fs_ready)) {
-          _fs_ready()
-        }
+  Object.assign(window, {
+    _fs_ready: () => {
+      if (isFunction(_fs_ready)) {
+        _fs_ready()
+      }
 
-        resolve()
-      },
-    })
+      resolve()
+    },
   })
+})
 let Amplitude, Mautic, FS, GoogleAnalytics
 let isFSEnabled, isSentryEnabled, isGoogleAnalyticsEnabled, isMauticEnabled, isAmplitudeEnabled
 export const initAnalytics = async () => {
@@ -97,7 +96,7 @@ export const initAnalytics = async () => {
   isMauticEnabled = !!Mautic
 
   // pre-initializing & preloading FS & Amplitude
-  await Promise.all([isFSEnabled && initFullStory(), isAmplitudeEnabled && initAmplitude(amplitudeKey)])
+  await Promise.all([isFSEnabled && initFullStory, isAmplitudeEnabled && initAmplitude(amplitudeKey)])
 
   if (isAmplitudeEnabled) {
     const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
@@ -125,7 +124,7 @@ export const initAnalytics = async () => {
     })
   }
 
-  log.debug('Initialized analytics:', {
+  log.debug('available analytics:', {
     FS: isFSEnabled,
     Sentry: isSentryEnabled,
     Amplitude: isAmplitudeEnabled,

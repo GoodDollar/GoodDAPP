@@ -34,7 +34,8 @@ import SmsForm from './SmsForm'
 import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
-import MagicLinkInfo from './MagicLinkInfo'
+
+// import MagicLinkInfo from './MagicLinkInfo'
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord & { invite_code?: string }
@@ -50,9 +51,9 @@ const routes = {
   SignupCompleted,
 }
 
-if (Config.enableSelfCustody) {
-  Object.assign(routes, { MagicLinkInfo })
-}
+// if (Config.enableSelfCustody) {
+//   Object.assign(routes, { MagicLinkInfo })
+// }
 
 const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
@@ -99,7 +100,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     skipPhone: skipMobile,
     skipSMS: skipMobile,
     skipEmailConfirmation: Config.skipEmailVerification || skipEmail,
-    skipMagicLinkInfo: isRegMethodSelfCustody === false,
+    skipMagicLinkInfo: true, //isRegMethodSelfCustody === false,
     w3Token,
   }
 

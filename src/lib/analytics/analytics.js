@@ -121,6 +121,7 @@ export const initAnalytics = async () => {
     Sentry.configureScope(scope => {
       scope.setTag('appVersion', version)
       scope.setTag('networkUsed', network)
+      scope.setTag('phase', phase)
     })
   }
 
@@ -174,6 +175,7 @@ export const identifyWith = (email, identifier = null) => {
   if (FS) {
     FS.identify(identifier, {
       appVersion: version,
+      phase,
     })
   }
 

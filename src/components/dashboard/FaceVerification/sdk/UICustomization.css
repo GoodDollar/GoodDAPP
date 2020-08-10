@@ -20,6 +20,10 @@
   height: 134px;
 }
 
+#zoom-upload-progress-message, #zoom-session-result-animation-success-message {
+  font-weight: 500 !important;
+}
+
 #zoom-upload-progress-wrapper .loading::before,
 #zoom-upload-progress-wrapper .loading::after {
   display: inline-block;
@@ -50,6 +54,7 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 22px;
+  letter-spacing: 0.08px;
 }
 
 #get-ready-for-video-screen > div > div {

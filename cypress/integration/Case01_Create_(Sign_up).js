@@ -5,8 +5,6 @@ import HomePage from '../PageObjects/HomePage'
 import SocialLoginPage from '../PageObjects/SocialLoginPage'
 import userObject from '../fixtures/userObject.json'
 
-let phomeNumber = false
-
 function inputPhoneNumber(isVisible) {
   if (isVisible) {
     cy.contains('enter your phone number')
@@ -23,6 +21,8 @@ function inputPhoneNumber(isVisible) {
 
 describe('Test case 1: login via TorusTestUser and Create temporary user', () => {
   it('login via google', () => {
+    let phomeNumber = false
+    
     localStorage.clear()
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
@@ -84,7 +84,7 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
     SignUpPage.letStartButton.click()
-    SignUpPage.gotItButton.click()
+    // SignUpPage.gotItButton.click()
     HomePage.welcomeFeed.should('be.visible')
 
     //get mnemonic from localStorage

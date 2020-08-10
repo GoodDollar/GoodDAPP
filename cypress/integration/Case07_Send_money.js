@@ -101,7 +101,6 @@ describe('Test case 7: Ability to send money', () => {
       cy.log('Money before sending: ' + moneyBefore)
 
       // wait for blockchain payment
-      SendMoneyPage.yayButton.should('be.visible')
       HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.05).toFixed(2))
       SendMoneyPage.yayButton.click()
       cy.contains(Cypress.env('usernameForRegistration')).should('be.visible')
@@ -167,7 +166,6 @@ describe('Test case 7: Ability to send money', () => {
       cy.log('Money before sending: ' + moneyBefore)
 
       // wait for blockchain payment
-      SendMoneyPage.yayButton.should('be.visible')
       HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.03).toFixed(2))
       SendMoneyPage.yayButton.click()
 

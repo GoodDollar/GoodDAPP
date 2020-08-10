@@ -18,7 +18,7 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.yayButton.click()
       HomePage.claimButton.click()
 
-      return SendMoneyPage.hasWaitButton()
+      return SendMoneyPage.hasWaitButton
     }).then(hasWaitButton => {
       const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
       const bodyPass = Cypress.env('GUNDB_PASSWORD')

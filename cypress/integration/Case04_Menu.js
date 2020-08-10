@@ -47,7 +47,7 @@ describe('Test case 4: Check menu items functionality', () => {
     HomePage.backArrow.click()
   })
 
-  it('Check sending Magic Link', () => {
+  it.skip('Check sending Magic Link', () => {
     HomePage.optionsButton.should('be.visible')
     HomePage.optionsButton.click({ force: true })
     cy.contains('Magic Link').click()

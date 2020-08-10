@@ -20,6 +20,38 @@
   height: 134px;
 }
 
+#zoom-upload-progress-wrapper .loading::before,
+#zoom-upload-progress-wrapper .loading::after {
+  display: inline-block;
+  width: 280px;
+  z-index: 999;
+  position: relative;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  font-family: Roboto;
+}
+
+#zoom-upload-progress-wrapper .loading::before {
+  /* Add custom text above the progress loader */
+  content: "You need to stay on this screen until the process completes.";
+  top: -150%;
+  color: #F8AF40;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 26px;
+}
+
+#zoom-upload-progress-wrapper .loading::after {
+  /* Add custom text below the progress loader */
+  content: "This may take a minute.";
+  bottom: -175%;
+  color: #42454A;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+}
+
 #get-ready-for-video-screen > div > div {
   /* Move the header text a bit higher to make space between oval and header text */
   margin-top: 10px !important;

@@ -16,7 +16,6 @@ import logger from './lib/logger/pino-logger'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import Config from './config/config'
 import * as serviceWorker from './serviceWorker'
-import GDStore from './lib/undux/GDStore'
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
 const DisconnectedSplash = () => <Splash animation={false} />
@@ -82,9 +81,7 @@ const App = () => {
         <React.Fragment>
           <SimpleStoreDialog />
           <LoadingIndicator />
-          <GDStore.Container>
-            <SplashOrRouter store={store} />
-          </GDStore.Container>
+          <SplashOrRouter store={store} />
         </React.Fragment>
       </SafeAreaView>
     </PaperProvider>

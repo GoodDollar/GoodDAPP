@@ -135,7 +135,7 @@ describe('UserStorage', () => {
     expect(isMadeBackup).toBeTruthy()
   })
 
-  it('get magic line', async () => {
+  xit('get magic line', async () => {
     const magicLink = await userStorage.getMagicLink()
     expect(magicLink).toBeTruthy()
   })

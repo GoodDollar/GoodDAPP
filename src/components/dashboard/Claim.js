@@ -262,7 +262,10 @@ const Claim = props => {
         fireMauticEvent({ claim: claimsSoFar })
         checkHanukaBonusDates()
 
-        fireGoogleAnalyticsEvent(CLAIM_GEO, { claimValue: weiToGd(curEntitlement) })
+        fireGoogleAnalyticsEvent(CLAIM_GEO, {
+          claimValue: weiToGd(curEntitlement),
+          eventLabel: goodWallet.UBIContract.address,
+        })
 
         showDialog({
           buttons: [{ text: 'Yay!' }],

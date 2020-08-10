@@ -89,7 +89,7 @@ export const initAnalytics = async () => {
   FS = global.FS
   GoogleAnalytics = global.dataLayer
 
-  isFSEnabled = !!FS
+  isFSEnabled = !!FS && Config.env === 'production'
   isSentryEnabled = !!sentryDSN
   isAmplitudeEnabled = !!amplitudeKey
   isGoogleAnalyticsEnabled = !!GoogleAnalytics
@@ -98,6 +98,9 @@ export const initAnalytics = async () => {
   // pre-initializing & preloading FS & Amplitude
   await Promise.all([isFSEnabled && initFullStory, isAmplitudeEnabled && initAmplitude(amplitudeKey)])
 
+  if (isFSEnabled === false && FS) {
+    FS.shutdown()
+  }
   if (isAmplitudeEnabled) {
     const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
     identity.append('phase', String(phase))

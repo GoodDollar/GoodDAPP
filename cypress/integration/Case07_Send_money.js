@@ -16,65 +16,48 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
-    })
-    HomePage.claimButton.click()
+      HomePage.claimButton.click()
 
-    // return SendMoneyPage.hasWaitButton()
-    // .then(hasWaitButton => {
-    // if (hasWaitButton) {
-    //   SendMoneyPage.waitButton.click()
-    // }
+      return SendMoneyPage.hasWaitButton()
+    }).then(hasWaitButton => {
+      const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
+      const bodyPass = Cypress.env('GUNDB_PASSWORD')
 
-    cy.get('div[role=button]').then(($els) =>{
-      const buttonsOnScreen = Array.from($els, el => el.textContent)
-      let i=0
-      buttonsOnScreen.forEach(() => {
-        cy.log(i + 'button : ' + buttonsOnScreen[i])
-        if (buttonsOnScreen[i] == SendMoneyPage.waitButtonRegex) {
-          SendMoneyPage.waitButton.click()
-        }
-        i++
-      })
-
-    return HomePage.isInQueue()
-    .then(isInQueue => {
-      if (!isInQueue) {
+      if (!hasWaitButton) {
         return
       }
-      const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
-      const bodyPass = Cypress.env('GUNDB_PASSWORD')      
-    return cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 })
+
+      SendMoneyPage.waitButton.click()
+      cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 })
     }).then(() => {
       cy.reload()
       cy.contains('Welcome to GoodDollar!').should('be.visible')
       HomePage.claimButton.should('be.visible')
       HomePage.claimButton.click()
-      })
-    })
 
-    SendMoneyPage.dailyClaimText.should('be.visible')
-    SendMoneyPage.dailyClaimText.click()
-    SendMoneyPage.claimButton.click()
-    SendMoneyPage.claimButton.should('have.attr', 'data-focusable')
-    SendMoneyPage.verifyButton.should('be.visible')
-    SendMoneyPage.verifyButton.click()
+      SendMoneyPage.dailyClaimText.should('be.visible')
+      SendMoneyPage.dailyClaimText.click()
+      SendMoneyPage.claimButton.click()
+      SendMoneyPage.claimButton.should('have.attr', 'data-focusable')
+      SendMoneyPage.verifyButton.should('be.visible')
+      SendMoneyPage.verifyButton.click()
 
-    LoginPage.yayButton.click()
-    cy.contains('G$').should('be.visible')
+      LoginPage.yayButton.click()
+      cy.contains('G$').should('be.visible')
 
-    HomePage.sendButton.click()
-    SendMoneyPage.nameInput.type('another person')
-    SendMoneyPage.nextButton.click()
-    SendMoneyPage.moneyInput.type('0.05')
-    SendMoneyPage.nextButton.click()
-    SendMoneyPage.messageInput.type('test message')
-    SendMoneyPage.nextButton.click()
-    SendMoneyPage.confirmButton.click()
-    SendMoneyPage.copyLinkButton.click()
-    SendMoneyPage.doneButton.should('be.visible')
+      HomePage.sendButton.click()
+      SendMoneyPage.nameInput.type('another person')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.moneyInput.type('0.05')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.messageInput.type('test message')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.confirmButton.click()
+      SendMoneyPage.copyLinkButton.click()
+      SendMoneyPage.doneButton.should('be.visible')
 
-    return cy.get('[data-testid*="http"]').invoke('attr', 'data-testid')
-    .then(sendMoneyUrl => {
+      return cy.get('[data-testid*="http"]').invoke('attr', 'data-testid')
+    }).then(sendMoneyUrl => {
       const { sendMoneyLinkRegex } = SendMoneyPage
       const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
 
@@ -91,12 +74,11 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.mnemonicsInput.type(Cypress.env('additionalAccountMnemonics'))
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
-      // HomePage.claimButton.should('be.visible')
 
       cy.visit(validMoneyLnk)
       cy.contains('Claim').should('be.visible')
 
-    return HomePage.moneyAmountDiv.invoke('text')
+      return HomePage.moneyAmountDiv.invoke('text')
     }).then(moneyBefore => {
       cy.log('Money before sending: ' + moneyBefore)
 

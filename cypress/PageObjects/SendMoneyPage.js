@@ -1,7 +1,9 @@
+import { chain, values } from 'lodash'
+
 /* eslint-disable no-undef */
 class SendMoneyPage {
   get waitButtonRegex() {
-    return 'OK, I’ll WAIT'
+    return /OK, I’ll WAIT/i
   }
 
   get sendMoneyLinkRegex() {
@@ -56,18 +58,30 @@ class SendMoneyPage {
     return cy.contains(/YAY!/i)
   }
 
-  get waitButton() {
-    const { waitButtonRegex } = this
-    return cy.contains(waitButtonRegex)
+  get allButtons() {
+    return cy
+      .get('div[role=button]')
+      .then(Array.from)
   }
 
-  hasWaitButton() {
-    const { waitButtonRegex } = this
+  get hasWaitButton() {
+    const { waitButtonRegex, allButtons } = this
 
-    return cy.get('#root')
-      .contains(waitButtonRegex)
-      .its('length')
-      .then(Boolean)
+    return allButtons.then(buttons => chain(buttons)
+      .map('textContent')
+      .some(text => waitButtonRegex.test(text))
+      .value()
+    )
+  }
+
+  get waitButton() {
+    const { waitButtonRegex, allButtons} = this
+
+    return allButtons.then(buttons => chain(buttons)
+      .filter({ textContent } => waitButtonRegex.test(textContent))
+      .first()
+      .value()
+    )
   }
 }
 

@@ -38,7 +38,7 @@ class SignUpPage {
 
   // get gotItButton() {
   //   return cy.contains('Cool, got it!')
-  }
+  // }
 
   get letStartButton() {
     return cy.contains("Let's start!")

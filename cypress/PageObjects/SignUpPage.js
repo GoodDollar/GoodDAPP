@@ -32,17 +32,13 @@ class SignUpPage {
     return cy.contains('Please enter a valid phone format')
   }
 
-  // get errorOkayButton() {
-  //     return cy.xpath('//*[@id="root"]/div[3]/div/div/div/div/div[2]/div[2]/div/div[3]/div/div');
-  // }
-
   get codeInputs() {
     return cy.get('input[type=tel]')
   }
 
-  get gotItButton() {
-    return cy.contains('Cool, got it!')
-  }
+  // get gotItButton() {
+  //   return cy.contains('Cool, got it!')
+  // }
 
   get letStartButton() {
     return cy.contains("Let's start!")

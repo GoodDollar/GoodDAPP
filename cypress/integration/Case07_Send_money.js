@@ -16,25 +16,19 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
-
       HomePage.claimButton.click()
 
-      return SendMoneyPage.hasWaitButton()
+      return SendMoneyPage.hasWaitButton
     }).then(hasWaitButton => {
-      if (hasWaitButton) {
-        SendMoneyPage.waitButton.click()
-      }
-
-      return HomePage.isInQueue()
-    }).then(isInQueue => {
       const urlRequest = Cypress.env('REACT_APP_SERVER_URL')
       const bodyPass = Cypress.env('GUNDB_PASSWORD')
 
-      if (!isInQueue) {
+      if (!hasWaitButton) {
         return
       }
 
-      return cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 })
+      SendMoneyPage.waitButton.click()
+      cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 })
     }).then(() => {
       cy.reload()
       cy.contains('Welcome to GoodDollar!').should('be.visible')
@@ -80,7 +74,6 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.mnemonicsInput.type(Cypress.env('additionalAccountMnemonics'))
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
-      HomePage.claimButton.should('be.visible')
 
       cy.visit(validMoneyLnk)
       cy.contains('Claim').should('be.visible')
@@ -90,7 +83,6 @@ describe('Test case 7: Ability to send money', () => {
       cy.log('Money before sending: ' + moneyBefore)
 
       // wait for blockchain payment
-      SendMoneyPage.yayButton.should('be.visible')
       HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.05).toFixed(2))
       SendMoneyPage.yayButton.click()
       cy.contains(Cypress.env('usernameForRegistration')).should('be.visible')
@@ -156,7 +148,6 @@ describe('Test case 7: Ability to send money', () => {
       cy.log('Money before sending: ' + moneyBefore)
 
       // wait for blockchain payment
-      SendMoneyPage.yayButton.should('be.visible')
       HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyBefore) + 0.03).toFixed(2))
       SendMoneyPage.yayButton.click()
 

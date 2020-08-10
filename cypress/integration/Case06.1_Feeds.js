@@ -6,7 +6,7 @@ import LoginPage from '../PageObjects/LoginPage'
 // import SendMoneyPage from '../PageObjects/SendMoneyPage'
 
 describe('Test feeds', () => {
-  it('User is able to send money', () => {
+  it('Testing first start feed', () => {
     const todaysDate = Cypress.moment().format('DD.MM.YY')
     localStorage.clear()
     cy.readFile('cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {

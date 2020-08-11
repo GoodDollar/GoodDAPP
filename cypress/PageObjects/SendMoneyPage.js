@@ -1,3 +1,5 @@
+import { chain, values } from 'lodash'
+
 /* eslint-disable no-undef */
 class SendMoneyPage {
   get waitButtonRegex() {
@@ -53,21 +55,33 @@ class SendMoneyPage {
   }
 
   get yayButton() {
-    return cy.contains('YAY!')
+    return cy.contains(/YAY!/i)
+  }
+
+  get allButtons() {
+    return cy
+      .get('div[role=button]')
+      .then(Array.from)
+  }
+
+  get hasWaitButton() {
+    const { waitButtonRegex, allButtons } = this
+
+    return allButtons.then(buttons => chain(buttons)
+      .map('textContent')
+      .some(text => waitButtonRegex.test(text))
+      .value()
+    )
   }
 
   get waitButton() {
-    const { waitButtonRegex } = this
-    return cy.contains(waitButtonRegex)
-  }
+    const { waitButtonRegex, allButtons} = this
 
-  hasWaitButton() {
-    const { waitButtonRegex } = this
-
-    return cy.get('#root')
-      .contains(waitButtonRegex)
-      .its('length')
-      .then(Boolean)
+    return allButtons.then(buttons => chain(buttons)
+      .filter({ textContent } => waitButtonRegex.test(textContent))
+      .first()
+      .value()
+    )
   }
 }
 

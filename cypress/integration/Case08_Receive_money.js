@@ -61,7 +61,6 @@ describe('Test case 8: Ability to send money request and reseive money', () => {
        HomePage.claimButton.should('be.visible')
        HomePage.moneyAmountDiv.invoke('text').then(moneyBeforeSending => {
         cy.visit(validMoneyLnk.toString())
-        ReceiveMoneyPage.confirmWindowButton.should('be.visible')
         ReceiveMoneyPage.confirmWindowButton.click()
         LoginPage.yayButton.click()
         HomePage.claimButton.should('be.visible')

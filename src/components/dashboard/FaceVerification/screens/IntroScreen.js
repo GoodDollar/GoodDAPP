@@ -80,6 +80,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   const [, checkForBrowserSupport] = useBrowserSupport({
     onSupported: requestCameraPermissions,
     onUnsupported: navigateToHome,
+    onlyIOS: true,
   })
 
   const handleVerifyClick = useOnPress(() => {

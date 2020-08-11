@@ -96,6 +96,7 @@ const SendByQR = ({ screenProps }: Props) => {
   useBrowserSupport({
     onUnsupported: navigateToHome,
     onSupported: requestPermission,
+    onlyIOS: true,
   })
 
   return (

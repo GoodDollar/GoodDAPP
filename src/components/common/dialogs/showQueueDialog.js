@@ -50,7 +50,7 @@ const QueuePopup = withStyles(styles)(({ styles, textComponent }) => {
     <View style={styles.wrapper}>
       <View style={styles.title}>
         <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
-          You’re in the queue to start Claiming GoodDollars!
+          You’re in the queue to start claiming GoodDollars!
         </Text>
       </View>
       <TextComponent styles={styles} />
@@ -68,7 +68,7 @@ export const showQueueDialog = (textComponent, dialogOptions = {}) => {
     message: <QueuePopup textComponent={textComponent} />,
     buttons: [
       {
-        text: 'OK, I’ll WAIT',
+        text: dialogOptions.buttonText || 'OK, GOT IT',
         textStyle: { fontWeight: '500' },
       },
     ],

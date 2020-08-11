@@ -37,10 +37,10 @@ const WalletDeletedPopupText = ({ styles }) => (
       <Text style={[styles.textStyle, styles.paddingTop20]} fontWeight="bold">
         {'Since you’ve just deleted your wallet, '}
       </Text>
-      you will have to wait 24 hours until you can claim.
+      you’ll need to wait 24 hours until you can claim.
     </Text>
     <Text style={[styles.textStyle, styles.paddingTop20]}>
-      {'This is to prevent fraud and misuse.\nSorry for the inconvenience.'}
+      {'This is to prevent fraud and misuse.\nSorry for the inconvenience!'}
     </Text>
   </View>
 )

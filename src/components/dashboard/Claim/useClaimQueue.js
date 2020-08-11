@@ -19,7 +19,7 @@ const ClaimQueuePopupText = ({ styles }) => (
   <View style={styles.paddingVertical20}>
     <Text style={styles.textStyle}>We’ll email you as soon as it’s your turn to claim G$’s.</Text>
     <Text style={[styles.textStyle, styles.paddingTop20, styles.boldFont]}>
-      {'And always remember:\nGood things come for those who wait :)'}
+      {'And always remember:\nGood things come to those who wait :)'}
     </Text>
   </View>
 )
@@ -73,7 +73,7 @@ export default () => {
 
       //this will only trigger the first time, since in subsequent loads claim button is disabled
       if (status === 'pending') {
-        showQueueDialog(ClaimQueuePopupText)
+        showQueueDialog(ClaimQueuePopupText, { buttonText: 'OK, I’ll WAIT' })
         return false
       }
       return true

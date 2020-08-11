@@ -25,5 +25,6 @@ describe('Test case 6: Check Export Wallet', () => {
     ExportWalletPage.copyAddressButton.should('be.visible')
     cy.contains('Fuse Network RPC Address').should('be.visible')
     cy.contains('https://rpc.fuse.io/').should('be.visible')
+    cy.get('img[src*="data:image/png;base64"]').should('be.visible')
   })
 })

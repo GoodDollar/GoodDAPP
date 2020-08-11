@@ -80,7 +80,7 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     HomePage.logoutButton.click()
   })
 
-  it.skip('Check that wallet and userstorage not loaded on startup', () => {
+  it('Check that wallet and userstorage not loaded on startup', () => {
     StartPage.open()
     StartPage.headerPage.contains('Welcome').should('be.visible').then(() =>{
       checkUserStorageBeforeStart()
@@ -89,14 +89,18 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')
     SignUpPage.nameInput.type('Testing UserStorage')
-    SignUpPage.nextButton.should('have.attr', 'data-focusable').then(() =>{
+    SignUpPage.nextButton.should('have.attr', 'data-focusable')
+    SignUpPage.nextButton.click()
+    cy.wait(2000) //wait for the userstorage data to load
+    SignUpPage.phoneInput.should('be.visible').then(() =>{
       expect(localStorage.getItem('GD_mnemonic')).to.not.be.null
       expect(localStorage.getItem('GD_privateKeys')).to.not.be.null
-      expect(localStorage.getItem('GD_GunCredentials')).to.not.be.null
+      expect(localStorage.getItem('GD_creds')).to.not.be.null
+      expect(localStorage.getItem('GD_jwt')).to.not.be.null
     })
   })
 
-  it('User to sign up the wallet with correct values', () => {
+  it.skip('User to sign up the wallet with correct values', () => {
     StartPage.open()
     StartPage.headerPage.contains('Welcome').should('be.visible')
     StartPage.createWalletButton.click()

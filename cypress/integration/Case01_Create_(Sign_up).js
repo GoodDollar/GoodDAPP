@@ -100,7 +100,7 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     })
   })
 
-  it.skip('User to sign up the wallet with correct values', () => {
+  it('User to sign up the wallet with correct values', () => {
     StartPage.open()
     StartPage.headerPage.contains('Welcome').should('be.visible')
     StartPage.createWalletButton.click()

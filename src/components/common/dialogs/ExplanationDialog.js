@@ -16,6 +16,7 @@ import { hideDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { theme } from '../../theme/styles'
+import normalizeText from '../../../lib/utils/normalizeText'
 
 const ExplanationButton = ({ text = 'OK', action = noop, mode, styles }) => {
   const { buttonText, textModeButtonText, textModeButton } = styles
@@ -45,6 +46,7 @@ const ExplanationDialog = ({
   errorMessage,
   title,
   text,
+  textStyle,
   imageSource,
   image: ImageComponent,
   imageHeight = 74,
@@ -74,7 +76,7 @@ const ExplanationDialog = ({
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
         {title}
       </Text>
-      {text && <Text fontSize={24}>{text}</Text>}
+      {text && <Text style={[styles.description, textStyle]}>{text}</Text>}
       {!isEmpty(buttons) && (
         <View style={styles.buttonsContainer}>
           {buttons.map(buttonProps => (
@@ -105,6 +107,9 @@ const mapStylesToProps = () => ({
   },
   title: {
     marginBottom: getDesignRelativeHeight(8),
+  },
+  description: {
+    fontSize: normalizeText(24),
   },
   buttonsContainer: {
     display: 'flex',

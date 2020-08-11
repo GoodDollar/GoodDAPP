@@ -45,7 +45,7 @@ exports[`ExplanationDialog matches snapshot 1`] = `
         "fontFamily": "Roboto",
         "fontSize": "24px",
         "fontWeight": "normal",
-        "lineHeight": "30px",
+        "lineHeight": "22px",
         "textAlign": "center",
         "textDecoration": "none",
         "textTransform": "none",

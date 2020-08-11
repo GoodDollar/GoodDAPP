@@ -29,10 +29,9 @@
   display: inline-block;
   width: 280px;
   z-index: 999;
-  position: relative;
+  position: absolute;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
+  margin-left: -140px;
   font-family: Roboto;
 }
 
@@ -49,7 +48,7 @@
 #zoom-upload-progress-wrapper .loading::after {
   /* Add custom text below the progress loader */
   content: "This may take a minute.";
-  bottom: -175%;
+  bottom: -210%;
   color: #42454A;
   font-weight: 500;
   font-size: 16px;

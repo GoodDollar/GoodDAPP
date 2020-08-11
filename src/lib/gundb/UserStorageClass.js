@@ -35,7 +35,7 @@ const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
 const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
 
 const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
-
+const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
 }
@@ -116,7 +116,7 @@ export const welcomeMessage = {
     subtitle: 'Welcome to GoodDollar!',
     readMore: 'Claim free G$ coins daily.',
     receiptData: {
-      from: '0x0000000000000000000000000000000000000000',
+      from: NULL_ADDRESS,
     },
     reason: Config.isPhaseZero
       ? 'This is where you will claim UBI in\nGoodDollar coins every day.\nThis is a demo version - please note that all\ndemo G$ coins collected have no value\noutside of this pilot, and will be destroyed\nupon completion of the demo period.'
@@ -133,7 +133,7 @@ export const welcomeMessageOnlyEtoro = {
     subtitle: 'Welcome to GoodDollar!',
     readMore: false,
     receiptData: {
-      from: '0x0000000000000000000000000000000000000000',
+      from: NULL_ADDRESS,
     },
     reason:
       'Start collecting your income by claiming GoodDollars every day. Since this is a test version - all coins are “play” coins and have no value outside of this pilot, you can use them to buy goods during the trail, at the end of it, they will be returned to the system.',
@@ -149,7 +149,7 @@ export const inviteFriendsMessage = {
     subtitle: Config.isPhaseZero ? 'Want to earn more G$`s ?' : 'Invite your friends now',
     readMore: Config.isPhaseZero ? 'Invite more friends!' : 'and let them also claim free G$`s.',
     receiptData: {
-      from: '0x0000000000000000000000000000000000000000',
+      from: NULL_ADDRESS,
     },
     reason:
       'Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.',
@@ -165,7 +165,7 @@ export const backupMessage = {
     subtitle: 'You need to backup your',
     readMore: 'wallet pass phrase.',
     receiptData: {
-      from: '0x0000000000000000000000000000000000000000',
+      from: NULL_ADDRESS,
     },
     reason:
       'Your pass phrase is the only key to your wallet, this is why our wallet is super secure. Only you have access to your wallet and money. But if you won’t backup your pass phrase or if you lose it — you won’t be able to access your wallet and all your money will be lost forever.',
@@ -181,7 +181,7 @@ export const startSpending = {
     subtitle: "Start spending your G$'s",
     readMore: 'here >>>',
     receiptData: {
-      from: '0x0000000000000000000000000000000000000000',
+      from: NULL_ADDRESS,
     },
     reason:
       'Visit GoodMarket, eToro’s exclusive marketplace, where you can buy or sell items in exchange for GoodDollars.',
@@ -197,7 +197,7 @@ export const startClaiming = {
     subtitle: `Claim your G$'s today!`, //title in feed list
     readMore: false,
     receiptData: {
-      from: '0x0000000000000000000000000000000000000000',
+      from: NULL_ADDRESS,
     },
 
     // preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
@@ -215,7 +215,7 @@ export const hanukaBonusStartsMessage = {
     subtitle: 'Hannukah Miracle Bonus',
     readMore: 'Claim today for extra G$$$.',
     receiptData: {
-      from: '0x0000000000000000000000000000000000000000',
+      from: NULL_ADDRESS,
     },
     reason:
       'Get an extra GoodDollar, on top of your daily collection, for every candle lit on the menorah today. Claim every day of Hannukah for a total bonus of G$44!\n\nHag Sameach!',
@@ -234,7 +234,7 @@ export const longUseOfClaims = {
     subtitle: 'Woohoo! You’ve made it!',
     smallReadMore: 'Congrats! You claimed G$ for 14 days.',
     receiptData: {
-      from: '0x0000000000000000000000000000000000000000',
+      from: NULL_ADDRESS,
     },
     reason: `Nice work. You’ve claimed demo G$’s for\n14 days and your spot is now secured for\nGoodDollar’s live launch.\nLive G$ coins are coming your way soon!`,
     endpoint: {
@@ -399,7 +399,7 @@ export class UserStorage {
       return value
     }
     if (field === 'mobile' || field === 'phone') {
-      return value.replace(/[_+-\s]+/g, '')
+      return sha3(value.replace(/[_-\s]+/g, ''))
     }
     return sha3(`${value}`.toLowerCase())
   }
@@ -1878,7 +1878,6 @@ export class UserStorage {
             })
             return undefined
           }),
-          /* eslint-disable */
           this._extractFullName(
             customName,
             get(profileNode, 'gunProfile'),
@@ -1898,7 +1897,6 @@ export class UserStorage {
               displayName,
             })
           }),
-          /* eslint-enable */
         ])
 
         return {
@@ -1957,7 +1955,10 @@ export class UserStorage {
     }
 
     data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
-    data.address = data.address && UserStorage.cleanHashedFieldForIndex('walletAddress', data.address)
+    data.address =
+      data.address && data.address !== NULL_ADDRESS
+        ? UserStorage.cleanHashedFieldForIndex('walletAddress', data.address)
+        : data.address
     data.value = (receiptData && (receiptData.value || receiptData.amount)) || amount
     data.displayName = counterPartyDisplayName || 'Unknown'
 
@@ -2037,6 +2038,7 @@ export class UserStorage {
     return byIndex || byAddress
   }
 
+  //eslint-disable-next-line
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
     const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
     const getAvatarFromGun = async () => {
@@ -2046,15 +2048,15 @@ export class UserStorage {
       // if account deleted - the display of 'avatar' field will be private
       return get(avatar, 'privacy') === 'public' ? avatar.display : undefined
     }
-
-    return (
-      (type === EVENT_TYPE_BONUS && favicon) ||
-      (((type === EVENT_TYPE_SEND && withdrawStatus === 'error') ||
-        (type === EVENT_TYPE_WITHDRAW && withdrawStatus === 'error')) &&
-        favicon) || // errored send/withdraw
-      (await getAvatarFromGun()) || // extract avatar from profile
-      (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
-    )
+    if (
+      withdrawStatus === 'error' ||
+      type === EVENT_TYPE_BONUS ||
+      type === EVENT_TYPE_CLAIM ||
+      address === NULL_ADDRESS
+    ) {
+      return favicon
+    }
+    return getAvatarFromGun()
   }
 
   async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
@@ -2071,9 +2073,7 @@ export class UserStorage {
       customName || // if customName exist, use it
       (await getFullNameFromGun()) || // if there's a profile, extract it's fullName
       (initiatorType && initiator) ||
-      (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000'
-        ? 'GoodDollar'
-        : displayName)
+      (type === EVENT_TYPE_CLAIM || address === NULL_ADDRESS ? 'GoodDollar' : displayName)
     )
   }
 

@@ -387,8 +387,7 @@ export class GoodWallet {
       const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000))
       const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
       startRef.add(curDay + 1, 'days')
-      const millisToClaim = startRef.diff(moment(), 'millis')
-      return millisToClaim >= 0 ? millisToClaim : 0
+      return startRef.valueOf()
     } catch (e) {
       log.error('getNextClaimTime failed', e.message, e, { category: ExceptionCategory.Blockhain })
       return Promise.reject(e)

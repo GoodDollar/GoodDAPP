@@ -1,17 +1,18 @@
 // libraries
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
-import { isIOS, isMobileSafari } from 'mobile-device-detect'
 
 //components
 import Separator from '../../../common/layout/Separator'
 import Text from '../../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../../common'
 import FaceVerificationSmiley from '../../../common/animations/FaceVerificationSmiley'
+import IOSUnsupportedBrowserDialog from '../../../common/dialogs/unsupportedBrowser/IOS'
 
 // hooks
 import useOnPress from '../../../../lib/hooks/useOnPress'
+import useUnsupportedBrowser from '../../../../lib/hooks/useUnsupportedBrowser'
 import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
@@ -22,7 +23,7 @@ import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import { isBrowser, isE2ERunning } from '../../../../lib/utils/platform'
+import { isBrowser, isE2ERunning, isIOSWeb, isMobileSafari, isSafari } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
@@ -50,6 +51,13 @@ const IntroScreen = ({ styles, screenProps }) => {
   const { fullName } = store.get('profile')
   const { screenState, goToRoot, navigateTo, pop } = screenProps
   const isValid = get(screenState, 'isValid', false)
+
+  const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
+  useUnsupportedBrowser({
+    onDenied: navigateToHome,
+    DialogComponent: IOSUnsupportedBrowserDialog,
+    browserCompatibility: isIOSWeb ? isSafari : true,
+  })
 
   const disposing = useDisposingState({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
@@ -93,7 +101,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     lineHeight: 25,
   }
 
-  useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
+  useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
     if (isValid) {

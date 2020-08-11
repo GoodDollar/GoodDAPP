@@ -3,10 +3,10 @@ import React from 'react'
 import { Image, Platform } from 'react-native'
 
 // components
-import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
+import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 // assets
-import illustration from '../../../../assets/UnsuportedBrowser.svg'
+import illustration from '../../../assets/UnsuportedBrowser.svg'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
@@ -32,7 +32,7 @@ export default ({ onDismiss }) => (
 const [showDialog] = useDialog()
 
 showDialog({
-  content: <GeneralUnsupportedBrowserDialog />,
+  content: <UnsupportedDialog />,
   isMinHeight: false,
   showButtons: false,
   buttons: [

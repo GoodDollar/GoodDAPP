@@ -8,7 +8,7 @@ import { assign, get, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 
-import useUnsupportedBrowser from '../../lib/hooks/useUnsupportedBrowser'
+import useBrowserSupport from '../browserSupport/hooks/useBrowserSupport'
 
 import {
   DESTINATION_PATH,
@@ -64,10 +64,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
 
   const setLoggedIn = useCallback(() => store.set('isLoggedIn')(true), [store])
-  const [, checkBrowserCompatibility] = useUnsupportedBrowser({
-    requestOnMounted: false,
-    onAllowed: setLoggedIn,
-    onDenied: setLoggedIn,
+
+  const [, checkForBrowserSupport] = useBrowserSupport({
+    checkOnMounted: false,
+    onChecked: setLoggedIn,
   })
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
@@ -567,7 +567,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       //this will cause a re-render and move user to the dashboard route
       if (ok) {
-        checkBrowserCompatibility()
+        checkForBrowserSupport()
       }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {

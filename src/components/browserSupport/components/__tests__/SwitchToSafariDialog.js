@@ -2,16 +2,16 @@ import React from 'react'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
-import IOSDialog from '../IOS'
+import SwitchToSafariDialog from '../SwitchToSafariDialog'
 
-describe('IOSUnsupportedBrowserDialog', () => {
+describe('SwitchToSafariDialog', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<IOSDialog />)
+    const tree = renderer.create(<SwitchToSafariDialog />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<IOSDialog />)
+    const component = renderer.create(<SwitchToSafariDialog />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

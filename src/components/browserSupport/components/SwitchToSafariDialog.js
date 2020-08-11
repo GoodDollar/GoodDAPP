@@ -3,14 +3,14 @@ import React from 'react'
 import { Image, Platform } from 'react-native'
 
 // components
-import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
+import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 // utils
-import normalizeText from '../../../../lib/utils/normalizeText'
-import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
+import normalizeText from '../../../lib/utils/normalizeText'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 // assets
-import illustration from '../../../../assets/UnsuportedBrowser.svg'
+import illustration from '../../../assets/UnsuportedBrowser.svg'
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)
@@ -35,7 +35,7 @@ export default () => (
 const [showDialog] = useDialog()
 
 showDialog({
-  content: <GeneralUnsupportedBrowserDialog />,
+  content: <SwitchToSafariDialog />,
   isMinHeight: false,
   showButtons: false,
   buttons: [

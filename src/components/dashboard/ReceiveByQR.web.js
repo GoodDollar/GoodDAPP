@@ -6,11 +6,10 @@ import QrReader from 'react-qr-reader'
 // components
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import IOSUnsupportedBrowserDialog from '../common/dialogs/unsupportedBrowser/IOS'
 
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
-import useUnsupportedBrowser from '../../lib/hooks/useUnsupportedBrowser'
+import useBrowserSupport from '../browserSupport/hooks/useBrowserSupport'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
@@ -21,7 +20,6 @@ import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
-import { isIOSWeb, isSafari } from '../../lib/utils/platform'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 
 const QR_DEFAULT_DELAY = 300
@@ -47,12 +45,6 @@ const ReceiveByQR = ({ screenProps }) => {
   // first of all check browser compatibility
   // if not compatible - then redirect to home
   const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
-  useUnsupportedBrowser({
-    onDenied: navigateToHome,
-    onAllowed: requestPermission,
-    DialogComponent: IOSUnsupportedBrowserDialog,
-    browserCompatibility: isIOSWeb ? isSafari : true,
-  })
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
@@ -141,6 +133,11 @@ const ReceiveByQR = ({ screenProps }) => {
     },
     [showErrorDialog],
   )
+
+  useBrowserSupport({
+    onUnsupported: navigateToHome,
+    onSupported: requestPermission,
+  })
 
   return (
     <>

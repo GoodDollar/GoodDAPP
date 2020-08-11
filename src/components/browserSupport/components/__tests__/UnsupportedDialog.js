@@ -3,11 +3,11 @@ import { noop } from 'lodash'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
-import GeneralDialog from '../General'
-import { withThemeProvider } from '../../../../../__tests__/__util__'
+import UnsupportedDialog from '../UnsupportedDialog'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 
-describe('GeneralUnsupportedBrowserDialog', () => {
-  const WrappedComponent = withThemeProvider(GeneralDialog)
+describe('UnsupportedDialog', () => {
+  const WrappedComponent = withThemeProvider(UnsupportedDialog)
 
   it('renders without errors', () => {
     const tree = renderer.create(<WrappedComponent onDissmiss={noop} />)

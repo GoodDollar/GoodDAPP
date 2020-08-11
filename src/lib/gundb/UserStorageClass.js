@@ -203,7 +203,7 @@ export const startClaiming = {
     // preReasonText: 'Claim 14 days & secure a spot in the live upcoming version.',
     reason: Config.isPhaseZero
       ? `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
-      : `GoodDollar gives every active member a small daily income.\n\nSign in every day, collect free GoodDollars and use them to pay for goods and services.`,
+      : `GoodDollar gives every active member a small daily income.\n\nEvery day, sign in and claim free GoodDollars and use them to pay for goods and services.`,
   },
 }
 

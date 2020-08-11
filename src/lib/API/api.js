@@ -1,7 +1,9 @@
 // @flow
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
+import { identity } from 'lodash'
 import AsyncStorage from '../utils/asyncStorage'
+
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
@@ -47,9 +49,10 @@ export class APIService {
    * init API with axions client and proper interptors. Needs `GoodDAPP_jwt`to be present in AsyncStorage
    */
   init(jwtToken = null) {
-    this.jwt = jwtToken
+    const { serverUrl, apiTimeout, web3SiteUrl } = Config
 
-    log.info('initializing api...', Config.serverUrl, jwtToken)
+    this.jwt = jwtToken
+    log.info('initializing api...', serverUrl, jwtToken)
 
     return (this.ready = (async () => {
       let { jwt } = this
@@ -59,57 +62,45 @@ export class APIService {
         this.jwt = jwt
       }
 
+      // eslint-disable-next-line require-await
+      const exceptionHandler = async exception => {
+        const { message, response } = exception
+        const { data } = response || {}
+
+        // Do something with response error
+        log.warn('axios response error', message, exception)
+        throw data || exception
+      }
+
       let instance: AxiosInstance = axios.create({
-        baseURL: Config.serverUrl,
-        timeout: Config.apiTimeout,
+        baseURL: serverUrl,
+        timeout: apiTimeout,
         headers: { Authorization: `Bearer ${jwt || ''}` },
       })
 
-      instance.interceptors.request.use(
-        req => {
-          return req
-        },
-        e => {
-          // Do something with response error
-          log.warn('axios req error', e.message, e)
-          return Promise.reject(e)
-        },
-      )
+      // eslint-disable-next-line require-await
+      instance.interceptors.request.use(identity, async exception => {
+        const { message } = exception
 
-      instance.interceptors.response.use(
-        response => {
-          return response
-        },
-        e => {
-          // Do something with response error
-          log.warn('axios response error', e.message, e)
-          if (e.response && e.response.data) {
-            return Promise.reject(e.response.data)
-          }
-          return Promise.reject(e)
-        },
-      )
+        // Do something with request error
+        log.warn('axios req error', message, exception)
+        throw exception
+      })
+
+      instance.interceptors.response.use(identity, exceptionHandler)
+
       this.client = await instance
       log.info('API ready', jwt)
 
       let w3Instance: AxiosInstance = axios.create({
-        baseURL: Config.web3SiteUrl,
-        timeout: Config.apiTimeout,
+        baseURL: web3SiteUrl,
+        timeout: apiTimeout,
       })
 
-      w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
-      w3Instance.interceptors.response.use(
-        response => response.data,
-        error => {
-          if (error.response && error.response.data) {
-            return Promise.reject(error.response.data)
-          }
-
-          return Promise.reject(error)
-        },
-      )
+      w3Instance.interceptors.response.use(({ data }) => data, exceptionHandler)
 
       this.w3Client = await w3Instance
+      log.info('W3 client ready')
     })())
   }
 
@@ -409,26 +400,33 @@ export class APIService {
    * @param {*} userData usually just {email}
    */
   addMauticContact(userData: { email: string }) {
+    const { email } = userData
     const { MauticJS } = global
-    if (MauticJS && Config.mauticUrl && userData.email) {
-      MauticJS.makeCORSRequest(
-        'POST',
-        Config.mauticUrl + '/form/submit',
-        {
-          'mauticform[formId]': Config.mauticAddContractFormID,
-          'mauticform[email]': userData.email,
-          'mauticform[messenger]': 1,
-        },
-        () => log.info('addMauticContact success'),
-        (response, xhr) => log.error('addMauticContact call failed:', response.content),
-      )
-    } else {
+    const { mauticAddContractFormID, mauticUrl } = Config
+
+    if (!MauticJS || !mauticUrl || !email) {
       log.warn('addMauticContact not called:', {
         hasMauticAPI: !!MauticJS,
-        mautic: Config.mauticUrl,
-        hasEmail: !!userData.email,
+        mautic: mauticUrl,
+        hasEmail: !!email,
       })
+
+      return
     }
+
+    const payload = {
+      'mauticform[formId]': mauticAddContractFormID,
+      'mauticform[email]': email,
+      'mauticform[messenger]': 1,
+    }
+
+    MauticJS.makeCORSRequest(
+      'POST',
+      `${mauticUrl}/form/submit`,
+      payload,
+      () => log.info('addMauticContact success'),
+      ({ content }, xhr) => log.error('addMauticContact call failed:', content),
+    )
   }
 
   async getActualPhase() {

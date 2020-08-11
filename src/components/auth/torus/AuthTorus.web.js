@@ -1,7 +1,7 @@
 // @flow
+/*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
-import { Image, TouchableOpacity } from 'react-native'
-import AsyncStorage from '../../../lib/utils/asyncStorage'
+import { AsyncStorage, Image, TouchableOpacity, View } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
@@ -25,14 +25,19 @@ import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import { useErrorDialog } from '../../../lib/undux/utils/dialog'
+import { useDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import { userExists } from '../../../lib/login/userExists'
+
+// import { delay } from '../../../lib/utils/async'
+// import LoadingIcon from '../../common/modal/LoadingIcon'
+
+import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
+
 import useTorus from './hooks/useTorus'
 
 Image.prefetch(illustration)
@@ -42,7 +47,7 @@ const log = logger.child({ from: 'AuthTorus' })
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const asGuest = true
   const [isPasswordless, setPasswordless] = useState(false)
-  const [showErrorDialog] = useErrorDialog()
+  const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const [torusSDK, sdkInitialized] = useTorus()
   const { navigate } = navigation
   const { push } = screenProps
@@ -97,9 +102,33 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const signupFacebook = () => handleSignUp('facebook')
   const signupAuth0 = loginType => handleSignUp(loginType === 'email' ? 'auth0-pwdless-email' : 'auth0-pwdless-sms')
 
+  // const showLoadingDialog = success => {
+  //   showDialog({
+  //     image: success ? undefined : <LoadingIcon />,
+  //     loading: true,
+  //     message: 'Please wait\nThis might take a few seconds...',
+  //     showButtons: false,
+  //     title: `PREPARING\nYOUR WALLET`,
+  //   })
+  // }
+
+  const showLoadingDialog = (success, resolve) => {
+    showDialog({
+      image: (
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <SpinnerCheckMark loading={!!success} success={success} onFinish={resolve} height={'auto'} marginTop={0} />
+        </View>
+      ),
+
+      loading: true,
+      message: 'Please wait\nThis might take a few seconds...',
+      showButtons: false,
+      title: `PREPARING\nYOUR WALLET`,
+    })
+  }
   const handleSignUp = useCallback(
     async (provider: 'facebook' | 'google' | 'google-old' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
-      store.set('loadingIndicator')({ loading: true })
+      // store.set('loadingIndicator')({ loading: true })
 
       let torusUser
       let replacing = false
@@ -108,9 +137,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       try {
         if (['development', 'test'].includes(config.env)) {
-          torusUser = await AsyncStorage.getItem('TorusTestUser')
+          torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
         }
 
+        showLoadingDialog()
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
@@ -127,7 +157,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
         log.debug('torus login success', { torusUser })
       } catch (e) {
-        store.set('loadingIndicator')({ loading: false })
+        // store.set('loadingIndicator')({ loading: false })
 
         if (e.message === 'user closed popup') {
           log.info(e.message, e)
@@ -145,6 +175,12 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         // const userExists = await userStorage.userAlreadyExist()
         log.debug('checking userAlreadyExist', { exists, fullName })
         const { source } = await ready(replacing)
+
+        // showLoadingDialog(true)
+        // await delay(30000000)
+
+        await new Promise(res => showLoadingDialog(true, res))
+        hideDialog()
 
         //user exists reload with dashboard route
         if (exists) {
@@ -178,7 +214,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     [store, torusSDK, showErrorDialog, navigate],
   )
 
-  const goToManualRegistration = useOnPress(async () => {
+  const goToManualRegistration = useCallback(async () => {
     const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
 
     //in case user started torus signup but came back here we need to re-initialize wallet/storage with
@@ -191,39 +227,39 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])
 
-  const goToSignIn = useOnPress(() => navigate('SigninInfo'), [navigate])
+  const goToSignIn = useCallback(() => {
+    navigate('SigninInfo')
+  }, [navigate])
 
-  const handleNavigateTermsOfUse = useOnPress(() => push('PrivacyPolicyAndTerms'), [push])
+  const handleNavigateTermsOfUse = useCallback(() => push('PrivacyPolicyAndTerms'), [push])
 
-  const handleNavigatePrivacyPolicy = useOnPress(() => push('PrivacyPolicy'), [push])
+  const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
 
   // google button settings
-  const googleButtonHandler = useOnPress(() => (asGuest ? signupGoogle() : goToW3Site()), [
-    asGuest,
-    signupGoogle,
-    goToW3Site,
-  ])
+  const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
   const googleButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
   // facebook button settings
-  const facebookButtonHandler = useOnPress(() => (asGuest ? signupFacebook() : goToW3Site()), [
-    asGuest,
-    signupFacebook,
-    goToW3Site,
-  ])
+  const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
-  const auth0ButtonHandler = useOnPress(() => {
-    if (!asGuest) {
-      goToW3Site()
-      return
-    }
-    setPasswordless(true)
-    fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
-  }, [asGuest, signupAuth0, setPasswordless])
+  const auth0ButtonHandler = useMemo(
+    () =>
+      asGuest
+        ? () => {
+            if (config.torusEmailEnabled) {
+              setPasswordless(true)
+              fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
+            } else {
+              signupAuth0Mobile()
+            }
+          }
+        : goToW3Site,
+    [asGuest, signupAuth0, setPasswordless],
+  )
 
-  const signupAuth0Email = useOnPress(() => signupAuth0('email'), [signupAuth0])
-  const signupAuth0Mobile = useOnPress(() => signupAuth0('mobile'), [signupAuth0])
+  const signupAuth0Email = () => signupAuth0('email')
+  const signupAuth0Mobile = () => signupAuth0('mobile')
 
   const ShowPasswordless = useMemo(
     () => () => {

@@ -1,4 +1,4 @@
-import { first, noop } from 'lodash'
+import { first, isNumber, noop } from 'lodash'
 
 import api from '../api/FaceVerificationApi'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
@@ -56,10 +56,13 @@ export class EnrollmentProcessor {
     let latestMessage = lastMessage
     const { status } = lastResult
 
-    // if no errors were thrown and server haven't returned specific
-    // status messages - setting last message from session status code
+    // if no errors were thrown and server haven't returned specific status messages
     if (!latestMessage) {
-      latestMessage = getFriendlyDescriptionForZoomSessionStatus(status)
+      // setting last message from session status code it it's present
+      latestMessage =
+        isNumber(status) && status !== ZoomSessionStatus.SessionCompletedSuccessfully
+          ? getFriendlyDescriptionForZoomSessionStatus(status)
+          : 'Session could not be completed due to an unexpected issue during the network request.'
     }
 
     // calling completion callback

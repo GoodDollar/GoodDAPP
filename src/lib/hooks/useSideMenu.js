@@ -81,19 +81,20 @@ export default (props = {}) => {
           slideOut()
         },
       },
-      {
-        icon: 'link',
-        name: 'Magic Link',
-        size: 18,
-        hidden: isSelfCustody === false,
-        action: () => {
-          navigation.navigate({
-            routeName: 'MagicLinkInfo',
-            type: 'Navigation/NAVIGATE',
-          })
-          slideOut()
-        },
-      },
+
+      // {
+      //   icon: 'link',
+      //   name: 'Magic Link',
+      //   size: 18,
+      //   hidden: isSelfCustody === false,
+      //   action: () => {
+      //     navigation.navigate({
+      //       routeName: 'MagicLinkInfo',
+      //       type: 'Navigation/NAVIGATE',
+      //     })
+      //     slideOut()
+      //   },
+      // },
       {
         icon: 'export-wallet',
         size: 18,

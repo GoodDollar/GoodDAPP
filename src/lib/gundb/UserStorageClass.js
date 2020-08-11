@@ -5,6 +5,7 @@ import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
+import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 import { sha3 } from 'web3-utils'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
@@ -530,8 +531,6 @@ export class UserStorage {
       loginToken: { defaultPrivacy: 'private' },
     }
 
-    // this.gunuser = this.gun.user()
-
     if (this.gunuser.is) {
       logger.debug('init:', 'logging out first')
       this.gunuser.leave()
@@ -540,36 +539,9 @@ export class UserStorage {
     let loggedInPromise
 
     let existingCreds = await AsyncStorage.getItem(GD_GUN_CREDENTIALS)
-    existingCreds = null
     if (existingCreds == null) {
-      //sign with different address so its not connected to main user address and there's no 1-1 link
-      const username = await this.wallet.sign('GoodDollarTorusUser', 'gundb').then(r => r.slice(0, 20))
-      const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
-      logger.debug('login to gun', { username, password })
-
-      //hack to get gun working. these seems to preload data gun needs to login
-      //otherwise it get stuck on a clean incognito, either when checking existingusername (if doesnt exists)
-      //or in gun auth
-      const existingUsername = await this.gun.get('~@' + username).onThen(null, { wait: 3000, default: false })
-
-      logger.debug('init existing username:', { existingUsername })
-      if (existingUsername) {
-        loggedInPromise = this.gunAuth(username, password).catch(e =>
-          this.gunCreate(username, password).then(r => this.gunAuth(username, password)),
-        )
-      } else {
-        loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
-      }
-      loggedInPromise = loggedInPromise.then(_ => {
-        existingCreds = {
-          sea: this.gunuser.pair(),
-          is: this.gunuser.is,
-          username,
-          password,
-        }
-        AsyncStorage.setItem('GD_GunCredentials', existingCreds)
-        return _
-      })
+      const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
+      loggedInPromise = gunPKAuth(this.gun, seed)
     } else {
       logger.debug('gun login using saved credentials', { existingCreds })
 
@@ -586,8 +558,6 @@ export class UserStorage {
     if (user === undefined) {
       throw new Error('gun login failed')
     }
-
-    this.magiclink = this.createMagicLink(existingCreds.username, existingCreds.password)
     this.user = this.gunuser.is
 
     //try to make sure all gun SEA  decryption keys are preloaded
@@ -596,7 +566,6 @@ export class UserStorage {
     const gunuser = await this.gun.user()
 
     logger.debug('GunDB logged in', {
-      username: existingCreds.username,
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
       gunuser,
@@ -1910,26 +1879,26 @@ export class UserStorage {
             return undefined
           }),
           /* eslint-disable */
-        this._extractFullName(
-          customName,
-          get(profileNode, "gunProfile"),
-          initiatorType,
-          initiator,
-          type,
-          address,
-          displayName
-        ).catch(e => {
-          logger.warn("formatEvent: failed extractFullName", e.message, e, {
+          this._extractFullName(
             customName,
-            profileNode,
+            get(profileNode, 'gunProfile'),
             initiatorType,
             initiator,
             type,
             address,
-            displayName
-          });
-        })
-        /* eslint-enable */
+            displayName,
+          ).catch(e => {
+            logger.warn('formatEvent: failed extractFullName', e.message, e, {
+              customName,
+              profileNode,
+              initiatorType,
+              initiator,
+              type,
+              address,
+              displayName,
+            })
+          }),
+          /* eslint-enable */
         ])
 
         return {

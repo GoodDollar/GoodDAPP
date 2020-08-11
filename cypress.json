@@ -4,26 +4,27 @@
   "defaultCommandTimeout": 60000,
   "env": {
     "baseUrl": "https://gooddev.netlify.app/",
-    "mainAccountEmail": "testaccountgd+1@yahoo.com",
+    "mainAccountEmail": "testaccountgd@yahoo.com",
     "mainAccountUsername": "Automation Test",
     "mainAccountPhone": "+380988846111",
-    "mainAccountMnemonics": "glance muscle defy idle asset pipe future empower bind text define radar",
+    "mainAccountMnemonics": "gentle few fly casino execute fault right cliff mercy cause fat path",
     "wordsForUnsuccessfullLogin": {
-      "withChangedWord": "mirror cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withNumbers": "1hazard cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withSymbols": "@hazard cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withChangedLetter": "nazard cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withChangedOrder": "cake hazard road tumble news flee usual tooth holiday bamboo food crew",
-      "withCapitalize": "Hazard cake road tumble news flee usual tooth holiday bamboo food crew"
+      "withChangedWord": "dance muscle defy idle asset pipe future empower bind text define radar",
+      "withNumbers": "1gentle few fly casino execute fault right cliff mercy cause fat path",
+      "withSymbols": "@gentle few fly casino execute fault right cliff mercy cause fat path",
+      "withChangedLetter": "kentle few fly casino execute fault right cliff mercy cause fat path",
+      "withChangedOrder": "few gentle fly casino execute fault right cliff mercy cause fat path",
+      "withCapitalize": "Gentle few fly casino execute fault right cliff mercy cause fat path"
     },
     "additionalAccountEmail": "testaccountgd@yahoo.com",
     "additionalAccountUsername": "Automation Test",
     "additionalAccountPhone": "+380988846111",
-    "additionalAccountMnemonics": "glance muscle defy idle asset pipe future empower bind text define radar",
+    "additionalAccountMnemonics": "gentle few fly casino execute fault right cliff mercy cause fat path",
     "emailForCheckingRegistration": "main.test.acc.gooddollar@gmail.com",
     "usernameForRegistration": "Name Surname",
     "numberForCheckingRegistration": "+380673001757",
-    "numberForTorus": "+380991234567"
+    "numberForTorus": "+380991234567",
+    "REACT_APP_SERVER_URL": "https://good-server.herokuapp.com"
   },
   "projectId": "mm5rgt"
 }

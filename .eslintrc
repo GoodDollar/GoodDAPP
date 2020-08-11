@@ -134,7 +134,7 @@
         "allowClassEnd": false
       }
     ],
-    "no-negated-condition": "warn",
-    "no-multi-str": "off"
+    "no-negated-condition": "off",
+    "space-before-function-paren": "off"
   }
 }

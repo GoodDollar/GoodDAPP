@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     color: theme.colors.darkGray,
     fontSize: normalize(16),
     textAlign: 'center',
+    marginTop: theme.sizes.defaultDouble,
   },
   content: {
     display: 'flex',

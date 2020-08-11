@@ -124,13 +124,6 @@ const AddWebApp = props => {
   }, [store, setShow, setShowAddWebAppDialog, setInstallPrompt])
 
   const showExplanationDialog = () => {
-    // const magicLinkCode = userStorage.getMagicLink()
-    // const mobile = await userStorage.getProfileFieldValue('mobile')
-    //
-    // API.sendMagicCodeBySms(mobile, magicLinkCode).catch(e => {
-    //   log.error('Failed to send magic link code to user by sms', e.message, e)
-    // })
-
     showDialog({
       content: <ExplanationDialog />,
       showButtons: false,

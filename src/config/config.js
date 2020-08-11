@@ -14,7 +14,7 @@ const forceLogLevel = get(window, 'location.search', '').match(/level=(.*?)($|&)
 let phase = env.REACT_APP_RELEASE_PHASE
 
 if (isUndefined(phase)) {
-  phase = ('true' === env.REACT_APP_ENV_PHASE_ONE) ? 1 : 0
+  phase = 'true' === env.REACT_APP_ENV_PHASE_ONE ? 1 : 0
 }
 
 const isPhaseZero = 0 === phase
@@ -88,7 +88,7 @@ const Config = {
   torusGoogle: env.REACT_APP_TORUS_GOOGLE || 'google-gooddollar',
   torusGoogleAuth0: env.REACT_APP_TORUS_GOOGLEAUTH0 || 'google-auth0-gooddollar',
   torusAuth0SMS: env.REACT_APP_TORUS_AUTH0SMS || 'gooddollar-auth0-sms-passwordless',
-
+  torusEmailEnabled: env.REACT_APP_TORUS_AUTH0EMAIL_ENABLED === 'true',
   ethereum: {
     '42': {
       network_id: 42,
@@ -118,8 +118,6 @@ const Config = {
   },
   nodeEnv: env.NODE_ENV,
 }
-
-
 
 // TODO: wrap all stubs / "backdoors" made for automated testing
 // if (isE2ERunning) {

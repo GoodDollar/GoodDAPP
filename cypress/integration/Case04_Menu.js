@@ -47,7 +47,7 @@ describe('Test case 4: Check menu items functionality', () => {
     HomePage.backArrow.click()
   })
 
-  it('Check sending Magic Link', () => {
+  it.skip('Check sending Magic Link', () => {
     HomePage.optionsButton.should('be.visible')
     HomePage.optionsButton.click({ force: true })
     cy.contains('Magic Link').click()
@@ -70,7 +70,7 @@ describe('Test case 4: Check menu items functionality', () => {
   it('Check Statistics page', () => {
     HomePage.waitForHomePageDisplayed()
     HomePage.optionsButton.should('be.visible')
-    HomePage.optionsButton.click()
+    HomePage.optionsButton.click({ force: true })
     cy.contains('Statistics').click()
     StatisticsPage.headerPage.should('be.visible').contains('Statistics')
     StatisticsPage.iframe.find(StatisticsPage.container).should('be.visible')
@@ -87,15 +87,18 @@ describe('Test case 4: Check menu items functionality', () => {
     HomePage.backArrow.click()
   })
 
-  it('Check Support page', () => {
+  it.skip('Check Support page', () => {
     HomePage.waitForHomePageDisplayed()
     HomePage.optionsButton.should('be.visible')
     HomePage.optionsButton.click({ force: true })
-    cy.contains('Support & Feedback').click()
-    SupportPage.pageHeader.should('contain', 'Support & Feedback')
+    cy.contains('Help & Feedback').click()
+    SupportPage.pageHeader.should('contain', 'Help & Feedback')
     SupportPage.iframe.should('be.visible')
     SupportPage.iframe.find(SupportPage.search).should('be.visible')
     SupportPage.iframe.find(SupportPage.topics).should('be.visible')
     SupportPage.iframe.find(SupportPage.ask).should('be.visible')
+    SupportPage.iframe.find(SupportPage.contactUs).should('be.visible')
+    SupportPage.iframe.find(SupportPage.contactUs).click()
+    SupportPage.iframe.find(SupportPage.formSend).should('be.visible')
   })
 })

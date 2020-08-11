@@ -49,7 +49,7 @@ export class GoogleStrategy extends AbstractLoginStrategy {
         {
           clientId: googleClientId,
           typeOfLogin: 'google',
-          verifier: 'google-shubs',
+          verifier: config.env === 'production' ? 'google' : 'google-shubs', //for mainnet torus uses a different verifier
         },
       ],
     })

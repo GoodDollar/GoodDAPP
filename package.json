@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.25.4-9",
+  "version": "1.0.0",
   "engines": {
     "node": "10.21.0",
     "npm": "6.x"
@@ -71,6 +71,7 @@
     "@babel/preset-flow": "^7.0.0",
     "@gooddollar/goodcontracts": "^2.0.0",
     "@gooddollar/gun": "^0.2020.719",
+    "@gooddollar/gun-pk-auth": "^1.0.3",
     "@react-native-community/clipboard": "^1.2.2",
     "@react-native-community/netinfo": "^5.5.1",
     "@react-native-community/push-notification-ios": "^1.2.0",

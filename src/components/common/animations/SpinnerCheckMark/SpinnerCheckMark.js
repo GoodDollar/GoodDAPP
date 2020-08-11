@@ -66,7 +66,7 @@ class SpinnerCheckMark extends AnimationBase {
   }
 
   render() {
-    const { height = 196, width = 196 } = this.props
+    const { height = 196, width = 196, marginTop } = this.props
     return (
       <View>
         <Lottie
@@ -76,7 +76,7 @@ class SpinnerCheckMark extends AnimationBase {
           source={this.improveAnimationData(animationData)}
           speed={this.state.speed}
           style={{
-            marginTop: -height / (isMobileNative ? 6 : 2.4),
+            marginTop: marginTop !== undefined ? marginTop : -height / (isMobileNative ? 6 : 2.4),
             width,
             height,
           }}

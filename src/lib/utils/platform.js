@@ -3,6 +3,8 @@ import { get } from 'lodash'
 
 import {
   isAndroid as isAndroidWeb,
+  isBrowser,
+  isChrome,
   isIOS as isIOSWeb,
   isMobileOnly as isMobileOnlyWeb,
   isMobileSafari,
@@ -12,8 +14,6 @@ import {
 } from 'mobile-device-detect'
 import { env } from './env'
 import isWebApp from './isWebApp'
-
-export { isBrowser } from 'mobile-device-detect'
 
 export const isSafari = isMobileSafari || isSafariWeb
 
@@ -42,4 +42,4 @@ export const isCypress =
 
 export const isE2ERunning = isCypress && 'development' === env
 
-export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet, isMobileSafari }
+export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet, isMobileSafari, isBrowser, isChrome }

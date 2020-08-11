@@ -1,11 +1,14 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+
+import React, { useCallback, useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
 import { assign, get, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
+
+import useUnsupportedBrowser from '../../lib/hooks/useUnsupportedBrowser'
 
 import {
   DESTINATION_PATH,
@@ -59,6 +62,13 @@ const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
+
+  const setLoggedIn = useCallback(() => store.set('isLoggedIn')(true), [store])
+  const [, checkBrowserCompatibility] = useUnsupportedBrowser({
+    requestOnMounted: false,
+    onAllowed: setLoggedIn,
+    onDenied: setLoggedIn,
+  })
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
@@ -557,7 +567,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       //this will cause a re-render and move user to the dashboard route
       if (ok) {
-        store.set('isLoggedIn')(true)
+        checkBrowserCompatibility()
       }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {

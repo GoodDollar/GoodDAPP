@@ -44,7 +44,7 @@ export const showQueueDialog = (ContentComponent, { imageSource, imageHeight, bu
     marginLeft: 'auto',
     marginTop: getDesignRelativeHeight(15),
     marginBottom: getDesignRelativeHeight(15),
-    width: '33vh',
+    width: '100%',
     height: getDesignRelativeHeight(129, false),
   }
   const StylesWrappedContent = withStyles(styles)(ContentComponent)

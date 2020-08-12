@@ -112,7 +112,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   //   })
   // }
 
-  const showLoadingDialog = (success = false, resolve = () => {}) => {
+  const showLoadingDialog = (success = false, onFinish = () => {}, onStart = () => {}) => {
     showDialog({
       image: (
         <View style={{ flex: 1, alignItems: 'center' }}>
@@ -120,7 +120,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
             successSpeed={3}
             loading={true}
             success={success}
-            onFinish={resolve}
+            onFinish={onFinish}
+            onStart={onStart}
             height={'auto'}
             marginTop={0}
           />
@@ -147,11 +148,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
         }
 
-        // showLoadingDialog()
+        await new Promise(res => showLoadingDialog(false, () => {}, res))
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
-        showLoadingDialog()
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
         const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
 

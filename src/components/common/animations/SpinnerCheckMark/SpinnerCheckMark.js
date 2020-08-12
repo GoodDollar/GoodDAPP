@@ -28,6 +28,13 @@ class SpinnerCheckMark extends AnimationBase {
     this.anim.play()
   }
 
+  onStart = () => {
+    const { onStart } = this.props
+    if (typeof onStart === 'function') {
+      onStart()
+    }
+  }
+
   componentDidUpdate(prevProps) {
     log.debug('checkmark didupdate', { prevProps, props: this.props })
 

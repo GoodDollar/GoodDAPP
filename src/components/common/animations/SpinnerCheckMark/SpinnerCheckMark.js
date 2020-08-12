@@ -1,12 +1,15 @@
 import React from 'react'
 import Lottie from 'lottie-react-native'
-
+import logger from '../../../../lib/logger/pino-logger'
 import AnimationBase from '../Base'
 
 import animationData from './data.json'
 
+const log = logger.child({ from: 'SpinnerCheckMark' })
+
 class SpinnerCheckMark extends AnimationBase {
   onMount = () => {
+    log.debug('checkmark onmount')
     this.anim.onEnterFrame = e => {
       const { success } = this.props
       if (e.currentTime > 130.5 && !success) {
@@ -15,6 +18,7 @@ class SpinnerCheckMark extends AnimationBase {
     }
 
     this.anim.onComplete = () => {
+      log.debug('checkmark oncomplete')
       const { onFinish } = this.props
       if (typeof onFinish === 'function') {
         onFinish()
@@ -24,9 +28,12 @@ class SpinnerCheckMark extends AnimationBase {
     this.anim.play()
   }
 
-  componentDidUpdate(prevProps, newProps) {
+  componentDidUpdate(prevProps) {
+    log.debug('checkmark didupdate', { prevProps, props: this.props })
+
     if (prevProps.success === false && this.props.success === true) {
       //speed up when finished
+      this.anim.goToAndPlay(130, true)
       this.anim.setSpeed(this.props.successSpeed || 1.5)
     }
   }

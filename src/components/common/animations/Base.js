@@ -33,7 +33,7 @@ class AnimationBase extends React.Component {
       result = JSON.parse(JSON.stringify(animationData))
 
       if (typeof result === 'undefined') {
-        throw new Error()
+        throw new Error('failed parsing animation json')
       }
     } catch {
       result = cloneDeep(animationData)

@@ -119,7 +119,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           <SpinnerCheckMark
             successSpeed={3}
             loading={true}
-            success={!!success}
+            success={success}
             onFinish={resolve}
             height={'auto'}
             marginTop={0}
@@ -183,10 +183,12 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('checking userAlreadyExist', { exists, fullName })
         const { source } = await ready(replacing)
 
+        log.debug('showing checkmark dialog')
         // showLoadingDialog(true)
         // await delay(30000000)
 
         await new Promise(res => showLoadingDialog(true, res))
+        log.debug('hiding checkmark dialog')
         hideDialog()
 
         //user exists reload with dashboard route

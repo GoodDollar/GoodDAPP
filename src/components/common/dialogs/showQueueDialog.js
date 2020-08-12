@@ -2,10 +2,7 @@
 
 // libraries
 import React from 'react'
-import { Image, View } from 'react-native'
-
-// custom components
-import Text from '../view/Text'
+import { Image } from 'react-native'
 
 import { store } from '../../../lib/undux/SimpleStore'
 import { showDialogWithData } from '../../../lib/undux/utils/dialog'
@@ -43,29 +40,15 @@ const styles = () => ({
   },
 })
 
-const QueuePopup = withStyles(styles)(({ styles, textComponent }) => {
-  const TextComponent = textComponent
-
-  return (
-    <View style={styles.wrapper}>
-      <View style={styles.title}>
-        <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
-          You’re in the queue to start claiming GoodDollars!
-        </Text>
-      </View>
-      <TextComponent styles={styles} />
-    </View>
-  )
-})
-
-export const showQueueDialog = (textComponent, dialogOptions = {}) => {
+export const showQueueDialog = (ContentComponent, dialogOptions = {}) => {
   const imageStyle = { marginRight: 'auto', marginLeft: 'auto', width: '33vh', height: '28vh' }
+  const StylesWrappedContent = withStyles(styles)(ContentComponent)
 
   showDialogWithData(store.getCurrentSnapshot(), {
     type: 'queue',
     isMinHeight: true,
     image: <Image source={illustration} style={imageStyle} resizeMode="contain" />,
-    message: <QueuePopup textComponent={textComponent} />,
+    message: <StylesWrappedContent />,
     buttons: [
       {
         text: dialogOptions.buttonText || 'OK, GOT IT',

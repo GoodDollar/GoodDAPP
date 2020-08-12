@@ -32,16 +32,19 @@ import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '.
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const WalletDeletedPopupText = ({ styles }) => (
-  <View style={styles.paddingVertical20}>
-    <Text style={styles.textStyle}>
-      <Text style={[styles.textStyle, styles.paddingTop20]} fontWeight="bold">
-        {'Since you’ve just deleted your wallet, '}
+  <View style={styles.wrapper}>
+    <View style={styles.title}>
+      <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
+        {'New Wallet?\nYou’ll need to wait 24 hours'}
       </Text>
-      you’ll need to wait 24 hours until you can claim.
-    </Text>
-    <Text style={[styles.textStyle, styles.paddingTop20]}>
-      {'This is to prevent fraud and misuse.\nSorry for the inconvenience!'}
-    </Text>
+    </View>
+    <View style={styles.paddingVertical20}>
+      <Text style={styles.textStyle}>
+        {
+          'We see you recently deleted your wallet and have opened a new one.\nThis delay is to prevent misuse, thanks for understanding!'
+        }
+      </Text>
+    </View>
   </View>
 )
 

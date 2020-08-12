@@ -80,7 +80,7 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     HomePage.logoutButton.click()
   })
 
-  it('Check that wallet and userstorage not loaded on startup', () => {
+  it.skip('Check that wallet and userstorage not loaded on startup', () => {
     StartPage.open()
     StartPage.headerPage.contains('Welcome').should('be.visible').then(() =>{
       checkUserStorageBeforeStart()

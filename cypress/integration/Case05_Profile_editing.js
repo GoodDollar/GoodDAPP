@@ -6,6 +6,7 @@ import EditProfilePage from '../PageObjects/EditProfilePage'
 import ProfilePage from '../PageObjects/ProfilePage'
 import SignUpPage from '../PageObjects/SignUpPage'
 import GDls from '../fixtures/GDls.json'
+import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 
 function makeVerification() {
   EditProfilePage.waitForEditProfilePageDisplayed()
@@ -79,6 +80,18 @@ describe('Test case 5: Ability to change user data', () => {
     EditProfilePage.uploadedAvatar.should('be.visible')
     HomePage.backArrow.eq(0).click()
     ProfilePage.pageHeader.should('contain', 'Profile')
+    HomePage.backArrow.eq(0).click()
+  })
+
+  it('Check profile image in Privacy page after upload avatar', () => {
+    HomePage.profileAvatar.should('be.visible')
+    HomePage.profileAvatar.click()
+    ProfilePage.profilePrivacyButton.click()
+    ProfilePrivacyPage.pageHeader.should('contain', 'PROFILE PRIVACY')
+    // ProfilePrivacyPage.myFaceText.should('be.visible')
+    // ProfilePrivacyPage.copyIdButton.should('be.visible')
+    ProfilePrivacyPage.imgAvatar.should('be.visible')
+    HomePage.backArrow.eq(0).click()
     HomePage.backArrow.eq(0).click()
   })
 

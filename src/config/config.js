@@ -22,7 +22,7 @@ const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
 
 const Config = {
-  env: devenv,
+  env: devenv(env.REACT_APP_ENV),
   version: env.VERSION || 'v0',
   contractsVersion,
   isEToro,

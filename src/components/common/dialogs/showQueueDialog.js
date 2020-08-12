@@ -9,6 +9,7 @@ import { showDialogWithData } from '../../../lib/undux/utils/dialog'
 
 // utils
 import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 const styles = () => ({
   wrapper: {
@@ -37,8 +38,15 @@ const styles = () => ({
   },
 })
 
-export const showQueueDialog = (ContentComponent, { imageSource, buttonText, ...dialogOptions } = {}) => {
-  const imageStyle = { marginRight: 'auto', marginLeft: 'auto', width: '33vh', height: '28vh' }
+export const showQueueDialog = (ContentComponent, { imageSource, imageHeight, buttonText, ...dialogOptions } = {}) => {
+  const imageStyle = {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: getDesignRelativeHeight(15),
+    marginBottom: getDesignRelativeHeight(15),
+    width: '33vh',
+    height: getDesignRelativeHeight(129, false),
+  }
   const StylesWrappedContent = withStyles(styles)(ContentComponent)
 
   showDialogWithData(store.getCurrentSnapshot(), {

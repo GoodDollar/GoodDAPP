@@ -474,10 +474,6 @@ export class UserStorage {
     return this.gun.user().get('profile')
   }
 
-  get properties() {
-    return this.gun.user().get('properties')
-  }
-
   get gunuser() {
     return this.gun.user()
   }
@@ -1146,7 +1142,7 @@ export class UserStorage {
   async initProperties() {
     // this.properties = this.gunuser.get('properties')
 
-    this.userProperties = new UserProperties(this.properties)
+    this.userProperties = new UserProperties(this.gun)
     const properties = await this.userProperties.ready
     logger.debug('init properties', { properties })
   }

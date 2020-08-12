@@ -10,9 +10,6 @@ import { showDialogWithData } from '../../../lib/undux/utils/dialog'
 // utils
 import { withStyles } from '../../../lib/styles'
 
-// assets
-import illustration from '../../../assets/Claim/claimQueue.svg'
-
 const styles = () => ({
   wrapper: {
     flex: 1,
@@ -40,14 +37,14 @@ const styles = () => ({
   },
 })
 
-export const showQueueDialog = (ContentComponent, dialogOptions = {}) => {
+export const showQueueDialog = (ContentComponent, { imageSource, buttonText, ...dialogOptions } = {}) => {
   const imageStyle = { marginRight: 'auto', marginLeft: 'auto', width: '33vh', height: '28vh' }
   const StylesWrappedContent = withStyles(styles)(ContentComponent)
 
   showDialogWithData(store.getCurrentSnapshot(), {
     type: 'queue',
     isMinHeight: true,
-    image: <Image source={illustration} style={imageStyle} resizeMode="contain" />,
+    image: <Image source={imageSource} style={imageStyle} resizeMode="contain" />,
     message: <StylesWrappedContent />,
     buttons: [
       {

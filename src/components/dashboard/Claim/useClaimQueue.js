@@ -12,6 +12,7 @@ import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/pino-logger'
+import claimQueueIllustration from '../../../assets/Claim/claimQueue.svg'
 
 const log = logger.child({ from: 'useClaimQueue' })
 const isQueueDisabled = !Config.claimQueue
@@ -81,7 +82,7 @@ export default () => {
 
       //this will only trigger the first time, since in subsequent loads claim button is disabled
       if (status === 'pending') {
-        showQueueDialog(ClaimQueuePopupText, { buttonText: 'OK, I’ll WAIT' })
+        showQueueDialog(ClaimQueuePopupText, { buttonText: 'OK, I’ll WAIT', imageSource: claimQueueIllustration })
         return false
       }
       return true

@@ -116,7 +116,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     showDialog({
       image: (
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <SpinnerCheckMark loading={!!success} success={success} onFinish={resolve} height={'auto'} marginTop={0} />
+          <SpinnerCheckMark
+            successSpeed={2}
+            loading={!!success}
+            success={!!success}
+            onFinish={resolve}
+            height={'auto'}
+            marginTop={0}
+          />
         </View>
       ),
 

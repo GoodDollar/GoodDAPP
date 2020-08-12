@@ -24,10 +24,10 @@ class SpinnerCheckMark extends AnimationBase {
     this.anim.play()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, newProps) {
     if (prevProps.success === false && this.props.success === true) {
       //speed up when finished
-      this.anim.setSpeed(1.5)
+      this.anim.setSpeed(this.props.successSpeed || 1.5)
     }
   }
 

@@ -17,6 +17,7 @@ import {
   IS_LOGGED_IN,
 } from '../../lib/constants/localStorage'
 
+import UnsupportedDialog from '../browserSupport/components/UnsupportedDialog'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
@@ -68,6 +69,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [, checkForBrowserSupport] = useBrowserSupport({
     checkOnMounted: false,
     onChecked: setLoggedIn,
+    unsupportedPopup: UnsupportedDialog,
   })
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone

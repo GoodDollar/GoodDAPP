@@ -21,6 +21,7 @@ import { extractQueryParams, readCode } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
+import { isIOSWeb, isSafari } from '../../lib/utils/platform'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
@@ -96,7 +97,7 @@ const SendByQR = ({ screenProps }: Props) => {
   useBrowserSupport({
     onUnsupported: navigateToHome,
     onSupported: requestPermission,
-    onlyIOS: true,
+    onCheck: () => (isIOSWeb ? isSafari : true),
   })
 
   return (

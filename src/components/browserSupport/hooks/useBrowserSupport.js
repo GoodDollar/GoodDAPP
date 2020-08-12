@@ -2,7 +2,7 @@
 
 // libraries
 import React, { useCallback, useEffect, useState } from 'react'
-import { noop } from 'lodash'
+import { isFunction, noop } from 'lodash'
 
 // components
 import UnsupportedDialog from '../components/UnsupportedDialog'
@@ -20,7 +20,7 @@ const log = logger.child({ from: 'useBrowserSupport' })
 
 export default (options = {}) => {
   const {
-    onlyIOS = false,
+    onCheck = null,
     onChecked = noop,
     onSupported = noop,
     onUnsupported = noop,
@@ -31,10 +31,7 @@ export default (options = {}) => {
   const [showDialog] = useDialog()
   const mountedState = useMountedState()
   const [isSupported, setSupported] = useState(false)
-
-  // exactly UnsupportedDialog should be shown after sign-up
-  // SwitchToSafariDialog should be show only for specific screens where onlyIOS prop is passed
-  const UnsupportedPopup = unsupportedPopup || (isIOSWeb && onlyIOS ? SwitchToSafariDialog : UnsupportedDialog)
+  const UnsupportedPopup = unsupportedPopup || (isIOSWeb ? SwitchToSafariDialog : UnsupportedDialog)
 
   const showPopup = useCallback(
     ({ onDismiss = noop, ...props }) =>
@@ -76,13 +73,11 @@ export default (options = {}) => {
       return
     }
 
-    // there are some screens where we need to check just ios+safari
-    // other verification not required then
-    let isSupported = onlyIOS
-      ? isIOSWeb
-        ? isSafari
-        : true
-      : (isIOSWeb && isSafari) || (isMobileWeb && isChrome) || (isBrowser && (isSafari || isChrome))
+    let isSupported = (isIOSWeb && isSafari) || (isMobileWeb && isChrome) || (isBrowser && (isSafari || isChrome))
+
+    if (isFunction(onCheck)) {
+      isSupported = onCheck(isSupported)
+    }
 
     log.debug({ isSupported })
 

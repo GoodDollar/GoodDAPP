@@ -20,6 +20,7 @@ import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
+import { isIOSWeb, isSafari } from '../../lib/utils/platform'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 
 const QR_DEFAULT_DELAY = 300
@@ -137,7 +138,7 @@ const ReceiveByQR = ({ screenProps }) => {
   useBrowserSupport({
     onUnsupported: navigateToHome,
     onSupported: requestPermission,
-    onlyIOS: true,
+    onCheck: () => (isIOSWeb ? isSafari : true),
   })
 
   return (

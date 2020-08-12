@@ -22,7 +22,7 @@ import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import { isBrowser, isE2ERunning, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
+import { isBrowser, isE2ERunning, isIOSWeb, isMobileSafari, isSafari } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
@@ -80,7 +80,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   const [, checkForBrowserSupport] = useBrowserSupport({
     onSupported: requestCameraPermissions,
     onUnsupported: navigateToHome,
-    onlyIOS: true,
+    onCheck: () => (isIOSWeb ? isSafari : true),
   })
 
   const handleVerifyClick = useOnPress(() => {

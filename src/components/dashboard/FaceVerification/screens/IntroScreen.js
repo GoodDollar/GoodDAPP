@@ -60,7 +60,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   const disposing = useDisposingState({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
     onComplete: isDisposing => {
-      if (isDisposing) {
+      if (!isDisposing) {
         return
       }
 

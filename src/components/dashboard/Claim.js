@@ -32,6 +32,7 @@ import Config from '../../config/config'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
+import generalError from '../../lib/utils/generalError'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -107,8 +108,8 @@ const Claim = props => {
         }
       }
     } catch (e) {
-      log.error('evaluateFRValidity failed', e.message, { dialogShown: true })
-      showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
+      log.error('evaluateFRValidity failed', e.message, { errorCode: 1, dialogShown: true })
+      showErrorDialog(generalError(1), '', {
         onDismiss: () => {
           screenProps.goToRoot()
         },
@@ -129,8 +130,9 @@ const Claim = props => {
           log.error('gatherStats failed', e.message, e, {
             dialogShown: true,
             category: ExceptionCategory.Blockhain,
+            errorCode: 2,
           })
-          showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
+          showErrorDialog(generalError(2), '', {
             onDismiss: () => {
               screenProps.goToRoot()
             },
@@ -167,8 +169,9 @@ const Claim = props => {
       log.error('gatherStats failed', e.message, e, {
         dialogShown: true,
         category: ExceptionCategory.Blockhain,
+        errorCode: 3,
       })
-      showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
+      showErrorDialog(generalError(3), '', {
         onDismiss: () => {
           screenProps.goToRoot()
         },

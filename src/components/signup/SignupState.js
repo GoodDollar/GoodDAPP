@@ -27,6 +27,7 @@ import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
+import generalError from '../../lib/utils/generalError'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -451,6 +452,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             log.warn('User already exists during addUser() call:', message, exception)
           } else {
             // otherwise re-throwing exception to be catched in the parent try {}
+            exception.serverResponse = true
             throw exception
           }
         })
@@ -486,11 +488,14 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setLoading(false)
 
       return true
-    } catch (e) {
-      log.error('New user failure', e.message, e, { dialogShown: true })
-      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, e.message)
+    } catch (exception) {
+      const { message, serverResponse } = exception
 
-      // showErrorDialog('Something went on our side. Please try again')
+      log.error('New user failure', message, exception, {
+        dialogShown: true,
+        errorCode: serverResponse && 8,
+      })
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, serverResponse ? message : generalError(8))
       setCreateError(true)
       return false
     } finally {

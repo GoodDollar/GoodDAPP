@@ -44,6 +44,7 @@ import SuccessIcon from '../common/modal/SuccessIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import unknownProfile from '../../assets/unknownProfile.svg'
+import generalError from '../../lib/utils/generalError'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
 import Amount from './Amount'
@@ -568,11 +569,11 @@ const Dashboard = props => {
             break
         }
       } catch (e) {
-        const { message } = e
-        showErrorDialog(message)
         log.error('withdraw failed:', e.message, e, {
           dialogShown: true,
+          errorCode: 4,
         })
+        showErrorDialog(generalError(4))
       } finally {
         navigation.setParams({ paymentCode: undefined })
       }

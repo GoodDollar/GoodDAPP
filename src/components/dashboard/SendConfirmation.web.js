@@ -45,7 +45,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
             paymentLink,
             dialogShown: true,
           })
-          showErrorDialog('Sorry, there was an error sharing you link. Please try again later.')
+          showErrorDialog('Sorry, there was an error sharing your link. Please try again later.')
         }
       }
     } else {

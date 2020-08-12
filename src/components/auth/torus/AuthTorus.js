@@ -147,11 +147,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
         }
 
-        showLoadingDialog()
+        // showLoadingDialog()
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
-
+        showLoadingDialog()
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
         const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
 

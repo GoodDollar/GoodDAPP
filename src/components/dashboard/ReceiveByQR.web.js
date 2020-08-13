@@ -13,13 +13,13 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
-import generalError from '../../lib/utils/generalError'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 
 const QR_DEFAULT_DELAY = 300
@@ -98,14 +98,16 @@ const ReceiveByQR = ({ screenProps }) => {
           receiveLink: undefined,
           reason: undefined,
         })
-      } catch (e) {
-        log.error('Executing withdraw failed', e.message, e, {
+      } catch (exception) {
+        const { message } = exception
+        const uiMessage = decorate(exception, ExceptionCode.E5)
+
+        log.error('Executing withdraw failed', message, exception, {
           receiveLink,
           dialogShown: true,
-          errorCode: 5,
         })
 
-        showErrorDialog(generalError(5))
+        showErrorDialog(uiMessage)
       }
     }
   }, [navigateTo, withdrawParams, store, showErrorDialog])
@@ -118,14 +120,15 @@ const ReceiveByQR = ({ screenProps }) => {
     exception => {
       const dialogOptions = { title: 'QR code scan failed' }
       const { name, message } = exception
+      const uiMessage = decorate(exception, ExceptionCode.E6)
 
       if ('NotAllowedError' === name) {
         // exit the function and do nothing as we already displayed error popup via usePermission hook
         return
       }
 
-      log.error('QR scan receive failed', message, exception, { dialogShown: true, errorCode: 6 })
-      showErrorDialog(generalError(6), '', dialogOptions)
+      log.error('QR scan receive failed', message, exception, { dialogShown: true })
+      showErrorDialog(uiMessage, '', dialogOptions)
     },
     [showErrorDialog],
   )

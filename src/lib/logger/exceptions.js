@@ -1,4 +1,4 @@
-import { range, fromPairs, findKey } from 'lodash'
+import { findKey, fromPairs, range } from 'lodash'
 
 export const ExceptionCategory = {
   Human: 'human',
@@ -7,7 +7,7 @@ export const ExceptionCategory = {
   Unexpected: 'unexpected',
 }
 
-export const ExceptionCode = fromPairs(range(1, 8).map(code => [`E${code}`, code]))
+export const ExceptionCode = fromPairs(range(1, 10).map(code => [`E${code}`, code]))
 
 /**
  * Decorates exception with pre-defined error code and returns message for the endusers

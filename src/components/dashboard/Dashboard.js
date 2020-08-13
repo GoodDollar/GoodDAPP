@@ -31,7 +31,8 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
@@ -44,7 +45,6 @@ import SuccessIcon from '../common/modal/SuccessIcon'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import unknownProfile from '../../assets/unknownProfile.svg'
-import generalError from '../../lib/utils/generalError'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
 import Amount from './Amount'
@@ -568,12 +568,12 @@ const Dashboard = props => {
           default:
             break
         }
-      } catch (e) {
-        log.error('withdraw failed:', e.message, e, {
-          dialogShown: true,
-          errorCode: 4,
-        })
-        showErrorDialog(generalError(4))
+      } catch (exception) {
+        const { message } = exception
+        const uiMessage = decorate(exception, ExceptionCode.E4)
+
+        log.error('withdraw failed:', message, exception, { dialogShown: true })
+        showErrorDialog(uiMessage)
       } finally {
         navigation.setParams({ paymentCode: undefined })
       }

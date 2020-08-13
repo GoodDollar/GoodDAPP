@@ -17,7 +17,8 @@ import {
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -27,7 +28,6 @@ import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
-import generalError from '../../lib/utils/generalError'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -490,12 +490,18 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       return true
     } catch (exception) {
       const { message, serverResponse } = exception
+      let uiMessage = message
+
+      if (!serverResponse) {
+        uiMessage = decorate(exception, ExceptionCode.E8)
+      }
 
       log.error('New user failure', message, exception, {
         dialogShown: true,
-        errorCode: serverResponse && 8,
+        serverResponse,
       })
-      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, serverResponse ? message : generalError(8))
+
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
       setCreateError(true)
       return false
     } finally {

@@ -1,7 +1,8 @@
 // @flow
 import type { Store } from 'undux'
 import goodWallet from '../../wallet/GoodWallet'
-import pino, { ExceptionCategory } from '../../logger/pino-logger'
+import pino from '../../logger/pino-logger'
+import { ExceptionCategory } from '../../logger/exceptions'
 import userStorage from '../../gundb/UserStorage'
 import type { TransactionEvent } from '../../gundb/UserStorage'
 import { WITHDRAW_STATUS_PENDING } from '../../wallet/GoodWalletClass'

@@ -16,11 +16,11 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
 import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
 import { extractQueryParams, readCode } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Permissions } from '../permissions/types'
 import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
-import generalError from '../../lib/utils/generalError'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
@@ -76,14 +76,15 @@ const SendByQR = ({ screenProps }: Props) => {
     exception => {
       const dialogOptions = { title: 'QR code scan failed' }
       const { name, message } = exception
+      const uiMessage = decorate(exception, ExceptionCode.E7)
 
       if ('NotAllowedError' === name) {
         // exit the function and do nothing as we already displayed error popup via usePermission hook
         return
       }
 
-      log.error('QR scan send failed', message, exception, { dialogShown: true, errorCode: 7 })
-      showErrorDialog(generalError(7), '', dialogOptions)
+      log.error('QR scan send failed', message, exception, { dialogShown: true })
+      showErrorDialog(uiMessage, '', dialogOptions)
     },
     [showErrorDialog],
   )

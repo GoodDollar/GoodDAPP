@@ -7,7 +7,8 @@ import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -32,7 +33,6 @@ import Config from '../../config/config'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
-import generalError from '../../lib/utils/generalError'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -107,9 +107,13 @@ const Claim = props => {
           goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
         }
       }
-    } catch (e) {
-      log.error('evaluateFRValidity failed', e.message, { errorCode: 1, dialogShown: true })
-      showErrorDialog(generalError(1), '', {
+    } catch (exception) {
+      const { message } = exception
+      const uiMessage = decorate(exception, ExceptionCode.E1)
+
+      log.error('evaluateFRValidity failed', message, { dialogShown: true })
+
+      showErrorDialog(uiMessage, '', {
         onDismiss: () => {
           screenProps.goToRoot()
         },
@@ -118,21 +122,25 @@ const Claim = props => {
   }
 
   const init = async () => {
-    //hack to make unit test pass, activityindicator in claim button cuasing
+    // hack to make unit test pass, activityindicator in claim button cuasing
     if (process.env.NODE_ENV !== 'test') {
       setLoading(true)
     }
+
     await Promise.all([
       goodWallet
         .checkEntitlement()
         .then(entitlement => setClaimState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
-        .catch(e => {
-          log.error('gatherStats failed', e.message, e, {
+        .catch(exception => {
+          const { message } = exception
+          const uiMessage = decorate(exception, ExceptionCode.E2)
+
+          log.error('gatherStats failed', message, exception, {
             dialogShown: true,
             category: ExceptionCategory.Blockhain,
-            errorCode: 2,
           })
-          showErrorDialog(generalError(2), '', {
+
+          showErrorDialog(uiMessage, '', {
             onDismiss: () => {
               screenProps.goToRoot()
             },
@@ -165,13 +173,16 @@ const Claim = props => {
     const [claimedToday, nextClaimDate] = await Promise.all([
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
-    ]).catch(e => {
-      log.error('gatherStats failed', e.message, e, {
+    ]).catch(exception => {
+      const { message } = exception
+      const uiMessage = decorate(exception, ExceptionCode.E3)
+
+      log.error('gatherStats failed', message, exception, {
         dialogShown: true,
         category: ExceptionCategory.Blockhain,
-        errorCode: 3,
       })
-      showErrorDialog(generalError(3), '', {
+
+      showErrorDialog(uiMessage, '', {
         onDismiss: () => {
           screenProps.goToRoot()
         },
@@ -181,6 +192,7 @@ const Claim = props => {
     })
 
     setClaimState(prevState => ({ ...prevState, claimedToday }))
+
     if (nextClaimDate) {
       const nextClaim = await getNextClaim(nextClaimDate)
       setClaimState(prevState => ({ ...prevState, nextClaim }))

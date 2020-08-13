@@ -11,7 +11,8 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 
 import GDStore from '../../../lib/undux/GDStore'
 
-import logger, { ExceptionCategory } from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/pino-logger'
+import { ExceptionCategory } from '../../../lib/logger/exceptions'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'

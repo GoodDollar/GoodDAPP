@@ -22,7 +22,7 @@ export default () => (
     text={'This browser doesn’t support\ncamera access on iOS devices. Sorry!'}
     textStyle={{
       fontSize: normalizeText(16),
-      marginVertical: getDesignRelativeHeight(25),
+      marginVertical: getDesignRelativeHeight(25, false),
     }}
     imageSource={illustration}
     imageHeight={124}

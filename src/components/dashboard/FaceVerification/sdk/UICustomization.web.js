@@ -153,7 +153,10 @@ assignIn(guidanceCustomization, {
 
 // customizing result screen - progress bar & success animation
 assignIn(resultScreenCustomization, {
+  foregroundColor: ZoomColor(darkGray),
   messageFont: ZoomFont(defaultFont),
+  messageTextSpacing: '0.08px',
+  messageTextSize: '16px',
   showUploadProgressBar: true,
   uploadProgressFillColor: ZoomColor(primary),
   uploadProgressTrackColor: ZoomColor(lightGray),

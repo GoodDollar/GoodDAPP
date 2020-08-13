@@ -9,7 +9,7 @@ import TopBar from '../common/view/TopBar'
 
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
-import useBrowserSupport from '../browserSupport/hooks/useBrowserSupport'
+import useCameraSupport from '../browserSupport/hooks/useCameraSupport'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
@@ -134,7 +134,7 @@ const ReceiveByQR = ({ screenProps }) => {
     [showErrorDialog],
   )
 
-  useBrowserSupport({
+  useCameraSupport({
     onUnsupported: navigateToHome,
     onSupported: requestPermission,
   })

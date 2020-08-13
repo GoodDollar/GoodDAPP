@@ -11,7 +11,7 @@ import FaceVerificationSmiley from '../../../common/animations/FaceVerificationS
 
 // hooks
 import useOnPress from '../../../../lib/hooks/useOnPress'
-import useBrowserSupport from '../../../browserSupport/hooks/useBrowserSupport'
+import useCameraSupport from '../../../browserSupport/hooks/useCameraSupport'
 import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
@@ -77,7 +77,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     navigate: navigateTo,
   })
 
-  const [, checkForBrowserSupport] = useBrowserSupport({
+  const [, checkForCameraSupport] = useCameraSupport({
     onSupported: requestCameraPermissions,
     onUnsupported: navigateToHome,
   })
@@ -90,8 +90,8 @@ const IntroScreen = ({ styles, screenProps }) => {
       return
     }
 
-    checkForBrowserSupport()
-  }, [checkForBrowserSupport])
+    checkForCameraSupport()
+  }, [checkForCameraSupport])
 
   const commonTextStyles = {
     textAlign: 'center',

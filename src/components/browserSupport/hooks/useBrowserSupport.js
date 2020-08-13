@@ -14,7 +14,7 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 
 // utils
 import logger from '../../../lib/logger/pino-logger'
-import { isBrowser, isChrome, isIOSWeb, isMobileWeb, isSafari } from '../../../lib/utils/platform'
+import { isAndroidWeb, isBrowser, isChrome, isIOSWeb, isSafari } from '../../../lib/utils/platform'
 
 const log = logger.child({ from: 'useBrowserSupport' })
 
@@ -73,7 +73,7 @@ export default (options = {}) => {
       return
     }
 
-    let isSupported = (isIOSWeb && isSafari) || (isMobileWeb && isChrome) || (isBrowser && (isSafari || isChrome))
+    let isSupported = (isIOSWeb && isSafari) || (isAndroidWeb && isChrome) || (isBrowser && (isSafari || isChrome))
 
     if (isFunction(onCheck)) {
       isSupported = onCheck(isSupported)

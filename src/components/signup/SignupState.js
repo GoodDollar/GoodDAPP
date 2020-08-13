@@ -1,14 +1,11 @@
 // @flow
-
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
 import { assign, get, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
-
-import useBrowserSupport from '../browserSupport/hooks/useBrowserSupport'
 
 import {
   DESTINATION_PATH,
@@ -17,7 +14,6 @@ import {
   IS_LOGGED_IN,
 } from '../../lib/constants/localStorage'
 
-import UnsupportedDialog from '../browserSupport/components/UnsupportedDialog'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
@@ -63,14 +59,6 @@ const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
-
-  const setLoggedIn = useCallback(() => store.set('isLoggedIn')(true), [store])
-
-  const [, checkForBrowserSupport] = useBrowserSupport({
-    checkOnMounted: false,
-    onChecked: setLoggedIn,
-    unsupportedPopup: UnsupportedDialog,
-  })
 
   // Getting the second element from routes array (starts from 0) as the second route is Phone
   // We are redirecting directly to Phone from Auth component if w3Token provided
@@ -423,8 +411,18 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       requestPayload.regMethod = regMethod
 
       const [, , mnemonic] = await Promise.all([
-        w3Token && userStorage.userProperties.set('cameFromW3Site', true),
-        userStorage.userProperties.set('regMethod', regMethod),
+        // Stores creationBlock number into 'lastBlock' feed's node
+        goodWallet
+          .getBlockNumber()
+          .then(_ => _.toString())
+          .catch(e => {
+            const { message } = e
+            log.error('save blocknumber failed:', message, e, { category: ExceptionCategory.Blockhain })
+            return '0'
+          })
+          .then(block =>
+            userStorage.userProperties.updateAll({ cameFromW3Site: !!w3Token, regMethod, lastBlock: block }),
+          ),
         AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
       ])
 
@@ -443,32 +441,19 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       let newUserData
 
-      await Promise.all([
-        // Stores creationBlock number into 'lastBlock' feed's node
-        goodWallet
-          .getBlockNumber()
-          .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
-          .catch(exception => {
-            const { message } = exception
+      await API.addUser(requestPayload)
+        .then(({ data }) => (newUserData = data))
+        .catch(exception => {
+          const { message } = exception
 
-            log.error('save blocknumber failed:', message, exception, { category: ExceptionCategory.Blockhain })
+          // if user already exists just log.warn then continue signup
+          if ('You cannot create more than 1 account with the same credentials' === message) {
+            log.warn('User already exists during addUser() call:', message, exception)
+          } else {
+            // otherwise re-throwing exception to be catched in the parent try {}
             throw exception
-          }),
-
-        API.addUser(requestPayload)
-          .then(({ data }) => (newUserData = data))
-          .catch(exception => {
-            const { message } = exception
-
-            // if user already exists just log.warn then continue signup
-            if ('You cannot create more than 1 account with the same credentials' === message) {
-              log.warn('User already exists during addUser() call:', message, exception)
-            } else {
-              // otherwise re-throwing exception to be catched in the parent try {}
-              throw exception
-            }
-          }),
-      ])
+          }
+        })
 
       //set tokens for other services returned from backedn
       await Promise.all(
@@ -569,7 +554,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       //this will cause a re-render and move user to the dashboard route
       if (ok) {
-        checkForBrowserSupport()
+        store.set('isLoggedIn')(true)
       }
     } else if (nextRoute && nextRoute.key === 'SMS') {
       try {

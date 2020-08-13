@@ -14,7 +14,8 @@ if (Platform.OS === 'web') {
 
 export default ({ onDismiss }) => (
   <ExplanationDialog
-    title={'For best user\nexperience switch to\nChrome or Safari browsers'}
+    title={"Oops! This browser isn't supported"}
+    text={'Please switch to Chrome or Safari'}
     imageSource={illustration}
     imageHeight={124}
     buttons={[

@@ -18,8 +18,8 @@ if (Platform.OS === 'web') {
 
 export default () => (
   <ExplanationDialog
-    title={'Please switch to\nSafari browser'}
-    text={'This browser doesn’t support\ncamera access on iOS devices. Sorry!'}
+    title={"Oops! This browser isn't supported"}
+    text={'On iOS please switch to Safari'}
     textStyle={{
       fontSize: normalizeText(16),
       marginVertical: getDesignRelativeHeight(25, false),

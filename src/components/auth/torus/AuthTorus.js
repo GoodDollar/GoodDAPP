@@ -189,8 +189,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         // await delay(30000000)
 
         // await new Promise(res => showLoadingDialog(true, res))
-        showLoadingDialog(true)
-        log.debug('hiding checkmark dialog')
+        // showLoadingDialog(true)
+        // log.debug('hiding checkmark dialog')
         hideDialog()
 
         //user exists reload with dashboard route

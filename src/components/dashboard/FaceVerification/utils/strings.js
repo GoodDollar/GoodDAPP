@@ -1,1 +1,1 @@
-export const zoomResultSuccessMessage = `You are an\namazing unicorn!`
+export const zoomResultSuccessMessage = `You’re a beautiful<br>& unique snowflake!`

@@ -1,5 +1,5 @@
 // @flow
-import { invokeMap } from 'lodash'
+import { invokeMap, isFunction } from 'lodash'
 
 import logger from '../../../lib/logger/pino-logger'
 import { type Permission, Permissions, type PermissionStatus, PermissionStatuses } from '../types'
@@ -92,12 +92,9 @@ class PermissionsAPI {
   async _requestCameraPermission(): Promise<void> {
     const { mediaApi, log } = this
 
-    // fetching the getUserMedia method from navigator
-    const { getUserMedia } = mediaApi || {}
-
-    // verify if getUserMedia is available
-    if (!getUserMedia) {
-      const message = 'getUserMedia() is not supported by this browser'
+    // verify if navigator.mediaDevices is available
+    if (!mediaApi || !isFunction(mediaApi.getUserMedia)) {
+      const message = 'navigator.mediaDevices is not supported by this browser'
 
       // make log - getUserMedia is not supported
       log.warn(message)
@@ -108,7 +105,7 @@ class PermissionsAPI {
 
     try {
       // requesting video stream to verify its available
-      const stream = await getUserMedia({ video: true })
+      const stream = await mediaApi.getUserMedia({ video: true })
 
       // releasing tracks on success
       invokeMap(stream.getTracks(), 'stop')
@@ -135,7 +132,7 @@ class PermissionsAPI {
     const { clipboardApi, log } = this
 
     // verify if clipboard API is available
-    if (!clipboardApi) {
+    if (!clipboardApi || !isFunction(clipboardApi.readText)) {
       const message = 'navigator.clipboard is not supported by this browser'
 
       // make log - clipboard is not supported

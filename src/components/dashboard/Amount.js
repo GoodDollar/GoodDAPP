@@ -42,7 +42,7 @@ const Amount = (props: AmountProps) => {
     }
     log.info('canContiniue?', { weiAmount, params })
     try {
-      const txFeePercents = await goodWallet.getTxFee().then(n => n / 10000)
+      // const txFeePercents = await goodWallet.getTxFee().then(n => n / 10000)
       const fee = await goodWallet.calculateTxFee(weiAmount)
       const amountWithFee = new BN(weiAmount).add(fee)
 
@@ -50,7 +50,9 @@ const Amount = (props: AmountProps) => {
         return true
       }
 
-      setError(`Sorry, you don't have enough G$ to send ${weiToGd(amountWithFee)} (${txFeePercents}% transaction fee)`)
+      // setError(`Sorry, you don't have enough G$ to send ${weiToGd(amountWithFee)} (${txFeePercents}% transaction fee)`)
+      setError(`Sorry, you don't have enough G$s`)
+
       return false
     } catch (e) {
       log.warn('Failed canContiniue', e.message, e)

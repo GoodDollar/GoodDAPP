@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { get } from 'lodash'
+import Text from '../../common/view/Text'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import API from '../../../lib/API/api'
@@ -11,16 +12,24 @@ import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
 import { showQueueDialog } from '../../common/dialogs/showQueueDialog'
 import Config from '../../../config/config'
 import logger from '../../../lib/logger/pino-logger'
+import claimQueueIllustration from '../../../assets/Claim/claimQueue.svg'
 
 const log = logger.child({ from: 'useClaimQueue' })
 const isQueueDisabled = !Config.claimQueue
 
 const ClaimQueuePopupText = ({ styles }) => (
-  <View style={styles.paddingVertical20}>
-    <Text style={styles.textStyle}>We’ll email you as soon as it’s your turn to claim G$’s.</Text>
-    <Text style={[styles.textStyle, styles.paddingTop20, styles.boldFont]}>
-      {'And always remember:\nGood things come for those who wait :)'}
-    </Text>
+  <View style={styles.wrapper}>
+    <View style={styles.title}>
+      <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
+        You’re in the queue to start claiming GoodDollars!
+      </Text>
+    </View>
+    <View style={styles.paddingVertical20}>
+      <Text style={styles.textStyle}>We’ll email you as soon as it’s your turn to claim G$’s.</Text>
+      <Text style={[styles.textStyle, styles.paddingTop20, styles.boldFont]}>
+        {'And always remember:\nGood things come to those who wait :)'}
+      </Text>
+    </View>
   </View>
 )
 
@@ -73,7 +82,7 @@ export default () => {
 
       //this will only trigger the first time, since in subsequent loads claim button is disabled
       if (status === 'pending') {
-        showQueueDialog(ClaimQueuePopupText)
+        showQueueDialog(ClaimQueuePopupText, { buttonText: 'OK, I’ll WAIT', imageSource: claimQueueIllustration })
         return false
       }
       return true

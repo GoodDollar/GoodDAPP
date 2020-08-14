@@ -34,9 +34,9 @@ import { isBrowser } from '../../../lib/utils/platform'
 import { userExists } from '../../../lib/login/userExists'
 
 // import { delay } from '../../../lib/utils/async'
-// import LoadingIcon from '../../common/modal/LoadingIcon'
+import LoadingIcon from '../../common/modal/LoadingIcon'
 
-import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
+// import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
 import useTorus from './hooks/useTorus'
 
@@ -102,9 +102,32 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const signupFacebook = () => handleSignUp('facebook')
   const signupAuth0 = loginType => handleSignUp(loginType === 'email' ? 'auth0-pwdless-email' : 'auth0-pwdless-sms')
 
-  // const showLoadingDialog = success => {
+  const showLoadingDialog = success => {
+    showDialog({
+      image: success ? undefined : <LoadingIcon />,
+      loading: true,
+      message: 'Please wait\nThis might take a few seconds...',
+      showButtons: false,
+      title: `PREPARING\nYOUR WALLET`,
+    })
+  }
+
+  // const showLoadingDialog = (success = false, onFinish = () => {}, onStart = () => {}) => {
   //   showDialog({
-  //     image: success ? undefined : <LoadingIcon />,
+  //     image: (
+  //       <View style={{ flex: 1, alignItems: 'center' }}>
+  //         <SpinnerCheckMark
+  //           successSpeed={3}
+  //           loading={true}
+  //           success={success}
+  //           onFinish={onFinish}
+  //           onStart={onStart}
+  //           height={'auto'}
+  //           marginTop={0}
+  //         />
+  //       </View>
+  //     ),
+
   //     loading: true,
   //     message: 'Please wait\nThis might take a few seconds...',
   //     showButtons: false,
@@ -112,20 +135,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   //   })
   // }
 
-  const showLoadingDialog = (success, resolve) => {
-    showDialog({
-      image: (
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <SpinnerCheckMark loading={!!success} success={success} onFinish={resolve} height={'auto'} marginTop={0} />
-        </View>
-      ),
-
-      loading: true,
-      message: 'Please wait\nThis might take a few seconds...',
-      showButtons: false,
-      title: `PREPARING\nYOUR WALLET`,
-    })
-  }
   const handleSignUp = useCallback(
     async (provider: 'facebook' | 'google' | 'google-old' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
       // store.set('loadingIndicator')({ loading: true })
@@ -140,11 +149,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
         }
 
-        showLoadingDialog()
+        showLoadingDialog(false)
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
-
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
         const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
 
@@ -176,10 +184,13 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('checking userAlreadyExist', { exists, fullName })
         const { source } = await ready(replacing)
 
+        log.debug('showing checkmark dialog')
         // showLoadingDialog(true)
         // await delay(30000000)
 
-        await new Promise(res => showLoadingDialog(true, res))
+        // await new Promise(res => showLoadingDialog(true, res))
+        // showLoadingDialog(true)
+        // log.debug('hiding checkmark dialog')
         hideDialog()
 
         //user exists reload with dashboard route

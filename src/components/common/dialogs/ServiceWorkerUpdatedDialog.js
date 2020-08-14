@@ -101,7 +101,7 @@ export const NewReleaseDialog = withStyles(dialogStyles)(({ styles, theme }) => 
           color={theme.colors.green}
           style={[styles.title, styles.phase1Title]}
         >
-          Good news: We’re Live!
+          Good News: We’re Live!
         </Text>
       </View>
       <View style={styles.description}>
@@ -113,11 +113,11 @@ export const NewReleaseDialog = withStyles(dialogStyles)(({ styles, theme }) => 
           <Text {...textStyles} fontWeight="bold">
             2.
           </Text>
-          {` Sign up (one last time, we promise${isSmallDevice ? '' : ':)'})\n`}
+          {` Sign up (one last time, we promise ${isSmallDevice ? '' : ':)'})\n`}
           <Text {...textStyles} fontWeight="bold">
             3.
           </Text>
-          {' Start claiming your free REAL G$’s'}
+          {' Start claiming your free, REAL G$’s'}
         </Text>
       </View>
     </View>

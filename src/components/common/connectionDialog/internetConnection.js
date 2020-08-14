@@ -78,7 +78,10 @@ const InternetConnection = props => {
       //first time that connection is ok, from now on we will start showing the connection dialog on error
       setFirstLoadError(false)
       showDialogWindow && showDialogWindow.cancel()
-      !firstLoadError && hideDialog()
+
+      // hideDialog should be executed only if the internetConnection dialog is shown.
+      // otherwise it may close some another non related popup (e.g. Unsupported Browser, App Version Update)
+      showDisconnect && !firstLoadError && hideDialog()
       setShowDisconnect(false)
     }
   }, [

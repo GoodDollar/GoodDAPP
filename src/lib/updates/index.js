@@ -1,8 +1,7 @@
 import userStorage from '../gundb/UserStorage'
 import logger from '../logger/pino-logger'
 import Config from '../../config/config'
-import upd1 from './lastblock'
-const updates = [upd1]
+const updates = []
 const log = logger.child({ from: 'updates' })
 
 const update = async () => {

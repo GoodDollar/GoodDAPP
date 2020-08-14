@@ -1,8 +1,7 @@
 // libraries
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
-import { isIOS, isMobileSafari } from 'mobile-device-detect'
 
 //components
 import Separator from '../../../common/layout/Separator'
@@ -12,6 +11,7 @@ import FaceVerificationSmiley from '../../../common/animations/FaceVerificationS
 
 // hooks
 import useOnPress from '../../../../lib/hooks/useOnPress'
+import useCameraSupport from '../../../browserSupport/hooks/useCameraSupport'
 import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
@@ -22,7 +22,7 @@ import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import { isBrowser, isE2ERunning } from '../../../../lib/utils/platform'
+import { isBrowser, isE2ERunning, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
@@ -57,6 +57,8 @@ const IntroScreen = ({ styles, screenProps }) => {
   const { screenState, goToRoot, navigateTo, pop } = screenProps
   const isValid = get(screenState, 'isValid', false)
 
+  const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
+
   const disposing = useDisposingState({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
     onComplete: isDisposing => {
@@ -82,6 +84,11 @@ const IntroScreen = ({ styles, screenProps }) => {
     navigate: navigateTo,
   })
 
+  const [, checkForCameraSupport] = useCameraSupport({
+    onSupported: requestCameraPermissions,
+    onUnsupported: navigateToHome,
+  })
+
   const handleVerifyClick = useOnPress(() => {
     // if cypress is running - just redirect to FR as we're skipping
     // zoom componet (which requires camera access) in this case
@@ -90,8 +97,8 @@ const IntroScreen = ({ styles, screenProps }) => {
       return
     }
 
-    requestCameraPermissions()
-  }, [requestCameraPermissions])
+    checkForCameraSupport()
+  }, [checkForCameraSupport])
 
   const commonTextStyles = {
     textAlign: 'center',
@@ -100,7 +107,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     lineHeight: 25,
   }
 
-  useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
+  useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
     if (isValid) {

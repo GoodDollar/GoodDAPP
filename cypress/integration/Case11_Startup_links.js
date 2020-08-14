@@ -22,7 +22,6 @@ describe('Test case 11: Test Terms of Use and Privacy Policy links', () => {
       .find('.av-tab-section-tab-title-container')
       .and('contain', 'GoodDollar Terms of Use')
       .and('contain', 'Privacy Policy')
-      // .and('contain', 'Demo Agreement')
       .should('be.visible')
 
     StartPage.iframePPT.contains('Terms of Use')
@@ -48,7 +47,6 @@ describe('Test case 11: Test Terms of Use and Privacy Policy links', () => {
       .find('.av-tab-section-tab-title-container')
       .and('contain', 'GoodDollar Terms of Use')
       .and('contain', 'Privacy Policy')
-      // .and('contain', 'Demo Agreement')
       .should('be.visible')
 
     StartPage.iframePP.contains('Terms of Use')

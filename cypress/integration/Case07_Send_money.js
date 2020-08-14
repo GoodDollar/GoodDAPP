@@ -17,6 +17,7 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
       HomePage.claimButton.click()
+      cy.contains('Learn More').should('be.visible')
 
       return SendMoneyPage.hasWaitButton
     }).then(hasWaitButton => {
@@ -31,9 +32,7 @@ describe('Test case 7: Ability to send money', () => {
       cy.request('POST', urlRequest + '/admin/queue', { password: bodyPass, allow: 0 })
     }).then(() => {
       cy.reload()
-      cy.contains('Welcome to GoodDollar!').should('be.visible')
-      HomePage.claimButton.should('be.visible')
-      HomePage.claimButton.click()
+      HomePage.waitForHomePageDisplayed()
 
       SendMoneyPage.dailyClaimText.should('be.visible')
       SendMoneyPage.dailyClaimText.click()

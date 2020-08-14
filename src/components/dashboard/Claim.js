@@ -111,7 +111,7 @@ const Claim = props => {
       const { message } = exception
       const uiMessage = decorate(exception, ExceptionCode.E1)
 
-      log.error('evaluateFRValidity failed', message, { dialogShown: true })
+      log.error('evaluateFRValidity failed', message, exception, { dialogShown: true })
 
       showErrorDialog(uiMessage, '', {
         onDismiss: () => {

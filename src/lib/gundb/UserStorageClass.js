@@ -1237,7 +1237,7 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
-      .catch(e => logger.error('getProfileFieldValue decrypt failed:', e.msg, e))
+      .catch(e => logger.error('getProfileFieldValue decrypt failed:', e.message || e.msg, e))
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {

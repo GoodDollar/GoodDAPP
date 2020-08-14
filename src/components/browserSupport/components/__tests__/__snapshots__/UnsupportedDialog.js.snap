@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GeneralUnsupportedBrowserDialog matches snapshot 1`] = `
+exports[`UnsupportedDialog matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -96,9 +96,26 @@ exports[`GeneralUnsupportedBrowserDialog matches snapshot 1`] = `
         }
       }
     >
-      For best user
-experience switch to
-Chrome or Safari browsers
+      Oops! This browser isn't supported
+    </div>
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(66,69,74,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
+          "fontSize": "24px",
+          "fontWeight": "normal",
+          "lineHeight": "22px",
+          "textAlign": "center",
+          "textDecoration": "none",
+          "textTransform": "none",
+        }
+      }
+    >
+      Please switch to Chrome or Safari
     </div>
     <div
       className="css-view-1dbjc4n"

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IOSUnsupportedBrowserDialog matches snapshot 1`] = `
+exports[`SwitchToSafariDialog matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -78,8 +78,7 @@ exports[`IOSUnsupportedBrowserDialog matches snapshot 1`] = `
       }
     }
   >
-    Please switch to
-Safari browser
+    Oops! This browser isn't supported
   </div>
   <div
     className="css-text-901oao"
@@ -91,16 +90,15 @@ Safari browser
         "fontSize": "16px",
         "fontWeight": "normal",
         "lineHeight": "22px",
-        "marginBottom": "25px",
-        "marginTop": "25px",
+        "marginBottom": "31.16883116883117px",
+        "marginTop": "31.16883116883117px",
         "textAlign": "center",
         "textDecoration": "none",
         "textTransform": "none",
       }
     }
   >
-    This browser doesn’t support
-camera access on iOS devices. Sorry!
+    On iOS please switch to Safari
   </div>
 </div>
 `;

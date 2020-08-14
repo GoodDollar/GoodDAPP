@@ -1,14 +1,9 @@
 // @flow
 import { APIService } from '../API/api'
-import retryImport from '../utils/retryImport'
-
+import { GoodWallet } from '../wallet/GoodWalletClass'
+import GoodWalletLogin from './GoodWalletLoginClass'
 export const userExists = async (mnemonics): Promise<any> => {
-  const [Wallet, GoodWalletLogin] = await Promise.all([
-    retryImport(() => import('../wallet/GoodWalletClass').then(_ => _.GoodWallet)),
-    retryImport(() => import('./GoodWalletLogin').then(_ => _.GoodWalletLogin)),
-  ])
-
-  const wallet = new Wallet({ mnemonic: mnemonics })
+  const wallet = new GoodWallet({ mnemonic: mnemonics })
   await wallet.ready
 
   const login = new GoodWalletLogin(wallet, null)

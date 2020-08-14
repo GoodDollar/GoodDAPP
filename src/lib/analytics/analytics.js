@@ -6,7 +6,7 @@ import { debounce, forEach, get, isFunction, isString } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
-import API from '../../lib/API/api'
+// import API from '../../lib/API/api'
 import Config from '../../config/config'
 import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 
@@ -204,12 +204,14 @@ export const identifyWith = (email, identifier = null) => {
   )
 }
 
+//eslint-disable-next-line
 export const identifyOnUserSignup = async email => {
   setUserEmail(email)
 
-  if (email && ['staging', 'production'].includes(env)) {
-    await API.addMauticContact({ email })
-  }
+  //disable for now, to see if it solves the duplicate contact issue
+  // if (email && ['staging', 'production'].includes(env)) {
+  //   await API.addMauticContact({ email })
+  // }
 
   log.debug(
     'Analytics services identified during new user signup:',

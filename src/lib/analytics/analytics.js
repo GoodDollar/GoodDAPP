@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/browser'
 // import API from '../../lib/API/api'
 import Config from '../../config/config'
 import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import { isMobileReactNative } from '../../lib/utils/platform'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -308,10 +309,11 @@ const patchLogger = () => {
   const debounceFireEvent = debounce(fireEvent, 500, { leading: true })
 
   logger.error = (...args) => {
+    const isRunningTests = env === 'test'
+    const proxyToLogger = () => logError(...args)
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
     let { dialogShown, category = Unexpected, ...context } = extra
-    let errorToPassIntoLog = errorObj
     let categoryToPassIntoLog = category
 
     if (
@@ -319,14 +321,6 @@ const patchLogger = () => {
       ['connection', 'websocket', 'network'].some(str => eMsg.toLowerCase().includes(str))
     ) {
       categoryToPassIntoLog = Network
-    }
-
-    let savedErrorMessage
-    if (errorObj instanceof Error) {
-      savedErrorMessage = errorObj.message
-      errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
-    } else {
-      errorToPassIntoLog = new Error(logMessage)
     }
 
     if (isString(logMessage) && !logMessage.includes('axios')) {
@@ -349,26 +343,39 @@ const patchLogger = () => {
       debounceFireEvent(ERROR_LOG, logPayload)
     }
 
-    if (env === 'test') {
-      logError(...args)
-      return
+    let savedErrorMessage
+
+    if (!isRunningTests) {
+      let errorToPassIntoLog = errorObj
+
+      if (errorObj instanceof Error) {
+        savedErrorMessage = errorObj.message
+        errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
+      } else {
+        errorToPassIntoLog = new Error(logMessage)
+      }
+
+      reportToSentry(
+        errorToPassIntoLog,
+        {
+          logMessage,
+          errorObj,
+          logContext,
+          eMsg,
+          context,
+        },
+        {
+          dialogShown,
+          category: categoryToPassIntoLog,
+          level: categoryToPassIntoLog === Human ? 'info' : undefined,
+        },
+      )
     }
 
-    reportToSentry(
-      errorToPassIntoLog,
-      {
-        logMessage,
-        errorObj,
-        logContext,
-        eMsg,
-        context,
-      },
-      {
-        dialogShown,
-        category: categoryToPassIntoLog,
-        level: categoryToPassIntoLog === Human ? 'info' : undefined,
-      },
-    )
+    if (isRunningTests || isMobileReactNative) {
+      proxyToLogger()
+      return
+    }
 
     Sentry.flush().finally(() => {
       // if savedErrorMessage not empty that means errorObj
@@ -378,7 +385,7 @@ const patchLogger = () => {
         errorObj.message = savedErrorMessage
       }
 
-      logError(...args)
+      proxyToLogger()
     })
   }
 }

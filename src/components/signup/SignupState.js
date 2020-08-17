@@ -411,6 +411,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       requestPayload.regMethod = regMethod
 
       const [, , mnemonic] = await Promise.all([
+        //make sure profile is initialized, maybe solve gun bug where profile is undefined
+        userStorage.profile.putAck({ initialized: true }),
+
         // Stores creationBlock number into 'lastBlock' feed's node
         goodWallet
           .getBlockNumber()

@@ -131,7 +131,7 @@ describe('Test case 5: Ability to change user data', () => {
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
     EditProfilePage.emailInput.should('be.visible')
-    EditProfilePage.fillUserEmail('main.test.acc.gooddollar@gmail.com')
+    EditProfilePage.fillUserEmail('gooddollar.test@gmail.com')
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
     // EditProfilePage.fillUserName('TestAccount')

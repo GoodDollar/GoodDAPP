@@ -12,7 +12,7 @@ import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/pino-logger'
-import { ExceptionCategory } from '../../lib/logger/exceptions'
+import { ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
@@ -128,13 +128,13 @@ const FeedList = ({
                 dialogShown: true,
               })
               userStorage.updateOTPLEventStatus(id, 'pending')
-              showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
+              showErrorDialog('The payment could not be canceled at this time. Please try again', ExceptionCode.E11)
             })
           } catch (e) {
             log.error('cancel payment failed - quick actions', e.message, e, { dialogShown: true })
             canceledFeeds.current.pop()
             userStorage.updateOTPLEventStatus(id, 'pending')
-            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
+            showErrorDialog('The payment could not be canceled at this time. Please try again', ExceptionCode.E13)
           }
         }
       }

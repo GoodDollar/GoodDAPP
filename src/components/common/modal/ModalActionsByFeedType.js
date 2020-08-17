@@ -12,7 +12,7 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import GDStore from '../../../lib/undux/GDStore'
 
 import logger from '../../../lib/logger/pino-logger'
-import { ExceptionCategory } from '../../../lib/logger/exceptions'
+import { ExceptionCategory, ExceptionCode } from '../../../lib/logger/exceptions'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
@@ -58,7 +58,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               dialogShown: true,
               category: ExceptionCategory.Blockhain,
             })
-            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
+            showErrorDialog('The payment could not be canceled at this time. Please try again.', ExceptionCode.E10)
           })
           .finally(() => {
             setState({ ...state, cancelPaymentLoading: false })
@@ -68,7 +68,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         log.error('cancel payment failed', e.message, e, { dialogShown: true })
         userStorage.updateOTPLEventStatus(item.id, 'pending')
         setState({ ...state, cancelPaymentLoading: false })
-        showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
+        showErrorDialog('The payment could not be canceled at this time. Please try again', ExceptionCode.E12)
       }
     }
     handleModalClose()

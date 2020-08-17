@@ -18,7 +18,7 @@ import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
-import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
+import { ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -452,7 +452,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             log.warn('User already exists during addUser() call:', message, exception)
           } else {
             // otherwise re-throwing exception to be catched in the parent try {}
-            exception.serverResponse = true
             throw exception
           }
         })
@@ -489,19 +488,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       return true
     } catch (exception) {
-      const { message, serverResponse } = exception
-      let uiMessage = message
-
-      if (!serverResponse) {
-        uiMessage = decorate(exception, ExceptionCode.E8)
-      }
+      const { message } = exception
 
       log.error('New user failure', message, exception, {
         dialogShown: true,
-        serverResponse,
       })
 
-      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate)
       setCreateError(true)
       return false
     } finally {
@@ -613,7 +606,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
-        return showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
+        return showErrorDialog('Could not send verification email. Please try again', ExceptionCode.E9)
       } finally {
         setLoading(false)
       }

@@ -17,10 +17,14 @@ import { DESTINATION_PATH } from './lib/constants/localStorage'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import { extractQueryParams } from './lib/share/index'
+import InternetConnection from './components/common/connectionDialog/internetConnection'
+
 import logger from './lib/logger/pino-logger'
 import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 
 const log = logger.child({ from: 'RouterSelector' })
+
+const DisconnectedSplash = () => <Splash animation={false} />
 
 /**
  * handle in-app links for unsigned users such as magiclink and paymentlinks
@@ -113,7 +117,13 @@ const NestedRouter = memo(({ isLoggedIn }) => {
     log.debug('RouterSelector Rendered', { isLoggedIn })
   }, [isLoggedIn])
 
-  return isLoggedIn ? <AppRouter /> : <SignupRouter />
+  return isLoggedIn ? (
+    <AppRouter />
+  ) : (
+    <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedIn}>
+      <SignupRouter />
+    </InternetConnection>
+  )
 })
 
 const RouterSelector = () => {

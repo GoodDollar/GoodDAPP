@@ -88,8 +88,6 @@ describe('Test case 5: Ability to change user data', () => {
     HomePage.profileAvatar.click()
     ProfilePage.profilePrivacyButton.click()
     ProfilePrivacyPage.pageHeader.should('contain', 'PROFILE PRIVACY')
-    // ProfilePrivacyPage.myFaceText.should('be.visible')
-    // ProfilePrivacyPage.copyIdButton.should('be.visible')
     ProfilePrivacyPage.imgAvatar.should('be.visible')
     HomePage.backArrow.eq(0).click()
     HomePage.backArrow.eq(0).click()

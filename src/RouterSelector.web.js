@@ -9,7 +9,7 @@ import Splash, { animationDuration } from './components/splash/Splash'
 // hooks
 import useUpgradeDialog from './lib/hooks/useUpgradeDialog'
 import useBrowserSupport from './components/browserSupport/hooks/useBrowserSupport'
-import UnsupportedDialog from './components/browserSupport/components/UnsupportedDialog'
+import UnsupportedBrowser from './components/browserSupport/components/UnsupportedBrowser'
 
 // utils
 import SimpleStore from './lib/undux/SimpleStore'
@@ -134,7 +134,7 @@ const RouterSelector = () => {
   const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 
   const [supported] = useBrowserSupport({
-    unsupportedPopup: UnsupportedDialog,
+    unsupportedPopup: UnsupportedBrowser,
 
     // if user dismisses the dialog, that means he/she ignored the warning
     // in this case we're setting the corresponding flag and continue loading

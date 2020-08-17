@@ -75,7 +75,7 @@ const Config = {
   sentryDSN: process.env.REACT_APP_SENTRY_DSN,
   hanukaStartDate: process.env.REACT_APP_HANUKA_START_DATE, // date
   hanukaEndDate: process.env.REACT_APP_HANUKA_END_DATE, // date
-  delayMessageNetworkDisconnection: process.env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 3000,
+  delayMessageNetworkDisconnection: process.env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   showSplashDesktop: process.env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: process.env.REACT_APP_ADDTOHOME_DESKTOP === 'true',
   flagsUrl: process.env.REACT_APP_FLAGS_URL || 'https://lipis.github.io/flag-icon-css/flags/4x3/',

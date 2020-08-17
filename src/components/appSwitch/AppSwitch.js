@@ -114,7 +114,7 @@ const AppSwitch = (props: LoadingProps) => {
    */
   const initialize = async () => {
     //initialize logged in user feed and stuff
-    await userStorage.initRegistered()
+    // await userStorage.initRegistered()
     if (!assertStore(gdstore, log, 'Failed to initialize login/citizen status')) {
       return
     }

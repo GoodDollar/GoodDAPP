@@ -11,14 +11,7 @@
     "prettier/flowtype",
     "prettier/react"
   ],
-  "plugins": [
-    "dependencies",
-    "flowtype",
-    "import",
-    "prettier",
-    "react",
-    "react-hooks"
-  ],
+  "plugins": ["dependencies", "flowtype", "import", "prettier", "react", "react-hooks"],
   "settings": {
     "react": {
       "pragma": "React",
@@ -27,31 +20,15 @@
     },
     "import/resolver": {
       "node": {
-        "paths": [
-          "src"
-        ],
-        "extensions": [
-          ".js",
-          ".android.js",
-          ".ios.js",
-          ".web.js",
-          ".native.js"
-        ]
+        "paths": ["src"],
+        "extensions": [".js", ".android.js", ".ios.js", ".web.js", ".native.js"]
       }
     },
     "dependencies/resolver": {
       "node": {
-        "paths": [
-          "src"
-        ]
+        "paths": ["src"]
       },
-      "extensions": [
-        ".js",
-        ".android.js",
-        ".ios.js",
-        ".web.js",
-        ".native.js"
-      ]
+      "extensions": [".js", ".android.js", ".ios.js", ".web.js", ".native.js"]
     }
   },
   "rules": {
@@ -66,14 +43,7 @@
     "import/order": [
       "warn",
       {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ]
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"]
       }
     ],
     "sort-imports": [
@@ -86,9 +56,7 @@
     "no-console": [
       "warn",
       {
-        "allow": [
-          "info"
-        ]
+        "allow": ["info"]
       }
     ],
     "no-await-in-loop": "warn",
@@ -125,10 +93,7 @@
         "properties": "never"
       }
     ],
-    "comma-dangle": [
-      "warn",
-      "only-multiline"
-    ],
+    "comma-dangle": ["warn", "only-multiline"],
     "comma-spacing": "warn",
     "computed-property-spacing": "warn",
     "lines-between-class-members": "warn",

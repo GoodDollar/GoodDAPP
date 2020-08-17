@@ -21,6 +21,7 @@ import {
 } from '../../lib/wallet/GoodWalletClass'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
+import { initTransferEvents } from '../../lib/undux/utils/account'
 
 import { getMaxDeviceWidth } from '../../lib/utils/Orientation'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -323,6 +324,8 @@ const Dashboard = props => {
   )
 
   const initDashboard = async () => {
+    initTransferEvents(gdstore)
+    await userStorage.initRegistered()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
 
     log.debug('initDashboard subscribed to feed')

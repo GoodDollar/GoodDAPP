@@ -2,19 +2,14 @@
 
 // libraries
 import React from 'react'
-import { Image, View } from 'react-native'
-
-// custom components
-import Text from '../view/Text'
+import { Image } from 'react-native'
 
 import { store } from '../../../lib/undux/SimpleStore'
 import { showDialogWithData } from '../../../lib/undux/utils/dialog'
 
 // utils
 import { withStyles } from '../../../lib/styles'
-
-// assets
-import illustration from '../../../assets/Claim/claimQueue.svg'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 const styles = () => ({
   wrapper: {
@@ -43,32 +38,25 @@ const styles = () => ({
   },
 })
 
-const QueuePopup = withStyles(styles)(({ styles, textComponent }) => {
-  const TextComponent = textComponent
-
-  return (
-    <View style={styles.wrapper}>
-      <View style={styles.title}>
-        <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
-          You’re in the queue to start Claiming GoodDollars!
-        </Text>
-      </View>
-      <TextComponent styles={styles} />
-    </View>
-  )
-})
-
-export const showQueueDialog = (textComponent, dialogOptions = {}) => {
-  const imageStyle = { marginRight: 'auto', marginLeft: 'auto', width: '33vh', height: '28vh' }
+export const showQueueDialog = (ContentComponent, { imageSource, imageHeight, buttonText, ...dialogOptions } = {}) => {
+  const imageStyle = {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: getDesignRelativeHeight(15),
+    marginBottom: getDesignRelativeHeight(15),
+    width: '100%',
+    height: getDesignRelativeHeight(129, false),
+  }
+  const StylesWrappedContent = withStyles(styles)(ContentComponent)
 
   showDialogWithData(store.getCurrentSnapshot(), {
     type: 'queue',
     isMinHeight: true,
-    image: <Image source={illustration} style={imageStyle} resizeMode="contain" />,
-    message: <QueuePopup textComponent={textComponent} />,
+    image: <Image source={imageSource} style={imageStyle} resizeMode="contain" />,
+    message: <StylesWrappedContent />,
     buttons: [
       {
-        text: 'OK, I’ll WAIT',
+        text: dialogOptions.buttonText || 'OK, GOT IT',
         textStyle: { fontWeight: '500' },
       },
     ],

@@ -74,11 +74,17 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     handleModalClose()
   }, [showErrorDialog, setState, state, handleModalClose])
 
-  const getPaymentLink = useMemo(() => {
-    try {
-      let result
-      const { withdrawCode, message } = item.data
+  const paymentLink = useMemo(() => {
+    const { data = {}, displayType } = item
+    const { withdrawCode, message, amount, endpoint = {} } = data
+    const { fullName } = endpoint
 
+    // prevent generateShareLink call on non 'sendpending' feed items
+    if ('sendpending' !== displayType) {
+      return
+    }
+
+    try {
       const url = generateShareLink(
         'send',
         pickBy({
@@ -88,18 +94,19 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         }),
       )
 
-      if (canShare) {
-        result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
-      } else {
-        result = {
-          url: generateSendShareText(url, item.data.amount, item.data.endpoint.fullName, currentUserName),
-        }
-      }
+      const result = (canShare ? generateSendShareObject : generateSendShareText)(
+        url,
+        amount,
+        fullName,
+        currentUserName,
+      )
 
       fireEventAnalytics('Sharelink')
       return result
-    } catch (e) {
-      log.error('getPaymentLink Failed', e.message, e, { item, canShare })
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('getPaymentLink Failed', message, exception, { item, canShare })
     }
   }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject, inviteCode])
 
@@ -166,7 +173,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               Cancel link
             </CustomButton>
             <ShareButton
-              share={getPaymentLink}
+              share={paymentLink}
               actionText="Share link"
               mode="outlined"
               style={[styles.rightButton, styles.shareButton]}

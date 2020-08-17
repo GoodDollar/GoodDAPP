@@ -1,5 +1,5 @@
 import React from 'react'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, once } from 'lodash'
 
 class AnimationBase extends React.Component {
   componentDidMount() {
@@ -14,8 +14,13 @@ class AnimationBase extends React.Component {
     this.onUnmount && this.onUnmount()
   }
 
+  started = once(() => {
+    this.onStart && this.onStart()
+  })
+
   initAnimation = () => {
     if (this.anim) {
+      this.anim.addEventListener('enterFrame', this.started)
       this.onMount && this.onMount()
     } else {
       setTimeout(() => {
@@ -33,7 +38,7 @@ class AnimationBase extends React.Component {
       result = JSON.parse(JSON.stringify(animationData))
 
       if (typeof result === 'undefined') {
-        throw new Error()
+        throw new Error('failed parsing animation json')
       }
     } catch {
       result = cloneDeep(animationData)

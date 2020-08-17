@@ -60,7 +60,7 @@ const Config = {
     'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
   httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
-  web3TransportProvider: process.env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'WebSocketProvider',
+  web3TransportProvider: process.env.REACT_APP_WEB3_TRANSPORT_PROVIDER || 'HttpProvider',
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
   skipEmailVerification: process.env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
   skipMobileVerification: process.env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',

@@ -99,7 +99,9 @@ const InternetConnection = props => {
     showDisconnect,
   ])
 
-  return showDisconnect && props.isLoggedIn ? props.onDisconnect() : props.children
+  return showDisconnect && props.showSplash && props.onDisconnect && props.isLoggedIn
+    ? props.onDisconnect()
+    : props.children
 }
 
 export default InternetConnection

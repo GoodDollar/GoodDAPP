@@ -56,7 +56,16 @@
   letter-spacing: 0.08px;
 }
 
-#get-ready-for-video-screen > div > div {
+@media screen and (max-width: 375px) {
+  #zoom-upload-progress-wrapper .loading::before {
+    font-size: 15px;
+  }
+  #zoom-upload-progress-wrapper .loading::after {
+    font-size: 13px;
+  }
+}
+
+  #get-ready-for-video-screen > div > div {
   /* Move the header text a bit higher to make space between oval and header text */
   margin-top: 10px !important;
 }

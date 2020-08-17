@@ -11,7 +11,7 @@ import useAppState from './useAppState'
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const [isConnection, setIsConnection] = useState(true)
 
   useEffect(() => {
     const cb = connection => {
@@ -169,7 +169,7 @@ export const useConnectionGun = () => {
 }
 
 export const useAPIConnection = () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const [isConnection, setIsConnection] = useState(true)
 
   /**
    * Don't start app if server isn't responding

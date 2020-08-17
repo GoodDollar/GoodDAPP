@@ -61,9 +61,6 @@
   #zoom-upload-progress-wrapper .loading::before {
     font-size: 15px;
   }
-  #zoom-upload-progress-wrapper .loading::after {
-    font-size: 13px;
-  }
 }
 
   #get-ready-for-video-screen > div > div {

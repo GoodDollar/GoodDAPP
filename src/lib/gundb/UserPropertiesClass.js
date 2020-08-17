@@ -1,5 +1,8 @@
 // @flow
 import { assign } from 'lodash'
+import { defer, from as fromPromise } from 'rxjs'
+import { retry } from 'rxjs/operators'
+
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import pino from '../logger/pino-logger'
 
@@ -60,8 +63,11 @@ export default class UserProperties {
 
       //make sure we fetch props first and not having gun return undefined
       await this.props
+
       try {
-        props = await this.props.decrypt()
+        props = await defer(() => fromPromise(this.props.decrypt())) // init user storage
+          .pipe(retry(1)) // if exception thrown, retry init one more times
+          .toPromise()
       } catch (e) {
         log.error('failed decrypting props', e.message, e)
         props = {}

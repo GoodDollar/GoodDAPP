@@ -25,13 +25,13 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
       setCopyState(COPIED)
       onPress()
     }
-  }, [setCopyState, onPress])
+  }, [toCopy, setCopyState, onPress, setString])
 
   useEffect(() => {
     if (copyState === 'COPIED' && !withoutDone) {
       setTimeout(transitionToState, TRANSITION_TIME)
     }
-  }, [copyState])
+  }, [copyState, withoutDone, transitionToState])
 
   switch (copyState) {
     case DONE: {

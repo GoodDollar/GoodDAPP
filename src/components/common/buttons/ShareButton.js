@@ -1,5 +1,7 @@
 // @flow
 import React, { useCallback, useEffect } from 'react'
+import { get, isString } from 'lodash'
+
 import logger from '../../../lib/logger/pino-logger'
 import useNativeSharing from '../../../lib/hooks/useNativeSharing'
 import CustomButton from './CustomButton'
@@ -16,6 +18,7 @@ const log = logger.child({ from: 'ShareButton' })
 
 const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareButtonProps) => {
   const { canShare, shareAction } = useNativeSharing()
+  const shareUrl = isString(share) ? share : get(share, 'url', null)
 
   useEffect(() => {
     log.info('getPaymentLink', { share })
@@ -25,23 +28,15 @@ const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareBu
     shareAction(share)
   }, [shareAction, share])
 
-  if (canShare) {
-    return (
-      <CustomButton onPress={shareHandler} {...buttonProps}>
-        {actionText}
-      </CustomButton>
-    )
-  }
-
-  return (
-    <CopyButton toCopy={share.url} onPressDone={onPressDone} {...buttonProps}>
+  return canShare ? (
+    <CustomButton onPress={shareHandler} {...buttonProps}>
+      {actionText}
+    </CustomButton>
+  ) : (
+    <CopyButton toCopy={shareUrl} onPressDone={onPressDone} {...buttonProps}>
       {actionText}
     </CopyButton>
   )
-}
-
-ShareButton.defaultProps = {
-  buttonProps: {},
 }
 
 export default ShareButton

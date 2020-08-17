@@ -35,6 +35,18 @@ class ProfilePrivacyPage {
   get saveButton() {
     return cy.get('[role=button]', { timeout: 10000 }).contains('Save')
   }
+
+  get myFaceText() {
+    return cy.contains('My Face Record ID')
+  }
+
+  get copyIdButton() {
+    return cy.get('[dir="auto"]').contains('Copy ID')
+  }
+
+  get imgAvatar() {
+    return cy.get('img[src*="data:image/png;base64"]')
+  }
 }
 
 export default new ProfilePrivacyPage()

@@ -4,7 +4,9 @@ import { Animated } from 'react-native'
 import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import * as Animatable from 'react-native-animatable'
 import { get, isFunction } from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
+
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -12,11 +14,12 @@ import userStorage from '../../lib/gundb/UserStorage'
 import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
 import useOnPress from '../../lib/hooks/useOnPress'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
-import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
+import FeedActions from './FeedActions'
 
 const log = logger.child({ from: 'ShareButton' })
 
@@ -75,7 +78,15 @@ const FeedList = ({
     }
   })
 
-  const keyExtractor = item => item.id
+  const keyExtractor = item => {
+    const { id } = item
+
+    if (!id || String(id).length < 60) {
+      return uuidv4()
+    }
+
+    return id
+  }
 
   const getItemLayout = (_: any, index: number) => {
     const [length, separator, header] = [72, 1, 30]
@@ -94,7 +105,13 @@ const FeedList = ({
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedListItem key={item.id} item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
+    <FeedListItem
+      key={keyExtractor(item)}
+      item={item}
+      separators={separators}
+      fixedHeight
+      onPress={pressItem(item, index + 1)}
+    />
   )
 
   /**
@@ -126,18 +143,22 @@ const FeedList = ({
             canceledFeeds.current.push(id)
             userStorage.cancelOTPLEvent(id)
             goodWallet.cancelOTLByTransactionHash(id).catch(e => {
+              const uiMessage = decorate(e, ExceptionCode.E11)
+
               log.error('cancel payment failed - quick actions', e.message, e, {
                 category: ExceptionCategory.Blockhain,
                 dialogShown: true,
               })
               userStorage.updateOTPLEventStatus(id, 'pending')
-              showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
+              showErrorDialog(uiMessage, ExceptionCode.E11)
             })
           } catch (e) {
+            const uiMessage = decorate(e, ExceptionCode.E13)
+
             log.error('cancel payment failed - quick actions', e.message, e, { dialogShown: true })
             canceledFeeds.current.pop()
             userStorage.updateOTPLEventStatus(id, 'pending')
-            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
+            showErrorDialog(uiMessage, ExceptionCode.E13)
           }
         }
       }

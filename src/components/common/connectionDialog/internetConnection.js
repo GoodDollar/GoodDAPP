@@ -7,7 +7,8 @@ import {
   useAPIConnection,
   useConnection,
   useConnectionGun,
-  useConnectionWeb3,
+
+  // useConnectionWeb3,
 } from '../../../lib/hooks/hasConnectionChange'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import logger from '../../../lib/logger/pino-logger'
@@ -18,7 +19,8 @@ const InternetConnection = props => {
   const [showDialog, hideDialog] = useDialog()
   const isConnection = useConnection()
   const isAPIConnection = useAPIConnection()
-  const isConnectionWeb3 = useConnectionWeb3()
+
+  // const isConnectionWeb3 = useConnectionWeb3()
   const isConnectionGun = useConnectionGun()
   const [showDisconnect, setShowDisconnect] = useState(false)
   const [firstLoadError, setFirstLoadError] = useState(true)
@@ -39,16 +41,12 @@ const InternetConnection = props => {
 
   useEffect(() => {
     showDialogWindow.cancel()
-    if (
-      isConnection === false ||
-      isAPIConnection === false ||
-      isConnectionWeb3 === false ||
-      isConnectionGun === false
-    ) {
+    if (isConnection === false || isAPIConnection === false || isConnectionGun === false) {
       log.warn('connection failed:', {
         isAPIConnection,
         isConnection,
-        isConnectionWeb3,
+
+        // isConnectionWeb3,
         isConnectionGun,
         firstLoadError,
       })
@@ -59,9 +57,21 @@ const InternetConnection = props => {
       }
 
       let message
-      const servers = []
-      if (isAPIConnection === false) {
-        servers.push('API')
+      if (isConnection === false) {
+        message = 'Check your internet connection'
+      } else {
+        const servers = []
+        if (isAPIConnection === false) {
+          servers.push('API')
+        }
+
+        // if (isConnectionWeb3 === false) {
+        //   servers.push('Blockchain')
+        // }
+        if (isConnectionGun === false) {
+          servers.push('GunDB')
+        }
+        message = `Waiting for GoodDollar's server (${servers.join(', ')})`
       }
       if (isConnectionWeb3 === false) {
         servers.push('Blockchain')
@@ -87,7 +97,8 @@ const InternetConnection = props => {
   }, [
     isConnection,
     isAPIConnection,
-    isConnectionWeb3,
+
+    // isConnectionWeb3,
     isConnectionGun,
     setShowDisconnect,
     setFirstLoadError,
@@ -95,7 +106,9 @@ const InternetConnection = props => {
     showDisconnect,
   ])
 
-  return showDisconnect && props.isLoggedIn ? props.onDisconnect() : props.children
+  return showDisconnect && props.showSplash && props.onDisconnect && props.isLoggedIn
+    ? props.onDisconnect()
+    : props.children
 }
 
 export default InternetConnection

@@ -264,7 +264,9 @@ export function shareAction(shareObj, showErrorDialog, customErrorMessage) {
         dialogShown: true,
       })
 
-      showErrorDialog(customErrorMessage || 'Sorry, there was an error sharing you link. Please try again later.')
+      showErrorDialog(
+        customErrorMessage || 'Sorry, the error occurred while sharing your link. Please try again later.',
+      )
     }
   }
 }

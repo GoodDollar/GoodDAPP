@@ -11,7 +11,7 @@ import useAppState from './useAppState'
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
-  const { isConnected = false } = useNetInfo() || {}
+  const { isConnected = true } = useNetInfo() || {}
 
   return isConnected
 }
@@ -160,7 +160,7 @@ export const useConnectionGun = () => {
 }
 
 export const useAPIConnection = () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const [isConnection, setIsConnection] = useState(true)
 
   /**
    * Don't start app if server isn't responding

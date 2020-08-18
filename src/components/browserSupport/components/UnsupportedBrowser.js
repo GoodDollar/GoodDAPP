@@ -6,8 +6,7 @@ import { Image, Platform } from 'react-native'
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 
 // utils
-import normalizeText from '../../../lib/utils/normalizeText'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { isIOSWeb } from '../../../lib/utils/platform'
 
 // assets
 import illustration from '../../../assets/UnsuportedBrowser.svg'
@@ -16,16 +15,18 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-export default () => (
+export default ({ onDismiss }) => (
   <ExplanationDialog
     title={"Oops! This browser isn't supported"}
-    text={'On iOS please switch to Safari'}
-    textStyle={{
-      fontSize: normalizeText(16),
-      marginVertical: getDesignRelativeHeight(25, false),
-    }}
+    text={isIOSWeb ? 'On iOS please switch to Safari' : 'Please switch to Chrome or Safari'}
     imageSource={illustration}
     imageHeight={124}
+    buttons={[
+      {
+        text: 'GOT IT',
+        action: onDismiss,
+      },
+    ]}
   />
 )
 
@@ -35,7 +36,7 @@ export default () => (
 const [showDialog] = useDialog()
 
 showDialog({
-  content: <SwitchToSafariDialog />,
+  content: <UnsupportedBrowser />,
   isMinHeight: false,
   showButtons: false,
   buttons: [

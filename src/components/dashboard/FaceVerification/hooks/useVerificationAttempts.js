@@ -51,7 +51,7 @@ export default () => {
 
       // 3. log for debug purposes
       log.error(
-        `FaceVerification still failing after ${MAX_ATTEMPTS_ALLOWED} attempts - FV_TRYAGAINLATER fired:`,
+        `FaceVerification still failing after ${MAX_ATTEMPTS_ALLOWED} attempts - FV_TRY_AGAIN_LATER fired:`,
         message,
         exception,
         { attemptsErrorMessages },

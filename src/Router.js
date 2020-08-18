@@ -16,7 +16,11 @@ import GDStore from './lib/undux/GDStore'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import AddWebApp from './components/common/view/AddWebApp'
 import { isInstalledApp } from './lib/utils/platform'
+import InternetConnection from './components/common/connectionDialog/internetConnection'
+import Splash from './components/splash/Splash'
 import './lib/notifications/backgroundFetch'
+
+const DisconnectedSplash = () => <Splash animation={false} />
 
 const AppNavigator = createNavigator(
   AppSwitch,
@@ -46,10 +50,12 @@ const onRouteChange = (prevNav, nav, route) => {
 const Router = () => {
   return (
     <GDStore.Container>
-      {!isInstalledApp && <AddWebApp />}
-      <Portal.Host>
-        <RouterWrapper onNavigationStateChange={onRouteChange} />
-      </Portal.Host>
+      <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
+        {!isInstalledApp && <AddWebApp />}
+        <Portal.Host>
+          <RouterWrapper onNavigationStateChange={onRouteChange} />
+        </Portal.Host>
+      </InternetConnection>
     </GDStore.Container>
   )
 }

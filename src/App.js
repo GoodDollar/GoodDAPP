@@ -4,14 +4,12 @@ import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import AsyncStorage from './lib/utils/asyncStorage'
-import InternetConnection from './components/common/connectionDialog/internetConnection'
 import { isMobile } from './lib/utils/platform'
 import './lib/gundb/gundb'
 import { theme } from './components/theme/styles'
 import SimpleStore, { initStore, setInitFunctions } from './lib/undux/SimpleStore'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
-import Splash from './components/splash/Splash'
 import isWebApp from './lib/utils/isWebApp'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import useServiceWorker from './lib/utils/useServiceWorker'
@@ -22,21 +20,16 @@ import { deleteGunDB } from './lib/hooks/useDeleteAccountDialog'
 import * as serviceWorker from './serviceWorker'
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
-const DisconnectedSplash = () => <Splash animation={false} />
 
 const SplashOrRouter = memo(({ store }) => {
   const isLoggedIn = !!store.get('isLoggedIn')
   const [showDesktopSplash, setShowDesktopSplash] = useState(Config.showSplashDesktop && isLoggedIn === false)
   const dismissDesktopSplash = useCallback(() => setShowDesktopSplash(false), [setShowDesktopSplash])
 
-  return (
-    <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={isLoggedIn}>
-      {!isMobile && showDesktopSplash ? (
-        <SplashDesktop onContinue={dismissDesktopSplash} urlForQR={window.location.href} />
-      ) : (
-        <RouterSelector />
-      )}
-    </InternetConnection>
+  return !isMobile && showDesktopSplash ? (
+    <SplashDesktop onContinue={dismissDesktopSplash} urlForQR={window.location.href} />
+  ) : (
+    <RouterSelector />
   )
 })
 

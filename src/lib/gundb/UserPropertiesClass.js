@@ -1,5 +1,8 @@
 // @flow
-import { assign } from 'lodash'
+import { assign, isUndefined } from 'lodash'
+import { defer, from as fromPromise } from 'rxjs'
+import { retry } from 'rxjs/operators'
+
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import pino from '../logger/pino-logger'
 
@@ -47,33 +50,50 @@ export default class UserProperties {
    * a gun node referring tto gun.user().get('properties')
    * @instance {UserProperties}
    */
-  gun: Gun
+  propsNode: Gun
 
   data: {}
 
   constructor(gun: Gun) {
-    this.gun = gun.user().get('properties')
+    // creating getter for propsNode dynamically to avoid this.gun incapsulation
+    Object.defineProperty(this, 'propsNode', {
+      get: () => gun.user().get('properties'),
+    })
 
-    this.ready = (async () => {
+    const fetchProps = async () => {
       let props
+      const { propsNode } = this
       const { defaultProperties } = UserProperties
 
-      //make sure we fetch props first and not having gun return undefined
-      await this.props
       try {
-        props = await this.props.decrypt()
-      } catch (e) {
-        log.error('failed decrypting props', e.message, e)
+        props = await defer(() => fromPromise(propsNode.decrypt())) // init user storage
+          .pipe(retry(1)) // if exception thrown, retry init one more times
+          .toPromise()
+      } catch (exception) {
+        const { message } = exception
+
+        log.error('failed decrypting props', message, exception)
         props = {}
       }
-      props === undefined && log.warn('undefined props from decrypt')
-      this.data = assign({}, defaultProperties, props)
-      return this.data
-    })()
-  }
 
-  get props() {
-    return this.gun.user().get('properties')
+      if (isUndefined(props)) {
+        log.warn('undefined props from decrypt')
+      }
+
+      return assign({}, defaultProperties, props)
+    }
+
+    this.ready = (async () => {
+      const { propsNode } = this
+
+      // make sure we fetch props first and not having gun return undefined
+      await propsNode.then()
+
+      const props = await fetchProps()
+
+      this.data = props
+      return props
+    })()
   }
 
   /**
@@ -110,10 +130,10 @@ export default class UserProperties {
    * Set value to multiple properties
    */
   async updateAll(properties: { [string]: any }): Promise<boolean> {
-    const { gun, data } = this
+    const { data, propsNode } = this
 
     assign(data, properties)
-    await gun.secret(data)
+    await propsNode.secret(data)
 
     return true
   }
@@ -122,10 +142,11 @@ export default class UserProperties {
    * Reset properties to the default state
    */
   async reset() {
+    const { propsNode } = this
     const { defaultProperties } = UserProperties
 
     this.data = assign({}, defaultProperties)
-    await this.props.secret(defaultProperties)
+    await propsNode.secret(defaultProperties)
 
     return true
   }

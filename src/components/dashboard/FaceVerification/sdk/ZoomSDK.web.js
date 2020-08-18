@@ -245,6 +245,7 @@ export const ZoomSDK = new class {
       return await subscriber.asPromise()
     } catch (exception) {
       if (ZoomSessionStatus.PreloadNotCompleted === exception.code) {
+        this.criticalPreloadException = exception
         return this.showReloadPopup()
       }
 

@@ -7,7 +7,8 @@ import { debounce, forEach, get, isFunction, isString } from 'lodash'
 // utils
 // import API from '../../lib/API/api'
 import Config from '../../config/config'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { isMobileReactNative } from '../../lib/utils/platform'
 import Sentry from './sentry'
 
@@ -70,7 +71,14 @@ const initAmplitude = async key => {
 /** @private */
 // eslint-disable-next-line require-await
 const initFullStory = new Promise(resolve => {
-  const { _fs_ready } = window
+  const { _fs_ready, _fs_host } = window // eslint-disable-line camelcase
+  const fsScriptTag = document.querySelector(`script[src*='${_fs_host}']`) // eslint-disable-line camelcase
+
+  if (!fsScriptTag) {
+    resolve(false)
+  }
+
+  fsScriptTag.addEventListener('error', () => resolve(false))
 
   Object.assign(window, {
     _fs_ready: () => {
@@ -78,35 +86,45 @@ const initFullStory = new Promise(resolve => {
         _fs_ready()
       }
 
-      resolve()
+      resolve(true)
     },
   })
 })
+
 let Amplitude, Mautic, FS, GoogleAnalytics
 let isFSEnabled, isSentryEnabled, isGoogleAnalyticsEnabled, isMauticEnabled, isAmplitudeEnabled
+
 export const initAnalytics = async () => {
   Amplitude = amplitude.getInstance()
   Mautic = global.mt
   FS = global.FS
   GoogleAnalytics = global.dataLayer
 
-  isFSEnabled = !!FS && Config.env === 'production'
+  const isFSAvailable = !!FS
+
+  isFSEnabled = isFSAvailable && Config.env === 'production'
   isSentryEnabled = !!sentryDSN
   isAmplitudeEnabled = !!amplitudeKey
   isGoogleAnalyticsEnabled = !!GoogleAnalytics
   isMauticEnabled = !!Mautic
 
   // pre-initializing & preloading FS & Amplitude
-  await Promise.all([isFSEnabled && initFullStory, isAmplitudeEnabled && initAmplitude(amplitudeKey)])
+  await Promise.all([
+    isFSEnabled && initFullStory.then(success => (isFSEnabled = success)),
+    isAmplitudeEnabled && initAmplitude(amplitudeKey),
+  ])
 
-  if (isFSEnabled === false && FS) {
+  if (!isFSEnabled && isFSAvailable) {
     FS.shutdown()
   }
+
   if (isAmplitudeEnabled) {
     const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
+
     identity.append('phase', String(phase))
     Amplitude.setVersionName(version)
     Amplitude.identify(identity)
+
     if (isFSEnabled) {
       const sessionUrl = FS.getCurrentSessionURL()
 

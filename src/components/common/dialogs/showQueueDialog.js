@@ -63,7 +63,7 @@ export const showQueueDialog = (ContentComponent, { imageSource, imageHeight, bu
     message: <StylesWrappedContent />,
     buttons: [
       {
-        text: dialogOptions.buttonText || 'OK, GOT IT',
+        text: buttonText || 'OK, GOT IT',
         textStyle: { fontWeight: '500' },
       },
     ],

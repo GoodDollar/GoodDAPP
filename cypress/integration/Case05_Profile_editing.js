@@ -6,6 +6,7 @@ import EditProfilePage from '../PageObjects/EditProfilePage'
 import ProfilePage from '../PageObjects/ProfilePage'
 import SignUpPage from '../PageObjects/SignUpPage'
 import GDls from '../fixtures/GDls.json'
+import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 
 function makeVerification() {
   EditProfilePage.waitForEditProfilePageDisplayed()
@@ -82,6 +83,16 @@ describe('Test case 5: Ability to change user data', () => {
     HomePage.backArrow.eq(0).click()
   })
 
+  it('Check profile image in Privacy page after upload avatar', () => {
+    HomePage.profileAvatar.should('be.visible')
+    HomePage.profileAvatar.click()
+    ProfilePage.profilePrivacyButton.click()
+    ProfilePrivacyPage.pageHeader.should('contain', 'PROFILE PRIVACY')
+    ProfilePrivacyPage.imgAvatar.should('be.visible')
+    HomePage.backArrow.eq(0).click()
+    HomePage.backArrow.eq(0).click()
+  })
+
   it('User is able to edit input fields', () => {
     HomePage.sendButton.should('be.visible')
     HomePage.optionsButton.click({ force: true })
@@ -118,7 +129,7 @@ describe('Test case 5: Ability to change user data', () => {
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
     EditProfilePage.emailInput.should('be.visible')
-    EditProfilePage.fillUserEmail('main.test.acc.gooddollar@gmail.com')
+    EditProfilePage.fillUserEmail('gooddollar.test@gmail.com')
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
     // EditProfilePage.fillUserName('TestAccount')

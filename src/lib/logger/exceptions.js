@@ -7,7 +7,9 @@ export const ExceptionCategory = {
   Unexpected: 'unexpected',
 }
 
-export const ExceptionCode = fromPairs(range(1, 13).map(code => [`E${code}`, code]))
+const MAX_EXCEPTION_CODE = 13
+
+export const ExceptionCode = fromPairs(range(1, MAX_EXCEPTION_CODE + 1).map(code => [`E${code}`, code]))
 
 /**
  * Decorates exception with pre-defined error code and returns message for the endusers

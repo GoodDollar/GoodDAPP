@@ -570,9 +570,11 @@ const Dashboard = props => {
         }
       } catch (exception) {
         const { message } = exception
-        const genericError = decorate(exception, ExceptionCode.E4)
-        const uiMessage =
-          message.indexOf('own payment') >= 0 ? "You can't withdraw your own payment link" : genericError
+        let uiMessage = decorate(exception, ExceptionCode.E4)
+        
+        if (message.includes('own payment')) {
+          uiMessage = message
+        }
 
         log.error('withdraw failed:', message, exception, { dialogShown: true })
         showErrorDialog(uiMessage)

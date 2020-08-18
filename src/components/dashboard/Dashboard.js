@@ -32,7 +32,8 @@ import BigGoodDollar from '../common/view/BigGoodDollar'
 import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
@@ -570,12 +571,16 @@ const Dashboard = props => {
           default:
             break
         }
-      } catch (e) {
-        const { message } = e
-        showErrorDialog(message)
-        log.error('withdraw failed:', e.message, e, {
-          dialogShown: true,
-        })
+      } catch (exception) {
+        const { message } = exception
+        let uiMessage = decorate(exception, ExceptionCode.E4)
+        
+        if (message.includes('own payment')) {
+          uiMessage = message
+        }
+
+        log.error('withdraw failed:', message, exception, { dialogShown: true })
+        showErrorDialog(uiMessage)
       } finally {
         navigation.setParams({ paymentCode: undefined })
       }

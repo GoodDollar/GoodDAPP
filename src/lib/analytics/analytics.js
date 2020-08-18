@@ -8,7 +8,8 @@ import * as Sentry from '@sentry/browser'
 // utils
 // import API from '../../lib/API/api'
 import Config from '../../config/config'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { isMobileReactNative } from '../../lib/utils/platform'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'

@@ -173,7 +173,7 @@ export class Wallet {
         ContractsAddress: ContractsAddress[this.network],
       })
     } catch (e) {
-      log.error('Error initializing wallet', { e, errMessage: e.message })
+      log.error('Error initializing wallet', e.message, e)
       if (conf.env !== 'test') {
         process.exit(-1)
       }
@@ -226,7 +226,7 @@ export class Wallet {
     }
     const tx: TransactionReceipt = await this.sendTransaction(this.proxyContract.methods.whitelist(address, did)).catch(
       e => {
-        log.error('Error whitelistUser', { e, errMessage: e.message, address, did })
+        log.error('Error whitelistUser', e.message, e, { address, did })
         throw e
       },
     )
@@ -243,7 +243,7 @@ export class Wallet {
     const tx: TransactionReceipt = await this.sendTransaction(
       this.identityContract.methods.addBlacklisted(address),
     ).catch(e => {
-      log.error('Error blackListUser', { e, errMessage: e.message, address })
+      log.error('Error blackListUser', e.message, e, { address })
       throw e
     })
 
@@ -259,7 +259,7 @@ export class Wallet {
     const tx: TransactionReceipt = await this.sendTransaction(
       this.proxyContract.methods.removeWhitelist(address),
     ).catch(e => {
-      log.error('Error removeWhitelisted', { e, errMessage: e.message, address })
+      log.error('Error removeWhitelisted', e.message, e, { address })
       throw e
     })
 
@@ -276,7 +276,7 @@ export class Wallet {
       .isWhitelisted(address)
       .call()
       .catch(e => {
-        log.error('Error isVerified', { e, errMessage: e.message })
+        log.error('Error isVerified', e.message, e)
         throw e
       })
     return tx
@@ -292,7 +292,7 @@ export class Wallet {
       .isAdmin(address)
       .call()
       .catch(e => {
-        log.error('Error isAdmin', { e, errMessage: e.message })
+        log.error('Error isAdmin', e.message, e)
         throw e
       })
     return tx
@@ -327,7 +327,7 @@ export class Wallet {
       log.debug("User doesn't need topping")
       return { status: 1 }
     } catch (e) {
-      log.error('Error topWallet', { errMessage: e.message, address, lastTopping, force })
+      log.error('Error topWallet', e.message, e, { address, lastTopping, force })
       throw e
     }
   }
@@ -344,7 +344,7 @@ export class Wallet {
     return this.getAddressBalance(this.address)
       .then(b => web3Utils.fromWei(b))
       .catch(e => {
-        log.error('Error getBalance', { e })
+        log.error('Error getBalance', e.message, e)
         throw e
       })
   }

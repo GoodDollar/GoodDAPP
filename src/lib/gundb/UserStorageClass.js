@@ -1,7 +1,21 @@
 //@flow
 import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
-import { find, flatten, get, isEqual, keys, maxBy, memoize, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
+import {
+  find,
+  flatten,
+  get,
+  isEqual,
+  isError,
+  keys,
+  maxBy,
+  memoize,
+  merge,
+  orderBy,
+  takeWhile,
+  toPairs,
+  values,
+} from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -14,7 +28,8 @@ import { retry } from 'rxjs/operators'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
-import pino, { ExceptionCategory } from '../logger/pino-logger'
+import pino from '../logger/pino-logger'
+import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
@@ -1239,7 +1254,17 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
-      .catch(e => logger.error('getProfileFieldValue decrypt failed:', e.msg, e))
+      .catch(reason => {
+        let exception = reason
+        let { message } = exception
+
+        if (!isError(reason)) {
+          message = reason
+          exception = new Error(reason)
+        }
+
+        logger.error('getProfileFieldValue decrypt failed:', message, exception)
+      })
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {

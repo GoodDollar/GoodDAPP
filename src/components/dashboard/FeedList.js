@@ -13,7 +13,8 @@ import userStorage from '../../lib/gundb/UserStorage'
 import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedActions from './FeedActions'
@@ -138,18 +139,22 @@ const FeedList = ({
             canceledFeeds.current.push(id)
             userStorage.cancelOTPLEvent(id)
             goodWallet.cancelOTLByTransactionHash(id).catch(e => {
+              const uiMessage = decorate(e, ExceptionCode.E11)
+
               log.error('cancel payment failed - quick actions', e.message, e, {
                 category: ExceptionCategory.Blockhain,
                 dialogShown: true,
               })
               userStorage.updateOTPLEventStatus(id, 'pending')
-              showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
+              showErrorDialog(uiMessage, ExceptionCode.E11)
             })
           } catch (e) {
+            const uiMessage = decorate(e, ExceptionCode.E13)
+
             log.error('cancel payment failed - quick actions', e.message, e, { dialogShown: true })
             canceledFeeds.current.pop()
             userStorage.updateOTPLEventStatus(id, 'pending')
-            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
+            showErrorDialog(uiMessage, ExceptionCode.E13)
           }
         }
       }

@@ -573,7 +573,10 @@ export class UserStorage {
    * Initialize wallet, gundb user, feed and subscribe to events
    */
   async initRegistered() {
-    logger.debug('Initializing GunDB UserStorage for resgistered user')
+    logger.debug('Initializing GunDB UserStorage for resgistered user', this.initializedRegistered)
+    if (this.initializedRegistered) {
+      return
+    }
 
     //get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
@@ -618,7 +621,7 @@ export class UserStorage {
     logger.debug('init systemfeed')
 
     await Promise.all([this.startSystemFeed(), this.initTokens()])
-
+    this.initializedRegistered = true
     return true
   }
 

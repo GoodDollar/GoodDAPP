@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SwitchToSafariDialog matches snapshot 1`] = `
+exports[`SwitchToChromeOrSafari matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -78,27 +78,9 @@ exports[`SwitchToSafariDialog matches snapshot 1`] = `
       }
     }
   >
-    Oops! This browser isn't supported
-  </div>
-  <div
-    className="css-text-901oao"
-    dir="auto"
-    style={
-      Object {
-        "direction": "ltr",
-        "fontFamily": "Roboto",
-        "fontSize": "16px",
-        "fontWeight": "normal",
-        "lineHeight": "22px",
-        "marginBottom": "31.16883116883117px",
-        "marginTop": "31.16883116883117px",
-        "textAlign": "center",
-        "textDecoration": "none",
-        "textTransform": "none",
-      }
-    }
-  >
-    On iOS please switch to Safari
+    For best user
+experience switch to
+Chrome or Safari browsers
   </div>
 </div>
 `;

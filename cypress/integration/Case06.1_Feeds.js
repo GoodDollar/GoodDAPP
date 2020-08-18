@@ -1,9 +1,7 @@
 /* eslint-disable no-undef */
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
-
-// import HomePage from '../PageObjects/HomePage'
-// import SendMoneyPage from '../PageObjects/SendMoneyPage'
+import HomePage from '../PageObjects/HomePage'
 
 describe('Test feeds', () => {
   it('Testing first start feed', () => {
@@ -17,6 +15,7 @@ describe('Test feeds', () => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
+      HomePage.welcomeFeed.should('be.visible')
       cy.log(todaysDate)
 
       cy.contains('Welcome to GoodDollar!').should('be.visible')

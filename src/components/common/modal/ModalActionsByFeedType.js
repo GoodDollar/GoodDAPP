@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { pickBy } from 'lodash'
 
@@ -30,58 +30,62 @@ const ModalButton = ({ children, ...props }) => (
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
-  const [state, setState] = useState({})
-  const store = GDStore.useStore()
   const { canShare, generateSendShareObject, generateSendShareText, generateShareLink } = useNativeSharing()
-  const currentUserName = store.get('profile').fullName
+
+  const store = GDStore.useStore()
   const inviteCode = store.get('inviteCode')
+  const { fullName: currentUserName } = store.get('profile')
+
+  const [cancellingPayment, setCancellingPayment] = useState(false)
+  const [paymentLinkForShare, setPaymentLinkForShare] = useState(null)
 
   const fireEventAnalytics = actionType => {
     fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
   }
 
+  const handleCancelFailed = useCallback(
+    (exception, code, category = null) => {
+      const { message } = exception
+
+      userStorage.updateOTPLEventStatus(item.id, 'pending')
+      showErrorDialog('The payment could not be canceled at this time', code)
+      log.error('cancel payment failed', message, exception, pickBy({ dialogShown: true, code, category }))
+    },
+    [item, setCancellingPayment, showErrorDialog],
+  )
+
   const cancelPayment = useCallback(async () => {
+    const { Blockchain } = ExceptionCategory
+
     log.info({ item, action: 'cancelPayment' })
     fireEventAnalytics('cancelPayment')
+
     if (item.status === 'pending') {
       // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
       showErrorDialog("The transaction is still pending, it can't be cancelled right now")
-    } else {
-      setState({ ...state, cancelPaymentLoading: true })
-      try {
-        goodWallet
-          .cancelOTLByTransactionHash(item.id)
-          .catch(e => {
-            userStorage.updateOTPLEventStatus(item.id, 'pending')
-            log.error('cancel payment failed', e.message, e, {
-              dialogShown: true,
-              category: ExceptionCategory.Blockhain,
-            })
-            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
-          })
-          .finally(() => {
-            setState({ ...state, cancelPaymentLoading: false })
-          })
-        await userStorage.cancelOTPLEvent(item.id)
-      } catch (e) {
-        log.error('cancel payment failed', e.message, e, { dialogShown: true })
-        userStorage.updateOTPLEventStatus(item.id, 'pending')
-        setState({ ...state, cancelPaymentLoading: false })
-        showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
-      }
-    }
-    handleModalClose()
-  }, [showErrorDialog, setState, state, handleModalClose])
-
-  const paymentLink = useMemo(() => {
-    const { data = {}, displayType } = item
-    const { withdrawCode, message, amount, endpoint = {} } = data
-    const { fullName } = endpoint
-
-    // prevent generateShareLink call on non 'sendpending' feed items
-    if ('sendpending' !== displayType) {
       return
     }
+
+    setCancellingPayment(true)
+
+    try {
+      goodWallet
+        .cancelOTLByTransactionHash(item.id)
+        .catch(exception => handleCancelFailed(exception, 'CANCEL-PAYMNET-2', Blockchain))
+        .finally(() => setCancellingPayment(false))
+
+      await userStorage.cancelOTPLEvent(item.id)
+    } catch (exception) {
+      setCancellingPayment(false)
+      handleCancelFailed(exception, 'CANCEL-PAYMNET-1')
+    }
+
+    handleModalClose()
+  }, [item, handleCancelFailed, setCancellingPayment, handleModalClose])
+
+  const generatePaymentLinkForShare = useCallback(() => {
+    const { withdrawCode, message, amount, endpoint = {} } = item.data || {}
+    const { fullName } = endpoint
 
     try {
       const url = generateShareLink(
@@ -105,7 +109,8 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     } catch (exception) {
       const { message } = exception
 
-      log.error('getPaymentLink Failed', message, exception, { item, canShare })
+      log.error('generatePaymentLinkForShare Failed', message, exception, { item, canShare })
+      return null
     }
   }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject, inviteCode])
 
@@ -145,6 +150,14 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     handleModalClose()
   }, [handleModalClose, navigation])
 
+  useEffect(() => {
+    if ('sendpending' !== item.displayType) {
+      return
+    }
+
+    setPaymentLinkForShare(generatePaymentLinkForShare())
+  }, [])
+
   switch (item.displayType) {
     case 'welcome':
       return (
@@ -166,13 +179,14 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               style={[styles.button, styles.cancelButton, { borderColor: theme.colors.red }]}
               onPress={cancelPayment}
               color={theme.colors.red}
-              loading={state.cancelPaymentLoading}
+              loading={cancellingPayment}
               textStyle={styles.smallButtonTextStyle}
             >
               Cancel link
             </CustomButton>
             <ShareButton
-              share={paymentLink}
+              disabled={!paymentLinkForShare}
+              share={paymentLinkForShare}
               actionText="Share link"
               mode="outlined"
               style={[styles.rightButton, styles.shareButton]}

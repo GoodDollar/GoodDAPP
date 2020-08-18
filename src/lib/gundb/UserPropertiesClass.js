@@ -52,7 +52,7 @@ export default class UserProperties {
   data: {}
 
   constructor(gun: Gun) {
-    this.gun = gun.user().get('properties')
+    this.gun = gun
 
     this.ready = (async () => {
       let props
@@ -110,10 +110,10 @@ export default class UserProperties {
    * Set value to multiple properties
    */
   async updateAll(properties: { [string]: any }): Promise<boolean> {
-    const { gun, data } = this
+    const { data } = this
 
     assign(data, properties)
-    await gun.secret(data)
+    await this.props.secret(data)
 
     return true
   }

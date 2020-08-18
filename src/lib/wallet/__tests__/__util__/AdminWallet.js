@@ -139,7 +139,7 @@ export class Wallet {
         provider: this.getWeb3TransportProvider(),
       })
     } catch (e) {
-      log.error('Error initializing wallet', { e }, e.message)
+      log.error('Error initializing wallet', e.message, e)
     }
     return true
   }
@@ -154,7 +154,7 @@ export class Wallet {
     const tx: TransactionReceipt = await this.sendTransaction(
       this.identityContract.methods.addWhitelistedWithDID(address, did),
     ).catch(e => {
-      log.error('Error whitelistUser', { e }, e.message)
+      log.error('Error whitelistUser', e.message, e)
       throw e
     })
     log.info('Whitelisted user', { address, did, tx })
@@ -165,7 +165,7 @@ export class Wallet {
     const tx: TransactionReceipt = await this.sendTransaction(
       this.identityContract.methods.addBlacklisted(address),
     ).catch(e => {
-      log.error('Error blacklistUser', { e }, e.message)
+      log.error('Error blacklistUser', e.message, e)
       throw e
     })
     log.info('Blacklisted user', { address, tx })
@@ -182,7 +182,7 @@ export class Wallet {
       .isWhitelisted(address)
       .call()
       .catch(e => {
-        log.error('Error isVerified', { e }, e.message)
+        log.error('Error isVerified', e.message, e)
         throw e
       })
     return tx
@@ -193,7 +193,7 @@ export class Wallet {
       .isBlacklisted(address)
       .call()
       .catch(e => {
-        log.error('Error isBlacklisted', { e }, e.message)
+        log.error('Error isBlacklisted', e.message, e)
         throw e
       })
     return tx
@@ -236,7 +236,7 @@ export class Wallet {
         throw new Error(`User not verified: ${address} ${isVerified}`)
       }
     } catch (e) {
-      log.error('Error topWallet', { e }, e.message)
+      log.error('Error topWallet', e.message, e)
       throw e
     }
   }
@@ -253,7 +253,7 @@ export class Wallet {
     return this.getAddressBalance(this.address)
       .then(b => web3Utils.fromWei(b))
       .catch(e => {
-        log.error('Error getBalance', e)
+        log.error('Error getBalance', e.message, e)
         throw e
       })
   }

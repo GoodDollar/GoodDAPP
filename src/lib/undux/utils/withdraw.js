@@ -1,7 +1,8 @@
 // @flow
 import type { Store } from 'undux'
 import goodWallet from '../../wallet/GoodWallet'
-import pino, { ExceptionCategory } from '../../logger/pino-logger'
+import pino from '../../logger/pino-logger'
+import { ExceptionCategory } from '../../logger/exceptions'
 import userStorage from '../../gundb/UserStorage'
 import type { TransactionEvent } from '../../gundb/UserStorage'
 import { WITHDRAW_STATUS_PENDING } from '../../wallet/GoodWalletClass'
@@ -37,7 +38,7 @@ export const executeWithdraw = async (
     log.info('executeWithdraw', { code, reason, amount, sender, status, hashedCode })
 
     if (sender.toLowerCase() === goodWallet.account.toLowerCase()) {
-      throw new Error('You are trying to withdraw your own payment link.')
+      throw new Error('You can\'t withdraw your own payment link.')
     }
 
     if (status === WITHDRAW_STATUS_PENDING) {

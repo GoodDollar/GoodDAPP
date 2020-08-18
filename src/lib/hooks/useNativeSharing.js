@@ -11,10 +11,9 @@ import {
 } from '../../lib/share/index'
 import { useErrorDialog } from '../undux/utils/dialog'
 
-const _canShare = canShare()
-
 export default () => {
   const [showErrorDialog] = useErrorDialog()
+  const _canShare = canShare()
 
   const _shareAction = useCallback(
     (shareObj, customErrorMessage) => {

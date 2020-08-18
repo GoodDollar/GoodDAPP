@@ -411,7 +411,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       let { w3Token } = requestPayload
       requestPayload.regMethod = regMethod
 
-      const [, , mnemonic] = await Promise.all([
+      const [mnemonic] = await Promise.all([
+        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
+
+        //make sure profile is initialized, maybe solve gun bug where profile is undefined
+        userStorage.profile.putAck({ initialized: true }),
+
         // Stores creationBlock number into 'lastBlock' feed's node
         goodWallet
           .getBlockNumber()
@@ -424,7 +429,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           .then(block =>
             userStorage.userProperties.updateAll({ cameFromW3Site: !!w3Token, regMethod, lastBlock: block }),
           ),
-        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
       ])
 
       // trying to update profile 2 times, if failed anyway - re-throwing exception

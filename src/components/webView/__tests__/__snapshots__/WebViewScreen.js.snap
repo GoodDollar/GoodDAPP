@@ -61,7 +61,7 @@ exports[`WebViewScreen Instances Support matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://support.gooddollar.org"
+  src="https://help.gooddollar.org"
   style={
     Object {
       "height": 768,
@@ -79,7 +79,7 @@ exports[`WebViewScreen Instances SupportForUnsigned matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://support.gooddollar.org"
+  src="https://help.gooddollar.org"
   style={
     Object {
       "height": 768,

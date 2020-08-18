@@ -3,7 +3,9 @@ import React, { createRef, useCallback, useEffect, useRef, useState } from 'reac
 import { Animated, SwipeableFlatList } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { get } from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
+
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -14,8 +16,8 @@ import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
-import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
+import FeedActions from './FeedActions'
 
 const log = logger.child({ from: 'ShareButton' })
 
@@ -72,7 +74,15 @@ const FeedList = ({
     }
   }
 
-  const keyExtractor = item => item.id
+  const keyExtractor = item => {
+    const { id } = item
+
+    if (!id || String(id).length < 60) {
+      return uuidv4()
+    }
+
+    return id
+  }
 
   const getItemLayout = (_: any, index: number) => {
     const [length, separator, header] = [72, 1, 30]
@@ -91,7 +101,13 @@ const FeedList = ({
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedListItem key={item.id} item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
+    <FeedListItem
+      key={keyExtractor(item)}
+      item={item}
+      separators={separators}
+      fixedHeight
+      onPress={pressItem(item, index + 1)}
+    />
   )
 
   /**

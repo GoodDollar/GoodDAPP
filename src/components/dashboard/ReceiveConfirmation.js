@@ -46,9 +46,9 @@ const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     return generateShareLink('receive', code)
   }, [code, generateShareLink])
 
-  const sharePressHandler = useCallback(() => {
+  const sharePressHandler = useCallback(async () => {
     if (canShare) {
-      shareAction(share)
+      await shareAction(share)
     } else {
       setString(share)
     }

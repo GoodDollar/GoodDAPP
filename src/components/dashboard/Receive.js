@@ -42,6 +42,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const fireReceiveDoneEvent = useCallback(() => fireEvent('RECEIVE_DONE', { type: 'wallet' }), [])
 
   const shareHandler = useCallback(() => {
+    // not mandatory to await for shareAction as there no visual changes after it
     shareAction(share)
     fireReceiveDoneEvent()
   }, [shareAction, share])

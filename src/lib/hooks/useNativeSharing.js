@@ -17,7 +17,7 @@ export default () => {
 
   const _shareAction = useCallback(
     (shareObj, customErrorMessage) => {
-      importedShareAction(shareObj, showErrorDialog, customErrorMessage)
+      return importedShareAction(shareObj, showErrorDialog, customErrorMessage)
     },
     [showErrorDialog],
   )

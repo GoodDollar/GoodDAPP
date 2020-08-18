@@ -242,9 +242,10 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   return encodeURI(`${destination}${queryParams}`)
 }
 
-export function shareAction(shareObj, showErrorDialog, customErrorMessage) {
+export async function shareAction(shareObj, showErrorDialog, customErrorMessage) {
   try {
-    Share.share(shareObj)
+    const res = await Share.share(shareObj)
+    return res
   } catch (e) {
     if (e.name !== 'AbortError') {
       log.error('Native share failed', e.message, e, {

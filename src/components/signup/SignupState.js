@@ -18,7 +18,7 @@ import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
-import { ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -610,6 +610,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
+        // we need to assign our custom error code for the received error object which will be sent to the sentry
+        // the general error message not required
+        decorate(e, ExceptionCode.E9)
+
         log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
         return showErrorDialog('Could not send verification email. Please try again', ExceptionCode.E9)
       } finally {

@@ -1,4 +1,4 @@
-import { findKey, fromPairs, range } from 'lodash'
+import { fromPairs, range } from 'lodash'
 
 export const ExceptionCategory = {
   Human: 'human',
@@ -8,8 +8,9 @@ export const ExceptionCategory = {
 }
 
 const MAX_EXCEPTION_CODE = 13
+const codeToString = code => `E${code}`
 
-export const ExceptionCode = fromPairs(range(1, MAX_EXCEPTION_CODE + 1).map(code => [`E${code}`, code]))
+export const ExceptionCode = fromPairs(range(1, MAX_EXCEPTION_CODE + 1).map(code => [codeToString(code), code]))
 
 /**
  * Decorates exception with pre-defined error code and returns message for the endusers
@@ -20,7 +21,7 @@ export const ExceptionCode = fromPairs(range(1, MAX_EXCEPTION_CODE + 1).map(code
  */
 export const decorate = (exception, withCode) => {
   const { name, code } = exception
-  const codeString = findKey(ExceptionCode, code => withCode === code)
+  const codeString = codeToString(code)
 
   if (!code) {
     exception.code = withCode

@@ -48,6 +48,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     (exception, code, category = null) => {
       const { message } = exception
 
+      decorate(exception, code)
       userStorage.updateOTPLEventStatus(item.id, 'pending')
       showErrorDialog('The payment could not be canceled at this time. Please try again.', code)
       log.error('cancel payment failed', message, exception, pickBy({ dialogShown: true, code, category }))

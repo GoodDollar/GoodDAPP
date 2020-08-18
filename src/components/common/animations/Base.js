@@ -23,7 +23,9 @@ class AnimationBase extends React.Component {
 
   initAnimation = () => {
     if (this.anim) {
-      this.anim.addEventListener('enterFrame', this.started)
+      if (!isMobileNative) {
+        this.anim.addEventListener('enterFrame', this.started)
+      }
       this.onMount && this.onMount()
     } else {
       setTimeout(() => {

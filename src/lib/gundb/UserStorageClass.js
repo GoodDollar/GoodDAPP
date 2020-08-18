@@ -618,9 +618,10 @@ export class UserStorage {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
     })
-    logger.debug('init systemfeed')
+    logger.debug('starting systemfeed and tokens')
 
     await Promise.all([this.startSystemFeed(), this.initTokens()])
+    logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
     return true
   }
@@ -692,6 +693,7 @@ export class UserStorage {
       this.getProfileFieldValue('inviteCode'),
       this.getProfileFieldValue('marketToken'),
     ])
+    logger.debug('initTokens: got profile tokens')
 
     let [_token] = await Promise.all([token || initLoginToken(), marketToken || initMarketToken()])
 
@@ -706,6 +708,8 @@ export class UserStorage {
         this.setProfileField('inviteCode', inviteCode, 'private')
       }
     }
+
+    logger.debug('initTokens: done')
   }
 
   /**

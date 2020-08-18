@@ -1,5 +1,5 @@
 // @flow
-import { assign } from 'lodash'
+import { assign, isUndefined } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 
@@ -50,36 +50,39 @@ export default class UserProperties {
    * a gun node referring tto gun.user().get('properties')
    * @instance {UserProperties}
    */
-  gun: Gun
+  propsNode: Gun
 
   data: {}
 
   constructor(gun: Gun) {
-    this.gun = gun
+    this.propsNode = gun.user().get('properties')
 
     this.ready = (async () => {
       let props
+      const { propsNode } = this
       const { defaultProperties } = UserProperties
 
-      //make sure we fetch props first and not having gun return undefined
-      await this.props
+      // make sure we fetch props first and not having gun return undefined
+      await propsNode.then()
 
       try {
-        props = await defer(() => fromPromise(this.props.decrypt())) // init user storage
+        props = await defer(() => fromPromise(propsNode.decrypt())) // init user storage
           .pipe(retry(1)) // if exception thrown, retry init one more times
           .toPromise()
       } catch (e) {
         log.error('failed decrypting props', e.message, e)
         props = {}
       }
-      props === undefined && log.warn('undefined props from decrypt')
-      this.data = assign({}, defaultProperties, props)
-      return this.data
-    })()
-  }
 
-  get props() {
-    return this.gun.user().get('properties')
+      if (isUndefined(props)) {
+        log.warn('undefined props from decrypt')
+      }
+
+      props = assign({}, defaultProperties, props)
+      this.data = props
+
+      return props
+    })()
   }
 
   /**
@@ -116,10 +119,10 @@ export default class UserProperties {
    * Set value to multiple properties
    */
   async updateAll(properties: { [string]: any }): Promise<boolean> {
-    const { data } = this
+    const { data, propsNode } = this
 
     assign(data, properties)
-    await this.props.secret(data)
+    await propsNode.secret(data)
 
     return true
   }
@@ -128,10 +131,11 @@ export default class UserProperties {
    * Reset properties to the default state
    */
   async reset() {
+    const { propsNode } = this
     const { defaultProperties } = UserProperties
 
     this.data = assign({}, defaultProperties)
-    await this.props.secret(defaultProperties)
+    await propsNode.secret(defaultProperties)
 
     return true
   }

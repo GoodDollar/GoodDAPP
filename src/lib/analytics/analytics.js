@@ -71,6 +71,11 @@ const initAmplitude = async key => {
 /** @private */
 // eslint-disable-next-line require-await
 const initFullStory = new Promise(resolve => {
+  // in native cannot find var document
+  if (isMobileReactNative) {
+    resolve(false)
+  }
+
   const { _fs_ready, _fs_host } = window // eslint-disable-line camelcase
   const fsScriptTag = document.querySelector(`script[src*='${_fs_host}']`) // eslint-disable-line camelcase
 

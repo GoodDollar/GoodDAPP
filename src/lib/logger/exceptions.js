@@ -1,4 +1,4 @@
-import { fromPairs, range, invert } from 'lodash'
+import { fromPairs, invert, range } from 'lodash'
 
 export const ExceptionCategory = {
   Human: 'human',
@@ -31,5 +31,5 @@ export const decorate = (exception, withCode) => {
     exception.name = codeString
   }
 
-  return `Sorry, Some unexpected error (${codeString}) happened, please try again`
+  return `Sorry, something unexpected happened, please try again. \nError: ${codeString}`
 }

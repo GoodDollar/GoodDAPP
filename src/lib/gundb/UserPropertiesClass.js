@@ -55,22 +55,24 @@ export default class UserProperties {
   data: {}
 
   constructor(gun: Gun) {
-    this.propsNode = gun.user().get('properties')
+    // creating getter for propsNode dynamically to avoid this.gun incapsulation
+    Object.defineProperty(this, 'propsNode', {
+      get: () => gun.user().get('properties'),
+    })
 
-    this.ready = (async () => {
+    const fetchProps = async () => {
       let props
       const { propsNode } = this
       const { defaultProperties } = UserProperties
-
-      // make sure we fetch props first and not having gun return undefined
-      await propsNode.then()
 
       try {
         props = await defer(() => fromPromise(propsNode.decrypt())) // init user storage
           .pipe(retry(1)) // if exception thrown, retry init one more times
           .toPromise()
-      } catch (e) {
-        log.error('failed decrypting props', e.message, e)
+      } catch (exception) {
+        const { message } = exception
+
+        log.error('failed decrypting props', message, exception)
         props = {}
       }
 
@@ -78,9 +80,18 @@ export default class UserProperties {
         log.warn('undefined props from decrypt')
       }
 
-      props = assign({}, defaultProperties, props)
-      this.data = props
+      return assign({}, defaultProperties, props)
+    }
 
+    this.ready = (async () => {
+      const { propsNode } = this
+
+      // make sure we fetch props first and not having gun return undefined
+      await propsNode.then()
+
+      const props = await fetchProps()
+
+      this.data = props
       return props
     })()
   }

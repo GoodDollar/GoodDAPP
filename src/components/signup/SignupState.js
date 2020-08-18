@@ -493,7 +493,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       return true
     } catch (exception) {
       const { message } = exception
-      const uiMessage = `Sorry, Some unexpected error (${ExceptionCode.E8}) happened`
+      const uiMessage = decorate(exception, ExceptionCode.E8)
 
       log.error('New user failure', message, exception, {
         dialogShown: true,

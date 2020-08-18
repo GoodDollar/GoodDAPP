@@ -78,7 +78,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const paymentLink = useMemo(() => {
     const { data = {}, displayType } = item
     const { withdrawCode, message, amount, endpoint = {} } = data
-    const { fullName } = endpoint
+    const { fullName } = endpoint || {}
 
     // prevent generateShareLink call on non 'sendpending' feed items
     if ('sendpending' !== displayType) {
@@ -96,13 +96,18 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       )
 
       let result
+      let shareArgs = [url, amount, fullName, currentUserName]
+      let shareFn = generateSendShareText
 
       if (canShare) {
-        result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName, canShare)
-      } else {
-        result = {
-          url: generateSendShareText(url, item.data.amount, item.data.endpoint.fullName, currentUserName),
-        }
+        shareFn = generateSendShareObject
+        shareArgs.push(canShare)
+      }
+
+      result = shareFn(...shareArgs)
+
+      if (!canShare) {
+        result = { url: result }
       }
 
       fireEventAnalytics('Sharelink')

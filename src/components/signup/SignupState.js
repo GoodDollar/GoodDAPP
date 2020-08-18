@@ -489,12 +489,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       return true
     } catch (exception) {
       const { message } = exception
+      const uiMessage = `Sorry, Some unexpected error (${ExceptionCode.E8}) happened`
 
       log.error('New user failure', message, exception, {
         dialogShown: true,
       })
 
-      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate)
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
       setCreateError(true)
       return false
     } finally {

@@ -2,6 +2,7 @@
 import StartPage from '../PageObjects/StartPage'
 import HomePage from '../PageObjects/HomePage'
 import LoginPage from '../PageObjects/LoginPage'
+import SocialLoginPage from '../PageObjects/SocialLoginPage'
 
 describe('Test case 9: Delete temporary user', () => {
   it('User to sign up and delete', () => {
@@ -19,6 +20,6 @@ describe('Test case 9: Delete temporary user', () => {
     HomePage.optionsButton.click({ force: true })
     HomePage.deleteAccountButton.click()
     HomePage.confirmDeletionButton.click()
-    StartPage.createWalletButton.should('be.visible')
+    SocialLoginPage.googleLink.should('be.visible')
   })
 })

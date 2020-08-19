@@ -83,6 +83,14 @@ class SendMoneyPage {
       .value()
     )
   }
+
+  get alreadyUsedText() {
+    return cy.contains('Payment already withdrawn or canceled by sender')
+  }
+
+  get cancelButton() {
+    return cy.get('[role="button"]').contains('Cancel link')
+  }
 }
 
 export default new SendMoneyPage()

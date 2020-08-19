@@ -4,6 +4,8 @@ import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
 import SendMoneyPage from '../PageObjects/SendMoneyPage'
 
+let link
+
 describe('Test case 7: Ability to send money', () => {
   it('User is able to send money from a new wallet using the "claim"', () => {
     localStorage.clear()
@@ -91,8 +93,6 @@ describe('Test case 7: Ability to send money', () => {
   })
 
   it('User is able to send money from exist wallet without "claim"', () => {
-    let link
-
     localStorage.clear()
     StartPage.open()
     StartPage.signInButton.click()
@@ -153,6 +153,143 @@ describe('Test case 7: Ability to send money', () => {
       cy.contains(Cypress.env('additionalAccountUsername')).should('be.visible')
       cy.contains('without claim').should('be.visible')
       cy.contains('exist user').should('not.be.visible')
+    })
+  })
+
+  it('Check the link of send TX that was already used', () =>{
+    localStorage.clear()
+    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+      StartPage.open()
+      StartPage.signInButton.click()
+      LoginPage.recoverFromPassPhraseLink.click()
+      LoginPage.pageHeader.should('contain', 'Recover')
+      LoginPage.mnemonicsInput.type(mnemonic)
+      LoginPage.recoverWalletButton.click()
+      LoginPage.yayButton.click()
+      HomePage.claimButton.should('be.visible')
+      cy.visit(link)
+      return HomePage.moneyAmountDiv.invoke('text')
+    }).then(moneyBefore => {
+      cy.log('Money before sending: ' + moneyBefore)
+      SendMoneyPage.alreadyUsedText.should('be.visible')
+      HomePage.moneyAmountDiv.invoke('text').should('eq', moneyBefore)
+      cy.contains('Ok').click()
+    })
+  })
+
+  it('Check the link of send TX that canceled before withdrawn', () => {
+    localStorage.clear()
+
+    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+      StartPage.open()
+      StartPage.signInButton.click()
+      LoginPage.recoverFromPassPhraseLink.click()
+      LoginPage.pageHeader.should('contain', 'Recover')
+      LoginPage.mnemonicsInput.type(mnemonic)
+      LoginPage.recoverWalletButton.click()
+      LoginPage.yayButton.click()
+
+      HomePage.sendButton.click()
+      SendMoneyPage.nameInput.type('canceled body')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.moneyInput.type('0.01')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.messageInput.type('send canceled before withdrawn')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.confirmButton.click()
+      SendMoneyPage.copyLinkButton.click()
+      SendMoneyPage.doneButton.should('be.visible')
+
+      return cy.get('[data-testid*="http"]').invoke('attr', 'data-testid')
+    }).then(sendMoneyUrl => {
+      const { sendMoneyLinkRegex } = SendMoneyPage
+      const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
+
+      cy.log(sendMoneyUrl)
+      cy.log(validMoneyLnk)
+
+      SendMoneyPage.doneButton.click()
+
+      cy.wait(10000) //wait for transaction to complete
+      HomePage.waitForHomePageDisplayed()
+      cy.contains('canceled body').should('be.visible')
+      cy.contains('canceled body').click()
+      SendMoneyPage.cancelButton.should('be.visible')
+      SendMoneyPage.cancelButton.click()
+      cy.contains('canceled body').should('not.be.visible')
+
+      cy.clearLocalStorage()
+      cy.clearCookies()
+      StartPage.open()
+      StartPage.signInButton.click()
+      LoginPage.recoverFromPassPhraseLink.click()
+      LoginPage.pageHeader.should('contain', 'Recover')
+      LoginPage.mnemonicsInput.type(Cypress.env('additionalAccountMnemonics'))
+      LoginPage.recoverWalletButton.click()
+      LoginPage.yayButton.click()
+
+      cy.visit(validMoneyLnk)
+      
+      return HomePage.moneyAmountDiv.invoke('text')
+    }).then(moneyBefore => {
+      cy.log('Money before sending: ' + moneyBefore)
+      SendMoneyPage.alreadyUsedText.should('be.visible')
+      HomePage.moneyAmountDiv.invoke('text').should('eq', moneyBefore)
+      cy.contains('Ok').click()
+    })
+  })
+
+  it.skip('Abort of the transaction via link', () => {
+    let moneyStart
+
+    localStorage.clear()
+    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+      StartPage.open()
+      StartPage.signInButton.click()
+      LoginPage.recoverFromPassPhraseLink.click()
+      LoginPage.pageHeader.should('contain', 'Recover')
+      LoginPage.mnemonicsInput.type(mnemonic)
+      LoginPage.recoverWalletButton.click()
+      LoginPage.yayButton.click()
+
+      HomePage.moneyAmountDiv.invoke('text').then(moneyBeforeAbort => {
+        moneyStart = moneyBeforeAbort
+        cy.log('Money before sending: ' + moneyStart)
+      })      
+
+      HomePage.sendButton.click()
+      SendMoneyPage.nameInput.type('abort body')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.moneyInput.type('0.01')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.messageInput.type('abort of the transaction')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.confirmButton.click()
+      SendMoneyPage.copyLinkButton.click()
+      SendMoneyPage.doneButton.should('be.visible')
+
+      return cy.get('[data-testid*="http"]').invoke('attr', 'data-testid')
+    }).then(sendMoneyUrl => {
+      const { sendMoneyLinkRegex } = SendMoneyPage
+      const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
+
+      cy.log(sendMoneyUrl)
+      cy.log(validMoneyLnk)
+
+      SendMoneyPage.doneButton.click()
+
+      HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyStart) - 0.01).toFixed(2))
+
+      cy.wait(10000) //wait for transaction to complete
+      HomePage.waitForHomePageDisplayed()
+      cy.contains('abort body').should('be.visible')
+      cy.contains('abort body').click()
+      SendMoneyPage.cancelButton.should('be.visible')
+      SendMoneyPage.cancelButton.click()
+      cy.contains('abort body').should('not.be.visible')
+
+      cy.reload()
+      HomePage.moneyAmountDiv.invoke('text').should('eq', moneyStart)
     })
   })
 })

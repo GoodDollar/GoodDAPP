@@ -1,8 +1,8 @@
-//@flow
+// @flow
 
 // libraries
 import amplitude from 'amplitude-js'
-import { debounce, forEach, get, isFunction, isString } from 'lodash'
+import { assign, debounce, forEach, get, isFunction, isString } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
@@ -11,6 +11,8 @@ import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { isMobileReactNative } from '../../lib/utils/platform'
+import { scriptLoaded } from '../utils/dom.web'
+import { successState } from '../utils/async'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -65,41 +67,53 @@ const initAmplitude = async key => {
     return
   }
 
-  return new Promise(resolve => Amplitude.init(key, null, null, resolve))
+  return new Promise(resolve => {
+    const onError = () => resolve(false)
+    const onSuccess = () => resolve(true)
+
+    Amplitude.init(key, null, { onError }, onSuccess)
+  })
 }
 
 /** @private */
-// eslint-disable-next-line require-await
-const initFullStory = new Promise(resolve => {
-  const { _fs_ready, _fs_host } = window // eslint-disable-line camelcase
-  const fsScriptTag = document.querySelector(`script[src*='${_fs_host}']`) // eslint-disable-line camelcase
+const mauticReady = successState(scriptLoaded('mtc.js'))
 
-  if (!fsScriptTag) {
-    resolve(false)
+/** @private */
+// eslint-disable-next-line require-await
+const fullStoryReady = successState(async () => {
+  const { _fs_ready, _fs_script } = window // eslint-disable-line camelcase
+
+  // eslint-disable-next-line camelcase
+  if (!_fs_script) {
+    // will be caught by the successState
+    throw new Error("FullStory snippet isn't installed")
   }
 
-  fsScriptTag.addEventListener('error', () => resolve(false))
+  const readyPromise = new Promise(resolve =>
+    assign(window, {
+      _fs_ready: () => {
+        if (isFunction(_fs_ready)) {
+          _fs_ready()
+        }
 
-  Object.assign(window, {
-    _fs_ready: () => {
-      if (isFunction(_fs_ready)) {
-        _fs_ready()
-      }
+        resolve()
+      },
+    }),
+  )
 
-      resolve(true)
-    },
-  })
+  return Promise.race([
+    // we would race with scriptLoaded's rejection only so we're returning an endless
+    // promise on then() to guarantee that readyPromise could resolve the next one
+    scriptLoaded(_fs_script).then(() => new Promise(() => {})),
+    readyPromise,
+  ])
 })
 
-let Amplitude, Mautic, FS, GoogleAnalytics
+const Amplitude = amplitude.getInstance()
+const { mt: Mautic, FS, dataLayer: GoogleAnalytics } = global
 let isFSEnabled, isSentryEnabled, isGoogleAnalyticsEnabled, isMauticEnabled, isAmplitudeEnabled
 
 export const initAnalytics = async () => {
-  Amplitude = amplitude.getInstance()
-  Mautic = global.mt
-  FS = global.FS
-  GoogleAnalytics = global.dataLayer
-
   const isFSAvailable = !!FS
 
   isFSEnabled = isFSAvailable && Config.env === 'production'
@@ -108,13 +122,17 @@ export const initAnalytics = async () => {
   isGoogleAnalyticsEnabled = !!GoogleAnalytics
   isMauticEnabled = !!Mautic
 
-  // pre-initializing & preloading FS & Amplitude
+  log.info('pre-initializing & preloading FS, Mautic & Amplitude')
+
   await Promise.all([
-    isFSEnabled && initFullStory.then(success => (isFSEnabled = success)),
-    isAmplitudeEnabled && initAmplitude(amplitudeKey),
+    isFSEnabled && fullStoryReady.then(ready => (isFSEnabled = ready)),
+    isMauticEnabled && mauticReady.then(ready => (isMauticEnabled = ready)),
+    isAmplitudeEnabled && initAmplitude(amplitudeKey).then(ready => (isAmplitudeEnabled = ready)),
   ])
 
-  if (!isFSEnabled && isFSAvailable) {
+  log.info('preloaded FS, Mautic & Amplitude')
+
+  if (isFSAvailable && !isFSEnabled && isFunction(FS.shutdown)) {
     FS.shutdown()
   }
 
@@ -167,7 +185,7 @@ const setUserEmail = email => {
     Amplitude.setUserProperties({ email })
   }
 
-  if (FS) {
+  if (isFSEnabled) {
     FS.setUserVars({
       email,
     })
@@ -194,7 +212,7 @@ export const identifyWith = (email, identifier = null) => {
     Amplitude.setUserId(identifier)
   }
 
-  if (FS) {
+  if (isFSEnabled) {
     FS.identify(identifier, {
       appVersion: version,
       phase,

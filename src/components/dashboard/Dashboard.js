@@ -574,7 +574,7 @@ const Dashboard = props => {
       } catch (exception) {
         const { message } = exception
         let uiMessage = decorate(exception, ExceptionCode.E4)
-        
+
         if (message.includes('own payment')) {
           uiMessage = message
         }

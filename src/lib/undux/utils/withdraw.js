@@ -38,7 +38,7 @@ export const executeWithdraw = async (
     log.info('executeWithdraw', { code, reason, amount, sender, status, hashedCode })
 
     if (sender.toLowerCase() === goodWallet.account.toLowerCase()) {
-      throw new Error('You can\'t withdraw your own payment link.')
+      throw new Error("You can't withdraw your own payment link.")
     }
 
     if (status === WITHDRAW_STATUS_PENDING) {

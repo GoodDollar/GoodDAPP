@@ -18,7 +18,8 @@ import {
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -414,7 +415,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       let { w3Token } = requestPayload
       requestPayload.regMethod = regMethod
 
-      const [, , mnemonic] = await Promise.all([
+      const [mnemonic] = await Promise.all([
+        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
+
+        //make sure profile is initialized, maybe solve gun bug where profile is undefined
+        userStorage.profile.putAck({ initialized: true }),
+
         // Stores creationBlock number into 'lastBlock' feed's node
         goodWallet
           .getBlockNumber()
@@ -427,7 +433,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           .then(block =>
             userStorage.userProperties.updateAll({ cameFromW3Site: !!w3Token, regMethod, lastBlock: block }),
           ),
-        AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
       ])
 
       // trying to update profile 2 times, if failed anyway - re-throwing exception
@@ -490,11 +495,15 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       setLoading(false)
 
       return true
-    } catch (e) {
-      log.error('New user failure', e.message, e, { dialogShown: true })
-      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, e.message)
+    } catch (exception) {
+      const { message } = exception
+      const uiMessage = decorate(exception, ExceptionCode.E8)
 
-      // showErrorDialog('Something went on our side. Please try again')
+      log.error('New user failure', message, exception, {
+        dialogShown: true,
+      })
+
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
       setCreateError(true)
       return false
     } finally {
@@ -608,8 +617,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
+        // we need to assign our custom error code for the received error object which will be sent to the sentry
+        // the general error message not required
+        decorate(e, ExceptionCode.E9)
+
         log.error('email verification failed unexpected:', e.message, e, { dialogShown: true })
-        return showErrorDialog('Could not send verification email. Please try again', 'EMAIL-UNEXPECTED-1')
+        return showErrorDialog('Could not send verification email. Please try again', ExceptionCode.E9)
       } finally {
         setLoading(false)
       }

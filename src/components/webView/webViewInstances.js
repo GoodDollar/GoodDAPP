@@ -12,8 +12,8 @@ const dashboard = trimEnd(dashboardUrl, ' #/')
 export const PrivacyPolicyAndTerms = createIframe(`https://community.gooddollar.org/${tou}/`, 'Privacy Policy & Terms')
 export const PrivacyPolicy = createIframe(`https://community.gooddollar.org/${tou}/#privacy-policy`, 'Privacy Policy')
 
-export const Support = createIframe('https://support.gooddollar.org', ' Help & Feedback', true)
-export const SupportForUnsigned = createIframe('https://support.gooddollar.org', ' Help & Feedback', true, 'Login')
+export const Support = createIframe('https://help.gooddollar.org', ' Help & Feedback', true)
+export const SupportForUnsigned = createIframe('https://help.gooddollar.org', ' Help & Feedback', true, 'Login')
 
 export const Statistics = createIframe(`${dashboard}/admin/dashboard`, 'Statistics')
 export const FAQ = createIframe(`https://community.gooddollar.org/${faq}`, 'FAQ')

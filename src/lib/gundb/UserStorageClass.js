@@ -1,6 +1,20 @@
 //@flow
 import Mutex from 'await-mutex'
-import { find, flatten, get, isEqual, keys, maxBy, memoize, merge, orderBy, takeWhile, toPairs, values } from 'lodash'
+import {
+  find,
+  flatten,
+  get,
+  isEqual,
+  isError,
+  keys,
+  maxBy,
+  memoize,
+  merge,
+  orderBy,
+  takeWhile,
+  toPairs,
+  values,
+} from 'lodash'
 import isEmail from 'validator/lib/isEmail'
 import moment from 'moment'
 import Gun from '@gooddollar/gun'
@@ -13,7 +27,8 @@ import { retry } from 'rxjs/operators'
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
 import API from '../API/api'
-import pino, { ExceptionCategory } from '../logger/pino-logger'
+import pino from '../logger/pino-logger'
+import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
@@ -573,7 +588,10 @@ export class UserStorage {
    * Initialize wallet, gundb user, feed and subscribe to events
    */
   async initRegistered() {
-    logger.debug('Initializing GunDB UserStorage for resgistered user')
+    logger.debug('Initializing GunDB UserStorage for resgistered user', this.initializedRegistered)
+    if (this.initializedRegistered) {
+      return
+    }
 
     //get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
@@ -615,10 +633,11 @@ export class UserStorage {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
     })
-    logger.debug('init systemfeed')
+    logger.debug('starting systemfeed and tokens')
 
     await Promise.all([this.startSystemFeed(), this.initTokens()])
-
+    logger.debug('done initializing registered userstorage')
+    this.initializedRegistered = true
     return true
   }
 
@@ -689,6 +708,7 @@ export class UserStorage {
       this.getProfileFieldValue('inviteCode'),
       this.getProfileFieldValue('marketToken'),
     ])
+    logger.debug('initTokens: got profile tokens')
 
     let [_token] = await Promise.all([token || initLoginToken(), marketToken || initMarketToken()])
 
@@ -703,6 +723,8 @@ export class UserStorage {
         this.setProfileField('inviteCode', inviteCode, 'private')
       }
     }
+
+    logger.debug('initTokens: done')
   }
 
   /**
@@ -1236,7 +1258,17 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
-      .catch(e => logger.error('getProfileFieldValue decrypt failed:', e.msg, e))
+      .catch(reason => {
+        let exception = reason
+        let { message } = exception
+
+        if (!isError(reason)) {
+          message = reason
+          exception = new Error(reason)
+        }
+
+        logger.error('getProfileFieldValue decrypt failed:', message, exception)
+      })
   }
 
   getProfileFieldDisplayValue(field: string): Promise<string> {

@@ -5,8 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { isFunction, noop } from 'lodash'
 
 // components
-import UnsupportedDialog from '../components/UnsupportedDialog'
-import SwitchToSafariDialog from '../components/SwitchToSafariDialog'
+import SwitchToChromeOrSafari from '../components/SwitchToChromeOrSafari'
 
 // hooks
 import useMountedState from '../../../lib/hooks/useMountedState'
@@ -31,7 +30,7 @@ export default (options = {}) => {
   const [showDialog] = useDialog()
   const mountedState = useMountedState()
   const [isSupported, setSupported] = useState(false)
-  const UnsupportedPopup = unsupportedPopup || (isIOSWeb ? SwitchToSafariDialog : UnsupportedDialog)
+  const UnsupportedPopup = unsupportedPopup || SwitchToChromeOrSafari
 
   const showPopup = useCallback(
     ({ onDismiss = noop, ...props }) =>

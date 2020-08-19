@@ -85,6 +85,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   })
 
   const [, checkForCameraSupport] = useCameraSupport({
+    checkOnMounted: false,
     onSupported: requestCameraPermissions,
     onUnsupported: navigateToHome,
   })

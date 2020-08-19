@@ -9,11 +9,12 @@ import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBISc
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { get, invokeMap, values } from 'lodash'
+import { get, invokeMap, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import Config from '../../config/config'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
-import API from '../API/api'
+import logger from '../../lib/logger/pino-logger'
+import { ExceptionCategory } from '../../lib/logger/exceptions'
+import API from '../../lib/API/api'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 
@@ -208,6 +209,142 @@ export class GoodWallet {
     return get(ContractsAddress, `${this.network}.SignupBonus`).toLowerCase()
   }
 
+  async pollEvents(fn, time, lastBlockCallback) {
+    try {
+      const nextLastBlock = await this.wallet.eth.getBlockNumber()
+      await fn()
+      this.lastEventsBlock = nextLastBlock
+
+      lastBlockCallback(nextLastBlock)
+      log.info('pollEvents success:', { nextLastBlock, lastBlockCallback })
+    } catch (e) {
+      log.error('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
+    }
+    setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
+  }
+
+  //eslint-disable-next-line require-await
+  async watchEvents(fromBlock, lastBlockCallback) {
+    this.lastEventsBlock = fromBlock
+    this.pollEvents(
+      () => Promise.all([this.pollSendEvents(), this.pollReceiveEvents(), this.pollOTPLEvents()]),
+      5000,
+      lastBlockCallback,
+    )
+  }
+
+  async pollSendEvents() {
+    const fromBlock = this.lastEventsBlock
+    const contract = this.erc20Contract
+
+    const fromEventsFilter = {
+      fromBlock,
+      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
+    }
+
+    const events = await contract.getPastEvents('Transfer', fromEventsFilter).catch(e => {
+      log.error('pollSendEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+      })
+      return []
+    })
+
+    if (events.length === 0) {
+      return
+    }
+
+    log.info('pollSendEvents result:', events)
+    const uniqEvents = uniqBy(events, 'transactionHash')
+
+    uniqEvents.forEach(event => {
+      this.getReceiptWithLogs(event.transactionHash)
+        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+        .catch(err =>
+          log.error('pollSendEvents event get/send receipt failed:', err.message, err, {
+            category: ExceptionCategory.Blockhain,
+          }),
+        )
+    })
+
+    // Send for all events. We could define here different events
+    this.getSubscribers('send').forEach(cb => cb(events))
+    this.getSubscribers('balanceChanged').forEach(cb => cb(events))
+  }
+
+  async pollReceiveEvents() {
+    const fromBlock = this.lastEventsBlock
+    const contract = this.erc20Contract
+
+    const toEventsFilter = {
+      fromBlock,
+      filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
+    }
+
+    const events = await contract.getPastEvents('Transfer', toEventsFilter).catch(e => {
+      log.error('pollReceiveEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+      })
+      return []
+    })
+    if (events.length === 0) {
+      return
+    }
+    log.info('pollReceiveEvents result:', events)
+    const uniqEvents = uniqBy(events, 'transactionHash')
+
+    uniqEvents.forEach(event => {
+      this.getReceiptWithLogs(event.transactionHash)
+        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
+        .catch(err =>
+          log.error('pollReceiveEvents event get/send receipt failed:', err.message, err, {
+            category: ExceptionCategory.Blockhain,
+          }),
+        )
+    })
+
+    // Send for all events. We could define here different events
+    this.getSubscribers('receive').forEach(cb => cb(events))
+    this.getSubscribers('balanceChanged').forEach(cb => cb(events))
+  }
+
+  async pollOTPLEvents() {
+    const fromBlock = this.lastEventsBlock
+    const contract = this.oneTimePaymentsContract
+
+    const fromEventsFilter = {
+      fromBlock,
+      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
+    }
+
+    const eventsWithdraw = await contract.getPastEvents('PaymentWithdraw', fromEventsFilter).catch(e => {
+      log.error('pollOTPLEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+      })
+      return []
+    })
+
+    const eventsCancel = await contract.getPastEvents('PaymentCancel', fromEventsFilter).catch(e => {
+      log.error('pollOTPLEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+      })
+      return []
+    })
+
+    const events = eventsWithdraw.concat(eventsCancel)
+    log.info('pollOTPLEvents result', events)
+    const uniqEvents = uniqBy(events, 'transactionHash')
+
+    uniqEvents.forEach(event => {
+      this.getReceiptWithLogs(event.transactionHash)
+        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
+        .catch(err =>
+          log.error('pollOTPLEvents event get/send receipt failed:', err.message, err, {
+            category: ExceptionCategory.Blockhain,
+          }),
+        )
+    })
+  }
+
   /**
    * Subscribes to Transfer events (from and to) the current account
    * This is used to verify account balance changes
@@ -278,7 +415,7 @@ export class GoodWallet {
           log.warn('listenTxUpdates toEventsPromise failed:', error.message, error)
         }
       } else {
-        logger.info('listenTxUpdates subscribed to', event)
+        log.info('listenTxUpdates subscribed to', event)
 
         this.getReceiptWithLogs(event.transactionHash)
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))

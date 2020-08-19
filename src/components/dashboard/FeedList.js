@@ -3,7 +3,6 @@ import React, { createRef, useCallback, useEffect, useRef, useState } from 'reac
 import { Animated, SwipeableFlatList } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { get } from 'lodash'
-import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
 
 import GDStore from '../../lib/undux/GDStore'
@@ -74,14 +73,16 @@ const FeedList = ({
     }
   }
 
+  // the key should be always the same value. The 'id' will surely exist in every item
+  // if 'id' somehow wont exist then 'createdDate' 100% will (see UserStorageClass -> handleReceiptUpdated -> receiptDate)
   const keyExtractor = item => {
-    const { id } = item
+    const { id, createdDate } = item
 
-    if (!id || String(id).length < 60) {
-      return uuidv4()
-    }
+     if (!id || String(id).length < 60) {
+       return createdDate
+     }
 
-    return id
+     return id
   }
 
   const getItemLayout = (_: any, index: number) => {

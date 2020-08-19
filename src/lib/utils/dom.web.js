@@ -12,16 +12,18 @@ export const scriptLoaded = async src => {
   }
 
   let onScriptErrorHandler
+  let onScriptLoadedHandler
   const { token, cancel } = CancelToken.source()
 
   return Promise.race([
-    new Promise((_, reject) =>
-      scriptTag.addEventListener('error', (onScriptErrorHandler = exception => over([reject, cancel])(exception))),
-    ),
+    new Promise((resolve, reject) => {
+      scriptTag.addEventListener('load', (onScriptLoadedHandler = () => over([resolve, cancel])(scriptTag)))
+      scriptTag.addEventListener('error', (onScriptErrorHandler = exception => over([reject, cancel])(exception)))
+    }),
 
-    axios
-      .get(scriptSrc, { cancelToken: token })
-      .then(noop)
-      .finally(() => scriptTag.removeEventListener('error', onScriptErrorHandler)),
-  ])
+    axios.get(scriptSrc, { cancelToken: token }).finally(() => {
+      scriptTag.removeEventListener('load', onScriptLoadedHandler)
+      scriptTag.removeEventListener('error', onScriptErrorHandler)
+    }),
+  ]).then(noop)
 }

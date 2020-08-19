@@ -5,7 +5,9 @@ import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import { DESTINATION_PATH } from '../../lib/constants/localStorage'
+import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localStorage'
+import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
+
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -140,7 +142,10 @@ const AppSwitch = (props: LoadingProps) => {
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
     gdstore.set('inviteCode')(inviteCode)
-    store.set('regMethod')(userStorage.userProperties.get('regMethod'))
+    const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
+      ? REGISTRATION_METHOD_TORUS
+      : REGISTRATION_METHOD_SELF_CUSTODY
+    store.set('regMethod')(regMethod)
 
     if (isLoggedInCitizen) {
       API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))

@@ -414,8 +414,19 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       let { w3Token } = requestPayload
       requestPayload.regMethod = regMethod
 
-      const [, mnemonic] = await Promise.all([
-        userStorage.userProperties.updateAll({ cameFromW3Site: !!w3Token, regMethod }),
+      const [, , mnemonic] = await Promise.all([
+        // Stores creationBlock number into 'lastBlock' feed's node
+        goodWallet
+          .getBlockNumber()
+          .then(_ => _.toString())
+          .catch(e => {
+            const { message } = e
+            log.error('save blocknumber failed:', message, e, { category: ExceptionCategory.Blockhain })
+            return '0'
+          })
+          .then(block =>
+            userStorage.userProperties.updateAll({ cameFromW3Site: !!w3Token, regMethod, lastBlock: block }),
+          ),
         AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
       ])
 
@@ -434,32 +445,19 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       let newUserData
 
-      await Promise.all([
-        // Stores creationBlock number into 'lastBlock' feed's node
-        goodWallet
-          .getBlockNumber()
-          .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString()))
-          .catch(exception => {
-            const { message } = exception
+      await API.addUser(requestPayload)
+        .then(({ data }) => (newUserData = data))
+        .catch(exception => {
+          const { message } = exception
 
-            log.error('save blocknumber failed:', message, exception, { category: ExceptionCategory.Blockhain })
+          // if user already exists just log.warn then continue signup
+          if ('You cannot create more than 1 account with the same credentials' === message) {
+            log.warn('User already exists during addUser() call:', message, exception)
+          } else {
+            // otherwise re-throwing exception to be catched in the parent try {}
             throw exception
-          }),
-
-        API.addUser(requestPayload)
-          .then(({ data }) => (newUserData = data))
-          .catch(exception => {
-            const { message } = exception
-
-            // if user already exists just log.warn then continue signup
-            if ('You cannot create more than 1 account with the same credentials' === message) {
-              log.warn('User already exists during addUser() call:', message, exception)
-            } else {
-              // otherwise re-throwing exception to be catched in the parent try {}
-              throw exception
-            }
-          }),
-      ])
+          }
+        })
 
       //set tokens for other services returned from backedn
       await Promise.all(

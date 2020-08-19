@@ -1,5 +1,5 @@
 // libraries
-import React, { memo, useEffect } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'
 
@@ -8,6 +8,8 @@ import Splash, { animationDuration } from './components/splash/Splash'
 
 // hooks
 import useUpgradeDialog from './lib/hooks/useUpgradeDialog'
+import useBrowserSupport from './components/browserSupport/hooks/useBrowserSupport'
+import UnsupportedDialog from './components/browserSupport/components/UnsupportedDialog'
 
 // utils
 import SimpleStore from './lib/undux/SimpleStore'
@@ -118,10 +120,25 @@ const RouterSelector = () => {
   // we use global state for signup process to signal user has registered
   const store = SimpleStore.useStore()
   const isLoggedIn = store.get('isLoggedIn')
+  const [ignoreUnsupported, setIgnoreUnsupported] = useState(false)
+  const [checkedForBrowserSupport, setCheckedForBrowserSupport] = useState(false)
 
+  const [supported] = useBrowserSupport({
+    unsupportedPopup: UnsupportedDialog,
+
+    // if user dismisses the dialog, that means he/she ignored the warning
+    // in this case we're setting the corresponding flag and continue loading
+    onUnsupported: () => setIgnoreUnsupported(true),
+
+    // setting checked flag to start splash animation
+    onChecked: () => setCheckedForBrowserSupport(true),
+  })
+
+  // statring anumation once we're checked for browser support and awaited
+  // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense fallback={<Splash animation />}>
-      <NestedRouter isLoggedIn={isLoggedIn} />
+    <React.Suspense fallback={<Splash animation={checkedForBrowserSupport} />}>
+      {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedIn} />}
     </React.Suspense>
   )
 }

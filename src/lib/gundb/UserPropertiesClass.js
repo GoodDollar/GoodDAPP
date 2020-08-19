@@ -1,6 +1,9 @@
 // @flow
 import { assign } from 'lodash'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
+import pino from '../logger/pino-logger'
+
+const log = pino.child({ from: 'UserProperties' })
 
 /**
  * Users gundb to handle user storage.
@@ -48,21 +51,29 @@ export default class UserProperties {
 
   data: {}
 
-  constructor(propertiesGun: Gun) {
-    this.gun = propertiesGun
+  constructor(gun: Gun) {
+    this.gun = gun.user().get('properties')
 
     this.ready = (async () => {
       let props
       const { defaultProperties } = UserProperties
 
+      //make sure we fetch props first and not having gun return undefined
+      await this.props
       try {
-        props = await propertiesGun.decrypt()
-      } catch {
+        props = await this.props.decrypt()
+      } catch (e) {
+        log.error('failed decrypting props', e.message, e)
         props = {}
       }
-
+      props === undefined && log.warn('undefined props from decrypt')
       this.data = assign({}, defaultProperties, props)
+      return this.data
     })()
+  }
+
+  get props() {
+    return this.gun.user().get('properties')
   }
 
   /**
@@ -114,7 +125,7 @@ export default class UserProperties {
     const { defaultProperties } = UserProperties
 
     this.data = assign({}, defaultProperties)
-    await this.gun.secret(defaultProperties)
+    await this.props.secret(defaultProperties)
 
     return true
   }

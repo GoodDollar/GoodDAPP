@@ -16,6 +16,7 @@ export default () => {
   const _canShare = canShare()
 
   const _shareAction = useCallback(
+    // eslint-disable-next-line require-await
     async (shareObj, customErrorMessage) => importedShareAction(shareObj, showErrorDialog, customErrorMessage),
     [showErrorDialog],
   )

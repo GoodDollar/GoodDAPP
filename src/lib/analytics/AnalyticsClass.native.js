@@ -8,7 +8,9 @@ export default new class {
 
   FS = undefined
 
-  GoogleAnalytics = {}
+  GoogleAnalytics = undefined
 
-  Mautic = {}
+  fullStoryReady = () => {
+    return false
+  }
 }()

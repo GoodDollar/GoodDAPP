@@ -1,15 +1,13 @@
 //@flow
-import { assign, debounce, forEach, get, isFunction, isString } from 'lodash'
+import { debounce, forEach, get, isFunction, isString } from 'lodash'
 import { isMobileReactNative } from '../utils/platform'
-import { scriptLoaded } from '../utils/dom.web'
-import { successState } from '../utils/async'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import { ERROR_LOG } from '../constants/analytics'
 import AnalyticsClass from './AnalyticsClass'
 
-const { Amplitude, Mautic, FS, GoogleAnalytics, Sentry } = AnalyticsClass
+const { Amplitude, Mautic, FS, GoogleAnalytics, Sentry, fullStoryReady, mauticReady } = AnalyticsClass
 const { sentryDSN, amplitudeKey, version, env, network, phase } = Config
 const log = logger.child({ from: 'analytics' })
 
@@ -39,46 +37,11 @@ export default new class {
     })
   }
 
-  mauticReady = successState(scriptLoaded('mtc.js'))
-
-  /** @private */
-  // eslint-disable-next-line require-await
-  fullStoryReady = successState(async () => {
-    const { _fs_ready, _fs_script } = window // eslint-disable-line camelcase
-
-    // eslint-disable-next-line camelcase
-    if (!_fs_script) {
-      // will be caught by the successState
-      throw new Error("FullStory snippet isn't installed")
-    }
-
-    const readyPromise = new Promise(resolve =>
-      assign(window, {
-        _fs_ready: () => {
-          if (isFunction(_fs_ready)) {
-            _fs_ready()
-          }
-
-          resolve()
-        },
-      }),
-    )
-
-    return Promise.race([
-      // we would race with scriptLoaded's rejection only so we're returning an endless
-      // promise on then() to guarantee that readyPromise could resolve the next one
-      scriptLoaded(_fs_script).then(() => new Promise(() => {})),
-      readyPromise,
-    ])
-  })
-
   initAnalytics = async () => {
-    const isFSAvailable = !!FS
     const {
+      isFSAvailable,
       isFSEnabled,
       isAmplitudeEnabled,
-      fullStoryReady,
-      mauticReady,
       initAmplitude,
       isSentryEnabled,
       isMauticEnabled,
@@ -90,7 +53,7 @@ export default new class {
 
     await Promise.all([
       isFSEnabled && fullStoryReady.then(ready => (this.isFSEnabled = ready)),
-      isMauticEnabled && mauticReady.then(ready => (this.isMauticEnabled = ready)),
+      isMauticEnabled && !isMobileReactNative && mauticReady.then(ready => (this.isMauticEnabled = ready)),
       isAmplitudeEnabled && initAmplitude(amplitudeKey).then(ready => (this.isAmplitudeEnabled = ready)),
     ])
 

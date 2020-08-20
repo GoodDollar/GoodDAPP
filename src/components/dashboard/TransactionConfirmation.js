@@ -47,7 +47,8 @@ const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     let type = 'share'
 
     if (canShare) {
-      shareAction(paymentLink)
+      //wait for native share before going to dashboard
+      await shareAction(paymentLink)
       goToRoot()
     } else {
       if (!(await setString(paymentLink))) {

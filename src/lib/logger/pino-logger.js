@@ -9,4 +9,3 @@ logger.debug = logger.info
 global.logger = logger
 
 export default logger
-

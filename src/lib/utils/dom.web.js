@@ -1,46 +1,20 @@
 // @flow
-import axios, { CancelToken } from 'axios'
-import { noop, over } from 'lodash'
+import { get } from 'lodash'
 
 // eslint-disable-next-line require-await
-export const scriptLoaded = async src => {
-  const scriptTag = document.querySelector(`script[src*='${src}']`) // eslint-disable-line camelcase
-  const scriptSrc = scriptTag.src
+export const isScriptFailed = src => {
+  const scriptTag = document.querySelector(`script[src*='${src}']`)
 
   if (!scriptTag) {
-    throw new Error(`Couldn't find the script with src includes '${src}'`)
+    return true
   }
 
-  let unsubscribe
-  let unsubscribed = false
-  const { token, cancel } = CancelToken.source()
+  const scriptSrc = scriptTag.src
+  const failedScripts = get(window, '__failed_scripts', {})
 
-  return Promise.race([
-    new Promise((resolve, reject) => {
-      unsubscribe = () => {
-        if (unsubscribed) {
-          return
-        }
+  if (scriptSrc in failedScripts) {
+    return failedScripts[scriptSrc]
+  }
 
-        unsubscribed = true
-        scriptTag.removeEventListener('load', onScriptLoaded)
-        scriptTag.removeEventListener('error', onScriptError)
-      }
-
-      const onScriptLoaded = () => {
-        unsubscribe()
-        over([resolve, cancel])(scriptTag)
-      }
-
-      const onScriptError = exception => {
-        unsubscribe()
-        over([reject, cancel])(exception)
-      }
-
-      scriptTag.addEventListener('load', onScriptLoaded)
-      scriptTag.addEventListener('error', onScriptError)
-    }),
-
-    axios.get(scriptSrc, { cancelToken: token }).finally(() => unsubscribe()),
-  ]).then(noop)
+  return false
 }

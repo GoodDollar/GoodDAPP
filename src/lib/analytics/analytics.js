@@ -11,8 +11,7 @@ import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { isMobileReactNative } from '../../lib/utils/platform'
-import { scriptLoaded } from '../utils/dom'
-import { successState } from '../utils/async'
+import { isScriptFailed } from '../utils/dom'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -76,38 +75,27 @@ const initAmplitude = async key => {
 }
 
 /** @private */
-const mauticReady = successState(scriptLoaded('mtc.js'))
-
-/** @private */
 // eslint-disable-next-line require-await
-const fullStoryReady = successState(async () => {
+const fullStoryInitialized = (async () => {
   const { _fs_ready, _fs_script } = window // eslint-disable-line camelcase
 
   // eslint-disable-next-line camelcase
-  if (!_fs_script) {
-    // will be caught by the successState
-    throw new Error("FullStory snippet isn't installed")
+  if (isScriptFailed(_fs_script)) {
+    return false
   }
 
-  const readyPromise = new Promise(resolve =>
+  return new Promise(resolve =>
     assign(window, {
       _fs_ready: () => {
         if (isFunction(_fs_ready)) {
           _fs_ready()
         }
 
-        resolve()
+        resolve(true)
       },
     }),
   )
-
-  return Promise.race([
-    // we would race with scriptLoaded's rejection only so we're returning an endless
-    // promise on then() to guarantee that readyPromise could resolve the next one
-    scriptLoaded(_fs_script).then(() => new Promise(() => {})),
-    readyPromise,
-  ])
-})
+})()
 
 const Amplitude = amplitude.getInstance()
 const { mt: Mautic, FS, dataLayer: GoogleAnalytics } = global
@@ -122,15 +110,18 @@ export const initAnalytics = async () => {
   isGoogleAnalyticsEnabled = !!GoogleAnalytics
   isMauticEnabled = !!Mautic
 
-  log.info('pre-initializing & preloading FS, Mautic & Amplitude')
+  log.info('pre-initializing & preloading FS & Amplitude')
 
   await Promise.all([
-    isFSEnabled && fullStoryReady.then(ready => (isFSEnabled = ready)),
-    isMauticEnabled && mauticReady.then(ready => (isMauticEnabled = ready)),
-    isAmplitudeEnabled && initAmplitude(amplitudeKey).then(ready => (isAmplitudeEnabled = ready)),
+    isFSEnabled && fullStoryInitialized.then(success => (isFSEnabled = success)),
+    isAmplitudeEnabled && initAmplitude(amplitudeKey).then(success => (isAmplitudeEnabled = success)),
   ])
 
-  log.info('preloaded FS, Mautic & Amplitude')
+  if (isMauticEnabled && isScriptFailed('mtc.js')) {
+    isMauticEnabled = false
+  }
+
+  log.info('preloaded FS & Amplitude')
 
   if (isFSAvailable && !isFSEnabled && isFunction(FS.shutdown)) {
     FS.shutdown()

@@ -29,7 +29,7 @@ export const decorate = (exception, withCode) => {
 
   if (!name || 'Error' === name) {
     exception.name = codeString
-  }  
+  }
 
   return `Sorry, something unexpected happened, please try again. \nError: ${codeString}`
 }

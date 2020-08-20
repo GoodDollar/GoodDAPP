@@ -1,6 +1,8 @@
 //@flow
-import { debounce, forEach, get, isFunction, isString } from 'lodash'
+import { assign, debounce, forEach, get, isFunction, isString } from 'lodash'
 import { isMobileReactNative } from '../utils/platform'
+import { scriptLoaded } from '../utils/dom.web'
+import { successState } from '../utils/async'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
@@ -29,40 +31,54 @@ export default new class {
     if (!this.isAmplitudeEnabled) {
       return
     }
+    return new Promise(resolve => {
+      const onError = () => resolve(false)
+      const onSuccess = () => resolve(true)
+
+      Amplitude.init(key, null, { onError }, onSuccess)
+    })
   }
 
-  initFullStory = new Promise(resolve => {
-    // in native cannot find var document
-    if (isMobileReactNative) {
-      resolve(false)
+  mauticReady = successState(scriptLoaded('mtc.js'))
+
+  /** @private */
+  // eslint-disable-next-line require-await
+  fullStoryReady = successState(async () => {
+    const { _fs_ready, _fs_script } = window // eslint-disable-line camelcase
+
+    // eslint-disable-next-line camelcase
+    if (!_fs_script) {
+      // will be caught by the successState
+      throw new Error("FullStory snippet isn't installed")
     }
 
-    const { _fs_ready, _fs_host } = window // eslint-disable-line camelcase
-    const fsScriptTag = document.querySelector(`script[src*='${_fs_host}']`) // eslint-disable-line camelcase
+    const readyPromise = new Promise(resolve =>
+      assign(window, {
+        _fs_ready: () => {
+          if (isFunction(_fs_ready)) {
+            _fs_ready()
+          }
 
-    if (!fsScriptTag) {
-      resolve(false)
-    }
+          resolve()
+        },
+      }),
+    )
 
-    fsScriptTag.addEventListener('error', () => resolve(false))
-
-    Object.assign(window, {
-      _fs_ready: () => {
-        if (isFunction(_fs_ready)) {
-          _fs_ready()
-        }
-
-        resolve(true)
-      },
-    })
+    return Promise.race([
+      // we would race with scriptLoaded's rejection only so we're returning an endless
+      // promise on then() to guarantee that readyPromise could resolve the next one
+      scriptLoaded(_fs_script).then(() => new Promise(() => {})),
+      readyPromise,
+    ])
   })
 
   initAnalytics = async () => {
     const isFSAvailable = !!FS
     const {
       isFSEnabled,
-      initFullStory,
       isAmplitudeEnabled,
+      fullStoryReady,
+      mauticReady,
       initAmplitude,
       isSentryEnabled,
       isMauticEnabled,
@@ -70,13 +86,17 @@ export default new class {
       patchLogger,
     } = this
 
-    // pre-initializing & preloading FS & Amplitude
+    log.info('pre-initializing & preloading FS, Mautic & Amplitude')
+
     await Promise.all([
-      isFSEnabled && initFullStory.then(success => (this.isFSEnabled = success)),
-      isAmplitudeEnabled && initAmplitude(amplitudeKey),
+      isFSEnabled && fullStoryReady.then(ready => (this.isFSEnabled = ready)),
+      isMauticEnabled && mauticReady.then(ready => (this.isMauticEnabled = ready)),
+      isAmplitudeEnabled && initAmplitude(amplitudeKey).then(ready => (this.isAmplitudeEnabled = ready)),
     ])
 
-    if (!isFSEnabled && isFSAvailable) {
+    log.info('preloaded FS, Mautic & Amplitude')
+
+    if (isFSAvailable && !isFSEnabled && isFunction(FS.shutdown)) {
       FS.shutdown()
     }
 
@@ -130,7 +150,7 @@ export default new class {
       Amplitude.setUserProperties({ email })
     }
 
-    if (FS) {
+    if (this.isFSEnabled) {
       FS.setUserVars({
         email,
       })
@@ -158,7 +178,7 @@ export default new class {
       Amplitude.setUserId(identifier)
     }
 
-    if (FS) {
+    if (isFSEnabled) {
       FS.identify(identifier, {
         appVersion: version,
         phase,

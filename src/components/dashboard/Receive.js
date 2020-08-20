@@ -45,6 +45,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
   const fireReceiveDoneEvent = useOnPress(() => fireEvent('RECEIVE_DONE', { type: 'wallet' }), [])
 
   const shareHandler = useOnPress(() => {
+    // not mandatory to await for shareAction as there no visual changes after it
     shareAction(share)
     fireReceiveDoneEvent()
   }, [shareAction, share, fireReceiveDoneEvent])

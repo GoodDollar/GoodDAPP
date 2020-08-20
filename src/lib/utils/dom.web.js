@@ -11,19 +11,36 @@ export const scriptLoaded = async src => {
     throw new Error(`Couldn't find the script with src includes '${src}'`)
   }
 
-  let onScriptErrorHandler
-  let onScriptLoadedHandler
+  let unsubscribe
+  let unsubscribed = false
   const { token, cancel } = CancelToken.source()
 
   return Promise.race([
     new Promise((resolve, reject) => {
-      scriptTag.addEventListener('load', (onScriptLoadedHandler = () => over([resolve, cancel])(scriptTag)))
-      scriptTag.addEventListener('error', (onScriptErrorHandler = exception => over([reject, cancel])(exception)))
+      unsubscribe = () => {
+        if (unsubscribed) {
+          return
+        }
+
+        unsubscribed = true
+        scriptTag.removeEventListener('load', onScriptLoaded)
+        scriptTag.removeEventListener('error', onScriptError)
+      }
+
+      const onScriptLoaded = () => {
+        unsubscribe()
+        over([resolve, cancel])(scriptTag)
+      }
+
+      const onScriptError = exception => {
+        unsubscribe()
+        over([reject, cancel])(exception)
+      }
+
+      scriptTag.addEventListener('load', onScriptLoaded)
+      scriptTag.addEventListener('error', onScriptError)
     }),
 
-    axios.get(scriptSrc, { cancelToken: token }).finally(() => {
-      scriptTag.removeEventListener('load', onScriptLoadedHandler)
-      scriptTag.removeEventListener('error', onScriptErrorHandler)
-    }),
+    axios.get(scriptSrc, { cancelToken: token }).finally(() => unsubscribe()),
   ]).then(noop)
 }

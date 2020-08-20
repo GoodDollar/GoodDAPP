@@ -20,6 +20,6 @@ describe('Test case 9: Delete temporary user', () => {
     HomePage.optionsButton.click({ force: true })
     HomePage.deleteAccountButton.click()
     HomePage.confirmDeletionButton.click()
-    // SocialLoginPage.googleLink.should('be.visible')
+    SocialLoginPage.googleLink.should('be.visible')
   })
 })

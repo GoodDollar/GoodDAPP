@@ -11,7 +11,7 @@ import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { isMobileReactNative } from '../../lib/utils/platform'
-import { scriptLoaded } from '../utils/dom.web'
+import { scriptLoaded } from '../utils/dom'
 import { successState } from '../utils/async'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'

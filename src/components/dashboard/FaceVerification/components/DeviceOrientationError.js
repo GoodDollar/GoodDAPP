@@ -11,7 +11,10 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { withStyles } from '../../../../lib/styles'
 
-import { fireEvent, FV_WRONGORIENTATION } from '../../../../lib/analytics/analytics'
+import Analytics from '../../../../lib/analytics/analytics'
+import { FV_WRONGORIENTATION } from '../../../../lib/constants/analytics'
+
+const { fireEvent } = Analytics
 
 if (Platform.OS === 'web') {
   Image.prefetch(illustration)

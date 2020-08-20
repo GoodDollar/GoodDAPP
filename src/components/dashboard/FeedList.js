@@ -17,11 +17,13 @@ import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import useOnPress from '../../lib/hooks/useOnPress'
 import logger from '../../lib/logger/pino-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
-import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
+import { CARD_OPEN } from '../../lib/constants/analytics'
+import Analytics from '../../lib/analytics/analytics'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedActions from './FeedActions'
 
 const log = logger.child({ from: 'ShareButton' })
+const { fireEvent } = Analytics
 
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,

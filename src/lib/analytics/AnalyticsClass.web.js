@@ -1,14 +1,14 @@
 import * as SentryWeb from '@sentry/browser'
 import amplitude from 'amplitude-js'
 
-class AnalyticsClass {
-  Sentry = SentryWeb
-
+export default new class {
   Amplitude = amplitude.getInstance()
 
-  FS = {}
+  Mautic = global.mt
 
-  GoogleAnalytics = {}
-}
+  FS = global.FS
 
-export default new AnalyticsClass()
+  GoogleAnalytics = global.dataLayer
+
+  Sentry = SentryWeb
+}()

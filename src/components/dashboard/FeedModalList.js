@@ -6,7 +6,8 @@ import { once } from 'lodash'
 import { isMobileOnly } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getMaxDeviceWidth, getScreenHeight, getScreenWidth } from '../../lib/utils/Orientation'
-import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
+import { CARD_SLIDE } from '../../lib/constants/analytics'
+import Analytics from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
 
 const VIEWABILITY_CONFIG = {
@@ -17,6 +18,7 @@ const VIEWABILITY_CONFIG = {
 
 const maxScreenWidth = getMaxDeviceWidth()
 const emptyFeed = { type: 'empty', data: {} }
+const { fireEvent } = Analytics
 
 export type FeedModalListProps = {
   data: any,

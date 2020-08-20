@@ -11,7 +11,7 @@ import AuthTorus from './components/auth/torus/AuthTorus'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
-import { fireEventFromNavigation } from './lib/analytics/analytics'
+import Analytics from './lib/analytics/analytics'
 import { getOriginalScreenHeight } from './lib/utils/Orientation'
 
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
@@ -19,6 +19,8 @@ import { getOriginalScreenHeight } from './lib/utils/Orientation'
 const initialRouteName = 'Auth' // isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 
 const AuthType = isWeb && Config.torusEnabled ? AuthTorus : Auth
+
+const { fireEventFromNavigation } = Analytics
 
 const routes = {
   Auth: AuthType,

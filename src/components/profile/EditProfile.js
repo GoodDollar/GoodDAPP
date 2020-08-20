@@ -10,7 +10,8 @@ import { withStyles } from '../../lib/styles'
 import { Section, UserAvatar, Wrapper } from '../common'
 import SaveButton from '../common/animations/SaveButton/SaveButton'
 import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabled'
-import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
+import Analytics from '../../lib/analytics/analytics'
+import { PROFILE_UPDATE } from '../../lib/constants/analytics'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import useOnPress from '../../lib/hooks/useOnPress'
 import CameraButton from './CameraButton'
@@ -18,6 +19,7 @@ import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
+const { fireEvent } = Analytics
 const avatarSize = getDesignRelativeWidth(136)
 const AVATAR_MARGIN = 6
 

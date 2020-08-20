@@ -2,11 +2,13 @@ import { useCallback } from 'react'
 import { map } from 'lodash'
 
 import GDStore, { useCurriedSetters } from '../../../../lib/undux/GDStore'
-import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
+import Analytics from '../../../../lib/analytics/analytics'
+import { FV_TRYAGAINLATER } from '../../../../lib/constants/analytics'
 import logger from '../../../../lib/logger/pino-logger'
 
 export const MAX_ATTEMPTS_ALLOWED = 3
 const log = logger.child({ from: 'useVerificationAttempts' })
+const { fireEvent } = Analytics
 
 export default () => {
   const store = GDStore.useStore()

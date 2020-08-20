@@ -10,7 +10,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import Icon from '../common/view/Icon'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import { fireEvent } from '../../lib/analytics/analytics'
+import Analytics from '../../lib/analytics/analytics'
 import ConfirmTransactionSVG from '../../assets/confirmTransaction.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useClipboard from '../../lib/hooks/useClipboard'
@@ -35,6 +35,8 @@ const instructionsTextNumberProps = {
   ...instructionsTextProps,
   fontWeight: 'bold',
 }
+
+const { fireEvent } = Analytics
 
 const TransactionConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const { canShare, shareAction } = useNativeSharing()

@@ -10,16 +10,17 @@ import useZoomSDK from '../hooks/useZoomSDK'
 import useZoomVerification from '../hooks/useZoomVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
+import Analytics from '../../../../lib/analytics/analytics'
 import {
-  fireEvent,
   FV_GETREADY_ZOOM,
   FV_PROGRESS_ZOOM,
   FV_SUCCESS_ZOOM,
   FV_TRYAGAIN_ZOOM,
   FV_ZOOMFAILED,
-} from '../../../../lib/analytics/analytics'
+} from '../../../../lib/constants/analytics'
 
 const log = logger.child({ from: 'FaceVerification' })
+const { fireEvent } = Analytics
 
 const FaceVerification = ({ screenProps }) => {
   const [showLoading, hideLoading] = useLoadingIndicator()

@@ -3,7 +3,7 @@
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
 import React, { useEffect, useState } from 'react'
-import { fireEvent } from '../../lib/analytics/analytics'
+import Analytics from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
@@ -24,6 +24,7 @@ export type AmountProps = {
 }
 
 const log = logger.child({ from: 'SendQRSummary' })
+const { fireEvent } = Analytics
 
 /**
  * Screen that shows transaction summary for a send qr action

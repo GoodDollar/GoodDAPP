@@ -28,7 +28,7 @@ import retryImport from '../../lib/utils/retryImport'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
-import { fireEvent, identifyOnUserSignup, identifyWith } from '../../lib/analytics/analytics'
+import Analytics from '../../lib/analytics/analytics'
 import { parsePaymentLinkParams } from '../../lib/share'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
@@ -40,6 +40,7 @@ import NameForm from './NameForm'
 
 // import MagicLinkInfo from './MagicLinkInfo'
 const log = logger.child({ from: 'SignupState' })
+const { fireEvent, identifyOnUserSignup, identifyWith } = Analytics
 
 export type SignupState = UserModel & SMSRecord & { invite_code?: string }
 

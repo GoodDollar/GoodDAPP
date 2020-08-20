@@ -7,10 +7,13 @@ import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import logger from './lib/logger/pino-logger'
-import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
+import Analytics from './lib/analytics/analytics'
+import { SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/constants/analytics'
 import Config from './config/config'
 import restart from './lib/utils/restart'
 import DeepLinking from './lib/utils/deepLinking'
+
+const { fireEvent, initAnalytics } = Analytics
 
 const log = logger.child({ from: 'RouterSelector' })
 log.debug({ Config })

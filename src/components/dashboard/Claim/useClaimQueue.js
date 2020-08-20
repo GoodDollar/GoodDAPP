@@ -5,7 +5,8 @@ import Text from '../../common/view/Text'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import API from '../../../lib/API/api'
-import { CLAIM_QUEUE, fireEvent } from '../../../lib/analytics/analytics'
+import Analytics from '../../../lib/analytics/analytics'
+import { CLAIM_QUEUE } from '../../../lib/constants/analytics'
 import useLoadingIndicator from '../../../lib/hooks/useLoadingIndicator'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
@@ -15,6 +16,7 @@ import logger from '../../../lib/logger/pino-logger'
 import claimQueueIllustration from '../../../assets/Claim/claimQueue.svg'
 
 const log = logger.child({ from: 'useClaimQueue' })
+const { fireEvent } = Analytics
 const isQueueDisabled = !Config.claimQueue
 
 const ClaimQueuePopupText = ({ styles }) => (

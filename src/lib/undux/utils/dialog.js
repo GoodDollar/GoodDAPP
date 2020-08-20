@@ -3,8 +3,10 @@ import type { Store } from 'undux'
 import SimpleStore, { assertStore } from '../SimpleStore'
 import { type DialogProps } from '../../../components/common/dialogs/CustomDialog'
 import pino from '../../logger/pino-logger'
-import { fireEvent } from '../../analytics/analytics'
+import Analytics from '../../analytics/analytics'
+
 const log = pino.child({ from: 'dialogs' })
+const { fireEvent } = Analytics
 
 export const showDialogForError = (
   store: Store,

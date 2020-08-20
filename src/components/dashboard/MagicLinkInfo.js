@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import { fireEvent } from '../../lib/analytics/analytics'
+import Analytics from '../../lib/analytics/analytics'
 import API from '../../lib/API/api'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -16,6 +16,7 @@ import Wrapper from '../common/layout/Wrapper'
 import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'MagicLinkInfo' })
+const { fireEvent } = Analytics
 
 const MagicLinkInfoComponent = props => {
   const { styles, screenProps } = props

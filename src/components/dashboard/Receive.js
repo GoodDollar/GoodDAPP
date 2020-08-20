@@ -4,7 +4,7 @@ import { PixelRatio, View } from 'react-native'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
 import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
-import { fireEvent } from '../../lib/analytics/analytics'
+import Analytics from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
@@ -19,6 +19,8 @@ export type ReceiveProps = {
   navigation: any,
   styles: any,
 }
+
+const { fireEvent } = Analytics
 
 // This condition recognizes the devices which resolution is higher than Iphone 6/7/8 Plus
 const useTopSpaceForMobile = isMobileOnlyWeb && PixelRatio.get() >= 2 && getMaxDeviceHeight() >= 622

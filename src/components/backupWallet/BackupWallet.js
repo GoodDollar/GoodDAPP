@@ -11,12 +11,14 @@ import MnemonicInput from '../signin/MnemonicInput'
 import userStorage from '../../lib/gundb/UserStorage'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
-import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
+import Analytics from '../../lib/analytics/analytics'
+import { PHRASE_BACKUP } from '../../lib/constants/analytics'
 import Wrapper from '../common/layout/Wrapper'
 import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'BackupWallet' })
 const TITLE = 'Backup my wallet'
+const { fireEvent } = Analytics
 
 type BackupWalletProps = {
   styles: {},

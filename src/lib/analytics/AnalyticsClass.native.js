@@ -1,14 +1,14 @@
 import * as SentryNative from '@sentry/react-native'
 import amplitude from 'amplitude-js'
 
-class AnalyticsClass {
+export default new class {
   Sentry = SentryNative
 
   Amplitude = amplitude.getInstance()
 
-  FS = {}
+  FS = undefined
 
   GoogleAnalytics = {}
-}
 
-export default new AnalyticsClass()
+  Mautic = {}
+}()

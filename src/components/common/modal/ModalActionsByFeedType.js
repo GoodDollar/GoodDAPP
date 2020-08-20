@@ -18,11 +18,13 @@ import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import { withStyles } from '../../../lib/styles'
 
-import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
+import { CLICK_BTN_CARD_ACTION } from '../../../lib/constants/analytics'
+import Analytics from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
 import useOnPress from '../../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
+const { fireEvent } = Analytics
 
 const ModalButton = ({ children, ...props }) => (
   <CustomButton mode="contained" style={{ minWidth: 96 }} {...props}>

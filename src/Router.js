@@ -13,12 +13,14 @@ import ExportWallet from './components/backupWallet/ExportWalletData'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
 import GDStore from './lib/undux/GDStore'
-import { fireEventFromNavigation } from './lib/analytics/analytics'
+import Analytics from './lib/analytics/analytics'
 import AddWebApp from './components/common/view/AddWebApp'
 import { isInstalledApp } from './lib/utils/platform'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import Splash from './components/splash/Splash'
 import './lib/notifications/backgroundFetch'
+
+const { fireEventFromNavigation } = Analytics
 
 const DisconnectedSplash = () => <Splash animation={false} />
 

@@ -43,6 +43,10 @@ class StartPage {
   get main() {
     return '#main'
   }
+
+  get splashScreen() {
+    return cy.get('g[clip-path="url(#__lottie_element_2)"]')
+  }
 }
 
 export default new StartPage()

@@ -20,6 +20,9 @@ describe('Test case 9: Delete temporary user', () => {
     HomePage.optionsButton.click({ force: true })
     HomePage.deleteAccountButton.click()
     HomePage.confirmDeletionButton.click()
+    cy.wait(5000) //waiting for the wallet to be deleted
+    cy.reload()
+    StartPage.splashScreen.should('be.visible')
     SocialLoginPage.googleLink.should('be.visible')
   })
 })

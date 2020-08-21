@@ -2539,7 +2539,7 @@ export class UserStorage {
               profile: 'failed',
             })),
 
-          retry(() => this.userProperties.reset())
+          retry(() => this.userProperties.reset(), 1)
             .then(r => ({
               userprops: 'ok',
             }))
@@ -2547,7 +2547,7 @@ export class UserStorage {
               userprops: 'failed',
             })),
 
-          retry(() => this.gunuser.get('registered').putAck(false))
+          retry(() => this.gunuser.get('registered').putAck(false), 1)
             .then(r => ({
               registered: 'ok',
             }))

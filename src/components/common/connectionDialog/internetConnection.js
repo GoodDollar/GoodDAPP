@@ -73,13 +73,6 @@ const InternetConnection = props => {
         }
         message = `Waiting for GoodDollar's server (${servers.join(', ')})`
       }
-      if (isConnectionWeb3 === false) {
-        servers.push('Blockchain')
-      }
-      if (isConnectionGun === false) {
-        servers.push('GunDB')
-      }
-      message = `Waiting for GoodDollar's server (${servers.join(', ')})`
 
       showDialogWindow(message, showDialog, setShowDisconnect)
     } else {

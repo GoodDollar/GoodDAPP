@@ -31,7 +31,8 @@ import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
-import { isE2ERunning } from '../utils/platform'
+
+//import { isE2ERunning } from '../utils/platform'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
 import defaultGun from './gundb'
@@ -2539,17 +2540,18 @@ export class UserStorage {
       deleteAccountResult = await retry(() => API.deleteAccount(), 1)
 
       if (get(deleteAccountResult, 'data.ok', false)) {
-        const deleteWalletPromise = _trackStatus(retry(() => wallet.deleteAccount(), 1), 'wallet')
+        //const deleteWalletPromise = _trackStatus(retry(() => wallet.deleteAccount(), 1), 'wallet')
 
         const cleanupPromises = [
+          _trackStatus(retry(() => wallet.deleteAccount(), 1), 'wallet'),
           _trackStatus(retry(() => this.deleteProfile(), 1), 'profile'),
           _trackStatus(retry(() => userProperties.reset(), 1), 'userprops'),
           _trackStatus(retry(() => gunuser.get('registered').putAck(false), 1), 'registered'),
         ]
 
-        if (!isE2ERunning) {
+        /*if (!isE2ERunning) {
           cleanupPromises.unshift(deleteWalletPromise)
-        }
+        }*/
 
         deleteResults = await Promise.all(cleanupPromises)
       }

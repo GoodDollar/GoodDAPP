@@ -78,8 +78,9 @@ const getStylesFromProps = ({ theme }) => {
     },
     halfIllustration: {
       marginTop: isMobileOnly ? getDesignRelativeHeight(30) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(30) : 0,
+      marginBottom: isMobileOnly ? getDesignRelativeHeight(35) : 0,
       width: getDesignRelativeWidth(130, false),
+      maxHeight: isMobileOnly ? 100 : 'auto',
       marginRight: 0,
       marginLeft: 0,
     },

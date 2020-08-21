@@ -2496,6 +2496,8 @@ export class UserStorage {
     //first delete from indexes then delete the profile itself
     let profileFields = await this.profile.then()
 
+    logger.debug('Deleting profile fields', keys(profileFields))
+
     await Promise.all(
       keys(profileFields).map(field => {
         if ('_' === field) {

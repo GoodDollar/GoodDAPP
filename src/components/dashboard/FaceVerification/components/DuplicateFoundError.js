@@ -81,6 +81,8 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: isMobileOnly ? getDesignRelativeHeight(35) : 0,
       width: getDesignRelativeWidth(130, false),
       maxHeight: isMobileOnly ? 100 : 'auto',
+      display: 'flex',
+      justifyContent: 'center',
       marginRight: 0,
       marginLeft: 0,
     },

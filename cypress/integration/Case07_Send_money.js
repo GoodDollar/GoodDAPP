@@ -158,6 +158,7 @@ describe('Test case 7: Ability to send money', () => {
 
   it('Check the link of send TX that was already used', () =>{
     localStorage.clear()
+
     cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       StartPage.open()
       StartPage.signInButton.click()
@@ -167,6 +168,7 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
       HomePage.claimButton.should('be.visible')
+
       return HomePage.moneyAmountDiv.invoke('text')
     }).then(moneyBefore => {
       cy.visit(link)

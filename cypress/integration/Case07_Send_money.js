@@ -167,9 +167,9 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
       HomePage.claimButton.should('be.visible')
-      cy.visit(link)
       return HomePage.moneyAmountDiv.invoke('text')
     }).then(moneyBefore => {
+      cy.visit(link)
       cy.log('Money before sending: ' + moneyBefore)
       SendMoneyPage.alreadyUsedText.should('be.visible')
       HomePage.moneyAmountDiv.invoke('text').should('eq', moneyBefore)
@@ -178,8 +178,9 @@ describe('Test case 7: Ability to send money', () => {
   })
 
   it('Check the link of send TX that canceled before withdrawn', () => {
-    localStorage.clear()
+    let moneyStart
 
+    localStorage.clear()
     cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
       StartPage.open()
       StartPage.signInButton.click()
@@ -188,6 +189,11 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
+
+      HomePage.moneyAmountDiv.invoke('text').then(moneyBeforeAbort => {
+        moneyStart = moneyBeforeAbort
+        cy.log('Money before sending: ' + moneyStart)
+      })
 
       HomePage.sendButton.click()
       SendMoneyPage.nameInput.type('canceled body')
@@ -204,14 +210,14 @@ describe('Test case 7: Ability to send money', () => {
     }).then(sendMoneyUrl => {
       const { sendMoneyLinkRegex } = SendMoneyPage
       const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
-
       cy.log(sendMoneyUrl)
       cy.log(validMoneyLnk)
 
       SendMoneyPage.doneButton.click()
-
-      cy.wait(10000) //wait for transaction to complete
       HomePage.waitForHomePageDisplayed()
+      HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyStart) - 0.01).toFixed(2))
+      
+      cy.wait(10000) //wait for transaction to complete
       cy.contains('canceled body').should('be.visible')
       cy.contains('canceled body').click()
       SendMoneyPage.cancelButton.should('be.visible')
@@ -236,60 +242,6 @@ describe('Test case 7: Ability to send money', () => {
       SendMoneyPage.alreadyUsedText.should('be.visible')
       HomePage.moneyAmountDiv.invoke('text').should('eq', moneyBefore)
       cy.contains('Ok').click()
-    })
-  })
-
-  it.skip('Abort of the transaction via link', () => {
-    let moneyStart
-
-    localStorage.clear()
-    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
-      StartPage.open()
-      StartPage.signInButton.click()
-      LoginPage.recoverFromPassPhraseLink.click()
-      LoginPage.pageHeader.should('contain', 'Recover')
-      LoginPage.mnemonicsInput.type(mnemonic)
-      LoginPage.recoverWalletButton.click()
-      LoginPage.yayButton.click()
-
-      HomePage.moneyAmountDiv.invoke('text').then(moneyBeforeAbort => {
-        moneyStart = moneyBeforeAbort
-        cy.log('Money before sending: ' + moneyStart)
-      })      
-
-      HomePage.sendButton.click()
-      SendMoneyPage.nameInput.type('abort body')
-      SendMoneyPage.nextButton.click()
-      SendMoneyPage.moneyInput.type('0.01')
-      SendMoneyPage.nextButton.click()
-      SendMoneyPage.messageInput.type('abort of the transaction')
-      SendMoneyPage.nextButton.click()
-      SendMoneyPage.confirmButton.click()
-      SendMoneyPage.copyLinkButton.click()
-      SendMoneyPage.doneButton.should('be.visible')
-
-      return cy.get('[data-testid*="http"]').invoke('attr', 'data-testid')
-    }).then(sendMoneyUrl => {
-      const { sendMoneyLinkRegex } = SendMoneyPage
-      const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
-
-      cy.log(sendMoneyUrl)
-      cy.log(validMoneyLnk)
-
-      SendMoneyPage.doneButton.click()
-
-      HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyStart) - 0.01).toFixed(2))
-
-      cy.wait(10000) //wait for transaction to complete
-      HomePage.waitForHomePageDisplayed()
-      cy.contains('abort body').should('be.visible')
-      cy.contains('abort body').click()
-      SendMoneyPage.cancelButton.should('be.visible')
-      SendMoneyPage.cancelButton.click()
-      cy.contains('abort body').should('not.be.visible')
-
-      cy.reload()
-      HomePage.moneyAmountDiv.invoke('text').should('eq', moneyStart)
     })
   })
 })

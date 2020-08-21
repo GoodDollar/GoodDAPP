@@ -16,8 +16,8 @@ describe('Test feeds', () => {
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
       HomePage.waitForHomePageDisplayed()
-      cy.wait(3000) //wait for animation
-      cy.reload()
+      HomePage.profileAvatar.click()
+      HomePage.backArrow.eq(0).click()
       HomePage.welcomeFeed.should('be.visible')
       cy.log(todaysDate)
       cy.contains('Welcome to GoodDollar!').should('be.visible')

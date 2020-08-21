@@ -2,6 +2,7 @@
 import StartPage from '../PageObjects/StartPage'
 import HomePage from '../PageObjects/HomePage'
 import LoginPage from '../PageObjects/LoginPage'
+import SocialLoginPage from '../PageObjects/SocialLoginPage'
 
 describe('Test case 9: Delete temporary user', () => {
   it('User to sign up and delete', () => {
@@ -19,9 +20,8 @@ describe('Test case 9: Delete temporary user', () => {
     HomePage.optionsButton.click({ force: true })
     HomePage.deleteAccountButton.click()
     HomePage.confirmDeletionButton.should('be.visible')
+    // cy.wait(3000)
     HomePage.confirmDeletionButton.click()
-    cy.wait(7000) //waiting for the wallet to be deleted
-    cy.reload()
-    StartPage.splashScreen.should('be.visible')
+    SocialLoginPage.googleLink.should('be.visible')
   })
 })

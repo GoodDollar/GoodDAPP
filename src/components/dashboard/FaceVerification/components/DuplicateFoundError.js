@@ -77,8 +77,8 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 5,
     },
     halfIllustration: {
-      marginTop: isMobileOnly ? getDesignRelativeHeight(10) : 0,
-      marginBottom: isMobileOnly ? getDesignRelativeHeight(10) : 0,
+      marginTop: isMobileOnly ? getDesignRelativeHeight(30) : 0,
+      marginBottom: isMobileOnly ? getDesignRelativeHeight(30) : 0,
       width: getDesignRelativeWidth(130, false),
       marginRight: 0,
       marginLeft: 0,

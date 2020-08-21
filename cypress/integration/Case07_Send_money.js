@@ -179,6 +179,7 @@ describe('Test case 7: Ability to send money', () => {
 
   it('Check the link of send TX that canceled before withdrawn', () => {
     let moneyStart
+    ley moneyLink
 
     localStorage.clear()
     cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
@@ -210,6 +211,8 @@ describe('Test case 7: Ability to send money', () => {
     }).then(sendMoneyUrl => {
       const { sendMoneyLinkRegex } = SendMoneyPage
       const [validMoneyLnk] = sendMoneyLinkRegex.exec(sendMoneyUrl)
+
+      moneyLink = validMoneyLnk
       cy.log(sendMoneyUrl)
       cy.log(validMoneyLnk)
 
@@ -234,11 +237,11 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
 
-      cy.visit(validMoneyLnk)
-      
       return HomePage.moneyAmountDiv.invoke('text')
     }).then(moneyBefore => {
       cy.log('Money before sending: ' + moneyBefore)
+      
+      cy.visit(moneyLink)
       SendMoneyPage.alreadyUsedText.should('be.visible')
       HomePage.moneyAmountDiv.invoke('text').should('eq', moneyBefore)
       cy.contains('Ok').click()

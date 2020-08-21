@@ -529,6 +529,7 @@ export class UserStorage {
    */
   async initGun() {
     logger.debug('Initializing GunDB UserStorage')
+
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
@@ -581,6 +582,7 @@ export class UserStorage {
       pair: this.gunuser.pair(),
       gunuser,
     })
+
     await Promise.all([this.initProperties(), this.initProfile()])
   }
 
@@ -2492,21 +2494,28 @@ export class UserStorage {
     this.unSubscribeProfileUpdates()
 
     //first delete from indexes then delete the profile itself
-    let profileFields = await this.profile
-    delete profileFields._
+    let profileFields = await this.profile.then()
 
     await Promise.all(
-      keys(profileFields).map(k => {
-        return this.setProfileFieldPrivacy(k, 'private').catch(err => {
-          logger.error(
-            'Deleting profile field failed',
-            err.message || 'Some error occurred during setting the privacy to the field',
-            err || new Error('Deleting profile field failed'),
-            { index: k },
-          )
+      keys(profileFields).map(field => {
+        if ('_' === field) {
+          return null
+        }
+
+        return this.setProfileFieldPrivacy(field, 'private').catch(exception => {
+          let error = exception
+          let { message } = error || {}
+
+          if (!error) {
+            error = new Error('Deleting profile field failed')
+            message = 'Some error occurred during setting the privacy to the field'
+          }
+
+          logger.error('Deleting profile field failed', message, error, { index: field })
         })
       }),
     )
+
     return true
   }
 

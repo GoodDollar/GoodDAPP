@@ -7,7 +7,9 @@ import animationData from './data.json'
 const styles = {
   android: {},
   ios: {},
-  web: {},
+  web: {
+    height: '100%',
+  },
 }
 
 class FaceVerificationSmiley extends AnimationBase {

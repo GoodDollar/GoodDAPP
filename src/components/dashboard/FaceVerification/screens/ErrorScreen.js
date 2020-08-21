@@ -31,7 +31,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
   useEffect(() => {
     // determining error component to display
     // be default display general error
-    let component = DuplicateFoundError || GeneralError
+    let component = GeneralError
     const { kindOfTheIssue: map } = ErrorScreen
 
     // if reached max retries - showing 'something went wrong our side'

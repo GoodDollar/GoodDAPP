@@ -179,7 +179,7 @@ describe('Test case 7: Ability to send money', () => {
 
   it('Check the link of send TX that canceled before withdrawn', () => {
     let moneyStart
-    ley moneyLink
+    let moneyLink
 
     localStorage.clear()
     cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {

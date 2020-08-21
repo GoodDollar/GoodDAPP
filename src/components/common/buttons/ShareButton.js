@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { get, isString } from 'lodash'
 
 import logger from '../../../lib/logger/pino-logger'

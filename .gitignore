@@ -84,3 +84,5 @@ account.data.txt
 
 # CocoaPods
 ios/Pods/
+
+service-worker.js

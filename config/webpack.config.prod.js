@@ -215,6 +215,7 @@ module.exports = {
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
       'lottie-react-native': 'react-native-web-lottie',
+      'react-native-linear-gradient': 'react-native-web-linear-gradient',
       //hack to remove duplicate usage in dependencies
       'bn.js': paths.appNodeModules + '/bn.js',
     },
@@ -393,6 +394,42 @@ module.exports = {
               },
               'sass-loader'
             ),
+          },
+          // SVGR is a tool that converts SVG files into React components that you can use directly in JXS.
+          {
+            test: /\.svg$/,
+            exclude: /src\/assets\/fonts/,
+            use: [{
+              loader: '@svgr/webpack',
+              options: {
+                template: function defaultTemplate({ template }, opts, { imports, interfaces, componentName, props, jsx, exports }) {
+                  const plugins = ['jsx']
+                  let exportLoadedFileAsUrl = ''
+
+                  if (opts.state.caller.previousExport) {
+                    exportLoadedFileAsUrl = opts.state.caller.previousExport.replace('default', 'const url =')
+                  }
+
+                  if (opts.typescript) {
+                    plugins.push('typescript')
+                  }
+
+                  const typeScriptTpl = template.smart({ plugins })
+
+                  return typeScriptTpl.ast`
+                    ${imports}
+                    ${interfaces}
+                    function ${componentName}(${props}) {
+                      return ${jsx};
+                    }
+                    ${exportLoadedFileAsUrl}
+                    export default ${componentName}
+                  `
+                }
+              }
+            }, {
+              loader: 'file-loader'
+            }],
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.

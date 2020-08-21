@@ -2503,7 +2503,7 @@ export class UserStorage {
 
     await Promise.all(
       profileFields.map(field =>
-        this.setProfileFieldPrivacy(field, 'private').catch(exception => {
+        retry(() => this.setProfileFieldPrivacy(field, 'private'), 1).catch(exception => {
           let error = exception
           let { message } = error || {}
 
@@ -2535,12 +2535,12 @@ export class UserStorage {
       const signature = await wallet.sign(faceIdentifier, 'faceVerification')
 
       await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, signature)
-      deleteAccountResult = await retry(() => API.deleteAccount(), 1)
+      deleteAccountResult = await API.deleteAccount()
 
       if (get(deleteAccountResult, 'data.ok', false)) {
         const cleanupPromises = [
-          _trackStatus(retry(() => wallet.deleteAccount(), 1), 'wallet'),
-          _trackStatus(retry(() => this.deleteProfile(), 1), 'profile'),
+          _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
+          _trackStatus(this.deleteProfile(), 'profile'),
           _trackStatus(retry(() => userProperties.reset(), 1), 'userprops'),
           _trackStatus(retry(() => gunuser.get('registered').putAck(false), 1), 'registered'),
         ]

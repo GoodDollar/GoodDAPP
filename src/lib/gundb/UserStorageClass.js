@@ -31,6 +31,7 @@ import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
+import { isE2ERunning } from '../utils/platform'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
 import defaultGun from './gundb'
@@ -2517,44 +2518,29 @@ export class UserStorage {
   async deleteAccount(): Promise<boolean> {
     let deleteResults = false
     let deleteAccountResult
+    const { wallet, userProperties, gunuser, _trackStatus } = this
 
     try {
       const faceIdentifier = this.getFaceIdentifier()
-      const signature = await this.wallet.sign(faceIdentifier, 'faceVerification')
+      const signature = await wallet.sign(faceIdentifier, 'faceVerification')
 
       await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, signature)
       deleteAccountResult = await retry(() => API.deleteAccount(), 1)
 
       if (get(deleteAccountResult, 'data.ok', false)) {
-        deleteResults = await Promise.all([
-          retry(() => this.wallet.deleteAccount(), 1)
-            .then(r => ({ wallet: 'ok' }))
-            .catch(e => ({ wallet: 'failed' })),
+        const deleteWalletPromise = _trackStatus(retry(() => wallet.deleteAccount(), 1), 'wallet')
 
-          retry(() => this.deleteProfile(), 1)
-            .then(r => ({
-              profile: 'ok',
-            }))
-            .catch(r => ({
-              profile: 'failed',
-            })),
+        const cleanupPromises = [
+          _trackStatus(retry(() => this.deleteProfile(), 1), 'profile'),
+          _trackStatus(retry(() => userProperties.reset(), 1), 'userprops'),
+          _trackStatus(retry(() => gunuser.get('registered').putAck(false), 1), 'registered'),
+        ]
 
-          retry(() => this.userProperties.reset(), 1)
-            .then(r => ({
-              userprops: 'ok',
-            }))
-            .catch(r => ({
-              userprops: 'failed',
-            })),
+        if (!isE2ERunning) {
+          cleanupPromises.unshift(deleteWalletPromise)
+        }
 
-          retry(() => this.gunuser.get('registered').putAck(false), 1)
-            .then(r => ({
-              registered: 'ok',
-            }))
-            .catch(r => ({
-              registered: 'failed',
-            })),
-        ])
+        deleteResults = await Promise.all(cleanupPromises)
       }
     } catch (e) {
       logger.error('deleteAccount unexpected error', e.message, e)
@@ -2563,5 +2549,22 @@ export class UserStorage {
 
     logger.debug('deleteAccount', deleteResults)
     return true
+  }
+
+  _trackStatus(promise, label) {
+    return promise
+      .then(() => {
+        const status = { [label]: 'ok' }
+
+        logger.debug('Cleanup:', status)
+        return status
+      })
+      .catch(exception => {
+        const status = { [label]: 'failed' }
+        const { message } = exception
+
+        logger.debug('Cleanup:', message, exception, status)
+        return status
+      })
   }
 }

@@ -72,6 +72,7 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
+import FaceVerificationDupError from './FaceVerification/components/DuplicateFoundError'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -857,6 +858,7 @@ export default createStackNavigator({
   FaceVerification,
   FaceVerificationIntro,
   FaceVerificationError,
+  FaceVerificationDupError,
 
   SendQRSummary,
 

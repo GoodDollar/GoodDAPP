@@ -22,8 +22,7 @@ import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 import { sha3 } from 'web3-utils'
-import { defer, from as fromPromise } from 'rxjs'
-import { retry } from 'rxjs/operators'
+import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
@@ -649,9 +648,7 @@ export class UserStorage {
         // firstly, awaiting for wallet is ready
         await wallet.ready
 
-        const isReady = await defer(() => fromPromise(this.initGun())) // init user storage
-          .pipe(retry(1)) // if exception thrown, retry init one more times
-          .toPromise()
+        const isReady = await retry(() => this.initGun(), 1) // init user storage, if exception thrown, retry init one more times
 
         logger.debug('userStorage initialized.')
         return isReady
@@ -2526,23 +2523,23 @@ export class UserStorage {
       const signature = await this.wallet.sign(faceIdentifier, 'faceVerification')
 
       await FaceVerificationAPI.disposeFaceSnapshot(faceIdentifier, signature)
-      deleteAccountResult = await API.deleteAccount()
+      deleteAccountResult = await retry(() => API.deleteAccount(), 1)
 
-      if (deleteAccountResult.data.ok) {
+      if (get(deleteAccountResult, 'data.ok', false)) {
         deleteResults = await Promise.all([
-          this.wallet
-            .deleteAccount()
+          retry(() => this.wallet.deleteAccount(), 1)
             .then(r => ({ wallet: 'ok' }))
             .catch(e => ({ wallet: 'failed' })),
-          this.deleteProfile()
+
+          retry(() => this.deleteProfile(), 1)
             .then(r => ({
               profile: 'ok',
             }))
             .catch(r => ({
               profile: 'failed',
             })),
-          this.userProperties
-            .reset()
+
+          retry(() => this.userProperties.reset())
             .then(r => ({
               userprops: 'ok',
             }))
@@ -2550,28 +2547,7 @@ export class UserStorage {
               userprops: 'failed',
             })),
 
-          //dont delete anything, everything is encrypted. nullified nodes in gun
-          //can break stuff if user recreates account with same credentials
-          // this.gunuser
-          //   .get('feed')
-          //   .putAck(null)
-          //   .then(r => ({
-          //     feed: 'ok',
-          //   }))
-          //   .catch(r => ({
-          //     feed: 'failed',
-          //   })),
-          // this.properties
-          //   .putAck(null)
-          //   .then(r => ({
-          //     properties: 'ok',
-          //   }))
-          //   .catch(r => ({
-          //     properties: 'failed',
-          //   })),
-          this.gunuser
-            .get('registered')
-            .putAck(false)
+          retry(() => this.gunuser.get('registered').putAck(false))
             .then(r => ({
               registered: 'ok',
             }))

@@ -1,5 +1,5 @@
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
-import { mergeMap, retry as retryTimes, retryWhen } from 'rxjs/operators'
+import { mergeMap, retryWhen } from 'rxjs/operators'
 
 // eslint-disable-next-line require-await
 export const delay = async (millis, resolveWithValue = null) =>
@@ -17,7 +17,7 @@ export const retry = (asyncFn, retries = 5, interval = 0) =>
               return throwError(attempt)
             }
 
-            return interval > 0 ? timer(interval) : retryTimes(1)
+            return timer(interval || 0)
           }),
         ),
       ),

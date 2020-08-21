@@ -65,8 +65,6 @@ export default class UserProperties {
       const { propsNode } = this
       const { defaultProperties } = UserProperties
 
-      //make sure we fetch props first and not having gun return undefined
-      await this.props
       try {
         props = await defer(() => fromPromise(propsNode.decrypt())) // init user storage
           .pipe(retry(1)) // if exception thrown, retry init one more times
@@ -96,10 +94,6 @@ export default class UserProperties {
       this.data = props
       return props
     })()
-  }
-
-  get props() {
-    return this.gun.user().get('properties')
   }
 
   /**

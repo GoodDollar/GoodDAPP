@@ -120,8 +120,6 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
     SignUpPage.letStartButton.click()
-    // SignUpPage.gotItButton.click()
-    HomePage.welcomeFeed.should('be.visible')
 
     //get mnemonic from localStorage
     HomePage.sendButton.should(() => {
@@ -134,5 +132,6 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
       cy.log('ALL: ', LOCAL_STORAGE_MEMORY)
       cy.writeFile('cypress/fixtures/GDls.json', LOCAL_STORAGE_MEMORY)
     })
+    // HomePage.welcomeFeed.should('be.visible')
   })
 })

@@ -2,6 +2,7 @@
 import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
 import {
+  filter,
   find,
   flatten,
   get,
@@ -32,7 +33,6 @@ import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
 
-//import { isE2ERunning } from '../utils/platform'
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
 import defaultGun from './gundb'
@@ -2494,18 +2494,16 @@ export class UserStorage {
   async deleteProfile(): Promise<boolean> {
     this.unSubscribeProfileUpdates()
 
-    //first delete from indexes then delete the profile itself
-    let profileFields = await this.profile.then()
+    // first delete from indexes then delete the profile itself
+    let profileFields = await this.profile.then(fields =>
+      filter(keys(fields), field => !['_', 'initialized'].includes(field)),
+    )
 
-    logger.debug('Deleting profile fields', keys(profileFields))
+    logger.debug('Deleting profile fields', profileFields)
 
     await Promise.all(
-      keys(profileFields).map(field => {
-        if ('_' === field) {
-          return null
-        }
-
-        return this.setProfileFieldPrivacy(field, 'private').catch(exception => {
+      profileFields.map(field =>
+        this.setProfileFieldPrivacy(field, 'private').catch(exception => {
           let error = exception
           let { message } = error || {}
 
@@ -2515,8 +2513,8 @@ export class UserStorage {
           }
 
           logger.error('Deleting profile field failed', message, error, { index: field })
-        })
-      }),
+        }),
+      ),
     )
 
     return true
@@ -2540,18 +2538,12 @@ export class UserStorage {
       deleteAccountResult = await retry(() => API.deleteAccount(), 1)
 
       if (get(deleteAccountResult, 'data.ok', false)) {
-        //const deleteWalletPromise = _trackStatus(retry(() => wallet.deleteAccount(), 1), 'wallet')
-
         const cleanupPromises = [
           _trackStatus(retry(() => wallet.deleteAccount(), 1), 'wallet'),
           _trackStatus(retry(() => this.deleteProfile(), 1), 'profile'),
           _trackStatus(retry(() => userProperties.reset(), 1), 'userprops'),
           _trackStatus(retry(() => gunuser.get('registered').putAck(false), 1), 'registered'),
         ]
-
-        /*if (!isE2ERunning) {
-          cleanupPromises.unshift(deleteWalletPromise)
-        }*/
 
         deleteResults = await Promise.all(cleanupPromises)
       }

@@ -133,7 +133,7 @@ export default class UserProperties {
     const { data, propsNode } = this
 
     assign(data, properties)
-    await propsNode.secret(data)
+    await propsNode.secretAck(data)
 
     return true
   }
@@ -146,7 +146,7 @@ export default class UserProperties {
     const { defaultProperties } = UserProperties
 
     this.data = assign({}, defaultProperties)
-    await propsNode.secret(defaultProperties)
+    await propsNode.secretAck(defaultProperties)
 
     return true
   }

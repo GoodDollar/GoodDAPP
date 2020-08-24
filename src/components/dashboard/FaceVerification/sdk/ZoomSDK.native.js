@@ -21,7 +21,7 @@ export const ZoomSDK = new class {
     const { sdk, logger } = this
 
     try {
-      await sdk.preload()
+      sdk.preload && (await sdk.preload())
     } catch (exception) {
       const { message } = exception
 

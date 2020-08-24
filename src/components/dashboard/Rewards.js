@@ -5,11 +5,13 @@ import { get, isNil } from 'lodash'
 
 import { Iframe } from '../webView/iframe'
 
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
+import { openLink } from '../../lib/utils/linking'
 
 import userStorage from '../../lib/gundb/UserStorage'
 
@@ -17,6 +19,7 @@ const log = logger.child({ from: 'RewardsTab' })
 
 const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
   const [showDialog] = useDialog()
+  const [showErrorDialog] = useErrorDialog()
   const [token, setToken] = useState(null)
   const [showLoading, hideLoading] = useLoadingIndicator()
 
@@ -43,13 +46,26 @@ const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
     return url.toString()
   }, [token, params, openInNewTab])
 
+  const onDismiss = useOnPress(() => navigation.navigate('Home'), [navigation])
+
+  const onPressOk = useOnPress(async () => {
+    try {
+      await openLink(rewardsPath, '_blank')
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('Failed opening external link:', message, exception, { rewardsPath })
+      showErrorDialog(message, '', { onDismiss })
+    }
+  }, [rewardsPath, onDismiss])
+
   useEffect(() => {
     showLoading()
 
     userStorage.getProfileFieldValue('loginToken').then(loginToken => {
       const token = loginToken || ''
 
-      log.debug('got rewards login token', token)
+      log.debug('Got rewards login token', token)
       setToken(token)
     })
 
@@ -62,13 +78,14 @@ const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
     }
 
     hideLoading()
+
     showDialog({
       title: 'Press ok to go to Rewards dashboard',
-      onDismiss: () => navigation.navigate('Home'),
+      onDismiss,
       buttons: [
         {
           text: 'OK',
-          onPress: () => window.open(rewardsPath, '_blank'),
+          onPress: onPressOk,
         },
       ],
     })

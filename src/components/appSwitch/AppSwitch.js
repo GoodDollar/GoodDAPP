@@ -1,9 +1,9 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 
@@ -77,7 +77,7 @@ const AppSwitch = (props: LoadingProps) => {
   */
   const getParams = async () => {
     // const navInfo = router.getPathAndParamsForState(state)
-    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
+    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     AsyncStorage.removeItem(DESTINATION_PATH)
 
     if (destinationPath) {

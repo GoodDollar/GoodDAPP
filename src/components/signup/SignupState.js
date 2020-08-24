@@ -1,11 +1,12 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
 import { assign, get, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 
 import {
   DESTINATION_PATH,
@@ -258,8 +259,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
    * which registers the user on w3 with it
    */
   const checkW3InviteCode = async () => {
-    const _destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
-    const destinationPath = JSON.parse(_destinationPath)
+    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     const params = get(destinationPath, 'params')
     const paymentParams = params && parsePaymentLinkParams(params)
 

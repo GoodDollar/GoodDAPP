@@ -3,7 +3,8 @@
 
 import bip39 from 'bip39-light'
 import React, { Fragment, useState } from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import { Image } from 'react-native'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'

@@ -1,8 +1,8 @@
 // @flow
 import { createConnectedStore } from 'undux'
-import { AsyncStorage } from 'react-native'
 import { isString } from 'lodash'
 
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { IS_LOGGED_IN } from '../constants/localStorage'
 import pinoLogger from '../logger/pino-logger'
 import createStoreEffects, { unduxLogger } from './plugins'
@@ -112,7 +112,7 @@ const { storeAccessor, storeEffects } = createStoreEffects()
 let SimpleStore: UnduxStore = createConnectedStore(initialState, storeEffects) // default value for tests
 
 const initStore = async () => {
-  let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
+  let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN)
   const newState = { ...initialState, isLoggedIn }
   SimpleStore = createConnectedStore(newState, storeEffects)
   return SimpleStore

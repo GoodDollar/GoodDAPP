@@ -2,9 +2,9 @@
 //eslint-disable-next-line
 
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage } from 'react-native'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'

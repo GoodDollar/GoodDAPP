@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import { AsyncStorage } from 'react-native'
 import { get } from 'lodash'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { CLICK_BTN_GETINVITED, fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
@@ -46,8 +46,7 @@ class Auth extends React.Component<Props> {
   checkWeb3TokenAndPaymentCode = async () => {
     const { navigation } = this.props
     const web3Token = await AsyncStorage.getItem('GD_web3Token')
-    const _destinationPath = await AsyncStorage.getItem('GD_destinationPath')
-    const destinationPath = JSON.parse(_destinationPath)
+    const destinationPath = await AsyncStorage.getItem('GD_destinationPath')
     const paymentCode = get(destinationPath, 'params.paymentCode')
 
     log.info('checkWeb3TokenAndPaymentCode', web3Token, paymentCode)

@@ -1,8 +1,8 @@
 // @flow
-import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
 import API from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import logger from '../logger/pino-logger'
 
 const log = logger.child({ from: 'LoginService' })
@@ -22,7 +22,7 @@ class LoginService {
     if (!creds) {
       return
     }
-    AsyncStorage.setItem(CREDS, JSON.stringify(creds))
+    AsyncStorage.setItem(CREDS, creds)
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -35,7 +35,7 @@ class LoginService {
 
   async getCredentials(): Promise<?Credentials> {
     const data = await AsyncStorage.getItem(CREDS)
-    return data ? JSON.parse(data) : null
+    return data ? data : null
   }
 
   // eslint-disable-next-line class-methods-use-this

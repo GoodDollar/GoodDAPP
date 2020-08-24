@@ -1,5 +1,4 @@
 //@flow
-import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
 import {
   filter,
@@ -23,6 +22,7 @@ import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 import { sha3 } from 'web3-utils'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
@@ -551,7 +551,7 @@ export class UserStorage {
 
     let loggedInPromise
 
-    let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
+    let existingCreds = await AsyncStorage.getItem(GD_GUN_CREDENTIALS)
     if (existingCreds == null) {
       const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
       loggedInPromise = gunPKAuth(this.gun, seed)
@@ -624,9 +624,7 @@ export class UserStorage {
     //   .putAck(this.gunuser) //save ref to user
     await Promise.all([
       trustPromise,
-      AsyncStorage.getItem('GD_trust')
-        .then(JSON.parse)
-        .then(_ => (this.trust = _ || {})),
+      AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
       this.initFeed(),
       this.gun
         .get('users')
@@ -741,7 +739,7 @@ export class UserStorage {
       // fetch trust data
       const { data } = await API.getTrust()
 
-      AsyncStorage.setItem('GD_trust', JSON.stringify(data))
+      AsyncStorage.setItem('GD_trust', data)
       this.trust = data
     } catch (exception) {
       const { message } = exception
@@ -1048,7 +1046,7 @@ export class UserStorage {
 
   writeFeedEvent(event): Promise<FeedEvent> {
     this.feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+    AsyncStorage.setItem('GD_feed', this.feedIds)
     return this.feed
       .get('byid')
       .get(event.id)
@@ -1061,9 +1059,7 @@ export class UserStorage {
    */
   async initFeed() {
     //load unencrypted feed from cache
-    const loadFeedCache = AsyncStorage.getItem('GD_feed')
-      .then(JSON.parse)
-      .catch(e => logger.warn('failed parsing feed from cache'))
+    const loadFeedCache = AsyncStorage.getItem('GD_feed').catch(e => logger.warn('failed parsing feed from cache'))
     const { feed } = await this.gunuser
     logger.debug('init feed', { feed })
 
@@ -1121,7 +1117,7 @@ export class UserStorage {
       .then(_ => {
         if (_.find(_ => _)) {
           logger.debug('init feed updating cache', this.feedIds, _)
-          AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+          AsyncStorage.setItem('GD_feed', this.feedIds)
         }
       })
       .catch(e => logger.error('error caching feed items', e.message, e))

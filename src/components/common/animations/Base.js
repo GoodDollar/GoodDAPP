@@ -19,7 +19,7 @@ class AnimationBase extends React.Component {
   })
 
   initAnimation = () => {
-    if (this.anim) {
+    if (this.anim && this.anim.addEventListener) {
       this.anim.addEventListener('enterFrame', this.started)
       this.onMount && this.onMount()
     } else {

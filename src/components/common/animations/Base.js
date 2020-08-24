@@ -1,5 +1,6 @@
 import React from 'react'
 import { cloneDeep, once } from 'lodash'
+import { isMobileNative } from '../../../lib/utils/platform'
 
 class AnimationBase extends React.Component {
   componentDidMount() {
@@ -19,8 +20,10 @@ class AnimationBase extends React.Component {
   })
 
   initAnimation = () => {
-    if (this.anim && this.anim.addEventListener) {
-      this.anim.addEventListener('enterFrame', this.started)
+    if (this.anim) {
+      if (!isMobileNative) {
+        this.anim.addEventListener('enterFrame', this.started)
+      }
       this.onMount && this.onMount()
     } else {
       setTimeout(() => {

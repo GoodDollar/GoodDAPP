@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { createBrowserApp } from '@react-navigation/web'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { Platform } from 'react-native'
@@ -14,6 +14,7 @@ import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
 import { getOriginalScreenHeight } from './lib/utils/Orientation'
+import useResetBlurScreen from './lib/hooks/useResetBlurScreen'
 
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 
@@ -52,6 +53,7 @@ const fullScreenContainer = {
 
 const Router = () => {
   const store = SimpleStore.useStore()
+  const resetBlurScreen = useResetBlurScreen()
   const { visible: dialogVisible } = store.get('currentScreen').dialogData
   const isShowKeyboard = store.get && store.get('isMobileKeyboardShown')
   let minHeight = 480
@@ -60,10 +62,20 @@ const Router = () => {
     minHeight = getOriginalScreenHeight()
   }
 
+  const handleNavigationStateChange = useCallback(
+    (prevNav, nav, action) => {
+      fireEventFromNavigation(action)
+
+      // when route changing - then hiding dialog and removing blur background effect
+      resetBlurScreen()
+    },
+    [resetBlurScreen],
+  )
+
   return (
     <>
       <Blurred style={{ minHeight, ...fullScreenContainer }} blur={dialogVisible}>
-        <WebRouter onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
+        <WebRouter onNavigationStateChange={handleNavigationStateChange} />
       </Blurred>
     </>
   )

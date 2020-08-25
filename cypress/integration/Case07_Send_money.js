@@ -249,4 +249,66 @@ describe('Test case 7: Ability to send money', () => {
       cy.contains('Ok').click()
     })
   })
+
+  it('User is able to send money from a new wallet using address', () => {
+    let moneyStart
+
+    localStorage.clear()
+    cy.readFile('../GoodDAPP/cypress/fixtures/userMnemonicSave.txt').then(mnemonic => {
+      StartPage.open()
+      StartPage.signInButton.click()
+      LoginPage.recoverFromPassPhraseLink.click()
+      LoginPage.pageHeader.should('contain', 'Recover')
+      LoginPage.mnemonicsInput.type(mnemonic)
+      LoginPage.recoverWalletButton.click()
+      LoginPage.yayButton.click()
+      HomePage.waitForHomePageDisplayed()
+
+      HomePage.moneyAmountDiv.invoke('text').then(moneyBeforeAbort => {
+        moneyStart = moneyBeforeAbort
+        cy.log('Money before sending: ' + moneyStart)
+      })   
+
+      HomePage.sendButton.click()
+      SendMoneyPage.sendAddressButton.click()
+      SendMoneyPage.addressInput.type('1x1234567890qwerty')
+      SendMoneyPage.errorAddressText.should('be.visible')
+      SendMoneyPage.addressInput.clear()
+      SendMoneyPage.addressInput.type(Cypress.env('mainWalletAddress'))
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.moneyInput.type('1000000000')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.errorMoneyText.should('be.visible')
+      SendMoneyPage.moneyInput.clear()
+      SendMoneyPage.moneyInput.type('0.01')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.messageInput.type('send to address')
+      SendMoneyPage.nextButton.click()
+      SendMoneyPage.sendingText.should('be.visible')
+      cy.contains(Cypress.env('mainWalletAddress')).should('be.visible')
+      cy.contains('send to address').should('be.visible')
+      SendMoneyPage.confirmButton.click()
+      SendMoneyPage.yayButton.click()
+      cy.contains(Cypress.env('mainAccountUsername')).should('be.visible')
+      cy.contains('send to address').should('be.visible')
+
+      HomePage.moneyAmountDiv.invoke('text').then(moneyAfterAbort => {
+        cy.log('Money after sending: ' + moneyAfterAbort)
+        cy.log('calc: ' + (Number(moneyStart) - 0.01).toFixed(2))
+        HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyStart) - 0.01).toFixed(2))
+      })
+
+      cy.clearLocalStorage()
+      cy.clearCookies()
+      StartPage.open()
+      StartPage.signInButton.click()
+      LoginPage.recoverFromPassPhraseLink.click()
+      LoginPage.pageHeader.should('contain', 'Recover')
+      LoginPage.mnemonicsInput.type(Cypress.env('additionalAccountMnemonics'))
+      LoginPage.recoverWalletButton.click()
+      LoginPage.yayButton.click()
+      HomePage.waitForHomePageDisplayed()
+      cy.contains(Cypress.env('usernameForRegistration')).should('be.visible')
+    })
+  })
 })

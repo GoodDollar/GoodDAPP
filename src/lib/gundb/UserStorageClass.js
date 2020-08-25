@@ -12,7 +12,10 @@ import {
   maxBy,
   memoize,
   merge,
+  noop,
+  omit,
   orderBy,
+  some,
   takeWhile,
   toPairs,
   values,
@@ -1005,10 +1008,7 @@ export class UserStorage {
         this.feedIds[transactionHash] = feedItem
         return feedItem
       })
-      .catch(e => {
-        // log error here
-        return undefined
-      })
+      .catch(noop)
   }
 
   /**
@@ -1060,69 +1060,77 @@ export class UserStorage {
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
-    //load unencrypted feed from cache
-    const loadFeedCache = AsyncStorage.getItem('GD_feed')
-      .then(JSON.parse)
-      .catch(e => logger.warn('failed parsing feed from cache'))
     const { feed } = await this.gunuser
+
     logger.debug('init feed', { feed })
 
     if (feed == null) {
       //for some reason this breaks on gun 2020 https://github.com/amark/gun/issues/987
-      await this.feed.putAck({ initialized: true }) //restore old feed data - after nullified
+      await this.feed.putAck({ initialized: true }) // restore old feed data - after nullified
       logger.debug('init empty feed', { feed })
     }
+
     this.feed.get('index').on(this.updateFeedIndex, false)
-    this.feedIds = (await loadFeedCache) || {}
 
-    // this.feed = this.gunuser.get('feed')
+    // load unencrypted feed from cache
+    this.feedIds = await AsyncStorage.getItem('GD_feed')
+      .then(JSON.parse)
+      .catch(() => {
+        logger.warn('failed parsing feed from cache')
+      })
+      .then(ids => ids || {})
 
-    //verify cache has all items
-    // if (!(feed && feed.byid)) {
-    //   return
-    // }
     const items = await this.feed
       .get('byid')
-      .then(null, 1000)
+      .then(null, 2000)
       .catch(e => {
         logger.warn('fetch byid onthen failed', { e })
       })
-    logger.debug('init feed byid', {
-      items,
-      ids: items && Object.entries(items),
-    })
+
+    logger.debug('init feed byid', { items })
 
     if (!items) {
       await this.feed.putAck({ byid: {} })
       return
     }
+
     if (items && items._) {
       delete items._
     }
-    const ids = Object.entries(items)
+
+    const ids = Object.entries(omit(items, '_'))
+
     logger.debug('init feed got items', { ids })
+
     const promises = ids.map(async ([k, v]) => {
-      if (this.feedIds[k] === undefined) {
-        const data = await this.feed
-          .get('byid')
-          .get(k)
-          .decrypt()
-          .catch(_ => undefined)
-        logger.debug('init feed got missing cache item', { id: k, data })
-        if (data != null) {
-          this.feedIds[k] = data
-          return true
-        }
+      if (this.feedIds[k]) {
         return false
       }
-      return false
+
+      const data = await this.feed
+        .get('byid')
+        .get(k)
+        .decrypt()
+        .catch(noop)
+
+      logger.debug('init feed got missing cache item', { id: k, data })
+
+      if (!data) {
+        return false
+      }
+
+      this.feedIds[k] = data
+      return true
     })
+
     Promise.all(promises)
-      .then(_ => {
-        if (_.find(_ => _)) {
-          logger.debug('init feed updating cache', this.feedIds, _)
-          AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+      .then(shouldUpdateStatuses => {
+        if (!some(shouldUpdateStatuses)) {
+          return
         }
+
+        logger.debug('init feed updating cache', this.feedIds, shouldUpdateStatuses)
+        AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
       })
       .catch(e => logger.error('error caching feed items', e.message, e))
   }

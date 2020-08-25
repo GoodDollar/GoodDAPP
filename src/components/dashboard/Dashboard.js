@@ -230,15 +230,19 @@ const Dashboard = props => {
   //as they come in, currently on each new item it simply reset the feed
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
   //which would lead to many unwanted subscribe/unsubscribe to gun
-  const subscribeToFeed = () => {
-    return new Promise((res, rej) => {
-      userStorage.feed.get('byid').on(async data => {
-        log.debug('gun getFeed callback', { data })
-        await getFeedPage(true).catch(e => rej(e))
-        res(true)
-      }, true)
-    })
-  }
+  const subscribeToFeed = () =>
+    userStorage.readyRegistered.then(
+      () =>
+        new Promise((resolve, reject) => {
+          userStorage.feed.get('byid').on(data => {
+            log.debug('gun getFeed callback', { data })
+
+            getFeedPage(true)
+              .then(() => resolve(true))
+              .catch(e => reject(e))
+          }, true)
+        }),
+    )
 
   const handleAppLinks = () => {
     const decodedHref = decodeURI(window.location.href)

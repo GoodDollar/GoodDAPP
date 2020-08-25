@@ -2,7 +2,7 @@
 
 // libraries
 import amplitude from 'amplitude-js'
-import { assign, debounce, forEach, get, isFunction, isString } from 'lodash'
+import { assign, debounce, forEach, get, isError, isFunction, isString } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
@@ -378,7 +378,7 @@ const patchLogger = () => {
     if (!isRunningTests) {
       let errorToPassIntoLog = errorObj
 
-      if (errorObj instanceof Error) {
+      if (isError(errorObj)) {
         savedErrorMessage = errorObj.message
         errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
       } else {

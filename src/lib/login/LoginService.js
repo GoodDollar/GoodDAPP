@@ -1,5 +1,6 @@
 // @flow
 import { AsyncStorage } from 'react-native'
+import { isError } from 'lodash'
 import type { Credentials } from '../API/api'
 import API from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
@@ -12,17 +13,17 @@ class LoginService {
 
   jwt: ?string
 
-  toSign: string = 'Login to GoodDAPP'
-
   constructor() {
     this.getJWT().then(jwt => (this.jwt = jwt))
   }
 
-  storeCredentials(creds: Credentials) {
+  // eslint-disable-next-line require-await
+  async storeCredentials(creds: Credentials) {
     if (!creds) {
       return
     }
-    AsyncStorage.setItem(CREDS, JSON.stringify(creds))
+
+    return AsyncStorage.setItem(CREDS, JSON.stringify(creds))
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -34,8 +35,20 @@ class LoginService {
   }
 
   async getCredentials(): Promise<?Credentials> {
-    const data = await AsyncStorage.getItem(CREDS)
-    return data ? JSON.parse(data) : null
+    try {
+      const data = await AsyncStorage.getItem(CREDS)
+
+      if (!data) {
+        throw new Error('No credentials was stored in the AsyncStorage')
+      }
+
+      return JSON.parse(data)
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('Error fetching creds:', message, exception)
+      return null
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -50,16 +63,37 @@ class LoginService {
 
   async auth(): Promise<?Credentials | Error> {
     let creds = await this.getCredentials()
+    const shouldUseNewCreds = !creds
 
-    if (!creds) {
-      creds = await this.login()
+    const requestNewCreds = async () => {
+      const creds = await this.login()
+
+      this.storeCredentials(creds)
+      return creds
     }
 
-    log.info('signed message', creds)
-    this.storeCredentials(creds)
+    // eslint-disable-next-line require-await
+    const requestJWT = async creds => {
+      log.info('signed message', creds)
+
+      return this.requestJWT(creds)
+    }
+
+    if (shouldUseNewCreds) {
+      creds = await requestNewCreds()
+    }
 
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
-    creds = await this.requestJWT(creds)
+    try {
+      creds = await requestJWT(creds)
+    } catch (exception) {
+      if (shouldUseNewCreds) {
+        throw exception
+      }
+
+      // if creds was taken from localStorage and failed - re-generate them & try again
+      creds = await requestNewCreds().then(requestJWT)
+    }
 
     this.storeJWT(creds.jwt)
     API.init()
@@ -83,9 +117,18 @@ class LoginService {
       log.debug('Login success:', data)
       return { ...creds, jwt: data.token }
     } catch (exception) {
-      const { message } = exception
+      let error = exception
+      let { message } = exception
 
-      log.error('Login service auth failed:', message, exception)
+      // if the json or string http body was thrown from axios (error
+      // interceptor in api.js doest that in almost cases) then we're wrapping
+      // it onto Error object to keep correct stack trace for Sentry reporting
+      if (!isError(exception)) {
+        message = exception.error || exception
+        error = new Error(exception)
+      }
+
+      log.error('Login service auth failed:', message, error)
       throw exception
     }
   }

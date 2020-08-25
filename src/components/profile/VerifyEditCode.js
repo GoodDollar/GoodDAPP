@@ -9,7 +9,7 @@ import SmsForm from '../signup/SmsForm'
 const log = logger.child({ from: 'Verify Edit Code' })
 
 const VerifyEditCode = props => {
-  const { navigation } = props
+  const { navigation, screenProps } = props
   const field = get(navigation, 'state.params.field')
   const content = get(navigation, 'state.params.content')
   let fieldToSave
@@ -40,6 +40,7 @@ const VerifyEditCode = props => {
     const privacy = await userStorage.getFieldPrivacy(fieldToSave)
     await userStorage.setProfileField(fieldToSave, content, privacy)
 
+    screenProps.pop()
     navigation.navigate('Profile')
   }
 

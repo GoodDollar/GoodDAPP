@@ -147,6 +147,7 @@ module.exports = {
       'react-native': 'react-native-web',
       WebView: 'react-native-web-webview',
       'lottie-react-native': 'react-native-web-lottie',
+      'react-native-linear-gradient': 'react-native-web-linear-gradient',
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding

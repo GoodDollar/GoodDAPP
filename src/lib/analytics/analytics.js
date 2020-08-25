@@ -98,7 +98,7 @@ const fullStoryState = new class {
 
     return promise.then(callback)
   }
-}()()
+}()
 
 const Amplitude = amplitude.getInstance()
 const { mt: Mautic, FS, dataLayer: GoogleAnalytics } = global

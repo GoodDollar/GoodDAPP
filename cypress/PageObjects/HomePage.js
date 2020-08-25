@@ -50,6 +50,10 @@ class HomePage {
     return cy.contains('Claim free G$ coins daily')
   }
 
+  get emptyFeed() {
+    return cy.get('[style="opacity: 1; transform: translateY(0px);"]')
+  }
+
   get deleteAccountButton() {
     return cy.contains('Delete Account')
   }

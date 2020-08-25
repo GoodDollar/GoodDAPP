@@ -16,8 +16,13 @@ describe('Test feeds', () => {
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
       HomePage.waitForHomePageDisplayed()
+      HomePage.emptyFeed.should('be.visible')
+      HomePage.emptyFeed.should(($div) => {
+        expect($div).to.have.length(3)
+      })
       HomePage.profileAvatar.click()
       HomePage.backArrow.eq(0).click()
+      cy.wait(3000) //wait for cards animation
       HomePage.welcomeFeed.should('be.visible')
       cy.log(todaysDate)
       cy.contains('Welcome to GoodDollar!').should('be.visible')

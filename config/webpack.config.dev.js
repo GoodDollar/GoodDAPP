@@ -382,7 +382,7 @@ module.exports = {
       new WorkboxWebpackPlugin.GenerateSW({
         clientsClaim: true,
         skipWaiting: false,
-        swDest: 'dev-sw.js',
+        swDest: 'sw-dev.js',
         exclude: [/\.map$/, /asset-manifest\.json$/],
         importWorkboxFrom: 'cdn',
         navigateFallback: publicUrl + '/index.html',

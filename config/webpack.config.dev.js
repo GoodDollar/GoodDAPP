@@ -147,6 +147,7 @@ module.exports = {
       'react-native': 'react-native-web',
       WebView: 'react-native-web-webview',
       'lottie-react-native': 'react-native-web-lottie',
+      'react-native-linear-gradient': 'react-native-web-linear-gradient',
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -381,11 +382,10 @@ module.exports = {
       new WorkboxWebpackPlugin.GenerateSW({
         clientsClaim: true,
         skipWaiting: false,
-        swDest: 'dev-sw.js',
+        swDest: 'sw-dev.js',
         exclude: [/\.map$/, /asset-manifest\.json$/],
-        importWorkboxFrom: 'cdn',
         navigateFallback: publicUrl + '/index.html',
-        navigateFallbackBlacklist: [
+        navigateFallbackDenylist: [
           // Exclude URLs starting with /_, as they're likely an API call
           new RegExp('^/_'),
           // Exclude URLs containing a dot, as they're likely a resource in

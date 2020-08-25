@@ -8,9 +8,21 @@ type Props = {
   style: Object,
   disableBorder: Boolean,
   textStyle: Object,
+  autoFocus: Boolean,
 }
 
-export default (props: Props) => {
+export default ({
+  onChange,
+  value,
+  textStyle,
+  style,
+  onBlur,
+  onFocus,
+  autoFocus,
+  placeholder,
+  onSubmitEditing,
+  enablesReturnKeyAutomatically,
+}: Props) => {
   const phoneInputRef = useRef()
   const countriesMap = useRef(new Map())
   const [isUserTypingCountry, setUserTypingCountry] = useState(false)
@@ -18,6 +30,10 @@ export default (props: Props) => {
   useEffect(() => {
     const countries = phoneInputRef.current.getAllCountries()
     countries.forEach(({ dialCode, iso2 }) => countriesMap.current.set(dialCode, iso2))
+
+    if (autoFocus) {
+      phoneInputRef.current.focus()
+    }
   }, [])
 
   const findMatchedCountry = useCallback((number: string) => {
@@ -35,60 +51,62 @@ export default (props: Props) => {
     return foundCountry
   }, [])
 
-  const onChange = useCallback((number: string) => {
-    let countryCode = phoneInputRef.current.getCountryCode()
-    const isUserTypingCountryNow = number.startsWith('+')
+  const onChangeHandler = useCallback(
+    (number: string) => {
+      let countryCode = phoneInputRef.current.getCountryCode()
+      const isUserTypingCountryNow = number.startsWith('+')
 
-    if (isUserTypingCountry !== isUserTypingCountryNow) {
-      setUserTypingCountry(isUserTypingCountryNow)
-    }
-
-    let completeNumber = number
-
-    if (isUserTypingCountryNow) {
-      const isSameCountry = number.startsWith(`+${countryCode}`)
-
-      if (!isSameCountry) {
-        const countryISO = findMatchedCountry(number)
-
-        if (countryISO) {
-          phoneInputRef.current.selectCountry(countryISO)
-        }
+      if (isUserTypingCountry !== isUserTypingCountryNow) {
+        setUserTypingCountry(isUserTypingCountryNow)
       }
-    } else {
-      completeNumber = `+${countryCode}${number}`
-    }
 
-    props.onChange(completeNumber)
-  })
+      let completeNumber = number
+
+      if (isUserTypingCountryNow) {
+        const isSameCountry = number.startsWith(`+${countryCode}`)
+
+        if (!isSameCountry) {
+          const countryISO = findMatchedCountry(number)
+
+          if (countryISO) {
+            phoneInputRef.current.selectCountry(countryISO)
+          }
+        }
+      } else {
+        completeNumber = `+${countryCode}${number}`
+      }
+
+      onChange(completeNumber)
+    },
+    [onChange],
+  )
 
   let countryCode = ''
-  let phoneNumber = props.value
+  let phoneNumber = value
 
   if (phoneInputRef.current) {
     countryCode = `+${phoneInputRef.current.getCountryCode()}`
   }
 
   if (!isUserTypingCountry) {
-    phoneNumber = props.value.replace(countryCode, '')
+    phoneNumber = value.replace(countryCode, '')
   }
 
   const handleSelectCountry = useCallback(() => {
-    props.onChange('')
+    onChange('')
     setUserTypingCountry(false)
   })
 
-  const { onBlur, onFocus, placeholder, onSubmitEditing, enablesReturnKeyAutomatically } = props
   const textProps = { onBlur, onFocus, placeholder, onSubmitEditing, enablesReturnKeyAutomatically }
 
   return (
     <PhoneInput
       ref={phoneInputRef}
       value={phoneNumber}
-      onChangePhoneNumber={onChange}
+      onChangePhoneNumber={onChangeHandler}
       onSelectCountry={handleSelectCountry}
-      style={props.style}
-      textStyle={props.textStyle}
+      style={style}
+      textStyle={textStyle}
       textProps={textProps}
     />
   )

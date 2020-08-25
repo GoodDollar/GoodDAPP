@@ -130,6 +130,7 @@ class PhoneForm extends React.Component<Props, State> {
                 onBlur={this.onBlur}
                 onSubmitEditing={this.handleSubmit}
                 enablesReturnKeyAutomatically
+                autoFocus
               />
               <ErrorText error={errorMessage} style={styles.customError} />
             </Section.Stack>

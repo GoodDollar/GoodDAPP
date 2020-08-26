@@ -78,6 +78,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
     // for QA
     global.wallet = goodWallet
+
     await userStorage.ready
     log.debug('ready: userstorage ready')
 

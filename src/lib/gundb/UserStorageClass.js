@@ -406,8 +406,6 @@ export class UserStorage {
 
   ready: Promise<boolean> = null
 
-  readyRegistered: Promise = null
-
   /**
    * Clean string removing blank spaces and special characters, and converts to lower case
    *
@@ -628,27 +626,24 @@ export class UserStorage {
     //   .get('users')
     //   .get(this.gunuser.is.pub)
     //   .putAck(this.gunuser) //save ref to user
-    this.readyRegistered = (async () => {
-      await Promise.all([
-        trustPromise,
-        AsyncStorage.getItem('GD_trust')
-          .then(JSON.parse)
-          .then(_ => (this.trust = _ || {})),
-        this.initFeed(),
-        this.gun
-          .get('users')
-          .get(this.gunuser.is.pub)
-          .putAck(this.gunuser), //save ref to user
-      ]).catch(e => {
-        logger.error('failed init step in userstorage', e.message, e)
-        throw e
-      })
-      logger.debug('starting systemfeed and tokens')
+    await Promise.all([
+      trustPromise,
+      AsyncStorage.getItem('GD_trust')
+        .then(JSON.parse)
+        .then(_ => (this.trust = _ || {})),
+      this.initFeed(),
+      this.gun
+        .get('users')
+        .get(this.gunuser.is.pub)
+        .putAck(this.gunuser), //save ref to user
+    ]).catch(e => {
+      logger.error('failed init step in userstorage', e.message, e)
+      throw e
+    })
+    logger.debug('starting systemfeed and tokens')
 
-      await Promise.all([this.startSystemFeed(), this.initTokens()])
-    })()
+    await Promise.all([this.startSystemFeed(), this.initTokens()])
 
-    await this.readyRegistered
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
 

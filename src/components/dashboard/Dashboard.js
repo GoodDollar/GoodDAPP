@@ -231,17 +231,12 @@ const Dashboard = props => {
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
   //which would lead to many unwanted subscribe/unsubscribe to gun
   const subscribeToFeed = () =>
-    userStorage.readyRegistered.then(
-      () =>
-        new Promise((resolve, reject) => {
-          userStorage.feed.get('byid').on(data => {
-            log.debug('gun getFeed callback', { data })
+    getFeedPage(true).then(
+      userStorage.feed.get('byid').on(data => {
+        log.debug('gun getFeed callback', { data })
 
-            getFeedPage(true)
-              .then(() => resolve(true))
-              .catch(e => reject(e))
-          }, true)
-        }),
+        getFeedPage(true)
+      }, true),
     )
 
   const handleAppLinks = () => {

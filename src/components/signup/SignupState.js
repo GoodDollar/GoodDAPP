@@ -305,15 +305,25 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           // re-throw exception
           throw exception
         })
+
         identifyWith(null, goodWallet.getAccountForType('login'))
         fireSignupEvent('STARTED', { source })
 
         // for QA
         global.wallet = goodWallet
+
+        const apiReady = async () => {
+          await API.ready
+          log.debug('ready: signupstate ready')
+
+          return { goodWallet, userStorage }
+        }
+
         if (torusUserFromProps.privateKey) {
           log.debug('skipping ready initialization (already done in AuthTorus)')
-          await API.ready
-          return { goodWallet, userStorage }
+
+          // now that we are loggedin, reload api with JWT
+          return apiReady()
         }
 
         const login = retryImport(() => import('../../lib/login/GoodWalletLogin'))
@@ -327,11 +337,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             // showErrorDialog('Failed authenticating with server', e)
           })
 
-        await API.ready
-        log.debug('ready: signupstate ready')
-
-        // now that we are loggedin, reload api with JWT
-        return { goodWallet, userStorage }
+        return apiReady()
       })()
 
       setReady(ready)

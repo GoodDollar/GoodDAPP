@@ -38,6 +38,7 @@ import { resizeImage } from '../utils/image'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
+import env from '../../config/env'
 import defaultGun from './gundb'
 import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
@@ -2073,7 +2074,7 @@ export class UserStorage {
 
   //eslint-disable-next-line
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+    const favicon = `${env.PUBLIC_URL}/favicon-96x96.png`
     const getAvatarFromGun = async () => {
       const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))
 

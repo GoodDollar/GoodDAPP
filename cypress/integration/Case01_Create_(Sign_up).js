@@ -141,7 +141,6 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     cy.contains('Welcome to GoodDollar!').should('be.visible')
     cy.contains('Welcome to GoodDollar!').click()
     cy.get('img[src="/static/media/invite.bbc5ae11.png"]').should('be.visible')
-    // cy.contains(todaysDate).should('be.visible')
     cy.contains('Welcome to GoodDollar!').should('be.visible')
     cy.contains('GoodDollar coins every day').should('be.visible')
     cy.get('[role="button"]').contains(/LET`S DO IT/i).click()

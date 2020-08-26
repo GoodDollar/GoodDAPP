@@ -18,7 +18,8 @@ describe('Test feeds', () => {
       HomePage.waitForHomePageDisplayed()
       HomePage.profileAvatar.click()
       HomePage.backArrow.eq(0).click()
-      cy.wait(3000) //wait for cards animation
+      cy.wait(3000) // wait for cards animation
+      
       HomePage.welcomeFeed.should('be.visible')
       cy.log(todaysDate)
       cy.contains('Welcome to GoodDollar!').should('be.visible')

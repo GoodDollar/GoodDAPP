@@ -36,6 +36,7 @@ const MagicLinkInfoComponent = props => {
       })
       .catch(e => {
         const message = getApiErrorText(e)
+
         log.error('failed Resending magiclink', message, e, { dialogShown: true })
         showErrorDialog('Could not send magic-link email. Please try again.')
       })

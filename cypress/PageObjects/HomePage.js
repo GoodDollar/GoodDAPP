@@ -5,11 +5,6 @@ class HomePage {
     return cy.get('[data-testid="invite_tab"]')
   }
 
-
-  /*get supportTab() {
-        return cy.get('[data-testid="support_tab"]')
-      }*/
-
   get optionsButton() {
     return cy.get('[data-testid="burger_button"]')
   }
@@ -48,10 +43,6 @@ class HomePage {
 
   get welcomeFeed() {
     return cy.contains('Claim free G$ coins daily')
-  }
-
-  get emptyFeed() {
-    return cy.get('[style="opacity: 1; transform: translateY(0px);"]')
   }
 
   get deleteAccountButton() {

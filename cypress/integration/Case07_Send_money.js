@@ -264,11 +264,10 @@ describe('Test case 7: Ability to send money', () => {
       LoginPage.yayButton.click()
       HomePage.waitForHomePageDisplayed()
 
-      HomePage.moneyAmountDiv.invoke('text').then(moneyBeforeAbort => {
-        moneyStart = moneyBeforeAbort
-        cy.log('Money before sending: ' + moneyStart)
-      })   
-
+      return HomePage.moneyAmountDiv.invoke('text')
+    }).then(moneyBeforeAbort => {
+      moneyStart = moneyBeforeAbort
+      cy.log('Money before sending: ' + moneyStart)
       HomePage.sendButton.click()
       SendMoneyPage.sendAddressButton.click()
       SendMoneyPage.addressInput.type('1x1234567890qwerty')
@@ -292,11 +291,11 @@ describe('Test case 7: Ability to send money', () => {
       cy.contains(Cypress.env('mainAccountUsername')).should('be.visible')
       cy.contains('send to address').should('be.visible')
 
-      HomePage.moneyAmountDiv.invoke('text').then(moneyAfterAbort => {
-        cy.log('Money after sending: ' + moneyAfterAbort)
-        cy.log('calc: ' + (Number(moneyStart) - 0.01).toFixed(2))
-        HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyStart) - 0.01).toFixed(2))
-      })
+      return HomePage.moneyAmountDiv.invoke('text')
+    }).then(moneyAfterAbort => {
+      cy.log('Money after sending: ' + moneyAfterAbort)
+      cy.log('calc: ' + (Number(moneyStart) - 0.01).toFixed(2))
+      HomePage.moneyAmountDiv.invoke('text').should('eq', (Number(moneyStart) - 0.01).toFixed(2))
 
       cy.clearLocalStorage()
       cy.clearCookies()

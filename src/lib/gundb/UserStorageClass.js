@@ -2482,6 +2482,7 @@ export class UserStorage {
 
     if (encryptedProfile === undefined) {
       const error = new Error('Profile node undefined')
+      
       logger.error('getPublicProfile: profile node undefined', error.message, error)
 
       return {}

@@ -23,6 +23,7 @@ import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
+import getApiErrorText from '../../lib/utils/getApiErrorText'
 
 type LoadingProps = {
   navigation: any,
@@ -138,7 +139,11 @@ const AppSwitch = (props: LoadingProps) => {
     store.set('regMethod')(regMethod)
 
     if (isLoggedInCitizen) {
-      API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
+      API.verifyTopWallet().catch(e => {
+        const message = getApiErrorText(e)
+
+        log.error('verifyTopWallet failed', message, e)
+      })
     }
     return isLoggedInCitizen
 
@@ -274,7 +279,8 @@ const AppSwitch = (props: LoadingProps) => {
         log.info('redeemBonuses', { resData: res && res.data })
       })
       .catch(err => {
-        log.error('Failed to redeem bonuses', err.message, err)
+        const message = getApiErrorText(err)
+        log.error('Failed to redeem bonuses', message, err)
 
         // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })

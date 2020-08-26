@@ -13,6 +13,7 @@ import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
+import getApiErrorText from '../../lib/utils/getApiErrorText'
 
 Image.prefetch(illustration)
 
@@ -34,7 +35,8 @@ const MagicLinkInfoComponent = props => {
         })
       })
       .catch(e => {
-        log.error('failed Resending magiclink', e.message, e, { dialogShown: true })
+        const message = getApiErrorText(e)
+        log.error('failed Resending magiclink', message, e, { dialogShown: true })
         showErrorDialog('Could not send magic-link email. Please try again.')
       })
   }

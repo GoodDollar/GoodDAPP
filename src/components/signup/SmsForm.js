@@ -10,6 +10,7 @@ import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
+import getApiErrorText from '../../lib/utils/getApiErrorText'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -100,9 +101,10 @@ class SmsForm extends React.Component<Props, State> {
       await API[retryFunctionName]({ ...this.props.screenProps.data })
       this.setState({ sendingCode: false, resentCode: true })
     } catch (e) {
-      log.error('Resend sms code failed', e.message, e)
+      const errorMessage = getApiErrorText(e)
+      log.error('Resend sms code failed', errorMessage, e)
       this.setState({
-        errorMessage: e.message || e,
+        errorMessage,
         sendingCode: false,
         resentCode: false,
       })

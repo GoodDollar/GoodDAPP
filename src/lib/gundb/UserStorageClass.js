@@ -36,6 +36,7 @@ import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
 import { resizeImage } from '../utils/image'
+import getApiErrorText from '../utils/getApiErrorText'
 
 import { GD_GUN_CREDENTIALS } from '../constants/localStorage'
 import delUndefValNested from '../utils/delUndefValNested'
@@ -694,7 +695,8 @@ export class UserStorage {
     const initMarketToken = async () => {
       if (Config.market) {
         const r = await API.getMarketToken().catch(e => {
-          logger.warn('failed fetching market token', { e })
+          const errMsg = getApiErrorText(e)
+          logger.warn('failed fetching market token', { errMsg, e })
         })
         token = get(r, 'data.jwt')
         if (token) {
@@ -707,7 +709,8 @@ export class UserStorage {
     const initLoginToken = async () => {
       if (Config.enableInvites) {
         const r = await API.getLoginToken().catch(e => {
-          logger.warn('failed fetching login token', { e })
+          const errMsg = getApiErrorText(e)
+          logger.warn('failed fetching login token', { errMsg, e })
         })
         token = get(r, 'data.loginToken')
         if (token) {
@@ -728,7 +731,8 @@ export class UserStorage {
 
     if (!inviteCode) {
       const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
-        logger.warn('failed fetching w3 user', { e })
+        const errMsg = getApiErrorText(e)
+        logger.warn('failed fetching w3 user', { errMsg, e })
         return {}
       })
       logger.debug('w3 user result', { data })

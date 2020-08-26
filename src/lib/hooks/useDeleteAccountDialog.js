@@ -6,6 +6,7 @@ import IconWrapper from '../../components/common/modal/IconWrapper'
 import LoadingIcon from '../../components/common/modal/LoadingIcon'
 
 import retryImport from '../utils/retryImport'
+import getApiErrorText from '../utils/getApiErrorText'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
@@ -64,7 +65,11 @@ export default ({ API, showErrorDialog, store, theme }) =>
                 log.debug('deleted account', isDeleted)
 
                 if (isDeleted) {
-                  token && API.deleteWalletFromW3Site(token).catch(e => log.warn(e.message, e))
+                  token &&
+                    API.deleteWalletFromW3Site(token).catch(e => {
+                      const message = getApiErrorText(e)
+                      log.warn(message, e)
+                    })
                   const req = deleteGunDB()
 
                   //remove all local data so its not cached and user will re-login

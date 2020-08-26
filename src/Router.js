@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import { Platform } from 'react-native'
@@ -11,12 +11,11 @@ import ExportWallet from './components/backupWallet/ExportWalletData'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
 import GDStore from './lib/undux/GDStore'
-import { fireEventFromNavigation } from './lib/analytics/analytics'
 import AddWebApp from './components/common/view/AddWebApp'
 import isWebApp from './lib/utils/isWebApp'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import Splash from './components/splash/Splash'
-import useResetBlurScreen from './lib/hooks/useResetBlurScreen'
+import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 const DisconnectedSplash = () => <Splash animation={false} />
 
@@ -43,23 +42,14 @@ if (Platform.OS === 'web') {
 }
 
 const Router = () => {
-  const resetBlurScreen = useResetBlurScreen()
-  const handleNavigationStateChange = useCallback(
-    (prevNav, nav, action) => {
-      fireEventFromNavigation(action)
-
-      // when route changing - then hiding dialog and removing blur background effect
-      resetBlurScreen()
-    },
-    [resetBlurScreen],
-  )
+  const navigationStateHandler = useNavigationStateHandler()
 
   return (
     <GDStore.Container>
       <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
         {!isWebApp && <AddWebApp />}
         <Portal.Host>
-          <WebRouter onNavigationStateChange={handleNavigationStateChange} />
+          <WebRouter onNavigationStateChange={navigationStateHandler} />
         </Portal.Host>
       </InternetConnection>
     </GDStore.Container>

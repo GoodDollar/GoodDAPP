@@ -9,7 +9,7 @@ export default (options = {}) => {
   const { resetFeed = true, resetMenu = true, resetPopups = true, fireEvent = true } = options
 
   return useCallback(
-    action => {
+    (prevNav, nav, action) => {
       if (resetPopups) {
         hideDialog()
       }

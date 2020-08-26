@@ -541,21 +541,17 @@ const Dashboard = props => {
           return
         }
 
+        const errorMessage = 'Payment already withdrawn or canceled by sender'
         switch (status) {
           case WITHDRAW_STATUS_COMPLETE:
-            log.error(
-              'Failed to complete withdraw',
-              'Payment already withdrawn or canceled by sender',
-              new Error('Payment already withdrawn or canceled by sender'),
-              {
-                status,
-                transactionHash,
-                paymentParams,
-                category: ExceptionCategory.Human,
-                dialogShown: true,
-              },
-            )
-            showErrorDialog('Payment already withdrawn or canceled by sender')
+            log.error('Failed to complete withdraw', errorMessage, new Error(errorMessage), {
+              status,
+              transactionHash,
+              paymentParams,
+              category: ExceptionCategory.Human,
+              dialogShown: true,
+            })
+            showErrorDialog(errorMessage)
             break
           case WITHDRAW_STATUS_UNKNOWN:
             for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {

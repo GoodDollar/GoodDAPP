@@ -101,6 +101,7 @@ class SmsForm extends React.Component<Props, State> {
       this.setState({ sendingCode: false, resentCode: true })
     } catch (exception) {
       const errorMessage = getErrorMessage(exception)
+
       log.error('Resend sms code failed', errorMessage, exception)
       this.setState({
         errorMessage,

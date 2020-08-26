@@ -60,6 +60,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
         if (url === null) {
           const error = new Error('Invalid QR Code. Probably this QR code is for sending GD')
+          
           log.error('Wrong QR code received', error.message, error, {
             url,
             category: ExceptionCategory.Human,
@@ -71,6 +72,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
           if (!receiveLink) {
             const error = new Error('Invalid QR Code. Probably this QR code is for sending GD')
+            
             log.error('Wrong QR code received', error.message, error, {
               url,
               receiveLink,

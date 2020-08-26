@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { get } from 'lodash'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -10,6 +10,7 @@ const log = logger.child({ from: 'Verify Edit Code' })
 
 const VerifyEditCode = props => {
   const { navigation, screenProps } = props
+  const { pop, navigateTo } = screenProps
   const field = get(navigation, 'state.params.field')
   const content = get(navigation, 'state.params.content')
   let fieldToSave
@@ -36,13 +37,13 @@ const VerifyEditCode = props => {
     content,
   })
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     const privacy = await userStorage.getFieldPrivacy(fieldToSave)
     await userStorage.setProfileField(fieldToSave, content, privacy)
 
-    screenProps.pop()
-    navigation.navigate('Profile')
-  }
+    pop()
+    navigateTo('Profile')
+  }, [fieldToSave, content, navigateTo, pop])
 
   return (
     <RenderComponent

@@ -8,7 +8,7 @@ import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localS
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 
 import logger from '../../lib/logger/pino-logger'
-import API from '../../lib/API/api'
+import API, { getErrorMessage } from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -23,7 +23,6 @@ import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
 import SimpleStore, { assertStore } from '../../lib/undux/SimpleStore'
 import { preloadZoomSDK } from '../dashboard/FaceVerification/hooks/useZoomSDK'
-import getApiErrorText from '../../lib/utils/getApiErrorText'
 
 type LoadingProps = {
   navigation: any,
@@ -139,10 +138,10 @@ const AppSwitch = (props: LoadingProps) => {
     store.set('regMethod')(regMethod)
 
     if (isLoggedInCitizen) {
-      API.verifyTopWallet().catch(e => {
-        const message = getApiErrorText(e)
+      API.verifyTopWallet().catch(exception => {
+        const message = getErrorMessage(exception)
 
-        log.error('verifyTopWallet failed', message, e)
+        log.error('verifyTopWallet failed', message, exception)
       })
     }
     return isLoggedInCitizen
@@ -279,7 +278,7 @@ const AppSwitch = (props: LoadingProps) => {
         log.info('redeemBonuses', { resData: res && res.data })
       })
       .catch(err => {
-        const message = getApiErrorText(err)
+        const message = getErrorMessage(err)
         log.error('Failed to redeem bonuses', message, err)
 
         // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')

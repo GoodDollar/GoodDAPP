@@ -1,10 +1,9 @@
 // @flow
 import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
-import API from '../API/api'
+import API, { getErrorMessage } from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
-import getApiErrorText from '../utils/getApiErrorText'
 
 const log = logger.child({ from: 'LoginService' })
 
@@ -117,8 +116,7 @@ class LoginService {
       log.debug('Login success:', data)
       return { ...creds, jwt: data.token }
     } catch (exception) {
-      const message = getApiErrorText(exception)
-
+      const message = getErrorMessage(exception)
       log.error('Login service auth failed:', message, exception)
       throw exception
     }

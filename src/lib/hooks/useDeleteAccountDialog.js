@@ -6,7 +6,7 @@ import IconWrapper from '../../components/common/modal/IconWrapper'
 import LoadingIcon from '../../components/common/modal/LoadingIcon'
 
 import retryImport from '../utils/retryImport'
-import getApiErrorText from '../utils/getApiErrorText'
+import { getErrorMessage } from '../API/api'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
@@ -66,9 +66,9 @@ export default ({ API, showErrorDialog, store, theme }) =>
 
                 if (isDeleted) {
                   token &&
-                    API.deleteWalletFromW3Site(token).catch(e => {
-                      const message = getApiErrorText(e)
-                      log.warn(message, e)
+                    API.deleteWalletFromW3Site(token).catch(exception => {
+                      const message = getErrorMessage(exception)
+                      log.warn(message, exception)
                     })
                   const req = deleteGunDB()
 

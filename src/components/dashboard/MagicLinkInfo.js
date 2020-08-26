@@ -2,7 +2,7 @@
 import React from 'react'
 import { Image, View } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
-import API from '../../lib/API/api'
+import API, { getErrorMessage } from '../../lib/API/api'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -13,7 +13,6 @@ import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import Wrapper from '../common/layout/Wrapper'
-import getApiErrorText from '../../lib/utils/getApiErrorText'
 
 Image.prefetch(illustration)
 
@@ -34,9 +33,9 @@ const MagicLinkInfoComponent = props => {
           onDismiss: () => screenProps.goToRoot(),
         })
       })
-      .catch(e => {
-        const message = getApiErrorText(e)
-        log.error('failed Resending magiclink', message, e, { dialogShown: true })
+      .catch(exception => {
+        const message = getErrorMessage(exception)
+        log.error('failed Resending magiclink', message, exception, { dialogShown: true })
         showErrorDialog('Could not send magic-link email. Please try again.')
       })
   }

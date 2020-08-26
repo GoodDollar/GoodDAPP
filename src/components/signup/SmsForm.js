@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { isIOS } from '../../lib/utils/platform'
 import logger from '../../lib/logger/pino-logger'
-import API from '../../lib/API/api'
+import API, { getErrorMessage } from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
-import getApiErrorText from '../../lib/utils/getApiErrorText'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -100,9 +99,9 @@ class SmsForm extends React.Component<Props, State> {
     try {
       await API[retryFunctionName]({ ...this.props.screenProps.data })
       this.setState({ sendingCode: false, resentCode: true })
-    } catch (e) {
-      const errorMessage = getApiErrorText(e)
-      log.error('Resend sms code failed', errorMessage, e)
+    } catch (exception) {
+      const errorMessage = getErrorMessage(exception)
+      log.error('Resend sms code failed', errorMessage, exception)
       this.setState({
         errorMessage,
         sendingCode: false,

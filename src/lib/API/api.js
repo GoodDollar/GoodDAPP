@@ -1,8 +1,9 @@
 // @flow
+
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import { AsyncStorage } from 'react-native'
-import { identity } from 'lodash'
+import { identity, isError } from 'lodash'
 
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
@@ -28,6 +29,23 @@ export type UserRecord = NameRecord &
   Credentials & {
     username?: string,
   }
+
+export const getErrorMessage = apiError => {
+  let { message } = apiError
+
+  // if the json or string http body was thrown from axios (error
+  // interceptor in api.js doest that in almost cases) then we're wrapping
+  // it onto Error object to keep correct stack trace for Sentry reporting
+  if (!isError(apiError)) {
+    message = apiError.error || apiError
+  }
+
+  if (message) {
+    apiError.message = message
+  }
+
+  return message
+}
 
 /**
  * GoodServer Client.

@@ -1,5 +1,6 @@
 //@flow
 import Mutex from 'await-mutex'
+import { Platform } from 'react-native'
 import {
   filter,
   find,
@@ -2073,7 +2074,10 @@ export class UserStorage {
 
   //eslint-disable-next-line
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+    const favicon = Platform.select({
+      web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
+      default: require('../../../public/favicon-96x96.png'),
+    })
     const getAvatarFromGun = async () => {
       const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))
 

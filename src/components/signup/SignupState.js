@@ -572,7 +572,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           const errorMessage =
             data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
 
-          log.error(errorMessage, '', null, {
+          log.error('Send mobile code failed', errorMessage, new Error(errorMessage), {
             data,
             dialogShown: true,
           })
@@ -590,7 +590,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         setLoading(true)
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          log.error('Send verification code failed', '', null, {
+          const error = new Error('Some error occurred on server')
+          log.error('Send verification code failed', error.message, error, {
             data,
             dialogShown: true,
           })

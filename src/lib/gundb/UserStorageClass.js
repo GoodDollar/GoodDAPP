@@ -8,6 +8,7 @@ import {
   get,
   isEqual,
   isError,
+  isString,
   keys,
   maxBy,
   memoize,
@@ -463,7 +464,8 @@ export class UserStorage {
         gunuser.auth(username, password, user => {
           logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnemonic UserStorage', user.err, null)
+            const error = isString(user.err) ? new Error(user.err) : user.err
+            logger.error('Error getMnemonic UserStorage', error.message, error)
             return rej(false)
           }
           res(true)
@@ -2449,7 +2451,7 @@ export class UserStorage {
     const encryptedProfile = await this.loadGunField(this.profile)
 
     if (encryptedProfile === undefined) {
-      logger.error('getProfile: profile node undefined', '', null)
+      logger.error('getProfile: profile node undefined', '', new Error('Profile node undefined'))
 
       return {}
     }
@@ -2475,7 +2477,8 @@ export class UserStorage {
     const encryptedProfile = await this.loadGunField(this.profile)
 
     if (encryptedProfile === undefined) {
-      logger.error('getPublicProfile: profile node undefined', '', null)
+      const error = new Error('Profile node undefined')
+      logger.error('getPublicProfile: profile node undefined', error.message, error)
 
       return {}
     }

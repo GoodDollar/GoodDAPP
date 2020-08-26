@@ -124,7 +124,7 @@ const FeedList = ({
           log.error(
             "Current transaction is still pending, it can't be cancelled right now",
             'Pending - can`t be cancelled right now',
-            null,
+            new Error('Transaction is still pending'),
             {
               id,
               status,

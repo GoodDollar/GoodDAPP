@@ -425,7 +425,8 @@ export class APIService {
       `${mauticUrl}/form/submit`,
       payload,
       () => log.info('addMauticContact success'),
-      ({ content }, xhr) => log.error('addMauticContact call failed:', '', null, { content }),
+      ({ content }, xhr) =>
+        log.error('addMauticContact call failed:', '', new Error('Error received from Mautic API'), { content }),
     )
   }
 

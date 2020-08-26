@@ -71,9 +71,14 @@ export default ({ API, showErrorDialog, store, theme }) =>
                   await Promise.all([AsyncStorage.clear(), req.catch()])
                   window.location = '/'
                 } else {
-                  log.error('Error deleting account', 'false from userStorage.deleteAccount()', null, {
-                    dialogShown: true,
-                  })
+                  log.error(
+                    'Error deleting account',
+                    'Received false from userStorage.deleteAccount()',
+                    new Error('Account is not deleted'),
+                    {
+                      dialogShown: true,
+                    },
+                  )
                   showErrorDialog('There was a problem deleting your account. Try again later.')
                 }
               } catch (e) {

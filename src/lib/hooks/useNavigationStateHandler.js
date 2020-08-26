@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { noop } from 'lodash'
 import { useCurriedSetters } from '../undux/SimpleStore.js'
 import { useDialog } from '../undux/utils/dialog'
 import { fireEventFromNavigation } from '../analytics/analytics'
@@ -6,7 +7,7 @@ import { fireEventFromNavigation } from '../analytics/analytics'
 export default (options = {}) => {
   const [, hideDialog] = useDialog()
   const [setCurrentFeed, setSideMenu] = useCurriedSetters(['currentFeed', 'sidemenu'])
-  const { resetFeed = true, resetMenu = true, resetPopups = true, fireEvent = true } = options
+  const { resetFeed = true, resetMenu = true, resetPopups = true, fireEvent = true, onChange = noop } = options
 
   return useCallback(
     (prevNav, nav, action) => {
@@ -25,7 +26,9 @@ export default (options = {}) => {
       if (fireEvent) {
         fireEventFromNavigation(action)
       }
+      
+      onChange(prevNav, nav, action)
     },
-    [hideDialog, setSideMenu, setCurrentFeed, resetFeed, resetMenu, resetPopups, fireEvent],
+    [hideDialog, setSideMenu, setCurrentFeed, resetFeed, resetMenu, resetPopups, fireEvent, onChange],
   )
 }

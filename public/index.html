@@ -3,16 +3,6 @@
   <head>
     <script>
       var exports = {};
-      var __failed_scripts = {};
-
-      // global scripts error handler should be set before executing any of the external scripts
-      window.addEventListener('error', function (event) {
-        var element = event.target;
-
-        if (element instanceof HTMLScriptElement) {
-          __failed_scripts[element.src] = true;
-        }
-      }, { capture: true });
     </script>
     <!-- Google Tag Manager -->
     <script>

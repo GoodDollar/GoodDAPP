@@ -241,7 +241,9 @@ export class GoodWallet {
     }
 
     const events = await contract.getPastEvents('Transfer', fromEventsFilter).catch(e => {
-      log.error('pollSendEvents failed:', e.message, e, {
+      //just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? log.warn : log.error
+      logFunc('pollSendEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
       })
       return []
@@ -279,7 +281,9 @@ export class GoodWallet {
     }
 
     const events = await contract.getPastEvents('Transfer', toEventsFilter).catch(e => {
-      log.error('pollReceiveEvents failed:', e.message, e, {
+      //just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? log.warn : log.error
+      logFunc('pollReceiveEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
       })
       return []
@@ -315,14 +319,18 @@ export class GoodWallet {
     }
 
     const eventsWithdraw = await contract.getPastEvents('PaymentWithdraw', fromEventsFilter).catch(e => {
-      log.error('pollOTPLEvents failed:', e.message, e, {
+      //just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? log.warn : log.error
+      logFunc('pollOTPLEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
       })
       return []
     })
 
     const eventsCancel = await contract.getPastEvents('PaymentCancel', fromEventsFilter).catch(e => {
-      log.error('pollOTPLEvents failed:', e.message, e, {
+      //just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? log.warn : log.error
+      logFunc('pollOTPLEvents failed:', e.message, e, {
         category: ExceptionCategory.Blockhain,
       })
       return []

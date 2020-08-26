@@ -78,11 +78,11 @@ const FeedList = ({
   const keyExtractor = item => {
     const { id, createdDate } = item
 
-     if (!id || String(id).length < 60) {
-       return createdDate
-     }
+    if (!id || String(id).length < 60) {
+      return createdDate
+    }
 
-     return id
+    return id
   }
 
   const getItemLayout = (_: any, index: number) => {

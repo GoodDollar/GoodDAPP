@@ -31,6 +31,13 @@ const ProfileDataTable = ({
   const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)
   const countryFlagUrl = useCountryFlagUrl(phoneMeta && phoneMeta.country)
 
+  const verifyEdit = useCallback(
+    (field, content) => {
+      navigation.navigate('VerifyEdit', { field, content })
+    },
+    [navigation],
+  )
+
   const verifyEmail = useCallback(() => {
     if (profile.email !== storedProfile.email) {
       verifyEdit('email', profile.email)
@@ -42,13 +49,6 @@ const ProfileDataTable = ({
       verifyEdit('phone', profile.mobile)
     }
   }, [verifyEdit, profile.mobile, storedProfile.mobile])
-
-  const verifyEdit = useCallback(
-    (field, content) => {
-      navigation.navigate('VerifyEdit', { field, content })
-    },
-    [navigation],
-  )
 
   // username handlers
   const onUserNameChange = useCallback(username => onChange({ ...profile, username }), [onChange, profile])

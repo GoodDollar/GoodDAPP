@@ -2,16 +2,14 @@
 
 // libraries
 import amplitude from 'amplitude-js'
-import { assign, debounce, forEach, get, isFunction, isString } from 'lodash'
+import { assign, debounce, forEach, get, isError, isFunction, isString } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
-// import API from '../../lib/API/api'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { isMobileReactNative } from '../../lib/utils/platform'
-import { isScriptFailed } from '../utils/dom'
 
 export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
@@ -75,27 +73,32 @@ const initAmplitude = async key => {
 }
 
 /** @private */
-// eslint-disable-next-line require-await
-const fullStoryInitialized = (async () => {
-  const { _fs_ready, _fs_script } = window // eslint-disable-line camelcase
+const fullStoryState = new class {
+  ready = false
 
-  // eslint-disable-next-line camelcase
-  if (isScriptFailed(_fs_script)) {
-    return false
+  constructor() {
+    const { _fs_ready } = window // eslint-disable-line camelcase
+
+    this.promise = new Promise(resolve =>
+      assign(window, {
+        _fs_ready: () => {
+          if (isFunction(_fs_ready)) {
+            _fs_ready()
+          }
+
+          this.ready = true
+          resolve()
+        },
+      }),
+    )
   }
 
-  return new Promise(resolve =>
-    assign(window, {
-      _fs_ready: () => {
-        if (isFunction(_fs_ready)) {
-          _fs_ready()
-        }
+  onReady(callback) {
+    const { promise } = this
 
-        resolve(true)
-      },
-    }),
-  )
-})()
+    return promise.then(callback)
+  }
+}()
 
 const Amplitude = amplitude.getInstance()
 const { mt: Mautic, FS, dataLayer: GoogleAnalytics } = global
@@ -110,22 +113,20 @@ export const initAnalytics = async () => {
   isGoogleAnalyticsEnabled = !!GoogleAnalytics
   isMauticEnabled = !!Mautic
 
-  log.info('pre-initializing & preloading FS & Amplitude')
+  if (isAmplitudeEnabled) {
+    log.info('preinitializing Amplitude with license key')
 
-  await Promise.all([
-    isFSEnabled && fullStoryInitialized.then(success => (isFSEnabled = success)),
-    isAmplitudeEnabled && initAmplitude(amplitudeKey).then(success => (isAmplitudeEnabled = success)),
-  ])
-
-  if (isMauticEnabled && isScriptFailed('mtc.js')) {
-    isMauticEnabled = false
+    await initAmplitude(amplitudeKey).then(success => {
+      isAmplitudeEnabled = success
+      log.info('License sent to Amplitude', { success })
+    })
   }
 
-  log.info('preloaded FS & Amplitude')
-
-  if (isFSAvailable && !isFSEnabled && isFunction(FS.shutdown)) {
-    FS.shutdown()
-  }
+  fullStoryState.onReady(() => {
+    if (isFSAvailable && !isFSEnabled && isFunction(FS.shutdown)) {
+      FS.shutdown()
+    }
+  })
 
   if (isAmplitudeEnabled) {
     const identity = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
@@ -135,10 +136,12 @@ export const initAnalytics = async () => {
     Amplitude.identify(identity)
 
     if (isFSEnabled) {
-      const sessionUrl = FS.getCurrentSessionURL()
+      fullStoryState.onReady(() => {
+        const sessionUrl = FS.getCurrentSessionURL()
 
-      // set session URL to user props once FS & Amplitude both initialized
-      Amplitude.setUserProperties({ sessionUrl })
+        // set session URL to user props once FS & Amplitude both initialized
+        Amplitude.setUserProperties({ sessionUrl })
+      })
     }
   }
 
@@ -361,7 +364,7 @@ const patchLogger = () => {
         context,
       }
 
-      if (isFSEnabled) {
+      if (fullStoryState.ready && isFSEnabled) {
         const sessionUrlAtTime = FS.getCurrentSessionURL(true)
 
         Object.assign(logPayload, { sessionUrlAtTime })
@@ -375,7 +378,7 @@ const patchLogger = () => {
     if (!isRunningTests) {
       let errorToPassIntoLog = errorObj
 
-      if (errorObj instanceof Error) {
+      if (isError(errorObj)) {
         savedErrorMessage = errorObj.message
         errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
       } else {

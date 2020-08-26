@@ -1,6 +1,4 @@
 import { assign, identity, isFunction } from 'lodash'
-import { Observable, throwError } from 'rxjs'
-import { map, takeLast } from 'rxjs/operators'
 
 import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
@@ -34,59 +32,14 @@ const gunExtend = (() => {
      * it returns a promise with the first result from a peer
      * @param {any} data Data to put onto Gun's node
      * @param {function} callback Function to be executed once write operation done
-     * @param {number?} wait Optional. Interval (in ms) to await if first ack failed.
-     * If at least one on further acks would be successfull, promise would resolves
-     *
-     * TODO: set some default value for wait (e.g. 50) if we have more that one GUN peers configiured in the env
      * @returns {Promise<ack>}
      */
     // eslint-disable-next-line require-await
-    async putAck(data, callback, wait = null) {
-      const writeObservable = Observable.create(subscriber => {
-        let timeout
-        let completed = false
+    async putAck(data, cb) {
+      var gun = this
 
-        // completes observable and sets completed flag
-        const complete = () => {
-          completed = true
-          subscriber.complete()
-        }
-
-        // if optional wait param set - setting timeout for listening ack callbacks
-        if (wait) {
-          timeout = setTimeout(complete, wait)
-        }
-
-        // performing put
-        this.put(data, ack => {
-          // on each callback:
-          //  1. cheking are we completed. if yes - don't do anything
-          if (completed) {
-            return
-          }
-
-          // 2. emit ack to stream
-          subscriber.next(ack)
-
-          // 3.1 if wait isn't set - complete immediately
-          // 3.2 if wait was set - complete once we received non-error
-          if (!wait || !ack.err) {
-            // 3.3. if wait was set - revoke timeout once we received non-error
-            if (timeout) {
-              clearTimeout(timeout)
-            }
-
-            complete()
-          }
-        })
-      }).pipe(
-        takeLast(1), // take latest value emited
-        map(ack => (ack.err ? throwError(ack) : ack)), // throw if it's error
-        // (we don't trow in the source observable because error completes observable)
-      )
-
-      // convert piped observable to the promise, attach callback via .then()
-      return writeObservable.toPromise().then(callback || identity)
+      let promise = new Promise((res, rej) => gun.put(data, ack => (ack.err ? rej(ack) : res(ack))))
+      return promise.then(cb || identity)
     },
 
     onThen(cb = undefined, opts = {}) {

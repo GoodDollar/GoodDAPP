@@ -40,10 +40,6 @@ export const getErrorMessage = apiError => {
     message = apiError.error || apiError
   }
 
-  if (message) {
-    apiError.message = message
-  }
-
   return message
 }
 

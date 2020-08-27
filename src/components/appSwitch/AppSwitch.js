@@ -138,8 +138,9 @@ const AppSwitch = (props: LoadingProps) => {
     store.set('regMethod')(regMethod)
 
     if (isLoggedInCitizen) {
-      API.verifyTopWallet().catch(exception => {
-        const message = getErrorMessage(exception)
+      API.verifyTopWallet().catch(e => {
+        const message = getErrorMessage(e)
+        const exception = new Error(message)
 
         log.error('verifyTopWallet failed', message, exception)
       })

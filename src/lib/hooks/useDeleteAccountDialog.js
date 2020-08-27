@@ -66,9 +66,11 @@ export default ({ API, showErrorDialog, store, theme }) =>
 
                 if (isDeleted) {
                   token &&
-                    API.deleteWalletFromW3Site(token).catch(exception => {
-                      const message = getErrorMessage(exception)
-                      log.warn(message, exception)
+                    API.deleteWalletFromW3Site(token).catch(e => {
+                      const errMsg = getErrorMessage(e)
+                      const exception = new Error(errMsg)
+
+                      log.warn('Failed to delete wallet from w3 site', { errMsg, exception })
                     })
                   const req = deleteGunDB()
 

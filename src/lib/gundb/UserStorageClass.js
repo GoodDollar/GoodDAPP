@@ -693,8 +693,10 @@ export class UserStorage {
     }
     const initMarketToken = async () => {
       if (Config.market) {
-        const r = await API.getMarketToken().catch(exception => {
-          const errMsg = getErrorMessage(exception)
+        const r = await API.getMarketToken().catch(e => {
+          const errMsg = getErrorMessage(e)
+          const exception = new Error(errMsg)
+
           logger.warn('failed fetching market token', { errMsg, exception })
         })
         token = get(r, 'data.jwt')
@@ -707,8 +709,10 @@ export class UserStorage {
 
     const initLoginToken = async () => {
       if (Config.enableInvites) {
-        const r = await API.getLoginToken().catch(exception => {
-          const errMsg = getErrorMessage(exception)
+        const r = await API.getLoginToken().catch(e => {
+          const errMsg = getErrorMessage(e)
+          const exception = new Error(errMsg)
+
           logger.warn('failed fetching login token', { errMsg, exception })
         })
         token = get(r, 'data.loginToken')
@@ -729,9 +733,12 @@ export class UserStorage {
     let [_token] = await Promise.all([token || initLoginToken(), marketToken || initMarketToken()])
 
     if (!inviteCode) {
-      const { data } = await API.getUserFromW3ByToken(_token).catch(exception => {
-        const errMsg = getErrorMessage(exception)
+      const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
+        const errMsg = getErrorMessage(e)
+        const exception = new Error(errMsg)
+
         logger.warn('failed fetching w3 user', { errMsg, exception })
+
         return {}
       })
       logger.debug('w3 user result', { data })
@@ -2481,7 +2488,7 @@ export class UserStorage {
 
     if (encryptedProfile === undefined) {
       const error = new Error('Profile node undefined')
-      
+
       logger.error('getPublicProfile: profile node undefined', error.message, error)
 
       return {}

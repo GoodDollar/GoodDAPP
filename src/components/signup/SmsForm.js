@@ -99,10 +99,12 @@ class SmsForm extends React.Component<Props, State> {
     try {
       await API[retryFunctionName]({ ...this.props.screenProps.data })
       this.setState({ sendingCode: false, resentCode: true })
-    } catch (exception) {
-      const errorMessage = getErrorMessage(exception)
+    } catch (e) {
+      const errorMessage = getErrorMessage(e)
+      const exception = new Error(errorMessage)
 
       log.error('Resend sms code failed', errorMessage, exception)
+
       this.setState({
         errorMessage,
         sendingCode: false,

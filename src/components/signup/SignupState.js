@@ -448,8 +448,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       await API.addUser(requestPayload)
         .then(({ data }) => (newUserData = data))
-        .catch(exception => {
-          const message = getErrorMessage(exception)
+        .catch(e => {
+          const message = getErrorMessage(e)
+          const exception = new Error(message)
 
           // if user already exists just log.warn then continue signup
           if ('You cannot create more than 1 account with the same credentials' === message) {
@@ -480,8 +481,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         //privacy issue, and not need at the moment
         // w3Token &&
-        //   API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(exception => {
-        //     const message = getErrorMessage(exception)
+        //   API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e => {
+        //     const message = getErrorMessage(e)
+        //     const exception = new Error(message)
+        //
         //     log.error('failed updateW3UserWithWallet', message, exception)
         //   }),
       ])

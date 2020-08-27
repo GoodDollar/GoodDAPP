@@ -115,9 +115,12 @@ class LoginService {
 
       log.debug('Login success:', data)
       return { ...creds, jwt: data.token }
-    } catch (exception) {
-      const message = getErrorMessage(exception)
+    } catch (e) {
+      const message = getErrorMessage(e)
+      const exception = new Error(message)
+
       log.error('Login service auth failed:', message, exception)
+
       throw exception
     }
   }

@@ -15,6 +15,7 @@ import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import API from '../../lib/API/api'
+import { delay } from '../../lib/utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 
@@ -209,12 +210,19 @@ export class GoodWallet {
 
   async pollEvents(fn, time, lastBlockCallback) {
     try {
-      const nextLastBlock = await this.wallet.eth.getBlockNumber()
-      await fn()
-      this.lastEventsBlock = nextLastBlock
+      const run = async () => {
+        const nextLastBlock = await this.wallet.eth.getBlockNumber()
+        fn()
+        this.lastEventsBlock = nextLastBlock
+        lastBlockCallback(nextLastBlock)
+        log.info('pollEvents success:', { nextLastBlock, lastBlockCallback })
+        return true
+      }
 
-      lastBlockCallback(nextLastBlock)
-      log.info('pollEvents success:', { nextLastBlock, lastBlockCallback })
+      const runRes = await Promise.race([run(), delay(5000, false)])
+      if (runRes === false) {
+        throw new Error('pollEvents not completed after 5 seconds')
+      }
     } catch (e) {
       log.error('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
     }

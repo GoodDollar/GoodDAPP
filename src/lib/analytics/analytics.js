@@ -134,15 +134,6 @@ export const initAnalytics = async () => {
     identity.append('phase', String(phase))
     Amplitude.setVersionName(version)
     Amplitude.identify(identity)
-
-    if (isFSEnabled) {
-      fullStoryState.onReady(() => {
-        const sessionUrl = FS.getCurrentSessionURL()
-
-        // set session URL to user props once FS & Amplitude both initialized
-        Amplitude.setUserProperties({ sessionUrl })
-      })
-    }
   }
 
   if (isSentryEnabled) {
@@ -345,8 +336,8 @@ const patchLogger = () => {
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category
-    let sessionUrlAtTime = undefined
-    
+    let sessionUrlAtTime
+
     if (fullStoryState.ready && isFSEnabled) {
       sessionUrlAtTime = FS.getCurrentSessionURL(true)
     }

@@ -2076,7 +2076,7 @@ export class UserStorage {
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
     const favicon = Platform.select({
       web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
-      default: require('../../../public/favicon-96x96.png'),
+      default: require('../../assets/Feed/favicon-96x96.png'),
     })
     const getAvatarFromGun = async () => {
       const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))

@@ -125,7 +125,7 @@ const AppSwitch = (props: LoadingProps) => {
       userStorage.getProfileFieldValue('inviteCode'),
     ])
 
-    log.debug({ isLoggedIn, isLoggedInCitizen, inviteCode })
+    log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen, inviteCode })
 
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
@@ -183,7 +183,7 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const init = async () => {
-    log.debug('initializing', gdstore)
+    log.debug('initializing')
 
     try {
       initialize()

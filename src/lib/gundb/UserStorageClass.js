@@ -587,7 +587,9 @@ export class UserStorage {
       gunuser,
     })
 
-    await Promise.all([this.initProperties(), this.initProfile()])
+    // await Promise.all([this.initProperties(), this.initProfile()])
+    this.initProfile()
+    await this.initProperties()
   }
 
   /**
@@ -641,8 +643,10 @@ export class UserStorage {
       throw e
     })
     logger.debug('starting systemfeed and tokens')
+    this.startSystemFeed()
+    this.initTokens()
 
-    await Promise.all([this.startSystemFeed(), this.initTokens()])
+    // await Promise.all([this.startSystemFeed(), this.initTokens()])
 
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
@@ -1230,8 +1234,8 @@ export class UserStorage {
     const displayTimeFilter = Config.displayStartClaimingCardTime
     const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
 
-    if (allowToShowByTimeFilter && this.userProperties.get('startClaimingAdded') === false) {
-      this.userProperties.set('startClaimingAdded', true)
+    if (allowToShowByTimeFilter && this.userProperties.get('startClaimingAdded') !== true) {
+      await this.userProperties.set('startClaimingAdded', true)
       await this.enqueueTX(startClaiming)
     }
   }

@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useMemo } from 'react'
-import Analytics from '../../lib/analytics/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
 import useClipboard from '../../lib/hooks/useClipboard'
 import GDStore from '../../lib/undux/GDStore'
 import BigGoodDollar from '../common/view/BigGoodDollar'
@@ -21,8 +21,6 @@ export type ReceiveProps = {
   navigation: any,
   styles: any,
 }
-
-const { fireEvent } = Analytics
 
 const ReceiveConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const profile = GDStore.useStore().get('profile')

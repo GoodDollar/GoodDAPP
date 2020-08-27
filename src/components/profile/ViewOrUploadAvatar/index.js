@@ -8,8 +8,8 @@ import { useWrappedUserStorage } from '../../../lib/gundb/useWrappedStorage'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import InputFile from '../../common/form/InputFile'
 import logger from '../../../lib/logger/pino-logger'
-import Analytics from '../../../lib/analytics/analytics'
-import { PROFILE_IMAGE } from '../../../lib/constants/analytics'
+import { fireEvent } from '../../../lib/analytics/analytics'
+import { PROFILE_IMAGE } from '../../../lib/analytics/constants'
 import { onPressFix } from '../../../lib/utils/async'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import CircleButtonWrapper from '../CircleButtonWrapper'
@@ -32,7 +32,6 @@ export const pickerOptions = {
 }
 
 const log = logger.child({ from: 'ViewAvatar' })
-const { fireEvent } = Analytics
 const TITLE = 'My Profile'
 
 const ViewOrUploadAvatar = props => {

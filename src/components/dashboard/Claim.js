@@ -22,8 +22,8 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import { WrapperClaim } from '../common'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import { CLAIM_FAILED, CLAIM_GEO, CLAIM_SUCCESS } from '../../lib/constants/analytics'
-import Analytics from '../../lib/analytics/analytics'
+import { CLAIM_FAILED, CLAIM_GEO, CLAIM_SUCCESS } from '../../lib/analytics/constants'
+import { fireEvent, fireGoogleAnalyticsEvent, fireMauticEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { isLargeDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
@@ -43,7 +43,6 @@ type ClaimState = {
 }
 
 const log = logger.child({ from: 'Claim' })
-const { fireEvent, fireGoogleAnalyticsEvent, fireMauticEvent } = Analytics
 
 const bigFontSize = isSmallDevice ? 30 : 40
 const regularFontSize = isSmallDevice ? 14 : 16

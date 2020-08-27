@@ -1,5 +1,6 @@
 import pino from 'pino'
-import { assign, values } from 'lodash'
+import { assign, omit, values } from 'lodash'
+import EventEmitter from 'eventemitter3'
 
 import Config from '../../config/config'
 
@@ -19,14 +20,13 @@ const logger = pino({ level: Config.logLevel })
 
 logger.on = emitter.on.bind(emitter)
 
-values(LogEvent).forEach(level => {
+values(omit(LogEvent, 'Log')).forEach(level => {
   // logger.debug = logger.info hack
   const proxy = logger[level === 'debug' ? 'info' : level].bind(logger)
   const events = [LogEvent.Log, level]
 
   logger[level] = (...args) => {
-    events.filter(event => emitter.listenerCount(event))
-      .forEach(event => emitter.emit(event, ...args))
+    events.filter(event => emitter.listenerCount(event)).forEach(event => emitter.emit(event, ...args))
 
     return proxy(...args)
   }

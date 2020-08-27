@@ -18,14 +18,13 @@ import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import SuccessAnimation from '../common/animations/Success'
 import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
-import Analytics from '../../lib/analytics/analytics'
-import { CLICK_BTN_RECOVER_WALLET, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/constants/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
+import { CLICK_BTN_RECOVER_WALLET, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/constants'
 import Wrapper from '../common/layout/Wrapper'
 import useOnPress from '../../lib/hooks/useOnPress'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
-const { fireEvent } = Analytics
 const MAX_WORDS = 12
 
 const Mnemonics = ({ screenProps, navigation, styles }) => {

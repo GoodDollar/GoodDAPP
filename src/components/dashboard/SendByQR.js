@@ -20,8 +20,8 @@ import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
 import { extractQueryParams, readCode } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Permissions } from '../permissions/types'
-import Analytics from '../../lib/analytics/analytics'
-import { QR_SCAN } from '../../lib/constants/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
+import { QR_SCAN } from '../../lib/analytics/constants'
 import QrReader from './QR/QRScanner'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
@@ -29,7 +29,6 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 const QR_DEFAULT_DELAY = 300
 
 const log = logger.child({ from: 'SendByQR.web' })
-const { fireEvent } = Analytics
 
 type Props = {
   screenProps: any,

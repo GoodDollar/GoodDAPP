@@ -27,14 +27,13 @@ import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
-import Analytics from '../../../../lib/analytics/analytics'
-import { FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/constants/analytics'
+import { fireEvent } from '../../../../lib/analytics/analytics'
+import { FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/constants'
 
 // assets
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
-const { fireEvent } = Analytics
 
 const WalletDeletedPopupText = ({ styles }) => (
   <View style={styles.wrapper}>

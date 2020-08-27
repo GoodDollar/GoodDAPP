@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { text } from 'react-native-communications'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
-import Analytics from '../../lib/analytics/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import Config from '../../config/config'
 import gun from '../../lib/gundb/gundb'
@@ -23,7 +23,6 @@ import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendRec
 import SurveySend from './SurveySend'
 
 const log = logger.child({ from: 'SendLinkSummary' })
-const { fireEvent } = Analytics
 
 export type AmountProps = {
   screenProps: any,

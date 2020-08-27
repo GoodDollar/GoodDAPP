@@ -1,9 +1,9 @@
 // @flow
-import { debounce, forEach, get, isString, assign } from 'lodash'
+import { assign, debounce, forEach, get, isString, pick } from 'lodash'
 import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
-import { ERROR_LOG } from '../constants/analytics'
+import { ERROR_LOG } from './constants'
 
 export class AnalyticsClass {
   apis = {}
@@ -52,7 +52,7 @@ export class AnalyticsClass {
 
   initAnalytics = async () => {
     const { apis, version, network, logger, sentryDSN, env, phase } = this
-    const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled } = this
+    const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled, amplitudeKey, isFSEnabled } = this
     const { fullStory, amplitude, sentry, mautic, googleAnalytics } = apis
 
     if (fullStory && !isFullStoryEnabled) {
@@ -87,7 +87,7 @@ export class AnalyticsClass {
       })
     }
 
-    log.debug('available analytics:', {
+    logger.debug('available analytics:', {
       FS: isFSEnabled,
       Sentry: isSentryEnabled,
       Amplitude: isAmplitudeEnabled,
@@ -127,7 +127,7 @@ export class AnalyticsClass {
 
     this.setUserEmail(email)
 
-    log.debug(
+    logger.debug(
       'Analytics services identified with:',
       { email, identifier },
       {
@@ -141,7 +141,7 @@ export class AnalyticsClass {
 
   // eslint-disable-next-line require-await
   identifyOnUserSignup = async email => {
-    const { env, logger, apis, rootApi } = this
+    const { logger, apis } = this
     const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled } = this
     const { mautic } = apis
 
@@ -195,7 +195,7 @@ export class AnalyticsClass {
       eventData = { ...data, email: userId }
     }
 
-    Mautic('send', 'pageview', eventData)
+    mautic('send', 'pageview', eventData)
   }
 
   /**
@@ -301,14 +301,14 @@ export class AnalyticsClass {
 
   // @private
   onErrorLogged(fireEvent, args) {
-    const { apis, isSentryEnabled, isFullStoryEnabled } = this
+    const { apis, isSentryEnabled, isFullStoryEnabled, env } = this
     const { sentry, fullStory } = apis
     const isRunningTests = env === 'test'
     const { Unexpected, Network, Human } = ExceptionCategory
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
+    const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category
-
     if (
       categoryToPassIntoLog === Unexpected &&
       ['connection', 'websocket', 'network'].some(str => eMsg.toLowerCase().includes(str))
@@ -330,10 +330,10 @@ export class AnalyticsClass {
       if (isFullStoryEnabled && fullStory.ready) {
         const sessionUrlAtTime = fullStory.getCurrentSessionURL(true)
 
-        Object.assign(logPayload, { sessionUrlAtTime })
+        assign(logPayload, { sessionUrlAtTime })
       }
 
-      debounceFireEvent(ERROR_LOG, logPayload)
+      debouncedFireEvent(ERROR_LOG, logPayload)
     }
 
     if (!isSentryEnabled || isRunningTests) {
@@ -365,7 +365,6 @@ export class AnalyticsClass {
         level: categoryToPassIntoLog === Human ? 'info' : undefined,
       },
     )
-
 
     // there's no Sentry.flush() on react-native
     if (isMobileReactNative) {

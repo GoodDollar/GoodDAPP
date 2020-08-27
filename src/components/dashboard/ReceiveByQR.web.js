@@ -20,14 +20,13 @@ import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { Permissions } from '../permissions/types'
-import Analytics from '../../lib/analytics/analytics'
-import { QR_SCAN } from '../../lib/constants/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
+import { QR_SCAN } from '../../lib/analytics/constants'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 
 const QR_DEFAULT_DELAY = 300
 
 const log = logger.child({ from: 'ReceiveByQR.web' })
-const { fireEvent } = Analytics
 
 const ReceiveByQR = ({ screenProps }) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)

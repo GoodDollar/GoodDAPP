@@ -5,4 +5,3 @@ export default {
   sentry: SentryNative,
   amplitude: amplitude.getInstance(),
 }
-

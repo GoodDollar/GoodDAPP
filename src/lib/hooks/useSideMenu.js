@@ -9,14 +9,12 @@ import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidem
 
 // utils
 import { useWrappedApi } from '../API/useWrappedApi'
-import Analytics from '../../lib/analytics/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
 
 // constants
-import { CLICK_DELETE_WALLET, LOGOUT } from '../constants/analytics'
+import { CLICK_DELETE_WALLET, LOGOUT } from '../analytics/constants'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
-
-const { fireEvent } = Analytics
 
 export default (props = {}) => {
   const { navigation, theme } = props

@@ -18,7 +18,7 @@ import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatu
 import userStorage from '../../lib/gundb/UserStorage'
 import runUpdates from '../../lib/updates'
 import useAppState from '../../lib/hooks/useAppState'
-import Analytics from '../../lib/analytics/analytics'
+import { identifyWith } from '../../lib/analytics/analytics'
 import Splash from '../splash/Splash'
 import config from '../../config/config'
 import { delay } from '../../lib/utils/async'
@@ -33,7 +33,6 @@ type LoadingProps = {
 }
 
 const log = logger.child({ from: 'AppSwitch' })
-const { identifyWith } = Analytics
 
 const MIN_BALANCE_VALUE = '100000'
 const GAS_CHECK_DEBOUNCE_TIME = 1000

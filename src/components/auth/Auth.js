@@ -5,8 +5,8 @@ import { get } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
-import Analytics from '../../lib/analytics/analytics'
-import { CLICK_BTN_GETINVITED, SIGNUP_METHOD_SELECTED } from '../../lib/constants/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
+import { CLICK_BTN_GETINVITED, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/constants'
 import CustomButton from '../common/buttons/CustomButton'
 import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 import { PushButton } from '../appNavigation/PushButton'
@@ -33,7 +33,6 @@ type Props = {
 }
 
 const log = logger.child({ from: 'Auth' })
-const { fireEvent } = Analytics
 
 class Auth extends React.Component<Props> {
   state = {

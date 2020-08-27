@@ -11,10 +11,8 @@ import { isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 
-import Analytics from '../../../../lib/analytics/analytics'
-import { FV_DUPLICATEERROR } from '../../../../lib/constants/analytics'
-
-const { fireEvent } = Analytics
+import { fireEvent } from '../../../../lib/analytics/analytics'
+import { FV_DUPLICATEERROR } from '../../../../lib/analytics/constants'
 
 const DuplicateFoundError = ({ styles, displayTitle, onRetry, screenProps }) => {
   const onRetryPress = useOnPress(onRetry)

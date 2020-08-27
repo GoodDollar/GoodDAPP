@@ -20,8 +20,8 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
-import Analytics from '../../lib/analytics/analytics'
-import { PROFILE_PRIVACY } from '../../lib/constants/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
+import { PROFILE_PRIVACY } from '../../lib/analytics/constants'
 import GDStore from '../../lib/undux/GDStore'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
@@ -32,7 +32,6 @@ import OptionsRow from './OptionsRow'
 
 // initialize child logger
 const log = logger.child({ from: 'ProfilePrivacy' })
-const { fireEvent } = Analytics
 
 // privacy options
 const privacyOptions = ['private', 'masked', 'public']

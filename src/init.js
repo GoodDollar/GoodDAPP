@@ -3,13 +3,11 @@ import { pick } from 'lodash'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import isWebApp from './lib/utils/isWebApp'
-import Analytics from './lib/analytics/analytics'
-import { APP_OPEN } from './lib/constants/analytics'
+import { APP_OPEN } from './lib/analytics/constants'
+import { fireEvent, initAnalytics } from './lib/analytics/analytics'
 import { setUserStorage, setWallet } from './lib/undux/SimpleStore'
 import DeepLinking from './lib/utils/deepLinking'
 import logger from './lib/logger/pino-logger'
-
-const { initAnalytics, fireEvent } = Analytics
 
 const log = logger.child({ from: 'init' })
 

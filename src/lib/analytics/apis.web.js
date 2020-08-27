@@ -1,10 +1,10 @@
 import * as SentryWeb from '@sentry/browser'
 import amplitude from 'amplitude-js'
-import { pickBy, property, values, isFunction } from 'lodash'
+import { assign, isFunction, pickBy } from 'lodash'
 
 const { mt, FS, dataLayer } = window
 
-class FullStory {
+class FullStoryWrapper {
   ready = false
 
   constructor(fsApi) {
@@ -23,14 +23,14 @@ class FullStory {
       }),
     )
 
-    const proxyGetter = (target, property) => {
+    const get = (target, property) => {
       const readFrom = [target, fsApi].find(object => property in object)
 
       if (!readFrom) {
         return
       }
 
-      const value = readFrom[value]
+      const value = readFrom[property]
 
       if (isFunction(value)) {
         return value.bind(readFrom)
@@ -39,7 +39,7 @@ class FullStory {
       return value
     }
 
-    return new Proxy(this, { get: proxyGetter })
+    return new Proxy(this, { get })
   }
 
   onReady(callback) {
@@ -54,5 +54,5 @@ export default pickBy({
   sentry: SentryWeb,
   googleAnalytics: dataLayer,
   amplitude: amplitude.getInstance(),
-  fullStory: FS ? new FullStory(FS) : null,
+  fullStory: FS ? new FullStoryWrapper(FS) : null,
 })

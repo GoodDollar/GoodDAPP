@@ -5,7 +5,7 @@ import { debounce, get } from 'lodash'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isBrowser } from '../../lib/utils/platform'
-import Analytics from '../../lib/analytics/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -77,7 +77,6 @@ import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 const log = logger.child({ from: 'Dashboard' })
-const { fireEvent } = Analytics
 
 const screenWidth = getMaxDeviceWidth()
 let didRender = false

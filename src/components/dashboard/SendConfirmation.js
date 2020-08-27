@@ -15,7 +15,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import normalize from '../../lib/utils/normalizeText'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import Analytics from '../../lib/analytics/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
 import useOnPress from '../../lib/hooks/useOnPress'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
@@ -26,7 +26,6 @@ export type ReceiveProps = {
 }
 
 const log = logger.child({ from: 'SendConfirmation.web' })
-const { fireEvent } = Analytics
 
 const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)

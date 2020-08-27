@@ -62,7 +62,7 @@ export default () => {
         //send event in case user was added to queue or his queue status has changed
         if (ok === 1 || queue.status !== curStatus) {
           fireEvent(CLAIM_QUEUE, { status: queue.status })
-          userStorage.userProperties.set('claimQueueAdded', queue)
+          await userStorage.userProperties.set('claimQueueAdded', queue)
         }
 
         log.debug('queue stats from api:', { queue })

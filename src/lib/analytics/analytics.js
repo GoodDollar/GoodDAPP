@@ -345,7 +345,11 @@ const patchLogger = () => {
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category
-    let sessionUrlAtTime = fullStoryState.ready && isFSEnabled ? FS.getCurrentSessionURL(true) : undefined
+    let sessionUrlAtTime = undefined
+    
+    if (fullStoryState.ready && isFSEnabled) {
+      sessionUrlAtTime = FS.getCurrentSessionURL(true)
+    }
 
     if (
       categoryToPassIntoLog === Unexpected &&

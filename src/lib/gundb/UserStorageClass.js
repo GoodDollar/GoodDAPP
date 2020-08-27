@@ -588,7 +588,7 @@ export class UserStorage {
     })
 
     // await Promise.all([this.initProperties(), this.initProfile()])
-    this.initProfile()
+    this.initProfile().catch(e => logger.error('failed initializing initProfile', e.message, e))
     await this.initProperties()
   }
 
@@ -643,8 +643,8 @@ export class UserStorage {
       throw e
     })
     logger.debug('starting systemfeed and tokens')
-    this.startSystemFeed()
-    this.initTokens()
+    this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
+    this.initTokens().catch(e => logger.error('failed initializing initTokens', e.message, e))
 
     // await Promise.all([this.startSystemFeed(), this.initTokens()])
 

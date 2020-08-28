@@ -1,6 +1,6 @@
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
-import { once } from 'lodash'
+import { assign, once } from 'lodash'
 
 // eslint-disable-next-line require-await
 export const delay = async (millis, resolveWithValue = null) =>
@@ -28,7 +28,18 @@ export const retry = (asyncFn, retries = 5, interval = 0) =>
 // eslint-disable-next-line require-await
 export const promisifyGun = async callback =>
   new Promise((resolve, reject) => {
-    const onAck = once(ack => (ack.err ? reject : resolve)(ack))
+    const onAck = once(ack => {
+      const { err } = ack
+
+      if (!err) {
+        resolve(ack)
+      }
+
+      const exception = new Error(err)
+
+      assign(exception, { ack })
+      reject(exception)
+    })
 
     callback(onAck)
   })

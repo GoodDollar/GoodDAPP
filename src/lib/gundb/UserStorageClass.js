@@ -632,11 +632,9 @@ export class UserStorage {
         .get('users')
         .get(this.gunuser.is.pub)
         .putAck(this.gunuser)
-        .catch(({ err: message }) => {
-          const exception = new Error(message)
-
-          logger.error('save ref to user failed:', message, exception)
-          throw exception
+        .catch(e => {
+          logger.error('save ref to user failed:', e.message, e)
+          throw e
         }),
     ]).catch(e => {
       logger.error('failed init step in userstorage', e.message, e)
@@ -1081,11 +1079,9 @@ export class UserStorage {
       // for some reason this breaks on gun 2020 https://github.com/amark/gun/issues/987
       await this.feed
         .putAck({ initialized: true }) // restore old feed data - after nullified
-        .catch(({ err: message }) => {
-          const exception = new Error(message)
-
-          logger.error('restore old feed data failed:', message, exception)
-          throw exception
+        .catch(e => {
+          logger.error('restore old feed data failed:', e.message, e)
+          throw e
         })
 
       logger.debug('init empty feed', { feed })
@@ -1111,11 +1107,9 @@ export class UserStorage {
     logger.debug('init feed byid', { items })
 
     if (!items) {
-      await this.feed.putAck({ byid: {} }).catch(({ err: message }) => {
-        const exception = new Error(message)
-
-        logger.error('init feed byid failed:', message, exception)
-        throw exception
+      await this.feed.putAck({ byid: {} }).catch(e => {
+        logger.error('init feed byid failed:', e.message, e)
+        throw e
       })
 
       return
@@ -1206,11 +1200,9 @@ export class UserStorage {
 
     if (profile === null) {
       // in case profile was deleted in the past it will be exactly null
-      await this.profile.putAck({ initialized: true }).catch(({ err: message }) => {
-        const exception = new Error(message)
-
-        logger.error('set profile initialized failed:', message, exception)
-        throw exception
+      await this.profile.putAck({ initialized: true }).catch(e => {
+        logger.error('set profile initialized failed:', e.message, e)
+        throw e
       })
     }
 
@@ -1560,11 +1552,9 @@ export class UserStorage {
       this.profile
         .get(field)
         .putAck({ display, privacy })
-        .catch(({ err: message }) => {
-          const exception = new Error(message)
-
-          logger.warn('saving profile field display and privacy failed', message, exception, { field })
-          throw exception
+        .catch(e => {
+          logger.warn('saving profile field display and privacy failed', e.message, e, { field })
+          throw e
         })
 
     if (onlyPrivacy) {
@@ -1576,11 +1566,9 @@ export class UserStorage {
         .get(field)
         .get('value')
         .secretAck(value)
-        .catch(({ err: message }) => {
-          const exception = new Error(message)
-
-          logger.warn('encrypting profile field failed', message, exception, { field })
-          throw exception
+        .catch(e => {
+          logger.warn('encrypting profile field failed', e.message, e, { field })
+          throw e
         }),
 
       storePrivacy(),
@@ -1633,14 +1621,9 @@ export class UserStorage {
       // }
 
       return await indexNode.putAck(this.gunuser)
-    } catch (ackOrException) {
-      let exception = ackOrException
-      let { message } = exception
-
-      if (ackOrException.err) {
-        message = ackOrException.err
-        exception = new Error(message)
-      }
+    } catch (e) {
+      const exception = this._gunException(e)
+      const { message } = exception
 
       logger.error('indexProfileField failed', message, exception, { field })
 
@@ -1831,6 +1814,7 @@ export class UserStorage {
   async saveSurveyDetails(hash, details: SurveyDetails) {
     try {
       const date = moment(new Date()).format('DDMMYY')
+
       await this.gun.get('survey').get(date)
       await this.gun
         .get('survey')
@@ -1838,14 +1822,9 @@ export class UserStorage {
         .putAck({ [hash]: details })
 
       return true
-    } catch (ackOrException) {
-      let exception = ackOrException
-      let { message } = exception
-
-      if (ackOrException.err) {
-        message = ackOrException.err
-        exception = new Error(message)
-      }
+    } catch (e) {
+      const exception = this._gunException(e)
+      const { message } = exception
 
       logger.error('saveSurveyDetails :', message, exception, { details })
       return false
@@ -2454,6 +2433,7 @@ export class UserStorage {
 
       return { err: e.message }
     })
+
     const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
 
     const saveDaySizePtr = feed
@@ -2476,14 +2456,9 @@ export class UserStorage {
 
     return Promise.all([saveAck, ack, eventAck])
       .then(() => event)
-      .catch(ackOrException => {
-        let exception = ackOrException
-        let { message } = exception
-
-        if (ackOrException.err) {
-          message = ackOrException.err
-          exception = new Error(message)
-        }
+      .catch(e => {
+        const exception = this._gunException(e)
+        const { message } = exception
 
         logger.error('Save Indexes failed', message, exception)
       })
@@ -2635,6 +2610,16 @@ export class UserStorage {
     return true
   }
 
+  _gunException(ack) {
+    let exception = ack
+
+    if (!isError(exception)) {
+      exception = new Error(ack.err || ack)
+    }
+
+    return exception
+  }
+
   _trackStatus(promise, label) {
     return promise
       .then(() => {
@@ -2643,15 +2628,10 @@ export class UserStorage {
         logger.debug('Cleanup:', status)
         return status
       })
-      .catch(ackOrException => {
+      .catch(e => {
         const status = { [label]: 'failed' }
-        let exception = ackOrException
-        let { message } = exception
-
-        if (ackOrException.err) {
-          message = ackOrException.err
-          exception = new Error(message)
-        }
+        const exception = this._gunException(e)
+        const { message } = exception
 
         logger.debug('Cleanup:', message, exception, status)
         return status

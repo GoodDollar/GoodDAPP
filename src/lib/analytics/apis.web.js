@@ -7,7 +7,7 @@ const { mt, FS, dataLayer } = window
 class FullStoryWrapper {
   ready = false
 
-  constructor(fsApi) {
+  constructor() {
     const { _fs_ready } = window // eslint-disable-line camelcase
 
     this.promise = new Promise(resolve =>
@@ -24,7 +24,7 @@ class FullStoryWrapper {
     )
 
     const get = (target, property) => {
-      const readFrom = [target, fsApi].find(object => property in object)
+      const readFrom = [target, FS].find(object => property in object)
 
       if (!readFrom) {
         return
@@ -54,5 +54,5 @@ export default pickBy({
   sentry: SentryWeb,
   googleAnalytics: dataLayer,
   amplitude: amplitude.getInstance(),
-  fullStory: FS ? new FullStoryWrapper(FS) : null,
+  fullStory: FS ? new FullStoryWrapper() : null,
 })

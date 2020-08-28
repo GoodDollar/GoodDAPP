@@ -234,7 +234,8 @@ const Claim = props => {
     try {
       //when we come back from FR entitelment might not be set yet
       const curEntitlement = claimState.entitlement || (await goodWallet.checkEntitlement().toNumber())
-      if (curEntitlement == 0) {
+
+      if (curEntitlement === 0) {
         return
       }
 

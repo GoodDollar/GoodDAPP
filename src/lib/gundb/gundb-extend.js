@@ -103,6 +103,7 @@ assign(User.prototype, {
       .get('trust')
       .get(pair.pub)
       .get(path)
+
     const secureKey = await SEA.decrypt(encryptedKey, pair)
 
     if (!secureKey) {

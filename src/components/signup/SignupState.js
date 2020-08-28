@@ -421,7 +421,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
 
         //make sure profile is initialized, maybe solve gun bug where profile is undefined
-        userStorage.profile.putAck({ initialized: true }),
+        userStorage.profile.putAck({ initialized: true }).catch(({ err: message }) => {
+          const exception = new Error(message)
+
+          log.error('set profile initialized failed:', message, exception)
+          throw exception
+        }),
 
         // Stores creationBlock number into 'lastBlock' feed's node
         goodWallet
@@ -478,13 +483,22 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       )
 
       await Promise.all([
-        userStorage.gunuser.get('registered').putAck(true),
+        userStorage.gunuser
+          .get('registered')
+          .putAck(true)
+          .catch(({ err: message }) => {
+            const exception = new Error(message)
+
+            log.error('set user registered failed:', message, exception)
+            throw exception
+          }),
+
         userStorage.userProperties.set('registered', true),
         AsyncStorage.setItem(IS_LOGGED_IN, true),
         AsyncStorage.removeItem('GD_web3Token'),
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
 
-        //privacy issue, and not need at the moment
+        // privacy issue, and not need at the moment
         // w3Token &&
         //   API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(exception => {
         //     const { message } = exception

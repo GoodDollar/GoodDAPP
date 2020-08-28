@@ -1,24 +1,16 @@
-import { assign, identity, noop, once } from 'lodash'
+import { assign, identity, noop } from 'lodash'
 
 import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import '@gooddollar/gun/lib/load'
 
-import { delay, retry } from '../utils/async'
+import { delay, promisifyGun, retry } from '../utils/async'
 
 /**
  * extend gundb SEA with decrypt to match ".secret"
  * @module
  */
 const { chain, User } = Gun
-
-// eslint-disable-next-line require-await
-const promisify = async callback =>
-  new Promise((resolve, reject) => {
-    const onAck = once(ack => (ack.err ? reject : resolve)(ack))
-
-    callback(onAck)
-  })
 
 assign(chain, {
   /**
@@ -39,7 +31,7 @@ assign(chain, {
    */
   // eslint-disable-next-line require-await
   async putAck(data, callback = null) {
-    const writePromise = retry(() => promisify(onAck => this.put(data, onAck)), 1)
+    const writePromise = retry(() => promisifyGun(onAck => this.put(data, onAck)), 1)
 
     return writePromise.then(callback || identity)
   },
@@ -48,29 +40,31 @@ assign(chain, {
     const { wait = 2000, default: defaultValue } = options || {}
 
     const onPromise = new Promise(resolve =>
-      this.on((v, k, g, ev) => {
-        ev.off()
+      this.on((value, _, __, event) => {
+        event.off()
 
         // timeout if value is undefined
-        if (v !== undefined) {
-          resolve(v)
+        if (value !== undefined) {
+          resolve(value)
         }
       }),
     )
 
     const oncePromise = new Promise(resolve =>
       this.once(
-        v => {
+        value => {
           // timeout if value is undefined
-          if (v !== undefined) {
-            resolve(v)
+          if (value !== undefined) {
+            resolve(value)
           }
         },
         { wait },
       ),
     )
 
-    return Promise.race([onPromise, oncePromise, delay(wait + 1000, defaultValue)])
+    const defaultPromise = delay(wait + 1000, defaultValue)
+
+    return Promise.race([onPromise, oncePromise, defaultPromise])
       .then(callback || identity)
       .catch(noop)
   },
@@ -82,47 +76,47 @@ assign(User.prototype, {
    * @returns {Promise<ack>}
    */
   // eslint-disable-next-line require-await
-  secretAck(data, callback = null) {
-    const encryptPromise = retry(() => promisify(onAck => this.secret(data, onAck)), 1)
+  async secretAck(data, callback = null) {
+    const encryptPromise = retry(() => promisifyGun(onAck => this.secret(data, onAck)), 1)
 
     return encryptPromise.then(callback || identity)
   },
 
   /**
-   * returns the decrypted value
+   * Returns the decrypted value
    * @returns {Promise<any>}
    */
-  decrypt(cb) {
-    var gun = this,
-      user = gun.back(-1).user(),
-      pair = user.pair(),
-      path = ''
-    gun.back(function(at) {
-      if (at.is) {
-        return
+  async decrypt(callback = null) {
+    const user = this.back(-1).user()
+    const pair = user.pair()
+    let path = ''
+
+    this.back(at => {
+      const { is, get } = at
+
+      if (is && get) {
+        path += get
       }
-      path += at.get || ''
     })
-    return (async () => {
-      let sec = await user
-        .get('trust')
-        .get(pair.pub)
-        .get(path)
-        .then()
-      sec = await SEA.decrypt(sec, pair)
-      return gun
-        .then(async data => {
-          if (data == null) {
-            return data
-          }
-          if (!sec) {
-            return Promise.reject('decrypting key missing for ' + path)
-          }
-          let decrypted = await SEA.decrypt(data, sec)
-          return decrypted
-        })
-        .then(cb || identity)
-    })()
+
+    const encryptedKey = await user
+      .get('trust')
+      .get(pair.pub)
+      .get(path)
+    const secureKey = await SEA.decrypt(encryptedKey, pair)
+
+    if (!secureKey) {
+      throw new Error(`Decrypting key missing for ${path}`)
+    }
+
+    const encryptedData = await this.then()
+    let decryptedData = null
+
+    if (encryptedData) {
+      decryptedData = await SEA.decrypt(encryptedData, secureKey)
+    }
+
+    return (callback || identity)(decryptedData)
   },
 
   /**
@@ -131,19 +125,15 @@ assign(User.prototype, {
    * this is based on Gun.User.prototype.auth act.g in original sea.js
    */
   restore(credentials) {
-    var gun = this,
-      cat = gun._,
-      root = gun.back(-1)
-    const pair = credentials.sea
-    var user = root._.user,
-      at = user._
-    var upt = at.opt
-    at = user._ = root.get('~' + pair.pub)._
-    at.opt = upt
+    const root = this.back(-1)
+    const { sea, is } = credentials
+    const { user } = root._
+    const { opt } = user._
 
-    // add our credentials in-memory only to our root user instance
-    user.is = credentials.is
-    at.sea = pair
-    cat.ing = false
+    this._.ing = false
+    user._ = root.get('~' + sea.pub)._
+
+    assign(user, { is })
+    assign(user._, { opt, sea })
   },
 })

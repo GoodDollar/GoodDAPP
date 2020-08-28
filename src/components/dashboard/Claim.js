@@ -22,8 +22,14 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import { WrapperClaim } from '../common'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import { CLAIM_FAILED, CLAIM_GEO, CLAIM_SUCCESS } from '../../lib/analytics/constants'
-import { fireEvent, fireGoogleAnalyticsEvent, fireMauticEvent } from '../../lib/analytics/analytics'
+import {
+  CLAIM_FAILED,
+  CLAIM_GEO,
+  CLAIM_SUCCESS,
+  fireEvent,
+  fireGoogleAnalyticsEvent,
+  fireMauticEvent,
+} from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import { isLargeDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
@@ -228,7 +234,8 @@ const Claim = props => {
     try {
       //when we come back from FR entitelment might not be set yet
       const curEntitlement = claimState.entitlement || (await goodWallet.checkEntitlement().toNumber())
-      if (curEntitlement == 0) {
+
+      if (curEntitlement === 0) {
         return
       }
 

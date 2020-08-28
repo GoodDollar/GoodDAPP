@@ -9,10 +9,9 @@ import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidem
 
 // utils
 import { useWrappedApi } from '../API/useWrappedApi'
-import { fireEvent } from '../../lib/analytics/analytics'
 
 // constants
-import { CLICK_DELETE_WALLET, LOGOUT } from '../analytics/constants'
+import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 

@@ -10,14 +10,14 @@ import useZoomSDK from '../hooks/useZoomSDK'
 import useZoomVerification from '../hooks/useZoomVerification'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
-import { fireEvent } from '../../../../lib/analytics/analytics'
 import {
+  fireEvent,
   FV_GETREADY_ZOOM,
   FV_PROGRESS_ZOOM,
   FV_SUCCESS_ZOOM,
   FV_TRYAGAIN_ZOOM,
   FV_ZOOMFAILED,
-} from '../../../../lib/analytics/constants'
+} from '../../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'FaceVerification' })
 

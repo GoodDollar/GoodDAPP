@@ -12,8 +12,7 @@ import { withStyles } from '../../../../lib/styles'
 import { isBrowser, isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
-import { fireEvent } from '../../../../lib/analytics/analytics'
-import { FV_GENERALERROR } from '../../../../lib/analytics/constants'
+import { fireEvent, FV_GENERALERROR } from '../../../../lib/analytics/analytics'
 
 const GeneralError = ({ styles, displayTitle, onRetry, screenProps }) => {
   const onRetryPress = useOnPress(onRetry)

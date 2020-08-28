@@ -8,8 +8,7 @@ import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 
 // utils
-import { fireEvent } from '../../../../lib/analytics/analytics'
-import { FV_CANTACCESSCAMERA } from '../../../../lib/analytics/constants'
+import { fireEvent, FV_CANTACCESSCAMERA } from '../../../../lib/analytics/analytics'
 
 // assets
 import illustration from '../../../../assets/CameraPermissionError.svg'

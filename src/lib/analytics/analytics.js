@@ -9,6 +9,8 @@ import { AnalyticsClass } from './AnalyticsClass'
 const analytics = new AnalyticsClass(apis, API, Config, logger)
 
 // backward compatibility exports
+export * from './constants'
+
 export const {
   initAnalytics,
   identifyWith,

@@ -5,8 +5,13 @@ import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { isMobileSafari, isMobileWeb } from '../../../lib/utils/platform'
 import SimpleStore, { assertStore } from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
-import { ADDTOHOME, ADDTOHOME_LATER, ADDTOHOME_OK, ADDTOHOME_REJECTED } from '../../../lib/analytics/constants'
-import { fireEvent } from '../../../lib/analytics/analytics'
+import {
+  ADDTOHOME,
+  ADDTOHOME_LATER,
+  ADDTOHOME_OK,
+  ADDTOHOME_REJECTED,
+  fireEvent,
+} from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import AddAppSVG from '../../../assets/addApp.svg'
 import Icon from '../view/Icon'

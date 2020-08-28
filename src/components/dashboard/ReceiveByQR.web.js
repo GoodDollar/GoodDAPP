@@ -20,8 +20,7 @@ import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { Permissions } from '../permissions/types'
-import { fireEvent } from '../../lib/analytics/analytics'
-import { QR_SCAN } from '../../lib/analytics/constants'
+import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import QRCameraPermissionDialog from './SendRecieveQRCameraPermissionDialog'
 
 const QR_DEFAULT_DELAY = 300

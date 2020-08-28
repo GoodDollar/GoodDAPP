@@ -3,13 +3,13 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { AsyncStorage, Image, TouchableOpacity, View } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
-import { fireEvent } from '../../../lib/analytics/analytics'
 import {
   CLICK_BTN_GETINVITED,
+  fireEvent,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
-} from '../../../lib/analytics/constants'
+} from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
 import CustomButton from '../../common/buttons/CustomButton'

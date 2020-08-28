@@ -18,8 +18,7 @@ import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import { withStyles } from '../../../lib/styles'
 
-import { CLICK_BTN_CARD_ACTION } from '../../../lib/analytics/constants'
-import { fireEvent } from '../../../lib/analytics/analytics'
+import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
 import useOnPress from '../../../lib/hooks/useOnPress'
 

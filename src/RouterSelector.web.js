@@ -20,8 +20,7 @@ import { extractQueryParams } from './lib/share/index'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 
 import logger from './lib/logger/pino-logger'
-import { fireEvent, initAnalytics } from './lib/analytics/analytics'
-import { SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/constants'
+import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 
 const log = logger.child({ from: 'RouterSelector' })
 

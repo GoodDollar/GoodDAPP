@@ -91,29 +91,29 @@ assign(User.prototype, {
     const pair = user.pair()
     let path = ''
 
-    this.back(at => {
-      const { is, get } = at
-
-      if (is && get) {
-        path += get
+    this.back(({ is, get }) => {
+      if (is || !get) {
+        return
       }
+
+      path += get
     })
 
     const encryptedKey = await user
       .get('trust')
       .get(pair.pub)
       .get(path)
+      .then()
 
     const secureKey = await SEA.decrypt(encryptedKey, pair)
-
-    if (!secureKey) {
-      throw new Error(`Decrypting key missing for ${path}`)
-    }
-
     const encryptedData = await this.then()
     let decryptedData = null
 
-    if (encryptedData) {
+    if (encryptedData !== null) {
+      if (!secureKey) {
+        throw new Error(`Decrypting key missing for ${path}`)
+      }
+
       decryptedData = await SEA.decrypt(encryptedData, secureKey)
     }
 

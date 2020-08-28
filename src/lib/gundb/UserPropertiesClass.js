@@ -88,11 +88,9 @@ export default class UserProperties {
 
       // make sure we fetch props first and not having gun return undefined
       await propsNode.then()
-
       const props = await fetchProps()
 
-      this.data = props
-      return props
+      return (this.data = props)
     })()
   }
 

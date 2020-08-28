@@ -1219,6 +1219,7 @@ export class UserStorage {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
+
     logger.debug('init opened profile', {
       gunRef: this.profile,
       profile,

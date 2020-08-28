@@ -8,34 +8,6 @@ import { ERROR_LOG } from './constants'
 export class AnalyticsClass {
   apis = {}
 
-  rootApi = null
-
-  loggerApi = null
-
-  secureTransmit = false
-
-  isSentryEnabled = false
-
-  isAmplitudeEnabled = false
-
-  isFullStoryEnabled = false
-
-  amplitudeKey = null
-
-  sentryDSN = null
-
-  version = null
-
-  network = null
-
-  env = null
-
-  phase = null
-
-  logger = null
-
-  loggerApi = null
-
   constructor(apis, rootApi, Config, loggerApi) {
     const { sentryDSN, amplitudeKey, env } = Config
     const { amplitude, sentry, fullStory } = apis

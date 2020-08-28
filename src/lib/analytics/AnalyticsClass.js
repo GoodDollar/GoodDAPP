@@ -24,7 +24,7 @@ export class AnalyticsClass {
 
   initAnalytics = async () => {
     const { apis, version, network, logger, sentryDSN, env, phase } = this
-    const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled, amplitudeKey, isFSEnabled } = this
+    const { isSentryEnabled, isAmplitudeEnabled, isFullStoryEnabled, amplitudeKey } = this
     const { fullStory, amplitude, sentry, mautic, googleAnalytics } = apis
 
     if (fullStory && !isFullStoryEnabled) {
@@ -60,7 +60,7 @@ export class AnalyticsClass {
     }
 
     logger.debug('available analytics:', {
-      FS: isFSEnabled,
+      FS: isFullStoryEnabled,
       Sentry: isSentryEnabled,
       Amplitude: isAmplitudeEnabled,
       Mautic: !!mautic,
@@ -281,6 +281,7 @@ export class AnalyticsClass {
     const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category
+
     if (
       categoryToPassIntoLog === Unexpected &&
       ['connection', 'websocket', 'network'].some(str => eMsg.toLowerCase().includes(str))

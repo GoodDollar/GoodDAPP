@@ -56,8 +56,8 @@ jobs:
             -configuration Release \
             -archivePath $PWD/build/GoodDollar.xcarchive \
             IPHONEOS_DEPLOYMENT_TARGET=9.0
-            PROVISIONING_PROFILE="UUID HERE" \
-            CODE_SIGN_IDENTITY="iPhone Distribution: Some Company (T343ff)"
+            PROVISIONING_PROFILE="f583bd0c-5f3c-4051-8f04-8023a9d9f8d7" \
+            CODE_SIGN_IDENTITY="Apple Distribution: GoodDollar Limited (97K3Q6WTLM)"
       - name: Export app
         run: |
           cd ios && xcodebuild \

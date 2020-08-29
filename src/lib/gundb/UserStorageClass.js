@@ -1058,11 +1058,9 @@ export class UserStorage {
       .get('byid')
       .get(event.id)
       .secretAck(event)
-      .catch(({ err: message }) => {
-        const exception = new Error(message)
-
-        logger.error('writeFeedEvent failed:', message, exception, { event })
-        throw exception
+      .catch(e => {
+        logger.error('writeFeedEvent failed:', e.message, e, { event })
+        throw e
       })
   }
 
@@ -1621,11 +1619,10 @@ export class UserStorage {
       // }
 
       return await indexNode.putAck(this.gunuser)
-    } catch (e) {
-      const exception = this._gunException(e)
-      const { message } = exception
+    } catch (gunError) {
+      const e = this._gunException(gunError)
 
-      logger.error('indexProfileField failed', message, exception, { field })
+      logger.error('indexProfileField failed', e.message, e, { field })
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
@@ -1822,11 +1819,10 @@ export class UserStorage {
         .putAck({ [hash]: details })
 
       return true
-    } catch (e) {
-      const exception = this._gunException(e)
-      const { message } = exception
+    } catch (gunError) {
+      const e = this._gunException(gunError)
 
-      logger.error('saveSurveyDetails :', message, exception, { details })
+      logger.error('saveSurveyDetails :', e.message, e, { details })
       return false
     }
   }
@@ -2173,16 +2169,10 @@ export class UserStorage {
       logger.debug('enqueueTX ok:', { event, putRes })
 
       return true
-    } catch (ackOrException) {
-      let exception = ackOrException
-      let { message } = exception
+    } catch (gunError) {
+      const e = this._gunException(gunError)
 
-      if (ackOrException.err) {
-        message = ackOrException.err
-        exception = new Error(message)
-      }
-
-      logger.error('enqueueTX failed: ', message, exception, { event })
+      logger.error('enqueueTX failed: ', e.message, e, { event })
       return false
     } finally {
       release()
@@ -2456,11 +2446,10 @@ export class UserStorage {
 
     return Promise.all([saveAck, ack, eventAck])
       .then(() => event)
-      .catch(e => {
-        const exception = this._gunException(e)
-        const { message } = exception
+      .catch(gunError => {
+        const e = this._gunException(gunError)
 
-        logger.error('Save Indexes failed', message, exception)
+        logger.error('Save Indexes failed', e.message, e)
       })
   }
 
@@ -2610,11 +2599,11 @@ export class UserStorage {
     return true
   }
 
-  _gunException(ack) {
-    let exception = ack
+  _gunException(gunError) {
+    let exception = gunError
 
     if (!isError(exception)) {
-      exception = new Error(ack.err || ack)
+      exception = new Error(gunError.err || gunError)
     }
 
     return exception
@@ -2628,12 +2617,11 @@ export class UserStorage {
         logger.debug('Cleanup:', status)
         return status
       })
-      .catch(e => {
+      .catch(gunError => {
         const status = { [label]: 'failed' }
-        const exception = this._gunException(e)
-        const { message } = exception
+        const e = this._gunException(e)
 
-        logger.debug('Cleanup:', message, exception, status)
+        logger.debug('Cleanup:', e.message, e, status)
         return status
       })
   }

@@ -134,11 +134,9 @@ export default class UserProperties {
 
     try {
       await propsNode.secretAck(data)
-    } catch ({ err: message }) {
-      const exception = new Error(message)
-
-      log.error('set() / updateAll() user props failed:', message, exception, { properties })
-      throw exception
+    } catch (e) {
+      log.error('set() / updateAll() user props failed:', e.message, e, { properties })
+      throw e
     }
 
     return true
@@ -155,11 +153,9 @@ export default class UserProperties {
 
     try {
       await propsNode.secretAck(defaultProperties)
-    } catch ({ err: message }) {
-      const exception = new Error(message)
-
-      log.error('reset() user props failed:', message, exception)
-      throw exception
+    } catch (e) {
+      log.error('reset() user props failed:', e.message, e)
+      throw e
     }
 
     return true

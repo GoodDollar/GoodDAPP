@@ -93,7 +93,6 @@ const getStylesFromProps = ({ theme }) => ({
     },
     shadowOpacity: 0.75,
     shadowRadius: 16,
-
     elevation: 24,
   },
   triangle: {

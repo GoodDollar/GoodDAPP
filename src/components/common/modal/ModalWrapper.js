@@ -92,7 +92,7 @@ const getStylesFromProps = ({ theme }) => ({
       height: theme.modals.jaggedEdgeSize,
     },
     shadowOpacity: 0.75,
-    shadowRadius: 16.0,
+    shadowRadius: 16,
 
     elevation: 24,
   },

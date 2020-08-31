@@ -1,5 +1,5 @@
 // @flow
-import { noop, over } from 'lodash'
+import { noop, over, constant } from 'lodash'
 // import Zoom, { ZoomUxEvent } from 'react-native-zoom'
 
 import api from '../../../../lib/API/api'
@@ -15,7 +15,7 @@ const noopAsync = async () => {}
 
 const Zoom = {
   sdk: {
-    addListener: noop,
+    addListener: constant(noop),
     preload: noopAsync,
     initialize: noopAsync,
     enroll: noopAsync,

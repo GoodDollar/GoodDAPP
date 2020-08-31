@@ -1,8 +1,9 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { AsyncStorage, View } from 'react-native'
+import { View } from 'react-native'
 import moment from 'moment'
 import { get } from 'lodash'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'

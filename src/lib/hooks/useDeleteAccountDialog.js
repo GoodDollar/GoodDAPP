@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
-import { AsyncStorage } from 'react-native'
 
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import logger from '../logger/pino-logger'
 import IconWrapper from '../../components/common/modal/IconWrapper'
 import LoadingIcon from '../../components/common/modal/LoadingIcon'

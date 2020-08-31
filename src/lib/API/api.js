@@ -2,9 +2,9 @@
 
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { AsyncStorage } from 'react-native'
 import { identity, isError } from 'lodash'
 
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'

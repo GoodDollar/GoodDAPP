@@ -1,8 +1,8 @@
 // @flow
-import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
 import API, { getErrorMessage } from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import logger from '../logger/pino-logger'
 
 const log = logger.child({ from: 'LoginService' })
@@ -22,7 +22,7 @@ class LoginService {
       return
     }
 
-    return AsyncStorage.setItem(CREDS, JSON.stringify(creds))
+    return AsyncStorage.setItem(CREDS, creds)
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -41,7 +41,7 @@ class LoginService {
         throw new Error('No credentials was stored in the AsyncStorage')
       }
 
-      return JSON.parse(data)
+      return data
     } catch (exception) {
       const { message } = exception
 

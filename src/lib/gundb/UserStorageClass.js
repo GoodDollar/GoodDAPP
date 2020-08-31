@@ -1,6 +1,6 @@
 //@flow
-import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
+import { Platform } from 'react-native'
 import {
   filter,
   find,
@@ -27,6 +27,7 @@ import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 import { sha3 } from 'web3-utils'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
@@ -556,7 +557,7 @@ export class UserStorage {
 
     let loggedInPromise
 
-    let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
+    let existingCreds = await AsyncStorage.getItem(GD_GUN_CREDENTIALS)
     if (existingCreds == null) {
       const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
       loggedInPromise = gunPKAuth(this.gun, seed)
@@ -626,9 +627,7 @@ export class UserStorage {
     // doing await one by one - Gun hack so it doesnt get stuck
     await Promise.all([
       trustPromise,
-      AsyncStorage.getItem('GD_trust')
-        .then(JSON.parse)
-        .then(_ => (this.trust = _ || {})),
+      AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
       this.initFeed(),
 
       // save ref to user
@@ -764,7 +763,7 @@ export class UserStorage {
       // fetch trust data
       const { data } = await API.getTrust()
 
-      AsyncStorage.setItem('GD_trust', JSON.stringify(data))
+      AsyncStorage.setItem('GD_trust', data)
       this.trust = data
     } catch (exception) {
       const { message } = exception
@@ -1068,8 +1067,7 @@ export class UserStorage {
 
   writeFeedEvent(event): Promise<FeedEvent> {
     this.feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
-
+    AsyncStorage.setItem('GD_feed', this.feedIds)
     return this.feed
       .get('byid')
       .get(event.id)
@@ -1159,9 +1157,8 @@ export class UserStorage {
         if (!some(shouldUpdateStatuses)) {
           return
         }
-
         logger.debug('init feed updating cache', this.feedIds, shouldUpdateStatuses)
-        AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+        AsyncStorage.setItem('GD_feed', this.feedIds)
       })
       .catch(e => logger.error('error caching feed items', e.message, e))
   }
@@ -2116,7 +2113,10 @@ export class UserStorage {
 
   //eslint-disable-next-line
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+    const favicon = Platform.select({
+      web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
+      default: require('../../assets/Feed/favicon-96x96.png'),
+    })
     const getAvatarFromGun = async () => {
       const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))
 

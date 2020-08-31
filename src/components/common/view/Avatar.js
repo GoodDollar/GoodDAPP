@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Platform, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { Avatar } from 'react-native-paper'
 import UnknownProfileSVG from '../../../assets/unknownProfile.svg'
 import { withStyles } from '../../../lib/styles'
@@ -17,10 +17,6 @@ import useOnPress from '../../../lib/hooks/useOnPress'
  */
 const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, children, unknownStyle, ...avatarProps }) => {
   const _onPress = useOnPress(onPress)
-  const sourceSelect = Platform.select({
-    web: { uri: source },
-    default: require('../../../../public/favicon-96x96.png'),
-  })
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -32,7 +28,7 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
       {source ? (
         <Avatar.Image
           size={imageSize || size - 2}
-          source={sourceSelect}
+          source={{ uri: source }}
           style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
           {...avatarProps}
         />

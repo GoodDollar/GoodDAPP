@@ -47,7 +47,6 @@ const ModalWrapper = (props: any) => {
             <ModalInnerContents
               style={[
                 showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '',
-                isMobileOnly && styles.nativeBlur,
                 showTooltipArrow && styles.noneShadow,
               ]}
             >
@@ -84,17 +83,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   shadow: {
     boxShadow: '0px 2px 4px #00000029',
-  },
-  nativeBlur: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: theme.modals.jaggedEdgeSize,
-    },
-    shadowOpacity: 0.75,
-    shadowRadius: 16.0,
-
-    elevation: 24,
   },
   triangle: {
     position: 'absolute',

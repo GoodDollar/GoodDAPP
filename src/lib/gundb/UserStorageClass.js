@@ -2,6 +2,7 @@
 import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
+  debounce,
   filter,
   find,
   flatten,
@@ -488,7 +489,6 @@ export class UserStorage {
   constructor(wallet: GoodWallet, gun: Gun) {
     this.gun = gun || defaultGun
     this.wallet = wallet
-
     this.init()
   }
 
@@ -582,16 +582,15 @@ export class UserStorage {
     //try to make sure all gun SEA  decryption keys are preloaded
     this.gunuser.get('trust').load()
 
-    const gunuser = await this.gun.user()
-
     logger.debug('GunDB logged in', {
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
-      gunuser,
+
+      // gunuser,
     })
 
     // await Promise.all([this.initProperties(), this.initProfile()])
-    this.initProfile().catch(e => logger.error('failed initializing initProfile', e.message, e))
+    // this.initProfile().catch(e => logger.error('failed initializing initProfile', e.message, e))
     await this.initProperties()
   }
 
@@ -629,8 +628,7 @@ export class UserStorage {
       trustPromise,
       AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
       this.initFeed(),
-
-      // save ref to user
+      this.initProfile().catch(e => logger.error('failed initializing initProfile', e.message, e)),
       this.gun
         .get('users')
         .get(this.gunuser.is.pub)
@@ -638,7 +636,7 @@ export class UserStorage {
         .catch(e => {
           logger.error('save ref to user failed:', e.message, e)
           throw e
-        }),
+        }), // save ref to user
     ]).catch(e => {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
@@ -1102,12 +1100,7 @@ export class UserStorage {
     this.feed.get('index').on(this.updateFeedIndex, false)
 
     // load unencrypted feed from cache
-    this.feedIds = await AsyncStorage.getItem('GD_feed')
-      .then(JSON.parse)
-      .catch(() => {
-        logger.warn('failed parsing feed from cache')
-      })
-      .then(ids => ids || {})
+    this.feedIds = await AsyncStorage.getItem('GD_feed').then(ids => ids || {})
 
     const items = await this.feed
       .get('byid')
@@ -1157,6 +1150,7 @@ export class UserStorage {
         if (!some(shouldUpdateStatuses)) {
           return
         }
+
         logger.debug('init feed updating cache', this.feedIds, shouldUpdateStatuses)
         AsyncStorage.setItem('GD_feed', this.feedIds)
       })
@@ -1218,10 +1212,15 @@ export class UserStorage {
     }
 
     // this.profile = this.gunuser.get('profile')
-    this.profile.open(doc => {
-      this._lastProfileUpdate = doc
-      this.subscribersProfileUpdates.forEach(callback => callback(doc))
-    })
+    const onProfileUpdate = debounce(
+      doc => {
+        this._lastProfileUpdate = doc
+        this.subscribersProfileUpdates.forEach(callback => callback(doc))
+      },
+      500,
+      { leading: false, trailing: true },
+    )
+    this.profile.open(onProfileUpdate)
 
     logger.debug('init opened profile', {
       gunRef: this.profile,

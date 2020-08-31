@@ -28,9 +28,10 @@ const SplashOrRouter = memo(({ store }) => {
 })
 
 const App = () => {
-  useServiceWorker()
-  log.debug({ Config })
   const store = SimpleStore.useStore()
+  
+  useServiceWorker()
+  useEffect(() => log.debug({ Config }), [])
 
   // onRecaptcha = (token: string) => {
   //   userStorage.setProfileField('recaptcha', token, 'private')

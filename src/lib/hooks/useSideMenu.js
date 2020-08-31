@@ -10,13 +10,16 @@ import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidem
 
 // utils
 import { useWrappedApi } from '../API/useWrappedApi'
-import { isBrowser, isTablet, isWeb } from '../utils/platform'
-import { dashboardLink } from '../../components/webView/webViewInstances'
+import { isMobileOnly, isWeb } from '../utils/platform'
+import { openLink } from '../utils/linking'
+import Config from '../../config/config'
 
 // constants
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
+
+const { dashboardUrl } = Config
 
 export default (props = {}) => {
   const { navigation, theme } = props
@@ -127,8 +130,8 @@ export default (props = {}) => {
         centered: true,
         name: 'Statistics',
         action: () => {
-          if (isWeb && (isBrowser || isTablet)) {
-            window.open(dashboardLink)
+          if (isWeb && !isMobileOnly) {
+            openLink(dashboardUrl)
           } else {
             navigation.navigate({
               routeName: 'Statistics',

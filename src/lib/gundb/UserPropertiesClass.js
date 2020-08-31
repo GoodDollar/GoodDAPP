@@ -2,7 +2,7 @@
 import { assign, isUndefined } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
-
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import pino from '../logger/pino-logger'
 
@@ -64,9 +64,9 @@ export default class UserProperties {
       let props
       const { propsNode } = this
       const { defaultProperties } = UserProperties
-
       try {
-        props = await defer(() => fromPromise(propsNode.decrypt())) // init user storage
+        //sync from storage
+        props = await defer(() => fromPromise(propsNode.then(_ => propsNode.decrypt()))) // init user storage
           .pipe(retry(1)) // if exception thrown, retry init one more times
           .toPromise()
       } catch (exception) {
@@ -80,17 +80,21 @@ export default class UserProperties {
         log.warn('undefined props from decrypt')
       }
 
-      return assign({}, defaultProperties, props)
+      this.data = assign({}, defaultProperties, props)
     }
 
     this.ready = (async () => {
-      const { propsNode } = this
+      const props = await AsyncStorage.getItem('props')
 
-      // make sure we fetch props first and not having gun return undefined
-      await propsNode.then()
-      const props = await fetchProps()
-
-      return (this.data = props)
+      //if not props then block
+      if (props == null) {
+        await fetchProps()
+      } else {
+        //otherwise sync withs torage in background
+        this.data = assign({}, this.defaultProperties, props)
+        fetchProps()
+      }
+      return this.data
     })()
   }
 
@@ -133,7 +137,8 @@ export default class UserProperties {
     assign(data, properties)
 
     try {
-      await propsNode.secretAck(data)
+      propsNode.secretAck(data)
+      await AsyncStorage.setItem('props', data)
     } catch (e) {
       log.error('set() / updateAll() user props failed:', e.message, e, { properties })
       throw e
@@ -152,7 +157,8 @@ export default class UserProperties {
     this.data = assign({}, defaultProperties)
 
     try {
-      await propsNode.secretAck(defaultProperties)
+      propsNode.secretAck(defaultProperties)
+      await AsyncStorage.setItem('props', defaultProperties)
     } catch (e) {
       log.error('reset() user props failed:', e.message, e)
       throw e

@@ -600,7 +600,7 @@ export class UserStorage {
       return
     }
 
-    //get trusted GoodDollar indexes and pub key
+    // get trusted GoodDollar indexes and pub key
     let trustPromise = this.fetchTrustIndexes()
 
     logger.debug('subscribing to wallet events')
@@ -608,34 +608,34 @@ export class UserStorage {
     this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
       logger.debug({ event }, EVENT_TYPE_RECEIVE)
     })
+
     this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
       logger.debug({ event }, EVENT_TYPE_SEND)
     })
+
     this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
     this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
     this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
 
-    //for some reason doing init stuff before  causes gun to get stuck
-    //this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
-
-    //doing await one by one - Gun hack so it doesnt get stuck
-    // await this.initProfile()
-    // await this.initProperties()
-    // await this.initFeed()
-    // await this.gun
-    //   .get('users')
-    //   .get(this.gunuser.is.pub)
-    //   .putAck(this.gunuser) //save ref to user
+    // for some reason doing init stuff before  causes gun to get stuck
+    // this issue doesnt exists for gun 2020 branch, but we cant upgrade there yet
+    // doing await one by one - Gun hack so it doesnt get stuck
     await Promise.all([
       trustPromise,
       AsyncStorage.getItem('GD_trust')
         .then(JSON.parse)
         .then(_ => (this.trust = _ || {})),
       this.initFeed(),
+
+      // save ref to user
       this.gun
         .get('users')
         .get(this.gunuser.is.pub)
-        .putAck(this.gunuser), //save ref to user
+        .putAck(this.gunuser)
+        .catch(e => {
+          logger.error('save ref to user failed:', e.message, e)
+          throw e
+        }),
     ]).catch(e => {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
@@ -677,6 +677,7 @@ export class UserStorage {
         throw exception
       }
     })()
+
     return this.ready
   }
 
@@ -1052,10 +1053,15 @@ export class UserStorage {
   writeFeedEvent(event): Promise<FeedEvent> {
     this.feedIds[event.id] = event
     AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+
     return this.feed
       .get('byid')
       .get(event.id)
       .secretAck(event)
+      .catch(e => {
+        logger.error('writeFeedEvent failed:', e.message, e, { event })
+        throw e
+      })
   }
 
   /**
@@ -1068,8 +1074,14 @@ export class UserStorage {
     logger.debug('init feed', { feed })
 
     if (feed == null) {
-      //for some reason this breaks on gun 2020 https://github.com/amark/gun/issues/987
-      await this.feed.putAck({ initialized: true }) // restore old feed data - after nullified
+      // for some reason this breaks on gun 2020 https://github.com/amark/gun/issues/987
+      await this.feed
+        .putAck({ initialized: true }) // restore old feed data - after nullified
+        .catch(e => {
+          logger.error('restore old feed data failed:', e.message, e)
+          throw e
+        })
+
       logger.debug('init empty feed', { feed })
     }
 
@@ -1093,7 +1105,11 @@ export class UserStorage {
     logger.debug('init feed byid', { items })
 
     if (!items) {
-      await this.feed.putAck({ byid: {} })
+      await this.feed.putAck({ byid: {} }).catch(e => {
+        logger.error('init feed byid failed:', e.message, e)
+        throw e
+      })
+
       return
     }
 
@@ -1179,9 +1195,13 @@ export class UserStorage {
 
   async initProfile() {
     const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 1000), this.profile.then(null, 1000)])
+
     if (profile === null) {
-      //in case profile was deleted in the past it will be exactly null
-      await this.profile.putAck({ initialized: true })
+      // in case profile was deleted in the past it will be exactly null
+      await this.profile.putAck({ initialized: true }).catch(e => {
+        logger.error('set profile initialized failed:', e.message, e)
+        throw e
+      })
     }
 
     // this.profile = this.gunuser.get('profile')
@@ -1189,6 +1209,7 @@ export class UserStorage {
       this._lastProfileUpdate = doc
       this.subscribersProfileUpdates.forEach(callback => callback(doc))
     })
+
     logger.debug('init opened profile', {
       gunRef: this.profile,
       profile,
@@ -1524,11 +1545,18 @@ export class UserStorage {
         return indexPromiseResult
       }
     }
+
+    const storePrivacy = () =>
+      this.profile
+        .get(field)
+        .putAck({ display, privacy })
+        .catch(e => {
+          logger.warn('saving profile field display and privacy failed', e.message, e, { field })
+          throw e
+        })
+
     if (onlyPrivacy) {
-      return this.profile.get(field).putAck({
-        display,
-        privacy,
-      })
+      return storePrivacy()
     }
 
     return Promise.race([
@@ -1537,19 +1565,11 @@ export class UserStorage {
         .get('value')
         .secretAck(value)
         .catch(e => {
-          logger.warn('encrypting profile field failed', { e, field })
+          logger.warn('encrypting profile field failed', e.message, e, { field })
           throw e
         }),
-      this.profile
-        .get(field)
-        .putAck({
-          display,
-          privacy,
-        })
-        .catch(e => {
-          logger.warn('saving profile field display and privacy failed', { e, field })
-          throw e
-        }),
+
+      storePrivacy(),
     ])
   }
 
@@ -1593,14 +1613,15 @@ export class UserStorage {
         currentUser: this.gunuser.is.pub,
       })
 
-      //now that we use the hash of the email/mobile there's no privacy issue
+      // now that we use the hash of the email/mobile there's no privacy issue
       // if (privacy !== 'public' && indexValue !== undefined) {
       //   return indexNode.putAck(null)
       // }
 
-      const res = await indexNode.putAck(this.gunuser)
-      return res
-    } catch (e) {
+      return await indexNode.putAck(this.gunuser)
+    } catch (gunError) {
+      const e = this._gunException(gunError)
+
       logger.error('indexProfileField failed', e.message, e, { field })
 
       // TODO: this should return unexpected error
@@ -1790,15 +1811,18 @@ export class UserStorage {
   async saveSurveyDetails(hash, details: SurveyDetails) {
     try {
       const date = moment(new Date()).format('DDMMYY')
+
       await this.gun.get('survey').get(date)
       await this.gun
         .get('survey')
         .get(date)
         .putAck({ [hash]: details })
-      return true
-    } catch (e) {
-      logger.error('saveSurveyDetails :', e.message, e, { details })
 
+      return true
+    } catch (gunError) {
+      const e = this._gunException(gunError)
+
+      logger.error('saveSurveyDetails :', e.message, e, { details })
       return false
     }
   }
@@ -2131,19 +2155,24 @@ export class UserStorage {
         logger.warn('enqueueTx skipping existing event id', event, existingEvent)
         return false
       }
+
       event.status = event.status || 'pending'
       event.createdDate = event.createdDate || new Date().toString()
       event.date = event.date || event.createdDate
+
       let putRes = await this.feed
         .get('queue')
         .get(event.id)
         .secretAck(event)
+
       await this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
-      return true
-    } catch (e) {
-      logger.error('enqueueTX failed: ', e.message, e, { event })
 
+      return true
+    } catch (gunError) {
+      const e = this._gunException(gunError)
+
+      logger.error('enqueueTX failed: ', e.message, e, { event })
       return false
     } finally {
       release()
@@ -2394,7 +2423,9 @@ export class UserStorage {
 
       return { err: e.message }
     })
+
     const saveDayIndexPtr = feed.get(day).putAck(JSON.stringify(dayEventsArr))
+
     const saveDaySizePtr = feed
       .get('index')
       .get(day)
@@ -2402,6 +2433,7 @@ export class UserStorage {
 
     const saveAck =
       saveDayIndexPtr && saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, e))
+
     const ack =
       saveDaySizePtr && saveDaySizePtr.then().catch(e => logger.error('updateFeedEvent daySize', e.message, e))
 
@@ -2414,7 +2446,11 @@ export class UserStorage {
 
     return Promise.all([saveAck, ack, eventAck])
       .then(() => event)
-      .catch(e => logger.error('Save Indexes failed', e.message, e))
+      .catch(gunError => {
+        const e = this._gunException(gunError)
+
+        logger.error('Save Indexes failed', e.message, e)
+      })
   }
 
   /**
@@ -2548,8 +2584,8 @@ export class UserStorage {
         const cleanupPromises = [
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
           _trackStatus(this.deleteProfile(), 'profile'),
-          _trackStatus(retry(() => userProperties.reset(), 1), 'userprops'),
-          _trackStatus(retry(() => gunuser.get('registered').putAck(false), 1), 'registered'),
+          _trackStatus(() => userProperties.reset(), 'userprops'),
+          _trackStatus(() => gunuser.get('registered').putAck(false), 'registered'),
         ]
 
         deleteResults = await Promise.all(cleanupPromises)
@@ -2563,6 +2599,16 @@ export class UserStorage {
     return true
   }
 
+  _gunException(gunError) {
+    let exception = gunError
+
+    if (!isError(exception)) {
+      exception = new Error(gunError.err || gunError)
+    }
+
+    return exception
+  }
+
   _trackStatus(promise, label) {
     return promise
       .then(() => {
@@ -2571,11 +2617,11 @@ export class UserStorage {
         logger.debug('Cleanup:', status)
         return status
       })
-      .catch(exception => {
+      .catch(gunError => {
         const status = { [label]: 'failed' }
-        const { message } = exception
+        const e = this._gunException(e)
 
-        logger.debug('Cleanup:', message, exception, status)
+        logger.debug('Cleanup:', e.message, e, status)
         return status
       })
   }

@@ -1,17 +1,15 @@
 //@flow
-import React, { useCallback, useEffect, useState } from 'react'
-import { View } from 'react-native'
+import React, { useCallback } from 'react'
 import { Appbar } from 'react-native-paper'
-import { isIOS } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
 import config from '../../config/config'
 import { theme } from '../../components/theme/styles'
-import userStorage from '../../lib/gundb/UserStorage'
-import logger from '../../lib/logger/pino-logger'
+
+// import logger from '../../lib/logger/pino-logger'
 import Icon from '../../components/common/view/Icon'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 
-const { isEToro, market, marketUrl, enableInvites, showRewards } = config
+const { isEToro, enableInvites, showRewards } = config
 
 const styles = {
   marketIconBackground: {
@@ -40,12 +38,12 @@ const showInviteFlag = enableInvites || isEToro
 const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
 
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
-const marketButtonStyles = [styles.marketIconBackground, styles.marginRight10]
+// const marketButtonStyles = [styles.marketIconBackground, styles.marginRight10]
 
 // const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyles
 const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : defaultLeftButtonStyles
 
-const log = logger.child({ from: 'TabsView' })
+// const log = logger.child({ from: 'TabsView' })
 
 // TODO: Decide if makes sense keep this to add tab behavior again
 // type TabButtonProps = {
@@ -90,14 +88,14 @@ const RewardButton = ({ onPress, style }) => (
   </>
 )
 
-const MarketButton = ({ onPress, style }) => (
-  <>
-    <TouchableOpacity testID="goodmarket_tab" onPress={onPress} style={style}>
-      <Icon name="goodmarket" size={36} color="white" />
-    </TouchableOpacity>
-    <Appbar.Content />
-  </>
-)
+// const MarketButton = ({ onPress, style }) => (
+//   <>
+//     <TouchableOpacity testID="goodmarket_tab" onPress={onPress} style={style}>
+//       <Icon name="goodmarket" size={36} color="white" />
+//     </TouchableOpacity>
+//     <Appbar.Content />
+//   </>
+// )
 
 const InviteButton = ({ onPress, style }) => (
   <>
@@ -117,34 +115,35 @@ const InviteButton = ({ onPress, style }) => (
   </>
 )*/
 
-const EmptySpaceComponent = ({ style }) => (
-  <>
-    <View style={style} />
-    <Appbar.Content />
-  </>
-)
+// const EmptySpaceComponent = ({ style }) => (
+//   <>
+//     <View style={style} />
+//     <Appbar.Content />
+//   </>
+// )
 
 const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()
-  const [token, setToken] = useState(isIOS ? undefined : true)
-  const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
 
-  const fetchTokens = useCallback(async () => {
-    let _token = await userStorage.getProfileFieldValue('loginToken')
+  // const [token, setToken] = useState(isIOS ? undefined : true)
+  // const [marketToken, setMarketToken] = useState(isIOS ? undefined : true)
 
-    let _marketToken = await userStorage.getProfileFieldValue('marketToken')
+  // const fetchTokens = useCallback(async () => {
+  //   let _token = await userStorage.getProfileFieldValue('loginToken')
 
-    log.debug('tokens:', { _marketToken, _token })
+  //   let _marketToken = await userStorage.getProfileFieldValue('marketToken')
 
-    if (isIOS) {
-      setToken(_token)
-      setMarketToken(_marketToken)
-    }
-  }, [setToken, setMarketToken])
+  //   log.debug('tokens:', { _marketToken, _token })
 
-  useEffect(() => {
-    fetchTokens()
-  }, [])
+  //   if (isIOS) {
+  //     setToken(_token)
+  //     setMarketToken(_marketToken)
+  //   }
+  // }, [setToken, setMarketToken])
+
+  // useEffect(() => {
+  //   fetchTokens()
+  // }, [])
 
   const goToRewards = useCallback(
     event => {
@@ -155,21 +154,21 @@ const TabsView = ({ navigation }) => {
       event.preventDefault()
       navigation.navigate('Rewards')
     },
-    [navigation, token],
+    [navigation],
   )
 
   /*const goToSupport = useCallback(() => {
     navigation.navigate('Support')
   }, [navigation])*/
 
-  const goToMarketplace = useCallback(() => {
-    if (isIOS) {
-      const src = `${marketUrl}?jwt=${marketToken}&nofooter=true`
-      window.open(src, '_blank')
-    } else {
-      navigation.navigate('Marketplace')
-    }
-  }, [navigation, marketToken])
+  // const goToMarketplace = useCallback(() => {
+  //   if (isIOS) {
+  //     const src = `${marketUrl}?jwt=${marketToken}&nofooter=true`
+  //     window.open(src, '_blank')
+  //   } else {
+  //     navigation.navigate('Marketplace')
+  //   }
+  // }, [navigation, marketToken])
 
   return (
     <Appbar.Header dark>
@@ -183,14 +182,14 @@ const TabsView = ({ navigation }) => {
       )}*/}
       {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
       {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
-      {market && (
+      {/* {market && (
         <>
           {!isEToro && !!(!enableInvites ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
           <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />
         </>
-      )}
+      )} */}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
-      {!market && !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
+      {/* {!market && !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />} */}
       <TouchableOpacity onPress={slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>

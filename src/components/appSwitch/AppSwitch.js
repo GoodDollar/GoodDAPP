@@ -135,7 +135,10 @@ const AppSwitch = (props: LoadingProps) => {
       : REGISTRATION_METHOD_SELF_CUSTODY
     store.set('regMethod')(regMethod)
 
-    identifyWith(await userStorage.getProfileFieldValue('email'), goodWallet.getAccountForType('login'))
+    const email = await userStorage.getProfileFieldValue('email')
+    const identifier = goodWallet.getAccountForType('login')
+    
+    identifyWith(email, identifier)
     if (isLoggedInCitizen) {
       API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
     }

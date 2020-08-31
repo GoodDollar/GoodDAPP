@@ -210,7 +210,7 @@ const FeedList = ({
     setShowBounce(_showBounce)
 
     if (_showBounce) {
-      userStorage.userProperties.set(
+      await userStorage.userProperties.set(
         'showQuickActionHint',
         moment()
           .add(24, 'hours')

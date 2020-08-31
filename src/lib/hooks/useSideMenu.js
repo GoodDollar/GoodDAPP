@@ -5,12 +5,13 @@ import { isMobileSafari } from 'mobile-device-detect'
 
 // hooks
 import SimpleStore from '../undux/SimpleStore'
-
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidemenu'
 
 // utils
 import { useWrappedApi } from '../API/useWrappedApi'
+import { isBrowser, isTablet, isWeb } from '../utils/platform'
+import { dashboardLink } from '../../components/webView/webViewInstances'
 
 // constants
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
@@ -126,10 +127,15 @@ export default (props = {}) => {
         centered: true,
         name: 'Statistics',
         action: () => {
-          navigation.navigate({
-            routeName: 'Statistics',
-            type: 'Navigation/NAVIGATE',
-          })
+          if (isWeb && (isBrowser || isTablet)) {
+            window.open(dashboardLink)
+          } else {
+            navigation.navigate({
+              routeName: 'Statistics',
+              type: 'Navigation/NAVIGATE',
+            })
+          }
+
           slideOut()
         },
       },

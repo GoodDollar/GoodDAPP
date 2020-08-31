@@ -222,7 +222,7 @@ export class GoodWallet {
       }
 
       const runRes = await Promise.race([run(), delay(5000, false)])
-      
+
       if (runRes === false) {
         throw new Error('pollEvents not completed after 5 seconds')
       }

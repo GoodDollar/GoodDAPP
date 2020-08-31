@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { AsyncStorage, Image, View } from 'react-native'
+import { Image, View } from 'react-native'
 import { isMobile, isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
+import AsyncStorage from '../../../lib/utils/asyncStorage'
 import SimpleStore, { assertStore } from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import {

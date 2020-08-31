@@ -23,7 +23,7 @@ export default new class {
 
   async setString(text: string): Promise<void> {
     const { api } = this
-    
+
     await api.writeText(text)
     log.debug('setString', text)
   }

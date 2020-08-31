@@ -1,6 +1,6 @@
 //@flow
-import { AsyncStorage } from 'react-native'
 import Mutex from 'await-mutex'
+import { Platform } from 'react-native'
 import {
   filter,
   find,
@@ -8,6 +8,7 @@ import {
   get,
   isEqual,
   isError,
+  isString,
   keys,
   maxBy,
   memoize,
@@ -26,11 +27,12 @@ import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 import { sha3 } from 'web3-utils'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
-import API from '../API/api'
+import API, { getErrorMessage } from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -461,7 +463,8 @@ export class UserStorage {
         gunuser.auth(username, password, user => {
           logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnemonic UserStorage', user.err, null)
+            const error = isString(user.err) ? new Error(user.err) : user.err
+            logger.error('Error getMnemonic UserStorage', error.message, error)
             return rej(false)
           }
           res(true)
@@ -554,7 +557,7 @@ export class UserStorage {
 
     let loggedInPromise
 
-    let existingCreds = JSON.parse(await AsyncStorage.getItem(GD_GUN_CREDENTIALS))
+    let existingCreds = await AsyncStorage.getItem(GD_GUN_CREDENTIALS)
     if (existingCreds == null) {
       const seed = this.wallet.wallet.eth.accounts.wallet[this.wallet.getAccountForType('gundb')].privateKey.slice(2)
       loggedInPromise = gunPKAuth(this.gun, seed)
@@ -624,9 +627,7 @@ export class UserStorage {
     // doing await one by one - Gun hack so it doesnt get stuck
     await Promise.all([
       trustPromise,
-      AsyncStorage.getItem('GD_trust')
-        .then(JSON.parse)
-        .then(_ => (this.trust = _ || {})),
+      AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
       this.initFeed(),
 
       // save ref to user
@@ -692,7 +693,10 @@ export class UserStorage {
     const initMarketToken = async () => {
       if (Config.market) {
         const r = await API.getMarketToken().catch(e => {
-          logger.warn('failed fetching market token', { e })
+          const errMsg = getErrorMessage(e)
+          const exception = new Error(errMsg)
+
+          logger.warn('failed fetching market token', { errMsg, exception })
         })
         token = get(r, 'data.jwt')
         if (token) {
@@ -705,7 +709,10 @@ export class UserStorage {
     const initLoginToken = async () => {
       if (Config.enableInvites) {
         const r = await API.getLoginToken().catch(e => {
-          logger.warn('failed fetching login token', { e })
+          const errMsg = getErrorMessage(e)
+          const exception = new Error(errMsg)
+
+          logger.warn('failed fetching login token', { errMsg, exception })
         })
         token = get(r, 'data.loginToken')
         if (token) {
@@ -726,7 +733,11 @@ export class UserStorage {
 
     if (!inviteCode) {
       const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
-        logger.warn('failed fetching w3 user', { e })
+        const errMsg = getErrorMessage(e)
+        const exception = new Error(errMsg)
+
+        logger.warn('failed fetching w3 user', { errMsg, exception })
+
         return {}
       })
       logger.debug('w3 user result', { data })
@@ -752,7 +763,7 @@ export class UserStorage {
       // fetch trust data
       const { data } = await API.getTrust()
 
-      AsyncStorage.setItem('GD_trust', JSON.stringify(data))
+      AsyncStorage.setItem('GD_trust', data)
       this.trust = data
     } catch (exception) {
       const { message } = exception
@@ -1056,8 +1067,7 @@ export class UserStorage {
 
   writeFeedEvent(event): Promise<FeedEvent> {
     this.feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
-
+    AsyncStorage.setItem('GD_feed', this.feedIds)
     return this.feed
       .get('byid')
       .get(event.id)
@@ -1147,9 +1157,8 @@ export class UserStorage {
         if (!some(shouldUpdateStatuses)) {
           return
         }
-
         logger.debug('init feed updating cache', this.feedIds, shouldUpdateStatuses)
-        AsyncStorage.setItem('GD_feed', JSON.stringify(this.feedIds))
+        AsyncStorage.setItem('GD_feed', this.feedIds)
       })
       .catch(e => logger.error('error caching feed items', e.message, e))
   }
@@ -2104,7 +2113,10 @@ export class UserStorage {
 
   //eslint-disable-next-line
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
-    const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+    const favicon = Platform.select({
+      web: `${process.env.PUBLIC_URL}/favicon-96x96.png`,
+      default: require('../../assets/Feed/favicon-96x96.png'),
+    })
     const getAvatarFromGun = async () => {
       const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))
 
@@ -2484,7 +2496,7 @@ export class UserStorage {
     const encryptedProfile = await this.loadGunField(this.profile)
 
     if (encryptedProfile === undefined) {
-      logger.error('getProfile: profile node undefined', '', null)
+      logger.error('getProfile: profile node undefined', '', new Error('Profile node undefined'))
 
       return {}
     }
@@ -2510,7 +2522,9 @@ export class UserStorage {
     const encryptedProfile = await this.loadGunField(this.profile)
 
     if (encryptedProfile === undefined) {
-      logger.error('getPublicProfile: profile node undefined', '', null)
+      const error = new Error('Profile node undefined')
+
+      logger.error('getPublicProfile: profile node undefined', error.message, error)
 
       return {}
     }

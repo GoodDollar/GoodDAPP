@@ -78,6 +78,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
     // for QA
     global.wallet = goodWallet
+
     await userStorage.ready
     log.debug('ready: userstorage ready')
 
@@ -102,13 +103,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const signupFacebook = () => handleSignUp('facebook')
   const signupAuth0 = loginType => handleSignUp(loginType === 'email' ? 'auth0-pwdless-email' : 'auth0-pwdless-sms')
 
-  const showLoadingDialog = success => {
+  const showLoadingDialog = () => {
     showDialog({
-      image: success ? undefined : <LoadingIcon />,
+      image: <LoadingIcon />,
       loading: true,
       message: 'Please wait\nThis might take a few seconds...',
       showButtons: false,
       title: `PREPARING\nYOUR WALLET`,
+      showCloseButtons: false,
     })
   }
 
@@ -149,7 +151,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
         }
 
-        showLoadingDialog(false)
+        showLoadingDialog()
+
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }

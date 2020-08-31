@@ -62,37 +62,16 @@ class LoginService {
 
   async auth(): Promise<?Credentials | Error> {
     let creds = await this.getCredentials()
-    const shouldUseNewCreds = !creds
 
-    const requestNewCreds = async () => {
-      const creds = await this.login()
-
-      this.storeCredentials(creds)
-      return creds
+    if (!creds) {
+      creds = await this.login()
     }
 
-    // eslint-disable-next-line require-await
-    const requestJWT = async creds => {
-      log.info('signed message', creds)
-
-      return this.requestJWT(creds)
-    }
-
-    if (shouldUseNewCreds) {
-      creds = await requestNewCreds()
-    }
+    this.storeCredentials(creds)
+    log.info('signed message', creds)
 
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
-    try {
-      creds = await requestJWT(creds)
-    } catch (exception) {
-      if (shouldUseNewCreds) {
-        throw exception
-      }
-
-      // if creds was taken from localStorage and failed - re-generate them & try again
-      creds = await requestNewCreds().then(requestJWT)
-    }
+    creds = await this.requestJWT(creds)
 
     this.storeJWT(creds.jwt)
     API.init()

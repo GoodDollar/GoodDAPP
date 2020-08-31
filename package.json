@@ -63,8 +63,8 @@
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
     "@gooddollar/goodcontracts": "^2.0.0",
-    "@gooddollar/gun": "^0.2020.719",
-    "@gooddollar/gun-pk-auth": "^1.0.3",
+    "@gooddollar/gun": "^0.2020.826",
+    "@gooddollar/gun-pk-auth": "^1.0.4",
     "@react-native-community/clipboard": "^1.2.2",
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.9",
@@ -209,6 +209,7 @@
     "react-test-renderer": "^16.8.1",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
+    "clipboard-copy": "^3.1.0",
     "scoop": "0.0.2",
     "serve": "^11.0.0",
     "source-map-explorer": "^1.8.0",

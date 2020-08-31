@@ -212,6 +212,7 @@ export class GoodWallet {
     try {
       const run = async () => {
         const nextLastBlock = await this.wallet.eth.getBlockNumber()
+
         fn()
         this.lastEventsBlock = nextLastBlock
         lastBlockCallback(nextLastBlock)

@@ -157,7 +157,7 @@ class FaceVerificationApi {
 
     const { success, error } = response || {}
 
-    if (!success) {
+    if (false === success) {
       // non - success - throwing an exception with failed response
       const exception = new Error(error)
 

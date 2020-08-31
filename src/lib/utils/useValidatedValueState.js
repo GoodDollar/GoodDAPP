@@ -30,7 +30,7 @@ const useValidatedValueState = (initialValue: State, getError: (value: any) => E
     const dirty: boolean = Boolean((state && state.dirty) || !!value)
 
     const error: Error = dirty ? getError(value) : null
-    const isValid: boolean = getError(value) === null
+    const isValid: boolean = getError(value) == null
 
     return { error, isValid, dirty }
   }

@@ -536,16 +536,18 @@ const Dashboard = props => {
           return
         }
 
+        const withdrawnOrSendError = 'Payment already withdrawn or canceled by sender'
+        const wrongPaymentDetailsError = 'Wrong payment link or payment details'
         switch (status) {
           case WITHDRAW_STATUS_COMPLETE:
-            log.error('Payment already withdrawn or canceled by sender', '', null, {
+            log.error('Failed to complete withdraw', withdrawnOrSendError, new Error(withdrawnOrSendError), {
               status,
               transactionHash,
               paymentParams,
               category: ExceptionCategory.Human,
               dialogShown: true,
             })
-            showErrorDialog('Payment already withdrawn or canceled by sender')
+            showErrorDialog(withdrawnOrSendError)
             break
           case WITHDRAW_STATUS_UNKNOWN:
             for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
@@ -558,7 +560,7 @@ const Dashboard = props => {
                 return await handleWithdraw(params)
               }
             }
-            log.error('Could not find payment details', 'Wrong payment link or payment details', null, {
+            log.error('Could not find payment details', wrongPaymentDetailsError, new Error(wrongPaymentDetailsError), {
               status,
               transactionHash,
               paymentParams,

@@ -159,10 +159,16 @@ We found your twin...
             className="css-view-1dbjc4n"
             style={
               Object {
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
+                "display": "flex",
+                "justifyContent": "center",
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
                 "marginTop": "0px",
+                "maxHeight": "auto",
+                "msFlexPack": "center",
                 "width": "171.52777777777777px",
               }
             }
@@ -180,10 +186,16 @@ We found your twin...
             className="css-view-1dbjc4n"
             style={
               Object {
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
+                "display": "flex",
+                "justifyContent": "center",
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
                 "marginTop": "0px",
+                "maxHeight": "auto",
+                "msFlexPack": "center",
                 "width": "171.52777777777777px",
               }
             }

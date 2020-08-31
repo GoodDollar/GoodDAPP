@@ -1,7 +1,12 @@
 // @flow
+
+import writeText from 'clipboard-copy'
+import { bindKey } from 'lodash'
+
 import logger from '../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'Clipboard' })
+const readText = bindKey(navigator.clipboard, 'readText')
 
 export default new class {
   constructor(api) {
@@ -22,4 +27,4 @@ export default new class {
     await api.writeText(text)
     log.debug('setString', text)
   }
-}(navigator.clipboard)
+}({ readText, writeText })

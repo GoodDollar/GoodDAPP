@@ -20,7 +20,7 @@ import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
-import API from '../../lib/API/api'
+import API, { getErrorMessage } from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import retryImport from '../../lib/utils/retryImport'
@@ -421,7 +421,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         AsyncStorage.getItem(GD_USER_MNEMONIC).then(_ => _ || ''),
 
         //make sure profile is initialized, maybe solve gun bug where profile is undefined
-        userStorage.profile.putAck({ initialized: true }),
+        userStorage.profile.putAck({ initialized: true }).catch(e => {
+          log.error('set profile initialized failed:', e.message, e)
+          throw e
+        }),
 
         // Stores creationBlock number into 'lastBlock' feed's node
         goodWallet
@@ -454,8 +457,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       await API.addUser(requestPayload)
         .then(({ data }) => (newUserData = data))
-        .catch(exception => {
-          const { message } = exception
+        .catch(e => {
+          const message = getErrorMessage(e)
+          const exception = new Error(message)
 
           // if user already exists just log.warn then continue signup
           if ('You cannot create more than 1 account with the same credentials' === message) {
@@ -478,17 +482,25 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       )
 
       await Promise.all([
-        userStorage.gunuser.get('registered').putAck(true),
+        userStorage.gunuser
+          .get('registered')
+          .putAck(true)
+          .catch(e => {
+            log.error('set user registered failed:', e.message, e)
+            throw e
+          }),
+
         userStorage.userProperties.set('registered', true),
         AsyncStorage.setItem(IS_LOGGED_IN, true),
         AsyncStorage.removeItem('GD_web3Token'),
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
 
-        //privacy issue, and not need at the moment
+        // privacy issue, and not need at the moment
         // w3Token &&
-        //   API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(exception => {
-        //     const { message } = exception
-
+        //   API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e => {
+        //     const message = getErrorMessage(e)
+        //     const exception = new Error(message)
+        //
         //     log.error('failed updateW3UserWithWallet', message, exception)
         //   }),
       ])
@@ -578,7 +590,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           const errorMessage =
             data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
 
-          log.error(errorMessage, '', null, {
+          log.error('Send mobile code failed', errorMessage, new Error(errorMessage), {
             data,
             dialogShown: true,
           })
@@ -596,7 +608,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         setLoading(true)
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          log.error('Send verification code failed', '', null, {
+          const error = new Error('Some error occurred on server')
+          log.error('Send verification code failed', error.message, error, {
             data,
             dialogShown: true,
           })

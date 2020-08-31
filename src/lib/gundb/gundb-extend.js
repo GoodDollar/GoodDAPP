@@ -109,7 +109,7 @@ assign(User.prototype, {
     const encryptedData = await this.then()
     let decryptedData = null
 
-    if (encryptedData !== null) {
+    if (encryptedData != null) {
       if (!secureKey) {
         throw new Error(`Decrypting key missing for ${path}`)
       }

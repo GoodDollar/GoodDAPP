@@ -1,6 +1,6 @@
 // @flow
 import { isMobile } from 'mobile-device-detect'
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
 import './lib/gundb/gundb'
@@ -29,7 +29,7 @@ const SplashOrRouter = memo(({ store }) => {
 
 const App = () => {
   const store = SimpleStore.useStore()
-  
+
   useServiceWorker()
   useEffect(() => log.debug({ Config }), [])
 

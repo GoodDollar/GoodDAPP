@@ -8,6 +8,7 @@ import {
   get,
   isEqual,
   isError,
+  isString,
   keys,
   maxBy,
   memoize,
@@ -30,7 +31,7 @@ import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
-import API from '../API/api'
+import API, { getErrorMessage } from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -461,7 +462,8 @@ export class UserStorage {
         gunuser.auth(username, password, user => {
           logger.debug('getMnemonic gundb auth', { user })
           if (user.err) {
-            logger.error('Error getMnemonic UserStorage', user.err, null)
+            const error = isString(user.err) ? new Error(user.err) : user.err
+            logger.error('Error getMnemonic UserStorage', error.message, error)
             return rej(false)
           }
           res(true)
@@ -692,7 +694,10 @@ export class UserStorage {
     const initMarketToken = async () => {
       if (Config.market) {
         const r = await API.getMarketToken().catch(e => {
-          logger.warn('failed fetching market token', { e })
+          const errMsg = getErrorMessage(e)
+          const exception = new Error(errMsg)
+
+          logger.warn('failed fetching market token', { errMsg, exception })
         })
         token = get(r, 'data.jwt')
         if (token) {
@@ -705,7 +710,10 @@ export class UserStorage {
     const initLoginToken = async () => {
       if (Config.enableInvites) {
         const r = await API.getLoginToken().catch(e => {
-          logger.warn('failed fetching login token', { e })
+          const errMsg = getErrorMessage(e)
+          const exception = new Error(errMsg)
+
+          logger.warn('failed fetching login token', { errMsg, exception })
         })
         token = get(r, 'data.loginToken')
         if (token) {
@@ -726,7 +734,11 @@ export class UserStorage {
 
     if (!inviteCode) {
       const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
-        logger.warn('failed fetching w3 user', { e })
+        const errMsg = getErrorMessage(e)
+        const exception = new Error(errMsg)
+
+        logger.warn('failed fetching w3 user', { errMsg, exception })
+
         return {}
       })
       logger.debug('w3 user result', { data })
@@ -2484,7 +2496,7 @@ export class UserStorage {
     const encryptedProfile = await this.loadGunField(this.profile)
 
     if (encryptedProfile === undefined) {
-      logger.error('getProfile: profile node undefined', '', null)
+      logger.error('getProfile: profile node undefined', '', new Error('Profile node undefined'))
 
       return {}
     }
@@ -2510,7 +2522,9 @@ export class UserStorage {
     const encryptedProfile = await this.loadGunField(this.profile)
 
     if (encryptedProfile === undefined) {
-      logger.error('getPublicProfile: profile node undefined', '', null)
+      const error = new Error('Profile node undefined')
+
+      logger.error('getPublicProfile: profile node undefined', error.message, error)
 
       return {}
     }

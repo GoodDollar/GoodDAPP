@@ -1,8 +1,7 @@
 // @flow
 import { AsyncStorage } from 'react-native'
-import { isError } from 'lodash'
 import type { Credentials } from '../API/api'
-import API from '../API/api'
+import API, { getErrorMessage } from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 
@@ -95,19 +94,12 @@ class LoginService {
 
       log.debug('Login success:', data)
       return { ...creds, jwt: data.token }
-    } catch (exception) {
-      let error = exception
-      let { message } = exception
+    } catch (e) {
+      const message = getErrorMessage(e)
+      const exception = new Error(message)
 
-      // if the json or string http body was thrown from axios (error
-      // interceptor in api.js doest that in almost cases) then we're wrapping
-      // it onto Error object to keep correct stack trace for Sentry reporting
-      if (!isError(exception)) {
-        message = exception.error || exception
-        error = new Error(exception)
-      }
+      log.error('Login service auth failed:', message, exception)
 
-      log.error('Login service auth failed:', message, error)
       throw exception
     }
   }

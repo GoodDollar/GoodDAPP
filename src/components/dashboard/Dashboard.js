@@ -206,9 +206,6 @@ const Dashboard = props => {
           //so we use a global variable
           if (!didRender) {
             log.debug('waiting for feed animation')
-
-            // a time to perform feed load animation till the end
-            await delay(2000)
             didRender = true
           }
           const res = (await feedPromise) || []
@@ -220,7 +217,7 @@ const Dashboard = props => {
           res.length > 0 && setFeeds(feeds.concat(res))
         }
       },
-      500,
+      1000,
       { leading: true },
     ),
     [loadAnimShown, store, setFeeds, feeds],
@@ -324,13 +321,11 @@ const Dashboard = props => {
   )
 
   const initDashboard = async () => {
-    initTransferEvents(gdstore)
     await userStorage.initRegistered()
-    await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
-
-    log.debug('initDashboard subscribed to feed')
     handleDeleteRedirect()
-    animateClaim()
+    await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+    initTransferEvents(gdstore)
+    log.debug('initDashboard subscribed to feed')
     InteractionManager.runAfterInteractions(handleAppLinks)
 
     Dimensions.addEventListener('change', handleResize)

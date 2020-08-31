@@ -2,7 +2,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import moment from 'moment'
-import { get } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
@@ -39,14 +38,6 @@ import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
 
 type ClaimProps = DashboardProps
-type ClaimState = {
-  nextClaim: string,
-  entitlement: number,
-  claimedToday: {
-    people: string,
-    amount: string,
-  },
-}
 
 const log = logger.child({ from: 'Claim' })
 
@@ -59,22 +50,15 @@ const Claim = props => {
   const gdstore = GDStore.useStore()
 
   const { entitlement } = gdstore.get('account')
+  const [dailyUbi, setDailyUbi] = useState((entitlement && entitlement.toNumber()) || 0)
   const isCitizen = gdstore.get('isLoggedInCitizen')
 
   const [showDialog, , showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
-  const [claimState, setClaimState]: [ClaimState, Function] = useState({
-    nextClaim: '--:--:--',
-    entitlement: (entitlement && entitlement.toNumber()) || 0,
-    claimedToday: {
-      people: '--',
-      amount: '--',
-    },
-  })
-
-  // get the number of people who did claim today. Default - 0
-  const numberOfPeopleClaimedToday = get(claimState, 'claimedToday.people', 0)
+  const [nextClaim, setNextClaim] = useState('--:--:--')
+  const [peopleClaimed, setPeopleClaimed] = useState('--')
+  const [totalClaimed, setTotalClaimed] = useState('--')
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
@@ -84,9 +68,7 @@ const Claim = props => {
 
   // format number of people who did claim today
   /*eslint-disable */
-  const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(numberOfPeopleClaimedToday), [
-    numberOfPeopleClaimedToday,
-  ])
+  const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
   /*eslint-enable */
 
   // Format transformer function for claimed G$ amount
@@ -131,12 +113,12 @@ const Claim = props => {
     await Promise.all([
       goodWallet
         .checkEntitlement()
-        .then(entitlement => setClaimState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
+        .then(entitlement => setDailyUbi(entitlement.toNumber()))
         .catch(exception => {
           const { message } = exception
           const uiMessage = decorate(exception, ExceptionCode.E2)
 
-          log.error('gatherStats failed', message, exception, {
+          log.error('init checkentitlement failed', message, exception, {
             dialogShown: true,
             category: ExceptionCategory.Blockhain,
           })
@@ -154,27 +136,24 @@ const Claim = props => {
 
   useEffect(() => {
     init()
+    setClaimInterval(setInterval(gatherStats, 1000))
+    return () => claimInterval && clearInterval(claimInterval)
   }, [])
 
-  const getNextClaim = async date => {
-    let nextClaimTime = date - Date.now()
-    if (nextClaimTime < 0 && claimState.entitlement <= 0) {
-      try {
-        const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
-        setClaimState(prev => ({ ...prev, entitlement }))
-      } catch (exception) {
-        const { message } = exception
-        log.warn('getNextClaim failed', message, exception)
-      }
-    }
-    return new Date(nextClaimTime).toISOString().substr(11, 8)
-  }
-
   const gatherStats = async () => {
-    const [claimedToday, nextClaimDate] = await Promise.all([
-      wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
-      wrappedGoodWallet.getNextClaimTime(),
-    ]).catch(exception => {
+    try {
+      const [{ people, amount }, [nextClaimDate, entitlement]] = await Promise.all([
+        wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
+        wrappedGoodWallet.getNextClaimTime(),
+      ])
+      setPeopleClaimed(people)
+      setTotalClaimed(amount)
+      setDailyUbi(entitlement)
+      if (nextClaimDate) {
+        let nextClaimTime = nextClaimDate - Date.now()
+        setNextClaim(new Date(nextClaimTime).toISOString().substr(11, 8))
+      }
+    } catch (exception) {
       const { message } = exception
       const uiMessage = decorate(exception, ExceptionCode.E3)
 
@@ -188,33 +167,8 @@ const Claim = props => {
           screenProps.goToRoot()
         },
       })
-
-      return []
-    })
-
-    setClaimState(prevState => ({ ...prevState, claimedToday }))
-
-    if (nextClaimDate) {
-      const nextClaim = await getNextClaim(nextClaimDate)
-      setClaimState(prevState => ({ ...prevState, nextClaim }))
-      setClaimInterval(
-        setInterval(async () => {
-          const nextClaim = await getNextClaim(nextClaimDate)
-          setClaimState(prevState => ({ ...prevState, nextClaim }))
-        }, 1000),
-      )
     }
   }
-
-  // Claim STATS
-  useEffect(() => {
-    gatherStats()
-    if (entitlement === undefined) {
-      return
-    }
-
-    return () => claimInterval && clearInterval(claimInterval)
-  }, [entitlement])
 
   const checkHanukaBonusDates = () => {
     const now = moment().utcOffset('+0200')
@@ -233,7 +187,7 @@ const Claim = props => {
 
     try {
       //when we come back from FR entitelment might not be set yet
-      const curEntitlement = claimState.entitlement || (await goodWallet.checkEntitlement().toNumber())
+      const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().toNumber())
       if (curEntitlement == 0) {
         return
       }
@@ -319,14 +273,14 @@ const Claim = props => {
       <Section.Stack style={styles.mainContainer} justifyContent="space-between">
         <View style={styles.headerContentContainer}>
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" style={styles.headerText}>
-            {claimState.entitlement ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
+            {dailyUbi ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
           </Section.Text>
-          {claimState.entitlement > 0 ? (
+          {dailyUbi > 0 ? (
             <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
               <View style={styles.amountBlock}>
                 <Section.Text color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
                   <BigGoodDollar
-                    number={entitlement}
+                    number={dailyUbi}
                     formatter={claimAmountFormatter}
                     fontFamily="Roboto"
                     bigNumberProps={{
@@ -367,9 +321,9 @@ const Claim = props => {
         <View style={styles.fakeClaimButton} />
         <ButtonBlock
           styles={styles}
-          entitlement={claimState.entitlement}
+          entitlement={dailyUbi}
           isCitizen={isCitizen}
-          nextClaim={claimState.nextClaim}
+          nextClaim={nextClaim}
           handleClaim={handleClaim}
           handleNonCitizen={handleFaceVerification}
           showLabelOnly
@@ -385,7 +339,7 @@ const Claim = props => {
             <Section.Text fontWeight="bold" style={styles.fontSize16}>
               <BigGoodDollar
                 style={styles.extraInfoAmountDisplay}
-                number={get(claimState, 'claimedToday.amount', 0)}
+                number={totalClaimed}
                 spaceBetween={false}
                 formatter={extraInfoAmountFormatter}
                 fontFamily="Roboto"

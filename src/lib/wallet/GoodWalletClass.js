@@ -537,13 +537,13 @@ export class GoodWallet {
 
       //if has current available amount to claim then he can claim  immediatly
       if (hasClaim > 0) {
-        return 0
+        return [0, hasClaim]
       }
 
       const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000))
       const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
       startRef.add(curDay + 1, 'days')
-      return startRef.valueOf()
+      return [startRef.valueOf(), 0]
     } catch (e) {
       log.error('getNextClaimTime failed', e.message, e, { category: ExceptionCategory.Blockhain })
       return Promise.reject(e)

@@ -1,19 +1,25 @@
 // @flow
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import AsyncStorage from '../utils/asyncStorage'
-import { isMobileSafari } from '../utils/platform'
 import restart from '../utils/restart'
+
+// hooks
 import SimpleStore from '../undux/SimpleStore'
-import { useErrorDialog } from '../undux/utils/dialog'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidemenu'
 
 // utils
 import { useWrappedApi } from '../API/useWrappedApi'
+import { isMobileOnly, isMobileSafari, isWeb } from '../utils/platform'
+import { openLink } from '../utils/linking'
+import Config from '../../config/config'
 
 // constants
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
+
+const { dashboardUrl } = Config
 
 export default (props = {}) => {
   const { navigation, theme } = props
@@ -95,6 +101,7 @@ export default (props = {}) => {
       //     slideOut()
       //   },
       // },
+
       {
         icon: 'export-wallet',
         size: 18,
@@ -124,11 +131,17 @@ export default (props = {}) => {
         centered: true,
         name: 'Statistics',
         action: () => {
+          slideOut()
+
+          if (isWeb && !isMobileOnly) {
+            openLink(dashboardUrl)
+            return
+          }
+
           navigation.navigate({
             routeName: 'Statistics',
             type: 'Navigation/NAVIGATE',
           })
-          slideOut()
         },
       },
       {

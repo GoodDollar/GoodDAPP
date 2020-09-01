@@ -15,9 +15,13 @@ describe('Test feeds', () => {
       LoginPage.mnemonicsInput.type(mnemonic)
       LoginPage.recoverWalletButton.click()
       LoginPage.yayButton.click()
+      HomePage.waitForHomePageDisplayed()
+      HomePage.profileAvatar.click()
+      HomePage.backArrow.eq(0).click()
+      cy.wait(3000) // wait for cards animation
+      
       HomePage.welcomeFeed.should('be.visible')
       cy.log(todaysDate)
-
       cy.contains('Welcome to GoodDollar!').should('be.visible')
       cy.contains('Welcome to GoodDollar!').click()
       cy.get('img[src="/static/media/invite.bbc5ae11.png"]').should('be.visible')

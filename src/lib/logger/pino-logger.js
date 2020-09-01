@@ -26,9 +26,10 @@ values(omit(LogEvent, 'Log')).forEach(level => {
   const events = [LogEvent.Log, level]
 
   logger[level] = (...args) => {
-    events.filter(event => emitter.listenerCount(event)).forEach(event => emitter.emit(event, ...args))
+    const result = proxy(...args)
 
-    return proxy(...args)
+    events.filter(event => emitter.listenerCount(event)).forEach(event => emitter.emit(event, ...args))
+    return result
   }
 })
 

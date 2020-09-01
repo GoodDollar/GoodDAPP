@@ -281,6 +281,11 @@ export class AnalyticsClass {
     const debouncedFireEvent = debounce(fireEvent, 500, { leading: true })
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category
+    let sessionUrlAtTime
+
+    if (isFullStoryEnabled && fullStory.ready) {
+      sessionUrlAtTime = fullStory.getCurrentSessionURL(true)
+    }
 
     if (
       categoryToPassIntoLog === Unexpected &&
@@ -290,7 +295,7 @@ export class AnalyticsClass {
     }
 
     if (isString(logMessage) && !logMessage.includes('axios')) {
-      const logPayload = {
+      debouncedFireEvent(ERROR_LOG, {
         unique: `${eMsg} ${logMessage} (${logContext.from})`,
         reason: logMessage,
         logContext,
@@ -298,15 +303,8 @@ export class AnalyticsClass {
         dialogShown,
         category: categoryToPassIntoLog,
         context,
-      }
-
-      if (isFullStoryEnabled && fullStory.ready) {
-        const sessionUrlAtTime = fullStory.getCurrentSessionURL(true)
-
-        assign(logPayload, { sessionUrlAtTime })
-      }
-
-      debouncedFireEvent(ERROR_LOG, logPayload)
+        sessionUrlAtTime,
+      })
     }
 
     if (!isSentryEnabled || isRunningTests) {
@@ -331,6 +329,7 @@ export class AnalyticsClass {
         logContext,
         eMsg,
         context,
+        sessionUrlAtTime,
       },
       {
         dialogShown,

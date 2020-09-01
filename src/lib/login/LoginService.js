@@ -1,7 +1,7 @@
 // @flow
 import AsyncStorage from '../utils/asyncStorage'
 import type { Credentials } from '../API/api'
-import API from '../API/api'
+import API, { getErrorMessage } from '../API/api'
 import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 
@@ -12,17 +12,17 @@ class LoginService {
 
   jwt: ?string
 
-  toSign: string = 'Login to GoodDAPP'
-
   constructor() {
     this.getJWT().then(jwt => (this.jwt = jwt))
   }
 
-  storeCredentials(creds: Credentials) {
+  // eslint-disable-next-line require-await
+  async storeCredentials(creds: Credentials) {
     if (!creds) {
       return
     }
-    AsyncStorage.setItem(CREDS, creds)
+
+    return AsyncStorage.setItem(CREDS, creds)
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -34,8 +34,20 @@ class LoginService {
   }
 
   async getCredentials(): Promise<?Credentials> {
-    const data = await AsyncStorage.getItem(CREDS)
-    return data
+    try {
+      const data = await AsyncStorage.getItem(CREDS)
+
+      if (!data) {
+        throw new Error('No credentials was stored in the AsyncStorage')
+      }
+
+      return data
+    } catch (exception) {
+      const { message } = exception
+
+      log.warn('Error fetching creds:', message, exception)
+      return null
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -55,8 +67,8 @@ class LoginService {
       creds = await this.login()
     }
 
-    log.info('signed message', creds)
     this.storeCredentials(creds)
+    log.info('signed message', creds)
 
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
     creds = await this.requestJWT(creds)
@@ -82,10 +94,12 @@ class LoginService {
 
       log.debug('Login success:', data)
       return { ...creds, jwt: data.token }
-    } catch (exception) {
-      const { message } = exception
+    } catch (e) {
+      const message = getErrorMessage(e)
+      const exception = new Error(message)
 
       log.error('Login service auth failed:', message, exception)
+
       throw exception
     }
   }

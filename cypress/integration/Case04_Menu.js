@@ -28,7 +28,7 @@ describe('Test case 4: Check menu items functionality', () => {
 
   it('Check Invite page', () => {
     HomePage.inviteTab.should('be.visible')
-    HomePage.inviteTab.click()
+    HomePage.inviteTab.click({ force: true })
     InvitePage.pageHeader.should('be.visible').contains('Invite')
     InvitePage.iframe.find(InvitePage.container).should('be.visible')
     InvitePage.iframe.find(InvitePage.inviteFriends).should('be.visible')

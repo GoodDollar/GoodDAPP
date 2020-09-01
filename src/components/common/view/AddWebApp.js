@@ -1,10 +1,18 @@
+import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
-import moment from 'moment'
+
+import Text from '../../common/view/Text'
+import Icon from '../view/Icon'
+
+import Config from '../../../config/config'
+import logger from '../../../lib/logger/pino-logger'
+
 import AsyncStorage from '../../../lib/utils/asyncStorage'
-import { isMobileSafari, isMobileWeb } from '../../../lib/utils/platform'
-import SimpleStore, { assertStore } from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
+import SimpleStore, { assertStore } from '../../../lib/undux/SimpleStore'
+import { isMobileSafari, isMobileWeb } from '../../../lib/utils/platform'
+
 import {
   ADDTOHOME,
   ADDTOHOME_LATER,
@@ -12,12 +20,9 @@ import {
   ADDTOHOME_REJECTED,
   fireEvent,
 } from '../../../lib/analytics/analytics'
+
 import { withStyles } from '../../../lib/styles'
 import AddAppSVG from '../../../assets/addApp.svg'
-import Icon from '../view/Icon'
-import Text from '../../common/view/Text'
-import logger from '../../../lib/logger/pino-logger'
-import Config from '../../../config/config'
 
 // import userStorage from '../../../lib/gundb/UserStorage'
 // import API from '../../../lib/API/api'

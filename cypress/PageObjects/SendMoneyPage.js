@@ -83,6 +83,34 @@ class SendMoneyPage {
       .value()
     )
   }
+
+  get alreadyUsedText() {
+    return cy.contains('Payment already withdrawn or canceled by sender')
+  }
+
+  get cancelButton() {
+    return cy.get('[role="button"]').contains('Cancel link')
+  }
+
+  get sendAddressButton() {
+    return cy.contains('Send to address')
+  }
+
+  get addressInput() {
+    return cy.get('input[placeholder="Enter Wallet Address"]')
+  }
+
+  get errorAddressText() {
+    return cy.contains('Invalid wallet address')
+  }
+
+  get errorMoneyText() {
+    return cy.contains(/Sorry, you don't have enough G/i)
+  }
+
+  get sendingText() {
+    return cy.contains(/YOU ARE SENDING/i)
+  }
 }
 
 export default new SendMoneyPage()

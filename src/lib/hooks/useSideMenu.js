@@ -1,6 +1,5 @@
 // @flow
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { AsyncStorage } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 
 // hooks
@@ -13,6 +12,7 @@ import { useWrappedApi } from '../API/useWrappedApi'
 import { isMobileOnly, isWeb } from '../utils/platform'
 import { openLink } from '../utils/linking'
 import Config from '../../config/config'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // constants
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'

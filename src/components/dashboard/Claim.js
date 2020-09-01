@@ -1,8 +1,9 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { AsyncStorage, View } from 'react-native'
+import { View } from 'react-native'
 import moment from 'moment'
 import { get } from 'lodash'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -291,7 +292,7 @@ const Claim = props => {
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
-        log.error('Claim transaction failed', '', null, {
+        log.error('Claim transaction failed', '', new Error('Failed to execute claim transaction'), {
           txHash: receipt.transactionHash,
           entitlement: curEntitlement,
           status: receipt.status,

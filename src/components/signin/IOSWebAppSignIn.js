@@ -3,7 +3,8 @@
 
 import bip39 from 'bip39-light'
 import React, { Fragment, useState } from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import { Image } from 'react-native'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
@@ -67,7 +68,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
 
         window.location = '/'
       } else {
-        log.error(errorText, '', null, {
+        log.error('Failed to sign-in', errorText, new Error(errorText), {
           code,
           category: ExceptionCategory.Human,
           dialogShown: true,
@@ -75,7 +76,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
         showErrorDialog(errorText)
       }
     } else {
-      log.error(errorText, '', null, {
+      log.error('Failed to sign-in', errorText, new Error(errorText), {
         code,
         category: ExceptionCategory.Human,
         dialogShown: true,

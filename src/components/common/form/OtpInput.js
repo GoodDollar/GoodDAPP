@@ -301,7 +301,7 @@ const OtpInput = (props: Props) => {
   const renderInputs = () => {
     const otp = getOtpValue()
     const inputs = []
-    const customPlaceholder = otp.some(value => value !== null && value !== undefined) ? '' : placeholder
+    const customPlaceholder = otp.some(value => value != null) ? '' : placeholder
 
     for (let i = 0; i < numInputs; i++) {
       inputs.push(

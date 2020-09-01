@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react'
-import { AsyncStorage } from 'react-native'
 
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import logger from '../logger/pino-logger'
 import IconWrapper from '../../components/common/modal/IconWrapper'
 import LoadingIcon from '../../components/common/modal/LoadingIcon'
 
 import retryImport from '../utils/retryImport'
+import { getErrorMessage } from '../API/api'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
@@ -64,16 +65,27 @@ export default ({ API, showErrorDialog, store, theme }) =>
                 log.debug('deleted account', isDeleted)
 
                 if (isDeleted) {
-                  token && API.deleteWalletFromW3Site(token).catch(e => log.warn(e.message, e))
+                  token &&
+                    API.deleteWalletFromW3Site(token).catch(e => {
+                      const errMsg = getErrorMessage(e)
+                      const exception = new Error(errMsg)
+
+                      log.warn('Failed to delete wallet from w3 site', { errMsg, exception })
+                    })
                   const req = deleteGunDB()
 
                   //remove all local data so its not cached and user will re-login
                   await Promise.all([AsyncStorage.clear(), req.catch()])
                   window.location = '/'
                 } else {
-                  log.error('Error deleting account', 'false from userStorage.deleteAccount()', null, {
-                    dialogShown: true,
-                  })
+                  log.error(
+                    'Error deleting account',
+                    'Received false from userStorage.deleteAccount()',
+                    new Error('Account is not deleted'),
+                    {
+                      dialogShown: true,
+                    },
+                  )
                   showErrorDialog('There was a problem deleting your account. Try again later.')
                 }
               } catch (e) {

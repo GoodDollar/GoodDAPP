@@ -1,9 +1,10 @@
 // @flow
+
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { AsyncStorage } from 'react-native'
-import { identity } from 'lodash'
+import { identity, isError } from 'lodash'
 
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
@@ -28,6 +29,19 @@ export type UserRecord = NameRecord &
   Credentials & {
     username?: string,
   }
+
+export const getErrorMessage = apiError => {
+  let { message } = apiError
+
+  // if the json or string http body was thrown from axios (error
+  // interceptor in api.js doest that in almost cases) then we're wrapping
+  // it onto Error object to keep correct stack trace for Sentry reporting
+  if (!isError(apiError)) {
+    message = apiError.error || apiError
+  }
+
+  return message
+}
 
 /**
  * GoodServer Client.
@@ -425,7 +439,8 @@ export class APIService {
       `${mauticUrl}/form/submit`,
       payload,
       () => log.info('addMauticContact success'),
-      ({ content }, xhr) => log.error('addMauticContact call failed:', '', null, { content }),
+      ({ content }, xhr) =>
+        log.error('addMauticContact call failed:', '', new Error('Error received from Mautic API'), { content }),
     )
   }
 

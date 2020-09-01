@@ -2,7 +2,7 @@
 
 // libraries
 import amplitude from 'amplitude-js'
-import { assign, debounce, forEach, get, isFunction, isString } from 'lodash'
+import { assign, debounce, forEach, get, isError, isFunction, isString } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
@@ -134,15 +134,6 @@ export const initAnalytics = async () => {
     identity.append('phase', String(phase))
     Amplitude.setVersionName(version)
     Amplitude.identify(identity)
-
-    if (isFSEnabled) {
-      fullStoryState.onReady(() => {
-        const sessionUrl = FS.getCurrentSessionURL()
-
-        // set session URL to user props once FS & Amplitude both initialized
-        Amplitude.setUserProperties({ sessionUrl })
-      })
-    }
   }
 
   if (isSentryEnabled) {
@@ -345,6 +336,11 @@ const patchLogger = () => {
     const [logContext, logMessage, eMsg = '', errorObj, extra = {}] = args
     let { dialogShown, category = Unexpected, ...context } = extra
     let categoryToPassIntoLog = category
+    let sessionUrlAtTime
+
+    if (fullStoryState.ready && isFSEnabled) {
+      sessionUrlAtTime = FS.getCurrentSessionURL(true)
+    }
 
     if (
       categoryToPassIntoLog === Unexpected &&
@@ -362,12 +358,7 @@ const patchLogger = () => {
         dialogShown,
         category: categoryToPassIntoLog,
         context,
-      }
-
-      if (fullStoryState.ready && isFSEnabled) {
-        const sessionUrlAtTime = FS.getCurrentSessionURL(true)
-
-        Object.assign(logPayload, { sessionUrlAtTime })
+        sessionUrlAtTime,
       }
 
       debounceFireEvent(ERROR_LOG, logPayload)
@@ -378,7 +369,7 @@ const patchLogger = () => {
     if (!isRunningTests) {
       let errorToPassIntoLog = errorObj
 
-      if (errorObj instanceof Error) {
+      if (isError(errorObj)) {
         savedErrorMessage = errorObj.message
         errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
       } else {
@@ -393,6 +384,7 @@ const patchLogger = () => {
           logContext,
           eMsg,
           context,
+          sessionUrlAtTime,
         },
         {
           dialogShown,

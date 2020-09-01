@@ -1,13 +1,27 @@
 // @flow
-import { noop, over } from 'lodash'
-import Zoom, { ZoomUxEvent } from 'react-native-zoom' // eslint-disable-line
+import { noop, over, constant } from 'lodash'
+// import Zoom, { ZoomUxEvent } from 'react-native-zoom'
 
 import api from '../../../../lib/API/api'
 import Config from '../../../../config/config'
 import logger from '../../../../lib/logger/pino-logger'
 
-// eslint-disable-next-line
-export { ZoomSDKStatus, ZoomSessionStatus } from 'react-native-zoom'
+// export { ZoomSDKStatus, ZoomSessionStatus } from 'react-native-zoom'
+// API stubs
+export const ZoomUxEvent = {}
+export const ZoomSDKStatus = {}
+export const ZoomSessionStatus = {}
+const noopAsync = async () => {}
+
+const Zoom = {
+  sdk: {
+    addListener: constant(noop),
+    preload: noopAsync,
+    initialize: noopAsync,
+    enroll: noopAsync,
+    unload: noopAsync,
+  }  
+}
 
 // sdk class
 export const ZoomSDK = new class {

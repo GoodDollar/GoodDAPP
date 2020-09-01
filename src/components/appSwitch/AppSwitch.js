@@ -1,14 +1,14 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
-import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import { debounce, get } from 'lodash'
 import moment from 'moment'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../lib/constants/login'
 
 import logger from '../../lib/logger/pino-logger'
-import API from '../../lib/API/api'
+import API, { getErrorMessage } from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -77,7 +77,7 @@ const AppSwitch = (props: LoadingProps) => {
   */
   const getParams = async () => {
     // const navInfo = router.getPathAndParamsForState(state)
-    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
+    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     AsyncStorage.removeItem(DESTINATION_PATH)
 
     if (destinationPath) {
@@ -113,8 +113,6 @@ const AppSwitch = (props: LoadingProps) => {
    * @returns {Promise<void>}
    */
   const initialize = async () => {
-    //initialize logged in user feed and stuff
-    // await userStorage.initRegistered()
     if (!assertStore(gdstore, log, 'Failed to initialize login/citizen status')) {
       return
     }
@@ -127,7 +125,7 @@ const AppSwitch = (props: LoadingProps) => {
       userStorage.getProfileFieldValue('inviteCode'),
     ])
 
-    log.debug({ isLoggedIn, isLoggedInCitizen, inviteCode })
+    log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen, inviteCode })
 
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
@@ -137,9 +135,26 @@ const AppSwitch = (props: LoadingProps) => {
       : REGISTRATION_METHOD_SELF_CUSTODY
     store.set('regMethod')(regMethod)
 
+    const email = await userStorage.getProfileFieldValue('email')
+    const identifier = goodWallet.getAccountForType('login')
+
+    identifyWith(email, identifier)
     if (isLoggedInCitizen) {
-      API.verifyTopWallet().catch(e => log.error('verifyTopWallet failed', e.message, e))
+      API.verifyTopWallet().catch(e => {
+        const message = getErrorMessage(e)
+        const exception = new Error(message)
+
+        log.error('verifyTopWallet failed', message, exception)
+      })
     }
+
+    // preloading Zoom (supports web + native)
+    if (isLoggedInCitizen === false) {
+      // don't awaiting for sdk ready here
+      // initialize() will await if preload hasn't completed yet
+      preloadZoomSDK(log) // eslint-disable-line require-await
+    }
+
     return isLoggedInCitizen
 
     // if (isLoggedIn) {
@@ -176,31 +191,15 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const init = async () => {
-    log.debug('initializing', gdstore)
+    log.debug('initializing')
 
     try {
-      const isCitizen = await initialize()
+      initialize()
 
-      //patch to fore phase0 users to go through face recognition
-      if (config.isPhaseZero && isCitizen) {
-        const [lastVerified, isWhitelisted] = await Promise.all([goodWallet.lastVerified(), goodWallet.isCitizen()])
-        if (isWhitelisted && lastVerified < new Date('06/02/2020')) {
-          await goodWallet.deleteAccount()
-          gdstore.set('isLoggedInCitizen')(false)
-        }
-      }
-      identifyWith(await userStorage.getProfileFieldValue('email'), goodWallet.getAccountForType('login'))
       checkBonusInterval()
       prepareLoginToken()
       runUpdates()
       showOutOfGasError(props)
-
-      // preloading Zoom (supports web + native)
-      if (isCitizen === false) {
-        // don't awaiting for sdk ready here
-        // initialize() will await if preload hasn't completed yet
-        preloadZoomSDK(log) // eslint-disable-line require-await
-      }
 
       setReady(true)
     } catch (e) {
@@ -263,7 +262,7 @@ const AppSwitch = (props: LoadingProps) => {
     ) {
       return
     }
-    userStorage.userProperties.set('lastBonusCheckDate', new Date().toISOString())
+    await userStorage.userProperties.set('lastBonusCheckDate', new Date().toISOString())
     await checkBonusesToRedeem()
   }
 
@@ -274,7 +273,8 @@ const AppSwitch = (props: LoadingProps) => {
         log.info('redeemBonuses', { resData: res && res.data })
       })
       .catch(err => {
-        log.error('Failed to redeem bonuses', err.message, err)
+        const message = getErrorMessage(err)
+        log.error('Failed to redeem bonuses', message, err)
 
         // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })

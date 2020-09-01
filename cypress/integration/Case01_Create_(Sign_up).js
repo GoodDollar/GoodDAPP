@@ -132,6 +132,17 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
       cy.log('ALL: ', LOCAL_STORAGE_MEMORY)
       cy.writeFile('cypress/fixtures/GDls.json', LOCAL_STORAGE_MEMORY)
     })
-    // HomePage.welcomeFeed.should('be.visible')
+
+    // check start feed
+    const todaysDate = Cypress.moment().format('DD.MM.YY')
+
+    HomePage.welcomeFeed.should('be.visible')
+    cy.log(todaysDate)
+    cy.contains('Welcome to GoodDollar!').should('be.visible')
+    cy.contains('Welcome to GoodDollar!').click()
+    cy.get('img[src="/static/media/invite.bbc5ae11.png"]').should('be.visible')
+    cy.contains('Welcome to GoodDollar!').should('be.visible')
+    cy.contains('GoodDollar coins every day').should('be.visible')
+    cy.get('[role="button"]').contains(/LET`S DO IT/i).click()
   })
 })

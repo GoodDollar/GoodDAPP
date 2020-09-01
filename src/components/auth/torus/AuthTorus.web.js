@@ -1,7 +1,8 @@
 // @flow
 /*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
-import { AsyncStorage, Image, TouchableOpacity, View } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
+import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
@@ -78,6 +79,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
     // for QA
     global.wallet = goodWallet
+
     await userStorage.ready
     log.debug('ready: userstorage ready')
 
@@ -102,13 +104,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const signupFacebook = () => handleSignUp('facebook')
   const signupAuth0 = loginType => handleSignUp(loginType === 'email' ? 'auth0-pwdless-email' : 'auth0-pwdless-sms')
 
-  const showLoadingDialog = success => {
+  const showLoadingDialog = () => {
     showDialog({
-      image: success ? undefined : <LoadingIcon />,
+      image: <LoadingIcon />,
       loading: true,
       message: 'Please wait\nThis might take a few seconds...',
       showButtons: false,
       title: `PREPARING\nYOUR WALLET`,
+      showCloseButtons: false,
     })
   }
 
@@ -146,10 +149,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       try {
         if (['development', 'test'].includes(config.env)) {
-          torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
+          torusUser = await AsyncStorage.getItem('TorusTestUser')
         }
 
-        showLoadingDialog(false)
+        showLoadingDialog()
+
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }

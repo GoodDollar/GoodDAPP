@@ -19,8 +19,7 @@ class Error extends AnimationBase {
         style={{
           width: getDesignRelativeWidth(97, false),
           marginHorizontal: 'auto',
-          paddingTop: 20,
-          paddingBottom: 20,
+          marginVertical: 'auto',
         }}
         loop={false}
       />

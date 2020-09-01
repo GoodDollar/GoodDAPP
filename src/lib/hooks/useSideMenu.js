@@ -141,7 +141,6 @@ export default (props = {}) => {
             routeName: 'Statistics',
             type: 'Navigation/NAVIGATE',
           })
-
         },
       },
       {

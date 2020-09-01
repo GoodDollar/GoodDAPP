@@ -10,7 +10,6 @@ import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
 import backupIllustration from '../../../assets/Feed/backup.png'
 import spendingIllustration from '../../../assets/Feed/spending.svg'
 import claimingIllustration from '../../../assets/Feed/claiming.svg'
-import hanukaStartsIllustration from '../../../assets/Feed/hanukaStarts.svg'
 import ReceivedAnimation from '../../common/animations/Received'
 import SendAnimation from '../../common/animations/Send'
 import { withStyles } from '../../../lib/styles'
@@ -83,11 +82,6 @@ export const getImageByType = (type, styles = {}) =>
       style: styles.spending,
       containerStyle: styles.mainPhotoContainer,
     },
-    hanukaStarts: {
-      src: hanukaStartsIllustration,
-      style: styles.hanukaStarts,
-      containerStyle: styles.mainImageContainer,
-    },
   }[type] || null)
 
 const TopImage = ({ type, styles }) => {
@@ -148,11 +142,6 @@ const getStylesFromProps = ({ theme }) => ({
     width: getDesignRelativeHeight(92),
     height: getDesignRelativeHeight(92),
     margin: 20,
-  },
-  hanukaStarts: {
-    width: getDesignRelativeHeight(190),
-    height: getDesignRelativeHeight(115),
-    margin: 10,
   },
 })
 

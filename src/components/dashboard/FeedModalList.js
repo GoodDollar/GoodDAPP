@@ -75,9 +75,10 @@ const FeedModalList = ({
       // https://stackoverflow.com/questions/40200660/react-native-scrollto-with-interactionmanager-not-working
       setTimeout(() => {
         flatListRef && flatListRef.current && flatListRef.current.scrollToOffset({ animated: false, offset })
+        setLoading(false)
       }, 0)
     }
-  }, [offset, flatListRef])
+  }, [offset, flatListRef, setLoading])
 
   const getItemLayout = useCallback(
     (_: any, index: number) => {

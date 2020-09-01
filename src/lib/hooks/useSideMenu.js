@@ -130,6 +130,8 @@ export default (props = {}) => {
         centered: true,
         name: 'Statistics',
         action: () => {
+          slideOut()
+          
           if (isWeb && !isMobileOnly) {
             openLink(dashboardUrl)
             return
@@ -140,7 +142,6 @@ export default (props = {}) => {
             type: 'Navigation/NAVIGATE',
           })
 
-          slideOut()
         },
       },
       {

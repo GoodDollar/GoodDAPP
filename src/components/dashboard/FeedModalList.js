@@ -15,6 +15,7 @@ export type FeedModalListProps = {
   handleFeedSelection: Function,
   selectedFeed: ?string,
   styles: Object,
+  navigation: any,
 }
 
 type ItemComponentProps = {
@@ -40,7 +41,7 @@ const slideEvent = once(() => {
 })
 
 const FeedModalList = ({
-  data,
+  data = [],
   onEndReached,
   handleFeedSelection,
   selectedFeed,
@@ -103,10 +104,10 @@ const FeedModalList = ({
 
   const keyExtractor = useCallback(item => item.id || item.createdDate, [])
 
-  const initialNumToRender = useMemo(
-    () => (selectedFeed ? Math.abs(data.findIndex(item => item.id === selectedFeed.id)) : 1),
-    [selectedFeed, data],
-  )
+  const initialNumToRender = useMemo(() => Math.abs(data.findIndex(item => item.id === selectedFeed.id)), [
+    selectedFeed,
+    data,
+  ])
 
   const handleScroll = useCallback(
     ({ nativeEvent }) => {
@@ -120,7 +121,7 @@ const FeedModalList = ({
     [offset, setLoading],
   )
 
-  const feeds = useMemo(() => (data && data instanceof Array && data.length ? data : [emptyFeed]), [data])
+  const feeds = useMemo(() => (Array.isArray(data) && data.length ? data : [emptyFeed]), [data])
 
   return (
     <Portal>

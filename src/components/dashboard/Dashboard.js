@@ -265,9 +265,12 @@ const Dashboard = props => {
     if (inQueue && inQueue.status === 'pending') {
       return
     }
-    const { entitlement } = gdstore.get('account')
+    const entitlement = await goodWallet
+      .checkEntitlement()
+      .then(_ => _.toNumber())
+      .catch(e => 0)
 
-    if (Number(entitlement)) {
+    if (entitlement) {
       Animated.sequence([
         Animated.timing(animValue, {
           toValue: 1.2,

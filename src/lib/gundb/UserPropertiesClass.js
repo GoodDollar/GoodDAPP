@@ -1,5 +1,5 @@
 // @flow
-import { assign, isUndefined } from 'lodash'
+import { assign, isUndefined, isNil } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -80,20 +80,23 @@ export default class UserProperties {
         log.warn('undefined props from decrypt')
       }
 
-      this.data = assign({}, defaultProperties, props)
+      syncProps(props)
     }
+    
+    const syncProps = props => this.data = assign({}, defaultProperties, props)
 
     this.ready = (async () => {
       const props = await AsyncStorage.getItem('props')
 
       //if not props then block
-      if (props == null) {
+      if (isNil(props)) {
         await fetchProps()
       } else {
-        //otherwise sync withs torage in background
-        this.data = assign({}, this.defaultProperties, props)
+        // otherwise sync withs storage in background
+        syncProps(props)
         fetchProps()
       }
+
       return this.data
     })()
   }

@@ -1,5 +1,5 @@
 // @flow
-import React, { createRef, useEffect, useState } from 'react'
+import React, { createRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
 import { Portal } from 'react-native-paper'
@@ -9,19 +9,9 @@ import { getMaxDeviceWidth, getScreenWidth } from '../../lib/utils/Orientation'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
 
-const VIEWABILITY_CONFIG = {
-  minimumViewTime: 3000,
-  viewAreaCoveragePercentThreshold: 100,
-  waitForInteraction: true,
-}
-
-const maxScreenWidth = getMaxDeviceWidth()
-const emptyFeed = { type: 'empty', data: {} }
-
 export type FeedModalListProps = {
   data: any,
   onEndReached: any,
-  initialNumToRender: ?number,
   handleFeedSelection: Function,
   selectedFeed: ?string,
   styles: Object,
@@ -36,10 +26,22 @@ type ItemComponentProps = {
   index: number,
 }
 
+const VIEWABILITY_CONFIG = {
+  minimumViewTime: 3000,
+  viewAreaCoveragePercentThreshold: 100,
+  waitForInteraction: true,
+}
+
+const maxScreenWidth = getMaxDeviceWidth()
+const emptyFeed = { type: 'empty', data: {} }
+
+const slideEvent = once(() => {
+  fireEvent(CARD_SLIDE)
+})
+
 const FeedModalList = ({
   data,
   onEndReached,
-  initialNumToRender,
   handleFeedSelection,
   selectedFeed,
   styles,
@@ -76,45 +78,62 @@ const FeedModalList = ({
     }
   }, [offset, flatListRef])
 
-  const getItemLayout = (_: any, index: number) => {
-    const length = screenWidth
-    return { index, length, offset: length * index }
-  }
-
-  const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <View style={styles.horizontalListItem}>
-      <FeedModalItem
-        navigation={navigation}
-        item={item}
-        separators={separators}
-        fixedHeight
-        onPress={() => handleFeedSelection(item, false)}
-      />
-    </View>
+  const getItemLayout = useCallback(
+    (_: any, index: number) => {
+      const length = screenWidth
+      return { index, length, offset: length * index }
+    },
+    [screenWidth],
   )
 
-  const slideEvent = once(() => {
-    fireEvent(CARD_SLIDE)
-  })
+  const renderItemComponent = useCallback(
+    ({ item, separators }: ItemComponentProps) => (
+      <View style={styles.horizontalListItem}>
+        <FeedModalItem
+          navigation={navigation}
+          item={item}
+          separators={separators}
+          fixedHeight
+          onPress={() => handleFeedSelection(item, false)}
+        />
+      </View>
+    ),
+    [handleFeedSelection, navigation],
+  )
 
-  const feeds = data && data instanceof Array && data.length ? data : undefined
+  const keyExtractor = useCallback(item => item.id || item.createdDate, [])
+
+  const initialNumToRender = useMemo(
+    () => (selectedFeed ? Math.abs(data.findIndex(item => item.id === selectedFeed.id)) : 1),
+    [selectedFeed, data],
+  )
+
+  const handleScroll = useCallback(
+    ({ nativeEvent }) => {
+      slideEvent()
+
+      // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
+      if (Math.abs(offset - nativeEvent.contentOffset.x) < 5) {
+        setLoading(false)
+      }
+    },
+    [offset, setLoading],
+  )
+
+  const feeds = useMemo(() => (data && data instanceof Array && data.length ? data : [emptyFeed]), [data])
+
   return (
     <Portal>
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
         <FlatList
+          key={selectedFeed.id || selectedFeed.createdDate}
+          keyExtractor={keyExtractor}
           style={styles.flatList}
-          onScroll={({ nativeEvent }) => {
-            slideEvent()
-
-            // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
-            if (Math.abs(offset - nativeEvent.contentOffset.x) < 5) {
-              setLoading(false)
-            }
-          }}
+          onScroll={handleScroll}
           contentContainerStyle={[styles.horizontalList, !isMobileOnly && { justifyContent: 'center' }]}
-          data={feeds && feeds.length ? feeds : [emptyFeed]}
+          data={feeds}
           getItemLayout={getItemLayout}
-          initialNumToRender={selectedFeed ? Math.abs(data.findIndex(item => item.id === selectedFeed.id)) : 1}
+          initialNumToRender={initialNumToRender}
           legacyImplementation={false}
           numColumns={1}
           onEndReached={onEndReached}

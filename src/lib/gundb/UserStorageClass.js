@@ -2635,7 +2635,7 @@ export class UserStorage {
       })
       .catch(gunError => {
         const status = { [label]: 'failed' }
-        const e = this._gunException(e)
+        const e = this._gunException(gunError)
 
         logger.debug('Cleanup:', e.message, e, status)
         return status

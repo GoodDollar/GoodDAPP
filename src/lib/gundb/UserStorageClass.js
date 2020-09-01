@@ -1748,7 +1748,7 @@ export class UserStorage {
             feedItem.otplStatus !== 'cancelled',
         )
         .map(feedItem => {
-          if (false == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
+          if (null == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
             return this.getFormatedEventById(feedItem.id)
           }
 

@@ -629,14 +629,6 @@ export class UserStorage {
       AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
       this.initFeed(),
       this.initProfile().catch(e => logger.error('failed initializing initProfile', e.message, e)),
-      this.gun
-        .get('users')
-        .get(this.gunuser.is.pub)
-        .putAck(this.gunuser)
-        .catch(e => {
-          logger.error('save ref to user failed:', e.message, e)
-          throw e
-        }), // save ref to user
     ]).catch(e => {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
@@ -645,8 +637,10 @@ export class UserStorage {
     this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
     this.initTokens().catch(e => logger.error('failed initializing initTokens', e.message, e))
 
-    // await Promise.all([this.startSystemFeed(), this.initTokens()])
-
+    this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .put(this.gunuser) // save ref to user
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
 

@@ -2483,10 +2483,10 @@ export class UserStorage {
     return exists
   }
 
-  _filterHelperFields(keys: Array<string>) {
-    return keys.filter(k => !['_', 'initialized'].includes(k))
-  }
-
+  /**
+   * @private
+   */
+  _getProfileFields = profile => filter(keys(profile), field => !['_', 'initialized'].includes(field))
   /**
    * remove user from indexes
    * deleting profile actually doenst delete but encrypts everything
@@ -2495,7 +2495,8 @@ export class UserStorage {
     this.unSubscribeProfileUpdates()
 
     // first delete from indexes then delete the profile itself
-    let profileFields = await this.profile.then(fields => this._filterHelperFields(keys(fields)))
+    const { profile, _getProfileFields } = this
+    let profileFields = await profile.then(_getProfileFields)
 
     logger.debug('Deleting profile fields', profileFields)
 

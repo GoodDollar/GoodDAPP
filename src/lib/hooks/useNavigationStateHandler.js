@@ -26,7 +26,7 @@ export default (options = {}) => {
       if (fireEvent) {
         fireEventFromNavigation(action)
       }
-      
+
       onChange(prevNav, nav, action)
     },
     [hideDialog, setSideMenu, setCurrentFeed, resetFeed, resetMenu, resetPopups, fireEvent, onChange],

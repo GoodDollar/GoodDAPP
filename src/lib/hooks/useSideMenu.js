@@ -131,12 +131,12 @@ export default (props = {}) => {
         name: 'Statistics',
         action: () => {
           slideOut()
-          
+
           if (isWeb && !isMobileOnly) {
             openLink(dashboardUrl)
             return
           }
-          
+
           navigation.navigate({
             routeName: 'Statistics',
             type: 'Navigation/NAVIGATE',

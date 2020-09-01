@@ -2,7 +2,6 @@
 import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
-  filter,
   find,
   flatten,
   get,
@@ -1290,7 +1289,7 @@ export class UserStorage {
    * @returns {object} UserModel with some inherit functions
    */
   getPrivateProfile(profile: {}): Promise<UserModel> {
-    const keys = Object.keys(profile).filter(k => ['initialized'].includes(k) === false)
+    const keys = this._filterHelperFields(Object.keys(profile))
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
         return values.reduce((acc, currValue, index) => {
@@ -2484,6 +2483,10 @@ export class UserStorage {
     return exists
   }
 
+  _filterHelperFields(keys: Array<string>) {
+    return keys.filter(k => !['_', 'initialized'].includes(k))
+  }
+
   /**
    * remove user from indexes
    * deleting profile actually doenst delete but encrypts everything
@@ -2492,9 +2495,7 @@ export class UserStorage {
     this.unSubscribeProfileUpdates()
 
     // first delete from indexes then delete the profile itself
-    let profileFields = await this.profile.then(fields =>
-      filter(keys(fields), field => !['_', 'initialized'].includes(field)),
-    )
+    let profileFields = await this.profile.then(fields => this._filterHelperFields(keys(fields)))
 
     logger.debug('Deleting profile fields', profileFields)
 

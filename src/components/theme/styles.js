@@ -45,7 +45,7 @@ export const theme = {
     defaultHalf: 4,
     borderRadius: 5,
     maxHeightForTabletAndDesktop: 844,
-    minHeightForDialogMessage: 334,
+    minHeightForDialogMessage: 350,
     maxWidthForTabletAndDesktop: 475,
   },
   fontStyle: {

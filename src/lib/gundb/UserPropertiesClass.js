@@ -1,5 +1,5 @@
 // @flow
-import { assign, isUndefined, isNil } from 'lodash'
+import { assign, isNil, isUndefined } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -55,6 +55,8 @@ export default class UserProperties {
   data: {}
 
   constructor(gun: Gun) {
+    const { defaultProperties } = UserProperties
+
     // creating getter for propsNode dynamically to avoid this.gun incapsulation
     Object.defineProperty(this, 'propsNode', {
       get: () => gun.user().get('properties'),
@@ -63,7 +65,7 @@ export default class UserProperties {
     const fetchProps = async () => {
       let props
       const { propsNode } = this
-      const { defaultProperties } = UserProperties
+
       try {
         //sync from storage
         props = await defer(() => fromPromise(propsNode.then(_ => propsNode.decrypt()))) // init user storage
@@ -82,13 +84,13 @@ export default class UserProperties {
 
       syncProps(props)
     }
-    
-    const syncProps = props => this.data = assign({}, defaultProperties, props)
+
+    const syncProps = props => (this.data = assign({}, defaultProperties, props))
 
     this.ready = (async () => {
       const props = await AsyncStorage.getItem('props')
 
-      //if not props then block
+      // if not props then block
       if (isNil(props)) {
         await fetchProps()
       } else {
@@ -135,17 +137,10 @@ export default class UserProperties {
    * Set value to multiple properties
    */
   async updateAll(properties: { [string]: any }): Promise<boolean> {
-    const { data, propsNode } = this
+    const { data } = this
 
     assign(data, properties)
-
-    try {
-      propsNode.secretAck(data)
-      await AsyncStorage.setItem('props', data)
-    } catch (e) {
-      log.error('set() / updateAll() user props failed:', e.message, e, { properties })
-      throw e
-    }
+    await this._storeProps(data, 'set() / updateAll()', { properties })
 
     return true
   }
@@ -154,19 +149,28 @@ export default class UserProperties {
    * Reset properties to the default state
    */
   async reset() {
-    const { propsNode } = this
     const { defaultProperties } = UserProperties
 
     this.data = assign({}, defaultProperties)
-
-    try {
-      propsNode.secretAck(defaultProperties)
-      await AsyncStorage.setItem('props', defaultProperties)
-    } catch (e) {
-      log.error('reset() user props failed:', e.message, e)
-      throw e
-    }
+    await this._storeProps(defaultProperties, 'reset()')
 
     return true
+  }
+
+  /**
+   * Helper method for store props both in the GUN and AsyncStorage
+   * @private
+   */
+  async _storeProps(data, logLabel, logPayload = {}) {
+    const { propsNode } = this
+    const logError = e => log.error(`${logLabel} user props failed:`, e.message, e, logPayload)
+
+    try {
+      propsNode.secretAck(data).catch(logError)
+      await AsyncStorage.setItem('props', data)
+    } catch (e) {
+      logError(e)
+      throw e
+    }
   }
 }

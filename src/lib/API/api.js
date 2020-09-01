@@ -388,13 +388,6 @@ export class APIService {
   }
 
   /**
-   * `/verify/hanuka-bonus` get api call
-   */
-  checkHanukaBonus() {
-    return this.client.get('/verify/hanuka-bonus')
-  }
-
-  /**
    * `/trust` get api call
    */
   getTrust() {

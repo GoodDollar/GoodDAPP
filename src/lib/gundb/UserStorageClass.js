@@ -228,24 +228,6 @@ export const startClaiming = {
   },
 }
 
-export const hanukaBonusStartsMessage = {
-  type: 'hanukaStarts',
-  status: 'completed',
-  data: {
-    customName: 'Collect extra GoodDollars\non every day of Hannukah',
-    subtitle: 'Hannukah Miracle Bonus',
-    readMore: 'Claim today for extra G$$$.',
-    receiptData: {
-      from: NULL_ADDRESS,
-    },
-    reason:
-      'Get an extra GoodDollar, on top of your daily collection, for every candle lit on the menorah today. Claim every day of Hannukah for a total bonus of G$44!\n\nHag Sameach!',
-    endpoint: {
-      fullName: 'Hannukah Miracle Bonus',
-    },
-  },
-}
-
 export const longUseOfClaims = {
   id: '5',
   type: 'claimsThreshold',
@@ -626,16 +608,6 @@ export class UserStorage {
       trustPromise,
       AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
       this.initFeed(),
-
-      // save ref to user
-      this.gun
-        .get('users')
-        .get(this.gunuser.is.pub)
-        .putAck(this.gunuser)
-        .catch(e => {
-          logger.error('save ref to user failed:', e.message, e)
-          throw e
-        }),
     ]).catch(e => {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
@@ -649,6 +621,11 @@ export class UserStorage {
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
 
+    // save ref to user
+    this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .put(this.gunuser)
     return true
   }
 
@@ -684,25 +661,6 @@ export class UserStorage {
   }
 
   async initTokens() {
-    if (this.userAlreadyExist() !== true) {
-      return
-    }
-    const initMarketToken = async () => {
-      if (Config.market) {
-        const r = await API.getMarketToken().catch(e => {
-          const errMsg = getErrorMessage(e)
-          const exception = new Error(errMsg)
-
-          logger.warn('failed fetching market token', { errMsg, exception })
-        })
-        token = get(r, 'data.jwt')
-        if (token) {
-          this.setProfileField('marketToken', token, 'private')
-        }
-        return token
-      }
-    }
-
     const initLoginToken = async () => {
       if (Config.enableInvites) {
         const r = await API.getLoginToken().catch(e => {
@@ -719,14 +677,13 @@ export class UserStorage {
       }
     }
 
-    let [token, inviteCode, marketToken] = await Promise.all([
+    let [token, inviteCode] = await Promise.all([
       this.getProfileFieldValue('loginToken'),
       this.getProfileFieldValue('inviteCode'),
-      this.getProfileFieldValue('marketToken'),
     ])
     logger.debug('initTokens: got profile tokens')
 
-    let [_token] = await Promise.all([token || initLoginToken(), marketToken || initMarketToken()])
+    let [_token] = token || (await initLoginToken())
 
     if (!inviteCode) {
       const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
@@ -1188,7 +1145,6 @@ export class UserStorage {
       await this.userProperties.set('firstVisitApp', Date.now())
     }
 
-    this.addHanukaBonusStartsCard()
     logger.debug('startSystemFeed: done')
   }
 
@@ -1268,25 +1224,6 @@ export class UserStorage {
   }
 
   /**
-   * add a hanuka bonus card to notify user that bonus period starts
-   *
-   * @returns {Promise<void>}
-   */
-  async addHanukaBonusStartsCard() {
-    const now = moment().utcOffset('+0200')
-    const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY').utcOffset('+0200')
-    const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY')
-      .endOf('day')
-      .utcOffset('+0200')
-
-    if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
-      hanukaBonusStartsMessage.id = `hanuka-${now.format('YYYY')}`
-
-      await this.enqueueTX(hanukaBonusStartsMessage)
-    }
-  }
-
-  /**
    * Returns profile attribute
    *
    * @param {string} field - Profile attribute
@@ -1306,7 +1243,7 @@ export class UserStorage {
           exception = new Error(reason)
         }
 
-        logger.error('getProfileFieldValue decrypt failed:', message, exception)
+        logger.error('getProfileFieldValue decrypt failed:', message, exception, { field })
       })
   }
 
@@ -1351,7 +1288,7 @@ export class UserStorage {
    * @returns {object} UserModel with some inherit functions
    */
   getPrivateProfile(profile: {}): Promise<UserModel> {
-    const keys = Object.keys(profile)
+    const keys = Object.keys(profile).filter(k => ['initialized'].includes(k) === false)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
         return values.reduce((acc, currValue, index) => {

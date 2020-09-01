@@ -14,10 +14,10 @@ import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 
 export default function createGun(options = {}) {
-  const { gunPublicUrl } = Config
+  const { gunPublicUrl, nodeEnv } = Config
   const gunOptions = []
 
-  if (process.env.NODE_ENV !== 'test') {
+  if (nodeEnv !== 'test') {
     gunOptions.push({
       ...options,
       peers: [gunPublicUrl],

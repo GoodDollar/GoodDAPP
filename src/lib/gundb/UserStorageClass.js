@@ -2602,8 +2602,8 @@ export class UserStorage {
         const cleanupPromises = [
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
           _trackStatus(this.deleteProfile(), 'profile'),
-          _trackStatus(() => userProperties.reset(), 'userprops'),
-          _trackStatus(() => gunuser.get('registered').putAck(false), 'registered'),
+          _trackStatus(userProperties.reset(), 'userprops'),
+          _trackStatus(gunuser.get('registered').putAck(false), 'registered'),
         ]
 
         deleteResults = await Promise.all(cleanupPromises)
@@ -2627,8 +2627,8 @@ export class UserStorage {
     return exception
   }
 
-  _trackStatus(promise, label) {
-    return promise
+  _trackStatus = (promise, label) =>
+    promise
       .then(() => {
         const status = { [label]: 'ok' }
 
@@ -2637,10 +2637,9 @@ export class UserStorage {
       })
       .catch(gunError => {
         const status = { [label]: 'failed' }
-        const e = this._gunException(e)
+        const e = this._gunException(gunError)
 
         logger.debug('Cleanup:', e.message, e, status)
         return status
       })
-  }
 }

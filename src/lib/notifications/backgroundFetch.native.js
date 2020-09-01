@@ -77,7 +77,7 @@ const task = async taskId => {
       message: `G$ ${feed.data.amount}`,
       id: feed.id,
       userInfo: { id: feed.id },
-    })
+    }),
   )
 }
 

@@ -63,7 +63,7 @@
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
     "@gooddollar/goodcontracts": "^2.0.0",
-    "@gooddollar/gun": "^0.2020.901",
+    "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-pk-auth": "^1.0.4",
     "@react-native-community/async-storage": "^1.12.0",
     "@react-native-community/clipboard": "^1.2.2",

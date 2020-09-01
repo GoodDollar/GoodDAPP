@@ -1,6 +1,5 @@
 // @flow
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { AsyncStorage } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 
 // hooks
@@ -10,6 +9,7 @@ import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidem
 
 // utils
 import { useWrappedApi } from '../API/useWrappedApi'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileOnly, isWeb } from '../utils/platform'
 import { openLink } from '../utils/linking'
 import Config from '../../config/config'

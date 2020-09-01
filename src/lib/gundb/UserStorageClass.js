@@ -2599,14 +2599,12 @@ export class UserStorage {
       deleteAccountResult = await API.deleteAccount()
 
       if (get(deleteAccountResult, 'data.ok', false)) {
-        const cleanupPromises = [
+        deleteResults = await Promise.all([
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
           _trackStatus(this.deleteProfile(), 'profile'),
-          _trackStatus(() => userProperties.reset(), 'userprops'),
-          _trackStatus(() => gunuser.get('registered').putAck(false), 'registered'),
-        ]
-
-        deleteResults = await Promise.all(cleanupPromises)
+          _trackStatus(userProperties.reset(), 'userprops'),
+          _trackStatus(gunuser.get('registered').putAck(false), 'registered'),
+        ])
       }
     } catch (e) {
       logger.error('deleteAccount unexpected error', e.message, e)
@@ -2627,8 +2625,8 @@ export class UserStorage {
     return exception
   }
 
-  _trackStatus(promise, label) {
-    return promise
+  _trackStatus = (promise, label) =>
+    promise
       .then(() => {
         const status = { [label]: 'ok' }
 
@@ -2642,5 +2640,4 @@ export class UserStorage {
         logger.debug('Cleanup:', e.message, e, status)
         return status
       })
-  }
 }

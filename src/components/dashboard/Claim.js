@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
-import moment from 'moment'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
@@ -15,7 +15,6 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { openLink } from '../../lib/utils/linking'
 import { formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
-import API from '../../lib/API/api'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { WrapperClaim } from '../common'
@@ -109,28 +108,7 @@ const Claim = props => {
     if (Config.nodeEnv !== 'test') {
       setLoading(true)
     }
-
-    await Promise.all([
-      goodWallet
-        .checkEntitlement()
-        .then(entitlement => setDailyUbi(entitlement.toNumber()))
-        .catch(exception => {
-          const { message } = exception
-          const uiMessage = decorate(exception, ExceptionCode.E2)
-
-          log.error('init checkentitlement failed', message, exception, {
-            dialogShown: true,
-            category: ExceptionCategory.Blockhain,
-          })
-
-          showErrorDialog(uiMessage, '', {
-            onDismiss: () => {
-              screenProps.goToRoot()
-            },
-          })
-        }),
-      evaluateFRValidity(),
-    ])
+    await evaluateFRValidity()
     setLoading(false)
   }
 
@@ -170,26 +148,14 @@ const Claim = props => {
     }
   }
 
-  const checkHanukaBonusDates = () => {
-    const now = moment().utcOffset('+0200')
-    const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY').utcOffset('+0200')
-    const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY')
-      .endOf('day')
-      .utcOffset('+0200')
-
-    if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
-      API.checkHanukaBonus()
-    }
-  }
-
   const handleClaim = async () => {
     setLoading(true)
 
     try {
-      //when we come back from FR entitelment might not be set yet
-      const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().toNumber())
+      // when we come back from FR entitelment might not be set yet
+      const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(_ => _.toNumber()))
 
-      if (curEntitlement === 0) {
+      if (!curEntitlement) {
         return
       }
 
@@ -228,10 +194,8 @@ const Claim = props => {
       if (receipt.status) {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash, claimValue: curEntitlement })
 
-        //fireGTMEvent({ event: 'claim-geo', claimValue: curEntitlement })
         const claimsSoFar = await advanceClaimsCounter()
         fireMauticEvent({ claim: claimsSoFar })
-        checkHanukaBonusDates()
 
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
           claimValue: weiToGd(curEntitlement),

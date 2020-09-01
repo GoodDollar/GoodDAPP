@@ -68,7 +68,7 @@ export default class UserProperties {
 
       try {
         //sync from storage
-        props = await defer(() => fromPromise(propsNode.then(_ => propsNode.decrypt()))) // init user storage
+        props = await defer(() => fromPromise(propsNode.then(() => propsNode.decrypt()))) // init user storage
           .pipe(retry(1)) // if exception thrown, retry init one more times
           .toPromise()
       } catch (exception) {

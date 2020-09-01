@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import useOnPress from '../../lib/hooks/useOnPress'
@@ -53,7 +53,7 @@ const Claim = props => {
 
   const [showDialog, , showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
-  const [claimInterval, setClaimInterval] = useState(null)
+  const claimInterval = useRef(null)
   const [nextClaim, setNextClaim] = useState('--:--:--')
   const [peopleClaimed, setPeopleClaimed] = useState('--')
   const [totalClaimed, setTotalClaimed] = useState('--')
@@ -113,8 +113,8 @@ const Claim = props => {
 
   useEffect(() => {
     init()
-    setClaimInterval(setInterval(gatherStats, 1000))
-    return () => claimInterval && clearInterval(claimInterval)
+    claimInterval.current = setInterval(gatherStats, 1000)
+    return () => claimInterval.current && clearInterval(claimInterval.current)
   }, [])
 
   const gatherStats = async () => {

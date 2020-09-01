@@ -257,6 +257,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -363,7 +364,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }
@@ -403,6 +404,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -509,7 +511,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }
@@ -549,6 +551,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -655,7 +658,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }
@@ -696,6 +699,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -802,7 +806,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }
@@ -842,6 +846,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -948,7 +953,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }
@@ -988,6 +993,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -1094,7 +1100,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }

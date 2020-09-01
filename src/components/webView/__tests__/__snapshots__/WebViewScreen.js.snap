@@ -99,11 +99,21 @@ exports[`WebViewScreen matches snapshot 1`] = `
   src="sourceUrl"
   style={
     Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
       "borderBottomWidth": "0px",
       "borderLeftWidth": "0px",
       "borderRightWidth": "0px",
       "borderTopWidth": "0px",
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
       "height": "100%",
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
       "overflowX": "hidden",
       "overflowY": "hidden",
       "width": "100%",
@@ -121,11 +131,21 @@ exports[`WebViewScreen matches snapshot 2`] = `
   src="https://community.gooddollar.org/terms/"
   style={
     Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
       "borderBottomWidth": "0px",
       "borderLeftWidth": "0px",
       "borderRightWidth": "0px",
       "borderTopWidth": "0px",
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
       "height": "100%",
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
       "overflowX": "hidden",
       "overflowY": "hidden",
       "width": "100%",

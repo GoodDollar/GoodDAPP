@@ -1289,7 +1289,7 @@ export class UserStorage {
    * @returns {object} UserModel with some inherit functions
    */
   getPrivateProfile(profile: {}): Promise<UserModel> {
-    const keys = this._filterHelperFields(Object.keys(profile))
+    const keys = this._getProfileFields(profile)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
         return values.reduce((acc, currValue, index) => {
@@ -2486,7 +2486,7 @@ export class UserStorage {
   /**
    * @private
    */
-  _getProfileFields = profile => filter(keys(profile), field => !['_', 'initialized'].includes(field))
+  _getProfileFields = profile => keys(profile).filter(field => !['_', 'initialized'].includes(field))
   /**
    * remove user from indexes
    * deleting profile actually doenst delete but encrypts everything

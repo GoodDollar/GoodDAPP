@@ -31,19 +31,22 @@ export const promisifyGun = async callback =>
     const onAck = once(ack => {
       const { err } = ack
 
+      // no err - resolve
       if (!err) {
         resolve(ack)
       }
 
+      // if ack.err is an JS error - rejecting with it
       let exception = err
 
+      // otherwise creating a new Error object
       if (!isError(err)) {
-        const message = isString(err) ? err : 'Unexpected error during write / encrypt operation'
-        const exception = new Error(message)
-
-        assign(exception, { ack })
+        // if ack.err is a string we'll use it as the error message
+        // in other case we'll add some generic message
+        exception = new Error(isString(err) ? err : 'Unexpected error during write / encrypt operation')
       }
 
+      assign(exception, { ack })
       reject(exception)
     })
 

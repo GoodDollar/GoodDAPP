@@ -1,21 +1,19 @@
 // @flow
-import React from 'react'
+import React, { useMemo } from 'react'
+import { constant, get } from 'lodash'
+
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 import useClaimQueue from '../../dashboard/Claim/useClaimQueue'
 
 const ClaimButton = ({ screenProps, styles }) => {
   const { queueStatus, handleClaim } = useClaimQueue()
-  const isPending = queueStatus && queueStatus.status === 'pending'
-  const canContinue = () => {
-    //if there's no status the first time then get it
-    //otherwise just return true.
-    //in case we already have status then button is disabled if pending so its ok to return true here.
-    if (queueStatus === undefined) {
-      return handleClaim()
-    }
-    return true
-  }
+  const isPending = get(queueStatus, 'status') === 'pending'
+
+  // if there's no status the first time then get it
+  // otherwise just return true.
+  // in case we already have status then button is disabled if pending so its ok to return true here.
+  const canContinue = useMemo(() => (queueStatus ? constant(true) : handleClaim), [handleClaim, queueStatus])
 
   return (
     <PushButton

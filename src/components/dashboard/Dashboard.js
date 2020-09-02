@@ -227,14 +227,16 @@ const Dashboard = props => {
   //as they come in, currently on each new item it simply reset the feed
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
   //which would lead to many unwanted subscribe/unsubscribe to gun
-  const subscribeToFeed = () =>
-    getFeedPage(true).then(
-      userStorage.feed.get('byid').on(data => {
-        log.debug('gun getFeed callback', { data })
+  const subscribeToFeed = async () => {
+    await getFeedPage(true)
 
-        getFeedPage(true)
-      }, true),
-    )
+    userStorage.feedEvents.on('updated', onFeedUpdated)
+  }
+
+  const onFeedUpdated = event => {
+    log.debug('feed cache updated', { event })
+    getFeedPage(true)
+  }
 
   const handleAppLinks = () => {
     const decodedHref = decodeURI(window.location.href)
@@ -440,6 +442,7 @@ const Dashboard = props => {
 
     return function() {
       Dimensions.removeEventListener('change', handleResize)
+      userStorage.feedEvents.off('updated', onFeedUpdated)
     }
   }, [])
 

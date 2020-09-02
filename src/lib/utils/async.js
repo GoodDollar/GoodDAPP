@@ -46,6 +46,7 @@ export const promisifyGun = async callback =>
         exception = new Error(isString(err) ? err : 'Unexpected error during write / encrypt operation')
       }
 
+      // attaching ack object reference to the error object
       assign(exception, { ack })
       reject(exception)
     })

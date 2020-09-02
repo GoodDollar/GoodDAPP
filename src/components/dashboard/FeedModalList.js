@@ -10,6 +10,7 @@ import { getScreenHeight, getScreenWidth } from '../../lib/utils/orientation'
 import { getMaxDeviceWidth } from '../../lib/utils/sizes'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
+import { emptyFeed, keyExtractor, VIEWABILITY_CONFIG } from './utils/feed'
 
 export type FeedModalListProps = {
   data: any,
@@ -29,17 +30,9 @@ type ItemComponentProps = {
   index: number,
 }
 
-const VIEWABILITY_CONFIG = {
-  minimumViewTime: 3000,
-  viewAreaCoveragePercentThreshold: 100,
-  waitForInteraction: true,
-}
-
 const screenWidth = Number(getScreenWidth())
 const maxScreenWidth = getMaxDeviceWidth()
 
-const emptyFeed = { type: 'empty', data: {} }
-const keyExtractor = useCallback(item => item.id || item.createdDate, [])
 const getItemLayout = (_, index) => ({ index, length: screenWidth, offset: screenWidth * index })
 
 const FeedModalList = ({

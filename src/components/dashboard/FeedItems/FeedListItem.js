@@ -2,6 +2,7 @@
 import React, { useCallback } from 'react'
 import { TouchableHighlight, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
+
 import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
 import useNavigationMacro from '../../../lib/hooks/useNavigationMacro'

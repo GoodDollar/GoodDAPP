@@ -1,5 +1,6 @@
 // @flow
-import React, { createRef, useCallback, useEffect, useMemo, useState } from 'react'
+
+import React, { createRef, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
 import { Portal } from 'react-native-paper'
@@ -36,9 +37,14 @@ const VIEWABILITY_CONFIG = {
 const maxScreenWidth = getMaxDeviceWidth()
 const emptyFeed = { type: 'empty', data: {} }
 
-const slideEvent = once(() => {
-  fireEvent(CARD_SLIDE)
-})
+const keyExtractor = useCallback(item => item.id || item.createdDate, [])
+
+const screenWidth = getScreenWidth()
+
+const getItemLayout = useCallback(
+  (_: any, index: number) => ({ index, length: screenWidth, offset: Number(screenWidth) * index }),
+  [],
+)
 
 const FeedModalList = ({
   data = [],
@@ -53,13 +59,12 @@ const FeedModalList = ({
   // Component is in loading state until matches the offset for the selected item
   const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState()
-  const screenWidth = getScreenWidth()
 
   // When screenWidth or selectedFeed changes needs to recalculate the offset
   useEffect(() => {
     const index = selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : 0
     setOffset(screenWidth * index)
-  }, [screenWidth, selectedFeed])
+  }, [selectedFeed])
 
   // When target offset changes (by the prev useEffect) scrollToOffset
   useEffect(() => {
@@ -80,14 +85,6 @@ const FeedModalList = ({
     }
   }, [offset, flatListRef, setLoading])
 
-  const getItemLayout = useCallback(
-    (_: any, index: number) => {
-      const length = screenWidth
-      return { index, length, offset: length * index }
-    },
-    [screenWidth],
-  )
-
   const renderItemComponent = useCallback(
     ({ item, separators }: ItemComponentProps) => (
       <View style={styles.horizontalListItem}>
@@ -103,16 +100,16 @@ const FeedModalList = ({
     [handleFeedSelection, navigation],
   )
 
-  const keyExtractor = useCallback(item => item.id || item.createdDate, [])
-
   const initialNumToRender = useMemo(() => Math.abs(data.findIndex(item => item.id === selectedFeed.id)), [
     selectedFeed,
     data,
   ])
 
+  const slideEventRef = useRef(once(() => fireEvent(CARD_SLIDE)))
+
   const handleScroll = useCallback(
     ({ nativeEvent }) => {
-      slideEvent()
+      slideEventRef.current()
 
       // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
       if (Math.abs(offset - nativeEvent.contentOffset.x) < 5) {

@@ -1,6 +1,7 @@
+// @flow
 import { isBrowser, isTablet } from '../utils/platform'
 
-import { getScreenHeight, getScreenWidth } from '../utils/Orientation'
+import { getScreenHeight, getScreenWidth } from './orientation'
 
 const height = getScreenHeight()
 const width = getScreenWidth()
@@ -21,10 +22,14 @@ const DESIGN_RESOLUTION = Math.sqrt(DESIGN_HEIGHT * DESIGN_HEIGHT + DESIGN_WIDTH
 
 const RESOLUTIONS_PROPORTION = CURRENT_RESOLUTION / DESIGN_RESOLUTION
 
-export default size => {
+function normalizeText(size) {
+  let normalizedSize = size
+
   if (RESOLUTIONS_PROPORTION < 1 && size > 16) {
-    return size * RESOLUTIONS_PROPORTION
+    normalizedSize *= RESOLUTIONS_PROPORTION
   }
 
-  return size
+  return normalizedSize
 }
+
+export default normalizeText

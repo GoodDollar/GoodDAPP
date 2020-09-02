@@ -4,7 +4,7 @@ import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-nati
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
-import { getScreenWidth } from '../../lib/utils/Orientation'
+import { getScreenWidth } from '../../lib/utils/orientation'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'

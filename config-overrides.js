@@ -4,13 +4,9 @@ let configType = process.env === 'production' ? 'prod' : 'dev'
 const webpackConfig = require(`./config/webpack.config.${configType}`)
 
 module.exports = {
-  webpack: (config) => {
-    assign(config, webpackConfig)
+  webpack: config => assign(config, webpackConfig),
 
-    return config
-  },
-
-  jest: function(config) {
+  jest: config => {
     config.transformIgnorePatterns = [
       'node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input|webrtc-adapter)'
     ]

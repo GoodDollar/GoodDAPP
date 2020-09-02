@@ -11,7 +11,7 @@ import AuthTorus from './components/auth/torus/AuthTorus'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
-import { getOriginalScreenHeight } from './lib/utils/Orientation'
+import { getOriginalScreenHeight } from './lib/utils/orientation'
 import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'

@@ -1,6 +1,6 @@
 import { defer, from as fromPromise, throwError, timer } from 'rxjs'
 import { mergeMap, retryWhen } from 'rxjs/operators'
-import { assign, once } from 'lodash'
+import { assign, isError, isString, once } from 'lodash'
 
 // eslint-disable-next-line require-await
 export const delay = async (millis, resolveWithValue = null) =>
@@ -35,9 +35,15 @@ export const promisifyGun = async callback =>
         resolve(ack)
       }
 
-      const exception = new Error(err)
+      let exception = err
 
-      assign(exception, { ack })
+      if (!isError(err)) {
+        const message = isString(err) ? err : 'Unexpected error during write / encrypt operation'
+        const exception = new Error(message)
+
+        assign(exception, { ack })
+      }
+
       reject(exception)
     })
 

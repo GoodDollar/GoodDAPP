@@ -1103,7 +1103,6 @@ export class UserStorage {
 
     // load unencrypted feed from cache
     this.feedIds = await AsyncStorage.getItem('GD_feed')
-      .then(JSON.parse)
       .catch(() => {
         logger.warn('failed parsing feed from cache')
       })

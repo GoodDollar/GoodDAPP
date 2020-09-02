@@ -5,7 +5,7 @@ import { Appbar } from 'react-native-paper'
 import Section from '../common/layout/Section'
 import Icon from '../common/view/Icon'
 
-import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
+import { getMaxDeviceHeight } from '../../lib/utils/sizes'
 import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 import useOnPress from '../../lib/hooks/useOnPress'
 import { useIframeLoaded } from './iframe.hooks.web'

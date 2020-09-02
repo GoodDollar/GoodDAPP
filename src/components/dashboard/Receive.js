@@ -2,7 +2,6 @@
 import React, { useCallback, useMemo } from 'react'
 import { PixelRatio, View } from 'react-native'
 import { isBrowser, isMobileOnlyWeb } from '../../lib/utils/platform'
-import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
@@ -11,7 +10,7 @@ import { PushButton } from '../appNavigation/PushButton'
 import { CopyButton, CustomButton, QRCode, ReceiveToAddressButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
 
 export type ReceiveProps = {
   screenProps: any,

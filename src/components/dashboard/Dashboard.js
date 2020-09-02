@@ -235,7 +235,7 @@ const Dashboard = props => {
 
   const onFeedUpdated = event => {
     log.debug('feed cache updated', { event })
-    getFeedPage(true)
+    getFeedPage(true)  
   }
 
   const handleAppLinks = () => {
@@ -269,7 +269,7 @@ const Dashboard = props => {
     if (Number(entitlement)) {
       Animated.sequence([
         Animated.timing(animValue, {
-          toValue: 1.2,
+          toValue: 1.4,
           duration: 750,
           easing: Easing.ease,
           delay: 1000,

@@ -1098,7 +1098,11 @@ export class UserStorage {
     this.feed.get('index').on(this.updateFeedIndex, false)
 
     // load unencrypted feed from cache
-    this.feedIds = await AsyncStorage.getItem('GD_feed').then(ids => ids || {})
+    this.feedIds = await AsyncStorage.getItem('GD_feed')
+      .catch(() => {
+        logger.warn('failed parsing feed from cache')
+      })
+      .then(ids => ids || {})
 
     //no need to block on this
     this._syncFeedCache()
@@ -2609,14 +2613,12 @@ export class UserStorage {
       deleteAccountResult = await API.deleteAccount()
 
       if (get(deleteAccountResult, 'data.ok', false)) {
-        const cleanupPromises = [
+        deleteResults = await Promise.all([
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
           _trackStatus(this.deleteProfile(), 'profile'),
-          _trackStatus(() => userProperties.reset(), 'userprops'),
-          _trackStatus(() => gunuser.get('registered').putAck(false), 'registered'),
-        ]
-
-        deleteResults = await Promise.all(cleanupPromises)
+          _trackStatus(userProperties.reset(), 'userprops'),
+          _trackStatus(gunuser.get('registered').putAck(false), 'registered'),
+        ])
       }
     } catch (e) {
       logger.error('deleteAccount unexpected error', e.message, e)
@@ -2637,8 +2639,8 @@ export class UserStorage {
     return exception
   }
 
-  _trackStatus(promise, label) {
-    return promise
+  _trackStatus = (promise, label) =>
+    promise
       .then(() => {
         const status = { [label]: 'ok' }
 
@@ -2647,10 +2649,9 @@ export class UserStorage {
       })
       .catch(gunError => {
         const status = { [label]: 'failed' }
-        const e = this._gunException(e)
+        const e = this._gunException(gunError)
 
         logger.debug('Cleanup:', e.message, e, status)
         return status
       })
-  }
 }

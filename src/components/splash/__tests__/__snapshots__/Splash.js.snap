@@ -126,6 +126,102 @@ exports[`Splash matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "vertical",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "column",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "stretch",
+              "flexDirection": "column",
+              "justifyContent": "space-between",
+              "msFlexAlign": "stretch",
+              "msFlexDirection": "column",
+              "msFlexPack": "justify",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            letterSpacing={0.13}
+            style={
+              Object {
+                "borderBottomColor": "rgba(0,0,0,1.00)",
+                "borderBottomStyle": "solid",
+                "borderBottomWidth": "2px",
+                "color": "rgba(255,255,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "26px",
+                "fontWeight": "700",
+                "letterSpacing": "0.13px",
+                "lineHeight": "32px",
+                "marginBottom": "10px",
+                "marginLeft": "auto",
+                "marginRight": "auto",
+                "paddingBottom": "8px",
+                "paddingLeft": "25px",
+                "paddingRight": "25px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            GoodDollar Demo
+          </div>
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            letterSpacing={0.24}
+            style={
+              Object {
+                "color": "rgba(255,255,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "500",
+                "letterSpacing": "0.24px",
+                "lineHeight": "22px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            All G$ coins in the demo
+are for test purposes only.
+Once all feedback is incorporated,
+
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              letterSpacing={0.24}
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "700",
+                  "letterSpacing": "0.24px",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              all demo G$ coins will be deleted.
+            </span>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
               "height": "550px",
               "marginBottom": "-120px",
               "marginTop": "-75px",
@@ -150,6 +246,7 @@ exports[`Splash matches snapshot 1`] = `
             }
           }
         >
+          Demo 
           V
           v0
         </div>

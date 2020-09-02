@@ -34,17 +34,12 @@ const VIEWABILITY_CONFIG = {
   waitForInteraction: true,
 }
 
+const screenWidth = Number (getScreenWidth())
 const maxScreenWidth = getMaxDeviceWidth()
+
 const emptyFeed = { type: 'empty', data: {} }
-
 const keyExtractor = useCallback(item => item.id || item.createdDate, [])
-
-const screenWidth = getScreenWidth()
-
-const getItemLayout = useCallback(
-  (_: any, index: number) => ({ index, length: screenWidth, offset: Number(screenWidth) * index }),
-  [],
-)
+const getItemLayout = (_, index) => ({ index, length: screenWidth, offset: screenWidth * index  })
 
 const FeedModalList = ({
   data = [],

@@ -1,0 +1,30 @@
+import { v4 as uuidv4 } from 'uuid'
+
+export const VIEWABILITY_CONFIG = {
+  minimumViewTime: 3000,
+  viewAreaCoveragePercentThreshold: 100,
+  waitForInteraction: true,
+}
+
+export const emptyFeed = { type: 'empty', data: {} }
+
+// the key should be always the same value.
+// so we'll use WeakMap to keep item -> id linked
+// 'createdDate' couldn't be used as the unique value
+// as it's stringified an millisecomds (which are making)
+// timestamps unique are lost
+const itemKeyMap = new WeakMap()
+
+export const keyExtractor = item => {
+  const { id } = item
+
+  if (id && String(id).length >= 60) {
+    return id
+  }
+
+  if (!itemKeyMap.has(item)) {
+    itemKeyMap.set(item, uuidv4())
+  }
+
+  return itemKeyMap.get(item)
+}

@@ -53,6 +53,7 @@ export type State = {
   isLoggedInCitizen: boolean,
   isLoggedIn: boolean,
   feedLoadAnimShown: boolean,
+  skipNavigationPopupHiding: boolean,
   wallet: any,
   userStorage: any,
   sidemenu: {
@@ -77,6 +78,7 @@ const initialState: State = {
   isLoggedInCitizen: false,
   isLoggedIn: false,
   feedLoadAnimShown: false,
+  skipNavigationPopupHiding: false,
   currentScreen: {
     dialogData: {
       visible: false,

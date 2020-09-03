@@ -1,18 +1,26 @@
 import { useCallback } from 'react'
 import { noop } from 'lodash'
-import { useCurriedSetters } from '../undux/SimpleStore.js'
+import SimpleStore, { useCurriedSetters } from '../undux/SimpleStore.js'
 import { useDialog } from '../undux/utils/dialog'
 import { fireEventFromNavigation } from '../analytics/analytics'
 
 export default (options = {}) => {
   const [, hideDialog] = useDialog()
-  const [setCurrentFeed, setSideMenu] = useCurriedSetters(['currentFeed', 'sidemenu'])
+  const store = SimpleStore.useStore()
+  const skipNavigationPopupHiding = store.get('skipNavigationPopupHiding')
+  const [setCurrentFeed, setSideMenu, setSkipNavigationPopupHiding] = useCurriedSetters([
+    'currentFeed',
+    'sidemenu',
+    'skipNavigationPopupHiding',
+  ])
   const { resetFeed = true, resetMenu = true, resetPopups = true, fireEvent = true, onChange = noop } = options
 
   return useCallback(
     (prevNav, nav, action) => {
-      if (resetPopups) {
+      if (resetPopups && !skipNavigationPopupHiding) {
         hideDialog()
+      } else {
+        setSkipNavigationPopupHiding(false)
       }
 
       if (resetFeed) {

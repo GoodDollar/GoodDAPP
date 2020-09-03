@@ -88,11 +88,9 @@ export default class UserProperties {
 
       // make sure we fetch props first and not having gun return undefined
       await propsNode.then()
-
       const props = await fetchProps()
 
-      this.data = props
-      return props
+      return (this.data = props)
     })()
   }
 
@@ -133,7 +131,14 @@ export default class UserProperties {
     const { data, propsNode } = this
 
     assign(data, properties)
-    await propsNode.secretAck(data)
+
+    try {
+      await propsNode.secretAck(data)
+    } catch (e) {
+      log.error('set() / updateAll() user props failed:', e.message, e, { properties })
+      throw e
+    }
+
     return true
   }
 
@@ -145,7 +150,13 @@ export default class UserProperties {
     const { defaultProperties } = UserProperties
 
     this.data = assign({}, defaultProperties)
-    await propsNode.secretAck(defaultProperties)
+
+    try {
+      await propsNode.secretAck(defaultProperties)
+    } catch (e) {
+      log.error('reset() user props failed:', e.message, e)
+      throw e
+    }
 
     return true
   }

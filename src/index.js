@@ -2,9 +2,9 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 import AsyncStorage from './lib/utils/asyncStorage'
+import './index.css'
 import App from './App'
 import './components/common/view/Icon/index.css'
 import { initStore, default as SimpleStore } from './lib/undux/SimpleStore'
@@ -25,7 +25,7 @@ const upgradeVersion = async () => {
   }
   const req = deleteGunDB()
 
-  //remove all local data so its not cached and user will re-login
+  // remove all local data so its not cached and user will re-login
   await Promise.all([AsyncStorage.clear(), req.catch()])
   return AsyncStorage.setItem('GD_version', required)
 }
@@ -34,7 +34,7 @@ const { hot } = require('react-hot-loader')
 const HotApp = hot(module)(App)
 
 // init().then(() => {
-//load simple store with initial async values from localStorage(asyncstorage)
+// load simple store with initial async values from localStorage(asyncstorage)
 upgradeVersion()
   .then(_ => initStore())
   .then(() => {

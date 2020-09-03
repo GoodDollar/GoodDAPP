@@ -2,8 +2,8 @@
 import { useEffect } from 'react'
 import SimpleStore, { setInitFunctions } from '../undux/SimpleStore'
 import logger from '../logger/pino-logger'
-import isWebApp from './isWebApp'
-import { isMobile } from './platform'
+import isWebApp from '../utils/isWebApp'
+import { isMobile } from '../utils/platform'
 
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false

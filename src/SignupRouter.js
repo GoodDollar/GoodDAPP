@@ -11,8 +11,8 @@ import AuthTorus from './components/auth/torus/AuthTorus'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
-import { fireEventFromNavigation } from './lib/analytics/analytics'
-import { getOriginalScreenHeight } from './lib/utils/Orientation'
+import { getOriginalScreenHeight } from './lib/utils/orientation'
+import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 
@@ -57,11 +57,13 @@ const Router = () => {
     minHeight = getOriginalScreenHeight()
   }
 
+  const navigationStateHandler = useNavigationStateHandler()
+
   return (
     <>
       <Blurred style={{ minHeight, ...fullScreenContainer }} blur={dialogVisible}>
         <View style={{ minHeight, ...fullScreenContainer }}>
-          <RouterWrapper onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
+          <RouterWrapper onNavigationStateChange={navigationStateHandler} />
         </View>
       </Blurred>
     </>

@@ -74,6 +74,8 @@ class PermissionsAPI {
         case Clipboard:
           await this._requestClipboardPermissions()
           break
+        default:
+          break
       }
 
       return true
@@ -152,7 +154,7 @@ class PermissionsAPI {
       log.warn('clipboard.readText() failed:', message, exception)
 
       // if clipboard access is denied then NotAllowedError will occur
-      if ('NotAllowedError' == name) {
+      if ('NotAllowedError' === name) {
         // rethrow exception for failure case
         throw exception
       }

@@ -257,6 +257,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -403,6 +404,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -549,6 +551,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -696,6 +699,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -842,6 +846,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -988,6 +993,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}

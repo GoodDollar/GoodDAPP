@@ -1,4 +1,4 @@
-package com.gooddollar;
+package org.gooddollar;
 
 import com.facebook.react.ReactActivity;
 import io.branch.rnbranch.*;
@@ -24,6 +24,6 @@ public class MainActivity extends ReactActivity {
   @Override
   public void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
-    setIntent(intent);
+    RNBranchModule.onNewIntent(intent);
   }
 }

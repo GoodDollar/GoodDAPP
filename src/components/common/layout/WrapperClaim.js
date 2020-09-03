@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import { isMobileNative, isMobileOnly } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import { getScreenWidth } from '../../../lib/utils/Orientation'
+import { getScreenWidth } from '../../../lib/utils/orientation'
 
 const gradientColors = [
   '#00AFFF',

@@ -63,7 +63,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     fireEvent(CLICK_BTN_RECOVER_WALLET)
 
     const showError = () => {
-      log.error('Incorrect pass phrase - wallet recover failed', '', null, {
+      const error = new Error('Incorrect pass phrase received')
+
+      log.error('Wallet recover failed', error.message, error, {
         mnemonics,
         category: ExceptionCategory.Human,
         dialogShown: true,

@@ -61,17 +61,13 @@ const ContinueButton = ({ push, to, disabled, checkError }) => {
     }
     log.debug(`Oops, no error and no action`)
   }, [checkError, goodWallet, push, to])
-  
+
   return (
-    <CustomButton
-      onPress={onContinue}
-      disabled={disabled}
-      style={{ flex: 2 }}
-    >
+    <CustomButton onPress={onContinue} disabled={disabled} style={{ flex: 2 }}>
       Next
     </CustomButton>
   )
-}  
+}
 
 const Send = ({ screenProps }) => {
   const [screenState, setScreenState] = useScreenState(screenProps)

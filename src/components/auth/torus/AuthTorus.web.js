@@ -1,7 +1,8 @@
 // @flow
 /*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
-import { AsyncStorage, Image, TouchableOpacity, View } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
+import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
@@ -21,6 +22,7 @@ import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { withStyles } from '../../../lib/styles'
 import illustration from '../../../assets/Auth/torusIllustration.svg'
+import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
@@ -78,6 +80,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
     // for QA
     global.wallet = goodWallet
+
     await userStorage.ready
     log.debug('ready: userstorage ready')
 
@@ -102,13 +105,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const signupFacebook = () => handleSignUp('facebook')
   const signupAuth0 = loginType => handleSignUp(loginType === 'email' ? 'auth0-pwdless-email' : 'auth0-pwdless-sms')
 
-  const showLoadingDialog = success => {
+  const showLoadingDialog = () => {
     showDialog({
-      image: success ? undefined : <LoadingIcon />,
+      image: <LoadingIcon />,
       loading: true,
       message: 'Please wait\nThis might take a few seconds...',
       showButtons: false,
       title: `PREPARING\nYOUR WALLET`,
+      showCloseButtons: false,
     })
   }
 
@@ -146,10 +150,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
       try {
         if (['development', 'test'].includes(config.env)) {
-          torusUser = await AsyncStorage.getItem('TorusTestUser').then(JSON.parse)
+          torusUser = await AsyncStorage.getItem('TorusTestUser')
         }
 
-        showLoadingDialog(false)
+        showLoadingDialog()
+
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
@@ -392,16 +397,23 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           </>
         )}
         <CustomButton
-          color={mainTheme.colors.googleRed}
-          style={styles.buttonLayout}
-          textStyle={[styles.buttonText, googleButtonTextStyle]}
+          compact={isSmallDevice}
+          mode="outlined"
+          style={styles.googleButtonLayout}
+          textStyle={{ width: '100%' }}
           onPress={googleButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_google"
         >
-          Agree & Continue with Google
+          <View style={styles.googleButtonContent}>
+            <Image source={googleBtnIcon} resizeMode="contain" style={styles.googleIcon} />
+            <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500}>
+              Agree & Continue with Google
+            </Text>
+          </View>
         </CustomButton>
         <CustomButton
+          compact={isSmallDevice}
           color={mainTheme.colors.facebookBlue}
           style={styles.buttonLayout}
           textStyle={[styles.buttonText, facebookButtonTextStyle]}
@@ -418,7 +430,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const buttonFontSize = normalizeText(isSmallDevice ? 15 : 16)
+  const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
 
   return {
     mainWrapper: {
@@ -437,6 +449,22 @@ const getStylesFromProps = ({ theme }) => {
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
+    },
+    googleButtonLayout: {
+      marginTop: getDesignRelativeHeight(theme.sizes.default),
+      marginBottom: getDesignRelativeHeight(theme.sizes.default),
+      borderWidth: 0,
+      boxShadow: '0 3px 15px -6px rgba(0,0,0,0.6)',
+    },
+    googleButtonContent: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    googleIcon: {
+      width: getDesignRelativeHeight(20),
+      height: getDesignRelativeHeight(20),
+      marginRight: getDesignRelativeWidth(10, false),
     },
     buttonText: {
       fontSize: buttonFontSize,

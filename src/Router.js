@@ -1,24 +1,24 @@
 // @flow
 import React from 'react'
 import { createNavigator, SwitchRouter } from '@react-navigation/core'
-import { createBrowserApp } from '@react-navigation/web'
-import { Platform } from 'react-native'
 import { Portal } from 'react-native-paper'
-import { createAppContainer } from 'react-navigation'
-import { navigationConfig } from './components/appNavigation/navigationConfig'
-import About from './components/about/AboutState'
 
+import AddWebApp from './components/common/view/AddWebApp'
+import InternetConnection from './components/common/connectionDialog/internetConnection'
+
+import About from './components/about/AboutState'
 import BackupWallet from './components/backupWallet/BackupWalletState'
 import ExportWallet from './components/backupWallet/ExportWalletData'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
-import GDStore from './lib/undux/GDStore'
-import { fireEventFromNavigation } from './lib/analytics/analytics'
-import AddWebApp from './components/common/view/AddWebApp'
-import { isInstalledApp } from './lib/utils/platform'
-import InternetConnection from './components/common/connectionDialog/internetConnection'
 import Splash from './components/splash/Splash'
-import './lib/notifications/backgroundFetch'
+
+import createApp from './lib/utils/createAppContainer'
+import { navigationConfig } from './components/appNavigation/navigationConfig'
+import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
+
+import GDStore from './lib/undux/GDStore'
+import { isInstalledApp } from './lib/utils/platform'
 
 const DisconnectedSplash = () => <Splash animation={false} />
 
@@ -40,20 +40,17 @@ const AppNavigator = createNavigator(
   navigationConfig,
 )
 
-const createApp = Platform.OS === 'web' ? createBrowserApp : createAppContainer
 const RouterWrapper = createApp(AppNavigator)
 
-const onRouteChange = (prevNav, nav, route) => {
-  fireEventFromNavigation(route)
-}
-
 const Router = () => {
+  const navigationStateHandler = useNavigationStateHandler()
+
   return (
     <GDStore.Container>
       <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
         {!isInstalledApp && <AddWebApp />}
         <Portal.Host>
-          <RouterWrapper onNavigationStateChange={onRouteChange} />
+          <RouterWrapper onNavigationStateChange={navigationStateHandler} />
         </Portal.Host>
       </InternetConnection>
     </GDStore.Container>

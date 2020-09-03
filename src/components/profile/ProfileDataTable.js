@@ -29,6 +29,7 @@ const ProfileDataTable = ({
 }) => {
   const phoneMeta = showCustomFlag && profile.mobile && parsePhoneNumberFromString(profile.mobile)
   const countryFlagUrl = useCountryFlagUrl(phoneMeta && phoneMeta.country)
+
   const verifyEdit = useCallback(
     (field, content) => {
       navigation.navigate('VerifyEdit', { field, content })

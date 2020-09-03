@@ -116,6 +116,7 @@ const usePermissions = (permission: Permission, options = {}) => {
         handleDenied()
         break
       case Undetermined:
+      default:
         // skipping clipboard permission request on Safari because it doesn't grants clipboard-read globally like Chrome
         // In Safari you should confirm each clipboard read operation by clicking "Paste" in the context menu appers when you're calling readText()
         if (Clipboard === permission && isSafari) {

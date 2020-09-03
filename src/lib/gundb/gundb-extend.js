@@ -18,7 +18,7 @@ assign(chain, {
    * fix gun issue https://github.com/amark/gun/issues/855
    */
   // eslint-disable-next-line require-await
-  async then(callback = null, wait = isMobileNative ? 1500 : 200) {
+  async then(callback = null, wait = isMobileNative ? 500 : 200) {
     // gun hack to wait for data
     const readPromise = new Promise(resolve => this.once(resolve, { wait }))
 
@@ -113,7 +113,7 @@ assign(User.prototype, {
 
     if (encryptedData != null) {
       if (!secureKey) {
-        throw new Error(`Decrypting key missing for ${path}`)
+        throw new Error(`Decrypting key missing for ${path} data:${encryptedData}`)
       }
 
       decryptedData = await SEA.decrypt(encryptedData, secureKey)

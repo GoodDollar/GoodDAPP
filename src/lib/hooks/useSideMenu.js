@@ -1,5 +1,5 @@
 // @flow
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { isMobileSafari } from 'mobile-device-detect'
 
 // hooks
@@ -26,25 +26,14 @@ export default (props = {}) => {
   const API = useWrappedApi()
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
-  const isLoggedIn = store.get('isLoggedIn')
+  const regMethod = store.get('regMethod')
+  const isSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
+
   const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
 
-  const [isSelfCustody, setIsSelfCustody] = useState(false)
   const slideToggle = useCallback(() => toggleSidemenu(store), [store])
   const slideIn = useCallback(() => showSidemenu(store), [store])
   const slideOut = useCallback(() => hideSidemenu(store), [store])
-
-  const getIsSelfCustody = () => {
-    if (isLoggedIn) {
-      const regMethod = store.get('regMethod')
-
-      setIsSelfCustody(regMethod === REGISTRATION_METHOD_SELF_CUSTODY)
-    }
-  }
-
-  useEffect(() => {
-    getIsSelfCustody()
-  }, [isLoggedIn])
 
   const bottomItems = useMemo(
     () => [

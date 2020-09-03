@@ -432,15 +432,14 @@ export const useScreenState = ({ setScreenState, screenState }: UseScreenProps):
   return [state || {}, setState]
 }
 
-export const getRoutePath = navState => {
-  let path = ''
+const traverseRoutes = (navState, onLeaf) => {
   const { index, routes } = navState
   let segment = routes[index]
 
   for (;;) {
-    const { index, key, routes } = segment
+    const { index, routes } = segment
 
-    path += '/' + key
+    onLeaf(segment)
 
     if (!isNumber(index)) {
       break
@@ -448,6 +447,18 @@ export const getRoutePath = navState => {
 
     segment = routes[index]
   }
+}
 
+export const getRoutePath = navState => {
+  let path = ''
+
+  traverseRoutes(navState, ({ key }) => (path += '/' + key))
   return path
+}
+
+export const getRouteName = navState => {
+  let name = ''
+
+  traverseRoutes(navState, ({ routeName }) => (name = routeName))
+  return name
 }

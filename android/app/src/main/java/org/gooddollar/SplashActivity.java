@@ -1,4 +1,4 @@
-package com.gooddollar;
+package org.gooddollar;
 
 import android.content.Intent;
 import android.os.Bundle;

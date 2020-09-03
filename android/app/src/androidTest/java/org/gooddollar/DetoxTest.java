@@ -1,4 +1,4 @@
-package com.gooddollar;
+package org.gooddollar;
 
 import com.wix.detox.Detox;
 

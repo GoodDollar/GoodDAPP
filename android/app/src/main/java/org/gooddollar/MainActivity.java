@@ -1,4 +1,4 @@
-package com.gooddollar;
+package org.gooddollar;
 
 import com.facebook.react.ReactActivity;
 import io.branch.rnbranch.*;

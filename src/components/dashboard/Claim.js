@@ -1,4 +1,5 @@
 // @flow
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import moment from 'moment'
@@ -20,7 +21,7 @@ import API from '../../lib/API/api'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { WrapperClaim } from '../common'
-import LoadingIcon from '../common/modal/LoadingIcon'
+import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 import { withStyles } from '../../lib/styles'
 import {
   CLAIM_FAILED,
@@ -53,6 +54,14 @@ const log = logger.child({ from: 'Claim' })
 const bigFontSize = isSmallDevice ? 30 : 40
 const regularFontSize = isSmallDevice ? 14 : 16
 
+const LoadingAnimation = ({ success }) => (
+  <View style={{ alignItems: 'center' }}>
+    <SpinnerCheckMark successSpeed={3} success={success} width={175} height={'auto'} />
+  </View>
+)
+
+const EmulateButtonSpace = () => <View style={{ paddingTop: 16, minHeight: 44, visibility: 'hidden' }} />
+
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
   const store = SimpleStore.useStore()
@@ -62,7 +71,9 @@ const Claim = props => {
   const isCitizen = gdstore.get('isLoggedInCitizen')
 
   const [showDialog, , showErrorDialog] = useDialog()
-  const [loading, setLoading] = useState(false)
+
+  // use loading variable if required
+  const [, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
   const [claimState, setClaimState]: [ClaimState, Function] = useState({
     nextClaim: '--:--:--',
@@ -239,10 +250,9 @@ const Claim = props => {
       }
 
       showDialog({
-        image: <LoadingIcon />,
-        loading,
-        message: 'please wait while processing...',
-        showButtons: false,
+        image: <LoadingAnimation />,
+        message: 'please wait while processing...\n ',
+        buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
         title: `YOUR MONEY\nIS ON ITS WAY...`,
       })
 
@@ -284,11 +294,10 @@ const Claim = props => {
         })
 
         showDialog({
+          image: <LoadingAnimation success />,
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
           title: 'CHA-CHING!',
-          type: 'success',
-          onDismiss: () => screenProps.goToRoot(),
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })

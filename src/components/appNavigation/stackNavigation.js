@@ -3,6 +3,8 @@ import React, { Component, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
+import { isNumber } from 'lodash'
+
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/orientation'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -463,4 +465,24 @@ export const useScreenState = ({ setScreenState, screenState }: UseScreenProps):
   }
 
   return [state || {}, setState]
+}
+
+export const getRoutePath = navState => {
+  let path = ''
+  const { index, routes } = navState
+  let segment = routes[index]
+
+  for (;;) {
+    const { index, key, routes } = segment
+
+    path += '/' + key
+
+    if (!isNumber(index)) {
+      break
+    }
+
+    segment = routes[index]
+  }
+
+  return path
 }

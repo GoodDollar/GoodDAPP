@@ -20,8 +20,6 @@ import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 import GDStore from './lib/undux/GDStore'
 import { isInstalledApp } from './lib/utils/platform'
 
-import './lib/notifications/backgroundFetch'
-
 const DisconnectedSplash = () => <Splash animation={false} />
 
 const AppNavigator = createNavigator(

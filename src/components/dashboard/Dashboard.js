@@ -20,6 +20,7 @@ import {
   WITHDRAW_STATUS_PENDING,
   WITHDRAW_STATUS_UNKNOWN,
 } from '../../lib/wallet/GoodWalletClass'
+import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
@@ -338,6 +339,7 @@ const Dashboard = props => {
     InteractionManager.runAfterInteractions(handleAppLinks)
 
     Dimensions.addEventListener('change', handleResize)
+    initBGFetch()
   }
 
   // The width of the balance block required to place the balance block at the center of the screen

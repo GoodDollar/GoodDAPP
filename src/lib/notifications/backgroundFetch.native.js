@@ -40,7 +40,7 @@ const task = async taskId => {
     return BackgroundFetch.finish(taskId)
   }
 
-  const lastFeedCheck = await userStorage.feed.get('lastSeenDate')
+  const lastFeedCheck = await userStorage.feed.get('lastSeenDate').then()
   const feed = await userStorage.getFeedPage(20, true)
 
   log.info('lastFeedCheck', lastFeedCheck)
@@ -56,21 +56,20 @@ const task = async taskId => {
 
   const newFeeds = feed.filter(feedItem => {
     const { type, status, date } = feedItem
-    const feedDate = moment(date).valueOf()
+    const feedDate = moment(new Date(date)).valueOf()
     const newFeedItem = (hasNewPayment(type, status) || hasNewPaymentWithdraw(type, status)) && lastFeedCheck < feedDate
     return newFeedItem && feedItem
   })
 
-  await userStorage.feed.put({
-    lastSeenDate: Date.now(),
-  })
+  userStorage.feed.get('lastSeenDate').put(Date.now())
 
-  log.info('newFeed', newFeeds)
+  log.info('new feed items', { newFeeds })
 
-  if (!newFeeds) {
+  if (newFeeds.length === 0) {
     return BackgroundFetch.finish(taskId)
   }
 
+  log.info('pushing local notifications for feed items:', { total: newFeeds.length })
   newFeeds.map(feed =>
     PushNotification.localNotification({
       title: `Payment from/to ${feed.data.counterPartyDisplayName} received/accepted`,
@@ -90,12 +89,14 @@ const taskManagerErrorHandler = error => {
   log.info('[js] RNBackgroundFetch failed to start')
 }
 
-BackgroundFetch.configure(options, task, taskManagerErrorHandler)
-BackgroundFetch.registerHeadlessTask(androidHeadlessTask)
-BackgroundFetch.scheduleTask({ taskId: 'org.gooddollar.bgfetch' })
-
 // eslint-disable-next-line require-await
 const waitUntil = async ms => new Promise((_, reject) => setTimeout(() => reject(new Error('Timed out')), ms))
 
 // eslint-disable-next-line require-await
 const hasConnection = async () => Promise.race([Promise.all([goodWallet.ready, userStorage.ready]), waitUntil(10000)])
+
+export const initBGFetch = () => {
+  BackgroundFetch.configure(options, task, taskManagerErrorHandler)
+  BackgroundFetch.registerHeadlessTask(androidHeadlessTask)
+  BackgroundFetch.scheduleTask({ taskId: 'org.gooddollar.bgfetch' })
+}

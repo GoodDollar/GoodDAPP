@@ -582,12 +582,9 @@ export class UserStorage {
     //try to make sure all gun SEA  decryption keys are preloaded
     this.gunuser.get('trust').load()
 
-    const gunuser = this.gun.user().then(res => res)
-
     logger.debug('GunDB logged in', {
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
-      gunuser,
     })
 
     // await Promise.all([this.initProperties(), this.initProfile()])

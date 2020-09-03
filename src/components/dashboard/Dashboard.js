@@ -545,7 +545,7 @@ const Dashboard = props => {
 
         if (transactionHash) {
           fireEvent('WITHDRAW')
-          hideDialog()
+
           showDialog({
             title: 'Payment Link Processed Successfully',
             image: <SuccessIcon />,
@@ -606,6 +606,8 @@ const Dashboard = props => {
         log.error('withdraw failed:', message, exception, { dialogShown: true })
         showErrorDialog(uiMessage)
       } finally {
+        // skip hiding displayed popup on navigation state changes to prevent closing successful withdraw dialog
+        store.set('skipNavigationPopupHiding')(true)
         navigation.setParams({ paymentCode: undefined })
       }
     },

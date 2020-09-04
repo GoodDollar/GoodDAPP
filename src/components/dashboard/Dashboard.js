@@ -88,7 +88,8 @@ export type DashboardProps = {
 }
 
 const Dashboard = props => {
-  const queueStatusRef = useRef()
+  const queueStatusRef = useRef({ status: '', set: false })
+  const animateNextChangeRef = useRef(false)
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
@@ -257,13 +258,19 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (appState === 'active' && Number(entitlement)) {
-      animateClaim()
+    if (appState !== 'active' || Number(entitlement) <= 0) {
+      return
     }
+    
+    queueStatusRef.current.set 
+      ? animateClaim() 
+      : (animateNextChangeRef.current = true)
   }, [appState, entitlement])
 
   const animateClaim = useCallback(() => {
-    if (queueStatusRef.current === 'pending') {
+    const { status, set } = queueStatusRef.current
+        
+    if (!set || status === 'pending') {
       return
     }
 
@@ -282,9 +289,24 @@ const Dashboard = props => {
     ]).start()
   }, [gdstore, animValue, entitlement])
 
-  const saveQueueStatus = useCallback(status => {
-    queueStatusRef.current = status
+  const setQueueStatus = useCallback(status => {
+     const { current: queueStatus } = queueStatusRef
+     
+     assign(queueStatus, { status })
+     
+     if (!queueStatus.set) {
+       queueStatus.set = true
+     }
   }, [])
+  
+  const handleQueueStatus = useCallback(status => {
+    setQueueStatus(status)
+    
+    if (animateNextChangeRef.current) {      
+      animateNextChangeRef.current = false
+      animateClaim()
+    }
+  }, [animateClaim, setQueueStatus])
 
   const showDelayed = useCallback(() => {
     if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
@@ -669,7 +691,7 @@ const Dashboard = props => {
             <ClaimButton
               screenProps={screenProps}
               amount={weiToMask(entitlement, { showUnits: true })}
-              queueStatusCb={saveQueueStatus}
+              onStatusChange={handleQueueStatus}
             />
           </Animated.View>
           <PushButton

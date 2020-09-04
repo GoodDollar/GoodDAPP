@@ -7,13 +7,12 @@ import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
 import useClaimQueue from '../../dashboard/Claim/useClaimQueue'
 
-const ClaimButton = ({ screenProps, styles, queueStatusCb = noop }) => {
+const ClaimButton = ({ screenProps, styles, onStatusChange = noop }) => {
   const { queueStatus, handleClaim } = useClaimQueue()
-  const isPending = get(queueStatus, 'status') === 'pending'
+  const { status } = queueStatus || {}
+  const isPending = status === 'pending'
 
-  useEffect(() => {
-    queueStatusCb(queueStatus)
-  }, [queueStatus])
+  useEffect(() => void onStatusChange(status), [status, onStatusChange])
 
   // if there's no status the first time then get it
   // otherwise just return true.

@@ -394,6 +394,7 @@ const Claim = props => {
                   fontFamily: 'Roboto',
                   fontSize: regularFontSize,
                   color: 'black',
+                  lineHeight: 22,
                 }}
                 bigNumberUnitProps={{
                   fontFamily: 'Roboto',

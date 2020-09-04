@@ -3,7 +3,6 @@ import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
-import { isNumber } from 'lodash'
 
 import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -430,35 +429,4 @@ export const useScreenState = ({ setScreenState, screenState }: UseScreenProps):
   }
 
   return [state || {}, setState]
-}
-
-const traverseRoutes = (navState, onLeaf) => {
-  const { index, routes } = navState
-  let segment = routes[index]
-
-  for (;;) {
-    const { index, routes } = segment
-
-    onLeaf(segment)
-
-    if (!isNumber(index)) {
-      break
-    }
-
-    segment = routes[index]
-  }
-}
-
-export const getRoutePath = navState => {
-  let path = ''
-
-  traverseRoutes(navState, ({ key }) => (path += '/' + key))
-  return path
-}
-
-export const getRouteName = navState => {
-  let name = ''
-
-  traverseRoutes(navState, ({ routeName }) => (name = routeName))
-  return name
 }

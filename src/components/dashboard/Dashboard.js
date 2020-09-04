@@ -294,7 +294,7 @@ const Dashboard = props => {
         easing: Easing.ease,
       }),
     ]).start()
-  }, [gdstore, animValue, entitlement])
+  }, [animValue])
 
   const setQueueStatus = useCallback(status => {
     const { current: queueStatus } = queueStatusRef

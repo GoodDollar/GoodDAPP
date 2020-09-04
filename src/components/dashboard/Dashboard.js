@@ -523,7 +523,7 @@ const Dashboard = props => {
 
         if (transactionHash) {
           fireEvent('WITHDRAW')
-          hideDialog()
+
           showDialog({
             title: 'Payment Link Processed Successfully',
             image: <SuccessIcon />,

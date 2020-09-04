@@ -12,7 +12,7 @@ import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blurred'
 import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
-import { getOriginalScreenHeight } from './lib/utils/Orientation'
+import { getOriginalScreenHeight } from './lib/utils/orientation'
 import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'

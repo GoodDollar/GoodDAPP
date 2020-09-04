@@ -1,5 +1,5 @@
 // @flow
 
-export const env = process.env.REACT_APP_ENV || 'development'
+export const env = env => env || 'development'
 
 export const fixNL = envValue => (envValue || '').replace(/\\n/gm, '\n')

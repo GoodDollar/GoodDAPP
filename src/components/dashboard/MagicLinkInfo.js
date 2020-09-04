@@ -2,7 +2,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { fireEvent } from '../../lib/analytics/analytics'
-import API from '../../lib/API/api'
+import API, { getErrorMessage } from '../../lib/API/api'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -33,7 +33,10 @@ const MagicLinkInfoComponent = props => {
         })
       })
       .catch(e => {
-        log.error('failed Resending magiclink', e.message, e, { dialogShown: true })
+        const message = getErrorMessage(e)
+        const exception = new Error(message)
+
+        log.error('failed Resending magiclink', message, exception, { dialogShown: true })
         showErrorDialog('Could not send magic-link email. Please try again.')
       })
   }, [screenProps, showErrorDialog])

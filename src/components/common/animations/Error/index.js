@@ -17,12 +17,9 @@ class Error extends AnimationBase {
         source={this.improveAnimationData(animationData)}
         autoSize={false}
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
           width: getDesignRelativeWidth(97, false),
           marginHorizontal: 'auto',
-          marginVertical: 20,
+          marginVertical: 'auto',
         }}
         loop={false}
       />

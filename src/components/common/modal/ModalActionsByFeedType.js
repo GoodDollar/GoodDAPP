@@ -1,4 +1,5 @@
 // @flow
+
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { pickBy } from 'lodash'
@@ -116,7 +117,6 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         result = { url: result }
       }
 
-      fireEventAnalytics('Sharelink')
       return result
     } catch (exception) {
       const { message } = exception
@@ -162,6 +162,8 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     handleModalClose()
   }, [handleModalClose, navigation])
 
+  const shareLinkClicked = useCallback(() => fireEventAnalytics('Sharelink'), [])
+
   useEffect(() => {
     if ('sendpending' !== item.displayType) {
       return
@@ -199,6 +201,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
             <ShareButton
               disabled={!paymentLinkForShare}
               share={paymentLinkForShare}
+              onPressed={shareLinkClicked}
               actionText="Share link"
               mode="outlined"
               style={[styles.rightButton, styles.shareButton]}

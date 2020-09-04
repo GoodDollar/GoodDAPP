@@ -111,7 +111,8 @@ class Auth extends React.Component<Props> {
         const req = deleteGunDB()
         await req
       } else {
-        await AsyncStorage.clear()
+        //this is commented since on native it will also clear the MNEMONIC that was used to create the account
+        // await AsyncStorage.clear()
       }
 
       log.info('indexedDb successfully cleared')

@@ -2,6 +2,7 @@
 import type { Credentials } from '../API/api'
 import logger from '../logger/pino-logger'
 import LoginService from './LoginService'
+
 const log = logger.child({ from: 'GoodWalletLogin' })
 
 class GoodWalletLogin extends LoginService {

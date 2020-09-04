@@ -20,11 +20,11 @@ import {
   WITHDRAW_STATUS_PENDING,
   WITHDRAW_STATUS_UNKNOWN,
 } from '../../lib/wallet/GoodWalletClass'
+import { initBGFetch } from '../../lib/notifications/backgroundFetch'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
 
-import { getMaxDeviceWidth } from '../../lib/utils/Orientation'
 import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import useAppState from '../../lib/hooks/useAppState'
@@ -44,7 +44,7 @@ import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getMaxDeviceWidth } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
@@ -233,14 +233,14 @@ const Dashboard = props => {
   //as they come in, currently on each new item it simply reset the feed
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
   //which would lead to many unwanted subscribe/unsubscribe to gun
-  const subscribeToFeed = () => {
-    return new Promise((res, rej) => {
-      userStorage.feed.get('byid').on(async data => {
-        log.debug('gun getFeed callback', { data })
-        await getFeedPage(true).catch(e => rej(e))
-        res(true)
-      }, true)
-    })
+  const subscribeToFeed = async () => {
+    await getFeedPage(true)
+
+    userStorage.feed.get('byid').on(data => {
+      log.debug('gun getFeed callback', { data })
+
+      getFeedPage(true)
+    }, true)
   }
 
   const handleAppLinks = () => {
@@ -275,7 +275,7 @@ const Dashboard = props => {
     if (Number(entitlement)) {
       Animated.sequence([
         Animated.timing(animValue, {
-          toValue: 1.2,
+          toValue: 1.4,
           duration: 750,
           easing: Easing.ease,
           delay: 1000,
@@ -339,6 +339,7 @@ const Dashboard = props => {
     InteractionManager.runAfterInteractions(handleAppLinks)
 
     Dimensions.addEventListener('change', handleResize)
+    initBGFetch()
   }
 
   // The width of the balance block required to place the balance block at the center of the screen
@@ -558,16 +559,18 @@ const Dashboard = props => {
           return
         }
 
+        const withdrawnOrSendError = 'Payment already withdrawn or canceled by sender'
+        const wrongPaymentDetailsError = 'Wrong payment link or payment details'
         switch (status) {
           case WITHDRAW_STATUS_COMPLETE:
-            log.error('Payment already withdrawn or canceled by sender', '', null, {
+            log.error('Failed to complete withdraw', withdrawnOrSendError, new Error(withdrawnOrSendError), {
               status,
               transactionHash,
               paymentParams,
               category: ExceptionCategory.Human,
               dialogShown: true,
             })
-            showErrorDialog('Payment already withdrawn or canceled by sender')
+            showErrorDialog(withdrawnOrSendError)
             break
           case WITHDRAW_STATUS_UNKNOWN:
             for (let activeAttempts = 0; activeAttempts < 3; activeAttempts++) {
@@ -580,7 +583,7 @@ const Dashboard = props => {
                 return await handleWithdraw(params)
               }
             }
-            log.error('Could not find payment details', 'Wrong payment link or payment details', null, {
+            log.error('Could not find payment details', wrongPaymentDetailsError, new Error(wrongPaymentDetailsError), {
               status,
               transactionHash,
               paymentParams,

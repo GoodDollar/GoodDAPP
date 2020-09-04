@@ -106,7 +106,9 @@ const CustomDialog = ({
           {showButtons ? (
             <View style={buttonsContainerStyle || styles.buttonsContainer}>
               {buttons ? (
-                buttons.map((options, index) => <DialogButton key={index} options={options} loading={loading} dismiss={_onPressOk} />)
+                buttons.map((options, index) => (
+                  <DialogButton key={index} options={options} loading={loading} dismiss={_onPressOk} />
+                ))
               ) : (
                 <CustomButton disabled={loading} loading={loading} onPress={_onPressOk} style={[styles.buttonOK]}>
                   Ok
@@ -177,9 +179,7 @@ const DialogButton = ({ options = {}, loading, dismiss }) => {
 
 const styles = StyleSheet.create({
   title: {
-    marginBottom: theme.sizes.defaultDouble,
     paddingTop: theme.sizes.defaultDouble,
-    minHeight: normalize(76),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

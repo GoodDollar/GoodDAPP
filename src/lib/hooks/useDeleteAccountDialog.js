@@ -6,6 +6,8 @@ import IconWrapper from '../../components/common/modal/IconWrapper'
 import LoadingIcon from '../../components/common/modal/LoadingIcon'
 
 import retryImport from '../utils/retryImport'
+import restart from '../utils/restart'
+import { getErrorMessage } from '../API/api'
 import useOnPress from './useOnPress'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
@@ -40,7 +42,7 @@ export default ({ API, showErrorDialog, theme }) => {
       image: <LoadingIcon />,
       showButtons: false,
     })
-    
+
     try {
       const userStorage = await retryImport(() => import('../gundb/UserStorage')).then(_ => _.default)
 
@@ -54,16 +56,29 @@ export default ({ API, showErrorDialog, theme }) => {
       log.debug('deleted account', isDeleted)
 
       if (isDeleted) {
-        token && API.deleteWalletFromW3Site(token).catch(e => log.warn(e.message, e))
+        token &&
+          API.deleteWalletFromW3Site(token).catch(e => {
+            const errMsg = getErrorMessage(e)
+            const exception = new Error(errMsg)
+
+            log.warn('Failed to delete wallet from w3 site', { errMsg, exception })
+          })
+
         const req = deleteGunDB()
 
-        //remove all local data so its not cached and user will re-login
+        // remove all local data so its not cached and user will re-login
         await Promise.all([AsyncStorage.clear(), req.catch()])
-        window.location = '/'
+
+        restart()
       } else {
-        log.error('Error deleting account', 'false from userStorage.deleteAccount()', null, {
-          dialogShown: true,
-        })
+        log.error(
+          'Error deleting account',
+          'Received false from userStorage.deleteAccount()',
+          new Error('Account is not deleted'),
+          {
+            dialogShown: true,
+          },
+        )
         showErrorDialog('There was a problem deleting your account. Try again later.')
       }
     } catch (e) {

@@ -1,21 +1,26 @@
 // @flow
+import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { ActionSheetProvider } from '@expo/react-native-action-sheet'
-import AsyncStorage from './lib/utils/asyncStorage'
-import { isMobile } from './lib/utils/platform'
-import './lib/gundb/gundb'
-import { theme } from './components/theme/styles'
-import SimpleStore, { initStore } from './lib/undux/SimpleStore'
+
+import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
-import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
-import useServiceWorker from './lib/utils/useServiceWorker'
-import Config from './config/config'
+import { theme } from './components/theme/styles'
 import RouterSelector from './RouterSelector'
-import logger from './lib/logger/pino-logger'
+
 import { deleteGunDB } from './lib/hooks/useDeleteAccountDialog'
+import useServiceWorker from './lib/hooks/useServiceWorker'
+
+import Config from './config/config'
+import logger from './lib/logger/pino-logger'
+import SimpleStore, { initStore } from './lib/undux/SimpleStore'
+import AsyncStorage from './lib/utils/asyncStorage'
+import { isMobile } from './lib/utils/platform'
+
+import './lib/gundb/gundb'
+
 const log = logger.child({ from: 'App' })
 
 const SplashOrRouter = memo(({ store }) => {
@@ -31,13 +36,10 @@ const SplashOrRouter = memo(({ store }) => {
 })
 
 const App = () => {
-  useServiceWorker() // Only runs on Web
-  log.debug({ Config })
   const store = SimpleStore.useStore()
 
-  // onRecaptcha = (token: string) => {
-  //   userStorage.setProfileField('recaptcha', token, 'private')
-  // }
+  useServiceWorker() // Only runs on Web
+  useEffect(() => log.debug({ Config }), [])
 
   const AppWrapper = isMobile ? Fragment : SafeAreaView
 

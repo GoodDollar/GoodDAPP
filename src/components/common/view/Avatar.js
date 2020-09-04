@@ -28,7 +28,7 @@ const CustomAvatar = ({ styles, style, source, onPress, size, imageSize, childre
       {source ? (
         <Avatar.Image
           size={imageSize || size - 2}
-          source={{ uri: source }}
+          source={typeof source === 'number' ? source : { uri: source }}
           style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
           {...avatarProps}
         />

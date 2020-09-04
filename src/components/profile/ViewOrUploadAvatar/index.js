@@ -9,11 +9,10 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import InputFile from '../../common/form/InputFile'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent, PROFILE_IMAGE } from '../../../lib/analytics/analytics'
-import { onPressFix } from '../../../lib/utils/async'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import CircleButtonWrapper from '../CircleButtonWrapper'
 import CameraButton from '../CameraButton'
-import useOnPress from '../../../lib/hooks/useOnPress'
+import useOnPress, { useDebouncedOnPress } from '../../../lib/hooks/useOnPress'
 import openCropper from './openCropper'
 
 export const pickerOptions = {
@@ -41,7 +40,7 @@ const ViewOrUploadAvatar = props => {
   const [showErrorDialog] = useErrorDialog()
   const { avatar } = profile
 
-  const handleCameraPress = useOnPress(() => {
+  const handleCameraPress = useDebouncedOnPress(() => {
     openCropper({
       pickerOptions,
       navigation,
@@ -84,7 +83,7 @@ const ViewOrUploadAvatar = props => {
         <Section.Stack>
           {profile.avatar ? (
             <>
-              <UserAvatar profile={profile} size={272} onPress={onPressFix(handleCameraPress)} />
+              <UserAvatar profile={profile} size={272} onPress={handleCameraPress} />
               <CircleButtonWrapper
                 containerStyle={styles.closeButtonContainer}
                 style={styles.closeButton}
@@ -92,7 +91,7 @@ const ViewOrUploadAvatar = props => {
                 iconSize={22}
                 onPress={handleClosePress}
               />
-              <CameraButton style={styles.cameraButton} handleCameraPress={onPressFix(handleCameraPress)} />
+              <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
             </>
           ) : (
             <>

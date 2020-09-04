@@ -19,7 +19,7 @@ export const isSafari = isMobileSafari || isSafariWeb
 
 export const isWeb = Platform.OS === 'web'
 
-export const isMobileReactNative = Platform.OS !== 'web'
+export const isMobileReactNative = !isWeb
 
 export const isIOSNative = Platform.OS === 'ios'
 

@@ -68,7 +68,7 @@ class DeepLinkingNative {
     }
 
     const { clickedBranchLink, clickTimestamp, nonBranchLink, referingLink } = mapKeys(params, (_, name) =>
-      camelCase(name)
+      camelCase(name),
     )
 
     if (!this._isFirstRun && clickedBranchLink && this._lastClick !== clickTimestamp) {

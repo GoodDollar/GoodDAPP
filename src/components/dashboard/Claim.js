@@ -234,7 +234,8 @@ const Claim = props => {
     try {
       //when we come back from FR entitelment might not be set yet
       const curEntitlement = claimState.entitlement || (await goodWallet.checkEntitlement().toNumber())
-      if (curEntitlement == 0) {
+
+      if (curEntitlement === 0) {
         return
       }
 
@@ -292,7 +293,7 @@ const Claim = props => {
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
-        log.error('Claim transaction failed', '', null, {
+        log.error('Claim transaction failed', '', new Error('Failed to execute claim transaction'), {
           txHash: receipt.transactionHash,
           entitlement: curEntitlement,
           status: receipt.status,

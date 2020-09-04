@@ -5,11 +5,6 @@ class HomePage {
     return cy.get('[data-testid="invite_tab"]')
   }
 
-
-  /*get supportTab() {
-        return cy.get('[data-testid="support_tab"]')
-      }*/
-
   get optionsButton() {
     return cy.get('[data-testid="burger_button"]')
   }

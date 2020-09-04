@@ -45,7 +45,7 @@ const regularFontSize = isSmallDevice ? 14 : 16
 
 const LoadingAnimation = ({ success }) => (
   <View style={{ alignItems: 'center' }}>
-    <SpinnerCheckMark successSpeed={3} success={success} width={175} height={'auto'} />
+    <SpinnerCheckMark successSpeed={success ? 6 : 3} success={success} width={175} height={'auto'} />
   </View>
 )
 

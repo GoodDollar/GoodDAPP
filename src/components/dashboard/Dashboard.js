@@ -352,12 +352,13 @@ const Dashboard = props => {
   // Animation functionality requires positioning props to be set with numbers.
   // So we need to calculate the center of the screen within dynamically changed balance block width.
   const saveBalanceBlockWidth = useCallback(async () => {
-    const width = await new Promise(resolve => {
+    const width =
       balanceRef.current &&
+      (await new Promise(resolve => {
         balanceRef.current.measure((x, y, width) => {
           resolve(width)
         })
-    })
+      }))
 
     setBalanceBlockWidth(width)
 

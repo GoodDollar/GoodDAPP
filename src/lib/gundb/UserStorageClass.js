@@ -3,6 +3,7 @@ import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
   debounce,
+  over,
   filter,
   find,
   flatten,
@@ -1223,7 +1224,7 @@ export class UserStorage {
     const onProfileUpdate = debounce(
       doc => {
         this._lastProfileUpdate = doc
-        this.subscribersProfileUpdates.forEach(callback => callback(doc))
+        over(this.subscribersProfileUpdates)(doc)
       },
       500,
       { leading: false, trailing: true },

@@ -256,34 +256,31 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (appState === 'active') {
+    if (appState === 'active' && Number(entitlement)) {
       animateClaim()
     }
-  }, [appState])
+  }, [appState, entitlement])
 
   const animateClaim = useCallback(async () => {
     const inQueue = await userStorage.userProperties.get('claimQueueAdded')
     if (inQueue && inQueue.status === 'pending') {
       return
     }
-    const { entitlement } = gdstore.get('account')
 
-    if (Number(entitlement)) {
-      Animated.sequence([
-        Animated.timing(animValue, {
-          toValue: 1.4,
-          duration: 750,
-          easing: Easing.ease,
-          delay: 1000,
-        }),
-        Animated.timing(animValue, {
-          toValue: 1,
-          duration: 750,
-          easing: Easing.ease,
-        }),
-      ]).start()
-    }
-  }, [gdstore, animValue])
+    Animated.sequence([
+      Animated.timing(animValue, {
+        toValue: 1.4,
+        duration: 750,
+        easing: Easing.ease,
+        delay: 1000,
+      }),
+      Animated.timing(animValue, {
+        toValue: 1,
+        duration: 750,
+        easing: Easing.ease,
+      }),
+    ]).start()
+  }, [gdstore, animValue, entitlement])
 
   const showDelayed = useCallback(() => {
     if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {

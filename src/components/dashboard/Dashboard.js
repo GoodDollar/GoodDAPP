@@ -1,5 +1,5 @@
 // @flow
-import React, { createRef, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
 import { debounce, get } from 'lodash'
 import type { Store } from 'undux'
@@ -44,7 +44,7 @@ import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
-import { getDesignRelativeHeight, getMaxDeviceWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
@@ -91,7 +91,7 @@ export type DashboardProps = {
 }
 
 const Dashboard = props => {
-  const balanceRef = createRef()
+  const balanceRef = useRef()
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
@@ -352,17 +352,17 @@ const Dashboard = props => {
   // Animation functionality requires positioning props to be set with numbers.
   // So we need to calculate the center of the screen within dynamically changed balance block width.
   const saveBalanceBlockWidth = useCallback(async () => {
-    const width =
-      balanceRef.current &&
-      (await new Promise(resolve => {
-        balanceRef.current.measure((x, y, width) => {
-          resolve(width)
-        })
-      }))
+    const { current: balanceView } = balanceRef
+
+    if (!balanceView) {
+      return
+    }
+
+    const { width } = await measure(balanceView)
+    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
 
     setBalanceBlockWidth(width)
 
-    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
     Animated.timing(headerBalanceRightAnimValue, {
       toValue: balanceCenteredPosition,
       duration: 50,
@@ -371,7 +371,7 @@ const Dashboard = props => {
     if (!showBalance) {
       setShowBalance(true)
     }
-  }, [setBalanceBlockWidth, showBalance, setShowBalance, headerContentWidth, headerBalanceRightAnimValue, balanceRef])
+  }, [setBalanceBlockWidth, showBalance, setShowBalance, headerContentWidth, headerBalanceRightAnimValue])
 
   useEffect(() => {
     const timing = 250

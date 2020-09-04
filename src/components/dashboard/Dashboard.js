@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
 import { get as _get, debounce } from 'lodash'
@@ -341,17 +341,11 @@ const Dashboard = props => {
   // The balance always changes so the width is dynamical.
   // Animation functionality requires positioning props to be set with numbers.
   // So we need to calculate the center of the screen within dynamically changed balance block width.
-  const balanceHasBeenCentered = useRef(false)
-
   const saveBalanceBlockWidth = useCallback(
     event => {
       const width = _get(event, 'nativeEvent.layout.width')
 
       setBalanceBlockWidth(width)
-
-      if (balanceHasBeenCentered.current) {
-        return
-      }
 
       const balanceCenteredPosition = headerContentWidth / 2 - width / 2
       Animated.timing(headerBalanceRightAnimValue, {
@@ -361,7 +355,7 @@ const Dashboard = props => {
 
       setShowBalance(true)
     },
-    [setBalanceBlockWidth],
+    [setBalanceBlockWidth, setShowBalance, headerContentWidth, headerBalanceRightAnimValue],
   )
 
   useEffect(() => {

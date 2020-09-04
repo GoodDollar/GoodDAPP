@@ -43,9 +43,9 @@ const log = logger.child({ from: 'Claim' })
 const bigFontSize = isSmallDevice ? 30 : 40
 const regularFontSize = isSmallDevice ? 14 : 16
 
-const LoadingAnimation = ({ success }) => (
+const LoadingAnimation = ({ success, speed = 3 }) => (
   <View style={{ alignItems: 'center' }}>
-    <SpinnerCheckMark successSpeed={success ? 6 : 3} success={success} width={175} height={'auto'} />
+    <SpinnerCheckMark successSpeed={speed} success={success} width={175} height={'auto'} />
   </View>
 )
 
@@ -212,7 +212,7 @@ const Claim = props => {
         })
 
         showDialog({
-          image: <LoadingAnimation success />,
+          image: <LoadingAnimation success speed={6} />,
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
           title: 'CHA-CHING!',

@@ -58,6 +58,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
   const recover = useOnPress(async () => {
     await AsyncStorage.clear()
+
     input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)

@@ -1,7 +1,7 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { Animated, Platform, View } from 'react-native'
-import { constant, get } from 'lodash'
+import { constant, get, noop } from 'lodash'
 
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
@@ -42,9 +42,13 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style = {} }) => {
+const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style = {}, queueStatusCb = noop }) => {
   const { queueStatus, handleClaim } = useClaimQueue()
   const isPending = get(queueStatus, 'status') === 'pending'
+
+  useEffect(() => {
+    queueStatusCb(queueStatus)
+  }, [queueStatus])
 
   // if there's no status the first time then get it
   // otherwise just return true.

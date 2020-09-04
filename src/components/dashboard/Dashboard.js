@@ -91,6 +91,7 @@ export type DashboardProps = {
 }
 
 const Dashboard = props => {
+  const queueStatusRef = useRef()
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
@@ -265,9 +266,8 @@ const Dashboard = props => {
     }
   }, [appState, entitlement])
 
-  const animateClaim = useCallback(async () => {
-    const inQueue = await userStorage.userProperties.get('claimQueueAdded')
-    if (inQueue && inQueue.status === 'pending') {
+  const animateClaim = useCallback(() => {
+    if (queueStatusRef.current === 'pending') {
       return
     }
 
@@ -285,6 +285,10 @@ const Dashboard = props => {
       }),
     ]).start()
   }, [gdstore, animValue, entitlement])
+
+  const saveQueueStatus = useCallback(status => {
+    queueStatusRef.current = status
+  }, [])
 
   const showDelayed = useCallback(() => {
     if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
@@ -694,6 +698,7 @@ const Dashboard = props => {
             amount={weiToMask(entitlement, { showUnits: true })}
             animated
             animatedScale={scale}
+            queueStatusCb={saveQueueStatus}
           />
           <PushButton
             icon="receive"

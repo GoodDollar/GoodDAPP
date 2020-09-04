@@ -2486,6 +2486,7 @@ export class UserStorage {
    * @private
    */
   _getProfileFields = profile => keys(profile).filter(field => !['_', 'initialized'].includes(field))
+
   /**
    * remove user from indexes
    * deleting profile actually doenst delete but encrypts everything

@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { Animated, Platform, View } from 'react-native'
-import { constant, get, noop } from 'lodash'
+import { constant, noop } from 'lodash'
 
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
@@ -42,18 +42,17 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style = {}, queueStatusCb = noop }) => {
+const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style = {}, onStatusChange = noop }) => {
   const { queueStatus, handleClaim } = useClaimQueue()
-  const isPending = get(queueStatus, 'status') === 'pending'
-
-  useEffect(() => {
-    queueStatusCb(queueStatus)
-  }, [queueStatus])
+  const { status } = queueStatus || {}
+  const isPending = status === 'pending'
 
   // if there's no status the first time then get it
   // otherwise just return true.
   // in case we already have status then button is disabled if pending so its ok to return true here.
   const canContinue = useMemo(() => (queueStatus ? constant(true) : handleClaim), [handleClaim, queueStatus])
+
+  useEffect(() => void onStatusChange(queueStatus), [status, onStatusChange])
 
   return (
     <PushButton

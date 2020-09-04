@@ -2,7 +2,6 @@
 import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
-  assign,
   filter,
   find,
   flatten,
@@ -20,7 +19,6 @@ import {
   some,
   takeWhile,
   toPairs,
-  uniqBy,
   values,
 } from 'lodash'
 import isEmail from 'validator/lib/isEmail'
@@ -1301,16 +1299,8 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
-      .catch(reason => {
-        let exception = reason
-        let { message } = exception
-
-        if (!isError(reason)) {
-          message = reason
-          exception = new Error(reason)
-        }
-
-        logger.error('getProfileFieldValue decrypt failed:', message, exception)
+      .catch(e => {
+        logger.error('getProfileFieldValue decrypt failed:', e.message, e, { field })
       })
   }
 
@@ -1664,75 +1654,67 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    let { feed, feedIndex, cursor, feedIds, wallet } = this
-
     if (reset) {
-      cursor = 0
+      this.cursor = undefined
     }
-
-    if (!feedIndex) {
+    if (this.cursor === undefined) {
+      this.cursor = 0
+    }
+    let total = 0
+    if (!this.feedIndex) {
       return []
     }
 
-    let total = 0
-    let daysToTake = takeWhile(feedIndex.slice(cursor), ([, eventsAmount]) => {
-      const takeDay = total < numResults
-
-      if (takeDay) {
-        total += eventsAmount
+    let daysToTake: Array<[string, number]> = takeWhile(this.feedIndex.slice(this.cursor), day => {
+      if (total >= numResults) {
+        return false
       }
-
-      return takeDay
+      total += day[1]
+      return true
     })
-
-    cursor += daysToTake.length
-    assign(this, { cursor })
+    this.cursor += daysToTake.length
 
     //TODO: WTF does this work?!?! if we JSON.stringify teh day index content how come we don't need to JSON.parse it?
     //this works in the unit tests also
-    let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(([date]) =>
-      feed
-        .get(date)
+    let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
+      return this.feed
+        .get(day[0])
         .then(data => (typeof data === 'string' ? JSON.parse(data) : data))
         .catch(e => {
           logger.error('getFeed', e.message, e)
           return []
-        }),
-    )
-
-    const eventsIndex = await Promise.all(promises).then(indexes => {
-      const filtered = filter(flatten(indexes), 'id')
-
-      return uniqBy(filtered, 'id')
+        })
     })
 
+    const eventsIndex = flatten(await Promise.all(promises))
     logger.debug('getFeedPage', {
-      feedIndex,
+      feedIndex: this.feedIndex,
       daysToTake,
       eventsIndex,
     })
 
-    const events = await Promise.all(
-      eventsIndex.map(async ({ id }) => {
-        let item = feedIds[id]
+    return Promise.all(
+      eventsIndex
+        .filter(_ => _.id)
+        .map(async eventIndex => {
+          let item = this.feedIds[eventIndex.id]
 
-        if (!item && id.startsWith('0x')) {
-          const receipt = await wallet.getReceiptWithLogs(id).catch(e => {
-            logger.warn('no receipt found for id:', id, e.message, e)
-          })
+          if (item === undefined && eventIndex.id.indexOf('0x') === 0) {
+            const receipt = await this.wallet.getReceiptWithLogs(eventIndex.id).catch(e => {
+              logger.warn('no receipt found for id:', eventIndex.id, e.message, e)
+              return undefined
+            })
 
-          if (receipt) {
-            item = await this.handleReceiptUpdated(receipt)
-          } else {
-            logger.warn('no receipt found for undefined item id:', id)
+            if (receipt) {
+              item = await this.handleReceiptUpdated(receipt)
+            } else {
+              logger.warn('no receipt found for undefined item id:', eventIndex.id)
+            }
           }
-        }
 
-        return item
-      }),
+          return item
+        }),
     )
-
-    return filter(events)
   }
 
   /**

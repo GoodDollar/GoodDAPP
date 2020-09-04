@@ -37,3 +37,8 @@ export const getDesignRelativeHeight = (height, isMax = true) => {
   const screenHeight = isPortrait() ? getMaxDeviceHeight() : getMaxDeviceWidth()
   return getDesignRelativeSize(height, isMax, DESIGN_HEIGHT, screenHeight)
 }
+
+// eslint-disable-next-line
+export const measure = async view => new Promise(resolve =>
+  view.measure((x, y, width) => resolve({ x, y, width }))
+)

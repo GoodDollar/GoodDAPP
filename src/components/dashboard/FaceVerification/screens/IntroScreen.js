@@ -1,6 +1,6 @@
 // libraries
 import React, { useCallback, useEffect } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 
 //components

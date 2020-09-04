@@ -346,27 +346,24 @@ const Dashboard = props => {
   // The balance always changes so the width is dynamical.
   // Animation functionality requires positioning props to be set with numbers.
   // So we need to calculate the center of the screen within dynamically changed balance block width.
-  const saveBalanceBlockWidth = useCallback(
-    async event => {
-      const width = await new Promise(resolve => {
-        balanceRef.current &&
-          balanceRef.current.measure((x, y, width) => {
-            resolve(width)
-          })
-      })
+  const saveBalanceBlockWidth = useCallback(async () => {
+    const width = await new Promise(resolve => {
+      balanceRef.current &&
+        balanceRef.current.measure((x, y, width) => {
+          resolve(width)
+        })
+    })
 
-      setBalanceBlockWidth(width)
+    setBalanceBlockWidth(width)
 
-      const balanceCenteredPosition = headerContentWidth / 2 - width / 2
-      Animated.timing(headerBalanceRightAnimValue, {
-        toValue: balanceCenteredPosition,
-        duration: 50,
-      }).start()
+    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
+    Animated.timing(headerBalanceRightAnimValue, {
+      toValue: balanceCenteredPosition,
+      duration: 50,
+    }).start()
 
-      setShowBalance(true)
-    },
-    [setBalanceBlockWidth, setShowBalance, headerContentWidth, headerBalanceRightAnimValue, balanceRef],
-  )
+    setShowBalance(true)
+  }, [setBalanceBlockWidth, setShowBalance, headerContentWidth, headerBalanceRightAnimValue, balanceRef])
 
   useEffect(() => {
     const timing = 250

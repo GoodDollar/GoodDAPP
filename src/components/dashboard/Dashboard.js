@@ -363,8 +363,10 @@ const Dashboard = props => {
       duration: 50,
     }).start()
 
-    setShowBalance(true)
-  }, [setBalanceBlockWidth, setShowBalance, headerContentWidth, headerBalanceRightAnimValue])
+    if (!showBalance) {
+      setShowBalance(true)
+    }
+  }, [setBalanceBlockWidth, showBalance, setShowBalance, headerContentWidth, headerBalanceRightAnimValue])
 
   useEffect(() => {
     const timing = 250

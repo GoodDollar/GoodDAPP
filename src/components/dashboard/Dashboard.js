@@ -75,10 +75,17 @@ import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 const log = logger.child({ from: 'Dashboard' })
 
-const screenWidth = getMaxDeviceWidth()
 let didRender = false
+const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarCenteredPosition = initialHeaderContentWidth / 2 - 34
+
+const initialQueueStatus = () => {
+  let initialize
+  const promise = new Promise(resolve => (initialize = resolve))
+
+  return { initialize, promise }
+}
 
 export type DashboardProps = {
   navigation: any,
@@ -88,8 +95,7 @@ export type DashboardProps = {
 }
 
 const Dashboard = props => {
-  const queueStatusRef = useRef({ status: '', set: false })
-  const animateNextChangeRef = useRef(false)
+  const queueStatusRef = useRef(initialQueueStatus())
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
@@ -118,6 +124,7 @@ const Dashboard = props => {
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
+
   const scale = {
     transform: [
       {
@@ -125,13 +132,16 @@ const Dashboard = props => {
       },
     ],
   }
+
   const headerAnimateStyles = {
     position: 'relative',
     height: headerHeightAnimValue,
   }
+
   const fullNameAnimateStyles = {
     opacity: headerFullNameOpacityAnimValue,
   }
+
   const avatarAnimStyles = {
     position: 'absolute',
     height: headerAvatarAnimValue,
@@ -139,6 +149,7 @@ const Dashboard = props => {
     top: 0,
     left: headerAvatarLeftAnimValue,
   }
+
   const balanceAnimStyles = {
     visibility: showBalance ? 'visible' : 'hidden',
     position: 'absolute',
@@ -258,19 +269,15 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (appState !== 'active' || Number(entitlement) <= 0) {
-      return
+    if (appState === 'active' && Number(entitlement) > 0) {
+      animateClaim()
     }
-    
-    queueStatusRef.current.set 
-      ? animateClaim() 
-      : (animateNextChangeRef.current = true)
   }, [appState, entitlement])
 
-  const animateClaim = useCallback(() => {
-    const { status, set } = queueStatusRef.current
-        
-    if (!set || status === 'pending') {
+  const animateClaim = useCallback(async () => {
+    const status = await queueStatusRef.current.promise
+
+    if (status === 'pending') {
       return
     }
 
@@ -290,23 +297,18 @@ const Dashboard = props => {
   }, [gdstore, animValue, entitlement])
 
   const setQueueStatus = useCallback(status => {
-     const { current: queueStatus } = queueStatusRef
-     
-     assign(queueStatus, { status })
-     
-     if (!queueStatus.set) {
-       queueStatus.set = true
-     }
-  }, [])
-  
-  const handleQueueStatus = useCallback(status => {
-    setQueueStatus(status)
-    
-    if (animateNextChangeRef.current) {      
-      animateNextChangeRef.current = false
-      animateClaim()
+    const { current: queueStatus } = queueStatusRef
+    const { initialize } = queueStatus
+
+    if (initialize) {
+      delete queueStatus.initialize
+      initialize(status)
+
+      return
     }
-  }, [animateClaim, setQueueStatus])
+
+    queueStatus.promise = Promise.resolve(status)
+  }, [])
 
   const showDelayed = useCallback(() => {
     if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
@@ -691,7 +693,7 @@ const Dashboard = props => {
             <ClaimButton
               screenProps={screenProps}
               amount={weiToMask(entitlement, { showUnits: true })}
-              onStatusChange={handleQueueStatus}
+              onStatusChange={setQueueStatus}
             />
           </Animated.View>
           <PushButton

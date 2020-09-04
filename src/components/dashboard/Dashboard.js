@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { createRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
 import { debounce, get } from 'lodash'
 import type { Store } from 'undux'
@@ -91,6 +91,7 @@ export type DashboardProps = {
 }
 
 const Dashboard = props => {
+  const balanceRef = createRef()
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
@@ -342,13 +343,22 @@ const Dashboard = props => {
     initBGFetch()
   }
 
+  useEffect(() => {
+    saveBalanceBlockWidth()
+  }, [balance])
+
   // The width of the balance block required to place the balance block at the center of the screen
   // The balance always changes so the width is dynamical.
   // Animation functionality requires positioning props to be set with numbers.
   // So we need to calculate the center of the screen within dynamically changed balance block width.
   const saveBalanceBlockWidth = useCallback(
-    event => {
-      const width = get(event, 'nativeEvent.layout.width')
+    async event => {
+      const width = await new Promise(resolve => {
+        balanceRef.current &&
+          balanceRef.current.measure((x, y, width) => {
+            resolve(width)
+          })
+      })
 
       setBalanceBlockWidth(width)
 
@@ -362,7 +372,7 @@ const Dashboard = props => {
         setShowBalance(true)
       }
     },
-    [setBalanceBlockWidth, showBalance, setShowBalance, headerContentWidth, headerBalanceRightAnimValue],
+    [setBalanceBlockWidth, showBalance, setShowBalance, headerContentWidth, headerBalanceRightAnimValue, balanceRef],
   )
 
   useEffect(() => {
@@ -651,19 +661,21 @@ const Dashboard = props => {
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>
-            <Animated.View onLayout={saveBalanceBlockWidth} style={[styles.bigNumberWrapper, balanceAnimStyles]}>
-              <BigGoodDollar
-                testID="amount_value"
-                number={balance}
-                bigNumberProps={{
-                  fontSize: 42,
-                  fontWeight: 'semibold',
-                  lineHeight: 42,
-                  textAlign: 'left',
-                }}
-                style={Platform.OS !== 'web' && styles.marginNegative}
-                bigNumberUnitStyles={styles.bigNumberUnitStyles}
-              />
+            <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}>
+              <View ref={balanceRef}>
+                <BigGoodDollar
+                  testID="amount_value"
+                  number={balance}
+                  bigNumberProps={{
+                    fontSize: 42,
+                    fontWeight: 'semibold',
+                    lineHeight: 42,
+                    textAlign: 'left',
+                  }}
+                  style={Platform.OS !== 'web' && styles.marginNegative}
+                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                />
+              </View>
             </Animated.View>
           </Section.Stack>
         </Animated.View>

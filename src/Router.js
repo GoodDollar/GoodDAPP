@@ -11,11 +11,11 @@ import ExportWallet from './components/backupWallet/ExportWalletData'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
 import GDStore from './lib/undux/GDStore'
-import { fireEventFromNavigation } from './lib/analytics/analytics'
 import AddWebApp from './components/common/view/AddWebApp'
 import isWebApp from './lib/utils/isWebApp'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
 import Splash from './components/splash/Splash'
+import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
 
 const DisconnectedSplash = () => <Splash animation={false} />
 
@@ -41,16 +41,15 @@ if (Platform.OS === 'web') {
   WebRouter = createBrowserApp(AppNavigator)
 }
 
-const onRouteChange = (prevNav, nav, route) => {
-  fireEventFromNavigation(route)
-}
 const Router = () => {
+  const navigationStateHandler = useNavigationStateHandler()
+
   return (
     <GDStore.Container>
       <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
         {!isWebApp && <AddWebApp />}
         <Portal.Host>
-          <WebRouter onNavigationStateChange={onRouteChange} />
+          <WebRouter onNavigationStateChange={navigationStateHandler} />
         </Portal.Host>
       </InternetConnection>
     </GDStore.Container>

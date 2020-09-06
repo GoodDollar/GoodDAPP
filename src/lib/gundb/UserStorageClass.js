@@ -1683,7 +1683,7 @@ export class UserStorage {
             feedItem.otplStatus !== 'cancelled',
         )
         .map(feedItem => {
-          if (false == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
+          if (null == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
             return this.getFormatedEventById(feedItem.id)
           }
 
@@ -2487,6 +2487,7 @@ export class UserStorage {
    * @private
    */
   _getProfileFields = profile => keys(profile).filter(field => !['_', 'initialized'].includes(field))
+
   /**
    * remove user from indexes
    * deleting profile actually doenst delete but encrypts everything
@@ -2537,14 +2538,12 @@ export class UserStorage {
       deleteAccountResult = await API.deleteAccount()
 
       if (get(deleteAccountResult, 'data.ok', false)) {
-        const cleanupPromises = [
+        deleteResults = await Promise.all([
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
           _trackStatus(this.deleteProfile(), 'profile'),
-          _trackStatus(() => userProperties.reset(), 'userprops'),
-          _trackStatus(() => gunuser.get('registered').putAck(false), 'registered'),
-        ]
-
-        deleteResults = await Promise.all(cleanupPromises)
+          _trackStatus(userProperties.reset(), 'userprops'),
+          _trackStatus(gunuser.get('registered').putAck(false), 'registered'),
+        ])
       }
     } catch (e) {
       logger.error('deleteAccount unexpected error', e.message, e)
@@ -2565,8 +2564,8 @@ export class UserStorage {
     return exception
   }
 
-  _trackStatus(promise, label) {
-    return promise
+  _trackStatus = (promise, label) =>
+    promise
       .then(() => {
         const status = { [label]: 'ok' }
 
@@ -2575,10 +2574,9 @@ export class UserStorage {
       })
       .catch(gunError => {
         const status = { [label]: 'failed' }
-        const e = this._gunException(e)
+        const e = this._gunException(gunError)
 
         logger.debug('Cleanup:', e.message, e, status)
         return status
       })
-  }
 }

@@ -23,7 +23,6 @@ import {
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
 
-import { getMaxDeviceWidth } from '../../lib/utils/Orientation'
 import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
@@ -43,7 +42,7 @@ import useAppState from '../../lib/hooks/useAppState'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getMaxDeviceWidth } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import unknownProfile from '../../assets/unknownProfile.svg'
 import RewardsTab from './Rewards'
@@ -230,14 +229,15 @@ const Dashboard = props => {
   //as they come in, currently on each new item it simply reset the feed
   //currently it seems too complicated to make it its own effect as it both depends on "feeds" and changes them
   //which would lead to many unwanted subscribe/unsubscribe to gun
-  const subscribeToFeed = () =>
-    getFeedPage(true).then(
-      userStorage.feed.get('byid').on(data => {
-        log.debug('gun getFeed callback', { data })
+  const subscribeToFeed = async () => {
+    await getFeedPage(true)
 
-        getFeedPage(true)
-      }, true),
-    )
+    userStorage.feed.get('byid').on(data => {
+      log.debug('gun getFeed callback', { data })
+
+      getFeedPage(true)
+    }, true)
+  }
 
   const handleAppLinks = () => {
     const decodedHref = decodeURI(window.location.href)
@@ -273,7 +273,7 @@ const Dashboard = props => {
     if (entitlement) {
       Animated.sequence([
         Animated.timing(animValue, {
-          toValue: 1.2,
+          toValue: 1.4,
           duration: 750,
           easing: Easing.ease,
           delay: 1000,

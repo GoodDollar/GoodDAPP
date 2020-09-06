@@ -1,15 +1,17 @@
 // @flow
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { isMobileSafari } from 'mobile-device-detect'
 
 // hooks
 import SimpleStore from '../undux/SimpleStore'
-
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { hideSidemenu, showSidemenu, toggleSidemenu } from '../undux/utils/sidemenu'
 
 // utils
 import { useWrappedApi } from '../API/useWrappedApi'
+import { isMobileOnly, isWeb } from '../utils/platform'
+import { openLink } from '../utils/linking'
+import Config from '../../config/config'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // constants
@@ -17,30 +19,21 @@ import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/anal
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../constants/login'
 import useDeleteAccountDialog from './useDeleteAccountDialog'
 
+const { dashboardUrl } = Config
+
 export default (props = {}) => {
   const { navigation, theme } = props
   const API = useWrappedApi()
   const store = SimpleStore.useStore()
   const [showErrorDialog] = useErrorDialog()
-  const isLoggedIn = store.get('isLoggedIn')
+  const regMethod = store.get('regMethod')
+  const isSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
+
   const showDeleteAccountDialog = useDeleteAccountDialog({ API, showErrorDialog, store, theme })
 
-  const [isSelfCustody, setIsSelfCustody] = useState(false)
   const slideToggle = useCallback(() => toggleSidemenu(store), [store])
   const slideIn = useCallback(() => showSidemenu(store), [store])
   const slideOut = useCallback(() => hideSidemenu(store), [store])
-
-  const getIsSelfCustody = () => {
-    if (isLoggedIn) {
-      const regMethod = store.get('regMethod')
-
-      setIsSelfCustody(regMethod === REGISTRATION_METHOD_SELF_CUSTODY)
-    }
-  }
-
-  useEffect(() => {
-    getIsSelfCustody()
-  }, [isLoggedIn])
 
   const bottomItems = useMemo(
     () => [
@@ -126,11 +119,17 @@ export default (props = {}) => {
         centered: true,
         name: 'Statistics',
         action: () => {
+          slideOut()
+
+          if (isWeb && !isMobileOnly) {
+            openLink(dashboardUrl)
+            return
+          }
+
           navigation.navigate({
             routeName: 'Statistics',
             type: 'Navigation/NAVIGATE',
           })
-          slideOut()
         },
       },
       {

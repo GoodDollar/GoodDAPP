@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { SceneView } from '@react-navigation/core'
-import { debounce, get } from 'lodash'
+import { debounce } from 'lodash'
 import moment from 'moment'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { DESTINATION_PATH, GD_USER_MASTERSEED } from '../../lib/constants/localStorage'
@@ -207,7 +207,6 @@ const AppSwitch = (props: LoadingProps) => {
       initialize()
 
       checkBonusInterval()
-      prepareLoginToken()
       runUpdates()
       showOutOfGasError(props)
 
@@ -225,28 +224,6 @@ const AppSwitch = (props: LoadingProps) => {
         await delay(1500)
         init()
       }
-    }
-  }
-
-  const prepareLoginToken = async () => {
-    if (config.enableInvites !== true) {
-      return
-    }
-
-    try {
-      const loginToken = await userStorage.getProfileFieldValue('loginToken')
-      log.info('Prepare login token process started', loginToken)
-      if (!loginToken) {
-        const response = await API.getLoginToken()
-
-        const _loginToken = get(response, 'data.loginToken')
-
-        if (_loginToken) {
-          await userStorage.setProfileField('loginToken', _loginToken, 'private')
-        }
-      }
-    } catch (e) {
-      log.error('prepareLoginToken failed', e.message, e)
     }
   }
 
@@ -309,7 +286,8 @@ const AppSwitch = (props: LoadingProps) => {
     if (!isMobileNative || !appState === 'active') {
       return
     }
-    DeepLinking.subscribe(deepLinkingNavigation)
+
+    // DeepLinking.subscribe(deepLinkingNavigation)
     return () => DeepLinking.unsubscribe()
   }, [DeepLinking.pathname, appState])
 

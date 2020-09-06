@@ -236,11 +236,12 @@ const Dashboard = props => {
   const subscribeToFeed = async () => {
     await getFeedPage(true)
 
-    userStorage.feed.get('byid').on(data => {
-      log.debug('gun getFeed callback', { data })
+    userStorage.feedEvents.on('updated', onFeedUpdated)
+  }
 
-      getFeedPage(true)
-    }, true)
+  const onFeedUpdated = event => {
+    log.debug('feed cache updated', { event })
+    getFeedPage(true)
   }
 
   const handleAppLinks = () => {
@@ -322,23 +323,23 @@ const Dashboard = props => {
           return getFeedPage()
         }
       },
-      100,
+      500,
       { leading: true },
     ),
     [feeds, getFeedPage],
   )
 
   const initDashboard = async () => {
-    initTransferEvents(gdstore)
     await userStorage.initRegistered()
+    handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+    initTransferEvents(gdstore)
 
     log.debug('initDashboard subscribed to feed')
-    handleDeleteRedirect()
-    animateClaim()
-    InteractionManager.runAfterInteractions(handleAppLinks)
 
+    InteractionManager.runAfterInteractions(handleAppLinks)
     Dimensions.addEventListener('change', handleResize)
+
     initBGFetch()
   }
 
@@ -454,6 +455,7 @@ const Dashboard = props => {
 
     return function() {
       Dimensions.removeEventListener('change', handleResize)
+      userStorage.feedEvents.off('updated', onFeedUpdated)
     }
   }, [])
 

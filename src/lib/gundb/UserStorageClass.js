@@ -2,6 +2,7 @@
 import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
+  debounce,
   filter,
   find,
   flatten,
@@ -9,6 +10,7 @@ import {
   isEqual,
   isError,
   isString,
+  isUndefined,
   keys,
   maxBy,
   memoize,
@@ -16,6 +18,7 @@ import {
   noop,
   omit,
   orderBy,
+  over,
   some,
   takeWhile,
   toPairs,
@@ -27,6 +30,8 @@ import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 import { sha3 } from 'web3-utils'
+import EventEmitter from 'eventemitter3'
+
 import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
@@ -488,6 +493,7 @@ export class UserStorage {
   constructor(wallet: GoodWallet, gun: Gun) {
     this.gun = gun || defaultGun
     this.wallet = wallet
+    this.feedEvents = new EventEmitter()
 
     this.init()
   }
@@ -585,6 +591,8 @@ export class UserStorage {
     logger.debug('GunDB logged in', {
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
+
+      // gunuser,
     })
 
     // await Promise.all([this.initProperties(), this.initProfile()])
@@ -626,16 +634,6 @@ export class UserStorage {
       trustPromise,
       AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
       this.initFeed(),
-
-      // save ref to user
-      this.gun
-        .get('users')
-        .get(this.gunuser.is.pub)
-        .putAck(this.gunuser)
-        .catch(e => {
-          logger.error('save ref to user failed:', e.message, e)
-          throw e
-        }),
     ]).catch(e => {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
@@ -644,7 +642,10 @@ export class UserStorage {
     this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
     this.initTokens().catch(e => logger.error('failed initializing initTokens', e.message, e))
 
-    // await Promise.all([this.startSystemFeed(), this.initTokens()])
+    this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .put(this.gunuser) // save ref to user
 
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
@@ -1063,8 +1064,12 @@ export class UserStorage {
   }
 
   writeFeedEvent(event): Promise<FeedEvent> {
-    this.feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', this.feedIds)
+    const { feedIds, feedEvents } = this
+
+    feedIds[event.id] = event
+    AsyncStorage.setItem('GD_feed', feedIds)
+    feedEvents.emit('updated', { event })
+
     return this.feed
       .get('byid')
       .get(event.id)
@@ -1080,7 +1085,7 @@ export class UserStorage {
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
-    const { feed } = await this.gunuser
+    const feed = await this.gunuser.get('feed').then()
 
     logger.debug('init feed', { feed })
 
@@ -1095,7 +1100,7 @@ export class UserStorage {
 
       logger.debug('init empty feed', { feed })
     }
-
+    await this.feed.get('index').then(this.updateFeedIndex)
     this.feed.get('index').on(this.updateFeedIndex, false)
 
     // load unencrypted feed from cache
@@ -1105,6 +1110,11 @@ export class UserStorage {
       })
       .then(ids => ids || {})
 
+    //no need to block on this
+    this._syncFeedCache()
+  }
+
+  async _syncFeedCache() {
     const items = await this.feed
       .get('byid')
       .then(null, 2000)
@@ -1112,11 +1122,11 @@ export class UserStorage {
         logger.warn('fetch byid onthen failed', { e })
       })
 
-    logger.debug('init feed byid', { items })
+    logger.debug('init feed cache byid', { items })
 
     if (!items) {
       await this.feed.putAck({ byid: {} }).catch(e => {
-        logger.error('init feed byid failed:', e.message, e)
+        logger.error('init feed cache byid failed:', e.message, e)
         throw e
       })
 
@@ -1125,7 +1135,7 @@ export class UserStorage {
 
     const ids = Object.entries(omit(items, '_'))
 
-    logger.debug('init feed got items', { ids })
+    logger.debug('init feed cache got items', { ids })
 
     const promises = ids.map(async ([k, v]) => {
       if (this.feedIds[k]) {
@@ -1138,7 +1148,7 @@ export class UserStorage {
         .decrypt()
         .catch(noop)
 
-      logger.debug('init feed got missing cache item', { id: k, data })
+      logger.debug('init feed cache got missing cache item', { id: k, data })
 
       if (!data) {
         return false
@@ -1156,6 +1166,7 @@ export class UserStorage {
 
         logger.debug('init feed updating cache', this.feedIds, shouldUpdateStatuses)
         AsyncStorage.setItem('GD_feed', this.feedIds)
+        this.feedEvents.emit('updated', {})
       })
       .catch(e => logger.error('error caching feed items', e.message, e))
   }
@@ -1204,7 +1215,7 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 1000), this.profile.then(null, 1000)])
+    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 2000), this.profile.then(null, 2000)])
 
     if (profile === null) {
       // in case profile was deleted in the past it will be exactly null
@@ -1215,13 +1226,17 @@ export class UserStorage {
     }
 
     // this.profile = this.gunuser.get('profile')
-    this.profile.open(doc => {
-      this._lastProfileUpdate = doc
-      this.subscribersProfileUpdates.forEach(callback => callback(doc))
-    })
+    const onProfileUpdate = debounce(
+      doc => {
+        this._lastProfileUpdate = doc
+        over(this.subscribersProfileUpdates)(doc)
+      },
+      500,
+      { leading: false, trailing: true },
+    )
+    this.profile.open(onProfileUpdate)
 
     logger.debug('init opened profile', {
-      gunRef: this.profile,
       profile,
       gunuser,
     })
@@ -1668,6 +1683,7 @@ export class UserStorage {
     }
     let total = 0
     if (!this.feedIndex) {
+      logger.debug('feedIndex not set returning empty')
       return []
     }
 
@@ -1730,12 +1746,14 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
+
     logger.debug('getFormattedEvents page result:', {
       numResults,
       reset,
       feedPage: feed,
     })
-    return Promise.all(
+
+    const res = await Promise.all(
       feed
         .filter(
           feedItem =>
@@ -1745,7 +1763,8 @@ export class UserStorage {
             feedItem.otplStatus !== 'cancelled',
         )
         .map(feedItem => {
-          if (!get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
+          if (null == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
+            logger.debug('getFormattedEvents missing feed receipt', { feedItem })
             return this.getFormatedEventById(feedItem.id)
           }
 
@@ -1755,6 +1774,9 @@ export class UserStorage {
           })
         }),
     )
+
+    logger.debug('getFormattedEvents done formatting events')
+    return res
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
@@ -2098,6 +2120,10 @@ export class UserStorage {
 
       // logger.warn('_extractProfileToShow invalid profile', { idxSoul, idxKey })
       // return undefined
+    }
+
+    if (!initiator && (!address || address === NULL_ADDRESS)) {
+      return
     }
 
     const searchField = initiatorType && `by${initiatorType}`
@@ -2502,13 +2528,14 @@ export class UserStorage {
   }
 
   loadGunField(gunNode): Promise<any> {
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async res => {
-      gunNode.load(p => res(p))
-      let isNode = await gunNode
-      if (isNode === undefined) {
-        res(undefined)
-      }
+    return new Promise(resolve => {
+      gunNode.load(resolve)
+
+      gunNode.then(value => {
+        if (isUndefined(value)) {
+          resolve()
+        }
+      })
     })
   }
 

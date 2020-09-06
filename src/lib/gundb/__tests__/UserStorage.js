@@ -10,7 +10,6 @@ import userStorage from '../UserStorage'
 import {
   backupMessage,
   getReceiveDataFromReceipt,
-  hanukaBonusStartsMessage,
   inviteFriendsMessage,
   longUseOfClaims,
   startClaiming,
@@ -433,14 +432,6 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(longUseOfClaims)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(longUseOfClaims)
-  })
-
-  it('events/add hanuka bonus starts event', async () => {
-    hanukaBonusStartsMessage.id = 'hanuka-test'
-
-    await userStorage.updateFeedEvent(hanukaBonusStartsMessage)
-    const events = await userStorage.getAllFeed()
-    expect(events).toContainEqual(hanukaBonusStartsMessage)
   })
 
   it('events/doesnt have the welcome event already set', async () => {

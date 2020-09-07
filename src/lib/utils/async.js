@@ -44,7 +44,7 @@ export const promisifyGun = async callback =>
       if (!isError(err)) {
         // by default we'll show some generic message
         let message = 'Unexpected GUN error during write / encrypt operation'
-        const { code, errno } = err || {}
+        const { code, errno, path, syscall } = err || {}
 
         // if ack.err is a string we'll use it as the error message
         if (isString(err)) {
@@ -52,7 +52,7 @@ export const promisifyGun = async callback =>
         } else if (isObject(err) && code && errno) {
           // also err could be an object with { code, errno, syscall, path } shape
           // in this case we'll show the message with errno & code
-          message = `GUN error ${errno}: ${code}`
+          message = `GUN error ${errno}: ${code} at ${path}. Syscall: ${syscall}`
         }
 
         // in other case we'll add some generic message

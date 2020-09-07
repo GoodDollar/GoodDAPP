@@ -304,24 +304,27 @@ please try again.
           0.04
         </div>
         <div
-          className="css-text-901oao"
-          dir="auto"
+          className="css-view-1dbjc4n"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "16px",
-              "fontWeight": "normal",
-              "lineHeight": "22px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "justify",
             }
           }
         >
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -330,7 +333,7 @@ please try again.
                 "fontFamily": "Roboto Slab",
                 "fontSize": "14px",
                 "fontWeight": "700",
-                "lineHeight": "20px",
+                "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -338,9 +341,9 @@ please try again.
             }
           >
             G
-          </span>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          </div>
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -349,7 +352,7 @@ please try again.
                 "fontFamily": "Roboto Slab",
                 "fontSize": "13.5px",
                 "fontWeight": "700",
-                "lineHeight": "16.2px",
+                "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -357,7 +360,7 @@ please try again.
             }
           >
             $
-          </span>
+          </div>
         </div>
       </div>
     </div>

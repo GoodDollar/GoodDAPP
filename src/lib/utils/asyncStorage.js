@@ -42,7 +42,7 @@ export default new class {
     try {
       return JSON.parse(jsonValue)
     } catch {
-      return
+      return jsonValue
     }
   }
 }(AsyncStorage)

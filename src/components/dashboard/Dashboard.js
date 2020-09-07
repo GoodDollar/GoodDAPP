@@ -23,7 +23,6 @@ import {
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { initTransferEvents } from '../../lib/undux/utils/account'
 
-import { getMaxDeviceWidth } from '../../lib/utils/Orientation'
 import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
@@ -43,7 +42,7 @@ import useAppState from '../../lib/hooks/useAppState'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
-import { getDesignRelativeHeight, measure } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import unknownProfile from '../../assets/unknownProfile.svg'
 import RewardsTab from './Rewards'
@@ -267,9 +266,12 @@ const Dashboard = props => {
     if (inQueue && inQueue.status === 'pending') {
       return
     }
-    const { entitlement } = gdstore.get('account')
+    const entitlement = await goodWallet
+      .checkEntitlement()
+      .then(_ => _.toNumber())
+      .catch(e => 0)
 
-    if (Number(entitlement)) {
+    if (entitlement) {
       Animated.sequence([
         Animated.timing(animValue, {
           toValue: 1.4,

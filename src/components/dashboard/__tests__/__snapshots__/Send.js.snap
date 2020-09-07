@@ -315,7 +315,7 @@ exports[`Send matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitTransform": "scaleY(0.5)",
-                  "backgroundColor": "rgba(0,0,0,0.26)",
+                  "backgroundColor": "rgba(227,227,226,1.00)",
                   "bottom": "0px",
                   "height": "2px",
                   "left": "0px",

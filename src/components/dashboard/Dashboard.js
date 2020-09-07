@@ -44,7 +44,7 @@ import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
-import { getDesignRelativeHeight, getMaxDeviceWidth } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
 import { theme as _theme } from '../theme/styles'
 import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
@@ -91,6 +91,7 @@ export type DashboardProps = {
 }
 
 const Dashboard = props => {
+  const balanceRef = useRef()
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
@@ -270,9 +271,12 @@ const Dashboard = props => {
     if (inQueue && inQueue.status === 'pending') {
       return
     }
-    const { entitlement } = gdstore.get('account')
+    const entitlement = await goodWallet
+      .checkEntitlement()
+      .then(_ => _.toNumber())
+      .catch(e => 0)
 
-    if (Number(entitlement)) {
+    if (entitlement) {
       Animated.sequence([
         Animated.timing(animValue, {
           toValue: 1.4,
@@ -342,35 +346,35 @@ const Dashboard = props => {
     initBGFetch()
   }
 
+  useEffect(() => {
+    saveBalanceBlockWidth()
+  }, [balance])
+
   // The width of the balance block required to place the balance block at the center of the screen
   // The balance always changes so the width is dynamical.
   // Animation functionality requires positioning props to be set with numbers.
   // So we need to calculate the center of the screen within dynamically changed balance block width.
-  const balanceHasBeenCentered = useRef(false)
+  const saveBalanceBlockWidth = useCallback(async () => {
+    const { current: balanceView } = balanceRef
 
-  const saveBalanceBlockWidth = useCallback(
-    event => {
-      const width = get(event, 'nativeEvent.layout.width')
+    if (!balanceView) {
+      return
+    }
 
-      setBalanceBlockWidth(width)
+    const { width } = await measure(balanceView)
+    const balanceCenteredPosition = headerContentWidth / 2 - width / 2
 
-      if (balanceHasBeenCentered.current) {
-        return
-      }
+    setBalanceBlockWidth(width)
 
-      const balanceCenteredPosition = headerContentWidth / 2 - width / 2
-      Animated.timing(headerBalanceRightAnimValue, {
-        toValue: balanceCenteredPosition,
-        duration: 50,
-      }).start()
+    Animated.timing(headerBalanceRightAnimValue, {
+      toValue: balanceCenteredPosition,
+      duration: 50,
+    }).start()
 
-      if (!showBalance) {
-        setShowBalance(true)
-      }
-      balanceHasBeenCentered.current = true
-    },
-    [setBalanceBlockWidth],
-  )
+    if (!showBalance) {
+      setShowBalance(true)
+    }
+  }, [setBalanceBlockWidth, showBalance, setShowBalance, headerContentWidth, headerBalanceRightAnimValue])
 
   useEffect(() => {
     const timing = 250
@@ -658,7 +662,8 @@ const Dashboard = props => {
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>
-            <Animated.View onLayout={saveBalanceBlockWidth} style={[styles.bigNumberWrapper, balanceAnimStyles]}>
+            {/* <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}> */}
+            <View ref={balanceRef}>
               <BigGoodDollar
                 testID="amount_value"
                 number={balance}
@@ -671,7 +676,8 @@ const Dashboard = props => {
                 style={Platform.OS !== 'web' && styles.marginNegative}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
-            </Animated.View>
+            </View>
+            {/* </Animated.View> */}
           </Section.Stack>
         </Animated.View>
         <Section.Row style={styles.buttonsRow}>

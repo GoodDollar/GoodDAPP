@@ -20,7 +20,6 @@ import sendIllustration from '../../../assets/Feed/send.svg'
 import claimIllustration from '../../../assets/Feed/IllustrationsMenHero.svg' // eslint-disable-line
 import spendingIllustration from '../../../assets/Feed/spending.svg'
 import claimingIllustration from '../../../assets/Feed/claiming.svg'
-import hanukaStartsIllustration from '../../../assets/Feed/hanukaStarts.svg'
 
 // png illustrations
 import messageIllustration from '../../../assets/Feed/message.png'
@@ -77,11 +76,6 @@ export const getImageByType = (type, styles = {}) =>
       Component: spendingIllustration,
       style: styles.spending,
       containerStyle: styles.mainPhotoContainer,
-    },
-    hanukaStarts: {
-      Component: hanukaStartsIllustration,
-      style: styles.hanukaStarts,
-      containerStyle: styles.mainImageContainer,
     },
 
     // below illustrations is a png images and should be rendered with Image component
@@ -171,11 +165,6 @@ const getStylesFromProps = ({ theme }) => ({
     width: getDesignRelativeHeight(92),
     height: getDesignRelativeHeight(92),
     margin: 20,
-  },
-  hanukaStarts: {
-    width: getDesignRelativeHeight(190),
-    height: getDesignRelativeHeight(115),
-    margin: 10,
   },
 })
 

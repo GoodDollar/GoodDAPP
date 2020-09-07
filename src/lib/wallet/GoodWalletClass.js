@@ -679,13 +679,17 @@ export class GoodWallet {
   sendTx() {}
 
   getAccountForType(type: AccountUsage): string {
-    let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.wallet.eth.defaultAccount
-    return account.toString()
+    const { defaultAccount } = get(this.wallet, 'eth', {})
+    const accountPath = GoodWallet.AccountUsageToPath[type]
+    const account = get(this.accounts, [accountPath, 'address'], defaultAccount)
+
+    return account ? account.toString() : ''
   }
 
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
     let account = this.getAccountForType(accountType)
     let signed = await this.wallet.eth.sign(toSign, account)
+
     return signed.signature
   }
 

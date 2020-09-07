@@ -7,7 +7,7 @@ const sizesWithMock = args => {
 
   const Module = require('../sizes')
 
-  Object.assign(Module, {
+  Object.assign(Module.default, {
     getMaxDeviceHeight: () => screenHeight || 616,
     getMaxDeviceWidth: () => screenWidth || 360,
   })

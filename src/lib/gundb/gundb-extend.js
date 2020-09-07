@@ -99,12 +99,13 @@ assign(User.prototype, {
       path += get
     })
 
-    const secureKey = await user
+    const encryptedKey = await user
       .get('trust')
       .get(pair.pub)
       .get(path)
-      .then(encryptedKey => (encryptedKey ? SEA.decrypt(encryptedKey, pair) : null))
+      .then()
 
+    const secureKey = await SEA.decrypt(encryptedKey, pair, noop)
     const encryptedData = await this.then()
     let decryptedData = null
 

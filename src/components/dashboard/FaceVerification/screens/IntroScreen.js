@@ -105,8 +105,8 @@ const IntroScreen = ({ styles, screenProps }) => {
   const commonTextStyles = {
     textAlign: 'center',
     color: 'primary',
-    fontSize: 18,
-    lineHeight: 25,
+    fontSize: isLargeDevice ? 18 : 16,
+    lineHeight: 24,
   }
 
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
@@ -185,7 +185,7 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   mainTitle: {
-    marginTop: getDesignRelativeHeight(isLargeDevice ? 30 : 10),
+    marginTop: getDesignRelativeHeight(isLargeDevice ? 30 : 15),
   },
   illustration: {
     marginTop: getDesignRelativeHeight(18),
@@ -205,7 +205,7 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   bottomSeparator: {
-    marginBottom: isLargeDevice ? getDesignRelativeHeight(25) : getDesignRelativeHeight(5),
+    marginBottom: getDesignRelativeHeight(25),
   },
 })
 

@@ -107,7 +107,7 @@ assign(User.prototype, {
       .get(path)
       .then()
 
-    const secureKey = await SEA.decrypt(encryptedKey, pair, noop)
+    const secureKey = await SEA.decrypt(encryptedKey, pair)
     const encryptedData = await this.then()
     let decryptedData = null
 

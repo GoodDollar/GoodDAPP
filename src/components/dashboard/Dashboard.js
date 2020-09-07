@@ -663,21 +663,21 @@ const Dashboard = props => {
               </Section.Text>
             </Animated.View>
             <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}>
-            <View ref={balanceRef}>
-              <BigGoodDollar
-                testID="amount_value"
-                number={balance}
-                bigNumberProps={{
-                  fontSize: 42,
-                  fontWeight: 'semibold',
-                  lineHeight: 42,
-                  textAlign: 'left',
-                }}
-                style={Platform.OS !== 'web' && styles.marginNegative}
-                bigNumberUnitStyles={styles.bigNumberUnitStyles}
-              />
-            </View>
-           </Animated.View>
+              <View ref={balanceRef}>
+                <BigGoodDollar
+                  testID="amount_value"
+                  number={balance}
+                  bigNumberProps={{
+                    fontSize: 42,
+                    fontWeight: 'semibold',
+                    lineHeight: 42,
+                    textAlign: 'left',
+                  }}
+                  style={Platform.OS !== 'web' && styles.marginNegative}
+                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                />
+              </View>
+            </Animated.View>
           </Section.Stack>
         </Animated.View>
         <Section.Row style={styles.buttonsRow}>

@@ -573,7 +573,6 @@ export class UserStorage {
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
 
-      // gunuser,
     })
 
     // await Promise.all([this.initProperties(), this.initProfile()])

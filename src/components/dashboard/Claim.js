@@ -212,7 +212,7 @@ const Claim = props => {
         })
 
         showDialog({
-          image: <LoadingAnimation success speed={6} />,
+          image: <LoadingAnimation success speed={2} />,
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
           title: 'CHA-CHING!',

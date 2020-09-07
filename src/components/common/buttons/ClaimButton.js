@@ -69,7 +69,7 @@ const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style
   )
 })
 
-const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
+const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale, onStatusChange }) => {
   const [pushButtonTranslate, setPushButtonTranslate] = React.useState({})
 
   const handleLayout = useCallback(
@@ -98,7 +98,7 @@ const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) =
     <View style={styles.wrapper} onLayout={handleLayout}>
       {animated ? (
         <Animated.View style={[animatedScale, styles.animatedWrapper]}>
-          <ClaimButton screenProps={screenProps} style={animatedStyle} />
+          <ClaimButton screenProps={screenProps} onStatusChange={onStatusChange} style={animatedStyle} />
         </Animated.View>
       ) : (
         <ClaimButton screenProps={screenProps} />

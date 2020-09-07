@@ -74,8 +74,6 @@ const Config = {
   displayStartClaimingCardTime: env.REACT_APP_DISPLAY_START_CLAIMING_CARD_TIME || 1 * 24 * 60 * 60 * 1000, // 1 days
   backgroundReqsInterval: env.REACT_APP_BACKGROUND_REQS_INTERVAL || 10, // minutes
   sentryDSN: env.REACT_APP_SENTRY_DSN,
-  hanukaStartDate: env.REACT_APP_HANUKA_START_DATE, // date
-  hanukaEndDate: env.REACT_APP_HANUKA_END_DATE, // date
   delayMessageNetworkDisconnection: env.REACT_APP_DELAY_MSG_NETWORK_DISCONNECTION || 5000,
   showSplashDesktop: env.REACT_APP_SPLASH_DESKTOP === 'true',
   showAddToHomeDesktop: env.REACT_APP_ADDTOHOME_DESKTOP === 'true',

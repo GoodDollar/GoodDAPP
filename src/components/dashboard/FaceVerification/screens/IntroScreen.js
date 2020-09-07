@@ -106,7 +106,7 @@ const IntroScreen = ({ styles, screenProps }) => {
     textAlign: 'center',
     color: 'primary',
     fontSize: isLargeDevice ? 18 : 16,
-    lineHeight: 24,
+    lineHeight: 25,
   }
 
   useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])

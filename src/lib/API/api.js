@@ -324,13 +324,6 @@ export class APIService {
   }
 
   /**
-   * `/user/market` get api call
-   */
-  getMarketToken() {
-    return this.client.get('/user/market')
-  }
-
-  /**
    * `/storage/login/token` get api call
    */
   getLoginToken() {
@@ -385,13 +378,6 @@ export class APIService {
    */
   redeemBonuses() {
     return this.client.get('/verify/w3/bonuses')
-  }
-
-  /**
-   * `/verify/hanuka-bonus` get api call
-   */
-  checkHanukaBonus() {
-    return this.client.get('/verify/hanuka-bonus')
   }
 
   /**

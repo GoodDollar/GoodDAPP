@@ -1,14 +1,18 @@
 const sizesWithMock = args => {
   const { screenHeight, screenWidth, isPortrait } = args || {}
-  jest.doMock('../Orientation', () => {
-    return {
-      getMaxDeviceHeight: () => screenHeight || 616,
-      getMaxDeviceWidth: () => screenWidth || 360,
-      isPortrait: () => (isPortrait === undefined ? true : isPortrait),
-    }
+
+  jest.doMock('../orientation', () => ({
+    isPortrait: () => (isPortrait === undefined ? true : isPortrait),
+  }))
+
+  const Module = require('../sizes')
+
+  Object.assign(Module, {
+    getMaxDeviceHeight: () => screenHeight || 616,
+    getMaxDeviceWidth: () => screenWidth || 360,
   })
 
-  return require('../sizes')
+  return Module
 }
 
 describe('sizes', () => {

@@ -2,8 +2,6 @@
 import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
-  assign,
-  filter,
   find,
   flatten,
   get,
@@ -20,7 +18,6 @@ import {
   some,
   takeWhile,
   toPairs,
-  uniqBy,
   values,
 } from 'lodash'
 import isEmail from 'validator/lib/isEmail'
@@ -227,24 +224,6 @@ export const startClaiming = {
     reason: Config.isPhaseZero
       ? `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
       : `GoodDollar gives every active member a small daily income.\n\nEvery day, sign in and claim free GoodDollars and use them to pay for goods and services.`,
-  },
-}
-
-export const hanukaBonusStartsMessage = {
-  type: 'hanukaStarts',
-  status: 'completed',
-  data: {
-    customName: 'Collect extra GoodDollars\non every day of Hannukah',
-    subtitle: 'Hannukah Miracle Bonus',
-    readMore: 'Claim today for extra G$$$.',
-    receiptData: {
-      from: NULL_ADDRESS,
-    },
-    reason:
-      'Get an extra GoodDollar, on top of your daily collection, for every candle lit on the menorah today. Claim every day of Hannukah for a total bonus of G$44!\n\nHag Sameach!',
-    endpoint: {
-      fullName: 'Hannukah Miracle Bonus',
-    },
   },
 }
 
@@ -631,16 +610,6 @@ export class UserStorage {
       trustPromise,
       AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
       this.initFeed(),
-
-      // save ref to user
-      this.gun
-        .get('users')
-        .get(this.gunuser.is.pub)
-        .putAck(this.gunuser)
-        .catch(e => {
-          logger.error('save ref to user failed:', e.message, e)
-          throw e
-        }),
     ]).catch(e => {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
@@ -654,6 +623,11 @@ export class UserStorage {
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
 
+    // save ref to user
+    this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .put(this.gunuser)
     return true
   }
 
@@ -689,25 +663,6 @@ export class UserStorage {
   }
 
   async initTokens() {
-    if (this.userAlreadyExist() !== true) {
-      return
-    }
-    const initMarketToken = async () => {
-      if (Config.market) {
-        const r = await API.getMarketToken().catch(e => {
-          const errMsg = getErrorMessage(e)
-          const exception = new Error(errMsg)
-
-          logger.warn('failed fetching market token', { errMsg, exception })
-        })
-        token = get(r, 'data.jwt')
-        if (token) {
-          this.setProfileField('marketToken', token, 'private')
-        }
-        return token
-      }
-    }
-
     const initLoginToken = async () => {
       if (Config.enableInvites) {
         const r = await API.getLoginToken().catch(e => {
@@ -724,14 +679,13 @@ export class UserStorage {
       }
     }
 
-    let [token, inviteCode, marketToken] = await Promise.all([
+    let [token, inviteCode] = await Promise.all([
       this.getProfileFieldValue('loginToken'),
       this.getProfileFieldValue('inviteCode'),
-      this.getProfileFieldValue('marketToken'),
     ])
     logger.debug('initTokens: got profile tokens')
 
-    let [_token] = await Promise.all([token || initLoginToken(), marketToken || initMarketToken()])
+    let [_token] = token || (await initLoginToken())
 
     if (!inviteCode) {
       const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
@@ -1192,7 +1146,6 @@ export class UserStorage {
       await this.userProperties.set('firstVisitApp', Date.now())
     }
 
-    this.addHanukaBonusStartsCard()
     logger.debug('startSystemFeed: done')
   }
 
@@ -1272,25 +1225,6 @@ export class UserStorage {
   }
 
   /**
-   * add a hanuka bonus card to notify user that bonus period starts
-   *
-   * @returns {Promise<void>}
-   */
-  async addHanukaBonusStartsCard() {
-    const now = moment().utcOffset('+0200')
-    const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY').utcOffset('+0200')
-    const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY')
-      .endOf('day')
-      .utcOffset('+0200')
-
-    if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
-      hanukaBonusStartsMessage.id = `hanuka-${now.format('YYYY')}`
-
-      await this.enqueueTX(hanukaBonusStartsMessage)
-    }
-  }
-
-  /**
    * Returns profile attribute
    *
    * @param {string} field - Profile attribute
@@ -1310,7 +1244,7 @@ export class UserStorage {
           exception = new Error(reason)
         }
 
-        logger.error('getProfileFieldValue decrypt failed:', message, exception)
+        logger.error('getProfileFieldValue decrypt failed:', message, exception, { field })
       })
   }
 
@@ -1355,7 +1289,7 @@ export class UserStorage {
    * @returns {object} UserModel with some inherit functions
    */
   getPrivateProfile(profile: {}): Promise<UserModel> {
-    const keys = Object.keys(profile)
+    const keys = this._getProfileFields(profile)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
         return values.reduce((acc, currValue, index) => {
@@ -1664,75 +1598,67 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    let { feed, feedIndex, cursor, feedIds, wallet } = this
-
     if (reset) {
-      cursor = 0
+      this.cursor = undefined
     }
-
-    if (!feedIndex) {
+    if (this.cursor === undefined) {
+      this.cursor = 0
+    }
+    let total = 0
+    if (!this.feedIndex) {
       return []
     }
 
-    let total = 0
-    let daysToTake = takeWhile(feedIndex.slice(cursor), ([, eventsAmount]) => {
-      const takeDay = total < numResults
-
-      if (takeDay) {
-        total += eventsAmount
+    let daysToTake: Array<[string, number]> = takeWhile(this.feedIndex.slice(this.cursor), day => {
+      if (total >= numResults) {
+        return false
       }
-
-      return takeDay
+      total += day[1]
+      return true
     })
-
-    cursor += daysToTake.length
-    assign(this, { cursor })
+    this.cursor += daysToTake.length
 
     //TODO: WTF does this work?!?! if we JSON.stringify teh day index content how come we don't need to JSON.parse it?
     //this works in the unit tests also
-    let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(([date]) =>
-      feed
-        .get(date)
+    let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
+      return this.feed
+        .get(day[0])
         .then(data => (typeof data === 'string' ? JSON.parse(data) : data))
         .catch(e => {
           logger.error('getFeed', e.message, e)
           return []
-        }),
-    )
-
-    const eventsIndex = await Promise.all(promises).then(indexes => {
-      const filtered = filter(flatten(indexes), 'id')
-
-      return uniqBy(filtered, 'id')
+        })
     })
 
+    const eventsIndex = flatten(await Promise.all(promises))
     logger.debug('getFeedPage', {
-      feedIndex,
+      feedIndex: this.feedIndex,
       daysToTake,
       eventsIndex,
     })
 
-    const events = await Promise.all(
-      eventsIndex.map(async ({ id }) => {
-        let item = feedIds[id]
+    return Promise.all(
+      eventsIndex
+        .filter(_ => _.id)
+        .map(async eventIndex => {
+          let item = this.feedIds[eventIndex.id]
 
-        if (!item && id.startsWith('0x')) {
-          const receipt = await wallet.getReceiptWithLogs(id).catch(e => {
-            logger.warn('no receipt found for id:', id, e.message, e)
-          })
+          if (item === undefined && eventIndex.id.indexOf('0x') === 0) {
+            const receipt = await this.wallet.getReceiptWithLogs(eventIndex.id).catch(e => {
+              logger.warn('no receipt found for id:', eventIndex.id, e.message, e)
+              return undefined
+            })
 
-          if (receipt) {
-            item = await this.handleReceiptUpdated(receipt)
-          } else {
-            logger.warn('no receipt found for undefined item id:', id)
+            if (receipt) {
+              item = await this.handleReceiptUpdated(receipt)
+            } else {
+              logger.warn('no receipt found for undefined item id:', eventIndex.id)
+            }
           }
-        }
 
-        return item
-      }),
+          return item
+        }),
     )
-
-    return filter(events)
   }
 
   /**
@@ -2558,6 +2484,11 @@ export class UserStorage {
   }
 
   /**
+   * @private
+   */
+  _getProfileFields = profile => keys(profile).filter(field => !['_', 'initialized'].includes(field))
+
+  /**
    * remove user from indexes
    * deleting profile actually doenst delete but encrypts everything
    */
@@ -2565,9 +2496,8 @@ export class UserStorage {
     this.unSubscribeProfileUpdates()
 
     // first delete from indexes then delete the profile itself
-    let profileFields = await this.profile.then(fields =>
-      filter(keys(fields), field => !['_', 'initialized'].includes(field)),
-    )
+    const { profile, _getProfileFields } = this
+    let profileFields = await profile.then(_getProfileFields)
 
     logger.debug('Deleting profile fields', profileFields)
 

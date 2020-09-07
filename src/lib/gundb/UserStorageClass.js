@@ -2,7 +2,6 @@
 import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
-  filter,
   find,
   flatten,
   get,
@@ -225,24 +224,6 @@ export const startClaiming = {
     reason: Config.isPhaseZero
       ? `Hey, just a reminder to claim your daily G$’s.\nRemember, claim for 14 days and secure\na spot for GoodDollar’s live launch.`
       : `GoodDollar gives every active member a small daily income.\n\nEvery day, sign in and claim free GoodDollars and use them to pay for goods and services.`,
-  },
-}
-
-export const hanukaBonusStartsMessage = {
-  type: 'hanukaStarts',
-  status: 'completed',
-  data: {
-    customName: 'Collect extra GoodDollars\non every day of Hannukah',
-    subtitle: 'Hannukah Miracle Bonus',
-    readMore: 'Claim today for extra G$$$.',
-    receiptData: {
-      from: NULL_ADDRESS,
-    },
-    reason:
-      'Get an extra GoodDollar, on top of your daily collection, for every candle lit on the menorah today. Claim every day of Hannukah for a total bonus of G$44!\n\nHag Sameach!',
-    endpoint: {
-      fullName: 'Hannukah Miracle Bonus',
-    },
   },
 }
 
@@ -629,16 +610,6 @@ export class UserStorage {
       trustPromise,
       AsyncStorage.getItem('GD_trust').then(_ => (this.trust = _ || {})),
       this.initFeed(),
-
-      // save ref to user
-      this.gun
-        .get('users')
-        .get(this.gunuser.is.pub)
-        .putAck(this.gunuser)
-        .catch(e => {
-          logger.error('save ref to user failed:', e.message, e)
-          throw e
-        }),
     ]).catch(e => {
       logger.error('failed init step in userstorage', e.message, e)
       throw e
@@ -652,6 +623,11 @@ export class UserStorage {
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
 
+    // save ref to user
+    this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .put(this.gunuser)
     return true
   }
 
@@ -687,25 +663,6 @@ export class UserStorage {
   }
 
   async initTokens() {
-    if (this.userAlreadyExist() !== true) {
-      return
-    }
-    const initMarketToken = async () => {
-      if (Config.market) {
-        const r = await API.getMarketToken().catch(e => {
-          const errMsg = getErrorMessage(e)
-          const exception = new Error(errMsg)
-
-          logger.warn('failed fetching market token', { errMsg, exception })
-        })
-        token = get(r, 'data.jwt')
-        if (token) {
-          this.setProfileField('marketToken', token, 'private')
-        }
-        return token
-      }
-    }
-
     const initLoginToken = async () => {
       if (Config.enableInvites) {
         const r = await API.getLoginToken().catch(e => {
@@ -722,14 +679,13 @@ export class UserStorage {
       }
     }
 
-    let [token, inviteCode, marketToken] = await Promise.all([
+    let [token, inviteCode] = await Promise.all([
       this.getProfileFieldValue('loginToken'),
       this.getProfileFieldValue('inviteCode'),
-      this.getProfileFieldValue('marketToken'),
     ])
     logger.debug('initTokens: got profile tokens')
 
-    let [_token] = await Promise.all([token || initLoginToken(), marketToken || initMarketToken()])
+    let [_token] = token || (await initLoginToken())
 
     if (!inviteCode) {
       const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
@@ -1103,7 +1059,6 @@ export class UserStorage {
 
     // load unencrypted feed from cache
     this.feedIds = await AsyncStorage.getItem('GD_feed')
-      .then(JSON.parse)
       .catch(() => {
         logger.warn('failed parsing feed from cache')
       })
@@ -1191,7 +1146,6 @@ export class UserStorage {
       await this.userProperties.set('firstVisitApp', Date.now())
     }
 
-    this.addHanukaBonusStartsCard()
     logger.debug('startSystemFeed: done')
   }
 
@@ -1271,25 +1225,6 @@ export class UserStorage {
   }
 
   /**
-   * add a hanuka bonus card to notify user that bonus period starts
-   *
-   * @returns {Promise<void>}
-   */
-  async addHanukaBonusStartsCard() {
-    const now = moment().utcOffset('+0200')
-    const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY').utcOffset('+0200')
-    const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY')
-      .endOf('day')
-      .utcOffset('+0200')
-
-    if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
-      hanukaBonusStartsMessage.id = `hanuka-${now.format('YYYY')}`
-
-      await this.enqueueTX(hanukaBonusStartsMessage)
-    }
-  }
-
-  /**
    * Returns profile attribute
    *
    * @param {string} field - Profile attribute
@@ -1309,7 +1244,7 @@ export class UserStorage {
           exception = new Error(reason)
         }
 
-        logger.error('getProfileFieldValue decrypt failed:', message, exception)
+        logger.error('getProfileFieldValue decrypt failed:', message, exception, { field })
       })
   }
 
@@ -1354,7 +1289,7 @@ export class UserStorage {
    * @returns {object} UserModel with some inherit functions
    */
   getPrivateProfile(profile: {}): Promise<UserModel> {
-    const keys = Object.keys(profile)
+    const keys = this._getProfileFields(profile)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
         return values.reduce((acc, currValue, index) => {
@@ -1748,7 +1683,7 @@ export class UserStorage {
             feedItem.otplStatus !== 'cancelled',
         )
         .map(feedItem => {
-          if (false == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
+          if (null == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
             return this.getFormatedEventById(feedItem.id)
           }
 
@@ -2549,6 +2484,11 @@ export class UserStorage {
   }
 
   /**
+   * @private
+   */
+  _getProfileFields = profile => keys(profile).filter(field => !['_', 'initialized'].includes(field))
+
+  /**
    * remove user from indexes
    * deleting profile actually doenst delete but encrypts everything
    */
@@ -2556,9 +2496,8 @@ export class UserStorage {
     this.unSubscribeProfileUpdates()
 
     // first delete from indexes then delete the profile itself
-    let profileFields = await this.profile.then(fields =>
-      filter(keys(fields), field => !['_', 'initialized'].includes(field)),
-    )
+    const { profile, _getProfileFields } = this
+    let profileFields = await profile.then(_getProfileFields)
 
     logger.debug('Deleting profile fields', profileFields)
 
@@ -2599,14 +2538,12 @@ export class UserStorage {
       deleteAccountResult = await API.deleteAccount()
 
       if (get(deleteAccountResult, 'data.ok', false)) {
-        const cleanupPromises = [
+        deleteResults = await Promise.all([
           _trackStatus(retry(() => wallet.deleteAccount(), 1, 500), 'wallet'),
           _trackStatus(this.deleteProfile(), 'profile'),
-          _trackStatus(() => userProperties.reset(), 'userprops'),
-          _trackStatus(() => gunuser.get('registered').putAck(false), 'registered'),
-        ]
-
-        deleteResults = await Promise.all(cleanupPromises)
+          _trackStatus(userProperties.reset(), 'userprops'),
+          _trackStatus(gunuser.get('registered').putAck(false), 'registered'),
+        ])
       }
     } catch (e) {
       logger.error('deleteAccount unexpected error', e.message, e)
@@ -2627,8 +2564,8 @@ export class UserStorage {
     return exception
   }
 
-  _trackStatus(promise, label) {
-    return promise
+  _trackStatus = (promise, label) =>
+    promise
       .then(() => {
         const status = { [label]: 'ok' }
 
@@ -2637,10 +2574,9 @@ export class UserStorage {
       })
       .catch(gunError => {
         const status = { [label]: 'failed' }
-        const e = this._gunException(e)
+        const e = this._gunException(gunError)
 
         logger.debug('Cleanup:', e.message, e, status)
         return status
       })
-  }
 }

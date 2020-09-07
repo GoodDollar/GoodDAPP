@@ -269,20 +269,24 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
                   >
                     1
                   </span>
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
-                    dir="auto"
+                  <div
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "lineHeight": "22px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "justify",
+                        "WebkitFlexDirection": "row",
+                        "WebkitJustifyContent": "space-between",
+                        "alignItems": "center",
+                        "display": "inline-flex",
+                        "flexDirection": "row",
+                        "justifyContent": "space-between",
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
+                        "msFlexPack": "justify",
                       }
                     }
                   >
@@ -324,7 +328,7 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
                     >
                       $
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>

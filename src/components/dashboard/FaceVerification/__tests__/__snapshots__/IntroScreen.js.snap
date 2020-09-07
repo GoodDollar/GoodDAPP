@@ -110,7 +110,7 @@ exports[`FaceVerification IntroScreen matches snapshot 1`] = `
               "fontSize": "24px",
               "fontWeight": "500",
               "lineHeight": "30px",
-              "marginTop": "30px",
+              "marginTop": "10px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -125,7 +125,7 @@ can claim G$’s
           className="css-view-1dbjc4n"
           style={
             Object {
-              "height": "220px",
+              "height": "180px",
               "marginBottom": "18px",
               "marginTop": "18px",
               "width": "100%",
@@ -168,10 +168,10 @@ can claim G$’s
                 "fontSize": "16px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
-                "paddingBottom": "16px",
+                "paddingBottom": "14px",
                 "paddingLeft": "4px",
                 "paddingRight": "4px",
-                "paddingTop": "16px",
+                "paddingTop": "14px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -254,7 +254,7 @@ can claim G$’s
                   "fontSize": "18px",
                   "fontWeight": "700",
                   "lineHeight": "25px",
-                  "paddingTop": "32px",
+                  "paddingTop": "16px",
                   "textAlign": "center",
                   "textDecoration": "underline",
                   "textTransform": "none",
@@ -275,7 +275,7 @@ can claim G$’s
                 "borderTopLeftRadius": "1px",
                 "borderTopRightRadius": "1px",
                 "height": "2px",
-                "marginBottom": "25px",
+                "marginBottom": "5px",
               }
             }
           />

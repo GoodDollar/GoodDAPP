@@ -2,7 +2,6 @@
 import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
-  assign,
   filter,
   find,
   flatten,
@@ -10,6 +9,7 @@ import {
   isEqual,
   isError,
   isString,
+  isUndefined,
   keys,
   maxBy,
   memoize,
@@ -1656,14 +1656,14 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    let { feed, feedIndex, cursor, feedIds, wallet } = this
-
-    if (reset) {
-      cursor = 0
-    }
+    let { feedIndex, cursor, feedIds } = this
 
     if (!feedIndex) {
       return []
+    }
+
+    if (reset || isUndefined(cursor)) {
+      cursor = 0
     }
 
     // running through the days history until we got the request numResults
@@ -1679,12 +1679,11 @@ export class UserStorage {
       return takeDay
     })
 
-    cursor += daysToTake.length
-    assign(this, { cursor })
+    this.cursor += daysToTake.length
 
     // going through the days we've selected, fetching feed indexes for that days
     let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(([date]) =>
-      feed
+      this.feed
         .get(date)
         .then(data => (typeof data === 'string' ? JSON.parse(data) : data))
         .catch(e => {
@@ -1714,7 +1713,7 @@ export class UserStorage {
         // if no item in the cache and it's some transaction
         // then getting tx item details from the wallet
         if (!item && id.startsWith('0x')) {
-          const receipt = await wallet.getReceiptWithLogs(id).catch(e => {
+          const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
             logger.warn('no receipt found for id:', id, e.message, e)
           })
 

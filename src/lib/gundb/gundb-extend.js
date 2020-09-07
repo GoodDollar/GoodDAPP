@@ -87,22 +87,28 @@ assign(User.prototype, {
    * @returns {Promise<any>}
    */
   async decrypt(callback = null) {
-    let decryptedData = null
+    const user = this.back(-1).user()
+    const pair = user.pair()
+    let path = ''
+
+    this.back(({ is, get }) => {
+      if (is || !get) {
+        return
+      }
+
+      path += get
+    })
+
+    const secureKey = await user
+      .get('trust')
+      .get(pair.pub)
+      .get(path)
+      .then(encryptedKey => (encryptedKey ? SEA.decrypt(encryptedKey, pair) : null))
+
     const encryptedData = await this.then()
+    let decryptedData = null
 
-    if (encryptedData) {
-      let path = ''
-      const user = this.back(-1).user()
-      const pair = user.pair()
-
-      this.back(({ is, get }) => !is && get && (path += get))
-
-      const secureKey = await user
-        .get('trust')
-        .get(pair.pub)
-        .get(path)
-        .then(encryptedKey => (encryptedKey ? SEA.decrypt(encryptedKey, pair) : null))
-
+    if (encryptedData != null) {
       if (!secureKey) {
         throw new Error(`Decrypting key missing for path '${path}'. Trying to decrypt '${encryptedData}'`)
       }

@@ -101,7 +101,7 @@ const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale, onS
           <ClaimButton screenProps={screenProps} onStatusChange={onStatusChange} style={animatedStyle} />
         </Animated.View>
       ) : (
-        <ClaimButton screenProps={screenProps} />
+        <ClaimButton screenProps={screenProps} onStatusChange={onStatusChange} />
       )}
     </View>
   )

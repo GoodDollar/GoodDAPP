@@ -1,11 +1,13 @@
 // @flow
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Platform, View } from 'react-native'
 import { constant, noop } from 'lodash'
 
 import { PushButton } from '../../appNavigation/PushButton'
-import { withStyles } from '../../../lib/styles'
 import useClaimQueue from '../../dashboard/Claim/useClaimQueue'
+
+import { measure } from '../../../lib/utils/sizes'
+import { withStyles } from '../../../lib/styles'
 
 const getStylesFromProps = ({ theme }) => ({
   inQueue: {
@@ -70,15 +72,24 @@ const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style
 })
 
 const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale, onStatusChange = noop }) => {
-  const [pushButtonTranslate, setPushButtonTranslate] = React.useState({})
+  const containerRef = useRef()
+  const [pushButtonTranslate, setPushButtonTranslate] = useState({})
 
-  const handleLayout = useCallback(
-    event => {
-      const { width, height } = event.nativeEvent.layout
+  const handleStatusChange = useCallback(
+    async status => {
+      const { current: containerView } = containerRef
+
+      onStatusChange(status)
+
+      if (!containerView) {
+        return
+      }
+
+      const { width, height } = await measure(containerView)
 
       setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
     },
-    [setPushButtonTranslate],
+    [setPushButtonTranslate, onStatusChange],
   )
 
   const animatedStyle = useMemo(() => {
@@ -95,10 +106,10 @@ const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale, onS
   }, [pushButtonTranslate])
 
   return (
-    <View style={styles.wrapper} onLayout={handleLayout}>
+    <View style={styles.wrapper} ref={containerRef}>
       {animated ? (
         <Animated.View style={[animatedScale, styles.animatedWrapper]}>
-          <ClaimButton screenProps={screenProps} onStatusChange={onStatusChange} style={animatedStyle} />
+          <ClaimButton screenProps={screenProps} onStatusChange={handleStatusChange} style={animatedStyle} />
         </Animated.View>
       ) : (
         <ClaimButton screenProps={screenProps} onStatusChange={onStatusChange} />

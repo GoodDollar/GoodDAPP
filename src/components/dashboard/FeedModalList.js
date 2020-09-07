@@ -1,6 +1,6 @@
 // @flow
 
-import React, { createRef, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
 import { Portal } from 'react-native-paper'
@@ -43,7 +43,7 @@ const FeedModalList = ({
   styles,
   navigation,
 }: FeedModalListProps) => {
-  const flatListRef = createRef()
+  const flatListRef = useRef()
 
   // Component is in loading state until matches the offset for the selected item
   const [loading, setLoading] = useState(true)

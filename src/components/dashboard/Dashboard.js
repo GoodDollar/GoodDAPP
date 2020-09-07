@@ -662,7 +662,7 @@ const Dashboard = props => {
                 {fullName || ' '}
               </Section.Text>
             </Animated.View>
-            {/* <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}> */}
+            <Animated.View style={[styles.bigNumberWrapper, balanceAnimStyles]}>
             <View ref={balanceRef}>
               <BigGoodDollar
                 testID="amount_value"
@@ -677,7 +677,7 @@ const Dashboard = props => {
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
             </View>
-            {/* </Animated.View> */}
+           </Animated.View>
           </Section.Stack>
         </Animated.View>
         <Section.Row style={styles.buttonsRow}>

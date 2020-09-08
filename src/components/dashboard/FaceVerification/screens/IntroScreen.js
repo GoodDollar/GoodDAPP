@@ -22,7 +22,7 @@ import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import { isE2ERunning, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
+import { isE2ERunning, isIOSWeb, isMobileSafari, isWeb } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
@@ -185,22 +185,22 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   mainTitle: {
-    marginTop: getDesignRelativeHeight(isLargeDevice ? 30 : 15),
+    marginTop: getDesignRelativeHeight(isWeb ? 30 : 15),
   },
   illustration: {
     marginTop: getDesignRelativeHeight(18),
     marginBottom: getDesignRelativeHeight(18),
-    height: getDesignRelativeWidth(isLargeDevice ? 220 : 180),
+    height: getDesignRelativeWidth(isWeb ? 220 : 180),
     width: '100%',
     alignItems: 'center',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
-    paddingVertical: getDesignRelativeHeight(isLargeDevice ? theme.sizes.defaultDouble : 14),
+    paddingVertical: getDesignRelativeHeight(isWeb ? theme.sizes.defaultDouble : 14),
   },
   descriptionUnderline: {
     display: Platform.select({ web: 'block', default: 'flex' }),
-    paddingTop: getDesignRelativeHeight(isLargeDevice ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
+    paddingTop: getDesignRelativeHeight(isWeb ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
   },
   button: {
     width: '100%',

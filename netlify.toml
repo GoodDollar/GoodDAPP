@@ -6,7 +6,7 @@ environment = { GENERATE_SOURCEMAP = "true" }
 REACT_APP_SERVICE_WORKER = "true"
 REACT_APP_ENV = "production"
 REACT_APP_LOG_LEVEL = "silent"
-REACT_APP_SERVER_URL = "https://goodserver-next.herokuapp.com/"
+REACT_APP_SERVER_URL = "https://goodserver.gooddollar.org/"
 REACT_APP_GUN_PUBLIC_URL = "https://goodgun-next.herokuapp.com/gun"
 REACT_APP_NETWORK = "production"
 REACT_APP_SKIP_EMAIL_VERIFICATION = "false"

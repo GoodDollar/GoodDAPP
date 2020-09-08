@@ -407,7 +407,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         >
           <View style={styles.googleButtonContent}>
             <Image source={googleBtnIcon} resizeMode="contain" style={styles.googleIcon} />
-            <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500}>
+            <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0}>
               Agree & Continue with Google
             </Text>
           </View>

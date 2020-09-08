@@ -213,7 +213,7 @@ export class AnalyticsClass {
       const onError = () => resolve(false)
       const onSuccess = () => resolve(true)
 
-      amplitude.init(key, null, { onError }, onSuccess)
+      amplitude.init(key, null, { includeReferrer: true, includeUtm: true, onError }, onSuccess)
     })
   }
 

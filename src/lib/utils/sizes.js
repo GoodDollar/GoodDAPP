@@ -60,5 +60,5 @@ export const getDesignRelativeHeight = (height, isMax = true) => {
 
 // eslint-disable-next-line
  export const measure = async view => new Promise(resolve =>
-  view.measure((x, y, width) => resolve({ x, y, width }))
+  view.measure((x, y, width, height) => resolve({ x, y, width, height  }))
 )

@@ -68,7 +68,7 @@ const initAmplitude = async key => {
     const onError = () => resolve(false)
     const onSuccess = () => resolve(true)
 
-    Amplitude.init(key, null, { onError }, onSuccess)
+    Amplitude.init(key, null, { includeUtm: true, includeReferrer: true, onError }, onSuccess)
   })
 }
 

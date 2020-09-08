@@ -6,7 +6,8 @@ import { isMobileOnly } from 'mobile-device-detect'
 import { Portal } from 'react-native-paper'
 import { once } from 'lodash'
 import { withStyles } from '../../lib/styles'
-import { getMaxDeviceWidth, getScreenWidth } from '../../lib/utils/Orientation'
+import { getScreenWidth } from '../../lib/utils/orientation'
+import { getMaxDeviceWidth } from '../../lib/utils/sizes'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import { emptyFeed, keyExtractor, VIEWABILITY_CONFIG } from './utils/feed'
@@ -48,11 +49,19 @@ const FeedModalList = ({
   const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState()
 
+  const selectedFeedIndex = useMemo(() => (selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : -1), [
+    data,
+    selectedFeed,
+  ])
+
   // When screenWidth or selectedFeed changes needs to recalculate the offset
   useEffect(() => {
-    const index = selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : 0
-    setOffset(screenWidth * index)
-  }, [selectedFeed])
+    if (selectedFeedIndex < 0) {
+      return
+    }
+
+    setOffset(screenWidth * selectedFeedIndex)
+  }, [selectedFeedIndex])
 
   // When target offset changes (by the prev useEffect) scrollToOffset
   useEffect(() => {
@@ -88,11 +97,7 @@ const FeedModalList = ({
     [handleFeedSelection, navigation],
   )
 
-  const initialNumToRender = useMemo(() => Math.abs(data.findIndex(item => item.id === selectedFeed.id)), [
-    selectedFeed,
-    data,
-  ])
-
+  const initialNumToRender = useMemo(() => Math.abs(selectedFeedIndex), [selectedFeedIndex])
   const slideEventRef = useRef(once(() => fireEvent(CARD_SLIDE)))
 
   const handleScroll = useCallback(
@@ -113,7 +118,6 @@ const FeedModalList = ({
     <Portal>
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
         <FlatList
-          key={selectedFeed.id || selectedFeed.createdDate}
           keyExtractor={keyExtractor}
           style={styles.flatList}
           onScroll={handleScroll}

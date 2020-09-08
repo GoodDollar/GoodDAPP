@@ -37,13 +37,6 @@ const getEventSettingsByType = (theme, type) => {
       withoutAmount: true,
       withoutAvatar: true,
     },
-    hanukaStarts: {
-      color: theme.colors.primary,
-      component: FeedInfo,
-      name: 'info',
-      withoutAmount: true,
-      withoutAvatar: true,
-    },
     send: {
       actionSymbol: '-',
       color: theme.colors.red,

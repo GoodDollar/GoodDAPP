@@ -139,7 +139,11 @@ export class APIService {
    */
   addUser(user: UserRecord): AxiosPromise<any> {
     //-skipRegistrationStep ONLY FOR TESTING  delete this condition aftere testing
-    return this.client.post('/user/add', { user, skipRegistrationStep: global.skipRegistrationStep })
+    return this.client.post(
+      '/user/add',
+      { user, skipRegistrationStep: global.skipRegistrationStep },
+      { withCredentials: true }, //we need also the cookies for utm
+    )
   }
 
   /**

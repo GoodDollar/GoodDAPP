@@ -1,5 +1,4 @@
 // @flow
-
 /*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
@@ -31,7 +30,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import { isSmallDevice, isMediumDevice } from '../../../lib/utils/mobileSizeDetect'
+import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import { userExists } from '../../../lib/login/userExists'
@@ -290,7 +289,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               onPress={signupAuth0Mobile}
               disabled={!sdkInitialized}
               testID="login_via_mobile"
-              compact={isSmallDevice || isMediumDevice}
+              compact={isSmallDevice}
             >
               Via Phone Code
             </CustomButton>
@@ -301,7 +300,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               onPress={signupAuth0Email}
               disabled={!sdkInitialized}
               testID="login_via_email"
-              compact={isSmallDevice || isMediumDevice}
+              compact={isSmallDevice}
             >
               Via Email Code
             </CustomButton>
@@ -398,7 +397,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           </>
         )}
         <CustomButton
-          compact={isSmallDevice || isMediumDevice}
+          compact={isSmallDevice}
           mode="outlined"
           style={styles.googleButtonLayout}
           textStyle={{ width: '100%' }}
@@ -414,7 +413,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           </View>
         </CustomButton>
         <CustomButton
-          compact={isSmallDevice || isMediumDevice}
+          compact={isSmallDevice}
           color={mainTheme.colors.facebookBlue}
           style={styles.buttonLayout}
           textStyle={[styles.buttonText, facebookButtonTextStyle]}
@@ -431,6 +430,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 }
 
 const getStylesFromProps = ({ theme }) => {
+  const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
+
   return {
     mainWrapper: {
       paddingHorizontal: 0,
@@ -466,7 +467,7 @@ const getStylesFromProps = ({ theme }) => {
       marginRight: getDesignRelativeWidth(10, false),
     },
     buttonText: {
-      fontSize: normalizeText(isSmallDevice ? 13 : 16),
+      fontSize: buttonFontSize,
     },
     acceptTermsLink: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
@@ -494,7 +495,6 @@ const getStylesFromProps = ({ theme }) => {
     },
   }
 }
-
 const auth = withStyles(getStylesFromProps)(SimpleStore.withStore(AuthTorus))
 auth.navigationOptions = {
   title: 'Auth',

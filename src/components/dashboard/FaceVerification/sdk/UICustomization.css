@@ -57,7 +57,7 @@
   letter-spacing: 0.08px;
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 425px) {
   #zoom-upload-progress-wrapper .loading::before {
     font-size: 15px;
   }

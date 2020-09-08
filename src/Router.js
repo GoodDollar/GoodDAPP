@@ -43,6 +43,8 @@ const AppNavigator = createNavigator(
 const RouterWrapper = createApp(AppNavigator)
 
 const Router = () => {
+  // clear the active dialog state when the route is changing to prevent infinite blurred background
+  // for example: when pressing browser history back button while feed card is opened - the route will be changed, but dialogData is still inside undux store
   const navigationStateHandler = useNavigationStateHandler()
 
   return (

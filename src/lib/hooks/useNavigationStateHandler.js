@@ -3,6 +3,7 @@ import { noop } from 'lodash'
 import { useCurriedSetters } from '../undux/SimpleStore.js'
 import { useDialog } from '../undux/utils/dialog'
 import { fireEventFromNavigation } from '../analytics/analytics'
+import { getRoutePath } from '../../components/appNavigation/stackNavigation'
 
 export default (options = {}) => {
   const [, hideDialog] = useDialog()
@@ -11,6 +12,15 @@ export default (options = {}) => {
 
   return useCallback(
     (prevNav, nav, action) => {
+      // do not clean the dialog state if the route is not changed
+      const isSameRoute = getRoutePath(prevNav) === getRoutePath(nav)
+
+      onChange(prevNav, nav, action, isSameRoute)
+
+      if (isSameRoute) {
+        return
+      }
+
       if (resetPopups) {
         hideDialog()
       }
@@ -26,8 +36,6 @@ export default (options = {}) => {
       if (fireEvent) {
         fireEventFromNavigation(action)
       }
-
-      onChange(prevNav, nav, action)
     },
     [hideDialog, setSideMenu, setCurrentFeed, resetFeed, resetMenu, resetPopups, fireEvent, onChange],
   )

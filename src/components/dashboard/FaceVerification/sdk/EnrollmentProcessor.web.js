@@ -133,7 +133,7 @@ export class EnrollmentProcessor {
       if (response) {
         // if error response was sent
         const { enrollmentResult, error } = response
-        const { isEnrolled, isLive, isDuplicate, code } = enrollmentResult || {}
+        const { isEnrolled, isLive, isDuplicate, code, subCode } = enrollmentResult || {}
 
         // setting lastMessage from server's response
         this.lastMessage = error
@@ -145,9 +145,14 @@ export class EnrollmentProcessor {
           return
         }
 
-        // if code is 200 then facetec server operations went ok but
-        // there could be issues with liveness check or image quality
-        if (200 === code) {
+        // checking if exception could be related to the liveness failure
+        // there's two possible cases:
+        //  a) if code is 200 then facetec server operations went ok but
+        //     there could be issues with liveness check or image quality
+        //  b) if server returns subCode = livenessCheckFailed it's
+        //     exactly a liveness check issue
+        if (200 === code || 'livenessCheckFailed' === subCode) {
+          // checking liveness / enrollment statuses flags
           // if liveness check failed or face wasn't enrolled by the other reasons
           // (e.g. wearing glasses or bad image quality)
           if (false === isLive || false === isEnrolled) {

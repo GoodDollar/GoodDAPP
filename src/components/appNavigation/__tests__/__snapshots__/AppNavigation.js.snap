@@ -433,60 +433,22 @@ exports[`AppNavigation matches snapshot 1`] = `
             >
               <div
                 className="css-view-1dbjc4n"
-                data-testid="amount_value"
-                style={
-                  Object {
-                    "WebkitAlignItems": "baseline",
-                    "WebkitBoxAlign": "baseline",
-                    "WebkitBoxDirection": "normal",
-                    "WebkitBoxOrient": "horizontal",
-                    "WebkitFlexDirection": "row",
-                    "alignItems": "baseline",
-                    "display": "flex",
-                    "flexDirection": "row",
-                    "msFlexAlign": "baseline",
-                    "msFlexDirection": "row",
-                  }
-                }
               >
                 <div
-                  className="css-text-901oao"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(85,85,85,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto Slab",
-                      "fontSize": "42px",
-                      "fontWeight": "600",
-                      "lineHeight": "42px",
-                      "marginRight": "2px",
-                      "textAlign": "left",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
-                >
-                  -.--
-                </div>
-                <div
                   className="css-view-1dbjc4n"
+                  data-testid="amount_value"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
                       "WebkitBoxDirection": "normal",
                       "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "justify",
                       "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "space-between",
-                      "alignItems": "center",
+                      "alignItems": "baseline",
+                      "display": "flex",
                       "flexDirection": "row",
-                      "justifyContent": "space-between",
-                      "marginRight": "-20px",
-                      "msFlexAlign": "center",
+                      "msFlexAlign": "baseline",
                       "msFlexDirection": "row",
-                      "msFlexPack": "justify",
                     }
                   }
                 >
@@ -498,35 +460,77 @@ exports[`AppNavigation matches snapshot 1`] = `
                         "color": "rgba(85,85,85,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto Slab",
-                        "fontSize": "18px",
-                        "fontWeight": "700",
-                        "lineHeight": "22px",
-                        "textAlign": "right",
+                        "fontSize": "42px",
+                        "fontWeight": "600",
+                        "lineHeight": "42px",
+                        "marginRight": "2px",
+                        "textAlign": "left",
                         "textDecoration": "none",
                         "textTransform": "none",
                       }
                     }
                   >
-                    G
+                    -.--
                   </div>
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "color": "rgba(85,85,85,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto Slab",
-                        "fontSize": "17.5px",
-                        "fontWeight": "700",
-                        "lineHeight": "22px",
-                        "textAlign": "right",
-                        "textDecoration": "none",
-                        "textTransform": "none",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "justify",
+                        "WebkitFlexDirection": "row",
+                        "WebkitJustifyContent": "space-between",
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "justifyContent": "space-between",
+                        "marginRight": "-20px",
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
+                        "msFlexPack": "justify",
                       }
                     }
                   >
-                    $
+                    <div
+                      className="css-text-901oao"
+                      dir="auto"
+                      style={
+                        Object {
+                          "color": "rgba(85,85,85,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto Slab",
+                          "fontSize": "18px",
+                          "fontWeight": "700",
+                          "lineHeight": "22px",
+                          "textAlign": "right",
+                          "textDecoration": "none",
+                          "textTransform": "none",
+                        }
+                      }
+                    >
+                      G
+                    </div>
+                    <div
+                      className="css-text-901oao"
+                      dir="auto"
+                      style={
+                        Object {
+                          "color": "rgba(85,85,85,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto Slab",
+                          "fontSize": "17.5px",
+                          "fontWeight": "700",
+                          "lineHeight": "22px",
+                          "textAlign": "right",
+                          "textDecoration": "none",
+                          "textTransform": "none",
+                        }
+                      }
+                    >
+                      $
+                    </div>
                   </div>
                 </div>
               </div>

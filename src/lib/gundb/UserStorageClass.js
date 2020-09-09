@@ -2,6 +2,7 @@
 import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
+  filter,
   find,
   flatten,
   get,

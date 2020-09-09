@@ -1,7 +1,7 @@
 // @flow
 //eslint-disable-next-line
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -34,7 +34,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [showDialog] = useDialog()
   const [errorMessage, setErrorMessage] = useState()
   const [showErrorDialog, hideDialog] = useErrorDialog()
-  const input = React.createRef()
+  const input = useRef()
 
   AsyncStorage.removeItem('GD_web3Token')
 

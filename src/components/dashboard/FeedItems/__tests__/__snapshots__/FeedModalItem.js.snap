@@ -199,7 +199,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       "right": "0px",
                       "top": "-20px",
                       "width": "37px",
-                      "zIndex": 0,
+                      "zIndex": 5,
                     }
                   }
                 >
@@ -887,7 +887,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       "right": "0px",
                       "top": "-20px",
                       "width": "37px",
-                      "zIndex": 0,
+                      "zIndex": 5,
                     }
                   }
                 >
@@ -1706,7 +1706,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       "right": "0px",
                       "top": "-20px",
                       "width": "37px",
-                      "zIndex": 0,
+                      "zIndex": 5,
                     }
                   }
                 >
@@ -1926,24 +1926,27 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       0.04
                     </div>
                     <div
-                      className="css-text-901oao"
-                      dir="auto"
+                      className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "none",
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "horizontal",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "row",
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "center",
+                          "msFlexDirection": "row",
+                          "msFlexPack": "justify",
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao"
                         dir="auto"
                         style={
                           Object {
@@ -1952,7 +1955,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                             "fontFamily": "Roboto Slab",
                             "fontSize": "12px",
                             "fontWeight": "700",
-                            "lineHeight": "16px",
+                            "lineHeight": "22px",
                             "textAlign": "right",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -1960,9 +1963,9 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         }
                       >
                         G
-                      </span>
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      </div>
+                      <div
+                        className="css-text-901oao"
                         dir="auto"
                         style={
                           Object {
@@ -1971,7 +1974,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                             "fontFamily": "Roboto Slab",
                             "fontSize": "11.5px",
                             "fontWeight": "700",
-                            "lineHeight": "13.799999999999999px",
+                            "lineHeight": "22px",
                             "textAlign": "right",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -1979,7 +1982,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         }
                       >
                         $
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2643,7 +2646,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       "right": "0px",
                       "top": "-20px",
                       "width": "37px",
-                      "zIndex": 0,
+                      "zIndex": 5,
                     }
                   }
                 >
@@ -2863,24 +2866,27 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       0.04
                     </div>
                     <div
-                      className="css-text-901oao"
-                      dir="auto"
+                      className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "none",
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "horizontal",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "row",
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "center",
+                          "msFlexDirection": "row",
+                          "msFlexPack": "justify",
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao"
                         dir="auto"
                         style={
                           Object {
@@ -2889,7 +2895,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                             "fontFamily": "Roboto Slab",
                             "fontSize": "12px",
                             "fontWeight": "700",
-                            "lineHeight": "16px",
+                            "lineHeight": "22px",
                             "textAlign": "right",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -2897,9 +2903,9 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         }
                       >
                         G
-                      </span>
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      </div>
+                      <div
+                        className="css-text-901oao"
                         dir="auto"
                         style={
                           Object {
@@ -2908,7 +2914,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                             "fontFamily": "Roboto Slab",
                             "fontSize": "11.5px",
                             "fontWeight": "700",
-                            "lineHeight": "13.799999999999999px",
+                            "lineHeight": "22px",
                             "textAlign": "right",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -2916,7 +2922,7 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                         }
                       >
                         $
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -3581,7 +3587,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       "right": "0px",
                       "top": "-20px",
                       "width": "37px",
-                      "zIndex": 0,
+                      "zIndex": 5,
                     }
                   }
                 >
@@ -3767,24 +3773,27 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       0.04
                     </div>
                     <div
-                      className="css-text-901oao"
-                      dir="auto"
+                      className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "color": "rgba(66,69,74,1.00)",
-                          "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
-                          "textTransform": "none",
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "horizontal",
+                          "WebkitBoxPack": "justify",
+                          "WebkitFlexDirection": "row",
+                          "WebkitJustifyContent": "space-between",
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "space-between",
+                          "msFlexAlign": "center",
+                          "msFlexDirection": "row",
+                          "msFlexPack": "justify",
                         }
                       }
                     >
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      <div
+                        className="css-text-901oao"
                         dir="auto"
                         style={
                           Object {
@@ -3793,7 +3802,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                             "fontFamily": "Roboto Slab",
                             "fontSize": "12px",
                             "fontWeight": "700",
-                            "lineHeight": "16px",
+                            "lineHeight": "22px",
                             "textAlign": "right",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -3801,9 +3810,9 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         }
                       >
                         G
-                      </span>
-                      <span
-                        className="css-text-901oao css-textHasAncestor-16my406"
+                      </div>
+                      <div
+                        className="css-text-901oao"
                         dir="auto"
                         style={
                           Object {
@@ -3812,7 +3821,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                             "fontFamily": "Roboto Slab",
                             "fontSize": "11.5px",
                             "fontWeight": "700",
-                            "lineHeight": "13.799999999999999px",
+                            "lineHeight": "22px",
                             "textAlign": "right",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -3820,7 +3829,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         }
                       >
                         $
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </div>

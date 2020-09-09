@@ -473,25 +473,28 @@ exports[`AppNavigation matches snapshot 1`] = `
                     -.--
                   </div>
                   <div
-                    className="css-text-901oao"
-                    dir="auto"
+                    className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "lineHeight": "22px",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitBoxPack": "justify",
+                        "WebkitFlexDirection": "row",
+                        "WebkitJustifyContent": "space-between",
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "justifyContent": "space-between",
                         "marginRight": "-20px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "none",
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
+                        "msFlexPack": "justify",
                       }
                     }
                   >
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                    <div
+                      className="css-text-901oao"
                       dir="auto"
                       style={
                         Object {
@@ -500,7 +503,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           "fontFamily": "Roboto Slab",
                           "fontSize": "18px",
                           "fontWeight": "700",
-                          "lineHeight": "24px",
+                          "lineHeight": "22px",
                           "textAlign": "right",
                           "textDecoration": "none",
                           "textTransform": "none",
@@ -508,9 +511,9 @@ exports[`AppNavigation matches snapshot 1`] = `
                       }
                     >
                       G
-                    </span>
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                    </div>
+                    <div
+                      className="css-text-901oao"
                       dir="auto"
                       style={
                         Object {
@@ -519,7 +522,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                           "fontFamily": "Roboto Slab",
                           "fontSize": "17.5px",
                           "fontWeight": "700",
-                          "lineHeight": "21px",
+                          "lineHeight": "22px",
                           "textAlign": "right",
                           "textDecoration": "none",
                           "textTransform": "none",
@@ -527,7 +530,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                       }
                     >
                       $
-                    </span>
+                    </div>
                   </div>
                 </div>
               </div>

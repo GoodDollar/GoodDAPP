@@ -24,6 +24,8 @@ const getStylesFromProps = ({ theme }) => ({
   },
   modalCloseImage: {
     position: 'absolute',
+    zIndex: mediumZIndex,
+    elevation: 25, // required for Android
     top: -20,
     right: 0,
     height: 37,

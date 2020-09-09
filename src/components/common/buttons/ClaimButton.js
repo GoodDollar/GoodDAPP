@@ -54,7 +54,7 @@ const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style
   // in case we already have status then button is disabled if pending so its ok to return true here.
   const canContinue = useMemo(() => (queueStatus ? constant(true) : handleClaim), [handleClaim, queueStatus])
 
-  useEffect(() => void onStatusChange(queueStatus), [status, onStatusChange])
+  useEffect(() => void onStatusChange(queueStatus), [status])
 
   return (
     <PushButton
@@ -71,15 +71,13 @@ const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style
   )
 })
 
-const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale, onStatusChange = noop }) => {
+const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
   const containerRef = useRef()
   const [pushButtonTranslate, setPushButtonTranslate] = useState({})
 
   const handleStatusChange = useCallback(
     async status => {
       const { current: containerView } = containerRef
-
-      onStatusChange(status)
 
       if (!containerView) {
         return
@@ -89,7 +87,7 @@ const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale, onS
 
       setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
     },
-    [setPushButtonTranslate, onStatusChange],
+    [setPushButtonTranslate],
   )
 
   const animatedStyle = useMemo(() => {
@@ -112,7 +110,7 @@ const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale, onS
           <ClaimButton screenProps={screenProps} onStatusChange={handleStatusChange} style={animatedStyle} />
         </Animated.View>
       ) : (
-        <ClaimButton screenProps={screenProps} onStatusChange={onStatusChange} />
+        <ClaimButton screenProps={screenProps} />
       )}
     </View>
   )

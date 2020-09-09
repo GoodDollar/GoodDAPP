@@ -16,7 +16,6 @@ import claimQueueIllustration from '../../../assets/Claim/claimQueue.svg'
 
 const log = logger.child({ from: 'useClaimQueue' })
 const isQueueDisabled = !Config.claimQueue
-const { userProperties } = userStorage
 
 const ClaimQueuePopupText = ({ styles }) => (
   <View style={styles.wrapper}>
@@ -35,6 +34,7 @@ const ClaimQueuePopupText = ({ styles }) => (
 )
 
 export default () => {
+  const { userProperties } = userStorage
   const [queueStatus, setQueueStatus] = useState(userProperties.get('claimQueueAdded'))
   const [showLoading, hideLoading] = useLoadingIndicator()
   const [, hideDialog, showErrorDialog] = useDialog()

@@ -16,6 +16,7 @@ export const theme = {
     gray50Percent: '#CBCBCB',
     gray80Percent: '#A3A3A3',
     placeholder: '#CBCBCB',
+    disabled: '#E3E3E2',
     green: '#00C3AE',
     lightGreen: '#00BBA5',
     lightGray: '#EEE',
@@ -45,7 +46,7 @@ export const theme = {
     defaultHalf: 4,
     borderRadius: 5,
     maxHeightForTabletAndDesktop: 844,
-    minHeightForDialogMessage: 334,
+    minHeightForDialogMessage: 350,
     maxWidthForTabletAndDesktop: 475,
   },
   fontStyle: {

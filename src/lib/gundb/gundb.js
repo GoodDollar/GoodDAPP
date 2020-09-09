@@ -25,7 +25,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 const gun = Gun(...gunOptions)
 
-logger.debug('Initialized gundb', gunPublicUrl)
+logger.debug('Initialized gundb', { gunOptions })
 assign(global, { gun })
 
 export default gun

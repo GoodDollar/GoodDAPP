@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "1.1.3-0",
+  "version": "1.1.3-1",
   "engines": {
     "node": "10.21.0",
     "npm": "6.x"
@@ -62,9 +62,9 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@gooddollar/goodcontracts": "^2.0.0",
+    "@gooddollar/goodcontracts": "^2.0.3",
     "@gooddollar/gun": "^0.2020.902",
-    "@gooddollar/gun-pk-auth": "^1.0.4",
+    "@gooddollar/gun-pk-auth": "^1.1.0",
     "@react-native-community/async-storage": "^1.12.0",
     "@react-native-community/clipboard": "^1.2.2",
     "@react-navigation/core": "^3.1.1",

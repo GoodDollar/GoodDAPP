@@ -65,7 +65,7 @@ exports[`ModalCloseButton matches snapshot 1`] = `
           "right": "0px",
           "top": "-20px",
           "width": "37px",
-          "zIndex": 0,
+          "zIndex": 5,
         }
       }
     >
@@ -165,7 +165,7 @@ exports[`ModalCloseButton matches snapshot with properties 1`] = `
           "right": "0px",
           "top": "-20px",
           "width": "37px",
-          "zIndex": 0,
+          "zIndex": 5,
         }
       }
     >

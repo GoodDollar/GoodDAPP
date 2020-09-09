@@ -22,6 +22,7 @@ import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { withStyles } from '../../../lib/styles'
 import illustration from '../../../assets/Auth/torusIllustration.svg'
+import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
@@ -29,7 +30,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { isSmallDevice, isMediumDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import { userExists } from '../../../lib/login/userExists'
@@ -288,7 +289,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               onPress={signupAuth0Mobile}
               disabled={!sdkInitialized}
               testID="login_via_mobile"
-              compact={isSmallDevice}
+              compact={isSmallDevice || isMediumDevice}
             >
               Via Phone Code
             </CustomButton>
@@ -299,7 +300,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               onPress={signupAuth0Email}
               disabled={!sdkInitialized}
               testID="login_via_email"
-              compact={isSmallDevice}
+              compact={isSmallDevice || isMediumDevice}
             >
               Via Email Code
             </CustomButton>
@@ -396,16 +397,23 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           </>
         )}
         <CustomButton
-          color={mainTheme.colors.googleRed}
-          style={styles.buttonLayout}
-          textStyle={[styles.buttonText, googleButtonTextStyle]}
+          compact={isSmallDevice || isMediumDevice}
+          mode="outlined"
+          style={styles.googleButtonLayout}
+          textStyle={{ width: '100%' }}
           onPress={googleButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_google"
         >
-          Agree & Continue with Google
+          <View style={styles.googleButtonContent}>
+            <Image source={googleBtnIcon} resizeMode="contain" style={styles.googleIcon} />
+            <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0}>
+              Agree & Continue with Google
+            </Text>
+          </View>
         </CustomButton>
         <CustomButton
+          compact={isSmallDevice || isMediumDevice}
           color={mainTheme.colors.facebookBlue}
           style={styles.buttonLayout}
           textStyle={[styles.buttonText, facebookButtonTextStyle]}
@@ -422,7 +430,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const buttonFontSize = normalizeText(isSmallDevice ? 15 : 16)
+  const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
 
   return {
     mainWrapper: {
@@ -441,6 +449,22 @@ const getStylesFromProps = ({ theme }) => {
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
+    },
+    googleButtonLayout: {
+      marginTop: getDesignRelativeHeight(theme.sizes.default),
+      marginBottom: getDesignRelativeHeight(theme.sizes.default),
+      borderWidth: 0,
+      boxShadow: '0 3px 15px -6px rgba(0,0,0,0.6)',
+    },
+    googleButtonContent: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    googleIcon: {
+      width: getDesignRelativeHeight(20),
+      height: getDesignRelativeHeight(20),
+      marginRight: getDesignRelativeWidth(10, false),
     },
     buttonText: {
       fontSize: buttonFontSize,

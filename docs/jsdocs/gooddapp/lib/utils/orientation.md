@@ -11,7 +11,7 @@ Event listener for orientation changes
 
 ### Parameters
 
--   `callback` **[Function][3]** 
+-   `callback` **[Function][3]**
 
 [1]: #listenorientationchange
 
@@ -19,5 +19,5 @@ Event listener for orientation changes
 
 [3]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 ## Source
-[https://github.com/GoodDollar/GoodDAPP/src/lib/utils/Orientation.js](https://github.com/GoodDollar/GoodDAPP/src/lib/utils/Orientation.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/utils/orientation.js](https://github.com/GoodDollar/GoodDAPP/src/lib/utils/orientation.js)
 

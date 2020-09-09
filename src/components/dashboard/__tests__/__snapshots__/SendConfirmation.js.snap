@@ -316,20 +316,24 @@ with your recipient.
               >
                 -.--
               </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
+              <div
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "color": "rgba(66,69,74,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "16px",
-                    "fontWeight": "normal",
-                    "lineHeight": "22px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "justify",
+                    "WebkitFlexDirection": "row",
+                    "WebkitJustifyContent": "space-between",
+                    "alignItems": "center",
+                    "display": "inline-flex",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "justify",
                   }
                 }
               >
@@ -343,7 +347,7 @@ with your recipient.
                       "fontFamily": "Roboto Slab",
                       "fontSize": "14px",
                       "fontWeight": "700",
-                      "lineHeight": "20px",
+                      "lineHeight": "22px",
                       "textAlign": "right",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -362,7 +366,7 @@ with your recipient.
                       "fontFamily": "Roboto Slab",
                       "fontSize": "13.5px",
                       "fontWeight": "700",
-                      "lineHeight": "16.2px",
+                      "lineHeight": "22px",
                       "textAlign": "right",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -371,7 +375,7 @@ with your recipient.
                 >
                   $
                 </span>
-              </span>
+              </div>
             </div>
           </div>
         </div>

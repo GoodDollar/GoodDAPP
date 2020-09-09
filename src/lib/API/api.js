@@ -139,7 +139,11 @@ export class APIService {
    */
   addUser(user: UserRecord): AxiosPromise<any> {
     //-skipRegistrationStep ONLY FOR TESTING  delete this condition aftere testing
-    return this.client.post('/user/add', { user, skipRegistrationStep: global.skipRegistrationStep })
+    return this.client.post(
+      '/user/add',
+      { user, skipRegistrationStep: global.skipRegistrationStep },
+      { withCredentials: true }, //we need also the cookies for utm
+    )
   }
 
   /**
@@ -324,13 +328,6 @@ export class APIService {
   }
 
   /**
-   * `/user/market` get api call
-   */
-  getMarketToken() {
-    return this.client.get('/user/market')
-  }
-
-  /**
    * `/storage/login/token` get api call
    */
   getLoginToken() {
@@ -385,13 +382,6 @@ export class APIService {
    */
   redeemBonuses() {
     return this.client.get('/verify/w3/bonuses')
-  }
-
-  /**
-   * `/verify/hanuka-bonus` get api call
-   */
-  checkHanukaBonus() {
-    return this.client.get('/verify/hanuka-bonus')
   }
 
   /**

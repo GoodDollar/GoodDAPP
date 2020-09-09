@@ -176,24 +176,28 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             0.04
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
                 "lineHeight": "16px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "justify",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -210,9 +214,9 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               }
             >
               G
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            </div>
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -229,7 +233,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               }
             >
               $
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -688,24 +692,28 @@ exports[`ListEventItem send matches snapshot 1`] = `
             0.04
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
                 "lineHeight": "16px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "justify",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -722,9 +730,9 @@ exports[`ListEventItem send matches snapshot 1`] = `
               }
             >
               G
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            </div>
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -741,7 +749,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
               }
             >
               $
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -1200,24 +1208,28 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             0.04
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
                 "lineHeight": "16px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "justify",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -1234,9 +1246,9 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               }
             >
               G
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            </div>
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
@@ -1253,7 +1265,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               }
             >
               $
-            </span>
+            </div>
           </div>
         </div>
       </div>

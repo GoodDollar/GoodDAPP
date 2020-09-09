@@ -1,5 +1,5 @@
 // @flow
-import React, { createRef, useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, SwipeableFlatList } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { get } from 'lodash'
@@ -17,15 +17,10 @@ import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exc
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedActions from './FeedActions'
+import { emptyFeed, keyExtractor, VIEWABILITY_CONFIG } from './utils/feed'
 
 const log = logger.child({ from: 'ShareButton' })
 
-const VIEWABILITY_CONFIG = {
-  minimumViewTime: 3000,
-  viewAreaCoveragePercentThreshold: 100,
-  waitForInteraction: true,
-}
-const emptyFeed = { type: 'empty', data: {}, id: 'empty' }
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 export type FeedListProps = {
@@ -49,6 +44,16 @@ type ItemComponentProps = {
   index: number,
 }
 
+const getItemLayout = (_: any, index: number) => {
+  const [length, separator, header] = [72, 1, 30]
+
+  return {
+    index,
+    length,
+    offset: (length + separator) * index + header,
+  }
+}
+
 const FeedList = ({
   data,
   handleFeedSelection,
@@ -62,7 +67,7 @@ const FeedList = ({
 }: FeedListProps) => {
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
-  const flRef = createRef()
+  const flRef = useRef()
   const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
@@ -70,27 +75,6 @@ const FeedList = ({
   const scrollToTop = () => {
     if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
       flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
-    }
-  }
-
-  // the key should be always the same value. The 'id' will surely exist in every item
-  // if 'id' somehow wont exist then 'createdDate' 100% will (see UserStorageClass -> handleReceiptUpdated -> receiptDate)
-  const keyExtractor = item => {
-    const { id, createdDate } = item
-
-    if (!id || String(id).length < 60) {
-      return createdDate
-    }
-
-    return id
-  }
-
-  const getItemLayout = (_: any, index: number) => {
-    const [length, separator, header] = [72, 1, 30]
-    return {
-      index,
-      length,
-      offset: (length + separator) * index + header,
     }
   }
 

@@ -22,12 +22,13 @@ import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import { isBrowser, isE2ERunning, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
+import { isE2ERunning, isIOSWeb, isMobileSafari, isWeb } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
+import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
 
 // assets
 import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
@@ -104,7 +105,7 @@ const IntroScreen = ({ styles, screenProps }) => {
   const commonTextStyles = {
     textAlign: 'center',
     color: 'primary',
-    fontSize: 18,
+    fontSize: isLargeDevice ? 18 : 16,
     lineHeight: 25,
   }
 
@@ -184,22 +185,22 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   mainTitle: {
-    marginTop: getDesignRelativeHeight(isBrowser ? 30 : 15),
+    marginTop: getDesignRelativeHeight(isWeb ? 30 : 15),
   },
   illustration: {
     marginTop: getDesignRelativeHeight(18),
     marginBottom: getDesignRelativeHeight(18),
-    height: getDesignRelativeWidth(isBrowser ? 220 : 130),
+    height: getDesignRelativeWidth(isWeb ? 220 : 180),
     width: '100%',
     alignItems: 'center',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
-    paddingVertical: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : 14),
+    paddingVertical: getDesignRelativeHeight(isWeb ? theme.sizes.defaultDouble : 14),
   },
   descriptionUnderline: {
     display: Platform.select({ web: 'block', default: 'flex' }),
-    paddingTop: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
+    paddingTop: getDesignRelativeHeight(isWeb ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
   },
   button: {
     width: '100%',

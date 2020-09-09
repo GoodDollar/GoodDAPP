@@ -174,7 +174,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -320,7 +320,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -466,7 +466,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -612,7 +612,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -758,7 +758,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -904,7 +904,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -1091,7 +1091,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -1238,7 +1238,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -1385,7 +1385,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -1532,7 +1532,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -1679,7 +1679,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -1826,7 +1826,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -2013,7 +2013,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -2160,7 +2160,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -2307,7 +2307,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -2454,7 +2454,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -2601,7 +2601,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }
@@ -2748,7 +2748,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultQuadruple": 32,
               "maxHeightForTabletAndDesktop": 844,
               "maxWidthForTabletAndDesktop": 475,
-              "minHeightForDialogMessage": 334,
+              "minHeightForDialogMessage": 350,
             },
           }
         }

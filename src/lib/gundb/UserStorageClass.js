@@ -8,6 +8,7 @@ import {
   isEqual,
   isError,
   isString,
+  isUndefined,
   keys,
   maxBy,
   memoize,
@@ -18,6 +19,7 @@ import {
   some,
   takeWhile,
   toPairs,
+  uniqBy,
   values,
 } from 'lodash'
 import isEmail from 'validator/lib/isEmail'
@@ -1598,67 +1600,81 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    if (reset) {
-      this.cursor = undefined
-    }
-    if (this.cursor === undefined) {
-      this.cursor = 0
-    }
-    let total = 0
-    if (!this.feedIndex) {
+    let { feedIndex, cursor, feedIds } = this
+
+    if (!feedIndex) {
       return []
     }
 
-    let daysToTake: Array<[string, number]> = takeWhile(this.feedIndex.slice(this.cursor), day => {
-      if (total >= numResults) {
-        return false
+    if (reset || isUndefined(cursor)) {
+      cursor = 0
+    }
+
+    // running through the days history until we got the request numResults
+    // storing days selected to the daysToTake
+    let total = 0
+    let daysToTake = takeWhile(feedIndex.slice(cursor), ([, eventsAmount]) => {
+      const takeDay = total < numResults
+
+      if (takeDay) {
+        total += eventsAmount
       }
-      total += day[1]
-      return true
+
+      return takeDay
     })
+
     this.cursor += daysToTake.length
 
-    //TODO: WTF does this work?!?! if we JSON.stringify teh day index content how come we don't need to JSON.parse it?
-    //this works in the unit tests also
-    let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
-      return this.feed
-        .get(day[0])
+    // going through the days we've selected, fetching feed indexes for that days
+    let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(([date]) =>
+      this.feed
+        .get(date)
         .then(data => (typeof data === 'string' ? JSON.parse(data) : data))
         .catch(e => {
           logger.error('getFeed', e.message, e)
           return []
-        })
+        }),
+    )
+
+    // filtering indexed items, taking the items a) having non-empty id b) having unique id
+    const eventsIndex = await Promise.all(promises).then(indexes => {
+      const filtered = filter(flatten(indexes), 'id')
+
+      return uniqBy(filtered, 'id')
     })
 
-    const eventsIndex = flatten(await Promise.all(promises))
     logger.debug('getFeedPage', {
-      feedIndex: this.feedIndex,
+      feedIndex,
       daysToTake,
       eventsIndex,
     })
 
-    return Promise.all(
-      eventsIndex
-        .filter(_ => _.id)
-        .map(async eventIndex => {
-          let item = this.feedIds[eventIndex.id]
+    const events = await Promise.all(
+      eventsIndex.map(async ({ id }) => {
+        // taking feed item from the cache
+        let item = feedIds[id]
 
-          if (item === undefined && eventIndex.id.indexOf('0x') === 0) {
-            const receipt = await this.wallet.getReceiptWithLogs(eventIndex.id).catch(e => {
-              logger.warn('no receipt found for id:', eventIndex.id, e.message, e)
-              return undefined
-            })
+        // if no item in the cache and it's some transaction
+        // then getting tx item details from the wallet
+        if (!item && id.startsWith('0x')) {
+          const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
+            logger.warn('no receipt found for id:', id, e.message, e)
+          })
 
-            if (receipt) {
-              item = await this.handleReceiptUpdated(receipt)
-            } else {
-              logger.warn('no receipt found for undefined item id:', eventIndex.id)
-            }
+          if (receipt) {
+            item = await this.handleReceiptUpdated(receipt)
+          } else {
+            logger.warn('no receipt found for undefined item id:', id)
           }
+        }
 
-          return item
-        }),
+        // returning item, it may be undefied
+        return item
+      }),
     )
+
+    // filtering events fetched to exclude empty/null/undefined ones
+    return filter(events)
   }
 
   /**

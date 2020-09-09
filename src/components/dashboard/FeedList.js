@@ -1,5 +1,5 @@
 // @flow
-import React, { createRef, useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import * as Animatable from 'react-native-animatable'
@@ -69,7 +69,7 @@ const FeedList = ({
 }: FeedListProps) => {
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
-  const flRef = createRef()
+  const flRef = useRef()
   const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)

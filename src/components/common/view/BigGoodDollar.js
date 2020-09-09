@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { weiToMask } from '../../../lib/wallet/utils'
+import Section from '../layout/Section'
 import BigNumber from './BigNumber'
 import Text from './Text'
 
@@ -33,13 +34,14 @@ const GDUnits = props => {
   const dollarSignFontSize = fontSize ? fontSize - DIFF_FACTOR : DOLLAR_SIGN_SIZE
 
   return (
-    <Text style={props.bigNumberUnitStyles}>
+    <Section.Row style={props.bigNumberUnitStyles}>
       <Text
         color={props.color || 'gray'}
         fontSize={goodSignFontSize}
         fontFamily="slab"
         fontWeight="bold"
         textAlign="right"
+        lineHeight={props.lineHeight || 22}
         {...bigNumberUnitProps}
       >
         G
@@ -50,11 +52,12 @@ const GDUnits = props => {
         fontFamily="slab"
         fontWeight="bold"
         textAlign="right"
+        lineHeight={props.lineHeight || 22}
         {...bigNumberUnitProps}
       >
         $
       </Text>
-    </Text>
+    </Section.Row>
   )
 }
 

@@ -79,13 +79,6 @@ const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarCenteredPosition = initialHeaderContentWidth / 2 - 34
 
-const initialQueueStatus = () => {
-  let initialize
-  const promise = new Promise(resolve => (initialize = resolve))
-
-  return { initialize, promise }
-}
-
 export type DashboardProps = {
   navigation: any,
   screenProps: any,
@@ -95,7 +88,6 @@ export type DashboardProps = {
 
 const Dashboard = props => {
   const balanceRef = useRef()
-  const queueStatusRef = useRef(initialQueueStatus())
   const { screenProps, styles, theme, navigation }: DashboardProps = props
   const [balanceBlockWidth, setBalanceBlockWidth] = useState(70)
   const [showBalance, setShowBalance] = useState(false)
@@ -275,9 +267,9 @@ const Dashboard = props => {
   }, [appState, entitlement])
 
   const animateClaim = useCallback(async () => {
-    const status = await queueStatusRef.current.promise
+    const inQueue = await userStorage.userProperties.get('claimQueueAdded')
 
-    if (status === 'pending') {
+    if (inQueue && inQueue.status === 'pending') {
       return
     }
 
@@ -295,20 +287,6 @@ const Dashboard = props => {
       }),
     ]).start()
   }, [animValue])
-
-  const setQueueStatus = useCallback(status => {
-    const { current: queueStatus } = queueStatusRef
-    const { initialize } = queueStatus
-
-    if (initialize) {
-      delete queueStatus.initialize
-      initialize(status)
-
-      return
-    }
-
-    queueStatus.promise = Promise.resolve(status)
-  }, [])
 
   const showDelayed = useCallback(() => {
     if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
@@ -695,11 +673,7 @@ const Dashboard = props => {
             Send
           </PushButton>
           <Animated.View style={{ zIndex: 1, ...scale }}>
-            <ClaimButton
-              screenProps={screenProps}
-              amount={weiToMask(entitlement, { showUnits: true })}
-              onStatusChange={setQueueStatus}
-            />
+            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
           </Animated.View>
           <PushButton
             icon="receive"

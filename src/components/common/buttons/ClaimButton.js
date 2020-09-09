@@ -7,6 +7,7 @@ import { PushButton } from '../../appNavigation/PushButton'
 import useClaimQueue from '../../dashboard/Claim/useClaimQueue'
 
 import { measure } from '../../../lib/utils/sizes'
+import { delay } from '../../../lib/utils/async'
 import { withStyles } from '../../../lib/styles'
 
 const getStylesFromProps = ({ theme }) => ({
@@ -75,6 +76,18 @@ const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) =
   const containerRef = useRef()
   const [pushButtonTranslate, setPushButtonTranslate] = useState({})
 
+  const measureView = useCallback(async view => {
+    const initialMeasurement = await measure(view)
+
+    if (!initialMeasurement.width && !initialMeasurement.height) {
+      await delay(500)
+      const delayedMeasurement = await measure(view)
+      return delayedMeasurement
+    }
+
+    return initialMeasurement
+  })
+
   const handleStatusChange = useCallback(
     async status => {
       const { current: containerView } = containerRef
@@ -83,7 +96,7 @@ const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) =
         return
       }
 
-      const { width, height } = await measure(containerView)
+      const { width, height } = await measureView(containerView)
 
       setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
     },

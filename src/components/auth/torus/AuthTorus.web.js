@@ -30,7 +30,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { isSmallDevice, isMediumDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import { userExists } from '../../../lib/login/userExists'
@@ -289,7 +289,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               onPress={signupAuth0Mobile}
               disabled={!sdkInitialized}
               testID="login_via_mobile"
-              compact={isSmallDevice}
+              compact={isSmallDevice || isMediumDevice}
             >
               Via Phone Code
             </CustomButton>
@@ -300,7 +300,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               onPress={signupAuth0Email}
               disabled={!sdkInitialized}
               testID="login_via_email"
-              compact={isSmallDevice}
+              compact={isSmallDevice || isMediumDevice}
             >
               Via Email Code
             </CustomButton>
@@ -397,7 +397,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           </>
         )}
         <CustomButton
-          compact={isSmallDevice}
+          compact={isSmallDevice || isMediumDevice}
           mode="outlined"
           style={styles.googleButtonLayout}
           textStyle={{ width: '100%' }}
@@ -413,7 +413,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           </View>
         </CustomButton>
         <CustomButton
-          compact={isSmallDevice}
+          compact={isSmallDevice || isMediumDevice}
           color={mainTheme.colors.facebookBlue}
           style={styles.buttonLayout}
           textStyle={[styles.buttonText, facebookButtonTextStyle]}

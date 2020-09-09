@@ -26,7 +26,7 @@ export default function createGun(options = {}) {
 
   const gun = Gun(...gunOptions)
 
-  logger.debug('Initialized gundb', gunPublicUrl)
+  logger.debug('Initialized gundb', { gunOptions })
   assign(global, { gun })
 
   return gun

@@ -87,6 +87,8 @@ export default () => {
                 log.debug('service worker:', 'sending skip waiting', active.clients)
 
                 waiting.postMessage({ type: 'SKIP_WAITING' })
+              } else {
+                window.location.reload()
               }
             },
           },

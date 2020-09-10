@@ -1,6 +1,6 @@
 // @flow
 import { Dimensions } from 'react-native'
-import React, { createRef, useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { isMobileWeb as isMobile } from '../../../lib/utils/platform'
 import logger from '../../../lib/logger/pino-logger'
 
@@ -17,7 +17,7 @@ type CameraProps = {
  * Responsible to capture Camera stream
  */
 const CameraComp = (props: CameraProps) => {
-  let videoPlayerRef = createRef<HTMLVideoElement>()
+  let videoPlayerRef = useRef<HTMLVideoElement>()
   const acceptableConstraints: MediaStreamConstraints[] = [
     {
       audio: false,

@@ -127,6 +127,8 @@ const AppSwitch = (props: LoadingProps) => {
       return
     }
 
+    AsyncStorage.setItem('GD_version', 'phase' + config.phase)
+
     //after dynamic routes update, if user arrived here, then he is already loggedin
     //initialize the citizen status and wallet status
     const [{ isLoggedInCitizen, isLoggedIn }, , inviteCode] = await Promise.all([
@@ -205,8 +207,6 @@ const AppSwitch = (props: LoadingProps) => {
 
     try {
       initialize()
-
-      checkBonusInterval()
       runUpdates()
       showOutOfGasError(props)
 

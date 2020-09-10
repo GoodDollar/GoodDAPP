@@ -64,7 +64,7 @@ class SpinnerCheckMark extends AnimationBase {
   componentDidUpdate(prevProps) {
     // log.debug('checkmark didupdate', { prevProps, props: this.props })
 
-    if (prevProps.success === false && this.props.success === true) {
+    if (!prevProps.success && !!this.props.success) {
       //speed up when finished
       if (isMobileNative) {
         this.setState({

@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import { defer, from as fromPromise } from 'rxjs'
-import { share } from 'rxjs/operators'
+import { once } from 'lodash'
 
 import API from '../../lib/API/api'
 import Config from '../../config/config'
@@ -18,6 +17,15 @@ import { theme } from '../../components/theme/styles'
 import useOnPress from './useOnPress'
 
 const log = logger.child({ from: 'useUpgradeDialog' })
+
+// will be executed once, then cached with
+// the promise returned on the first call
+const isPhaseActual = once(async () => {
+  const { phase } = Config
+  const actualPhase = await API.getActualPhase()
+
+  return phase === actualPhase
+})
 
 const styles = StyleSheet.create({
   serviceWorkerDialogButtonsContainer: {
@@ -51,18 +59,7 @@ export default () => {
   const store = SimpleStore.useStore()
   const serviceWorkerUpdated = store.get('serviceWorkerUpdated')
 
-  // observable won't start until first subscription
-  // sharing observable between many subscribers to keep single API call
-  const actualPhaseRef = useRef(defer(() => fromPromise(API.getActualPhase())).pipe(share()))
-
   useEffect(() => {
-    // calling api on mount
-    actualPhaseRef.current.subscribe()
-  }, [])
-
-  useEffect(() => {
-    const { phase } = Config
-
     log.info('service worker updated', {
       serviceWorkerUpdated,
     })
@@ -71,13 +68,10 @@ export default () => {
       return
     }
 
-    // subscribing to actualPhase observable stream
-    // API request will performed anyway
-    // even if this code will execute before on mount hook
-    actualPhaseRef.current.subscribe(actualPhase =>
+    isPhaseActual().then(isActual =>
       showDialog({
         showCloseButtons: false,
-        content: phase === actualPhase ? <RegularDialog /> : <NewReleaseDialog />,
+        content: isActual ? <RegularDialog /> : <NewReleaseDialog />,
         buttonsContainerStyle: styles.serviceWorkerDialogButtonsContainer,
         buttons: [
           {

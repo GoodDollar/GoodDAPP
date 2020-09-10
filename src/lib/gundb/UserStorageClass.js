@@ -2,6 +2,7 @@
 import Mutex from 'await-mutex'
 import { Platform } from 'react-native'
 import {
+  debounce,
   filter,
   find,
   flatten,
@@ -17,6 +18,7 @@ import {
   noop,
   omit,
   orderBy,
+  over,
   some,
   takeWhile,
   toPairs,
@@ -29,6 +31,8 @@ import Gun from '@gooddollar/gun'
 import SEA from '@gooddollar/gun/sea'
 import { gunAuth as gunPKAuth } from '@gooddollar/gun-pk-auth'
 import { sha3 } from 'web3-utils'
+import EventEmitter from 'eventemitter3'
+
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { retry } from '../utils/async'
 
@@ -472,7 +476,7 @@ export class UserStorage {
   constructor(wallet: GoodWallet, gun: Gun) {
     this.gun = gun || defaultGun
     this.wallet = wallet
-
+    this.feedEvents = new EventEmitter()
     this.init()
   }
 
@@ -566,12 +570,11 @@ export class UserStorage {
     //try to make sure all gun SEA  decryption keys are preloaded
     this.gunuser.get('trust').load()
 
-    const gunuser = await this.gun.user()
-
     logger.debug('GunDB logged in', {
       pubkey: this.gunuser.is,
       pair: this.gunuser.pair(),
-      gunuser,
+
+      // gunuser,
     })
 
     // await Promise.all([this.initProperties(), this.initProfile()])
@@ -621,8 +624,10 @@ export class UserStorage {
     this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
     this.initTokens().catch(e => logger.error('failed initializing initTokens', e.message, e))
 
-    // await Promise.all([this.startSystemFeed(), this.initTokens()])
-
+    this.gun
+      .get('users')
+      .get(this.gunuser.is.pub)
+      .put(this.gunuser) // save ref to user
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
 
@@ -1017,6 +1022,7 @@ export class UserStorage {
     delete changed._
     let dayToNumEvents: Array<[string, number]> = toPairs(changed)
     this.feedIndex = orderBy(dayToNumEvents, day => day[0], 'desc')
+    this.feedEvents.emit('updated')
     logger.debug('updateFeedIndex', {
       changed,
       field,
@@ -1027,6 +1033,7 @@ export class UserStorage {
   writeFeedEvent(event): Promise<FeedEvent> {
     this.feedIds[event.id] = event
     AsyncStorage.setItem('GD_feed', this.feedIds)
+    this.feedEvents.emit('updated', { event })
     return this.feed
       .get('byid')
       .get(event.id)
@@ -1067,6 +1074,11 @@ export class UserStorage {
       })
       .then(ids => ids || {})
 
+    //no need to block on this
+    this._syncFeedCache()
+  }
+
+  async _syncFeedCache() {
     const items = await this.feed
       .get('byid')
       .then(null, 2000)
@@ -1074,11 +1086,11 @@ export class UserStorage {
         logger.warn('fetch byid onthen failed', { e })
       })
 
-    logger.debug('init feed byid', { items })
+    logger.debug('init feed cache byid', { items })
 
     if (!items) {
       await this.feed.putAck({ byid: {} }).catch(e => {
-        logger.error('init feed byid failed:', e.message, e)
+        logger.error('init feed cache byid failed:', e.message, e)
         throw e
       })
 
@@ -1087,7 +1099,7 @@ export class UserStorage {
 
     const ids = Object.entries(omit(items, '_'))
 
-    logger.debug('init feed got items', { ids })
+    logger.debug('init feed cache got items', { ids })
 
     const promises = ids.map(async ([k, v]) => {
       if (this.feedIds[k]) {
@@ -1100,7 +1112,7 @@ export class UserStorage {
         .decrypt()
         .catch(noop)
 
-      logger.debug('init feed got missing cache item', { id: k, data })
+      logger.debug('init feed cache got missing cache item', { id: k, data })
 
       if (!data) {
         return false
@@ -1115,8 +1127,10 @@ export class UserStorage {
         if (!some(shouldUpdateStatuses)) {
           return
         }
+
         logger.debug('init feed updating cache', this.feedIds, shouldUpdateStatuses)
         AsyncStorage.setItem('GD_feed', this.feedIds)
+        this.feedEvents.emit('updated', {})
       })
       .catch(e => logger.error('error caching feed items', e.message, e))
   }
@@ -1175,10 +1189,15 @@ export class UserStorage {
     }
 
     // this.profile = this.gunuser.get('profile')
-    this.profile.open(doc => {
-      this._lastProfileUpdate = doc
-      this.subscribersProfileUpdates.forEach(callback => callback(doc))
-    })
+    const onProfileUpdate = debounce(
+      doc => {
+        this._lastProfileUpdate = doc
+        over(this.subscribersProfileUpdates)(doc)
+      },
+      500,
+      { leading: false, trailing: true },
+    )
+    this.profile.open(onProfileUpdate)
 
     logger.debug('init opened profile', {
       gunRef: this.profile,
@@ -1690,7 +1709,7 @@ export class UserStorage {
       reset,
       feedPage: feed,
     })
-    return Promise.all(
+    const res = await Promise.all(
       feed
         .filter(
           feedItem =>
@@ -1701,6 +1720,7 @@ export class UserStorage {
         )
         .map(feedItem => {
           if (null == get(feedItem, 'data.receiptData', feedItem && feedItem.receiptReceived)) {
+            logger.debug('getFormattedEvents missing feed receipt', { feedItem })
             return this.getFormatedEventById(feedItem.id)
           }
 
@@ -1710,6 +1730,8 @@ export class UserStorage {
           })
         }),
     )
+    logger.debug('getFormattedEvents done formatting events')
+    return res
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
@@ -1892,7 +1914,8 @@ export class UserStorage {
           initiator,
           address,
         })
-        const profileNode = await this._getProfileNode(initiatorType, initiator, address)
+        const profileNode =
+          withdrawStatus !== 'pending' && (await this._getProfileNode(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
         const [avatar, fullName] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {
@@ -2055,6 +2078,10 @@ export class UserStorage {
       // return undefined
     }
 
+    if (!initiator && (!address || address === NULL_ADDRESS)) {
+      return
+    }
+
     const searchField = initiatorType && `by${initiatorType}`
     const byIndex = searchField && (await getProfile(searchField, initiator))
 
@@ -2070,7 +2097,7 @@ export class UserStorage {
       default: require('../../assets/Feed/favicon-96x96.png'),
     })
     const getAvatarFromGun = async () => {
-      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))
+      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 500))
 
       // verify account is not deleted and return value
       // if account deleted - the display of 'avatar' field will be private
@@ -2089,7 +2116,7 @@ export class UserStorage {
 
   async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
     const getFullNameFromGun = async () => {
-      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 1000))
+      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 500))
       logger.debug('profileFromGun:', { fullName })
 
       // verify account is not deleted and return value

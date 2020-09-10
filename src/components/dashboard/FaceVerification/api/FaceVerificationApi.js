@@ -152,7 +152,7 @@ class FaceVerificationApi {
       // don't forget to set success = false flag
       // it's supposed that GoodServer will return false in the case of non-200 code
       // but let's add this additional safety check
-      response = { ...errorObject, success: false }
+      response = { ...failedResponse, success: false }
     }
 
     const { success, error } = response || {}

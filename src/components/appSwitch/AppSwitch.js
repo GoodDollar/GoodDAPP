@@ -286,7 +286,8 @@ const AppSwitch = (props: LoadingProps) => {
     if (!isMobileNative || !appState === 'active') {
       return
     }
-    DeepLinking.subscribe(deepLinkingNavigation)
+
+    // DeepLinking.subscribe(deepLinkingNavigation)
     return () => DeepLinking.unsubscribe()
   }, [DeepLinking.pathname, appState])
 

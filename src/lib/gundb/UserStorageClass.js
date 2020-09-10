@@ -1017,6 +1017,7 @@ export class UserStorage {
     delete changed._
     let dayToNumEvents: Array<[string, number]> = toPairs(changed)
     this.feedIndex = orderBy(dayToNumEvents, day => day[0], 'desc')
+    this.feedEvents.emit('updated')
     logger.debug('updateFeedIndex', {
       changed,
       field,
@@ -1914,7 +1915,8 @@ export class UserStorage {
           initiator,
           address,
         })
-        const profileNode = await this._getProfileNode(initiatorType, initiator, address)
+        const profileNode =
+          withdrawStatus !== 'pending' && (await this._getProfileNode(initiatorType, initiator, address)) //dont try to fetch profile node of this is a tx we sent and is pending
         const [avatar, fullName] = await Promise.all([
           this._extractAvatar(type, withdrawStatus, get(profileNode, 'gunProfile'), address).catch(e => {
             logger.warn('formatEvent: failed extractAvatar', e.message, e, {

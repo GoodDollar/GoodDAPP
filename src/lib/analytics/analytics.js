@@ -263,6 +263,8 @@ export const reportToSentry = (error, extra = {}, tags = {}) => {
       scope.setTag(key, value)
     })
 
+    scope.setFingerprint([get(extra, 'logContext.from', '{{ default }}'), get(extra, 'eMsg')])
+
     Sentry.captureException(error)
   })
 }

@@ -26,7 +26,7 @@ const { default: defaultFont } = theme.fonts
 
 export const UITextStrings = {
   zoomResultSuccessMessage,
-  zoomRetryInstructionMessage1,
+  zoomRetryInstructionMessage,
   zoomInitializingCamera: null, // setting empty "Starting camera..." text
   zoomResultFacemapUploadMessage: `Verifying you're\none of a kind`,
   zoomResultIdscanUploadMessage: `Verifying you're\none of a kind`,

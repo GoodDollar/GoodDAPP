@@ -6,7 +6,7 @@ import { assignIn, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 import { Spinner } from '../../../common/view/LoadingIndicator'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 
-import { zoomResultSuccessMessage, zoomRetryInstructionMessage1 } from '../utils/strings'
+import { zoomResultSuccessMessage, zoomRetryInstructionMessage } from '../utils/strings'
 import { theme } from '../../../theme/styles'
 import './UICustomization.css'
 

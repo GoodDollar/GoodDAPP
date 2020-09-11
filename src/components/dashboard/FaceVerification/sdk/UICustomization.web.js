@@ -39,7 +39,7 @@ export const UITextStrings = {
         const i18nKey = snakeCase(i18nString)
 
         if (isArray(i18nValue)) {
-          i18nValue.forEach((value, index) => (json[`${i18nKey}_${index + 1}`] = i18nValue))
+          i18nValue.forEach((value, index) => (json[`${i18nKey}_${index + 1}`] = value))
         } else {
           json[i18nKey] = i18nValue
         }

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import hexToRgba from 'hex-to-rgba'
-import { assignIn, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
+import { assignIn, isArray, isFunction, keys, memoize, snakeCase } from 'lodash'
 
 import { Spinner } from '../../../common/view/LoadingIndicator'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
@@ -32,7 +32,21 @@ export const UITextStrings = {
   zoomResultIdscanUploadMessage: `Verifying you're\none of a kind`,
 
   toJSON() {
-    return mapKeys(pickBy(this, isString), (_, i18nString) => snakeCase(i18nString))
+    return keys(this).reduce((json, i18nString) => {
+      const i18nValue = this[i18nString]
+
+      if (!isFunction(i18nValue)) {
+        const i18nKey = snakeCase(i18nString)
+
+        if (isArray(i18nValue)) {
+          i18nValue.forEach((value, index) => (json[`${i18nKey}_${index + 1}`] = i18nValue))
+        } else {
+          json[i18nKey] = i18nValue
+        }
+      }
+
+      return json
+    })
   },
 }
 

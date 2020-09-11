@@ -21,11 +21,12 @@ export const ExceptionCode = fromPairs(range(1, MAX_EXCEPTION_CODE + 1).map(code
  */
 export const decorate = (exception, withCode) => {
   const { name, code } = exception
-  const codeString = codeToString(code)
 
   if (!code) {
     exception.code = withCode
   }
+
+  const codeString = codeToString(exception.code)
 
   if (!name || 'Error' === name) {
     exception.name = codeString

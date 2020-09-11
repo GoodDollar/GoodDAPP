@@ -267,6 +267,8 @@ export class AnalyticsClass {
         scope.setTag(key, value)
       })
 
+      scope.setFingerprint([get(extra, 'logContext.from', '{{ default }}'), get(extra, 'eMsg')])
+
       sentry.captureException(error)
     })
   }

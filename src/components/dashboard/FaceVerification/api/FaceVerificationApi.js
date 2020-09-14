@@ -159,7 +159,7 @@ class FaceVerificationApi {
 
     if (false === success) {
       // non - success - throwing an exception with failed response
-      const exception = new Error(error)
+      const exception = new Error(error || 'An unexpected issue during the face verification API call')
 
       exception.response = response
       throw exception

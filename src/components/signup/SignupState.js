@@ -517,7 +517,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         dialogShown: true,
       })
 
-      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage, false)
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
       setCreateError(true)
       return false
     } finally {

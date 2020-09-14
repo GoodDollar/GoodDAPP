@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import hexToRgba from 'hex-to-rgba'
-import { assignIn, isArray, isFunction, keys, memoize, snakeCase } from 'lodash'
+import { assignIn, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 
 import { Spinner } from '../../../common/view/LoadingIndicator'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 
-import { zoomResultSuccessMessage, zoomRetryInstructionMessage } from '../utils/strings'
+import { zoomResultSuccessMessage, zoomRetryInstructionMessage1 } from '../utils/strings'
 import { theme } from '../../../theme/styles'
 import './UICustomization.css'
 
@@ -26,27 +26,13 @@ const { default: defaultFont } = theme.fonts
 
 export const UITextStrings = {
   zoomResultSuccessMessage,
-  zoomRetryInstructionMessage,
+  zoomRetryInstructionMessage1,
   zoomInitializingCamera: null, // setting empty "Starting camera..." text
   zoomResultFacemapUploadMessage: `Verifying you're\none of a kind`,
   zoomResultIdscanUploadMessage: `Verifying you're\none of a kind`,
 
   toJSON() {
-    return keys(this).reduce((json, i18nString) => {
-      const i18nValue = this[i18nString]
-
-      if (!isFunction(i18nValue)) {
-        const i18nKey = snakeCase(i18nString)
-
-        if (isArray(i18nValue)) {
-          i18nValue.forEach((value, index) => (json[`${i18nKey}_${index + 1}`] = value))
-        } else {
-          json[i18nKey] = i18nValue
-        }
-      }
-
-      return json
-    })
+    return mapKeys(pickBy(this, isString), (_, i18nString) => snakeCase(i18nString))
   },
 }
 

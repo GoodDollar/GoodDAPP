@@ -7,12 +7,9 @@ export const showSupportDialog = (
   showErrorDialog,
   hideDialog,
   push,
-  message = 'Something went wrong on our side',
-  addTryAgainSuffix = true,
+  message = 'Something went wrong on our side. PLease try again',
 ) => {
-  const displayMessage = addTryAgainSuffix ? message + '. Please try again.' : message
-
-  showErrorDialog(displayMessage, undefined, {
+  showErrorDialog(message, undefined, {
     boldMessage: (
       <>
         <Text fontWeight="inherit" color="inherit">

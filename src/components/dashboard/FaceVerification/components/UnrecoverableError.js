@@ -24,7 +24,7 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const UnrecoverableError = ({ styles, exception, attemptsHistory, screenProps }) => {
+const UnrecoverableError = ({ styles, exception, screenProps }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
   const { navigateTo, goToRoot, push } = screenProps
 

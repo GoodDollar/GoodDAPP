@@ -54,6 +54,8 @@ export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
 
+const savedErrorMessages = new WeakMap()
+
 const log = logger.child({ from: 'analytics' })
 const { sentryDSN, amplitudeKey, version, env, network, phase } = Config
 
@@ -364,13 +366,11 @@ const patchLogger = () => {
       debounceFireEvent(ERROR_LOG, logPayload)
     }
 
-    let savedErrorMessage
-
     if (!isRunningTests) {
       let errorToPassIntoLog = errorObj
 
       if (isError(errorObj)) {
-        savedErrorMessage = errorObj.message
+        savedErrorMessages.set(errorObj, errorObj.message)
         errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
       } else {
         errorToPassIntoLog = new Error(logMessage)
@@ -403,8 +403,8 @@ const patchLogger = () => {
       // if savedErrorMessage not empty that means errorObj
       // was an Error instrance and we mutated its message
       // so we have to restore it now
-      if (savedErrorMessage) {
-        errorObj.message = savedErrorMessage
+      if (savedErrorMessages.has(errorObj)) {
+        errorObj.message = savedErrorMessages.get(errorObj)
       }
 
       proxyToLogger()

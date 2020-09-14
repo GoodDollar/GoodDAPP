@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 
+import { map } from 'lodash'
 import GDStore, { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 import logger from '../../../../lib/logger/pino-logger'
@@ -42,26 +43,29 @@ export default () => {
 
       // otherwise
 
-      // 1. reset history in the store
+      // 1. get history to the error messages
+      const attemptsErrorMessages = map(updatedHistory)
+
+      // 2. reset history in the store
       resetAttempts()
 
-      // 2. log for debug purposes
+      // 3. log for debug purposes
       log.error(
         `FaceVerification still failing after ${MAX_ATTEMPTS_ALLOWED} attempts - FV_TRY_AGAIN_LATER fired:`,
         message,
         exception,
-        { attemptsErrorMessages: updatedHistory },
+        { attemptsErrorMessages },
       )
 
       // 3. fire event and send error messages to the Amplitude
-      fireEvent(FV_TRYAGAINLATER, { attemptsErrorMessages: updatedHistory })
+      fireEvent(FV_TRYAGAINLATER, { attemptsErrorMessages })
 
       // 4. set "reached max attempts" flag in the store
       setReachedMaxAttempts(true)
     },
 
     // resetAttempts already depends from setAttemptsCount, setAttemptsHistory & setReachedMaxAttempts
-    [attemptsCount, attemptsHistory, resetAttempts, setAttemptsCount, setAttemptsHistory, setReachedMaxAttempts],
+    [attemptsCount, attemptsHistory, resetAttempts],
   )
 
   // returns isReachedMaxAttempts flag, resets it once got

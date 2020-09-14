@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { map } from 'lodash'
 
 import GDStore, { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
@@ -32,7 +31,7 @@ export default () => {
 
       // prepare updated count & history
       const updatedCount = attemptsCount + 1
-      const updatedHistory = [...attemptsHistory, exception]
+      const updatedHistory = [...attemptsHistory, message]
 
       // if we still not reached MAX_ATTEMPTS_ALLOWED - just add to the historu
       if (updatedCount < MAX_ATTEMPTS_ALLOWED) {
@@ -43,29 +42,26 @@ export default () => {
 
       // otherwise
 
-      // 1. convert history to the array of messages
-      const attemptsErrorMessages = map(updatedHistory, 'message')
-
-      // 2. reset history in the store
+      // 1. reset history in the store
       resetAttempts()
 
-      // 3. log for debug purposes
+      // 2. log for debug purposes
       log.error(
         `FaceVerification still failing after ${MAX_ATTEMPTS_ALLOWED} attempts - FV_TRY_AGAIN_LATER fired:`,
         message,
         exception,
-        { attemptsErrorMessages },
+        { attemptsErrorMessages: updatedHistory },
       )
 
-      // 4. fire event and send error messages to the Amplitude
-      fireEvent(FV_TRYAGAINLATER, { attemptsErrorMessages })
+      // 3. fire event and send error messages to the Amplitude
+      fireEvent(FV_TRYAGAINLATER, { attemptsErrorMessages: updatedHistory })
 
-      // 5. set "reached max attempts" flag in the store
+      // 4. set "reached max attempts" flag in the store
       setReachedMaxAttempts(true)
     },
 
     // resetAttempts already depends from setAttemptsCount, setAttemptsHistory & setReachedMaxAttempts
-    [attemptsCount, attemptsHistory, resetAttempts],
+    [attemptsCount, attemptsHistory, resetAttempts, setAttemptsCount, setAttemptsHistory, setReachedMaxAttempts],
   )
 
   // returns isReachedMaxAttempts flag, resets it once got

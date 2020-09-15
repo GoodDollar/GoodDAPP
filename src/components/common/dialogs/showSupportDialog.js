@@ -7,7 +7,7 @@ export const showSupportDialog = (
   showErrorDialog,
   hideDialog,
   push,
-  message = 'Something went wrong on our side. PLease try again',
+  message = 'Something went wrong on our side. Please try again',
 ) => {
   showErrorDialog(message, undefined, {
     boldMessage: (

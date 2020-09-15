@@ -1,11 +1,14 @@
 // @flow
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Platform, View } from 'react-native'
-import { constant, get } from 'lodash'
+import { constant, noop } from 'lodash'
 
 import { PushButton } from '../../appNavigation/PushButton'
-import { withStyles } from '../../../lib/styles'
 import useClaimQueue from '../../dashboard/Claim/useClaimQueue'
+
+import { measure } from '../../../lib/utils/sizes'
+import { delay } from '../../../lib/utils/async'
+import { withStyles } from '../../../lib/styles'
 
 const getStylesFromProps = ({ theme }) => ({
   inQueue: {
@@ -42,14 +45,30 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style = {} }) => {
+const measureView = async view => {
+  const measurement = await measure(view)
+  const { width, height } = measurement
+
+  if (!width && !height) {
+    // if device cannot get layout keep trying in intervals until it gets right data
+    await delay(50)
+    return measureView(view)
+  }
+
+  return measurement
+}
+
+const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style = {}, onStatusChange = noop }) => {
   const { queueStatus, handleClaim } = useClaimQueue()
-  const isPending = get(queueStatus, 'status') === 'pending'
+  const { status } = queueStatus || {}
+  const isPending = status === 'pending'
 
   // if there's no status the first time then get it
   // otherwise just return true.
   // in case we already have status then button is disabled if pending so its ok to return true here.
   const canContinue = useMemo(() => (queueStatus ? constant(true) : handleClaim), [handleClaim, queueStatus])
+
+  useEffect(() => void onStatusChange(queueStatus), [status])
 
   return (
     <PushButton
@@ -67,11 +86,18 @@ const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style
 })
 
 const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
-  const [pushButtonTranslate, setPushButtonTranslate] = React.useState({})
+  const containerRef = useRef()
+  const [pushButtonTranslate, setPushButtonTranslate] = useState({})
 
-  const handleLayout = useCallback(
-    event => {
-      const { width, height } = event.nativeEvent.layout
+  const handleStatusChange = useCallback(
+    async status => {
+      const { current: containerView } = containerRef
+
+      if (!containerView) {
+        return
+      }
+
+      const { width, height } = await measureView(containerView)
 
       setPushButtonTranslate({ translateY: -width / 2, translateX: -height / 2 })
     },
@@ -92,10 +118,10 @@ const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) =
   }, [pushButtonTranslate])
 
   return (
-    <View style={styles.wrapper} onLayout={handleLayout}>
+    <View style={styles.wrapper} ref={containerRef}>
       {animated ? (
         <Animated.View style={[animatedScale, styles.animatedWrapper]}>
-          <ClaimButton screenProps={screenProps} style={animatedStyle} />
+          <ClaimButton screenProps={screenProps} onStatusChange={handleStatusChange} style={animatedStyle} />
         </Animated.View>
       ) : (
         <ClaimButton screenProps={screenProps} />

@@ -64,8 +64,8 @@ const sizes = new class {
   }
 
   // eslint-disable-next-line
-  async measure (view) {
-    return new Promise(resolve => view.measure((x, y, width) => resolve({ x, y, width })))
+  async measure(view) {
+    return new Promise(resolve => view.measure((x, y, width, height) => resolve({ x, y, width, height })))
   }
 }()
 

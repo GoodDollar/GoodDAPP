@@ -3,7 +3,7 @@ import { get } from 'lodash'
 
 import {
   isAndroid as isAndroidWeb,
-  isBrowser,
+  isBrowser as isBrowserWeb,
   isChrome,
   isIOS as isIOSWeb,
   isMobileOnly as isMobileOnlyWeb,
@@ -39,9 +39,13 @@ export const isIOS = isIOSWeb || isIOSNative
 
 export const isAndroid = isAndroidWeb || isAndroidNative
 
+// if Platform.OS is 'web' (e.g. running on web), will return isBrowser flag from the device detect library. 
+// otherwise (e.g. running on native) will return false (because library wrongly returns true in that case)
+export const isBrowser = isWeb ? isBrowserWeb : false
+
 export const isCypress =
   !isMobileReactNative && 'undefined' !== typeof window && get(window, 'navigator.userAgent', '').includes('Cypress')
 
 export const isE2ERunning = isCypress && 'development' === env
 
-export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet, isMobileSafari, isBrowser, isChrome }
+export { isMobileWeb, isIOSWeb, isAndroidWeb, isMobileOnlyWeb, isTablet, isMobileSafari, isChrome }

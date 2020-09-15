@@ -123,7 +123,6 @@ const EmptySpaceComponent = ({ style }) => (
 )
 
 // remove it if market token functionality will be required
-const marketToken = false
 
 const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()
@@ -185,14 +184,14 @@ const TabsView = ({ navigation }) => {
       )}*/}
       {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
       {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
-      {/* {marketToken && (
+      {/* {market && (
         <>
           {!isEToro && !!(!enableInvites ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
           <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />
         </>
       )} */}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
-      {!marketToken && !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
+      {/*!market && */!showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
       <TouchableOpacity onPress={slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>

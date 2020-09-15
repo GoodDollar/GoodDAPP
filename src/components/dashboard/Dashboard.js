@@ -74,8 +74,8 @@ import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
 const log = logger.child({ from: 'Dashboard' })
 
-const screenWidth = getMaxDeviceWidth()
 let didRender = false
+const screenWidth = getMaxDeviceWidth()
 const initialHeaderContentWidth = screenWidth - _theme.sizes.default * 2 * 2
 const initialAvatarCenteredPosition = initialHeaderContentWidth / 2 - 34
 
@@ -116,6 +116,7 @@ const Dashboard = props => {
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
+
   const scale = {
     transform: [
       {
@@ -123,13 +124,16 @@ const Dashboard = props => {
       },
     ],
   }
+
   const headerAnimateStyles = {
     position: 'relative',
     height: headerHeightAnimValue,
   }
+
   const fullNameAnimateStyles = {
     opacity: headerFullNameOpacityAnimValue,
   }
+
   const avatarAnimStyles = {
     position: 'absolute',
     height: headerAvatarAnimValue,
@@ -137,6 +141,7 @@ const Dashboard = props => {
     top: 0,
     left: headerAvatarLeftAnimValue,
   }
+
   const balanceAnimStyles = {
     visibility: showBalance ? 'visible' : 'hidden',
     position: 'absolute',
@@ -254,37 +259,32 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (appState === 'active') {
+    if (appState === 'active' && Number(entitlement) > 0) {
       animateClaim()
     }
-  }, [appState])
+  }, [appState, entitlement])
 
   const animateClaim = useCallback(async () => {
     const inQueue = await userStorage.userProperties.get('claimQueueAdded')
+
     if (inQueue && inQueue.status === 'pending') {
       return
     }
-    const entitlement = await goodWallet
-      .checkEntitlement()
-      .then(_ => _.toNumber())
-      .catch(e => 0)
 
-    if (entitlement) {
-      Animated.sequence([
-        Animated.timing(animValue, {
-          toValue: 1.4,
-          duration: 750,
-          easing: Easing.ease,
-          delay: 1000,
-        }),
-        Animated.timing(animValue, {
-          toValue: 1,
-          duration: 750,
-          easing: Easing.ease,
-        }),
-      ]).start()
-    }
-  }, [gdstore, animValue])
+    Animated.sequence([
+      Animated.timing(animValue, {
+        toValue: 1.4,
+        duration: 750,
+        easing: Easing.ease,
+        delay: 1000,
+      }),
+      Animated.timing(animValue, {
+        toValue: 1,
+        duration: 750,
+        easing: Easing.ease,
+      }),
+    ]).start()
+  }, [animValue])
 
   const showDelayed = useCallback(() => {
     if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {

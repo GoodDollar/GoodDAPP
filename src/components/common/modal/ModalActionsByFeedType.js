@@ -22,6 +22,7 @@ import { withStyles } from '../../../lib/styles'
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
 import useOnPress from '../../../lib/hooks/useOnPress'
+import { isMobile } from '../../../lib/utils/platform'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -202,7 +203,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               disabled={!paymentLinkForShare}
               share={paymentLinkForShare}
               onPressed={shareLinkClicked}
-              actionText="Share link"
+              actionText={isMobile ? 'Share link' : 'Copy link'}
               mode="outlined"
               style={[styles.rightButton, styles.shareButton]}
               iconColor={theme.colors.primary}

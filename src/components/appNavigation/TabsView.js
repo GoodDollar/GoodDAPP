@@ -196,7 +196,7 @@ const TabsView = ({ navigation }) => {
       )}*/}
       {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
       {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
-      {/*marke && (
+      {/*market && (
         <>
           {!isEToro && !!(!enableInvites ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
           <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />

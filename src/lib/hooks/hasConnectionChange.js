@@ -113,9 +113,10 @@ export const useConnectionGun = () => {
   const userStorage = store.get('userStorage')
   const websocket = useRef(undefined)
   const { appState } = useAppState()
+  const gunUrl = Config.gunPublicUrl.split(',')[0]
   const isGunConnection = () => {
     if (userStorage) {
-      const connection = get(userStorage, `gun._.opt.peers`, [])[Config.gunPublicUrl]
+      const connection = get(userStorage, `gun._.opt.peers`, [])[gunUrl]
       const readyState = get(connection, 'wire.readyState')
       log.debug('gun connection:', connection, userStorage.gun._.opt.peers)
       if (readyState && readyState === connection.wire.OPEN) {
@@ -142,7 +143,7 @@ export const useConnectionGun = () => {
 
   const bindEvents = useCallback(
     method => {
-      const connection = get(userStorage, `gun._.opt.peers`, [])[Config.gunPublicUrl] || {}
+      const connection = get(userStorage, `gun._.opt.peers`, [])[gunUrl] || {}
       const wire = connection.wire
       if (wire && (websocket.current !== wire || method === 'remove')) {
         log.debug('gun binding listeners')

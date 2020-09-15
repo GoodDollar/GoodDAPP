@@ -19,7 +19,7 @@ const gunOptions = []
 if (process.env.NODE_ENV !== 'test') {
   gunOptions.push({
     localStorage: !RindexedDB,
-    peers: [gunPublicUrl],
+    peers: gunPublicUrl.split(','),
   })
 }
 

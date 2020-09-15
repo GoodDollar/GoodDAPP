@@ -46,15 +46,16 @@ const getStylesFromProps = ({ theme }) => ({
 })
 
 const measureView = async view => {
-  const initialMeasurement = await measure(view)
+  const measurement = await measure(view)
+  const { width, height } = measurement
 
-  if (!initialMeasurement.width && !initialMeasurement.height) {
+  if (!width && !height) {
     // if device cannot get layout keep trying in intervals until it gets right data
     await delay(50)
     return measureView(view)
   }
 
-  return initialMeasurement
+  return measurement
 }
 
 const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style = {}, onStatusChange = noop }) => {

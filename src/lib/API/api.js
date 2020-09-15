@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { identity, isError } from 'lodash'
+import { identity, isPlainObject, isString } from 'lodash'
 
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
@@ -36,9 +36,13 @@ export const getErrorMessage = apiError => {
   // if the json or string http body was thrown from axios (error
   // interceptor in api.js doest that in almost cases) then we're wrapping
   // it onto Error object to keep correct stack trace for Sentry reporting
-  // stringify apiError object before passing to the Error constructor, to prevent getting error message [object Object]
-  if (!isError(apiError)) {
-    message = apiError.error || JSON.stringify(apiError)
+
+  if (isPlainObject(apiError)) {
+    message = apiError.error || 'Unexpected error happened during api call'
+  }
+
+  if (isString(apiError)) {
+    message = apiError
   }
 
   return message

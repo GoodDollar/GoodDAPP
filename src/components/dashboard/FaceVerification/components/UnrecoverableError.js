@@ -43,7 +43,7 @@ const UnrecoverableError = ({ styles, exception, attemptsHistory, screenProps })
 
     // if user is not in whitelist and we do not do faceverification then this is an error
     log.error('FaceVerification failed due to the license issue', message, exception, { dialogShown: true })
-    showSupportDialog(showErrorDialog, hideDialog, push, 'Face Verification disabled')
+    showSupportDialog(showErrorDialog, hideDialog, push, 'Face Verification disabled. Please try again')
   }, [])
 
   // if its an license issue - don't render anything, the dialog will be shown

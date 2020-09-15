@@ -45,6 +45,18 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
+const measureView = async view => {
+  const initialMeasurement = await measure(view)
+
+  if (!initialMeasurement.width && !initialMeasurement.height) {
+    // if device cannot get layout keep trying in intervals until it gets right data
+    await delay(50)
+    return measureView(view)
+  }
+
+  return initialMeasurement
+}
+
 const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style = {}, onStatusChange = noop }) => {
   const { queueStatus, handleClaim } = useClaimQueue()
   const { status } = queueStatus || {}
@@ -75,18 +87,6 @@ const ClaimButton = withStyles(getStylesFromProps)(({ screenProps, styles, style
 const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) => {
   const containerRef = useRef()
   const [pushButtonTranslate, setPushButtonTranslate] = useState({})
-
-  const measureView = useCallback(async view => {
-    const initialMeasurement = await measure(view)
-
-    if (!initialMeasurement.width && !initialMeasurement.height) {
-      // if device cannot get layout keep trying in intervals until it gets right data
-      await delay(50)
-      return measureView(view)
-    }
-
-    return initialMeasurement
-  })
 
   const handleStatusChange = useCallback(
     async status => {

@@ -26,7 +26,7 @@ export const decorate = (exception, withCode) => {
     exception.code = withCode
   }
 
-  const codeString = codeToString(exception.code)
+  const codeString = codeToString(withCode)
 
   if (!name || 'Error' === name) {
     exception.name = codeString

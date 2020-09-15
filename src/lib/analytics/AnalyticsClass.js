@@ -1,5 +1,5 @@
 // @flow
-import { assign, debounce, forEach, get, isString, pick } from 'lodash'
+import { assign, debounce, forEach, get, isString, pick, toLower } from 'lodash'
 import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
@@ -291,7 +291,7 @@ export class AnalyticsClass {
 
     if (
       categoryToPassIntoLog === Unexpected &&
-      ['connection', 'websocket', 'network'].some(str => eMsg.toLowerCase().includes(str))
+      ['connection', 'websocket', 'network'].some(str => toLower(eMsg).includes(str))
     ) {
       categoryToPassIntoLog = Network
     }

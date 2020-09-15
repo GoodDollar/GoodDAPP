@@ -20,7 +20,7 @@ export default function createGun(options = {}) {
   if (nodeEnv !== 'test') {
     gunOptions.push({
       ...options,
-      peers: [gunPublicUrl],
+      peers: gunPublicUrl.split(','),
     })
   }
 

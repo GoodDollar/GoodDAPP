@@ -2,7 +2,7 @@
 
 // libraries
 import amplitude from 'amplitude-js'
-import { assign, debounce, forEach, get, isError, isFunction, isString } from 'lodash'
+import { assign, debounce, forEach, get, isError, isFunction, isString, toLower } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
@@ -344,7 +344,7 @@ const patchLogger = () => {
 
     if (
       categoryToPassIntoLog === Unexpected &&
-      ['connection', 'websocket', 'network'].some(str => eMsg.toLowerCase().includes(str))
+      ['connection', 'websocket', 'network'].some(str => toLower(eMsg).includes(str))
     ) {
       categoryToPassIntoLog = Network
     }

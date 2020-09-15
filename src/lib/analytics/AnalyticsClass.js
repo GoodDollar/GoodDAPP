@@ -5,6 +5,8 @@ import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import { ERROR_LOG } from './constants'
 
+const savedErrorMessages = new WeakMap()
+
 export class AnalyticsClass {
   apis = {}
 
@@ -313,11 +315,10 @@ export class AnalyticsClass {
       return
     }
 
-    let savedErrorMessage
     let errorToPassIntoLog = errorObj
 
     if (errorObj instanceof Error) {
-      savedErrorMessage = errorObj.message
+      savedErrorMessages.set(errorObj, errorObj.message)
       errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
     } else {
       errorToPassIntoLog = new Error(logMessage)
@@ -349,8 +350,8 @@ export class AnalyticsClass {
       // if savedErrorMessage not empty that means errorObj
       // was an Error instrance and we mutated its message
       // so we have to restore it now
-      if (savedErrorMessage) {
-        errorObj.message = savedErrorMessage
+      if (savedErrorMessages.has(errorObj)) {
+        errorObj.message = savedErrorMessages.get(errorObj)
       }
     })
   }

@@ -1,6 +1,6 @@
 //@flow
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 
 import config from '../../config/config'
@@ -129,12 +129,15 @@ const InviteButton = ({ onPress, style }) => (
   </>
 )*/
 
-/*const EmptySpaceComponent = ({ style }) => (
+const EmptySpaceComponent = ({ style }) => (
   <>
     <View style={style} />
     <Appbar.Content />
   </>
-)*/
+)
+
+// remove it if market token functionality will be required
+const marketToken = false
 
 const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()
@@ -195,14 +198,14 @@ const TabsView = ({ navigation }) => {
       )}*/}
       {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
       {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
-      {/*market && (
+      {/*marketToken && (
         <>
           {!isEToro && !!(!enableInvites ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
           <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />
         </>
       )*/}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
-      {/*!market && !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />*/}
+      {!marketToken && !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
       <TouchableOpacity onPress={_slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>

@@ -122,7 +122,6 @@ const EmptySpaceComponent = ({ style }) => (
   </>
 )
 
-// remove it if market token functionality will be required
 
 const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()

@@ -80,9 +80,9 @@ const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) =
     const initialMeasurement = await measure(view)
 
     if (!initialMeasurement.width && !initialMeasurement.height) {
-      await delay(500)
-      const delayedMeasurement = await measure(view)
-      return delayedMeasurement
+      // if device cannot get layout keep trying in intervals until it gets right data
+      await delay(50)
+      return measureView(view)
     }
 
     return initialMeasurement

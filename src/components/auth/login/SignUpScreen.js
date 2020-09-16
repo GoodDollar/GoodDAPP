@@ -11,6 +11,7 @@ import {
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
 } from '../../../lib/analytics/analytics'
+import { Paragraph } from 'react-native-paper'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
 import CustomButton from '../../common/buttons/CustomButton'
@@ -19,6 +20,8 @@ import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
 import illustration from '../../../assets/Auth/torusIllustration.svg'
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
+import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
+import mobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
@@ -73,8 +76,6 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
       await goodWallet.ready
       userStorage.init()
     }
-
-    showErrorDialog('You Already Used This Email/mobile When You Signed Up With Facebook')
 
     // for QA
     global.wallet = goodWallet
@@ -176,7 +177,7 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
           log.error('torus login failed', e.message, e, { dialogShown: true })
         }
 
-        showErrorDialog('We were unable to complete the login. Please try again.')
+        showErrorDialog('We were unable to complete the signup. Please try again.')
         return
       }
 
@@ -198,10 +199,51 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
 
         //user exists reload with dashboard route
         if (exists) {
-          fireEvent(SIGNIN_TORUS_SUCCESS, { provider, source })
-          await AsyncStorage.setItem(IS_LOGGED_IN, true)
-          store.set('isLoggedIn')(true)
-          return
+          return showDialog({
+            onDismiss: () => {
+              hideDialog()
+            },
+            content: (
+              <View style={{ flex: 1, justifyContent: 'center' }}>
+                <Paragraph
+                  style={styles.paragraph}
+                >{`You Already Used\nThis Email/mobile\n When You Signed Up\n With ${provider}`}</Paragraph>
+              </View>
+            ),
+            buttons: [
+              {
+                text: 'Continue Signup',
+                onPress: async () => {
+                  hideDialog()
+                },
+                style: {
+                  backgroundColor: mainTheme.colors.white,
+                  color: mainTheme.colors.primary,
+                  borderWidth: 1,
+                  borderColor: mainTheme.colors.primary,
+                  marginBottom: 16,
+                },
+                textStyle: {
+                  color: mainTheme.colors.primary,
+                },
+              },
+              {
+                text: `Login with ${provider}`,
+                onPress: async () => {
+                  hideDialog()
+                  fireEvent(SIGNIN_TORUS_SUCCESS, { provider, source })
+                  await AsyncStorage.setItem(IS_LOGGED_IN, true)
+                  store.set('isLoggedIn')(true)
+                },
+              },
+            ],
+            buttonsContainerStyle: {
+              flex: 1,
+              flexDirection: 'column',
+              marginBottom: 32,
+            },
+            type: 'error',
+          })
         }
 
         //user doesnt exists start signup
@@ -314,7 +356,12 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
           disabled={!sdkInitialized}
           testID="login_with_auth0"
         >
-          Agree & Continue Passwordless
+          <View style={styles.iconBorder}>
+            <Image source={mobileBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
+          </View>
+          <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
+            Agree & Continue Passwordless
+          </Text>
         </CustomButton>
       )
     },
@@ -396,19 +443,17 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
         <CustomButton
           compact={isSmallDevice || isMediumDevice}
           color={mainTheme.colors.googleBlue}
-          style={[styles.googleButtonLayout]}
+          style={[styles.buttonLayout]}
           onPress={googleButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_google"
         >
-          <View style={styles.googleButtonContent}>
-            <View style={styles.iconBorder}>
-              <Image source={googleBtnIcon} resizeMode="contain" style={styles.googleIcon} />
-            </View>
-            <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
-              Agree & Continue with Google
-            </Text>
+          <View style={styles.iconBorder}>
+            <Image source={googleBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
           </View>
+          <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
+            Agree & Continue with Google
+          </Text>
         </CustomButton>
         <CustomButton
           compact={isSmallDevice || isMediumDevice}
@@ -419,7 +464,12 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
           disabled={!sdkInitialized}
           testID="login_with_facebook"
         >
-          Agree & Continue with Facebook
+          <View style={styles.iconBorder}>
+            <Image source={facebookBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
+          </View>
+          <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
+            Agree & Continue with Facebook
+          </Text>
         </CustomButton>
         <ShowPasswordless />
       </Section>
@@ -437,6 +487,15 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'space-between',
       flexGrow: 1,
     },
+    paragraph: {
+      fontSize: normalizeText(24),
+      textAlign: 'center',
+      marginTop: theme.sizes.defaultDouble,
+      color: theme.colors.red,
+      fontWeight: 'bold',
+      lineHeight: 32,
+      textAlign: 'center',
+    },
     textBlack: {
       color: theme.fontStyle.color,
     },
@@ -449,6 +508,9 @@ const getStylesFromProps = ({ theme }) => {
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
+      flex: 1,
+      justifyContent: 'space-between',
+      flexDirection: 'row',
     },
     googleButtonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
@@ -461,7 +523,7 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'row',
       alignItems: 'center',
     },
-    googleIcon: {
+    iconsStyle: {
       width: getDesignRelativeHeight(20),
       height: getDesignRelativeHeight(20),
     },
@@ -470,7 +532,8 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 50,
       zIndex: -1,
       alignItems: 'center',
-      padding: 12,
+      padding: getDesignRelativeHeight(10),
+      marginRight: getDesignRelativeWidth(30),
     },
     buttonText: {
       fontSize: buttonFontSize,

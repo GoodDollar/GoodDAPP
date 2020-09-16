@@ -267,10 +267,10 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (appState === 'active' && Number(entitlement) > 0) {
+    if (appState === 'active') {
       animateClaim()
     }
-  }, [appState, entitlement])
+  }, [appState])
 
   const animateClaim = useCallback(async () => {
     const inQueue = await userStorage.userProperties.get('claimQueueAdded')
@@ -279,19 +279,26 @@ const Dashboard = props => {
       return
     }
 
-    Animated.sequence([
-      Animated.timing(animValue, {
-        toValue: 1.4,
-        duration: 750,
-        easing: Easing.ease,
-        delay: 1000,
-      }),
-      Animated.timing(animValue, {
-        toValue: 1,
-        duration: 750,
-        easing: Easing.ease,
-      }),
-    ]).start()
+    const entitlement = await goodWallet
+      .checkEntitlement()
+      .then(_ => _.toNumber())
+      .catch(e => 0)
+
+    if (entitlement) {
+      Animated.sequence([
+        Animated.timing(animValue, {
+          toValue: 1.4,
+          duration: 750,
+          easing: Easing.ease,
+          delay: 1000,
+        }),
+        Animated.timing(animValue, {
+          toValue: 1,
+          duration: 750,
+          easing: Easing.ease,
+        }),
+      ]).start()
+    }
   }, [animValue])
 
   const showDelayed = useCallback(() => {

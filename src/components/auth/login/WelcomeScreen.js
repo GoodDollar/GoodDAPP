@@ -19,8 +19,8 @@ import normalizeText from '../../../lib/utils/normalizeText'
 import NavBar from '../../appNavigation/NavBar'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../webView/webViewInstances'
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
-import Signin from '../login/SignInScreen'
-import Signup from '../login/SignUpScreen'
+import SignInScreen from '../login/SignInScreen'
+import SignupScreen from '../login/SignUpScreen'
 
 const log = logger.child({ from: 'Welcome' })
 
@@ -29,12 +29,12 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
 
   const goToSignUp = () => {
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-    return navigate('Signup')
+    return navigate('SignupScreen')
   }
 
   const goToSignIn = () => {
     fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-    return navigate('Signin')
+    return navigate('SignInScreen')
   }
 
   return (
@@ -134,8 +134,8 @@ const routes = {
   PrivacyPolicyAndTerms,
   PrivacyPolicy,
   Support: SupportForUnsigned,
-  Signin,
-  Signup,
+  SignInScreen,
+  SignupScreen,
 }
 
 if (config.enableSelfCustody) {

@@ -1,4 +1,5 @@
 // @flow
+
 import React from 'react'
 import { View } from 'react-native'
 import GoodWallet from '../../lib/wallet/GoodWallet'
@@ -6,9 +7,8 @@ import InputText from '../common/form/InputText'
 import { Section, Text, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
-import Illustration from '../../assets/Signup/maginLinkIllustration.svg'
 import CopyButton from '../common/buttons/CopyButton'
 import useOnPress from '../../lib/hooks/useOnPress'
 
@@ -34,12 +34,15 @@ const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
           style={styles.input}
           value={address || account}
           editable={false}
+          showError={false}
         />
-        <Text fontSize={24} fontWeight="medium" lineHeight={30}>
-          {'You can copy and share it\nwith others'}
+        <Text style={styles.copyText} fontSize={24} fontWeight="medium" lineHeight={30}>
+          {'Copy & share it\nwith others'}
         </Text>
-        <View style={styles.illustration}>
-          <Illustration />
+        <View style={styles.warningTextWrapper}>
+          <Text fontSize={13.5} fontFamily="Roboto Slab" letterSpacing={0.14} lineHeight={21} color="red">
+            Do not send tokens from Ethereum network to this address. This is a Fuse Network address for G$ tokens only.
+          </Text>
         </View>
         <CopyButton style={styles.confirmButton} toCopy={address || account} onPressDone={onPressDone} />
       </Section>
@@ -54,8 +57,8 @@ ReceiveToAddress.navigationOptions = {
 export default withStyles(({ theme }) => ({
   containerInput: {
     flex: 0,
-    marginTop: getDesignRelativeHeight(25),
-    marginBottom: getDesignRelativeHeight(33),
+    marginTop: getDesignRelativeHeight(15),
+    marginBottom: 0,
     marginHorizontal: getDesignRelativeHeight(10),
   },
   input: {
@@ -69,5 +72,20 @@ export default withStyles(({ theme }) => ({
     minHeight: getDesignRelativeHeight(140),
     marginTop: getDesignRelativeHeight(15),
     marginBottom: getDesignRelativeHeight(15),
+  },
+  copyText: {
+    marginTop: getDesignRelativeHeight(14),
+    marginBottom: getDesignRelativeHeight(20),
+  },
+  warningTextWrapper: {
+    borderWidth: 2,
+    borderRadius: 5,
+    borderStyle: 'solid',
+    borderColor: theme.colors.red,
+    width: getDesignRelativeWidth(252, false),
+    marginHorizontal: 'auto',
+    marginBottom: getDesignRelativeHeight(20),
+    paddingVertical: getDesignRelativeHeight(14),
+    paddingHorizontal: getDesignRelativeWidth(14),
   },
 }))(ReceiveToAddress)

@@ -146,6 +146,7 @@ const CustomButton = (props: ButtonProps) => {
     loading,
     disabled,
     iconStyle,
+    contentStyle,
     ...buttonProps
   } = props
   const dark = mode === 'contained'
@@ -155,7 +156,7 @@ const CustomButton = (props: ButtonProps) => {
     <BaseButton
       dark={dark}
       mode={mode}
-      contentStyle={styles.contentStyle}
+      contentStyle={[styles.contentStyle, contentStyle]}
       theme={{ ...theme, roundness: 50 }}
       uppercase={uppercase}
       disabled={disabled || loading}

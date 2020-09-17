@@ -504,23 +504,97 @@ exports[`SendToAddress matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
+            "WebkitBoxFlex": 1,
+            "WebkitBoxPack": "center",
+            "WebkitFlexGrow": 1,
+            "WebkitJustifyContent": "center",
+            "backgroundColor": "rgba(255,255,255,1.00)",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "flexGrow": 1,
+            "justifyContent": "center",
+            "msFlexPack": "center",
+            "msFlexPositive": 1,
+            "paddingBottom": "16px",
+            "paddingLeft": "12px",
+            "paddingRight": "12px",
+            "paddingTop": "16px",
+          }
+        }
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "borderBottomColor": "rgba(250,108,119,1.00)",
+              "borderBottomLeftRadius": "5px",
+              "borderBottomRightRadius": "5px",
+              "borderBottomStyle": "solid",
+              "borderBottomWidth": "2px",
+              "borderLeftColor": "rgba(250,108,119,1.00)",
+              "borderLeftStyle": "solid",
+              "borderLeftWidth": "2px",
+              "borderRightColor": "rgba(250,108,119,1.00)",
+              "borderRightStyle": "solid",
+              "borderRightWidth": "2px",
+              "borderTopColor": "rgba(250,108,119,1.00)",
+              "borderTopLeftRadius": "5px",
+              "borderTopRightRadius": "5px",
+              "borderTopStyle": "solid",
+              "borderTopWidth": "2px",
+              "marginBottom": "20px",
+              "marginLeft": "auto",
+              "marginRight": "auto",
+              "paddingBottom": "14px",
+              "paddingLeft": "14px",
+              "paddingRight": "14px",
+              "paddingTop": "14px",
+              "width": "332.5px",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            letterSpacing={0.14}
+            style={
+              Object {
+                "color": "rgba(250,108,119,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto Slab",
+                "fontSize": "13.5px",
+                "fontWeight": "normal",
+                "letterSpacing": "0.14px",
+                "lineHeight": "21px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            Do not send tokens from Ethereum network to this address. This is a Fuse Network address for G$ tokens only.
+          </div>
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
             "WebkitAlignItems": "flex-end",
             "WebkitBoxAlign": "end",
             "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "row",
-            "WebkitFlexGrow": 1,
             "WebkitJustifyContent": "space-between",
             "alignItems": "flex-end",
             "flexDirection": "row",
-            "flexGrow": 1,
             "justifyContent": "space-between",
             "msFlexAlign": "end",
             "msFlexDirection": "row",
             "msFlexPack": "justify",
-            "msFlexPositive": 1,
           }
         }
       >

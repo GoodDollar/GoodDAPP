@@ -26,7 +26,7 @@ const warningBoxStyles = ({ theme }) => ({
     borderRadius: 5,
     borderStyle: 'solid',
     borderColor: theme.colors.red,
-    width: getDesignRelativeWidth(252, false),
+    width: 'auto',
     marginHorizontal: 'auto',
     marginBottom: getDesignRelativeHeight(20),
     paddingVertical: getDesignRelativeHeight(14),
@@ -34,10 +34,12 @@ const warningBoxStyles = ({ theme }) => ({
   },
 })
 
-export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles }) => (
+export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend = false }) => (
   <View style={styles.warningTextWrapper}>
     <Text fontSize={13.5} fontFamily="Roboto Slab" letterSpacing={0.14} lineHeight={21} color="red">
-      Do not send tokens from Ethereum network to this address. This is a Fuse Network address for G$ tokens only.
+      {isSend
+        ? `Do not send tokens to Ethereum network addresses.\nYou are on Fuse Network.`
+        : `Do not send tokens to Ethereum network to this address.\nThis is a Fuse Network address for G$ tokens only.`}
     </Text>
   </View>
 ))

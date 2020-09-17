@@ -91,7 +91,7 @@ const SendToAddress = (props: TypeProps) => {
           />
         </Section.Stack>
         <Section grow justifyContent="center">
-          <GDTokensWarningBox />
+          <GDTokensWarningBox isSend={true} />
         </Section>
         <Section.Row alignItems="flex-end">
           <Section.Row grow={1} justifyContent="flex-start">

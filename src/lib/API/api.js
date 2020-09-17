@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { identity, isPlainObject, isString, isError } from 'lodash'
+import { identity, isError, isPlainObject, isString } from 'lodash'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import Config from '../../config/config'
@@ -32,7 +32,7 @@ export type UserRecord = NameRecord &
 
 export const getErrorMessage = apiError => {
   let message
-  
+
   if (isString(apiError)) {
     message = apiError
   } else if (isError(apiError)) {
@@ -82,7 +82,13 @@ export class APIService {
       }
 
       // eslint-disable-next-line require-await
-      const exceptionHandler = async exception => {
+      const exceptionHandler = async error => {
+        let exception = error
+
+        if (axios.isCancel(error)) {
+          exception = new Error('Http request was cancelled during API call')
+        }
+
         const { message, response } = exception
         const { data } = response || {}
 

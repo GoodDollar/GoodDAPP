@@ -2,6 +2,7 @@
 /*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
+import { Paragraph } from 'react-native-paper'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
@@ -11,19 +12,15 @@ import {
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
 } from '../../../lib/analytics/analytics'
-import { Paragraph } from 'react-native-paper'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
 import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
-import illustration from '../../../assets/Auth/torusIllustration.svg'
-import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
-import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
-import mobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
-import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
+import illustration from '../../../assets/Auth/torusIllustration.svg'
+import config from '../../../config/config'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
@@ -33,6 +30,9 @@ import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDete
 import normalizeText from '../../../lib/utils/normalizeText'
 import { userExists } from '../../../lib/login/userExists'
 import AnimationsPeopleFlying from '../../common/animations/PeopleFlying'
+import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
+import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
+import mobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
 
 // import { delay } from '../../../lib/utils/async'
 import LoadingIcon from '../../common/modal/LoadingIcon'
@@ -137,6 +137,15 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
   //     title: `PREPARING\nYOUR WALLET`,
   //   })
   // }
+  const handleProvider = provider => {
+    if (provider.includes('google')) {
+      return 'Google'
+    }
+    if (provider.includes('auth0')) {
+      return 'PasswordLess'
+    }
+    return provider
+  }
 
   const handleSignUp = useCallback(
     async (provider: 'facebook' | 'google' | 'google-old' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
@@ -189,6 +198,7 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
         const { source } = await ready(replacing)
 
         log.debug('showing checkmark dialog')
+
         // showLoadingDialog(true)
         // await delay(30000000)
 
@@ -199,49 +209,39 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
 
         //user exists reload with dashboard route
         if (exists) {
+          const registeredBy = handleProvider(provider)
           return showDialog({
             onDismiss: () => {
               hideDialog()
             },
             content: (
-              <View style={{ flex: 1, justifyContent: 'center' }}>
+              <View style={styles.paragraphContainer}>
                 <Paragraph
                   style={styles.paragraph}
-                >{`You Already Used\nThis Email/mobile\n When You Signed Up\n With ${provider}`}</Paragraph>
+                >{`You Already Used\n This Email/mobile\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
               </View>
             ),
             buttons: [
               {
-                text: 'Continue Signup',
-                onPress: async () => {
-                  hideDialog()
-                },
-                style: {
-                  backgroundColor: mainTheme.colors.white,
-                  color: mainTheme.colors.primary,
-                  borderWidth: 1,
-                  borderColor: mainTheme.colors.primary,
-                  marginBottom: 16,
-                },
-                textStyle: {
-                  color: mainTheme.colors.primary,
-                },
-              },
-              {
-                text: `Login with ${provider}`,
+                text: `Login with ${registeredBy}`,
                 onPress: async () => {
                   hideDialog()
                   fireEvent(SIGNIN_TORUS_SUCCESS, { provider, source })
                   await AsyncStorage.setItem(IS_LOGGED_IN, true)
                   store.set('isLoggedIn')(true)
                 },
+                style: styles.marginBottom,
+              },
+              {
+                text: 'Continue Signup',
+                onPress: () => {
+                  hideDialog()
+                },
+                style: styles.whiteButton,
+                textStyle: styles.primaryText,
               },
             ],
-            buttonsContainerStyle: {
-              flex: 1,
-              flexDirection: 'column',
-              marginBottom: 32,
-            },
+            buttonsContainerStyle: styles.modalButtonsContainerStyle,
             type: 'error',
           })
         }
@@ -351,10 +351,11 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
         <CustomButton
           color={mainTheme.colors.darkBlue}
           style={styles.buttonLayout}
-          textStyle={[styles.buttonText]}
+          textStyle={styles.buttonText}
           onPress={auth0ButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_auth0"
+          contentStyle={styles.fixMargin}
         >
           <View style={styles.iconBorder}>
             <Image source={mobileBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
@@ -378,14 +379,11 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
         fontWeight="bold"
       >
         Welcome to GoodDollar!
-        {/* <Text fontSize={26} lineHeight={34} letterSpacing={0.26} fontFamily="Roboto">
-          {"\nYes, it's that simple."}
-        </Text> */}
       </Text>
       <AnimationsPeopleFlying />
       <Section style={styles.bottomContainer}>
         {asGuest && (
-          <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
+          <Text fontSize={12} color="gray80Percent" style={styles.marginBottom}>
             {`By Signing up you are accepting our \n`}
             <Text
               fontSize={12}
@@ -415,7 +413,7 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
                 <Section.Text
                   fontWeight="medium"
                   style={styles.recoverText}
-                  textStyle={[styles.buttonText]}
+                  textStyle={styles.buttonText}
                   textDecorationLine="underline"
                   fontSize={14}
                   color="primary"
@@ -424,29 +422,16 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
                 </Section.Text>
               </TouchableOpacity>
             </Section.Row>
-            <Section.Row alignItems="center" justifyContent="center" style={styles.signInLink}>
-              <TouchableOpacity onPress={goToSignIn}>
-                <Section.Text
-                  fontWeight="medium"
-                  style={styles.haveIssuesText}
-                  textStyle={[styles.buttonText]}
-                  textDecorationLine="underline"
-                  fontSize={14}
-                  color="primary"
-                >
-                  Sign in
-                </Section.Text>
-              </TouchableOpacity>
-            </Section.Row>
           </>
         )}
         <CustomButton
           compact={isSmallDevice || isMediumDevice}
           color={mainTheme.colors.googleBlue}
-          style={[styles.buttonLayout]}
+          style={styles.buttonLayout}
           onPress={googleButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_google"
+          contentStyle={styles.fixMargin}
         >
           <View style={styles.iconBorder}>
             <Image source={googleBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
@@ -463,6 +448,7 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
           onPress={facebookButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_facebook"
+          contentStyle={styles.fixMargin}
         >
           <View style={styles.iconBorder}>
             <Image source={facebookBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
@@ -494,7 +480,6 @@ const getStylesFromProps = ({ theme }) => {
       color: theme.colors.red,
       fontWeight: 'bold',
       lineHeight: 32,
-      textAlign: 'center',
     },
     textBlack: {
       color: theme.fontStyle.color,
@@ -532,14 +517,10 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 50,
       zIndex: -1,
       alignItems: 'center',
-      padding: getDesignRelativeHeight(10),
-      marginRight: getDesignRelativeWidth(30),
+      padding: getDesignRelativeHeight(12),
     },
     buttonText: {
       fontSize: buttonFontSize,
-    },
-    acceptTermsLink: {
-      marginTop: getDesignRelativeHeight(theme.sizes.default),
     },
     illustration: {
       flexGrow: 1,
@@ -555,12 +536,34 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: getDesignRelativeHeight(30),
       marginBottom: getDesignRelativeHeight(20),
     },
-    privacyAndTerms: {
-      marginBottom: getDesignRelativeHeight(16),
+    marginBottom: {
+      marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
     },
     signInLink: {
       marginTop: getDesignRelativeHeight(5),
       marginBottom: getDesignRelativeHeight(5),
+    },
+    paragraphContainer: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    modalButtonsContainerStyle: {
+      flex: 1,
+      flexDirection: 'column',
+      marginBottom: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
+    },
+    whiteButton: {
+      backgroundColor: theme.colors.white,
+      color: theme.colors.primary,
+      borderWidth: 1,
+      borderColor: theme.colors.primary,
+    },
+    primaryText: {
+      color: mainTheme.colors.primary,
+    },
+    fixMargin: {
+      marginVertical: -6,
+      marginHorizontal: -13,
     },
   }
 }

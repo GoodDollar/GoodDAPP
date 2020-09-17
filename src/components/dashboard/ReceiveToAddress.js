@@ -20,6 +20,30 @@ export type TypeProps = {
 
 const { account } = GoodWallet
 
+const warningBoxStyles = ({ theme }) => ({
+  warningTextWrapper: {
+    borderWidth: 2,
+    borderRadius: 5,
+    borderStyle: 'solid',
+    borderColor: theme.colors.red,
+    width: 'auto',
+    marginHorizontal: 'auto',
+    marginBottom: getDesignRelativeHeight(20),
+    paddingVertical: getDesignRelativeHeight(14),
+    paddingHorizontal: getDesignRelativeWidth(14),
+  },
+})
+
+export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend = false }) => (
+  <View style={styles.warningTextWrapper}>
+    <Text fontSize={13.5} fontFamily="Roboto Slab" letterSpacing={0.14} lineHeight={21} color="red">
+      {isSend
+        ? `Do not send tokens to Ethereum network addresses.\nYou are on Fuse Network.`
+        : `Do not send tokens to Ethereum network to this address.\nThis is a Fuse Network address for G$ tokens only.`}
+    </Text>
+  </View>
+))
+
 const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
   const onPressDone = useOnPress(screenProps.goToRoot)
   return (
@@ -39,11 +63,7 @@ const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
         <Text style={styles.copyText} fontSize={24} fontWeight="medium" lineHeight={30}>
           {'Copy & share it\nwith others'}
         </Text>
-        <View style={styles.warningTextWrapper}>
-          <Text fontSize={13.5} fontFamily="Roboto Slab" letterSpacing={0.14} lineHeight={21} color="red">
-            Do not send tokens from Ethereum network to this address. This is a Fuse Network address for G$ tokens only.
-          </Text>
-        </View>
+        <GDTokensWarningBox />
         <CopyButton style={styles.confirmButton} toCopy={address || account} onPressDone={onPressDone} />
       </Section>
     </Wrapper>
@@ -76,16 +96,5 @@ export default withStyles(({ theme }) => ({
   copyText: {
     marginTop: getDesignRelativeHeight(14),
     marginBottom: getDesignRelativeHeight(20),
-  },
-  warningTextWrapper: {
-    borderWidth: 2,
-    borderRadius: 5,
-    borderStyle: 'solid',
-    borderColor: theme.colors.red,
-    width: getDesignRelativeWidth(252, false),
-    marginHorizontal: 'auto',
-    marginBottom: getDesignRelativeHeight(20),
-    paddingVertical: getDesignRelativeHeight(14),
-    paddingHorizontal: getDesignRelativeWidth(14),
   },
 }))(ReceiveToAddress)

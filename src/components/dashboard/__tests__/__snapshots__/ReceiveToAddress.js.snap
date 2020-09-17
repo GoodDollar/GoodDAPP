@@ -364,7 +364,7 @@ with others
             "paddingLeft": "14px",
             "paddingRight": "14px",
             "paddingTop": "14px",
-            "width": "332.5px",
+            "width": "auto",
           }
         }
       >
@@ -387,7 +387,8 @@ with others
             }
           }
         >
-          Do not send tokens from Ethereum network to this address. This is a Fuse Network address for G$ tokens only.
+          Do not send tokens to Ethereum network to this address.
+This is a Fuse Network address for G$ tokens only.
         </div>
       </div>
       <div

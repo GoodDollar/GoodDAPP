@@ -2,6 +2,7 @@
 /*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
+import { Paragraph } from 'react-native-paper'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
@@ -25,6 +26,7 @@ import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import retryImport from '../../../lib/utils/retryImport'
+import formatProvider from '../../../lib/utils/formatProvider'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
@@ -108,14 +110,6 @@ const SigninScreen = ({ screenProps, navigation, styles, store }) => {
       showButtons: false,
       title: `PREPARING\nYOUR WALLET`,
       showCloseButtons: false,
-    })
-  }
-
-  const errorDialog = () => {
-    showErrorDialog('', '', {
-      title: 'Hi There, did You Mean to Signup?',
-      message: 'The account doesn’t exist or you signed up using',
-      boldMessage: 'another login method',
     })
   }
 
@@ -209,7 +203,47 @@ const SigninScreen = ({ screenProps, navigation, styles, store }) => {
           return
         }
 
-        errorDialog()
+        const registeredBy = formatProvider(provider)
+        return showDialog({
+          onDismiss: () => {
+            hideDialog()
+          },
+          content: (
+            <View style={styles.paragraphContainer}>
+              <Paragraph
+                style={[styles.paragraph, styles.paragraphBold]}
+              >{`Hi There,\n did You Mean\n to Signup?'`}</Paragraph>
+              <Paragraph
+                style={[styles.paragraph, styles.paragraphContent]}
+              >{`The account doesn’t exist\n or you signed up using`}</Paragraph>
+              <Paragraph style={[styles.paragraphContent, styles.paragraphBold]}>{`${registeredBy}`}</Paragraph>
+            </View>
+          ),
+          buttons: [
+            {
+              text: 'Signup',
+              onPress: () => {
+                fireEvent(SIGNUP_STARTED, { source, provider })
+                navigate('Signup', {
+                  regMethod: REGISTRATION_METHOD_TORUS,
+                  torusUser,
+                  torusProvider: provider,
+                })
+              },
+              style: styles.whiteButton,
+              textStyle: styles.primaryText,
+            },
+            {
+              text: 'Login',
+              onPress: async () => {
+                hideDialog()
+              },
+              style: { flex: 1 },
+            },
+          ],
+          buttonsContainerStyle: styles.modalButtonsContainerStyle,
+          type: 'error',
+        })
 
         //user doesnt exists start signup
         // fireEvent(SIGNUP_STARTED, { source, provider })
@@ -498,6 +532,45 @@ const getStylesFromProps = ({ theme }) => {
     signInLink: {
       marginTop: getDesignRelativeHeight(5),
       marginBottom: getDesignRelativeHeight(5),
+    },
+    paragraphContainer: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    modalButtonsContainerStyle: {
+      flex: 1,
+      flexDirection: 'row',
+      maxHeight: getDesignRelativeHeight(30),
+    },
+    whiteButton: {
+      backgroundColor: theme.colors.white,
+      color: theme.colors.primary,
+      borderWidth: 1,
+      borderColor: theme.colors.primary,
+      flex: 1,
+    },
+    primaryText: {
+      color: mainTheme.colors.primary,
+    },
+    fixMargin: {
+      marginVertical: -6,
+      marginHorizontal: -13,
+    },
+    paragraph: {
+      fontSize: normalizeText(24),
+      textAlign: 'center',
+      marginTop: theme.sizes.defaultDouble,
+      color: theme.colors.red,
+      lineHeight: 32,
+    },
+    paragraphContent: {
+      fontSize: normalizeText(16),
+      lineHeight: 22,
+      color: theme.colors.darkGray,
+    },
+    paragraphBold: {
+      textAlign: 'center',
+      fontWeight: 'bold',
     },
   }
 }

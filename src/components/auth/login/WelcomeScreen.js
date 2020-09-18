@@ -56,8 +56,8 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
       <Image source={illustration} style={styles.illustration} resizeMode="contain" />
       <Section style={styles.bottomContainer}>
         <>
-          <Section.Row alignItems="center" justifyContent="center">
-            <CustomButton style={styles.buttonLayout} textStyle={[styles.buttonText]} onPress={goToSignUp}>
+          <Section.Row alignItems="center" justifyContent="center" style={styles.buttonSpace}>
+            <CustomButton style={styles.buttonLayout} textStyle={styles.buttonText} onPress={goToSignUp}>
               Sign up (Create new wallet)
             </CustomButton>
           </Section.Row>
@@ -96,6 +96,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
       justifyContent: 'space-around',
       minHeight: getDesignRelativeHeight(150),
+      marginBottom: getDesignRelativeHeight(30),
     },
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
@@ -118,6 +119,9 @@ const getStylesFromProps = ({ theme }) => {
     headerText: {
       marginTop: getDesignRelativeHeight(30),
       marginBottom: getDesignRelativeHeight(20),
+    },
+    buttonSpace: {
+      marginBottom: getDesignRelativeHeight(30),
     },
   }
 }

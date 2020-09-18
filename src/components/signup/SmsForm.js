@@ -177,6 +177,7 @@ const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
   if (showWait === false) {
     return (
       <SpinnerCheckMark
+        height={100}
         loading={sendingCode}
         success={resentCode}
         onFinish={() => {

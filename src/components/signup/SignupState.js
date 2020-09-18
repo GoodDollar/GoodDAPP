@@ -498,9 +498,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           }),
 
         userStorage.userProperties.set('registered', true),
+
         AsyncStorage.setItem(IS_LOGGED_IN, true),
         AsyncStorage.removeItem('GD_web3Token'),
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
+
+        userStorage.saveJoinedBlockNumber(),
 
         // privacy issue, and not need at the moment
         // w3Token &&

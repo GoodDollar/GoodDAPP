@@ -18,7 +18,7 @@ import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
-import illustration from '../../../assets/Auth/torusIllustration.svg'
+import illustration from '../../../assets/Auth/Illustration.svg'
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
@@ -32,8 +32,9 @@ import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDete
 import normalizeText from '../../../lib/utils/normalizeText'
 import { userExists } from '../../../lib/login/userExists'
 
-// import { delay } from '../../../lib/utils/async'
+import { delay } from '../../../lib/utils/async'
 import LoadingIcon from '../../common/modal/LoadingIcon'
+import SuccessIcon from '../../common/modal/SuccessIcon'
 
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
@@ -197,9 +198,19 @@ const SigninScreen = ({ screenProps, navigation, styles, store }) => {
 
         //user exists reload with dashboard route
         if (exists) {
+          showDialog({
+            image: <SuccessIcon />,
+            loading: true,
+            message: 'Please wait\nThis might take a few seconds...',
+            showButtons: false,
+            title: `PREPARING\nYOUR WALLET`,
+            showCloseButtons: false,
+          })
+          await delay(2000)
           fireEvent(SIGNIN_TORUS_SUCCESS, { provider, source })
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
           store.set('isLoggedIn')(true)
+          hideDialog()
           return
         }
 
@@ -213,10 +224,12 @@ const SigninScreen = ({ screenProps, navigation, styles, store }) => {
               <Paragraph
                 style={[styles.paragraph, styles.paragraphBold]}
               >{`Hi There,\n did You Mean\n to Signup?'`}</Paragraph>
-              <Paragraph
-                style={[styles.paragraph, styles.paragraphContent]}
-              >{`The account doesn’t exist\n or you signed up using`}</Paragraph>
-              <Paragraph style={[styles.paragraphContent, styles.paragraphBold]}>{`${registeredBy}`}</Paragraph>
+              <View style={{ marginTop: mainTheme.sizes.defaultDouble }}>
+                <Paragraph
+                  style={[styles.paragraph, styles.paragraphContent]}
+                >{`The account doesn’t exist\n or you signed up using`}</Paragraph>
+                <Paragraph style={[styles.paragraphContent, styles.paragraphBold]}>{`${registeredBy}`}</Paragraph>
+              </View>
             </View>
           ),
           buttons: [
@@ -235,7 +248,7 @@ const SigninScreen = ({ screenProps, navigation, styles, store }) => {
             },
             {
               text: 'Login',
-              onPress: async () => {
+              onPress: () => {
                 hideDialog()
               },
               style: { flex: 1 },
@@ -372,9 +385,6 @@ const SigninScreen = ({ screenProps, navigation, styles, store }) => {
         fontWeight="bold"
       >
         Welcome Back!
-        {/* <Text fontSize={26} lineHeight={34} letterSpacing={0.26} fontFamily="Roboto">
-          {"\nYes, it's that simple."}
-        </Text> */}
       </Text>
       <Section style={styles.bottomContainer}>
         {asGuest && (
@@ -541,6 +551,7 @@ const getStylesFromProps = ({ theme }) => {
       flex: 1,
       flexDirection: 'row',
       maxHeight: getDesignRelativeHeight(30),
+      marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
     },
     whiteButton: {
       backgroundColor: theme.colors.white,
@@ -559,14 +570,15 @@ const getStylesFromProps = ({ theme }) => {
     paragraph: {
       fontSize: normalizeText(24),
       textAlign: 'center',
-      marginTop: theme.sizes.defaultDouble,
       color: theme.colors.red,
       lineHeight: 32,
+      fontFamily: theme.fonts.slab,
     },
     paragraphContent: {
       fontSize: normalizeText(16),
       lineHeight: 22,
       color: theme.colors.darkGray,
+      fontFamily: theme.fonts.default,
     },
     paragraphBold: {
       textAlign: 'center',

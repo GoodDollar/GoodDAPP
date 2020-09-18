@@ -8,6 +8,7 @@ import logger from '../../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
   fireEvent,
+  SIGNIN_METHOD_SELECTED,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
@@ -144,7 +145,7 @@ const SigninScreen = ({ screenProps, navigation, styles, store }) => {
       let torusUser
       let replacing = false
 
-      fireEvent(SIGNUP_METHOD_SELECTED, { method: provider })
+      fireEvent(SIGNIN_METHOD_SELECTED, { method: provider })
 
       try {
         if (['development', 'test'].includes(config.env)) {
@@ -188,6 +189,7 @@ const SigninScreen = ({ screenProps, navigation, styles, store }) => {
         const { source } = await ready(replacing)
 
         log.debug('showing checkmark dialog')
+
         // showLoadingDialog(true)
         // await delay(30000000)
 
@@ -257,22 +259,6 @@ const SigninScreen = ({ screenProps, navigation, styles, store }) => {
           buttonsContainerStyle: styles.modalButtonsContainerStyle,
           type: 'error',
         })
-
-        //user doesnt exists start signup
-        // fireEvent(SIGNUP_STARTED, { source, provider })
-        // navigate('Signup', {
-        //   regMethod: REGISTRATION_METHOD_TORUS,
-        //   torusUser,
-        //   torusProvider: provider,
-        // })
-
-        // //Hack to get keyboard up on mobile need focus from user event such as click
-        // setTimeout(() => {
-        //   const el = document.getElementById('Name_input')
-        //   if (el) {
-        //     el.focus()
-        //   }
-        // }, 500)
       } catch (e) {
         log.error('Failed to initialize wallet and storage', e.message, e)
       } finally {
@@ -305,7 +291,6 @@ const SigninScreen = ({ screenProps, navigation, styles, store }) => {
 
   // google button settings
   const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
-  const googleButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
   // facebook button settings
   const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])

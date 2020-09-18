@@ -19,7 +19,7 @@ import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
-import illustration from '../../../assets/Auth/torusIllustration.svg'
+import illustration from '../../../assets/Auth/Illustration.svg'
 import config from '../../../config/config'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
@@ -29,7 +29,6 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/ut
 import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { userExists } from '../../../lib/login/userExists'
-import AnimationsPeopleFlying from '../../common/animations/PeopleFlying'
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import mobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
@@ -380,7 +379,7 @@ const SignupScreen = ({ screenProps, navigation, styles, store }) => {
       >
         Welcome to GoodDollar!
       </Text>
-      <AnimationsPeopleFlying />
+      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
       <Section style={styles.bottomContainer}>
         {asGuest && (
           <Text fontSize={12} color="gray80Percent" style={styles.marginBottom}>
@@ -476,7 +475,6 @@ const getStylesFromProps = ({ theme }) => {
     paragraph: {
       fontSize: normalizeText(24),
       textAlign: 'center',
-      marginTop: theme.sizes.defaultDouble,
       color: theme.colors.red,
       fontWeight: 'bold',
       lineHeight: 32,
@@ -526,8 +524,8 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      width: getDesignRelativeWidth(276),
-      height: getDesignRelativeHeight(217),
+      width: getDesignRelativeWidth(284),
+      height: getDesignRelativeHeight(192),
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),

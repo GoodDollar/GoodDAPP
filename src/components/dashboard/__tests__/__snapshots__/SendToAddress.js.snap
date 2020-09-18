@@ -551,7 +551,7 @@ exports[`SendToAddress matches snapshot 1`] = `
               "paddingLeft": "14px",
               "paddingRight": "14px",
               "paddingTop": "14px",
-              "width": "332.5px",
+              "width": "auto",
             }
           }
         >
@@ -574,7 +574,8 @@ exports[`SendToAddress matches snapshot 1`] = `
               }
             }
           >
-            Do not send tokens from Ethereum network to this address. This is a Fuse Network address for G$ tokens only.
+            Do not send tokens to Ethereum network addresses.
+You are on Fuse Network.
           </div>
         </div>
       </div>

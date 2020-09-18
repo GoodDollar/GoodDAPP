@@ -51,6 +51,18 @@ const showOutOfGasError = debounce(
   },
 )
 
+const syncTXFromBlockchain = async () => {
+  const lastUpdateDate = await userStorage.userProperties.get('lastTxSyncDate')
+
+  if (lastUpdateDate && !moment.unix(lastUpdateDate).isSame(moment(), 'day')) {
+    //const joinedAtBlockNumber = await userStorage.userProperties.get('joinedAtBlock')
+
+    // todo sync the tx with the joinedAtBlockNumber
+
+    await userStorage.userProperties.set('lastTxSyncDate', moment().unix())
+  }
+}
+
 let unsuccessfulLaunchAttempts = 0
 
 /**
@@ -70,7 +82,13 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }, [gdstore, ready])
 
-  useAppState({ onForeground: recheck })
+  const backgroundUpdates = useCallback(() => {
+    if (ready) {
+      syncTXFromBlockchain()
+    }
+  }, [ready])
+
+  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation

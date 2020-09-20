@@ -105,7 +105,7 @@ const Config = {
     },
     '122': {
       network_id: 122,
-      httpWeb3provider: 'https://rpc.fuse.io/',
+      httpWeb3provider: env.REACT_APP_FUSE_RPC || 'https://fuse.gooddollar.org/',
       websocketWeb3Provider: 'wss://rpc.fuse.io/ws',
     },
     '4447': {

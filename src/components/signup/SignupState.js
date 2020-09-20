@@ -403,7 +403,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         if (torusProvider !== 'facebook') {
           // if logged in via other provider that facebook - generating & signing proof
-          const torusProofNonce = Date.now()
+          const torusProofNonce = await API.ping()
+            .then(_ => new Date(get(_, 'data.ping', Date.now())))
+            .catch(e => new Date())
+            .then(_ => _.getTime())
           const msg = (mobile || email) + String(torusProofNonce)
           const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
 

@@ -38,7 +38,7 @@ export const getErrorMessage = apiError => {
   } else if (isError(apiError)) {
     message = apiError.message
   } else if (isPlainObject(apiError)) {
-    message = apiError.error
+    message = apiError.error || apiError.message
   }
 
   if (!message) {

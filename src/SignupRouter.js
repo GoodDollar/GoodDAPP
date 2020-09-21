@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React from 'react'
 import { createBrowserApp } from '@react-navigation/web'
 import { createSwitchNavigator } from '@react-navigation/core'
@@ -6,8 +7,6 @@ import { isAndroid } from 'mobile-device-detect'
 import Config from './config/config'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
-import Auth from './components/auth/Auth'
-import AuthTorus from './components/auth/torus/AuthTorus'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blurred'
 import './components/appNavigation/blurFx.css'
@@ -19,11 +18,9 @@ import Welcome from './components/auth/login/WelcomeScreen'
 // import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 
 const initialRouteName = 'Welcome' // isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
-const AuthType = Config.torusEnabled ? AuthTorus : Auth
 
 const routes = {
   Welcome,
-  Auth: AuthType,
   Signup,
   InvalidW3TokenError,
 

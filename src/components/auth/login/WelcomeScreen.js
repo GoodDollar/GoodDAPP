@@ -21,20 +21,23 @@ import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import SignInScreen from '../login/SignInScreen'
 import SignupScreen from '../login/SignUpScreen'
+import Auth from '../../auth/Auth'
+import AuthTorus from '../../auth/torus/AuthTorus'
 
 const log = logger.child({ from: 'Welcome' })
+const AuthType = config.torusEnabled ? AuthTorus : Auth
 
 const WelcomeScreen = ({ styles, screenProps, navigation }) => {
   const { navigate } = navigation
 
   const goToSignUp = () => {
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-    return navigate('SignupScreen')
+    return navigate('Auth', { screen: SIGNUP_METHOD_SELECTED })
   }
 
   const goToSignIn = () => {
     fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-    return navigate('SignInScreen')
+    return navigate('Auth', { screen: SIGNIN_METHOD_SELECTED })
   }
 
   return (
@@ -135,6 +138,7 @@ welcome.navigationOptions = {
 
 const routes = {
   Welcome: welcome,
+  Auth: AuthType,
   PrivacyPolicyAndTerms,
   PrivacyPolicy,
   Support: SupportForUnsigned,

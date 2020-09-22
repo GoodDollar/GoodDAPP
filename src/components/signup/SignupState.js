@@ -660,7 +660,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     if (prevRoute) {
       navigateWithFocus(prevRoute.key)
     } else {
-      navigation.navigate('SignupScreen')
+      navigation.navigate('Auth')
     }
   }
 

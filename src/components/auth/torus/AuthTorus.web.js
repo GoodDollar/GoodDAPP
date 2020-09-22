@@ -175,7 +175,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               torusProvider: provider,
             })
           },
-          style: styles.whiteButton,
+          style: [styles.whiteButton, { flex: 1 }],
           textStyle: styles.primaryText,
         },
         {
@@ -469,7 +469,7 @@ const getStylesFromProps = ({ theme }) => {
     modalButtonsContainerStyle: {
       flex: 1,
       flexDirection: 'column',
-      marginBottom: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
+      justifyContent: 'flex-end',
     },
     modalButtonsContainerRow: {
       flex: 1,
@@ -478,7 +478,6 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
     },
     whiteButton: {
-      flex: 1,
       backgroundColor: theme.colors.white,
       color: theme.colors.primary,
       borderWidth: 1,

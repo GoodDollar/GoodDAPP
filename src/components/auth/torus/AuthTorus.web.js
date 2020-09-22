@@ -1,13 +1,14 @@
 // @flow
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Paragraph } from 'react-native-paper'
-import { Image, View } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
   CLICK_BTN_GETINVITED,
   fireEvent,
+  SIGNIN_METHOD_SELECTED,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
@@ -49,12 +50,30 @@ const log = logger.child({ from: 'AuthTorus' })
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const asGuest = true
   const [isPasswordless, setPasswordless] = useState(false)
+  const [screenParams, setScreenParams] = useState(SIGNUP_METHOD_SELECTED)
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const [torusSDK, sdkInitialized] = useTorus()
   const { navigate } = navigation
-  const isSignUp = get(navigation, 'state.params.screen') === SIGNUP_METHOD_SELECTED
-  const Screen = isSignUp ? SignUp : SignIn
+  const navigationParams = get(navigation, 'state.params.screen')
+  const isSignUp = screenParams !== SIGNIN_METHOD_SELECTED
+  const Screen = useMemo(() => (isSignUp ? SignUp : SignIn), [isSignUp])
   const { push } = screenProps
+
+  useEffect(() => {
+    handleNavigation()
+  }, [])
+
+  const handleNavigation = async () => {
+    const screen = await AsyncStorage.getItem('currentScreen', navigationParams)
+    if (navigationParams) {
+      await AsyncStorage.setItem('currentScreen', navigationParams)
+      return setScreenParams(navigationParams)
+    }
+    if (screen) {
+      await AsyncStorage.setItem('currentScreen', screen)
+      return setScreenParams(screen)
+    }
+  }
 
   const goToW3Site = () => {
     fireEvent(CLICK_BTN_GETINVITED)
@@ -376,22 +395,19 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         )
       }
       return (
-        <CustomButton
-          color={mainTheme.colors.darkBlue}
-          style={styles.buttonLayout}
-          textStyle={styles.buttonText}
+        <TouchableOpacity
+          style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.darkBlue }]}
           onPress={auth0ButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_auth0"
-          contentStyle={styles.fixMargin}
         >
           <View style={styles.iconBorder}>
             <Image source={mobileBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
           </View>
           <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
-            Agree & Continue Passwordless
+            {`${isSignUp ? 'Agree & Sign Up' : 'Log in'} Passwordless`}
           </Text>
-        </CustomButton>
+        </TouchableOpacity>
       )
     },
     [isPasswordless, torusSDK, auth0ButtonHandler],
@@ -425,9 +441,16 @@ const getStylesFromProps = ({ theme }) => {
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
+      flex: 1,
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderRadius: 50,
+      padding: 3,
     },
     buttonText: {
       fontSize: buttonFontSize,
+      flex: 1,
     },
     paragraph: {
       fontSize: normalizeText(24),

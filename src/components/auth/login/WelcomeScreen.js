@@ -2,7 +2,8 @@
 import React from 'react'
 import { Image, TouchableOpacity } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
-import { fireEvent, SIGNUP_METHOD_SELECTED, SIGNIN_METHOD_SELECTED } from '../../../lib/analytics/analytics'
+import { fireEvent, SIGNIN_METHOD_SELECTED, SIGNUP_METHOD_SELECTED } from '../../../lib/analytics/analytics'
+import { isBrowser } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../../lib/constants/login'
 import CustomButton from '../../common/buttons/CustomButton'
@@ -113,8 +114,8 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      width: getDesignRelativeWidth(276),
-      height: getDesignRelativeHeight(217),
+      width: getDesignRelativeWidth(249),
+      height: getDesignRelativeHeight(isBrowser ? 195 : 150),
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),

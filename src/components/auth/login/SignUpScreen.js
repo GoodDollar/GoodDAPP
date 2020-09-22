@@ -1,12 +1,13 @@
 // @flow
+/*eslint-disable*/
 import React from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
-import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
+import { isBrowser } from '../../../lib/utils/platform'
 import AnimationsPeopleFlying from '../../common/animations/PeopleFlying'
 import config from '../../../config/config'
 import Section from '../../common/layout/Section'
@@ -51,7 +52,9 @@ const SignupScreen = ({
       >
         Welcome to GoodDollar!
       </Text>
-      <AnimationsPeopleFlying />
+      <View style={!isBrowser && styles.illustration}>
+        <AnimationsPeopleFlying />
+      </View>
       <Section style={styles.bottomContainer}>
         {asGuest && (
           <Text fontSize={12} color="gray80Percent" style={styles.marginBottom}>
@@ -95,39 +98,32 @@ const SignupScreen = ({
             </Section.Row>
           </>
         )}
-        <CustomButton
-          compact={isSmallDevice || isMediumDevice}
-          color={mainTheme.colors.googleBlue}
-          style={styles.buttonLayout}
+        <TouchableOpacity
+          style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
           onPress={googleButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_google"
-          contentStyle={styles.fixMargin}
         >
           <View style={styles.iconBorder}>
             <Image source={googleBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
           </View>
           <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
-            Agree & Continue with Google
+            {`Agree & Sign up with Google`}
           </Text>
-        </CustomButton>
-        <CustomButton
-          compact={isSmallDevice || isMediumDevice}
-          color={mainTheme.colors.facebookBlue}
-          style={styles.buttonLayout}
-          textStyle={[styles.buttonText, facebookButtonTextStyle]}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.facebookBlue }]}
           onPress={facebookButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_facebook"
-          contentStyle={styles.fixMargin}
         >
           <View style={styles.iconBorder}>
             <Image source={facebookBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
           </View>
           <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
-            Agree & Continue with Facebook
+            {`Agree & Sign up with Facebook`}
           </Text>
-        </CustomButton>
+        </TouchableOpacity>
         <ShowPasswordless />
       </Section>
     </Wrapper>
@@ -156,6 +152,9 @@ const getStylesFromProps = ({ theme }) => {
       flex: 1,
       justifyContent: 'space-between',
       flexDirection: 'row',
+      alignItems: 'center',
+      borderRadius: 50,
+      padding: 3,
     },
     iconsStyle: {
       width: getDesignRelativeHeight(20),
@@ -170,16 +169,19 @@ const getStylesFromProps = ({ theme }) => {
     },
     buttonText: {
       fontSize: buttonFontSize,
+      flex: 1,
     },
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      width: getDesignRelativeWidth(284),
-      height: getDesignRelativeHeight(192),
+      width: getDesignRelativeWidth(249),
+      height: getDesignRelativeHeight(150),
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      flex: 1,
+      justifyContent: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(30),

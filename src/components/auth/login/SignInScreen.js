@@ -1,19 +1,21 @@
 // @flow
+/*eslint-disable*/
 import React from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
-import CustomButton from '../../common/buttons/CustomButton'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
 import { withStyles } from '../../../lib/styles'
 import illustration from '../../../assets/Auth/Illustrations_woman_love.svg'
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
+import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
+import { isBrowser } from '../../../lib/utils/platform'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
@@ -54,26 +56,18 @@ const SigninScreen = ({
       <Section style={styles.bottomContainer}>
         {asGuest && (
           <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
-            {`By Signing up you are accepting our \n`}
+            {`Remember to login with the `}
             <Text
               fontSize={12}
               color="gray80Percent"
               fontWeight="bold"
               textDecorationLine="underline"
               onPress={handleNavigateTermsOfUse}
-            >
-              Terms of Use
+            />
+            <Text fontSize={12} color="gray80Percent" fontWeight="bold">
+              {`same login method\n`}
             </Text>
-            {' and '}
-            <Text
-              fontSize={12}
-              color="gray80Percent"
-              fontWeight="bold"
-              textDecorationLine="underline"
-              onPress={handleNavigatePrivacyPolicy}
-            >
-              Privacy Policy
-            </Text>
+            that you’ve signed up with
           </Text>
         )}
         {config.enableSelfCustody && (
@@ -108,34 +102,32 @@ const SigninScreen = ({
             </Section.Row>
           </>
         )}
-        <CustomButton
-          compact={isSmallDevice || isMediumDevice}
-          color={mainTheme.colors.googleBlue}
-          mode="outlined"
-          style={styles.googleButtonLayout}
-          textStyle={{ width: '100%' }}
+        <TouchableOpacity
+          style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
           onPress={googleButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_google"
         >
-          <View style={styles.googleButtonContent}>
-            <Image source={googleBtnIcon} resizeMode="contain" style={styles.googleIcon} />
-            <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0}>
-              Log in with Google
-            </Text>
+          <View style={styles.iconBorder}>
+            <Image source={googleBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
           </View>
-        </CustomButton>
-        <CustomButton
-          compact={isSmallDevice || isMediumDevice}
-          color={mainTheme.colors.facebookBlue}
-          style={styles.buttonLayout}
-          textStyle={[styles.buttonText, facebookButtonTextStyle]}
+          <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
+            Log in with Google
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.facebookBlue }]}
           onPress={facebookButtonHandler}
           disabled={!sdkInitialized}
           testID="login_with_facebook"
         >
-          Log in with Facebook
-        </CustomButton>
+          <View style={styles.iconBorder}>
+            <Image source={facebookBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
+          </View>
+          <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
+            Log in with Facebook
+          </Text>
+        </TouchableOpacity>
         <ShowPasswordless />
       </Section>
     </Wrapper>
@@ -161,6 +153,12 @@ const getStylesFromProps = ({ theme }) => {
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
+      flex: 1,
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderRadius: 50,
+      padding: 3,
     },
     googleButtonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
@@ -180,13 +178,14 @@ const getStylesFromProps = ({ theme }) => {
     },
     buttonText: {
       fontSize: buttonFontSize,
+      flex: 1,
     },
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      width: getDesignRelativeWidth(276),
-      height: getDesignRelativeHeight(217),
+      width: getDesignRelativeWidth(249),
+      height: getDesignRelativeHeight(isBrowser ? 172 : 150),
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
@@ -201,6 +200,17 @@ const getStylesFromProps = ({ theme }) => {
     signInLink: {
       marginTop: getDesignRelativeHeight(5),
       marginBottom: getDesignRelativeHeight(5),
+    },
+    iconsStyle: {
+      width: getDesignRelativeHeight(20),
+      height: getDesignRelativeHeight(20),
+    },
+    iconBorder: {
+      backgroundColor: theme.colors.white,
+      borderRadius: 50,
+      zIndex: -1,
+      alignItems: 'center',
+      padding: getDesignRelativeHeight(12),
     },
   }
 }

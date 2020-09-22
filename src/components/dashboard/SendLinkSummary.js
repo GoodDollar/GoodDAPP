@@ -1,4 +1,5 @@
 // @flow
+
 import React, { useCallback, useState } from 'react'
 import { Platform, View } from 'react-native'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
@@ -14,7 +15,7 @@ import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SurveySend from './SurveySend'
@@ -338,11 +339,14 @@ const getStylesFromProps = ({ theme }) => ({
     borderStyle: 'solid',
     borderColor: theme.colors.gray50Percent,
     borderRadius: 25,
-    height: 42,
+    minHeight: 42,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
     paddingBottom: getDesignRelativeHeight(4),
+    paddingTop: getDesignRelativeHeight(8),
+    paddingLeft: getDesignRelativeWidth(8),
+    paddingRight: getDesignRelativeWidth(8),
     position: 'relative',
   },
   credsLabel: {
@@ -357,6 +361,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   toText: {
     margin: 0,
+    width: '100%',
   },
   reasonWrapper: {
     alignItems: 'center',

@@ -175,7 +175,7 @@ const SMSAction = ({ handleRetry, handleRetryWithCall, resentCode, sendingCode, 
     if (showWait) {
       setTimeout(() => {
         setWait(false)
-      })
+      }, 10000)
     }
   }, [showWait])
 

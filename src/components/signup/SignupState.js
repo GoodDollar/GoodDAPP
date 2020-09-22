@@ -5,6 +5,7 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { assign, get, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
+import moment from 'moment'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isMobileSafari } from '../../lib/utils/platform'
 
@@ -406,7 +407,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         if (torusProvider !== 'facebook') {
           // if logged in via other provider that facebook - generating & signing proof
-          const torusProofNonce = Date.now()
+          const torusProofNonce = await API.ping()
+            .then(_ => moment(get(_, 'data.ping', Date.now())))
+            .catch(e => moment())
+            .then(_ => _.valueOf())
           const msg = (mobile || email) + String(torusProofNonce)
           const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
 

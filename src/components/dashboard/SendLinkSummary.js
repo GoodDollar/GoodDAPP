@@ -371,7 +371,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 {address}
               </Section.Text>
             ) : (
-              <Section.Text fontSize={24} fontWeight="medium" lineHeight={24} style={styles.toText}>
+              <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
                 {counterPartyDisplayName}
               </Section.Text>
             )}
@@ -455,8 +455,8 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'flex-end',
     paddingBottom: getDesignRelativeHeight(4),
     paddingTop: getDesignRelativeHeight(8),
-    paddingLeft: getDesignRelativeWidth(8),
-    paddingRight: getDesignRelativeWidth(8),
+    paddingLeft: getDesignRelativeWidth(16),
+    paddingRight: getDesignRelativeWidth(16),
     position: 'relative',
   },
   credsLabel: {

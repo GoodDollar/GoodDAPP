@@ -512,6 +512,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         //   }),
       ])
 
+      fireSignupEvent('SUCCESS')
+
       log.debug('New user created')
       setLoading(false)
 

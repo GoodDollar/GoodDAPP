@@ -12,14 +12,18 @@ import './gundb-extend'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 
-const { gunPublicUrl } = Config
+const { gunPublicUrl, forcePeer } = Config
 const { RindexedDB } = window || {}
 const gunOptions = []
-
+const peers = gunPublicUrl.split(',')
+let peer = peers.length > 1 && Math.random() <= 0.1 ? peers[1] : peers[0]
+if (forcePeer) {
+  peer = peers[1]
+}
 if (process.env.NODE_ENV !== 'test') {
   gunOptions.push({
     localStorage: !RindexedDB,
-    peers: gunPublicUrl.split(','),
+    peers: [peer],
   })
 }
 

@@ -14,7 +14,7 @@ import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 
@@ -136,6 +136,7 @@ const SigninScreen = ({
 
 const getStylesFromProps = ({ theme }) => {
   const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
+  const shorterDevice = getMaxDeviceHeight() <= 622
 
   return {
     mainWrapper: {
@@ -179,19 +180,20 @@ const getStylesFromProps = ({ theme }) => {
     buttonText: {
       fontSize: buttonFontSize,
       flex: 1,
+      lineHeight: getDesignRelativeHeight(19),
     },
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      width: getDesignRelativeWidth(249),
-      height: getDesignRelativeHeight(isBrowser ? 172 : 150),
+      width: getDesignRelativeWidth(isBrowser ? 290 : 206),
+      height: getDesignRelativeHeight(172),
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
     },
     headerText: {
-      marginTop: getDesignRelativeHeight(30),
+      marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
       marginBottom: getDesignRelativeHeight(20),
     },
     privacyAndTerms: {
@@ -208,7 +210,6 @@ const getStylesFromProps = ({ theme }) => {
     iconBorder: {
       backgroundColor: theme.colors.white,
       borderRadius: 50,
-      zIndex: -1,
       alignItems: 'center',
       padding: getDesignRelativeHeight(12),
     },

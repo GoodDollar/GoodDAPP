@@ -1,18 +1,18 @@
 // @flow
 /*eslint-disable*/
 import React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { Image, TouchableOpacity, View, Dimensions } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
-import { isBrowser } from '../../../lib/utils/platform'
+import { isBrowser, isAndroidWeb } from '../../../lib/utils/platform'
 import AnimationsPeopleFlying from '../../common/animations/PeopleFlying'
 import config from '../../../config/config'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
 import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
@@ -41,18 +41,20 @@ const SignupScreen = ({
 }) => {
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <NavBar title="Signup" goBack={goBack} />
-      <Text
-        style={styles.headerText}
-        fontSize={26}
-        lineHeight={34}
-        letterSpacing={0.26}
-        fontFamily="Roboto"
-        fontWeight="bold"
-      >
-        Welcome to GoodDollar!
-      </Text>
-      <View style={!isBrowser && styles.illustration}>
+      <View>
+        <NavBar title="Signup" goBack={goBack} />
+        <Text
+          style={styles.headerText}
+          fontSize={26}
+          lineHeight={34}
+          letterSpacing={0.26}
+          fontFamily="Roboto"
+          fontWeight="bold"
+        >
+          Welcome to GoodDollar!
+        </Text>
+      </View>
+      <View style={styles.illustration}>
         <AnimationsPeopleFlying />
       </View>
       <Section style={styles.bottomContainer}>
@@ -132,6 +134,8 @@ const SignupScreen = ({
 
 const getStylesFromProps = ({ theme }) => {
   const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
+  const shorterDevice = getMaxDeviceHeight() <= 622
+  const illustrationSize = isBrowser ? 429 : shorterDevice ? 249 : 350
 
   return {
     mainWrapper: {
@@ -142,9 +146,9 @@ const getStylesFromProps = ({ theme }) => {
     },
     bottomContainer: {
       paddingHorizontal: theme.sizes.defaultDouble,
-      paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+      paddingBottom: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : theme.sizes.default),
       justifyContent: 'space-around',
-      minHeight: getDesignRelativeHeight(200),
+      paddingTop: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : theme.sizes.default),
     },
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
@@ -163,32 +167,32 @@ const getStylesFromProps = ({ theme }) => {
     iconBorder: {
       backgroundColor: theme.colors.white,
       borderRadius: 50,
-      zIndex: -1,
       alignItems: 'center',
       padding: getDesignRelativeHeight(12),
     },
     buttonText: {
       fontSize: buttonFontSize,
       flex: 1,
+      lineHeight: getDesignRelativeHeight(19),
     },
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      width: getDesignRelativeWidth(249),
-      height: getDesignRelativeHeight(150),
+      marginTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+      width: illustrationSize,
+      height: getDesignRelativeHeight(192),
       marginRight: 'auto',
       marginLeft: 'auto',
-      paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      paddingRight: getDesignRelativeWidth(15),
       flex: 1,
       justifyContent: 'center',
     },
     headerText: {
-      marginTop: getDesignRelativeHeight(30),
+      marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
       marginBottom: getDesignRelativeHeight(20),
     },
     marginBottom: {
-      marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+      marginBottom: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : theme.sizes.default),
     },
     fixMargin: {
       marginVertical: -6,

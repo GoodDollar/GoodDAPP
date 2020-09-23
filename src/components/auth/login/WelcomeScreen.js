@@ -13,7 +13,7 @@ import illustration from '../../../assets/Auth/torusIllustration.svg'
 import config from '../../../config/config'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import Recover from '../../signin/Mnemonics'
 import normalizeText from '../../../lib/utils/normalizeText'
@@ -87,6 +87,7 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
 
 const getStylesFromProps = ({ theme }) => {
   const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
+  const shorterDevice = getMaxDeviceHeight() <= 622
 
   return {
     mainWrapper: {
@@ -99,13 +100,13 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: theme.sizes.defaultDouble,
       paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
       justifyContent: 'space-around',
-      minHeight: getDesignRelativeHeight(150),
       marginBottom: getDesignRelativeHeight(30),
     },
     buttonLayout: {
       marginTop: getDesignRelativeHeight(theme.sizes.default),
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
       flex: 1,
+      boxShadow: 'none',
     },
     buttonText: {
       fontSize: buttonFontSize,
@@ -114,14 +115,14 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      width: getDesignRelativeWidth(249),
-      height: getDesignRelativeHeight(isBrowser ? 195 : 150),
+      width: getDesignRelativeWidth(isBrowser ? 331 : 276),
+      height: getDesignRelativeHeight(217),
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
     },
     headerText: {
-      marginTop: getDesignRelativeHeight(30),
+      marginTop: getDesignRelativeHeight(!shorterDevice ? 45 : 30),
       marginBottom: getDesignRelativeHeight(20),
     },
     buttonSpace: {

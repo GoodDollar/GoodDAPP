@@ -1,4 +1,5 @@
 // @flow
+/*eslint-disable*/
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Paragraph } from 'react-native-paper'
 import { Image, TouchableOpacity, View } from 'react-native'
@@ -106,7 +107,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         <View style={styles.paragraphContainer}>
           <Paragraph
             style={[styles.paragraph, styles.paragraphBold]}
-          >{`You Already Used\n This Email/mobile\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
+          >{`You Already Used\n This Email/Mobile\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
         </View>
       ),
       buttons: [
@@ -118,7 +119,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
             await AsyncStorage.setItem(IS_LOGGED_IN, true)
             store.set('isLoggedIn')(true)
           },
-          style: styles.marginBottom,
+          style: [styles.marginBottom, { boxShadow: 'none' }],
         },
         {
           text: 'Continue Signup',
@@ -160,7 +161,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
             <Paragraph
               style={[styles.paragraph, styles.paragraphContent]}
             >{`The account doesn’t exist\n or you signed up using`}</Paragraph>
-            <Paragraph style={[styles.paragraphContent, styles.paragraphBold]}>{`${registeredBy}`}</Paragraph>
+            <Paragraph style={[styles.paragraphContent, styles.paragraphBold]}>another method</Paragraph>
           </View>
         </View>
       ),
@@ -447,6 +448,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       borderRadius: 50,
       padding: 3,
+      boxShadow: 'none',
     },
     buttonText: {
       fontSize: buttonFontSize,
@@ -482,6 +484,7 @@ const getStylesFromProps = ({ theme }) => {
       color: theme.colors.primary,
       borderWidth: 1,
       borderColor: theme.colors.primary,
+      boxShadow: 'none',
     },
     primaryText: {
       color: mainTheme.colors.primary,
@@ -505,11 +508,12 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 50,
       zIndex: -1,
       alignItems: 'center',
-      padding: getDesignRelativeHeight(12),
+      paddingVertical: getDesignRelativeHeight(9),
+      paddingHorizontal: getDesignRelativeHeight(15),
     },
     iconsStyle: {
-      width: getDesignRelativeHeight(20),
-      height: getDesignRelativeHeight(20),
+      width: getDesignRelativeHeight(14),
+      height: getDesignRelativeHeight(26),
     },
   }
 }

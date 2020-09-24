@@ -56,13 +56,14 @@ const showOutOfGasError = debounce(
 
 const syncTXFromBlockchain = async () => {
   const lastUpdateDate = await userStorage.userProperties.get('lastTxSyncDate')
+  const now = moment()
 
-  if (lastUpdateDate && !moment.unix(lastUpdateDate).isSame(moment(), 'day')) {
-    //const joinedAtBlockNumber = await userStorage.userProperties.get('joinedAtBlock')
+  if (lastUpdateDate && !moment.unix(lastUpdateDate).isSame(now, 'day')) {
+    await userStorage.userProperties.set('lastTxSyncDate', now.unix())
 
-    // todo sync the tx with the joinedAtBlockNumber
+    const joinedAtBlockNumber = await userStorage.userProperties.get('joinedAtBlock')
 
-    await userStorage.userProperties.set('lastTxSyncDate', moment().unix())
+    await goodWallet.syncTxWithBlockchain(joinedAtBlockNumber)
   }
 }
 

@@ -242,12 +242,33 @@ export class GoodWallet {
     )
   }
 
-  async pollSendEvents() {
-    const fromBlock = this.lastEventsBlock
+  async syncTxWithBlockchain(fromBlock) {
+    const toBlock = await this.wallet.eth.getBlockNumber()
+    const filter = [fromBlock, toBlock]
+
+    log.debug('Start sync of txs from blockchain', {
+      filter,
+    })
+
+    try {
+      await Promise.all([
+        this.pollSendEvents(...filter),
+        this.pollReceiveEvents(...filter),
+        this.pollOTPLEvents(...filter),
+      ])
+
+      log.debug('Sync of tx from blockchain finished successfully')
+    } catch (e) {
+      log.error('Failed to sync tx from blockchain', e.message, e)
+    }
+  }
+
+  async pollSendEvents(fromBlock = this.lastEventsBlock, toBlock) {
     const contract = this.erc20Contract
 
     const fromEventsFilter = {
       fromBlock,
+      toBlock,
       filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
     }
 
@@ -282,12 +303,12 @@ export class GoodWallet {
     this.getSubscribers('balanceChanged').forEach(cb => cb(events))
   }
 
-  async pollReceiveEvents() {
-    const fromBlock = this.lastEventsBlock
+  async pollReceiveEvents(fromBlock = this.lastEventsBlock, toBlock) {
     const contract = this.erc20Contract
 
     const toEventsFilter = {
       fromBlock,
+      toBlock,
       filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
     }
 
@@ -320,12 +341,12 @@ export class GoodWallet {
     this.getSubscribers('balanceChanged').forEach(cb => cb(events))
   }
 
-  async pollOTPLEvents() {
-    const fromBlock = this.lastEventsBlock
+  async pollOTPLEvents(fromBlock = this.lastEventsBlock, toBlock) {
     const contract = this.oneTimePaymentsContract
 
     const fromEventsFilter = {
       fromBlock,
+      toBlock,
       filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
     }
 
@@ -348,6 +369,11 @@ export class GoodWallet {
     })
 
     const events = eventsWithdraw.concat(eventsCancel)
+
+    if (events.length === 0) {
+      return
+    }
+
     log.info('pollOTPLEvents result', events)
     const uniqEvents = uniqBy(events, 'transactionHash')
 

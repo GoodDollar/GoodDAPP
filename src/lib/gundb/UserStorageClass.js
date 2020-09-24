@@ -2482,7 +2482,7 @@ export class UserStorage {
     logger.debug('Saving lastBlock number right after registration:', blockNumber)
 
     this.userProperties.set('joinedAtBlock', blockNumber)
-    this.userProperties.set('lastTxSyncDate', Date.now())
+    this.userProperties.set('lastTxSyncDate', moment().unix())
   }
 
   async getProfile(): Promise<any> {

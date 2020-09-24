@@ -356,27 +356,6 @@ export class APIService {
   }
 
   /**
-   * `/w3Site/api/wl/user` get user from web3 by token
-   * @param {string} token
-   * @param {string} walletAddress
-   */
-  updateW3UserWithWallet(token, walletAddress: string): Promise<$AxiosXHR<any>> {
-    this.w3Client.defaults.headers.common.Authorization = token
-
-    return this.w3Client.put('/api/wl/user/update_profile', {
-      wallet_address: walletAddress,
-    })
-  }
-
-  /**
-   * `/verify/w3/email` verify if user not trying to send some different email than w3 provides
-   * @param {object} data - Object with email and web3 token
-   */
-  checkWeb3Email(data: { email: string, token: string }): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/w3/email', data)
-  }
-
-  /**
    * Get array buffer from image url
    * @param {string} url - image url
    */

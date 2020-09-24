@@ -135,7 +135,7 @@ const SignupScreen = ({
 const getStylesFromProps = ({ theme }) => {
   const buttonFontSize = normalizeText(isSmallDevice ? 13 : 16)
   const shorterDevice = getMaxDeviceHeight() <= 622
-  const illustrationSize = isBrowser ? 429 : shorterDevice ? 249 : 350
+  const illustrationSize = getDesignRelativeWidth(isBrowser ? 429 : shorterDevice ? 249 : 350)
 
   return {
     mainWrapper: {

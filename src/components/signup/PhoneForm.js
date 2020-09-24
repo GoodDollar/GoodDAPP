@@ -1,7 +1,9 @@
 // @flow
+
 import React from 'react'
 import { debounce } from 'lodash'
 import { isMobile } from '../../lib/utils/platform'
+import { enhanceArgentinaCountryCode } from '../../lib/utils/phoneNumber'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import { getScreenHeight } from '../../lib/utils/orientation'
@@ -71,7 +73,9 @@ class PhoneForm extends React.Component<Props, State> {
   handleChange = (mobile: string) => {
     this.checkErrorsSlow()
 
-    this.setState({ mobile })
+    this.setState({
+      mobile: enhanceArgentinaCountryCode(mobile),
+    })
   }
 
   handleSubmit = async () => {

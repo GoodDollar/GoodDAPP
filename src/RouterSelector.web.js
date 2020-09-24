@@ -60,11 +60,6 @@ const handleLinks = async () => {
         }
       }
     } else {
-      if (params.web3) {
-        await AsyncStorage.setItem('GD_web3Token', params.web3)
-        delete params.web3
-      }
-
       let path = window.location.pathname.slice(1)
       path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
 

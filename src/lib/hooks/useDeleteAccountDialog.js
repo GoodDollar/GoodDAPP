@@ -54,12 +54,7 @@ export default ({ API, showErrorDialog, store, theme }) =>
               })
               try {
                 const userStorage = await retryImport(() => import('../gundb/UserStorage')).then(_ => _.default)
-
-                let token = await userStorage.getProfileFieldValue('w3Token')
-
-                if (!token) {
-                  token = await userStorage.getProfileFieldValue('loginToken')
-                }
+                const token = await userStorage.getProfileFieldValue('loginToken')
 
                 const isDeleted = await userStorage.deleteAccount()
                 log.debug('deleted account', isDeleted)

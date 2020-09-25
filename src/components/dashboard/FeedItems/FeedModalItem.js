@@ -123,6 +123,8 @@ const getStylesFromProps = ({ theme }) => {
     feedItem: {
       paddingRight: theme.sizes.defaultHalf,
       marginRight: 'auto',
+      display: 'flex',
+      alignItems: 'center',
     },
     feedItemText: {
       fontSize: 22,

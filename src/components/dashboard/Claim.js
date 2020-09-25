@@ -63,7 +63,7 @@ const Claim = props => {
   const [showDialog, , showErrorDialog] = useDialog()
 
   // use loading variable if required
-  const [loading, setLoading] = useState(false)
+  const [, setLoading] = useState(false)
   const claimInterval = useRef(null)
   const [nextClaim, setNextClaim] = useState('--:--:--')
   const [peopleClaimed, setPeopleClaimed] = useState('--')

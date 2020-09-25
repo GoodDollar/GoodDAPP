@@ -90,14 +90,19 @@ class SmsForm extends React.Component<Props, State> {
     return API.verifyMobile({ otp })
   }
 
-  handleRetry = async () => {
+  handleRetryWithCall = async () => {
+    await this.handleRetry({ otpChannel: 'call' })
+  }
+
+  handleRetry = async (options: any) => {
+    const { otpChannel } = options
     this.setState({ sendingCode: true, otp: Array(NumInputs).fill(null), errorMessage: '' })
     let { retryFunctionName } = this.props.screenProps
 
     retryFunctionName = retryFunctionName || 'sendOTP'
 
     try {
-      await API[retryFunctionName]({ ...this.props.screenProps.data })
+      await API[retryFunctionName]({ ...this.props.screenProps.data, otpChannel })
       this.setState({ sendingCode: false, resentCode: true })
     } catch (e) {
       const errorMessage = getErrorMessage(e)
@@ -144,10 +149,12 @@ class SmsForm extends React.Component<Props, State> {
             </Section.Stack>
             <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
               <SMSAction
+                styles={styles}
                 sendingCode={sendingCode}
                 resentCode={resentCode}
                 renderButton={renderButton}
                 handleRetry={this.handleRetry}
+                handleRetryWithCall={this.handleRetryWithCall}
                 onFinish={() => {
                   //reset smsaction state
                   this.setState({ resentCode: false })
@@ -161,7 +168,7 @@ class SmsForm extends React.Component<Props, State> {
   }
 }
 
-const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
+const SMSAction = ({ handleRetry, handleRetryWithCall, resentCode, sendingCode, onFinish, styles }) => {
   const [showWait, setWait] = useState(true)
 
   useEffect(() => {
@@ -175,6 +182,7 @@ const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
   if (showWait === false) {
     return (
       <SpinnerCheckMark
+        height={100}
         loading={sendingCode}
         success={resentCode}
         onFinish={() => {
@@ -188,8 +196,18 @@ const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
           fontSize={14}
           color="primary"
           onPress={handleRetry}
+          style={styles.sendCodeAgainButton}
         >
-          Send me the code again
+          Send the code again
+        </Section.Text>
+        <Section.Text
+          textDecorationLine="underline"
+          fontWeight="medium"
+          fontSize={14}
+          color="primary"
+          onPress={handleRetryWithCall}
+        >
+          Send via voice call
         </Section.Text>
       </SpinnerCheckMark>
     )
@@ -235,6 +253,9 @@ const getStylesFromProps = ({ theme }) => ({
   bottomContent: {
     marginTop: 'auto',
     marginBottom: theme.sizes.defaultDouble,
+  },
+  sendCodeAgainButton: {
+    marginRight: 'auto',
   },
 })
 

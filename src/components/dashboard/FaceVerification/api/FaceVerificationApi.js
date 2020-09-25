@@ -152,14 +152,14 @@ class FaceVerificationApi {
       // don't forget to set success = false flag
       // it's supposed that GoodServer will return false in the case of non-200 code
       // but let's add this additional safety check
-      response = { ...errorObject, success: false }
+      response = { ...failedResponse, success: false }
     }
 
     const { success, error } = response || {}
 
     if (false === success) {
       // non - success - throwing an exception with failed response
-      const exception = new Error(error)
+      const exception = new Error(error || 'An unexpected issue during the face verification API call')
 
       exception.response = response
       throw exception

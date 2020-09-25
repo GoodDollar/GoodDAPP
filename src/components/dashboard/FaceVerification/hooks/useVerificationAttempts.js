@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { map } from 'lodash'
 
+import { map } from 'lodash'
 import GDStore, { useCurriedSetters } from '../../../../lib/undux/GDStore'
 import { fireEvent, FV_TRYAGAINLATER } from '../../../../lib/analytics/analytics'
 import logger from '../../../../lib/logger/pino-logger'
@@ -32,7 +32,7 @@ export default () => {
 
       // prepare updated count & history
       const updatedCount = attemptsCount + 1
-      const updatedHistory = [...attemptsHistory, exception]
+      const updatedHistory = [...attemptsHistory, message]
 
       // if we still not reached MAX_ATTEMPTS_ALLOWED - just add to the historu
       if (updatedCount < MAX_ATTEMPTS_ALLOWED) {
@@ -43,8 +43,8 @@ export default () => {
 
       // otherwise
 
-      // 1. convert history to the array of messages
-      const attemptsErrorMessages = map(updatedHistory, 'message')
+      // 1. get history to the error messages
+      const attemptsErrorMessages = map(updatedHistory)
 
       // 2. reset history in the store
       resetAttempts()
@@ -57,10 +57,10 @@ export default () => {
         { attemptsErrorMessages },
       )
 
-      // 4. fire event and send error messages to the Amplitude
+      // 3. fire event and send error messages to the Amplitude
       fireEvent(FV_TRYAGAINLATER, { attemptsErrorMessages })
 
-      // 5. set "reached max attempts" flag in the store
+      // 4. set "reached max attempts" flag in the store
       setReachedMaxAttempts(true)
     },
 

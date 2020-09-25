@@ -27,8 +27,7 @@ const upgradeVersion = async () => {
   const current = 'phase' + Config.phase
   valid.push(current)
   const version = await AsyncStorage.getItem('GD_version')
-  const isNext = window.location.hostname.startsWith('next') //TODO: remove in next version. patch because we forgot to set version, so we dont cause next users to reset data
-  if (valid.includes(version) || isNext) {
+  if (valid.includes(version)) {
     return
   }
 
@@ -36,6 +35,7 @@ const upgradeVersion = async () => {
 
   //remove all local data so its not cached and user will re-login
   await Promise.all([AsyncStorage.clear(), req.catch()])
+  AsyncStorage.setItem('GD_version', current) // required for mnemonic recovery
 }
 
 // Inject stylesheet

@@ -102,7 +102,7 @@ export default () => {
       return true
     } catch (e) {
       log.error('handleClaimQueue failed', e.message, e, { dialogShown: true })
-      showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status')
+      showSupportDialog(showErrorDialog, hideDialog, null, 'We could not get the Claim queue status. Please try again')
       return false
     } finally {
       hideLoading()

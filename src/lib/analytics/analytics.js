@@ -2,7 +2,7 @@
 
 // libraries
 import amplitude from 'amplitude-js'
-import { assign, debounce, forEach, get, isError, isFunction, isString } from 'lodash'
+import { assign, debounce, forEach, get, isError, isFunction, isString, toLower } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
@@ -54,6 +54,8 @@ export const FV_WRONGORIENTATION = 'FV_WRONGORIENTATION'
 export const FV_DUPLICATEERROR = 'FV_DUPLICATEERROR'
 export const FV_TRYAGAINLATER = 'FV_TRYAGAINLATER'
 export const FV_CANTACCESSCAMERA = 'FV_CANTACCESSCAMERA'
+
+const savedErrorMessages = new WeakMap()
 
 const log = logger.child({ from: 'analytics' })
 const { sentryDSN, amplitudeKey, version, env, network, phase } = Config
@@ -264,6 +266,8 @@ export const reportToSentry = (error, extra = {}, tags = {}) => {
       scope.setTag(key, value)
     })
 
+    scope.setFingerprint([get(extra, 'logContext.from', '{{ default }}'), get(extra, 'eMsg')])
+
     Sentry.captureException(error)
   })
 }
@@ -345,7 +349,7 @@ const patchLogger = () => {
 
     if (
       categoryToPassIntoLog === Unexpected &&
-      ['connection', 'websocket', 'network'].some(str => eMsg.toLowerCase().includes(str))
+      ['connection', 'websocket', 'network'].some(str => toLower(eMsg).includes(str))
     ) {
       categoryToPassIntoLog = Network
     }
@@ -365,13 +369,11 @@ const patchLogger = () => {
       debounceFireEvent(ERROR_LOG, logPayload)
     }
 
-    let savedErrorMessage
-
     if (!isRunningTests) {
       let errorToPassIntoLog = errorObj
 
       if (isError(errorObj)) {
-        savedErrorMessage = errorObj.message
+        savedErrorMessages.set(errorObj, errorObj.message)
         errorToPassIntoLog.message = `${logMessage}: ${errorObj.message}`
       } else {
         errorToPassIntoLog = new Error(logMessage)
@@ -404,8 +406,8 @@ const patchLogger = () => {
       // if savedErrorMessage not empty that means errorObj
       // was an Error instrance and we mutated its message
       // so we have to restore it now
-      if (savedErrorMessage) {
-        errorObj.message = savedErrorMessage
+      if (savedErrorMessages.has(errorObj)) {
+        errorObj.message = savedErrorMessages.get(errorObj)
       }
 
       proxyToLogger()

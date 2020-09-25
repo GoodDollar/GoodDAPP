@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { throttle } from 'lodash'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import RocketShip from '../common/animations/RocketShip'
 import Text from '../common/view/Text'
@@ -14,13 +15,13 @@ export default class SignupCompleted extends React.Component<Props, State> {
     pressSubmit: false,
   }
 
-  handleSubmit = () => {
+  handleSubmit = throttle(() => {
     this.setState({
       pressSubmit: true,
     })
 
     this.props.screenProps.doneCallback({ isEmailConfirmed: true })
-  }
+  }, 2000) //prevent double click
 
   render() {
     const { fullName, loading } = this.props.screenProps.data

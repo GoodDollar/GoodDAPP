@@ -18,6 +18,7 @@ const InputText = ({
   adornmentSize = 16,
   adornmentStyle,
   adornmentDisabled = false,
+  showError = true,
   error,
   styles,
   theme,
@@ -90,7 +91,7 @@ const InputText = ({
           </TouchableOpacity>
         )}
       </View>
-      <ErrorText error={error} />
+      {showError && <ErrorText error={error} />}
     </View>
   )
 }

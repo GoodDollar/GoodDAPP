@@ -173,6 +173,7 @@ const Claim = props => {
         message: 'please wait while processing...\n ',
         buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
         title: `YOUR MONEY\nIS ON ITS WAY...`,
+        showCloseButtons: false,
       })
 
       let txHash
@@ -203,7 +204,7 @@ const Claim = props => {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash, claimValue: curEntitlement })
 
         const claimsSoFar = await advanceClaimsCounter()
-        fireMauticEvent({ claim: claimsSoFar })
+        fireMauticEvent({ claim: claimsSoFar, lastClaim: Date.now() })
 
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
           claimValue: weiToGd(curEntitlement),

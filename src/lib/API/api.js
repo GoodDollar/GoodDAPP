@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { identity, isError } from 'lodash'
+import { identity, isError, isPlainObject, isString } from 'lodash'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import Config from '../../config/config'
@@ -31,13 +31,18 @@ export type UserRecord = NameRecord &
   }
 
 export const getErrorMessage = apiError => {
-  let { message } = apiError
+  let message
 
-  // if the json or string http body was thrown from axios (error
-  // interceptor in api.js doest that in almost cases) then we're wrapping
-  // it onto Error object to keep correct stack trace for Sentry reporting
-  if (!isError(apiError)) {
-    message = apiError.error || apiError
+  if (isString(apiError)) {
+    message = apiError
+  } else if (isError(apiError)) {
+    message = apiError.message
+  } else if (isPlainObject(apiError)) {
+    message = apiError.error || apiError.message
+  }
+
+  if (!message) {
+    message = 'Unexpected error happened during api call'
   }
 
   return message
@@ -77,7 +82,13 @@ export class APIService {
       }
 
       // eslint-disable-next-line require-await
-      const exceptionHandler = async exception => {
+      const exceptionHandler = async error => {
+        let exception = error
+
+        if (axios.isCancel(error)) {
+          exception = new Error('Http request was cancelled during API call')
+        }
+
         const { message, response } = exception
         const { data } = response || {}
 

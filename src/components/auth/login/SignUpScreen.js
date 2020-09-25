@@ -1,19 +1,17 @@
 // @flow
-/*eslint-disable*/
 import React from 'react'
-import { Image, TouchableOpacity, View, Dimensions } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
 import { withStyles } from '../../../lib/styles'
 import { theme as mainTheme } from '../../theme/styles'
-import { isBrowser, isAndroidWeb } from '../../../lib/utils/platform'
+import { isBrowser } from '../../../lib/utils/platform'
 import AnimationsPeopleFlying from '../../common/animations/PeopleFlying'
-import config from '../../../config/config'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
-import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
@@ -81,24 +79,6 @@ const SignupScreen = ({
               Privacy Policy
             </Text>
           </Text>
-        )}
-        {config.enableSelfCustody && (
-          <>
-            <Section.Row alignItems="center" justifyContent="center">
-              <TouchableOpacity onPress={goToManualRegistration}>
-                <Section.Text
-                  fontWeight="medium"
-                  style={styles.recoverText}
-                  textStyle={styles.buttonText}
-                  textDecorationLine="underline"
-                  fontSize={14}
-                  color="primary"
-                >
-                  Agree & Continue with self custody wallet
-                </Section.Text>
-              </TouchableOpacity>
-            </Section.Row>
-          </>
         )}
         <TouchableOpacity
           style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}

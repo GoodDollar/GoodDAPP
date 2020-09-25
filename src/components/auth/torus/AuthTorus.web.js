@@ -147,7 +147,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   }
 
   const showUnregistedAccount = (provider, source, torusUser) => {
-    const registeredBy = formatProvider(provider)
     showDialog({
       onDismiss: () => {
         hideDialog()

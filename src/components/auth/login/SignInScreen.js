@@ -1,5 +1,4 @@
 // @flow
-/*eslint-disable*/
 import React from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
@@ -10,7 +9,6 @@ import illustration from '../../../assets/Auth/Illustrations_woman_love.svg'
 import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
 import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import { isBrowser } from '../../../lib/utils/platform'
-import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
@@ -69,38 +67,6 @@ const SigninScreen = ({
             </Text>
             that you’ve signed up with
           </Text>
-        )}
-        {config.enableSelfCustody && (
-          <>
-            <Section.Row alignItems="center" justifyContent="center">
-              <TouchableOpacity onPress={goToManualRegistration}>
-                <Section.Text
-                  fontWeight="medium"
-                  style={styles.recoverText}
-                  textStyle={[styles.buttonText]}
-                  textDecorationLine="underline"
-                  fontSize={14}
-                  color="primary"
-                >
-                  Agree & Continue with self custody wallet
-                </Section.Text>
-              </TouchableOpacity>
-            </Section.Row>
-            <Section.Row alignItems="center" justifyContent="center" style={styles.signInLink}>
-              <TouchableOpacity onPress={goToSignIn}>
-                <Section.Text
-                  fontWeight="medium"
-                  style={styles.haveIssuesText}
-                  textStyle={[styles.buttonText]}
-                  textDecorationLine="underline"
-                  fontSize={14}
-                  color="primary"
-                >
-                  Sign in
-                </Section.Text>
-              </TouchableOpacity>
-            </Section.Row>
-          </>
         )}
         <TouchableOpacity
           style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}

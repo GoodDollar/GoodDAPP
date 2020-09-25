@@ -173,6 +173,7 @@ const Claim = props => {
         message: 'please wait while processing...\n ',
         buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
         title: `YOUR MONEY\nIS ON ITS WAY...`,
+        showCloseButtons: false,
       })
 
       let txHash

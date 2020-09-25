@@ -9,9 +9,6 @@ import Section from '../common/layout/Section'
 import CustomButton from '../common/buttons/CustomButton'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 
-// hooks
-import useOnPress from '../../lib/hooks/useOnPress'
-
 // utils
 import { withStyles } from '../../lib/styles'
 import normalizeText from '../../lib/utils/normalizeText'
@@ -24,10 +21,10 @@ type Props = {
 
 const wHeight = getMaxDeviceHeight()
 
-const TERMS_OF_USE_TITLE = 'Terms\nof Use'
+const TERMS_OF_USE_TITLE = 'Terms of Use'
 const TERMS_OF_USE_KEY = 'tou'
 
-const PRIVACY_POLICY_TITLE = 'Privacy\nPolicy'
+const PRIVACY_POLICY_TITLE = 'Privacy Policy'
 const PRIVACY_POLICY_KEY = 'pp'
 
 const scenesMap = [
@@ -58,7 +55,7 @@ const NavButton = ({ styles, title, isActive, onPress }) => {
 }
 
 const PrivacyPolicyAndTerms = ({ navigation, styles }: Props) => {
-  const { setParams, navigate } = navigation
+  const { setParams } = navigation
   const [active, setActive] = useState(TERMS_OF_USE_KEY)
 
   const { navButtons, scenes } = useMemo(() => {
@@ -82,8 +79,6 @@ const PrivacyPolicyAndTerms = ({ navigation, styles }: Props) => {
     return { navButtons, scenes }
   }, [active])
 
-  const redirectHome = useOnPress(() => navigate('Home'), [navigate])
-
   useEffect(() => {
     const sceneDetails = scenesMap.find(scene => scene.key === active)
 
@@ -96,11 +91,6 @@ const PrivacyPolicyAndTerms = ({ navigation, styles }: Props) => {
       <Section.Stack grow style={styles.scenesContainer}>
         {scenes}
       </Section.Stack>
-      <Section.Row>
-        <CustomButton style={styles.ok} onPress={redirectHome}>
-          OK
-        </CustomButton>
-      </Section.Row>
     </Section>
   )
 }
@@ -108,15 +98,16 @@ const PrivacyPolicyAndTerms = ({ navigation, styles }: Props) => {
 const styles = ({ theme }) => ({
   wrapper: {
     height: wHeight,
+    paddingTop: getDesignRelativeHeight(8),
   },
   navButton: {
     width: '50%',
   },
   navButtonText: {
-    color: theme.colors.placeholder,
-    fontSize: normalizeText(32),
-    lineHeight: normalizeText(36),
-    whiteSpace: 'break-spaces',
+    color: theme.colors.gray50Percent,
+    fontSize: normalizeText(18),
+    lineHeight: normalizeText(28),
+    letterSpacing: 0.18,
     fontFamily: 'Roboto Slab',
     fontWeight: 'bold',
   },
@@ -134,7 +125,7 @@ const styles = ({ theme }) => ({
     position: 'relative',
     width: '100%',
     overflow: 'hidden',
-    marginTop: getDesignRelativeHeight(15),
+    marginTop: getDesignRelativeHeight(32),
   },
   sceneWrapper: {
     position: 'absolute',

@@ -1,8 +1,10 @@
 /*eslint-disable*/
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Image, TouchableOpacity } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent, SIGNIN_METHOD_SELECTED, SIGNUP_METHOD_SELECTED } from '../../../lib/analytics/analytics'
+import { GD_USER_MASTERSEED } from '../../../lib/constants/localStorage'
+import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { isBrowser } from '../../../lib/utils/platform'
 import { withStyles } from '../../../lib/styles'
 import { REGISTRATION_METHOD_SELF_CUSTODY } from '../../../lib/constants/login'
@@ -20,6 +22,7 @@ import normalizeText from '../../../lib/utils/normalizeText'
 import NavBar from '../../appNavigation/NavBar'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../webView/webViewInstances'
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
+import ready from '../torus/ready'
 import SignInScreen from '../login/SignInScreen'
 import SignupScreen from '../login/SignUpScreen'
 import Auth from '../../auth/Auth'
@@ -41,6 +44,21 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
     return navigate('Auth', { screen: SIGNIN_METHOD_SELECTED })
   }
 
+  const goToManualRegistration = useCallback(async () => {
+    const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+
+    //in case user started torus signup but came back here we need to re-initialize wallet/storage with
+    //new credentials
+    if (curSeed) {
+      await AsyncStorage.clear()
+      await ready(true)
+    }
+    fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
+    navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
+  }, [navigate])
+
+  const goToSignInInfo = () => navigate('SigninInfo')
+
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
       <NavBar title="Welcome to gooddollar!" />
@@ -59,6 +77,38 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
       </Text>
       <Image source={illustration} style={styles.illustration} resizeMode="contain" />
       <Section style={styles.bottomContainer}>
+        {config.enableSelfCustody && (
+          <>
+            <Section.Row alignItems="center" justifyContent="center">
+              <TouchableOpacity onPress={goToManualRegistration}>
+                <Section.Text
+                  fontWeight="medium"
+                  style={styles.minSpace}
+                  textStyle={styles.buttonText}
+                  textDecorationLine="underline"
+                  fontSize={14}
+                  color="primary"
+                >
+                  Agree & Continue with self custody wallet
+                </Section.Text>
+              </TouchableOpacity>
+            </Section.Row>
+            <Section.Row alignItems="center" justifyContent="center" style={styles.signInLink}>
+              <TouchableOpacity onPress={goToSignInInfo}>
+                <Section.Text
+                  fontWeight="medium"
+                  style={styles.recoverText}
+                  textStyle={[styles.buttonText]}
+                  textDecorationLine="underline"
+                  fontSize={14}
+                  color="primary"
+                >
+                  Sign in
+                </Section.Text>
+              </TouchableOpacity>
+            </Section.Row>
+          </>
+        )}
         <>
           <Section.Row alignItems="center" justifyContent="center" style={styles.buttonSpace}>
             <CustomButton style={styles.buttonLayout} textStyle={styles.buttonText} onPress={goToSignUp}>
@@ -126,7 +176,13 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: getDesignRelativeHeight(20),
     },
     buttonSpace: {
-      marginBottom: getDesignRelativeHeight(30),
+      marginBottom: getDesignRelativeHeight(15),
+    },
+    recoverText: {
+      marginBottom: getDesignRelativeHeight(15),
+    },
+    minSpace: {
+      marginBottom: getDesignRelativeHeight(5),
     },
   }
 }

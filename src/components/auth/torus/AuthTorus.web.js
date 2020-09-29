@@ -1,5 +1,4 @@
 // @flow
-/*eslint-disable*/
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Paragraph } from 'react-native-paper'
 import { Image, TouchableOpacity, View } from 'react-native'
@@ -30,11 +29,11 @@ import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDete
 import formatProvider from '../../../lib/utils/formatProvider'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { userExists } from '../../../lib/login/userExists'
+import ready from '../torus/ready'
 import SignIn from '../login/SignInScreen'
 import SignUp from '../login/SignUpScreen'
 
 import { delay } from '../../../lib/utils/async'
-import retryImport from '../../../lib/utils/retryImport'
 import LoadingIcon from '../../common/modal/LoadingIcon'
 import SuccessIcon from '../../common/modal/SuccessIcon'
 import mobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
@@ -189,47 +188,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       buttonsContainerStyle: styles.modalButtonsContainerRow,
       type: 'error',
     })
-  }
-
-  const ready = async replacing => {
-    const loginPromise = retryImport(() => import('../../../lib/login/GoodWalletLogin'))
-    log.debug('ready: Starting initialization', { replacing })
-
-    const { init } = await retryImport(() => import('../../../init'))
-    log.debug('ready: got init', init)
-
-    const { goodWallet, userStorage, source } = await init()
-    log.debug('ready: done init')
-
-    if (replacing) {
-      log.debug('reinitializing wallet and storage with new user')
-
-      goodWallet.init()
-      await goodWallet.ready
-      userStorage.init()
-    }
-
-    // for QA
-    global.wallet = goodWallet
-
-    await userStorage.ready
-    log.debug('ready: userstorage ready')
-
-    // the login also re-initialize the api with new jwt
-    const { default: login } = await loginPromise
-    log.debug('ready: got login', login)
-
-    try {
-      await login.auth()
-    } catch (exception) {
-      const { message } = exception
-
-      log.error('failed auth:', message, exception)
-    } finally {
-      log.debug('ready: login ready')
-    }
-
-    return { goodWallet, userStorage, source }
   }
 
   const handleLoginMethod = useCallback(

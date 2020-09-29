@@ -71,7 +71,7 @@ const SendToAddress = (props: TypeProps) => {
 
   return (
     <Wrapper>
-      <TopBar push={push} hideProfile={false} />
+      <TopBar push={push} hideProfile={false} profileAsLink={false} />
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title fontWeight="medium">Send To?</Section.Title>

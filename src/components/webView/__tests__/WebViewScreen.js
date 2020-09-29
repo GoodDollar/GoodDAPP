@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { FAQ, PrivacyPolicy, PrivacyPolicyAndTerms, Support, SupportForUnsigned } from '../webViewInstances'
+import { FAQ, PrivacyPolicy, PrivacyPolicyAndTerms, Support, SupportForUnsigned, TermsOfUse } from '../webViewInstances'
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
 // Note: test renderer must be required after react-native.
@@ -38,6 +38,25 @@ describe('WebViewScreen Instances', () => {
     const component = renderer.create(
       <StoresWrapper>
         <PrivacyPolicy />
+      </StoresWrapper>,
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('TermsOFUse renders without errors', () => {
+    const tree = renderer.create(
+      <StoresWrapper>
+        <TermsOfUse />
+      </StoresWrapper>,
+    )
+    expect(tree.toJSON()).toBeTruthy()
+  })
+
+  it('TermsOFUse matches snapshot', () => {
+    const component = renderer.create(
+      <StoresWrapper>
+        <TermsOfUse />
       </StoresWrapper>,
     )
     const tree = component.toJSON()

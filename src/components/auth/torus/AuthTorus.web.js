@@ -33,7 +33,6 @@ import ready from '../torus/ready'
 import SignIn from '../login/SignInScreen'
 import SignUp from '../login/SignUpScreen'
 
-import { delay } from '../../../lib/utils/async'
 import LoadingIcon from '../../common/modal/LoadingIcon'
 import SuccessIcon from '../../common/modal/SuccessIcon'
 import mobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
@@ -259,7 +258,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         }
         if (exists) {
           successDialog()
-          await delay(2000)
           fireEvent(SIGNIN_TORUS_SUCCESS, { provider, source })
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
           store.set('isLoggedIn')(true)

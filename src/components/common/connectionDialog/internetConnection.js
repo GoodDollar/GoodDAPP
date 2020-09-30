@@ -6,7 +6,9 @@ import LoadingIcon from '../modal/LoadingIcon'
 import {
   useAPIConnection,
   useConnection,
-  useConnectionGun,
+  useWeb3Polling,
+
+  // useConnectionGun,
 
   // useConnectionWeb3,
 } from '../../../lib/hooks/hasConnectionChange'
@@ -19,6 +21,7 @@ const InternetConnection = props => {
   const [showDialog, hideDialog] = useDialog()
   const isConnection = useConnection()
   const isAPIConnection = useAPIConnection()
+  useWeb3Polling()
 
   // const isConnectionWeb3 = useConnectionWeb3()
   const isConnectionGun = useConnectionGun()

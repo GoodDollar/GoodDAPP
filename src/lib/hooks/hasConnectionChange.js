@@ -16,6 +16,22 @@ export const useConnection = () => {
   return isConnected
 }
 
+export const useWeb3Polling = () => {
+  const { appState } = useAppState()
+  const store = SimpleStore.useStore()
+  const wallet = store.get('wallet')
+
+  useEffect(() => {
+    if (wallet) {
+      if (appState === 'active') {
+        wallet.setIsPollEvents(true)
+      } else {
+        wallet.setIsPollEvents(false)
+      }
+    }
+  }, [appState, wallet])
+}
+
 export const useConnectionWeb3 = () => {
   const [isConnection, setIsConnection] = useState(true)
   const { appState } = useAppState()

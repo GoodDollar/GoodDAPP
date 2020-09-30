@@ -146,6 +146,7 @@ const CustomButton = (props: ButtonProps) => {
     loading,
     disabled,
     iconStyle,
+    roundness = 50,
     contentStyle,
     ...buttonProps
   } = props
@@ -157,7 +158,7 @@ const CustomButton = (props: ButtonProps) => {
       dark={dark}
       mode={mode}
       contentStyle={[styles.contentStyle, contentStyle]}
-      theme={{ ...theme, roundness: 50 }}
+      theme={{ ...theme, roundness }}
       uppercase={uppercase}
       disabled={disabled || loading}
       {...buttonProps}

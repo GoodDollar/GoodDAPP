@@ -25,7 +25,7 @@ exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://community.gooddollar.org/tou1/#privacy-policy"
+  src="https://www.gooddollar.org/privacy-policy/?gd-frame=1"
   style={
     Object {
       "height": 768,
@@ -86,6 +86,24 @@ exports[`WebViewScreen Instances SupportForUnsigned matches snapshot 1`] = `
     }
   }
   title=" Help & Feedback"
+  width="100%"
+/>
+`;
+
+exports[`WebViewScreen Instances TermsOFUse matches snapshot 1`] = `
+<iframe
+  allowFullScreen={true}
+  frameBorder="0"
+  height="100%"
+  onLoad={[Function]}
+  seamless={true}
+  src="https://www.gooddollar.org/terms-conditions/?gd-frame=1"
+  style={
+    Object {
+      "height": 768,
+    }
+  }
+  title="Terms Of Use"
   width="100%"
 />
 `;

@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { identity, isError, isPlainObject, isString } from 'lodash'
+import { identity, isError, isPlainObject, isString, throttle } from 'lodash'
 
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
@@ -148,14 +148,14 @@ export class APIService {
    * `/user/add` post api call
    * @param {UserRecord} user
    */
-  addUser(user: UserRecord): AxiosPromise<any> {
+  addUser = throttle((user: UserRecord): AxiosPromise<any> => {
     //-skipRegistrationStep ONLY FOR TESTING  delete this condition aftere testing
     return this.client.post(
       '/user/add',
       { user, skipRegistrationStep: global.skipRegistrationStep },
       { withCredentials: true }, //we need also the cookies for utm
     )
-  }
+  }, 1000)
 
   /**
    * `/user/delete` post api call

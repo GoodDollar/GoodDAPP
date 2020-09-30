@@ -115,6 +115,9 @@ const NestedRouter = memo(({ isLoggedIn }) => {
 
   useEffect(() => {
     log.debug('RouterSelector Rendered', { isLoggedIn })
+    if (isLoggedIn) {
+      document.cookie = 'hasWallet=1;Domain=.gooddollar.org'
+    }
   }, [isLoggedIn])
 
   return isLoggedIn ? (

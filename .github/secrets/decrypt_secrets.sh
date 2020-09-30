@@ -1,12 +1,17 @@
 #!/bin/sh
 
 echo "Decrypting files"
-gpg --quiet --batch --yes --decrypt --passphrase="$IOS_PROFILE_KEY" --output ./.github/secrets/profile.mobileprovision ./.github/secrets/profile.mobileprovision.gpg
+gpg --quiet --batch --yes --decrypt --passphrase="$IOS_PROFILE_KEY" --output ./.github/secrets/GoodDollar\ Ad\ Hoc.mobileprovision ./.github/secrets/profile.mobileprovision.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$IOS_PROFILE_KEY" --output ./.github/secrets/Certificates.p12 ./.github/secrets/Certificates.p12.gpg
 
 mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 
-cp ./.github/secrets/profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/GoodDollar\ Ad\ Hoc.mobileprovision
+echo "List profiles - before"
+ls ~/Library/MobileDevice/Provisioning\ Profiles/
+echo "Move profiles"
+cp ./.github/secrets/*.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+echo "List profiles - after"
+ls ~/Library/MobileDevice/Provisioning\ Profiles/
 
 echo "Creating keychain"
 security create-keychain -p "" build.keychain

@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
 import moment from 'moment'
+import numeral from 'numeral'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
@@ -150,14 +151,14 @@ const Claim = props => {
     if (!nextClaimDate) {
       return
     }
-    let nextClaimTime = moment(nextClaimDate).subtract(Date.now(), 'milliseconds')
+    let nextClaimTime = moment(nextClaimDate).diff(Date.now(), 'seconds')
 
     //trigger getting stats if reached time to claim, to make sure everything is update since we refresh
     //only each 10 secs
-    if (nextClaimTime.valueOf() <= 0) {
+    if (nextClaimTime <= 0) {
       gatherStats()
     }
-    setNextClaim(nextClaimTime.format('HH:mm:ss'))
+    setNextClaim(numeral(nextClaimTime).format('00:00:00'))
   }, [nextClaimDate])
 
   const gatherStats = async () => {

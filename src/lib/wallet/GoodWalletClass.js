@@ -133,6 +133,8 @@ export class GoodWallet {
 
   blockNumber: typeof BN
 
+  isPollEvents: boolean = true
+
   constructor(walletConfig: {} = {}) {
     this.config = walletConfig
     this.init()
@@ -208,9 +210,16 @@ export class GoodWallet {
     return get(ContractsAddress, `${this.network}.SignupBonus`).toLowerCase()
   }
 
+  setIsPollEvents(active) {
+    this.isPollEvents = active
+  }
+
   async pollEvents(fn, time, lastBlockCallback) {
     try {
       const run = async () => {
+        if (this.isPollEvents === false) {
+          return
+        }
         const nextLastBlock = await this.wallet.eth.getBlockNumber()
 
         fn()

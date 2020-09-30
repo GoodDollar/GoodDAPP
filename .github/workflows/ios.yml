@@ -54,12 +54,9 @@ jobs:
           cd ios && sudo xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
             -scheme GoodDollar \
-            -sdk iphoneos13.2 \
+            -sdk iphoneos \
             -configuration Release \
-            -archivePath $PWD/build/GoodDollar.xcarchive \
-            IPHONEOS_DEPLOYMENT_TARGET=9.0 \
-            PROVISIONING_PROFILE="9e082bc9-c641-4185-9bd8-e8504fa13a53" \
-            CODE_SIGN_IDENTITY="Apple Distribution: GoodDollar Limited (97K3Q6WTLM)"
+            -archivePath $PWD/build/GoodDollar.xcarchive
       - name: Export app
         run: |
           cd ios && xcodebuild \

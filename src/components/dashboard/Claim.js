@@ -137,12 +137,12 @@ const Claim = props => {
     }
     init()
     gatherStats()
-    updateTimer()
     claimInterval.current = setInterval(gatherStats, 10000)
     return () => claimInterval.current && clearInterval(claimInterval.current)
   }, [appState])
 
   useEffect(() => {
+    updateTimer()
     timerInterval.current = setInterval(updateTimer, 1000)
     return () => timerInterval.current && clearInterval(timerInterval.current)
   }, [nextClaimDate])

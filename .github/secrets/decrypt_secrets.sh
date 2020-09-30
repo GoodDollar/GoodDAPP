@@ -6,7 +6,7 @@ gpg --quiet --batch --yes --decrypt --passphrase="$IOS_PROFILE_KEY" --output ./.
 
 mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 
-cp ./.github/secrets/profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/9e082bc9-c641-4185-9bd8-e8504fa13a53.mobileprovision
+cp ./.github/secrets/profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/GoodDollar\ Ad\ Hoc.mobileprovision
 
 echo "Creating keychain"
 security create-keychain -p "" build.keychain

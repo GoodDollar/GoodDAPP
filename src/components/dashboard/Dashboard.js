@@ -2,7 +2,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
-import { get as _get, debounce } from 'lodash'
+import { get as _get, debounce, throttle } from 'lodash'
+import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
@@ -86,6 +87,8 @@ export type DashboardProps = {
   store: Store,
   styles?: any,
 }
+
+const feedMutex = new Mutex()
 
 const Dashboard = props => {
   const balanceRef = useRef()
@@ -199,8 +202,9 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    debounce(
-      async (reset = false) => {
+    throttle(async (reset = false) => {
+      const release = await feedMutex.lock()
+      try {
         log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
@@ -222,10 +226,12 @@ const Dashboard = props => {
           const res = (await feedPromise) || []
           res.length > 0 && setFeeds(feeds.concat(res))
         }
-      },
-      1000,
-      { leading: true },
-    ),
+      } catch (e) {
+        log.warn('getFeedPage failed', e.message, e)
+      } finally {
+        release()
+      }
+    }, 500),
     [loadAnimShown, store, setFeeds, feeds],
   )
 

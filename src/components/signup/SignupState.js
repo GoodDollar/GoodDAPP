@@ -63,17 +63,6 @@ const SignupWizardNavigator = createSwitchNavigator(routes, navigationConfig)
 const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
 
-  // Getting the second element from routes array (starts from 0) as the second route is Phone
-  // We are redirecting directly to Phone from Auth component if w3Token provided
-  const _w3UserFromProps =
-    get(navigation, 'state.params.w3User') ||
-    get(navigation.state.routes.find(route => get(route, 'params.w3User')), 'params.w3User', {})
-  const w3UserFromProps = _w3UserFromProps && typeof _w3UserFromProps === 'object' ? _w3UserFromProps : {}
-
-  const w3Token =
-    get(navigation, 'state.params.w3Token') ||
-    get(navigation.state.routes.find(route => get(route, 'params.w3Token')), 'params.w3Token', undefined)
-
   const torusUserFromProps =
     get(navigation, 'state.params.torusUser') ||
     get(navigation.state.routes.find(route => get(route, 'params.torusUser')), 'params.torusUser', {})
@@ -88,13 +77,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   const [torusProvider] = useState(_torusProvider)
   const [torusUser] = useState(torusUserFromProps)
   const isRegMethodSelfCustody = regMethod === REGISTRATION_METHOD_SELF_CUSTODY
-  const skipEmail = !!w3UserFromProps.email || !!torusUserFromProps.email
+  const skipEmail = !!torusUserFromProps.email
   const skipMobile = !!torusUserFromProps.mobile
 
   const initialState: SignupState = {
     ...getUserModel({
-      email: w3UserFromProps.email || torusUserFromProps.email || '',
-      fullName: w3UserFromProps.full_name || torusUserFromProps.name || '',
+      email: torusUserFromProps.email || '',
+      fullName: torusUserFromProps.name || '',
       mobile: torusUserFromProps.mobile || '',
     }),
     smsValidated: false,
@@ -104,7 +93,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     skipSMS: skipMobile,
     skipEmailConfirmation: Config.skipEmailVerification || skipEmail,
     skipMagicLinkInfo: true, //isRegMethodSelfCustody === false,
-    w3Token,
   }
 
   const [unrecoverableError, setUnrecoverableError] = useState(null)
@@ -147,70 +135,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     }
   }
 
-  const verifyW3Email = async (email, web3Token) => {
-    try {
-      const res = await API.checkWeb3Email({
-        email,
-        token: web3Token,
-      })
-      log.debug('verified w3 email', res)
-    } catch (e) {
-      log.error('W3 Email verification failed', e.message, e)
-      return navigation.navigate('InvalidW3TokenError')
-
-      // showErrorDialog('Email verification failed', e)
-    }
-  }
-
-  /**
-   * fetch user details if not passed via w3UserFromProps
-   * ie in case of page refresh
-   */
-
-  const checkW3Token = async () => {
-    let w3Token
-    try {
-      w3Token = await AsyncStorage.getItem('GD_web3Token')
-      if (!w3Token) {
-        return
-      }
-
-      let w3User = w3UserFromProps
-      log.info('from props:', { w3User })
-      if (w3User.email == null) {
-        store.set('loadingIndicator')({ loading: true })
-        await API.ready
-
-        try {
-          const w3userData = await API.getUserFromW3ByToken(w3Token)
-
-          w3User = w3userData.data
-          log.info({ w3User })
-
-          const userScreenData = {
-            email: w3User.email || '',
-            fullName: w3User.full_name || '',
-            w3Token,
-            isEmailConfirmed: !!w3User.email,
-            skipEmail: !!w3User.email,
-            skipEmailConfirmation: !!w3User.email,
-          }
-          setState({
-            ...state,
-            ...userScreenData,
-          })
-        } catch (e) {
-          log.warn('could not get user data from w3', w3Token)
-          return
-        }
-      }
-    } catch (e) {
-      log.error('unexpected error in checkWeb3Token', e.message, e, { w3Token })
-    } finally {
-      store.set('loadingIndicator')({ loading: false })
-    }
-  }
-
   //keep privatekey from torus as master seed before initializing wallet
   //so wallet can use it, if torus is enabled and we dont have pkey then require re-login
   //this is true in case of refresh
@@ -231,29 +155,11 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       return navigation.navigate('Auth')
     }
 
-    //if we have name from web3/torus we skip to phone
+    // if we have name from torus we skip to phone
     if (state.fullName) {
       return navigation.navigate('Phone')
     }
   }
-
-  // const verifyStartRoute = async () => {
-  //   // don't allow to start sign up flow not from begining except when w3Token provided
-  //   //or have info from torus login (ie name)
-  //   const token = await AsyncStorage.getItem('GD_web3Token')
-
-  //   log.debug('redirecting to start, got index:', navigation.state.index, { torusUserFromProps })
-
-  //   if ((torusUserFromProps.name || token) && navigation.state.index > 1) {
-  //     log.debug('redirecting to Phone skipping name')
-  //     return navigateWithFocus(navigation.state.routes[1].key)
-  //   }
-
-  //   if (!(torusUserFromProps.name || token) === false && navigation.state.index > 0) {
-
-  //     return navigateWithFocus(navigation.state.routes[0].key)
-  //   }
-  // }
 
   /**
    * if user arrived from w3 with an inviteCode, we forward it to the server
@@ -277,18 +183,12 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       checkTorusLogin()
 
       //get user country code for phone
-      //read user data from w3 if needed
       //read torus seed
-      await Promise.all([getCountryCode(), checkW3Token()])
-
-      //verify web3 email here
-      if (Config.skipEmailVerification === false && state.w3Token && state.email) {
-        verifyW3Email(state.email, state.w3Token)
-      }
+      await getCountryCode()
 
       //lazy login in background while user starts registration
       const ready = (async () => {
-        log.debug('ready: Starting initialization', { w3UserFromProps, isRegMethodSelfCustody, torusUserFromProps })
+        log.debug('ready: Starting initialization', { isRegMethodSelfCustody, torusUserFromProps })
 
         const { init } = await retryImport(() => import('../../init'))
         const { goodWallet, userStorage, source } = await init().catch(exception => {
@@ -418,7 +318,6 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         }
       }
 
-      let { w3Token } = requestPayload
       requestPayload.regMethod = regMethod
 
       const [mnemonic] = await Promise.all([
@@ -439,9 +338,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             log.error('save blocknumber failed:', message, e, { category: ExceptionCategory.Blockhain })
             return '0'
           })
-          .then(block =>
-            userStorage.userProperties.updateAll({ cameFromW3Site: !!w3Token, regMethod, lastBlock: block }),
-          ),
+          .then(block => userStorage.userProperties.updateAll({ regMethod, lastBlock: block })),
       ])
 
       // trying to update profile 2 times, if failed anyway - re-throwing exception
@@ -482,13 +379,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       //set tokens for other services returned from backedn
       await Promise.all(
-        toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) => {
-          if ('w3Token' === fieldName) {
-            w3Token = fieldValue
-          }
-
-          return userStorage.setProfileField(fieldName, fieldValue, 'private')
-        }),
+        toPairs(pickBy(newUserData, (_, field) => field.endsWith('Token'))).map(([fieldName, fieldValue]) =>
+          userStorage.setProfileField(fieldName, fieldValue, 'private'),
+        ),
       )
 
       await Promise.all([
@@ -502,17 +395,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         userStorage.userProperties.set('registered', true),
         AsyncStorage.setItem(IS_LOGGED_IN, true),
-        AsyncStorage.removeItem('GD_web3Token'),
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
-
-        // privacy issue, and not need at the moment
-        // w3Token &&
-        //   API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e => {
-        //     const message = getErrorMessage(e)
-        //     const exception = new Error(message)
-        //
-        //     log.error('failed updateW3UserWithWallet', message, exception)
-        //   }),
       ])
 
       fireSignupEvent('SUCCESS')

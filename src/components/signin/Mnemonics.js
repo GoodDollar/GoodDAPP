@@ -36,8 +36,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [showErrorDialog, hideDialog] = useErrorDialog()
   const input = useRef()
 
-  AsyncStorage.removeItem('GD_web3Token')
-
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
     const splitted = mnemonics.split(' ').filter(o => o)
@@ -138,8 +136,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     }
   }, [])
 
-  const web3HasWallet = get(navigation, 'state.params.web3HasWallet')
-
   return (
     <Wrapper style={styles.mainWrapper}>
       <Section grow={5} style={styles.wrapper}>
@@ -147,11 +143,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           <Text fontWeight="medium" fontSize={22}>
             {'Please enter your\n12-word pass phrase:'}
           </Text>
-          {web3HasWallet && (
-            <Text color="gray80Percent" fontSize={14}>
-              Looks like you already have a wallet. Please recover it to continue
-            </Text>
-          )}
         </Section.Stack>
         <Section.Stack grow={4} justifyContent="space-between">
           <Section.Row justifyContent="center">

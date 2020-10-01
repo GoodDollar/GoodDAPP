@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, Platform, View } from 'react-native'
 import { Portal } from 'react-native-paper'
-import { filter, get, once } from 'lodash'
+import { get, isArray, isEmpty, once } from 'lodash'
 import { isMobileOnly } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getScreenHeight, getScreenWidth } from '../../lib/utils/orientation'
@@ -112,10 +112,13 @@ const FeedModalList = ({
     [offset, setLoading],
   )
 
-  const feeds = useMemo(
-    () => (Array.isArray(data) && data.length ? filter(data, item => get(item, 'type') !== 'invite') : [emptyFeed]),
-    [data],
-  )
+  const feeds = useMemo(() => {
+    if (!isArray(data) || isEmpty(data)) {
+      return emptyFeed
+    }
+
+    return data.filter(item => get(item, 'type') !== 'invite')
+  }, [data])
 
   return (
     <Portal>

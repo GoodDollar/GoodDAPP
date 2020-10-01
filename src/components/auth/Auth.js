@@ -1,7 +1,7 @@
 // @flow
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform, SafeAreaView } from 'react-native'
-import { get } from 'lodash'
+import { get, noop } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
@@ -33,19 +33,18 @@ type Props = {
 
 const log = logger.child({ from: 'Auth' })
 
-class Auth extends React.Component<Props> {
-  state = {
-    asGuest: config.isEToro !== true,
-    withW3Token: false,
-    w3User: undefined,
-  }
+const Auth = (props: Props) => {
+  const [asGuest, setAsGuest] = useState(config.isEToro !== true)
+  const [withW3Token, setWithW3Token] = useState(false)
+  const [w3Token, setw3Token] = useState(null)
+  const [w3User, setW3User] = useState(noop)
 
-  componentDidMount() {
-    this.checkWeb3TokenAndPaymentCode()
-  }
+  useEffect(() => {
+    checkWeb3TokenAndPaymentCode()
+  }, [])
 
-  checkWeb3TokenAndPaymentCode = async () => {
-    const { navigation } = this.props
+  const checkWeb3TokenAndPaymentCode = async () => {
+    const { navigation } = props
     const web3Token = await AsyncStorage.getItem('GD_web3Token')
     const destinationPath = await AsyncStorage.getItem('GD_destinationPath')
     const paymentCode = get(destinationPath, 'params.paymentCode')
@@ -53,16 +52,12 @@ class Auth extends React.Component<Props> {
     log.info('checkWeb3TokenAndPaymentCode', web3Token, paymentCode)
 
     if (paymentCode) {
-      return this.setState({
-        asGuest: true,
-      })
+      return setAsGuest(true)
     }
 
     if (web3Token) {
-      this.setState({
-        asGuest: true,
-        withW3Token: true,
-      })
+      setAsGuest(true)
+      setWithW3Token(true)
 
       let behaviour
       let w3User
@@ -74,10 +69,8 @@ class Auth extends React.Component<Props> {
         if (w3User.has_wallet) {
           behaviour = 'goToSignInScreen'
         } else {
-          this.setState({
-            w3User,
-            w3Token: web3Token,
-          })
+          setW3User(w3User)
+          setw3Token(web3Token)
         }
       } catch (e) {
         behaviour = 'showTokenError'
@@ -100,10 +93,9 @@ class Auth extends React.Component<Props> {
     }
   }
 
-  handleSignUp = async () => {
-    const { store } = this.props
+  const handleSignUp = async () => {
+    const { store } = props
     store.set('loadingIndicator')({ loading: true })
-    const { w3User, w3Token } = this.state
     const redirectTo = w3Token ? 'Phone' : 'Signup'
     log.debug({ w3User, w3Token })
     try {
@@ -124,7 +116,7 @@ class Auth extends React.Component<Props> {
 
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
 
-    this.props.navigation.navigate(redirectTo, { regMethod: REGISTRATION_METHOD_SELF_CUSTODY, w3User, w3Token })
+    props.navigation.navigate(redirectTo, { regMethod: REGISTRATION_METHOD_SELF_CUSTODY, w3User, w3Token })
 
     if (Platform.OS === 'web') {
       //Hack to get keyboard up on mobile need focus from user event such as click
@@ -137,107 +129,105 @@ class Auth extends React.Component<Props> {
     }
   }
 
-  handleSignUpThirdParty = () => {
+  /*  const handleSignUpThirdParty = () => {
     // TODO: implement 3rd party sign up
     log.warn('3rd Party login not available yet')
   }
+*/
 
-  handleSignIn = () => {
-    this.props.navigation.navigate('SigninInfo')
+  const handleSignIn = () => {
+    props.navigation.navigate('SigninInfo')
   }
 
-  handleNavigateTermsOfUse = () => this.props.screenProps.push('PrivacyPolicyAndTerms')
+  const handleNavigateTermsOfUse = () => props.screenProps.push('PrivacyPolicyAndTerms')
 
-  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
+  const handleNavigatePrivacyPolicy = () => props.screenProps.push('PrivacyPolicy')
 
-  goToW3Site = () => {
+  const goToW3Site = () => {
     fireEvent(CLICK_BTN_GETINVITED)
     window.location = config.web3SiteUrl
   }
 
-  render() {
-    const { styles } = this.props
-    const { asGuest, withW3Token } = this.state
-    const firstButtonHandler = asGuest ? this.handleSignUp : this.goToW3Site
-    const firstButtonText = asGuest ? (
-      'Create a wallet'
-    ) : (
-      <Text style={styles.buttonText} fontWeight="medium">
-        NEW HERE?
-        <Text style={styles.buttonText} fontWeight="black">
-          {' GET INVITED'}
-        </Text>
+  const { styles } = props
+  const firstButtonHandler = asGuest ? handleSignUp : goToW3Site
+  const firstButtonText = asGuest ? (
+    'Create a wallet'
+  ) : (
+    <Text style={styles.buttonText} fontWeight="medium">
+      NEW HERE?
+      <Text style={styles.buttonText} fontWeight="black">
+        {' GET INVITED'}
       </Text>
-    )
+    </Text>
+  )
 
-    const firstButtonColor = asGuest ? undefined : mainTheme.colors.orange
-    const firstButtonTextStyle = asGuest ? undefined : styles.textBlack
+  const firstButtonColor = asGuest ? undefined : mainTheme.colors.orange
+  const firstButtonTextStyle = asGuest ? undefined : styles.textBlack
 
-    return (
-      <SafeAreaView style={styles.mainWrapper}>
-        <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-          <Text
-            testID="welcomeLabel"
-            style={styles.headerText}
-            fontSize={22}
-            lineHeight={25}
-            fontFamily="Roboto"
-            fontWeight="medium"
+  return (
+    <SafeAreaView style={styles.mainWrapper}>
+      <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
+        <Text
+          testID="welcomeLabel"
+          style={styles.headerText}
+          fontSize={22}
+          lineHeight={25}
+          fontFamily="Roboto"
+          fontWeight="medium"
+        >
+          {'Welcome to\nGoodDollar Wallet'}
+        </Text>
+        <AnimationsPeopleFlying />
+        <Section style={styles.bottomContainer}>
+          {asGuest && (
+            <Text fontSize={12} color="gray80Percent">
+              {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+              <Text
+                fontSize={12}
+                color="gray80Percent"
+                fontWeight="bold"
+                textDecorationLine="underline"
+                onPress={handleNavigateTermsOfUse}
+              >
+                Terms of Use
+              </Text>
+              {' and '}
+              <Text
+                fontSize={12}
+                color="gray80Percent"
+                fontWeight="bold"
+                r
+                textDecorationLine="underline"
+                onPress={handleNavigatePrivacyPolicy}
+              >
+                Privacy Policy
+              </Text>
+            </Text>
+          )}
+
+          <CustomButton
+            color={firstButtonColor}
+            style={styles.buttonLayout}
+            textStyle={firstButtonTextStyle}
+            onPress={firstButtonHandler}
+            testID="firstButton"
           >
-            {'Welcome to\nGoodDollar Wallet'}
-          </Text>
-          <AnimationsPeopleFlying />
-          <Section style={styles.bottomContainer}>
-            {asGuest && (
-              <Text fontSize={12} color="gray80Percent">
-                {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
-                <Text
-                  fontSize={12}
-                  color="gray80Percent"
-                  fontWeight="bold"
-                  textDecorationLine="underline"
-                  onPress={this.handleNavigateTermsOfUse}
-                >
-                  Terms of Use
-                </Text>
-                {' and '}
-                <Text
-                  fontSize={12}
-                  color="gray80Percent"
-                  fontWeight="bold"
-                  r
-                  textDecorationLine="underline"
-                  onPress={this.handleNavigatePrivacyPolicy}
-                >
-                  Privacy Policy
+            {firstButtonText}
+          </CustomButton>
+          {!withW3Token && (
+            <PushButton testID="signInButton" dark={false} mode="outlined" onPress={handleSignIn}>
+              <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
+                ALREADY REGISTERED?
+                <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
+                  {' SIGN IN'}
                 </Text>
               </Text>
-            )}
-
-            <CustomButton
-              color={firstButtonColor}
-              style={styles.buttonLayout}
-              textStyle={firstButtonTextStyle}
-              onPress={firstButtonHandler}
-              testID="firstButton"
-            >
-              {firstButtonText}
-            </CustomButton>
-            {!withW3Token && (
-              <PushButton testID="signInButton" dark={false} mode="outlined" onPress={this.handleSignIn}>
-                <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
-                  ALREADY REGISTERED?
-                  <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
-                    {' SIGN IN'}
-                  </Text>
-                </Text>
-              </PushButton>
-            )}
-          </Section>
-        </Wrapper>
-      </SafeAreaView>
-    )
-  }
+            </PushButton>
+          )}
+        </Section>
+      </Wrapper>
+    </SafeAreaView>
+  )
 }
 
 const getStylesFromProps = ({ theme }) => {
@@ -299,4 +289,4 @@ const routes = {
   Recover,
 }
 
-export default createStackNavigator(routes, { backRouteName: 'Auth' })
+export default createStackNavigator(routes, { backRouteName: 'Welcome' })

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { assign, get, pickBy, toPairs } from 'lodash'
+import { assign, get, isError, pickBy, toPairs } from 'lodash'
 import { defer, from as fromPromise } from 'rxjs'
 import { retry } from 'rxjs/operators'
 import moment from 'moment'
@@ -472,7 +472,13 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           if ('You cannot create more than 1 account with the same credentials' === message) {
             log.warn('User already exists during addUser() call:', message, exception)
           } else {
-            // otherwise re-throwing exception to be catched in the parent try {}
+            // otherwise:
+            // completing exception with response object received from axios
+            if (!isError(e)) {
+              exception.response = e
+            }
+
+            // re-throwing exception to be catched in the parent try {}
             throw exception
           }
         })

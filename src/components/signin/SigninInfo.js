@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { Platform, TouchableOpacity, View } from 'react-native'
-import AsyncStorage from '../../lib/utils/asyncStorage'
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
 import Wrapper from '../common/layout/Wrapper'
@@ -15,8 +14,6 @@ import useOnPress from '../../lib/hooks/useOnPress'
 
 const Signin = props => {
   const { styles, navigation } = props
-
-  AsyncStorage.removeItem('GD_web3Token')
 
   const handleRecover = useOnPress(() => navigation.navigate('Recover'), [navigation])
 

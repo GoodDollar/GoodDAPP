@@ -12,6 +12,7 @@ import SingInSVG from '../../assets/Signin/illustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import useOnPress from '../../lib/hooks/useOnPress'
+import { isMobileNative } from '../../lib/utils/platform'
 
 const Signin = props => {
   const { styles, navigation } = props
@@ -165,6 +166,6 @@ export default createStackNavigator(
     signin,
   },
   {
-    backRouteName: 'Auth',
+    backRouteName: isMobileNative ? 'Welcome' : 'Auth',
   },
 )

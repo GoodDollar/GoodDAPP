@@ -51,12 +51,14 @@ jobs:
         run: node ./animationAssets.js
       - name: Build app
         run: |
-          cd ios && sudo xcodebuild archive \
+          cd ios && xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
             -scheme GoodDollar \
             -sdk iphoneos \
             -configuration Release \
-            -archivePath $PWD/build/GoodDollar.xcarchive
+            -archivePath $PWD/build/GoodDollar.xcarchive \
+            PROVISIONING_PROFILE="b29b41c9-e82a-4aab-96a8-e5d00e55756e" \
+            CODE_SIGN_IDENTITY="Apple Distribution: GoodDollar Limited (97K3Q6WTLM)"
       - name: Export app
         run: |
           cd ios && xcodebuild \

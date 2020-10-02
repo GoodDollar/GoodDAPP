@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Decrypting files"
-gpg --quiet --batch --yes --decrypt --passphrase="$IOS_PROFILE_KEY" --output ./.github/secrets/GoodDollar\ Ad\ Hoc.mobileprovision ./.github/secrets/profile.mobileprovision.gpg
+gpg --quiet --batch --yes --decrypt --passphrase="$IOS_PROFILE_KEY" --output ./.github/secrets/9e082bc9-c641-4185-9bd8-e8504fa13a53.mobileprovision ./.github/secrets/profile.mobileprovision.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$IOS_PROFILE_KEY" --output ./.github/secrets/Certificates.p12 ./.github/secrets/Certificates.p12.gpg
 
 mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles

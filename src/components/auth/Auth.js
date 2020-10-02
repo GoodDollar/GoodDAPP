@@ -16,7 +16,6 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import config from '../../config/config'
 import { theme as mainTheme } from '../theme/styles'
-import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -36,82 +35,37 @@ const log = logger.child({ from: 'Auth' })
 class Auth extends React.Component<Props> {
   state = {
     asGuest: config.isEToro !== true,
-    withW3Token: false,
-    w3User: undefined,
   }
 
-  componentDidMount() {
-    this.checkWeb3TokenAndPaymentCode()
+  componentWillMount() {
+    this.checkPaymentCode()
   }
 
-  checkWeb3TokenAndPaymentCode = async () => {
-    const { navigation } = this.props
-    const web3Token = await AsyncStorage.getItem('GD_web3Token')
+  checkPaymentCode = async () => {
     const destinationPath = await AsyncStorage.getItem('GD_destinationPath')
     const paymentCode = get(destinationPath, 'params.paymentCode')
 
-    log.info('checkWeb3TokenAndPaymentCode', web3Token, paymentCode)
+    log.info('check paymentCode', paymentCode)
 
     if (paymentCode) {
       return this.setState({
         asGuest: true,
       })
     }
-
-    if (web3Token) {
-      this.setState({
-        asGuest: true,
-        withW3Token: true,
-      })
-
-      let behaviour
-      let w3User
-
-      try {
-        const w3userData = await API.getUserFromW3ByToken(web3Token)
-        w3User = (w3userData && w3userData.data) || {}
-
-        if (w3User.has_wallet) {
-          behaviour = 'goToSignInScreen'
-        } else {
-          this.setState({
-            w3User,
-            w3Token: web3Token,
-          })
-        }
-      } catch (e) {
-        behaviour = 'showTokenError'
-      }
-
-      log.info('behaviour', behaviour)
-
-      switch (behaviour) {
-        case 'showTokenError':
-          navigation.navigate('InvalidW3TokenError')
-          break
-
-        case 'goToSignInScreen':
-          navigation.navigate('SigninInfo')
-          break
-
-        default:
-          break
-      }
-    }
   }
 
   handleSignUp = async () => {
     const { store } = this.props
+
     store.set('loadingIndicator')({ loading: true })
-    const { w3User, w3Token } = this.state
-    const redirectTo = w3Token ? 'Phone' : 'Signup'
-    log.debug({ w3User, w3Token })
+
     try {
       if (Platform.OS === 'web') {
         const req = deleteGunDB()
         await req
       } else {
-        await AsyncStorage.clear()
+        //this is commented since on native it will also clear the MNEMONIC that was used to create the account
+        // await AsyncStorage.clear()
       }
 
       log.info('indexedDb successfully cleared')
@@ -123,7 +77,7 @@ class Auth extends React.Component<Props> {
 
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
 
-    this.props.navigation.navigate(redirectTo, { regMethod: REGISTRATION_METHOD_SELF_CUSTODY, w3User, w3Token })
+    this.props.navigation.navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
 
     if (Platform.OS === 'web') {
       //Hack to get keyboard up on mobile need focus from user event such as click
@@ -156,7 +110,7 @@ class Auth extends React.Component<Props> {
 
   render() {
     const { styles } = this.props
-    const { asGuest, withW3Token } = this.state
+    const { asGuest } = this.state
     const firstButtonHandler = asGuest ? this.handleSignUp : this.goToW3Site
     const firstButtonText = asGuest ? (
       'Create a wallet'
@@ -222,16 +176,14 @@ class Auth extends React.Component<Props> {
             >
               {firstButtonText}
             </CustomButton>
-            {!withW3Token && (
-              <PushButton testID="signInButton" dark={false} mode="outlined" onPress={this.handleSignIn}>
-                <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
-                  ALREADY REGISTERED?
-                  <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
-                    {' SIGN IN'}
-                  </Text>
+            <PushButton testID="signInButton" dark={false} mode="outlined" onPress={this.handleSignIn}>
+              <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
+                ALREADY REGISTERED?
+                <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
+                  {' SIGN IN'}
                 </Text>
-              </PushButton>
-            )}
+              </Text>
+            </PushButton>
           </Section>
         </Wrapper>
       </SafeAreaView>

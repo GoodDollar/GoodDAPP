@@ -4,16 +4,20 @@ import { TouchableWithoutFeedback, View } from 'react-native'
 import ScrollToTopSVG from '../../../assets/scrollToTop.svg'
 import Fade from '../animations/Fade'
 import { withStyles } from '../../../lib/styles'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
-const ScrollToTopButton = ({ onPress, styles, style, show }) => (
-  <Fade show={show}>
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View style={[styles.scrollToTopImage, style]}>
-        <ScrollToTopSVG />
-      </View>
-    </TouchableWithoutFeedback>
-  </Fade>
-)
+const ScrollToTopButton = ({ onPress, styles, style, show }) => {
+  const _onPress = useOnPress(onPress)
+  return (
+    <Fade show={show}>
+      <TouchableWithoutFeedback onPress={_onPress}>
+        <View style={[styles.scrollToTopImage, style]}>
+          <ScrollToTopSVG />
+        </View>
+      </TouchableWithoutFeedback>
+    </Fade>
+  )
+}
 
 const getStylesFromProps = () => ({
   scrollToTopImage: {

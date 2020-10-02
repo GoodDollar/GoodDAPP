@@ -4,6 +4,7 @@ import { Platform, TouchableOpacity, View } from 'react-native'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
 type Props = {
   disabled?: boolean,
@@ -14,9 +15,9 @@ type Props = {
 }
 
 const SendToAddress = ({ onPress, styles, theme, ...screenProps }: Props) => {
-  const { disabled } = screenProps
+  const _onPress = useOnPress(onPress)
   return (
-    <TouchableOpacity style={styles.alignContent} onPress={disabled ? undefined : onPress}>
+    <TouchableOpacity style={styles.alignContent} onPress={_onPress}>
       <View style={styles.iconWrapper}>
         <Icon name="send" color="white" size={28} />
       </View>

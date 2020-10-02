@@ -25,9 +25,11 @@ class ShareLinkSendButton extends AnimationBase {
     })
   }
 
-  handlePress = () => {
+  handlePress = e => {
     const { onPress, onPressDone } = this.props
     const { performed } = this.state
+
+    e.preventDefault()
 
     if (performed) {
       onPressDone()

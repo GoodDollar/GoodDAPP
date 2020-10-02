@@ -1,6 +1,6 @@
 // @flow
 import axios, { type Axios } from 'axios'
-import { get } from 'lodash'
+import { get, isError, isObject } from 'lodash'
 
 import API from '../../../../lib/API/api'
 import logger from '../../../../lib/logger/pino-logger'
@@ -127,20 +127,45 @@ class FaceVerificationApi {
   }
 
   async wrapApiCall(httpCall) {
-    const { data: response } = await httpCall
-    const { success, error } = response || {}
+    let response
 
-    if (!response) {
-      throw new Error('Failed to perform face verification API call')
+    try {
+      const httpResponse = await httpCall
+
+      // our API resolve as usual with response.data
+      response = httpResponse.data
+    } catch (errorObject) {
+      // if API rejects there're 2 possible cases
+      // if was rejected with an Error object that means axios exception haven't response.data set
+      if (isError(errorObject)) {
+        throw errorObject
+      }
+
+      // in other cases API rejects with response.data we could use
+      let failedResponse = errorObject
+
+      // if response.data wasn't an object, using it's value as the error message string
+      if (!isObject(failedResponse)) {
+        failedResponse = { error: String(failedResponse) }
+      }
+
+      // don't forget to set success = false flag
+      // it's supposed that GoodServer will return false in the case of non-200 code
+      // but let's add this additional safety check
+      response = { ...failedResponse, success: false }
     }
 
-    if (!success) {
-      const exception = new Error(error)
+    const { success, error } = response || {}
+
+    if (false === success) {
+      // non - success - throwing an exception with failed response
+      const exception = new Error(error || 'An unexpected issue during the face verification API call')
 
       exception.response = response
       throw exception
     }
 
+    // if success - just return the response
     return response
   }
 }

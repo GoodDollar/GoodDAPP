@@ -1,28 +1,79 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { WebView } from 'react-native-webview'
 import { TouchableOpacity, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
+
 import Section from '../common/layout/Section'
 import Icon from '../common/view/Icon'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { getMaxDeviceHeight } from '../../lib/utils/Orientation'
+
+import { getMaxDeviceHeight } from '../../lib/utils/sizes'
+import useOnPress from '../../lib/hooks/useOnPress'
+import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
 
 const wHeight = getMaxDeviceHeight()
 
-export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home', styles) => {
-  const IframeTab = props => {
-    const store = SimpleStore.useStore()
+const DOMLoadedDispatcher = `(function () {
+    var messenger = window.ReactNativeWebView || parent;
 
-    const isLoaded = () => {
-      store.set('loadingIndicator')({ loading: false })
+    if (!messenger || ('function' !== (typeof messenger.postMessage))) {
+      return;
     }
 
-    useEffect(() => {
-      store.set('loadingIndicator')({ loading: true })
-    }, [])
+    var documentUrl = location.href;
+    var DOMReady = 'DOMContentLoaded';
 
-    return <WebView title={title} onLoad={isLoaded} source={{ uri: src }} style={{ height: wHeight }} />
-  }
+    var onDOMContentLoaded = function() {
+      var messagePayload = {
+        event: DOMReady,
+        target: 'iframe',
+        src: documentUrl
+      };
+
+      messenger.postMessage(messagePayload, '*');
+    }
+
+    if (document.readyState !== 'loading') {
+      onDOMContentLoaded();
+      return;
+    }
+
+    window.addEventListener(DOMReady, onDOMContentLoaded);
+  })();`
+
+export const Iframe = ({ src, title }) => {
+  const [showLoading, hideLoading] = useLoadingIndicator()
+
+  const onMessage = useCallback(
+    ({ nativeEvent: { data } }) => {
+      const { event } = data
+
+      if ('DOMContentLoaded' === event) {
+        hideLoading()
+      }
+    },
+    [hideLoading],
+  )
+
+  useEffect(showLoading, [])
+
+  return (
+    <WebView
+      title={title}
+      onLoad={hideLoading}
+      source={{ uri: src }}
+      style={{ height: wHeight }}
+      originWhitelist={['*']}
+      javaScriptEnabledAndroid={true}
+      injectedJavaScript={DOMLoadedDispatcher}
+      onMessage={onMessage}
+    />
+  )
+}
+
+export const createIframe = (src, title, backToWallet = false, backToRoute = 'Home', styles) => {
+  const IframeTab = () => <Iframe title={title} src={src} />
+
+  IframeTab.navigationOptions = { title }
 
   if (backToWallet) {
     const navBarStyles = {
@@ -40,32 +91,29 @@ export const createIframe = (src, title, backToWallet = false, backToRoute = 'Ho
         right: 15,
       },
     }
-    const NavigationBar = navigate => (
-      <Appbar.Header dark style={navBarStyles.wrapper}>
-        <View style={{ width: 48 }} />
-        <Appbar.Content />
-        <Section.Text color="white" fontWeight="medium" style={navBarStyles.title} testID="rewards_header">
-          {title}
-        </Section.Text>
-        <Appbar.Content />
-        <TouchableOpacity onPress={() => navigate(backToRoute)} style={navBarStyles.walletIcon}>
-          <Icon name="wallet" size={36} color="white" />
-        </TouchableOpacity>
-      </Appbar.Header>
-    )
-    IframeTab.navigationOptions = ({ navigation }) => {
-      return {
-        navigationBar: () => NavigationBar(navigation.navigate),
-      }
+
+    const NavigationBar = ({ navigate }) => {
+      const goBack = useOnPress(() => navigate(backToRoute), [backToRoute, navigate])
+
+      return (
+        <Appbar.Header dark style={navBarStyles.wrapper}>
+          <View style={{ width: 48 }} />
+          <Appbar.Content />
+          <Section.Text color="white" fontWeight="medium" style={navBarStyles.title} testID="rewards_header">
+            {title}
+          </Section.Text>
+          <Appbar.Content />
+          <TouchableOpacity onPress={goBack} style={navBarStyles.walletIcon}>
+            <Icon name="wallet" size={36} color="white" />
+          </TouchableOpacity>
+        </Appbar.Header>
+      )
     }
-  } else {
-    IframeTab.navigationOptions = {
-      title,
-    }
+
+    IframeTab.navigationOptions = ({ navigation }) => ({
+      navigationBar: () => <NavigationBar navigate={navigation.navigate} />,
+    })
   }
 
-  IframeTab.navigationOptions = {
-    title,
-  }
   return IframeTab
 }

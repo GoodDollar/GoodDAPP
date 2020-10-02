@@ -1,79 +1,101 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
-// import { isIOSWeb } from '../../lib/utils/platform'
-import { get, toPairs } from 'lodash'
-import userStorage from '../../lib/gundb/UserStorage'
+// import { isIOS } from 'mobile-device-detect'
+import { get, isNil } from 'lodash'
+
+import { Iframe } from '../webView/iframe'
+
+import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import useLoadingIndicator from '../../lib/hooks/useLoadingIndicator'
+import useOnPress from '../../lib/hooks/useOnPress'
+
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
-import { createIframe } from '../webView/iframe'
+import { openLink } from '../../lib/utils/linking'
+
+import userStorage from '../../lib/gundb/UserStorage'
 
 const log = logger.child({ from: 'RewardsTab' })
 
-const openInNewTab = false //isIOSWeb
-const RewardsTab = props => {
-  const [token, setToken] = useState()
-  const store = SimpleStore.useStore()
+const RewardsTab = ({ navigation, openInNewTab = false /* TODO: isIOS */ }) => {
   const [showDialog] = useDialog()
+  const [showErrorDialog] = useErrorDialog()
+  const [token, setToken] = useState(null)
+  const [showLoading, hideLoading] = useLoadingIndicator()
 
-  const getRewardsPath = () => {
-    const params = get(props, 'navigation.state.params', {})
-    if (openInNewTab === false) {
-      params.purpose = 'iframe'
+  const params = get(navigation, 'state.params', {})
+
+  const rewardsPath = useMemo(() => {
+    if (!token) {
+      return
     }
 
-    params.token = token
-    let path = decodeURIComponent(get(params, 'rewardsPath', ''))
-    const query = toPairs(params)
-      .filter(p => p[0] !== 'rewardsPath')
-      .map(param => param.join('='))
-      .join('&')
+    const url = new URL(Config.web3SiteUrl)
+    const { rewardsPath = '', ...query } = params
+    const searchParams = new URLSearchParams(query)
 
-    return `${Config.web3SiteUrl}/${path}?${query}`
-  }
+    searchParams.append('token', token)
 
-  const getToken = useCallback(async () => {
-    let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
-    log.debug('got rewards login token', token)
-    setToken(token)
+    if (!openInNewTab) {
+      searchParams.append('purpose', 'iframe')
+    }
+
+    url.pathname = decodeURIComponent(rewardsPath)
+    url.search = searchParams.toString()
+
+    return url.toString()
+  }, [token, params, openInNewTab])
+
+  const onDismiss = useOnPress(() => navigation.navigate('Home'), [navigation])
+
+  const onPressOk = useOnPress(async () => {
+    try {
+      await openLink(rewardsPath, '_blank')
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('Failed opening external link:', message, exception, { rewardsPath })
+      showErrorDialog(message, '', { onDismiss })
+    }
+  }, [rewardsPath, onDismiss])
+
+  useEffect(() => {
+    showLoading()
+
+    userStorage.getProfileFieldValue('loginToken').then(loginToken => {
+      const token = loginToken || ''
+
+      log.debug('Got rewards login token', token)
+      setToken(token)
+    })
+
+    return hideLoading
   }, [])
 
   useEffect(() => {
-    getToken()
-    return () => store.set('loadingIndicator')({ loading: false })
-  }, [])
+    if (!openInNewTab || !token) {
+      return
+    }
 
-  useEffect(() => {
-    if (openInNewTab && token) {
-      store.set('loadingIndicator')({ loading: false })
-      showDialog({
-        title: 'Press ok to go to Rewards dashboard',
-        buttons: [
-          {
-            text: 'OK',
-            onPress: () => {
-              window.open(getRewardsPath(), '_blank')
-            },
-          },
-        ],
-        onDismiss: () => {
-          props.navigation.navigate('Home')
+    hideLoading()
+
+    showDialog({
+      title: 'Press ok to go to Rewards dashboard',
+      onDismiss,
+      buttons: [
+        {
+          text: 'OK',
+          onPress: onPressOk,
         },
-      })
-    }
+      ],
+    })
   }, [token])
 
-  const src = getRewardsPath()
-  const webIframesStyles = { flex: 1 }
-  const Iframe = createIframe(src, 'Rewards', false, 'Home', webIframesStyles)
-  const rewardsIframe = useMemo(() => <Iframe />, [src])
-
-  if (openInNewTab || token === undefined) {
+  if (openInNewTab || isNil(token)) {
     return null
   }
 
-  return rewardsIframe
+  return <Iframe title="Rewards" src={rewardsPath} />
 }
 
 RewardsTab.navigationOptions = {

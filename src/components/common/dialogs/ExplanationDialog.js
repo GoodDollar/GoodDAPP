@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
 // components
@@ -16,6 +16,7 @@ import { hideDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { theme } from '../../theme/styles'
+import normalizeText from '../../../lib/utils/normalizeText'
 
 const ExplanationButton = ({ text = 'OK', action = noop, mode, styles }) => {
   const { buttonText, textModeButtonText, textModeButton } = styles
@@ -45,6 +46,7 @@ const ExplanationDialog = ({
   errorMessage,
   title,
   text,
+  textStyle,
   imageSource,
   image: ImageComponent,
   imageHeight = 74,
@@ -53,11 +55,13 @@ const ExplanationDialog = ({
   const imageProps = {
     style: [
       styles.image,
-      { height: getDesignRelativeHeight(imageHeight) },
+      { height: getDesignRelativeHeight(imageHeight, false) },
       { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) },
     ],
     resizeMode: 'contain',
   }
+
+  const Image = imageSource
 
   return (
     <View style={styles.container}>
@@ -69,12 +73,14 @@ const ExplanationDialog = ({
       {ImageComponent ? (
         <ImageComponent {...imageProps} />
       ) : imageSource ? (
-        <Image source={imageSource} {...imageProps} />
+        <View style={styles.centerImage}>
+          <Image {...imageProps} />
+        </View>
       ) : null}
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
         {title}
       </Text>
-      {text && <Text fontSize={24}>{text}</Text>}
+      {text && <Text style={[styles.description, textStyle]}>{text}</Text>}
       {!isEmpty(buttons) && (
         <View style={styles.buttonsContainer}>
           {buttons.map(buttonProps => (
@@ -90,7 +96,7 @@ const mapStylesToProps = () => ({
   container: {
     display: 'flex',
     justifyContent: 'space-around',
-    height: '100%',
+    maxHeight: '100%',
     marginTop: 'auto',
     marginBottom: 'auto',
     minHeight: getDesignRelativeHeight(310),
@@ -101,14 +107,13 @@ const mapStylesToProps = () => ({
   },
   image: {
     width: '100%',
-    marginBottom: getDesignRelativeHeight(16),
+    marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
   },
   title: {
     marginBottom: getDesignRelativeHeight(8),
   },
-  bottomLink: {
-    marginTop: getDesignRelativeHeight(24),
-    marginBottom: getDesignRelativeHeight(8),
+  description: {
+    fontSize: normalizeText(24),
   },
   buttonsContainer: {
     display: 'flex',
@@ -116,7 +121,7 @@ const mapStylesToProps = () => ({
     justifyContent: 'flex-end',
     paddingLeft: 0,
     paddingRight: 0,
-    paddingTop: theme.sizes.defaultDouble,
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
   },
   buttonText: {
     paddingLeft: 5,
@@ -128,6 +133,11 @@ const mapStylesToProps = () => ({
   textModeButton: {
     marginRight: 'auto',
     marginLeft: 'auto',
+  },
+  centerImage: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
 })
 

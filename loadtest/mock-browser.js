@@ -1,7 +1,7 @@
 import { LocalStorage } from 'node-localstorage'
-import Gun from 'gun'
-import SEA from 'gun/sea'
-import 'gun/lib/load'
+import Gun from '@gooddollar/gun'
+import SEA from '@gooddollar/gun/sea'
+import '@gooddollar/gun/lib/load'
 import Config from '../src/config/config'
 
 // eslint-disable-next-line no-unused-vars
@@ -60,6 +60,11 @@ const extend = (() => {
 
 global.window = {}
 global.window.localStorage = new LocalStorage('./localStorage.tmp')
-global.gun = Gun({ localStorge: false, peers: [Config.gunPublicUrl], axe: true, multicast: false })
+global.gun = Gun({
+  localStorge: false,
+  peers: [Config.gunPublicUrl],
+  axe: true,
+  multicast: false,
+})
 global.Gun = Gun
 console.info('here')

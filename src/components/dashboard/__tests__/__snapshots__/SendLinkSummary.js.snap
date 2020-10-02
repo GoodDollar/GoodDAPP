@@ -486,12 +486,15 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               "borderTopWidth": "1px",
               "display": "flex",
               "flexDirection": "row",
-              "height": "42px",
               "justifyContent": "center",
+              "minHeight": "42px",
               "msFlexAlign": "end",
               "msFlexDirection": "row",
               "msFlexPack": "center",
               "paddingBottom": "4px",
+              "paddingLeft": "16px",
+              "paddingRight": "16px",
+              "paddingTop": "8px",
               "position": "relative",
             }
           }
@@ -530,7 +533,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "24px",
                 "fontWeight": "500",
-                "lineHeight": "24px",
+                "lineHeight": "28px",
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
@@ -538,6 +541,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
+                "width": "100%",
               }
             }
           />

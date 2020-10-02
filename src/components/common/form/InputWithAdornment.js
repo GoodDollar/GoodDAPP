@@ -7,6 +7,7 @@ import { useCurriedSetters } from '../../../lib/undux/SimpleStore'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import Config from '../../../config/config'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import ErrorText from './ErrorText'
 
 const shouldChangeSizeOnKeyboardShown = isMobileSafari && Config.safariMobileKeyboardGuidedSize
@@ -19,6 +20,7 @@ const InputText = ({
   adornmentStyle,
   adornmentColor,
   adornmentDisabled = false,
+  showError = true,
   error,
   styles,
   theme,
@@ -70,6 +72,8 @@ const InputText = ({
     return error ? red : darkGray
   }, [error])
 
+  const _onPress = useOnPress(adornmentAction)
+
   return (
     <View style={[styles.view, containerStyle]}>
       <View style={styles.view}>
@@ -82,16 +86,12 @@ const InputText = ({
           onBlur={onBlurHandler}
         />
         {showAdornment && error !== '' && (
-          <TouchableOpacity
-            style={[styles.adornment, adornmentStyle]}
-            disabled={adornmentDisabled}
-            onPress={adornmentAction}
-          >
+          <TouchableOpacity style={[styles.adornment, adornmentStyle]} disabled={adornmentDisabled} onPress={_onPress}>
             <Icon size={normalize(adornmentSize)} color={adornmentColor || inputColor} name={adornment} />
           </TouchableOpacity>
         )}
       </View>
-      <ErrorText error={error} />
+      {showError && <ErrorText error={error} />}
     </View>
   )
 }

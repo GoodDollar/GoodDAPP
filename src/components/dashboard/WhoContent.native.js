@@ -70,7 +70,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
         return [givenName, familyName, phoneNumber].some(field => (field || '').toLocaleLowerCase().includes(query))
       })
     }),
-    []
+    [],
   )
 
   const isStateEmpty = !state
@@ -85,7 +85,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
 
       setContacts(filterContacts(query))
     },
-    [setContacts, setValue, filterContacts, isStateEmpty]
+    [setContacts, setValue, filterContacts, isStateEmpty],
   )
 
   useEffect(() => {
@@ -105,7 +105,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
             const [contactNumber] = map(phoneNumbers, 'number')
             const { phoneNumber } = feedItem.data
             return contactNumber && phoneNumber === contactNumber
-          })
+          }),
         )
       })
     }
@@ -126,7 +126,7 @@ const WhoContent = ({ styles, setContact, error, text, value, next, state, showN
         />
       )
     }),
-    [setContact]
+    [setContact],
   )
 
   return (

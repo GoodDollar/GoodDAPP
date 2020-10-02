@@ -1,6 +1,6 @@
 // libraries
-import React, { useEffect } from 'react'
-import { View } from 'react-native'
+import React, { useCallback, useEffect } from 'react'
+import { Platform, View } from 'react-native'
 import { get } from 'lodash'
 
 //components
@@ -11,6 +11,7 @@ import FaceVerificationSmiley from '../../../common/animations/FaceVerificationS
 
 // hooks
 import useOnPress from '../../../../lib/hooks/useOnPress'
+import useCameraSupport from '../../../browserSupport/hooks/useCameraSupport'
 import usePermissions from '../../../permissions/hooks/usePermissions'
 import useDisposingState from '../hooks/useDisposingState'
 
@@ -21,26 +22,33 @@ import logger from '../../../../lib/logger/pino-logger'
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import { isBrowser, isE2ERunning, isIOSWeb as isIOS, isMobileSafari } from '../../../../lib/utils/platform'
+import { isBrowser, isE2ERunning, isIOSWeb, isMobileSafari } from '../../../../lib/utils/platform'
 import { openLink } from '../../../../lib/utils/linking'
 import Config from '../../../../config/config'
 import { Permissions } from '../../../permissions/types'
 import { showQueueDialog } from '../../../common/dialogs/showQueueDialog'
 import { fireEvent, FV_CAMERAPERMISSION, FV_CANTACCESSCAMERA, FV_INTRO } from '../../../../lib/analytics/analytics'
+import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
+
+// assets
+import wait24hourIllustration from '../../../../assets/Claim/wait24Hour.svg'
 
 const log = logger.child({ from: 'FaceVerificationIntro' })
 
 const WalletDeletedPopupText = ({ styles }) => (
-  <View style={styles.paddingVertical20}>
-    <Text style={styles.textStyle} fontSize={14}>
-      <Text style={[styles.textStyle, styles.paddingTop20]} fontSize={14} fontWeight="bold">
-        {'Since you’ve just deleted your wallet, '}
+  <View style={styles.wrapper}>
+    <View style={styles.title}>
+      <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
+        {'New Wallet?\nYou’ll need to wait 24 hours'}
       </Text>
-      you will have to wait 24 hours until you can claim.
-    </Text>
-    <Text style={[styles.textStyle, styles.paddingTop20]} fontSize={14}>
-      {'This is to prevent fraud and misuse.\nSorry for the inconvenience.'}
-    </Text>
+    </View>
+    <View style={styles.paddingVertical20}>
+      <Text style={styles.textStyle}>
+        {
+          'We see you recently deleted your wallet and have opened a new one.\nThis delay is to prevent misuse, thanks for understanding!'
+        }
+      </Text>
+    </View>
   </View>
 )
 
@@ -49,6 +57,8 @@ const IntroScreen = ({ styles, screenProps }) => {
   const { fullName } = store.get('profile')
   const { screenState, goToRoot, navigateTo, pop } = screenProps
   const isValid = get(screenState, 'isValid', false)
+
+  const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 
   const disposing = useDisposingState({
     enrollmentIdentifier: UserStorage.getFaceIdentifier(),
@@ -59,6 +69,7 @@ const IntroScreen = ({ styles, screenProps }) => {
 
       showQueueDialog(WalletDeletedPopupText, {
         onDismiss: goToRoot,
+        imageSource: wait24hourIllustration,
       })
     },
   })
@@ -74,6 +85,12 @@ const IntroScreen = ({ styles, screenProps }) => {
     navigate: navigateTo,
   })
 
+  const [, checkForCameraSupport] = useCameraSupport({
+    checkOnMounted: false,
+    onSupported: requestCameraPermissions,
+    onUnsupported: navigateToHome,
+  })
+
   const handleVerifyClick = useOnPress(() => {
     // if cypress is running - just redirect to FR as we're skipping
     // zoom componet (which requires camera access) in this case
@@ -82,17 +99,17 @@ const IntroScreen = ({ styles, screenProps }) => {
       return
     }
 
-    requestCameraPermissions()
-  }, [requestCameraPermissions])
+    checkForCameraSupport()
+  }, [checkForCameraSupport])
 
   const commonTextStyles = {
     textAlign: 'center',
     color: 'primary',
-    fontSize: 18,
+    fontSize: isLargeDevice ? 18 : 16,
     lineHeight: 25,
   }
 
-  useEffect(() => log.debug({ isIOS, isMobileSafari }), [])
+  useEffect(() => log.debug({ isIOS: isIOSWeb, isMobileSafari }), [])
 
   useEffect(() => {
     if (isValid) {
@@ -173,15 +190,16 @@ const getStylesFromProps = ({ theme }) => ({
   illustration: {
     marginTop: getDesignRelativeHeight(18),
     marginBottom: getDesignRelativeHeight(18),
-    height: getDesignRelativeWidth(isBrowser ? 220 : 130),
+    height: getDesignRelativeWidth(isBrowser ? 220 : 180),
     width: '100%',
+    alignItems: 'center',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
     paddingVertical: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : 14),
   },
   descriptionUnderline: {
-    display: 'block',
+    display: Platform.select({ web: 'block', default: 'flex' }),
     paddingTop: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultQuadruple : theme.sizes.defaultDouble),
   },
   button: {

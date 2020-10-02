@@ -1,22 +1,26 @@
 // @flow
 import React from 'react'
 import { createNavigator, SwitchRouter } from '@react-navigation/core'
-import { createBrowserApp } from '@react-navigation/web'
-import { Platform } from 'react-native'
 import { Portal } from 'react-native-paper'
-import { createAppContainer } from 'react-navigation'
-import { navigationConfig } from './components/appNavigation/navigationConfig'
-import About from './components/about/AboutState'
 
+import AddWebApp from './components/common/view/AddWebApp'
+import InternetConnection from './components/common/connectionDialog/internetConnection'
+
+import About from './components/about/AboutState'
 import BackupWallet from './components/backupWallet/BackupWalletState'
 import ExportWallet from './components/backupWallet/ExportWalletData'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
+import Splash from './components/splash/Splash'
+
+import createApp from './lib/utils/createAppContainer'
+import { navigationConfig } from './components/appNavigation/navigationConfig'
+import useNavigationStateHandler from './lib/hooks/useNavigationStateHandler'
+
 import GDStore from './lib/undux/GDStore'
-import { fireEventFromNavigation } from './lib/analytics/analytics'
-import AddWebApp from './components/common/view/AddWebApp'
 import { isInstalledApp } from './lib/utils/platform'
-import './lib/notifications/backgroundFetch'
+
+const DisconnectedSplash = () => <Splash animation={false} />
 
 const AppNavigator = createNavigator(
   AppSwitch,
@@ -36,20 +40,21 @@ const AppNavigator = createNavigator(
   navigationConfig,
 )
 
-const createApp = Platform.OS === 'web' ? createBrowserApp : createAppContainer
 const RouterWrapper = createApp(AppNavigator)
 
-const onRouteChange = (prevNav, nav, route) => {
-  fireEventFromNavigation(route)
-}
-
 const Router = () => {
+  // clear the active dialog state when the route is changing to prevent infinite blurred background
+  // for example: when pressing browser history back button while feed card is opened - the route will be changed, but dialogData is still inside undux store
+  const navigationStateHandler = useNavigationStateHandler()
+
   return (
     <GDStore.Container>
-      {!isInstalledApp && <AddWebApp />}
-      <Portal.Host>
-        <RouterWrapper onNavigationStateChange={onRouteChange} />
-      </Portal.Host>
+      <InternetConnection onDisconnect={DisconnectedSplash} isLoggedIn={true}>
+        {!isInstalledApp && <AddWebApp />}
+        <Portal.Host>
+          <RouterWrapper onNavigationStateChange={navigationStateHandler} />
+        </Portal.Host>
+      </InternetConnection>
     </GDStore.Container>
   )
 }

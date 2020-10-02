@@ -66,18 +66,24 @@ class DeepLinkingNative {
       log.error('Error from Branch: ' + error)
       return
     }
+    const ccParams = mapKeys(params, (_, name) => camelCase(name))
+    log.debug({ error, params, ccParams })
 
-    const { clickedBranchLink, clickTimestamp, nonBranchLink, referingLink } = mapKeys(params, (_, name) =>
-      camelCase(name)
-    )
+    const { clickedBranchLink, clickTimestamp, nonBranchLink, referingLink } = ccParams
 
     if (!this._isFirstRun && clickedBranchLink && this._lastClick !== clickTimestamp) {
       return restart()
     }
 
+    //no link do nothing
+    if (!referingLink && !nonBranchLink) {
+      return
+    }
+
     this._isFirstRun = false
     this._lastClick = clickTimestamp
     const branchLink = referingLink
+
     const queryParams = nonBranchLink ? extractQueryParams(nonBranchLink) : params
 
     this.pathname = extractPathname(nonBranchLink || branchLink)

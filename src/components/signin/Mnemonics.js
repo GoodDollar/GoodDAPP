@@ -1,16 +1,17 @@
 // @flow
 //eslint-disable-next-line
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from '../../lib/utils/asyncStorage'
-import retryImport from '../../lib/utils/retryImport'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
+import { userExists } from '../../lib/login/userExists'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -19,6 +20,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
 import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
 import Wrapper from '../common/layout/Wrapper'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -33,9 +35,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [showDialog] = useDialog()
   const [errorMessage, setErrorMessage] = useState()
   const [showErrorDialog, hideDialog] = useErrorDialog()
-  const input = React.createRef()
-
-  AsyncStorage.removeItem('GD_web3Token')
+  const input = useRef()
 
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
@@ -54,13 +54,16 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     setMnemonics(mnemonics)
   }
 
-  const recover = async () => {
+  const recover = useOnPress(async () => {
+    await AsyncStorage.clear()
     input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)
 
     const showError = () => {
-      log.error('Incorrect pass phrase - wallet recover failed', '', null, {
+      const error = new Error('Incorrect pass phrase received')
+
+      log.error('Wallet recover failed', error.message, error, {
         mnemonics,
         category: ExceptionCategory.Human,
         dialogShown: true,
@@ -87,10 +90,11 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       await saveMnemonics(mnemonics)
 
       // We validate that a user was registered for the specified mnemonics
-      const [profile, fullName] = await profileExist()
-      log.debug('profile exists:', { profile, fullName })
-      if (profile) {
-        await AsyncStorage.setItem(IS_LOGGED_IN, 'true')
+      const { exists, fullName } = await userExists(mnemonics)
+      log.debug('userExists result:', { exists, fullName })
+
+      if (exists) {
+        await AsyncStorage.setItem(IS_LOGGED_IN, true)
 
         // FIXME: RN INAPPLINKS
         const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
@@ -119,7 +123,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     } finally {
       setRecovering(false)
     }
-  }
+  }, [setRecovering, mnemonics, showDialog])
+
   const handleEnter = (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter') {
       recover()
@@ -134,25 +139,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     }
   }, [])
 
-  /**
-   * Helper to validate if exist a Gun profile associated to current mnemonic
-   * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
-   */
-  async function profileExist(): Promise<any> {
-    const [Wallet, UserStorage] = await Promise.all([
-      retryImport(() => import('../../lib/wallet/GoodWalletClass').then(_ => _.GoodWallet)),
-      retryImport(() => import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage)),
-    ])
-    const wallet = new Wallet({ mnemonic: mnemonics })
-    await wallet.ready
-    const userStorage = new UserStorage(wallet)
-    await userStorage.ready
-    const exists = await userStorage.userAlreadyExist()
-    return [exists, exists && (await userStorage.getProfileFieldDisplayValue('fullName'))]
-  }
-
-  const web3HasWallet = get(navigation, 'state.params.web3HasWallet')
-
   return (
     <Wrapper style={styles.mainWrapper}>
       <Section grow={5} style={styles.wrapper}>
@@ -160,11 +146,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           <Text fontWeight="medium" fontSize={22}>
             {'Please enter your\n12-word pass phrase:'}
           </Text>
-          {web3HasWallet && (
-            <Text color="gray80Percent" fontSize={14}>
-              Looks like you already have a wallet. Please recover it to continue
-            </Text>
-          )}
         </Section.Stack>
         <Section.Stack grow={4} justifyContent="space-between">
           <Section.Row justifyContent="center">

@@ -21,6 +21,7 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { Permissions } from '../permissions/types'
+import { GDTokensWarningBox } from './ReceiveToAddress'
 
 export type TypeProps = {
   screenProps: any,
@@ -70,7 +71,7 @@ const SendToAddress = (props: TypeProps) => {
 
   return (
     <Wrapper>
-      <TopBar push={push} hideProfile={false} />
+      <TopBar push={push} hideProfile={false} profileAsLink={false} />
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title fontWeight="medium">Send To?</Section.Title>
@@ -89,7 +90,10 @@ const SendToAddress = (props: TypeProps) => {
             autoFocus
           />
         </Section.Stack>
-        <Section.Row grow alignItems="flex-end">
+        <Section grow justifyContent="center">
+          <GDTokensWarningBox isSend={true} />
+        </Section>
+        <Section.Row alignItems="flex-end">
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
               Cancel

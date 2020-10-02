@@ -2,8 +2,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
-import { getMaxDeviceHeight } from '../../../lib/utils/Orientation'
+import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../../lib/utils/sizes'
 
 const height = getMaxDeviceHeight()
 

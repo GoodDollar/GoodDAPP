@@ -9,11 +9,13 @@ import TopBar from '../common/view/TopBar'
 
 // hooks
 import usePermissions from '../permissions/hooks/usePermissions'
+import useCameraSupport from '../browserSupport/hooks/useCameraSupport'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 // utils
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
@@ -32,14 +34,18 @@ const ReceiveByQR = ({ screenProps }) => {
   const [showErrorDialog] = useErrorDialog()
   const { navigateTo, push } = screenProps
 
-  const handlePermissionDenied = useCallback(() => navigateTo('Receive'), [navigateTo])
-
   // check camera permission and show dialog if not allowed
-  const hasCameraAccess = usePermissions(Permissions.Camera, {
+  const handlePermissionDenied = useCallback(() => navigateTo('Receive'), [navigateTo])
+  const [hasCameraAccess, requestPermission] = usePermissions(Permissions.Camera, {
+    requestOnMounted: false,
     promptPopup: QRCameraPermissionDialog,
     onDenied: handlePermissionDenied,
     navigate: navigateTo,
   })
+
+  // first of all check browser compatibility
+  // if not compatible - then redirect to home
+  const navigateToHome = useCallback(() => navigateTo('Home'), [navigateTo])
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
@@ -53,7 +59,9 @@ const ReceiveByQR = ({ screenProps }) => {
         log.debug({ url })
 
         if (url === null) {
-          log.error('Invalid QR Code. Probably this QR code is for sending GD', '', null, {
+          const error = new Error('Invalid QR Code. Probably this QR code is for sending GD')
+
+          log.error('Wrong QR code received', error.message, error, {
             url,
             category: ExceptionCategory.Human,
             dialogShown: true,
@@ -63,7 +71,9 @@ const ReceiveByQR = ({ screenProps }) => {
           const { receiveLink, reason } = extractQueryParams(url)
 
           if (!receiveLink) {
-            log.error('Invalid QR Code. Probably this QR code is for sending GD', '', null, {
+            const error = new Error('Invalid QR Code. Probably this QR code is for sending GD')
+
+            log.error('Wrong QR code received', error.message, error, {
               url,
               receiveLink,
               reason,
@@ -97,13 +107,16 @@ const ReceiveByQR = ({ screenProps }) => {
           receiveLink: undefined,
           reason: undefined,
         })
-      } catch (e) {
-        log.error('Executing withdraw failed', e.message, e, {
+      } catch (exception) {
+        const { message } = exception
+        const uiMessage = decorate(exception, ExceptionCode.E5)
+
+        log.error('Executing withdraw failed', message, exception, {
           receiveLink,
           dialogShown: true,
         })
 
-        showErrorDialog('Something has gone wrong. Please try again later.')
+        showErrorDialog(uiMessage)
       }
     }
   }, [navigateTo, withdrawParams, store, showErrorDialog])
@@ -116,7 +129,7 @@ const ReceiveByQR = ({ screenProps }) => {
     exception => {
       const dialogOptions = { title: 'QR code scan failed' }
       const { name, message } = exception
-      let errorMessage = message
+      const uiMessage = decorate(exception, ExceptionCode.E6)
 
       if ('NotAllowedError' === name) {
         // exit the function and do nothing as we already displayed error popup via usePermission hook
@@ -124,10 +137,15 @@ const ReceiveByQR = ({ screenProps }) => {
       }
 
       log.error('QR scan receive failed', message, exception, { dialogShown: true })
-      showErrorDialog(errorMessage, '', dialogOptions)
+      showErrorDialog(uiMessage, '', dialogOptions)
     },
     [showErrorDialog],
   )
+
+  useCameraSupport({
+    onUnsupported: navigateToHome,
+    onSupported: requestPermission,
+  })
 
   return (
     <>

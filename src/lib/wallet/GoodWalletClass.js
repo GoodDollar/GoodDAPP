@@ -9,11 +9,13 @@ import UBIABI from '@gooddollar/goodcontracts/stakingModel/build/contracts/UBISc
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
-import { get, invokeMap, values } from 'lodash'
+import { get, invokeMap, uniqBy, values } from 'lodash'
 import moment from 'moment'
 import Config from '../../config/config'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
-import API from '../API/api'
+import logger from '../../lib/logger/pino-logger'
+import { ExceptionCategory } from '../../lib/logger/exceptions'
+import API from '../../lib/API/api'
+import { delay } from '../../lib/utils/async'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 
@@ -131,6 +133,8 @@ export class GoodWallet {
 
   blockNumber: typeof BN
 
+  isPollEvents: boolean = true
+
   constructor(walletConfig: {} = {}) {
     this.config = walletConfig
     this.init()
@@ -208,6 +212,167 @@ export class GoodWallet {
     return get(ContractsAddress, `${this.network}.SignupBonus`).toLowerCase()
   }
 
+  setIsPollEvents(active) {
+    this.isPollEvents = active
+  }
+
+  async pollEvents(fn, time, lastBlockCallback) {
+    try {
+      const run = async () => {
+        if (this.isPollEvents === false) {
+          return
+        }
+        const nextLastBlock = await this.wallet.eth.getBlockNumber()
+
+        fn()
+        this.lastEventsBlock = nextLastBlock
+        lastBlockCallback(nextLastBlock)
+
+        log.info('pollEvents success:', { nextLastBlock, lastBlockCallback })
+        return true
+      }
+
+      const runRes = await Promise.race([run(), delay(5000, false)])
+
+      if (runRes === false) {
+        throw new Error('pollEvents not completed after 5 seconds')
+      }
+    } catch (e) {
+      log.error('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
+    }
+    setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
+  }
+
+  //eslint-disable-next-line require-await
+  async watchEvents(fromBlock, lastBlockCallback) {
+    this.lastEventsBlock = fromBlock
+    this.pollEvents(
+      () => Promise.all([this.pollSendEvents(), this.pollReceiveEvents(), this.pollOTPLEvents()]),
+      5000,
+      lastBlockCallback,
+    )
+  }
+
+  async pollSendEvents() {
+    const fromBlock = this.lastEventsBlock
+    const contract = this.erc20Contract
+
+    const fromEventsFilter = {
+      fromBlock,
+      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
+    }
+
+    const events = await contract.getPastEvents('Transfer', fromEventsFilter).catch(e => {
+      //just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? log.warn : log.error
+      logFunc('pollSendEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+      })
+      return []
+    })
+
+    if (events.length === 0) {
+      return
+    }
+
+    log.info('pollSendEvents result:', events)
+    const uniqEvents = uniqBy(events, 'transactionHash')
+
+    uniqEvents.forEach(event => {
+      this.getReceiptWithLogs(event.transactionHash)
+        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+        .catch(err =>
+          log.error('pollSendEvents event get/send receipt failed:', err.message, err, {
+            category: ExceptionCategory.Blockhain,
+          }),
+        )
+    })
+
+    // Send for all events. We could define here different events
+    this.getSubscribers('send').forEach(cb => cb(events))
+    this.getSubscribers('balanceChanged').forEach(cb => cb(events))
+  }
+
+  async pollReceiveEvents() {
+    const fromBlock = this.lastEventsBlock
+    const contract = this.erc20Contract
+
+    const toEventsFilter = {
+      fromBlock,
+      filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
+    }
+
+    const events = await contract.getPastEvents('Transfer', toEventsFilter).catch(e => {
+      //just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? log.warn : log.error
+      logFunc('pollReceiveEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+      })
+      return []
+    })
+    if (events.length === 0) {
+      return
+    }
+    log.info('pollReceiveEvents result:', events)
+    const uniqEvents = uniqBy(events, 'transactionHash')
+
+    uniqEvents.forEach(event => {
+      this.getReceiptWithLogs(event.transactionHash)
+        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
+        .catch(err =>
+          log.error('pollReceiveEvents event get/send receipt failed:', err.message, err, {
+            category: ExceptionCategory.Blockhain,
+          }),
+        )
+    })
+
+    // Send for all events. We could define here different events
+    this.getSubscribers('receive').forEach(cb => cb(events))
+    this.getSubscribers('balanceChanged').forEach(cb => cb(events))
+  }
+
+  async pollOTPLEvents() {
+    const fromBlock = this.lastEventsBlock
+    const contract = this.oneTimePaymentsContract
+
+    const fromEventsFilter = {
+      fromBlock,
+      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
+    }
+
+    const eventsWithdraw = await contract.getPastEvents('PaymentWithdraw', fromEventsFilter).catch(e => {
+      //just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? log.warn : log.error
+      logFunc('pollOTPLEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+      })
+      return []
+    })
+
+    const eventsCancel = await contract.getPastEvents('PaymentCancel', fromEventsFilter).catch(e => {
+      //just warn about block not  found which is recoverable
+      const logFunc = e.code === -32000 ? log.warn : log.error
+      logFunc('pollOTPLEvents failed:', e.message, e, {
+        category: ExceptionCategory.Blockhain,
+      })
+      return []
+    })
+
+    const events = eventsWithdraw.concat(eventsCancel)
+    log.info('pollOTPLEvents result', events)
+    const uniqEvents = uniqBy(events, 'transactionHash')
+
+    uniqEvents.forEach(event => {
+      this.getReceiptWithLogs(event.transactionHash)
+        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
+        .catch(err =>
+          log.error('pollOTPLEvents event get/send receipt failed:', err.message, err, {
+            category: ExceptionCategory.Blockhain,
+          }),
+        )
+    })
+  }
+
   /**
    * Subscribes to Transfer events (from and to) the current account
    * This is used to verify account balance changes
@@ -278,7 +443,7 @@ export class GoodWallet {
           log.warn('listenTxUpdates toEventsPromise failed:', error.message, error)
         }
       } else {
-        logger.info('listenTxUpdates subscribed to', event)
+        log.info('listenTxUpdates subscribed to', event)
 
         this.getReceiptWithLogs(event.transactionHash)
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
@@ -383,14 +548,13 @@ export class GoodWallet {
 
       //if has current available amount to claim then he can claim  immediatly
       if (hasClaim > 0) {
-        return 0
+        return [0, hasClaim]
       }
 
       const startRef = await this.UBIContract.methods.periodStart.call().then(_ => moment(_.toNumber() * 1000))
       const curDay = await this.UBIContract.methods.currentDay.call().then(_ => _.toNumber())
       startRef.add(curDay + 1, 'days')
-      const millisToClaim = startRef.diff(moment(), 'millis')
-      return millisToClaim >= 0 ? millisToClaim : 0
+      return [startRef.valueOf(), 0]
     } catch (e) {
       log.error('getNextClaimTime failed', e.message, e, { category: ExceptionCategory.Blockhain })
       return Promise.reject(e)
@@ -524,13 +688,17 @@ export class GoodWallet {
   sendTx() {}
 
   getAccountForType(type: AccountUsage): string {
-    let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.wallet.eth.defaultAccount
-    return account.toString()
+    const { defaultAccount } = get(this.wallet, 'eth', {})
+    const accountPath = GoodWallet.AccountUsageToPath[type]
+    const account = get(this.accounts, [accountPath, 'address'], defaultAccount)
+
+    return account ? account.toString() : ''
   }
 
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
     let account = this.getAccountForType(accountType)
     let signed = await this.wallet.eth.sign(toSign, account)
+
     return signed.signature
   }
 

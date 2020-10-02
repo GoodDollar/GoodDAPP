@@ -6,6 +6,7 @@ import EditProfilePage from '../PageObjects/EditProfilePage'
 import ProfilePage from '../PageObjects/ProfilePage'
 import SignUpPage from '../PageObjects/SignUpPage'
 import GDls from '../fixtures/GDls.json'
+import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 
 function makeVerification() {
   EditProfilePage.waitForEditProfilePageDisplayed()
@@ -82,6 +83,16 @@ describe('Test case 5: Ability to change user data', () => {
     HomePage.backArrow.eq(0).click()
   })
 
+  it('Check profile image in Privacy page after upload avatar', () => {
+    HomePage.profileAvatar.should('be.visible')
+    HomePage.profileAvatar.click()
+    ProfilePage.profilePrivacyButton.click()
+    ProfilePrivacyPage.pageHeader.should('contain', 'PROFILE PRIVACY')
+    ProfilePrivacyPage.imgAvatar.should('be.visible')
+    HomePage.backArrow.eq(0).click()
+    HomePage.backArrow.eq(0).click()
+  })
+
   it('User is able to edit input fields', () => {
     HomePage.sendButton.should('be.visible')
     HomePage.optionsButton.click({ force: true })
@@ -100,14 +111,9 @@ describe('Test case 5: Ability to change user data', () => {
     EditProfilePage.waitForEditProfilePageDisplayed()
     HomePage.backArrow.eq(0).click()
     ProfilePage.pageHeader.should('contain', 'Profile')
-    // EditProfilePage.fillUserName('nickName888')
-    // cy.wait(10000)
-    // EditProfilePage.saveButton.click()
-    // EditProfilePage.saveButtonText.should('not.be.visible')
-    // ProfilePage.openProfilePage()
-    // ProfilePage.nameInput.should('have.value', 'nickName888')
     ProfilePage.phoneInput.should('have.value', '+380983611329')
     ProfilePage.emailInput.should('have.value', 'test123456@test.com')
+    // HomePage.backArrow.eq(0).click()
 
     // ** back to the default values ** //
     //ProfilePage.openEditProfileButton()
@@ -118,19 +124,11 @@ describe('Test case 5: Ability to change user data', () => {
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
     EditProfilePage.emailInput.should('be.visible')
-    EditProfilePage.fillUserEmail('main.test.acc.gooddollar@gmail.com')
+    EditProfilePage.fillUserEmail('gooddollar.test@gmail.com')
     makeVerification()
     EditProfilePage.waitForEditProfilePageDisplayed()
-    // EditProfilePage.fillUserName('TestAccount')
-    // cy.wait(10000)
-    // EditProfilePage.saveButton.click()
-    // EditProfilePage.saveButtonText.should('not.be.visible')
     HomePage.backArrow.eq(0).click()
     ProfilePage.pageHeader.should('contain', 'Profile')
-    HomePage.backArrow.eq(0).click()
-    HomePage.backArrow.eq(0).click()
-    HomePage.backArrow.eq(0).click()
-    HomePage.backArrow.eq(0).click()
     HomePage.backArrow.eq(0).click()
   })
 
@@ -140,9 +138,6 @@ describe('Test case 5: Ability to change user data', () => {
     HomePage.options.eq(0).click({ force: true })
     ProfilePage.pageHeader.should('contain', 'Profile')
     ProfilePage.editButton.click()
-    //ProfilePage.openEditProfileButton()
-    //EditProfilePage.nameInput.invoke('attr', 'value').should('eq', 'nickName888')
-    //EditProfilePage.nameInput.clear({ timeout: 10000 })
     EditProfilePage.nameInput.type('Random Username')
     EditProfilePage.phoneInput.should('be.visible')
     EditProfilePage.emailInput.should('be.visible')

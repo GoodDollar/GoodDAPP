@@ -3,7 +3,7 @@ import Lottie from 'lottie-react-native'
 import { Platform, View } from 'react-native'
 
 import AnimationBase from '../Base'
-import { getScreenHeight } from '../../../../lib/utils/Orientation'
+import { getScreenHeight } from '../../../../lib/utils/orientation'
 import { getAnimationData } from '../../../../lib/utils/lottie'
 
 const { animationData, imageAssetsFolder } = getAnimationData('RocketShip', require('./data'))

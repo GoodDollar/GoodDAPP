@@ -1,5 +1,6 @@
 // @flow
-import React, { useCallback, useMemo, useState } from 'react'
+
+import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { pickBy } from 'lodash'
 
@@ -11,7 +12,8 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 
 import GDStore from '../../../lib/undux/GDStore'
 
-import logger, { ExceptionCategory } from '../../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../../lib/logger/exceptions'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
@@ -19,6 +21,8 @@ import { withStyles } from '../../../lib/styles'
 
 import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 import config from '../../../config/config'
+import useOnPress from '../../../lib/hooks/useOnPress'
+import { isMobile } from '../../../lib/utils/platform'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -30,54 +34,66 @@ const ModalButton = ({ children, ...props }) => (
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
-  const [state, setState] = useState({})
-  const store = GDStore.useStore()
   const { canShare, generateSendShareObject, generateSendShareText, generateShareLink } = useNativeSharing()
-  const currentUserName = store.get('profile').fullName
+
+  const store = GDStore.useStore()
   const inviteCode = store.get('inviteCode')
+  const _handleModalClose = useOnPress(handleModalClose)
+  const { fullName: currentUserName } = store.get('profile')
+
+  const [cancellingPayment, setCancellingPayment] = useState(false)
+  const [paymentLinkForShare, setPaymentLinkForShare] = useState(null)
 
   const fireEventAnalytics = actionType => {
     fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
   }
 
+  const handleCancelFailed = useCallback(
+    (exception, code, category = null) => {
+      const { message } = exception
+
+      decorate(exception, code)
+      userStorage.updateOTPLEventStatus(item.id, 'pending')
+      showErrorDialog('The payment could not be canceled at this time. Please try again.', code)
+      log.error('cancel payment failed', message, exception, pickBy({ dialogShown: true, code, category }))
+    },
+    [item, setCancellingPayment, showErrorDialog],
+  )
+
   const cancelPayment = useCallback(async () => {
+    const { Blockchain } = ExceptionCategory
+
     log.info({ item, action: 'cancelPayment' })
     fireEventAnalytics('cancelPayment')
+
     if (item.status === 'pending') {
       // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
       showErrorDialog("The transaction is still pending, it can't be cancelled right now")
-    } else {
-      setState({ ...state, cancelPaymentLoading: true })
-      try {
-        goodWallet
-          .cancelOTLByTransactionHash(item.id)
-          .catch(e => {
-            userStorage.updateOTPLEventStatus(item.id, 'pending')
-            log.error('cancel payment failed', e.message, e, {
-              dialogShown: true,
-              category: ExceptionCategory.Blockhain,
-            })
-            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
-          })
-          .finally(() => {
-            setState({ ...state, cancelPaymentLoading: false })
-          })
-        await userStorage.cancelOTPLEvent(item.id)
-      } catch (e) {
-        log.error('cancel payment failed', e.message, e, { dialogShown: true })
-        userStorage.updateOTPLEventStatus(item.id, 'pending')
-        setState({ ...state, cancelPaymentLoading: false })
-        showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
-      }
+      return
     }
-    handleModalClose()
-  }, [showErrorDialog, setState, state, handleModalClose])
 
-  const getPaymentLink = useMemo(() => {
+    setCancellingPayment(true)
+
     try {
-      let result
-      const { withdrawCode, message } = item.data
+      goodWallet
+        .cancelOTLByTransactionHash(item.id)
+        .catch(exception => handleCancelFailed(exception, ExceptionCode.E10, Blockchain))
+        .finally(() => setCancellingPayment(false))
 
+      await userStorage.cancelOTPLEvent(item.id)
+    } catch (exception) {
+      setCancellingPayment(false)
+      handleCancelFailed(exception, ExceptionCode.E12)
+    }
+
+    handleModalClose()
+  }, [item, handleCancelFailed, setCancellingPayment, handleModalClose])
+
+  const generatePaymentLinkForShare = useCallback(() => {
+    const { withdrawCode, message, amount, endpoint = {} } = item.data || {}
+    const { fullName } = endpoint
+
+    try {
       const url = generateShareLink(
         'send',
         pickBy({
@@ -87,56 +103,75 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         }),
       )
 
+      let result
+      let shareArgs = [url, amount, fullName, currentUserName]
+      let shareFn = generateSendShareText
+
       if (canShare) {
-        result = generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName, canShare)
-      } else {
-        result = {
-          url: generateSendShareText(url, item.data.amount, item.data.endpoint.fullName, currentUserName),
-        }
+        shareFn = generateSendShareObject
+        shareArgs.push(canShare)
       }
 
-      fireEventAnalytics('Sharelink')
+      result = shareFn(...shareArgs)
+
+      if (!canShare) {
+        result = { url: result }
+      }
+
       return result
-    } catch (e) {
-      log.error('getPaymentLink Failed', e.message, e, { item, canShare })
+    } catch (exception) {
+      const { message } = exception
+
+      log.error('generatePaymentLinkForShare Failed', message, exception, { item, canShare })
+      return null
     }
   }, [generateShareLink, item, canShare, generateSendShareText, generateSendShareObject, inviteCode])
 
-  const readMore = useCallback(() => {
+  const readMore = useOnPress(() => {
     fireEventAnalytics('readMore')
     log.info({ item, action: 'readMore' })
     handleModalClose()
   }, [handleModalClose, item])
 
-  const shareMessage = useCallback(() => {
+  const shareMessage = useOnPress(() => {
     fireEventAnalytics('shareMessage')
     log.info({ item, action: 'shareMessage' })
     handleModalClose()
   }, [handleModalClose, item])
 
-  const invitePeople = useCallback(() => {
+  const invitePeople = useOnPress(() => {
     fireEventAnalytics('Rewards')
     navigation.navigate('Rewards')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const Marketplace = useCallback(() => {
+  const Marketplace = useOnPress(() => {
     fireEventAnalytics('Marketplace')
     navigation.navigate('Marketplace')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const backupPage = useCallback(() => {
+  const backupPage = useOnPress(() => {
     fireEventAnalytics('BackupWallet')
     navigation.navigate('BackupWallet')
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const goToClaimPage = useCallback(() => {
+  const goToClaimPage = useOnPress(() => {
     fireEventAnalytics('Claim')
     navigation.navigate('Claim')
     handleModalClose()
   }, [handleModalClose, navigation])
+
+  const shareLinkClicked = useCallback(() => fireEventAnalytics('Sharelink'), [])
+
+  useEffect(() => {
+    if ('sendpending' !== item.displayType) {
+      return
+    }
+
+    setPaymentLinkForShare(generatePaymentLinkForShare())
+  }, [])
 
   switch (item.displayType) {
     case 'welcome':
@@ -159,14 +194,16 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
               style={[styles.button, styles.cancelButton, { borderColor: theme.colors.red }]}
               onPress={cancelPayment}
               color={theme.colors.red}
-              loading={state.cancelPaymentLoading}
+              loading={cancellingPayment}
               textStyle={styles.smallButtonTextStyle}
             >
               Cancel link
             </CustomButton>
             <ShareButton
-              share={getPaymentLink}
-              actionText="Share link"
+              disabled={!paymentLinkForShare}
+              share={paymentLinkForShare}
+              onPressed={shareLinkClicked}
+              actionText={isMobile ? 'Share link' : 'Copy link'}
               mode="outlined"
               style={[styles.rightButton, styles.shareButton]}
               iconColor={theme.colors.primary}
@@ -175,7 +212,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
-              <CustomButton mode="contained" style={styles.rightButton} fontWeight="medium" onPress={handleModalClose}>
+              <CustomButton mode="contained" style={styles.rightButton} fontWeight="medium" onPress={_handleModalClose}>
                 Ok
               </CustomButton>
             </View>
@@ -201,7 +238,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton fontWeight="medium" mode="text" color="gray80Percent" onPress={handleModalClose}>
+            <ModalButton fontWeight="medium" mode="text" color="gray80Percent" onPress={_handleModalClose}>
               LATER
             </ModalButton>
           </View>
@@ -224,7 +261,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       return (
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
-            <ModalButton fontWeight="medium" mode="text" color="gray80Percent" onPress={handleModalClose}>
+            <ModalButton fontWeight="medium" mode="text" color="gray80Percent" onPress={_handleModalClose}>
               LATER
             </ModalButton>
           </View>
@@ -257,21 +294,10 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
         </View>
       )
 
-    case 'hanukaStarts':
-      return (
-        <View style={styles.buttonsView}>
-          <View style={styles.rightButtonContainer}>
-            <ModalButton fontWeight="medium" mode="contained" onPress={goToClaimPage}>
-              Claim now
-            </ModalButton>
-          </View>
-        </View>
-      )
-
     case 'feedback':
       return (
         <View style={styles.buttonsView}>
-          <ModalButton fontWeight="medium" onPress={handleModalClose}>
+          <ModalButton fontWeight="medium" onPress={_handleModalClose}>
             Later
           </ModalButton>
         </View>
@@ -282,7 +308,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       // claim / receive / withdraw / notification / sendcancelled / sendcompleted
       return (
         <View style={styles.buttonsView}>
-          <ModalButton fontWeight="medium" mode="contained" onPress={handleModalClose}>
+          <ModalButton fontWeight="medium" mode="contained" onPress={_handleModalClose}>
             Ok
           </ModalButton>
         </View>

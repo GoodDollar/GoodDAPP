@@ -1,10 +1,11 @@
 // @flow
-import React, { createRef, useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { SwipeableFlatList } from 'react-native-swipeable-lists'
 import * as Animatable from 'react-native-animatable'
-import { get } from 'lodash'
+import { get, isFunction } from 'lodash'
 import moment from 'moment'
+
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -12,19 +13,16 @@ import userStorage from '../../lib/gundb/UserStorage'
 import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import useOnPress from '../../lib/hooks/useOnPress'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
-import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
+import FeedActions from './FeedActions'
+import { emptyFeed, keyExtractor, VIEWABILITY_CONFIG } from './utils/feed'
 
 const log = logger.child({ from: 'ShareButton' })
 
-const VIEWABILITY_CONFIG = {
-  minimumViewTime: 3000,
-  viewAreaCoveragePercentThreshold: 100,
-  waitForInteraction: true,
-}
-const emptyFeed = { type: 'empty', data: {}, id: 'empty' }
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 export type FeedListProps = {
@@ -48,6 +46,16 @@ type ItemComponentProps = {
   index: number,
 }
 
+const getItemLayout = (_: any, index: number) => {
+  const [length, separator, header] = [72, 1, 30]
+
+  return {
+    index,
+    length,
+    offset: (length + separator) * index + header,
+  }
+}
+
 const FeedList = ({
   data,
   handleFeedSelection,
@@ -61,27 +69,18 @@ const FeedList = ({
 }: FeedListProps) => {
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
-  const flRef = createRef()
+  const flRef = useRef()
   const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
 
-  const scrollToTop = () => {
-    if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
-      flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
-    }
-  }
+  const scrollToTop = useOnPress(() => {
+    const list = get(flRef, 'current._component._flatListRef', {})
 
-  const keyExtractor = item => item.id
-
-  const getItemLayout = (_: any, index: number) => {
-    const [length, separator, header] = [72, 1, 30]
-    return {
-      index,
-      length,
-      offset: (length + separator) * index + header,
+    if (isFunction(list.scrollToOffset)) {
+      list.scrollToOffset({ offset: 0 })
     }
-  }
+  })
 
   const pressItem = item => () => {
     if (item.type !== 'empty') {
@@ -91,7 +90,13 @@ const FeedList = ({
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedListItem key={item.id} item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
+    <FeedListItem
+      key={keyExtractor(item)}
+      item={item}
+      separators={separators}
+      fixedHeight
+      onPress={pressItem(item, index + 1)}
+    />
   )
 
   /**
@@ -107,7 +112,7 @@ const FeedList = ({
           log.error(
             "Current transaction is still pending, it can't be cancelled right now",
             'Pending - can`t be cancelled right now',
-            null,
+            new Error('Transaction is still pending'),
             {
               id,
               status,
@@ -123,18 +128,22 @@ const FeedList = ({
             canceledFeeds.current.push(id)
             userStorage.cancelOTPLEvent(id)
             goodWallet.cancelOTLByTransactionHash(id).catch(e => {
+              const uiMessage = decorate(e, ExceptionCode.E11)
+
               log.error('cancel payment failed - quick actions', e.message, e, {
                 category: ExceptionCategory.Blockhain,
                 dialogShown: true,
               })
               userStorage.updateOTPLEventStatus(id, 'pending')
-              showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
+              showErrorDialog(uiMessage, ExceptionCode.E11)
             })
           } catch (e) {
+            const uiMessage = decorate(e, ExceptionCode.E13)
+
             log.error('cancel payment failed - quick actions', e.message, e, { dialogShown: true })
             canceledFeeds.current.pop()
             userStorage.updateOTPLEventStatus(id, 'pending')
-            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
+            showErrorDialog(uiMessage, ExceptionCode.E13)
           }
         }
       }
@@ -189,7 +198,7 @@ const FeedList = ({
     setShowBounce(_showBounce)
 
     if (_showBounce) {
-      userStorage.userProperties.set(
+      await userStorage.userProperties.set(
         'showQuickActionHint',
         moment()
           .add(24, 'hours')

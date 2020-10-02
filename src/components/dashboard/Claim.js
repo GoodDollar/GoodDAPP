@@ -1,25 +1,26 @@
 // @flow
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Platform, View } from 'react-native'
 import moment from 'moment'
-import { get } from 'lodash'
+import numeral from 'numeral'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { openLink } from '../../lib/utils/linking'
-import { formatWithSIPrefix } from '../../lib/utils/formatNumber'
-import API from '../../lib/API/api'
+import { formatWithSIPrefix, formatWithThousandsSeparator } from '../../lib/utils/formatNumber'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { WrapperClaim } from '../common'
-import LoadingIcon from '../common/modal/LoadingIcon'
+import SpinnerCheckMark from '../common/animations/SpinnerCheckMark/SpinnerCheckMark'
 import { withStyles } from '../../lib/styles'
 import {
   CLAIM_FAILED,
@@ -30,50 +31,51 @@ import {
   fireMauticEvent,
 } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
-import { isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isLargeDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
+import useAppState from '../../lib/hooks/useAppState'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
 
 type ClaimProps = DashboardProps
-type ClaimState = {
-  nextClaim: string,
-  entitlement: number,
-  claimedToday: {
-    people: string,
-    amount: string,
-  },
-}
 
 const log = logger.child({ from: 'Claim' })
 
 const bigFontSize = isSmallDevice ? 30 : 40
 const regularFontSize = isSmallDevice ? 14 : 16
 
+const LoadingAnimation = ({ success, speed = 3 }) => (
+  <View style={{ alignItems: 'center' }}>
+    <SpinnerCheckMark successSpeed={speed} success={success} width={175} height={'auto'} />
+  </View>
+)
+
+const EmulateButtonSpace = () => <View style={{ paddingTop: 16, minHeight: 44, visibility: 'hidden' }} />
+
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
+  const { appState } = useAppState()
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
 
   const { entitlement } = gdstore.get('account')
+  const [dailyUbi, setDailyUbi] = useState((entitlement && entitlement.toNumber()) || 0)
   const isCitizen = gdstore.get('isLoggedInCitizen')
 
   const [showDialog, , showErrorDialog] = useDialog()
-  const [loading, setLoading] = useState(false)
-  const [claimInterval, setClaimInterval] = useState(null)
-  const [claimState, setClaimState]: [ClaimState, Function] = useState({
-    nextClaim: '--:--:--',
-    entitlement: (entitlement && entitlement.toNumber()) || 0,
-    claimedToday: {
-      people: '--',
-      amount: '--',
-    },
-  })
 
-  // get the number of people who did claim today. Default - 0
-  const numberOfPeopleClaimedToday = get(claimState, 'claimedToday.people', 0)
+  // use loading variable if required
+  const [, setLoading] = useState(false)
+  const claimInterval = useRef(null)
+  const timerInterval = useRef(null)
+
+  const [nextClaim, setNextClaim] = useState()
+  const [nextClaimDate, setNextClaimDate] = useState()
+
+  const [peopleClaimed, setPeopleClaimed] = useState('--')
+  const [totalClaimed, setTotalClaimed] = useState('--')
 
   const wrappedGoodWallet = wrapper(goodWallet, store)
   const advanceClaimsCounter = useClaimCounter()
@@ -83,9 +85,7 @@ const Claim = props => {
 
   // format number of people who did claim today
   /*eslint-disable */
-  const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(numberOfPeopleClaimedToday), [
-    numberOfPeopleClaimedToday,
-  ])
+  const formattedNumberOfPeopleClaimedToday = useMemo(() => formatWithSIPrefix(peopleClaimed), [peopleClaimed])
   /*eslint-enable */
 
   // Format transformer function for claimed G$ amount
@@ -107,9 +107,13 @@ const Claim = props => {
           goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
         }
       }
-    } catch (e) {
-      log.error('evaluateFRValidity failed', e.message, { dialogShown: true })
-      showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
+    } catch (exception) {
+      const { message } = exception
+      const uiMessage = decorate(exception, ExceptionCode.E1)
+
+      log.error('evaluateFRValidity failed', message, exception, { dialogShown: true })
+
+      showErrorDialog(uiMessage, '', {
         onDismiss: () => {
           screenProps.goToRoot()
         },
@@ -118,98 +122,72 @@ const Claim = props => {
   }
 
   const init = async () => {
-    //hack to make unit test pass, activityindicator in claim button cuasing
+    // hack to make unit test pass, activityindicator in claim button cuasing
     if (Config.nodeEnv !== 'test') {
       setLoading(true)
     }
-    await Promise.all([
-      goodWallet
-        .checkEntitlement()
-        .then(entitlement => setClaimState(prev => ({ ...prev, entitlement: entitlement.toNumber() })))
-        .catch(e => {
-          log.error('gatherStats failed', e.message, e, {
-            dialogShown: true,
-            category: ExceptionCategory.Blockhain,
-          })
-          showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
-            onDismiss: () => {
-              screenProps.goToRoot()
-            },
-          })
-        }),
-      evaluateFRValidity(),
-    ])
+    await evaluateFRValidity()
     setLoading(false)
   }
 
   useEffect(() => {
-    init()
-  }, [])
-
-  const getNextClaim = async date => {
-    let nextClaimTime = date - new Date().getTime()
-    if (nextClaimTime < 0 && claimState.entitlement <= 0) {
-      try {
-        const entitlement = await goodWallet.checkEntitlement().then(_ => _.toNumber())
-        setClaimState(prev => ({ ...prev, entitlement }))
-      } catch (exception) {
-        const { message } = exception
-        log.warn('getNextClaim failed', message, exception)
-      }
+    //stop polling blockchain when in background
+    if (appState !== 'active') {
+      return
     }
-    return new Date(nextClaimTime).toISOString().substr(11, 8)
-  }
+    init()
+    gatherStats()
+    claimInterval.current = setInterval(gatherStats, 10000)
+    return () => claimInterval.current && clearInterval(claimInterval.current)
+  }, [appState])
+
+  useEffect(() => {
+    updateTimer()
+    timerInterval.current = setInterval(updateTimer, 1000)
+    return () => timerInterval.current && clearInterval(timerInterval.current)
+  }, [nextClaimDate])
+
+  const updateTimer = useCallback(() => {
+    if (!nextClaimDate) {
+      return
+    }
+    let nextClaimTime = moment(nextClaimDate).diff(Date.now(), 'seconds')
+
+    //trigger getting stats if reached time to claim, to make sure everything is update since we refresh
+    //only each 10 secs
+    if (nextClaimTime <= 0) {
+      gatherStats()
+    }
+    setNextClaim(numeral(nextClaimTime).format('00:00:00'))
+  }, [nextClaimDate])
 
   const gatherStats = async () => {
-    const [claimedToday, nextClaimDate] = await Promise.all([
-      wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
-      wrappedGoodWallet.getNextClaimTime(),
-    ]).catch(e => {
-      log.error('gatherStats failed', e.message, e, {
+    try {
+      const [{ people, amount }, [nextClaimMilis, entitlement]] = await Promise.all([
+        wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
+        wrappedGoodWallet.getNextClaimTime(),
+      ])
+      log.info('gatherStats:', { people, amount, nextClaimMilis, entitlement })
+      setPeopleClaimed(people)
+      setTotalClaimed(amount)
+      setDailyUbi(entitlement)
+      if (nextClaimMilis) {
+        setNextClaimDate(nextClaimMilis)
+      }
+    } catch (exception) {
+      const { message } = exception
+      const uiMessage = decorate(exception, ExceptionCode.E3)
+
+      log.error('gatherStats failed', message, exception, {
         dialogShown: true,
         category: ExceptionCategory.Blockhain,
       })
-      showErrorDialog('Sorry, Something unexpected happened, please try again', '', {
+
+      showErrorDialog(uiMessage, '', {
         onDismiss: () => {
           screenProps.goToRoot()
         },
       })
-
-      return []
-    })
-
-    setClaimState(prevState => ({ ...prevState, claimedToday }))
-    if (nextClaimDate) {
-      const nextClaim = await getNextClaim(nextClaimDate)
-      setClaimState(prevState => ({ ...prevState, nextClaim }))
-      setClaimInterval(
-        setInterval(async () => {
-          const nextClaim = await getNextClaim(nextClaimDate)
-          setClaimState(prevState => ({ ...prevState, nextClaim }))
-        }, 1000),
-      )
-    }
-  }
-
-  // Claim STATS
-  useEffect(() => {
-    gatherStats()
-    if (entitlement === undefined) {
-      return
-    }
-
-    return () => claimInterval && clearInterval(claimInterval)
-  }, [entitlement])
-
-  const checkHanukaBonusDates = () => {
-    const now = moment().utcOffset('+0200')
-    const startHanuka = moment(Config.hanukaStartDate, 'DD/MM/YYYY').utcOffset('+0200')
-    const endHanuka = moment(Config.hanukaEndDate, 'DD/MM/YYYY')
-      .endOf('day')
-      .utcOffset('+0200')
-
-    if (startHanuka.isBefore(now) && now.isBefore(endHanuka)) {
-      API.checkHanukaBonus()
     }
   }
 
@@ -217,18 +195,19 @@ const Claim = props => {
     setLoading(true)
 
     try {
-      //when we come back from FR entitelment might not be set yet
-      const curEntitlement = claimState.entitlement || (await goodWallet.checkEntitlement().toNumber())
-      if (curEntitlement == 0) {
+      // when we come back from FR entitelment might not be set yet
+      const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(_ => _.toNumber()))
+
+      if (!curEntitlement) {
         return
       }
 
       showDialog({
-        image: <LoadingIcon />,
-        loading,
-        message: 'please wait while processing...',
-        showButtons: false,
+        image: <LoadingAnimation />,
+        message: 'please wait while processing...\n ',
+        buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
         title: `YOUR MONEY\nIS ON ITS WAY...`,
+        showCloseButtons: false,
       })
 
       let txHash
@@ -258,23 +237,24 @@ const Claim = props => {
       if (receipt.status) {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash, claimValue: curEntitlement })
 
-        //fireGTMEvent({ event: 'claim-geo', claimValue: curEntitlement })
         const claimsSoFar = await advanceClaimsCounter()
         fireMauticEvent({ claim: claimsSoFar })
-        checkHanukaBonusDates()
 
-        fireGoogleAnalyticsEvent(CLAIM_GEO, { claimValue: weiToGd(curEntitlement) })
+        fireGoogleAnalyticsEvent(CLAIM_GEO, {
+          claimValue: weiToGd(curEntitlement),
+          eventLabel: goodWallet.UBIContract.address,
+        })
 
         showDialog({
+          image: <LoadingAnimation success speed={2} />,
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
           title: 'CHA-CHING!',
-          type: 'success',
           onDismiss: () => screenProps.goToRoot(),
         })
       } else {
         fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
-        log.error('Claim transaction failed', '', null, {
+        log.error('Claim transaction failed', '', new Error('Failed to execute claim transaction'), {
           txHash: receipt.transactionHash,
           entitlement: curEntitlement,
           status: receipt.status,
@@ -294,20 +274,22 @@ const Claim = props => {
 
   const handleFaceVerification = () => screenProps.push('FaceVerificationIntro', { from: 'Claim' })
 
+  const claimAmountFormatter = useCallback(value => formatWithThousandsSeparator(weiToGd(value)), [])
+
   return (
     <WrapperClaim>
       <Section.Stack style={styles.mainContainer} justifyContent="space-between">
         <View style={styles.headerContentContainer}>
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" style={styles.headerText}>
-            {claimState.entitlement ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
+            {dailyUbi ? `Claim Your\nDaily Share` : `Just a Few More\nHours To Go...`}
           </Section.Text>
-          {claimState.entitlement > 0 ? (
+          {dailyUbi > 0 ? (
             <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
               <View style={styles.amountBlock}>
-                <Section.Text color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
+                <Section.Stack color="#0C263D" style={styles.amountBlockTitle} fontWeight="bold" fontFamily="Roboto">
                   <BigGoodDollar
-                    number={entitlement}
-                    formatter={weiToGd}
+                    number={dailyUbi}
+                    formatter={claimAmountFormatter}
                     fontFamily="Roboto"
                     bigNumberProps={{
                       fontFamily: 'Roboto',
@@ -324,7 +306,7 @@ const Claim = props => {
                       lineHeight: bigFontSize,
                     }}
                   />
-                </Section.Text>
+                </Section.Stack>
               </View>
             </Section.Row>
           ) : null}
@@ -347,25 +329,25 @@ const Claim = props => {
         <View style={styles.fakeClaimButton} />
         <ButtonBlock
           styles={styles}
-          entitlement={claimState.entitlement}
+          entitlement={dailyUbi}
           isCitizen={isCitizen}
-          nextClaim={claimState.nextClaim}
+          nextClaim={nextClaim || '--:--:--'}
           handleClaim={handleClaim}
           handleNonCitizen={handleFaceVerification}
           showLabelOnly
         />
         <View style={styles.fakeExtraInfoContainer} />
         <Section.Row style={styles.extraInfoContainer}>
-          <Section.Text
+          <Section.Row
             style={[styles.fontSize16, styles.extraInfoSecondContainer]}
             fontWeight="bold"
             fontFamily="Roboto"
           >
             <Section.Text style={styles.fontSize16}>{'Today '}</Section.Text>
-            <Section.Text fontWeight="bold" style={styles.fontSize16}>
+            <Section.Row fontWeight="bold" style={styles.fontSize16}>
               <BigGoodDollar
                 style={styles.extraInfoAmountDisplay}
-                number={get(claimState, 'claimedToday.amount', 0)}
+                number={totalClaimed}
                 spaceBetween={false}
                 formatter={extraInfoAmountFormatter}
                 fontFamily="Roboto"
@@ -373,6 +355,7 @@ const Claim = props => {
                   fontFamily: 'Roboto',
                   fontSize: regularFontSize,
                   color: 'black',
+                  lineHeight: 22,
                 }}
                 bigNumberUnitProps={{
                   fontFamily: 'Roboto',
@@ -380,13 +363,13 @@ const Claim = props => {
                   color: 'black',
                 }}
               />
-            </Section.Text>
+            </Section.Row>
             <Section.Text style={styles.fontSize16}>{` Claimed by `}</Section.Text>
             <Section.Text fontWeight="bold" color="black" style={styles.fontSize16}>
               {formattedNumberOfPeopleClaimedToday}{' '}
             </Section.Text>
             <Section.Text style={styles.fontSize16}>Good People</Section.Text>
-          </Section.Text>
+          </Section.Row>
         </Section.Row>
       </Section.Stack>
     </WrapperClaim>
@@ -450,8 +433,8 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
-      marginTop: getDesignRelativeHeight(isBrowser ? 70 : 18),
+      marginBottom: getDesignRelativeHeight(isLargeDevice ? 20 : 16),
+      marginTop: getDesignRelativeHeight(isLargeDevice ? 70 : 18),
     },
     headerText,
     amountBlock: {
@@ -472,7 +455,7 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       zIndex: 1,
       justifyContent: 'flex-end',
-      marginBottom: getDesignRelativeHeight(isSmallDevice ? 16 : 20),
+      marginBottom: getDesignRelativeHeight(isLargeDevice ? 16 : 20),
     },
     learnMoreLink,
     claimButtonContainer: {
@@ -488,7 +471,7 @@ const getStylesFromProps = ({ theme }) => {
       height: getDesignRelativeHeight(196),
     },
     extraInfoAmountDisplay: {
-      display: Platform.select({ web: 'contents', default: 'none' }),
+      display: Platform.select({ web: 'contents', default: 'flex' }),
     },
     extraInfoContainer: {
       position: 'absolute',
@@ -497,7 +480,8 @@ const getStylesFromProps = ({ theme }) => {
       width: '100%',
     },
     extraInfoSecondContainer: {
-      width: '100%',
+      flex: 1,
+      justifyContent: 'center',
     },
     fakeExtraInfoContainer: {
       height: getDesignRelativeHeight(45),

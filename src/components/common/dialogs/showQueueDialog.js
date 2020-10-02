@@ -2,10 +2,10 @@
 
 // libraries
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image } from 'react-native'
 
 // custom components
-import Text from '../view/Text'
+// import Text from '../view/Text'
 
 import { store } from '../../../lib/undux/SimpleStore'
 import { showDialogWithData } from '../../../lib/undux/utils/dialog'
@@ -14,7 +14,9 @@ import { showDialogWithData } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 
 // assets
-import illustration from '../../../assets/Claim/claimQueue.svg'
+// import ClaimQueueSVG from '../../../assets/Claim/claimQueue.svg'
+// import { isMobileNative } from '../../../lib/utils/platform'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 const styles = () => ({
   wrapper: {
@@ -38,34 +40,31 @@ const styles = () => ({
     textAlign: 'left',
     lineHeight: 22,
   },
+  boldFont: {
+    fontWeight: 'bold',
+  },
 })
 
-const QueuePopup = withStyles(styles)(({ styles, textComponent }) => {
-  const TextComponent = textComponent
-
-  return (
-    <View style={styles.wrapper}>
-      <View style={styles.title}>
-        <Text textAlign="left" fontSize={22} lineHeight={28} fontWeight="medium">
-          Good things come to those who wait...
-        </Text>
-      </View>
-      <TextComponent styles={styles} />
-    </View>
-  )
-})
-
-export const showQueueDialog = (textComponent, dialogOptions = {}) => {
-  const imageStyle = { marginRight: 'auto', marginLeft: 'auto', width: '33vh', height: '28vh' }
+export const showQueueDialog = (ContentComponent, { imageSource, imageHeight, buttonText, ...dialogOptions } = {}) => {
+  const imageStyle = {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: getDesignRelativeHeight(15),
+    marginBottom: getDesignRelativeHeight(15),
+    width: '100%',
+    height: getDesignRelativeHeight(129, false),
+  }
+  const StylesWrappedContent = withStyles(styles)(ContentComponent)
 
   showDialogWithData(store.getCurrentSnapshot(), {
     type: 'queue',
     isMinHeight: true,
-    image: <Image source={illustration} style={imageStyle} resizeMode="contain" />,
-    message: <QueuePopup textComponent={textComponent} />,
+    image: <Image source={imageSource} style={imageStyle} resizeMode="contain" />,
+    message: <StylesWrappedContent />,
     buttons: [
       {
-        text: 'OK, Got it',
+        text: buttonText || 'OK, GOT IT',
+        textStyle: { fontWeight: '500' },
       },
     ],
     ...dialogOptions,

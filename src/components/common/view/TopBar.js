@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import GDStore from '../../../lib/undux/GDStore'
 import Section from '../layout/Section'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import Avatar from './Avatar'
 import BigGoodDollar from './BigGoodDollar'
 
@@ -18,7 +19,13 @@ const TopBar = ({ hideBalance, push, children, hideProfile = true, profileAsLink
   const { balance } = store.get('account')
   const { avatar } = store.get('profile')
 
-  const redirectToProfile = useCallback(() => push('Profile'), [push])
+  const redirectToProfile = useOnPress(() => {
+    if (!push || !profileAsLink) {
+      return
+    }
+
+    push('Profile')
+  }, [push, profileAsLink])
 
   return (
     <Section style={styles.topBar}>
@@ -35,7 +42,7 @@ const TopBar = ({ hideBalance, push, children, hideProfile = true, profileAsLink
          if children=undefined and hideBalance=true, nothing will be rendered
          */}
         {children ? children : !hideBalance && <BigGoodDollar number={balance} />}
-        {hideProfile !== true && <Avatar source={avatar} onPress={push && profileAsLink ? redirectToProfile : null} />}
+        {hideProfile !== true && <Avatar source={avatar} onPress={redirectToProfile} />}
       </Section.Row>
     </Section>
   )

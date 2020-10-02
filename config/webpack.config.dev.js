@@ -147,6 +147,7 @@ module.exports = {
       'react-native': 'react-native-web',
       WebView: 'react-native-web-webview',
       'lottie-react-native': 'react-native-web-lottie',
+      'react-native-linear-gradient': 'react-native-web-linear-gradient',
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -318,6 +319,42 @@ module.exports = {
               'sass-loader'
             ),
           },
+          // SVGR is a tool that converts SVG files into React components that you can use directly in JXS.
+          {
+            test: /\.svg$/,
+            exclude: /src\/assets\/fonts/,
+            use: [{
+              loader: '@svgr/webpack',
+              options: {
+                template: function defaultTemplate({ template }, opts, { imports, interfaces, componentName, props, jsx, exports }) {
+                  const plugins = ['jsx']
+                  let exportLoadedFileAsUrl = ''
+
+                  if (opts.state.caller.previousExport) {
+                    exportLoadedFileAsUrl = opts.state.caller.previousExport.replace('default', 'const url =')
+                  }
+
+                  if (opts.typescript) {
+                    plugins.push('typescript')
+                  }
+
+                  const typeScriptTpl = template.smart({ plugins })
+
+                  return typeScriptTpl.ast`
+                    ${imports}
+                    ${interfaces}
+                    function ${componentName}(${props}) {
+                      return ${jsx};
+                    }
+                    ${exportLoadedFileAsUrl}
+                    export default ${componentName}
+                  `
+                }
+              }
+            }, {
+              loader: 'file-loader'
+            }],
+          },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
           // In production, they would get copied to the `build` folder.
@@ -345,11 +382,10 @@ module.exports = {
       new WorkboxWebpackPlugin.GenerateSW({
         clientsClaim: true,
         skipWaiting: false,
-        swDest: 'dev-sw.js',
+        swDest: 'sw-dev.js',
         exclude: [/\.map$/, /asset-manifest\.json$/],
-        importWorkboxFrom: 'cdn',
         navigateFallback: publicUrl + '/index.html',
-        navigateFallbackBlacklist: [
+        navigateFallbackDenylist: [
           // Exclude URLs starting with /_, as they're likely an API call
           new RegExp('^/_'),
           // Exclude URLs containing a dot, as they're likely a resource in

@@ -11,6 +11,7 @@ import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { isMediumDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const buttonLabelFontSize = isSmallDevice ? 30 : 40
 const timerFontSize = isSmallDevice ? 30 : 36
@@ -108,24 +109,27 @@ const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnl
   return <ButtonCountdown styles={styles} nextClaim={nextClaim} />
 }
 
-const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly, isInQueue }) => (
-  <CustomButton
-    testId="claim_button"
-    compact={true}
-    mode="contained"
-    onPress={onPress}
-    style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
-  >
-    <ButtonContent
-      isCitizen={isCitizen}
-      showLabelOnly={showLabelOnly}
-      entitlement={entitlement}
-      nextClaim={nextClaim}
-      styles={styles}
-      isInQueue={isInQueue}
-    />
-  </CustomButton>
-)
+const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly, isInQueue }) => {
+  const _onPress = useOnPress(onPress)
+  return (
+    <CustomButton
+      testId="claim_button"
+      compact={true}
+      mode="contained"
+      onPress={_onPress}
+      style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
+    >
+      <ButtonContent
+        isCitizen={isCitizen}
+        showLabelOnly={showLabelOnly}
+        entitlement={entitlement}
+        nextClaim={nextClaim}
+        styles={styles}
+        isInQueue={isInQueue}
+      />
+    </CustomButton>
+  )
+}
 
 const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
   const initialEntitlementRef = useRef(entitlement)
@@ -146,6 +150,8 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
     }
   }, [entitlement])
 
+  const _onPress = useOnPress(onPress)
+
   if (initialEntitlementRef.current) {
     return (
       <ClaimButton
@@ -153,7 +159,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
         styles={styles}
         entitlement={entitlement}
         nextClaim={nextClaim}
-        onPress={onPress}
+        onPress={_onPress}
         isInQueue={isInQueue}
       />
     )
@@ -181,7 +187,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
         styles={styles}
         entitlement={entitlement}
         nextClaim={nextClaimToDisplay}
-        onPress={onPress}
+        onPress={_onPress}
       />
     </CardFlip>
   )

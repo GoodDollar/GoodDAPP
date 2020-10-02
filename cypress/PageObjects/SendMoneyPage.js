@@ -1,5 +1,15 @@
+import { chain, values } from 'lodash'
+
 /* eslint-disable no-undef */
 class SendMoneyPage {
+  get waitButtonRegex() {
+    return /OK, I’ll WAIT/i
+  }
+
+  get sendMoneyLinkRegex() {
+    return /(?:http[s]?:\/\/)[^\s[",><]*/gim
+  }
+
   get nameInput() {
     return cy.get('input[placeholder="Enter the recipient name"]', { timeout: 10000 })
   }
@@ -45,7 +55,61 @@ class SendMoneyPage {
   }
 
   get yayButton() {
-    return cy.contains('YAY!')
+    return cy.contains(/YAY!/i)
+  }
+
+  get allButtons() {
+    return cy
+      .get('div[role=button]')
+      .then(Array.from)
+  }
+
+  get hasWaitButton() {
+    const { waitButtonRegex, allButtons } = this
+
+    return allButtons.then(buttons => chain(buttons)
+      .map('textContent')
+      .some(text => waitButtonRegex.test(text))
+      .value()
+    )
+  }
+
+  get waitButton() {
+    const { waitButtonRegex, allButtons} = this
+
+    return allButtons.then(buttons => chain(buttons)
+      .filter({ textContent } => waitButtonRegex.test(textContent))
+      .first()
+      .value()
+    )
+  }
+
+  get alreadyUsedText() {
+    return cy.contains('Payment already withdrawn or canceled by sender')
+  }
+
+  get cancelButton() {
+    return cy.get('[role="button"]').contains('Cancel link')
+  }
+
+  get sendAddressButton() {
+    return cy.contains('Send to address')
+  }
+
+  get addressInput() {
+    return cy.get('input[placeholder="Enter Wallet Address"]')
+  }
+
+  get errorAddressText() {
+    return cy.contains('Invalid wallet address')
+  }
+
+  get errorMoneyText() {
+    return cy.contains(/Sorry, you don't have enough G/i)
+  }
+
+  get sendingText() {
+    return cy.contains(/YOU ARE SENDING/i)
   }
 }
 

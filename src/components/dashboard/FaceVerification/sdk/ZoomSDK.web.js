@@ -1,10 +1,12 @@
 import { fromPairs, isString, noop } from 'lodash'
 import ConsoleSubscriber from 'console-subscriber'
 
-import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
-import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
 import { store } from '../../../../lib/undux/SimpleStore'
+import { showDialogWithData } from '../../../../lib/undux/utils/dialog'
+
 import logger from '../../../../lib/logger/pino-logger'
+
+import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 import { UICustomization, UITextStrings, ZOOM_PUBLIC_PATH } from './UICustomization'
 import { ProcessingSubscriber } from './ProcessingSubscriber'
 import { EnrollmentProcessor } from './EnrollmentProcessor'
@@ -75,19 +77,38 @@ export const ZoomSDK = new class {
     }
   }
 
-  async initialize(licenseKey, licenseText = null, encryptionKey = null, preload = true) {
-    let license = null
-    const { sdk, logger, criticalPreloadException } = this
+  async initialize(licenseKey, licenseText = null, encryptionKey = null) {
+    const { sdk, logger } = this
+    const { Initialized, NeverInitialized, NetworkIssues, DeviceInLandscapeMode } = ZoomSDKStatus
 
     // waiting for Zoom preload to be finished before starting initialization
     await this.ensureZoomIsntPreloading()
 
-    // checking the last retrieved status code
-    // if Zoom was already initialized successfully,
-    // then resolving immediately
-    if (ZoomSDKStatus.Initialized === sdk.getStatus()) {
-      return true
+    const sdkStatus = sdk.getStatus()
+
+    logger.debug('zoom sdk status', { sdkStatus })
+
+    switch (sdkStatus) {
+      case Initialized:
+      case DeviceInLandscapeMode:
+        // we dont need to invoke initialize again if some non-unrecoverable errors occurred
+        this.configureLocalization()
+        return true
+
+      case NeverInitialized:
+      case NetworkIssues:
+        // we need to invoke initialize again if network issues happened during last call
+        return this.initializationAttempt(licenseKey, licenseText, encryptionKey)
+
+      default:
+        // for other error status just re-throwing the corresponding exceptions
+        this.throwExceptionFromStatus(sdkStatus)
     }
+  }
+
+  async initializationAttempt(licenseKey, licenseText, encryptionKey) {
+    let license = null
+    const { sdk, criticalPreloadException } = this
 
     try {
       // re-throw critical exception (e.g.65391) if happened during preload
@@ -115,6 +136,12 @@ export const ZoomSDK = new class {
       const isInitialized = await this.wrapCall(resolver => {
         // using one of four existing initiualize() overloads depending of which env variebles
         // (e.g. REACT_APP_ZOOM_ENCRYPTION_KEY and REACT_APP_ZOOM_LICENSE_TEXT) are set or not
+        const initializeArgs = [licenseKey, encryptionKey || resolver]
+
+        if (encryptionKey) {
+          initializeArgs.push(resolver)
+        }
+
         if (license) {
           /**
            * Production mode (REACT_APP_ZOOM_LICENSE_TEXT is set):
@@ -127,12 +154,7 @@ export const ZoomSDK = new class {
            *  (licenseText: string, licenseKeyIdentifier: string, onInitializationComplete: (result: boolean) => void): void;
            * }
            */
-          const initializeArgs = [license, licenseKey, encryptionKey || resolver]
-
-          if (encryptionKey) {
-            initializeArgs.push(resolver)
-          }
-
+          initializeArgs.unshift(license)
           sdk.initializeWithLicense(...initializeArgs)
           return
         }
@@ -148,17 +170,13 @@ export const ZoomSDK = new class {
          *  (licenseKeyIdentifier: string, onInitializationComplete: (result: boolean) => void, preloadZoomSDK?: boolean | undefined): void;
          * }
          */
-        sdk.initialize(licenseKey, encryptionKey || resolver, encryptionKey ? resolver : preload)
+        sdk.initialize(...initializeArgs)
       })
 
       // if Zoom was initialized successfully
       if (isInitialized) {
-        // customizing UI texts. Doing it here, according the docs:
-        //
-        // Note: configureLocalization() MUST BE called after initialize() or initializeWithLicense().
-        // @see https://dev.facetec.com/#/string-customization-guide?link=overriding-system-settings (scroll back one paragraph)
-        //
-        sdk.configureLocalization(UITextStrings.toJSON())
+        // customizing texts after initializaiton, according the docs
+        this.configureLocalization()
 
         // resolving
         return isInitialized
@@ -171,9 +189,7 @@ export const ZoomSDK = new class {
       // for handle case when no critical exception was on preload()
       // but it appears on initialize()
       if (this.criticalPreloadException) {
-        this.showReloadPopup()
-
-        return false
+        return this.showReloadPopup()
       }
 
       throw exception
@@ -181,31 +197,60 @@ export const ZoomSDK = new class {
 
     const sdkStatus = sdk.getStatus()
 
+    if (ZoomSDKStatus.NeverInitialized === sdkStatus) {
+      // handling the case when we're trying to run SDK on emulated device
+      const exception = new Error(
+        "Initialize wasn't attempted as emulated device has been detected. " +
+          'FaceTec ZoomSDK could be ran on the real devices only',
+      )
+
+      exception.code = sdkStatus
+      throw exception
+    }
+
+    // otherwise throwing exception based on the new status we've got after initialize() call
+    this.throwExceptionFromStatus(sdkStatus)
+  }
+
+  configureLocalization() {
+    // customizing UI texts. This method should be invoked after successfull initializatoin, according the docs:
+    //
+    // Note: configureLocalization() MUST BE called after initialize() or initializeWithLicense().
+    // @see https://dev.facetec.com/#/string-customization-guide?link=overriding-system-settings (scroll back one paragraph)
+    //
+    this.sdk.configureLocalization(UITextStrings.toJSON())
+  }
+
+  throwExceptionFromStatus(sdkStatus) {
+    const { sdk, logger } = this
+
     // retrieving full description from status code
-    const exception = new Error(
-      ZoomSDKStatus.NeverInitialized === sdkStatus
-        ? "Initialize wasn't attempted as emulated device has been detected. " +
-          'FaceTec ZoomSDK could be ran on the real devices only'
-        : sdk.getFriendlyDescriptionForZoomSDKStatus(sdkStatus),
-    )
+    const exception = new Error(sdk.getFriendlyDescriptionForZoomSDKStatus(sdkStatus))
 
     // adding status code as error's object property
     exception.code = sdkStatus
     logger.warn('initialize failed', { exception })
 
-    // rejecting with an error
     throw exception
   }
 
   // eslint-disable-next-line require-await
   async faceVerification(enrollmentIdentifier, onUIReady = noop, onCaptureDone = noop, onRetry = noop) {
     const subscriber = new ProcessingSubscriber(onUIReady, onCaptureDone, onRetry, this.logger)
-
     const processor = new EnrollmentProcessor(subscriber)
 
-    processor.enroll(enrollmentIdentifier)
+    try {
+      processor.enroll(enrollmentIdentifier)
 
-    return subscriber.asPromise()
+      return await subscriber.asPromise()
+    } catch (exception) {
+      if (ZoomSessionStatus.PreloadNotCompleted === exception.code) {
+        this.criticalPreloadException = exception
+        return this.showReloadPopup()
+      }
+
+      throw exception
+    }
   }
 
   async unload() {
@@ -223,14 +268,15 @@ export const ZoomSDK = new class {
    *
    * @private
    */
-  showReloadPopup() {
-    const store = this.store.getCurrentSnapshot()
-    const { criticalPreloadException: exception, logger } = this
+  // eslint-disable-next-line require-await
+  async showReloadPopup() {
+    const { criticalPreloadException: exception, logger, store } = this
+    const storeSnapshot = store.getCurrentSnapshot()
     const { message } = exception
 
     logger.error('Failed to preload ZoOm SDK', message, exception, { dialogShown: true })
 
-    showDialogWithData(store, {
+    showDialogWithData(storeSnapshot, {
       type: 'error',
       isMinHeight: false,
       message: "We couldn't start face verification,\nplease reload the app.",
@@ -241,6 +287,10 @@ export const ZoomSDK = new class {
         },
       ],
     })
+
+    // return never ending Promise so app will stuck in the 'loading state'
+    // on the backgroumnd of the reload dialog
+    return new Promise(noop)
   }
 
   /**

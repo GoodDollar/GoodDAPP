@@ -2,13 +2,14 @@
 import { pick } from 'lodash'
 import moment from 'moment'
 import Contracts from '@gooddollar/goodcontracts/releases/deployment.json'
+import ModelContracts from '@gooddollar/goodcontracts/stakingModel/releases/deployment.json'
+
 import gun from '../gundb'
 import Config from '../../../config/config'
 import userStorage from '../UserStorage'
 import {
   backupMessage,
   getReceiveDataFromReceipt,
-  hanukaBonusStartsMessage,
   inviteFriendsMessage,
   longUseOfClaims,
   startClaiming,
@@ -44,6 +45,7 @@ describe('UserStorage', () => {
   beforeAll(async () => {
     await userStorage.wallet.ready
     await userStorage.ready
+    await userStorage.initRegistered()
   })
 
   afterEach(() => {
@@ -132,7 +134,7 @@ describe('UserStorage', () => {
     expect(isMadeBackup).toBeTruthy()
   })
 
-  it('get magic line', async () => {
+  xit('get magic line', async () => {
     const magicLink = await userStorage.getMagicLink()
     expect(magicLink).toBeTruthy()
   })
@@ -430,14 +432,6 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(longUseOfClaims)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(longUseOfClaims)
-  })
-
-  it('events/add hanuka bonus starts event', async () => {
-    hanukaBonusStartsMessage.id = 'hanuka-test'
-
-    await userStorage.updateFeedEvent(hanukaBonusStartsMessage)
-    const events = await userStorage.getAllFeed()
-    expect(events).toContainEqual(hanukaBonusStartsMessage)
   })
 
   it('events/doesnt have the welcome event already set', async () => {
@@ -867,7 +861,7 @@ describe('getOperationType', () => {
   it('from ubicontract should be claim', () => {
     const event = {
       name: 'Transfer',
-      from: Contracts[Config.network].UBI.toLowerCase(),
+      from: ModelContracts[Config.network].UBIScheme.toLowerCase(),
     }
     expect(userStorage.getOperationType(event, 'account1')).toBe('claim')
   })

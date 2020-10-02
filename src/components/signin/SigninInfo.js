@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { Platform, TouchableOpacity, View } from 'react-native'
-import AsyncStorage from '../../lib/utils/asyncStorage'
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
 import Wrapper from '../common/layout/Wrapper'
@@ -11,19 +10,14 @@ import { withStyles } from '../../lib/styles'
 import SingInSVG from '../../assets/Signin/illustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const Signin = props => {
-  const { styles } = props
+  const { styles, navigation } = props
 
-  AsyncStorage.removeItem('GD_web3Token')
+  const handleRecover = useOnPress(() => navigation.navigate('Recover'), [navigation])
 
-  const handleRecover = () => {
-    props.navigation.navigate('Recover')
-  }
-
-  const goToSupport = () => {
-    props.navigation.navigate('Support')
-  }
+  const goToSupport = useOnPress(() => navigation.navigate('Support'), [navigation])
 
   return (
     <Section.Stack grow justifyContent="flex-start">

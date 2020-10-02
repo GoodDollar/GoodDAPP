@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import Icon from '../view/Icon'
 import CustomButton from './CustomButton'
 
@@ -27,15 +28,17 @@ const ButtonWithDoneState = ({ toCopy, children, onPress, onPressDone, iconColor
     }
   }, [status])
 
-  const handlePressExecute = useCallback(() => {
+  const handlePressExecute = useOnPress(() => {
     setStatus(EXECUTED)
     onPress && onPress()
   }, [setStatus, onPress])
 
+  const done = useOnPress(onPressDone)
+
   switch (status) {
     case DONE: {
       return (
-        <CustomButton mode={mode} onPress={onPressDone} {...props}>
+        <CustomButton mode={mode} onPress={done} {...props}>
           Done
         </CustomButton>
       )

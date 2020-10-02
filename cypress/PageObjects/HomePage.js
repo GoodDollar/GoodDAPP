@@ -1,20 +1,9 @@
 /* eslint-disable no-undef */
 class HomePage {
-  get rewardsButton() {
-    return cy.get('[data-testid="rewards_tab"]')
-  }
 
   get inviteTab() {
     return cy.get('[data-testid="invite_tab"]')
   }
-
-  get goodmarketTab() {
-    return cy.get('[data-testid="goodmarket_tab"]')
-  }
-
-  /*get supportTab() {
-        return cy.get('[data-testid="support_tab"]')
-      }*/
 
   get optionsButton() {
     return cy.get('[data-testid="burger_button"]')
@@ -29,7 +18,6 @@ class HomePage {
   }
 
   get claimButton() {
-    // return cy.contains('Claim')
     return cy.get('[data-testid="claim_button"]')
   }
 
@@ -52,10 +40,6 @@ class HomePage {
   get moneyAmountDiv() {
     return cy.get('[data-testid="amount_value"] div:nth-child(1)', { timeout: 10000 })
   }
-
-  // get moneyAmountDiv() {
-  //   return cy.get('[data-testid=amount_value]', { timeout: 10000 })
-  // }
 
   get welcomeFeed() {
     return cy.contains('Claim free G$ coins daily')
@@ -91,6 +75,12 @@ class HomePage {
 
   waitForHomePageDisplayed() {
     cy.contains('Claim').should('be.visible')
+  }
+
+  isInQueue() {
+    return this.claimButton
+      .invoke('text')
+      .then(text => text == 'Queue')
   }
 }
 

@@ -1,6 +1,9 @@
 // @flow
+
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
+import { identity, isObject, isString, throttle } from 'lodash'
+
 import AsyncStorage from '../utils/asyncStorage'
 import Config from '../../config/config'
 import { JWT } from '../constants/localStorage'
@@ -27,80 +30,109 @@ export type UserRecord = NameRecord &
     username?: string,
   }
 
+export const defaultErrorMessage = 'Unexpected error happened during api call'
+
+export const getErrorMessage = apiError => {
+  let errorMessage
+
+  if (isString(apiError)) {
+    errorMessage = apiError
+  } else if (isObject(apiError)) {
+    // checking all cases:
+    // a) JS Error - will have .message property
+    // b) { ok: 0, message: 'Error message' } shape
+    // c) { ok: 0, error: 'Error message' } shape
+    const { message, error } = apiError
+
+    errorMessage = message || error
+  }
+
+  if (!errorMessage) {
+    errorMessage = defaultErrorMessage
+  }
+
+  return errorMessage
+}
+
 /**
  * GoodServer Client.
  * This is being initialized with the token retrieved from GoodServer once.
  * After init is being used to user operations such add, delete, etc.
  */
-class API {
+export class APIService {
   jwt: string
 
   client: AxiosInstance
 
   mauticJS: any
 
-  constructor() {
-    this.ready = this.init()
-    const { MauticJS } = global
-    this.mauticJS = MauticJS
+  constructor(jwt = null) {
+    this.init(jwt)
   }
 
   /**
    * init API with axions client and proper interptors. Needs `GoodDAPP_jwt`to be present in AsyncStorage
    */
-  init() {
-    log.info('initializing api...', Config.serverUrl)
+  init(jwtToken = null) {
+    const { serverUrl, apiTimeout, web3SiteUrl } = Config
 
-    return (this.ready = AsyncStorage.getItem(JWT).then(async jwt => {
-      this.jwt = jwt
+    this.jwt = jwtToken
+    log.info('initializing api...', serverUrl, jwtToken)
+
+    return (this.ready = (async () => {
+      let { jwt } = this
+
+      if (!jwt) {
+        jwt = await AsyncStorage.getItem(JWT)
+        this.jwt = jwt
+      }
+
+      // eslint-disable-next-line require-await
+      const exceptionHandler = async error => {
+        let exception = error
+
+        if (axios.isCancel(error)) {
+          exception = new Error('Http request was cancelled during API call')
+        }
+
+        const { message, response } = exception
+        const { data } = response || {}
+
+        // Do something with response error
+        log.warn('axios response error', message, exception)
+        throw data || exception
+      }
+
       let instance: AxiosInstance = axios.create({
-        baseURL: Config.serverUrl,
-        timeout: Config.apiTimeout,
-        headers: { Authorization: `Bearer ${this.jwt || ''}` },
+        baseURL: serverUrl,
+        timeout: apiTimeout,
+        headers: { Authorization: `Bearer ${jwt || ''}` },
       })
-      instance.interceptors.request.use(
-        req => {
-          return req
-        },
-        e => {
-          // Do something with response error
-          log.warn('axios req error', e.message, e)
-          return Promise.reject(e)
-        },
-      )
-      instance.interceptors.response.use(
-        response => {
-          return response
-        },
-        e => {
-          // Do something with response error
-          log.warn('axios response error', e.message, e)
-          if (e.response && e.response.data) {
-            return Promise.reject(e.response.data)
-          }
-          return Promise.reject(e)
-        },
-      )
+
+      // eslint-disable-next-line require-await
+      instance.interceptors.request.use(identity, async exception => {
+        const { message } = exception
+
+        // Do something with request error
+        log.warn('axios req error', message, exception)
+        throw exception
+      })
+
+      instance.interceptors.response.use(identity, exceptionHandler)
+
       this.client = await instance
-      log.info('API ready', this.jwt)
+      log.info('API ready', jwt)
 
       let w3Instance: AxiosInstance = axios.create({
-        baseURL: Config.web3SiteUrl,
-        timeout: Config.apiTimeout,
+        baseURL: web3SiteUrl,
+        timeout: apiTimeout,
       })
-      w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
-      w3Instance.interceptors.response.use(
-        response => response.data,
-        error => {
-          if (error.response && error.response.data) {
-            return Promise.reject(error.response.data)
-          }
 
-          return Promise.reject(error)
-        },
-      )
+      w3Instance.interceptors.response.use(({ data }) => data, exceptionHandler)
+
       this.w3Client = await w3Instance
-    }))
+      log.info('W3 client ready')
+    })())
   }
 
   /**
@@ -122,16 +154,23 @@ class API {
    * `/user/add` post api call
    * @param {UserRecord} user
    */
-  addUser(user: UserRecord): AxiosPromise<any> {
-    //-skipRegistrationStep ONLY FOR TESTING  delete this condition aftere testing
-    return this.client.post('/user/add', { user, skipRegistrationStep: global.skipRegistrationStep })
-  }
+  addUser = throttle(
+    (user: UserRecord): AxiosPromise<any> => this.client.post('/user/add', { user }, { withCredentials: true }),
+    1000,
+  )
 
   /**
    * `/user/delete` post api call
    */
   deleteAccount(): AxiosPromise<any> {
     return this.client.post('/user/delete')
+  }
+
+  /**
+   * `/user/exists` get api call
+   */
+  userExists(): AxiosPromise<any> {
+    return this.client.get('/user/exists')
   }
 
   /**
@@ -302,13 +341,6 @@ class API {
   }
 
   /**
-   * `/user/market` get api call
-   */
-  getMarketToken() {
-    return this.client.get('/user/market')
-  }
-
-  /**
    * `/storage/login/token` get api call
    */
   getLoginToken() {
@@ -323,27 +355,6 @@ class API {
     this.w3Client.defaults.headers.common.Authorization = token
 
     return this.w3Client.get('/api/wl/user')
-  }
-
-  /**
-   * `/w3Site/api/wl/user` get user from web3 by token
-   * @param {string} token
-   * @param {string} walletAddress
-   */
-  updateW3UserWithWallet(token, walletAddress: string): Promise<$AxiosXHR<any>> {
-    this.w3Client.defaults.headers.common.Authorization = token
-
-    return this.w3Client.put('/api/wl/user/update_profile', {
-      wallet_address: walletAddress,
-    })
-  }
-
-  /**
-   * `/verify/w3/email` verify if user not trying to send some different email than w3 provides
-   * @param {object} data - Object with email and web3 token
-   */
-  checkWeb3Email(data: { email: string, token: string }): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/w3/email', data)
   }
 
   /**
@@ -366,13 +377,6 @@ class API {
   }
 
   /**
-   * `/verify/hanuka-bonus` get api call
-   */
-  checkHanukaBonus() {
-    return this.client.get('/verify/hanuka-bonus')
-  }
-
-  /**
    * `/trust` get api call
    */
   getTrust() {
@@ -392,16 +396,44 @@ class API {
    * @param {*} userData usually just {email}
    */
   addMauticContact(userData: { email: string }) {
-    if (this.mauticJS && Config.mauticUrl && userData.email) {
-      this.mauticJS.makeCORSRequest('POST', Config.mauticUrl + '/form/submit', {
-        'mauticform[formId]': Config.mauticAddContractFormID,
-        'mauticform[email]': userData.email,
-        'mauticform[messenger]': 1,
+    const { email } = userData
+    const { MauticJS } = global
+    const { mauticAddContractFormID, mauticUrl } = Config
+
+    if (!MauticJS || !mauticUrl || !email) {
+      log.warn('addMauticContact not called:', {
+        hasMauticAPI: !!MauticJS,
+        mautic: mauticUrl,
+        hasEmail: !!email,
       })
+
+      return
     }
+
+    const payload = {
+      'mauticform[formId]': mauticAddContractFormID,
+      'mauticform[email]': email,
+      'mauticform[messenger]': 1,
+    }
+
+    MauticJS.makeCORSRequest(
+      'POST',
+      `${mauticUrl}/form/submit`,
+      payload,
+      () => log.info('addMauticContact success'),
+      ({ content }, xhr) =>
+        log.error('addMauticContact call failed:', '', new Error('Error received from Mautic API'), { content }),
+    )
+  }
+
+  async getActualPhase() {
+    const { data } = await this.client.get('/verify/phase')
+
+    return data.phase
   }
 }
 
-const api = new API()
+const api = new APIService()
+
 global.api = api
 export default api

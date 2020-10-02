@@ -11,9 +11,25 @@ import useAppState from './useAppState'
 const log = logger.child({ from: 'hasConnectionChange' })
 
 export const useConnection = () => {
-  const { isConnected = false } = useNetInfo() || {}
+  const { isConnected = true } = useNetInfo() || {}
 
   return isConnected
+}
+
+export const useWeb3Polling = () => {
+  const { appState } = useAppState()
+  const store = SimpleStore.useStore()
+  const wallet = store.get('wallet')
+
+  useEffect(() => {
+    if (wallet) {
+      if (appState === 'active') {
+        wallet.setIsPollEvents(true)
+      } else {
+        wallet.setIsPollEvents(false)
+      }
+    }
+  }, [appState, wallet])
 }
 
 export const useConnectionWeb3 = () => {
@@ -160,7 +176,7 @@ export const useConnectionGun = () => {
 }
 
 export const useAPIConnection = () => {
-  const [isConnection, setIsConnection] = useState(false)
+  const [isConnection, setIsConnection] = useState(true)
 
   /**
    * Don't start app if server isn't responding

@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
+import { isString } from 'lodash'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
@@ -10,6 +11,8 @@ import SuccessIcon from '../modal/SuccessIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 import Text from '../view/Text'
+import Section from '../layout/Section'
+import useOnPress from '../../../lib/hooks/useOnPress'
 
 export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
@@ -66,6 +69,10 @@ const CustomDialog = ({
   const modalColor = getColorFromType(type)
   const textColor = type === 'error' ? 'red' : 'darkGray'
   const color = theme.colors[textColor]
+  const handleMessage = _message => (isString(_message) ? Paragraph : Section.Row)
+  const Message = handleMessage(message)
+  const BoldMessage = handleMessage(boldMessage)
+  const _onPressOk = useOnPress(onDismiss)
   return visible ? (
     <Portal>
       <ModalWrapper
@@ -89,9 +96,9 @@ const CustomDialog = ({
               <>
                 {children}
                 {image ? image : defaultImage}
-                {message && <Paragraph style={[styles.paragraph, { color }]}>{message}</Paragraph>}
+                {message && <Message style={[styles.paragraph, { color }]}>{message}</Message>}
                 {boldMessage && (
-                  <Paragraph style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Paragraph>
+                  <BoldMessage style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</BoldMessage>
                 )}
               </>
             )}
@@ -99,20 +106,11 @@ const CustomDialog = ({
           {showButtons ? (
             <View style={buttonsContainerStyle || styles.buttonsContainer}>
               {buttons ? (
-                buttons.map(({ onPress = dismiss => dismiss(), style, disabled, ...buttonProps }, index) => (
-                  <CustomButton
-                    {...buttonProps}
-                    onPress={() => onPress(onDismiss)}
-                    style={[{ marginLeft: 10 }, style]}
-                    disabled={disabled || loading}
-                    loading={loading}
-                    key={index}
-                  >
-                    {buttonProps.text}
-                  </CustomButton>
+                buttons.map((options, index) => (
+                  <DialogButton key={index} options={options} loading={loading} dismiss={_onPressOk} />
                 ))
               ) : (
-                <CustomButton disabled={loading} loading={loading} onPress={onDismiss} style={[styles.buttonOK]}>
+                <CustomButton disabled={loading} loading={loading} onPress={_onPressOk} style={[styles.buttonOK]}>
                   Ok
                 </CustomButton>
               )}
@@ -149,11 +147,39 @@ const SimpleStoreDialog = () => {
   )
 }
 
+const DialogButton = ({ options = {}, loading, dismiss }) => {
+  const { onPress, style, disabled, mode, Component, ...buttonProps } = options
+
+  const pressHandler = useOnPress(() => {
+    if (onPress) {
+      onPress(dismiss)
+      return
+    }
+
+    dismiss()
+  }, [dismiss, onPress])
+
+  if (mode === 'custom') {
+    return <Component />
+  }
+
+  return (
+    <CustomButton
+      {...buttonProps}
+      mode={mode}
+      onPress={pressHandler}
+      style={[{ marginLeft: 10 }, style]}
+      disabled={disabled || loading}
+      loading={loading}
+    >
+      {buttonProps.text}
+    </CustomButton>
+  )
+}
+
 const styles = StyleSheet.create({
   title: {
-    marginBottom: theme.sizes.defaultDouble,
     paddingTop: theme.sizes.defaultDouble,
-    minHeight: normalize(76),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -162,6 +188,7 @@ const styles = StyleSheet.create({
     color: theme.colors.darkGray,
     fontSize: normalize(16),
     textAlign: 'center',
+    marginTop: theme.sizes.defaultDouble,
   },
   content: {
     display: 'flex',
@@ -169,6 +196,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexGrow: 1,
     padding: 0,
+    maxHeight: Platform.select({
+      web: 'none',
+      default: 350,
+    }),
   },
   buttonsContainer: {
     display: 'flex',

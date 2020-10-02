@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { isIOS } from '../../lib/utils/platform'
 import logger from '../../lib/logger/pino-logger'
-import API from '../../lib/API/api'
+import API, { getErrorMessage } from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 import SpinnerCheckMark from '../common/animations/SpinnerCheckMark'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
+import useOnPress from '../../lib/hooks/useOnPress'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -90,19 +91,28 @@ class SmsForm extends React.Component<Props, State> {
     return API.verifyMobile({ otp })
   }
 
-  handleRetry = async () => {
+  handleRetryWithCall = async () => {
+    await this.handleRetry({ otpChannel: 'call' })
+  }
+
+  handleRetry = async (options: any) => {
+    const { otpChannel } = options
     this.setState({ sendingCode: true, otp: Array(NumInputs).fill(null), errorMessage: '' })
     let { retryFunctionName } = this.props.screenProps
 
     retryFunctionName = retryFunctionName || 'sendOTP'
 
     try {
-      await API[retryFunctionName]({ ...this.props.screenProps.data })
+      await API[retryFunctionName]({ ...this.props.screenProps.data, otpChannel })
       this.setState({ sendingCode: false, resentCode: true })
     } catch (e) {
-      log.error('Resend sms code failed', e.message, e)
+      const errorMessage = getErrorMessage(e)
+      const exception = new Error(errorMessage)
+
+      log.error('Resend sms code failed', errorMessage, exception)
+
       this.setState({
-        errorMessage: e.message || e,
+        errorMessage,
         sendingCode: false,
         resentCode: false,
       })
@@ -140,10 +150,12 @@ class SmsForm extends React.Component<Props, State> {
             </Section.Stack>
             <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
               <SMSAction
+                styles={styles}
                 sendingCode={sendingCode}
                 resentCode={resentCode}
                 renderButton={renderButton}
                 handleRetry={this.handleRetry}
+                handleRetryWithCall={this.handleRetryWithCall}
                 onFinish={() => {
                   //reset smsaction state
                   this.setState({ resentCode: false })
@@ -157,8 +169,10 @@ class SmsForm extends React.Component<Props, State> {
   }
 }
 
-const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
+const SMSAction = ({ handleRetry, handleRetryWithCall, resentCode, sendingCode, onFinish, styles }) => {
   const [showWait, setWait] = useState(true)
+  const _handleRetry = useOnPress(handleRetry)
+  const _handleRetryWithCall = useOnPress(handleRetryWithCall)
 
   useEffect(() => {
     if (showWait) {
@@ -171,6 +185,7 @@ const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
   if (showWait === false) {
     return (
       <SpinnerCheckMark
+        height={100}
         loading={sendingCode}
         success={resentCode}
         onFinish={() => {
@@ -183,9 +198,19 @@ const SMSAction = ({ handleRetry, resentCode, sendingCode, onFinish }) => {
           fontWeight="medium"
           fontSize={14}
           color="primary"
-          onPress={handleRetry}
+          onPress={_handleRetry}
+          style={styles.sendCodeAgainButton}
         >
-          Send me the code again
+          Send the code again
+        </Section.Text>
+        <Section.Text
+          textDecorationLine="underline"
+          fontWeight="medium"
+          fontSize={14}
+          color="primary"
+          onPress={_handleRetryWithCall}
+        >
+          Send via voice call
         </Section.Text>
       </SpinnerCheckMark>
     )
@@ -231,6 +256,9 @@ const getStylesFromProps = ({ theme }) => ({
   bottomContent: {
     marginTop: 'auto',
     marginBottom: theme.sizes.defaultDouble,
+  },
+  sendCodeAgainButton: {
+    marginRight: 'auto',
   },
 })
 

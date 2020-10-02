@@ -10,6 +10,7 @@ import Text from '../common/view/Text'
 import OopsSVG from '../../assets/oops.svg'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const log = logger.child({ from: 'OutOfGasError' })
 
@@ -29,13 +30,11 @@ Don’t worry, we’ll take care off you.\n`
 
   const [isLoading, setLoading] = useState(false)
   const [isCheatError, setCheatError] = useState(false)
+  const { screenProps } = props
 
-  const gotoDb = () => {
-    props.screenProps.navigateTo('Home')
-  }
-  const gotoSupport = () => {
-    props.screenProps.navigateTo('Support')
-  }
+  const gotoDb = useOnPress(() => screenProps.navigateTo('Home'), [screenProps])
+
+  const gotoSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
 
   useEffect(() => {
     callTopWallet()

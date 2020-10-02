@@ -1,19 +1,21 @@
+import { trimEnd } from 'lodash'
+
 import Config from '../../config/config'
 import { createIframe } from './iframe'
 
-export const PrivacyPolicyAndTerms = createIframe(
-  `https://community.gooddollar.org/${Config.isEToro ? 'pilot-terms' : 'tou'}/`,
-  'Privacy Policy & Terms',
-)
-export const PrivacyPolicy = createIframe('https://community.gooddollar.org/tou/#privacy-policy', 'Privacy Policy')
+const { isEToro, dashboardUrl, isPhaseOne } = Config
 
-// export const PrivacyArticle = createIframe(
-//   'https://medium.com/gooddollar/gooddollar-identity-pillar-balancing-identity-and-privacy-part-i-face-matching-d6864bcebf54',
-//   'Privacy And Identity'
-// )
+const tou = isPhaseOne ? 'tou1' : 'tou'
+const faq = `faq${isEToro ? '-etoro' : ''}`
+const dashboard = trimEnd(dashboardUrl, ' #/')
 
-export const Support = createIframe('https://support.gooddollar.org', ' Support & Feedback', true)
-export const SupportForUnsigned = createIframe('https://support.gooddollar.org', ' Support & Feedback', true, 'Login')
+export const PrivacyPolicyAndTerms = createIframe(`https://community.gooddollar.org/${tou}/`, 'Privacy Policy & Terms')
 
-export const Statistics = createIframe(Config.dashboardUrl, 'Statistics')
-export const FAQ = createIframe(`https://community.gooddollar.org/faq${Config.isEToro ? '-etoro' : ''}`, 'FAQ')
+export const TermsOfUse = createIframe('https://www.gooddollar.org/terms-conditions/?gd-frame=1', 'Terms Of Use')
+export const PrivacyPolicy = createIframe('https://www.gooddollar.org/privacy-policy/?gd-frame=1', 'Privacy Policy')
+
+export const Support = createIframe('https://help.gooddollar.org', ' Help & Feedback', true)
+export const SupportForUnsigned = createIframe('https://help.gooddollar.org', ' Help & Feedback', true, 'Login')
+
+export const Statistics = createIframe(`${dashboard}/admin/dashboard`, 'Statistics')
+export const FAQ = createIframe(`https://community.gooddollar.org/${faq}`, 'FAQ')

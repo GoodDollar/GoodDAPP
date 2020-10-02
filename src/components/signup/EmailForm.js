@@ -2,7 +2,7 @@
 import React from 'react'
 import { debounce } from 'lodash'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { getScreenHeight } from '../../lib/utils/Orientation'
+import { getScreenHeight } from '../../lib/utils/orientation'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 

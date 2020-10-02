@@ -4,26 +4,28 @@
   "defaultCommandTimeout": 60000,
   "env": {
     "baseUrl": "https://gooddev.netlify.app/",
-    "mainAccountEmail": "testaccountgd+1@yahoo.com",
+    "mainAccountEmail": "test.account@yahoo.com",
     "mainAccountUsername": "Automation Test",
-    "mainAccountPhone": "+380988846111",
-    "mainAccountMnemonics": "glance muscle defy idle asset pipe future empower bind text define radar",
+    "mainAccountPhone": "+380978846123",
+    "mainWalletAddress": "0xB765F8cC5285DF827bbDF3878B43FA8aD923c1c7",
+    "mainAccountMnemonics": "scrub canoe swamp three legal cliff wash chief music sight collect denial",
     "wordsForUnsuccessfullLogin": {
-      "withChangedWord": "mirror cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withNumbers": "1hazard cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withSymbols": "@hazard cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withChangedLetter": "nazard cake road tumble news flee usual tooth holiday bamboo food crew",
-      "withChangedOrder": "cake hazard road tumble news flee usual tooth holiday bamboo food crew",
-      "withCapitalize": "Hazard cake road tumble news flee usual tooth holiday bamboo food crew"
+      "withChangedWord": "dance muscle defy idle asset pipe future empower bind text define radar",
+      "withNumbers": "1scrub canoe swamp three legal cliff wash chief music sight collect denial",
+      "withSymbols": "@scrub canoe swamp three legal cliff wash chief music sight collect denial",
+      "withChangedLetter": "kcrub canoe swamp three legal cliff wash chief music sight collect denial",
+      "withChangedOrder": "canoe scrub swamp three legal cliff wash chief music sight collect denial",
+      "withCapitalize": "Scrub canoe swamp three legal cliff wash chief music sight collect denial"
     },
-    "additionalAccountEmail": "testaccountgd@yahoo.com",
+    "additionalAccountEmail": "test.account@yahoo.com",
     "additionalAccountUsername": "Automation Test",
-    "additionalAccountPhone": "+380988846111",
-    "additionalAccountMnemonics": "glance muscle defy idle asset pipe future empower bind text define radar",
-    "emailForCheckingRegistration": "main.test.acc.gooddollar@gmail.com",
+    "additionalAccountPhone": "+380978846123",
+    "additionalAccountMnemonics": "scrub canoe swamp three legal cliff wash chief music sight collect denial",
+    "emailForCheckingRegistration": "gooddollar.test@gmail.com",
     "usernameForRegistration": "Name Surname",
     "numberForCheckingRegistration": "+380673001757",
-    "numberForTorus": "+380991234567"
+    "numberForTorus": "+380991234567",
+    "REACT_APP_SERVER_URL": "https://good-server.herokuapp.com"
   },
   "projectId": "mm5rgt"
 }

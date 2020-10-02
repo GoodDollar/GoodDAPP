@@ -5,6 +5,7 @@ import { ActivityIndicator, DefaultTheme } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import BaseButton from './BaseButton'
 
 type IconFunction = (string, number) => React.Node
@@ -149,20 +150,24 @@ const CustomButton = (props: ButtonProps) => {
     loading,
     disabled,
     iconStyle,
+    roundness = 50,
+    onPress,
     ...buttonProps
   } = props
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
   const color = props.color ? props.color : theme.colors.default
+  const _onPress = useOnPress(onPress)
   return (
     <BaseButton
       dark={dark}
       testID={testID}
       mode={mode}
       contentStyle={styles.contentStyle}
-      theme={{ ...theme, roundness: 50 }}
+      theme={{ ...theme, roundness }}
       uppercase={uppercase}
       disabled={disabled || loading}
+      onPress={_onPress}
       {...buttonProps}
       color={color}
       style={[styles.buttonStyle, style]}

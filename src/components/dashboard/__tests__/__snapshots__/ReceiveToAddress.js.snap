@@ -250,10 +250,10 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             "flexBasis": "0%",
             "flexGrow": 0,
             "flexShrink": 0,
-            "marginBottom": "33px",
+            "marginBottom": "0px",
             "marginLeft": "10px",
             "marginRight": "10px",
-            "marginTop": "25px",
+            "marginTop": "15px",
             "msFlexNegative": 0,
             "msFlexPositive": 0,
             "msFlexPreferredSize": "0%",
@@ -314,27 +314,6 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             value="face-account-wallet-address"
           />
         </div>
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "WebkitTransform": "translateY(0px)",
-              "color": "rgba(250,108,119,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontSize": "12px",
-              "height": "18px",
-              "opacity": 0,
-              "paddingBottom": "0px",
-              "paddingLeft": "0px",
-              "paddingRight": "12px",
-              "paddingTop": "0px",
-              "textAlign": "center",
-              "transform": "translateY(0px)",
-            }
-          }
-        />
       </div>
       <div
         className="css-text-901oao"
@@ -347,65 +326,70 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             "fontSize": "24px",
             "fontWeight": "500",
             "lineHeight": "30px",
+            "marginBottom": "20px",
+            "marginTop": "14px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
           }
         }
       >
-        You can copy and share it
+        Copy & share it
 with others
       </div>
       <div
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitBoxFlex": 1,
-            "WebkitFlexBasis": "auto",
-            "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 0,
-            "flexBasis": "auto",
-            "flexGrow": 1,
-            "flexShrink": 0,
-            "marginBottom": "15px",
-            "marginTop": "15px",
-            "maxHeight": "230px",
-            "minHeight": "140px",
-            "msFlexNegative": 0,
-            "msFlexPositive": 1,
-            "msFlexPreferredSize": "auto",
-            "overflowX": "hidden",
-            "overflowY": "hidden",
-            "zIndex": 0,
+            "borderBottomColor": "rgba(250,108,119,1.00)",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderBottomStyle": "solid",
+            "borderBottomWidth": "2px",
+            "borderLeftColor": "rgba(250,108,119,1.00)",
+            "borderLeftStyle": "solid",
+            "borderLeftWidth": "2px",
+            "borderRightColor": "rgba(250,108,119,1.00)",
+            "borderRightStyle": "solid",
+            "borderRightWidth": "2px",
+            "borderTopColor": "rgba(250,108,119,1.00)",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "borderTopStyle": "solid",
+            "borderTopWidth": "2px",
+            "marginBottom": "20px",
+            "marginLeft": "auto",
+            "marginRight": "auto",
+            "paddingBottom": "14px",
+            "paddingLeft": "14px",
+            "paddingRight": "14px",
+            "paddingTop": "14px",
+            "width": "auto",
           }
         }
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-text-901oao"
+          dir="auto"
+          letterSpacing={0.14}
           style={
             Object {
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "backgroundImage": "url(\\"maginLinkIllustration.svg\\")",
-              "backgroundPosition": "center",
-              "backgroundRepeat": "no-repeat",
-              "backgroundSize": "contain",
-              "bottom": "0px",
-              "height": "100%",
-              "left": "0px",
-              "position": "absolute",
-              "right": "0px",
-              "top": "0px",
-              "width": "100%",
-              "zIndex": -1,
+              "color": "rgba(250,108,119,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto Slab",
+              "fontSize": "13.5px",
+              "fontWeight": "normal",
+              "letterSpacing": "0.14px",
+              "lineHeight": "21px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
-        />
-        <img
-          alt=""
-          className="css-accessibilityImage-9pa8cd"
-          draggable={false}
-          src="maginLinkIllustration.svg"
-        />
+        >
+          Do not send tokens to Ethereum network to this address.
+This is a Fuse Network address for G$ tokens only.
+        </div>
       </div>
       <div
         className="css-view-1dbjc4n"

@@ -8,29 +8,33 @@ import CustomButton from '../common/buttons/CustomButton'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import QRCode from '../common/view/QrCode/QRCode'
+import useOnPress from '../../lib/hooks/useOnPress'
 
-const SplashDesktop = ({ onContinue, urlForQR }) => (
-  <Wrapper style={styles.wrapper}>
-    <Section style={styles.container}>
-      <View style={styles.waves} />
-      <Section.Stack style={styles.content} grow justifyContent="space-between">
-        <Section.Text fontSize={22} color="darkBlue">
+const SplashDesktop = ({ onContinue, urlForQR }) => {
+  const _onContinue = useOnPress(onContinue)
+  return (
+    <Wrapper style={styles.wrapper}>
+      <Section style={styles.container}>
+        <View style={styles.waves} />
+        <Section.Stack style={styles.content} grow justifyContent="space-between">
           <Section.Text fontSize={22} color="darkBlue">
-            {'Welcome to GoodDollar Wallet\n'}
+            <Section.Text fontSize={22} color="darkBlue">
+              {'Welcome to GoodDollar Wallet\n'}
+            </Section.Text>
+            {'For best experience\nplease scan and continue\non your mobile device.'}
           </Section.Text>
-          {'For best experience\nplease scan and continue\non your mobile device.'}
-        </Section.Text>
-        <QRCode value={urlForQR} size={150} qrStyles={styles.qrStyles} />
-        <View style={styles.goodDollar}>
-          <GoodDollarImageSVG />
-        </View>
-        <CustomButton mode="outlined" color="white" style={styles.buttonContinue} onPress={onContinue}>
-          Continue on Web
-        </CustomButton>
-      </Section.Stack>
-    </Section>
-  </Wrapper>
-)
+          <QRCode value={urlForQR} size={150} qrStyles={styles.qrStyles} />
+          <View style={styles.goodDollar}>
+            <GoodDollarImageSVG />
+          </View>
+          <CustomButton mode="outlined" color="white" style={styles.buttonContinue} onPress={_onContinue}>
+            Continue on Web
+          </CustomButton>
+        </Section.Stack>
+      </Section>
+    </Wrapper>
+  )
+}
 
 SplashDesktop.navigationOptions = {
   title: 'GoodDollar | Welcome',

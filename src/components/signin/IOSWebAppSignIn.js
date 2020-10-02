@@ -6,7 +6,8 @@ import React, { Fragment, useState } from 'react'
 import { View } from 'react-native'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import retryImport from '../../lib/utils/retryImport'
@@ -17,6 +18,7 @@ import InputText from '../common/form/InputText'
 import NavBar from '../appNavigation/NavBar'
 import IOSWebAppSignInSVG from '../../assets/IOSWebAppSignIn.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const TITLE = 'EASY ACCESS'
 const log = logger.child({ from: 'IOS EASY ACCESS' })
@@ -40,7 +42,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
     }
   }
 
-  const recover = async () => {
+  const recover = useOnPress(async () => {
     setRecovering(true)
 
     const errorText = 'You are using wrong sign in code'
@@ -65,7 +67,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
 
         window.location = '/'
       } else {
-        log.error(errorText, '', null, {
+        log.error('Failed to sign-in', errorText, new Error(errorText), {
           code,
           category: ExceptionCategory.Human,
           dialogShown: true,
@@ -73,7 +75,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
         showErrorDialog(errorText)
       }
     } else {
-      log.error(errorText, '', null, {
+      log.error('Failed to sign-in', errorText, new Error(errorText), {
         code,
         category: ExceptionCategory.Human,
         dialogShown: true,
@@ -82,7 +84,7 @@ const IOSWebAppSignIn = ({ screenProps, navigation, styles }) => {
     }
 
     setRecovering(false)
-  }
+  }, [setRecovering, code, showErrorDialog])
 
   const handleEnter = async (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter' && isValid) {

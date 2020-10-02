@@ -257,6 +257,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -299,7 +300,7 @@ sent to your phone
                             "blue": "#006EA0",
                             "darkBlue": "#0C263D",
                             "darkGray": "#42454A",
-                            "disabled": "rgba(0, 0, 0, 0.26)",
+                            "disabled": "#E3E3E2",
                             "error": "#FA6C77",
                             "facebookBlue": "#1877F3",
                             "googleRed": "#EA4335",
@@ -363,7 +364,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }
@@ -403,6 +404,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -445,7 +447,7 @@ sent to your phone
                             "blue": "#006EA0",
                             "darkBlue": "#0C263D",
                             "darkGray": "#42454A",
-                            "disabled": "rgba(0, 0, 0, 0.26)",
+                            "disabled": "#E3E3E2",
                             "error": "#FA6C77",
                             "facebookBlue": "#1877F3",
                             "googleRed": "#EA4335",
@@ -509,7 +511,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }
@@ -549,6 +551,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -591,7 +594,7 @@ sent to your phone
                             "blue": "#006EA0",
                             "darkBlue": "#0C263D",
                             "darkGray": "#42454A",
-                            "disabled": "rgba(0, 0, 0, 0.26)",
+                            "disabled": "#E3E3E2",
                             "error": "#FA6C77",
                             "facebookBlue": "#1877F3",
                             "googleRed": "#EA4335",
@@ -655,7 +658,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }
@@ -696,6 +699,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -738,7 +742,7 @@ sent to your phone
                             "blue": "#006EA0",
                             "darkBlue": "#0C263D",
                             "darkGray": "#42454A",
-                            "disabled": "rgba(0, 0, 0, 0.26)",
+                            "disabled": "#E3E3E2",
                             "error": "#FA6C77",
                             "facebookBlue": "#1877F3",
                             "googleRed": "#EA4335",
@@ -802,7 +806,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }
@@ -842,6 +846,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -884,7 +889,7 @@ sent to your phone
                             "blue": "#006EA0",
                             "darkBlue": "#0C263D",
                             "darkGray": "#42454A",
-                            "disabled": "rgba(0, 0, 0, 0.26)",
+                            "disabled": "#E3E3E2",
                             "error": "#FA6C77",
                             "facebookBlue": "#1877F3",
                             "googleRed": "#EA4335",
@@ -948,7 +953,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }
@@ -988,6 +993,7 @@ sent to your phone
                       data-focusable={true}
                       dir="auto"
                       disabled={false}
+                      enterkeyhint="next"
                       maxLength={1}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -1030,7 +1036,7 @@ sent to your phone
                             "blue": "#006EA0",
                             "darkBlue": "#0C263D",
                             "darkGray": "#42454A",
-                            "disabled": "rgba(0, 0, 0, 0.26)",
+                            "disabled": "#E3E3E2",
                             "error": "#FA6C77",
                             "facebookBlue": "#1877F3",
                             "googleRed": "#EA4335",
@@ -1094,7 +1100,7 @@ sent to your phone
                             "defaultQuadruple": 32,
                             "maxHeightForTabletAndDesktop": 844,
                             "maxWidthForTabletAndDesktop": 475,
-                            "minHeightForDialogMessage": 334,
+                            "minHeightForDialogMessage": 350,
                           },
                         }
                       }

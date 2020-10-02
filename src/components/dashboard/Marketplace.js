@@ -10,6 +10,7 @@ import Section from '../common/layout/Section'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
 import { createIframe } from '../webView/iframe'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 const MarketTab = props => {
   const [token, setToken] = useState()
@@ -84,20 +85,23 @@ const navBarStyles = {
   },
 }
 
-const NavigationBar = navigate => (
-  <Appbar.Header dark style={navBarStyles.wrapper}>
-    <Section.Text color="white" fontWeight="medium" style={navBarStyles.title}>
-      {'GOODMARKET'}
-    </Section.Text>
-    <TouchableOpacity onPress={() => navigate('Home')} style={navBarStyles.walletIcon}>
-      <Icon name="wallet" size={36} color="white" />
-    </TouchableOpacity>
-  </Appbar.Header>
-)
+const NavigationBar = ({ navigate }) => {
+  const navigateToHome = useOnPress(() => navigate('Home'), [navigate])
+  return (
+    <Appbar.Header dark style={navBarStyles.wrapper}>
+      <Section.Text color="white" fontWeight="medium" style={navBarStyles.title}>
+        {'GOODMARKET'}
+      </Section.Text>
+      <TouchableOpacity onPress={navigateToHome} style={navBarStyles.walletIcon}>
+        <Icon name="wallet" size={36} color="white" />
+      </TouchableOpacity>
+    </Appbar.Header>
+  )
+}
 
 MarketTab.navigationOptions = ({ navigation }) => {
   return {
-    navigationBar: () => NavigationBar(navigation.navigate),
+    navigationBar: () => <NavigationBar navigate={navigation.navigate} />,
   }
 }
 

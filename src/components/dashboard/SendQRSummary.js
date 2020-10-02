@@ -5,7 +5,8 @@
 import React, { useEffect, useState } from 'react'
 import { fireEvent } from '../../lib/analytics/analytics'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -13,6 +14,7 @@ import { CustomButton, Section, Wrapper } from '../common'
 import SummaryTable from '../common/view/SummaryTable'
 import TopBar from '../common/view/TopBar'
 import Config from '../../config/config'
+import useOnPress from '../../lib/hooks/useOnPress'
 import SurveySend from './SurveySend'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
@@ -141,6 +143,8 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
     return () => setIsValid(undefined)
   }, [isValid])
 
+  const handleConfirm = useOnPress(() => (Config.isEToro ? setShowSurvey(true) : confirm()), [setShowSurvey, confirm])
+
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
@@ -157,11 +161,7 @@ const SendQRSummary = ({ screenProps }: AmountProps, params) => {
             </BackButton>
           </Section.Row>
           <Section.Stack grow={3}>
-            <CustomButton
-              mode="contained"
-              onPress={() => (Config.isEToro ? setShowSurvey(true) : confirm())}
-              loading={loading}
-            >
+            <CustomButton mode="contained" onPress={handleConfirm} loading={loading}>
               Confirm
             </CustomButton>
           </Section.Stack>

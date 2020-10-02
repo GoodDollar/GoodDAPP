@@ -5,6 +5,8 @@ import AnimationBase from '../Base'
 import { isMobileNative } from '../../../../lib/utils/platform'
 import animationData from './data.json'
 
+// const log = logger.child({ from: 'SpinnerCheckMark' })
+
 class SpinnerCheckMark extends AnimationBase {
   state = {
     speed: 1,
@@ -52,21 +54,31 @@ class SpinnerCheckMark extends AnimationBase {
     }
   }
 
+  onStart = () => {
+    const { onStart } = this.props
+    if (typeof onStart === 'function') {
+      onStart()
+    }
+  }
+
   componentDidUpdate(prevProps) {
-    if (prevProps.success === false && this.props.success === true) {
+    // log.debug('checkmark didupdate', { prevProps, props: this.props })
+
+    if (!prevProps.success && !!this.props.success) {
       //speed up when finished
       if (isMobileNative) {
         this.setState({
           speed: 1.5,
         })
       } else {
-        this.anim.setSpeed(1.5)
+        this.anim.goToAndPlay(130, true)
+        this.anim.setSpeed(this.props.successSpeed || 1.5)
       }
     }
   }
 
   render() {
-    const { height = 196, width = 196 } = this.props
+    const { height = 196, width = 196, marginTop } = this.props
     return (
       <View>
         <Lottie
@@ -76,7 +88,7 @@ class SpinnerCheckMark extends AnimationBase {
           source={this.improveAnimationData(animationData)}
           speed={this.state.speed}
           style={{
-            marginTop: -height / (isMobileNative ? 6 : 2.4),
+            marginTop: marginTop !== undefined ? marginTop : -height / (isMobileNative ? 6 : 2.4),
             width,
             height,
           }}

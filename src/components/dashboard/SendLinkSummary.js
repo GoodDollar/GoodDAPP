@@ -1,4 +1,5 @@
 // @flow
+
 import React, { useCallback, useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { text } from 'react-native-communications'
@@ -8,15 +9,17 @@ import GDStore from '../../lib/undux/GDStore'
 import Config from '../../config/config'
 import gun from '../../lib/gundb/gundb'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import logger, { ExceptionCategory } from '../../lib/logger/pino-logger'
+import logger from '../../lib/logger/pino-logger'
+import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
+import useOnPress from '../../lib/hooks/useOnPress'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
 import SurveySend from './SurveySend'
 
@@ -51,7 +54,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
 
   const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
 
-  const handleConfirm = useCallback(() => {
+  const handleConfirm = useOnPress(() => {
     if (action === ACTION_SEND_TO_ADDRESS) {
       sendViaAddress()
     } else {
@@ -368,7 +371,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
                 {address}
               </Section.Text>
             ) : (
-              <Section.Text fontSize={24} fontWeight="medium" lineHeight={24} style={styles.toText}>
+              <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
                 {counterPartyDisplayName}
               </Section.Text>
             )}
@@ -446,11 +449,14 @@ const getStylesFromProps = ({ theme }) => ({
     borderStyle: 'solid',
     borderColor: theme.colors.gray50Percent,
     borderRadius: 25,
-    height: 42,
+    minHeight: 42,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
     paddingBottom: getDesignRelativeHeight(4),
+    paddingTop: getDesignRelativeHeight(8),
+    paddingLeft: getDesignRelativeWidth(16),
+    paddingRight: getDesignRelativeWidth(16),
     position: 'relative',
   },
   credsLabel: {
@@ -465,6 +471,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   toText: {
     margin: 0,
+    width: '100%',
   },
   reasonWrapper: {
     alignItems: 'center',

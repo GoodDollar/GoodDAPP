@@ -4,6 +4,7 @@ import SimpleStore, { assertStore } from '../SimpleStore'
 import { type DialogProps } from '../../../components/common/dialogs/CustomDialog'
 import pino from '../../logger/pino-logger'
 import { fireEvent } from '../../analytics/analytics'
+
 const log = pino.child({ from: 'dialogs' })
 
 export const showDialogForError = (
@@ -38,7 +39,7 @@ export const showDialogForError = (
 
   fireEvent('ERROR_DIALOG', { humanError, message })
   message = humanError ? humanError + '\n' + message : message
-  const dialogData = { visible: true, title: '', message, type: 'error', ...dialogProps }
+  const dialogData = { visible: true, title: 'Ooops ...', message, type: 'error', ...dialogProps }
   showDialogWithData(store, dialogData)
 }
 

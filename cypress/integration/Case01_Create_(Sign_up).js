@@ -5,8 +5,6 @@ import HomePage from '../PageObjects/HomePage'
 import SocialLoginPage from '../PageObjects/SocialLoginPage'
 import userObject from '../fixtures/userObject.json'
 
-let phomeNumber = false
-
 function inputPhoneNumber(isVisible) {
   if (isVisible) {
     cy.contains('enter your phone number')
@@ -21,8 +19,26 @@ function inputPhoneNumber(isVisible) {
   }
 }
 
+function checkUserStorageBeforeStart() {
+  expect(localStorage.getItem('GD_mnemonic')).to.be.null
+  expect(localStorage.getItem('GD_privateKeys')).to.be.null
+  expect(localStorage.getItem('GD_isLoggedIn')).to.be.null
+  expect(localStorage.getItem('GD_GunCredentials')).to.be.null
+  expect(localStorage.getItem('GD_trust')).to.be.null
+  expect(localStorage.getItem('GD_creds')).to.be.null
+  expect(localStorage.getItem('GD_jwt')).to.be.null
+  expect(localStorage.getItem('GD_feed')).to.be.null
+
+  expect(localStorage.getItem('mtc_id')).to.not.be.null
+  expect(localStorage.getItem('mtc_sid')).to.not.be.null
+  expect(localStorage.getItem('loglevel:torus.js')).to.not.be.null
+  expect(localStorage.getItem('loglevel:torus-direct-web-sdk')).to.not.be.null
+}
+
 describe('Test case 1: login via TorusTestUser and Create temporary user', () => {
   it('login via google', () => {
+    let phomeNumber = false
+    
     localStorage.clear()
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
     StartPage.open()
@@ -52,7 +68,7 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
 
   it('login via facebook', () => {
     localStorage.setItem('TorusTestUser', JSON.stringify(userObject))
-    StartPage.headerPage.contains('Welcome').should('be.visible')
+    StartPage.open()
     expect(localStorage.getItem('TorusTestUser')).to.not.be.null
     SocialLoginPage.facebookLink.should('be.visible')
     SocialLoginPage.facebookLink.get('[role="button"]').should('have.attr', 'data-focusable', 'true')
@@ -64,8 +80,28 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     HomePage.logoutButton.click()
   })
 
+  it.skip('Check that wallet and userstorage not loaded on startup', () => {
+    StartPage.open()
+    StartPage.headerPage.contains('Welcome').should('be.visible').then(() =>{
+      checkUserStorageBeforeStart()
+    })
+
+    StartPage.createWalletButton.click()
+    SignUpPage.nameInput.should('be.visible')
+    SignUpPage.nameInput.type('Testing UserStorage')
+    SignUpPage.nextButton.should('have.attr', 'data-focusable')
+    SignUpPage.nextButton.click()
+    cy.wait(2000) //wait for the userstorage data to load
+    SignUpPage.phoneInput.should('be.visible').then(() =>{
+      expect(localStorage.getItem('GD_mnemonic')).to.not.be.null
+      expect(localStorage.getItem('GD_privateKeys')).to.not.be.null
+      expect(localStorage.getItem('GD_creds')).to.not.be.null
+      expect(localStorage.getItem('GD_jwt')).to.not.be.null
+    })
+  })
+
   it('User to sign up the wallet with correct values', () => {
-    // StartPage.open()
+    StartPage.open()
     StartPage.headerPage.contains('Welcome').should('be.visible')
     StartPage.createWalletButton.click()
     SignUpPage.nameInput.should('be.visible')
@@ -84,8 +120,6 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
     SignUpPage.nextButton.should('have.attr', 'data-focusable')
     SignUpPage.nextButton.click()
     SignUpPage.letStartButton.click()
-    SignUpPage.gotItButton.click()
-    HomePage.welcomeFeed.should('be.visible')
 
     //get mnemonic from localStorage
     HomePage.sendButton.should(() => {
@@ -98,5 +132,17 @@ describe('Test case 1: login via TorusTestUser and Create temporary user', () =>
       cy.log('ALL: ', LOCAL_STORAGE_MEMORY)
       cy.writeFile('cypress/fixtures/GDls.json', LOCAL_STORAGE_MEMORY)
     })
+
+    // check start feed
+    const todaysDate = Cypress.moment().format('DD.MM.YY')
+
+    HomePage.welcomeFeed.should('be.visible')
+    cy.log(todaysDate)
+    cy.contains('Welcome to GoodDollar!').should('be.visible')
+    cy.contains('Welcome to GoodDollar!').click()
+    cy.get('img[src="/static/media/invite.bbc5ae11.png"]').should('be.visible')
+    cy.contains('Welcome to GoodDollar!').should('be.visible')
+    cy.contains('GoodDollar coins every day').should('be.visible')
+    cy.get('[role="button"]').contains(/LET`S DO IT/i).click()
   })
 })

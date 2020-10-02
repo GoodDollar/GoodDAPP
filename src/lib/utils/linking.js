@@ -4,7 +4,7 @@ import { Linking, Platform } from 'react-native'
 
 const schemeRe = /(.+?:)\/\//
 
-export const openLink = async (uri: string, target?: '_blank' | '_self' = '_blank', noopener?: boolean = false) => {
+export const openLink = async (uri: string, target: '_blank' | '_self' = '_blank', noopener: boolean = false) => {
   const isSchemeSupported = await Linking.canOpenURL(uri)
 
   if (!isSchemeSupported) {

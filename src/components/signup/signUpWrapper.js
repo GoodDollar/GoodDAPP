@@ -5,6 +5,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import { withStyles } from '../../lib/styles'
+import useOnPress from '../../lib/hooks/useOnPress'
 
 type FooterProps = {
   valid?: boolean,
@@ -14,8 +15,9 @@ type FooterProps = {
 }
 
 const Footer = ({ valid, submitText, handleSubmit, loading }: FooterProps) => {
+  const _handleSubmit = useOnPress(handleSubmit)
   return (
-    <CustomButton disabled={!valid || loading} loading={loading} onPress={handleSubmit} style={{ flex: 1 }}>
+    <CustomButton disabled={!valid || loading} loading={loading} onPress={_handleSubmit} style={{ flex: 1 }}>
       {submitText}
     </CustomButton>
   )

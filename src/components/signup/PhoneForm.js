@@ -1,10 +1,12 @@
 // @flow
+
 import React from 'react'
 import { debounce } from 'lodash'
 import { isMobile } from '../../lib/utils/platform'
+import { enhanceArgentinaCountryCode } from '../../lib/utils/phoneNumber'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
-import { getScreenHeight } from '../../lib/utils/Orientation'
+import { getScreenHeight } from '../../lib/utils/orientation'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { withStyles } from '../../lib/styles'
@@ -71,7 +73,9 @@ class PhoneForm extends React.Component<Props, State> {
   handleChange = (mobile: string) => {
     this.checkErrorsSlow()
 
-    this.setState({ mobile })
+    this.setState({
+      mobile: enhanceArgentinaCountryCode(mobile),
+    })
   }
 
   handleSubmit = async () => {
@@ -130,6 +134,7 @@ class PhoneForm extends React.Component<Props, State> {
                 onBlur={this.onBlur}
                 onSubmitEditing={this.handleSubmit}
                 enablesReturnKeyAutomatically
+                autoFocus
               />
               <ErrorText error={errorMessage} style={styles.customError} />
             </Section.Stack>

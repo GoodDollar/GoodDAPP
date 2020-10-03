@@ -244,7 +244,7 @@ export class GoodWallet {
 
   async syncTxWithBlockchain(fromBlock) {
     const toBlock = await this.wallet.eth.getBlockNumber()
-    const filter = [fromBlock, toBlock]
+    const filter = [toBlock, fromBlock]
 
     log.debug('Start sync of txs from blockchain', {
       filter,
@@ -263,7 +263,8 @@ export class GoodWallet {
     }
   }
 
-  async pollSendEvents(fromBlock = this.lastEventsBlock, toBlock) {
+  async pollSendEvents(toBlock, from = null) {
+    const fromBlock = from || this.lastEventsBlock
     const contract = this.erc20Contract
 
     const fromEventsFilter = {
@@ -303,7 +304,8 @@ export class GoodWallet {
     this.getSubscribers('balanceChanged').forEach(cb => cb(events))
   }
 
-  async pollReceiveEvents(fromBlock = this.lastEventsBlock, toBlock) {
+  async pollReceiveEvents(toBlock, from = null) {
+    const fromBlock = from || this.lastEventsBlock
     const contract = this.erc20Contract
 
     const toEventsFilter = {
@@ -341,7 +343,8 @@ export class GoodWallet {
     this.getSubscribers('balanceChanged').forEach(cb => cb(events))
   }
 
-  async pollOTPLEvents(fromBlock = this.lastEventsBlock, toBlock) {
+  async pollOTPLEvents(toBlock, from = null) {
+    const fromBlock = from || this.lastEventsBlock
     const contract = this.oneTimePaymentsContract
 
     const fromEventsFilter = {

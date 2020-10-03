@@ -1,7 +1,8 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
-import { debounce, get } from 'lodash'
+import { debounce, get, throttle } from 'lodash'
+import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import { isBrowser } from '../../lib/utils/platform'
@@ -36,7 +37,7 @@ import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
-import { PrivacyPolicyAndTerms, Statistics, Support } from '../webView/webViewInstances'
+import { Statistics, Support } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { parsePaymentLinkParams, readCode } from '../../lib/share'
@@ -49,6 +50,7 @@ import { theme as _theme } from '../theme/styles'
 import DeepLinking from '../../lib/utils/deepLinking'
 import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
+import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
 import Amount from './Amount'
@@ -89,6 +91,8 @@ export type DashboardProps = {
   store: Store,
   styles?: any,
 }
+
+const feedMutex = new Mutex()
 
 const Dashboard = props => {
   const balanceRef = useRef()
@@ -202,8 +206,9 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    debounce(
-      async (reset = false) => {
+    throttle(async (reset = false) => {
+      const release = await feedMutex.lock()
+      try {
         log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
@@ -228,10 +233,12 @@ const Dashboard = props => {
           const res = (await feedPromise) || []
           res.length > 0 && setFeeds(feeds.concat(res))
         }
-      },
-      500,
-      { leading: true },
-    ),
+      } catch (e) {
+        log.warn('getFeedPage failed', e.message, e)
+      } finally {
+        release()
+      }
+    }, 500),
     [loadAnimShown, store, setFeeds, feeds],
   )
 

@@ -6,7 +6,9 @@ import LoadingIcon from '../modal/LoadingIcon'
 import {
   useAPIConnection,
   useConnection,
-  useConnectionGun,
+  useWeb3Polling,
+
+  // useConnectionGun,
 
   // useConnectionWeb3,
 } from '../../../lib/hooks/hasConnectionChange'
@@ -19,9 +21,10 @@ const InternetConnection = props => {
   const [showDialog, hideDialog] = useDialog()
   const isConnection = useConnection()
   const isAPIConnection = useAPIConnection()
+  useWeb3Polling()
 
   // const isConnectionWeb3 = useConnectionWeb3()
-  const isConnectionGun = useConnectionGun()
+  // const isConnectionGun = useConnectionGun()
   const [showDisconnect, setShowDisconnect] = useState(false)
   const [firstLoadError, setFirstLoadError] = useState(true)
 
@@ -41,13 +44,13 @@ const InternetConnection = props => {
 
   useEffect(() => {
     showDialogWindow.cancel()
-    if (isConnection === false || isAPIConnection === false || isConnectionGun === false) {
+    if (isConnection === false || isAPIConnection === false) {
       log.warn('connection failed:', {
         isAPIConnection,
         isConnection,
 
         // isConnectionWeb3,
-        isConnectionGun,
+        // isConnectionGun,
         firstLoadError,
       })
 
@@ -68,9 +71,9 @@ const InternetConnection = props => {
         // if (isConnectionWeb3 === false) {
         //   servers.push('Blockchain')
         // }
-        if (isConnectionGun === false) {
-          servers.push('GunDB')
-        }
+        // if (isConnectionGun === false) {
+        //   servers.push('GunDB')
+        // }
         message = `Waiting for GoodDollar's server (${servers.join(', ')})`
       }
 
@@ -92,7 +95,7 @@ const InternetConnection = props => {
     isAPIConnection,
 
     // isConnectionWeb3,
-    isConnectionGun,
+    // isConnectionGun,
     setShowDisconnect,
     setFirstLoadError,
     firstLoadError,

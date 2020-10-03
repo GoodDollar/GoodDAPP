@@ -2,6 +2,8 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Platform, View } from 'react-native'
+import moment from 'moment'
+import numeral from 'numeral'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import useOnPress from '../../lib/hooks/useOnPress'
 import { isBrowser } from '../../lib/utils/platform'
@@ -32,6 +34,7 @@ import Config from '../../config/config'
 import { isLargeDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
 import Section from '../common/layout/Section'
 import BigGoodDollar from '../common/view/BigGoodDollar'
+import useAppState from '../../lib/hooks/useAppState'
 import type { DashboardProps } from './Dashboard'
 import useClaimCounter from './Claim/useClaimCounter'
 import ButtonBlock from './Claim/ButtonBlock'
@@ -53,6 +56,7 @@ const EmulateButtonSpace = () => <View style={{ paddingTop: 16, minHeight: 44, v
 
 const Claim = props => {
   const { screenProps, styles, theme }: ClaimProps = props
+  const { appState } = useAppState()
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
 
@@ -63,9 +67,13 @@ const Claim = props => {
   const [showDialog, , showErrorDialog] = useDialog()
 
   // use loading variable if required
-  const [loading, setLoading] = useState(false)
+  const [, setLoading] = useState(false)
   const claimInterval = useRef(null)
-  const [nextClaim, setNextClaim] = useState('--:--:--')
+  const timerInterval = useRef(null)
+
+  const [nextClaim, setNextClaim] = useState()
+  const [nextClaimDate, setNextClaimDate] = useState()
+
   const [peopleClaimed, setPeopleClaimed] = useState('--')
   const [totalClaimed, setTotalClaimed] = useState('--')
 
@@ -123,23 +131,48 @@ const Claim = props => {
   }
 
   useEffect(() => {
+    //stop polling blockchain when in background
+    if (appState !== 'active') {
+      return
+    }
     init()
-    claimInterval.current = setInterval(gatherStats, 1000)
+    gatherStats()
+    claimInterval.current = setInterval(gatherStats, 10000)
     return () => claimInterval.current && clearInterval(claimInterval.current)
-  }, [])
+  }, [appState])
+
+  useEffect(() => {
+    updateTimer()
+    timerInterval.current = setInterval(updateTimer, 1000)
+    return () => timerInterval.current && clearInterval(timerInterval.current)
+  }, [nextClaimDate])
+
+  const updateTimer = useCallback(() => {
+    if (!nextClaimDate) {
+      return
+    }
+    let nextClaimTime = moment(nextClaimDate).diff(Date.now(), 'seconds')
+
+    //trigger getting stats if reached time to claim, to make sure everything is update since we refresh
+    //only each 10 secs
+    if (nextClaimTime <= 0) {
+      gatherStats()
+    }
+    setNextClaim(numeral(nextClaimTime).format('00:00:00'))
+  }, [nextClaimDate])
 
   const gatherStats = async () => {
     try {
-      const [{ people, amount }, [nextClaimDate, entitlement]] = await Promise.all([
+      const [{ people, amount }, [nextClaimMilis, entitlement]] = await Promise.all([
         wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
         wrappedGoodWallet.getNextClaimTime(),
       ])
+      log.info('gatherStats:', { people, amount, nextClaimMilis, entitlement })
       setPeopleClaimed(people)
       setTotalClaimed(amount)
       setDailyUbi(entitlement)
-      if (nextClaimDate) {
-        let nextClaimTime = nextClaimDate - Date.now()
-        setNextClaim(new Date(nextClaimTime).toISOString().substr(11, 8))
+      if (nextClaimMilis) {
+        setNextClaimDate(nextClaimMilis)
       }
     } catch (exception) {
       const { message } = exception
@@ -174,6 +207,7 @@ const Claim = props => {
         message: 'please wait while processing...\n ',
         buttons: [{ mode: 'custom', Component: EmulateButtonSpace }],
         title: `YOUR MONEY\nIS ON ITS WAY...`,
+        showCloseButtons: false,
       })
 
       let txHash
@@ -297,7 +331,7 @@ const Claim = props => {
           styles={styles}
           entitlement={dailyUbi}
           isCitizen={isCitizen}
-          nextClaim={nextClaim}
+          nextClaim={nextClaim || '--:--:--'}
           handleClaim={handleClaim}
           handleNonCitizen={handleFaceVerification}
           showLabelOnly

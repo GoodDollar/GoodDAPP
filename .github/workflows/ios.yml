@@ -44,14 +44,14 @@ jobs:
           pod install
         shell: bash
       - name: Setup provisioning profile
-        run: ./.github/secrets/decrypt_secrets.sh
+        run: sudo ./.github/secrets/decrypt_secrets.sh
         env:
           IOS_PROFILE_KEY: ${{ secrets.IOS_PROFILE_KEY }}
       - name: Generate assets
         run: node ./animationAssets.js
       - name: Build app
         run: |
-          cd ios && xcodebuild archive \
+          cd ios && sudo xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
             -scheme GoodDollar \
             -sdk iphoneos \

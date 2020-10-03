@@ -397,6 +397,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
         AsyncStorage.setItem(IS_LOGGED_IN, true),
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
+
+        userStorage.saveJoinedBlockNumber(),
       ])
 
       fireSignupEvent('SUCCESS')

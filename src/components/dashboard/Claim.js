@@ -210,32 +210,26 @@ const Claim = props => {
         showCloseButtons: false,
       })
 
-      let txHash
-
-      const receipt = await goodWallet.claim({
-        onTransactionHash: hash => {
-          txHash = hash
-
-          const date = new Date()
-          const transactionEvent: TransactionEvent = {
-            id: hash,
-            createdDate: date.toString(),
-            type: 'claim',
-            data: {
-              from: 'GoodDollar',
-              amount: curEntitlement,
-            },
-          }
-          userStorage.enqueueTX(transactionEvent)
-          AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
-        },
-        onError: () => {
-          userStorage.markWithErrorEvent(txHash)
-        },
-      })
+      const receipt = await goodWallet.claim()
 
       if (receipt.status) {
-        fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash, claimValue: curEntitlement })
+        const txHash = receipt.transactionHash
+
+        const date = new Date()
+        const transactionEvent: TransactionEvent = {
+          id: txHash,
+          createdDate: date.toString(),
+          type: 'claim',
+          data: {
+            from: 'GoodDollar',
+            amount: curEntitlement,
+          },
+        }
+        userStorage.enqueueTX(transactionEvent)
+
+        AsyncStorage.setItem('GD_AddWebAppLastClaim', date.toISOString())
+
+        fireEvent(CLAIM_SUCCESS, { txHash, claimValue: curEntitlement })
 
         const claimsSoFar = await advanceClaimsCounter()
         fireMauticEvent({ claim: claimsSoFar })

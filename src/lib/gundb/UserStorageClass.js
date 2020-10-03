@@ -358,6 +358,8 @@ export class UserStorage {
 
   feedIds: {} = {}
 
+  feedQ: {} = {}
+
   feedMutex = new Mutex()
 
   /**
@@ -830,7 +832,7 @@ export class UserStorage {
       //get initial TX data from queue, if not in queue then it must be a receive TX ie
       //not initiated by user
       //other option is that TX was processed on another wallet instance
-      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || {
+      const initialEvent = this.dequeueTX(receipt.transactionHash) || {
         data: {},
       }
       logger.debug('handleReceiptUpdated got enqueued event:', {
@@ -2155,13 +2157,10 @@ export class UserStorage {
       event.createdDate = event.createdDate || new Date().toString()
       event.date = event.date || event.createdDate
 
-      let putRes = await this.feed
-        .get('queue')
-        .get(event.id)
-        .secretAck(event)
+      this.feedQ[event.id] = event
 
       await this.updateFeedEvent(event)
-      logger.debug('enqueueTX ok:', { event, putRes })
+      logger.debug('enqueueTX ok:', { event })
 
       return true
     } catch (gunError) {
@@ -2179,32 +2178,17 @@ export class UserStorage {
    * @param eventId
    * @returns {Promise<FeedEvent>}
    */
-  async dequeueTX(eventId: string): Promise<FeedEvent> {
+  dequeueTX(eventId: string): Promise<FeedEvent> {
     try {
-      const feedItem = await this.feed
-        .get('queue')
-        .get(eventId)
-        .decrypt()
+      const feedItem = this.feedQ[eventId]
       logger.debug('dequeueTX got item', eventId, feedItem)
       if (feedItem) {
-        this.feed
-          .get('queue')
-          .get(eventId)
-          .put(null)
+        delete this.feedQ[eventId]
         return feedItem
       }
     } catch (e) {
       logger.error('dequeueTX failed:', e.message, e)
     }
-  }
-
-  /**
-   * lookup a pending tx
-   * @param {string} eventId
-   * @returns {Promise<FeedEvent>}
-   */
-  peekTX(eventId: string): Promise<FeedEvent> {
-    return this.feed.get('queue').get(eventId)
   }
 
   /**
@@ -2357,10 +2341,8 @@ export class UserStorage {
             event,
           })
 
-          feed
-            .get('queue')
-            .get(eventId)
-            .put(null)
+          delete this.feedQ[eventId]
+
           return event
         default:
           break

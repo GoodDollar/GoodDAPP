@@ -534,7 +534,6 @@ export class UserStorage {
       smallAvatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },
-      w3Token: { defaultPrivacy: 'private' },
       loginToken: { defaultPrivacy: 'private' },
     }
 

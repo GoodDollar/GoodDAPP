@@ -116,7 +116,8 @@ const Config = {
     },
   },
   nodeEnv: env.NODE_ENV,
-  forcePeer,
+  forcePeer: forcePeer && forcePeer[1],
+  peersProb: env.REACT_APP_GUN_PEERS_PROB || [1, 0.2],
 }
 
 // TODO: wrap all stubs / "backdoors" made for automated testing

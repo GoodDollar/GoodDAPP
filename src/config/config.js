@@ -1,4 +1,4 @@
-import { get, isUndefined } from 'lodash'
+import { get, isUndefined, once } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { env as devenv, fixNL } from '../lib/utils/env'
 import env from './env'
@@ -10,6 +10,7 @@ const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'eto
 //import { isE2ERunning } from '../lib/utils/platform'
 
 const forceLogLevel = get(window, 'location.search', '').match(/level=(.*?)($|&)/)
+const forcePeer = get(window, 'location.search', '').match(/gun=(.*?)($|&)/)
 
 let phase = env.REACT_APP_RELEASE_PHASE
 
@@ -115,7 +116,23 @@ const Config = {
     },
   },
   nodeEnv: env.NODE_ENV,
+  forcePeer,
+  peersProb: env.REACT_APP_GUN_PEERS_PROB || [1, 0.2],
 }
+
+//get and override settings from server
+export const serverSettings = once(() => {
+  return fetch(Config.serverUrl + '/auth/settings', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify({ env: Config.env }),
+  })
+    .then(r => r.json())
+    .catch(e => {
+      return { fromServer: 'error' }
+    })
+    .then(settings => Object.assign(Config, settings))
+})
 
 // TODO: wrap all stubs / "backdoors" made for automated testing
 // if (isE2ERunning) {

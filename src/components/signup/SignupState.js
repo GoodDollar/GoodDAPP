@@ -164,10 +164,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   /**
-   * if user arrived from w3 with an inviteCode, we forward it to the server
-   * which registers the user on w3 with it
+   * check if user arrived with invite code
    */
-  const checkW3InviteCode = async () => {
+  const checkInviteCode = async () => {
     const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     const params = get(destinationPath, 'params')
     const paymentParams = params && parsePaymentLinkParams(params)
@@ -279,7 +278,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     log.info('Sending new user data', { state, regMethod, torusProvider })
     try {
       const { goodWallet, userStorage } = await ready
-      const inviteCode = await checkW3InviteCode()
+      const inviteCode = await checkInviteCode()
       const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
 
       log.debug('invite code:', { inviteCode })

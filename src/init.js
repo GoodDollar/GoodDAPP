@@ -30,8 +30,7 @@ export const init = () =>
       await initAnalytics()
       log.debug('analytics has been initialized')
 
-      const source =
-        Object.keys(pick(DeepLinking.params, ['inviteCode', 'web3', 'paymentCode', 'code'])).pop() || 'none'
+      const source = Object.keys(pick(DeepLinking.params, ['inviteCode', 'paymentCode', 'code'])).pop() || 'none'
 
       fireEvent(APP_OPEN, { source, isWebApp })
       initialized = true

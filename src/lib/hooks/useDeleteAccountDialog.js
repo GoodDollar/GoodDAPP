@@ -6,7 +6,6 @@ import IconWrapper from '../../components/common/modal/IconWrapper'
 import LoadingIcon from '../../components/common/modal/LoadingIcon'
 
 import retryImport from '../utils/retryImport'
-import { getErrorMessage } from '../API/api'
 
 const log = logger.child({ from: 'useDeleteAccountDialog' })
 
@@ -55,23 +54,10 @@ export default ({ API, showErrorDialog, store, theme }) =>
               try {
                 const userStorage = await retryImport(() => import('../gundb/UserStorage')).then(_ => _.default)
 
-                let token = await userStorage.getProfileFieldValue('w3Token')
-
-                if (!token) {
-                  token = await userStorage.getProfileFieldValue('loginToken')
-                }
-
                 const isDeleted = await userStorage.deleteAccount()
                 log.debug('deleted account', isDeleted)
 
                 if (isDeleted) {
-                  token &&
-                    API.deleteWalletFromW3Site(token).catch(e => {
-                      const errMsg = getErrorMessage(e)
-                      const exception = new Error(errMsg)
-
-                      log.warn('Failed to delete wallet from w3 site', { errMsg, exception })
-                    })
                   const req = deleteGunDB()
 
                   //remove all local data so its not cached and user will re-login

@@ -8,7 +8,6 @@ import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import Auth from './components/auth/Auth'
 import AuthTorus from './components/auth/torus/AuthTorus'
-import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blurred'
 import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
@@ -23,7 +22,6 @@ const AuthType = Config.torusEnabled ? AuthTorus : Auth
 const routes = {
   Auth: AuthType,
   Signup,
-  InvalidW3TokenError,
 
   // IOSWebAppSignIn,
 }

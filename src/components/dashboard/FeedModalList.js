@@ -5,6 +5,7 @@ import { FlatList, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
 import { Portal } from 'react-native-paper'
 import { get, once, isEmpty, isArray } from 'lodash'
+import Config from '../../config/config'
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/orientation'
 import { getMaxDeviceWidth } from '../../lib/utils/sizes'
@@ -115,6 +116,10 @@ const FeedModalList = ({
   const feeds = useMemo(() => {
     if (!isArray(data) || isEmpty(data)) {
       return emptyFeed
+    }
+    
+    if (Config.enableInvites) {
+      return data
     }
     
     return data.filter(item => get(item, 'type') !== 'invite')

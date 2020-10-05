@@ -122,7 +122,6 @@ const EmptySpaceComponent = ({ style }) => (
   </>
 )
 
-
 const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()
 
@@ -148,10 +147,6 @@ const TabsView = ({ navigation }) => {
 
   const goToRewards = useCallback(
     event => {
-      // if (isIOS) {
-      //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
-      //   return window.open(src, '_blank')
-      // }
       event.preventDefault()
       navigation.navigate('Rewards')
     },
@@ -190,7 +185,7 @@ const TabsView = ({ navigation }) => {
         </>
       )} */}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
-      {/*!market && */!showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
+      {/*!market && */ !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
       <TouchableOpacity onPress={slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>

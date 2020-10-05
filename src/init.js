@@ -36,7 +36,7 @@ export const init = () =>
         const params = extractQueryParams(window.location.href)
 
         source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
-        source = Object.keys(pick(params, ['inviteCode', 'web3Token', 'paymentCode', 'code'])).pop() || source
+        source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
       }
 
       fireEvent(APP_OPEN, { source, isWebApp })

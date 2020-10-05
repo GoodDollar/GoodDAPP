@@ -24,7 +24,7 @@ const warningBoxStyles = ({ theme }) => ({
     borderWidth: 2,
     borderRadius: 5,
     borderStyle: 'solid',
-    borderColor: theme.colors.red,
+    borderColor: theme.colors.primary,
     width: 'auto',
     marginHorizontal: 'auto',
     marginBottom: getDesignRelativeHeight(20),
@@ -35,17 +35,24 @@ const warningBoxStyles = ({ theme }) => ({
 
 export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend = false }) => (
   <View style={styles.warningTextWrapper}>
-    <Text fontSize={13.5} fontFamily="Roboto Slab" letterSpacing={0.14} lineHeight={21} color="red">
+    <Text fontSize={13.5} fontFamily="Roboto Slab" fontWeight="bold" letterSpacing={0.14} lineHeight={21} color="red">
       {isSend
-        ? `Do not send tokens to Ethereum network addresses.\nYou are on Fuse Network.`
-        : `Do not send tokens to Ethereum network to this address.\nThis is a Fuse Network address for G$ tokens only.`}
+        ? `Keep in mind - your G$ tokens are on an internal network and should be sent on the G$ network and not to Ethereum external wallets`
+        : `Keep in mind - Do not send tokens from Ethereum network to this address. This is an internal Network address for G$ tokens only.`}
     </Text>
   </View>
 ))
 
 const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => (
   <Wrapper>
-    <TopBar push={screenProps.push} hideProfile={false} profileAsLink={false}>
+    <TopBar
+      push={screenProps.push}
+      hideProfile={false}
+      profileAsLink={false}
+      hideBalance
+      contentStyle={{ justifyContent: 'center' }}
+      avatarSize={56}
+    >
       <View />
     </TopBar>
     <Section grow justifyContent="space-between">

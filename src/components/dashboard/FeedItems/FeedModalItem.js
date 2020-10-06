@@ -125,7 +125,8 @@ const getStylesFromProps = ({ theme }) => {
       paddingRight: 4,
       marginRight: 'auto',
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'baseline',
+      height: 'auto',
     },
     feedItemText: {
       fontSize: 22,

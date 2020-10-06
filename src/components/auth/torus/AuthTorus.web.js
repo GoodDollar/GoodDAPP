@@ -5,7 +5,6 @@ import { Image, TouchableOpacity, View } from 'react-native'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
-  CLICK_BTN_GETINVITED,
   fireEvent,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,

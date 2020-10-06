@@ -1,4 +1,4 @@
-import { get, isUndefined } from 'lodash'
+import { get, isUndefined, once } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { env as devenv, fixNL } from '../lib/utils/env'
 import env from './env'
@@ -116,8 +116,23 @@ const Config = {
     },
   },
   nodeEnv: env.NODE_ENV,
-  forcePeer,
+  forcePeer: forcePeer && forcePeer[1],
+  peersProb: (env.REACT_APP_GUN_PEERS_PROB || '1,0.5').split(',').map(Number),
 }
+
+//get and override settings from server
+export const serverSettings = once(() => {
+  return fetch(Config.serverUrl + '/auth/settings', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify({ env: Config.env }),
+  })
+    .then(r => r.json())
+    .catch(e => {
+      return { fromServer: 'error' }
+    })
+    .then(settings => Object.assign(Config, settings))
+})
 
 // TODO: wrap all stubs / "backdoors" made for automated testing
 // if (isE2ERunning) {

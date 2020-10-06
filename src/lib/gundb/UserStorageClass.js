@@ -2177,7 +2177,7 @@ export class UserStorage {
    * @param eventId
    * @returns {Promise<FeedEvent>}
    */
-  dequeueTX(eventId: string): Promise<FeedEvent> {
+  dequeueTX(eventId: string): FeedEvent {
     try {
       const feedItem = this.feedQ[eventId]
       logger.debug('dequeueTX got item', eventId, feedItem)

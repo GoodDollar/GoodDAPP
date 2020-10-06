@@ -39,14 +39,6 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
   const onProfileSaved = useCallback(() => push(`Dashboard`), [push])
   const handleEditAvatar = useOnPress(() => push(`ViewAvatar`), [push])
 
-  const updateProfile = useCallback(async () => {
-    // initialize profile value for first time from storedProfile in userStorage
-    const profileFromUserStorage = await userStorage.getProfile()
-
-    setPrivateProfile(profileFromUserStorage)
-    setProfile(profileFromUserStorage)
-  }, [setProfile.setPrivateProfile])
-
   const validate = useCallback(async () => {
     if (!profile || !profile.validate) {
       return false
@@ -139,7 +131,11 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
       return
     }
 
-    updateProfile()
+    // initialize profile value for first time from storedProfile in userStorage
+    userStorage.getProfile().then(profileFromUserStorage => {
+      setPrivateProfile(profileFromUserStorage)
+      setProfile(profileFromUserStorage)
+    })
   }, [])
 
   // Validate after saving profile state in order to show errors

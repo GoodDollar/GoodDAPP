@@ -186,7 +186,10 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         // const userExists = await userStorage.userAlreadyExist()
         log.debug('checking userAlreadyExist', { exists, fullName })
-        const { source } = await Promise.race([ready(replacing), timeout(60000, 'initialiazing wallet timed out')])
+        const { source } = await Promise.race([
+          ready(replacing), 
+          timeout(60000, 'initialiazing wallet timed out')
+        ])
 
         log.debug('showing checkmark dialog')
         // showLoadingDialog(true)

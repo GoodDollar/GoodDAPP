@@ -1,8 +1,8 @@
 // @flow
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, SwipeableFlatList } from 'react-native'
 import * as Animatable from 'react-native-animatable'
-import { get } from 'lodash'
+import { get, isArray, isEmpty } from 'lodash'
 import moment from 'moment'
 
 import GDStore from '../../lib/undux/GDStore'
@@ -15,6 +15,7 @@ import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/pino-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
+import Config from '../../config/config'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedActions from './FeedActions'
 import { emptyFeed, keyExtractor, VIEWABILITY_CONFIG } from './utils/feed'
@@ -66,11 +67,22 @@ const FeedList = ({
   windowSize,
 }: FeedListProps) => {
   const [showErrorDialog] = useErrorDialog()
-  const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
   const flRef = useRef()
   const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
+
+  const feeds = useMemo(() => {
+    if (!isArray(data) || isEmpty(data)) {
+      return [emptyFeed]
+    }
+
+    if (Config.enableInvites) {
+      return data
+    }
+
+    return data.filter(item => get(item, 'type') !== 'invite')
+  }, [data, emptyFeed])
 
   const scrollToTop = () => {
     if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {

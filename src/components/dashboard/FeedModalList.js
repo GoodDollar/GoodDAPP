@@ -1,17 +1,15 @@
 // @flow
-
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
 import { Portal } from 'react-native-paper'
-import { get, once, isEmpty, isArray } from 'lodash'
-import Config from '../../config/config'
+import { once } from 'lodash'
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/orientation'
 import { getMaxDeviceWidth } from '../../lib/utils/sizes'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
-import { emptyFeed, keyExtractor, VIEWABILITY_CONFIG } from './utils/feed'
+import { keyExtractor, VIEWABILITY_CONFIG } from './utils/feed'
 
 export type FeedModalListProps = {
   data: any,
@@ -84,17 +82,22 @@ const FeedModalList = ({
   }, [offset, flatListRef, setLoading])
 
   const renderItemComponent = useCallback(
-    ({ item, separators }: ItemComponentProps) => (
-      <View style={styles.horizontalListItem}>
-        <FeedModalItem
-          navigation={navigation}
-          item={item}
-          separators={separators}
-          fixedHeight
-          onPress={() => handleFeedSelection(item, false)}
-        />
-      </View>
-    ),
+    ({ item, separators }: ItemComponentProps) => {
+      if (item.type === 'invite') {
+        return
+      }
+      return (
+        <View style={styles.horizontalListItem}>
+          <FeedModalItem
+            navigation={navigation}
+            item={item}
+            separators={separators}
+            fixedHeight
+            onPress={() => handleFeedSelection(item, false)}
+          />
+        </View>
+      )
+    },
     [handleFeedSelection, navigation],
   )
 
@@ -113,18 +116,6 @@ const FeedModalList = ({
     [offset, setLoading],
   )
 
-  const feeds = useMemo(() => {
-    if (!isArray(data) || isEmpty(data)) {
-      return emptyFeed
-    }
-    
-    if (Config.enableInvites) {
-      return data
-    }
-    
-    return data.filter(item => get(item, 'type') !== 'invite')
-  }, [data])
-
   return (
     <Portal>
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
@@ -133,7 +124,7 @@ const FeedModalList = ({
           style={styles.flatList}
           onScroll={handleScroll}
           contentContainerStyle={[styles.horizontalList, !isMobileOnly && { justifyContent: 'center' }]}
-          data={feeds}
+          data={data}
           getItemLayout={getItemLayout}
           initialNumToRender={initialNumToRender}
           legacyImplementation={false}

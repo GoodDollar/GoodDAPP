@@ -18,6 +18,7 @@ const TopBar = ({
   hideBalance,
   push,
   children,
+  style,
   hideProfile = true,
   profileAsLink = true,
   contentStyle,
@@ -42,7 +43,7 @@ const TopBar = ({
   }
 
   return (
-    <Section style={styles.topBar}>
+    <Section style={[styles.topBar, style]}>
       <Section.Row
         alignItems={Platform.select({
           web: 'center',

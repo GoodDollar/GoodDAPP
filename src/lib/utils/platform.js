@@ -39,7 +39,7 @@ export const isIOS = isIOSWeb || isIOSNative
 
 export const isAndroid = isAndroidWeb || isAndroidNative
 
-// if Platform.OS is 'web' (e.g. running on web), will return isBrowser flag from the device detect library. 
+// if Platform.OS is 'web' (e.g. running on web), will return isBrowser flag from the device detect library.
 // otherwise (e.g. running on native) will return false (because library wrongly returns true in that case)
 export const isBrowser = isWeb ? isBrowserWeb : false
 

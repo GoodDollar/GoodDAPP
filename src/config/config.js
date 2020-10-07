@@ -21,10 +21,11 @@ if (isUndefined(phase)) {
 const isPhaseZero = 0 === phase
 const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
+const version = env.VERSION || '1.0.0'
 
 const Config = {
   env: devenv(env.REACT_APP_ENV),
-  version: env.VERSION || 'v0',
+  version,
   contractsVersion,
   isEToro,
   phase,
@@ -118,7 +119,7 @@ const Config = {
   nodeEnv: env.NODE_ENV,
   forcePeer: forcePeer && forcePeer[1],
   peersProb: env.REACT_APP_GUN_PEERS_PROB || [1, 0.2],
-  isPatch: (env.VERSION.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
+  isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
 }
 
 //get and override settings from server

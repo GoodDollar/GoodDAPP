@@ -10,6 +10,7 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import normalize from '../../lib/utils/normalizeText'
 import CopyButton from '../common/buttons/CopyButton'
+import EventIcon from './FeedItems/EventIcon'
 
 export type TypeProps = {
   screenProps: any,
@@ -29,13 +30,42 @@ const warningBoxStyles = ({ theme }) => ({
     marginHorizontal: 'auto',
     marginBottom: getDesignRelativeHeight(20),
     paddingVertical: getDesignRelativeHeight(14),
-    paddingHorizontal: getDesignRelativeWidth(14),
+    paddingHorizontal: getDesignRelativeWidth(6),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  icon: {
+    height: getDesignRelativeHeight(57),
+    width: getDesignRelativeWidth(57),
+    marginRight: getDesignRelativeWidth(9),
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    transform: [{ rotate: '180deg' }],
+  },
+  text: {
+    flex: 1,
+    paddingRight: 6,
   },
 })
 
-export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend = false }) => (
+export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend = false, anim = true }) => (
   <View style={styles.warningTextWrapper}>
-    <Text fontSize={13.5} fontFamily="Roboto Slab" fontWeight="bold" letterSpacing={0.14} lineHeight={21} color="red">
+    <View style={styles.icon}>
+      <EventIcon type="feedback" showAnim={anim} size={54} />
+    </View>
+    <Text
+      fontSize={13.5}
+      fontFamily="Roboto Slab"
+      fontWeight="bold"
+      textAlign="left"
+      letterSpacing={0.14}
+      lineHeight={21}
+      color="red"
+      style={styles.text}
+    >
       {isSend
         ? `Keep in mind - your G$ tokens are on an internal network and should be sent on the G$ network and not to Ethereum external wallets`
         : `Keep in mind - Do not send tokens from Ethereum network to this address. This is an internal Network address for G$ tokens only.`}
@@ -52,6 +82,7 @@ const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => (
       hideBalance
       contentStyle={{ justifyContent: 'center' }}
       avatarSize={56}
+      style={{ paddingLeft: 8 }}
     >
       <View />
     </TopBar>

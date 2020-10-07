@@ -32,6 +32,7 @@ export default class UserProperties {
     lastBlock: 0,
     joinedAtBlock: 6400000, // default block to start sync from
     lastTxSyncDate: null,
+    hasOpenedGoodMarket: false,
   }
 
   fields = [
@@ -46,6 +47,7 @@ export default class UserProperties {
     'startClaimingAdded',
     'joinedAtBlock',
     'lastTxSyncDate',
+    'hasOpenedGoodMarket',
   ]
 
   /**

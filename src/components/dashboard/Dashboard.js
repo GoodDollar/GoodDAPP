@@ -42,7 +42,6 @@ import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { parsePaymentLinkParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
-import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { getDesignRelativeHeight, getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
@@ -52,7 +51,6 @@ import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import RewardsTab from './Rewards'
-import MarketTab from './Marketplace'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -940,7 +938,7 @@ export default createStackNavigator({
     path: 'Rewards/:rewardsPath*',
   },
   Marketplace: {
-    screen: config.market ? MarketTab : WrappedDashboard,
+    screen: WrappedDashboard,
     path: 'Marketplace/:marketPath*',
   },
 

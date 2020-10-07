@@ -1,23 +1,30 @@
 import { useCallback, useState } from 'react'
+
+import { fireEvent, GOTO_MARKET } from '../../../../lib/analytics/analytics'
 import userStorage from '../../../../lib/gundb/UserStorage'
 import Config from '../../../../config/config'
 import { openLink } from '../../../../lib/utils/linking'
 
 const { marketUrl } = Config
-const wasOpenedProp = 'hasOpenedGoodMarket'
+const wasClickedProp = 'goodMarketClicked'
 
 export default () => {
   const { userProperties } = userStorage
-  const [wasOpened, setWasOpened] = useState(userProperties.get(wasOpenedProp))
+  const goToMarket = useCallback(() => openLink(marketUrl), [wasClicked])
+  const [wasClicked, setWasClicked] = useState(userProperties.get(wasClickedProp))
 
-  const goToMarket = useCallback(() => {
-    if (!wasOpened) {
-      userProperties.set(wasOpenedProp, true)
-      setWasOpened(true)
+  const trackClicked = useCallback(() => {
+    fireEvent(GOTO_MARKET, {
+      firstTime: wasClicked,
+    })
+
+    if (wasClicked) {
+      return
     }
 
-    openLink(marketUrl)
-  }, [wasOpened])
+    userProperties.set(wasClickedProp, true)
+    setWasClicked(true)
+  }, [wasClicked, setWasClicked])
 
-  return [wasOpened, goToMarket]
+  return { wasClicked, trackClicked, goToMarket }
 }

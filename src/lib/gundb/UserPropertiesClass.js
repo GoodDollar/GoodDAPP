@@ -30,7 +30,7 @@ export default class UserProperties {
     registered: false,
     startClaimingAdded: false,
     lastBlock: 0,
-    hasOpenedGoodMarket: false,
+    goodMarketClicked: false,
   }
 
   fields = [
@@ -43,7 +43,7 @@ export default class UserProperties {
     'regMethod',
     'showQuickActionHint',
     'startClaimingAdded',
-    'hasOpenedGoodMarket',
+    'goodMarketClicked',
   ]
 
   /**

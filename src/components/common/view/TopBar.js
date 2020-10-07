@@ -17,6 +17,7 @@ const TopBar = ({
   hideBalance,
   push,
   children,
+  style,
   hideProfile = true,
   profileAsLink = true,
   contentStyle,
@@ -29,7 +30,7 @@ const TopBar = ({
   const redirectToProfile = useCallback(() => push('Profile'), [push])
 
   return (
-    <Section style={styles.topBar}>
+    <Section style={[styles.topBar, style]}>
       <Section.Row alignItems="center" style={[{ flexDirection: 'row-reverse' }, contentStyle]}>
         {/*
          if children exist, it will be rendered

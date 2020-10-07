@@ -48,15 +48,13 @@ class SmsForm extends React.Component<Props, State> {
     resentCode: false,
     loading: false,
     otp: Array(NumInputs).fill(null),
+    tries: 1,
   }
 
   handleChange = async (otp: array) => {
     const otpValue = otp.filter(val => val).join('')
     if (otpValue.replace(/ /g, '').length === NumInputs) {
-      this.setState({
-        loading: true,
-        otp,
-      })
+      this.setState({ ...this.state, loading: true, otp })
       try {
         await this.verifyOTP(otpValue)
         this.handleSubmit()
@@ -67,22 +65,21 @@ class SmsForm extends React.Component<Props, State> {
           log.error('Verify otp failed', e.message, e)
         }
 
-        this.setState({
-          errorMessage: e.message || e,
-          loading: false,
-        })
+        this.setState({ ...this.state, errorMessage: e.message || e, loading: false })
       }
     } else {
-      this.setState({
-        errorMessage: '',
-        otp,
-      })
+      this.setState({ ...this.state, errorMessage: '', otp })
     }
   }
 
   handleSubmit = async () => {
-    this.setState({ loading: false })
+    this.setState({ ...this.state, loading: false })
     await this.props.screenProps.doneCallback({ smsValidated: true })
+  }
+
+  handleSkip = async () => {
+    this.setState({ ...this.state, loading: false })
+    await this.props.screenProps.doneCallback({ smsValidated: false })
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -96,25 +93,21 @@ class SmsForm extends React.Component<Props, State> {
 
   handleRetry = async (options: any) => {
     const { otpChannel } = options
-    this.setState({ sendingCode: true, otp: Array(NumInputs).fill(null), errorMessage: '' })
+    this.setState({ ...this.state, sendingCode: true, otp: Array(NumInputs).fill(null), errorMessage: '' })
     let { retryFunctionName } = this.props.screenProps
 
     retryFunctionName = retryFunctionName || 'sendOTP'
 
     try {
       await API[retryFunctionName]({ ...this.props.screenProps.data, otpChannel })
-      this.setState({ sendingCode: false, resentCode: true })
+      this.setState(prev => ({ ...prev, tries: prev.tries + 1, sendingCode: false, resentCode: true }))
     } catch (e) {
       const errorMessage = getErrorMessage(e)
       const exception = new Error(errorMessage)
 
       log.error('Resend sms code failed', errorMessage, exception)
 
-      this.setState({
-        errorMessage,
-        sendingCode: false,
-        resentCode: false,
-      })
+      this.setState(prev => ({ ...prev, tries: prev.tries + 1, errorMessage, sendingCode: false, resentCode: false }))
     }
   }
 
@@ -155,9 +148,11 @@ class SmsForm extends React.Component<Props, State> {
                 renderButton={renderButton}
                 handleRetry={this.handleRetry}
                 handleRetryWithCall={this.handleRetryWithCall}
+                handleSkip={this.handleSkip}
+                tries={this.state.tries}
                 onFinish={() => {
                   //reset smsaction state
-                  this.setState({ resentCode: false })
+                  this.setState({ ...this.state, resentCode: false })
                 }}
               />
             </Section.Row>
@@ -168,14 +163,28 @@ class SmsForm extends React.Component<Props, State> {
   }
 }
 
-const SMSAction = ({ handleRetry, handleRetryWithCall, resentCode, sendingCode, onFinish, styles }) => {
+//tries decides which options we show
+//first  two tries "send sms"
+//third try "send via call" or "skip"
+//fourth "skip"
+const SMSAction = ({
+  handleRetry,
+  handleRetryWithCall,
+  handleSkip,
+  resentCode,
+  sendingCode,
+  onFinish,
+  tries,
+  styles,
+}) => {
   const [showWait, setWait] = useState(true)
+  const [isCall, setIsCall] = useState(false)
 
   useEffect(() => {
     if (showWait) {
       setTimeout(() => {
         setWait(false)
-      }, 10000)
+      }, 10000 * tries)
     }
   }, [showWait])
 
@@ -190,32 +199,52 @@ const SMSAction = ({ handleRetry, handleRetryWithCall, resentCode, sendingCode, 
           onFinish()
         }}
       >
-        <Section.Text
-          textDecorationLine="underline"
-          fontWeight="medium"
-          fontSize={14}
-          color="primary"
-          onPress={handleRetry}
-          style={styles.sendCodeAgainButton}
-        >
-          Send the code again
-        </Section.Text>
-        <Section.Text
-          textDecorationLine="underline"
-          fontWeight="medium"
-          fontSize={14}
-          color="primary"
-          onPress={handleRetryWithCall}
-        >
-          Send via voice call
-        </Section.Text>
+        {tries < 3 && (
+          <Section.Text
+            textDecorationLine="underline"
+            fontWeight="medium"
+            fontSize={14}
+            color="primary"
+            onPress={handleRetry}
+            style={styles.sendCodeAgainButton}
+          >
+            Send the code again
+          </Section.Text>
+        )}
+        {tries === 3 && (
+          <Section.Text
+            textDecorationLine="underline"
+            fontWeight="medium"
+            fontSize={14}
+            color="primary"
+            onPress={() => {
+              setIsCall(true)
+              handleRetryWithCall()
+            }}
+            style={styles.sendCodeAgainButton}
+          >
+            Send via voice call
+          </Section.Text>
+        )}
+        {tries >= 3 && (
+          <Section.Text
+            textDecorationLine="underline"
+            fontWeight="medium"
+            fontSize={14}
+            color="primary"
+            onPress={handleSkip}
+            style={styles.sendCodeAgainButton}
+          >
+            Skip mobile verification
+          </Section.Text>
+        )}
       </SpinnerCheckMark>
     )
   }
 
   return (
     <Section.Text fontSize={14} color="gray80Percent">
-      Please wait a few seconds until the SMS arrives
+      Please wait a few seconds until the {isCall ? 'call' : 'SMS'} arrives
     </Section.Text>
   )
 }
@@ -255,7 +284,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: theme.sizes.defaultDouble,
   },
   sendCodeAgainButton: {
-    marginRight: 'auto',
+    flex: 1,
   },
 })
 

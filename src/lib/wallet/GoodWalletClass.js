@@ -238,7 +238,7 @@ export class GoodWallet {
         throw new Error('pollEvents not completed after 5 seconds')
       }
     } catch (e) {
-      log.error('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
+      log.warn('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
     }
     setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
   }

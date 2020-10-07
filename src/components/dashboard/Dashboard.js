@@ -62,7 +62,6 @@ import Who from './Who'
 import ReceiveSummary from './ReceiveSummary'
 import ReceiveToAddress from './ReceiveToAddress'
 import TransactionConfirmation from './TransactionConfirmation'
-import SendToAddress from './SendToAddress'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
 import SendLinkSummary from './SendLinkSummary'
@@ -871,7 +870,6 @@ export default createStackNavigator({
 
   SendLinkSummary,
   SendByQR,
-  SendToAddress,
 
   // SendConfirmation,
 

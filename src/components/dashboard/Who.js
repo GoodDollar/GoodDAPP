@@ -2,14 +2,14 @@
 import React, { useCallback, useEffect } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import InputText from '../common/form/InputText'
-import { ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
+import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { isIOS } from '../../lib/utils/platform'
-import { ACTION_RECEIVE, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
+import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
   screenProps: any,
@@ -41,24 +41,12 @@ const Who = (props: AmountProps) => {
 
   const handlePressQR = useCallback(() => push('SendByQR'), [push])
 
-  const handlePressSendToAddress = useCallback(
-    () =>
-      push('SendToAddress', {
-        nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
-        params: { action: ACTION_SEND_TO_ADDRESS },
-      }),
-    [push],
-  )
-
   const canContinue = useCallback(() => state.isValid, [state])
 
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
       <Wrapper>
-        <TopBar push={push}>
-          {!isReceive && <ScanQRButton onPress={handlePressQR} />}
-          {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />}
-        </TopBar>
+        <TopBar push={push}>{!isReceive && <ScanQRButton onPress={handlePressQR} />}</TopBar>
         <Section grow>
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Title fontWeight="medium">{text}</Section.Title>

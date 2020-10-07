@@ -21,10 +21,11 @@ if (isUndefined(phase)) {
 const isPhaseZero = 0 === phase
 const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
+const version = env.VERSION || '1.0.0'
 
 const Config = {
   env: devenv,
-  version: env.VERSION || 'v0',
+  version,
   contractsVersion,
   isEToro,
   phase,
@@ -117,7 +118,7 @@ const Config = {
   },
   nodeEnv: env.NODE_ENV,
   forcePeer,
-  isPatch: (env.VERSION.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
+  isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
 }
 
 // TODO: wrap all stubs / "backdoors" made for automated testing

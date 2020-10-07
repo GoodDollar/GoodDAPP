@@ -1,5 +1,4 @@
 // @flow
-
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { isMobileOnly } from 'mobile-device-detect'
@@ -10,7 +9,7 @@ import { getScreenWidth } from '../../lib/utils/orientation'
 import { getMaxDeviceWidth } from '../../lib/utils/sizes'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
-import { emptyFeed, keyExtractor, VIEWABILITY_CONFIG } from './utils/feed'
+import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
 
 export type FeedModalListProps = {
   data: any,
@@ -83,17 +82,22 @@ const FeedModalList = ({
   }, [offset, flatListRef, setLoading])
 
   const renderItemComponent = useCallback(
-    ({ item, separators }: ItemComponentProps) => (
-      <View style={styles.horizontalListItem}>
-        <FeedModalItem
-          navigation={navigation}
-          item={item}
-          separators={separators}
-          fixedHeight
-          onPress={() => handleFeedSelection(item, false)}
-        />
-      </View>
-    ),
+    ({ item, separators }: ItemComponentProps) => {
+      if (item.type === 'invite') {
+        return
+      }
+      return (
+        <View style={styles.horizontalListItem}>
+          <FeedModalItem
+            navigation={navigation}
+            item={item}
+            separators={separators}
+            fixedHeight
+            onPress={() => handleFeedSelection(item, false)}
+          />
+        </View>
+      )
+    },
     [handleFeedSelection, navigation],
   )
 
@@ -112,7 +116,7 @@ const FeedModalList = ({
     [offset, setLoading],
   )
 
-  const feeds = useMemo(() => (Array.isArray(data) && data.length ? data : [emptyFeed]), [data])
+  const feeds = useFeeds(data)
 
   return (
     <Portal>

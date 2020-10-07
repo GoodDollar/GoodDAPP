@@ -2,14 +2,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, Platform, View } from 'react-native'
 import { Portal } from 'react-native-paper'
-import { isArray, isEmpty, once } from 'lodash'
+import { once } from 'lodash'
 import { isMobileOnly } from '../../lib/utils/platform'
 import { withStyles } from '../../lib/styles'
 import { getScreenHeight, getScreenWidth } from '../../lib/utils/orientation'
 import { getMaxDeviceWidth } from '../../lib/utils/sizes'
 import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
-import { emptyFeed, keyExtractor, VIEWABILITY_CONFIG } from './utils/feed'
+import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
 
 export type FeedModalListProps = {
   data: any,
@@ -116,13 +116,7 @@ const FeedModalList = ({
     [offset, setLoading],
   )
 
-  const feeds = useMemo(() => {
-    if (!isArray(data) || isEmpty(data)) {
-      return [emptyFeed]
-    }
-
-    return data
-  }, [data])
+  const feeds = useFeeds(data)
 
   return (
     <Portal>

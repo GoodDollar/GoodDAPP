@@ -118,6 +118,7 @@ const Config = {
   nodeEnv: env.NODE_ENV,
   forcePeer: forcePeer && forcePeer[1],
   peersProb: env.REACT_APP_GUN_PEERS_PROB || [1, 0.2],
+  isPatch: (env.VERSION.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
 }
 
 //get and override settings from server

@@ -46,8 +46,7 @@ const WhatsNewButtonComponent = () => {
   const handlePress = useOnPress(() => window.open(Config.newVersionUrl, '_blank'))
 
   //dont show whats new if just a patch
-  const isPatch = (Config.version.match(/[0-9]+\.[0-9]+\.([0-9]+)/) || [])[0] !== '0'
-  return isPatch ? null : (
+  return Config.isPatch ? null : (
     <TouchableOpacity onPress={handlePress} style={styles.serviceWorkerDialogWhatsNew}>
       <Text fontSize={14} lineHeight={20} fontWeight="medium" color="gray80Percent">
         WHAT’S NEW?
@@ -82,13 +81,14 @@ export default () => {
           },
           {
             text: 'UPDATE',
-            onPress: () => {
+            onPress: dismiss => {
               const { waiting, active } = serviceWorkerUpdated || {}
 
               if (waiting && waiting.postMessage) {
                 log.debug('service worker:', 'sending skip waiting', active.clients)
 
                 waiting.postMessage({ type: 'SKIP_WAITING' })
+                dismiss() // close popup, sometimes service worker doesnt update immediatly
               } else {
                 window.location.reload()
               }

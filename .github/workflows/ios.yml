@@ -14,10 +14,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10.15.3
-      
+
       - name: Install gpg
         run: brew install gnupg
-        
+
       - name: Switch XCode Version
         run: sudo xcode-select -s /Applications/Xcode_11.2.app
 
@@ -44,14 +44,14 @@ jobs:
           pod install
         shell: bash
       - name: Setup provisioning profile
-        run: sudo ./.github/secrets/decrypt_secrets.sh
+        run: ./.github/secrets/decrypt_secrets.sh
         env:
           IOS_PROFILE_KEY: ${{ secrets.IOS_PROFILE_KEY }}
       - name: Generate assets
         run: node ./animationAssets.js
       - name: Build app
         run: |
-          cd ios && sudo xcodebuild archive \
+          cd ios && xcodebuild archive \
             -workspace GoodDollar.xcworkspace \
             -scheme GoodDollar \
             -sdk iphoneos \

@@ -122,7 +122,7 @@ const FeedModalList = ({
     }
 
     return data
-  }, [data, emptyFeed])
+  }, [data])
 
   return (
     <Portal>

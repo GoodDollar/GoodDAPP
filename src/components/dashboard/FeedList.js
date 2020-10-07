@@ -84,7 +84,7 @@ const FeedList = ({
     }
 
     return data.filter(item => get(item, 'type') !== 'invite')
-  }, [data, emptyFeed])
+  }, [data])
 
   const scrollToTop = useOnPress(() => {
     const list = get(flRef, 'current._component._flatListRef', {})

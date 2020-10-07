@@ -8,7 +8,9 @@ export const delay = async (millis, resolveWithValue = null) =>
 
 // eslint-disable-next-line require-await
 export const timeout = async (millis, message = null) =>
-  delay(millis).then(() => throw new Error(message))
+  delay(millis).then(() => {
+    throw new Error(message)
+  })
 
 export const retry = (asyncFn, retries = 5, interval = 0) =>
   defer(() => fromPromise(asyncFn()))

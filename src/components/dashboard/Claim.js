@@ -237,7 +237,7 @@ const Claim = props => {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash, claimValue: curEntitlement })
 
         const claimsSoFar = await advanceClaimsCounter()
-        fireMauticEvent({ claim: claimsSoFar, lastClaim: Date.now() })
+        fireMauticEvent({ claim: claimsSoFar, last_claim: Date.now() })
 
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
           claimValue: weiToGd(curEntitlement),

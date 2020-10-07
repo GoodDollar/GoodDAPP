@@ -117,6 +117,7 @@ const Config = {
   },
   nodeEnv: env.NODE_ENV,
   forcePeer,
+  isPatch: (env.VERSION.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
 }
 
 // TODO: wrap all stubs / "backdoors" made for automated testing

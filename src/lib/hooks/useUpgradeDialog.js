@@ -45,8 +45,7 @@ const styles = StyleSheet.create({
 const WhatsNewButtonComponent = () => {
   const handlePress = useOnPress(() => window.open(Config.newVersionUrl, '_blank'))
 
-  //dont show whats new if just a patch
-  return Config.isPatch ? null : (
+  return (
     <TouchableOpacity onPress={handlePress} style={styles.serviceWorkerDialogWhatsNew}>
       <Text fontSize={14} lineHeight={20} fontWeight="medium" color="gray80Percent">
         WHAT’S NEW?

@@ -15,7 +15,7 @@ export default () => {
 
   const trackClicked = useCallback(() => {
     fireEvent(GOTO_MARKET, {
-      firstTime: wasClicked,
+      firstTime: !wasClicked,
     })
 
     if (wasClicked) {

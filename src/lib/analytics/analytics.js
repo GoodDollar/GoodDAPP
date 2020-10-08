@@ -37,6 +37,7 @@ export const ADDTOHOME_LATER = 'ADDTOHOME_LATER' // desktop/chrome did user acce
 export const ADDTOHOME_OK = 'ADDTOHOME_OK'
 export const ADDTOHOME_REJECTED = 'ADDTOHOME_REJECTED'
 export const GOTO_MARKET = 'GOTO_MARKET'
+export const GOTO_MARKET_POPUP = 'GOTO_MARKET_POPUP'
 export const ERROR_LOG = 'ERROR'
 export const QR_SCAN = 'QR_SCAN'
 export const APP_OPEN = 'APP_OPEN'

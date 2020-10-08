@@ -4,6 +4,7 @@ import SimpleStore, { setInitFunctions } from '../undux/SimpleStore'
 import logger from '../logger/pino-logger'
 import isWebApp from '../utils/isWebApp'
 import { isMobile } from '../utils/platform'
+import AsyncStorage from '../utils/asyncStorage'
 
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
@@ -19,6 +20,7 @@ export default () => {
         store.set('serviceWorkerUpdated')(reg)
         navigator.serviceWorker.addEventListener('controllerchange', function() {
           log.debug('service worker: controllerchange')
+          AsyncStorage.setItem('GD_lastSplash', 0) //show full splash animation
           window.location.reload()
         })
       }

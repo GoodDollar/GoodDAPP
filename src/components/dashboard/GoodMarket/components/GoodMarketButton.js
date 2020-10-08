@@ -10,9 +10,10 @@ import { useDialog } from '../../../../lib/undux/utils/dialog'
 
 import { fireEvent, GOTO_MARKET_POPUP } from '../../../../lib/analytics/analytics'
 import { withStyles } from '../../../../lib/styles'
+import { getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import GoodMarketDialog from './GoodMarketDialog'
 
-const GoodMarketButton = () => {
+const GoodMarketButton = ({ styles }) => {
   const [showDialog] = useDialog()
   const { wasClicked, trackClicked, goToMarket } = useGoodMarket()
 
@@ -38,12 +39,27 @@ const GoodMarketButton = () => {
   }, [wasClicked, trackClicked, onPopupButtonClicked])
 
   return (
-    <TouchableOpacity onPress={onButtonClicked}>
+    <TouchableOpacity onPress={onButtonClicked} style={styles.marketButton}>
       <Icon name="goodmarket" size={36} color="white" />
     </TouchableOpacity>
   )
 }
 
-const getStylesFromProps = ({ theme }) => ({})
+const getStylesFromProps = ({ theme }) => ({
+  marketButton: {
+    backgroundColor: theme.colors.primary,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    width: getDesignRelativeWidth(140),
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    bottom: 0,
+    marginHorizontal: 'auto',
+    borderTopRightRadius: 22,
+    borderTopLeftRadius: 22,
+  },
+})
 
 export default withStyles(getStylesFromProps)(GoodMarketButton)

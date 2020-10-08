@@ -87,7 +87,8 @@ let AppRouter = React.lazy(() => {
   let walletAndStorageReady = retryImport(() => import(/* webpackChunkName: "init" */ './init'))
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
 
-  return Promise.all([retryImport(() => import(/* webpackChunkName: "router" */ './Router')), p2])
+  //always wait for full splash on native
+  return Promise.all([retryImport(() => import(/* webpackChunkName: "router" */ './Router')), p2, delay(5000)])
     .then(r => {
       log.debug('router ready')
       return r

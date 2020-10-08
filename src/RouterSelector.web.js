@@ -1,6 +1,7 @@
 // libraries
 import React, { memo, useEffect, useState } from 'react'
 import bip39 from 'bip39-light'
+import moment from 'moment'
 import AsyncStorage from './lib/utils/asyncStorage'
 
 // components
@@ -93,12 +94,17 @@ let SignupRouter = React.lazy(async () => {
 
 let AppRouter = React.lazy(async () => {
   log.debug('initializing storage and wallet...')
-
+  const lastSplash = (await AsyncStorage.getItem('GD_lastSplash')) || 0
+  const waitForSplash = moment().diff(lastSplash, 'minutes') >= 60
+  if (waitForSplash) {
+    AsyncStorage.setItem('GD_lastSplash', Date.now())
+  }
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     retryImport(() => import(/* webpackChunkName: "init" */ './init'))
       .then(({ init }) => init())
       .then(() => log.debug('storage and wallet ready')),
+    delay(waitForSplash ? animationDuration : 0),
   ])
 
   log.debug('router ready')

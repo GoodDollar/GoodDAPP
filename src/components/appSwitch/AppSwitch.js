@@ -51,6 +51,21 @@ const showOutOfGasError = debounce(
   },
 )
 
+const syncTXFromBlockchain = async () => {
+  const lastUpdateDate = userStorage.userProperties.get('lastTxSyncDate')
+  const now = moment()
+
+  if (lastUpdateDate && !moment(lastUpdateDate).isSame(now, 'day')) {
+    try {
+      const joinedAtBlockNumber = userStorage.userProperties.get('joinedAtBlock')
+      await goodWallet.syncTxWithBlockchain(joinedAtBlockNumber)
+      await userStorage.userProperties.set('lastTxSyncDate', now.valueOf())
+    } catch (e) {
+      log.error('syncTXFromBlockchain failed', e.message, e)
+    }
+  }
+}
+
 let unsuccessfulLaunchAttempts = 0
 
 /**
@@ -70,7 +85,13 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }, [gdstore, ready])
 
-  useAppState({ onForeground: recheck })
+  const backgroundUpdates = useCallback(() => {
+    if (ready) {
+      syncTXFromBlockchain()
+    }
+  }, [ready])
+
+  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation

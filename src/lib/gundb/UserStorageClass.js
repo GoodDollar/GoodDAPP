@@ -2425,6 +2425,26 @@ export class UserStorage {
     return this.userProperties.set('lastBlock', blockNumber)
   }
 
+  /**
+   * Saves block number right after user registered
+   *
+   * @returns {void}
+   */
+  async saveJoinedBlockNumber(): void {
+    // default block to start sync from
+    const blockNumber = await this.wallet.wallet.eth
+      .getBlockNumber()
+      .catch(e => UserProperties.defaultProperties.joinedAtBlock)
+
+    logger.debug('Saving lastBlock number right after registration:', blockNumber)
+
+    return this.userProperties.updateAll({
+      joinedAtBlock: blockNumber,
+      lastBlock: blockNumber,
+      lastTxSyncDate: moment().valueOf(),
+    })
+  }
+
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
 

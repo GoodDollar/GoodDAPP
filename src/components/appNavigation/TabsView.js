@@ -147,10 +147,6 @@ const TabsView = ({ navigation }) => {
 
   const goToRewards = useCallback(
     event => {
-      // if (isIOS) {
-      //   const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
-      //   return window.open(src, '_blank')
-      // }
       event.preventDefault()
       navigation.navigate('Rewards')
     },

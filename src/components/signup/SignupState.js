@@ -20,7 +20,7 @@ import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
-import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
+import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
 import API, { getErrorMessage } from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -162,10 +162,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   /**
-   * if user arrived from w3 with an inviteCode, we forward it to the server
-   * which registers the user on w3 with it
+   * check if user arrived with invite code
    */
-  const checkW3InviteCode = async () => {
+  const checkInviteCode = async () => {
     const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH)
     const params = get(destinationPath, 'params')
     const paymentParams = params && parsePaymentLinkParams(params)
@@ -279,7 +278,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     log.info('Sending new user data', { state, regMethod, torusProvider })
     try {
       const { goodWallet, userStorage } = await ready
-      const inviteCode = await checkW3InviteCode()
+      const inviteCode = await checkInviteCode()
       const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
 
       log.debug('invite code:', { inviteCode })
@@ -333,15 +332,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         }),
 
         // Stores creationBlock number into 'lastBlock' feed's node
-        goodWallet
-          .getBlockNumber()
-          .then(_ => _.toString())
-          .catch(e => {
-            const { message } = e
-            log.error('save blocknumber failed:', message, e, { category: ExceptionCategory.Blockhain })
-            return '0'
-          })
-          .then(block => userStorage.userProperties.updateAll({ regMethod, lastBlock: block })),
+        userStorage.saveJoinedBlockNumber(),
+        userStorage.userProperties.updateAll({ regMethod }),
       ])
 
       // trying to update profile 2 times, if failed anyway - re-throwing exception
@@ -397,6 +389,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           }),
 
         userStorage.userProperties.set('registered', true),
+
         AsyncStorage.setItem(IS_LOGGED_IN, true),
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
       ])

@@ -236,7 +236,7 @@ export class GoodWallet {
         throw new Error('pollEvents not completed after 5 seconds')
       }
     } catch (e) {
-      log.error('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
+      log.warn('pollEvents failed:', e.message, e, { category: ExceptionCategory.Blockhain })
     }
     setTimeout(() => this.pollEvents(fn, time, lastBlockCallback), time)
   }
@@ -251,12 +251,34 @@ export class GoodWallet {
     )
   }
 
-  async pollSendEvents() {
-    const fromBlock = this.lastEventsBlock
+  async syncTxWithBlockchain(fromBlock) {
+    const toBlock = await this.wallet.eth.getBlockNumber()
+    const filter = [toBlock, fromBlock]
+
+    log.debug('Start sync of txs from blockchain', {
+      filter,
+    })
+
+    try {
+      await Promise.all([
+        this.pollSendEvents(...filter),
+        this.pollReceiveEvents(...filter),
+        this.pollOTPLEvents(...filter),
+      ])
+
+      log.debug('Sync of tx from blockchain finished successfully')
+    } catch (e) {
+      log.error('Failed to sync tx from blockchain', e.message, e)
+    }
+  }
+
+  async pollSendEvents(toBlock, from = null) {
+    const fromBlock = from || this.lastEventsBlock
     const contract = this.erc20Contract
 
     const fromEventsFilter = {
       fromBlock,
+      toBlock,
       filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
     }
 
@@ -291,12 +313,13 @@ export class GoodWallet {
     this.getSubscribers('balanceChanged').forEach(cb => cb(events))
   }
 
-  async pollReceiveEvents() {
-    const fromBlock = this.lastEventsBlock
+  async pollReceiveEvents(toBlock, from = null) {
+    const fromBlock = from || this.lastEventsBlock
     const contract = this.erc20Contract
 
     const toEventsFilter = {
       fromBlock,
+      toBlock,
       filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
     }
 
@@ -329,12 +352,13 @@ export class GoodWallet {
     this.getSubscribers('balanceChanged').forEach(cb => cb(events))
   }
 
-  async pollOTPLEvents() {
-    const fromBlock = this.lastEventsBlock
+  async pollOTPLEvents(toBlock, from = null) {
+    const fromBlock = from || this.lastEventsBlock
     const contract = this.oneTimePaymentsContract
 
     const fromEventsFilter = {
       fromBlock,
+      toBlock,
       filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
     }
 
@@ -357,6 +381,11 @@ export class GoodWallet {
     })
 
     const events = eventsWithdraw.concat(eventsCancel)
+
+    if (events.length === 0) {
+      return
+    }
+
     log.info('pollOTPLEvents result', events)
     const uniqEvents = uniqBy(events, 'transactionHash')
 

@@ -74,7 +74,7 @@ export class APIService {
    * init API with axions client and proper interptors. Needs `GoodDAPP_jwt`to be present in AsyncStorage
    */
   init(jwtToken = null) {
-    const { serverUrl, apiTimeout, web3SiteUrl } = Config
+    const { serverUrl, apiTimeout } = Config
 
     this.jwt = jwtToken
     log.info('initializing api...', serverUrl, jwtToken)
@@ -122,16 +122,6 @@ export class APIService {
 
       this.client = await instance
       log.info('API ready', jwt)
-
-      let w3Instance: AxiosInstance = axios.create({
-        baseURL: web3SiteUrl,
-        timeout: apiTimeout,
-      })
-
-      w3Instance.interceptors.response.use(({ data }) => data, exceptionHandler)
-
-      this.w3Client = await w3Instance
-      log.info('W3 client ready')
     })())
   }
 
@@ -180,18 +170,6 @@ export class APIService {
    */
   userExists(): AxiosPromise<any> {
     return this.client.get('/user/exists')
-  }
-
-  /**
-   * `/w3Site/api/wl/user/update_profile` post w3 api call to delete wallet address
-   * @param {string} token
-   */
-  deleteWalletFromW3Site(token): AxiosPromise<any> {
-    this.w3Client.defaults.headers.common.Authorization = token
-
-    return this.w3Client.put('/api/wl/user/update_profile', {
-      wallet_address: null,
-    })
   }
 
   /**
@@ -347,23 +325,6 @@ export class APIService {
     const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.get(endpoint)
-  }
-
-  /**
-   * `/storage/login/token` get api call
-   */
-  getLoginToken() {
-    return this.client.get('/verify/w3/logintoken')
-  }
-
-  /**
-   * `/w3Site/api/wl/user` get user from web3 by token
-   * @param {string} token
-   */
-  getUserFromW3ByToken(token: string): Promise<$AxiosXHR<any>> {
-    this.w3Client.defaults.headers.common.Authorization = token
-
-    return this.w3Client.get('/api/wl/user')
   }
 
   /**

@@ -17,7 +17,7 @@
     "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm start:native -- --reset-cache",
     "link": "npm link @gooddollar/goodcontracts",
     "web:local": "npm run link && npm run web",
-    "build": "node scripts/build.js --stats",
+    "build": "react-app-rewired build --analyze",
     "animation:assets": "node ./animationAssets.js",
     "test": "npm run link && npm run test:web && npm run test:native",
     "test:setup": "./scripts/blockchainTestSetup.sh",
@@ -63,7 +63,7 @@
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
     "@expo/react-native-action-sheet": "^3.4.1",
-    "@gooddollar/goodcontracts": "^2.0.0",
+    "@gooddollar/goodcontracts": "^2.1.0",
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/gun-pk-auth": "^1.1.0",

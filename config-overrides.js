@@ -1,10 +1,12 @@
 const assign = require('lodash/assign')
 
-let configType = process.env === 'production' ? 'prod' : 'dev'
-const webpackConfig = require(`./config/webpack.config.${configType}`)
-
 module.exports = {
-  webpack: config => assign(config, webpackConfig),
+  webpack: (config, env) => {
+    const configType = env === 'production' ? 'prod' : 'dev'
+    const webpackConfig = require(`./config/webpack.config.${configType}`)
+
+    return assign(config, webpackConfig)
+  },
 
   jest: config => {
     config.transformIgnorePatterns = [

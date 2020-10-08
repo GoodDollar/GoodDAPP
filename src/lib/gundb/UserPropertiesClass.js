@@ -30,6 +30,8 @@ export default class UserProperties {
     registered: false,
     startClaimingAdded: false,
     lastBlock: 0,
+    joinedAtBlock: 6400000, // default block to start sync from
+    lastTxSyncDate: null,
   }
 
   fields = [
@@ -42,6 +44,8 @@ export default class UserProperties {
     'regMethod',
     'showQuickActionHint',
     'startClaimingAdded',
+    'joinedAtBlock',
+    'lastTxSyncDate',
   ]
 
   /**

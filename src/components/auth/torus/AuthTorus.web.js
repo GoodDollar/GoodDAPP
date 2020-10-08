@@ -158,6 +158,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
+
+        fireEvent(TORUS_SUCCESS, { provider })
+
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
         const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
 
@@ -171,7 +174,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('torus login success', { torusUser })
       } catch (e) {
         // store.set('loadingIndicator')({ loading: false })
-
+        fireEvent(TORUS_FAILED, { provider, error: e.message })
         if (e.message === 'user closed popup') {
           log.info(e.message, e)
         } else {
@@ -187,7 +190,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         // const userExists = await userStorage.userAlreadyExist()
         log.debug('checking userAlreadyExist', { exists, fullName })
-        const { source } = await ready(replacing)
+        await Promise.race([ready(replacing), timeout(60000, 'initialiazing wallet timed out')])
 
         log.debug('showing checkmark dialog')
         // showLoadingDialog(true)
@@ -200,14 +203,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         //user exists reload with dashboard route
         if (exists) {
-          fireEvent(SIGNIN_TORUS_SUCCESS, { provider, source })
+          fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
           store.set('isLoggedIn')(true)
           return
         }
 
         //user doesnt exists start signup
-        fireEvent(SIGNUP_STARTED, { source, provider })
+        fireEvent(SIGNUP_STARTED, { provider })
         navigate('Signup', {
           regMethod: REGISTRATION_METHOD_TORUS,
           torusUser,

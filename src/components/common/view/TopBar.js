@@ -14,7 +14,16 @@ import BigGoodDollar from './BigGoodDollar'
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
-const TopBar = ({ hideBalance, push, children, hideProfile = true, profileAsLink = true }) => {
+const TopBar = ({
+  hideBalance,
+  push,
+  children,
+  style,
+  hideProfile = true,
+  profileAsLink = true,
+  contentStyle,
+  avatarSize,
+}) => {
   const store = GDStore.useStore()
   const { balance } = store.get('account')
   const { avatar } = store.get('profile')
@@ -27,14 +36,20 @@ const TopBar = ({ hideBalance, push, children, hideProfile = true, profileAsLink
     push('Profile')
   }, [push, profileAsLink])
 
+  const onPressAvatar = () => {
+    if (push) {
+      return profileAsLink ? redirectToProfile : null
+    }
+  }
+
   return (
-    <Section style={styles.topBar}>
+    <Section style={[styles.topBar, style]}>
       <Section.Row
         alignItems={Platform.select({
           web: 'center',
           default: 'flex-end',
         })}
-        style={{ flexDirection: 'row-reverse' }}
+        style={({ flexDirection: 'row-reverse' }, contentStyle)}
       >
         {/*
          if children exist, it will be rendered
@@ -42,7 +57,7 @@ const TopBar = ({ hideBalance, push, children, hideProfile = true, profileAsLink
          if children=undefined and hideBalance=true, nothing will be rendered
          */}
         {children ? children : !hideBalance && <BigGoodDollar number={balance} />}
-        {hideProfile !== true && <Avatar source={avatar} onPress={redirectToProfile} />}
+        {hideProfile !== true && <Avatar source={avatar} onPress={onPressAvatar} size={avatarSize} />}
       </Section.Row>
     </Section>
   )

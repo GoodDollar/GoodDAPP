@@ -136,7 +136,6 @@ const EmptySpaceComponent = ({ style }) => (
   </>
 )
 
-
 const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()
 
@@ -203,7 +202,7 @@ const TabsView = ({ navigation }) => {
         </>
       )*/}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
-      {/*!market && */!showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
+      {/*!market && */ !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
       <TouchableOpacity onPress={_slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>

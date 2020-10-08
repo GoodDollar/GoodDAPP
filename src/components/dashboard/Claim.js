@@ -158,7 +158,9 @@ const Claim = props => {
     if (nextClaimTime <= 0) {
       gatherStats()
     }
-    setNextClaim(numeral(nextClaimTime).format('00:00:00'))
+    let countDown = numeral(nextClaimTime).format('00:00:00')
+    countDown = countDown.length === 7 ? '0' + countDown : countDown //numeral will format with only 1 leading 0
+    setNextClaim(countDown)
   }, [nextClaimDate])
 
   const gatherStats = async () => {
@@ -237,7 +239,7 @@ const Claim = props => {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash, claimValue: curEntitlement })
 
         const claimsSoFar = await advanceClaimsCounter()
-        fireMauticEvent({ claim: claimsSoFar, lastClaim: Date.now() })
+        fireMauticEvent({ claim: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
 
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
           claimValue: weiToGd(curEntitlement),

@@ -19,8 +19,12 @@ export const LogEvent = {
 const emitter = new EventEmitter()
 const logger = pino({ level: Config.logLevel })
 
+// adding .on() method to listen logger events
+// this allows other services (e.g. analytics)
+// to listen for a specific log messages (e.g. errors)
 logger.on = emitter.on.bind(emitter)
 
+// overriding log levels methods to emit corresponding event additionally
 values(omit(LogEvent, 'Log')).forEach(level => {
   // logger.debug = logger.info hack
   const proxy = logger[level === 'debug' ? 'info' : level].bind(logger)

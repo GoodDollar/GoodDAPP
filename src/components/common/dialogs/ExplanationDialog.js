@@ -54,6 +54,7 @@ const ExplanationDialog = ({
   imageHeight = 74,
   buttons,
   fullHeight = false,
+  imageContainer = defaultCustomStyle,
   titleStyle = defaultCustomStyle,
   textStyle = defaultCustomStyle,
   labelStyle = defaultCustomStyle,
@@ -81,8 +82,8 @@ const ExplanationDialog = ({
       {ImageComponent ? (
         <ImageComponent {...imageProps} />
       ) : imageSource ? (
-        <View style={styles.centerImage}>
-          <Image {...imageProps} />
+        <View style={[styles.centerImage, imageContainer]}>
+          <Image source={imageSource} {...imageProps} />
         </View>
       ) : null}
       {label && <Text style={labelStyle}>{label}</Text>}

@@ -21,7 +21,7 @@ if (isUndefined(phase)) {
 const isPhaseZero = 0 === phase
 const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
-const version = env.VERSION || '1.0.0'
+const version = env.VERSION || 'v0'
 
 const Config = {
   env: devenv,

@@ -54,6 +54,7 @@ const ExplanationDialog = ({
   imageHeight = 74,
   buttons,
   fullHeight = false,
+  imageContainer = defaultCustomStyle,
   titleStyle = defaultCustomStyle,
   textStyle = defaultCustomStyle,
   labelStyle = defaultCustomStyle,
@@ -79,7 +80,9 @@ const ExplanationDialog = ({
       {ImageComponent ? (
         <ImageComponent {...imageProps} />
       ) : imageSource ? (
-        <Image source={imageSource} {...imageProps} />
+        <View style={imageContainer}>
+          <Image source={imageSource} {...imageProps} />
+        </View>
       ) : null}
       {label && <Text style={labelStyle}>{label}</Text>}
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={[styles.title, titleStyle]}>

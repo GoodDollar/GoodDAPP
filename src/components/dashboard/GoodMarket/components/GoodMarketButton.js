@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { TouchableOpacity } from 'react-native'
+import { noop } from 'lodash'
 
 import Icon from '../../../common/view/Icon'
 
@@ -15,7 +16,7 @@ const GoodMarketButton = () => {
   const [showDialog] = useDialog()
   const { wasClicked, trackClicked, goToMarket } = useGoodMarket()
 
-  const onPopupButtonClicked = useOnPress(() => {
+  const onPopupButtonClicked = useCallback(() => {
     fireEvent(GOTO_MARKET_POPUP)
     goToMarket()
   }, [goToMarket])
@@ -29,6 +30,9 @@ const GoodMarketButton = () => {
     }
 
     showDialog({
+      isMinHeight: false,
+      showButtons: false,
+      onDismiss: noop,
       content: <GoodMarketDialog onGotoMarket={onPopupButtonClicked} />,
     })
   }, [wasClicked, trackClicked, onPopupButtonClicked])

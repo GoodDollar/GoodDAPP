@@ -40,23 +40,30 @@ const ExplanationButton = ({ text = 'OK', action = noop, mode, styles }) => {
   )
 }
 
+const defaultCustomStyle = {}
+
 const ExplanationDialog = ({
   styles,
   theme,
   errorMessage,
+  label,
   title,
   text,
-  textStyle,
   imageSource,
   image: ImageComponent,
   imageHeight = 74,
   buttons,
+  titleStyle = defaultCustomStyle,
+  textStyle = defaultCustomStyle,
+  labelStyle = defaultCustomStyle,
+  imageStyle = defaultCustomStyle,
 }) => {
   const imageProps = {
     style: [
       styles.image,
       { height: getDesignRelativeHeight(imageHeight, false) },
       { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) },
+      imageStyle,
     ],
     resizeMode: 'contain',
   }
@@ -77,7 +84,8 @@ const ExplanationDialog = ({
           <Image {...imageProps} />
         </View>
       ) : null}
-      <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
+      {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
+      <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={[styles.title, titleStyle]}>
         {title}
       </Text>
       {text && <Text style={[styles.description, textStyle]}>{text}</Text>}
@@ -108,6 +116,9 @@ const mapStylesToProps = () => ({
   image: {
     width: '100%',
     marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
+  },
+  label: {
+    // TODO: label styles
   },
   title: {
     marginBottom: getDesignRelativeHeight(8),

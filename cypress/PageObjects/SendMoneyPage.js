@@ -92,9 +92,9 @@ class SendMoneyPage {
     return cy.get('[role="button"]').contains('Cancel link')
   }
 
-  // get sendAddressButton() {
-  //   return cy.contains('Send to address')
-  // }
+  get sendAddressButton() {
+    return cy.contains('Send to address')
+  }
 
   get addressInput() {
     return cy.get('input[placeholder="Enter Wallet Address"]')

@@ -20,7 +20,7 @@ import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
-import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
+import { decorate, ExceptionCode } from '../../lib/logger/exceptions'
 import API, { getErrorMessage } from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -329,15 +329,8 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         }),
 
         // Stores creationBlock number into 'lastBlock' feed's node
-        goodWallet
-          .getBlockNumber()
-          .then(_ => _.toString())
-          .catch(e => {
-            const { message } = e
-            log.error('save blocknumber failed:', message, e, { category: ExceptionCategory.Blockhain })
-            return '0'
-          })
-          .then(block => userStorage.userProperties.updateAll({ regMethod, lastBlock: block })),
+        userStorage.saveJoinedBlockNumber(),
+        userStorage.userProperties.updateAll({ regMethod }),
       ])
 
       // trying to update profile 2 times, if failed anyway - re-throwing exception
@@ -393,6 +386,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           }),
 
         userStorage.userProperties.set('registered', true),
+
         AsyncStorage.setItem(IS_LOGGED_IN, true),
         AsyncStorage.removeItem(GD_INITIAL_REG_METHOD),
       ])

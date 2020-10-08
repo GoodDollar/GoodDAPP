@@ -7,6 +7,7 @@ import { withStyles } from '../../../../lib/styles'
 
 import illustration from '../../../../assets/GoodMarket.svg'
 import { getFormattedDateTime } from '../../../../lib/utils/FormatDate'
+import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 
 const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
   const currentDateTime = useMemo(() => getFormattedDateTime(), [])
@@ -25,6 +26,9 @@ const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
       titleStyle={styles.title}
       textStyle={styles.text}
       imageStyle={styles.image}
+      resizeMode={false}
+      imageHeight={76}
+      fullHeight
       buttons={[
         {
           text: "LET'S GO",
@@ -35,18 +39,38 @@ const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
   )
 }
 
-const mapStylesToProps = () => ({
+const mapStylesToProps = ({ theme }) => ({
   title: {
-    // TODO: adjust title style & add blue top/bottom bordfers
+    paddingTop: getDesignRelativeHeight(20),
+    paddingBottom: getDesignRelativeHeight(20),
+    borderBottomWidth: 2,
+    borderTopWidth: 2,
+    borderColor: theme.colors.primary,
+    fontSize: 22,
+    textAlign: 'left',
+    color: theme.colors.darkGray,
+    lineHeight: 25,
+    marginBottom: 20,
+    fontWeight: 500,
   },
   text: {
-    // TODO: adjust text style
+    fontSize: 14,
+    textAlign: 'left',
+    lineHeight: 20,
+    color: theme.colors.darkGray,
+    fontWeight: 400,
+    flex: 1,
   },
   label: {
-    // TODO: adjust label style
+    marginBottom: 20,
+    color: theme.colors.darkGray,
+    fontSize: 10,
+    lineHeight: 11,
+    textAlign: 'left',
   },
   imageStyle: {
-    // TODO: adjust image style
+    maxHeigth: getDesignRelativeHeight(74),
+    marginBottom: getDesignRelativeHeight(36),
   },
 })
 

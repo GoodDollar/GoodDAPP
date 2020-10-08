@@ -76,6 +76,8 @@ import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
+import GoodMarketButton from './GoodMarket/components/GoodMarketButton'
+
 const log = logger.child({ from: 'Dashboard' })
 
 let didRender = false
@@ -754,6 +756,7 @@ const Dashboard = props => {
           navigation={navigation}
         />
       )}
+      <GoodMarketButton />
     </Wrapper>
   )
 }

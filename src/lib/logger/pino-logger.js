@@ -13,6 +13,7 @@ export const LogEvent = {
   Warning: 'warn',
   Info: 'info',
   Trace: 'trace',
+  Debug: 'debug',
 }
 
 const emitter = new EventEmitter()

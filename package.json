@@ -79,7 +79,7 @@
     "@react-navigation/web": "^1.0.0-alpha.9",
     "@sentry/browser": "^5.10.2",
     "@sentry/react-native": "^1.7.1",
-    "@toruslabs/torus-direct-web-sdk": "^3.0.3",
+    "@toruslabs/torus-direct-web-sdk": "^3.4.1",
     "@tradle/react-native-http": "^2.0.1",
     "Base64": "^1.1.0",
     "FormData": "^0.10.1",

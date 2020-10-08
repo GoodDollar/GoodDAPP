@@ -1,46 +1,37 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { TouchableOpacity } from 'react-native'
 
 import Icon from '../../../common/view/Icon'
-import useGoodMarket from '../hooks/useGoodMarket'
 
+import useGoodMarket from '../hooks/useGoodMarket'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import { useDialog } from '../../../../lib/undux/utils/dialog'
+
+import { fireEvent, GOTO_MARKET_POPUP } from '../../../../lib/analytics/analytics'
 import { withStyles } from '../../../../lib/styles'
 import GoodMarketDialog from './GoodMarketDialog'
 
 const GoodMarketButton = () => {
   const [showDialog] = useDialog()
-  const showPopupOnNextRenderRef = useRef(false)
-
   const { wasClicked, trackClicked, goToMarket } = useGoodMarket()
 
+  const onPopupButtonClicked = useOnPress(() => {
+    fireEvent(GOTO_MARKET_POPUP)
+    goToMarket()
+  }, [goToMarket])
+
   const onButtonClicked = useOnPress(() => {
+    trackClicked()
+
     if (wasClicked) {
       goToMarket()
-    } else {
-      showPopupOnNextRenderRef.current = true
-    }
-
-    trackClicked()
-  }, [wasClicked, trackClicked, goToMarket])
-
-  useEffect(() => {
-    if (!showPopupOnNextRenderRef.current) {
       return
     }
 
-    const onLetsGoClicked = () => {
-      goToMarket()
-      trackClicked()
-    }
-
-    showPopupOnNextRenderRef.current = false
-
     showDialog({
-      content: <GoodMarketDialog onGotoMarket={onLetsGoClicked} />,
+      content: <GoodMarketDialog onGotoMarket={onPopupButtonClicked} />,
     })
-  }, [goToMarket, trackClicked])
+  }, [wasClicked, trackClicked, onPopupButtonClicked])
 
   return (
     <TouchableOpacity onPress={onButtonClicked}>

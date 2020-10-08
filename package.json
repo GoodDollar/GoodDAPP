@@ -17,7 +17,7 @@
     "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm start:native -- --reset-cache",
     "link": "npm link @gooddollar/goodcontracts",
     "web:local": "npm run link && npm run web",
-    "build": "node scripts/build.js --stats",
+    "build": "react-app-rewired build --analyze",
     "animation:assets": "node ./animationAssets.js",
     "test": "npm run link && npm run test:web && npm run test:native",
     "test:setup": "./scripts/blockchainTestSetup.sh",

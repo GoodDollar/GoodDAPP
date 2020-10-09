@@ -1,11 +1,10 @@
 // libraries
 import React, { memo, useEffect, useState } from 'react'
 import bip39 from 'bip39-light'
-import moment from 'moment'
 import AsyncStorage from './lib/utils/asyncStorage'
 
 // components
-import Splash, { animationDuration } from './components/splash/Splash'
+import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
 
 // hooks
 import useUpgradeDialog from './lib/hooks/useUpgradeDialog'
@@ -94,11 +93,8 @@ let SignupRouter = React.lazy(async () => {
 
 let AppRouter = React.lazy(async () => {
   log.debug('initializing storage and wallet...')
-  const lastSplash = (await AsyncStorage.getItem('GD_lastSplash')) || 0
-  const waitForSplash = moment().diff(lastSplash, 'minutes') >= 60
-  if (waitForSplash) {
-    AsyncStorage.setItem('GD_lastSplash', Date.now())
-  }
+  const waitForSplash = await shouldAnimateSplash()
+
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     retryImport(() => import(/* webpackChunkName: "init" */ './init'))
@@ -116,6 +112,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
 
   useEffect(() => {
     log.debug('RouterSelector Rendered', { isLoggedIn })
+
     if (isLoggedIn) {
       document.cookie = 'hasWallet=1;Domain=.gooddollar.org'
     }

@@ -1,17 +1,20 @@
 // libraries
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import { isUndefined } from 'lodash'
+import moment from 'moment'
 
 // components
 import AnimationsLogo from '../common/animations/Logo'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
+import WavesBackground from '../common/view/WavesBackground'
 
 // utils
 import Config from '../../config/config'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import WavesBackground from '../common/view/WavesBackground'
 import { isMobile } from '../../lib/utils/platform'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // assets
 // import wavePattern from '../../assets/splashWaves.svg'
@@ -19,6 +22,27 @@ import { isMobile } from '../../lib/utils/platform'
 const { isPhaseZero, version } = Config
 
 export const animationDuration = 5000
+
+let animateSplash
+const lastSplashProp = 'GD_lastSplash'
+
+export const shouldAnimateSplash = async () => {
+  if (!isUndefined(animateSplash)) {
+    return
+  }
+
+  const lastSplash = (await AsyncStorage.getItem(lastSplashProp)) || 0
+  animateSplash = moment().diff(lastSplash, 'minutes') >= 60
+
+  if (animateSplash) {
+    AsyncStorage.setItem(lastSplashProp, Date.now())
+  }
+}
+
+export const resetLastSplash = () => {
+  animateSplash = true
+  AsyncStorage.setItem(lastSplashProp, 0)
+}
 
 const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>
@@ -45,7 +69,10 @@ const Splash = ({ animation }) => (
               </Section.Text>
             </Section.Stack>
           )}
-          <AnimationsLogo animation={animation} style={isMobile ? styles.mobileAnimation : styles.animation} />
+          <AnimationsLogo
+            animation={animateSplash && animation}
+            style={isMobile ? styles.mobileAnimation : styles.animation}
+          />
           <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
             {isPhaseZero && 'Demo '}V{version}
           </Section.Text>

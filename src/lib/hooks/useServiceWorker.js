@@ -18,9 +18,9 @@ export default () => {
 
       const onUpdate = reg => {
         store.set('serviceWorkerUpdated')(reg)
-        navigator.serviceWorker.addEventListener('controllerchange', function() {
+        navigator.serviceWorker.addEventListener('controllerchange', async () => {
           log.debug('service worker: controllerchange')
-          resetLastSplash() // show full splash animation
+          await resetLastSplash() // show full splash animation
           window.location.reload()
         })
       }

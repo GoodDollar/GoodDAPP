@@ -22,7 +22,7 @@ let SignupRouter = React.lazy(async () => {
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(),
-    delay(5000),
+    delay(animationDuration),
   ])
 
   return module

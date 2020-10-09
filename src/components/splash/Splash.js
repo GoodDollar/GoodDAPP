@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import { isUndefined } from 'lodash'
 import moment from 'moment'
 
@@ -23,7 +23,9 @@ const { isPhaseZero, version } = Config
 
 export const animationDuration = 5000
 
-let animateSplash
+// initialize animateSplash with true for native platform
+// this will always animate splash on native
+let animateSplash = Platform.select({ native: true })
 const lastSplashProp = 'GD_lastSplash'
 
 export const shouldAnimateSplash = async () => {

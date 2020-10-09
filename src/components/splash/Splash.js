@@ -1,6 +1,8 @@
 // libraries
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { isUndefined } from 'lodash'
+import moment from 'moment'
 
 // components
 import AnimationsLogo from '../common/animations/Logo'
@@ -10,6 +12,7 @@ import Section from '../common/layout/Section'
 // utils
 import Config from '../../config/config'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // assets
 import wavePattern from '../../assets/splashWaves.svg'
@@ -17,6 +20,27 @@ import wavePattern from '../../assets/splashWaves.svg'
 const { isPhaseZero, version } = Config
 
 export const animationDuration = 5000
+
+let animateSplash
+const lastSplashProp = 'GD_lastSplash'
+
+export const shouldAnimateSplash = async () => {
+  if (!isUndefined(animateSplash)) {
+    return
+  }
+
+  const lastSplash = (await AsyncStorage.getItem(lastSplashProp)) || 0
+  animateSplash = moment().diff(lastSplash, 'minutes') >= 60
+
+  if (animateSplash) {
+    AsyncStorage.setItem(lastSplashProp, Date.now())
+  }
+}
+
+export const resetLastSplash = () => {
+  animateSplash = true
+  AsyncStorage.setItem(lastSplashProp, 0)
+}
 
 const Splash = ({ animation }) => (
   <Wrapper style={styles.wrapper}>
@@ -43,7 +67,7 @@ const Splash = ({ animation }) => (
             </Section.Text>
           </Section.Stack>
         )}
-        <AnimationsLogo animation={animation} style={styles.animation} />
+        <AnimationsLogo animation={animateSplash && animation} style={styles.animation} />
         <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
           {isPhaseZero && 'Demo '}V{version}
         </Section.Text>

@@ -199,22 +199,6 @@ export const backupMessage = {
   },
 }
 
-export const startSpending = {
-  id: '3',
-  type: 'spending',
-  status: 'completed',
-  data: {
-    customName: 'Go to GoodMarket',
-    subtitle: "Start spending your G$'s",
-    readMore: 'here >>>',
-    receiptData: {
-      from: NULL_ADDRESS,
-    },
-    reason:
-      'Visit GoodMarket, eToro’s exclusive marketplace, where you can buy or sell items in exchange for GoodDollars.',
-  },
-}
-
 export const startClaiming = {
   id: '4',
   type: 'claiming',
@@ -1141,20 +1125,10 @@ export class UserStorage {
 
     // first time user visit
     if (firstVisitAppDate == null) {
-      if (Config.isEToro) {
-        this.enqueueTX(welcomeMessageOnlyEtoro)
-
-        setTimeout(() => {
-          this.enqueueTX(startSpending)
-        }, 60 * 1000) // 1 minute
-      } else {
-        this.enqueueTX(welcomeMessage)
-      }
+      this.enqueueTX(Config.isEToro ? welcomeMessageOnlyEtoro : welcomeMessage)
 
       if (Config.enableInvites) {
-        setTimeout(() => {
-          this.enqueueTX(inviteFriendsMessage)
-        }, 2 * 60 * 1000) // 2 minutes
+        setTimeout(() => this.enqueueTX(inviteFriendsMessage), 120000) // 2 minutes
       }
 
       await this.userProperties.set('firstVisitApp', Date.now())
@@ -1203,7 +1177,7 @@ export class UserStorage {
   }
 
   addAllCardsTest() {
-    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims, startSpending].forEach(m => {
+    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
       const copy = Object.assign({}, m, { id: String(Math.random()) })
       this.enqueueTX(copy)
     })

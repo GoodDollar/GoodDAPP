@@ -53,7 +53,7 @@ const ExplanationDialog = ({
   image: ImageComponent,
   imageHeight = 74,
   buttons,
-  fullHeight = false,
+  containerStyle = defaultCustomStyle,
   imageContainer = defaultCustomStyle,
   titleStyle = defaultCustomStyle,
   textStyle = defaultCustomStyle,
@@ -63,7 +63,7 @@ const ExplanationDialog = ({
   const imageProps = {
     style: [
       styles.image,
-      { height: imageHeight },
+      { height: getDesignRelativeHeight(imageHeight, false) },
       { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) },
       imageStyle,
     ],
@@ -71,7 +71,7 @@ const ExplanationDialog = ({
   }
 
   return (
-    <View style={[styles.container, fullHeight && styles.fullHeight]}>
+    <View style={[styles.container, containerStyle]}>
       {errorMessage && (
         <Text color={theme.colors.red} style={styles.error}>
           {errorMessage}
@@ -84,7 +84,7 @@ const ExplanationDialog = ({
           <Image source={imageSource} {...imageProps} />
         </View>
       ) : null}
-      {label && <Text style={labelStyle}>{label}</Text>}
+      {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={[styles.title, titleStyle]}>
         {title}
       </Text>
@@ -117,11 +117,14 @@ const mapStylesToProps = () => ({
     width: '100%',
     marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
   },
+  label: {
+    color: theme.colors.darkGray,
+    fontSize: normalizeText(10),
+    lineHeight: 11,
+    textAlign: 'left',
+  },
   title: {
     marginBottom: getDesignRelativeHeight(8),
-  },
-  fullHeight: {
-    minHeight: getDesignRelativeHeight(495),
   },
   description: {
     fontSize: normalizeText(24),

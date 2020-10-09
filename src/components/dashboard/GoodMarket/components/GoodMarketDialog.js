@@ -7,7 +7,7 @@ import { withStyles } from '../../../../lib/styles'
 
 import illustration from '../../../../assets/GoodMarket.svg'
 import { getFormattedDateTime } from '../../../../lib/utils/FormatDate'
-import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
 const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
   const currentDateTime = useMemo(() => getFormattedDateTime(), [])
@@ -25,10 +25,11 @@ const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
       labelStyle={styles.label}
       titleStyle={styles.title}
       textStyle={styles.text}
-      imageContainer={styles.imageStyle}
+      imageContainer={styles.imageContainer}
+      containerStyle={styles.fullHeight}
+      imageStyle={styles.imageStyle}
       resizeMode={false}
       imageHeight={76}
-      fullHeight
       buttons={[
         {
           text: "LET'S GO",
@@ -63,14 +64,19 @@ const mapStylesToProps = ({ theme }) => ({
   },
   label: {
     marginBottom: 20,
-    color: theme.colors.darkGray,
-    fontSize: 10,
-    lineHeight: 11,
-    textAlign: 'left',
   },
   imageStyle: {
-    maxHeigth: getDesignRelativeHeight(76),
+    height: getDesignRelativeHeight(76),
+    width: getDesignRelativeWidth(176),
+  },
+  imageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginBottom: getDesignRelativeHeight(36),
+  },
+  fullHeight: {
+    minHeight: getDesignRelativeHeight(495),
   },
 })
 

@@ -37,9 +37,9 @@ export const shouldAnimateSplash = async () => {
   }
 }
 
-export const resetLastSplash = () => {
+export const resetLastSplash = async () => {
   animateSplash = true
-  AsyncStorage.setItem(lastSplashProp, 0)
+  await AsyncStorage.setItem(lastSplashProp, 0)
 }
 
 const Splash = ({ animation }) => (

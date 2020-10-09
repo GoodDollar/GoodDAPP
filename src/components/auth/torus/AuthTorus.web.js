@@ -10,6 +10,8 @@ import {
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
+  TORUS_SUCCESS,
+  TORUS_FAILED,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
@@ -175,6 +177,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       } catch (e) {
         // store.set('loadingIndicator')({ loading: false })
         fireEvent(TORUS_FAILED, { provider, error: e.message })
+
         if (e.message === 'user closed popup') {
           log.info(e.message, e)
         } else {

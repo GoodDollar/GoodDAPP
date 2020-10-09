@@ -53,6 +53,7 @@ const mapStylesToProps = ({ theme }) => ({
     lineHeight: 25,
     marginBottom: 20,
     fontWeight: 500,
+    fontFamily: theme.fonts.default,
   },
   text: {
     fontSize: 14,

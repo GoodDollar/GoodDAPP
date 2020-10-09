@@ -69,12 +69,12 @@ const mapStylesToProps = ({ theme }) => ({
   imageStyle: {
     height: getDesignRelativeHeight(76),
     width: getDesignRelativeWidth(176),
+    marginBottom: getDesignRelativeHeight(36),
   },
   imageContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: getDesignRelativeHeight(36),
   },
   container: {
     minHeight: getDesignRelativeHeight(495),

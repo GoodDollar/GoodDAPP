@@ -52,7 +52,7 @@ const mapStylesToProps = ({ theme }) => ({
     color: theme.colors.darkGray,
     lineHeight: 25,
     marginBottom: 20,
-    fontWeight: 500,
+    fontWeight: '500',
     fontFamily: theme.fonts.default,
   },
   text: {
@@ -60,7 +60,7 @@ const mapStylesToProps = ({ theme }) => ({
     textAlign: 'left',
     lineHeight: 20,
     color: theme.colors.darkGray,
-    fontWeight: 400,
+    fontWeight: '400',
     flex: 1,
   },
   label: {

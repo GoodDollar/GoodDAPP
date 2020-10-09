@@ -1148,6 +1148,72 @@ exports[`AppNavigation matches snapshot 1`] = `
           </div>
         </div>
       </div>
+      <div
+        className="css-view-1dbjc4n"
+        data-focusable={true}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "MozTransitionProperty": "opacity",
+            "MozUserSelect": "none",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitBoxPack": "center",
+            "WebkitFlexDirection": "row",
+            "WebkitJustifyContent": "center",
+            "WebkitTransitionDuration": "0.15s",
+            "WebkitTransitionProperty": "opacity",
+            "WebkitUserSelect": "none",
+            "backgroundColor": "rgba(0,175,255,1.00)",
+            "borderTopLeftRadius": "22px",
+            "borderTopRightRadius": "22px",
+            "bottom": "0px",
+            "cursor": "pointer",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "left": "0px",
+            "marginLeft": "auto",
+            "marginRight": "auto",
+            "msFlexDirection": "row",
+            "msFlexPack": "center",
+            "msTouchAction": "manipulation",
+            "msUserSelect": "none",
+            "paddingBottom": "8px",
+            "paddingTop": "8px",
+            "position": "absolute",
+            "right": "0px",
+            "touchAction": "manipulation",
+            "transitionDuration": "0.15s",
+            "transitionProperty": "opacity",
+            "userSelect": "none",
+            "width": "140px",
+          }
+        }
+        tabIndex="0"
+      >
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(255,255,255,1.00)",
+              "fontFamily": "gooddollar",
+              "fontSize": "36px",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            }
+          }
+        >
+          
+        </div>
+      </div>
     </div>
   </div>
 </div>

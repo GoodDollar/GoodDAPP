@@ -1,7 +1,7 @@
 // @flow
 /*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
@@ -43,8 +43,6 @@ import LoadingIcon from '../../common/modal/LoadingIcon'
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
 import useTorus from './hooks/useTorus'
-
-Image.prefetch(TorusIllustrationSVG)
 
 const log = logger.child({ from: 'AuthTorus' })
 

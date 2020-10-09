@@ -26,7 +26,7 @@ const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
       titleStyle={styles.title}
       textStyle={styles.text}
       imageContainer={styles.imageContainer}
-      containerStyle={styles.fullHeight}
+      containerStyle={styles.container}
       imageStyle={styles.imageStyle}
       resizeMode={false}
       imageHeight={76}
@@ -75,7 +75,7 @@ const mapStylesToProps = ({ theme }) => ({
     justifyContent: 'center',
     marginBottom: getDesignRelativeHeight(36),
   },
-  fullHeight: {
+  container: {
     minHeight: getDesignRelativeHeight(495),
   },
 })

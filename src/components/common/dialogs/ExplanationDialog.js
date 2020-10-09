@@ -77,13 +77,15 @@ const ExplanationDialog = ({
           {errorMessage}
         </Text>
       )}
-      {ImageComponent ? (
-        <ImageComponent {...imageProps} />
-      ) : imageSource ? (
+      {(imageSource || ImageComponent) && (
         <View style={imageContainer}>
-          <Image source={imageSource} {...imageProps} />
-        </View>
-      ) : null}
+          {ImageComponent ? (
+            <ImageComponent {...imageProps} />
+          ) : (
+            <Image source={imageSource} {...imageProps} />        
+          )}
+        </View>  
+      )}
       {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
       <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={[styles.title, titleStyle]}>
         {title}

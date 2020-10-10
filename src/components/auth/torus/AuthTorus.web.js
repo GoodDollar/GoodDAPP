@@ -1,7 +1,7 @@
 // @flow
 /*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
@@ -23,8 +23,8 @@ import Recover from '../../signin/Mnemonics'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../webView/webViewInstances'
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { withStyles } from '../../../lib/styles'
-import illustration from '../../../assets/Auth/torusIllustration.svg'
-import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
+import TorusIllustrationSVG from '../../../assets/Auth/torusIllustration.svg'
+import GoogleBtnIconSVG from '../../../assets/Auth/btn_google.svg'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
@@ -43,8 +43,6 @@ import LoadingIcon from '../../common/modal/LoadingIcon'
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
 import useTorus from './hooks/useTorus'
-
-Image.prefetch(illustration)
 
 const log = logger.child({ from: 'AuthTorus' })
 
@@ -344,7 +342,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           {"\nYes, it's that simple."}
         </Text>
       </Text>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+      <View style={styles.illustration}>
+        <TorusIllustrationSVG />
+      </View>
       <Section style={styles.bottomContainer}>
         {asGuest && (
           <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
@@ -412,7 +412,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           testID="login_with_google"
         >
           <View style={styles.googleButtonContent}>
-            <Image source={googleBtnIcon} resizeMode="contain" style={styles.googleIcon} />
+            <View style={styles.googleIcon} >
+              <GoogleBtnIconSVG />
+            </View>
             <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0}>
               Agree & Continue with Google
             </Text>
@@ -487,6 +489,7 @@ const getStylesFromProps = ({ theme }) => {
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      justifyContent: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(30),

@@ -37,7 +37,7 @@ import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import { userExists } from '../../../lib/login/userExists'
 
-// import { delay } from '../../../lib/utils/async'
+import { timeout } from '../../../lib/utils/async'
 import LoadingIcon from '../../common/modal/LoadingIcon'
 
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'

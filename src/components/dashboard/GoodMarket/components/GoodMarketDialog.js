@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 
-// import normalizeText from '../../../../lib/utils/normalizeText'
 import { withStyles } from '../../../../lib/styles'
 
 import illustration from '../../../../assets/GoodMarket.svg'

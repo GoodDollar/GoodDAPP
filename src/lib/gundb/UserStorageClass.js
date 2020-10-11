@@ -37,7 +37,7 @@ import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
-import API, { getErrorMessage } from '../API/api'
+import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -620,7 +620,6 @@ export class UserStorage {
     })
     logger.debug('starting systemfeed and tokens')
     this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
-    this.initTokens().catch(e => logger.error('failed initializing initTokens', e.message, e))
 
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
@@ -662,50 +661,6 @@ export class UserStorage {
     })()
 
     return this.ready
-  }
-
-  async initTokens() {
-    const initLoginToken = async () => {
-      if (Config.enableInvites) {
-        const r = await API.getLoginToken().catch(e => {
-          const errMsg = getErrorMessage(e)
-          const exception = new Error(errMsg)
-
-          logger.warn('failed fetching login token', { errMsg, exception })
-        })
-        token = get(r, 'data.loginToken')
-        if (token) {
-          this.setProfileField('loginToken', token, 'private')
-        }
-        return token
-      }
-    }
-
-    let [token, inviteCode] = await Promise.all([
-      this.getProfileFieldValue('loginToken'),
-      this.getProfileFieldValue('inviteCode'),
-    ])
-    logger.debug('initTokens: got profile tokens')
-
-    let [_token] = token || (await initLoginToken())
-
-    if (!inviteCode) {
-      const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
-        const errMsg = getErrorMessage(e)
-        const exception = new Error(errMsg)
-
-        logger.warn('failed fetching w3 user', { errMsg, exception })
-
-        return {}
-      })
-      logger.debug('w3 user result', { data })
-      inviteCode = get(data, 'invite_code')
-      if (inviteCode) {
-        this.setProfileField('inviteCode', inviteCode, 'private')
-      }
-    }
-
-    logger.debug('initTokens: done')
   }
 
   /**

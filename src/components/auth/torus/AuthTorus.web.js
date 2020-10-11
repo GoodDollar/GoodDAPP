@@ -1,7 +1,7 @@
 // @flow
 /*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
@@ -22,8 +22,8 @@ import Recover from '../../signin/Mnemonics'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../webView/webViewInstances'
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { withStyles } from '../../../lib/styles'
-import illustration from '../../../assets/Auth/torusIllustration.svg'
-import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
+import TorusIllustrationSVG from '../../../assets/Auth/torusIllustration.svg'
+import GoogleBtnIconSVG from '../../../assets/Auth/btn_google.svg'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
@@ -43,8 +43,6 @@ import LoadingIcon from '../../common/modal/LoadingIcon'
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
 import useTorus from './hooks/useTorus'
-
-Image.prefetch(illustration)
 
 const log = logger.child({ from: 'AuthTorus' })
 
@@ -150,13 +148,16 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           torusUser = await AsyncStorage.getItem('TorusTestUser')
         }
 
-        fireEvent(TORUS_SUCCESS, { provider, source })
+        fireEvent(TORUS_SUCCESS, { provider })
 
         showLoadingDialog()
 
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
+
+        fireEvent(TORUS_SUCCESS, { provider })
+
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
         const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
 
@@ -170,7 +171,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         log.debug('torus login success', { torusUser })
       } catch (e) {
         // store.set('loadingIndicator')({ loading: false })
-        fireEvent(TORUS_FAILED, { provider, source, error: e.message })
+        fireEvent(TORUS_FAILED, { provider, error: e.message })
+
         if (e.message === 'user closed popup') {
           log.info(e.message, e)
         } else {
@@ -186,11 +188,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         // const userExists = await userStorage.userAlreadyExist()
         log.debug('checking userAlreadyExist', { exists, fullName })
-        const { source } = await Promise.race([
-          ready(replacing), 
-          timeout(60000, 'initialiazing wallet timed out')
-        ])
-
+        
+        await Promise.race([ready(replacing), timeout(60000, 'initialiazing wallet timed out')])
+        
         log.debug('showing checkmark dialog')
         // showLoadingDialog(true)
         // await delay(30000000)
@@ -202,14 +202,14 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         //user exists reload with dashboard route
         if (exists) {
-          fireEvent(SIGNIN_TORUS_SUCCESS, { provider, source })
+          fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
           store.set('isLoggedIn')(true)
           return
         }
 
         //user doesnt exists start signup
-        fireEvent(SIGNUP_STARTED, { source, provider })
+        fireEvent(SIGNUP_STARTED, { provider })
         navigate('Signup', {
           regMethod: REGISTRATION_METHOD_TORUS,
           torusUser,
@@ -338,7 +338,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           {"\nYes, it's that simple."}
         </Text>
       </Text>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+      <View style={styles.illustration}>
+        <TorusIllustrationSVG />
+      </View>
       <Section style={styles.bottomContainer}>
         {asGuest && (
           <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
@@ -406,7 +408,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           testID="login_with_google"
         >
           <View style={styles.googleButtonContent}>
-            <Image source={googleBtnIcon} resizeMode="contain" style={styles.googleIcon} />
+            <View style={styles.googleIcon} >
+              <GoogleBtnIconSVG />
+            </View>
             <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0}>
               Agree & Continue with Google
             </Text>
@@ -481,6 +485,7 @@ const getStylesFromProps = ({ theme }) => {
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      justifyContent: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(30),

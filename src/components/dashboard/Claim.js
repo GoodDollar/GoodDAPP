@@ -197,7 +197,15 @@ const Claim = props => {
     setLoading(true)
 
     try {
-      // when we come back from FR entitelment might not be set yet
+      //recheck citizen status, just in case we are out of sync with blockchain
+      if (!isCitizen) {
+        const isCitizenRecheck = await goodWallet.isCitizen()
+        if (!isCitizenRecheck) {
+          return handleFaceVerification()
+        }
+      }
+
+      //when we come back from FR entitelment might not be set yet
       const curEntitlement = dailyUbi || (await goodWallet.checkEntitlement().then(_ => _.toNumber()))
 
       if (!curEntitlement) {
@@ -240,7 +248,7 @@ const Claim = props => {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash, claimValue: curEntitlement })
 
         const claimsSoFar = await advanceClaimsCounter()
-        fireMauticEvent({ claim: claimsSoFar })
+        fireMauticEvent({ claim: claimsSoFar, last_claim: moment().format('YYYY-MM-DD') })
 
         fireGoogleAnalyticsEvent(CLAIM_GEO, {
           claimValue: weiToGd(curEntitlement),
@@ -335,7 +343,7 @@ const Claim = props => {
           isCitizen={isCitizen}
           nextClaim={nextClaim || '--:--:--'}
           handleClaim={handleClaim}
-          handleNonCitizen={handleFaceVerification}
+          handleNonCitizen={handleClaim}
           showLabelOnly
         />
         <View style={styles.fakeExtraInfoContainer} />

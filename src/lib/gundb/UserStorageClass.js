@@ -1248,7 +1248,7 @@ export class UserStorage {
     const displayProfile = Object.keys(profile).reduce(
       (acc, currKey) => ({
         ...acc,
-        [currKey]: profile[currKey].display,
+        [currKey]: get(profile, `${currKey}.display`),
       }),
       {},
     )

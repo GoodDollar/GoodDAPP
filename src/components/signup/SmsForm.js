@@ -11,6 +11,7 @@ import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import useOnPress from '../../lib/hooks/useOnPress'
+import LoadingIndicator from '../common/view/LoadingIndicator'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -164,6 +165,7 @@ class SmsForm extends React.Component<Props, State> {
             </Section.Row>
           </Section>
         </CustomWrapper>
+        <LoadingIndicator force={this.state.loading} />
       </KeyboardAvoidingView>
     )
   }

@@ -10,7 +10,7 @@ const wasClickedProp = 'goodMarketClicked'
 
 export default () => {
   const { userProperties } = userStorage
-  const goToMarket = useCallback(() => openLink(marketUrl), [wasClicked])
+  const goToMarket = useCallback(() => openLink(marketUrl), [])
   const [wasClicked, setWasClicked] = useState(userProperties.get(wasClickedProp))
 
   const trackClicked = useCallback(() => {

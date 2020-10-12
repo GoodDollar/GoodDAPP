@@ -5,7 +5,7 @@ import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 import { getFormattedDateTime } from '../../../../lib/utils/FormatDate'
 
 import { withStyles } from '../../../../lib/styles'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+import { getDesignRelativeHeight } from '../../../../lib/utils/sizes'
 import GoodMarketImage from './GoodMarketImage'
 
 const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
@@ -49,7 +49,7 @@ const mapStylesToProps = ({ theme }) => ({
     fontSize: 22,
     textAlign: 'left',
     color: theme.colors.darkGray,
-    lineHeight: 25,
+    lineHeight: 22,
     marginBottom: 20,
     fontWeight: '500',
     fontFamily: theme.fonts.default,
@@ -66,8 +66,8 @@ const mapStylesToProps = ({ theme }) => ({
     marginBottom: 20,
   },
   imageStyle: {
-    height: getDesignRelativeHeight(76),
-    width: getDesignRelativeWidth(176),
+    marginTop: getDesignRelativeHeight(30),
+    height: getDesignRelativeHeight(90),
     marginBottom: getDesignRelativeHeight(36),
   },
   imageContainer: {

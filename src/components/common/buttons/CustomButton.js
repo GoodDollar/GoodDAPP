@@ -1,11 +1,10 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { ActivityIndicator, DefaultTheme } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import BaseButton from './BaseButton'
 
 type IconFunction = (string, number) => React.Node
@@ -157,7 +156,7 @@ const CustomButton = (props: ButtonProps) => {
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
   const color = props.color ? props.color : theme.colors.default
-  const _onPress = useOnPress(onPress)
+  const _onPress = useCallback(onPress)
   return (
     <BaseButton
       dark={dark}

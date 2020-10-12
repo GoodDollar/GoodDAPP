@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import { useCallback } from 'react'
 
 import { debounce, identity } from 'lodash'
@@ -11,7 +12,9 @@ const useOnPressHook = (callback, deps = [], options = {}) => {
 
   return useCallback(
     wrapper(event => {
-      event.preventDefault()
+      if (event) {
+        event.preventDefault()
+      }
 
       return memoizedCallback(event)
     }),

@@ -2,11 +2,11 @@ import React, { useMemo } from 'react'
 
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 
-import { withStyles } from '../../../../lib/styles'
-
-import illustration from '../../../../assets/GoodMarket.svg'
 import { getFormattedDateTime } from '../../../../lib/utils/FormatDate'
+
+import { withStyles } from '../../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+import GoodMarketImage from './GoodMarketImage'
 
 const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
   const currentDateTime = useMemo(() => getFormattedDateTime(), [])
@@ -20,7 +20,7 @@ const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
         `Visit GoodMarket, our exclusive Facebook marketplace, ` +
         `where you can buy and sell items in exchange for G$ coins.`
       }
-      imageSource={illustration}
+      image={GoodMarketImage}
       labelStyle={styles.label}
       titleStyle={styles.title}
       textStyle={styles.text}

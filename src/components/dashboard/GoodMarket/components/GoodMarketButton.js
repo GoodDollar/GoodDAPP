@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react'
-import { TouchableOpacity } from 'react-native'
+import React, { useCallback, useEffect, useRef } from 'react'
+import { Animated, TouchableOpacity } from 'react-native'
 import { noop } from 'lodash'
 
 import Icon from '../../../common/view/Icon'
@@ -16,11 +16,19 @@ import GoodMarketDialog from './GoodMarketDialog'
 const GoodMarketButton = ({ styles }) => {
   const [showDialog] = useDialog()
   const { wasClicked, trackClicked, goToMarket } = useGoodMarket()
+  const slideAnim = useRef(new Animated.Value(-100)).current
 
   const onPopupButtonClicked = useCallback(() => {
     fireEvent(GOTO_MARKET_POPUP)
     goToMarket()
   }, [goToMarket])
+
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 3000,
+    }).start()
+  }, [slideAnim])
 
   const onButtonClicked = useOnPress(() => {
     trackClicked()
@@ -39,9 +47,11 @@ const GoodMarketButton = ({ styles }) => {
   }, [wasClicked, trackClicked, onPopupButtonClicked])
 
   return (
-    <TouchableOpacity onPress={onButtonClicked} style={styles.marketButton}>
-      <Icon name="goodmarket" size={36} color="white" />
-    </TouchableOpacity>
+    <Animated.View style={[styles.marketButton, { bottom: slideAnim }]}>
+      <TouchableOpacity onPress={onButtonClicked}>
+        <Icon name="goodmarket" size={36} color="white" />
+      </TouchableOpacity>
+    </Animated.View>
   )
 }
 
@@ -59,6 +69,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginHorizontal: 'auto',
     borderTopRightRadius: 22,
     borderTopLeftRadius: 22,
+    boxShadow: '-3px -3px 9px #00000029',
   },
 })
 

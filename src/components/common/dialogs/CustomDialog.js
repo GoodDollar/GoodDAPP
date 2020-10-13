@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
 import { isString } from 'lodash'
@@ -72,7 +72,7 @@ const CustomDialog = ({
   const handleMessage = _message => (isString(_message) ? Paragraph : Section.Row)
   const Message = handleMessage(message)
   const BoldMessage = handleMessage(boldMessage)
-  const _onPressOk = useCallback(onDismiss)
+  const _onPressOk = useOnPress(onDismiss, [onDismiss])
   return visible ? (
     <Portal>
       <ModalWrapper

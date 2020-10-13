@@ -1,11 +1,10 @@
 // @flow
 /*eslint-disable*/
 import React, { useCallback, useMemo, useState } from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
-  CLICK_BTN_GETINVITED,
   fireEvent,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,
@@ -23,28 +22,27 @@ import Recover from '../../signin/Mnemonics'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../webView/webViewInstances'
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { withStyles } from '../../../lib/styles'
-import illustration from '../../../assets/Auth/torusIllustration.svg'
-import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
+import TorusIllustrationSVG from '../../../assets/Auth/torusIllustration.svg'
+import GoogleBtnIconSVG from '../../../assets/Auth/btn_google.svg'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
+import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
+import { decorate, ExceptionCode } from '../../../lib/logger/exceptions'
 import retryImport from '../../../lib/utils/retryImport'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isSmallDevice, isMediumDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { isBrowser } from '../../../lib/utils/platform'
 import { userExists } from '../../../lib/login/userExists'
-
-// import { delay } from '../../../lib/utils/async'
+import { timeout } from '../../../lib/utils/async'
 import LoadingIcon from '../../common/modal/LoadingIcon'
 
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
 import useTorus from './hooks/useTorus'
-
-Image.prefetch(illustration)
 
 const log = logger.child({ from: 'AuthTorus' })
 
@@ -55,11 +53,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [torusSDK, sdkInitialized] = useTorus()
   const { navigate } = navigation
   const { push } = screenProps
-
-  const goToW3Site = () => {
-    fireEvent(CLICK_BTN_GETINVITED)
-    window.location = config.web3SiteUrl
-  }
 
   //login so we can check if user exists
   const ready = async replacing => {
@@ -155,6 +148,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           torusUser = await AsyncStorage.getItem('TorusTestUser')
         }
 
+        fireEvent(TORUS_SUCCESS, { provider })
+
         showLoadingDialog()
 
         if (torusUser == null) {
@@ -193,8 +188,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         // const userExists = await userStorage.userAlreadyExist()
         log.debug('checking userAlreadyExist', { exists, fullName })
+        
         await Promise.race([ready(replacing), timeout(60000, 'initialiazing wallet timed out')])
-
+        
         log.debug('showing checkmark dialog')
         // showLoadingDialog(true)
         // await delay(30000000)
@@ -228,7 +224,11 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           }
         }, 500)
       } catch (e) {
-        log.error('Failed to initialize wallet and storage', e.message, e)
+        hideDialog()
+        const { message } = e
+        const uiMessage = decorate(e, ExceptionCode.E14)
+        showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
+        log.error('Failed to initialize wallet and storage', message, e)
       } finally {
         store.set('loadingIndicator')({ loading: false })
       }
@@ -258,27 +258,21 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
 
   // google button settings
-  const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
+  const googleButtonHandler = signupGoogle
   const googleButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
   // facebook button settings
-  const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
+  const facebookButtonHandler = signupFacebook
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
-  const auth0ButtonHandler = useMemo(
-    () =>
-      asGuest
-        ? () => {
-            if (config.torusEmailEnabled) {
-              setPasswordless(true)
-              fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
-            } else {
-              signupAuth0Mobile()
-            }
-          }
-        : goToW3Site,
-    [asGuest, signupAuth0, setPasswordless],
-  )
+  const auth0ButtonHandler = () => {
+    if (config.torusEmailEnabled) {
+      setPasswordless(true)
+      fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
+    } else {
+      signupAuth0Mobile()
+    }
+  }
 
   const signupAuth0Email = () => signupAuth0('email')
   const signupAuth0Mobile = () => signupAuth0('mobile')
@@ -344,7 +338,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           {"\nYes, it's that simple."}
         </Text>
       </Text>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+      <View style={styles.illustration}>
+        <TorusIllustrationSVG />
+      </View>
       <Section style={styles.bottomContainer}>
         {asGuest && (
           <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
@@ -412,7 +408,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           testID="login_with_google"
         >
           <View style={styles.googleButtonContent}>
-            <Image source={googleBtnIcon} resizeMode="contain" style={styles.googleIcon} />
+            <View style={styles.googleIcon} >
+              <GoogleBtnIconSVG />
+            </View>
             <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0}>
               Agree & Continue with Google
             </Text>
@@ -487,6 +485,7 @@ const getStylesFromProps = ({ theme }) => {
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),
+      justifyContent: 'center',
     },
     headerText: {
       marginTop: getDesignRelativeHeight(30),

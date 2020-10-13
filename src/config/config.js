@@ -21,10 +21,11 @@ if (isUndefined(phase)) {
 const isPhaseZero = 0 === phase
 const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
+const version = env.VERSION || 'v0'
 
 const Config = {
   env: devenv(env.REACT_APP_ENV),
-  version: env.VERSION || 'v0',
+  version,
   contractsVersion,
   isEToro,
   phase,
@@ -35,7 +36,6 @@ const Config = {
   logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
-  web3SiteUrl: env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
@@ -117,7 +117,9 @@ const Config = {
   },
   nodeEnv: env.NODE_ENV,
   forcePeer: forcePeer && forcePeer[1],
-  peersProb: env.REACT_APP_GUN_PEERS_PROB || [1, 0.2],
+  peersProb: (env.REACT_APP_GUN_PEERS_PROB || '1,0.5').split(',').map(Number),
+  isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
+
 }
 
 //get and override settings from server

@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react'
-import { TouchableOpacity } from 'react-native'
+import React, { useCallback, useEffect } from 'react'
+import { Animated, TouchableOpacity } from 'react-native'
 import { noop } from 'lodash'
 
 import Icon from '../../../common/view/Icon'

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { Animated, TouchableOpacity } from 'react-native'
+import { Animated, Easing, TouchableOpacity } from 'react-native'
 import { noop } from 'lodash'
 
 import Icon from '../../../common/view/Icon'
@@ -13,7 +13,9 @@ import { withStyles } from '../../../../lib/styles'
 import { getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import GoodMarketDialog from './GoodMarketDialog'
 
-const GoodMarketButton = ({ styles }) => {
+export const marketAnimationDuration = 1500
+
+const GoodMarketButton = ({ styles, hidden = false }) => {
   const [showDialog] = useDialog()
   const slideAnim = useRef(new Animated.Value(-100)).current
   const { wasClicked, trackClicked, goToMarket } = useGoodMarket()
@@ -22,15 +24,6 @@ const GoodMarketButton = ({ styles }) => {
     fireEvent(GOTO_MARKET_POPUP)
     goToMarket()
   }, [goToMarket])
-
-  useEffect(
-    () =>
-      void Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 3000,
-      }).start(),
-    [],
-  ) // just on mount
 
   const onButtonClicked = useOnPress(() => {
     trackClicked()
@@ -47,6 +40,22 @@ const GoodMarketButton = ({ styles }) => {
       content: <GoodMarketDialog onGotoMarket={onPopupButtonClicked} />,
     })
   }, [wasClicked, trackClicked, onPopupButtonClicked])
+
+  useEffect(() => {
+    if (hidden) {
+      return
+    }
+
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: marketAnimationDuration,
+      easing: Easing.ease,
+    }).start()
+  }, [hidden])
+
+  if (hidden) {
+    return null
+  }
 
   return (
     <TouchableOpacity onPress={onButtonClicked} style={styles.marketButton}>

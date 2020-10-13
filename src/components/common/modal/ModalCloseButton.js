@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, TouchableOpacity } from 'react-native'
+import { Image, Platform, TouchableOpacity } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { mediumZIndex } from './styles'
 import CloseSVG from './img/close.svg'
@@ -25,13 +25,16 @@ const getStylesFromProps = ({ theme }) => ({
   modalCloseImage: {
     position: 'absolute',
     zIndex: mediumZIndex,
-    elevation: 25, // required for Android
     top: -20,
     right: 0,
     height: 37,
     marginLeft: 'auto',
     marginRight: -(37 / 2),
     width: 37,
+    ...(Platform.select({
+      // required for Android
+      android: { elevation: 25 },
+    }) || {}),
   },
 })
 

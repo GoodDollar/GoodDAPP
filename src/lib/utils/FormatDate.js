@@ -1,11 +1,12 @@
 // @flow
+import { filter } from 'lodash'
 
 /**
  * format date util function
  * @param {string} stringDate
  */
-export const getFormattedDateTime = (stringDate: string) =>
-  new Date(stringDate)
+export const getFormattedDateTime = (stringDate: string = null) =>
+  Reflect.construct(Date, filter([stringDate]))
     .toLocaleString([], {
       day: '2-digit',
       month: '2-digit',

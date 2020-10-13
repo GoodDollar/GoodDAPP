@@ -30,6 +30,7 @@ export default class UserProperties {
     registered: false,
     startClaimingAdded: false,
     lastBlock: 0,
+    goodMarketClicked: false,
     joinedAtBlock: 6400000, // default block to start sync from
     lastTxSyncDate: null,
   }
@@ -44,6 +45,7 @@ export default class UserProperties {
     'regMethod',
     'showQuickActionHint',
     'startClaimingAdded',
+    'goodMarketClicked',
     'joinedAtBlock',
     'lastTxSyncDate',
   ]

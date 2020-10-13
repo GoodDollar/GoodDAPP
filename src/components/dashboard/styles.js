@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import normalize from '../../lib/utils/normalizeText'
 import { theme } from '../theme/styles'
-import { getScreenHeight } from '../../lib/utils/Orientation'
+import { getScreenHeight } from '../../lib/utils/orientation'
 
 const isMobileHeight = getScreenHeight() < 680
 

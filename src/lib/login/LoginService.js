@@ -64,6 +64,8 @@ class LoginService {
     let creds = await this.getCredentials()
 
     if (!creds) {
+      log.info('Generating creds because no creds was stored or we got an error reading AsyncStorage')
+
       creds = await this.login()
     }
 

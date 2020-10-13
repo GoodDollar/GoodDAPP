@@ -65,7 +65,7 @@ const handleLinks = async () => {
       let path = window.location.pathname.slice(1)
       path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
 
-      if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
+      if (params && Object.keys(params).length > 0) {
         const dest = { path, params }
         log.debug('Saving destination url', dest)
         await AsyncStorage.setItem(DESTINATION_PATH, dest)

@@ -1573,21 +1573,21 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    let { feedIndex, cursor, feedIds } = this
+    let { feedIndex, feedIds } = this
 
     if (!feedIndex) {
       logger.debug('feedIndex not set returning empty')
       return []
     }
 
-    if (reset || isUndefined(cursor)) {
-      cursor = 0
+    if (reset || isUndefined(this.cursor)) {
+      this.cursor = 0
     }
 
     // running through the days history until we got the request numResults
     // storing days selected to the daysToTake
     let total = 0
-    let daysToTake = takeWhile(feedIndex.slice(cursor), ([, eventsAmount]) => {
+    let daysToTake = takeWhile(feedIndex.slice(this.cursor), ([, eventsAmount]) => {
       const takeDay = total < numResults
 
       if (takeDay) {

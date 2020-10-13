@@ -161,13 +161,6 @@ const TabsView = ({ navigation }) => {
 
   const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
 
-  // const goToRewards = () => {
-  //   if (isIOSWeb) {
-  //     const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
-  //     return window.open(src, '_blank')
-  //   }
-  // }
-
   /*const goToSupport = useCallback(() => {
     navigation.navigate('Support')
   }, [navigation])*/

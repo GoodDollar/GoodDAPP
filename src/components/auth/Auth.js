@@ -5,7 +5,7 @@ import { get } from 'lodash'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
-import { CLICK_BTN_GETINVITED, fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
+import { fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 import { PushButton } from '../appNavigation/PushButton'
@@ -103,15 +103,10 @@ class Auth extends React.Component<Props> {
 
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
-  goToW3Site = () => {
-    fireEvent(CLICK_BTN_GETINVITED)
-    window.location = config.web3SiteUrl
-  }
-
   render() {
     const { styles } = this.props
     const { asGuest } = this.state
-    const firstButtonHandler = asGuest ? this.handleSignUp : this.goToW3Site
+    const firstButtonHandler = this.handleSignUp
     const firstButtonText = asGuest ? (
       'Create a wallet'
     ) : (

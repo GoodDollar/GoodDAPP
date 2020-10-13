@@ -11,6 +11,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import normalize from '../../lib/utils/normalizeText'
 import CopyButton from '../common/buttons/CopyButton'
 import useOnPress from '../../lib/hooks/useOnPress'
+import EventIcon from './FeedItems/EventIcon'
 
 export type TypeProps = {
   screenProps: any,
@@ -25,21 +26,50 @@ const warningBoxStyles = ({ theme }) => ({
     borderWidth: 2,
     borderRadius: 5,
     borderStyle: 'solid',
-    borderColor: theme.colors.red,
+    borderColor: theme.colors.primary,
     width: 'auto',
     marginHorizontal: 'auto',
     marginBottom: getDesignRelativeHeight(20),
     paddingVertical: getDesignRelativeHeight(14),
-    paddingHorizontal: getDesignRelativeWidth(14),
+    paddingHorizontal: getDesignRelativeWidth(6),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  icon: {
+    height: getDesignRelativeHeight(57),
+    width: getDesignRelativeWidth(57),
+    marginRight: getDesignRelativeWidth(9),
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    transform: [{ rotate: '180deg' }],
+  },
+  text: {
+    flex: 1,
+    paddingRight: 6,
   },
 })
 
-export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend = false }) => (
+export const GDTokensWarningBox = withStyles(warningBoxStyles)(({ styles, isSend = false, anim = true }) => (
   <View style={styles.warningTextWrapper}>
-    <Text fontSize={13.5} fontFamily="Roboto Slab" letterSpacing={0.14} lineHeight={21} color="red">
+    <View style={styles.icon}>
+      <EventIcon type="feedback" showAnim={anim} size={54} />
+    </View>
+    <Text
+      fontSize={13.5}
+      fontFamily="Roboto Slab"
+      fontWeight="bold"
+      textAlign="left"
+      letterSpacing={0.14}
+      lineHeight={21}
+      color="red"
+      style={styles.text}
+    >
       {isSend
-        ? `Do not send tokens to Ethereum network addresses.\nYou are on Fuse Network.`
-        : `Do not send tokens to Ethereum network to this address.\nThis is a Fuse Network address for G$ tokens only.`}
+        ? `Keep in mind - your G$ tokens are on an internal network and should be sent on the G$ network and not to Ethereum external wallets`
+        : `Keep in mind - Do not send tokens from Ethereum network to this address. This is an internal Network address for G$ tokens only.`}
     </Text>
   </View>
 ))
@@ -48,7 +78,15 @@ const ReceiveToAddress = ({ screenProps, styles, address }: TypeProps) => {
   const onPressDone = useOnPress(screenProps.goToRoot)
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} hideProfile={false} profileAsLink={false}>
+      <TopBar
+        push={screenProps.push}
+        hideProfile={false}
+        profileAsLink={false}
+        hideBalance
+        contentStyle={{ justifyContent: 'center' }}
+        avatarSize={56}
+        style={{ paddingLeft: 8 }}
+      >
         <View />
       </TopBar>
       <Section grow justifyContent="space-between">

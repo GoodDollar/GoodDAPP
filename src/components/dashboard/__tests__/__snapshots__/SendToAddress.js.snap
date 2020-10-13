@@ -528,54 +528,104 @@ exports[`SendToAddress matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "borderBottomColor": "rgba(250,108,119,1.00)",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-around",
+              "alignItems": "center",
+              "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "5px",
               "borderBottomRightRadius": "5px",
               "borderBottomStyle": "solid",
               "borderBottomWidth": "2px",
-              "borderLeftColor": "rgba(250,108,119,1.00)",
+              "borderLeftColor": "rgba(0,175,255,1.00)",
               "borderLeftStyle": "solid",
               "borderLeftWidth": "2px",
-              "borderRightColor": "rgba(250,108,119,1.00)",
+              "borderRightColor": "rgba(0,175,255,1.00)",
               "borderRightStyle": "solid",
               "borderRightWidth": "2px",
-              "borderTopColor": "rgba(250,108,119,1.00)",
+              "borderTopColor": "rgba(0,175,255,1.00)",
               "borderTopLeftRadius": "5px",
               "borderTopRightRadius": "5px",
               "borderTopStyle": "solid",
               "borderTopWidth": "2px",
+              "display": "flex",
+              "flexDirection": "row",
+              "justifyContent": "space-around",
               "marginBottom": "20px",
               "marginLeft": "auto",
               "marginRight": "auto",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "distribute",
               "paddingBottom": "14px",
-              "paddingLeft": "14px",
-              "paddingRight": "14px",
+              "paddingLeft": "6px",
+              "paddingRight": "6px",
               "paddingTop": "14px",
               "width": "auto",
             }
           }
         >
           <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "vertical",
+                "WebkitBoxPack": "center",
+                "WebkitFlexDirection": "column",
+                "WebkitJustifyContent": "center",
+                "WebkitTransform": "rotate(180deg)",
+                "display": "flex",
+                "flexDirection": "column",
+                "height": "57px",
+                "justifyContent": "center",
+                "marginRight": "9px",
+                "msFlexDirection": "column",
+                "msFlexPack": "center",
+                "transform": "rotate(180deg)",
+                "width": "57px",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+            />
+          </div>
+          <div
             className="css-text-901oao"
             dir="auto"
             letterSpacing={0.14}
             style={
               Object {
+                "WebkitBoxFlex": 1,
+                "WebkitFlexBasis": "0%",
+                "WebkitFlexGrow": 1,
+                "WebkitFlexShrink": 1,
                 "color": "rgba(250,108,119,1.00)",
                 "direction": "ltr",
+                "flexBasis": "0%",
+                "flexGrow": 1,
+                "flexShrink": 1,
                 "fontFamily": "Roboto Slab",
                 "fontSize": "13.5px",
-                "fontWeight": "normal",
+                "fontWeight": "700",
                 "letterSpacing": "0.14px",
                 "lineHeight": "21px",
-                "textAlign": "center",
+                "msFlexNegative": 1,
+                "msFlexPositive": 1,
+                "msFlexPreferredSize": "0%",
+                "paddingRight": "6px",
+                "textAlign": "left",
                 "textDecoration": "none",
                 "textTransform": "none",
               }
             }
           >
-            Do not send tokens to Ethereum network addresses.
-You are on Fuse Network.
+            Keep in mind - your G$ tokens are on an internal network and should be sent on the G$ network and not to Ethereum external wallets
           </div>
         </div>
       </div>

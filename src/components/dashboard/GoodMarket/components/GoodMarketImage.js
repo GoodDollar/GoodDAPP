@@ -15,7 +15,7 @@ if (Platform.OS === 'web') {
 const GoodMarketImage = ({ style, styles }) => (
   <View style={[style, styles.wrapper]}>
     <Image style={styles.arrow} source={arrowRight} />
-    <Icon name="goodmarket" size={130} style={styles.marketIcon} />
+    <Icon name="goodmarket" size={122} style={styles.marketIcon} />
   </View>
 )
 

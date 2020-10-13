@@ -51,8 +51,8 @@ const mapStylesToProps = ({ theme }) => ({
     color: theme.colors.darkGray,
     lineHeight: 22,
     marginBottom: 20,
-    fontWeight: '500',
-    fontFamily: theme.fonts.default,
+    fontWeight: '700',
+    fontFamily: theme.fonts.slab,
   },
   text: {
     fontSize: 14,
@@ -67,7 +67,7 @@ const mapStylesToProps = ({ theme }) => ({
   },
   imageStyle: {
     marginTop: getDesignRelativeHeight(30),
-    height: getDesignRelativeHeight(90),
+    height: getDesignRelativeHeight(76),
     marginBottom: getDesignRelativeHeight(36),
   },
   imageContainer: {

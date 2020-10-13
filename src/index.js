@@ -29,7 +29,7 @@ const upgradeVersion = async () => {
   const req = deleteGunDB()
 
   // remove all local data so its not cached and user will re-login
-  await Promise.all([AsyncStorage.clear(), req.catch()])
+  await Promise.all([/*AsyncStorage.clear(), */ req.catch()])
 }
 
 const { hot } = require('react-hot-loader')

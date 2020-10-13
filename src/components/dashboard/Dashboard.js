@@ -201,6 +201,7 @@ const Dashboard = props => {
           .getFormattedEvents(PAGE_SIZE, reset)
           .catch(e => log.error('getInitialFeed failed:', e.message, e))
 
+        let res = []
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
           //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
@@ -209,14 +210,19 @@ const Dashboard = props => {
             log.debug('waiting for feed animation')
             didRender = true
           }
-          const res = (await feedPromise) || []
-          log.debug('getFeedPage getFormattedEvents result:', { res })
+          res = (await feedPromise) || []
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
           res.length > 0 && setFeeds(res)
         } else {
-          const res = (await feedPromise) || []
+          res = (await feedPromise) || []
           res.length > 0 && setFeeds(feeds.concat(res))
         }
+        log.debug('getFeedPage getFormattedEvents result:', {
+          reset,
+          res,
+          resultSize: res.length,
+          feedItems: feeds.length,
+        })
       } catch (e) {
         log.warn('getFeedPage failed', e.message, e)
       } finally {

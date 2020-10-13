@@ -13,7 +13,6 @@ import {
   inviteFriendsMessage,
   longUseOfClaims,
   startClaiming,
-  startSpending,
   type TransactionEvent,
   welcomeMessage,
   welcomeMessageOnlyEtoro,
@@ -414,12 +413,6 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(inviteFriendsMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(inviteFriendsMessage)
-  })
-
-  it('events/add invite event', async () => {
-    await userStorage.updateFeedEvent(startSpending)
-    const events = await userStorage.getAllFeed()
-    expect(events).toContainEqual(startSpending)
   })
 
   it('events/add start claiming event', async () => {

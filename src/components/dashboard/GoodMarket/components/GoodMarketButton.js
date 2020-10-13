@@ -16,7 +16,6 @@ import GoodMarketDialog from './GoodMarketDialog'
 const GoodMarketButton = ({ styles }) => {
   const [showDialog] = useDialog()
   const { wasClicked, trackClicked, goToMarket } = useGoodMarket()
-  const slideAnim = useRef(new Animated.Value(-100)).current
 
   const onPopupButtonClicked = useCallback(() => {
     fireEvent(GOTO_MARKET_POPUP)
@@ -24,11 +23,13 @@ const GoodMarketButton = ({ styles }) => {
   }, [goToMarket])
 
   useEffect(() => {
+    const slideAnim = new Animated.Value(-100)
+
     Animated.timing(slideAnim, {
       toValue: 0,
       duration: 3000,
     }).start()
-  }, [slideAnim])
+  }, []) // just on mount
 
   const onButtonClicked = useOnPress(() => {
     trackClicked()

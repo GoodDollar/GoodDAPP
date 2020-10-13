@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import { useCallback } from 'react'
 
 import { debounce, identity } from 'lodash'

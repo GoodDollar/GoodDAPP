@@ -534,7 +534,7 @@ describe('UserStorage', () => {
 
     await Promise.all(updates)
     userStorage.subscribeProfileUpdates(profile => {
-      const { isValid, getErrors, validate, walletAddress, ...displayProfile } = userStorage.getDisplayProfile(profile)
+      const { isValid, getErrors, validate, ...displayProfile } = userStorage.getDisplayProfile(profile)
       expect(displayProfile).toEqual({
         id: '******',
         name: 'hadar2',
@@ -560,7 +560,7 @@ describe('UserStorage', () => {
     await Promise.all(updates)
     await userStorage.subscribeProfileUpdates(profile => {
       userStorage.getPrivateProfile(profile).then(result => {
-        const { isValid, getErrors, validate, walletAddress, ...privateProfile } = result
+        const { isValid, getErrors, validate, ...privateProfile } = result
 
         expect(privateProfile).toEqual({
           id: 'z123',

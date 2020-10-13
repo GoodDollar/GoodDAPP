@@ -22,6 +22,15 @@ const GoodMarketButton = ({ styles }) => {
     goToMarket()
   }, [goToMarket])
 
+  useEffect(() => {
+    const slideAnim = new Animated.Value(-100)
+
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 3000,
+    }).start()
+  }, []) // just on mount
+
   const onButtonClicked = useOnPress(() => {
     trackClicked()
 

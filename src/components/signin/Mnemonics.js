@@ -58,7 +58,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     //required to wallet and storage are reinitialized
     const curVersion = await AsyncStorage.getItem('GD_version')
     await AsyncStorage.clear()
-    await AsyncStorage.setItem('GD_version', curVersion)
+    AsyncStorage.setItem('GD_version', curVersion)
+
     input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)

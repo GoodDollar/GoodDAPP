@@ -37,7 +37,7 @@ import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
-import API, { getErrorMessage } from '../API/api'
+import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -358,6 +358,8 @@ export class UserStorage {
 
   feedIds: {} = {}
 
+  feedQ: {} = {}
+
   feedMutex = new Mutex()
 
   /**
@@ -620,7 +622,6 @@ export class UserStorage {
     })
     logger.debug('starting systemfeed and tokens')
     this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
-    this.initTokens().catch(e => logger.error('failed initializing initTokens', e.message, e))
 
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
@@ -662,50 +663,6 @@ export class UserStorage {
     })()
 
     return this.ready
-  }
-
-  async initTokens() {
-    const initLoginToken = async () => {
-      if (Config.enableInvites) {
-        const r = await API.getLoginToken().catch(e => {
-          const errMsg = getErrorMessage(e)
-          const exception = new Error(errMsg)
-
-          logger.warn('failed fetching login token', { errMsg, exception })
-        })
-        token = get(r, 'data.loginToken')
-        if (token) {
-          this.setProfileField('loginToken', token, 'private')
-        }
-        return token
-      }
-    }
-
-    let [token, inviteCode] = await Promise.all([
-      this.getProfileFieldValue('loginToken'),
-      this.getProfileFieldValue('inviteCode'),
-    ])
-    logger.debug('initTokens: got profile tokens')
-
-    let [_token] = token || (await initLoginToken())
-
-    if (!inviteCode) {
-      const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
-        const errMsg = getErrorMessage(e)
-        const exception = new Error(errMsg)
-
-        logger.warn('failed fetching w3 user', { errMsg, exception })
-
-        return {}
-      })
-      logger.debug('w3 user result', { data })
-      inviteCode = get(data, 'invite_code')
-      if (inviteCode) {
-        this.setProfileField('inviteCode', inviteCode, 'private')
-      }
-    }
-
-    logger.debug('initTokens: done')
   }
 
   /**
@@ -830,7 +787,7 @@ export class UserStorage {
       //get initial TX data from queue, if not in queue then it must be a receive TX ie
       //not initiated by user
       //other option is that TX was processed on another wallet instance
-      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || {
+      const initialEvent = this.dequeueTX(receipt.transactionHash) || {
         data: {},
       }
       logger.debug('handleReceiptUpdated got enqueued event:', {
@@ -1616,21 +1573,21 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    let { feedIndex, cursor, feedIds } = this
+    let { feedIndex, feedIds } = this
 
     if (!feedIndex) {
       logger.debug('feedIndex not set returning empty')
       return []
     }
 
-    if (reset || isUndefined(cursor)) {
-      cursor = 0
+    if (reset || isUndefined(this.cursor)) {
+      this.cursor = 0
     }
 
     // running through the days history until we got the request numResults
     // storing days selected to the daysToTake
     let total = 0
-    let daysToTake = takeWhile(feedIndex.slice(cursor), ([, eventsAmount]) => {
+    let daysToTake = takeWhile(feedIndex.slice(this.cursor), ([, eventsAmount]) => {
       const takeDay = total < numResults
 
       if (takeDay) {
@@ -2155,13 +2112,10 @@ export class UserStorage {
       event.createdDate = event.createdDate || new Date().toString()
       event.date = event.date || event.createdDate
 
-      let putRes = await this.feed
-        .get('queue')
-        .get(event.id)
-        .secretAck(event)
+      this.feedQ[event.id] = event
 
       await this.updateFeedEvent(event)
-      logger.debug('enqueueTX ok:', { event, putRes })
+      logger.debug('enqueueTX ok:', { event })
 
       return true
     } catch (gunError) {
@@ -2179,32 +2133,17 @@ export class UserStorage {
    * @param eventId
    * @returns {Promise<FeedEvent>}
    */
-  async dequeueTX(eventId: string): Promise<FeedEvent> {
+  dequeueTX(eventId: string): FeedEvent {
     try {
-      const feedItem = await this.feed
-        .get('queue')
-        .get(eventId)
-        .decrypt()
+      const feedItem = this.feedQ[eventId]
       logger.debug('dequeueTX got item', eventId, feedItem)
       if (feedItem) {
-        this.feed
-          .get('queue')
-          .get(eventId)
-          .put(null)
+        delete this.feedQ[eventId]
         return feedItem
       }
     } catch (e) {
       logger.error('dequeueTX failed:', e.message, e)
     }
-  }
-
-  /**
-   * lookup a pending tx
-   * @param {string} eventId
-   * @returns {Promise<FeedEvent>}
-   */
-  peekTX(eventId: string): Promise<FeedEvent> {
-    return this.feed.get('queue').get(eventId)
   }
 
   /**
@@ -2357,10 +2296,8 @@ export class UserStorage {
             event,
           })
 
-          feed
-            .get('queue')
-            .get(eventId)
-            .put(null)
+          delete this.feedQ[eventId]
+
           return event
         default:
           break

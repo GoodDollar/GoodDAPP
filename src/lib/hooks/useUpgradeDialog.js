@@ -80,13 +80,14 @@ export default () => {
           },
           {
             text: 'UPDATE',
-            onPress: () => {
+            onPress: dismiss => {
               const { waiting, active } = serviceWorkerUpdated || {}
 
               if (waiting && waiting.postMessage) {
                 log.debug('service worker:', 'sending skip waiting', active.clients)
 
                 waiting.postMessage({ type: 'SKIP_WAITING' })
+                dismiss() // close popup, sometimes service worker doesnt update immediatly
               } else {
                 window.location.reload()
               }

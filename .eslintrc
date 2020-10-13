@@ -11,15 +11,7 @@
     "prettier/flowtype",
     "prettier/react"
   ],
-  "plugins": [
-    //FIXME: RN
-    //"dependencies",
-    "flowtype",
-    "import",
-    "prettier",
-    "react",
-    "react-hooks"
-  ],
+  "plugins": ["flowtype", "import", "prettier", "react", "react-hooks"],
   "settings": {
     "react": {
       "pragma": "React",
@@ -32,21 +24,6 @@
         "extensions": [".js", ".android.js", ".ios.js", ".web.js", ".native.js"]
       }
     }
-    //FIXME: RN
-    // "dependencies/resolver": {
-    //   "node": {
-    //     "paths": [
-    //       "src"
-    //     ]
-    //   },
-    //   "extensions": [
-    //     ".js",
-    //     ".android.js",
-    //     ".ios.js",
-    //     ".web.js",
-    //     ".native.js"
-    //   ]
-    // }
   },
   "rules": {
     "prettier/prettier": "warn",
@@ -54,8 +31,7 @@
     "react/display-name": "off",
     "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "off",
-    //FIXME: RN
-    // "dependencies/no-cycles": "warn",
+    "import/no-cycle": "warn",
     "import/named": "warn",
     "import/no-unresolved": "warn",
     "import/first": "warn",

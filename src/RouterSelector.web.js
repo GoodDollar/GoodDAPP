@@ -1,5 +1,7 @@
 // libraries
 import React, { memo, useEffect, useState } from 'react'
+import { Platform } from 'react-native'
+import { pick } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from './lib/utils/asyncStorage'
 
@@ -17,10 +19,11 @@ import { DESTINATION_PATH } from './lib/constants/localStorage'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import { extractQueryParams } from './lib/share/index'
+import DeepLinking from './lib/utils/deepLinking'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
-
+import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/pino-logger'
-import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
+import { APP_OPEN, fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -80,8 +83,6 @@ const handleLinks = async () => {
 }
 
 let SignupRouter = React.lazy(async () => {
-  await initAnalytics()
-
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(),
@@ -109,6 +110,15 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   useUpgradeDialog()
 
   useEffect(() => {
+    let source, platform
+    if (Platform.OS === 'web') {
+      source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
+      source = Object.keys(pick(DeepLinking.params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
+      platform = isWebApp ? 'webapp' : 'web'
+    } else {
+      platform = 'native'
+    }
+    fireEvent(APP_OPEN, { source, platform, isLoggedIn })
     log.debug('RouterSelector Rendered', { isLoggedIn })
     if (isLoggedIn) {
       document.cookie = 'hasWallet=1;Domain=.gooddollar.org'
@@ -141,6 +151,10 @@ const RouterSelector = () => {
     // setting checked flag to start splash animation
     onChecked: () => setCheckedForBrowserSupport(true),
   })
+
+  useEffect(() => {
+    initAnalytics()
+  }, [])
 
   // statring anumation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)

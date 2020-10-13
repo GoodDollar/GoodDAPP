@@ -63,7 +63,7 @@
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
     "@expo/react-native-action-sheet": "^3.4.1",
-    "@gooddollar/goodcontracts": "^2.1.0",
+    "@gooddollar/goodcontracts": "^2.1.2",
     "@gooddollar/gun": "^0.2020.902",
     "@gooddollar/gun-asyncstorage": "^1.0.3",
     "@gooddollar/gun-pk-auth": "^1.1.0",
@@ -238,7 +238,7 @@
     "eslint-config-react-app": "^3.0.7",
     "eslint-plugin-dependencies": "^2.4.0",
     "eslint-plugin-flowtype": "2.50.1",
-    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "7.11.1",

@@ -69,21 +69,20 @@ const AppHolder = () => {
     /**
      * decide if we need to clear storage
      */
-    /**
-     * decide if we need to clear storage
-     */
     const upgradeVersion = async () => {
-      const valid = ['etoro', 'phase0-a']
-      const required = Config.isEToro ? 'etoro' : 'phase0-a'
+      const valid = ['phase1'] //in case multiple versions are valid
+      const current = 'phase' + Config.phase
+      valid.push(current)
       const version = await AsyncStorage.getItem('GD_version')
-      if (version == null || valid.includes(version)) {
+      const isNext = window.location.hostname.startsWith('next') //TODO: remove in next version. patch because we forgot to set version, so we dont cause next users to reset data
+      if (valid.includes(version) || isNext) {
         return
       }
+
       const req = deleteGunDB()
 
-      //remove all local data so its not cached and user will re-login
+      // remove all local data so its not cached and user will re-login
       await Promise.all([AsyncStorage.clear(), req.catch()])
-      return AsyncStorage.setItem('GD_version', required)
     }
 
     ;(async () => {

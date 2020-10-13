@@ -72,7 +72,7 @@ const CustomDialog = ({
   const handleMessage = _message => (isString(_message) ? Paragraph : Section.Row)
   const Message = handleMessage(message)
   const BoldMessage = handleMessage(boldMessage)
-  const _onPressOk = useOnPress(onDismiss, [onDismiss])
+  const _onPressOk = useOnPress(onDismiss)
   return visible ? (
     <Portal>
       <ModalWrapper

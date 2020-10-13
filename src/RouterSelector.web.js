@@ -6,7 +6,7 @@ import bip39 from 'bip39-light'
 import AsyncStorage from './lib/utils/asyncStorage'
 
 // components
-import Splash, { animationDuration } from './components/splash/Splash'
+import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
 
 // hooks
 import useUpgradeDialog from './lib/hooks/useUpgradeDialog'
@@ -93,12 +93,14 @@ let SignupRouter = React.lazy(async () => {
 
 let AppRouter = React.lazy(async () => {
   log.debug('initializing storage and wallet...')
+  const waitForSplash = await shouldAnimateSplash()
 
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     retryImport(() => import(/* webpackChunkName: "init" */ './init'))
       .then(({ init }) => init())
       .then(() => log.debug('storage and wallet ready')),
+    delay(waitForSplash ? animationDuration : 0),
   ])
 
   log.debug('router ready')
@@ -119,8 +121,10 @@ const NestedRouter = memo(({ isLoggedIn }) => {
     } else {
       platform = 'native'
     }
+
     fireEvent(APP_OPEN, { source, platform, isLoggedIn })
     log.debug('RouterSelector Rendered', { isLoggedIn })
+
     if (isLoggedIn) {
       document.cookie = 'hasWallet=1;Domain=.gooddollar.org'
     }

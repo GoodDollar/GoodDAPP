@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import logger from '../../lib/logger/pino-logger'
@@ -12,6 +12,7 @@ import normalize from '../../lib/utils/normalizeText'
 import CustomButton from '../common/buttons/CustomButton'
 import API from '../../lib/API/api'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import userStorage from '../../lib/gundb/UserStorage'
 
 const log = logger.child({ from: 'Verify edit profile field' })
 
@@ -45,17 +46,19 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       break
   }
 
-  const goBack = () => {
-    navigation.navigate('EditProfile')
-  }
+  const goBack = useCallback(() => screenProps.pop(), [screenProps])
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     try {
       setLoading(true)
 
-      await API[sendCodeRequestFn]({ [fieldToSend]: content })
-
-      navigation.navigate('VerifyEditCode', { field, content })
+      const { data } = await API[sendCodeRequestFn]({ [fieldToSend]: content })
+      if (data.alreadyVerified) {
+        await userStorage.setProfileField(field, content)
+        screenProps.pop()
+      } else {
+        screenProps.push('VerifyEditCode', { field, content })
+      }
     } catch (e) {
       log.error('Failed to send code', e.message, e, { dialogShown: true })
 
@@ -63,11 +66,11 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [setLoading, screenProps, content, goBack])
 
   return (
     <Wrapper>
-      <Section grow>
+      <Section grow justifyContent="space-between">
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
             <Text fontSize={22} lineHeight={25} fontWeight="medium" fontFamily="Roboto" style={styles.mainText}>

@@ -150,6 +150,15 @@ export class APIService {
   )
 
   /**
+   * `/user/start` post api call
+   * @param {UserRecord} user
+   */
+  addSignupContact = throttle(
+    (user: UserRecord): AxiosPromise<any> => this.client.post('/user/start', { user }, { withCredentials: true }),
+    1000,
+  )
+
+  /**
    * `/user/delete` post api call
    */
   deleteAccount(): AxiosPromise<any> {

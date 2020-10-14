@@ -11,7 +11,7 @@ const useOnPressHook = (callback, deps = [], options = {}) => {
 
   return useCallback(
     wrapper(event => {
-      event.preventDefault()
+      event && event.preventDefault && event.preventDefault()
 
       return memoizedCallback(event)
     }),

@@ -1,16 +1,9 @@
 import { useCallback } from 'react'
-import { Image, Platform } from 'react-native'
-
-import illustration from '../../assets/ClipboardPermissionError.svg'
 
 import Clipboard from '../utils/Clipboard'
 import logger from '../logger/pino-logger'
 
 const log = logger.child({ from: 'useClipboard Hook' })
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 const useClipboard = (logger = log) => {
   const setString = useCallback(async content => {

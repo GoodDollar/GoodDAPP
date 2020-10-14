@@ -2,10 +2,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { ActivityIndicator, DefaultTheme } from 'react-native-paper'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import BaseButton from './BaseButton'
 
 type IconFunction = (string, number) => React.Node

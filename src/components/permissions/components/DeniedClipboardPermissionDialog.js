@@ -1,16 +1,9 @@
 // libraries
 import React from 'react'
-import { Image, Platform } from 'react-native'
 
 // components
 import illustration from '../../../assets/ClipboardPermissionError.svg'
 import DeniedPermissionDialog from './DeniedPermissionDialog'
-
-// assets
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 export default props => (
   <DeniedPermissionDialog

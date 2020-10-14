@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
 import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
@@ -11,7 +11,7 @@ import logger from '../../../../lib/logger/pino-logger'
 
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import illustration from '../../../../assets/FRUnrecoverableError.svg'
+import IllustrationSVG from '../../../../assets/FRUnrecoverableError.svg'
 
 import { ZoomSDKStatus } from '../sdk/ZoomSDK'
 import { ExceptionType } from '../utils/kindOfTheIssue'
@@ -19,10 +19,6 @@ import { ExceptionType } from '../utils/kindOfTheIssue'
 const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus || {} //FIXME: RN
 
 const log = logger.child({ from: 'FaceVerification' })
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 const UnrecoverableError = ({ styles, exception, screenProps }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
@@ -58,7 +54,9 @@ const UnrecoverableError = ({ styles, exception, screenProps }) => {
           <Section.Title fontWeight="medium" textTransform="none" color="red">
             {'Sorry about that…\nWe’re looking in to it,\nplease try again later'}
           </Section.Title>
-          <Image source={illustration} resizeMode="contain" style={styles.errorImage} />
+          <View style={styles.errorImage}>
+            <IllustrationSVG />
+          </View>
         </Section>
         <View style={styles.action}>
           <CustomButton onPress={onDismiss} style={styles.actionsSpace}>
@@ -94,6 +92,7 @@ const getStylesFromProps = ({ theme }) => {
       height: getDesignRelativeHeight(230, false),
       marginTop: isMobileOnly ? getDesignRelativeHeight(32) : 0,
       marginBottom: isMobileOnly ? getDesignRelativeHeight(40) : 0,
+      justifyContent: 'center',
     },
     descriptionContainer: {
       flex: 1,

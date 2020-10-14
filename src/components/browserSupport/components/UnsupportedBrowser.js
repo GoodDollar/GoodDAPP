@@ -1,6 +1,5 @@
 // libraries
 import React from 'react'
-import { Image, Platform } from 'react-native'
 
 // components
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
@@ -10,10 +9,6 @@ import { isIOSWeb } from '../../../lib/utils/platform'
 
 // assets
 import illustration from '../../../assets/UnsuportedBrowser.svg'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 export default ({ onDismiss }) => (
   <ExplanationDialog

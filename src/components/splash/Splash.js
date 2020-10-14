@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { isUndefined } from 'lodash'
 import moment from 'moment'
 
@@ -13,7 +13,7 @@ import WavesBackground from '../common/view/WavesBackground'
 // utils
 import Config from '../../config/config'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { isMobile } from '../../lib/utils/platform'
+import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // assets
@@ -25,7 +25,7 @@ export const animationDuration = 5000
 
 // initialize animateSplash with true for native platform
 // this will always animate splash on native
-let animateSplash = Platform.select({ native: true })
+let animateSplash = isMobileNative ? true : undefined
 const lastSplashProp = 'GD_lastSplash'
 
 export const shouldAnimateSplash = async () => {

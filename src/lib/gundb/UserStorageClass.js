@@ -608,10 +608,6 @@ export class UserStorage {
     logger.debug('starting systemfeed and tokens')
     this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
 
-    this.gun
-      .get('users')
-      .get(this.gunuser.is.pub)
-      .put(this.gunuser) // save ref to user
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
 
@@ -2414,6 +2410,7 @@ export class UserStorage {
   }
 
   loadGunField(gunNode): Promise<any> {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async res => {
       gunNode.load(p => res(p))
       let isNode = await gunNode

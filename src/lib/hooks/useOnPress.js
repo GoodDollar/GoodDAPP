@@ -1,24 +1,34 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
+import { isNil } from 'lodash'
 
-import { debounce, identity } from 'lodash'
+const useOnPress = (callback, deps = []) =>
+  useCallback(
+    event => {
+      if (event) {
+        event.preventDefault()
+      }
 
-const debounceWrapper = callback => debounce(callback, 500, { leading: true, trailing: false })
+      return callback(event)
+    },
+    [callback, ...deps],
+  )
 
-const useOnPressHook = (callback, deps = [], options = {}) => {
-  const { debounce = false } = options
-  const memoizedCallback = useCallback(callback, deps)
-  const wrapper = debounce ? debounceWrapper : identity
+export const useDebouncedOnPress = (callback, deps = []) => {
+  const nextInvokationRef = useRef(null)
 
-  return useCallback(
-    wrapper(event => {
-      event.preventDefault()
+  return useOnPress(
+    event => {
+      const nextInvokation = nextInvokationRef.current
+      const currentTs = Date.now()
 
-      return memoizedCallback(event)
-    }),
-    [memoizedCallback],
+      if (isNil(nextInvokation) || currentTs >= nextInvokation) {
+        callback(event)
+      }
+
+      nextInvokationRef.current = currentTs + 500
+    },
+    [callback, ...deps],
   )
 }
 
-export const useDebouncedOnPress = (callback, deps = []) => useOnPressHook(callback, deps, { debounce: true })
-
-export default (callback, deps = []) => useOnPressHook(callback, deps)
+export default useOnPress

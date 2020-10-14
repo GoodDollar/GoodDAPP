@@ -90,7 +90,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
                   subtitle={true}
                   isSmallDevice={isSmallDevice}
                 />
-                <FeedText feed={feed} isSmallDevice={isSmallDevice} />
+                {feed.data.readMore !== false && <FeedText feed={feed} isSmallDevice={isSmallDevice} />}
               </>
             )}
           </View>
@@ -163,9 +163,6 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
     result = (
       <ReadMoreText color="gray80Percent" text={readMore} buttonText={feed.data.readMore ? 'Learn more...' : ''} />
     )
-  } else if (feed.data.readMore === false) {
-    //if readMore is exactly false we dont show anything
-    result = ''
   } else {
     result = (
       <Text

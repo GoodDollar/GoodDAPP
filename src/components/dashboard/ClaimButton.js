@@ -132,7 +132,7 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
 }
 
 const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
-  const initialEntitlementRef = useRef(entitlement)
+  // const initialEntitlementRef = useRef(entitlement)
 
   const cardRef = useRef()
   const setCardRef = useCallback(ref => (cardRef.current = ref), [])
@@ -152,22 +152,22 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
 
   const _onPress = useOnPress(onPress)
 
-  if (initialEntitlementRef.current) {
-    return (
-      <ClaimButton
-        {...buttonProps}
-        styles={styles}
-        entitlement={entitlement}
-        nextClaim={nextClaim}
-        onPress={_onPress}
-        isInQueue={isInQueue}
-      />
-    )
-  }
+  // if (initialEntitlementRef.current) {
+  //   return (
+  //     <ClaimButton
+  //       {...buttonProps}
+  //       styles={styles}
+  //       entitlement={entitlement}
+  //       nextClaim={nextClaim}
+  //       onPress={onPress}
+  //       isInQueue={isInQueue}
+  //     />
+  //   )
+  // }
 
-  if (!entitlement || isInQueue) {
-    return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} isInQueue={isInQueue} />
-  }
+  // if (!entitlement || isInQueue) {
+  //   return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} isInQueue={isInQueue} />
+  // }
 
   const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
   return (
@@ -181,13 +181,20 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
       onFlipStart={suspendRendering}
       onFlipEnd={restoreRendering}
     >
-      <ClaimButton {...buttonProps} styles={styles} entitlement={0} nextClaim={nextClaimToDisplay} />
+      <ClaimButton
+        {...buttonProps}
+        styles={styles}
+        entitlement={0}
+        nextClaim={nextClaimToDisplay}
+        isInQueue={isInQueue}
+      />
       <ClaimButton
         {...buttonProps}
         styles={styles}
         entitlement={entitlement}
         nextClaim={nextClaimToDisplay}
         onPress={_onPress}
+        isInQueue={isInQueue}
       />
     </CardFlip>
   )

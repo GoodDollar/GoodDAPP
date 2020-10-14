@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import logger from '../../lib/logger/pino-logger'
@@ -13,6 +13,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import API from '../../lib/API/api'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import useOnPress from '../../lib/hooks/useOnPress'
+import userStorage from '../../lib/gundb/UserStorage'
 
 const log = logger.child({ from: 'Verify edit profile field' })
 
@@ -46,15 +47,19 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
       break
   }
 
-  const goBack = useOnPress(() => navigation.navigate('EditProfile'), [navigation])
+  const goBack = useOnPress(() => screenProps.pop(), [screenProps])
 
   const handleSubmit = useOnPress(async () => {
     try {
       setLoading(true)
 
-      await API[sendCodeRequestFn]({ [fieldToSend]: content })
-
-      navigation.navigate('VerifyEditCode', { field, content })
+      const { data } = await API[sendCodeRequestFn]({ [fieldToSend]: content })
+      if (data.alreadyVerified) {
+        await userStorage.setProfileField(field, content)
+        screenProps.pop()
+      } else {
+        screenProps.push('VerifyEditCode', { field, content })
+      }
     } catch (e) {
       log.error('Failed to send code', e.message, e, { dialogShown: true })
 
@@ -62,7 +67,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     } finally {
       setLoading(false)
     }
-  }, [setLoading, navigation, content, goBack])
+  }, [setLoading, screenProps, content, goBack])
 
   return (
     <Wrapper>

@@ -199,22 +199,6 @@ export const backupMessage = {
   },
 }
 
-export const startSpending = {
-  id: '3',
-  type: 'spending',
-  status: 'completed',
-  data: {
-    customName: 'Go to GoodMarket',
-    subtitle: "Start spending your G$'s",
-    readMore: 'here >>>',
-    receiptData: {
-      from: NULL_ADDRESS,
-    },
-    reason:
-      'Visit GoodMarket, eToro’s exclusive marketplace, where you can buy or sell items in exchange for GoodDollars.',
-  },
-}
-
 export const startClaiming = {
   id: '4',
   type: 'claiming',
@@ -479,7 +463,6 @@ export class UserStorage {
     this.gun = gun || defaultGun
     this.wallet = wallet
     this.feedEvents = new EventEmitter()
-
     this.init()
   }
 
@@ -982,12 +965,9 @@ export class UserStorage {
   }
 
   writeFeedEvent(event): Promise<FeedEvent> {
-    const { feedIds, feedEvents } = this
-
-    feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', feedIds)
-    feedEvents.emit('updated', { event })
-
+    this.feedIds[event.id] = event
+    AsyncStorage.setItem('GD_feed', this.feedIds)
+    this.feedEvents.emit('updated', { event })
     return this.feed
       .get('byid')
       .get(event.id)
@@ -1003,7 +983,7 @@ export class UserStorage {
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
-    const feed = await this.gunuser.get('feed').then()
+    const { feed } = await this.gunuser
 
     logger.debug('init feed', { feed })
 
@@ -1018,7 +998,7 @@ export class UserStorage {
 
       logger.debug('init empty feed', { feed })
     }
-    await this.feed.get('index').then(this.updateFeedIndex)
+
     this.feed.get('index').on(this.updateFeedIndex, false)
 
     // load unencrypted feed from cache
@@ -1098,20 +1078,10 @@ export class UserStorage {
 
     // first time user visit
     if (firstVisitAppDate == null) {
-      if (Config.isEToro) {
-        this.enqueueTX(welcomeMessageOnlyEtoro)
-
-        setTimeout(() => {
-          this.enqueueTX(startSpending)
-        }, 60 * 1000) // 1 minute
-      } else {
-        this.enqueueTX(welcomeMessage)
-      }
+      this.enqueueTX(Config.isEToro ? welcomeMessageOnlyEtoro : welcomeMessage)
 
       if (Config.enableInvites) {
-        setTimeout(() => {
-          this.enqueueTX(inviteFriendsMessage)
-        }, 2 * 60 * 1000) // 2 minutes
+        setTimeout(() => this.enqueueTX(inviteFriendsMessage), 120000) // 2 minutes
       }
 
       await this.userProperties.set('firstVisitApp', Date.now())
@@ -1132,7 +1102,7 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 2000), this.profile.then(null, 2000)])
+    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 1000), this.profile.then(null, 1000)])
 
     if (profile === null) {
       // in case profile was deleted in the past it will be exactly null
@@ -1154,13 +1124,14 @@ export class UserStorage {
     this.profile.open(onProfileUpdate)
 
     logger.debug('init opened profile', {
+      gunRef: this.profile,
       profile,
       gunuser,
     })
   }
 
   addAllCardsTest() {
-    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims, startSpending].forEach(m => {
+    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
       const copy = Object.assign({}, m, { id: String(Math.random()) })
       this.enqueueTX(copy)
     })
@@ -1658,13 +1629,11 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-
     logger.debug('getFormattedEvents page result:', {
       numResults,
       reset,
       feedPage: feed,
     })
-
     const res = await Promise.all(
       feed
         .filter(
@@ -1686,7 +1655,6 @@ export class UserStorage {
           })
         }),
     )
-
     logger.debug('getFormattedEvents done formatting events')
     return res
   }
@@ -2054,7 +2022,7 @@ export class UserStorage {
       default: require('../../assets/Feed/favicon-96x96.png'),
     })
     const getAvatarFromGun = async () => {
-      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))
+      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 500))
 
       // verify account is not deleted and return value
       // if account deleted - the display of 'avatar' field will be private
@@ -2073,7 +2041,7 @@ export class UserStorage {
 
   async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
     const getFullNameFromGun = async () => {
-      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 1000))
+      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 500))
       logger.debug('profileFromGun:', { fullName })
 
       // verify account is not deleted and return value
@@ -2441,14 +2409,13 @@ export class UserStorage {
   }
 
   loadGunField(gunNode): Promise<any> {
-    return new Promise(resolve => {
-      gunNode.load(resolve)
-
-      gunNode.then(value => {
-        if (isUndefined(value)) {
-          resolve()
-        }
-      })
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async res => {
+      gunNode.load(p => res(p))
+      let isNode = await gunNode
+      if (isNode === undefined) {
+        res(undefined)
+      }
     })
   }
 

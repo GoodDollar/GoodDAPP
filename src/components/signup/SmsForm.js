@@ -12,6 +12,8 @@ import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import useOnPress from '../../lib/hooks/useOnPress'
 import LoadingIndicator from '../common/view/LoadingIndicator'
+import { store } from '../../lib/undux/SimpleStore'
+import userStorage from '../../lib/gundb/UserStorage'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -51,6 +53,17 @@ class SmsForm extends React.Component<Props, State> {
     loading: false,
     otp: Array(NumInputs).fill(null),
     tries: 1,
+    email: null,
+  }
+
+  componentDidMount() {
+    if (!store.get('isLoggedIn')) {
+      return
+    }
+
+    this.setState({ ...this.state, loading: true })
+
+    userStorage.getProfileFieldValue('email').then(email => this.setState({ ...this.state, email, loading: false }))
   }
 
   handleChange = async (otp: array) => {
@@ -84,9 +97,11 @@ class SmsForm extends React.Component<Props, State> {
     await this.props.screenProps.doneCallback({ smsValidated: false })
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  verifyOTP(otp: string) {
-    return API.verifyMobile({ otp })
+  // eslint-disable-next-line require-await
+  async verifyOTP(otp: string) {
+    const { email } = this.state
+
+    return API.verifyMobile({ otp }, email)
   }
 
   handleRetryWithCall = async () => {

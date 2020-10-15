@@ -199,8 +199,8 @@ export class APIService {
    * `/verify/mobile` post api call
    * @param {any} verificationData
    */
-  verifyMobile(verificationData: any): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/mobile', { verificationData })
+  verifyMobile(verificationData: any, email: string = null): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/mobile', { verificationData, email })
   }
 
   /**

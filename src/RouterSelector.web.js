@@ -6,6 +6,7 @@ import bip39 from 'bip39-light'
 import AsyncStorage from './lib/utils/asyncStorage'
 
 // components
+
 import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
 
 // hooks
@@ -92,15 +93,15 @@ let SignupRouter = React.lazy(async () => {
 })
 
 let AppRouter = React.lazy(async () => {
-  log.debug('initializing storage and wallet...')
-  const waitForSplash = await shouldAnimateSplash()
+  const animateSplash = await shouldAnimateSplash()
+  log.debug('initializing storage and wallet...', { animateSplash })
 
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     retryImport(() => import(/* webpackChunkName: "init" */ './init'))
       .then(({ init }) => init())
       .then(() => log.debug('storage and wallet ready')),
-    delay(waitForSplash ? animationDuration : 0),
+    delay(animateSplash ? animationDuration : 0),
   ])
 
   log.debug('router ready')
@@ -164,7 +165,7 @@ const RouterSelector = () => {
   // statring anumation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense fallback={<Splash animation={checkedForBrowserSupport} />}>
+    <React.Suspense fallback={<Splash animation={checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
       {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedIn} />}
     </React.Suspense>
   )

@@ -1,10 +1,10 @@
 import { useCallback, useRef } from 'react'
-import { isNil } from 'lodash'
+import { isFunction, isNil } from 'lodash'
 
 const useOnPress = (callback, deps = []) =>
   useCallback(
     event => {
-      if (event) {
+      if (event && isFunction(event.preventDefault)) {
         event.preventDefault()
       }
 

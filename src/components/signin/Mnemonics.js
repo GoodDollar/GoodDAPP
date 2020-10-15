@@ -2,6 +2,7 @@
 //eslint-disable-next-line
 
 import React, { useEffect, useRef, useState } from 'react'
+import { Platform } from 'react-native'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -105,7 +106,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         const firstName = getFirstWord(fullName)
         showDialog({
           visible: true,
-          image: <SuccessAnimation />,
+          image: <SuccessAnimation height={Platform.select({ default: 300, web: 'auto' })} />,
           buttons: [{ text: 'Yay!' }],
           message: `Hi ${firstName},\nyour wallet was recovered successfully`,
           onDismiss: () => (window.location = incomingRedirectUrl),

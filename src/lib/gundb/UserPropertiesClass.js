@@ -23,7 +23,6 @@ export default class UserProperties {
     firstVisitApp: null,
     etoroAddCardSpending: true,
     isAddedToHomeScreen: false,
-    cameFromW3Site: false,
     lastBonusCheckDate: null,
     countClaim: 0,
     regMethod: REGISTRATION_METHOD_SELF_CUSTODY,
@@ -31,6 +30,9 @@ export default class UserProperties {
     registered: false,
     startClaimingAdded: false,
     lastBlock: 0,
+    goodMarketClicked: false,
+    joinedAtBlock: 6400000, // default block to start sync from
+    lastTxSyncDate: null,
   }
 
   fields = [
@@ -38,12 +40,14 @@ export default class UserProperties {
     'firstVisitApp',
     'etoroAddCardSpending',
     'isAddedToHomeScreen',
-    'cameFromW3Site',
     'lastBonusCheckDate',
     'countClaim',
     'regMethod',
     'showQuickActionHint',
     'startClaimingAdded',
+    'goodMarketClicked',
+    'joinedAtBlock',
+    'lastTxSyncDate',
   ]
 
   /**

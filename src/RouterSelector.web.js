@@ -1,10 +1,13 @@
 // libraries
 import React, { memo, useEffect, useState } from 'react'
+import { Platform } from 'react-native'
+import { pick } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from './lib/utils/asyncStorage'
 
 // components
-import Splash, { animationDuration } from './components/splash/Splash'
+
+import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
 
 // hooks
 import useUpgradeDialog from './lib/hooks/useUpgradeDialog'
@@ -18,9 +21,9 @@ import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import { extractQueryParams } from './lib/share/index'
 import InternetConnection from './components/common/connectionDialog/internetConnection'
-
+import isWebApp from './lib/utils/isWebApp'
 import logger from './lib/logger/pino-logger'
-import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
+import { APP_OPEN, fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -60,15 +63,10 @@ const handleLinks = async () => {
         }
       }
     } else {
-      if (params.web3) {
-        await AsyncStorage.setItem('GD_web3Token', params.web3)
-        delete params.web3
-      }
-
       let path = window.location.pathname.slice(1)
       path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
 
-      if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
+      if (params && Object.keys(params).length > 0) {
         const dest = { path, params }
         log.debug('Saving destination url', dest)
         await AsyncStorage.setItem(DESTINATION_PATH, dest)
@@ -85,8 +83,6 @@ const handleLinks = async () => {
 }
 
 let SignupRouter = React.lazy(async () => {
-  await initAnalytics()
-
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(),
@@ -97,13 +93,15 @@ let SignupRouter = React.lazy(async () => {
 })
 
 let AppRouter = React.lazy(async () => {
-  log.debug('initializing storage and wallet...')
+  const animateSplash = await shouldAnimateSplash()
+  log.debug('initializing storage and wallet...', { animateSplash })
 
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     retryImport(() => import(/* webpackChunkName: "init" */ './init'))
       .then(({ init }) => init())
       .then(() => log.debug('storage and wallet ready')),
+    delay(animateSplash ? animationDuration : 0),
   ])
 
   log.debug('router ready')
@@ -114,7 +112,20 @@ const NestedRouter = memo(({ isLoggedIn }) => {
   useUpgradeDialog()
 
   useEffect(() => {
+    let source, platform
+    if (Platform.OS === 'web') {
+      const params = extractQueryParams(window.location.href)
+
+      source = document.referrer.match(/^https:\/\/(www\.)?gooddollar\.org/) == null ? source : 'web3'
+      source = Object.keys(pick(params, ['inviteCode', 'paymentCode', 'code'])).pop() || source
+      platform = isWebApp ? 'webapp' : 'web'
+    } else {
+      platform = 'native'
+    }
+
+    fireEvent(APP_OPEN, { source, platform, isLoggedIn })
     log.debug('RouterSelector Rendered', { isLoggedIn })
+
     if (isLoggedIn) {
       document.cookie = 'hasWallet=1;Domain=.gooddollar.org'
     }
@@ -147,10 +158,14 @@ const RouterSelector = () => {
     onChecked: () => setCheckedForBrowserSupport(true),
   })
 
+  useEffect(() => {
+    initAnalytics()
+  }, [])
+
   // statring anumation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense fallback={<Splash animation={checkedForBrowserSupport} />}>
+    <React.Suspense fallback={<Splash animation={checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
       {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedIn} />}
     </React.Suspense>
   )

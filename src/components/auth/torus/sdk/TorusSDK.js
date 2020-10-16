@@ -53,7 +53,7 @@ class TorusSDK {
   }
 
   async triggerLogin(verifier, customLogger = null) {
-    const { logger, strategies, fetchTorusUser } = this
+    const { logger, strategies } = this
     const log = customLogger || logger
     let withVerifier = verifier
 
@@ -65,7 +65,7 @@ class TorusSDK {
 
     const response = await strategies[withVerifier].triggerLogin()
 
-    return fetchTorusUser(response, customLogger)
+    return this.fetchTorusUser(response, customLogger)
   }
 
   addStrategy(verifier, strategyClass) {

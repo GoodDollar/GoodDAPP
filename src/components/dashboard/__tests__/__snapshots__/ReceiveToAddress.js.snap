@@ -60,7 +60,7 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
           "marginBottom": "8px",
           "msFlexPack": "center",
           "paddingBottom": "8px",
-          "paddingLeft": "12px",
+          "paddingLeft": "8px",
           "paddingRight": "8px",
           "paddingTop": "8px",
         }
@@ -74,15 +74,15 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             "WebkitBoxAlign": "center",
             "WebkitBoxDirection": "reverse",
             "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "justify",
+            "WebkitBoxPack": "center",
             "WebkitFlexDirection": "row-reverse",
-            "WebkitJustifyContent": "space-between",
+            "WebkitJustifyContent": "center",
             "alignItems": "center",
             "flexDirection": "row-reverse",
-            "justifyContent": "space-between",
+            "justifyContent": "center",
             "msFlexAlign": "center",
             "msFlexDirection": "row-reverse",
-            "msFlexPack": "justify",
+            "msFlexPack": "center",
           }
         }
       >
@@ -110,23 +110,23 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               "WebkitUserSelect": "none",
               "backgroundColor": "rgba(203,203,203,1.00)",
               "borderBottomColor": "rgba(163,163,163,1.00)",
-              "borderBottomLeftRadius": "21px",
-              "borderBottomRightRadius": "21px",
+              "borderBottomLeftRadius": "28px",
+              "borderBottomRightRadius": "28px",
               "borderBottomWidth": "1px",
               "borderLeftColor": "rgba(163,163,163,1.00)",
               "borderLeftWidth": "1px",
               "borderRightColor": "rgba(163,163,163,1.00)",
               "borderRightWidth": "1px",
               "borderTopColor": "rgba(163,163,163,1.00)",
-              "borderTopLeftRadius": "21px",
-              "borderTopRightRadius": "21px",
+              "borderTopLeftRadius": "28px",
+              "borderTopRightRadius": "28px",
               "borderTopWidth": "1px",
-              "height": "42px",
+              "height": "56px",
               "msUserSelect": "none",
               "transitionDuration": "0.15s",
               "transitionProperty": "opacity",
               "userSelect": "none",
-              "width": "42px",
+              "width": "56px",
             }
           }
         >
@@ -135,12 +135,12 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.00)",
-                "borderBottomLeftRadius": "20px",
-                "borderBottomRightRadius": "20px",
-                "borderTopLeftRadius": "20px",
-                "borderTopRightRadius": "20px",
-                "height": "40px",
-                "width": "40px",
+                "borderBottomLeftRadius": "27px",
+                "borderBottomRightRadius": "27px",
+                "borderTopLeftRadius": "27px",
+                "borderTopRightRadius": "27px",
+                "height": "54px",
+                "width": "54px",
               }
             }
           >
@@ -149,16 +149,16 @@ exports[`ReceiveToAddress matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "20px",
-                  "borderBottomRightRadius": "20px",
-                  "borderTopLeftRadius": "20px",
-                  "borderTopRightRadius": "20px",
+                  "borderBottomLeftRadius": "27px",
+                  "borderBottomRightRadius": "27px",
+                  "borderTopLeftRadius": "27px",
+                  "borderTopRightRadius": "27px",
                   "flexBasis": "auto",
-                  "height": "40px",
+                  "height": "54px",
                   "msFlexPreferredSize": "auto",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
-                  "width": "40px",
+                  "width": "54px",
                   "zIndex": 0,
                 }
               }
@@ -341,54 +341,104 @@ with others
         className="css-view-1dbjc4n"
         style={
           Object {
-            "borderBottomColor": "rgba(250,108,119,1.00)",
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "row",
+            "WebkitJustifyContent": "space-around",
+            "alignItems": "center",
+            "borderBottomColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "5px",
             "borderBottomRightRadius": "5px",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "2px",
-            "borderLeftColor": "rgba(250,108,119,1.00)",
+            "borderLeftColor": "rgba(0,175,255,1.00)",
             "borderLeftStyle": "solid",
             "borderLeftWidth": "2px",
-            "borderRightColor": "rgba(250,108,119,1.00)",
+            "borderRightColor": "rgba(0,175,255,1.00)",
             "borderRightStyle": "solid",
             "borderRightWidth": "2px",
-            "borderTopColor": "rgba(250,108,119,1.00)",
+            "borderTopColor": "rgba(0,175,255,1.00)",
             "borderTopLeftRadius": "5px",
             "borderTopRightRadius": "5px",
             "borderTopStyle": "solid",
             "borderTopWidth": "2px",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-around",
             "marginBottom": "20px",
             "marginLeft": "auto",
             "marginRight": "auto",
+            "msFlexAlign": "center",
+            "msFlexDirection": "row",
+            "msFlexPack": "distribute",
             "paddingBottom": "14px",
-            "paddingLeft": "14px",
-            "paddingRight": "14px",
+            "paddingLeft": "6px",
+            "paddingRight": "6px",
             "paddingTop": "14px",
             "width": "auto",
           }
         }
       >
         <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "vertical",
+              "WebkitBoxPack": "center",
+              "WebkitFlexDirection": "column",
+              "WebkitJustifyContent": "center",
+              "WebkitTransform": "rotate(180deg)",
+              "display": "flex",
+              "flexDirection": "column",
+              "height": "57px",
+              "justifyContent": "center",
+              "marginRight": "9px",
+              "msFlexDirection": "column",
+              "msFlexPack": "center",
+              "transform": "rotate(180deg)",
+              "width": "57px",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
+          />
+        </div>
+        <div
           className="css-text-901oao"
           dir="auto"
           letterSpacing={0.14}
           style={
             Object {
+              "WebkitBoxFlex": 1,
+              "WebkitFlexBasis": "0%",
+              "WebkitFlexGrow": 1,
+              "WebkitFlexShrink": 1,
               "color": "rgba(250,108,119,1.00)",
               "direction": "ltr",
+              "flexBasis": "0%",
+              "flexGrow": 1,
+              "flexShrink": 1,
               "fontFamily": "Roboto Slab",
               "fontSize": "13.5px",
-              "fontWeight": "normal",
+              "fontWeight": "700",
               "letterSpacing": "0.14px",
               "lineHeight": "21px",
-              "textAlign": "center",
+              "msFlexNegative": 1,
+              "msFlexPositive": 1,
+              "msFlexPreferredSize": "0%",
+              "paddingRight": "6px",
+              "textAlign": "left",
               "textDecoration": "none",
               "textTransform": "none",
             }
           }
         >
-          Do not send tokens to Ethereum network to this address.
-This is a Fuse Network address for G$ tokens only.
+          Keep in mind - Do not send tokens from Ethereum network to this address. This is an internal Network address for G$ tokens only.
         </div>
       </div>
       <div

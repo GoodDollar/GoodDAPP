@@ -170,7 +170,7 @@ class EmailConfirmation extends React.Component<Props, State> {
 const CodeAction = ({ renderButton, handleRetry, resentCode, sendingCode, onFinish }) => {
   if (renderButton) {
     return (
-      <SpinnerCheckMark loading={sendingCode} success={resentCode} onFinish={onFinish}>
+      <SpinnerCheckMark loading={sendingCode} success={resentCode} onFinish={onFinish} height={150} width={150}>
         <Section.Text
           textDecorationLine="underline"
           fontWeight="medium"

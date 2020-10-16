@@ -1,4 +1,8 @@
+import { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { get, isArray, isEmpty } from 'lodash'
+
+import Config from '../../../config/config'
 
 export const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
@@ -28,3 +32,16 @@ export const keyExtractor = item => {
 
   return itemKeyMap.get(item)
 }
+
+export const useFeeds = data =>
+  useMemo(() => {
+    if (!isArray(data) || isEmpty(data)) {
+      return [emptyFeed]
+    }
+
+    if (Config.enableInvites) {
+      return data
+    }
+
+    return data.filter(item => get(item, 'type') !== 'invite')
+  }, [data])

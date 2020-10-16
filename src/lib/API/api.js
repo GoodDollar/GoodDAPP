@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { identity, isError, isPlainObject, isString, throttle } from 'lodash'
+import { identity, isObject, isString, throttle } from 'lodash'
 
 import AsyncStorage from '../../lib/utils/asyncStorage'
 import Config from '../../config/config'
@@ -30,22 +30,28 @@ export type UserRecord = NameRecord &
     username?: string,
   }
 
+export const defaultErrorMessage = 'Unexpected error happened during api call'
+
 export const getErrorMessage = apiError => {
-  let message
+  let errorMessage
 
   if (isString(apiError)) {
-    message = apiError
-  } else if (isError(apiError)) {
-    message = apiError.message
-  } else if (isPlainObject(apiError)) {
-    message = apiError.error || apiError.message
+    errorMessage = apiError
+  } else if (isObject(apiError)) {
+    // checking all cases:
+    // a) JS Error - will have .message property
+    // b) { ok: 0, message: 'Error message' } shape
+    // c) { ok: 0, error: 'Error message' } shape
+    const { message, error } = apiError
+
+    errorMessage = message || error
   }
 
-  if (!message) {
-    message = 'Unexpected error happened during api call'
+  if (!errorMessage) {
+    errorMessage = defaultErrorMessage
   }
 
-  return message
+  return errorMessage
 }
 
 /**
@@ -68,7 +74,7 @@ export class APIService {
    * init API with axions client and proper interptors. Needs `GoodDAPP_jwt`to be present in AsyncStorage
    */
   init(jwtToken = null) {
-    const { serverUrl, apiTimeout, web3SiteUrl } = Config
+    const { serverUrl, apiTimeout } = Config
 
     this.jwt = jwtToken
     log.info('initializing api...', serverUrl, jwtToken)
@@ -116,16 +122,6 @@ export class APIService {
 
       this.client = await instance
       log.info('API ready', jwt)
-
-      let w3Instance: AxiosInstance = axios.create({
-        baseURL: web3SiteUrl,
-        timeout: apiTimeout,
-      })
-
-      w3Instance.interceptors.response.use(({ data }) => data, exceptionHandler)
-
-      this.w3Client = await w3Instance
-      log.info('W3 client ready')
     })())
   }
 
@@ -148,14 +144,19 @@ export class APIService {
    * `/user/add` post api call
    * @param {UserRecord} user
    */
-  addUser = throttle((user: UserRecord): AxiosPromise<any> => {
-    //-skipRegistrationStep ONLY FOR TESTING  delete this condition aftere testing
-    return this.client.post(
-      '/user/add',
-      { user, skipRegistrationStep: global.skipRegistrationStep },
-      { withCredentials: true }, //we need also the cookies for utm
-    )
-  }, 1000)
+  addUser = throttle(
+    (user: UserRecord): AxiosPromise<any> => this.client.post('/user/add', { user }, { withCredentials: true }),
+    1000,
+  )
+
+  /**
+   * `/user/start` post api call
+   * @param {UserRecord} user
+   */
+  addSignupContact = throttle(
+    (user: UserRecord): AxiosPromise<any> => this.client.post('/user/start', { user }, { withCredentials: true }),
+    1000,
+  )
 
   /**
    * `/user/delete` post api call
@@ -169,18 +170,6 @@ export class APIService {
    */
   userExists(): AxiosPromise<any> {
     return this.client.get('/user/exists')
-  }
-
-  /**
-   * `/w3Site/api/wl/user/update_profile` post w3 api call to delete wallet address
-   * @param {string} token
-   */
-  deleteWalletFromW3Site(token): AxiosPromise<any> {
-    this.w3Client.defaults.headers.common.Authorization = token
-
-    return this.w3Client.put('/api/wl/user/update_profile', {
-      wallet_address: null,
-    })
   }
 
   /**
@@ -336,44 +325,6 @@ export class APIService {
     const endpoint = this.enrollmentUrl(enrollmentIdentifier)
 
     return client.get(endpoint)
-  }
-
-  /**
-   * `/storage/login/token` get api call
-   */
-  getLoginToken() {
-    return this.client.get('/verify/w3/logintoken')
-  }
-
-  /**
-   * `/w3Site/api/wl/user` get user from web3 by token
-   * @param {string} token
-   */
-  getUserFromW3ByToken(token: string): Promise<$AxiosXHR<any>> {
-    this.w3Client.defaults.headers.common.Authorization = token
-
-    return this.w3Client.get('/api/wl/user')
-  }
-
-  /**
-   * `/w3Site/api/wl/user` get user from web3 by token
-   * @param {string} token
-   * @param {string} walletAddress
-   */
-  updateW3UserWithWallet(token, walletAddress: string): Promise<$AxiosXHR<any>> {
-    this.w3Client.defaults.headers.common.Authorization = token
-
-    return this.w3Client.put('/api/wl/user/update_profile', {
-      wallet_address: walletAddress,
-    })
-  }
-
-  /**
-   * `/verify/w3/email` verify if user not trying to send some different email than w3 provides
-   * @param {object} data - Object with email and web3 token
-   */
-  checkWeb3Email(data: { email: string, token: string }): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/w3/email', data)
   }
 
   /**

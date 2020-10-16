@@ -2,7 +2,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
-import { get as _get, debounce } from 'lodash'
+import { get as _get, debounce, throttle } from 'lodash'
+import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import { fireEvent } from '../../lib/analytics/analytics'
 import { delay } from '../../lib/utils/async'
@@ -39,7 +40,6 @@ import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, parsePaymentLinkParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
 import useAppState from '../../lib/hooks/useAppState'
-import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { getDesignRelativeHeight, getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
@@ -47,7 +47,6 @@ import { theme as _theme } from '../theme/styles'
 import unknownProfile from '../../assets/unknownProfile.svg'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import RewardsTab from './Rewards'
-import MarketTab from './Marketplace'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -73,6 +72,8 @@ import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
 
+import GoodMarketButton, { marketAnimationDuration } from './GoodMarket/components/GoodMarketButton'
+
 const log = logger.child({ from: 'Dashboard' })
 
 let didRender = false
@@ -87,6 +88,8 @@ export type DashboardProps = {
   styles?: any,
 }
 
+const feedMutex = new Mutex()
+
 const Dashboard = props => {
   const balanceRef = useRef()
   const { screenProps, styles, theme, navigation }: DashboardProps = props
@@ -100,7 +103,6 @@ const Dashboard = props => {
   const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(initialAvatarCenteredPosition)
   const [headerBalanceVerticalMarginAnimValue] = useState(new Animated.Value(theme.sizes.defaultDouble))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
-  const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
@@ -117,14 +119,6 @@ const Dashboard = props => {
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
-
-  const scale = {
-    transform: [
-      {
-        scale: animValue,
-      },
-    ],
-  }
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -199,13 +193,15 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    debounce(
-      async (reset = false) => {
+    throttle(async (reset = false) => {
+      const release = await feedMutex.lock()
+      try {
         log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
         const feedPromise = userStorage
           .getFormattedEvents(PAGE_SIZE, reset)
           .catch(e => log.error('getInitialFeed failed:', e.message, e))
 
+        let res = []
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
           //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
@@ -214,20 +210,29 @@ const Dashboard = props => {
             log.debug('waiting for feed animation')
             didRender = true
           }
-          const res = (await feedPromise) || []
-          log.debug('getFeedPage getFormattedEvents result:', { res })
+          res = (await feedPromise) || []
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
           res.length > 0 && setFeeds(res)
         } else {
-          const res = (await feedPromise) || []
+          res = (await feedPromise) || []
           res.length > 0 && setFeeds(feeds.concat(res))
         }
-      },
-      1000,
-      { leading: true },
-    ),
+        log.debug('getFeedPage getFormattedEvents result:', {
+          reset,
+          res,
+          resultSize: res.length,
+          feedItems: feeds.length,
+        })
+      } catch (e) {
+        log.warn('getFeedPage failed', e.message, e)
+      } finally {
+        release()
+      }
+    }, 500),
     [loadAnimShown, store, setFeeds, feeds],
   )
+
+  const [feedLoaded, setFeedLoaded] = useState(false)
 
   //subscribeToFeed probably should be an effect that updates the feed items
   //as they come in, currently on each new item it simply reset the feed
@@ -259,8 +264,18 @@ const Dashboard = props => {
     }
   }
 
+  const claimAnimValue = useRef(new Animated.Value(1)).current
+
+  const claimScale = useRef({
+    transform: [
+      {
+        scale: claimAnimValue,
+      },
+    ],
+  }).current
+
   useEffect(() => {
-    if (appState === 'active') {
+    if (feedLoaded && appState === 'active') {
       animateClaim()
     }
   }, [appState])
@@ -279,20 +294,20 @@ const Dashboard = props => {
 
     if (entitlement) {
       Animated.sequence([
-        Animated.timing(animValue, {
+        Animated.timing(claimAnimValue, {
           toValue: 1.4,
           duration: 750,
           easing: Easing.ease,
           delay: 1000,
         }),
-        Animated.timing(animValue, {
+        Animated.timing(claimAnimValue, {
           toValue: 1,
           duration: 750,
           easing: Easing.ease,
         }),
       ]).start()
     }
-  }, [animValue])
+  }, [])
 
   const showDelayed = useCallback(() => {
     if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
@@ -337,6 +352,10 @@ const Dashboard = props => {
     await userStorage.initRegistered()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+
+    setFeedLoaded(true)
+    setTimeout(animateClaim, marketAnimationDuration)
+
     initTransferEvents(gdstore)
     log.debug('initDashboard subscribed to feed')
     InteractionManager.runAfterInteractions(handleAppLinks)
@@ -677,7 +696,7 @@ const Dashboard = props => {
           >
             Send
           </PushButton>
-          <Animated.View style={{ zIndex: 1, ...scale }}>
+          <Animated.View style={{ zIndex: 1, ...claimScale }}>
             <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
           </Animated.View>
           <PushButton
@@ -716,6 +735,7 @@ const Dashboard = props => {
           navigation={navigation}
         />
       )}
+      <GoodMarketButton hidden={!feedLoaded} />
     </Wrapper>
   )
 }
@@ -892,10 +912,4 @@ export default createStackNavigator({
     screen: RewardsTab,
     path: 'Rewards/:rewardsPath*',
   },
-  Marketplace: {
-    screen: config.market ? MarketTab : WrappedDashboard,
-    path: 'Marketplace/:marketPath*',
-  },
-
-  // MagicLinkInfo,
 })

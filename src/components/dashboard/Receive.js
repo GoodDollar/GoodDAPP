@@ -7,7 +7,7 @@ import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
-import { CopyButton, CustomButton, QRCode, ReceiveToAddressButton, Section, Wrapper } from '../common'
+import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../lib/utils/sizes'
@@ -46,13 +46,13 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
     fireReceiveDoneEvent()
   }, [shareAction, share])
 
-  const onPressReceiveToAddressButton = useCallback(() => screenProps.push('ReceiveToAddress'), [screenProps])
+  // const onPressReceiveToAddressButton = useCallback(() => screenProps.push('ReceiveToAddress'), [screenProps])
 
   return (
     <Wrapper>
       <TopBar hideBalance={false} push={screenProps.push}>
         <View />
-        <ReceiveToAddressButton onPress={onPressReceiveToAddressButton} />
+        {/* <AddressButton onPress={onPressReceiveToAddressButton} /> */}
       </TopBar>
       <Section grow>
         {isBrowser && <View style={styles.emptySpace} />}

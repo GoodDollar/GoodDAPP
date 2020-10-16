@@ -135,12 +135,6 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     handleModalClose()
   }, [handleModalClose, navigation])
 
-  const Marketplace = useCallback(() => {
-    fireEventAnalytics('Marketplace')
-    navigation.navigate('Marketplace')
-    handleModalClose()
-  }, [handleModalClose, navigation])
-
   const backupPage = useCallback(() => {
     fireEventAnalytics('BackupWallet')
     navigation.navigate('BackupWallet')
@@ -247,21 +241,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           </View>
         </View>
       )
-    case 'spending':
-      return (
-        <View style={styles.buttonsView}>
-          <View style={styles.rightButtonContainer}>
-            <ModalButton fontWeight="medium" mode="text" color="gray80Percent" onPress={handleModalClose}>
-              LATER
-            </ModalButton>
-          </View>
-          <View style={styles.rightButtonContainer}>
-            <ModalButton fontWeight="medium" onPress={Marketplace} iconAlignment="right">
-              {"LET'S GO"}
-            </ModalButton>
-          </View>
-        </View>
-      )
+
     case 'backup':
       return (
         <View style={styles.buttonsView}>

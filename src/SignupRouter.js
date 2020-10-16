@@ -7,7 +7,8 @@ import { isAndroid } from 'mobile-device-detect'
 import Config from './config/config'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
-import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
+import Auth from './components/auth/Auth'
+import AuthTorus from './components/auth/torus/AuthTorus'
 import Blurred from './components/common/view/Blurred'
 import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
@@ -22,7 +23,6 @@ const initialRouteName = 'Welcome' // isMobileSafari && isWebApp ? 'IOSWebAppSig
 const routes = {
   Welcome,
   Signup,
-  InvalidW3TokenError,
 
   // IOSWebAppSignIn,
 }

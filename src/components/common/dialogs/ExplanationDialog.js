@@ -40,40 +40,50 @@ const ExplanationButton = ({ text = 'OK', action = noop, mode, styles }) => {
   )
 }
 
+const defaultCustomStyle = {}
+
 const ExplanationDialog = ({
   styles,
   theme,
   errorMessage,
+  label,
   title,
   text,
-  textStyle,
   imageSource,
   image: ImageComponent,
   imageHeight = 74,
   buttons,
+  containerStyle = defaultCustomStyle,
+  imageContainer = defaultCustomStyle,
+  titleStyle = defaultCustomStyle,
+  textStyle = defaultCustomStyle,
+  labelStyle = defaultCustomStyle,
+  imageStyle = defaultCustomStyle,
 }) => {
   const imageProps = {
     style: [
       styles.image,
       { height: getDesignRelativeHeight(imageHeight, false) },
       { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) },
+      imageStyle,
     ],
     resizeMode: 'contain',
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       {errorMessage && (
         <Text color={theme.colors.red} style={styles.error}>
           {errorMessage}
         </Text>
       )}
-      {ImageComponent ? (
-        <ImageComponent {...imageProps} />
-      ) : imageSource ? (
-        <Image source={imageSource} {...imageProps} />
-      ) : null}
-      <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
+      {(imageSource || ImageComponent) && (
+        <View style={imageContainer}>
+          {ImageComponent ? <ImageComponent {...imageProps} /> : <Image source={imageSource} {...imageProps} />}
+        </View>
+      )}
+      {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
+      <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={[styles.title, titleStyle]}>
         {title}
       </Text>
       {text && <Text style={[styles.description, textStyle]}>{text}</Text>}
@@ -104,6 +114,12 @@ const mapStylesToProps = () => ({
   image: {
     width: '100%',
     marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
+  },
+  label: {
+    color: theme.colors.darkGray,
+    fontSize: normalizeText(10),
+    lineHeight: 11,
+    textAlign: 'left',
   },
   title: {
     marginBottom: getDesignRelativeHeight(8),

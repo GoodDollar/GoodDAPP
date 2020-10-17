@@ -109,27 +109,24 @@ const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnl
   return <ButtonCountdown styles={styles} nextClaim={nextClaim} />
 }
 
-const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly, isInQueue }) => {
-  const _onPress = useOnPress(onPress)
-  return (
-    <CustomButton
-      testId="claim_button"
-      compact={true}
-      mode="contained"
-      onPress={_onPress}
-      style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
-    >
-      <ButtonContent
-        isCitizen={isCitizen}
-        showLabelOnly={showLabelOnly}
-        entitlement={entitlement}
-        nextClaim={nextClaim}
-        styles={styles}
-        isInQueue={isInQueue}
-      />
-    </CustomButton>
-  )
-}
+const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly, isInQueue }) => (
+  <CustomButton
+    testId="claim_button"
+    compact={true}
+    mode="contained"
+    onPress={onPress}
+    style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
+  >
+    <ButtonContent
+      isCitizen={isCitizen}
+      showLabelOnly={showLabelOnly}
+      entitlement={entitlement}
+      nextClaim={nextClaim}
+      styles={styles}
+      isInQueue={isInQueue}
+    />
+  </CustomButton>
+)
 
 const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
   const initialEntitlementRef = useRef(entitlement)

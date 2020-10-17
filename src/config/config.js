@@ -1,4 +1,4 @@
-import { get, isUndefined, once } from 'lodash'
+import { get, once } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { env as devenv, fixNL } from '../lib/utils/env'
 import env from './env'
@@ -12,11 +12,7 @@ const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'eto
 const forceLogLevel = get(window, 'location.search', '').match(/level=(.*?)($|&)/)
 const forcePeer = get(window, 'location.search', '').match(/gun=(.*?)($|&)/)
 
-let phase = env.REACT_APP_RELEASE_PHASE
-
-if (isUndefined(phase)) {
-  phase = 'true' === env.REACT_APP_ENV_PHASE_ONE ? 1 : 0
-}
+let phase = env.REACT_APP_RELEASE_PHASE || 1
 
 const isPhaseZero = 0 === phase
 const isPhaseOne = 1 === phase

@@ -35,19 +35,26 @@ export const resetLastSplash = async () => {
   await AsyncStorage.setItem(lastSplashProp, 0)
 }
 
-const Splash = ({ animation }) => {
-  const [shouldAnimate, setShouldAnimate] = useState(undefined)
+const Splash = ({ animation, isLoggedIn }) => {
+  const [checked, setChecked] = useState(false)
+  const [shouldAnimate, setShouldAnimate] = useState(isLoggedIn !== true || isMobileNative)
   useEffect(() => {
+    if (shouldAnimate) {
+      return
+    }
     shouldAnimateSplash().then(animateSplash => {
       if (animateSplash) {
         AsyncStorage.setItem(lastSplashProp, Date.now())
       }
       setShouldAnimate(animateSplash)
+      setChecked(true)
     })
   }, [])
-  if (isMobileNative === false && shouldAnimate === undefined) {
+
+  if (shouldAnimate === false && checked === false) {
     return null
   }
+
   return (
     <Wrapper style={styles.wrapper}>
       <Section style={styles.container}>

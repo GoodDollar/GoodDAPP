@@ -66,7 +66,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     } finally {
       setLoading(false)
     }
-  }, [setLoading, screenProps, content, goBack])
+  }, [setLoading, screenProps, content, goBack, showErrorDialog])
 
   return (
     <Wrapper>

@@ -382,7 +382,11 @@ const Dashboard = props => {
       return
     }
 
-    const { width } = await measure(balanceView)
+    const measurements = await measure(balanceView)
+
+    // Android never gets values from measure causing animation to crash because of NaN
+    const width = measurements.width || 0
+
     const balanceCenteredPosition = headerContentWidth / 2 - width / 2
 
     setBalanceBlockWidth(width)

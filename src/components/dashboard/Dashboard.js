@@ -221,9 +221,6 @@ const Dashboard = props => {
           //so we use a global variable
           if (!didRender) {
             log.debug('waiting for feed animation')
-
-            // a time to perform feed load animation till the end
-            await delay(2000)
             didRender = true
           }
           res = (await feedPromise) || []

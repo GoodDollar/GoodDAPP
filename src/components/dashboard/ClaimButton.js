@@ -150,7 +150,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
     }
   }, [entitlement])
 
-  const _onPress = useOnPress(onPress)
+  // const _onPress = useOnPress(onPress)
 
   // if (initialEntitlementRef.current) {
   //   return (
@@ -170,6 +170,18 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
   // }
 
   const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
+
+  const onButtonPress = useCallback(
+    event => {
+      if (!entitlement) {
+        return
+      }
+
+      onPress(event)
+    },
+    [entitlement, onPress],
+  )
+
   return (
     <CardFlip
       style={styles.cardContainer}
@@ -193,7 +205,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
         styles={styles}
         entitlement={entitlement}
         nextClaim={nextClaimToDisplay}
-        onPress={_onPress}
+        onPress={onButtonPress}
         isInQueue={isInQueue}
       />
     </CardFlip>

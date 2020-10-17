@@ -3,7 +3,7 @@ import bip39 from 'bip39-light'
 import AsyncStorage from './lib/utils/asyncStorage'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
-import Splash from './components/splash/Splash'
+import Splash, { animationDuration } from './components/splash/Splash'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import logger from './lib/logger/pino-logger'
@@ -22,7 +22,7 @@ let SignupRouter = React.lazy(async () => {
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(),
-    delay(5000),
+    delay(animationDuration),
   ])
 
   return module
@@ -84,7 +84,13 @@ let AppRouter = React.lazy(() => {
   let walletAndStorageReady = retryImport(() => import(/* webpackChunkName: "init" */ './init'))
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
 
-  return Promise.all([retryImport(() => import(/* webpackChunkName: "router" */ './Router')), p2, p1])
+  //always wait for full splash on native
+  return Promise.all([
+    retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
+    p2,
+    p1,
+    delay(animationDuration),
+  ])
     .then(r => {
       log.debug('router ready')
       return r

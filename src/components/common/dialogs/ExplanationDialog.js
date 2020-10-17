@@ -53,11 +53,13 @@ const ExplanationDialog = ({
   buttons,
 }) => {
   const imageProps = {
-    style: [
-      styles.image,
-      { height: getDesignRelativeHeight(imageHeight, false) },
-      { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) },
-    ],
+    style: {
+      width: '100%',
+      marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
+      height: getDesignRelativeHeight(imageHeight, false),
+      marginTop: errorMessage ? undefined : getDesignRelativeHeight(8),
+      alignSelf: 'center',
+    },
     resizeMode: 'contain',
   }
 
@@ -105,10 +107,6 @@ const mapStylesToProps = () => ({
     marginTop: getDesignRelativeHeight(16),
     marginBottom: getDesignRelativeHeight(25),
   },
-  image: {
-    width: '100%',
-    marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
-  },
   title: {
     marginBottom: getDesignRelativeHeight(8),
   },
@@ -138,6 +136,7 @@ const mapStylesToProps = () => ({
     flex: 1,
     justifyContent: 'center',
     flexDirection: 'row',
+    alignSelf: 'center',
   },
 })
 

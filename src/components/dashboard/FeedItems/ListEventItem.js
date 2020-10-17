@@ -165,7 +165,7 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed, isSmallDevice })
     )
   } else if (feed.data.readMore === false) {
     //if readMore is exactly false we dont show anything
-    result = ''
+    result = null
   } else {
     result = (
       <Text

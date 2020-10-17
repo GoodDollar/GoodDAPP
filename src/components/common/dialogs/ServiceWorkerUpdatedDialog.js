@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 
 // components
 import Text from '../../common/view/Text'
@@ -13,9 +13,7 @@ import { isBrowser } from '../../../lib/utils/platform'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 
 // assets
-import UpdateVersion from '../../../assets/updateversion.svg'
-
-Image.prefetch(UpdateVersion)
+import UpdateVersionSVG from '../../../assets/updateversion.svg'
 
 const dialogStyles = ({ theme }) => {
   const topPosition = isBrowser ? 0 : isSmallDevice ? 40 : 80
@@ -35,6 +33,7 @@ const dialogStyles = ({ theme }) => {
       height: getDesignRelativeHeight(134),
       width: getDesignRelativeHeight(191),
       marginBottom: getDesignRelativeHeight(25),
+      justifyContent: 'center',
     },
     imageContainer: {
       paddingTop: getDesignRelativeHeight(32),
@@ -64,7 +63,9 @@ const dialogStyles = ({ theme }) => {
 export const RegularDialog = withStyles(dialogStyles)(({ styles, theme }) => (
   <View>
     <View style={styles.imageContainer}>
-      <Image source={UpdateVersion} style={styles.image} />
+      <View style={styles.image}>
+        <UpdateVersionSVG />
+      </View>
       <Text
         fontSize={22}
         lineHeight={26}

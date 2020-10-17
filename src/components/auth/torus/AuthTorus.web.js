@@ -339,7 +339,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         </Text>
       </Text>
       <View style={styles.illustration}>
-        <TorusIllustrationSVG />
+        <TorusIllustrationSVG viewBox="0 0 248 194" preserveAspectRatio="xMidYMid meet" />
       </View>
       <Section style={styles.bottomContainer}>
         {asGuest && (

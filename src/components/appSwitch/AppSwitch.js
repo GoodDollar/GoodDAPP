@@ -52,7 +52,7 @@ const showOutOfGasError = debounce(
 )
 
 const syncTXFromBlockchain = async () => {
-  const lastUpdateDate = userStorage.userProperties.get('lastTxSyncDate')
+  const lastUpdateDate = userStorage.userProperties.get('lastTxSyncDate') || 0
   const now = moment()
 
   if (lastUpdateDate && !moment(lastUpdateDate).isSame(now, 'day')) {

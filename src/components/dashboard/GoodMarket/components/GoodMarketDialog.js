@@ -16,10 +16,7 @@ const GoodMarketDialog = ({ onGotoMarket, styles, ...dialogProps }) => {
       {...dialogProps}
       label={currentDateTime}
       title="Check out GoodMarket"
-      text={
-        `Visit GoodMarket, our exclusive Facebook marketplace, ` +
-        `where you can buy and sell items in exchange for G$ coins.`
-      }
+      text={`Visit GoodMarket, our community initiated\nFacebook marketplace, where you can buy\nand sell items in exchange for G$ coins.`}
       image={GoodMarketImage}
       labelStyle={styles.label}
       titleStyle={styles.title}

@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
-import { debounce, get, throttle } from 'lodash'
+import { concat, debounce, get, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -206,7 +206,7 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    throttle(async (reset = false) => {
+    async (reset = false) => {
       const release = await feedMutex.lock()
       try {
         log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
@@ -228,7 +228,8 @@ const Dashboard = props => {
           res.length > 0 && setFeeds(res)
         } else {
           res = (await feedPromise) || []
-          res.length > 0 && setFeeds(feeds.concat(res))
+          const newFeed = uniqBy(concat(feeds, res), 'id')
+          res.length > 0 && setFeeds(newFeed)
         }
         log.debug('getFeedPage getFormattedEvents result:', {
           reset,
@@ -241,7 +242,7 @@ const Dashboard = props => {
       } finally {
         release()
       }
-    }, 500),
+    },
     [loadAnimShown, store, setFeeds, feeds],
   )
 

@@ -221,9 +221,6 @@ const Dashboard = props => {
           //so we use a global variable
           if (!didRender) {
             log.debug('waiting for feed animation')
-
-            // a time to perform feed load animation till the end
-            await delay(2000)
             didRender = true
           }
           res = (await feedPromise) || []
@@ -382,7 +379,11 @@ const Dashboard = props => {
       return
     }
 
-    const { width } = await measure(balanceView)
+    const measurements = await measure(balanceView)
+
+    // Android never gets values from measure causing animation to crash because of NaN
+    const width = measurements.width || 0
+
     const balanceCenteredPosition = headerContentWidth / 2 - width / 2
 
     setBalanceBlockWidth(width)

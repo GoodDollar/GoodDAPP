@@ -1804,7 +1804,7 @@ export class UserStorage {
       .get('profile')
 
     const [avatar = undefined, name = 'Unknown Name'] = await Promise.all([
-      profileToShow.get('avatar').get('display'),
+      profileToShow.get('smallAvatar').get('display'),
       profileToShow.get('fullName').get('display'),
     ])
 

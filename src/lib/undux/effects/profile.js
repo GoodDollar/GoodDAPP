@@ -4,7 +4,6 @@ import userStorage from '../../gundb/UserStorage'
 import type { State } from '../GDStore'
 import { assertStore, assertStoreSnapshot } from '../SimpleStore'
 import logger from '../../logger/pino-logger'
-import { delay } from '../../utils/async'
 const log = logger.child({ from: 'undux/effects/profile' })
 
 /**
@@ -21,17 +20,13 @@ const withProfile: Effects<State> = (store: Store) => {
       return
     }
 
-    userStorage.subscribeProfileUpdates(async profile => {
+    userStorage.subscribeProfileUpdates(profile => {
       if (profile) {
         if (!assertStoreSnapshot(store, log, 'withProfile failed')) {
           return
         }
 
         store.set('profile')(userStorage.getDisplayProfile(profile))
-
-        //the SEA encrypted data might not have been saved yet, give it some time
-        await delay(1000)
-        store.set('privateProfile')(await userStorage.getPrivateProfile(profile))
       }
     })
   })

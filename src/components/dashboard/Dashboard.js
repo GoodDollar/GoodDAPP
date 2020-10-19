@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
+import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View } from 'react-native'
 import { concat, debounce, get, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
@@ -356,6 +356,7 @@ const Dashboard = props => {
 
   const initDashboard = async () => {
     await userStorage.initRegistered()
+    await handleAppLinks()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
 
@@ -366,7 +367,7 @@ const Dashboard = props => {
 
     log.debug('initDashboard subscribed to feed')
 
-    InteractionManager.runAfterInteractions(handleAppLinks)
+    // InteractionManager.runAfterInteractions(handleAppLinks)
     Dimensions.addEventListener('change', handleResize)
 
     initBGFetch()
@@ -723,7 +724,7 @@ const Dashboard = props => {
             textStyle={styles.leftButtonText}
             params={{
               nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'TransactionConfirmation'],
-              params: { action: 'Send' },
+              action: 'Send',
             }}
             compact
           >

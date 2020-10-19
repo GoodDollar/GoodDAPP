@@ -48,7 +48,7 @@ const Who = (props: AmountProps) => {
   //   () =>
   //     push('SendToAddress', {
   //       nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
-  //       params: { action: ACTION_SEND_TO_ADDRESS },
+  //       action: ACTION_SEND_TO_ADDRESS,
   //     }),
   //   [push],
   // )

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import useOnPress from '../../../lib/hooks/useOnPress'
 import { mediumZIndex } from './styles'
@@ -26,13 +26,16 @@ const getStylesFromProps = ({ theme }) => ({
   modalCloseImageContainer: {
     position: 'absolute',
     zIndex: mediumZIndex,
-    elevation: 25, // required for Android
     top: -20,
     right: 0,
     width: 37,
     height: 37,
     marginLeft: 'auto',
     marginRight: -(37 / 2),
+    ...(Platform.select({
+      // required for Android
+      android: { elevation: 25 },
+    }) || {}),
   },
 })
 

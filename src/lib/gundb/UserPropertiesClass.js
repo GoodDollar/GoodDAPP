@@ -32,7 +32,7 @@ export default class UserProperties {
     lastBlock: 0,
     goodMarketClicked: false,
     joinedAtBlock: 6400000, // default block to start sync from
-    lastTxSyncDate: null,
+    lastTxSyncDate: 0,
   }
 
   fields = [

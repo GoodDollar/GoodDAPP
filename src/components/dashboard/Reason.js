@@ -46,7 +46,7 @@ const SendReason = (props: AmountProps) => {
           <Section.Stack grow={3}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
-              values={{ ...restState, reason, params }}
+              values={{ ...params, ...restState, reason }}
               {...props}
               label={reason ? 'Next' : 'Skip'}
             />

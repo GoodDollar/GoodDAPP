@@ -1,6 +1,6 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
+import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
 import { get as _get, concat, debounce, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
@@ -351,6 +351,7 @@ const Dashboard = props => {
 
   const initDashboard = async () => {
     await userStorage.initRegistered()
+    await handleAppLinks()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
 
@@ -359,7 +360,8 @@ const Dashboard = props => {
 
     initTransferEvents(gdstore)
     log.debug('initDashboard subscribed to feed')
-    InteractionManager.runAfterInteractions(handleAppLinks)
+
+    // InteractionManager.runAfterInteractions(handleAppLinks)
 
     Dimensions.addEventListener('change', handleResize)
   }
@@ -691,7 +693,7 @@ const Dashboard = props => {
             textStyle={styles.leftButtonText}
             params={{
               nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'TransactionConfirmation'],
-              params: { action: 'Send' },
+              action: 'Send',
             }}
             compact
           >

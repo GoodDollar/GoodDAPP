@@ -26,7 +26,7 @@ const SwitchToAnotherDevice = ({ styles, displayTitle, exception, screenProps })
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="medium" textTransform="none" color="red">
             {displayTitle}
-            {',\nPlease try to switch\nto other device'}
+            {',\nPlease try to switch\nto another device'}
           </Section.Title>
           <Image source={illustration} resizeMode="contain" style={styles.errorImage} />
           <Section style={styles.errorSection}>

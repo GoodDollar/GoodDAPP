@@ -102,8 +102,8 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const nextRoute = this.state.stack.pop()
     if (nextRoute) {
       this.trans = true
-      const { params: navigationParams } = nextRoute.state
-      this.setState({ currentState: { ...nextRoute.state, ...params, route: nextRoute.route } }, () => {
+      const navigationParams = nextRoute.state
+      this.setState({ currentState: { ...navigationParams, ...params, route: nextRoute.route } }, () => {
         navigation.navigate(nextRoute.route, navigationParams)
         this.trans = false
       })
@@ -120,7 +120,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   push = (nextRoute, params) => {
     const { navigation } = this.props
-    const { params: navigationParams } = params || {}
+    const navigationParams = params || {}
     const route = navigation.state.routes[navigation.state.index].key
     this.trans = true
     this.setState(
@@ -137,7 +137,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
         }
       },
       state => {
-        navigation.navigate(nextRoute, navigationParams)
+        navigation.navigate(nextRoute, { ...navigationParams, route })
         this.trans = false
       },
     )
@@ -167,7 +167,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
   }
 
   /**
-   * Navigates to specific screen with custom parameters as query string.
+   * Navigates to specific screen with custom parameters as query string. and reseting the stack
    */
   navigateTo = (nextRoute: string, params: any) => {
     const { navigation } = this.props
@@ -176,7 +176,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.setState(
       (state, props) => {
         return {
-          stack: state.stack,
+          stack: [],
           currentState: { ...params, route },
         }
       },

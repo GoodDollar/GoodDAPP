@@ -101,7 +101,7 @@ const ExplanationDialog = ({
   )
 }
 
-const mapStylesToProps = theme => ({
+const mapStylesToProps = ({ theme }) => ({
   container: {
     display: 'flex',
     justifyContent: 'space-around',

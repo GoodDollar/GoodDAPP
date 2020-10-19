@@ -1,7 +1,8 @@
 // @flow
 import { getNetworkName } from '../../../lib/constants/network'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import { ACTION_SEND } from './sendReceiveFlow'
+import userStorage from '../../../lib/gundb/UserStorage'
+import { ACTION_SEND_TO_ADDRESS } from './sendReceiveFlow'
 
 export type CodeType = {
   networkId: number,
@@ -38,20 +39,47 @@ export const routeAndPathForCode = async (
     throw new Error("You can't send G$s to yourself, you already own your G$s")
   }
 
+  const profile = await userStorage.getUserProfile(address)
+
   switch (screen) {
     case 'sendByQR':
     case 'send': {
-      const params = { action: ACTION_SEND, type: screen === 'sendByQR' ? 'QR' : 'receive' }
+      const params = {
+        address,
+        reason,
+        amount,
+        profile,
+        counterPartyDisplayName: profile.name,
+        action: ACTION_SEND_TO_ADDRESS,
+        type: screen === 'sendByQR' ? 'QR' : 'receive',
+      }
+      const nextRoutes = ['SendLinkSummary']
       if (!amount) {
+        if (!reason) {
+          nextRoutes.unshift('Reason')
+        }
         return {
           route: 'Amount',
-          params: { to: address, nextRoutes: ['Reason', 'SendQRSummary'], params },
+          params: {
+            nextRoutes,
+            ...params,
+          },
+        }
+      }
+
+      if (!reason) {
+        return {
+          route: 'Reason',
+          params: {
+            nextRoutes,
+            ...params,
+          },
         }
       }
 
       return {
-        route: 'SendQRSummary',
-        params: { to: address, amount, reason: reason || 'From QR with Amount', params },
+        route: 'SendLinkSummary',
+        params,
       }
     }
 

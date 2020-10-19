@@ -73,11 +73,11 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
         <Section.Stack alignItems="stretch">
           <PushButton
             dark={false}
-            routeName="Who"
+            routeName="Amount"
             mode="outlined"
             screenProps={screenProps}
             params={{
-              nextRoutes: ['Amount', 'Reason', 'ReceiveSummary', 'TransactionConfirmation'],
+              nextRoutes: ['Reason', 'ReceiveSummary', 'TransactionConfirmation'],
               params: { action: 'Receive' },
             }}
           >

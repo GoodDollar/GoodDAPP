@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
-import { debounce, get, throttle } from 'lodash'
+import { concat, debounce, get, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -197,7 +197,7 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    throttle(async (reset = false) => {
+    async (reset = false) => {
       const release = await feedMutex.lock()
       try {
         log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
@@ -205,31 +205,35 @@ const Dashboard = props => {
           .getFormattedEvents(PAGE_SIZE, reset)
           .catch(e => log.error('getInitialFeed failed:', e.message, e))
 
+        let res = []
         if (reset) {
           // a flag used to show feed load animation only at the first app loading
           //subscribeToFeed calls this method on mount effect without dependencies because currently we dont want it re-subscribe
           //so we use a global variable
           if (!didRender) {
             log.debug('waiting for feed animation')
-
-            // a time to perform feed load animation till the end
-            await delay(2000)
             didRender = true
           }
-          const res = (await feedPromise) || []
-          log.debug('getFeedPage getFormattedEvents result:', { res })
+          res = (await feedPromise) || []
           res.length > 0 && !didRender && store.set('feedLoadAnimShown')(true)
           res.length > 0 && setFeeds(res)
         } else {
-          const res = (await feedPromise) || []
-          res.length > 0 && setFeeds(feeds.concat(res))
+          res = (await feedPromise) || []
+          const newFeed = uniqBy(concat(feeds, res), 'id')
+          res.length > 0 && setFeeds(newFeed)
         }
+        log.debug('getFeedPage getFormattedEvents result:', {
+          reset,
+          res,
+          resultSize: res.length,
+          feedItems: feeds.length,
+        })
       } catch (e) {
         log.warn('getFeedPage failed', e.message, e)
       } finally {
         release()
       }
-    }, 500),
+    },
     [loadAnimShown, store, setFeeds, feeds],
   )
 
@@ -383,7 +387,11 @@ const Dashboard = props => {
       return
     }
 
-    const { width } = await measure(balanceView)
+    const measurements = await measure(balanceView)
+
+    // Android never gets values from measure causing animation to crash because of NaN
+    const width = measurements.width || 0
+
     const balanceCenteredPosition = headerContentWidth / 2 - width / 2
 
     setBalanceBlockWidth(width)

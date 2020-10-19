@@ -15,7 +15,6 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { hideDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
-import { theme } from '../../theme/styles'
 import normalizeText from '../../../lib/utils/normalizeText'
 
 const ExplanationButton = ({ text = 'OK', action = noop, mode, styles }) => {
@@ -62,9 +61,11 @@ const ExplanationDialog = ({
 }) => {
   const imageProps = {
     style: [
+      {
+        height: getDesignRelativeHeight(imageHeight, false),
+        marginTop: errorMessage ? undefined : getDesignRelativeHeight(8),
+      },
       styles.image,
-      { height: getDesignRelativeHeight(imageHeight, false) },
-      { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) },
       imageStyle,
     ],
     resizeMode: 'contain',
@@ -100,7 +101,7 @@ const ExplanationDialog = ({
   )
 }
 
-const mapStylesToProps = () => ({
+const mapStylesToProps = theme => ({
   container: {
     display: 'flex',
     justifyContent: 'space-around',
@@ -116,6 +117,7 @@ const mapStylesToProps = () => ({
   image: {
     width: '100%',
     marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
+    alignSelf: 'center',
   },
   label: {
     color: theme.colors.darkGray,
@@ -152,6 +154,7 @@ const mapStylesToProps = () => ({
     flex: 1,
     justifyContent: 'center',
     flexDirection: 'row',
+    alignSelf: 'center',
   },
 })
 

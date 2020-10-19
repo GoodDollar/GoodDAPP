@@ -2,6 +2,7 @@
 //eslint-disable-next-line
 
 import React, { useEffect, useRef, useState } from 'react'
+import { Platform } from 'react-native'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -25,6 +26,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
 const MAX_WORDS = 12
+const modalHeight = Platform.select({ default: 300, web: 'auto' })
 
 const Mnemonics = ({ screenProps, navigation, styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
@@ -55,7 +57,11 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   }
 
   const recover = useOnPress(async () => {
+    //required to wallet and storage are reinitialized
+    const curVersion = await AsyncStorage.getItem('GD_version')
     await AsyncStorage.clear()
+    AsyncStorage.setItem('GD_version', curVersion)
+
     input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)
@@ -101,7 +107,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         const firstName = getFirstWord(fullName)
         showDialog({
           visible: true,
-          image: <SuccessAnimation />,
+          image: <SuccessAnimation height={modalHeight} />,
           buttons: [{ text: 'Yay!' }],
           message: `Hi ${firstName},\nyour wallet was recovered successfully`,
           onDismiss: () => (window.location = incomingRedirectUrl),

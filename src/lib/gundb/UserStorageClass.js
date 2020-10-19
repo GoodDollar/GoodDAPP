@@ -463,7 +463,6 @@ export class UserStorage {
     this.gun = gun || defaultGun
     this.wallet = wallet
     this.feedEvents = new EventEmitter()
-
     this.init()
   }
 
@@ -966,12 +965,9 @@ export class UserStorage {
   }
 
   writeFeedEvent(event): Promise<FeedEvent> {
-    const { feedIds, feedEvents } = this
-
-    feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', feedIds)
-    feedEvents.emit('updated', { event })
-
+    this.feedIds[event.id] = event
+    AsyncStorage.setItem('GD_feed', this.feedIds)
+    this.feedEvents.emit('updated', { event })
     return this.feed
       .get('byid')
       .get(event.id)
@@ -987,7 +983,7 @@ export class UserStorage {
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
-    const feed = await this.gunuser.get('feed').then()
+    const { feed } = await this.gunuser
 
     logger.debug('init feed', { feed })
 
@@ -1002,7 +998,7 @@ export class UserStorage {
 
       logger.debug('init empty feed', { feed })
     }
-    await this.feed.get('index').then(this.updateFeedIndex)
+
     this.feed.get('index').on(this.updateFeedIndex, false)
 
     // load unencrypted feed from cache
@@ -1106,7 +1102,7 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 2000), this.profile.then(null, 2000)])
+    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 1000), this.profile.then(null, 1000)])
 
     if (profile === null) {
       // in case profile was deleted in the past it will be exactly null
@@ -1128,6 +1124,7 @@ export class UserStorage {
     this.profile.open(onProfileUpdate)
 
     logger.debug('init opened profile', {
+      gunRef: this.profile,
       profile,
       gunuser,
     })
@@ -1547,21 +1544,21 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    let { feedIndex, cursor, feedIds } = this
+    let { feedIndex, feedIds } = this
 
     if (!feedIndex) {
       logger.debug('feedIndex not set returning empty')
       return []
     }
 
-    if (reset || isUndefined(cursor)) {
-      cursor = 0
+    if (reset || isUndefined(this.cursor)) {
+      this.cursor = 0
     }
 
     // running through the days history until we got the request numResults
     // storing days selected to the daysToTake
     let total = 0
-    let daysToTake = takeWhile(feedIndex.slice(cursor), ([, eventsAmount]) => {
+    let daysToTake = takeWhile(feedIndex.slice(this.cursor), ([, eventsAmount]) => {
       const takeDay = total < numResults
 
       if (takeDay) {
@@ -1632,13 +1629,11 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-
     logger.debug('getFormattedEvents page result:', {
       numResults,
       reset,
       feedPage: feed,
     })
-
     const res = await Promise.all(
       feed
         .filter(
@@ -1660,7 +1655,6 @@ export class UserStorage {
           })
         }),
     )
-
     logger.debug('getFormattedEvents done formatting events')
     return res
   }
@@ -2028,7 +2022,7 @@ export class UserStorage {
       default: require('../../assets/Feed/favicon-96x96.png'),
     })
     const getAvatarFromGun = async () => {
-      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))
+      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 500))
 
       // verify account is not deleted and return value
       // if account deleted - the display of 'avatar' field will be private
@@ -2047,7 +2041,7 @@ export class UserStorage {
 
   async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
     const getFullNameFromGun = async () => {
-      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 1000))
+      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 500))
       logger.debug('profileFromGun:', { fullName })
 
       // verify account is not deleted and return value
@@ -2319,7 +2313,7 @@ export class UserStorage {
       }
     }
 
-    logger.debug('updateFeedEvent starting encrypt')
+    logger.debug('updateFeedEvent starting encrypt', { dayEventsArr, toUpd, day })
 
     // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {
@@ -2415,14 +2409,13 @@ export class UserStorage {
   }
 
   loadGunField(gunNode): Promise<any> {
-    return new Promise(resolve => {
-      gunNode.load(resolve)
-
-      gunNode.then(value => {
-        if (isUndefined(value)) {
-          resolve()
-        }
-      })
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async res => {
+      gunNode.load(p => res(p))
+      let isNode = await gunNode
+      if (isNode === undefined) {
+        res(undefined)
+      }
     })
   }
 

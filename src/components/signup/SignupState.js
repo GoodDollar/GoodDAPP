@@ -269,6 +269,9 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
     // once email appears in the state - identifying and setting 'identified' flag
     identifyOnUserSignup(email)
+    API.addSignupContact(state)
+      .then(r => log.info('addSignupContact success', { state }))
+      .catch(e => log.error('addSignupContact failed', e.message, e))
   }, [state.email])
 
   const finishRegistration = async () => {

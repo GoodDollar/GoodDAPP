@@ -4,6 +4,7 @@ import SimpleStore, { setInitFunctions } from '../undux/SimpleStore'
 import logger from '../logger/pino-logger'
 import isWebApp from '../utils/isWebApp'
 import { isMobile } from '../utils/platform'
+import { resetLastSplash } from '../../components/splash/Splash'
 
 const log = logger.child({ from: 'App' })
 let serviceWorkerRegistred = false
@@ -17,8 +18,9 @@ export default () => {
 
       const onUpdate = reg => {
         store.set('serviceWorkerUpdated')(reg)
-        navigator.serviceWorker.addEventListener('controllerchange', function() {
+        navigator.serviceWorker.addEventListener('controllerchange', async () => {
           log.debug('service worker: controllerchange')
+          await resetLastSplash() // show full splash animation
           window.location.reload()
         })
       }

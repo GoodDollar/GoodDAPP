@@ -1,12 +1,7 @@
 import React from 'react'
-import { Image, Platform } from 'react-native'
 
 import ExplanationDialog from '../../common/dialogs/ExplanationDialog'
 import illustration from '../../../assets/CameraPermission.svg'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
-}
 
 export default ({ onDismiss }) => (
   <ExplanationDialog

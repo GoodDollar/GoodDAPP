@@ -1,4 +1,4 @@
-import { findKey, mapValues } from 'lodash'
+import { findKey, get, mapValues } from 'lodash'
 import { ZoomSDKStatus, ZoomSessionStatus } from '../sdk/ZoomSDK'
 
 const statusTransformer = statusesEnum => statusesKeys =>
@@ -90,11 +90,21 @@ const kindOfSDKIssuesMap = mapValues(
     ],
 
     // All Zoom sdk initialization result codes could be thrown
+    // if runnin on non-supported device / environment
+    NotSupportedError: [
+      // This device/platform/browser/version combination is not supported by ZoOm.
+      'DeviceNotSupported',
+
+      // ZoOm doesn't supports to run from iframe.
+      'IFrameNotAllowedWithoutPermission',
+    ],
+
+    // All Zoom sdk initialization result codes could be thrown
     // related to the errors couldn't dissapear in the future calls
     // For example, orientation errors could disapper if user will
     // position his device correctly during the next attempt but
-    // if device isn't supported - it's unrecoverable error because
-    // there's no change this could be changed.
+    // if license key is expored - it's unrecoverable error because
+    // there's no chance this could be changed.
     // Used for handle the case when we should prevent next initialization attempts
     UnrecoverableError: [
       // The Device License Key Identifier provided was invalid.
@@ -103,34 +113,26 @@ const kindOfSDKIssuesMap = mapValues(
       // This version of ZoOm SDK is deprecated.
       'VersionDeprecated',
 
-      //  This device/platform/browser/version combination is not supported by ZoOm.
-      'DeviceNotSupported',
-
       // License was expired, contained invalid text, or you are attempting to initialize on a domain that is not specified in your license.
       'LicenseExpiredOrInvalid',
 
       // The provided public encryption key is missing or invalid.
       'EncryptionKeyInvalid',
-
-      'IFrameNotAllowedWithoutPermission',
     ],
   },
   statusTransformer(ZoomSDKStatus),
 )
+
+const unrecoverableIssues = ['UnrecoverableError', 'NotSupportedError']
+const createPredicate = exception => codes => codes.includes(get(exception, 'code'))
 
 export const ExceptionType = {
   SDK: 'sdk',
   Session: 'session',
 }
 
-export const kindOfSessionIssue = exception => {
-  const { code } = exception
+export const isUnrecoverable = exception => unrecoverableIssues.includes(get(exception, 'name'))
 
-  return findKey(kindOfSessionIssuesMap, statusCodes => statusCodes.includes(code))
-}
+export const kindOfSessionIssue = exception => findKey(kindOfSessionIssuesMap, createPredicate(exception))
 
-export const kindOfSDKIssue = exception => {
-  const { code } = exception
-
-  return findKey(kindOfSDKIssuesMap, statusCodes => statusCodes.includes(code))
-}
+export const kindOfSDKIssue = exception => findKey(kindOfSDKIssuesMap, createPredicate(exception))

@@ -6,7 +6,7 @@ import logger from '../../../../lib/logger/pino-logger'
 import { isE2ERunning } from '../../../../lib/utils/platform'
 
 import { ZoomSDK } from '../sdk/ZoomSDK'
-import { ExceptionType, kindOfSDKIssue } from '../utils/kindOfTheIssue'
+import { ExceptionType, isUnrecoverable, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
 const log = logger.child({ from: 'useZoomSDK' })
 
@@ -150,8 +150,8 @@ export default ({ onInitialized = noop, onError = noop }) => {
         assign(exception, { type: ExceptionType.SDK, name })
 
         // if some unrecoverable error happens
-        // checking exception.name as 'UnrecoverableError' coiud be thrown from ZoomSDK
-        if ('UnrecoverableError' === name) {
+        // checking exception as unrecoverable could be thrown from ZoomSDK
+        if (isUnrecoverable(name)) {
           // setting exception in the global state
           ZoomGlobalState.zoomUnrecoverableError = exception
 

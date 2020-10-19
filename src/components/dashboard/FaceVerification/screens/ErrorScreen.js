@@ -12,7 +12,6 @@ import GDStore from '../../../../lib/undux/GDStore'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
-import { isUnrecoverable } from '../utils/kindOfTheIssue'
 
 const ErrorScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()
@@ -37,7 +36,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
     const { kindOfTheIssue: map } = ErrorScreen
 
     // if reached max retries - showing 'something went wrong our side'
-    if (isReachedMaxAttempts() && !isUnrecoverable(exception)) {
+    if (isReachedMaxAttempts() && 'UnrecoverableError' !== kindOfTheIssue) {
       component = SwitchToAnotherDevice
 
       // otherwise, if there's special screen for this kind of the issue hapened - showing it

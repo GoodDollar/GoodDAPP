@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { withStyles } from '../../lib/styles'
-import useOnPress from '../../lib/hooks/useOnPress'
 import CircleButtonWrapper from './CircleButtonWrapper'
 
 type CameraButtonProps = {
@@ -10,18 +9,15 @@ type CameraButtonProps = {
   style?: any,
 }
 
-const CameraButton = ({ handleCameraPress, styles, style, noStyles, containerStyle }: CameraButtonProps) => {
-  const _handleCameraPress = useOnPress(handleCameraPress)
-  return (
-    <CircleButtonWrapper
-      iconSize={22}
-      iconName={'camera'}
-      style={!noStyles && [styles.container, style]}
-      onPress={_handleCameraPress}
-      containerStyle={containerStyle}
-    />
-  )
-}
+const CameraButton = ({ handleCameraPress, styles, style, noStyles, containerStyle }: CameraButtonProps) => (
+  <CircleButtonWrapper
+    iconSize={22}
+    iconName={'camera'}
+    style={!noStyles && [styles.container, style]}
+    onPress={handleCameraPress}
+    containerStyle={containerStyle}
+  />
+)
 
 const getStylesFromProps = ({ theme }) => ({
   container: {

@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import { noop } from 'lodash'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
 import useOnPress from '../../lib/hooks/useOnPress'
@@ -8,7 +9,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 const CircleButtonWrapper = ({
   label,
   labelStyles,
-  onPress,
+  onPress = noop,
   disabled,
   styles,
   style,

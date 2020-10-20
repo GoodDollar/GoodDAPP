@@ -6,6 +6,8 @@ const { animationData, imageAssetsFolder } = getAnimationData('Success', require
 
 class Success extends AnimationBase {
   render() {
+    const { height } = this.props
+
     return (
       <Lottie
         imageAssetsFolder={imageAssetsFolder}
@@ -16,6 +18,7 @@ class Success extends AnimationBase {
         style={{
           paddingTop: 20,
           paddingBottom: 20,
+          height,
         }}
         loop={false}
       />

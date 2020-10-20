@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
+import { noop } from 'lodash'
 
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
@@ -11,6 +12,7 @@ import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { isMediumDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isMobileNative } from '../../lib/utils/platform'
 
 const buttonLabelFontSize = isSmallDevice ? 30 : 40
 const timerFontSize = isSmallDevice ? 30 : 36
@@ -128,7 +130,7 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
 )
 
 const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
-  const initialEntitlementRef = useRef(entitlement)
+  // const initialEntitlementRef = useRef(entitlement)
 
   const cardRef = useRef()
   const setCardRef = useCallback(ref => (cardRef.current = ref), [])
@@ -146,24 +148,38 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
     }
   }, [entitlement])
 
-  if (initialEntitlementRef.current) {
-    return (
-      <ClaimButton
-        {...buttonProps}
-        styles={styles}
-        entitlement={entitlement}
-        nextClaim={nextClaim}
-        onPress={onPress}
-        isInQueue={isInQueue}
-      />
-    )
-  }
+  // if (initialEntitlementRef.current) {
+  //   return (
+  //     <ClaimButton
+  //       {...buttonProps}
+  //       styles={styles}
+  //       entitlement={entitlement}
+  //       nextClaim={nextClaim}
+  //       onPress={onPress}
+  //       isInQueue={isInQueue}
+  //     />
+  //   )
+  // }
 
-  if (!entitlement || isInQueue) {
-    return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} isInQueue={isInQueue} />
-  }
+  // if (!entitlement || isInQueue) {
+  //   return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} isInQueue={isInQueue} />
+  // }
 
   const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
+
+  const onButtonPress = useCallback(
+    event => {
+      if (!entitlement) {
+        return
+      }
+
+      onPress(event)
+    },
+    [entitlement, onPress],
+  )
+
+  const flipPerspective = isMobileNative ? noop() : 0
+
   return (
     <CardFlip
       style={styles.cardContainer}
@@ -171,17 +187,24 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
       flipDirection="x"
       duration={1000}
       flipZoom={0}
-      perspective={0}
+      perspective={flipPerspective}
       onFlipStart={suspendRendering}
       onFlipEnd={restoreRendering}
     >
-      <ClaimButton {...buttonProps} styles={styles} entitlement={0} nextClaim={nextClaimToDisplay} />
+      <ClaimButton
+        {...buttonProps}
+        styles={styles}
+        entitlement={0}
+        nextClaim={nextClaimToDisplay}
+        isInQueue={isInQueue}
+      />
       <ClaimButton
         {...buttonProps}
         styles={styles}
         entitlement={entitlement}
         nextClaim={nextClaimToDisplay}
-        onPress={onPress}
+        onPress={onButtonPress}
+        isInQueue={isInQueue}
       />
     </CardFlip>
   )

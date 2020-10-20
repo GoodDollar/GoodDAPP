@@ -41,7 +41,6 @@ const VerifyEditCode = props => {
     const privacy = await userStorage.getFieldPrivacy(fieldToSave)
     await userStorage.setProfileField(fieldToSave, content, privacy)
 
-    pop()
     navigateTo('Profile')
   }, [fieldToSave, content, navigateTo, pop])
 

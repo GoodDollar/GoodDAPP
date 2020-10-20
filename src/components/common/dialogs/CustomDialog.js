@@ -110,6 +110,7 @@ const CustomDialog = ({
                   ({ onPress = dismiss => dismiss(), style, disabled, mode, Component, ...buttonProps }, index) => (
                     <DialogButton
                       {...buttonProps}
+                      Component={Component}
                       mode={mode}
                       onPress={() => onPress(onDismiss)}
                       onDismiss={onDismiss}

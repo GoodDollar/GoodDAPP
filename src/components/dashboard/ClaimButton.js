@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
 
@@ -128,14 +128,12 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
 )
 
 const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
-  // const initialEntitlementRef = useRef(entitlement)
-  const [animEntitlement, setAnimEntitlement] = useState(0)
+  //const [animEntitlement, setAnimEntitlement] = useState(0)
   const cardRef = useRef()
   const setCardRef = useCallback(ref => (cardRef.current = ref), [])
 
   const nextClaimOnHold = useRef(null)
   const suspendRendering = useCallback(() => (nextClaimOnHold.current = nextClaim), [nextClaim])
-
   const restoreRendering = useCallback(() => (nextClaimOnHold.current = null), [])
 
   useEffect(() => {
@@ -143,26 +141,10 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
 
     if (card && entitlement) {
       card.flip()
-      setAnimEntitlement(entitlement)
+
+      // setAnimEntitlement(entitlement)
     }
   }, [entitlement])
-
-  // if (initialEntitlementRef.current) {
-  //   return (
-  //     <ClaimButton
-  //       {...buttonProps}
-  //       styles={styles}
-  //       entitlement={entitlement}
-  //       nextClaim={nextClaim}
-  //       onPress={onPress}
-  //       isInQueue={isInQueue}
-  //     />
-  //   )
-  // }
-
-  // if (!entitlement || isInQueue) {
-  //   return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} isInQueue={isInQueue} />
-  // }
 
   const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
 
@@ -199,7 +181,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
       <ClaimButton
         {...buttonProps}
         styles={styles}
-        entitlement={animEntitlement}
+        entitlement={entitlement}
         nextClaim={nextClaimToDisplay}
         onPress={onButtonPress}
         isInQueue={isInQueue}

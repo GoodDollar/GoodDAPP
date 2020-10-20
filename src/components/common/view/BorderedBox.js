@@ -1,9 +1,9 @@
 // libraries
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Image, Platform, View } from 'react-native'
-import { isString } from 'lodash'
 
 // components
+import { isString, noop } from 'lodash'
 import { Icon, Section } from '../index'
 import CustomButton from '../buttons/CustomButton'
 
@@ -15,25 +15,64 @@ import useOnPress from '../../../lib/hooks/useOnPress'
 import { isWeb } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { truncateMiddle } from '../../../lib/utils/string'
 
 const copyIconSize = isWeb ? 34 : normalize(21)
 
-const BorderedBox = ({ styles, theme, imageSource, title, content, truncateContent = false, copyButtonText }) => {
+const BorderedBox = ({
+  styles,
+  theme,
+  imageSource,
+  title,
+  content,
+  copyButtonText,
+  truncateContent = false,
+  imageSize = 68,
+  showCopyIcon = true,
+  onCopied = noop,
+}) => {
   const [, setString] = useClipboard()
-  const copyToClipboard = useOnPress(() => setString(content), [setString, content])
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
-  const ImageSVG = imageSource
+  const halfImageSize = useMemo(() => Math.floor(imageSize / 2), [imageSize])
+  const ImageComponent = imageSource
+
+  const copyToClipboard = useOnPress(() => {
+    setString(content)
+    onCopied()
+  }, [onCopied, setString, content])
+
+  const avatarStyles = useMemo(
+    () => [
+      styles.avatar,
+      {
+        height: getDesignRelativeHeight(imageSize, false),
+        width: getDesignRelativeWidth(imageSize, false),
+        borderRadius: getDesignRelativeHeight(halfImageSize, false), // half of height/width
+        top: -getDesignRelativeHeight(halfImageSize, false), // half of height
+      },
+    ],
+    [imageSize, styles.avatar],
+  )
+
+  const lineSeparatorStyles = useMemo(
+    () => [
+      styles.avatarLineSeparator,
+      {
+        width: getDesignRelativeHeight(imageSize + 20, false),
+      },
+    ],
+    [imageSize, styles.avatarLineSeparator],
+  )
 
   return (
     <Section style={styles.borderedBox}>
-      <View style={styles.avatarLineSeparator} />
+      <View style={lineSeparatorStyles} />
       {isString(imageSource) ? (
-        <Image source={{ uri: imageSource }} style={styles.avatar} />
+        <Image source={{ uri: imageSource }} style={avatarStyles} />
       ) : (
-        <View style={styles.avatar}>
-          <ImageSVG />
+        <View style={avatarStyles}>
+          <ImageComponent />
         </View>
       )}
       <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
@@ -42,14 +81,19 @@ const BorderedBox = ({ styles, theme, imageSource, title, content, truncateConte
       <Section.Text fontSize={13} letterSpacing={0.07} color={theme.colors.lighterGray}>
         {displayContent}
       </Section.Text>
-      <View style={styles.copyIconLineSeparator} />
-      <View style={styles.boxCopyIconWrapper}>
-        <CustomButton onPress={copyToClipboard} style={styles.copyIconContainer}>
-          <Icon name="copy" size={copyIconSize} color={theme.colors.surface} />
+      <View style={[styles.copyIconLineSeparator, showCopyIcon ? null : styles.copyButtonLineSeparator]} />
+      <View style={[styles.boxCopyIconWrapper, showCopyIcon ? null : styles.boxCopyButtonWrapper]}>
+        <CustomButton
+          onPress={copyToClipboard}
+          style={[styles.copyIconContainer, showCopyIcon ? null : styles.copyButtonContainer]}
+        >
+          {showCopyIcon ? <Icon name="copy" size={copyIconSize} color={theme.colors.surface} /> : copyButtonText}
         </CustomButton>
-        <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
-          {copyButtonText}
-        </Section.Text>
+        {showCopyIcon && (
+          <Section.Text fontSize={10} fontWeight="medium" color={theme.colors.primary}>
+            {copyButtonText}
+          </Section.Text>
+        )}
       </View>
     </Section>
   )
@@ -72,16 +116,11 @@ const styles = ({ theme }) => ({
   },
   avatarLineSeparator: {
     height: getDesignRelativeHeight(5, false),
-    width: getDesignRelativeHeight(88, false),
     position: 'absolute',
     top: -getDesignRelativeHeight(2.5, false), // half of height
     backgroundColor: theme.colors.surface,
   },
   avatar: {
-    height: getDesignRelativeHeight(68, false),
-    width: getDesignRelativeHeight(68, false),
-    borderRadius: getDesignRelativeHeight(34, false), // half of height/width
-    top: -getDesignRelativeHeight(34, false), // half of height
     position: 'absolute',
     zIndex: 1,
     alignItems: 'center',
@@ -118,6 +157,19 @@ const styles = ({ theme }) => ({
     marginBottom: getDesignRelativeHeight(4, false),
     marginRight: 'auto',
     marginLeft: 'auto',
+  },
+  boxCopyButtonWrapper: {
+    width: getDesignRelativeHeight(174, false),
+    height: getDesignRelativeHeight(54, false),
+    bottom: -getDesignRelativeHeight(32, false), // half of height
+  },
+  copyButtonLineSeparator: {
+    width: getDesignRelativeHeight(174, false),
+  },
+  copyButtonContainer: {
+    height: getDesignRelativeHeight(40, false),
+    width: getDesignRelativeHeight(160, false),
+    borderRadius: getDesignRelativeHeight(20, false),
   },
 })
 

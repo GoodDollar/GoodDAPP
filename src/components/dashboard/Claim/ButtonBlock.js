@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import Section from '../../common/layout/Section'
 import ClaimButton from '../ClaimButton'
-import useOnPress from '../../../lib/hooks/useOnPress'
 
 const ButtonBlock = ({
   styles,
@@ -14,7 +13,7 @@ const ButtonBlock = ({
   isInQueue,
   ...props
 }) => {
-  const onPress = useOnPress(() => {
+  const onPress = useCallback(() => {
     if (!isCitizen) {
       handleNonCitizen()
       return

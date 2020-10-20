@@ -39,7 +39,7 @@ export const routeAndPathForCode = async (
     throw new Error("You can't send G$s to yourself, you already own your G$s")
   }
 
-  const profile = await userStorage.getUserProfile(address)
+  const profile = (await userStorage.getUserProfile(address)) || {}
 
   switch (screen) {
     case 'sendByQR':

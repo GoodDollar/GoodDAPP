@@ -263,14 +263,16 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
               To
             </Section.Text>
-            {address ? (
+            {address && !counterPartyDisplayName ? (
               <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
                 {address}
               </Section.Text>
             ) : (
-              <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
-                {counterPartyDisplayName}
-              </Section.Text>
+              counterPartyDisplayName && (
+                <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
+                  {counterPartyDisplayName}
+                </Section.Text>
+              )
             )}
           </Section.Row>
           {!!reason && (
@@ -295,7 +297,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           </Section.Row>
           <Section.Stack grow={3}>
             <CustomButton onPress={handleConfirm} loading={loading}>
-              Confirm
+              {action === ACTION_SEND_TO_ADDRESS ? 'Confirm' : 'Confirm & Share'}
             </CustomButton>
           </Section.Stack>
         </Section.Row>

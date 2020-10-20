@@ -131,7 +131,7 @@ const ReceiveAmount = ({ screenProps, styles }: ReceiveProps) => {
               screenProps={screenProps}
               values={{ ...screenState, paymentLink: shareString }}
               nextRoutes={screenState.nextRoutes}
-              label={'Confirm'}
+              label={'Confirm & Share Link'}
             />
           </Section.Stack>
         </Section.Row>

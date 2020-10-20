@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import { get } from 'lodash'
 import logger from '../../lib/logger/pino-logger'

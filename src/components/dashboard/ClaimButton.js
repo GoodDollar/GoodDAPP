@@ -11,7 +11,6 @@ import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { isMediumDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
-import useOnPress from '../../lib/hooks/useOnPress'
 
 const buttonLabelFontSize = isSmallDevice ? 30 : 40
 const timerFontSize = isSmallDevice ? 30 : 36
@@ -147,8 +146,6 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
     }
   }, [entitlement])
 
-  const _onPress = useOnPress(onPress)
-
   if (initialEntitlementRef.current) {
     return (
       <ClaimButton
@@ -156,7 +153,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
         styles={styles}
         entitlement={entitlement}
         nextClaim={nextClaim}
-        onPress={_onPress}
+        onPress={onPress}
         isInQueue={isInQueue}
       />
     )
@@ -184,7 +181,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
         styles={styles}
         entitlement={entitlement}
         nextClaim={nextClaimToDisplay}
-        onPress={_onPress}
+        onPress={onPress}
       />
     </CardFlip>
   )

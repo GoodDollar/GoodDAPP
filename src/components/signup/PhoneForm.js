@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { debounce } from 'lodash'
-import { isMobile } from '../../lib/utils/platform'
+import { isMobile, isMobileNative } from '../../lib/utils/platform'
 import { enhanceArgentinaCountryCode } from '../../lib/utils/phoneNumber'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
@@ -122,7 +122,7 @@ class PhoneForm extends React.Component<Props, State> {
                 {`${getFirstWord(fullName)},\nenter your phone number\nso we could verify you`}
               </Section.Title>
             </Section.Row>
-            <Section.Stack justifyContent="center" style={styles.column}>
+            <Section.Stack className="signup_phone_input" justifyContent="center" style={styles.column}>
               <FormNumberInput
                 id={key + '_input'}
                 value={this.state.mobile}
@@ -135,6 +135,7 @@ class PhoneForm extends React.Component<Props, State> {
                 onSubmitEditing={this.handleSubmit}
                 enablesReturnKeyAutomatically
                 autoFocus
+                textStyle={isMobileNative && errorMessage ? styles.inputError : undefined}
               />
               <ErrorText error={errorMessage} style={styles.customError} />
             </Section.Stack>
@@ -166,6 +167,11 @@ const getStylesFromProps = ({ theme }) => ({
   },
   customError: {
     marginLeft: 48,
+    marginTop: theme.paddings.defaultMargin,
+  },
+  inputError: {
+    color: theme.colors.red,
+    borderColor: theme.colors.red,
   },
   container: {
     minHeight: getDesignRelativeHeight(200),

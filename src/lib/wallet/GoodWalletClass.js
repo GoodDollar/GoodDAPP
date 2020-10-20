@@ -30,6 +30,8 @@ export const WITHDRAW_STATUS_PENDING = 'pending'
 export const WITHDRAW_STATUS_UNKNOWN = 'unknown'
 export const WITHDRAW_STATUS_COMPLETE = 'complete'
 
+const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+
 type EventLog = {
   event: string,
   address: string,
@@ -209,7 +211,8 @@ export class GoodWallet {
   }
 
   getSignUpBonusAddress() {
-    return get(ContractsAddress, `${this.network}.SignupBonus`).toLowerCase()
+    const addr = get(ContractsAddress, `${this.network}.SignupBonus`).toLowerCase()
+    return addr != NULL_ADDRESS ? addr : undefined
   }
 
   setIsPollEvents(active) {

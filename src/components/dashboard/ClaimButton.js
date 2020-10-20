@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useRef } from 'react'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
 import { noop } from 'lodash'
@@ -131,7 +131,7 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
 
 const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
   // const initialEntitlementRef = useRef(entitlement)
-
+  const [animEntitlement, setAnimEntitlement] = useState(0)
   const cardRef = useRef()
   const setCardRef = useCallback(ref => (cardRef.current = ref), [])
 
@@ -145,6 +145,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
 
     if (card && entitlement) {
       card.flip()
+      setAnimEntitlement(entitlement)
     }
   }, [entitlement])
 
@@ -195,13 +196,14 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
         {...buttonProps}
         styles={styles}
         entitlement={0}
+        isCitizen={true}
         nextClaim={nextClaimToDisplay}
         isInQueue={isInQueue}
       />
       <ClaimButton
         {...buttonProps}
         styles={styles}
-        entitlement={entitlement}
+        entitlement={animEntitlement}
         nextClaim={nextClaimToDisplay}
         onPress={onButtonPress}
         isInQueue={isInQueue}

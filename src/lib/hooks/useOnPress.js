@@ -20,7 +20,7 @@ export const useDebouncedOnPress = (callback, deps = []) => {
     event => {
       const nextInvokation = nextInvokationRef.current
       const currentTs = Date.now()
-
+      
       if (isNil(nextInvokation) || currentTs >= nextInvokation) {
         callback(event)
       }

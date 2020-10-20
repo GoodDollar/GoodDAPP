@@ -43,7 +43,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
   const [loading, setLoading] = useState(false)
 
-  const { push, goToRoot } = screenProps
+  const { push, goToRoot, navigateTo } = screenProps
   const [shared, setShared] = useState(false)
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
@@ -206,7 +206,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             title: 'SUCCESS!',
             message: 'The G$ was sent successfully',
             buttons: [{ text: 'Yay!' }],
-            onDismiss: screenProps.goToRoot,
+            onDismiss: goToRoot,
           })
 
           setLoading(false)
@@ -233,7 +233,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         dismissText: 'OK',
       })
     }
-  }, [setLoading, address, amount, reason, showDialog, showErrorDialog])
+  }, [setLoading, address, amount, reason, showDialog, showErrorDialog, goToRoot])
 
   const sendViaLink = useCallback(() => {
     try {
@@ -245,12 +245,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       )
 
       // Go to transaction confirmation screen
-      push('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
+      navigateTo('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
     } catch (e) {
       log.error('Something went wrong while trying to generate send link', e.message, e, { dialogShown: true })
       showErrorDialog('Could not complete transaction. Please try again.')
     }
-  }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
+  }, [...shareStringStateDepSource, generateSendShareText, canShare, navigateTo])
 
   /**
    * Generates link to send and call send email/sms action
@@ -321,7 +321,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               text: 'Try again',
               onPress: () => {
                 hideDialog()
-                screenProps.navigateTo('SendLinkSummary', { amount, reason, counterPartyDisplayName })
+
+                //this is async so we go directly back to screen and not through stack
+                navigateTo('SendLinkSummary', {
+                  amount,
+                  reason,
+                  counterPartyDisplayName,
+                  nextRoutes: ['TransactionConfirmation'],
+                })
               },
             },
           ],
@@ -334,7 +341,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       setLink(paymentLink)
       return paymentLink
     }
-  }, [screenProps, survey, showErrorDialog, setLink, link, goToRoot])
+  }, [survey, showErrorDialog, setLink, link, goToRoot, navigateTo])
 
   return (
     <Wrapper>

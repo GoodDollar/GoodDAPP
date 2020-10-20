@@ -23,7 +23,7 @@ const ProfileDataTable = ({
   editable,
   theme,
   styles,
-  navigation,
+  screenProps,
   setLockSubmit = noop,
   showCustomFlag,
 }) => {
@@ -32,9 +32,9 @@ const ProfileDataTable = ({
 
   const verifyEdit = useCallback(
     (field, content) => {
-      navigation.navigate('VerifyEdit', { field, content })
+      screenProps.push('VerifyEdit', { field, content })
     },
-    [navigation],
+    [screenProps],
   )
 
   const verifyEmail = useCallback(() => {

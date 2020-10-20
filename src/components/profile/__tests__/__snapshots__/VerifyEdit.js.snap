@@ -49,13 +49,17 @@ exports[`VerifyEdit matches snapshot 1`] = `
       style={
         Object {
           "WebkitBoxFlex": 1,
+          "WebkitBoxPack": "justify",
           "WebkitFlexGrow": 1,
+          "WebkitJustifyContent": "space-between",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "flexGrow": 1,
+          "justifyContent": "space-between",
+          "msFlexPack": "justify",
           "msFlexPositive": 1,
           "paddingBottom": "16px",
           "paddingLeft": "12px",

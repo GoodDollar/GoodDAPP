@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
+import { noop } from 'lodash'
 
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
@@ -11,6 +12,7 @@ import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { isMediumDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
+import { isMobileNative } from '../../lib/utils/platform'
 import useOnPress from '../../lib/hooks/useOnPress'
 
 const buttonLabelFontSize = isSmallDevice ? 30 : 40
@@ -182,6 +184,8 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
     [entitlement, onPress],
   )
 
+  const flipPerspective = isMobileNative ? noop() : 0
+
   return (
     <CardFlip
       style={styles.cardContainer}
@@ -189,7 +193,7 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
       flipDirection="x"
       duration={1000}
       flipZoom={0}
-      perspective={0}
+      perspective={flipPerspective}
       onFlipStart={suspendRendering}
       onFlipEnd={restoreRendering}
     >

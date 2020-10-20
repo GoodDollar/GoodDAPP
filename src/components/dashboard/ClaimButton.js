@@ -128,7 +128,6 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style
 )
 
 const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
-  //const [animEntitlement, setAnimEntitlement] = useState(0)
   const cardRef = useRef()
   const setCardRef = useCallback(ref => (cardRef.current = ref), [])
 
@@ -141,8 +140,6 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
 
     if (card && entitlement) {
       card.flip()
-
-      // setAnimEntitlement(entitlement)
     }
   }, [entitlement])
 

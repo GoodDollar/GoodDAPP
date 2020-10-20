@@ -1,5 +1,5 @@
 // @flow
-import { assign, debounce, forEach, get, isString, pick, toLower } from 'lodash'
+import { assign, debounce, forIn, get, isString, pick, toLower } from 'lodash'
 import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
@@ -251,27 +251,36 @@ export class AnalyticsClass {
 
   // @private
   reportToSentry(error, extra = {}, tags = {}) {
-    const { apis, isSentryEnabled } = this
+    const { apis, isSentryEnabled, logger } = this
     const { sentry } = apis
 
     if (!isSentryEnabled) {
       return
     }
 
+    const { logContext, eMsg } = extra
+    const fingerprint = [get(logContext, 'from', '{{ default }}'), eMsg]
+
     sentry.configureScope(scope => {
+      const extraTags = []
+      const tagsSet = []
+
       // set extra
-      forEach(extra, (value, key) => {
+      forIn(extra, (value, key) => {
+        extraTags.push(key)
         scope.setExtra(key, value)
       })
 
       // set tags
-      forEach(tags, (value, key) => {
+      forIn(tags, (value, key) => {
+        tagsSet.push(key)
         scope.setTag(key, value)
       })
 
-      scope.setFingerprint([get(extra, 'logContext.from', '{{ default }}'), get(extra, 'eMsg')])
-
+      scope.setFingerprint(fingerprint)
       sentry.captureException(error)
+
+      logger.debug('Captured Sentry exception', { fingerprint, tags: tagsSet, extraTags })
     })
   }
 

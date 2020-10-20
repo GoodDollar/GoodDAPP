@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
-import { debounce, get, throttle } from 'lodash'
+import { concat, debounce, get, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -42,7 +42,6 @@ import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { parsePaymentLinkParams, readCode } from '../../lib/share'
 import useDeleteAccountDialog from '../../lib/hooks/useDeleteAccountDialog'
-import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { getDesignRelativeHeight, getMaxDeviceWidth, measure } from '../../lib/utils/sizes'
@@ -52,7 +51,6 @@ import UnknownProfileSVG from '../../assets/unknownProfile.svg'
 import useOnPress from '../../lib/hooks/useOnPress'
 import PrivacyPolicyAndTerms from './PrivacyPolicyAndTerms'
 import RewardsTab from './Rewards'
-import MarketTab from './Marketplace'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -77,6 +75,8 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 import FaceVerification from './FaceVerification/screens/VerificationScreen'
 import FaceVerificationIntro from './FaceVerification/screens/IntroScreen'
 import FaceVerificationError from './FaceVerification/screens/ErrorScreen'
+
+import GoodMarketButton, { marketAnimationDuration } from './GoodMarket/components/GoodMarketButton'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -107,7 +107,6 @@ const Dashboard = props => {
   const [avatarCenteredPosition, setAvatarCenteredPosition] = useState(initialAvatarCenteredPosition)
   const [headerBalanceVerticalMarginAnimValue] = useState(new Animated.Value(theme.sizes.defaultDouble))
   const [headerFullNameOpacityAnimValue] = useState(new Animated.Value(1))
-  const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
@@ -124,14 +123,6 @@ const Dashboard = props => {
   const [feeds, setFeeds] = useState([])
   const [headerLarge, setHeaderLarge] = useState(true)
   const { appState } = useAppState()
-
-  const scale = {
-    transform: [
-      {
-        scale: animValue,
-      },
-    ],
-  }
 
   const headerAnimateStyles = {
     position: 'relative',
@@ -206,7 +197,7 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    throttle(async (reset = false) => {
+    async (reset = false) => {
       const release = await feedMutex.lock()
       try {
         log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
@@ -221,9 +212,6 @@ const Dashboard = props => {
           //so we use a global variable
           if (!didRender) {
             log.debug('waiting for feed animation')
-
-            // a time to perform feed load animation till the end
-            await delay(2000)
             didRender = true
           }
           res = (await feedPromise) || []
@@ -231,7 +219,8 @@ const Dashboard = props => {
           res.length > 0 && setFeeds(res)
         } else {
           res = (await feedPromise) || []
-          res.length > 0 && setFeeds(feeds.concat(res))
+          const newFeed = uniqBy(concat(feeds, res), 'id')
+          res.length > 0 && setFeeds(newFeed)
         }
         log.debug('getFeedPage getFormattedEvents result:', {
           reset,
@@ -244,9 +233,11 @@ const Dashboard = props => {
       } finally {
         release()
       }
-    }, 500),
+    },
     [loadAnimShown, store, setFeeds, feeds],
   )
+
+  const [feedLoaded, setFeedLoaded] = useState(false)
 
   //subscribeToFeed probably should be an effect that updates the feed items
   //as they come in, currently on each new item it simply reset the feed
@@ -279,8 +270,18 @@ const Dashboard = props => {
     }
   }
 
+  const claimAnimValue = useRef(new Animated.Value(1)).current
+
+  const claimScale = useRef({
+    transform: [
+      {
+        scale: claimAnimValue,
+      },
+    ],
+  }).current
+
   useEffect(() => {
-    if (appState === 'active') {
+    if (feedLoaded && appState === 'active') {
       animateClaim()
     }
   }, [appState])
@@ -299,20 +300,20 @@ const Dashboard = props => {
 
     if (entitlement) {
       Animated.sequence([
-        Animated.timing(animValue, {
+        Animated.timing(claimAnimValue, {
           toValue: 1.4,
           duration: 750,
           easing: Easing.ease,
           delay: 1000,
         }),
-        Animated.timing(animValue, {
+        Animated.timing(claimAnimValue, {
           toValue: 1,
           duration: 750,
           easing: Easing.ease,
         }),
       ]).start()
     }
-  }, [animValue])
+  }, [])
 
   const showDelayed = useCallback(() => {
     if (!assertStore(store, log, 'Failed to show AddWebApp modal')) {
@@ -357,6 +358,10 @@ const Dashboard = props => {
     await userStorage.initRegistered()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
+
+    setFeedLoaded(true)
+    setTimeout(animateClaim, marketAnimationDuration)
+
     initTransferEvents(gdstore)
 
     log.debug('initDashboard subscribed to feed')
@@ -382,7 +387,11 @@ const Dashboard = props => {
       return
     }
 
-    const { width } = await measure(balanceView)
+    const measurements = await measure(balanceView)
+
+    // Android never gets values from measure causing animation to crash because of NaN
+    const width = measurements.width || 0
+
     const balanceCenteredPosition = headerContentWidth / 2 - width / 2
 
     setBalanceBlockWidth(width)
@@ -724,7 +733,7 @@ const Dashboard = props => {
             screenProps={screenProps}
             amount={weiToMask(entitlement, { showUnits: true })}
             animated
-            animatedScale={scale}
+            animatedScale={claimScale}
           />
           <PushButton
             icon="receive"
@@ -762,6 +771,7 @@ const Dashboard = props => {
           navigation={navigation}
         />
       )}
+      <GoodMarketButton hidden={!feedLoaded} />
     </Wrapper>
   )
 }
@@ -945,10 +955,4 @@ export default createStackNavigator({
     screen: RewardsTab,
     path: 'Rewards/:rewardsPath*',
   },
-  Marketplace: {
-    screen: config.market ? MarketTab : WrappedDashboard,
-    path: 'Marketplace/:marketPath*',
-  },
-
-  // MagicLinkInfo,
 })

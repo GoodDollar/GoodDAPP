@@ -177,7 +177,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           profile={profile}
           storedProfile={storedProfile}
           setLockSubmit={setLockSubmit}
-          navigation={navigation}
+          screenProps={screenProps}
         />
       </Section>
     </Wrapper>

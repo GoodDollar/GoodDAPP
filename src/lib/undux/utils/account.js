@@ -35,6 +35,7 @@ const updateAll = async store => {
     if (balanceChanged || entitlementChanged || account.ready === false) {
       store.set('account')({ balance, entitlement, ready: true })
     }
+    log.debug('updateAll done', { balance, entitlement })
   } catch (exception) {
     const { message } = exception
 

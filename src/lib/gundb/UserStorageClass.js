@@ -2313,7 +2313,7 @@ export class UserStorage {
       }
     }
 
-    logger.debug('updateFeedEvent starting encrypt')
+    logger.debug('updateFeedEvent starting encrypt', { dayEventsArr, toUpd, day })
 
     // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {

@@ -6,7 +6,8 @@ import bip39 from 'bip39-light'
 import AsyncStorage from './lib/utils/asyncStorage'
 
 // components
-import Splash, { animationDuration } from './components/splash/Splash'
+
+import Splash, { animationDuration, shouldAnimateSplash } from './components/splash/Splash'
 
 // hooks
 import useUpgradeDialog from './lib/hooks/useUpgradeDialog'
@@ -66,7 +67,7 @@ const handleLinks = async () => {
       let path = window.location.pathname.slice(1)
       path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
 
-      if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
+      if (params && Object.keys(params).length > 0) {
         const dest = { path, params }
         log.debug('Saving destination url', dest)
         await AsyncStorage.setItem(DESTINATION_PATH, dest)
@@ -93,13 +94,15 @@ let SignupRouter = React.lazy(async () => {
 })
 
 let AppRouter = React.lazy(async () => {
-  log.debug('initializing storage and wallet...')
+  const animateSplash = await shouldAnimateSplash()
+  log.debug('initializing storage and wallet...', { animateSplash })
 
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
     retryImport(() => import(/* webpackChunkName: "init" */ './init'))
       .then(({ init }) => init())
       .then(() => log.debug('storage and wallet ready')),
+    delay(animateSplash ? animationDuration : 0),
   ])
 
   log.debug('router ready')
@@ -120,6 +123,7 @@ const NestedRouter = memo(({ isLoggedIn }) => {
     }
     fireEvent(APP_OPEN, { source, platform, isLoggedIn })
     log.debug('RouterSelector Rendered', { isLoggedIn })
+
     if (isLoggedIn) {
       document.cookie = 'hasWallet=1;Domain=.gooddollar.org'
     }
@@ -159,7 +163,7 @@ const RouterSelector = () => {
   // statring anumation once we're checked for browser support and awaited
   // the user dismissed warning dialog (if browser wasn't supported)
   return (
-    <React.Suspense fallback={<Splash animation={checkedForBrowserSupport} />}>
+    <React.Suspense fallback={<Splash animation={checkedForBrowserSupport} isLoggedIn={isLoggedIn} />}>
       {(supported || ignoreUnsupported) && <NestedRouter isLoggedIn={isLoggedIn} />}
     </React.Suspense>
   )

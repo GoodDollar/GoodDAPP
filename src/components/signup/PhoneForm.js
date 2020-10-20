@@ -167,7 +167,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   customError: {
     marginLeft: 48,
-    marginTop: 8,
+    marginTop: theme.paddings.defaultMargin,
   },
   inputError: {
     color: theme.colors.red,

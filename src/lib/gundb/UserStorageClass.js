@@ -57,6 +57,8 @@ const EVENT_TYPE_BONUS = 'bonus'
 const EVENT_TYPE_CLAIM = 'claim'
 const EVENT_TYPE_SEND = 'send'
 const EVENT_TYPE_RECEIVE = 'receive'
+const EVENT_TYPE_MINT = 'mint' //probably bridge transfer
+
 const CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW = 'PaymentWithdraw'
 const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
 const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
@@ -744,6 +746,8 @@ export class UserStorage {
         operationType = EVENT_TYPE_CLAIM
       } else if (data.from === this.wallet.getSignUpBonusAddress()) {
         operationType = EVENT_TYPE_BONUS
+      } else if (data.from === NULL_ADDRESS) {
+        operationType = EVENT_TYPE_MINT
       } else {
         operationType = data.from === account.toLowerCase() ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
       }
@@ -818,6 +822,12 @@ export class UserStorage {
       if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
         updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
         updatedFeedEvent.data.customName = 'GoodDollar'
+      }
+
+      //mint event is probably bridge
+      if (feedEvent.type === EVENT_TYPE_MINT && receipt.status) {
+        updatedFeedEvent.data.reason = 'Your Transfereed G$s'
+        updatedFeedEvent.data.customName = 'Bridge'
       }
 
       logger.debug('handleReceiptUpdated receiptReceived', {

@@ -6,10 +6,6 @@
   border-radius: 0 !important;
 }
 
-.signup_phone_input .react-phone-number-input > .react-phone-number-input__row {
-  margin-bottom: 8px;
-}
-
 .signup_phone_input
   .react-phone-number-input
   > .react-phone-number-input__row

@@ -17,10 +17,12 @@ const getEventSettingsByType = (theme, type) => {
     bonuspending: {
       actionSymbol: '+',
       color: theme.colors.orange,
+      name: 'bonus-reward',
     },
     bonuserror: {
       actionSymbol: '+',
       color: theme.colors.red,
+      name: 'bonus-reward',
     },
     bonuscompleted: {
       actionSymbol: '+',
@@ -55,6 +57,7 @@ const getEventSettingsByType = (theme, type) => {
     },
     senderror: {
       color: theme.colors.primary,
+      name: 'system-filled',
       withoutAmount: true,
     },
     sendpending: {
@@ -90,9 +93,11 @@ const getEventSettingsByType = (theme, type) => {
     withdrawpending: {
       actionSymbol: '+',
       color: theme.colors.orange,
+      name: 'receive-filled',
     },
     message: {
       color: theme.colors.purple,
+      name: 'social-good-filled',
       withoutAmount: true,
     },
     invite: {

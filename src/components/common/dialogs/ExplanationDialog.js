@@ -60,14 +60,14 @@ const ExplanationDialog = ({
   imageStyle = defaultCustomStyle,
 }) => {
   const imageProps = {
-    style: [
-      {
-        height: getDesignRelativeHeight(imageHeight, false),
-        marginTop: errorMessage ? undefined : getDesignRelativeHeight(8),
-      },
-      styles.image,
-      imageStyle,
-    ],
+    style: {
+      height: getDesignRelativeHeight(imageHeight, false),
+      marginTop: errorMessage ? undefined : getDesignRelativeHeight(8),
+      width: '100%',
+      marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
+      alignSelf: 'center',
+      ...imageStyle,
+    },
     resizeMode: 'contain',
   }
 
@@ -113,11 +113,6 @@ const mapStylesToProps = ({ theme }) => ({
   error: {
     marginTop: getDesignRelativeHeight(16),
     marginBottom: getDesignRelativeHeight(25),
-  },
-  image: {
-    width: '100%',
-    marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
-    alignSelf: 'center',
   },
   label: {
     color: theme.colors.darkGray,

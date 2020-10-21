@@ -103,7 +103,7 @@ const Amount = (props: AmountProps) => {
               <NextButton
                 nextRoutes={screenState.nextRoutes}
                 canContinue={handleContinue}
-                values={{ ...restState, amount: gdToWei(GDAmount), params }}
+                values={{ ...params, ...restState, amount: gdToWei(GDAmount) }}
                 disabled={loading}
                 {...props}
               />

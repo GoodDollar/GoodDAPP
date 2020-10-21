@@ -40,7 +40,7 @@ describe('routeAndPathForCode', () => {
         type: 'receive',
         nextRoutes: ['Reason', 'SendLinkSummary'],
         profile: expect.any(Object),
-        counterPartyDisplayName: expect.anything(),
+        counterPartyDisplayName: undefined,
         amount: undefined,
         reason: undefined,
       })

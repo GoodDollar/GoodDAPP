@@ -685,15 +685,15 @@ const Dashboard = props => {
           <PushButton
             icon="send"
             iconAlignment="left"
-            routeName="Who"
+            routeName="Amount"
             iconSize={20}
             screenProps={screenProps}
             style={styles.leftButton}
             contentStyle={styles.leftButtonContent}
             textStyle={styles.leftButtonText}
             params={{
-              nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'TransactionConfirmation'],
-              action: 'Send',
+              nextRoutes: ['Reason', 'SendLinkSummary', 'TransactionConfirmation'],
+              action: 'Send',  
             }}
             compact
           >

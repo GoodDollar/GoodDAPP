@@ -54,7 +54,7 @@ const ContinueButton = ({ push, to, disabled, checkError }) => {
 
     const address = await userStorage.getUserAddress(to).catch(e => undefined)
     if (address || goodWallet.wallet.utils.isAddress(to)) {
-      return push('Amount', { to: address || to, nextRoutes: ['Reason', 'SendQRSummary'] })
+      return push('Amount', { to: address || to, nextRoutes: ['Reason', 'SendLinkSummary'] })
     }
     if (to && (isMobilePhone(to) || isEmail(to))) {
       return push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })

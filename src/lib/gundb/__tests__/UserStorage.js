@@ -209,9 +209,9 @@ describe('UserStorage', () => {
       expect(userProfile).toEqual(expect.objectContaining({ name: 'Kevin Bardi' }))
     })
 
-    it("returns object with 'Unknown name' fullName for fake user identifier", async () => {
+    it('returns object with undefined fullName for fake user identifier', async () => {
       const userProfile = await userStorage.getUserProfile('fake')
-      expect(userProfile).toEqual(expect.objectContaining({ name: 'Unknown Name' }))
+      expect(userProfile).toEqual(expect.objectContaining({ name: undefined }))
     })
   })
 

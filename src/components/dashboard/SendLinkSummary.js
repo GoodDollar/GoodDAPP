@@ -259,20 +259,22 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           </Section.Title>
         </Section.Stack>
         <Section.Stack>
-          <Section.Row style={[styles.credsWrapper, reason ? styles.toTextWrapper : undefined]}>
-            <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
-              To
-            </Section.Text>
-            {address && !counterPartyDisplayName ? (
-              <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
-                {address}
+          {(address || counterPartyDisplayName) && (
+            <Section.Row style={[styles.credsWrapper, reason ? styles.toTextWrapper : undefined]}>
+              <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
+                To
               </Section.Text>
-            ) : (
-              <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
-                {counterPartyDisplayName}
-              </Section.Text>
-            )}
-          </Section.Row>
+              {address && !counterPartyDisplayName ? (
+                <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
+                  {address}
+                </Section.Text>
+              ) : (
+                <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
+                  {counterPartyDisplayName}
+                </Section.Text>
+              )}
+            </Section.Row>
+          )}
           {!!reason && (
             <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
               <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>

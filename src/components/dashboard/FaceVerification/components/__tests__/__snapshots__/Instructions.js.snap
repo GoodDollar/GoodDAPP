@@ -228,6 +228,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
+          data-testid="dismiss_button"
           style={
             Object {
               "WebkitAlignItems": "stretch",

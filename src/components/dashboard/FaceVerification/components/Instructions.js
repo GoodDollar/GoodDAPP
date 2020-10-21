@@ -32,7 +32,7 @@ const Instructions = ({ styles, onDismiss = noop }) => (
             <Text style={[styles.text]}>{`• Avoid Smiling & Back Light\n`}</Text>
           </Text>
         </View>
-        <CustomButton style={[styles.button]} onPress={onDismiss}>
+        <CustomButton style={[styles.button]} onPress={onDismiss} testID="dismiss_button">
           GOT IT
         </CustomButton>
       </View>

@@ -18,4 +18,13 @@ describe('FaceVerification Instructions', () => {
 
     expect(tree.toJSON()).toMatchSnapshot()
   })
+
+  it('should execute onDismiss on "GOT IT" press', () => {
+    const onDismiss = jest.fn(() => {})
+    const tree = renderer.create(<Instructions onDismiss={onDismiss} />)
+    const button = tree.root.findByProps({ testID: 'dismiss_button' })
+
+    button.props.onPress()
+    expect(onDismiss).toHaveBeenCalled()
+  })
 })

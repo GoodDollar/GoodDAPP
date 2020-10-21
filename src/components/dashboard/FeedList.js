@@ -124,12 +124,14 @@ const FeedList = ({
           try {
             canceledFeeds.current.push(id)
             userStorage.cancelOTPLEvent(id)
+
             goodWallet.cancelOTLByTransactionHash(id).catch(e => {
-              const uiMessage = decorate(e, ExceptionCode.E11)
+              const uiMessage = decorate(e, ExceptionCode.E11) + `\nTransaction: ${id}`
 
               log.error('cancel payment failed - quick actions', e.message, e, {
                 category: ExceptionCategory.Blockhain,
                 dialogShown: true,
+                id,
               })
               userStorage.updateOTPLEventStatus(id, 'pending')
               showErrorDialog(uiMessage, ExceptionCode.E11)

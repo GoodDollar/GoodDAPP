@@ -21,7 +21,13 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const Dot = ({ style }) => <Text style={style}>• </Text>
+const Dot = withStyles(({ theme }) => ({
+  listDot: {
+    color: theme.colors.primary,
+    fontSize: 'inherit',
+    fontWeight: 'bold',
+  },
+}))(({ styles }) => <Text style={styles.listDot}>• </Text>)
 
 const Instructions = ({ styles, onDismiss = noop }) => (
   <Wrapper>
@@ -31,15 +37,15 @@ const Instructions = ({ styles, onDismiss = noop }) => (
         <View style={styles.descriptionContainer}>
           <View>
             <Text style={styles.text}>
-              <Dot style={styles.listDot} />
+              <Dot />
               Hold Your Camera at Eye Level
             </Text>
             <Text style={styles.text}>
-              <Dot style={styles.listDot} />
+              <Dot />
               Light Your Face Evenly
             </Text>
             <Text style={styles.text}>
-              <Dot style={styles.listDot} />
+              <Dot />
               Avoid Smiling & Back Light
             </Text>
           </View>

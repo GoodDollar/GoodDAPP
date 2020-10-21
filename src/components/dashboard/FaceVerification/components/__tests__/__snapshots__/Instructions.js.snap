@@ -93,8 +93,6 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
             "justifyContent": "space-between",
             "msFlexPack": "justify",
             "msFlexPositive": 1,
-            "paddingLeft": "24px",
-            "paddingRight": "24px",
             "width": "100%",
           }
         }
@@ -105,8 +103,7 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
             Object {
               "WebkitFlexBasis": "auto",
               "flexBasis": "auto",
-              "height": "220px",
-              "marginBottom": "18px",
+              "height": "316.67532467532465px",
               "marginTop": "18px",
               "msFlexPreferredSize": "auto",
               "overflowX": "hidden",
@@ -145,85 +142,133 @@ exports[`FaceVerification Instructions matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "alignItems": "center",
+              "msFlexAlign": "center",
+              "paddingBottom": "16px",
+              "paddingLeft": "4px",
+              "paddingRight": "4px",
+              "paddingTop": "16px",
+            }
+          }
         >
           <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
-                "lineHeight": "22px",
-                "paddingBottom": "16px",
-                "paddingLeft": "4px",
-                "paddingRight": "4px",
-                "paddingTop": "16px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
+            className="css-view-1dbjc4n"
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "20px",
                   "fontWeight": "normal",
-                  "lineHeight": "25px",
-                  "textAlign": "center",
+                  "lineHeight": "34px",
+                  "textAlign": "left",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
             >
-              • Hold Your Camera at Eye Level
-
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(0,175,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "inherit",
+                    "fontWeight": "bold",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                • 
+              </span>
+              Hold Your Camera at Eye Level
+            </div>
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "20px",
                   "fontWeight": "normal",
-                  "lineHeight": "25px",
-                  "textAlign": "center",
+                  "lineHeight": "34px",
+                  "textAlign": "left",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
             >
-              • Light Your Face Evenly
-
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(0,175,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "inherit",
+                    "fontWeight": "bold",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                • 
+              </span>
+              Light Your Face Evenly
+            </div>
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "20px",
                   "fontWeight": "normal",
-                  "lineHeight": "25px",
-                  "textAlign": "center",
+                  "lineHeight": "34px",
+                  "textAlign": "left",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
             >
-              • Avoid Smiling & Back Light
-
-            </span>
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(0,175,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "inherit",
+                    "fontWeight": "bold",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                • 
+              </span>
+              Avoid Smiling & Back Light
+            </div>
           </div>
         </div>
         <div

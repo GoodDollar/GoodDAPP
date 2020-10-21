@@ -9,6 +9,7 @@ import { CustomButton, Section, Wrapper } from '../../../common'
 
 // utils
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
+import normalize from '../../../../lib/utils/normalizeText'
 import { withStyles } from '../../../../lib/styles'
 import { isBrowser } from '../../../../lib/utils/platform'
 import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
@@ -20,17 +21,28 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
+const Dot = ({ style }) => <Text style={style}>• </Text>
+
 const Instructions = ({ styles, onDismiss = noop }) => (
   <Wrapper>
     <Section style={styles.topContainer} grow>
       <View style={styles.mainContent}>
         <Image source={illustration} resizeMode="contain" style={styles.illustration} />
-        <View>
-          <Text textAlign="center" style={styles.descriptionContainer}>
-            <Text style={[styles.text]}>{`• Hold Your Camera at Eye Level\n`}</Text>
-            <Text style={[styles.text]}>{`• Light Your Face Evenly\n`}</Text>
-            <Text style={[styles.text]}>{`• Avoid Smiling & Back Light\n`}</Text>
-          </Text>
+        <View style={styles.descriptionContainer}>
+          <View>
+            <Text style={styles.text}>
+              <Dot style={styles.listDot} />
+              Hold Your Camera at Eye Level
+            </Text>
+            <Text style={styles.text}>
+              <Dot style={styles.listDot} />
+              Light Your Face Evenly
+            </Text>
+            <Text style={styles.text}>
+              <Dot style={styles.listDot} />
+              Avoid Smiling & Back Light
+            </Text>
+          </View>
         </View>
         <CustomButton style={[styles.button]} onPress={onDismiss}>
           GOT IT
@@ -57,28 +69,31 @@ const getStylesFromProps = ({ theme }) => ({
   mainContent: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    paddingLeft: getDesignRelativeWidth(theme.sizes.default * 3),
-    paddingRight: getDesignRelativeWidth(theme.sizes.default * 3),
     width: '100%',
   },
   illustration: {
     marginTop: getDesignRelativeHeight(18),
-    marginBottom: getDesignRelativeHeight(18),
-    height: getDesignRelativeWidth(isBrowser ? 220 : 180),
+    height: getDesignRelativeHeight(254, false),
     width: '100%',
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
     paddingVertical: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : 14),
+    alignItems: 'center',
   },
   button: {
     width: '100%',
   },
   text: {
-    textAlign: 'center',
+    textAlign: 'left',
     color: 'primary',
-    fontSize: isLargeDevice ? 18 : 16,
-    lineHeight: 25,
+    fontSize: normalize(isLargeDevice ? 22 : 20),
+    lineHeight: isLargeDevice ? 36 : 34,
+  },
+  listDot: {
+    color: theme.colors.primary,
+    fontSize: 'inherit',
+    fontWeight: 'bold',
   },
 })
 

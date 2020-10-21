@@ -40,7 +40,6 @@ const CameraNotAllowedError = ({ onRetry, exception = {} }) => {
           }
           text={isExistsError ? null : 'Change it via your device settings'}
           imageSource={illustration}
-          onDismiss={onDismiss}
           buttons={
             isExistsError ? [] : []
 
@@ -57,6 +56,7 @@ const CameraNotAllowedError = ({ onRetry, exception = {} }) => {
       type: 'error',
       isMinHeight: false,
       showButtons: false,
+      onDismiss,
     })
 
     fireEvent(FV_CANTACCESSCAMERA)

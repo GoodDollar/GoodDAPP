@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from 'react-native'
 import { noop } from 'lodash'
 
 import Icon from '../common/view/Icon'
@@ -8,7 +9,16 @@ import { withStyles } from '../../lib/styles'
 
 //import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
-const WarningImage = () => <Icon name="system" size={100} />
+const mapImageStylesToProps = ({ theme }) => ({
+  imageWrapper: {},
+  image: {},
+})
+
+const WarningImage = withStyles(mapImageStylesToProps)(({ styles, style, ...imageProps }) => (
+  <View style={[style, styles.imageWrapper]}>
+    <Icon name="system" size={100} style={styles.image} />
+  </View>
+))
 
 const ExportWarningPopup = ({ styles, ...dialogProps }) => (
   <ExplanationDialog
@@ -20,11 +30,13 @@ const ExportWarningPopup = ({ styles, ...dialogProps }) => (
     textStyle={styles.text}
     containerStyle={styles.container}
     imageStyle={styles.imageStyle}
+    buttonsContainerStyle={styles.buttonContainer}
     resizeMode={false}
     imageHeight={100}
     buttons={[
       {
         text: 'I UNDERSTAND',
+        style: styles.button,
         action: noop,
       },
     ]}
@@ -32,6 +44,9 @@ const ExportWarningPopup = ({ styles, ...dialogProps }) => (
 )
 
 const mapStylesToProps = ({ theme }) => ({
+  container: {
+    // minHeight: getDesignRelativeHeight(495),
+  },
   title: {
     color: theme.colors.red,
     fontFamily: theme.fonts.slab,
@@ -41,10 +56,8 @@ const mapStylesToProps = ({ theme }) => ({
   text: {
     fontSize: 16,
   },
-  imageStyle: {},
-  container: {
-    // minHeight: getDesignRelativeHeight(495),
-  },
+  buttonContainer: {},
+  button: {},
 })
 
 export default withStyles(mapStylesToProps)(ExportWarningPopup)

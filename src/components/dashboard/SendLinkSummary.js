@@ -42,8 +42,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const { push, goToRoot, navigateTo } = screenProps
 
   const { fullName } = gdstore.get('profile')
-  const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
-  const { action } = params
+  const { amount, reason = null, counterPartyDisplayName, address, action } = screenState
 
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
@@ -59,11 +58,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [action])
 
-  const sendViaAddress = useCallback(() => {
+  const sendViaAddress = useCallback(async () => {
     try {
       setLoading(true)
       let txhash
-      goodWallet.sendAmount(address, amount, {
+      await goodWallet.sendAmount(address, amount, {
         onTransactionHash: hash => {
           log.debug('Send G$ to address', { hash })
           txhash = hash
@@ -115,11 +114,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         category: ExceptionCategory.Blockhain,
         dialogShown: true,
       })
+      setLoading(false)
 
       showErrorDialog({
         visible: true,
         title: 'Transaction Failed!',
-        message: `There was a problem sending G$. Try again`,
+        message: `There was a problem sending G$. Check payment details.`,
         dismissText: 'OK',
       })
     }
@@ -263,7 +263,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
               To
             </Section.Text>
-            {address ? (
+            {address && !counterPartyDisplayName ? (
               <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
                 {address}
               </Section.Text>
@@ -311,7 +311,9 @@ SendLinkSummary.navigationOptions = {
 
 SendLinkSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
-  return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink || screenState.from
+  return (
+    screenState.amount && (!!screenState.nextRoutes || screenState.address || screenState.sendLink || screenState.from)
+  )
 }
 
 const getStylesFromProps = ({ theme }) => ({

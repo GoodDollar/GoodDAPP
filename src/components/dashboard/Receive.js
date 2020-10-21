@@ -77,7 +77,7 @@ const Receive = ({ screenProps, styles }: ReceiveProps) => {
             screenProps={screenProps}
             params={{
               nextRoutes: ['Reason', 'ReceiveSummary', 'TransactionConfirmation'],
-              params: { action: 'Receive' },
+              action: 'Receive',
             }}
           >
             Request specific amount

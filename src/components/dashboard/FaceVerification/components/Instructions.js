@@ -44,7 +44,7 @@ const Instructions = ({ styles, onDismiss = noop }) => (
             </Text>
           </View>
         </View>
-        <CustomButton style={[styles.button]} onPress={onDismiss}>
+        <CustomButton style={[styles.button]} onPress={onDismiss} testID="dismiss_button">
           GOT IT
         </CustomButton>
       </View>

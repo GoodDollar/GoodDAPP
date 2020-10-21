@@ -1,4 +1,6 @@
-import { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+
+import Instructions from '../components/Instructions'
 
 import UserStorage from '../../../../lib/gundb/UserStorage'
 import { useCurriedSetters } from '../../../../lib/undux/GDStore'
@@ -23,6 +25,7 @@ const log = logger.child({ from: 'FaceVerification' })
 
 const FaceVerification = ({ screenProps }) => {
   const [showLoading, hideLoading] = useLoadingIndicator()
+  const [showInstructions, setShowInstructions] = useState(false)
   const [setIsCitizen] = useCurriedSetters(['isLoggedInCitizen'])
   const { trackAttempt, resetAttempts } = useVerificationAttempts()
 
@@ -113,6 +116,12 @@ const FaceVerification = ({ screenProps }) => {
     onError: exceptionHandler,
   })
 
+  // SDK initialized handler
+  const sdkInitializedHandler = useCallback(() => {
+    hideLoading()
+    setShowInstructions(true)
+  }, [hideLoading, setShowInstructions])
+
   // SDK exception handler
   const sdkExceptionHandler = useCallback(
     exception => {
@@ -122,11 +131,18 @@ const FaceVerification = ({ screenProps }) => {
     [showErrorScreen],
   )
 
+  // "GOT IT" button handler
+  const verifyFace = useCallback(() => {
+    showLoading()
+    setShowInstructions(false)
+    startVerification()
+  }, [showLoading, setShowInstructions, startVerification])
+
   // using zoom sdk initialization hook
   // starting verification once sdk sucessfully initializes
   // on error redirecting to the error screen
   useZoomSDK({
-    onInitialized: startVerification,
+    onInitialized: sdkInitializedHandler,
     onError: sdkExceptionHandler,
   })
 
@@ -139,7 +155,7 @@ const FaceVerification = ({ screenProps }) => {
     return hideLoading
   }, [])
 
-  return null
+  return showInstructions ? <Instructions onDismiss={verifyFace} /> : null
 }
 
 FaceVerification.navigationOptions = {

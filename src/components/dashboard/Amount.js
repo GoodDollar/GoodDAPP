@@ -87,7 +87,7 @@ const Amount = (props: AmountProps) => {
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
       <Wrapper>
-        <TopBar push={screenProps.push} hideProfile={!isReceive}>
+        <TopBar push={screenProps.push}>
           {showScanQR && <ScanQRButton onPress={handlePressQR} />}
           {/* {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />} */}
         </TopBar>

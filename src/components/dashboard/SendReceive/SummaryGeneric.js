@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { BackButton } from '../../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Icon, Section, Wrapper } from '../../common'
 import TopBar from '../../common/view/TopBar'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+import { isMobile } from '../../../lib/utils/platform'
 import normalize from '../../../lib/utils/normalizeText'
 import SurveySend from '../SurveySend'
 
@@ -23,6 +24,9 @@ const SummaryGeneric = ({
   const { push } = screenProps
   const [, setSurvey] = useState(undefined)
   const [loading, setLoading] = useState(false)
+  const iconWrapperMargin = useMemo(() => {
+    return isMobile ? styles.marginForNoCredsMobile : styles.marginForNoCreds
+  }, [styles])
   const isSend = action === 'send'
   const _onPress = async e => {
     setLoading(true)
@@ -39,24 +43,24 @@ const SummaryGeneric = ({
       <Section grow style={styles.section}>
         <Section.Stack>
           <Section.Row justifyContent="center">
-            <View style={[styles.sendIconWrapper, isSend ? styles.redIcon : styles.greenIcon]}>
+            <View style={[styles.sendIconWrapper, iconWrapperMargin, isSend ? styles.redIcon : styles.greenIcon]}>
               <Icon name={iconName} size={getDesignRelativeHeight(45)} color="white" />
             </View>
           </Section.Row>
           <Section.Title fontWeight="medium">{title}</Section.Title>
-          <Section.Title fontWeight="medium" style={styles.amountWrapper}>
+          <Section.Row justifyContent="center" fontWeight="medium" style={styles.amountWrapper}>
             <BigGoodDollar
               number={amount}
               color={isSend ? 'red' : 'green'}
               bigNumberProps={{
                 fontSize: 36,
-                lineHeight: 24,
+                lineHeight: 36,
                 fontFamily: 'Roboto Slab',
                 fontWeight: 'bold',
               }}
               bigNumberUnitProps={{ fontSize: 14 }}
             />
-          </Section.Title>
+          </Section.Row>
         </Section.Stack>
         <Section.Stack>
           {address ||
@@ -179,6 +183,12 @@ const getStylesFromProps = ({ theme }) => ({
   },
   warnText: {
     marginVertical: getDesignRelativeHeight(24),
+  },
+  marginForNoCredsMobile: {
+    marginBottom: getDesignRelativeHeight(60),
+  },
+  marginForNoCreds: {
+    marginBottom: getDesignRelativeHeight(100),
   },
 })
 

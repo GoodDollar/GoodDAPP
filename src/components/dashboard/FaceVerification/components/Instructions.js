@@ -21,13 +21,16 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const Dot = withStyles(({ theme }) => ({
-  listDot: {
-    color: theme.colors.primary,
-    fontSize: normalize(isLargeDevice ? 22 : 20),
-    fontWeight: 'bold',
-  },
-}))(({ styles }) => <Text style={styles.listDot}>• </Text>)
+const Dot = () => (
+  <Text
+    color="primary"
+    fontSize={normalize(isLargeDevice ? 22 : 20)}
+    lineHeight={isLargeDevice ? 36 : 34}
+    fontWeight="bold"
+  >
+    •{' '}
+  </Text>
+)
 
 const Instructions = ({ styles, onDismiss = noop }) => (
   <Wrapper>
@@ -96,11 +99,8 @@ const getStylesFromProps = ({ theme }) => ({
   },
   text: {
     textAlign: 'left',
-    color: 'primary',
     fontSize: normalize(isLargeDevice ? 22 : 20),
-    height: isLargeDevice ? 36 : 34,
-
-    // lineHeight: isLargeDevice ? 36 : 34,
+    lineHeight: isLargeDevice ? 36 : 34,
   },
 })
 

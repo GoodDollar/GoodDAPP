@@ -96,11 +96,6 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(isLargeDevice ? 22 : 20),
     lineHeight: isLargeDevice ? 36 : 34,
   },
-  listDot: {
-    color: theme.colors.primary,
-    fontSize: 'inherit',
-    fontWeight: 'bold',
-  },
 })
 
 export default withStyles(getStylesFromProps)(Instructions)

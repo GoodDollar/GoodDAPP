@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 // components
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
@@ -8,55 +8,33 @@ import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 
 // utils
+import { ZoomSessionStatus } from '../sdk/ZoomSDK'
 import { fireEvent, FV_CANTACCESSCAMERA } from '../../../../lib/analytics/analytics'
 
 // assets
 import illustration from '../../../../assets/CameraPermissionError.svg'
 
 const CameraNotAllowedError = ({ onRetry, exception = {} }) => {
-  const { code } = exception
-  const isExistsError = code && code.includes('CameraDoesNotExist')
+  const cameraDoesNotExist = exception.code === ZoomSessionStatus.CameraDoesNotExist
   const [showDialog] = useDialog()
-
-  const onDismiss = useCallback(() => {
-    onRetry()
-  }, [onRetry])
-
-  // const showGuide = useCallback(
-  //   dismiss => {
-  //     // dismiss()
-  //     onRetry()
-  //   },
-  //   [onRetry],
-  // )
 
   useEffect(() => {
     showDialog({
       content: (
         <ExplanationDialog
-          errorMessage={isExistsError ? "We can't find your camera.." : 'We can’t access your camera...'}
+          errorMessage={cameraDoesNotExist ? "We can't find your camera.." : 'We can’t access your camera...'}
           title={
-            isExistsError ? `Please connect yours\nor\ntry a  different device` : 'Please enable camera permission'
+            cameraDoesNotExist ? `Please connect yours\nor\ntry a different device` : 'Please enable camera permission'
           }
-          text={isExistsError ? null : 'Change it via your device settings'}
+          text={cameraDoesNotExist ? null : 'Change it via your device settings'}
           imageSource={illustration}
-          buttons={
-            isExistsError ? [] : []
-
-            // : [
-            //     {
-            //       text: 'How to do that?',
-            //       action: showGuide,
-            //       mode: 'text',
-            //     },
-            //   ]
-          }
+          buttons={[]}
         />
       ),
       type: 'error',
       isMinHeight: false,
       showButtons: false,
-      onDismiss,
+      onDismiss: onRetry,
     })
 
     fireEvent(FV_CANTACCESSCAMERA)

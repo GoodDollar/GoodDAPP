@@ -95,7 +95,11 @@ export default () => {
 
       // this will only trigger the first time, since in subsequent loads claim button is disabled
       if (status === 'pending') {
-        showQueueDialog(ClaimQueuePopupText, { buttonText: 'OK, I’ll WAIT', imageSource: claimQueueIllustration })
+        showQueueDialog(ClaimQueuePopupText, {
+          buttonText: 'OK, I’ll WAIT',
+          imageSource: claimQueueIllustration,
+          imageProps: { width: '100%', height: '100%', viewBox: '0 0 177 119' },
+        })
         return false
       }
 

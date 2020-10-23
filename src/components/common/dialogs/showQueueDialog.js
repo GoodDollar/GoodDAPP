@@ -45,7 +45,10 @@ const styles = () => ({
   },
 })
 
-export const showQueueDialog = (ContentComponent, { imageSource, imageHeight, buttonText, ...dialogOptions } = {}) => {
+export const showQueueDialog = (
+  ContentComponent,
+  { imageSource, imageHeight, imageProps = {}, buttonText, ...dialogOptions } = {},
+) => {
   const imageStyle = {
     marginRight: 'auto',
     marginLeft: 'auto',
@@ -63,7 +66,7 @@ export const showQueueDialog = (ContentComponent, { imageSource, imageHeight, bu
     isMinHeight: true,
     image: (
       <View style={imageStyle}>
-        <Image />
+        <Image {...imageProps} />
       </View>
     ),
     message: <StylesWrappedContent />,

@@ -462,98 +462,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             "msFlexPack": "justify",
           }
         }
-      >
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "flex-end",
-              "WebkitBoxAlign": "end",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "center",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "center",
-              "alignItems": "flex-end",
-              "borderBottomColor": "rgba(203,203,203,1.00)",
-              "borderBottomLeftRadius": "25px",
-              "borderBottomRightRadius": "25px",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(203,203,203,1.00)",
-              "borderLeftStyle": "solid",
-              "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(203,203,203,1.00)",
-              "borderRightStyle": "solid",
-              "borderRightWidth": "1px",
-              "borderTopColor": "rgba(203,203,203,1.00)",
-              "borderTopLeftRadius": "25px",
-              "borderTopRightRadius": "25px",
-              "borderTopStyle": "solid",
-              "borderTopWidth": "1px",
-              "display": "flex",
-              "flexDirection": "row",
-              "justifyContent": "center",
-              "minHeight": "42px",
-              "msFlexAlign": "end",
-              "msFlexDirection": "row",
-              "msFlexPack": "center",
-              "paddingBottom": "4px",
-              "paddingLeft": "16px",
-              "paddingRight": "16px",
-              "paddingTop": "8px",
-              "position": "relative",
-            }
-          }
-        >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "color": "rgba(163,163,163,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "14px",
-                "fontWeight": "normal",
-                "lineHeight": "14px",
-                "paddingLeft": "10px",
-                "paddingRight": "10px",
-                "position": "absolute",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-                "top": "-10px",
-              }
-            }
-          >
-            To
-          </div>
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "24px",
-                "fontWeight": "500",
-                "lineHeight": "28px",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "0px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-                "width": "100%",
-              }
-            }
-          />
-        </div>
-      </div>
+      />
       <div
         className="css-view-1dbjc4n"
         style={
@@ -685,13 +594,15 @@ a few seconds to complete
             }
           >
             <div
-              aria-disabled={true}
-              className="css-view-1dbjc4n"
-              disabled={true}
+              className="css-cursor-18t94o4 css-view-1dbjc4n"
+              data-focusable={true}
+              disabled={false}
               onKeyDown={[Function]}
+              onKeyPress={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
+              onResponderRelease={[Function]}
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
@@ -702,11 +613,15 @@ a few seconds to complete
                   "borderBottomRightRadius": "50px",
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
+                  "cursor": "pointer",
+                  "msTouchAction": "manipulation",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
                   "position": "relative",
+                  "touchAction": "manipulation",
                 }
               }
+              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n"

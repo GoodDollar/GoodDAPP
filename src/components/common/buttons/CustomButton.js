@@ -1,7 +1,9 @@
 // @flow
+import { noop } from 'lodash'
 import React from 'react'
 import { View } from 'react-native'
 import { ActivityIndicator, Button as BaseButton, DefaultTheme } from 'react-native-paper'
+import useOnPress from '../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
@@ -147,11 +149,14 @@ const CustomButton = (props: ButtonProps) => {
     disabled,
     iconStyle,
     roundness = 50,
+    onPress = noop,
     ...buttonProps
   } = props
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
   const color = props.color ? props.color : theme.colors.default
+  const onButtonPressed = useOnPress(onPress)
+
   return (
     <BaseButton
       dark={dark}
@@ -160,6 +165,7 @@ const CustomButton = (props: ButtonProps) => {
       theme={{ ...theme, roundness }}
       uppercase={uppercase}
       disabled={disabled || loading}
+      onPress={onButtonPressed}
       {...buttonProps}
       color={color}
       style={[styles.buttonStyle, style]}

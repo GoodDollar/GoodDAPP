@@ -6,7 +6,8 @@ import { assignIn, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 import { Spinner } from '../../../common/view/LoadingIndicator'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
 
-import { zoomResultSuccessMessage, zoomRetryInstructionMessage1 } from '../utils/strings'
+import { zoomResultSuccessMessage } from '../utils/strings'
+import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
 import { theme } from '../../../theme/styles'
 import './UICustomization.css'
 
@@ -26,7 +27,13 @@ const { default: defaultFont } = theme.fonts
 
 export const UITextStrings = {
   zoomResultSuccessMessage,
-  zoomRetryInstructionMessage1,
+  zoomRetryInstructionMessage1: '<span>Hold Your Camera at Eye Level.</span>',
+  zoomRetryInstructionMessage2: '<span>Light Your Face Evenly.<br/>Avoid Smiling & Back Light</span>',
+
+  zoomInstructionsMessageReady: `Please Frame Your Face In The Small Oval,${
+    isLargeDevice ? ' ' : '<br/>'
+  }Then The Big Oval`,
+
   zoomInitializingCamera: null, // setting empty "Starting camera..." text
   zoomResultFacemapUploadMessage: `Verifying you're\none of a kind`,
   zoomResultIdscanUploadMessage: `Verifying you're\none of a kind`,

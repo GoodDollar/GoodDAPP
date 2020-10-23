@@ -19,10 +19,11 @@ const CircleButtonWrapper = ({
   iconSize,
 }) => {
   const _onPress = useOnPress(onPress)
+
   return (
     <View style={containerStyle}>
       <TouchableOpacity cursor={disabled ? 'inherit' : 'pointer'} onPress={_onPress} style={[styles.button, style]}>
-        <Icon color={iconColor} size={iconSize} name={iconName} allowDefault />
+        <Icon color={iconColor} size={iconSize} name={iconName} />
       </TouchableOpacity>
       {!!label && (
         <Text fontSize={10} fontWeight="medium" lineHeight={11} color="white" style={[styles.label, labelStyles]}>

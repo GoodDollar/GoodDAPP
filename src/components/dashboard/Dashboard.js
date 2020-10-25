@@ -1,8 +1,8 @@
 // @flow
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, Dimensions, Easing, Image, InteractionManager, Platform, TouchableOpacity, View } from 'react-native'
+import { Animated, Dimensions, Easing, Image, Platform, TouchableOpacity, View } from 'react-native'
 import { isBrowser } from 'mobile-device-detect'
-import { get as _get, debounce, throttle } from 'lodash'
+import { get as _get, concat, debounce, uniqBy } from 'lodash'
 import Mutex from 'await-mutex'
 import type { Store } from 'undux'
 import { fireEvent } from '../../lib/analytics/analytics'
@@ -193,7 +193,7 @@ const Dashboard = props => {
   }, [navigation, showDeleteAccountDialog])
 
   const getFeedPage = useCallback(
-    throttle(async (reset = false) => {
+    async (reset = false) => {
       const release = await feedMutex.lock()
       try {
         log.debug('getFeedPage:', { reset, feeds, loadAnimShown, didRender })
@@ -215,7 +215,8 @@ const Dashboard = props => {
           res.length > 0 && setFeeds(res)
         } else {
           res = (await feedPromise) || []
-          res.length > 0 && setFeeds(feeds.concat(res))
+          const newFeed = uniqBy(concat(feeds, res), 'id')
+          res.length > 0 && setFeeds(newFeed)
         }
         log.debug('getFeedPage getFormattedEvents result:', {
           reset,
@@ -228,7 +229,7 @@ const Dashboard = props => {
       } finally {
         release()
       }
-    }, 500),
+    },
     [loadAnimShown, store, setFeeds, feeds],
   )
 
@@ -350,6 +351,7 @@ const Dashboard = props => {
 
   const initDashboard = async () => {
     await userStorage.initRegistered()
+    await handleAppLinks()
     handleDeleteRedirect()
     await subscribeToFeed().catch(e => log.error('initDashboard feed failed', e.message, e))
 
@@ -358,7 +360,8 @@ const Dashboard = props => {
 
     initTransferEvents(gdstore)
     log.debug('initDashboard subscribed to feed')
-    InteractionManager.runAfterInteractions(handleAppLinks)
+
+    // InteractionManager.runAfterInteractions(handleAppLinks)
 
     Dimensions.addEventListener('change', handleResize)
   }
@@ -682,15 +685,15 @@ const Dashboard = props => {
           <PushButton
             icon="send"
             iconAlignment="left"
-            routeName="Who"
+            routeName="Amount"
             iconSize={20}
             screenProps={screenProps}
             style={styles.leftButton}
             contentStyle={styles.leftButtonContent}
             textStyle={styles.leftButtonText}
             params={{
-              nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'TransactionConfirmation'],
-              params: { action: 'Send' },
+              nextRoutes: ['Reason', 'SendLinkSummary', 'TransactionConfirmation'],
+              action: 'Send',
             }}
             compact
           >

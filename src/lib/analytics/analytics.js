@@ -2,7 +2,7 @@
 
 // libraries
 import amplitude from 'amplitude-js'
-import { assign, debounce, forEach, get, isError, isFunction, isString, toLower } from 'lodash'
+import { assign, debounce, forIn, get, isError, isFunction, isString, toLower } from 'lodash'
 import * as Sentry from '@sentry/browser'
 
 // utils
@@ -259,20 +259,29 @@ export const reportToSentry = (error, extra = {}, tags = {}) => {
     return
   }
 
+  const { logContext, eMsg } = extra
+  const fingerprint = [get(logContext, 'from', '{{ default }}'), eMsg]
+
   Sentry.configureScope(scope => {
+    const extraTags = []
+    const tagsSet = []
+
     // set extra
-    forEach(extra, (value, key) => {
+    forIn(extra, (value, key) => {
+      extraTags.push(key)
       scope.setExtra(key, value)
     })
 
     // set tags
-    forEach(tags, (value, key) => {
+    forIn(tags, (value, key) => {
+      tagsSet.push(key)
       scope.setTag(key, value)
     })
 
-    scope.setFingerprint([get(extra, 'logContext.from', '{{ default }}'), get(extra, 'eMsg')])
-
+    scope.setFingerprint(fingerprint)
     Sentry.captureException(error)
+
+    log.debug('Captured Sentry exception', { fingerprint, tags: tagsSet, extraTags })
   })
 }
 

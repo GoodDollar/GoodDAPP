@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react'
-import { isNil, isFunction } from 'lodash'
+import { isFunction, isNil } from 'lodash'
 
 const useOnPress = (callback, deps = []) =>
   useCallback(

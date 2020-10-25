@@ -1,29 +1,24 @@
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 
 import Icon from '../../../common/view/Icon'
 
 import { withStyles } from '../../../../lib/styles'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
-import arrowRight from '../../../../assets/arrowRight.svg'
-
-if (Platform.OS === 'web') {
-  Image.prefetch(arrowRight)
-}
+import ArrowRight from '../../../../assets/arrowRight.svg'
 
 const GoodMarketImage = ({ style, styles }) => (
   <View style={[style, styles.wrapper]}>
-    <Image style={styles.arrow} source={arrowRight} />
+    <ArrowRight
+      viewBox={`0 0 ${getDesignRelativeWidth(82)} ${getDesignRelativeHeight(74)}`}
+      preserveAspectRatio="xMidYMid meet"
+    />
     <Icon name="goodmarket" size={122} style={styles.marketIcon} />
   </View>
 )
 
 const mapStylesToProps = ({ theme }) => ({
-  arrow: {
-    height: getDesignRelativeHeight(74, false),
-    width: getDesignRelativeWidth(82, false),
-  },
   marketIcon: {
     marginLeft: -getDesignRelativeWidth(40, false),
     color: theme.colors.primary,

@@ -13,37 +13,50 @@ import { fireEvent, FV_CANTACCESSCAMERA } from '../../../../lib/analytics/analyt
 // assets
 import illustration from '../../../../assets/CameraPermissionError.svg'
 
-const CameraNotAllowedError = ({ onRetry }) => {
+const CameraNotAllowedError = ({ onRetry, exception = {} }) => {
+  const { code } = exception
+  const isExistsError = code && code.includes('CameraDoesNotExist')
   const [showDialog] = useDialog()
 
-  const onDismiss = useCallback(
-    dismiss => {
-      dismiss()
-      onRetry()
-    },
-    [onRetry],
-  )
+  const onDismiss = useCallback(() => {
+    onRetry()
+  }, [onRetry])
+
+  // const showGuide = useCallback(
+  //   dismiss => {
+  //     // dismiss()
+  //     onRetry()
+  //   },
+  //   [onRetry],
+  // )
 
   useEffect(() => {
     showDialog({
       content: (
         <ExplanationDialog
-          errorMessage="We can’t access your camera..."
-          title="Please enable camera permission"
-          text="Change it via your device settings"
+          errorMessage={isExistsError ? "We can't find your camera.." : 'We can’t access your camera...'}
+          title={
+            isExistsError ? `Please connect yours\nor\ntry a  different device` : 'Please enable camera permission'
+          }
+          text={isExistsError ? null : 'Change it via your device settings'}
           imageSource={illustration}
-          buttons={[
-            {
-              text: 'How to do that?',
-              action: onDismiss,
-              mode: 'text',
-            },
-          ]}
+          buttons={
+            isExistsError ? [] : []
+
+            // : [
+            //     {
+            //       text: 'How to do that?',
+            //       action: showGuide,
+            //       mode: 'text',
+            //     },
+            //   ]
+          }
         />
       ),
       type: 'error',
       isMinHeight: false,
       showButtons: false,
+      onDismiss,
     })
 
     fireEvent(FV_CANTACCESSCAMERA)

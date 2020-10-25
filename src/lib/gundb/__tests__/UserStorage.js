@@ -862,11 +862,22 @@ describe('getOperationType', () => {
   })
 
   it('from bonuscontract should be bonus', () => {
+    const tmp = Contracts[Config.network].SignupBonus
+    Contracts[Config.network].SignupBonus = '0xA48840D89a761502A4a7d995c74f3864D651A87F'
     const event = {
       name: 'Transfer',
       from: Contracts[Config.network].SignupBonus.toLowerCase(),
     }
     expect(userStorage.getOperationType(event, 'account1')).toBe('bonus')
+    Contracts[Config.network].SignupBonus = tmp
+  })
+
+  it('from null address should be mint', () => {
+    const event = {
+      name: 'Transfer',
+      from: '0x0000000000000000000000000000000000000000',
+    }
+    expect(userStorage.getOperationType(event, 'account1')).toBe('mint')
   })
 })
 

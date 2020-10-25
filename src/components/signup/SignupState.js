@@ -283,10 +283,10 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
     setLoading(true)
 
     log.info('Sending new user data', { state, regMethod, torusProvider })
+    const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
     try {
       const { goodWallet, userStorage } = await ready
       const inviteCode = await checkInviteCode()
-      const { skipEmail, skipEmailConfirmation, skipMagicLinkInfo, ...requestPayload } = state
 
       log.debug('invite code:', { inviteCode })
       ;['email', 'fullName', 'mobile'].forEach(field => {
@@ -316,7 +316,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
           const torusProofNonce = await API.ping()
             .then(_ => moment(get(_, 'data.ping', Date.now())))
             .catch(e => moment())
-            .then(_ => _.valueOf())
+            .then(_ => Math.max(Date.now(), _.valueOf()))
           const msg = (mobile || email) + String(torusProofNonce)
           const proof = goodWallet.wallet.eth.accounts.sign(msg, '0x' + privateKey)
 
@@ -413,6 +413,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
 
       log.error('New user failure', message, exception, {
         dialogShown: true,
+        requestPayload,
       })
 
       showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)

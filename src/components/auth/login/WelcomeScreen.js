@@ -2,7 +2,7 @@
 import React, { useCallback } from 'react'
 import { Image, TouchableOpacity } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
-import { fireEvent, SIGNIN_METHOD_SELECTED, SIGNUP_METHOD_SELECTED } from '../../../lib/analytics/analytics'
+import { fireEvent, SIGNIN_SELECTED, SIGNUP_SELECTED } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED } from '../../../lib/constants/localStorage'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { isBrowser } from '../../../lib/utils/platform'
@@ -35,13 +35,13 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
   const { navigate } = navigation
 
   const goToSignUp = () => {
-    fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-    return navigate('Auth', { screen: SIGNUP_METHOD_SELECTED })
+    fireEvent(SIGNUP_SELECTED)
+    return navigate('Auth', { screen: 'signup' })
   }
 
   const goToSignIn = () => {
-    fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
-    return navigate('Auth', { screen: SIGNIN_METHOD_SELECTED })
+    fireEvent(SIGNIN_SELECTED)
+    return navigate('Auth', { screen: 'signin' })
   }
 
   const goToManualRegistration = useCallback(async () => {
@@ -84,10 +84,9 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
                 <Section.Text
                   fontWeight="medium"
                   style={styles.minSpace}
-                  textStyle={styles.buttonText}
                   textDecorationLine="underline"
-                  fontSize={14}
                   color="primary"
+                  fontSize={14}
                 >
                   Agree & Continue with self custody wallet
                 </Section.Text>
@@ -98,10 +97,9 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
                 <Section.Text
                   fontWeight="medium"
                   style={styles.recoverText}
-                  textStyle={[styles.buttonText]}
                   textDecorationLine="underline"
-                  fontSize={14}
                   color="primary"
+                  fontSize={14}
                 >
                   Sign in
                 </Section.Text>
@@ -120,10 +118,9 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
               <Section.Text
                 fontWeight="bold"
                 style={styles.recoverText}
-                textStyle={[styles.buttonText]}
                 textDecorationLine="underline"
-                fontSize={14}
                 color="darkGray"
+                fontSize={14}
               >
                 {'Already Have a Wallet? Log In >'}
               </Section.Text>

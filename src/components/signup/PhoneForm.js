@@ -122,7 +122,18 @@ class PhoneForm extends React.Component<Props, State> {
                 {`${getFirstWord(fullName)},\nenter your phone number\nso we could verify you`}
               </Section.Title>
             </Section.Row>
-            <Section.Stack className="signup_phone_input" justifyContent="center" style={styles.column}>
+            {/* react throws error on view with classname 
+            <Section.Stack className="signup_phone_input" justifyContent="center" style={styles.column}> */}
+            <div
+              className="signup_phone_input"
+              style={{
+                ...styles.column,
+                justifyContent: 'center',
+                flexDirection: 'column',
+                alignItems: 'stretch',
+                display: 'flex',
+              }}
+            >
               <FormNumberInput
                 id={key + '_input'}
                 value={this.state.mobile}
@@ -138,7 +149,8 @@ class PhoneForm extends React.Component<Props, State> {
                 textStyle={isMobileNative && errorMessage ? styles.inputError : undefined}
               />
               <ErrorText error={errorMessage} style={styles.customError} />
-            </Section.Stack>
+            </div>
+            {/* </Section.Stack> */}
           </Section.Stack>
           <Section.Row
             justifyContent="center"

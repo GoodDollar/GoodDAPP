@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react'
 import config from '../../config/config'
+import API from '../../lib/API/api'
 
 export const getCountryFlagUrl = countryCode => {
   return `${config.flagsUrl}${countryCode}.svg`.toLowerCase()
@@ -40,4 +42,28 @@ export default countryCode => {
   const code = getCountryCodeForFlag(countryCode)
 
   return getCountryFlagUrl(code)
+}
+
+let countryCodeResult
+export const useCountryCode = () => {
+  const [countryCode, setCountryCode] = useState()
+  useEffect(() => {
+    const check = async () => {
+      try {
+        if (!countryCodeResult) {
+          const { data } = await API.getLocation()
+          if (data && data.country) {
+            countryCodeResult = data
+          }
+        }
+
+        setCountryCode(countryCodeResult.country)
+      } catch (e) {
+        countryCodeResult = undefined
+      }
+    }
+    check()
+  }, [])
+
+  return countryCode
 }

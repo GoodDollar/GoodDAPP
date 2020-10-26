@@ -215,9 +215,10 @@ const getStylesFromProps = ({ theme }) => ({
   bigNumberStyles: {
     marginRight: theme.sizes.defaultHalf,
   },
-  bigNumberUnitStyles: {
-    lineHeight: normalize(16),
-  },
+
+  // bigNumberUnitStyles: {
+  //   lineHeight: normalize(16),
+  // },
   transferInfo: {
     position: 'relative',
     display: 'flex',

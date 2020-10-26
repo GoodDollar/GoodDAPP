@@ -39,7 +39,6 @@ import SignUp from '../login/SignUpScreen'
 import { timeout } from '../../../lib/utils/async'
 
 import LoadingIcon from '../../common/modal/LoadingIcon'
-import SuccessIcon from '../../common/modal/SuccessIcon'
 
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
@@ -108,17 +107,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     })
   }
 
-  const successDialog = () => {
-    showDialog({
-      image: <SuccessIcon />,
-      loading: true,
-      message: 'Please wait\nThis might take a few seconds...',
-      showButtons: false,
-      title: `PREPARING\nYOUR WALLET`,
-      showCloseButtons: false,
-    })
-  }
-
   const showNotSignedUp = provider => {
     let resolve
     const promise = new Promise((res, rej) => {
@@ -146,6 +134,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           text: 'Signup',
           onPress: () => {
             fireEvent(SIGNIN_NOTEXISTS_SIGNUP, { provider })
+            hideDialog()
             resolve('signup')
           },
           style: [styles.whiteButton, { flex: 1 }],
@@ -154,8 +143,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         {
           text: 'Login',
           onPress: () => {
-            resolve('signin')
             fireEvent(SIGNIN_NOTEXISTS_LOGIN, { provider })
+            hideDialog()
+            resolve('signin')
           },
           style: { flex: 1 },
         },
@@ -173,6 +163,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       showLoadingDialog()
       const { torusUser, replacing } = await getTorusUser(provider)
       if (torusUser == null) {
+        hideDialog()
         return
       }
 
@@ -196,6 +187,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         //user chose to continue signup even though used on another provider
         //or user signed in and account exists
         await Promise.race([ready(replacing), timeout(60000, 'initialiazing wallet timed out')])
+        hideDialog()
+
         if (isSignup) {
           fireEvent(SIGNUP_STARTED, { provider })
 
@@ -206,7 +199,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
               el.focus()
             }
           }, 500)
-
           return navigate('Signup', {
             regMethod: REGISTRATION_METHOD_TORUS,
             torusUser,
@@ -215,7 +207,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         }
 
         //case of sign-in
-        successDialog()
         fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
         await AsyncStorage.setItem(IS_LOGGED_IN, true)
         store.set('isLoggedIn')(true)
@@ -225,8 +216,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
         log.error('Failed to initialize wallet and storage', message, e)
       } finally {
-        hideDialog()
-
         store.set('loadingIndicator')({ loading: false })
       }
     },
@@ -425,6 +414,7 @@ const useAlreadySignedUp = () => {
         {
           text: 'Continue Signup',
           onPress: () => {
+            hideDialog()
             fireEvent(SIGNUP_EXISTS_CONTINUE, { provider, foundOtherProvider, exists, fromSignupFlow })
             resolve('signup')
           },

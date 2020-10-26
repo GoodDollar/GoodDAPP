@@ -30,7 +30,10 @@ describe('routeAndPathForCode', () => {
   })
 
   it(`should pass if code is valid`, () => {
-    const code = { networkId: networkId, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
+    const code = {
+      networkId: networkId,
+      address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1',
+    }
 
     return routeAndPathForCode('send', code).then(({ route, params }) => {
       expect(route).toMatch('Amount')
@@ -40,7 +43,7 @@ describe('routeAndPathForCode', () => {
         type: 'receive',
         nextRoutes: ['Reason', 'SendLinkSummary'],
         profile: expect.any(Object),
-        counterPartyDisplayName: expect.anything(),
+        counterPartyDisplayName: undefined,
         amount: undefined,
         reason: undefined,
       })

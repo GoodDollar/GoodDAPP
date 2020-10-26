@@ -1,5 +1,5 @@
 // @flow
-import { APIService } from '../API/api'
+import { default as API, APIService } from '../API/api'
 import { GoodWallet } from '../wallet/GoodWalletClass'
 import GoodWalletLogin from './GoodWalletLoginClass'
 export const userExists = async (mnemonics): Promise<any> => {
@@ -18,4 +18,15 @@ export const userExists = async (mnemonics): Promise<any> => {
   } = await api.userExists()
 
   return { exists, fullName }
+}
+
+export const userExists2 = async ({ mnemonics, privateKey, email, mobile }): Promise<any> => {
+  const wallet = new GoodWallet({ mnemonic: mnemonics || privateKey })
+  await wallet.ready
+  const identifier = wallet.getAccountForType('login')
+  const {
+    data: { exists, fullName, provider },
+  } = await API.userExistsCheck({ identifier, email, mobile })
+
+  return { exists, fullName, provider }
 }

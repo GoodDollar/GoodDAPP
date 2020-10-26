@@ -173,6 +173,13 @@ export class APIService {
   }
 
   /**
+   * `/user/exists` get api call
+   */
+  userExistsCheck(searchBy): AxiosPromise<any> {
+    return this.client.post('/userExists', { searchBy })
+  }
+
+  /**
    * `/verify/sendotp` post api call
    * @param {UserRecord} user
    */

@@ -1,5 +1,5 @@
 // libraries
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 // components
 import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
@@ -8,55 +8,55 @@ import ExplanationDialog from '../../../common/dialogs/ExplanationDialog'
 import { useDialog } from '../../../../lib/undux/utils/dialog'
 
 // utils
+import { ZoomSessionStatus } from '../sdk/ZoomSDK'
 import { fireEvent, FV_CANTACCESSCAMERA } from '../../../../lib/analytics/analytics'
 
 // assets
 import illustration from '../../../../assets/CameraPermissionError.svg'
 
 const CameraNotAllowedError = ({ onRetry, exception = {} }) => {
-  const { code } = exception
-  const isExistsError = code && code.includes('CameraDoesNotExist')
+  const cameraDoesNotExist = exception.code === ZoomSessionStatus.CameraDoesNotExist
   const [showDialog] = useDialog()
 
-  const onDismiss = useCallback(() => {
-    onRetry()
-  }, [onRetry])
-
-  // const showGuide = useCallback(
-  //   dismiss => {
-  //     // dismiss()
-  //     onRetry()
-  //   },
-  //   [onRetry],
-  // )
-
   useEffect(() => {
+    const buttons = []
+    let errorMessage = "We can't find your camera.."
+    let title = `Please connect yours\nor\ntry a different device`
+    let text = null
+
+    if (!cameraDoesNotExist) {
+      // temporary disabling this feature
+      // do not remove this block
+      /*buttons.push({
+          text: 'How to do that?',
+          mode: 'text',
+          // explanation dialog auto dismisses popup
+          // so no dismiss callback is passed to the action
+          action: () => {
+            // do some
+            onRetry()
+          },
+      })*/
+
+      errorMessage = 'We can’t access your camera...'
+      title = 'Please enable camera permission'
+      text = 'Change it via your device settings'
+    }
+
     showDialog({
       content: (
         <ExplanationDialog
-          errorMessage={isExistsError ? "We can't find your camera.." : 'We can’t access your camera...'}
-          title={
-            isExistsError ? `Please connect yours\nor\ntry a  different device` : 'Please enable camera permission'
-          }
-          text={isExistsError ? null : 'Change it via your device settings'}
+          errorMessage={errorMessage}
+          title={title}
+          text={text}
           imageSource={illustration}
-          buttons={
-            isExistsError ? [] : []
-
-            // : [
-            //     {
-            //       text: 'How to do that?',
-            //       action: showGuide,
-            //       mode: 'text',
-            //     },
-            //   ]
-          }
+          buttons={buttons}
         />
       ),
       type: 'error',
       isMinHeight: false,
       showButtons: false,
-      onDismiss,
+      onDismiss: onRetry,
     })
 
     fireEvent(FV_CANTACCESSCAMERA)

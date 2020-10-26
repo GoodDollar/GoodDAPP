@@ -2,7 +2,13 @@
 import React, { useCallback } from 'react'
 import { Image, TouchableOpacity } from 'react-native'
 import logger from '../../../lib/logger/pino-logger'
-import { fireEvent, SIGNIN_SELECTED, SIGNUP_SELECTED } from '../../../lib/analytics/analytics'
+import {
+  fireEvent,
+  SIGNIN_SELECTED,
+  SIGNIN_METHOD_SELECTED,
+  SIGNUP_SELECTED,
+  SIGNUP_METHOD_SELECTED,
+} from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED } from '../../../lib/constants/localStorage'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import { isBrowser } from '../../../lib/utils/platform'
@@ -23,8 +29,6 @@ import NavBar from '../../appNavigation/NavBar'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../../webView/webViewInstances'
 import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import ready from '../torus/ready'
-import SignInScreen from '../login/SignInScreen'
-import SignupScreen from '../login/SignUpScreen'
 import Auth from '../../auth/Auth'
 import AuthTorus from '../../auth/torus/AuthTorus'
 
@@ -57,7 +61,10 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
     navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
   }, [navigate])
 
-  const goToSignInInfo = () => navigate('SigninInfo')
+  const goToSignInInfo = () => {
+    fireEvent(SIGNIN_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
+    navigate('SigninInfo')
+  }
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
@@ -197,8 +204,6 @@ const routes = {
   PrivacyPolicyAndTerms,
   PrivacyPolicy,
   Support: SupportForUnsigned,
-  SignInScreen,
-  SignupScreen,
 }
 
 if (config.enableSelfCustody) {

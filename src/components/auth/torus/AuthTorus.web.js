@@ -52,6 +52,7 @@ const log = logger.child({ from: 'AuthTorus' })
 
 const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
+  const showAlreadySignedUp = useAlreadySignedUp()
   const [torusSDK, sdkInitialized] = useTorus()
   const { navigate } = navigation
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen', 'signup'))
@@ -105,49 +106,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       title: `PREPARING\nYOUR WALLET`,
       showCloseButtons: false,
     })
-  }
-
-  const showAlreadySignedUp = (torusUser, provider, exists, foundOtherProvider) => {
-    let resolve
-    const promise = new Promise((res, rej) => {
-      resolve = res
-    })
-    const registeredBy = formatProvider(foundOtherProvider)
-    showDialog({
-      onDismiss: () => {
-        hideDialog()
-      },
-      content: (
-        <View style={styles.paragraphContainer}>
-          <Paragraph
-            style={[styles.paragraph, styles.paragraphBold]}
-          >{`You Already Used\n This Email/Mobile\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
-        </View>
-      ),
-      buttons: [
-        {
-          text: `Login with ${registeredBy}`,
-          onPress: () => {
-            hideDialog()
-            fireEvent(SIGNUP_EXISTS_LOGIN, { provider, foundOtherProvider, exists })
-            resolve('signin')
-          },
-          style: [styles.marginBottom, { boxShadow: 'none' }],
-        },
-        {
-          text: 'Continue Signup',
-          onPress: () => {
-            fireEvent(SIGNUP_EXISTS_CONTINUE, { provider, foundOtherProvider, exists })
-            resolve('signup')
-          },
-          style: styles.whiteButton,
-          textStyle: styles.primaryText,
-        },
-      ],
-      buttonsContainerStyle: styles.modalButtonsContainerStyle,
-      type: 'error',
-    })
-    return promise
   }
 
   const successDialog = () => {
@@ -225,7 +183,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         if (isSignup) {
           //if user identifier exists or email/mobile found in another account
           if (exists || foundOtherProvider) {
-            selection = await showAlreadySignedUp(torusUser, provider, exists, foundOtherProvider)
+            selection = await showAlreadySignedUp(provider, exists, foundOtherProvider)
             if (selection === 'signin') {
               return setAuthScreen('signin')
             }
@@ -393,4 +351,93 @@ auth.navigationOptions = {
   navigationBarHidden: true,
 }
 
-export default auth
+const alreadyStyles = {
+  paragraphContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  modalButtonsContainerStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  whiteButton: {
+    backgroundColor: mainTheme.colors.white,
+    borderWidth: 1,
+    borderColor: mainTheme.colors.primary,
+    boxShadow: 'none',
+  },
+  primaryText: {
+    color: mainTheme.colors.primary,
+  },
+  paragraphContent: {
+    fontSize: normalizeText(16),
+    lineHeight: 22,
+    color: mainTheme.colors.darkGray,
+    fontFamily: mainTheme.fonts.default,
+  },
+  paragraphBold: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  paragraph: {
+    fontSize: normalizeText(24),
+    textAlign: 'center',
+    color: mainTheme.colors.red,
+    lineHeight: 32,
+    fontFamily: mainTheme.fonts.slab,
+  },
+  marginBottom: {
+    marginBottom: getDesignRelativeHeight(mainTheme.sizes.defaultDouble),
+  },
+}
+const useAlreadySignedUp = () => {
+  const [showDialog, hideDialog] = useDialog()
+
+  const show = (provider, exists, foundOtherProvider, fromSignupFlow) => {
+    let resolve
+    const promise = new Promise((res, rej) => {
+      resolve = res
+    })
+    const registeredBy = formatProvider(foundOtherProvider)
+    showDialog({
+      onDismiss: () => {
+        hideDialog()
+        resolve('signup')
+      },
+      content: (
+        <View style={alreadyStyles.paragraphContainer}>
+          <Paragraph
+            style={[alreadyStyles.paragraph, alreadyStyles.paragraphBold]}
+          >{`You Already Used\n This Email/Mobile\n When You Signed Up\n With ${registeredBy}`}</Paragraph>
+        </View>
+      ),
+      buttons: [
+        {
+          text: `Login with ${registeredBy}`,
+          onPress: () => {
+            hideDialog()
+            fireEvent(SIGNUP_EXISTS_LOGIN, { provider, foundOtherProvider, exists, fromSignupFlow })
+            resolve('signin')
+          },
+          style: [alreadyStyles.marginBottom, { boxShadow: 'none' }],
+        },
+        {
+          text: 'Continue Signup',
+          onPress: () => {
+            fireEvent(SIGNUP_EXISTS_CONTINUE, { provider, foundOtherProvider, exists, fromSignupFlow })
+            resolve('signup')
+          },
+          style: alreadyStyles.whiteButton,
+          textStyle: alreadyStyles.primaryText,
+        },
+      ],
+      buttonsContainerStyle: alreadyStyles.modalButtonsContainerStyle,
+      type: 'error',
+    })
+    return promise
+  }
+  return show
+}
+
+export { auth as default, useAlreadySignedUp }

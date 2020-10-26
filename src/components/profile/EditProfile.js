@@ -5,6 +5,7 @@ import { isEqual, isEqualWith, merge, pickBy } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore, { useCurriedSetters } from '../../lib/undux/GDStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
 import { Section, UserAvatar, Wrapper } from '../common'
@@ -24,6 +25,7 @@ const AVATAR_MARGIN = 6
 
 const EditProfile = ({ screenProps, styles, navigation }) => {
   const store = GDStore.useStore()
+  const simpleStore = SimpleStore.useStore()
   const storedProfile = store.get('privateProfile')
   const [setPrivateProfile] = useCurriedSetters(['privateProfile'])
   const [profile, setProfile] = useState(storedProfile)
@@ -131,10 +133,13 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
       return
     }
 
+    simpleStore.set('loadingIndicator')({ loading: true })
+
     // initialize profile value for first time from storedProfile in userStorage
     userStorage.getProfile().then(profileFromUserStorage => {
       setPrivateProfile(profileFromUserStorage)
       setProfile(profileFromUserStorage)
+      simpleStore.set('loadingIndicator')({ loading: false })
     })
   }, [])
 
@@ -176,7 +181,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           profile={profile}
           storedProfile={storedProfile}
           setLockSubmit={setLockSubmit}
-          navigation={navigation}
+          screenProps={screenProps}
         />
       </Section>
     </Wrapper>

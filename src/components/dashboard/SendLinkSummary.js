@@ -39,11 +39,10 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
 
-  const { push, goToRoot } = screenProps
+  const { push, goToRoot, navigateTo } = screenProps
 
   const { fullName } = gdstore.get('profile')
-  const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
-  const { action } = params
+  const { amount, reason = null, counterPartyDisplayName, address, action } = screenState
 
   const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
@@ -59,11 +58,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
     }
   }, [action])
 
-  const sendViaAddress = useCallback(() => {
+  const sendViaAddress = useCallback(async () => {
     try {
       setLoading(true)
       let txhash
-      goodWallet.sendAmount(address, amount, {
+      await goodWallet.sendAmount(address, amount, {
         onTransactionHash: hash => {
           log.debug('Send G$ to address', { hash })
           txhash = hash
@@ -96,7 +95,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             title: 'SUCCESS!',
             message: 'The G$ was sent successfully',
             buttons: [{ text: 'Yay!' }],
-            onDismiss: screenProps.goToRoot,
+            onDismiss: goToRoot,
           })
 
           setLoading(false)
@@ -115,15 +114,16 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
         category: ExceptionCategory.Blockhain,
         dialogShown: true,
       })
+      setLoading(false)
 
       showErrorDialog({
         visible: true,
         title: 'Transaction Failed!',
-        message: `There was a problem sending G$. Try again`,
+        message: `There was a problem sending G$. Check payment details.`,
         dismissText: 'OK',
       })
     }
-  }, [setLoading, address, amount, reason, showDialog, showErrorDialog])
+  }, [setLoading, address, amount, reason, showDialog, showErrorDialog, goToRoot])
 
   const sendViaLink = useCallback(() => {
     try {
@@ -135,12 +135,12 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       )
 
       // Go to transaction confirmation screen
-      push('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
+      navigateTo('TransactionConfirmation', { paymentLink: desktopShareLink, action: ACTION_SEND })
     } catch (e) {
       log.error('Something went wrong while trying to generate send link', e.message, e, { dialogShown: true })
       showErrorDialog('Could not complete transaction. Please try again.')
     }
-  }, [...shareStringStateDepSource, generateSendShareText, canShare, push])
+  }, [...shareStringStateDepSource, generateSendShareText, canShare, navigateTo])
 
   /**
    * Generates link to send and call send email/sms action
@@ -211,7 +211,14 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
               text: 'Try again',
               onPress: () => {
                 hideDialog()
-                screenProps.navigateTo('SendLinkSummary', { amount, reason, counterPartyDisplayName })
+
+                //this is async so we go directly back to screen and not through stack
+                navigateTo('SendLinkSummary', {
+                  amount,
+                  reason,
+                  counterPartyDisplayName,
+                  nextRoutes: ['TransactionConfirmation'],
+                })
               },
             },
           ],
@@ -224,7 +231,7 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       setLink(paymentLink)
       return paymentLink
     }
-  }, [screenProps, survey, showErrorDialog, setLink, link, goToRoot])
+  }, [survey, showErrorDialog, setLink, link, goToRoot, navigateTo])
 
   return (
     <Wrapper>
@@ -252,20 +259,22 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
           </Section.Title>
         </Section.Stack>
         <Section.Stack>
-          <Section.Row style={[styles.credsWrapper, reason ? styles.toTextWrapper : undefined]}>
-            <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
-              To
-            </Section.Text>
-            {address ? (
-              <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
-                {address}
+          {(address || counterPartyDisplayName) && (
+            <Section.Row style={[styles.credsWrapper, reason ? styles.toTextWrapper : undefined]}>
+              <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
+                To
               </Section.Text>
-            ) : (
-              <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
-                {counterPartyDisplayName}
-              </Section.Text>
-            )}
-          </Section.Row>
+              {address && !counterPartyDisplayName ? (
+                <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
+                  {address}
+                </Section.Text>
+              ) : (
+                <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
+                  {counterPartyDisplayName}
+                </Section.Text>
+              )}
+            </Section.Row>
+          )}
           {!!reason && (
             <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
               <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
@@ -304,7 +313,9 @@ SendLinkSummary.navigationOptions = {
 
 SendLinkSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
-  return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink || screenState.from
+  return (
+    screenState.amount && (!!screenState.nextRoutes || screenState.address || screenState.sendLink || screenState.from)
+  )
 }
 
 const getStylesFromProps = ({ theme }) => ({

@@ -18,8 +18,8 @@ const TopBar = ({
   push,
   children,
   style,
-  hideProfile = true,
-  profileAsLink = true,
+  hideProfile = false,
+  profileAsLink = false,
   contentStyle,
   avatarSize,
 }) => {
@@ -37,10 +37,12 @@ const TopBar = ({
          if children=undefined and hideBalance=false, BigGoodDollar will be rendered
          if children=undefined and hideBalance=true, nothing will be rendered
          */}
-        {children ? children : !hideBalance && <BigGoodDollar number={balance} />}
-        {hideProfile !== true && (
-          <Avatar source={avatar} onPress={push && profileAsLink ? redirectToProfile : null} size={avatarSize} />
-        )}
+        {!hideBalance && <BigGoodDollar number={balance} />}
+        {children}
+        {hideProfile !== true &&
+        (!children || hideBalance) && ( //if not already displaying two items show also avatar
+            <Avatar source={avatar} onPress={push && profileAsLink ? redirectToProfile : null} size={avatarSize} />
+          )}
       </Section.Row>
     </Section>
   )

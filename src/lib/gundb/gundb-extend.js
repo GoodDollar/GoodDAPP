@@ -111,7 +111,7 @@ assign(User.prototype, {
 
     if (encryptedData != null) {
       if (!secureKey) {
-        throw new Error(`Decrypting key missing for path '${path}'. Trying to decrypt '${encryptedData}'`)
+        throw new Error(`Decrypting key missing`)
       }
 
       decryptedData = await SEA.decrypt(encryptedData, secureKey)

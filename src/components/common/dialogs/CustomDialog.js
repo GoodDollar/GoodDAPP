@@ -106,9 +106,21 @@ const CustomDialog = ({
           {showButtons ? (
             <View style={buttonsContainerStyle || styles.buttonsContainer}>
               {buttons ? (
-                buttons.map((options, index) => (
-                  <DialogButton key={index} options={options} loading={loading} dismiss={_onPressOk} />
-                ))
+                buttons.map(
+                  ({ onPress = dismiss => dismiss(), style, disabled, mode, Component, ...buttonProps }, index) => (
+                    <DialogButton
+                      {...buttonProps}
+                      Component={Component}
+                      mode={mode}
+                      onPress={() => onPress(onDismiss)}
+                      onDismiss={onDismiss}
+                      style={[{ marginLeft: 10 }, style]}
+                      disabled={disabled || loading}
+                      loading={loading}
+                      key={index}
+                    />
+                  ),
+                )
               ) : (
                 <CustomButton disabled={loading} loading={loading} onPress={_onPressOk} style={[styles.buttonOK]}>
                   Ok
@@ -147,12 +159,21 @@ const SimpleStoreDialog = () => {
   )
 }
 
-const DialogButton = ({ options = {}, loading, dismiss }) => {
-  const { onPress, style, disabled, mode, Component, ...buttonProps } = options
-
+const DialogButton = ({
+  onDismiss,
+  loading,
+  dismiss,
+  onPress,
+  style,
+  disabled,
+  mode,
+  Component,
+  key,
+  ...buttonProps
+}) => {
   const pressHandler = useOnPress(() => {
     if (onPress) {
-      onPress(dismiss)
+      onPress()
       return
     }
 
@@ -168,9 +189,10 @@ const DialogButton = ({ options = {}, loading, dismiss }) => {
       {...buttonProps}
       mode={mode}
       onPress={pressHandler}
-      style={[{ marginLeft: 10 }, style]}
-      disabled={disabled || loading}
+      style={style}
+      disabled={disabled}
       loading={loading}
+      key={key}
     >
       {buttonProps.text}
     </CustomButton>
@@ -179,7 +201,9 @@ const DialogButton = ({ options = {}, loading, dismiss }) => {
 
 const styles = StyleSheet.create({
   title: {
+    marginBottom: theme.sizes.defaultDouble,
     paddingTop: theme.sizes.defaultDouble,
+    minHeight: normalize(76),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -193,7 +217,6 @@ const styles = StyleSheet.create({
   content: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     flexGrow: 1,
     padding: 0,
     maxHeight: Platform.select({

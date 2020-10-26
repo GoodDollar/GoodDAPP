@@ -6,24 +6,25 @@ import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
 import {
-  CLICK_BTN_GETINVITED,
   fireEvent,
   SIGNIN_METHOD_SELECTED,
   SIGNIN_TORUS_SUCCESS,
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
+  TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
 import { REGISTRATION_METHOD_SELF_CUSTODY, REGISTRATION_METHOD_TORUS } from '../../../lib/constants/login'
 import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import { withStyles } from '../../../lib/styles'
-import illustration from '../../../assets/Auth/torusIllustration.svg'
 import config from '../../../config/config'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
+import { showSupportDialog } from '../../common/dialogs/showSupportDialog'
+import { decorate, ExceptionCode } from '../../../lib/logger/exceptions'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import formatProvider from '../../../lib/utils/formatProvider'
@@ -41,8 +42,6 @@ import mobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
 
 import useOnPress from '../../../lib/hooks/useOnPress'
 import useTorus from './hooks/useTorus'
-
-Image.prefetch(illustration)
 
 const log = logger.child({ from: 'AuthTorus' })
 
@@ -72,11 +71,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
       await AsyncStorage.setItem('currentScreen', screen)
       return setScreenParams(screen)
     }
-  }
-
-  const goToW3Site = () => {
-    fireEvent(CLICK_BTN_GETINVITED)
-    window.location = config.web3SiteUrl
   }
 
   const signupGoogle = () => handleLoginMethod(config.isPhaseZero ? 'google-old' : 'google')
@@ -201,11 +195,16 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
           torusUser = await AsyncStorage.getItem('TorusTestUser')
         }
 
+        fireEvent(TORUS_SUCCESS, { provider })
+
         showLoadingDialog()
 
         if (torusUser == null) {
           torusUser = await torusSDK.triggerLogin(provider)
         }
+
+        fireEvent(TORUS_SUCCESS, { provider })
+
         const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
         const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
 
@@ -234,7 +233,8 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
 
         // const userExists = await userStorage.userAlreadyExist()
         log.debug('checking userAlreadyExist', { exists, fullName })
-        const { source } = await ready(replacing)
+
+        await ready(replacing)
 
         log.debug('showing checkmark dialog')
 
@@ -247,9 +247,9 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         hideDialog()
         if (isSignUp) {
           if (exists) {
-            return showEmailUsedDialog(provider, source)
+            return showEmailUsedDialog(provider)
           }
-          fireEvent(SIGNUP_STARTED, { source, provider })
+          fireEvent(SIGNUP_STARTED, { provider })
           return navigate('Signup', {
             regMethod: REGISTRATION_METHOD_TORUS,
             torusUser,
@@ -258,15 +258,19 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         }
         if (exists) {
           successDialog()
-          fireEvent(SIGNIN_TORUS_SUCCESS, { provider, source })
+          fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
           await AsyncStorage.setItem(IS_LOGGED_IN, true)
           store.set('isLoggedIn')(true)
           hideDialog()
           return
         }
-        return showUnregistedAccount(provider, source, torusUser)
+        return showUnregistedAccount(provider, torusUser)
       } catch (e) {
-        log.error('Failed to initialize wallet and storage', e.message, e)
+        hideDialog()
+        const { message } = e
+        const uiMessage = decorate(e, ExceptionCode.E14)
+        showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
+        log.error('Failed to initialize wallet and storage', message, e)
       } finally {
         store.set('loadingIndicator')({ loading: false })
       }
@@ -296,26 +300,20 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const handleNavigatePrivacyPolicy = useCallback(() => push('PrivacyPolicy'), [push])
 
   // google button settings
-  const googleButtonHandler = useMemo(() => (asGuest ? signupGoogle : goToW3Site), [asGuest, signupGoogle])
+  const googleButtonHandler = signupGoogle
 
   // facebook button settings
-  const facebookButtonHandler = useMemo(() => (asGuest ? signupFacebook : goToW3Site), [asGuest, signupFacebook])
+  const facebookButtonHandler = signupFacebook
   const facebookButtonTextStyle = useMemo(() => (asGuest ? undefined : styles.textBlack), [asGuest])
 
-  const auth0ButtonHandler = useMemo(
-    () =>
-      asGuest
-        ? () => {
-            if (config.torusEmailEnabled) {
-              setPasswordless(true)
-              fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
-            } else {
-              signupAuth0Mobile()
-            }
-          }
-        : goToW3Site,
-    [asGuest, signupAuth0, setPasswordless],
-  )
+  const auth0ButtonHandler = () => {
+    if (config.torusEmailEnabled) {
+      setPasswordless(true)
+      fireEvent(SIGNUP_METHOD_SELECTED, { method: 'auth0-pwdless' })
+    } else {
+      signupAuth0Mobile()
+    }
+  }
 
   const signupAuth0Email = () => signupAuth0('email')
   const signupAuth0Mobile = () => signupAuth0('mobile')

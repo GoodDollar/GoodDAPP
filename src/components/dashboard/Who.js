@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView } from 'react-native'
-import { ScanQRButton, Section, SendToAddressButton, Wrapper } from '../common'
+import { ScanQRButton, Section, /*SendToAddressButton,*/ Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
@@ -9,7 +9,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { isIOS, isMobileNative } from '../../lib/utils/platform'
 import useOnPress from '../../lib/hooks/useOnPress'
-import { ACTION_RECEIVE, ACTION_SEND_TO_ADDRESS, navigationOptions } from './utils/sendReceiveFlow'
+import { ACTION_RECEIVE, /*ACTION_SEND_TO_ADDRESS,*/ navigationOptions } from './utils/sendReceiveFlow'
 import WhoContent from './WhoContent'
 
 export type AmountProps = {
@@ -44,14 +44,14 @@ const Who = (props: AmountProps) => {
 
   const handlePressQR = useOnPress(() => push('SendByQR'), [push])
 
-  const handlePressSendToAddress = useOnPress(
-    () =>
-      push('SendToAddress', {
-        nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
-        params: { action: ACTION_SEND_TO_ADDRESS },
-      }),
-    [push],
-  )
+  // const handlePressSendToAddress = useOnPress(
+  //   () =>
+  //     push('SendToAddress', {
+  //       nextRoutes: ['Amount', 'Reason', 'SendLinkSummary'],
+  //       action: ACTION_SEND_TO_ADDRESS,
+  //     }),
+  //   [push],
+  // )
 
   const next = useCallback(() => {
     if (state.isValid || contact) {
@@ -81,7 +81,7 @@ const Who = (props: AmountProps) => {
         <Wrapper>
           <TopBar push={screenProps.push} hideProfile={!isReceive}>
             {!isReceive && <ScanQRButton onPress={handlePressQR} />}
-            {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />}
+            {/* {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />} */}
           </TopBar>
           <Section grow>
             <WhoContent

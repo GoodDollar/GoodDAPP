@@ -1,11 +1,10 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Platform, SafeAreaView } from 'react-native'
-import { get, noop } from 'lodash'
-import AsyncStorage from '../../lib/utils/asyncStorage'
+import { noop } from 'lodash'
 import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
-import { CLICK_BTN_GETINVITED, fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
+import { fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 import AnimationsPeopleFlying from '../common/animations/PeopleFlying'
 import { PushButton } from '../appNavigation/PushButton'
@@ -16,7 +15,6 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import config from '../../config/config'
 import { theme as mainTheme } from '../theme/styles'
-import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -34,64 +32,10 @@ type Props = {
 const log = logger.child({ from: 'Auth' })
 
 const Auth = (props: Props) => {
-  const [asGuest, setAsGuest] = useState(config.isEToro !== true)
-  const [withW3Token, setWithW3Token] = useState(false)
-  const [w3Token, setw3Token] = useState(null)
-  const [w3User, setW3User] = useState(noop)
-
-  useEffect(() => {
-    checkWeb3TokenAndPaymentCode()
-  }, [])
-
-  const checkWeb3TokenAndPaymentCode = async () => {
-    const { navigation } = props
-    const web3Token = await AsyncStorage.getItem('GD_web3Token')
-    const destinationPath = await AsyncStorage.getItem('GD_destinationPath')
-    const paymentCode = get(destinationPath, 'params.paymentCode')
-
-    log.info('checkWeb3TokenAndPaymentCode', web3Token, paymentCode)
-
-    if (paymentCode) {
-      return setAsGuest(true)
-    }
-
-    if (web3Token) {
-      setAsGuest(true)
-      setWithW3Token(true)
-
-      let behaviour
-      let w3User
-
-      try {
-        const w3userData = await API.getUserFromW3ByToken(web3Token)
-        w3User = (w3userData && w3userData.data) || {}
-
-        if (w3User.has_wallet) {
-          behaviour = 'goToSignInScreen'
-        } else {
-          setW3User(w3User)
-          setw3Token(web3Token)
-        }
-      } catch (e) {
-        behaviour = 'showTokenError'
-      }
-
-      log.info('behaviour', behaviour)
-
-      switch (behaviour) {
-        case 'showTokenError':
-          navigation.navigate('InvalidW3TokenError')
-          break
-
-        case 'goToSignInScreen':
-          navigation.navigate('SigninInfo')
-          break
-
-        default:
-          break
-      }
-    }
-  }
+  const [asGuest] = useState(config.isEToro !== true)
+  const [withW3Token] = useState(false)
+  const [w3Token] = useState(null)
+  const [w3User] = useState(noop)
 
   const handleSignUp = async () => {
     const { store } = props
@@ -143,13 +87,8 @@ const Auth = (props: Props) => {
 
   const handleNavigatePrivacyPolicy = () => props.screenProps.push('PrivacyPolicy')
 
-  const goToW3Site = () => {
-    fireEvent(CLICK_BTN_GETINVITED)
-    window.location = config.web3SiteUrl
-  }
-
   const { styles } = props
-  const firstButtonHandler = asGuest ? handleSignUp : goToW3Site
+  const firstButtonHandler = handleSignUp
   const firstButtonText = asGuest ? (
     'Create a wallet'
   ) : (

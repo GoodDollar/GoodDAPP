@@ -6,7 +6,6 @@ import { isAndroid } from './lib/utils/platform'
 import Config from './config/config'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
-import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import Blurred from './components/common/view/Blur/Blurred'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { getOriginalScreenHeight } from './lib/utils/orientation'
@@ -20,7 +19,6 @@ const initialRouteName = 'Welcome' // isMobileSafari && isWebApp ? 'IOSWebAppSig
 const routes = {
   Welcome,
   Signup,
-  InvalidW3TokenError,
 
   // IOSWebAppSignIn,
 }

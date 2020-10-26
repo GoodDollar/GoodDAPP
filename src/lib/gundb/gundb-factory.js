@@ -7,20 +7,28 @@ import '@gooddollar/gun/lib/store'
 import '@gooddollar/gun/lib/rindexed'
 import '@gooddollar/gun/nts'
 
-import { assign } from 'lodash'
+import { assign, findLastIndex } from 'lodash'
 
 import './gundb-extend'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 
 export default function createGun(options = {}) {
-  const { gunPublicUrl, nodeEnv } = Config
+  const { gunPublicUrl, nodeEnv, peersProb, forcePeer } = Config
   const gunOptions = []
+
+  const peers = gunPublicUrl.split(',')
+  const prob = Math.random()
+  const peerIndex = findLastIndex(peersProb, x => x >= prob)
+  let peer = peers[peerIndex] || peers[0]
+  if (forcePeer) {
+    peer = peers[forcePeer]
+  }
 
   if (nodeEnv !== 'test') {
     gunOptions.push({
       ...options,
-      peers: gunPublicUrl.split(','),
+      peers: [peer],
     })
   }
 

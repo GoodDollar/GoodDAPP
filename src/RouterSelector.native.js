@@ -3,11 +3,11 @@ import bip39 from 'bip39-light'
 import AsyncStorage from './lib/utils/asyncStorage'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
-import Splash from './components/splash/Splash'
+import Splash, { animationDuration } from './components/splash/Splash'
 import { delay } from './lib/utils/async'
 import retryImport from './lib/utils/retryImport'
 import logger from './lib/logger/pino-logger'
-import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
+import { APP_OPEN, fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 import Config from './config/config'
 import restart from './lib/utils/restart'
 import DeepLinking from './lib/utils/deepLinking'
@@ -18,11 +18,11 @@ log.debug({ Config })
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(async () => {
   await initAnalytics()
-
+  fireEvent(APP_OPEN, { platform: 'native', isLoggedIn: false })
   const [module] = await Promise.all([
     retryImport(() => import(/* webpackChunkName: "signuprouter" */ './SignupRouter')),
     handleLinks(),
-    delay(5000),
+    delay(animationDuration),
   ])
 
   return module
@@ -60,10 +60,6 @@ const handleLinks = async () => {
         }
       }
     } else {
-      if (params.web3) {
-        await AsyncStorage.setItem('GD_web3Token', params.web3)
-        delete params.web3
-      }
       let path = DeepLinking.pathname.slice(1)
       path = path.length === 0 ? 'AppNavigation/Dashboard/Home' : path
       if ((params && Object.keys(params).length > 0) || path.indexOf('Marketplace') >= 0) {
@@ -84,10 +80,17 @@ const handleLinks = async () => {
 
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
+  let p1 = initAnalytics().then(() => fireEvent(APP_OPEN, { platform: 'native', isLoggedIn: true }))
   let walletAndStorageReady = retryImport(() => import(/* webpackChunkName: "init" */ './init'))
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
 
-  return Promise.all([retryImport(() => import(/* webpackChunkName: "router" */ './Router')), p2])
+  //always wait for full splash on native
+  return Promise.all([
+    retryImport(() => import(/* webpackChunkName: "router" */ './Router')),
+    p2,
+    p1,
+    delay(animationDuration),
+  ])
     .then(r => {
       log.debug('router ready')
       return r

@@ -10,7 +10,7 @@ import Icon from '../../components/common/view/Icon'
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
 
-const { isEToro, /* market, marketUrl,*/ enableInvites, showRewards } = config
+const { isEToro, enableInvites, showRewards } = config
 
 // const showSupportFirst = !isEToro && !showInvite && !showRewards
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
@@ -52,7 +52,6 @@ const showInviteFlag = enableInvites || isEToro
 const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
 
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
-// const marketButtonStyles = [styles.marketIconBackground, styles.marginRight10]
 
 // const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyles
 const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : defaultLeftButtonStyles
@@ -102,15 +101,6 @@ const RewardButton = ({ onPress, style }) => (
   </>
 )
 
-/*const MarketButton = ({ onPress, style }) => (
-  <>
-    <TouchableOpacity testID="goodmarket_tab" onPress={onPress} style={style}>
-      <Icon name="goodmarket" size={36} color="white" />
-    </TouchableOpacity>
-    <Appbar.Content />
-  </>
-)*/
-
 const InviteButton = ({ onPress, style }) => (
   <>
     <TouchableOpacity onPress={onPress} style={style}>
@@ -136,25 +126,21 @@ const EmptySpaceComponent = ({ style }) => (
   </>
 )
 
-
 const TabsView = ({ navigation }) => {
   const { slideToggle } = useSideMenu()
 
   // eslint-disable-next-line no-unused-vars
   /*const [token, setToken] = useState(isIOSWeb ? undefined : true)
-  const [marketToken, setMarketToken] = useState(isIOSWeb ? undefined : true)
 
   // const fetchTokens = useCallback(async () => {
   //   let _token = await userStorage.getProfileFieldValue('loginToken')
 
-  //   let _marketToken = await userStorage.getProfileFieldValue('marketToken')
+  //   log.debug('tokens:', { _token })
 
-  //   log.debug('tokens:', { _marketToken, _token })
-  //   if (isIOSWeb) {
+  //   if (isIOS) {
   //     setToken(_token)
-  //     setMarketToken(_marketToken)
   //   }
-  // }, [setToken, setMarketToken])
+  // }, [setToken])
 
   useEffect(() => {
     fetchTokens()
@@ -162,25 +148,9 @@ const TabsView = ({ navigation }) => {
 
   const goToRewards = useOnPress(() => navigation.navigate('Rewards'), [navigation])
 
-  // const goToRewards = () => {
-  //   if (isIOSWeb) {
-  //     const src = `${web3SiteUrl}?token=${token}&purpose=iframe`
-  //     return window.open(src, '_blank')
-  //   }
-  // }
-
   /*const goToSupport = useCallback(() => {
     navigation.navigate('Support')
   }, [navigation])*/
-
-  /*const goToMarketplace = useOnPress(() => {
-    if (isIOSWeb) {
-      const src = `${marketUrl}?jwt=${marketToken}&nofooter=true`
-      window.open(src, '_blank')
-    } else {
-      navigation.navigate('Marketplace')
-    }
-  }, [navigation, marketToken])*/
 
   const _slideToggle = useOnPress(slideToggle)
 
@@ -196,14 +166,8 @@ const TabsView = ({ navigation }) => {
       )}*/}
       {showRewardsFlag && <RewardButton onPress={goToRewards} style={defaultLeftButtonStyles} />}
       {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
-      {/*market && (
-        <>
-          {!isEToro && !!(!enableInvites ^ !showRewards) && <EmptySpaceComponent style={styles.iconWidth} />}
-          <MarketButton onPress={goToMarketplace} style={marketButtonStyles} />
-        </>
-      )*/}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
-      {/*!market && */!showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
+      {/*!market && */ !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
       <TouchableOpacity onPress={_slideToggle} style={styles.iconWidth}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>

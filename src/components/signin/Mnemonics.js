@@ -2,6 +2,7 @@
 //eslint-disable-next-line
 
 import React, { useEffect, useRef, useState } from 'react'
+import { Platform } from 'react-native'
 import { get } from 'lodash'
 import bip39 from 'bip39-light'
 import AsyncStorage from '../../lib/utils/asyncStorage'
@@ -25,6 +26,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
 const MAX_WORDS = 12
+const modalHeight = Platform.select({ default: 300, web: 'auto' })
 
 const Mnemonics = ({ screenProps, navigation, styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
@@ -36,8 +38,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [errorMessage, setErrorMessage] = useState()
   const [showErrorDialog, hideDialog] = useErrorDialog()
   const input = useRef()
-
-  AsyncStorage.removeItem('GD_web3Token')
 
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
@@ -57,7 +57,11 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   }
 
   const recover = useOnPress(async () => {
+    //required to wallet and storage are reinitialized
+    const curVersion = await AsyncStorage.getItem('GD_version')
     await AsyncStorage.clear()
+    AsyncStorage.setItem('GD_version', curVersion)
+
     input.current.blur()
     setRecovering(true)
     fireEvent(CLICK_BTN_RECOVER_WALLET)
@@ -103,7 +107,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         const firstName = getFirstWord(fullName)
         showDialog({
           visible: true,
-          image: <SuccessAnimation />,
+          image: <SuccessAnimation height={modalHeight} />,
           buttons: [{ text: 'Yay!' }],
           message: `Hi ${firstName},\nyour wallet was recovered successfully`,
           onDismiss: () => (window.location = incomingRedirectUrl),
@@ -141,8 +145,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     }
   }, [])
 
-  const web3HasWallet = get(navigation, 'state.params.web3HasWallet')
-
   return (
     <Wrapper style={styles.mainWrapper}>
       <Section grow={5} style={styles.wrapper}>
@@ -150,11 +152,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           <Text fontWeight="medium" fontSize={22}>
             {'Please enter your\n12-word pass phrase:'}
           </Text>
-          {web3HasWallet && (
-            <Text color="gray80Percent" fontSize={14}>
-              Looks like you already have a wallet. Please recover it to continue
-            </Text>
-          )}
         </Section.Stack>
         <Section.Stack grow={4} justifyContent="space-between">
           <Section.Row justifyContent="center">

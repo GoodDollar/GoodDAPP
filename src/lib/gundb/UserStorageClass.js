@@ -37,7 +37,7 @@ import { retry } from '../utils/async'
 
 import FaceVerificationAPI from '../../components/dashboard/FaceVerification/api/FaceVerificationApi'
 import Config from '../../config/config'
-import API, { getErrorMessage } from '../API/api'
+import API from '../API/api'
 import pino from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -57,6 +57,8 @@ const EVENT_TYPE_BONUS = 'bonus'
 const EVENT_TYPE_CLAIM = 'claim'
 const EVENT_TYPE_SEND = 'send'
 const EVENT_TYPE_RECEIVE = 'receive'
+const EVENT_TYPE_MINT = 'mint' //probably bridge transfer
+
 const CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW = 'PaymentWithdraw'
 const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
 const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
@@ -196,22 +198,6 @@ export const backupMessage = {
     },
     reason:
       'Your pass phrase is the only key to your wallet, this is why our wallet is super secure. Only you have access to your wallet and money. But if you won’t backup your pass phrase or if you lose it — you won’t be able to access your wallet and all your money will be lost forever.',
-  },
-}
-
-export const startSpending = {
-  id: '3',
-  type: 'spending',
-  status: 'completed',
-  data: {
-    customName: 'Go to GoodMarket',
-    subtitle: "Start spending your G$'s",
-    readMore: 'here >>>',
-    receiptData: {
-      from: NULL_ADDRESS,
-    },
-    reason:
-      'Visit GoodMarket, eToro’s exclusive marketplace, where you can buy or sell items in exchange for GoodDollars.',
   },
 }
 
@@ -358,6 +344,8 @@ export class UserStorage {
 
   feedIds: {} = {}
 
+  feedQ: {} = {}
+
   feedMutex = new Mutex()
 
   /**
@@ -477,7 +465,6 @@ export class UserStorage {
     this.gun = gun || defaultGun
     this.wallet = wallet
     this.feedEvents = new EventEmitter()
-
     this.init()
   }
 
@@ -535,7 +522,6 @@ export class UserStorage {
       smallAvatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },
-      w3Token: { defaultPrivacy: 'private' },
       loginToken: { defaultPrivacy: 'private' },
     }
 
@@ -621,7 +607,6 @@ export class UserStorage {
     })
     logger.debug('starting systemfeed and tokens')
     this.startSystemFeed().catch(e => logger.error('failed initializing startSystemFeed', e.message, e))
-    this.initTokens().catch(e => logger.error('failed initializing initTokens', e.message, e))
 
     logger.debug('done initializing registered userstorage')
     this.initializedRegistered = true
@@ -663,50 +648,6 @@ export class UserStorage {
     })()
 
     return this.ready
-  }
-
-  async initTokens() {
-    const initLoginToken = async () => {
-      if (Config.enableInvites) {
-        const r = await API.getLoginToken().catch(e => {
-          const errMsg = getErrorMessage(e)
-          const exception = new Error(errMsg)
-
-          logger.warn('failed fetching login token', { errMsg, exception })
-        })
-        token = get(r, 'data.loginToken')
-        if (token) {
-          this.setProfileField('loginToken', token, 'private')
-        }
-        return token
-      }
-    }
-
-    let [token, inviteCode] = await Promise.all([
-      this.getProfileFieldValue('loginToken'),
-      this.getProfileFieldValue('inviteCode'),
-    ])
-    logger.debug('initTokens: got profile tokens')
-
-    let [_token] = token || (await initLoginToken())
-
-    if (!inviteCode) {
-      const { data } = await API.getUserFromW3ByToken(_token).catch(e => {
-        const errMsg = getErrorMessage(e)
-        const exception = new Error(errMsg)
-
-        logger.warn('failed fetching w3 user', { errMsg, exception })
-
-        return {}
-      })
-      logger.debug('w3 user result', { data })
-      inviteCode = get(data, 'invite_code')
-      if (inviteCode) {
-        this.setProfileField('inviteCode', inviteCode, 'private')
-      }
-    }
-
-    logger.debug('initTokens: done')
   }
 
   /**
@@ -799,6 +740,8 @@ export class UserStorage {
         operationType = EVENT_TYPE_CLAIM
       } else if (data.from === this.wallet.getSignUpBonusAddress()) {
         operationType = EVENT_TYPE_BONUS
+      } else if (data.from === NULL_ADDRESS) {
+        operationType = EVENT_TYPE_MINT
       } else {
         operationType = data.from === account.toLowerCase() ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
       }
@@ -831,7 +774,7 @@ export class UserStorage {
       //get initial TX data from queue, if not in queue then it must be a receive TX ie
       //not initiated by user
       //other option is that TX was processed on another wallet instance
-      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || {
+      const initialEvent = this.dequeueTX(receipt.transactionHash) || {
         data: {},
       }
       logger.debug('handleReceiptUpdated got enqueued event:', {
@@ -873,6 +816,12 @@ export class UserStorage {
       if (feedEvent.type === EVENT_TYPE_BONUS && receipt.status) {
         updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
         updatedFeedEvent.data.customName = 'GoodDollar'
+      }
+
+      //mint event is probably bridge
+      if (feedEvent.type === EVENT_TYPE_MINT && receipt.status) {
+        updatedFeedEvent.data.reason = 'Your Transfereed G$s'
+        updatedFeedEvent.data.customName = 'Bridge'
       }
 
       logger.debug('handleReceiptUpdated receiptReceived', {
@@ -1026,12 +975,9 @@ export class UserStorage {
   }
 
   writeFeedEvent(event): Promise<FeedEvent> {
-    const { feedIds, feedEvents } = this
-
-    feedIds[event.id] = event
-    AsyncStorage.setItem('GD_feed', feedIds)
-    feedEvents.emit('updated', { event })
-
+    this.feedIds[event.id] = event
+    AsyncStorage.setItem('GD_feed', this.feedIds)
+    this.feedEvents.emit('updated', { event })
     return this.feed
       .get('byid')
       .get(event.id)
@@ -1047,7 +993,7 @@ export class UserStorage {
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
   async initFeed() {
-    const feed = await this.gunuser.get('feed').then()
+    const { feed } = await this.gunuser
 
     logger.debug('init feed', { feed })
 
@@ -1062,7 +1008,7 @@ export class UserStorage {
 
       logger.debug('init empty feed', { feed })
     }
-    await this.feed.get('index').then(this.updateFeedIndex)
+
     this.feed.get('index').on(this.updateFeedIndex, false)
 
     // load unencrypted feed from cache
@@ -1142,20 +1088,10 @@ export class UserStorage {
 
     // first time user visit
     if (firstVisitAppDate == null) {
-      if (Config.isEToro) {
-        this.enqueueTX(welcomeMessageOnlyEtoro)
-
-        setTimeout(() => {
-          this.enqueueTX(startSpending)
-        }, 60 * 1000) // 1 minute
-      } else {
-        this.enqueueTX(welcomeMessage)
-      }
+      this.enqueueTX(Config.isEToro ? welcomeMessageOnlyEtoro : welcomeMessage)
 
       if (Config.enableInvites) {
-        setTimeout(() => {
-          this.enqueueTX(inviteFriendsMessage)
-        }, 2 * 60 * 1000) // 2 minutes
+        setTimeout(() => this.enqueueTX(inviteFriendsMessage), 120000) // 2 minutes
       }
 
       await this.userProperties.set('firstVisitApp', Date.now())
@@ -1176,7 +1112,7 @@ export class UserStorage {
   }
 
   async initProfile() {
-    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 2000), this.profile.then(null, 2000)])
+    const [gunuser, profile] = await Promise.all([this.gunuser.then(null, 1000), this.profile.then(null, 1000)])
 
     if (profile === null) {
       // in case profile was deleted in the past it will be exactly null
@@ -1198,13 +1134,14 @@ export class UserStorage {
     this.profile.open(onProfileUpdate)
 
     logger.debug('init opened profile', {
+      gunRef: this.profile,
       profile,
       gunuser,
     })
   }
 
   addAllCardsTest() {
-    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims, startSpending].forEach(m => {
+    ;[welcomeMessage, inviteFriendsMessage, startClaiming, longUseOfClaims].forEach(m => {
       const copy = Object.assign({}, m, { id: String(Math.random()) })
       this.enqueueTX(copy)
     })
@@ -1294,7 +1231,7 @@ export class UserStorage {
     const displayProfile = Object.keys(profile).reduce(
       (acc, currKey) => ({
         ...acc,
-        [currKey]: profile[currKey].display,
+        [currKey]: get(profile, `${currKey}.display`),
       }),
       {},
     )
@@ -1617,21 +1554,21 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    let { feedIndex, cursor, feedIds } = this
+    let { feedIndex, feedIds } = this
 
     if (!feedIndex) {
       logger.debug('feedIndex not set returning empty')
       return []
     }
 
-    if (reset || isUndefined(cursor)) {
-      cursor = 0
+    if (reset || isUndefined(this.cursor)) {
+      this.cursor = 0
     }
 
     // running through the days history until we got the request numResults
     // storing days selected to the daysToTake
     let total = 0
-    let daysToTake = takeWhile(feedIndex.slice(cursor), ([, eventsAmount]) => {
+    let daysToTake = takeWhile(feedIndex.slice(this.cursor), ([, eventsAmount]) => {
       const takeDay = total < numResults
 
       if (takeDay) {
@@ -1702,13 +1639,11 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-
     logger.debug('getFormattedEvents page result:', {
       numResults,
       reset,
       feedPage: feed,
     })
-
     const res = await Promise.all(
       feed
         .filter(
@@ -1730,7 +1665,6 @@ export class UserStorage {
           })
         }),
     )
-
     logger.debug('getFormattedEvents done formatting events')
     return res
   }
@@ -1874,9 +1808,22 @@ export class UserStorage {
       .get(value)
       .get('profile')
 
-    const [avatar = undefined, name = 'Unknown Name'] = await Promise.all([
-      profileToShow.get('avatar').get('display'),
-      profileToShow.get('fullName').get('display'),
+    await profileToShow.then()
+    const [avatar = undefined, name = undefined] = await Promise.all([
+      this.gun
+        .get(index)
+        .get(value)
+        .get('profile')
+        .get('avatar')
+        .get('display')
+        .then(null, 500),
+      this.gun
+        .get(index)
+        .get(value)
+        .get('profile')
+        .get('fullName')
+        .get('display')
+        .then(null, 500),
     ])
 
     return { name, avatar }
@@ -2098,7 +2045,7 @@ export class UserStorage {
       default: require('../../assets/Feed/favicon-96x96.png'),
     })
     const getAvatarFromGun = async () => {
-      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 1000))
+      const avatar = profileToShow && (await profileToShow.get('smallAvatar').then(null, 500))
 
       // verify account is not deleted and return value
       // if account deleted - the display of 'avatar' field will be private
@@ -2117,7 +2064,7 @@ export class UserStorage {
 
   async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
     const getFullNameFromGun = async () => {
-      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 1000))
+      const fullName = profileToShow && (await profileToShow.get('fullName').then(null, 500))
       logger.debug('profileFromGun:', { fullName })
 
       // verify account is not deleted and return value
@@ -2156,13 +2103,10 @@ export class UserStorage {
       event.createdDate = event.createdDate || new Date().toString()
       event.date = event.date || event.createdDate
 
-      let putRes = await this.feed
-        .get('queue')
-        .get(event.id)
-        .secretAck(event)
+      this.feedQ[event.id] = event
 
       await this.updateFeedEvent(event)
-      logger.debug('enqueueTX ok:', { event, putRes })
+      logger.debug('enqueueTX ok:', { event })
 
       return true
     } catch (gunError) {
@@ -2180,32 +2124,17 @@ export class UserStorage {
    * @param eventId
    * @returns {Promise<FeedEvent>}
    */
-  async dequeueTX(eventId: string): Promise<FeedEvent> {
+  dequeueTX(eventId: string): FeedEvent {
     try {
-      const feedItem = await this.feed
-        .get('queue')
-        .get(eventId)
-        .decrypt()
+      const feedItem = this.feedQ[eventId]
       logger.debug('dequeueTX got item', eventId, feedItem)
       if (feedItem) {
-        this.feed
-          .get('queue')
-          .get(eventId)
-          .put(null)
+        delete this.feedQ[eventId]
         return feedItem
       }
     } catch (e) {
       logger.error('dequeueTX failed:', e.message, e)
     }
-  }
-
-  /**
-   * lookup a pending tx
-   * @param {string} eventId
-   * @returns {Promise<FeedEvent>}
-   */
-  peekTX(eventId: string): Promise<FeedEvent> {
-    return this.feed.get('queue').get(eventId)
   }
 
   /**
@@ -2358,10 +2287,8 @@ export class UserStorage {
             event,
           })
 
-          feed
-            .get('queue')
-            .get(eventId)
-            .put(null)
+          delete this.feedQ[eventId]
+
           return event
         default:
           break
@@ -2409,7 +2336,7 @@ export class UserStorage {
       }
     }
 
-    logger.debug('updateFeedEvent starting encrypt')
+    logger.debug('updateFeedEvent starting encrypt', { dayEventsArr, toUpd, day })
 
     // Saving eventFeed by id
     const eventAck = this.writeFeedEvent(event).catch(e => {
@@ -2472,6 +2399,26 @@ export class UserStorage {
     return this.userProperties.set('lastBlock', blockNumber)
   }
 
+  /**
+   * Saves block number right after user registered
+   *
+   * @returns {void}
+   */
+  async saveJoinedBlockNumber(): void {
+    // default block to start sync from
+    const blockNumber = await this.wallet.wallet.eth
+      .getBlockNumber()
+      .catch(e => UserProperties.defaultProperties.joinedAtBlock)
+
+    logger.debug('Saving lastBlock number right after registration:', blockNumber)
+
+    return this.userProperties.updateAll({
+      joinedAtBlock: blockNumber,
+      lastBlock: blockNumber,
+      lastTxSyncDate: moment().valueOf(),
+    })
+  }
+
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
 
@@ -2485,14 +2432,13 @@ export class UserStorage {
   }
 
   loadGunField(gunNode): Promise<any> {
-    return new Promise(resolve => {
-      gunNode.load(resolve)
-
-      gunNode.then(value => {
-        if (isUndefined(value)) {
-          resolve()
-        }
-      })
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async res => {
+      gunNode.load(p => res(p))
+      let isNode = await gunNode
+      if (isNode === undefined) {
+        res(undefined)
+      }
     })
   }
 

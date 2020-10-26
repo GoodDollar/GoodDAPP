@@ -1,4 +1,4 @@
-import { get, isUndefined } from 'lodash'
+import { get, once } from 'lodash'
 import { version as contractsVersion } from '../../node_modules/@gooddollar/goodcontracts/package.json'
 import { env as devenv, fixNL } from '../lib/utils/env'
 import env from './env'
@@ -10,20 +10,18 @@ const isEToro = env.REACT_APP_ETORO === 'true' || env.REACT_APP_NETWORK === 'eto
 //import { isE2ERunning } from '../lib/utils/platform'
 
 const forceLogLevel = get(window, 'location.search', '').match(/level=(.*?)($|&)/)
+const forcePeer = get(window, 'location.search', '').match(/gun=(.*?)($|&)/)
 
-let phase = env.REACT_APP_RELEASE_PHASE
-
-if (isUndefined(phase)) {
-  phase = 'true' === env.REACT_APP_ENV_PHASE_ONE ? 1 : 0
-}
+let phase = env.REACT_APP_RELEASE_PHASE || 1
 
 const isPhaseZero = 0 === phase
 const isPhaseOne = 1 === phase
 const isPhaseTwo = 2 === phase
+const version = env.VERSION || 'v0'
 
 const Config = {
   env: devenv(env.REACT_APP_ENV),
-  version: env.VERSION || 'v0',
+  version,
   contractsVersion,
   isEToro,
   phase,
@@ -34,14 +32,12 @@ const Config = {
   logLevel: (forceLogLevel && forceLogLevel[1]) || env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
-  web3SiteUrl: env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
   learnMoreEconomyUrl: env.REACT_APP_ECONOMY_URL || 'https://www.gooddollar.org/economic-model/',
   publicUrl,
   dashboardUrl: env.REACT_APP_DASHBOARD_URL || 'https://dashboard.gooddollar.org',
   infuraKey: env.REACT_APP_INFURA_KEY,
   network: env.REACT_APP_NETWORK || 'fuse',
-  market: env.REACT_APP_MARKET === 'true' || isEToro,
-  marketUrl: env.REACT_APP_MARKET_URL || 'https://etoro.paperclip.co',
+  marketUrl: env.REACT_APP_MARKET_URL || 'https://www.facebook.com/groups/gooddollarmarketplace',
   torusEnabled: env.REACT_APP_USE_TORUS === 'true',
   torusNetwork: env.REACT_APP_TORUS_NETWORK || 'ropsten',
   torusProxyContract: env.REACT_APP_TORUS_PROXY_CONTRACT || '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
@@ -115,7 +111,25 @@ const Config = {
     },
   },
   nodeEnv: env.NODE_ENV,
+  forcePeer: forcePeer && forcePeer[1],
+  peersProb: (env.REACT_APP_GUN_PEERS_PROB || '1,0.5').split(',').map(Number),
+  isPatch: (version.match(/\d+\.\d+\.(\d+)/) || [])[1] !== '0',
+
 }
+
+//get and override settings from server
+export const serverSettings = once(() => {
+  return fetch(Config.serverUrl + '/auth/settings', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify({ env: Config.env }),
+  })
+    .then(r => r.json())
+    .catch(e => {
+      return { fromServer: 'error' }
+    })
+    .then(settings => Object.assign(Config, settings))
+})
 
 // TODO: wrap all stubs / "backdoors" made for automated testing
 // if (isE2ERunning) {

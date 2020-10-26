@@ -250,7 +250,7 @@ describe('Test case 7: Ability to send money', () => {
     })
   })
 
-  it('User is able to send money from a new wallet using address', () => {
+  xit('User is able to send money from a new wallet using address', () => {
     let moneyStart
 
     localStorage.clear()

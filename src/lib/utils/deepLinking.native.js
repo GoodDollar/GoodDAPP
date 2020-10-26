@@ -19,7 +19,6 @@ class DeepLinkingNative {
   _isFirstRun = true
 
   params = {
-    web3: '',
     paymentCode: '',
     code: '',
     reason: '',

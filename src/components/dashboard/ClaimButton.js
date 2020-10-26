@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import CardFlip from 'react-native-card-flip'
+import { noop } from 'lodash'
 
 import { CustomButton } from '../common'
 import Section from '../common/layout/Section'
@@ -11,7 +12,7 @@ import { withStyles } from '../../lib/styles'
 import { weiToGd } from '../../lib/wallet/utils'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { isMediumDevice, isSmallDevice } from '../../lib/utils/mobileSizeDetect'
-import useOnPress from '../../lib/hooks/useOnPress'
+import { isMobileNative } from '../../lib/utils/platform'
 
 const buttonLabelFontSize = isSmallDevice ? 30 : 40
 const timerFontSize = isSmallDevice ? 30 : 36
@@ -109,37 +110,32 @@ const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles, showLabelOnl
   return <ButtonCountdown styles={styles} nextClaim={nextClaim} />
 }
 
-const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly, isInQueue }) => {
-  const _onPress = useOnPress(onPress)
-  return (
-    <CustomButton
-      testId="claim_button"
-      compact={true}
-      mode="contained"
-      onPress={_onPress}
-      style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
-    >
-      <ButtonContent
-        isCitizen={isCitizen}
-        showLabelOnly={showLabelOnly}
-        entitlement={entitlement}
-        nextClaim={nextClaim}
-        styles={styles}
-        isInQueue={isInQueue}
-      />
-    </CustomButton>
-  )
-}
+const ClaimButton = ({ isCitizen, entitlement, nextClaim, onPress, styles, style, showLabelOnly, isInQueue }) => (
+  <CustomButton
+    testId="claim_button"
+    compact={true}
+    mode="contained"
+    onPress={onPress}
+    style={[styles.minButtonHeight, (isCitizen && !entitlement) || isInQueue ? styles.buttonCountdown : {}, style]}
+  >
+    <ButtonContent
+      isCitizen={isCitizen}
+      showLabelOnly={showLabelOnly}
+      entitlement={entitlement}
+      nextClaim={nextClaim}
+      styles={styles}
+      isInQueue={isInQueue}
+    />
+  </CustomButton>
+)
 
 const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, isInQueue, ...buttonProps }) => {
-  const initialEntitlementRef = useRef(entitlement)
-
+  //const [animEntitlement, setAnimEntitlement] = useState(0)
   const cardRef = useRef()
   const setCardRef = useCallback(ref => (cardRef.current = ref), [])
 
   const nextClaimOnHold = useRef(null)
   const suspendRendering = useCallback(() => (nextClaimOnHold.current = nextClaim), [nextClaim])
-
   const restoreRendering = useCallback(() => (nextClaimOnHold.current = null), [])
 
   useEffect(() => {
@@ -147,29 +143,26 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
 
     if (card && entitlement) {
       card.flip()
+
+      // setAnimEntitlement(entitlement)
     }
   }, [entitlement])
 
-  const _onPress = useOnPress(onPress)
-
-  if (initialEntitlementRef.current) {
-    return (
-      <ClaimButton
-        {...buttonProps}
-        styles={styles}
-        entitlement={entitlement}
-        nextClaim={nextClaim}
-        onPress={_onPress}
-        isInQueue={isInQueue}
-      />
-    )
-  }
-
-  if (!entitlement || isInQueue) {
-    return <ClaimButton styles={styles} {...buttonProps} nextClaim={nextClaim} isInQueue={isInQueue} />
-  }
-
   const nextClaimToDisplay = nextClaimOnHold.current || nextClaim
+
+  const onButtonPress = useCallback(
+    event => {
+      if (!entitlement) {
+        return
+      }
+
+      onPress(event)
+    },
+    [entitlement, onPress],
+  )
+
+  const flipPerspective = isMobileNative ? noop() : 0
+
   return (
     <CardFlip
       style={styles.cardContainer}
@@ -177,17 +170,25 @@ const ClaimAnimationButton = memo(({ styles, entitlement, nextClaim, onPress, is
       flipDirection="x"
       duration={1000}
       flipZoom={0}
-      perspective={0}
+      perspective={flipPerspective}
       onFlipStart={suspendRendering}
       onFlipEnd={restoreRendering}
     >
-      <ClaimButton {...buttonProps} styles={styles} entitlement={0} nextClaim={nextClaimToDisplay} />
+      <ClaimButton
+        {...buttonProps}
+        styles={styles}
+        entitlement={0}
+        isCitizen={true}
+        nextClaim={nextClaimToDisplay}
+        isInQueue={isInQueue}
+      />
       <ClaimButton
         {...buttonProps}
         styles={styles}
         entitlement={entitlement}
         nextClaim={nextClaimToDisplay}
-        onPress={_onPress}
+        onPress={onButtonPress}
+        isInQueue={isInQueue}
       />
     </CardFlip>
   )

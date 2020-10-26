@@ -1,10 +1,10 @@
 // @flow
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
-import { debounce, isEqual, isEqualWith, merge, pickBy } from 'lodash'
+import { isEqual, isEqualWith, merge, pickBy } from 'lodash'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import GDStore from '../../lib/undux/GDStore'
+import GDStore, { useCurriedSetters } from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
 import { Section, UserAvatar, Wrapper } from '../common'
@@ -13,6 +13,7 @@ import SaveButtonDisabled from '../common/animations/SaveButton/SaveButtonDisabl
 import { fireEvent, PROFILE_UPDATE } from '../../lib/analytics/analytics'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import useOnPress from '../../lib/hooks/useOnPress'
+import { useDebounce } from '../../lib/hooks/useDebouce'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
@@ -21,14 +22,10 @@ const log = logger.child({ from: TITLE })
 const avatarSize = getDesignRelativeWidth(136)
 const AVATAR_MARGIN = 6
 
-// To remove profile values that are already failing
-function filterObject(obj) {
-  return pickBy(obj, (v, k) => v !== undefined && v !== '')
-}
-
 const EditProfile = ({ screenProps, styles, navigation }) => {
   const store = GDStore.useStore()
   const storedProfile = store.get('privateProfile')
+  const [setPrivateProfile] = useCurriedSetters(['privateProfile'])
   const [profile, setProfile] = useState(storedProfile)
   const [saving, setSaving] = useState(false)
   const [isValid, setIsValid] = useState(true)
@@ -38,67 +35,49 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
   const { push } = screenProps
 
-  useEffect(() => {
-    if (isEqual(storedProfile, {})) {
-      updateProfile()
-    }
-  }, [])
+  const deboucedProfile = useDebounce(profile, 500)
+  const onProfileSaved = useCallback(() => push(`Dashboard`), [push])
+  const handleEditAvatar = useCallback(() => push(`ViewAvatar`), [push])
 
-  // Validate after saving profile state in order to show errors
-  useEffect(() => {
-    //need to pass parameters into memoized debounced method otherwise setX hooks wont work
-    validate()
-  }, [profile])
-
-  const updateProfile = useCallback(async () => {
-    // initialize profile value for first time from storedProfile in userStorage
-    const profileFromUserStorage = await userStorage.getProfile()
-    store.set('privateProfile')(profileFromUserStorage)
-    setProfile(profileFromUserStorage)
-  }, [store, setProfile])
-
-  const validate = useCallback(
-    debounce(async () => {
-      if (profile && profile.validate) {
-        try {
-          const pristine = isEqualWith(storedProfile, profile, (x, y) => {
-            if (typeof x === 'function') {
-              return true
-            }
-            if (['string', 'number'].includes(typeof x)) {
-              return y && x.toString() === y.toString()
-            }
-            return undefined
-          })
-          const { isValid, errors } = profile.validate()
-
-          const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(
-            filterObject(profile),
-          )
-          const valid = isValid && isValidIndex
-
-          setErrors(merge(errors, errorsIndex))
-          setIsValid(valid)
-          setIsPristine(pristine)
-
-          return valid
-        } catch (e) {
-          log.error('validate profile failed', e.message, e)
-
-          // showErrorDialog('Unexpected error while validating profile', e)
-          return false
-        }
-      }
+  const validate = useCallback(async () => {
+    if (!profile || !profile.validate) {
       return false
-    }, 500),
-    [profile, storedProfile, setIsPristine, setErrors, setIsValid],
-  )
+    }
+
+    try {
+      const pristine = isEqualWith(storedProfile, profile, (x, y) => {
+        if (typeof x === 'function') {
+          return true
+        }
+
+        if (['string', 'number'].includes(typeof x)) {
+          return y && x.toString() === y.toString()
+        }
+
+        return undefined
+      })
+
+      const { isValid, errors } = profile.validate()
+      const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(pickBy(profile))
+      const valid = isValid && isValidIndex
+
+      setErrors(merge(errors, errorsIndex))
+      setIsValid(valid)
+      setIsPristine(pristine)
+
+      return valid
+    } catch (e) {
+      log.error('validate profile failed', e.message, e)
+      return false
+    }
+  }, [profile, storedProfile, setIsPristine, setErrors, setIsValid])
 
   const handleProfileChange = useCallback(
     newProfile => {
       if (saving) {
         return
       }
+
       setProfile(newProfile)
     },
     [setProfile, saving],
@@ -106,11 +85,12 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
 
   const handleSaveButton = useOnPress(async () => {
     setSaving(true)
-
     fireEvent(PROFILE_UPDATE)
 
+    const isValid = await validate()
+
     // with flush triggers immediate call for the validation
-    if (!(await validate.flush())) {
+    if (!isValid) {
       setSaving(false)
       return false
     }
@@ -120,49 +100,62 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
       if (typeof v === 'function') {
         return true
       }
+
       if (storedProfile[k] === undefined) {
         return true
       }
+
       if (['string', 'number'].includes(typeof v)) {
         return v.toString() !== storedProfile[k].toString()
       }
+
       if (v !== storedProfile[k]) {
         return true
       }
+
       return false
     })
 
-    return userStorage
-      .setProfile(toupdate, true)
-      .catch(e => {
-        log.error('Error saving profile', e.message, e, { toupdate, dialogShown: true })
-        showErrorDialog('Could not save profile. Please try again.')
-        return false
-      })
-      .finally(_ => setSaving(false))
-  }, [setSaving, storedProfile, showErrorDialog])
+    try {
+      await userStorage.setProfile(toupdate, true)
+    } catch (e) {
+      log.error('Error saving profile', e.message, e, { toupdate, dialogShown: true })
+      showErrorDialog('Could not save profile. Please try again.')
+    } finally {
+      setSaving(false)
+    }
+  }, [validate, profile, setSaving, storedProfile, showErrorDialog])
 
-  const onProfileSaved = useCallback(() => {
-    push(`Dashboard`)
-  }, [push])
+  useEffect(() => {
+    if (!isEqual(storedProfile, {})) {
+      return
+    }
 
-  const handleAvatarPress = useOnPress(() => push(`ViewAvatar`), [push])
+    // initialize profile value for first time from storedProfile in userStorage
+    userStorage.getProfile().then(profileFromUserStorage => {
+      setPrivateProfile(profileFromUserStorage)
+      setProfile(profileFromUserStorage)
+    })
+  }, [])
 
-  const handleCameraPress = useOnPress(() => push(`ViewAvatar`), [push])
+  // Validate after saving profile state in order to show errors
+  useEffect(() => {
+    validate()
+  }, [deboucedProfile])
 
   return (
     <Wrapper>
       <Section.Row justifyContent="center" alignItems="flex-start" style={styles.userDataAndButtonsRow}>
         <UserAvatar
           profile={profile}
-          onPress={handleAvatarPress}
+          onPress={handleEditAvatar}
           size={avatarSize}
           imageSize={avatarSize - AVATAR_MARGIN}
           style={styles.userAvatar}
           containerStyle={styles.userAvatarWrapper}
           unknownStyle={styles.unknownStyles}
         >
-          <CameraButton handleCameraPress={handleCameraPress} />
+          <CameraButton handleCameraPress={handleEditAvatar} />
         </UserAvatar>
         {lockSubmit || isPristine || !isValid ? (
           <SaveButtonDisabled style={styles.animatedSaveButton} />
@@ -184,7 +177,7 @@ const EditProfile = ({ screenProps, styles, navigation }) => {
           profile={profile}
           storedProfile={storedProfile}
           setLockSubmit={setLockSubmit}
-          navigation={navigation}
+          screenProps={screenProps}
         />
       </Section>
     </Wrapper>

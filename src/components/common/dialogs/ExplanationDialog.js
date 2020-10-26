@@ -15,7 +15,6 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { hideDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
-import { theme } from '../../theme/styles'
 import normalizeText from '../../../lib/utils/normalizeText'
 
 const ExplanationButton = ({ text = 'OK', action = noop, mode, styles }) => {
@@ -40,44 +39,54 @@ const ExplanationButton = ({ text = 'OK', action = noop, mode, styles }) => {
   )
 }
 
+const defaultCustomStyle = {}
+
 const ExplanationDialog = ({
   styles,
   theme,
   errorMessage,
+  label,
   title,
   text,
-  textStyle,
   imageSource,
   image: ImageComponent,
   imageHeight = 74,
   buttons,
+  containerStyle = defaultCustomStyle,
+  imageContainer = defaultCustomStyle,
+  titleStyle = defaultCustomStyle,
+  textStyle = defaultCustomStyle,
+  labelStyle = defaultCustomStyle,
+  imageStyle = defaultCustomStyle,
 }) => {
   const imageProps = {
-    style: [
-      styles.image,
-      { height: getDesignRelativeHeight(imageHeight, false) },
-      { marginTop: errorMessage ? undefined : getDesignRelativeHeight(8) },
-    ],
+    style: {
+      height: getDesignRelativeHeight(imageHeight, false),
+      marginTop: errorMessage ? undefined : getDesignRelativeHeight(8),
+      width: '100%',
+      marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
+      alignSelf: 'center',
+      ...imageStyle,
+    },
     resizeMode: 'contain',
   }
 
   const Image = imageSource
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       {errorMessage && (
         <Text color={theme.colors.red} style={styles.error}>
           {errorMessage}
         </Text>
       )}
-      {ImageComponent ? (
-        <ImageComponent {...imageProps} />
-      ) : imageSource ? (
-        <View style={styles.centerImage}>
-          <Image {...imageProps} />
+      {(imageSource || ImageComponent) && (
+        <View style={[styles.centerImage, imageContainer]}>
+          {ImageComponent ? <ImageComponent {...imageProps} /> : <Image source={imageSource} {...imageProps} />}
         </View>
-      ) : null}
-      <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={styles.title}>
+      )}
+      {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
+      <Text fontSize={24} fontWeight="bold" fontFamily="Roboto Slab" style={[styles.title, titleStyle]}>
         {title}
       </Text>
       {text && <Text style={[styles.description, textStyle]}>{text}</Text>}
@@ -92,7 +101,7 @@ const ExplanationDialog = ({
   )
 }
 
-const mapStylesToProps = () => ({
+const mapStylesToProps = ({ theme }) => ({
   container: {
     display: 'flex',
     justifyContent: 'space-around',
@@ -105,9 +114,11 @@ const mapStylesToProps = () => ({
     marginTop: getDesignRelativeHeight(16),
     marginBottom: getDesignRelativeHeight(25),
   },
-  image: {
-    width: '100%',
-    marginBottom: getDesignRelativeHeight(theme.sizes.defaultDouble, false),
+  label: {
+    color: theme.colors.darkGray,
+    fontSize: normalizeText(10),
+    lineHeight: 11,
+    textAlign: 'left',
   },
   title: {
     marginBottom: getDesignRelativeHeight(8),
@@ -138,6 +149,7 @@ const mapStylesToProps = () => ({
     flex: 1,
     justifyContent: 'center',
     flexDirection: 'row',
+    alignSelf: 'center',
   },
 })
 

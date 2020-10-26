@@ -1,7 +1,8 @@
 import userStorage from '../gundb/UserStorage'
 import logger from '../logger/pino-logger'
 import Config from '../../config/config'
-const updates = []
+import profileFix from './profileFix'
+const updates = [profileFix]
 const log = logger.child({ from: 'updates' })
 
 const update = async () => {

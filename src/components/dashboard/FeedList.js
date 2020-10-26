@@ -19,7 +19,7 @@ import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exc
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedActions from './FeedActions'
-import { emptyFeed, keyExtractor, VIEWABILITY_CONFIG } from './utils/feed'
+import { keyExtractor, useFeeds, VIEWABILITY_CONFIG } from './utils/feed'
 
 const log = logger.child({ from: 'ShareButton' })
 
@@ -68,11 +68,12 @@ const FeedList = ({
   windowSize,
 }: FeedListProps) => {
   const [showErrorDialog] = useErrorDialog()
-  const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
   const flRef = useRef()
   const canceledFeeds = useRef([])
   const [showBounce, setShowBounce] = useState(true)
   const [displayContent, setDisplayContent] = useState(false)
+
+  const feeds = useFeeds(data)
 
   const scrollToTop = useOnPress(() => {
     const list = get(flRef, 'current._component._flatListRef', {})
@@ -127,12 +128,14 @@ const FeedList = ({
           try {
             canceledFeeds.current.push(id)
             userStorage.cancelOTPLEvent(id)
+
             goodWallet.cancelOTLByTransactionHash(id).catch(e => {
-              const uiMessage = decorate(e, ExceptionCode.E11)
+              const uiMessage = decorate(e, ExceptionCode.E11) + `\nTransaction: ${id}`
 
               log.error('cancel payment failed - quick actions', e.message, e, {
                 category: ExceptionCategory.Blockhain,
                 dialogShown: true,
+                id,
               })
               userStorage.updateOTPLEventStatus(id, 'pending')
               showErrorDialog(uiMessage, ExceptionCode.E11)

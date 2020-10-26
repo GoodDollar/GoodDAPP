@@ -54,6 +54,21 @@ const showOutOfGasError = debounce(
   },
 )
 
+const syncTXFromBlockchain = async () => {
+  const lastUpdateDate = userStorage.userProperties.get('lastTxSyncDate') || 0
+  const now = moment()
+
+  if (moment(lastUpdateDate).isSame(now, 'day') === false) {
+    try {
+      const joinedAtBlockNumber = userStorage.userProperties.get('joinedAtBlock')
+      await goodWallet.syncTxWithBlockchain(joinedAtBlockNumber)
+      await userStorage.userProperties.set('lastTxSyncDate', now.valueOf())
+    } catch (e) {
+      log.error('syncTXFromBlockchain failed', e.message, e)
+    }
+  }
+}
+
 let unsuccessfulLaunchAttempts = 0
 
 /**
@@ -74,7 +89,13 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }, [gdstore, ready])
 
-  useAppState({ onForeground: recheck })
+  const backgroundUpdates = useCallback(() => {
+    if (ready) {
+      syncTXFromBlockchain()
+    }
+  }, [ready])
+
+  useAppState({ onForeground: recheck, onBackground: backgroundUpdates })
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -131,17 +152,19 @@ const AppSwitch = (props: LoadingProps) => {
 
     //after dynamic routes update, if user arrived here, then he is already loggedin
     //initialize the citizen status and wallet status
-    const [{ isLoggedInCitizen, isLoggedIn }, , inviteCode] = await Promise.all([
+    const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([
       getLoginState(),
       updateWalletStatus(gdstore),
-      userStorage.getProfileFieldValue('inviteCode'),
+
+      // userStorage.getProfileFieldValue('inviteCode'),
     ])
 
-    log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen, inviteCode })
+    log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
 
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
-    gdstore.set('inviteCode')(inviteCode)
+
+    // gdstore.set('inviteCode')(inviteCode)
     const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
       ? REGISTRATION_METHOD_TORUS
       : REGISTRATION_METHOD_SELF_CUSTODY

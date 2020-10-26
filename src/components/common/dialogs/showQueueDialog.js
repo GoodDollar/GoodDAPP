@@ -2,7 +2,7 @@
 
 // libraries
 import React from 'react'
-import { Image } from 'react-native'
+import { View } from 'react-native'
 
 // custom components
 // import Text from '../view/Text'
@@ -45,7 +45,10 @@ const styles = () => ({
   },
 })
 
-export const showQueueDialog = (ContentComponent, { imageSource, imageHeight, buttonText, ...dialogOptions } = {}) => {
+export const showQueueDialog = (
+  ContentComponent,
+  { imageSource, imageHeight, imageProps = {}, buttonText, ...dialogOptions } = {},
+) => {
   const imageStyle = {
     marginRight: 'auto',
     marginLeft: 'auto',
@@ -53,13 +56,19 @@ export const showQueueDialog = (ContentComponent, { imageSource, imageHeight, bu
     marginBottom: getDesignRelativeHeight(15),
     width: '100%',
     height: getDesignRelativeHeight(129, false),
+    alignItems: 'center',
   }
   const StylesWrappedContent = withStyles(styles)(ContentComponent)
+  const Image = imageSource
 
   showDialogWithData(store.getCurrentSnapshot(), {
     type: 'queue',
     isMinHeight: true,
-    image: <Image source={imageSource} style={imageStyle} resizeMode="contain" />,
+    image: (
+      <View style={imageStyle}>
+        <Image {...imageProps} />
+      </View>
+    ),
     message: <StylesWrappedContent />,
     buttons: [
       {

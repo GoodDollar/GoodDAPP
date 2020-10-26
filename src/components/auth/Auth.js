@@ -1,7 +1,6 @@
 // @flow
-import React, { useState } from 'react'
+import React from 'react'
 import { Platform, SafeAreaView } from 'react-native'
-import { noop } from 'lodash'
 import Recover from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { fireEvent, SIGNUP_METHOD_SELECTED } from '../../lib/analytics/analytics'
@@ -13,8 +12,6 @@ import Text from '../common/view/Text'
 import { PrivacyPolicy, PrivacyPolicyAndTerms, SupportForUnsigned } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import config from '../../config/config'
-import { theme as mainTheme } from '../theme/styles'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -32,16 +29,9 @@ type Props = {
 const log = logger.child({ from: 'Auth' })
 
 const Auth = (props: Props) => {
-  const [asGuest] = useState(config.isEToro !== true)
-  const [withW3Token] = useState(false)
-  const [w3Token] = useState(null)
-  const [w3User] = useState(noop)
-
   const handleSignUp = async () => {
     const { store } = props
     store.set('loadingIndicator')({ loading: true })
-    const redirectTo = w3Token ? 'Phone' : 'Signup'
-    log.debug({ w3User, w3Token })
     try {
       if (Platform.OS === 'web') {
         const req = deleteGunDB()
@@ -60,7 +50,7 @@ const Auth = (props: Props) => {
 
     fireEvent(SIGNUP_METHOD_SELECTED, { method: REGISTRATION_METHOD_SELF_CUSTODY })
 
-    props.navigation.navigate(redirectTo, { regMethod: REGISTRATION_METHOD_SELF_CUSTODY, w3User, w3Token })
+    props.navigation.navigate('Signup', { regMethod: REGISTRATION_METHOD_SELF_CUSTODY })
 
     if (Platform.OS === 'web') {
       //Hack to get keyboard up on mobile need focus from user event such as click
@@ -89,19 +79,7 @@ const Auth = (props: Props) => {
 
   const { styles } = props
   const firstButtonHandler = handleSignUp
-  const firstButtonText = asGuest ? (
-    'Create a wallet'
-  ) : (
-    <Text style={styles.buttonText} fontWeight="medium">
-      NEW HERE?
-      <Text style={styles.buttonText} fontWeight="black">
-        {' GET INVITED'}
-      </Text>
-    </Text>
-  )
-
-  const firstButtonColor = asGuest ? undefined : mainTheme.colors.orange
-  const firstButtonTextStyle = asGuest ? undefined : styles.textBlack
+  const firstButtonText = 'Create a wallet'
 
   return (
     <SafeAreaView style={styles.mainWrapper}>
@@ -118,51 +96,42 @@ const Auth = (props: Props) => {
         </Text>
         <AnimationsPeopleFlying />
         <Section style={styles.bottomContainer}>
-          {asGuest && (
-            <Text fontSize={12} color="gray80Percent">
-              {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
-              <Text
-                fontSize={12}
-                color="gray80Percent"
-                fontWeight="bold"
-                textDecorationLine="underline"
-                onPress={handleNavigateTermsOfUse}
-              >
-                Terms of Use
-              </Text>
-              {' and '}
-              <Text
-                fontSize={12}
-                color="gray80Percent"
-                fontWeight="bold"
-                r
-                textDecorationLine="underline"
-                onPress={handleNavigatePrivacyPolicy}
-              >
-                Privacy Policy
-              </Text>
+          <Text fontSize={12} color="gray80Percent">
+            {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+            <Text
+              fontSize={12}
+              color="gray80Percent"
+              fontWeight="bold"
+              textDecorationLine="underline"
+              onPress={handleNavigateTermsOfUse}
+            >
+              Terms of Use
             </Text>
-          )}
+            {' and '}
+            <Text
+              fontSize={12}
+              color="gray80Percent"
+              fontWeight="bold"
+              r
+              textDecorationLine="underline"
+              onPress={handleNavigatePrivacyPolicy}
+            >
+              Privacy Policy
+            </Text>
+          </Text>
 
-          <CustomButton
-            color={firstButtonColor}
-            style={styles.buttonLayout}
-            textStyle={firstButtonTextStyle}
-            onPress={firstButtonHandler}
-            testID="firstButton"
-          >
+          <CustomButton style={styles.buttonLayout} onPress={firstButtonHandler} testID="firstButton">
             {firstButtonText}
           </CustomButton>
-          {!withW3Token && (
-            <PushButton testID="signInButton" dark={false} mode="outlined" onPress={handleSignIn}>
-              <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
-                ALREADY REGISTERED?
-                <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
-                  {' SIGN IN'}
-                </Text>
+
+          <PushButton testID="signInButton" dark={false} mode="outlined" onPress={handleSignIn}>
+            <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
+              ALREADY REGISTERED?
+              <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
+                {' SIGN IN'}
               </Text>
-            </PushButton>
-          )}
+            </Text>
+          </PushButton>
         </Section>
       </Wrapper>
     </SafeAreaView>

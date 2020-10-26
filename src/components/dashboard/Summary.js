@@ -85,7 +85,7 @@ const Summary = ({ screenProps, ...props }: ReceiveProps) => {
               nextRoutes={screenState.nextRoutes}
               values={{ reason, amount, counterPartyDisplayName, params }}
               screenProps={screenProps}
-              label={'Confirm'}
+              label={'Confirm  & Share Link'}
             />
           </Section.Stack>
         </Section.Row>

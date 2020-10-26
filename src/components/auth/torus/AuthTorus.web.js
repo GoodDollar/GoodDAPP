@@ -1,7 +1,7 @@
 // @flow
 import React, { useCallback, useState } from 'react'
 import { Paragraph } from 'react-native-paper'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { get } from 'lodash'
 import AsyncStorage from '../../../lib/utils/asyncStorage'
 import logger from '../../../lib/logger/pino-logger'
@@ -15,6 +15,7 @@ import {
   SIGNUP_EXISTS_LOGIN,
   SIGNUP_METHOD_SELECTED,
   SIGNUP_STARTED,
+  TORUS_FAILED,
   TORUS_SUCCESS,
 } from '../../../lib/analytics/analytics'
 import { GD_USER_MASTERSEED, GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../../lib/constants/localStorage'
@@ -41,6 +42,7 @@ import SuccessIcon from '../../common/modal/SuccessIcon'
 // import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
 
 import useOnPress from '../../../lib/hooks/useOnPress'
+import { timeout } from '../../../lib/utils/async'
 import useTorus from './hooks/useTorus'
 
 const log = logger.child({ from: 'AuthTorus' })

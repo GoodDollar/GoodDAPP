@@ -1,25 +1,21 @@
 // @flow
 import React, { useCallback, useState } from 'react'
-import { Image } from 'react-native'
+import { View } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
 import { withStyles } from '../../../lib/styles'
-import illustration from '../../../assets/Auth/Illustrations_woman_love.svg'
-import googleBtnIcon from '../../../assets/Auth/btn_google.svg'
-import facebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
-import { isBrowser } from '../../../lib/utils/platform'
+import Illustration from '../../../assets/Auth/Illustrations_woman_love.svg'
+import GoogleBtnIcon from '../../../assets/Auth/btn_google.svg'
+import FacebookBtnIcon from '../../../assets/Auth/btn_facebook.svg'
 import { theme as mainTheme } from '../../theme/styles'
 import Section from '../../common/layout/Section'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getMaxDeviceHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
 import { PasswordLess } from '../torus/PasswordLess'
 import { LoginButton } from './LoginButton'
-
-//TODO: refactor to new svg
-Image.prefetch(illustration)
 
 const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack }) => {
   const [isPasswordless, setPasswordless] = useState(false)
@@ -55,7 +51,11 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
       >
         Welcome Back!
       </Text>
-      <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+
+      <View style={styles.illustration}>
+        <Illustration />
+      </View>
+
       <Section style={styles.bottomContainer}>
         <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
           {`Remember to login with the `}
@@ -69,7 +69,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
           onPress={_google}
           disabled={!sdkInitialized}
           testID="login_with_google"
-          icon={googleBtnIcon}
+          icon={GoogleBtnIcon}
         >
           Log in with Google
         </LoginButton>
@@ -78,7 +78,7 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
           onPress={_facebook}
           disabled={!sdkInitialized}
           testID="login_with_facebook"
-          icon={facebookBtnIcon}
+          icon={FacebookBtnIcon}
         >
           Log in with Facebook
         </LoginButton>
@@ -120,12 +120,11 @@ const getStylesFromProps = ({ theme }) => {
       flex: 1,
       lineHeight: getDesignRelativeHeight(19),
     },
+
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
       marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      width: getDesignRelativeWidth(isBrowser ? 290 : 206),
-      height: getDesignRelativeHeight(172),
       marginRight: 'auto',
       marginLeft: 'auto',
       paddingTop: getDesignRelativeHeight(theme.sizes.default),

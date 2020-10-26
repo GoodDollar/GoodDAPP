@@ -5,7 +5,7 @@ import Section from '../../common/layout/Section'
 import CustomButton from '../../common/buttons/CustomButton'
 import { theme as mainTheme } from '../../theme/styles'
 import normalizeText from '../../../lib/utils/normalizeText'
-import mobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
+import MobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
 import { withStyles } from '../../../lib/styles'
 import config from '../../../config/config'
 import { fireEvent, SIGNIN_METHOD_SELECTED, SIGNUP_METHOD_SELECTED } from '../../../lib/analytics/analytics'
@@ -60,7 +60,7 @@ const ShowPasswordless = ({ isSignup = true, isOpen, styles, onSelect, handleLog
       onPress={config.torusEmailEnabled ? _onSelect : _mobile}
       disabled={!sdkInitialized}
       testID="login_with_auth0"
-      icon={mobileBtnIcon}
+      icon={MobileBtnIcon}
     >
       {`${isSignup ? 'Agree & Sign Up' : 'Log in'} Passwordless`}
     </LoginButton>

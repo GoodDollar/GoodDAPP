@@ -17,5 +17,144 @@ exports[`Splash matches snapshot 1`] = `
       "msFlexPreferredSize": "0%",
     }
   }
-/>
+>
+  <div
+    className="css-view-1dbjc4n"
+    data-name="viewWrapper"
+    style={
+      Object {
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitFlexDirection": "column",
+        "WebkitFlexGrow": 1,
+        "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
+        "display": "flex",
+        "flexDirection": "column",
+        "flexGrow": 1,
+        "maxHeight": "844px",
+        "msFlexDirection": "column",
+        "msFlexPositive": 1,
+        "paddingBottom": "0px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "0px",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxFlex": 1,
+          "WebkitBoxPack": "center",
+          "WebkitFlexBasis": "0%",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "WebkitJustifyContent": "center",
+          "WebkitTransform": "rotateY(180deg)",
+          "alignItems": "center",
+          "backgroundColor": "rgba(0,0,0,0.00)",
+          "borderBottomLeftRadius": "5px",
+          "borderBottomRightRadius": "5px",
+          "borderTopLeftRadius": "5px",
+          "borderTopRightRadius": "5px",
+          "flexBasis": "0%",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "justifyContent": "center",
+          "msFlexAlign": "center",
+          "msFlexNegative": 1,
+          "msFlexPack": "center",
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0%",
+          "paddingBottom": "16px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "paddingTop": "16px",
+          "position": "relative",
+          "transform": "rotateY(180deg)",
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "backgroundImage": "url(splashWaves.svg)",
+            "backgroundRepeat": "repeat-y",
+            "height": "100%",
+            "opacity": 0.1,
+            "position": "absolute",
+            "width": "100%",
+          }
+        }
+      />
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "stretch",
+            "WebkitBoxAlign": "stretch",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxFlex": 1,
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "center",
+            "WebkitFlexDirection": "column",
+            "WebkitFlexGrow": 1,
+            "WebkitJustifyContent": "center",
+            "WebkitTransform": "rotateY(180deg)",
+            "alignItems": "stretch",
+            "flexDirection": "column",
+            "flexGrow": 1,
+            "justifyContent": "center",
+            "msFlexAlign": "stretch",
+            "msFlexDirection": "column",
+            "msFlexPack": "center",
+            "msFlexPositive": 1,
+            "overflowX": "hidden",
+            "overflowY": "hidden",
+            "transform": "rotateY(180deg)",
+          }
+        }
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "height": "550px",
+              "marginBottom": "-120px",
+              "marginTop": "-75px",
+              "width": "100%",
+            }
+          }
+        />
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(12,38,61,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "500",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
+        >
+          V
+          v0
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;

@@ -1,6 +1,6 @@
 // @flow
-import React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import React, { useCallback, useState } from 'react'
+import { Image } from 'react-native'
 import Wrapper from '../../common/layout/Wrapper'
 import Text from '../../common/view/Text'
 import NavBar from '../../appNavigation/NavBar'
@@ -15,29 +15,36 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { getDesignRelativeHeight, getDesignRelativeWidth, getMaxDeviceHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import normalizeText from '../../../lib/utils/normalizeText'
+import { PasswordLess } from '../torus/PasswordLess'
+import { LoginButton } from './LoginButton'
 
-// import SpinnerCheckMark from '../../common/animations/SpinnerCheckMark'
+//TODO: refactor to new svg
+Image.prefetch(illustration)
 
-const SigninScreen = ({
-  screenProps,
-  navigation,
-  styles,
-  store,
-  asGuest,
-  handleNavigateTermsOfUse,
-  handleNavigatePrivacyPolicy,
-  goToManualRegistration,
-  googleButtonHandler,
-  sdkInitialized,
-  facebookButtonTextStyle,
-  facebookButtonHandler,
-  ShowPasswordless,
-  goToSignIn,
-  goBack,
-}) => {
+const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack }) => {
+  const [isPasswordless, setPasswordless] = useState(false)
+
+  const handlePasswordless = () => {
+    setPasswordless(true)
+  }
+
+  const _goBack = useCallback(() => {
+    if (isPasswordless) {
+      return setPasswordless(false)
+    }
+    goBack()
+  })
+
+  const _google = useCallback(() => {
+    handleLoginMethod('google')
+  })
+  const _facebook = useCallback(() => {
+    handleLoginMethod('facebook')
+  })
+
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-      <NavBar title="Login" goBack={goBack} />
+      <NavBar title="Login" goBack={_goBack} />
       <Text
         style={styles.headerText}
         fontSize={26}
@@ -50,49 +57,32 @@ const SigninScreen = ({
       </Text>
       <Image source={illustration} style={styles.illustration} resizeMode="contain" />
       <Section style={styles.bottomContainer}>
-        {asGuest && (
-          <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
-            {`Remember to login with the `}
-            <Text
-              fontSize={12}
-              color="gray80Percent"
-              fontWeight="bold"
-              textDecorationLine="underline"
-              onPress={handleNavigateTermsOfUse}
-            />
-            <Text fontSize={12} color="gray80Percent" fontWeight="bold">
-              {`same login method\n`}
-            </Text>
-            that you’ve signed up with
+        <Text fontSize={12} color="gray80Percent" style={styles.privacyAndTerms}>
+          {`Remember to login with the `}
+          <Text fontSize={12} color="gray80Percent" fontWeight="bold">
+            {`same login method\n`}
           </Text>
-        )}
-        <TouchableOpacity
+          that you’ve signed up with
+        </Text>
+        <LoginButton
           style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
-          onPress={googleButtonHandler}
+          onPress={_google}
           disabled={!sdkInitialized}
           testID="login_with_google"
+          icon={googleBtnIcon}
         >
-          <View style={styles.iconBorder}>
-            <Image source={googleBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
-          </View>
-          <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
-            Log in with Google
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+          Log in with Google
+        </LoginButton>
+        <LoginButton
           style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.facebookBlue }]}
-          onPress={facebookButtonHandler}
+          onPress={_facebook}
           disabled={!sdkInitialized}
           testID="login_with_facebook"
+          icon={facebookBtnIcon}
         >
-          <View style={styles.iconBorder}>
-            <Image source={facebookBtnIcon} resizeMode="contain" style={styles.iconsStyle} />
-          </View>
-          <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0} color="white">
-            Log in with Facebook
-          </Text>
-        </TouchableOpacity>
-        <ShowPasswordless />
+          Log in with Facebook
+        </LoginButton>
+        <PasswordLess isOpen={isPasswordless} onSelect={handlePasswordless} handleLoginMethod={handleLoginMethod} />
       </Section>
     </Wrapper>
   )
@@ -125,22 +115,6 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 50,
       padding: 3,
     },
-    googleButtonLayout: {
-      marginTop: getDesignRelativeHeight(theme.sizes.default),
-      marginBottom: getDesignRelativeHeight(theme.sizes.default),
-      borderWidth: 0,
-      boxShadow: '0 3px 15px -6px rgba(0,0,0,0.6)',
-    },
-    googleButtonContent: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    googleIcon: {
-      width: getDesignRelativeHeight(20),
-      height: getDesignRelativeHeight(20),
-      marginRight: getDesignRelativeWidth(10, false),
-    },
     buttonText: {
       fontSize: buttonFontSize,
       flex: 1,
@@ -162,10 +136,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     privacyAndTerms: {
       marginBottom: getDesignRelativeHeight(16),
-    },
-    signInLink: {
-      marginTop: getDesignRelativeHeight(5),
-      marginBottom: getDesignRelativeHeight(5),
     },
     iconsStyle: {
       width: getDesignRelativeHeight(20),

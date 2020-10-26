@@ -12,7 +12,7 @@ import WavesBackground from '../common/view/WavesBackground'
 // utils
 import Config from '../../config/config'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { isMobile, isMobileNative } from '../../lib/utils/platform'
+import { isMobileNative } from '../../lib/utils/platform'
 import AsyncStorage from '../../lib/utils/asyncStorage'
 
 // assets
@@ -82,7 +82,7 @@ const Splash = ({ animation, isLoggedIn }) => {
             )}
             <AnimationsLogo
               animation={shouldAnimate && animation}
-              style={isMobile ? styles.mobileAnimation : styles.animation}
+              style={isMobileNative ? styles.mobileAnimation : styles.animation}
             />
             <Section.Text fontSize={16} color="darkBlue" fontWeight="medium">
               {isPhaseZero && 'Demo '}V{version}

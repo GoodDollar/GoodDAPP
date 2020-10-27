@@ -68,6 +68,10 @@
   margin-top: 10px !important;
 }
 
-#unsucces-instruction-list p:last-child {
-  display: none;
+#unsucces-instruction-list p {
+  color: #fff !important;
+}
+
+#unsucces-instruction-list p span {
+  color: rgb(66, 69, 74) !important;
 }

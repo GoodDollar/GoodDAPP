@@ -133,26 +133,12 @@ const AppSwitch = (props: LoadingProps) => {
    * Check's users' current auth status
    * @returns {Promise<void>}
    */
-  const initialize = async () => {
+  const initialize = async isLoggedInCitizen => {
     if (!assertStore(gdstore, log, 'Failed to initialize login/citizen status')) {
       return
     }
 
     AsyncStorage.setItem('GD_version', 'phase' + config.phase)
-
-    //after dynamic routes update, if user arrived here, then he is already loggedin
-    //initialize the citizen status and wallet status
-    const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([
-      getLoginState(),
-      updateWalletStatus(gdstore),
-
-      // userStorage.getProfileFieldValue('inviteCode'),
-    ])
-
-    log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
-
-    gdstore.set('isLoggedIn')(isLoggedIn)
-    gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
 
     // gdstore.set('inviteCode')(inviteCode)
     const regMethod = (await AsyncStorage.getItem(GD_USER_MASTERSEED).then(_ => !!_))
@@ -179,8 +165,6 @@ const AppSwitch = (props: LoadingProps) => {
       // initialize() will await if preload hasn't completed yet
       preloadZoomSDK(log) // eslint-disable-line require-await
     }
-
-    return isLoggedInCitizen
 
     // if (isLoggedIn) {
     //   if (destDetails) {
@@ -219,7 +203,21 @@ const AppSwitch = (props: LoadingProps) => {
     log.debug('initializing')
 
     try {
-      initialize()
+      //after dynamic routes update, if user arrived here, then he is already loggedin
+      //initialize the citizen status and wallet status
+      const [{ isLoggedInCitizen, isLoggedIn }] = await Promise.all([
+        getLoginState(),
+        updateWalletStatus(gdstore),
+
+        // userStorage.getProfileFieldValue('inviteCode'),
+      ])
+
+      log.debug('initialize ready', { isLoggedIn, isLoggedInCitizen })
+
+      gdstore.set('isLoggedIn')(isLoggedIn)
+      gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
+
+      initialize(isLoggedInCitizen)
       runUpdates()
       showOutOfGasError(props)
 

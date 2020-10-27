@@ -693,7 +693,7 @@ const Dashboard = props => {
             textStyle={styles.leftButtonText}
             params={{
               nextRoutes: ['Reason', 'SendLinkSummary', 'TransactionConfirmation'],
-              action: 'Send',  
+              action: 'Send',
             }}
             compact
           >

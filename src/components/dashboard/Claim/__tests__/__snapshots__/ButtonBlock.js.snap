@@ -131,13 +131,15 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
           }
         >
           <div
-            aria-disabled={true}
-            className="css-view-1dbjc4n"
-            disabled={true}
+            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            data-focusable={true}
+            disabled={false}
             onKeyDown={[Function]}
+            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
+            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -148,11 +150,15 @@ exports[`ButtonBlock matches snapshot for citizen with entitlement 1`] = `
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
+                "cursor": "pointer",
+                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
+                "touchAction": "manipulation",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -941,13 +947,15 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
           }
         >
           <div
-            aria-disabled={true}
-            className="css-view-1dbjc4n"
-            disabled={true}
+            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            data-focusable={true}
+            disabled={false}
             onKeyDown={[Function]}
+            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
+            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -958,11 +966,15 @@ exports[`ButtonBlock matches snapshot for citizen without entitlement 1`] = `
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
+                "cursor": "pointer",
+                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
+                "touchAction": "manipulation",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -1859,13 +1871,15 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
           }
         >
           <div
-            aria-disabled={true}
-            className="css-view-1dbjc4n"
-            disabled={true}
+            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            data-focusable={true}
+            disabled={false}
             onKeyDown={[Function]}
+            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
+            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -1876,11 +1890,15 @@ exports[`ButtonBlock renders without errors and matches snapshot for non-citizen
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
+                "cursor": "pointer",
+                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
+                "touchAction": "manipulation",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"

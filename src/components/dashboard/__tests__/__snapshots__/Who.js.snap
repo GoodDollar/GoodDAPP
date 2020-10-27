@@ -102,6 +102,103 @@ exports[`Who matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "baseline",
+                "WebkitBoxAlign": "baseline",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexDirection": "row",
+                "alignItems": "baseline",
+                "display": "flex",
+                "flexDirection": "row",
+                "msFlexAlign": "baseline",
+                "msFlexDirection": "row",
+              }
+            }
+          >
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "36px",
+                  "fontWeight": "700",
+                  "lineHeight": "30px",
+                  "marginRight": "2px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              -.--
+            </div>
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxPack": "justify",
+                  "WebkitFlexDirection": "row",
+                  "WebkitJustifyContent": "space-between",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
+                  "msFlexPack": "justify",
+                }
+              }
+            >
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(85,85,85,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto Slab",
+                    "fontSize": "18px",
+                    "fontWeight": "700",
+                    "lineHeight": "22px",
+                    "textAlign": "right",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                G
+              </div>
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(85,85,85,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto Slab",
+                    "fontSize": "17.5px",
+                    "fontWeight": "700",
+                    "lineHeight": "22px",
+                    "textAlign": "right",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                $
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
             data-focusable={true}
             onKeyDown={[Function]}
             onKeyUp={[Function]}
@@ -458,13 +555,15 @@ exports[`Who matches snapshot 1`] = `
               }
             >
               <div
-                aria-disabled={true}
-                className="css-view-1dbjc4n"
-                disabled={true}
+                className="css-cursor-18t94o4 css-view-1dbjc4n"
+                data-focusable={true}
+                disabled={false}
                 onKeyDown={[Function]}
+                onKeyPress={[Function]}
                 onKeyUp={[Function]}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
+                onResponderRelease={[Function]}
                 onResponderTerminate={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
@@ -475,11 +574,15 @@ exports[`Who matches snapshot 1`] = `
                     "borderBottomRightRadius": "50px",
                     "borderTopLeftRadius": "50px",
                     "borderTopRightRadius": "50px",
+                    "cursor": "pointer",
+                    "msTouchAction": "manipulation",
                     "overflowX": "hidden",
                     "overflowY": "hidden",
                     "position": "relative",
+                    "touchAction": "manipulation",
                   }
                 }
+                tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"

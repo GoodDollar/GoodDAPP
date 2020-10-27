@@ -1,7 +1,6 @@
 // @flow
 
 import React, { useCallback, useState } from 'react'
-import { Platform, View } from 'react-native'
 import useNativeSharing from '../../lib/hooks/useNativeSharing'
 import { fireEvent } from '../../lib/analytics/analytics'
 import GDStore from '../../lib/undux/GDStore'
@@ -11,14 +10,9 @@ import logger from '../../lib/logger/pino-logger'
 import { ExceptionCategory } from '../../lib/logger/exceptions'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { BigGoodDollar, CustomButton, Icon, Section, Wrapper } from '../common'
-import TopBar from '../common/view/TopBar'
-import { withStyles } from '../../lib/styles'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
-import normalize from '../../lib/utils/normalizeText'
+import { useScreenState } from '../appNavigation/stackNavigation'
 import { ACTION_SEND, ACTION_SEND_TO_ADDRESS, SEND_TITLE } from './utils/sendReceiveFlow'
-import SurveySend from './SurveySend'
+import SummaryGeneric from './SendReceive/SummaryGeneric'
 
 const log = logger.child({ from: 'SendLinkSummary' })
 
@@ -39,31 +33,28 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const [showDialog, hideDialog, showErrorDialog] = useDialog()
   const { canShare, generateSendShareObject, generateSendShareText } = useNativeSharing()
 
-  const { push, goToRoot, navigateTo } = screenProps
+  const { goToRoot, navigateTo } = screenProps
 
   const { fullName } = gdstore.get('profile')
-  const { amount, reason = null, counterPartyDisplayName, address, params = {} } = screenState
-  const { action } = params
+  const { amount, reason = null, counterPartyDisplayName, address, action } = screenState
 
-  const [survey, setSurvey] = useState('other')
+  const [survey] = useState('other')
   const [link, setLink] = useState('')
-  const [loading, setLoading] = useState(false)
 
   const shareStringStateDepSource = [amount, counterPartyDisplayName, fullName]
 
-  const handleConfirm = useCallback(() => {
+  const handleConfirm = useCallback(async () => {
     if (action === ACTION_SEND_TO_ADDRESS) {
-      sendViaAddress()
+      await sendViaAddress()
     } else {
       sendViaLink()
     }
   }, [action])
 
-  const sendViaAddress = useCallback(() => {
+  const sendViaAddress = useCallback(async () => {
     try {
-      setLoading(true)
       let txhash
-      goodWallet.sendAmount(address, amount, {
+      await goodWallet.sendAmount(address, amount, {
         onTransactionHash: hash => {
           log.debug('Send G$ to address', { hash })
           txhash = hash
@@ -99,14 +90,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
             onDismiss: goToRoot,
           })
 
-          setLoading(false)
-
           return hash
         },
         onError: e => {
           log.error('Send TX failed:', e.message, e, { category: ExceptionCategory.Blockhain })
 
-          setLoading(false)
           userStorage.markWithErrorEvent(txhash)
         },
       })
@@ -119,11 +107,11 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
       showErrorDialog({
         visible: true,
         title: 'Transaction Failed!',
-        message: `There was a problem sending G$. Try again`,
+        message: `There was a problem sending G$. Check payment details.`,
         dismissText: 'OK',
       })
     }
-  }, [setLoading, address, amount, reason, showDialog, showErrorDialog, goToRoot])
+  }, [address, amount, reason, showDialog, showErrorDialog, goToRoot])
 
   const sendViaLink = useCallback(() => {
     try {
@@ -234,74 +222,17 @@ const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   }, [survey, showErrorDialog, setLink, link, goToRoot, navigateTo])
 
   return (
-    <Wrapper>
-      <TopBar push={push} />
-      <Section grow style={styles.section}>
-        <Section.Stack>
-          <Section.Row justifyContent="center">
-            <View style={styles.sendIconWrapper}>
-              <Icon name="send" size={getDesignRelativeHeight(45)} color="white" />
-            </View>
-          </Section.Row>
-          <Section.Title fontWeight="medium">YOU ARE SENDING</Section.Title>
-          <Section.Title fontWeight="medium" style={styles.amountWrapper}>
-            <BigGoodDollar
-              number={amount}
-              color="red"
-              bigNumberProps={{
-                fontSize: 36,
-                lineHeight: 24,
-                fontFamily: 'Roboto Slab',
-                fontWeight: 'bold',
-              }}
-              bigNumberUnitProps={{ fontSize: 14 }}
-            />
-          </Section.Title>
-        </Section.Stack>
-        <Section.Stack>
-          <Section.Row style={[styles.credsWrapper, reason ? styles.toTextWrapper : undefined]}>
-            <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
-              To
-            </Section.Text>
-            {address ? (
-              <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
-                {address}
-              </Section.Text>
-            ) : (
-              <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
-                {counterPartyDisplayName}
-              </Section.Text>
-            )}
-          </Section.Row>
-          {!!reason && (
-            <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
-              <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
-                For
-              </Section.Text>
-              <Section.Text fontSize={normalize(14)} numberOfLines={2} ellipsizeMode="tail">
-                {reason}
-              </Section.Text>
-            </Section.Row>
-          )}
-        </Section.Stack>
-        <Section.Row justifyContent="center" style={styles.warnText}>
-          <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
-        </Section.Row>
-        <Section.Row>
-          <Section.Row grow={1} justifyContent="flex-start">
-            <BackButton mode="text" screenProps={screenProps}>
-              Cancel
-            </BackButton>
-          </Section.Row>
-          <Section.Stack grow={3}>
-            <CustomButton onPress={handleConfirm} loading={loading}>
-              Confirm
-            </CustomButton>
-          </Section.Stack>
-        </Section.Row>
-      </Section>
-      <SurveySend handleCheckSurvey={setSurvey} />
-    </Wrapper>
+    <SummaryGeneric
+      screenProps={screenProps}
+      onConfirm={handleConfirm}
+      address={address}
+      recipient={counterPartyDisplayName}
+      amount={amount}
+      reason={reason}
+      iconName="send"
+      title="YOU ARE SENDING"
+      action="send"
+    />
   )
 }
 
@@ -311,72 +242,9 @@ SendLinkSummary.navigationOptions = {
 
 SendLinkSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
-  return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink || screenState.from
+  return (
+    screenState.amount && (!!screenState.nextRoutes || screenState.address || screenState.sendLink || screenState.from)
+  )
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  section: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  sendIconWrapper: {
-    height: getDesignRelativeHeight(75),
-    width: getDesignRelativeHeight(75),
-    backgroundColor: theme.colors.red,
-    position: 'relative',
-    borderRadius: Platform.select({
-      web: '50%',
-      default: getDesignRelativeHeight(75) / 2,
-    }),
-    marginTop: getDesignRelativeHeight(15),
-    marginBottom: getDesignRelativeHeight(24),
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  amountWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: getDesignRelativeHeight(10),
-    marginBottom: getDesignRelativeHeight(27),
-  },
-  credsWrapper: {
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: theme.colors.gray50Percent,
-    borderRadius: 25,
-    minHeight: 42,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    paddingBottom: getDesignRelativeHeight(4),
-    paddingTop: getDesignRelativeHeight(8),
-    paddingLeft: getDesignRelativeWidth(16),
-    paddingRight: getDesignRelativeWidth(16),
-    position: 'relative',
-  },
-  credsLabel: {
-    position: 'absolute',
-    top: -getDesignRelativeHeight(10),
-    backgroundColor: theme.colors.white,
-    paddingHorizontal: getDesignRelativeHeight(10),
-    lineHeight: normalize(14),
-  },
-  toTextWrapper: {
-    marginBottom: 24,
-  },
-  toText: {
-    margin: 0,
-    width: '100%',
-  },
-  reasonWrapper: {
-    alignItems: 'center',
-    paddingBottom: 0,
-  },
-  warnText: {
-    marginVertical: getDesignRelativeHeight(24),
-  },
-})
-
-export default withStyles(getStylesFromProps)(SendLinkSummary)
+export default SendLinkSummary

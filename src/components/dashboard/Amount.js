@@ -1,9 +1,9 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet } from 'react-native'
 import { BN } from 'web3-utils'
 import logger from '../../lib/logger/pino-logger'
-import { AmountInput, Section, Wrapper } from '../common'
+import { AmountInput, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -29,12 +29,16 @@ const log = logger.child({ from: 'Amount' })
 
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
+  const { push } = screenProps
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { params } = props.navigation.state
+  const { params = {} } = props.navigation.state
   const { amount, ...restState } = { amount: 0, ...screenState } || {}
   const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
   const [loading, setLoading] = useState(amount <= 0)
   const [error, setError] = useState()
+  const isReceive = params && params.action === ACTION_RECEIVE
+
+  const handlePressQR = useCallback(() => push('SendByQR'), [push])
 
   const canContinue = async weiAmount => {
     if (params && params.action === ACTION_RECEIVE) {
@@ -79,10 +83,14 @@ const Amount = (props: AmountProps) => {
     setError('')
   }
 
+  const showScanQR = !isReceive && !params.counterPartyDisplayName //not in receive flow and also QR wasnt displayed on Who screen
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.keyboardAvoidWrapper}>
       <Wrapper>
-        <TopBar push={screenProps.push} />
+        <TopBar push={screenProps.push}>
+          {showScanQR && <ScanQRButton onPress={handlePressQR} />}
+          {/* {!isReceive && <SendToAddressButton onPress={handlePressSendToAddress} />} */}
+        </TopBar>
         <Section grow>
           <Section.Stack grow justifyContent="flex-start">
             <AmountInput
@@ -103,7 +111,7 @@ const Amount = (props: AmountProps) => {
               <NextButton
                 nextRoutes={screenState.nextRoutes}
                 canContinue={handleContinue}
-                values={{ ...restState, amount: gdToWei(GDAmount), params }}
+                values={{ ...params, ...restState, amount: gdToWei(GDAmount) }}
                 disabled={loading}
                 {...props}
               />

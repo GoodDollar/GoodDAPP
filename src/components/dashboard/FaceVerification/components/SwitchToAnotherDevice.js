@@ -47,7 +47,9 @@ const SwitchToAnotherDevice = ({ styles, displayTitle, exception, screenProps })
           </Section>
         </Section>
         <View style={styles.action}>
-          <CustomButton onPress={onDismiss}>OK</CustomButton>
+          <CustomButton onPress={onDismiss} testID="ok_button">
+            OK
+          </CustomButton>
         </View>
       </View>
     </Wrapper>

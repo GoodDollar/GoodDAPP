@@ -1,5 +1,5 @@
 // @flow
-import { assign, debounce, forIn, get, isString, pick, toLower } from 'lodash'
+import { assign, debounce, forIn, get, isString, pick, remove, toLower } from 'lodash'
 import { isMobileReactNative } from '../utils/platform'
 import { LogEvent } from '../logger/pino-logger'
 import { ExceptionCategory } from '../logger/exceptions'
@@ -139,19 +139,36 @@ export class AnalyticsClass {
   }
 
   fireEvent = (event: string, data: any = {}) => {
-    const { isAmplitudeEnabled, apis, logger } = this
+    const { isAmplitudeEnabled, apis, logger, googleAnalytics } = this
     const { amplitude } = apis
 
-    if (!isAmplitudeEnabled) {
-      return
+    if (isAmplitudeEnabled) {
+      if (!amplitude.logEvent(event, data)) {
+        logger.warn('Amplitude event not sent', { event, data })
+      }
     }
 
-    if (!amplitude.logEvent(event, data)) {
-      logger.warn('Amplitude event not sent', { event, data })
-      return
+    //fire all events on  GA also
+    let gaEvent
+    if (googleAnalytics) {
+      gaEvent = this.convertToGA(data)
+
+      this.fireGoogleAnalyticsEvent(event, gaEvent)
     }
 
-    logger.debug('fired event', { event, data })
+    logger.debug('fired event', { event, data, gaEvent })
+  }
+
+  convertToGA = (data: any = {}) => {
+    const values = Object.values(data)
+    const eventValues = remove(values, x => typeof x === 'number')
+    const eventStrings = remove(values, x => typeof x === 'string')
+    const gaEvent = {
+      eventValue: eventValues.shift(),
+      eventLabel: eventStrings.shift() || eventValues.shift() || JSON.stringify(values.shift()),
+      eventAction: eventStrings.shift() || eventValues.shift() || JSON.stringify(values.shift()),
+    }
+    return gaEvent
   }
 
   fireMauticEvent = (data: any = {}) => {

@@ -125,16 +125,21 @@ exports[`SideMenuPanel matches snapshot 1`] = `
       >
         <div
           className="css-text-901oao"
+          data-focusable={true}
           dir="auto"
+          onClick={[Function]}
+          onKeyDown={[Function]}
           style={
             Object {
               "color": "rgba(163,163,163,1.00)",
+              "cursor": "pointer",
               "fontFamily": "gooddollar",
               "fontSize": "20px",
               "fontStyle": "normal",
               "fontWeight": "normal",
             }
           }
+          tabIndex="0"
         >
           
         </div>
@@ -225,16 +230,21 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-focusable={true}
               dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
+                  "cursor": "pointer",
                   "fontFamily": "gooddollar",
                   "fontSize": "23px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
+              tabIndex="0"
             >
               
             </div>
@@ -329,16 +339,21 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-focusable={true}
               dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
+                  "cursor": "pointer",
                   "fontFamily": "gooddollar",
                   "fontSize": "18px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
+              tabIndex="0"
             >
               
             </div>
@@ -433,16 +448,21 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-focusable={true}
               dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
+                  "cursor": "pointer",
                   "fontFamily": "gooddollar",
                   "fontSize": "23px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
+              tabIndex="0"
             >
               
             </div>
@@ -537,16 +557,21 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-focusable={true}
               dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
+                  "cursor": "pointer",
                   "fontFamily": "gooddollar",
                   "fontSize": "18px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
+              tabIndex="0"
             >
               
             </div>
@@ -641,16 +666,21 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-focusable={true}
               dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
+                  "cursor": "pointer",
                   "fontFamily": "gooddollar",
                   "fontSize": "23px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
+              tabIndex="0"
             >
               
             </div>
@@ -745,16 +775,21 @@ exports[`SideMenuPanel matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-focusable={true}
               dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
+                  "cursor": "pointer",
                   "fontFamily": "gooddollar",
                   "fontSize": "23px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
+              tabIndex="0"
             >
               
             </div>
@@ -857,16 +892,21 @@ exports[`SideMenuPanel matches snapshot 1`] = `
             >
               <div
                 className="css-text-901oao"
+                data-focusable={true}
                 dir="auto"
+                onClick={[Function]}
+                onKeyDown={[Function]}
                 style={
                   Object {
                     "color": "rgba(250,108,119,1.00)",
+                    "cursor": "pointer",
                     "fontFamily": "gooddollar",
                     "fontSize": "23px",
                     "fontStyle": "normal",
                     "fontWeight": "normal",
                   }
                 }
+                tabIndex="0"
               >
                 
               </div>

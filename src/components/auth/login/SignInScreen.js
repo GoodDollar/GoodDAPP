@@ -64,25 +64,34 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
           </Text>
           that you’ve signed up with
         </Text>
-        <LoginButton
-          style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
-          onPress={_google}
-          disabled={!sdkInitialized}
-          testID="login_with_google"
-          icon={GoogleBtnIcon}
-        >
-          Log in with Google
-        </LoginButton>
-        <LoginButton
-          style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.facebookBlue }]}
-          onPress={_facebook}
-          disabled={!sdkInitialized}
-          testID="login_with_facebook"
-          icon={FacebookBtnIcon}
-        >
-          Log in with Facebook
-        </LoginButton>
-        <PasswordLess isOpen={isPasswordless} onSelect={handlePasswordless} handleLoginMethod={handleLoginMethod} />
+        {isPasswordless === false && (
+          <React.Fragment>
+            <LoginButton
+              style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
+              onPress={_google}
+              disabled={!sdkInitialized}
+              testID="login_with_google"
+              icon={GoogleBtnIcon}
+            >
+              Log in with Google
+            </LoginButton>
+            <LoginButton
+              style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.facebookBlue }]}
+              onPress={_facebook}
+              disabled={!sdkInitialized}
+              testID="login_with_facebook"
+              icon={FacebookBtnIcon}
+            >
+              Log in with Facebook
+            </LoginButton>
+          </React.Fragment>
+        )}
+        <PasswordLess
+          isSignup={false}
+          isOpen={isPasswordless}
+          onSelect={handlePasswordless}
+          handleLoginMethod={handleLoginMethod}
+        />
       </Section>
     </Wrapper>
   )
@@ -102,7 +111,8 @@ const getStylesFromProps = ({ theme }) => {
     bottomContainer: {
       paddingHorizontal: theme.sizes.defaultDouble,
       paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
-      justifyContent: 'space-around',
+
+      // justifyContent: 'space-around',
       minHeight: getDesignRelativeHeight(200),
     },
     buttonLayout: {

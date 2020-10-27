@@ -1,22 +1,23 @@
 import React, { useCallback } from 'react'
-import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
-import { isMediumDevice, isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import Section from '../../common/layout/Section'
 import CustomButton from '../../common/buttons/CustomButton'
 import { theme as mainTheme } from '../../theme/styles'
 import normalizeText from '../../../lib/utils/normalizeText'
 import MobileBtnIcon from '../../../assets/Auth/btn_mobile.svg'
 import { withStyles } from '../../../lib/styles'
-import config from '../../../config/config'
 import { fireEvent, SIGNIN_METHOD_SELECTED, SIGNUP_METHOD_SELECTED } from '../../../lib/analytics/analytics'
 import { LoginButton } from '../login/LoginButton'
 import useTorus from './hooks/useTorus'
 
 const ShowPasswordless = ({ isSignup = true, isOpen, styles, onSelect, handleLoginMethod }) => {
   const [, sdkInitialized] = useTorus()
-  const _email = useCallback(() => {
-    handleLoginMethod('auth0-pwdless-email')
-  })
+
+  // const _email = useCallback(() => {
+  //   handleLoginMethod('auth0-pwdless-email')
+  // })
+
   const _mobile = useCallback(() => {
     handleLoginMethod('auth0-pwdless-sms')
   })
@@ -29,7 +30,16 @@ const ShowPasswordless = ({ isSignup = true, isOpen, styles, onSelect, handleLog
   if (isOpen) {
     return (
       <Section.Row>
-        <CustomButton
+        <LoginButton
+          style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.darkBlue }]}
+          onPress={_mobile}
+          disabled={!sdkInitialized}
+          testID="login_with_auth0"
+          icon={MobileBtnIcon}
+        >
+          {`${isSignup ? 'Agree & Sign Up' : 'Log in'} Passwordless`}
+        </LoginButton>
+        {/* <CustomButton
           color={mainTheme.colors.darkBlue}
           style={[styles.buttonLayout, { flex: 1, marginRight: getDesignRelativeWidth(5) }]}
           textStyle={[styles.buttonText]}
@@ -50,20 +60,19 @@ const ShowPasswordless = ({ isSignup = true, isOpen, styles, onSelect, handleLog
           compact={isSmallDevice || isMediumDevice}
         >
           Via Email Code
-        </CustomButton>
+        </CustomButton> */}
       </Section.Row>
     )
   }
   return (
-    <LoginButton
-      style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.darkBlue }]}
-      onPress={config.torusEmailEnabled ? _onSelect : _mobile}
-      disabled={!sdkInitialized}
-      testID="login_with_auth0"
-      icon={MobileBtnIcon}
+    <CustomButton
+      mode={'text'}
+      color={mainTheme.colors.darkGray}
+      textStyle={{ textDecoration: 'underline', fontSize: 14 }}
+      onPress={_onSelect}
     >
-      {`${isSignup ? 'Agree & Sign Up' : 'Log in'} Passwordless`}
-    </LoginButton>
+      {isSignup ? `Don't Have Social Accounts? Try This >` : `Signed Up Via Passwordless? Login Here >`}
+    </CustomButton>
   )
 }
 

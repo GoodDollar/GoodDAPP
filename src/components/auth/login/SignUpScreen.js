@@ -88,24 +88,28 @@ const SignupScreen = ({ screenProps, styles, store, handleLoginMethod, sdkInitia
             Privacy Policy
           </Text>
         </Text>
-        <LoginButton
-          style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
-          onPress={_google}
-          disabled={!sdkInitialized}
-          testID="login_with_google"
-          icon={googleBtnIcon}
-        >
-          {`Agree & Sign up with Google`}
-        </LoginButton>
-        <LoginButton
-          style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.facebookBlue }]}
-          onPress={_facebook}
-          disabled={!sdkInitialized}
-          testID="login_with_facebook"
-          icon={facebookBtnIcon}
-        >
-          {`Agree & Sign up with Facebook`}
-        </LoginButton>
+        {isPasswordless === false && (
+          <React.Fragment>
+            <LoginButton
+              style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.googleBlue }]}
+              onPress={_google}
+              disabled={!sdkInitialized}
+              testID="login_with_google"
+              icon={googleBtnIcon}
+            >
+              {`Agree & Sign up with Google`}
+            </LoginButton>
+            <LoginButton
+              style={[styles.buttonLayout, { backgroundColor: mainTheme.colors.facebookBlue }]}
+              onPress={_facebook}
+              disabled={!sdkInitialized}
+              testID="login_with_facebook"
+              icon={facebookBtnIcon}
+            >
+              {`Agree & Sign up with Facebook`}
+            </LoginButton>
+          </React.Fragment>
+        )}
         <PasswordLess isOpen={isPasswordless} onSelect={handlePasswordless} handleLoginMethod={handleLoginMethod} />
       </Section>
     </Wrapper>

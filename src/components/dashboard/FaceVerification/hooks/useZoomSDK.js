@@ -6,14 +6,14 @@ import logger from '../../../../lib/logger/pino-logger'
 import { isE2ERunning } from '../../../../lib/utils/platform'
 
 import { ZoomSDK } from '../sdk/ZoomSDK'
-import { ExceptionType, isUnrecoverable, kindOfSDKIssue } from '../utils/kindOfTheIssue'
+import { ExceptionType, isCriticalIssue, kindOfSDKIssue } from '../utils/kindOfTheIssue'
 
 const log = logger.child({ from: 'useZoomSDK' })
 
 const ZoomGlobalState = {
   zoomSDKPreloaded: false,
   zoomSDKPreloadFailed: false,
-  zoomUnrecoverableError: null,
+  zoomCriticalError: null,
 }
 
 /**
@@ -24,7 +24,7 @@ const ZoomGlobalState = {
  * @returns {Promise}
  */
 export const preloadZoomSDK = async (logger = log) => {
-  const { zoomSDKPreloaded, zoomSDKPreloadFailed, zoomUnrecoverableError } = ZoomGlobalState
+  const { zoomSDKPreloaded, zoomSDKPreloadFailed, zoomCriticalError } = ZoomGlobalState
 
   // if cypress is running - do nothing
   if (isE2ERunning) {
@@ -38,8 +38,8 @@ export const preloadZoomSDK = async (logger = log) => {
       return
     }
 
-    if (zoomUnrecoverableError) {
-      throw zoomUnrecoverableError
+    if (zoomCriticalError) {
+      throw zoomCriticalError
     }
 
     if (zoomSDKPreloadFailed) {
@@ -111,7 +111,7 @@ export default ({ onInitialized = noop, onError = noop }) => {
   // this callback should be ran once, so we're using refs
   // to access actual initialization / error callbacks
   useEffect(() => {
-    const { zoomSDKPreloadFailed, zoomUnrecoverableError } = ZoomGlobalState
+    const { zoomSDKPreloadFailed, zoomCriticalError } = ZoomGlobalState
     const { zoomLicenseKey, zoomLicenseText, zoomEncryptionKey } = Config
 
     // Helper for handle exceptions
@@ -151,9 +151,9 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
         // if some unrecoverable error happens
         // checking exception as unrecoverable could be thrown from ZoomSDK
-        if (isUnrecoverable(name)) {
+        if (isCriticalIssue(name)) {
           // setting exception in the global state
-          ZoomGlobalState.zoomUnrecoverableError = exception
+          ZoomGlobalState.zoomCriticalError = exception
 
           // unloading SDK to free resources
           await unloadZoomSDK()
@@ -172,8 +172,8 @@ export default ({ onInitialized = noop, onError = noop }) => {
 
     // skipping initialization attempt is some
     // unrecoverable error happened last try
-    if (zoomUnrecoverableError) {
-      handleException(zoomUnrecoverableError)
+    if (zoomCriticalError) {
+      handleException(zoomCriticalError)
       return
     }
 

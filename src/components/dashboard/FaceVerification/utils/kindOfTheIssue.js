@@ -123,7 +123,7 @@ const kindOfSDKIssuesMap = mapValues(
   statusTransformer(ZoomSDKStatus),
 )
 
-const unrecoverableIssues = ['UnrecoverableError', 'NotSupportedError']
+const criticalIssues = ['UnrecoverableError', 'NotSupportedError']
 const createPredicate = exception => codes => codes.includes(get(exception, 'code'))
 
 export const ExceptionType = {
@@ -131,7 +131,7 @@ export const ExceptionType = {
   Session: 'session',
 }
 
-export const isUnrecoverable = exception => unrecoverableIssues.includes(get(exception, 'name'))
+export const isCriticalIssue = exception => criticalIssues.includes(get(exception, 'name'))
 
 export const kindOfSessionIssue = exception => findKey(kindOfSessionIssuesMap, createPredicate(exception))
 

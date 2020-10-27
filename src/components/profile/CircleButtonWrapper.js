@@ -9,7 +9,7 @@ import useOnPress from '../../lib/hooks/useOnPress'
 const CircleButtonWrapper = ({
   label,
   labelStyles,
-  onPress = noop,
+  onPress,
   disabled,
   styles,
   style,
@@ -18,7 +18,8 @@ const CircleButtonWrapper = ({
   iconColor,
   iconSize,
 }) => {
-  const _onPress = useOnPress(onPress)
+  const onIconPress = useOnPress(onPress || noop, [onPress])
+  const _onPress = onPress ? onIconPress : noop
 
   return (
     <View style={containerStyle}>

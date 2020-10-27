@@ -9,6 +9,7 @@ import Icon from '../../components/common/view/Icon'
 
 import useOnPress from '../../lib/hooks/useOnPress'
 import useSideMenu from '../../lib/hooks/useSideMenu'
+import { isMobileNative } from '../../lib/utils/platform'
 
 const { isEToro, enableInvites, showRewards } = config
 
@@ -44,12 +45,19 @@ const styles = {
   iconWidth: {
     width: 37,
   },
+  iconView: {
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    width: 50,
+    height: 50,
+  },
   appBar: { overflow: 'hidden' },
 }
 
 const showRewardsFlag = showRewards || isEToro
 const showInviteFlag = enableInvites || isEToro
-const defaultLeftButtonStyles = [styles.marginLeft10, styles.iconWidth]
+const iconStyle = isMobileNative ? styles.iconView : styles.iconWidth
+const defaultLeftButtonStyles = [styles.marginLeft10, iconStyle]
 
 // const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
 
@@ -168,7 +176,7 @@ const TabsView = ({ navigation }) => {
       {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
       {/*!market && */ !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
-      <TouchableOpacity onPress={_slideToggle} style={styles.iconWidth}>
+      <TouchableOpacity onPress={_slideToggle} style={iconStyle}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>

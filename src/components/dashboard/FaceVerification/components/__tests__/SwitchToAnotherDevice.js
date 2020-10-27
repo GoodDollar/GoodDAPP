@@ -1,12 +1,18 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../../../__tests__/__util__'
-import ImportedSwitchToAnotherDevice from '../SwitchToAnotherDevice'
+import { noop } from 'lodash'
 
-const SwitchToAnotherDevice = withThemeProvider(ImportedSwitchToAnotherDevice)
-const screenProps = { goToRoot: jest.fn(() => {}) }
+import ImportedSwitchToAnotherDevice from '../SwitchToAnotherDevice'
+import { withThemeProvider } from '../../../../../__tests__/__util__'
 
 describe('FaceVerification SwitchToAnotherDevice', () => {
+  const SwitchToAnotherDevice = withThemeProvider(ImportedSwitchToAnotherDevice)
+  const screenProps = { goToRoot: jest.fn(noop) }
+
+  afterEach(() => {
+    screenProps.goToRoot.mockReset()
+  })
+
   it('renders without errors', () => {
     let tree
 

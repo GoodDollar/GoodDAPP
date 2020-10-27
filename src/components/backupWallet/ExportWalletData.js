@@ -3,7 +3,7 @@
 // libraries
 import React, { useCallback, useMemo } from 'react'
 import { Image, Platform, View } from 'react-native'
-import { get, noop } from 'lodash'
+import { get } from 'lodash'
 
 // components
 import Wrapper from '../common/layout/Wrapper'
@@ -13,6 +13,7 @@ import NavBar from '../appNavigation/NavBar'
 
 // hooks
 import { useDialog } from '../../lib/undux/utils/dialog'
+import useLoading from '../../lib/hooks/useLoadingIndicator'
 
 // utils
 import { withStyles } from '../../lib/styles'
@@ -45,22 +46,22 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const [showDialog] = useDialog()
   const gdstore = GDStore.useStore()
   const { avatar } = gdstore.get('profile')
+  const [showLoading, hideLoading] = useLoading()
   const handleGoHome = useCallback(() => navigate('Home'), [navigate])
   const avatarSource = useMemo(() => avatar || unknownProfile, [avatar])
 
   // getting the privateKey of GD wallet address - which index is 0
   const fullPrivateKey = useMemo(() => get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''), [])
 
-  const onPrivateKeyCopied = useCallback(
-    () =>
-      showDialog({
-        isMinHeight: false,
-        showButtons: false,
-        onDismiss: noop,
-        content: <ExportWarningPopup />,
-      }),
-    [showDialog],
-  )
+  const onPrivateKeyCopied = useCallback(() => {
+    showLoading()
+
+    showDialog({
+      showButtons: false,
+      onDismiss: hideLoading,
+      content: <ExportWarningPopup onDismiss={hideLoading} />,
+    })
+  }, [showDialog])
 
   return (
     <Wrapper style={styles.wrapper}>

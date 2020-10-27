@@ -7,20 +7,26 @@ import ExplanationDialog from '../common/dialogs/ExplanationDialog'
 
 import { withStyles } from '../../lib/styles'
 
-//import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 
 const mapImageStylesToProps = ({ theme }) => ({
-  imageWrapper: {},
-  image: {},
+  imageWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  image: {
+    color: theme.colors.primary,
+    transform: 'rotate(180deg)',
+  },
 })
 
 const WarningImage = withStyles(mapImageStylesToProps)(({ styles, style, ...imageProps }) => (
   <View style={[style, styles.imageWrapper]}>
-    <Icon name="system" size={100} style={styles.image} />
+    <Icon name="system-filled" size={100} style={styles.image} />
   </View>
 ))
 
-const ExportWarningPopup = ({ styles, ...dialogProps }) => (
+const ExportWarningPopup = ({ styles, onDismiss = noop, ...dialogProps }) => (
   <ExplanationDialog
     {...dialogProps}
     title={`Do Not Send Tokens\nFrom Ethereum Network\nTo This Address`}
@@ -30,14 +36,13 @@ const ExportWarningPopup = ({ styles, ...dialogProps }) => (
     textStyle={styles.text}
     containerStyle={styles.container}
     imageStyle={styles.imageStyle}
-    buttonsContainerStyle={styles.buttonContainer}
     resizeMode={false}
     imageHeight={100}
     buttons={[
       {
         text: 'I UNDERSTAND',
         style: styles.button,
-        action: noop,
+        action: onDismiss,
       },
     ]}
   />
@@ -45,19 +50,23 @@ const ExportWarningPopup = ({ styles, ...dialogProps }) => (
 
 const mapStylesToProps = ({ theme }) => ({
   container: {
-    // minHeight: getDesignRelativeHeight(495),
+    width: getDesignRelativeWidth(295, false),
+    maxHeight: getDesignRelativeHeight(380, false),
   },
   title: {
     color: theme.colors.red,
     fontFamily: theme.fonts.slab,
     fontSize: 22,
-    lineHeight: 22,
+    lineHeight: 29,
+    textAlign: 'center',
   },
   text: {
     fontSize: 16,
+    lineHeight: 22,
   },
-  buttonContainer: {},
-  button: {},
+  button: {
+    width: '100%',
+  },
 })
 
 export default withStyles(mapStylesToProps)(ExportWarningPopup)

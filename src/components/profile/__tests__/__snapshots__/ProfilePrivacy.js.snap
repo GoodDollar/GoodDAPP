@@ -132,16 +132,21 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
+              data-focusable={true}
               dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
+                  "cursor": "pointer",
                   "fontFamily": "gooddollar",
                   "fontSize": "16px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
+              tabIndex="0"
             >
               
             </div>
@@ -772,7 +777,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   "overflowY": "hidden",
                   "position": "absolute",
                   "top": "-42.38961038961039px",
-                  "width": "84.77922077922078px",
+                  "width": "89.72222222222221px",
                   "zIndex": 1,
                 }
               }
@@ -1011,16 +1016,21 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                       >
                         <span
                           className="css-text-901oao css-textHasAncestor-16my406"
+                          data-focusable={true}
                           dir="auto"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
                           style={
                             Object {
                               "color": "rgba(255,255,255,1.00)",
+                              "cursor": "pointer",
                               "fontFamily": "gooddollar",
                               "fontSize": "34px",
                               "fontStyle": "normal",
                               "fontWeight": "normal",
                             }
                           }
+                          tabIndex="0"
                         >
                           
                         </span>

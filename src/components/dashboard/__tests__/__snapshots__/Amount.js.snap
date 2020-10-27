@@ -262,16 +262,21 @@ exports[`Amount matches snapshot 1`] = `
               >
                 <div
                   className="css-text-901oao"
+                  data-focusable={true}
                   dir="auto"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
                   style={
                     Object {
                       "color": "rgba(255,255,255,1.00)",
+                      "cursor": "pointer",
                       "fontFamily": "gooddollar",
                       "fontSize": "22px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
                     }
                   }
+                  tabIndex="0"
                 >
                   
                 </div>
@@ -1381,10 +1386,14 @@ exports[`Amount matches snapshot 1`] = `
                   >
                     <div
                       className="css-text-901oao"
+                      data-focusable={true}
                       dir="auto"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
                       style={
                         Object {
                           "color": "rgba(66,69,74,1.00)",
+                          "cursor": "pointer",
                           "fontFamily": "gooddollar",
                           "fontSize": "18px",
                           "fontStyle": "normal",
@@ -1392,6 +1401,7 @@ exports[`Amount matches snapshot 1`] = `
                           "textAlign": "center",
                         }
                       }
+                      tabIndex="0"
                     >
                       
                     </div>

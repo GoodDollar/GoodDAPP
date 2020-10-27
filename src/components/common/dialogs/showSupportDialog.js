@@ -1,6 +1,7 @@
 //@flow
 
 import React from 'react'
+import { View } from 'react-native'
 import Text from '../view/Text'
 
 export const showSupportDialog = (
@@ -11,7 +12,7 @@ export const showSupportDialog = (
 ) => {
   showErrorDialog(message, undefined, {
     boldMessage: (
-      <>
+      <View style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', flex: 1 }}>
         <Text fontWeight="inherit" color="inherit">
           {'Or contact '}
         </Text>
@@ -26,7 +27,7 @@ export const showSupportDialog = (
         >
           support
         </Text>
-      </>
+      </View>
     ),
   })
 }

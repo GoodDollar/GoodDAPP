@@ -53,7 +53,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   // getting the privateKey of GD wallet address - which index is 0
   const fullPrivateKey = useMemo(() => get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''), [])
 
-  const onPrivateKeyCopied = useCallback(() => {
+  const onPublicKeyCopied = useCallback(() => {
     showLoading()
 
     showDialog({
@@ -89,7 +89,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
             imageSource={avatarSource}
             copyButtonText="Copy address"
             showCopyIcon={false}
-            onCopied={onPrivateKeyCopied}
+            onCopied={onPublicKeyCopied}
           />
           <BorderedBox
             styles={styles}

@@ -1,18 +1,20 @@
 import React from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 
 import Text from '../../../common/view/Text'
 import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
 
-import { isBrowser } from '../../../../lib/utils/platform'
+import { isLargeDevice } from '../../../../lib/utils/mobileSizeDetect'
 
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
-import illustration from '../../../../assets/FRSwitchToAnotherDevice.svg'
+import SwitchToAnotherDeviceSVG from '../../../../assets/FRSwitchToAnotherDevice.svg'
 
-if (Platform.OS === 'web') {
-  Image.prefetch(illustration)
+const descriptionStyles = {
+  color: 'primary',
+  fontSize: isLargeDevice ? 20 : 18,
+  lineHeight: isLargeDevice ? 30 : 25,
 }
 
 const SwitchToAnotherDevice = ({ styles, displayTitle, exception, screenProps }) => (
@@ -23,18 +25,14 @@ const SwitchToAnotherDevice = ({ styles, displayTitle, exception, screenProps })
           {displayTitle}
           {',\nPlease try to switch\nto another device'}
         </Section.Title>
-        <Image
-          source={illustration}
-          resizeMode="contain"
-          style={[styles.errorImage, isBrowser ? styles.browserSizing : {}]}
-        />
-        <Section style={[styles.errorSection, isBrowser ? styles.browserSizing : {}]}>
+        <View style={[styles.errorImage, isLargeDevice ? styles.largeSizing : {}]}>
+          <SwitchToAnotherDeviceSVG height="100%" width="100%" viewBox="0 0 280 124" />
+        </View>
+        <Section style={[styles.errorSection, isLargeDevice ? styles.largeSizing : {}]}>
           <Separator width={2} />
           <View style={styles.descriptionWrapper}>
-            <Text color="primary" fontSize={18} lineHeight={25}>
-              {'Sometimes, switching to a\ndifferent device is a good solution.'}
-            </Text>
-            <Text color="primary" fontWeight="bold" fontSize={18} lineHeight={25}>
+            <Text {...descriptionStyles}>{'Sometimes, switching to a\ndifferent device is a good solution.'}</Text>
+            <Text {...descriptionStyles} fontWeight="bold">
               {'Sorry about that… :)'}
             </Text>
           </View>
@@ -65,14 +63,16 @@ const getStylesFromProps = ({ theme }) => ({
   },
   errorImage: {
     height: getDesignRelativeHeight(146, false),
+    width: '100%',
   },
   descriptionContainer: {
     flex: 1,
     marginBottom: 0,
-    paddingBottom: getDesignRelativeHeight(44),
+    paddingBottom: getDesignRelativeHeight(44, isLargeDevice),
+    paddingTop: isLargeDevice ? getDesignRelativeHeight(22) : 0,
     paddingHorizontal: getDesignRelativeWidth(theme.sizes.defaultQuadruple),
-    paddingTop: isBrowser ? getDesignRelativeHeight(22) : 0,
     width: '100%',
+    alignItems: 'center',
   },
   action: {
     width: '100%',
@@ -82,11 +82,12 @@ const getStylesFromProps = ({ theme }) => ({
     paddingVertical: 0,
     paddingHorizontal: 0,
     marginBottom: 0,
+    width: '100%',
   },
   descriptionWrapper: {
-    paddingVertical: getDesignRelativeHeight(isBrowser ? theme.sizes.defaultDouble : theme.sizes.default),
+    paddingVertical: getDesignRelativeHeight(isLargeDevice ? theme.sizes.defaultDouble : theme.sizes.default, false),
   },
-  browserSizing: {
+  largeSizing: {
     flexGrow: 1,
     justifyContent: 'center',
   },

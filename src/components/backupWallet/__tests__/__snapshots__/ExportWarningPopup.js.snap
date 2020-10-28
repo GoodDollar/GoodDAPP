@@ -57,15 +57,11 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
       >
         <div
           className="css-text-901oao"
-          data-focusable={true}
           dir="auto"
-          onClick={[Function]}
-          onKeyDown={[Function]}
           style={
             Object {
               "WebkitTransform": "rotate(180deg)",
               "color": "rgba(0,175,255,1.00)",
-              "cursor": "pointer",
               "fontFamily": "gooddollar",
               "fontSize": "100px",
               "fontStyle": "normal",
@@ -73,7 +69,6 @@ exports[`ExportWarningPopup matches snapshot 1`] = `
               "transform": "rotate(180deg)",
             }
           }
-          tabIndex="0"
         >
           
         </div>

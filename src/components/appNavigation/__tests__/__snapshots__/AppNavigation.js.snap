@@ -100,22 +100,17 @@ exports[`AppNavigation matches snapshot 1`] = `
         >
           <div
             className="css-text-901oao"
-            data-focusable={true}
             data-testid="invite_tab"
             dir="auto"
-            onClick={[Function]}
-            onKeyDown={[Function]}
             style={
               Object {
                 "color": "rgba(255,255,255,1.00)",
-                "cursor": "pointer",
                 "fontFamily": "gooddollar",
                 "fontSize": "36px",
                 "fontStyle": "normal",
                 "fontWeight": "normal",
               }
             }
-            tabIndex="0"
           >
             
           </div>
@@ -199,15 +194,11 @@ exports[`AppNavigation matches snapshot 1`] = `
         >
           <div
             className="css-text-901oao"
-            data-focusable={true}
             data-testid="burger_button"
             dir="auto"
-            onClick={[Function]}
-            onKeyDown={[Function]}
             style={
               Object {
                 "color": "rgba(255,255,255,1.00)",
-                "cursor": "pointer",
                 "fontFamily": "gooddollar",
                 "fontSize": "20px",
                 "fontStyle": "normal",
@@ -215,7 +206,6 @@ exports[`AppNavigation matches snapshot 1`] = `
                 "marginRight": "10px",
               }
             }
-            tabIndex="0"
           >
             
           </div>
@@ -717,14 +707,10 @@ exports[`AppNavigation matches snapshot 1`] = `
                   >
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406"
-                      data-focusable={true}
                       dir="auto"
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
                       style={
                         Object {
                           "color": "rgba(255,255,255,1.00)",
-                          "cursor": "pointer",
                           "fontFamily": "gooddollar",
                           "fontSize": "20px",
                           "fontStyle": "normal",
@@ -732,7 +718,6 @@ exports[`AppNavigation matches snapshot 1`] = `
                           "marginRight": "16px",
                         }
                       }
-                      tabIndex="0"
                     >
                       
                     </span>
@@ -1142,14 +1127,10 @@ exports[`AppNavigation matches snapshot 1`] = `
                     </span>
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406"
-                      data-focusable={true}
                       dir="auto"
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
                       style={
                         Object {
                           "color": "rgba(255,255,255,1.00)",
-                          "cursor": "pointer",
                           "fontFamily": "gooddollar",
                           "fontSize": "20px",
                           "fontStyle": "normal",
@@ -1157,7 +1138,6 @@ exports[`AppNavigation matches snapshot 1`] = `
                           "marginLeft": "16px",
                         }
                       }
-                      tabIndex="0"
                     >
                       
                     </span>

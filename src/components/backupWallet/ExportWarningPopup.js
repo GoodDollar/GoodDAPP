@@ -13,10 +13,10 @@ const mapImageStylesToProps = ({ theme }) => ({
   imageWrapper: {
     display: 'flex',
     alignItems: 'center',
+    transform: [{ rotate: '180deg' }],
   },
   image: {
     color: theme.colors.primary,
-    transform: 'rotate(180deg)',
   },
 })
 

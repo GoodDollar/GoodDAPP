@@ -24,12 +24,10 @@ const getStylesFromProps = ({ theme }) => ({
     }),
     borderWidth: 3,
     height: '100%',
-    left: '50%',
     marginHorizontal: 0,
     elevation: 0,
     padding: 3,
     position: 'absolute',
-    top: '50%',
     width: '100%',
     zIndex: 99,
   },
@@ -110,10 +108,7 @@ const AnimatedClaimButton = ({ screenProps, styles, animated, animatedScale }) =
     }
 
     return {
-      transform: [
-        { translateY: pushButtonTranslate.translateY || 0 },
-        { translateX: pushButtonTranslate.translateX || 0 },
-      ],
+      transform: [{ translateY: 0 }, { translateX: 0 }],
     }
   }, [pushButtonTranslate])
 

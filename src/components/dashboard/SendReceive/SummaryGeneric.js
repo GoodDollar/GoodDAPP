@@ -105,7 +105,7 @@ const SummaryGeneric = ({
           </Section.Row>
           <Section.Stack grow={3}>
             <CustomButton onPress={_onPress} loading={loading}>
-              {address ? 'Confirm' : 'Confirm & Share'}
+              {address ? 'Confirm' : 'Confirm & Share Link'}
             </CustomButton>
           </Section.Stack>
         </Section.Row>

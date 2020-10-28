@@ -83,7 +83,6 @@ const ViewOrUploadAvatar = props => {
         <Section.Stack>
           {profile.avatar ? (
             <>
-              <UserAvatar profile={profile} size={272} onPress={handleCameraPress} />
               <CircleButtonWrapper
                 containerStyle={styles.closeButtonContainer}
                 style={styles.closeButton}
@@ -92,6 +91,7 @@ const ViewOrUploadAvatar = props => {
                 onPress={handleClosePress}
               />
               <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
+              <UserAvatar profile={profile} size={272} onPress={handleCameraPress} style={styles.avatarView} />
             </>
           ) : (
             <>
@@ -163,6 +163,9 @@ const getStylesFromProps = ({ theme }) => {
     },
     avatar: {
       marginTop: defaultQuadruple,
+    },
+    avatarView: {
+      marginTop: 32,
     },
     buttonsRow: {
       justifyContent: 'flex-end',

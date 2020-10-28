@@ -10,9 +10,16 @@ export const showSupportDialog = (
   push,
   message = 'Something went wrong on our side. Please try again',
 ) => {
+  const wrapperStyles = {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  }
+
   showErrorDialog(message, undefined, {
     boldMessage: (
-      <View style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+      <View style={wrapperStyles}>
         <Text fontWeight="inherit" color="inherit">
           {'Or contact '}
         </Text>

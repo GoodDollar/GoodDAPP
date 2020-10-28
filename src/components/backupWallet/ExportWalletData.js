@@ -27,9 +27,6 @@ import unknownProfile from '../../assets/unknownProfile.svg'
 import FuseLogo from '../../assets/ExportWallet/FuseLogo.svg'
 import ExportWarningPopup from './ExportWarningPopup'
 
-const { account = '', networkId } = GoodWallet
-const web3ProviderUrl = networkId && config.ethereum[networkId].httpWeb3provider
-
 type ExportWalletProps = {
   styles: {},
   theme: {},
@@ -44,8 +41,15 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const [showLoading, hideLoading] = useLoading()
   const handleGoHome = useCallback(() => navigate('Home'), [navigate])
 
-  // getting the privateKey of GD wallet address - which index is 0
-  const fullPrivateKey = useMemo(() => get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''), [])
+  const [publicKey, fullPrivateKey, web3ProviderUrl] = useMemo(() => {
+    const { account = '', networkId } = GoodWallet
+
+    return [
+      account,
+      get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''),
+      networkId && config.ethereum[networkId].httpWeb3provider,
+    ]
+  }, [])
 
   const onPublicKeyCopied = useCallback(() => {
     showLoading()
@@ -78,7 +82,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
             styles={styles}
             theme={theme}
             title="My Wallet Address"
-            content={account}
+            content={publicKey}
             truncateContent
             imageSize={50}
             imageSource={avatar}

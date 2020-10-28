@@ -97,7 +97,7 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
             title="Fuse Network RPC Address"
             content={web3ProviderUrl}
             imageSize={50}
-            imageSource={FuseLogo}
+            image={FuseLogo}
             copyButtonText="Copy RPC"
             showCopyIcon={false}
           />

@@ -7,18 +7,22 @@ import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
 import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
 
-import useOnPress from '../../../../lib/hooks/useOnPress'
 import { withStyles } from '../../../../lib/styles'
 import { isBrowser, isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 
 import { fireEvent, FV_GENERALERROR } from '../../../../lib/analytics/analytics'
 
-const GeneralError = ({ styles, displayTitle, onRetry, screenProps }) => {
-  const onRetryPress = useOnPress(onRetry)
-  const reason = get(screenProps, 'screenState.error.message')
+const GeneralError = ({ styles, displayTitle, onRetry, exception }) => {
+  useEffect(() => {
+    if (!exception) {
+      return
+    }
 
-  useEffect(() => void fireEvent(FV_GENERALERROR, { reason }), [])
+    const reason = get(exception, 'message')
+
+    fireEvent(FV_GENERALERROR, { reason })
+  }, [])
 
   return (
     <Wrapper>
@@ -45,7 +49,7 @@ const GeneralError = ({ styles, displayTitle, onRetry, screenProps }) => {
           </Section>
         </Section>
         <View style={styles.action}>
-          <CustomButton onPress={onRetryPress}>TRY AGAIN</CustomButton>
+          <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
         </View>
       </View>
     </Wrapper>

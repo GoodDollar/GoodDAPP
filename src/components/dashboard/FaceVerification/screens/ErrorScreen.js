@@ -20,7 +20,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
   const errorViewComponentRef = useRef(null)
   const { isReachedMaxAttempts } = useVerificationAttempts()
 
-  const displayTitle = useMemo(() => {
+  const title = useMemo(() => {
     const { fullName } = store.get('profile')
 
     return getFirstWord(fullName)
@@ -52,9 +52,7 @@ const ErrorScreen = ({ styles, screenProps }) => {
     return null
   }
 
-  return (
-    <ErrorViewComponent onRetry={onRetry} displayTitle={displayTitle} screenProps={screenProps} exception={exception} />
-  )
+  return <ErrorViewComponent onRetry={onRetry} displayTitle={title} nav={screenProps} exception={exception} />
 }
 
 ErrorScreen.navigationOptions = {

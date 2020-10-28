@@ -63,25 +63,24 @@ const SummaryGeneric = ({
           </Section.Row>
         </Section.Stack>
         <Section.Stack>
-          {address ||
-            (recipient && (
-              <Section.Row style={[styles.credsWrapper, reason ? styles.toTextWrapper : undefined]}>
-                <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
-                  To
+          {(address || recipient) && (
+            <Section.Row style={[styles.credsWrapper, reason ? styles.toTextWrapper : undefined]}>
+              <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>
+                To
+              </Section.Text>
+              {address && !recipient ? (
+                <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
+                  {address}
                 </Section.Text>
-                {address && !recipient ? (
-                  <Section.Text fontFamily="Roboto Slab" fontSize={13} lineHeight={21} style={styles.toText}>
-                    {address}
+              ) : (
+                recipient && (
+                  <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
+                    {recipient}
                   </Section.Text>
-                ) : (
-                  recipient && (
-                    <Section.Text fontSize={24} fontWeight="medium" lineHeight={28} style={styles.toText}>
-                      {recipient}
-                    </Section.Text>
-                  )
-                )}
-              </Section.Row>
-            ))}
+                )
+              )}
+            </Section.Row>
+          )}
           {!!reason && (
             <Section.Row style={[styles.credsWrapper, styles.reasonWrapper]}>
               <Section.Text color="gray80Percent" fontSize={14} style={styles.credsLabel}>

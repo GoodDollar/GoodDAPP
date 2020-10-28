@@ -34,31 +34,32 @@ const BorderedBox = ({
 }) => {
   const [, setString] = useClipboard()
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
-  const halfImageSize = useMemo(() => Math.floor(imageSize / 2), [imageSize])
 
   const copyToClipboard = useOnPress(() => {
     setString(content)
     onCopied()
   }, [onCopied, setString, content])
 
-  const avatarStyles = useMemo(
-    () => [
+  const avatarStyles = useMemo(() => {
+    const imageBoxSize = getDesignRelativeWidth(imageSize, false)
+    const halfBoxSize = Math.ceil(imageBoxSize / 2)
+
+    return [
       styles.avatar,
       {
-        height: getDesignRelativeHeight(imageSize, false),
-        width: getDesignRelativeWidth(imageSize, false),
-        borderRadius: getDesignRelativeHeight(halfImageSize, false), // half of height/width
-        top: -getDesignRelativeHeight(halfImageSize, false), // half of height
+        width: imageBoxSize,
+        height: imageBoxSize,
+        borderRadius: halfBoxSize, // half of height/width
+        top: -halfBoxSize, // half of height
       },
-    ],
-    [imageSize, styles.avatar],
-  )
+    ]
+  }, [imageSize, styles.avatar])
 
   const lineSeparatorStyles = useMemo(
     () => [
       styles.avatarLineSeparator,
       {
-        width: getDesignRelativeHeight(imageSize + 20, false),
+        width: getDesignRelativeWidth(imageSize + 20, false),
       },
     ],
     [imageSize, styles.avatarLineSeparator],
@@ -92,71 +93,76 @@ const BorderedBox = ({
   )
 }
 
-const styles = ({ theme }) => ({
-  borderedBox: {
-    borderWidth: 1,
-    borerStyle: 'solid',
-    borderColor: theme.colors.lighterGray,
-    borderRadius: 5,
-    height: getDesignRelativeHeight(isBrowser ? 123 : 130, false),
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  boxTitle: {
-    marginBottom: getDesignRelativeHeight(10, false),
-  },
-  avatarLineSeparator: {
-    height: getDesignRelativeHeight(5, false),
-    position: 'absolute',
-    top: -getDesignRelativeHeight(2.5, false), // half of height
-    backgroundColor: theme.colors.surface,
-  },
-  avatar: {
-    position: 'absolute',
-    zIndex: 1,
-  },
-  boxCopyIconWrapper: {
-    height: getDesignRelativeHeight(52, false),
-    width: getDesignRelativeHeight(88, false),
-    position: 'absolute',
-    bottom: -getDesignRelativeHeight(26, false), // half of height
-    zIndex: 1,
-  },
-  copyIconLineSeparator: {
-    height: getDesignRelativeHeight(5, false),
-    width: getDesignRelativeHeight(52, false),
-    position: 'absolute',
-    bottom: -getDesignRelativeHeight(2.5, false), // half of height
-    backgroundColor: theme.colors.surface,
-  },
-  copyIconContainer: {
-    height: getDesignRelativeHeight(38, false),
-    width: getDesignRelativeHeight(38, false),
-    minWidth: getDesignRelativeHeight(38, false),
-    borderRadius: getDesignRelativeHeight(19, false),
-    backgroundColor: theme.colors.primary,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: getDesignRelativeHeight(4, false),
-    marginRight: 'auto',
-    marginLeft: 'auto',
-  },
-  boxCopyButtonWrapper: {
-    width: getDesignRelativeHeight(174, false),
-    height: getDesignRelativeHeight(54, false),
-    bottom: -getDesignRelativeHeight(32, false), // half of height
-  },
-  copyButtonLineSeparator: {
-    width: getDesignRelativeHeight(174, false),
-  },
-  copyButtonContainer: {
-    height: getDesignRelativeHeight(40, false),
-    width: getDesignRelativeHeight(160, false),
-    borderRadius: getDesignRelativeHeight(20, false),
-  },
-})
+const styles = ({ theme }) => {
+  const [height5, height40, height52] = [5, 40, 52].map(size => getDesignRelativeHeight(size, false))
+  const width38 = getDesignRelativeWidth(38, false)
+  const height25 = Math.ceil(height5 / 2)
+
+  return {
+    borderedBox: {
+      borderWidth: 1,
+      borderRadius: 5,
+      display: 'flex',
+      borerStyle: 'solid',
+      alignItems: 'center',
+      position: 'relative',
+      justifyContent: 'center',
+      borderColor: theme.colors.lighterGray,
+      height: getDesignRelativeHeight(isBrowser ? 123 : 130, false),
+    },
+    boxTitle: {
+      marginBottom: getDesignRelativeHeight(10, false),
+    },
+    avatarLineSeparator: {
+      height: height5,
+      top: -height25, // half of height
+      backgroundColor: theme.colors.surface,
+    },
+    avatar: {
+      position: 'absolute',
+      zIndex: 1,
+    },
+    boxCopyIconWrapper: {
+      width: getDesignRelativeWidth(88, false),
+      height: height52,
+      bottom: -Math.ceil(height52 / 2), // half of height
+      position: 'absolute',
+      zIndex: 1,
+    },
+    copyIconLineSeparator: {
+      width: getDesignRelativeHeight(52, false),
+      height: height5,
+      bottom: -height25, // half of height
+      backgroundColor: theme.colors.surface,
+      position: 'absolute',
+    },
+    copyIconContainer: {
+      width: width38,
+      height: width38,
+      minWidth: width38,
+      borderRadius: Math.ceil(width38 / 2),
+      backgroundColor: theme.colors.primary,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: getDesignRelativeHeight(4, false),
+      marginRight: 'auto',
+      marginLeft: 'auto',
+    },
+    boxCopyButtonWrapper: {
+      width: getDesignRelativeWidth(174, false),
+      height: getDesignRelativeHeight(54, false),
+      bottom: -getDesignRelativeHeight(32, false), // half of height
+    },
+    copyButtonLineSeparator: {
+      width: getDesignRelativeWidth(174, false),
+    },
+    copyButtonContainer: {
+      width: getDesignRelativeWidth(160, false),
+      height: height40,
+      borderRadius: Math.ceil(height40 / 2),
+    },
+  }
+}
 
 export default withStyles(styles)(BorderedBox)

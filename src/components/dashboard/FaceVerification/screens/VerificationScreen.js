@@ -15,6 +15,7 @@ import useVerificationAttempts from '../hooks/useVerificationAttempts'
 import {
   fireEvent,
   FV_GETREADY_ZOOM,
+  FV_INSTRUCTIONS,
   FV_PROGRESS_ZOOM,
   FV_SUCCESS_ZOOM,
   FV_TRYAGAIN_ZOOM,
@@ -120,6 +121,7 @@ const FaceVerification = ({ screenProps }) => {
   const sdkInitializedHandler = useCallback(() => {
     hideLoading()
     setShowInstructions(true)
+    fireEvent(FV_INSTRUCTIONS)
   }, [hideLoading, setShowInstructions])
 
   // SDK exception handler

@@ -117,6 +117,7 @@ const styles = ({ theme }) => {
       height: height5,
       top: -height25, // half of height
       backgroundColor: theme.colors.surface,
+      position: 'absolute',
     },
     avatar: {
       position: 'absolute',

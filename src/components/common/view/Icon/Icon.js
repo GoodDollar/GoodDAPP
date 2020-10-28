@@ -1,7 +1,6 @@
 // @flow
-import React from 'react'
+import React, { useMemo } from 'react'
 import { withTheme } from 'react-native-paper'
-import { noop } from 'lodash'
 import createIconSetFromFontello from 'react-native-vector-icons/lib/create-icon-set-from-fontello'
 import useOnPress from '../../../../lib/hooks/useOnPress'
 import fontelloConfig from './config.json'
@@ -17,15 +16,17 @@ type IconProps = {
 }
 
 export default withTheme(({ theme, color, size = 16, onPress, ...iconProps }: IconProps) => {
-  const onIconPress = useOnPress(onPress || noop, [onPress])
-  const { colors } = theme
+  const onIconPress = useOnPress(onPress)
 
-  return (
-    <Icon
-      size={size}
-      onPress={onPress ? onIconPress : noop}
-      color={colors[color] || color || colors.primary}
-      {...iconProps}
-    />
-  )
+  const iconColor = useMemo(() => {
+    const { colors } = theme
+
+    return colors[color] || color || colors.primary
+  }, [theme, color])
+
+  if (!onPress) {
+    return <Icon size={size} color={iconColor} {...iconProps} />
+  }
+
+  return <Icon onPress={onIconPress} size={size} color={iconColor} {...iconProps} />
 })

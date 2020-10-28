@@ -6,6 +6,7 @@ import DeviceOrientationError from '../components/DeviceOrientationError'
 import DuplicateFoundError from '../components/DuplicateFoundError'
 import GeneralError from '../components/GeneralError'
 import UnrecoverableError from '../components/UnrecoverableError'
+import SwitchToAnotherDevice from '../components/SwitchToAnotherDevice'
 
 import GDStore from '../../../../lib/undux/GDStore'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
@@ -35,8 +36,8 @@ const ErrorScreen = ({ styles, screenProps }) => {
     const { kindOfTheIssue: map } = ErrorScreen
 
     // if reached max retries - showing 'something went wrong our side'
-    if (isReachedMaxAttempts()) {
-      component = UnrecoverableError
+    if (isReachedMaxAttempts() && 'UnrecoverableError' !== kindOfTheIssue) {
+      component = SwitchToAnotherDevice
 
       // otherwise, if there's special screen for this kind of the issue hapened - showing it
     } else if (kindOfTheIssue in map) {
@@ -63,10 +64,11 @@ ErrorScreen.navigationOptions = {
 }
 
 ErrorScreen.kindOfTheIssue = {
-  NotAllowedError: CameraNotAllowedError,
-  DeviceOrientationError,
-  DuplicateFoundError,
   UnrecoverableError,
+  DuplicateFoundError,
+  DeviceOrientationError,
+  NotAllowedError: CameraNotAllowedError,
+  NotSupportedError: SwitchToAnotherDevice,
 }
 
 export default ErrorScreen

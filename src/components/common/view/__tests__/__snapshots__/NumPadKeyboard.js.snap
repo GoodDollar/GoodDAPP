@@ -892,14 +892,10 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         >
           <div
             className="css-text-901oao"
-            data-focusable={true}
             dir="auto"
-            onClick={[Function]}
-            onKeyDown={[Function]}
             style={
               Object {
                 "color": "rgba(66,69,74,1.00)",
-                "cursor": "pointer",
                 "fontFamily": "gooddollar",
                 "fontSize": "18px",
                 "fontStyle": "normal",
@@ -907,7 +903,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
                 "textAlign": "center",
               }
             }
-            tabIndex="0"
           >
             
           </div>

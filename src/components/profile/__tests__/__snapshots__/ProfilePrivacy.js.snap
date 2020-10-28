@@ -161,21 +161,16 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
-              data-focusable={true}
               dir="auto"
-              onClick={[Function]}
-              onKeyDown={[Function]}
               style={
                 Object {
                   "color": "rgba(0,175,255,1.00)",
-                  "cursor": "pointer",
                   "fontFamily": "gooddollar",
                   "fontSize": "16px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
               }
-              tabIndex="0"
             >
               
             </div>
@@ -941,8 +936,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   "backgroundColor": "rgba(255,255,255,1.00)",
                   "height": "6.233766233766233px",
                   "position": "absolute",
-                  "top": "-3.1168831168831166px",
-                  "width": "109.71428571428571px",
+                  "top": "-4px",
+                  "width": "116.11111111111111px",
                 }
               }
             />
@@ -951,17 +946,17 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "42.38961038961039px",
-                  "borderBottomRightRadius": "42.38961038961039px",
-                  "borderTopLeftRadius": "42.38961038961039px",
-                  "borderTopRightRadius": "42.38961038961039px",
+                  "borderBottomLeftRadius": "45px",
+                  "borderBottomRightRadius": "45px",
+                  "borderTopLeftRadius": "45px",
+                  "borderTopRightRadius": "45px",
                   "flexBasis": "auto",
-                  "height": "84.77922077922078px",
+                  "height": "89.72222222222221px",
                   "msFlexPreferredSize": "auto",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
                   "position": "absolute",
-                  "top": "-42.38961038961039px",
+                  "top": "-45px",
                   "width": "89.72222222222221px",
                   "zIndex": 1,
                 }
@@ -1040,7 +1035,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               style={
                 Object {
                   "backgroundColor": "rgba(255,255,255,1.00)",
-                  "bottom": "-3.1168831168831166px",
+                  "bottom": "-4px",
                   "height": "6.233766233766233px",
                   "position": "absolute",
                   "width": "64.83116883116884px",
@@ -1051,10 +1046,10 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "bottom": "-32.41558441558442px",
+                  "bottom": "-33px",
                   "height": "64.83116883116884px",
                   "position": "absolute",
-                  "width": "109.71428571428571px",
+                  "width": "116.11111111111111px",
                   "zIndex": 1,
                 }
               }
@@ -1070,8 +1065,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     "alignItems": "center",
                     "backgroundColor": "rgba(0,175,255,1.00)",
                     "borderBottomColor": "rgba(0,175,255,1.00)",
-                    "borderBottomLeftRadius": "23.68831168831169px",
-                    "borderBottomRightRadius": "23.68831168831169px",
+                    "borderBottomLeftRadius": "26px",
+                    "borderBottomRightRadius": "26px",
                     "borderBottomStyle": "solid",
                     "borderBottomWidth": "0px",
                     "borderLeftColor": "rgba(0,175,255,1.00)",
@@ -1081,27 +1076,27 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     "borderRightStyle": "solid",
                     "borderRightWidth": "0px",
                     "borderTopColor": "rgba(0,175,255,1.00)",
-                    "borderTopLeftRadius": "23.68831168831169px",
-                    "borderTopRightRadius": "23.68831168831169px",
+                    "borderTopLeftRadius": "26px",
+                    "borderTopRightRadius": "26px",
                     "borderTopStyle": "solid",
                     "borderTopWidth": "0px",
                     "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                     "display": "flex",
-                    "height": "47.37662337662338px",
+                    "height": "50.138888888888886px",
                     "justifyContent": "center",
                     "marginBottom": "4.987012987012987px",
                     "marginLeft": "auto",
                     "marginRight": "auto",
                     "marginTop": "0px",
                     "minHeight": "44px",
-                    "minWidth": "47.37662337662338px",
+                    "minWidth": "50.138888888888886px",
                     "msFlexAlign": "center",
                     "msFlexPack": "center",
                     "paddingBottom": "0px",
                     "paddingLeft": "0px",
                     "paddingRight": "0px",
                     "paddingTop": "0px",
-                    "width": "47.37662337662338px",
+                    "width": "50.138888888888886px",
                   }
                 }
               >
@@ -1201,21 +1196,16 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                       >
                         <span
                           className="css-text-901oao css-textHasAncestor-16my406"
-                          data-focusable={true}
                           dir="auto"
-                          onClick={[Function]}
-                          onKeyDown={[Function]}
                           style={
                             Object {
                               "color": "rgba(255,255,255,1.00)",
-                              "cursor": "pointer",
                               "fontFamily": "gooddollar",
                               "fontSize": "34px",
                               "fontStyle": "normal",
                               "fontWeight": "normal",
                             }
                           }
-                          tabIndex="0"
                         >
                           
                         </span>

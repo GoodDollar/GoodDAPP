@@ -86,21 +86,16 @@ exports[`SendToAddressButton should match snapshot 1`] = `
       >
         <div
           className="css-text-901oao"
-          data-focusable={true}
           dir="auto"
-          onClick={[Function]}
-          onKeyDown={[Function]}
           style={
             Object {
               "color": "rgba(255,255,255,1.00)",
-              "cursor": "pointer",
               "fontFamily": "gooddollar",
               "fontSize": "20px",
               "fontStyle": "normal",
               "fontWeight": "normal",
             }
           }
-          tabIndex="0"
         >
           
         </div>

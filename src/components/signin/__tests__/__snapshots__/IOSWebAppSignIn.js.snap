@@ -332,21 +332,16 @@ sent to you by text message:
             >
               <div
                 className="css-text-901oao"
-                data-focusable={true}
                 dir="auto"
-                onClick={[Function]}
-                onKeyDown={[Function]}
                 style={
                   Object {
                     "color": "rgba(66,69,74,1.00)",
-                    "cursor": "pointer",
                     "fontFamily": "gooddollar",
                     "fontSize": "16px",
                     "fontStyle": "normal",
                     "fontWeight": "normal",
                   }
                 }
-                tabIndex="0"
               >
                 
               </div>

@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { Image, Platform, View } from 'react-native'
 
 // components
-import { isString, noop } from 'lodash'
+import { noop } from 'lodash'
 import { Icon, Section } from '../index'
 import CustomButton from '../buttons/CustomButton'
 
@@ -23,6 +23,7 @@ const copyIconSize = isWeb ? 34 : normalize(21)
 const BorderedBox = ({
   styles,
   theme,
+  image,
   imageSource,
   title,
   content,
@@ -34,47 +35,50 @@ const BorderedBox = ({
 }) => {
   const [, setString] = useClipboard()
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
-  const halfImageSize = useMemo(() => Math.floor(imageSize / 2), [imageSize])
-  const ImageComponent = imageSource
 
   const copyToClipboard = useOnPress(() => {
     setString(content)
     onCopied()
   }, [onCopied, setString, content])
 
-  const avatarStyles = useMemo(
-    () => [
+  const avatarStyles = useMemo(() => {
+    const imageBoxSize = getDesignRelativeWidth(imageSize, false)
+    const halfBoxSize = Math.ceil(imageBoxSize / 2)
+
+    return [
       styles.avatar,
       {
-        height: getDesignRelativeHeight(imageSize, false),
-        width: getDesignRelativeWidth(imageSize, false),
-        borderRadius: getDesignRelativeHeight(halfImageSize, false), // half of height/width
-        top: -getDesignRelativeHeight(halfImageSize, false), // half of height
+        width: imageBoxSize,
+        height: imageBoxSize,
+        borderRadius: halfBoxSize, // half of height/width
+        top: -halfBoxSize, // half of height
       },
-    ],
-    [imageSize, styles.avatar],
-  )
+    ]
+  }, [imageSize, styles.avatar])
 
   const lineSeparatorStyles = useMemo(
     () => [
       styles.avatarLineSeparator,
       {
-        width: getDesignRelativeHeight(imageSize + 20, false),
+        width: getDesignRelativeWidth(imageSize + 20, false),
       },
     ],
     [imageSize, styles.avatarLineSeparator],
   )
 
+  const ImgComponent = image
+  const imgSource = useMemo(() => imageSource && { uri: imageSource }, [imageSource])
+
   return (
     <Section style={styles.borderedBox}>
       <View style={lineSeparatorStyles} />
-      {isString(imageSource) ? (
-        <Image source={{ uri: imageSource }} style={avatarStyles} />
-      ) : (
+      {imageSource ? (
+        <Image source={imgSource} style={avatarStyles} />
+      ) : image ? (
         <View style={avatarStyles}>
-          <ImageComponent />
+          <ImgComponent />
         </View>
-      )}
+      ) : null}
       <Section.Text fontSize={18} fontFamily="Roboto Slab" fontWeight="bold" style={styles.boxTitle}>
         {title}
       </Section.Text>
@@ -99,78 +103,84 @@ const BorderedBox = ({
   )
 }
 
-const styles = ({ theme }) => ({
-  borderedBox: {
-    borderWidth: 1,
-    borerStyle: 'solid',
-    borderColor: theme.colors.lighterGray,
-    borderRadius: 5,
-    height: getDesignRelativeHeight(isWeb ? 123 : 130, false),
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  boxTitle: {
-    marginBottom: getDesignRelativeHeight(10, false),
-  },
-  avatarLineSeparator: {
-    height: getDesignRelativeHeight(5, false),
-    position: 'absolute',
-    top: -getDesignRelativeHeight(2.5, false), // half of height
-    backgroundColor: theme.colors.surface,
-  },
-  avatar: {
-    position: 'absolute',
-    zIndex: 1,
-    alignItems: 'center',
-  },
-  boxCopyIconWrapper: {
-    height: getDesignRelativeHeight(52, false),
-    width: getDesignRelativeHeight(88, false),
-    position: 'absolute',
-    bottom: -getDesignRelativeHeight(26, false), // half of height
-    zIndex: 1,
-  },
-  copyIconLineSeparator: {
-    height: getDesignRelativeHeight(5, false),
-    width: getDesignRelativeHeight(52, false),
-    position: 'absolute',
-    bottom: -getDesignRelativeHeight(2.5, false), // half of height
-    backgroundColor: theme.colors.surface,
-  },
-  copyIconContainer: {
-    height: getDesignRelativeHeight(38, false),
-    width: getDesignRelativeHeight(38, false),
-    minWidth: Platform.select({
-      web: getDesignRelativeHeight(38, false),
-      default: getDesignRelativeHeight(42, false),
-    }),
-    borderRadius: Platform.select({
-      web: getDesignRelativeHeight(19, false),
-      default: getDesignRelativeHeight(21, false),
-    }),
-    backgroundColor: theme.colors.primary,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: getDesignRelativeHeight(4, false),
-    marginRight: 'auto',
-    marginLeft: 'auto',
-  },
-  boxCopyButtonWrapper: {
-    width: getDesignRelativeHeight(174, false),
-    height: getDesignRelativeHeight(54, false),
-    bottom: -getDesignRelativeHeight(32, false), // half of height
-  },
-  copyButtonLineSeparator: {
-    width: getDesignRelativeHeight(174, false),
-  },
-  copyButtonContainer: {
-    height: getDesignRelativeHeight(40, false),
-    width: getDesignRelativeHeight(160, false),
-    borderRadius: getDesignRelativeHeight(20, false),
-  },
-})
+const styles = ({ theme }) => {
+  const [height5, height40, height52] = [5, 40, 52].map(size => getDesignRelativeHeight(size, false))
+  const [width38, width42] = [38, 42].map(size => getDesignRelativeWidth(size, false))
+  const height25 = Math.ceil(height5 / 2)
+
+  return {
+    borderedBox: {
+      borderWidth: 1,
+      borerStyle: 'solid',
+      borderColor: theme.colors.lighterGray,
+      borderRadius: 5,
+      height: getDesignRelativeHeight(isWeb ? 123 : 130, false),
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
+    },
+    boxTitle: {
+      marginBottom: getDesignRelativeHeight(10, false),
+    },
+    avatarLineSeparator: {
+      height: height5,
+      top: -height25, // half of height
+      backgroundColor: theme.colors.surface,
+      position: 'absolute',
+    },
+    avatar: {
+      position: 'absolute',
+      zIndex: 1,
+      alignItems: 'center',
+    },
+    boxCopyIconWrapper: {
+      width: getDesignRelativeWidth(88, false),
+      height: height52,
+      bottom: -Math.ceil(height52 / 2), // half of height
+      position: 'absolute',
+      zIndex: 1,
+    },
+    copyIconLineSeparator: {
+      width: getDesignRelativeWidth(52, false),
+      height: height5,
+      bottom: -height25, // half of height
+      backgroundColor: theme.colors.surface,
+      position: 'absolute',
+    },
+    copyIconContainer: {
+      width: width38,
+      height: width38,
+      minWidth: Platform.select({
+        web: width38,
+        default: width42,
+      }),
+      borderRadius: Platform.select({
+        web: Math.ceil(width38 / 2),
+        default: Math.ceil(width42 / 2),
+      }),
+      backgroundColor: theme.colors.primary,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: getDesignRelativeHeight(4, false),
+      marginRight: 'auto',
+      marginLeft: 'auto',
+    },
+    boxCopyButtonWrapper: {
+      width: getDesignRelativeWidth(174, false),
+      height: getDesignRelativeHeight(54, false),
+      bottom: -getDesignRelativeHeight(32, false), // half of height
+    },
+    copyButtonLineSeparator: {
+      width: getDesignRelativeWidth(174, false),
+    },
+    copyButtonContainer: {
+      width: getDesignRelativeWidth(160, false),
+      height: height40,
+      borderRadius: Math.ceil(height40 / 2),
+    },
+  }
+}
 
 export default withStyles(styles)(BorderedBox)

@@ -2,7 +2,7 @@
 
 // libraries
 import React, { useCallback, useMemo } from 'react'
-import { Image, Platform, View } from 'react-native'
+import { View } from 'react-native'
 import { get } from 'lodash'
 
 // components
@@ -27,11 +27,6 @@ import unknownProfile from '../../assets/unknownProfile.svg'
 import FuseLogo from '../../assets/ExportWallet/FuseLogo.svg'
 import ExportWarningPopup from './ExportWarningPopup'
 
-if (Platform.OS === 'web') {
-  Image.prefetch(unknownProfile)
-  Image.prefetch(FuseLogo)
-}
-
 const { account = '', networkId } = GoodWallet
 const web3ProviderUrl = networkId && config.ethereum[networkId].httpWeb3provider
 
@@ -48,7 +43,6 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
   const { avatar } = gdstore.get('profile')
   const [showLoading, hideLoading] = useLoading()
   const handleGoHome = useCallback(() => navigate('Home'), [navigate])
-  const avatarSource = useMemo(() => avatar || unknownProfile, [avatar])
 
   // getting the privateKey of GD wallet address - which index is 0
   const fullPrivateKey = useMemo(() => get(GoodWallet, 'wallet.eth.accounts.wallet[0].privateKey', ''), [])
@@ -75,7 +69,8 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
             content={fullPrivateKey}
             truncateContent
             imageSize={50}
-            imageSource={avatarSource}
+            imageSource={avatar}
+            image={!avatar && unknownProfile}
             copyButtonText="Copy Key"
             showCopyIcon={false}
           />
@@ -86,7 +81,8 @@ const ExportWalletData = ({ navigation, styles, theme }: ExportWalletProps) => {
             content={account}
             truncateContent
             imageSize={50}
-            imageSource={avatarSource}
+            imageSource={avatar}
+            image={!avatar && unknownProfile}
             copyButtonText="Copy address"
             showCopyIcon={false}
             onCopied={onPublicKeyCopied}

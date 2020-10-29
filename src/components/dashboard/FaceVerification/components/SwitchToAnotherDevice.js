@@ -15,7 +15,7 @@ if (Platform.OS === 'web') {
   Image.prefetch(illustration)
 }
 
-const SwitchToAnotherDevice = ({ styles, displayTitle, exception, screenProps }) => (
+const SwitchToAnotherDevice = ({ styles, displayTitle, exception, nav }) => (
   <Wrapper>
     <View style={styles.topContainer}>
       <Section style={styles.descriptionContainer} justifyContent="space-between">
@@ -42,7 +42,7 @@ const SwitchToAnotherDevice = ({ styles, displayTitle, exception, screenProps })
         </Section>
       </Section>
       <View style={styles.action}>
-        <CustomButton onPress={screenProps.goToRoot} testID="ok_button">
+        <CustomButton onPress={nav.goToRoot} testID="ok_button">
           OK
         </CustomButton>
       </View>

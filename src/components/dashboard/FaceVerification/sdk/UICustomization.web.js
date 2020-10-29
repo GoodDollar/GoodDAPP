@@ -31,7 +31,7 @@ export const UITextStrings = {
   zoomRetryInstructionMessage1: '<span>Hold Your Camera at Eye Level.</span>',
   zoomRetryInstructionMessage2: '<span>Light Your Face Evenly.<br/>Avoid Smiling & Back Light</span>',
 
-  zoomInstructionsMessageReady: `Please Frame Your Face${nl}In The Small Oval,${nl}Then The Big Oval`,
+  zoomInstructionsMessageReady: `Please Frame Your Face In The Small${nl}Oval, Then The Big Oval`,
 
   zoomInitializingCamera: null, // setting empty "Starting camera..." text
   zoomResultFacemapUploadMessage: `Verifying you're\none of a kind`,

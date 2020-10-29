@@ -33,6 +33,8 @@ export default class UserProperties {
     goodMarketClicked: false,
     joinedAtBlock: 6400000, // default block to start sync from
     lastTxSyncDate: 0,
+    inviterCode: null,
+    inviteCode: null,
   }
 
   fields = [

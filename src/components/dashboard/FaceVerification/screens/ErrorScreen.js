@@ -12,7 +12,6 @@ import GDStore from '../../../../lib/undux/GDStore'
 import useVerificationAttempts from '../hooks/useVerificationAttempts'
 
 import { getFirstWord } from '../../../../lib/utils/getFirstWord'
-import {} from '../sdk/ZoomSDK'
 
 const ErrorScreen = ({ styles, screenProps }) => {
   const store = GDStore.useStore()

@@ -79,12 +79,12 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   description: {
-    color: 'primary',
+    color: theme.colors.primary,
     fontSize: isLargeDevice ? 20 : 18,
     lineHeight: isLargeDevice ? 30 : 25,
   },
   descriptionWrapper: {
-    paddingVertical: getDesignRelativeHeight(isLargeDevice ? theme.sizes.defaultDouble : theme.sizes.default, false),
+    paddingVertical: getDesignRelativeHeight(isLargeDevice ? theme.sizes.defaultDouble : theme.sizes.default),
   },
   largeSizing: {
     flexGrow: 1,

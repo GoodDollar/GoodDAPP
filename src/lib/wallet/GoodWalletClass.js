@@ -867,10 +867,9 @@ export class GoodWallet {
     inviteCode: string,
     events: PromiEvents = defaultPromiEvents,
   ): { code: string, hashedCode: string, paymentLink: string } {
-    const code = this.wallet.utils.randomHex(10).replace('0x', '')
-    const hashedCode = this.wallet.utils.sha3(code)
+    const { privateKey: code, address: hashedCode } = this.wallet.eth.accounts.create()
 
-    log.debug('generatePaymentLink:', { amount })
+    log.debug('generatePaymentLink:', { amount, code, hashedCode })
 
     const params = {
       p: code,
@@ -880,18 +879,24 @@ export class GoodWallet {
 
     const paymentLink = generateShareLink('send', params)
 
-    const txPromise = this.depositToHash(amount, hashedCode, events)
+    const asParam = this.wallet.eth.abi.encodeParameter('address', hashedCode)
+
+    const txPromise = this.depositToHash(amount, asParam, events)
 
     return {
       code,
-      hashedCode,
+      hashedCode: hashedCode.toLowerCase(),
       paymentLink,
       txPromise,
     }
   }
 
+  /**
+   * @param otlCode code to unlock payment - a privatekey
+   * @returns the payment id - public address
+   */
   getWithdrawLink(otlCode: string) {
-    return this.wallet.utils.sha3(otlCode)
+    return this.wallet.eth.accounts.privateKeyToAccount(otlCode).address
   }
 
   /**
@@ -950,23 +955,28 @@ export class GoodWallet {
 
   /**
    * withdraws the payment received in the link to the current wallet holder
-   * @param {string} otlCode
+   * @param {string} otlCode - the privatekey to unlock payment
    * @param {PromiEvents} callbacks
    */
-  async withdraw(otlCode: string, callbacks: PromiEvents) {
+  withdraw(otlCode: string, callbacks: PromiEvents) {
     let method = 'withdraw'
-    let args = [otlCode]
+    let args
 
     if (Config.simulateWithdrawReverted) {
       method = 'setIdentity'
       args = [this.account, this.account]
+    } else {
+      const paymentId = this.getWithdrawLink(otlCode)
+      const toSign = this.wallet.utils.sha3(this.account)
+
+      const privateKeyProof = this.wallet.eth.accounts.sign(toSign, otlCode)
+      log.debug('withdraw:', { paymentId, toSign, otlCode, privateKeyProof })
+      args = [paymentId, privateKeyProof.signature]
     }
 
     const withdrawCall = this.oneTimePaymentsContract.methods[method](...args)
-    const gasLimit = await this.oneTimePaymentsContract.methods.gasLimit.call().then(toBN)
 
-    //contract enforces max gas of 80000 to prevent front running
-    return this.sendTransaction(withdrawCall, callbacks, { gas: gasLimit.toNumber() })
+    return this.sendTransaction(withdrawCall, callbacks)
   }
 
   /**
@@ -980,11 +990,11 @@ export class GoodWallet {
     const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposit')[0]
 
     if (paymentDepositLog && paymentDepositLog.events) {
-      const eventHashParam = paymentDepositLog.events.filter(({ name }) => name === 'hash')[0]
+      const eventHashParam = paymentDepositLog.events.filter(({ name }) => name === 'paymentId')[0]
 
       if (eventHashParam) {
-        const { value: hash } = eventHashParam
-        return this.cancelOTL(hash, txCallbacks)
+        const { value: paymentId } = eventHashParam
+        return this.cancelOTL(paymentId, txCallbacks)
       }
 
       throw new Error('No hash available')

@@ -14,9 +14,12 @@ import { fireEvent, FV_CANTACCESSCAMERA } from '../../../../lib/analytics/analyt
 // assets
 import illustration from '../../../../assets/CameraPermissionError.svg'
 
-const CameraNotAllowedError = ({ onRetry, exception = {} }) => {
-  const cameraDoesNotExist = exception.code === ZoomSessionStatus.CameraDoesNotExist
+const { CameraDoesNotExist } = ZoomSessionStatus
+
+const CameraNotAllowedError = ({ onRetry, exception }) => {
   const [showDialog] = useDialog()
+  const { code } = exception || {}
+  const cameraDoesNotExist = code === CameraDoesNotExist
 
   useEffect(() => {
     const buttons = []
@@ -43,6 +46,10 @@ const CameraNotAllowedError = ({ onRetry, exception = {} }) => {
       text = 'Change it via your device settings'
     }
 
+    if (exception) {
+      fireEvent(FV_CANTACCESSCAMERA)
+    }
+
     showDialog({
       content: (
         <ExplanationDialog
@@ -58,8 +65,6 @@ const CameraNotAllowedError = ({ onRetry, exception = {} }) => {
       showButtons: false,
       onDismiss: onRetry,
     })
-
-    fireEvent(FV_CANTACCESSCAMERA)
   }, [])
 
   return null

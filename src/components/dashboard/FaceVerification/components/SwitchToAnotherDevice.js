@@ -11,13 +11,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib
 import { withStyles } from '../../../../lib/styles'
 import SwitchToAnotherDeviceSVG from '../../../../assets/FRSwitchToAnotherDevice.svg'
 
-const descriptionStyles = {
-  color: 'primary',
-  fontSize: isLargeDevice ? 20 : 18,
-  lineHeight: isLargeDevice ? 30 : 25,
-}
-
-const SwitchToAnotherDevice = ({ styles, displayTitle, exception, screenProps }) => (
+const SwitchToAnotherDevice = ({ styles, displayTitle, exception, nav }) => (
   <Wrapper>
     <View style={styles.topContainer}>
       <Section style={styles.descriptionContainer} justifyContent="space-between">
@@ -31,8 +25,8 @@ const SwitchToAnotherDevice = ({ styles, displayTitle, exception, screenProps })
         <Section style={[styles.errorSection, isLargeDevice ? styles.largeSizing : {}]}>
           <Separator width={2} />
           <View style={styles.descriptionWrapper}>
-            <Text {...descriptionStyles}>{'Sometimes, switching to a\ndifferent device is a good solution.'}</Text>
-            <Text {...descriptionStyles} fontWeight="bold">
+            <Text style={styles.description}>{'Sometimes, switching to a\ndifferent device is a good solution.'}</Text>
+            <Text style={styles.description} fontWeight="bold">
               {'Sorry about that… :)'}
             </Text>
           </View>
@@ -40,7 +34,7 @@ const SwitchToAnotherDevice = ({ styles, displayTitle, exception, screenProps })
         </Section>
       </Section>
       <View style={styles.action}>
-        <CustomButton onPress={screenProps.goToRoot} testID="ok_button">
+        <CustomButton onPress={nav.goToRoot} testID="ok_button">
           OK
         </CustomButton>
       </View>
@@ -83,6 +77,11 @@ const getStylesFromProps = ({ theme }) => ({
     paddingHorizontal: 0,
     marginBottom: 0,
     width: '100%',
+  },
+  description: {
+    color: 'primary',
+    fontSize: isLargeDevice ? 20 : 18,
+    lineHeight: isLargeDevice ? 30 : 25,
   },
   descriptionWrapper: {
     paddingVertical: getDesignRelativeHeight(isLargeDevice ? theme.sizes.defaultDouble : theme.sizes.default, false),

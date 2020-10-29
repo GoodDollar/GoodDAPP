@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import hexToRgba from 'hex-to-rgba'
-import { assignIn, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
+import { black } from 'react-native-paper/src/styles/colors'
+import { assignIn, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 
 import { Spinner } from '../../../common/view/LoadingIndicator'
 import ZoomAuthentication from '../../../../lib/zoom/ZoomAuthentication'
@@ -15,12 +16,23 @@ export const ZOOM_PUBLIC_PATH = '/zoom'
 
 const { ZoomCustomization, ZoomCancelButtonLocation } = ZoomAuthentication.ZoomSDK
 
+const ZoomShadow = (box, color, alpha) => `${box.map(ZoomSize).join(' ')} ${ZoomColor(color, alpha)}`
 const ZoomImage = filename => `${ZOOM_PUBLIC_PATH}/images/${filename}`
-const ZoomColor = memoize(hexToRgba)
 const ZoomFont = family => `'${family}', sans-serif`
+const ZoomSize = size => (size ? `${size}px` : '0')
 
-const ZoomHeaderTextSize = '22px'
-const ZoomDefaultCorderRadius = '5px'
+const ZoomColor = memoize(hexToRgba, (color, alpha) => {
+  let cacheKey = color
+
+  if ((isFinite(alpha) || isString(alpha)) && isString(color)) {
+    cacheKey += String(alpha)
+  }
+
+  return cacheKey
+})
+
+const ZoomHeaderTextSize = ZoomSize(isLargeDevice ? 22 : 20)
+const ZoomDefaultCornerRadius = ZoomSize(5)
 
 const { primary, green, white, lightGray, darkGray, gray50Percent } = theme.colors
 const { default: defaultFont } = theme.fonts
@@ -83,7 +95,7 @@ assignIn(initialLoadingAnimationCustomization, {
 // removing branding image from overlay
 assignIn(overlayCustomization, {
   showBrandingImage: false,
-  backgroundColor: 'rgba(255, 255, 255, .5)',
+  backgroundColor: ZoomColor(white, 0.5),
 })
 
 // setting custom location & image of cancel button
@@ -96,10 +108,10 @@ assignIn(cancelButtonCustomization, {
 // bold font style is set in UICustomization.css
 assignIn(feedbackCustomization, {
   backgroundColor: ZoomColor(primary),
-  cornerRadius: ZoomDefaultCorderRadius,
+  cornerRadius: ZoomDefaultCornerRadius,
   textColor: ZoomColor(white),
   textFont: ZoomFont(defaultFont),
-  textSize: '24px',
+  textSize: ZoomSize(24),
 })
 
 // setting oval border color & width
@@ -113,10 +125,10 @@ assignIn(ovalCustomization, {
 // frame (zoom's popup) customizations
 assignIn(frameCustomization, {
   // setting frame border, radius & shadow
-  borderColor: 'rgba(255, 255, 255, 0)',
-  borderCornerRadius: ZoomDefaultCorderRadius,
-  borderWidth: '0',
-  shadow: '0px 19px 38px 0px rgba(0, 0, 0, .42)',
+  borderColor: ZoomColor(white, 0),
+  borderCornerRadius: ZoomDefaultCornerRadius,
+  borderWidth: ZoomSize(0),
+  shadow: ZoomShadow([0, 19, 38, 0], black, 0.42),
 
   // setting Zoom UI background color
   backgroundColor: ZoomColor(white),
@@ -129,8 +141,8 @@ assignIn(guidanceCustomization, {
 
   // customizing buttons
   buttonFont: ZoomFont(defaultFont),
-  buttonBorderWidth: '0',
-  buttonCornerRadius: ZoomDefaultCorderRadius,
+  buttonBorderWidth: ZoomSize(0),
+  buttonCornerRadius: ZoomDefaultCornerRadius,
   buttonTextNormalColor: ZoomColor(white),
   buttonTextHighlightColor: ZoomColor(white),
   buttonTextDisabledColor: ZoomColor(white),
@@ -145,7 +157,7 @@ assignIn(guidanceCustomization, {
 
   // subtext
   subtextFont: ZoomFont(defaultFont),
-  subtextTextSize: '12px',
+  subtextTextSize: ZoomSize(12),
 
   // enabling additional instructions on retry screen
   enableRetryScreenBulletedInstructions: true,
@@ -154,16 +166,16 @@ assignIn(guidanceCustomization, {
   enableRetryScreenSlideshowShuffle: false,
   retryScreenOvalStrokeColor: ZoomColor(primary),
   retryScreenImageBorderColor: ZoomColor(primary),
-  retryScreenImageBorderWidth: '4px',
-  retryScreenImageCornerRadius: ZoomDefaultCorderRadius,
+  retryScreenImageBorderWidth: ZoomSize(4),
+  retryScreenImageCornerRadius: ZoomDefaultCornerRadius,
 })
 
 // customizing result screen - progress bar & success animation
 assignIn(resultScreenCustomization, {
   foregroundColor: ZoomColor(darkGray),
   messageFont: ZoomFont(defaultFont),
-  messageTextSpacing: '0.08px',
-  messageTextSize: '16px',
+  messageTextSpacing: ZoomSize(0.08),
+  messageTextSize: ZoomSize(16),
   showUploadProgressBar: true,
   uploadProgressFillColor: ZoomColor(primary),
   uploadProgressTrackColor: ZoomColor(lightGray),

@@ -12,6 +12,7 @@ describe('ReceiveToAddress', () => {
   beforeAll(() => {
     jest.doMock('../../../lib/wallet/GoodWallet', () => {
       return {
+        account: 'fake-wallet-address',
         wallet: {
           eth: {
             accounts: {

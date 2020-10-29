@@ -1,4 +1,24 @@
 /* eslint-disable require-await */
+import { upperFirst } from 'lodash'
+
+export const LoginStrategy = {
+  Facebook: 'facebook',
+  GoogleLegacy: 'google-old',
+  Google: 'google',
+  Auth0: 'auth0',
+  PaswordlessEmail: 'auth0-pwdless-email',
+  PaswordlessSMS: 'auth0-pwdless-sms',
+
+  getTitle(strategy) {
+    const { GoogleLegacy, PaswordlessSMS } = LoginStrategy
+
+    if (strategy.includes('pwdless')) {
+      return `Passwordless (${strategy === PaswordlessSMS ? 'SMS' : 'E-Mail'})`
+    }
+
+    return `${upperFirst(strategy)}${strategy === GoogleLegacy ? ' (legacy)' : ''}`
+  },
+}
 
 class AbstractLoginStrategy {
   constructor(torus, config) {
@@ -49,7 +69,9 @@ export class GoogleStrategy extends AbstractLoginStrategy {
         {
           clientId: googleClientId,
           typeOfLogin: 'google',
-          verifier: config.env === 'production' ? 'google' : 'google-shubs', //for mainnet torus uses a different verifier
+
+          // for mainnet torus uses a different verifier
+          verifier: config.env === 'production' ? 'google' : 'google-shubs',
         },
       ],
     })

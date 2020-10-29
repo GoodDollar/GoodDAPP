@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import hexToRgba from 'hex-to-rgba'
-import { black } from 'react-native-paper/src/styles/colors'
+import { Colors } from 'react-native-paper'
 import { assignIn, isFinite, isString, mapKeys, memoize, pickBy, snakeCase } from 'lodash'
 
 import { Spinner } from '../../../common/view/LoadingIndicator'
@@ -128,7 +128,7 @@ assignIn(frameCustomization, {
   borderColor: ZoomColor(white, 0),
   borderCornerRadius: ZoomDefaultCornerRadius,
   borderWidth: ZoomSize(0),
-  shadow: ZoomShadow([0, 19, 38, 0], black, 0.42),
+  shadow: ZoomShadow([0, 19, 38, 0], Colors.black, 0.42),
 
   // setting Zoom UI background color
   backgroundColor: ZoomColor(white),

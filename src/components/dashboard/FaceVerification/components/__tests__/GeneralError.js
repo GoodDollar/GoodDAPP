@@ -5,24 +5,20 @@ import ImportedGeneralError from '../GeneralError'
 
 const GeneralError = withThemeProvider(ImportedGeneralError)
 
-const screenState = {
-  isValid: false,
-  error: {
-    name: 'test',
-    error: 'test',
-    message: 'test',
-  },
-  allowRetry: true,
+const exception = {
+  name: 'test',
+  error: 'test',
+  message: 'test',
 }
 
 describe('FaceVerification GeneralError', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<GeneralError screenProps={{ screenState }} />)
+    const tree = renderer.create(<GeneralError exception={exception} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<GeneralError screenProps={{ screenState }} />)
+    const component = renderer.create(<GeneralError exception={exception} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

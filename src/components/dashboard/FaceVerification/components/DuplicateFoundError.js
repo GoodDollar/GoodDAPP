@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 
 import Text from '../../../common/view/Text'
@@ -6,18 +6,22 @@ import Separator from '../../../common/layout/Separator'
 import { CustomButton, Section, Wrapper } from '../../../common'
 import FaceVerificationErrorSmiley from '../../../common/animations/FaceVerificationErrorSmiley'
 
-import useOnPress from '../../../../lib/hooks/useOnPress'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../../lib/utils/sizes'
 import { withStyles } from '../../../../lib/styles'
 
 import { fireEvent, FV_DUPLICATEERROR } from '../../../../lib/analytics/analytics'
 
-const DuplicateFoundError = ({ styles, displayTitle, onRetry, screenProps }) => {
-  const onRetryPress = useOnPress(onRetry)
-  const onContactSupport = useOnPress(() => screenProps.navigateTo('Support'), [screenProps])
+const DuplicateFoundError = ({ styles, displayTitle, onRetry, nav, exception }) => {
+  const onContactSupport = useCallback(() => nav.navigateTo('Support'), [nav])
 
-  useEffect(() => void fireEvent(FV_DUPLICATEERROR), [])
+  useEffect(() => {
+    if (!exception) {
+      return
+    }
+
+    fireEvent(FV_DUPLICATEERROR)
+  }, [])
 
   return (
     <Wrapper>
@@ -52,7 +56,7 @@ const DuplicateFoundError = ({ styles, displayTitle, onRetry, screenProps }) => 
           <CustomButton onPress={onContactSupport} mode="outlined" style={styles.actionsSpace}>
             CONTACT SUPPORT
           </CustomButton>
-          <CustomButton onPress={onRetryPress}>TRY AGAIN</CustomButton>
+          <CustomButton onPress={onRetry}>TRY AGAIN</CustomButton>
         </View>
       </View>
     </Wrapper>

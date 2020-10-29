@@ -56,9 +56,6 @@ const ProfilePrivacy = props => {
 
   // bordered box required data
   const { avatar } = gdstore.get('profile')
-
-  const avatarSource = useMemo(() => avatar || unknownProfile, [avatar])
-
   const faceRecordId = useMemo(() => userStorage.getFaceIdentifier(), [])
 
   useEffect(() => {
@@ -162,7 +159,8 @@ const ProfilePrivacy = props => {
           </Section.Stack>
           <Section grow justifyContent="center">
             <BorderedBox
-              imageSource={avatarSource}
+              imageSource={avatar}
+              image={!avatar && unknownProfile}
               title="My Face Record ID"
               content={faceRecordId}
               truncateContent

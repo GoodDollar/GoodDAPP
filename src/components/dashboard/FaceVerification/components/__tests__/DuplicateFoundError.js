@@ -5,24 +5,20 @@ import ImportedDuplicateFoundError from '../DuplicateFoundError'
 
 const DuplicateFoundError = withThemeProvider(ImportedDuplicateFoundError)
 
-const screenState = {
-  isValid: false,
-  error: {
-    name: 'test',
-    error: 'test',
-    message: 'test',
-  },
-  allowRetry: true,
+const exception = {
+  name: 'test',
+  error: 'test',
+  message: 'test',
 }
 
 describe('FaceVerification DuplicateFoundError', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<DuplicateFoundError screenProps={{ screenState }} />)
+    const tree = renderer.create(<DuplicateFoundError exception={exception} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<DuplicateFoundError screenProps={{ screenState }} />)
+    const component = renderer.create(<DuplicateFoundError exception={exception} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

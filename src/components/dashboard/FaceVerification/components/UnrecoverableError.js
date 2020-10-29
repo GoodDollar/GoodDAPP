@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 
 import { CustomButton, Section, Wrapper } from '../../../common'
 import { showSupportDialog } from '../../../common/dialogs/showSupportDialog'
 
 import { useDialog } from '../../../../lib/undux/utils/dialog'
-import useOnPress from '../../../../lib/hooks/useOnPress'
 import { isMobileOnly } from '../../../../lib/utils/platform'
 import logger from '../../../../lib/logger/pino-logger'
 
@@ -16,20 +15,19 @@ import IllustrationSVG from '../../../../assets/FRUnrecoverableError.svg'
 import { ZoomSDKStatus } from '../sdk/ZoomSDK'
 import { ExceptionType } from '../utils/kindOfTheIssue'
 
-const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus || {} //FIXME: RN
+const { SDK } = ExceptionType
+const { InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid } = ZoomSDKStatus || {}
 
 const log = logger.child({ from: 'FaceVerification' })
 
-const UnrecoverableError = ({ styles, exception, screenProps }) => {
+const UnrecoverableError = ({ styles, exception, nav }) => {
   const [, hideDialog, showErrorDialog] = useDialog()
-  const { navigateTo, goToRoot, push } = screenProps
+  const { navigateTo, goToRoot, push } = nav
 
   const { type, code, message } = exception || {}
-  const isLicenseIssue =
-    ExceptionType.SDK === type && [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(code)
+  const isLicenseIssue = SDK === type && [InvalidDeviceLicenseKeyIdentifier, LicenseExpiredOrInvalid].includes(code)
 
-  const onContactSupport = useOnPress(() => navigateTo('Support'), [navigateTo])
-  const onDismiss = useOnPress(() => goToRoot(), [goToRoot])
+  const onContactSupport = useCallback(() => navigateTo('Support'), [navigateTo])
 
   useEffect(() => {
     // if it's not an license issue - we don't have to show dialog
@@ -59,7 +57,7 @@ const UnrecoverableError = ({ styles, exception, screenProps }) => {
           </View>
         </Section>
         <View style={styles.action}>
-          <CustomButton onPress={onDismiss} style={styles.actionsSpace}>
+          <CustomButton onPress={goToRoot} style={styles.actionsSpace}>
             OK
           </CustomButton>
           <CustomButton mode="outlined" onPress={onContactSupport}>

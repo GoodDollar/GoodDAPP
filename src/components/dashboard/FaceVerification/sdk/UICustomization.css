@@ -61,6 +61,10 @@
   #zoom-upload-progress-wrapper .loading::before {
     font-size: 15px;
   }
+
+  #ready-screen-subtext {
+    margin-top: -5px;
+  }
 }
 
 #get-ready-for-video-screen > div > div {

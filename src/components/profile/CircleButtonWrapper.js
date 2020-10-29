@@ -21,7 +21,11 @@ const CircleButtonWrapper = ({
 
   return (
     <View style={containerStyle}>
-      <TouchableOpacity cursor={disabled ? 'inherit' : 'pointer'} onPress={onIconPress} style={[styles.button, style]}>
+      <TouchableOpacity
+        cursor={disabled ? 'inherit' : 'pointer'}
+        onPress={!disabled && onIconPress}
+        style={[styles.button, style]}
+      >
         <Icon color={iconColor} size={iconSize} name={iconName} />
       </TouchableOpacity>
       {!!label && (

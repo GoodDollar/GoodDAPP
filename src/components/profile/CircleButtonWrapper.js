@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { noop } from 'lodash'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
 import useOnPress from '../../lib/hooks/useOnPress'
@@ -18,12 +17,11 @@ const CircleButtonWrapper = ({
   iconColor,
   iconSize,
 }) => {
-  const onIconPress = useOnPress(onPress || noop, [onPress])
-  const _onPress = onPress ? onIconPress : noop
+  const onIconPress = useOnPress(onPress)
 
   return (
     <View style={containerStyle}>
-      <TouchableOpacity cursor={disabled ? 'inherit' : 'pointer'} onPress={_onPress} style={[styles.button, style]}>
+      <TouchableOpacity cursor={disabled ? 'inherit' : 'pointer'} onPress={onIconPress} style={[styles.button, style]}>
         <Icon color={iconColor} size={iconSize} name={iconName} />
       </TouchableOpacity>
       {!!label && (

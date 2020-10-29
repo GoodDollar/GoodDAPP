@@ -1,8 +1,8 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { isFunction, isNil } from 'lodash'
 
-const useOnPress = (callback, deps = []) =>
-  useCallback(
+const useOnPress = (callback, deps = []) => {
+  const wrappedCallback = useCallback(
     event => {
       if (event && isFunction(event.preventDefault)) {
         event.preventDefault()
@@ -13,11 +13,20 @@ const useOnPress = (callback, deps = []) =>
     [callback, ...deps],
   )
 
+  if (callback) {
+    return wrappedCallback
+  }
+}
+
 export const useDebouncedOnPress = (callback, deps = []) => {
   const nextInvokationRef = useRef(null)
 
-  return useOnPress(
-    event => {
+  const debouncedCallback = useMemo(() => {
+    if (!callback) {
+      return
+    }
+
+    return event => {
       const nextInvokation = nextInvokationRef.current
       const currentTs = Date.now()
 
@@ -26,9 +35,10 @@ export const useDebouncedOnPress = (callback, deps = []) => {
       }
 
       nextInvokationRef.current = currentTs + 500
-    },
-    [callback, ...deps],
-  )
+    }
+  }, [callback])
+
+  return useOnPress(debouncedCallback, deps)
 }
 
 export default useOnPress

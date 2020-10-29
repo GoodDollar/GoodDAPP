@@ -34,6 +34,8 @@ export default class UserProperties {
     lastTxSyncDate: 0,
     hasOpenedGoodMarket: false,
     goodMarketClicked: false,
+    inviterCode: null,
+    inviteCode: null,
   }
 
   fields = [

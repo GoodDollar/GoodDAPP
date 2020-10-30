@@ -47,9 +47,14 @@ const styles = {
   },
   iconView: {
     justifyContent: 'center',
-    alignItems: 'flex-end',
     width: 50,
     height: 50,
+  },
+  iconViewLeft: {
+    alignItems: 'flex-start',
+  },
+  iconViewRight: {
+    alignItems: 'flex-end',
   },
   appBar: { overflow: 'hidden' },
 }
@@ -57,9 +62,9 @@ const styles = {
 const showRewardsFlag = showRewards || isEToro
 const showInviteFlag = enableInvites || isEToro
 const iconStyle = isMobileNative ? styles.iconView : styles.iconWidth
-const defaultLeftButtonStyles = [styles.marginLeft10, iconStyle]
 
-// const defaultRightButtonStyles = [styles.marginRight10, styles.iconWidth]
+const defaultLeftButtonStyles = [styles.marginLeft10, iconStyle, styles.iconViewLeft]
+const defaultRightButtonStyles = [iconStyle, styles.iconViewRight]
 
 // const supportButtonStyles = market ? defaultRightButtonStyles.slice(1) : defaultRightButtonStyles
 const inviteButtonStyles = showRewardsFlag ? defaultLeftButtonStyles.slice(1) : defaultLeftButtonStyles
@@ -176,7 +181,7 @@ const TabsView = ({ navigation }) => {
       {showInviteFlag && <InviteButton onPress={goToRewards} style={inviteButtonStyles} />}
       {/*{!showSupportFirst && <SupportButton onPress={goToSupport} style={supportButtonStyles} />}*/}
       {/*!market && */ !showInviteFlag && !showRewardsFlag && <EmptySpaceComponent style={styles.iconWidth} />}
-      <TouchableOpacity onPress={_slideToggle} style={iconStyle}>
+      <TouchableOpacity onPress={_slideToggle} style={defaultRightButtonStyles}>
         <Icon name="settings" size={20} color="white" style={styles.marginRight10} testID="burger_button" />
       </TouchableOpacity>
     </Appbar.Header>

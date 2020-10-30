@@ -1,5 +1,5 @@
 // libraries
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Image, Platform, View } from 'react-native'
 
 // components
@@ -9,7 +9,6 @@ import CustomButton from '../buttons/CustomButton'
 
 // hooks
 import useClipboard from '../../../lib/hooks/useClipboard'
-import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
 import { isWeb } from '../../../lib/utils/platform'
@@ -36,7 +35,7 @@ const BorderedBox = ({
   const [, setString] = useClipboard()
   const displayContent = truncateContent ? truncateMiddle(content, 29) : content // 29 = 13 chars left side + 3 chars of '...' + 13 chars right side
 
-  const copyToClipboard = useOnPress(() => {
+  const copyToClipboard = useCallback(() => {
     setString(content)
     onCopied()
   }, [onCopied, setString, content])

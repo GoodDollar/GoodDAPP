@@ -13,7 +13,6 @@ import userStorage from '../../lib/gundb/UserStorage'
 import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
-import useOnPress from '../../lib/hooks/useOnPress'
 import logger from '../../lib/logger/pino-logger'
 import { decorate, ExceptionCategory, ExceptionCode } from '../../lib/logger/exceptions'
 import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
@@ -75,13 +74,13 @@ const FeedList = ({
 
   const feeds = useFeeds(data)
 
-  const scrollToTop = useOnPress(() => {
+  const scrollToTop = useCallback(() => {
     const list = get(flRef, 'current._component._flatListRef', {})
 
     if (isFunction(list.scrollToOffset)) {
       list.scrollToOffset({ offset: 0 })
     }
-  })
+  }, [flRef])
 
   const pressItem = item => () => {
     if (item.type !== 'empty') {
@@ -240,7 +239,7 @@ const FeedList = ({
         ref={flRef}
         windowSize={windowSize}
       />
-      {<ScrollToTopButton onPress={scrollToTop} show={headerLarge} />}
+      <ScrollToTopButton onPress={scrollToTop} show={headerLarge} />
     </>
   ) : null
 }

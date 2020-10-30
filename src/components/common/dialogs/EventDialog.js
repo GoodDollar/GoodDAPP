@@ -1,12 +1,11 @@
 // @flow
-import React from 'react'
+import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Dialog, Paragraph, Portal } from 'react-native-paper'
 import type { TransactionEvent } from '../../../lib/gundb/UserStorage'
 import { Avatar, BigGoodDollar } from '..'
 import CustomButton from '../buttons/CustomButton'
 import Section from '../layout/Section'
-import useOnPress from '../../../lib/hooks/useOnPress'
 
 export type EventDialogProps = {
   visible: boolean,
@@ -41,11 +40,11 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
 
   const customDate = new Date(date).toLocaleString(navigator.language, dateOptions)
 
-  const _onPressOk = useOnPress(onDismiss)
+  const _onDismiss = useCallback(onDismiss)
 
   return (
     <Portal>
-      <Dialog visible={visible} onDismiss={onDismiss} dismissable={true}>
+      <Dialog visible={visible} onDismiss={_onDismiss} dismissable={true}>
         <Dialog.Content>
           <Paragraph style={styles.date}>{customDate}</Paragraph>
           <Section style={styles.gdSection}>
@@ -72,7 +71,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
           <Paragraph style={styles.italicParagraph}>{reason}</Paragraph>
         </Dialog.Content>
         <Dialog.Actions>
-          <CustomButton mode="contained" onPress={_onPressOk}>
+          <CustomButton mode="contained" onPress={_onDismiss}>
             Ok
           </CustomButton>
         </Dialog.Actions>

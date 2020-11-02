@@ -40,7 +40,11 @@ const WelcomeScreen = ({ styles, screenProps, navigation }) => {
 
   const goToSignUp = useCallback(() => {
     fireEvent(SIGNUP_SELECTED)
-    return navigate('Auth', { screen: 'signup' })
+
+    const options = { screen: 'signup' }
+    if (isMobileNative) options.regMethod = REGISTRATION_METHOD_SELF_CUSTODY
+
+    return navigate(isMobileNative ? 'Signup' : 'Auth', options)
   }, [navigate])
 
   const goToSignIn = useCallback(() => {

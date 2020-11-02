@@ -4,10 +4,10 @@ import logger from '../../lib/logger/pino-logger'
 const log = logger.child({ from: 'Ready' })
 
 const ready = async replacing => {
-  const loginPromise = retryImport(() => import('../../../lib/login/GoodWalletLogin'))
+  const loginPromise = retryImport(() => import('../../lib/login/GoodWalletLogin'))
   log.debug('ready: Starting initialization', { replacing })
 
-  const { init } = await retryImport(() => import('../../../init'))
+  const { init } = await retryImport(() => import('../../init'))
   log.debug('ready: got init', init)
 
   const { goodWallet, userStorage, source } = await init()

@@ -112,7 +112,6 @@ const Auth = (props: Props) => {
               fontSize={12}
               color="gray80Percent"
               fontWeight="bold"
-              r
               textDecorationLine="underline"
               onPress={handleNavigatePrivacyPolicy}
             >

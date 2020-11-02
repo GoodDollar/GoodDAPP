@@ -369,7 +369,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
                 <Section.Text
                   fontWeight="medium"
                   style={styles.recoverText}
-                  textStyle={[styles.buttonText]}
                   textDecorationLine="underline"
                   fontSize={14}
                   color="primary"
@@ -383,7 +382,6 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
                 <Section.Text
                   fontWeight="medium"
                   style={styles.haveIssuesText}
-                  textStyle={[styles.buttonText]}
                   textDecorationLine="underline"
                   fontSize={14}
                   color="primary"
@@ -405,7 +403,7 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
         >
           <View style={styles.googleButtonContent}>
             <Image source={googleBtnIcon} resizeMode="contain" style={styles.googleIcon} />
-            <Text textTransform="uppercase" style={styles.buttonText} fontWeight={500} letterSpacing={0}>
+            <Text textTransform="uppercase" style={styles.buttonText} fontWeight={'medium'} letterSpacing={0}>
               Agree & Continue with Google
             </Text>
           </View>

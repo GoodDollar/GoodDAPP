@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
@@ -466,23 +466,31 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
   }
 
   //check if email/mobile was used to register before and offer user to login instead
-  const checkExisting = useCallback(async searchBy => {
-    const { exists, fullName, provider: foundOtherProvider } = await userExists(searchBy).catch(() => { exists: false })
-    log.debug('checking userAlreadyExist', { exists, fullName, foundOtherProvider })
-    let selection = 'signup'
-    if (exists || foundOtherProvider) {
-      selection = await showAlreadySignedUp(
-        torusProvider,
-        exists,
-        foundOtherProvider,
-        searchBy.email ? 'email' : 'mobile',
-      )
-      if (selection === 'signin') {
-        return navigation.navigate('Auth', { screen: 'signin' })
+  const checkExisting = useCallback(
+    async searchBy => {
+      const { exists, fullName, provider: foundOtherProvider } = await userExists(searchBy).catch(() => {
+        false
+      })
+
+      log.debug('checking userAlreadyExist', { exists, fullName, foundOtherProvider })
+
+      let selection = 'signup'
+
+      if (exists || foundOtherProvider) {
+        selection = await showAlreadySignedUp(
+          torusProvider,
+          exists,
+          foundOtherProvider,
+          searchBy.email ? 'email' : 'mobile',
+        )
+        if (selection === 'signin') {
+          return navigation.navigate('Auth', { screen: 'signin' })
+        }
       }
-    }
-    return selection
-  }, [showAlreadySignedUp])
+      return selection
+    },
+    [navigation, showAlreadySignedUp],
+  )
 
   const done = async (data: { [string]: string }) => {
     setLoading(true)
@@ -510,17 +518,19 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         if (result !== 'signup') {
           return
         }
+
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
           const errorMessage =
             data.error === 'mobile_already_exists' ? 'Mobile already exists, please use a different one' : data.error
-
           log.error('Send mobile code failed', errorMessage, new Error(errorMessage), {
             data,
             dialogShown: true,
           })
+
           return showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, errorMessage)
         }
+
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error('Send mobile code failed', e.message, e, { dialogShown: true })
@@ -535,6 +545,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
         if (result !== 'signup') {
           return
         }
+
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
           const error = new Error('Some error occurred on server')
@@ -569,6 +580,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
       }
     } else if (nextRoute.key === 'MagicLinkInfo') {
       let ok = await waitForRegistrationToFinish()
+
       if (ok) {
         const { userStorage } = await ready
         if (isRegMethodSelfCustody) {
@@ -576,6 +588,7 @@ const Signup = ({ navigation }: { navigation: any, screenProps: any }) => {
             .then(r => log.info('magiclink sent'))
             .catch(e => log.error('failed sendMagicLinkByEmail', e.message, e))
         }
+
         return navigateWithFocus(nextRoute.key)
       }
     } else if (nextRoute) {

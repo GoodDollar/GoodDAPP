@@ -1199,6 +1199,7 @@ export class UserStorage {
           message = reason
           exception = new Error(reason)
         }
+
         logger.error('getProfileFieldValue decrypt failed:', message, exception, { field })
       })
   }

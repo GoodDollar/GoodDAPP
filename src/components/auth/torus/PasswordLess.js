@@ -20,12 +20,12 @@ const ShowPasswordless = ({ isSignup = true, isOpen, styles, onSelect, handleLog
 
   const _mobile = useCallback(() => {
     handleLoginMethod('auth0-pwdless-sms')
-  })
+  }, [handleLoginMethod])
 
-  const _onSelect = () => {
+  const _onSelect = useCallback(() => {
     fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, { method: 'auth0-pwdless' })
     onSelect()
-  }
+  }, [onSelect])
 
   if (isOpen) {
     return (

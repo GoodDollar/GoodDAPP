@@ -1,7 +1,7 @@
 // @flow
 
 // libraries
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
 import { startCase } from 'lodash'
@@ -74,7 +74,7 @@ const ProfilePrivacy = props => {
     privacyGatherer()
   }, [])
 
-  const handleSaveShowTips = useOnPress(() => {
+  const handleSaveShowTips = useCallback(() => {
     showDialog({
       title: 'SETTINGS',
       content: (
@@ -108,7 +108,7 @@ const ProfilePrivacy = props => {
     initialPrivacy,
   ])
 
-  const handleSave = useOnPress(async () => {
+  const handleSave = useCallback(async () => {
     setLoading(true)
 
     fireEvent(PROFILE_PRIVACY, { privacy: privacy[field], field })
@@ -130,7 +130,7 @@ const ProfilePrivacy = props => {
     }
 
     setLoading(false)
-  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy])
+  }, [setLoading, valuesToBeUpdated, setInitialPrivacy, privacy, field])
 
   return (
     <Wrapper style={styles.mainWrapper}>

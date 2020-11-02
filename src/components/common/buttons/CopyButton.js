@@ -1,7 +1,6 @@
 import { noop } from 'lodash'
 import React, { useCallback, useEffect, useState } from 'react'
 import Icon from '../view/Icon'
-import useOnPress from '../../../lib/hooks/useOnPress'
 import useClipboard from '../../../lib/hooks/useClipboard'
 import CustomButton from './CustomButton'
 
@@ -20,7 +19,7 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
     onPressDone,
   ])
 
-  const onPressHandler = useOnPress(async () => {
+  const onPressHandler = useCallback(async () => {
     if (await setString(toCopy)) {
       setCopyState(COPIED)
       onPress()
@@ -33,7 +32,7 @@ const CopyButton = ({ toCopy, children, onPress = noop, onPressDone = noop, icon
     }
   }, [copyState, withoutDone, transitionToState])
 
-  const done = useOnPress(onPressDone)
+  const done = useCallback(onPressDone)
 
   switch (copyState) {
     case DONE: {

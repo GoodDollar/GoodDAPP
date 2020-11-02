@@ -8,7 +8,6 @@ import { withStyles } from '../../lib/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { isIOS, isMobileNative } from '../../lib/utils/platform'
-import useOnPress from '../../lib/hooks/useOnPress'
 import { ACTION_RECEIVE, /*ACTION_SEND_TO_ADDRESS,*/ navigationOptions } from './utils/sendReceiveFlow'
 import WhoContent from './WhoContent'
 
@@ -42,7 +41,7 @@ const Who = (props: AmountProps) => {
     setScreenState({ counterPartyDisplayName: (contact && contact.fullName) || state.value })
   }, [contact, state.value])
 
-  const handlePressQR = useOnPress(() => push('SendByQR'), [push])
+  const handlePressQR = useCallback(() => push('SendByQR'), [push])
 
   // const handlePressSendToAddress = useOnPress(
   //   () =>

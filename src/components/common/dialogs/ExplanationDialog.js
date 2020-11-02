@@ -1,14 +1,11 @@
 // libraries
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Image, View } from 'react-native'
 import { isEmpty, noop } from 'lodash'
 
 // components
 import Text from '../view/Text'
 import CustomButton from '../buttons/CustomButton'
-
-// hooks
-import useOnPress from '../../../lib/hooks/useOnPress'
 
 // utils
 import SimpleStore from '../../../lib/undux/SimpleStore'
@@ -24,7 +21,7 @@ const ExplanationButton = ({ text = 'OK', action = noop, mode, styles, style = d
   const store = SimpleStore.useStore()
   const isTextMode = mode === 'text'
 
-  const handleActionPress = useOnPress(() => {
+  const handleActionPress = useCallback(() => {
     action()
     hideDialog(store)
   }, [action, store])

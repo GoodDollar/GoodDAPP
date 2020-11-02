@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import { isSmallDevice } from '../../../lib/utils/mobileSizeDetect'
 import Section from '../../common/layout/Section'
@@ -18,14 +18,12 @@ const ShowPasswordless = ({ isSignup = true, isOpen, styles, onSelect, handleLog
   //   handleLoginMethod('auth0-pwdless-email')
   // })
 
-  const _mobile = useCallback(() => {
-    handleLoginMethod('auth0-pwdless-sms')
-  }, [handleLoginMethod])
+  const _mobile = handleLoginMethod('auth0-pwdless-sms')
 
-  const _onSelect = useCallback(() => {
+  const _onSelect = () => {
     fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, { method: 'auth0-pwdless' })
     onSelect()
-  }, [onSelect])
+  }
 
   if (isOpen) {
     return (

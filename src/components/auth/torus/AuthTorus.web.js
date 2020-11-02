@@ -57,44 +57,47 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
   const [authScreen, setAuthScreen] = useState(get(navigation, 'state.params.screen', 'signup'))
   const isSignup = authScreen === 'signup'
 
-  const getTorusUser = async provider => {
-    let torusUser, replacing
+  const getTorusUser = useCallback(
+    async provider => {
+      let torusUser, replacing
 
-    try {
-      if (['development', 'test'].includes(config.env)) {
-        torusUser = await AsyncStorage.getItem('TorusTestUser')
+      try {
+        if (['development', 'test'].includes(config.env)) {
+          torusUser = await AsyncStorage.getItem('TorusTestUser')
+        }
+
+        if (torusUser == null) {
+          torusUser = await torusSDK.triggerLogin(provider)
+        }
+
+        fireEvent(TORUS_SUCCESS, { provider })
+
+        const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
+        const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+
+        if (curMnemonic || (curSeed && curSeed !== torusUser.privateKey)) {
+          await AsyncStorage.clear()
+          replacing = true
+        }
+
+        //set masterseed so wallet can use it in 'ready' where we check if user exists
+        await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
+        log.debug('torus login success', { torusUser, provider })
+      } catch (e) {
+        // store.set('loadingIndicator')({ loading: false })
+        fireEvent(TORUS_FAILED, { provider, error: e.message })
+        if (e.message === 'user closed popup') {
+          log.info(e.message, e)
+        } else {
+          log.error('torus login failed', e.message, e, { dialogShown: true })
+        }
+
+        showErrorDialog('We were unable to complete the signup. Please try again.')
       }
-
-      if (torusUser == null) {
-        torusUser = await torusSDK.triggerLogin(provider)
-      }
-
-      fireEvent(TORUS_SUCCESS, { provider })
-
-      const curSeed = await AsyncStorage.getItem(GD_USER_MASTERSEED)
-      const curMnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-
-      if (curMnemonic || (curSeed && curSeed !== torusUser.privateKey)) {
-        await AsyncStorage.clear()
-        replacing = true
-      }
-
-      //set masterseed so wallet can use it in 'ready' where we check if user exists
-      await AsyncStorage.setItem(GD_USER_MASTERSEED, torusUser.privateKey)
-      log.debug('torus login success', { torusUser, provider })
-    } catch (e) {
-      // store.set('loadingIndicator')({ loading: false })
-      fireEvent(TORUS_FAILED, { provider, error: e.message })
-      if (e.message === 'user closed popup') {
-        log.info(e.message, e)
-      } else {
-        log.error('torus login failed', e.message, e, { dialogShown: true })
-      }
-
-      showErrorDialog('We were unable to complete the signup. Please try again.')
-    }
-    return { torusUser, replacing }
-  }
+      return { torusUser, replacing }
+    },
+    [showErrorDialog, torusSDK],
+  )
 
   const showLoadingDialog = () => {
     showDialog({
@@ -156,71 +159,70 @@ const AuthTorus = ({ screenProps, navigation, styles, store }) => {
     return promise
   }
 
-  const handleLoginMethod = useCallback(
-    async (provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms') => {
-      fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, { method: provider })
+  const handleLoginMethod = async (
+    provider: 'facebook' | 'google' | 'auth0' | 'auth0-pwdless-email' | 'auth0-pwdless-sms',
+  ) => {
+    fireEvent(isSignup ? SIGNUP_METHOD_SELECTED : SIGNIN_METHOD_SELECTED, { method: provider })
 
-      showLoadingDialog()
-      const { torusUser, replacing } = await getTorusUser(provider)
-      if (torusUser == null) {
-        hideDialog()
-        return
-      }
+    showLoadingDialog()
+    const { torusUser, replacing } = await getTorusUser(provider)
+    if (torusUser == null) {
+      hideDialog()
+      return
+    }
 
-      try {
-        const { exists, fullName, provider: foundOtherProvider } = await userExists(torusUser)
-        log.debug('checking userAlreadyExist', { exists, fullName, foundOtherProvider })
-        let selection = authScreen
-        if (isSignup) {
-          //if user identifier exists or email/mobile found in another account
-          if (exists || foundOtherProvider) {
-            selection = await showAlreadySignedUp(provider, exists, foundOtherProvider)
-            if (selection === 'signin') {
-              return setAuthScreen('signin')
-            }
+    try {
+      const { exists, fullName, provider: foundOtherProvider } = await userExists(torusUser)
+      log.debug('checking userAlreadyExist', { exists, fullName, foundOtherProvider })
+      let selection = authScreen
+      if (isSignup) {
+        //if user identifier exists or email/mobile found in another account
+        if (exists || foundOtherProvider) {
+          selection = await showAlreadySignedUp(provider, exists, foundOtherProvider)
+          if (selection === 'signin') {
+            return setAuthScreen('signin')
           }
-        } else if (isSignup === false && exists === false) {
-          selection = await showNotSignedUp(provider)
-          return setAuthScreen(selection)
         }
-
-        //user chose to continue signup even though used on another provider
-        //or user signed in and account exists
-        await Promise.race([ready(replacing), timeout(60000, 'initialiazing wallet timed out')])
-        hideDialog()
-
-        if (isSignup) {
-          fireEvent(SIGNUP_STARTED, { provider })
-
-          //Hack to get keyboard up on mobile need focus from user event such as click
-          setTimeout(() => {
-            const el = document.getElementById('Name_input')
-            if (el) {
-              el.focus()
-            }
-          }, 500)
-          return navigate('Signup', {
-            regMethod: REGISTRATION_METHOD_TORUS,
-            torusUser,
-            torusProvider: provider,
-          })
-        }
-
-        //case of sign-in
-        fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
-        await AsyncStorage.setItem(IS_LOGGED_IN, true)
-        store.set('isLoggedIn')(true)
-      } catch (e) {
-        const { message } = e
-        const uiMessage = decorate(e, ExceptionCode.E14)
-        showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
-        log.error('Failed to initialize wallet and storage', message, e)
-      } finally {
-        store.set('loadingIndicator')({ loading: false })
+      } else if (isSignup === false && exists === false) {
+        selection = await showNotSignedUp(provider)
+        return setAuthScreen(selection)
       }
-    },
-    [store, torusSDK, showErrorDialog, navigate],
-  )
+
+      //user chose to continue signup even though used on another provider
+      //or user signed in and account exists
+      await Promise.race([ready(replacing), timeout(60000, 'initialiazing wallet timed out')])
+      hideDialog()
+
+      if (isSignup) {
+        fireEvent(SIGNUP_STARTED, { provider })
+
+        //Hack to get keyboard up on mobile need focus from user event such as click
+        setTimeout(() => {
+          const el = document.getElementById('Name_input')
+          if (el) {
+            el.focus()
+          }
+        }, 500)
+        return navigate('Signup', {
+          regMethod: REGISTRATION_METHOD_TORUS,
+          torusUser,
+          torusProvider: provider,
+        })
+      }
+
+      //case of sign-in
+      fireEvent(SIGNIN_TORUS_SUCCESS, { provider })
+      await AsyncStorage.setItem(IS_LOGGED_IN, true)
+      store.set('isLoggedIn')(true)
+    } catch (e) {
+      const { message } = e
+      const uiMessage = decorate(e, ExceptionCode.E14)
+      showSupportDialog(showErrorDialog, hideDialog, navigation.navigate, uiMessage)
+      log.error('Failed to initialize wallet and storage', message, e)
+    } finally {
+      store.set('loadingIndicator')({ loading: false })
+    }
+  }
 
   const goBack = useOnPress(() => navigate('Welcome'), [navigate])
 

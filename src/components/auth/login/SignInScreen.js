@@ -35,12 +35,9 @@ const SigninScreen = ({ styles, store, handleLoginMethod, sdkInitialized, goBack
     goBack()
   }, [setPasswordless, isPasswordless, goBack])
 
-  const _google = useCallback(() => {
-    handleLoginMethod('google')
-  }, [handleLoginMethod])
-  const _facebook = useCallback(() => {
-    handleLoginMethod('facebook')
-  }, [handleLoginMethod])
+  const _google = () => handleLoginMethod('google')
+
+  const _facebook = () => handleLoginMethod('facebook')
 
   return (
     <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>

@@ -109,11 +109,18 @@ type IconButtonProps = {
   theme: DefaultTheme,
 }
 
-const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
+const IconButton = ({ theme, dark, icon, size, style, color }: IconButtonProps) => {
   if (typeof icon === 'function') {
     return icon(dark ? theme.colors.surface : theme.colors.primary, size)
   }
-  return <Icon name={icon} color={dark ? theme.colors.surface : theme.colors.primary} size={size || 16} style={style} />
+  return (
+    <Icon
+      name={icon}
+      color={color || (dark ? theme.colors.surface : theme.colors.primary)}
+      size={size || 16}
+      style={style}
+    />
+  )
 }
 
 /**
@@ -150,6 +157,7 @@ const CustomButton = (props: ButtonProps) => {
     iconStyle,
     roundness = 50,
     onPress = noop,
+    iconColor,
     ...buttonProps
   } = props
   const dark = mode === 'contained'
@@ -178,6 +186,7 @@ const CustomButton = (props: ButtonProps) => {
             dark={dark}
             size={iconSize || 14}
             style={iconStyle || styles.leftIcon}
+            color={iconColor}
           />
         )}
         {loading && (
@@ -198,6 +207,7 @@ const CustomButton = (props: ButtonProps) => {
             dark={dark}
             size={iconSize || 14}
             style={iconStyle || styles.rightIcon}
+            color={iconColor}
           />
         )}
       </View>
